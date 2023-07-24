@@ -804,7 +804,8 @@ si:
     autocompleter:
       placeholder: "සෙවීමට ටයිප් කරන්න"
       notFoundText: "No items found"
-      typeToSearchText: "සෙවීමට ටයිප් කරන්න"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'ටැගය තෝරන්න'
       select_branch: 'ශාඛාව තෝරන්න'

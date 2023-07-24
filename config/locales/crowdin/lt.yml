@@ -264,7 +264,7 @@ lt:
       notice_reset_token: "Naujas %{type} tipo atpažinimo raktas buvo sugeneruotas. Jis dabar yra:"
       token_value_warning: "Pastaba: tai vienintelis kartas, kai matote atpažinimo raktą, todėl būtinai nusikopijuokite jį dabar."
       no_results_title_text: Nėra jokių pasiekiamų prieigos raktų.
-      notice_ical_tokens_reverted: "iCalendar žetonas „%{token_name}“ projekto „%{project_name}“ kalendoriui „%{calendar_name}“ buvo atšauktas. iCalendar URL su šituo žetonu dabar nebetinkamas."
+      notice_ical_token_revoked: "iCalendar žetonas „%{token_name}“ projekto „%{project_name}“ kalendoriui „%{calendar_name}“ buvo atšauktas. iCalendar URL su šituo žetonu dabar nebetinkamas."
   news:
     index:
       no_results_title_text: Nėra jokių naujienų.
@@ -1338,7 +1338,7 @@ lt:
   error_enterprise_activation_user_limit: "Jūsų paskyra negali būti aktyvuota (pasiektas vartotojų limitas). Prašome kreiptis į savo sistemos administratorių."
   error_enterprise_token_invalid_domain: "Enterprise versija neaktyvi. Jūsų Enterprise žetono domenas (%{actual}) nesutampa su jūsų sistemos serverio vardu (%{expected})."
   error_failed_to_delete_entry: 'Šio įrašo nepavyko panaikinti.'
-  error_in_dependent: "Klaida bandant pakeisti priklausomą objektą: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Klaida bandant pakeisti priklausomą objektą: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Klaida bandant sukurti priklausomą objektą: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Netinkama parinkta reikšmė."
   error_journal_attribute_not_present: "Žurnale nėra atributo %{attribute}."
@@ -1357,6 +1357,7 @@ lt:
   error_password_change_failed: 'Bandant pakeisti slaptažodį įvyko klaida.'
   error_scm_command_failed: "Įvyko klaida jungiantis prie repozitorijos: %{value}"
   error_scm_not_found: "Toks įrašas ar revizija nebuvo rasti repozitorijoje."
+  error_type_could_not_be_saved: "Tipas negalėjo būti įrašytas"
   error_unable_delete_status: "Darbų paketo būsena negali būti ištrinta tol, kol yra naudojama bent viename darbų pakete."
   error_unable_delete_default_status: "Neįmanoma ištrinti numatytosios darbų paketo būsenos. Prašome pakeisti numatytąją darbų paketo būseną prieš ištrinant šią."
   error_unable_to_connect: "Negalima prisijungti (%{value})"

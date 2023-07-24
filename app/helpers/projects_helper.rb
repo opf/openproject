@@ -29,8 +29,8 @@
 module ProjectsHelper
   include WorkPackagesFilterHelper
 
-  def filter_set?
-    params[:filters].present?
+  def show_filters_section?
+    params[:filters].present? && !params.key?(:hide_filters_section)
   end
 
   def allowed_filters(query)
@@ -127,7 +127,7 @@ module ProjectsHelper
   def projects_path_with_filters(filters)
     return projects_path if filters.empty?
 
-    projects_path(filters: filters.to_json)
+    projects_path(filters: filters.to_json, hide_filters_section: true)
   end
 
   def global_menu_item_css_class(path)

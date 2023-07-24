@@ -430,7 +430,7 @@ OPENPROJECT_HIDDEN__MENU__ITEMS_ADMIN__MENU="roles types"
 The following example disables all menu items except 'Users', 'Groups' and 'Custom fields' under 'Administration':
 
 ```yaml
-OPENPROJECT_HIDDEN__MENU__ITEMS_ADMIN__MENU="roles types statuses workflows enumerations settings ldap_authentication colors project_types export_card_configurations plugins info"
+OPENPROJECT_HIDDEN__MENU__ITEMS_ADMIN__MENU="roles types statuses workflows enumerations settings ldap_authentication colors project_types plugins info"
 ```
 
 ### blacklisted routes
@@ -442,7 +442,7 @@ You can blacklist specific routes
 The following example forbid all routes for the second example at the 'hidden menu items admin menu':
 
 ```yaml
-OPENPROJECT_BLACKLISTED__ROUTES="admin/info admin/plugins export_card_configurations project_types colors settings admin/enumerations workflows/* statuses types admin/roles"
+OPENPROJECT_BLACKLISTED__ROUTES="admin/info admin/plugins project_types colors settings admin/enumerations workflows/* statuses types admin/roles"
 ```
 
 ### disabled modules

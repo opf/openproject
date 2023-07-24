@@ -804,7 +804,8 @@ fi:
     autocompleter:
       placeholder: "Haku"
       notFoundText: "No items found"
-      typeToSearchText: "Haku"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Valitse tunniste'
       select_branch: 'Valitse haara'

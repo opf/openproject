@@ -56,8 +56,8 @@ module Projects::Copy
     private
 
     def copy_project_folder(source_project_storage, destination_project_storage)
-      source_folder_name = project_folder_path(source_project_storage)
-      destination_folder_name = project_folder_path(destination_project_storage)
+      source_folder_name = source_project_storage.project_folder_path
+      destination_folder_name = destination_project_storage.project_folder_path
 
       result = Storages::Peripherals::StorageRequests
                  .new(storage: source_project_storage.storage)
@@ -67,7 +67,7 @@ module Projects::Copy
     end
 
     def update_project_folder_id(project_storage)
-      destination_folder_name = project_folder_path(project_storage)
+      destination_folder_name = project_storage.project_folder_path
 
       result = Storages::Peripherals::StorageRequests
                  .new(storage: project_storage.storage)
@@ -77,11 +77,6 @@ module Projects::Copy
         on_success: ->(file_id) { project_storage.update!(project_folder_id: file_id) },
         on_failure: ->(error) { add_error!(destination_folder_name, error.to_active_model_errors) }
       )
-    end
-
-    def project_folder_path(project_storage)
-      project = project_storage.project
-      "#{project_storage.storage.group_folder}/#{project.name.gsub('/', '|')} (#{project.id})/"
     end
   end
 end

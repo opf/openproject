@@ -45,7 +45,7 @@ class Storages::FileLink < ApplicationRecord
   # The object who created the FileLink should be of type User.
   belongs_to :creator, class_name: 'User'
 
-  # FileLinks are attached to a container ()currently a WorkPackage)
+  # FileLinks are attached to a container (currently a WorkPackage)
   # Wieland: This needs to become more flexible in the future
   belongs_to :container, polymorphic: true
 

@@ -116,11 +116,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
   @Input() public markFirst ? = true;
 
   @Input() public placeholder:string = this.I18n.t('js.autocompleter.placeholder');
-
   @Input() public notFoundText:string = this.I18n.t('js.autocompleter.notFoundText');
-
-  @Input() public typeToSearchText:string = this.I18n.t('js.autocompleter.typeToSearchText');
-
   @Input() public addTagText?:string;
 
   @Input() public loadingText:string = this.I18n.t('js.ajax.loading');

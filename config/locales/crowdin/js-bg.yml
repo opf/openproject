@@ -804,7 +804,8 @@ bg:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Изберете етикет'
       select_branch: 'Изберете клон'

@@ -803,7 +803,8 @@ sv:
     autocompleter:
       placeholder: "Skriv för att söka"
       notFoundText: "No items found"
-      typeToSearchText: "Skriv för att söka"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Välj etikett'
       select_branch: 'Välj gren'

@@ -802,7 +802,8 @@ zh-TW:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: '選擇標籤'
       select_branch: '選擇分支'

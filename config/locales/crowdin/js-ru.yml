@@ -66,7 +66,7 @@ ru:
     button_continue: "Продолжить"
     button_copy: "Копировать"
     button_copy_to_clipboard: "Копировать в буфер обмена"
-    button_copy_link_to_clipboard: "Copy link to clipboard"
+    button_copy_link_to_clipboard: "Копировать ссылку в буфер обмена"
     button_copy_to_other_project: "Копировать в другой проект"
     button_custom-fields: "Настраиваемые поля"
     button_delete: "Удалить"
@@ -107,7 +107,7 @@ ru:
       remove_from_list: 'Удалить карту из списка'
     caption_rate_history: "История оценок"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
+      browser_error: "Ваш браузер не поддерживает копирование в буфер обмена. Пожалуйста, скопируйте его вручную: %{content}"
       copied_successful: "Успешно скопировано в буфер обмена!"
     chart:
       type: 'Тип диаграммы'
@@ -504,7 +504,7 @@ ru:
     label_remove_all_files: Удалить все файлы
     label_add_description: "Добавить описание для %{file}"
     label_upload_notification: "Загрузка файлов..."
-    label_work_package_upload_notification: "Загрузка файлов для пакета работ #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Загрузка файлов для пакета работ #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} добавил %{author}"
     label_files_to_upload: "Эти файлы будут загружены:"
     label_rejected_files: "Эти файлы не могут быть загружены:"
@@ -740,13 +740,13 @@ ru:
       work_package_required: 'Сначала необходимо выбрать пакет работ.'
       title: 'Журналировать время'
       tracking: 'Учет времени'
-      stop: 'Stop'
+      stop: 'Стоп'
     timer:
-      start_new_timer: 'Start new timer'
-      timer_already_running: 'To start a new timer, you must first stop the current timer:'
-      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
-      tracking_time: 'Tracking time'
-      button_stop: 'Stop current timer'
+      start_new_timer: 'Начать новый таймер'
+      timer_already_running: 'Для запуска нового таймера необходимо остановить текущий таймер:'
+      timer_already_stopped: 'Нет таймера для этого пакета работ, вы остановили его в другом окне?'
+      tracking_time: 'Время отслеживания'
+      button_stop: 'Остановить текущий таймер'
     two_factor_authentication:
       label_two_factor_authentication: 'Двухфакторная аутентификация'
     watchers:
@@ -805,7 +805,8 @@ ru:
     autocompleter:
       placeholder: "Введите для поиска"
       notFoundText: "Элементов не найдено"
-      typeToSearchText: "Введите для поиска"
+      project:
+        placeholder: "Выберите проект"
     repositories:
       select_tag: 'Выберите тег'
       select_branch: 'Выберите ветку'
@@ -1193,7 +1194,7 @@ ru:
       close_search: "Закрыть поиск"
       current_project_and_all_descendants: "В этом проекте + подпроектах"
       current_project: "В этом проекте"
-      recently_viewed: "Recently viewed"
+      recently_viewed: "Недавно просмотренные"
       search: "Искать"
       title:
         all_projects: "все проекты"

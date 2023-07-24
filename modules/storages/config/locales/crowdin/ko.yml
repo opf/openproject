@@ -33,6 +33,9 @@ ko:
                 "OpenProject Integration" 앱이 설치되지 않은 것 같습니다. 먼저 설치한 후 다시 시도하세요.
               authorization_header_missing: >
                 완전히 설정되지 않았습니다. Nextcloud 인스턴스는 API 요청에 대한 Bearer 토큰 기반 인증에 필요한 "Authorization" 헤더를 수신하지 않습니다. HTTP 서버 구성을 다시 확인하세요.
+            password:
+              invalid_password: "is not valid."
+              unknown_error: "could not be validated. Please check your storage connection and try again."
         storages/file_link:
           attributes:
             origin_id:

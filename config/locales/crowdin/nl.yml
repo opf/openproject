@@ -264,7 +264,7 @@ nl:
       notice_reset_token: "Een nieuwe %{type} -token is gegenereerd. Uw toegangstoken is:"
       token_value_warning: "Opmerking: Dit is de enige keer dat u dit token ziet, zorg ervoor dat u het nu kopiëren."
       no_results_title_text: Er zijn momenteel geen toegangstokens beschikbaar.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" voor kalender \"%{calendar_name}\" van project \"%{project_name}\" is ingetrokken. De iCalendar URL met deze token is nu ongeldig."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" voor kalender \"%{calendar_name}\" van project \"%{project_name}\" is ingetrokken. De iCalendar URL met deze token is nu ongeldig."
   news:
     index:
       no_results_title_text: Er is momenteel geen nieuws om te rapporteren.
@@ -1300,7 +1300,7 @@ nl:
   error_enterprise_activation_user_limit: "Uw account kon niet worden geactiveerd (gebruikerslimiet bereikt). Neem contact op met uw beheerder om toegang te krijgen."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Fout bij het verwijderen van deze ingave.'
-  error_in_dependent: "Fout bij poging tot wijziging van afhankelijke object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Fout bij poging tot wijziging van afhankelijke object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Fout bij het maken van afhankelijke object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "De geselecteerde waarde is ongeldig."
   error_journal_attribute_not_present: "Dagboek bevat geen kenmerk %{attribute}."
@@ -1319,6 +1319,7 @@ nl:
   error_password_change_failed: 'Er is een fout opgetreden tijdens het wijzigen van het wachtwoord.'
   error_scm_command_failed: "Er is een fout opgetreden tijdens het proberen om toegang te krijgen tot de repository: %{value}"
   error_scm_not_found: "De vermelding of de herziening werd niet gevonden in de repository."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "De status van het werkpakket kan niet worden verwijderd omdat het door minstens één werkpakket wordt gebruikt."
   error_unable_delete_default_status: "Niet in staat de status van het standaard werkpakket te verwijderen. Gelieve een andere status van het standaard werkpakket te selecteren alvorens de huidige te verwijderen."
   error_unable_to_connect: "Kan geen verbinding maken (%{value})"

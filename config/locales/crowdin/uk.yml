@@ -262,7 +262,7 @@ uk:
       notice_reset_token: "Нове %{type} генерований маркер. Ваш маркер доступу:"
       token_value_warning: "Примітка. Це єдиний раз, коли ви побачите цей маркер, переконайтеся, що його зараз скопіюйте."
       no_results_title_text: Наразі немає доступних маркерів доступу.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Наразі немає жодної новини.
@@ -1355,6 +1355,7 @@ uk:
   error_password_change_failed: 'Під час спроби змінити пароль сталася помилка.'
   error_scm_command_failed: "Помилка доступу до сховища: %{value}"
   error_scm_not_found: "Запис або ревізію (версію) не знайдено у репозиторії."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "Робота статус пакет не може бути видалено оскільки він використовується щонайменше один пакет робіт."
   error_unable_delete_default_status: "Неможливо видалити статус пакета за замовчуванням. Будь ласка виберіть інший робочий статус пакета за замовчуванням перед видаленням поточної."
   error_unable_to_connect: "Неможливо підключитись (%{value})"

@@ -231,7 +231,8 @@ RSpec.describe 'Projects index page',
                                              public_project,
                                              development_project)
 
-        expect(page).to have_selector('li[filter-name="active"]', visible: :hidden)
+        projects_page.expect_filters_container_hidden
+        projects_page.expect_filter_set 'active'
       end
     end
 
@@ -251,7 +252,8 @@ RSpec.describe 'Projects index page',
         projects_page.expect_projects_listed(project)
         projects_page.expect_projects_not_listed(public_project, development_project)
 
-        expect(page).to have_selector('li[filter-name="active"]', visible: :hidden)
+        projects_page.expect_filters_container_hidden
+        projects_page.expect_filter_set 'member_of'
       end
     end
 
@@ -265,7 +267,8 @@ RSpec.describe 'Projects index page',
         projects_page.expect_projects_not_listed(project,
                                                  development_project)
 
-        expect(page).to have_selector('li[filter-name="public"]')
+        projects_page.expect_filters_container_hidden
+        projects_page.expect_filter_set 'public'
       end
     end
 
@@ -287,7 +290,8 @@ RSpec.describe 'Projects index page',
                                                  project,
                                                  development_project)
 
-        expect(page).to have_selector('li[filter-name="active"]')
+        projects_page.expect_filters_container_hidden
+        projects_page.expect_filter_set 'active'
       end
     end
   end

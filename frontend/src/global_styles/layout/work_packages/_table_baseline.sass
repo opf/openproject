@@ -31,7 +31,10 @@
     padding-right: 0
 
   &--icon-added
-    color: #35C53F
+    color: #5F42E0
+
+  &--icon-removed
+    color: #555555
 
   &--icon-changed
     color: #54AFE0
@@ -53,5 +56,11 @@
     // Ensure items are not taking full width
     align-items: flex-start
 
-  .spot-icon
-    vertical-align: middle
+  &--column-header
+    display: flex
+    align-items: center
+
+  .op-table-baseline--column-cell .spot-icon
+    display: flex
+    align-items: center
+    justify-items: center

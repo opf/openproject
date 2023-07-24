@@ -806,7 +806,8 @@ uk:
     autocompleter:
       placeholder: "Введіть для пошуку"
       notFoundText: "Елементів не знайдено"
-      typeToSearchText: "Введіть для пошуку"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Виберіть мітку'
       select_branch: 'Виберіть гілку'

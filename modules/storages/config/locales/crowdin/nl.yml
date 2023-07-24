@@ -33,6 +33,9 @@ nl:
                 lijkt de app "OpenProject integratie" niet te hebben geïnstalleerd. Installeer het eerst en probeer het dan opnieuw.
               authorization_header_missing: >
                 is niet volledig ingesteld. De Nextcloud instantie ontvangt geen "Autorisatie" header, wat nodig is voor een Bearer token gebaseerd op API verzoeken. Controleer de configuratie van uw HTTP-server.
+            password:
+              invalid_password: "is not valid."
+              unknown_error: "could not be validated. Please check your storage connection and try again."
         storages/file_link:
           attributes:
             origin_id:

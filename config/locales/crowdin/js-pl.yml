@@ -806,7 +806,8 @@ pl:
     autocompleter:
       placeholder: "Wpisz szukaną frazę"
       notFoundText: "Nie znaleziono elementów"
-      typeToSearchText: "Wpisz szukaną frazę"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Wybierz tag'
       select_branch: 'Wybierz gałąź'

@@ -264,7 +264,7 @@ de:
       notice_reset_token: "Ein neuer %{type} Token wurde generiert. Der Zutrittstoken lautet:"
       token_value_warning: "Hinweis: Dieser Token ist nur einmal sichtbar, der Token kann jetzt kopiert werden."
       no_results_title_text: Zur Zeit stehen keine Zugangs-Tokens zur Verfügung.
-      notice_ical_tokens_reverted: "iCalendar-Token „%{token_name}“ für Kalender „%{calendar_name}“ des Projekts „%{project_name}“ wurde widerrufen. Die iCalendar-URL mit diesem Token ist jetzt ungültig."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Es gibt aktuell keine Neuigkeiten.
@@ -1298,7 +1298,7 @@ de:
   error_enterprise_activation_user_limit: "Ihr Konto konnte nicht aktiviert werden (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff zu erhalten."
   error_enterprise_token_invalid_domain: "Die Enterprise edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected})."
   error_failed_to_delete_entry: 'Fehler beim Löschen dieses Eintrags.'
-  error_in_dependent: "Fehler beim Versuch, abhängiges Objekt zu ändern: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Fehler beim Versuch, abhängiges Objekt zu ändern: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Fehler beim Versuch, abhängiges Objekt zu erstellen: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Ausgewählter Wert ist ungültig."
   error_journal_attribute_not_present: "Journal enthält Attribut %{attribute} nicht."
@@ -1317,6 +1317,7 @@ de:
   error_password_change_failed: 'Beim Ändern des Passworts ist ein Fehler aufgetreten.'
   error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler aufgetreten: %{value}"
   error_scm_not_found: "Eintrag und/oder Revision existiert nicht im Projektarchiv."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "Der Arbeitspaket-Status kann nicht gelöscht werden, da er von mindestens einem Arbeitspaket genutzt wird."
   error_unable_delete_default_status: "Der Standardstatus für neue Arbeitspakete kann nicht gelöscht werden. Bitte wählen Sie einen anderen Standardstatus, bevor Sie diesen Status löschen."
   error_unable_to_connect: "Fehler beim Verbinden (%{value})"
@@ -1642,7 +1643,7 @@ de:
   label_everywhere: "überall"
   label_example: "Beispiel"
   label_experimental: "Experimentel"
-  label_i_am_member: "I am member"
+  label_i_am_member: "Ich bin Mitglied"
   label_import: "Import"
   label_export_to: "Auch abrufbar als:"
   label_expanded_click_to_collapse: "Erweitert. Klicken Sie zum Ausblenden"
@@ -2537,7 +2538,7 @@ de:
   setting_enabled_scm: "Aktivierte Versionskontrollsysteme"
   setting_enabled_projects_columns: "In der Projektliste sichtbar"
   setting_feeds_enabled: "Feeds aktiviert"
-  setting_ical_enabled: "Enable iCalendar subscriptions"
+  setting_ical_enabled: "iCalendar-Abonnements aktivieren"
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
   setting_file_max_size_displayed: "Maximale Größe inline angezeigter Textdateien"
   setting_host_name: "Hostname"
@@ -2608,9 +2609,9 @@ de:
     language_name_being_default: '%{language_name} (Standard)'
     date_format:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Wenn beide Optionen "%{day_of_week_setting_name}" oder "%{first_week_setting_name}" gesetzt sind der andere muss ebenfalls gesetzt werden, um die Darstellung konsistent zu halten.
       first_week_of_year_text_html: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+        Wählen Sie das Datum aus dem Monat Januar, das in der ersten Woche des Jahres enthalten ist. Dieser Wert zusammen mit dem ersten Wochentag bestimmt die Gesamtzahl der Wochen in einem Jahr. Weitere Informationen finden Sie in unserer <a href="%{link}" target="_blank">Dokumentation</a> zu diesem Thema.
     general: "Allgemein"
     experimental:
       save_confirmation: Achtung! Risiko für Datenverlust! Aktivieren Sie diese experimentelle Funktionen nur, wenn diese Instanz zu Testzwecken verwendet wird und Datenverlust oder -korruption akzeptiert wird.
@@ -2624,7 +2625,7 @@ de:
         type: "Ganze Zeile nach Typ"
         priority: "Ganze Zeile nach Priorität"
     icalendar:
-      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+      enable_subscriptions_text_html: Ermöglicht Benutzern mit der notwendigen Berechtigung, OpenProject-Kalender zu abonnieren und über einen externen Kalender-Client auf Informationen über Arbeitspakete zuzugreifen.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
     notifications:

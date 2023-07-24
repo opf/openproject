@@ -803,7 +803,8 @@ pt:
     autocompleter:
       placeholder: "Escreva para pesquisar"
       notFoundText: "Nenhum item encontrado"
-      typeToSearchText: "Escreva para pesquisar"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Selecionar marca'
       select_branch: 'Selecionar ramificação'

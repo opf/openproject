@@ -33,6 +33,9 @@ lt:
                 panašu neturi įdiegtos „OpenProject integracijos“ aplikacijos. Prašome ją įdiegti ir bandyti dar kartą.
               authorization_header_missing: >
                 nėra pilnai nustatytas. Nextcloud egzempliorius negauna „Autorizacijos“ antraštės, kuri būtina Turėtojo žetonu paremtoms autorizacijos API užklausoms. Prašome patikrinti jūsų HTTP serverio konfigūraciją.
+            password:
+              invalid_password: "netinkamas."
+              unknown_error: "nepavyko patikrinti. Prašome patikrinti jūsų saugyklos jungtį ir bandyti dar kartą."
         storages/file_link:
           attributes:
             origin_id:

@@ -803,7 +803,8 @@ id:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Pilih tag'
       select_branch: 'Pilih cabang'

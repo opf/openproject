@@ -226,20 +226,20 @@ es:
           status_label: "Estado:"
           status_confirmed: "confirmado"
           status_waiting: "correo electrónico enviado - esperando confirmación"
-          test_ee: "Pruebe la edición Enterprise de forma gratuita durante 14 días"
-          quick_overview: "Obtenga un resumen rápido sobre la gestión de proyectos y la colaboración en equipo con OpenProject edición Enterprise."
+          test_ee: "Pruebe Enterprise de forma gratuita durante 14 días"
+          quick_overview: "Obtenga un resumen rápido sobre la gestión de proyectos y la colaboración en equipo con OpenProject Enterprise."
         upsale:
           become_hero: "¡Conviértete en un héroe!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} es una extensión de la Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
           upgrade_info: "Actualice a un plan de pago para activarla y empiece a usarla en su equipo."
           benefits:
-            description: "¿Cuáles son las ventajas de la edición Enterprise on-premises?"
+            description: "¿Cuáles son las ventajas de Enterprise On-Premises?"
             high_security: "Funciones de seguridad"
             high_security_text: "Inicio de sesión único (SAML, OpenID Connect, CAS), grupos LDAP."
             installation: "Ayuda en la instalación"
             installation_text: "Nuestros ingenieros de software especializados le guiarán en todo el proceso de instalación y configuración en su propia infraestructura."
-            premium_features: "Enterprise add-ons"
-            premium_features_text: "Paneles Agile, tema y logotipo personalizados, gráficos, flujos de trabajo inteligentes con acciones personalizadas, búsqueda de texto completo en archivos adjuntos de paquetes de trabajo y campos personalizados de selección múltiple."
+            premium_features: "Extensión Enterprise"
+            premium_features_text: "Tableros Agile, tema y logotipo personalizados, gráficos, flujos de trabajo inteligentes con acciones personalizadas, búsqueda de texto completo en archivos adjuntos de paquetes de trabajo y campos personalizados de selección múltiple."
             professional_support: "Soporte profesional"
             professional_support_text: "Obtenga ayuda rápida y de confianza de nuestros agentes de asistencia con conocimientos especializados sobre cómo ejecutar OpenProject en entornos empresariales críticos."
           button_start_trial: "Iniciar prueba gratuita"
@@ -251,9 +251,9 @@ es:
           link_quote: "Solicitar presupuesto"
           more_info: "Más información"
           text: >
-            La edición Enterprise de OpenProject esta basada en la edición Community. Incluye Enterprise add-ons y soporte profesional dirigida principalmente a organizaciones con más de 10 usuarios que gestionen proyectos empresariales críticos con OpenProject.
+            OpenProject Enterprise esta basada en Community. Incluye extensiones Enterprise y soporte profesional dirigida principalmente a organizaciones con más de 10 usuarios que gestionen proyectos empresariales críticos con OpenProject.
           unlimited: "Ilimitado"
-          you_contribute: "Los desarrolladores también tienen que pagar sus facturas. Al actualizar a edición Enterprise, apoyará el esfuerzo de la comunidad de código abierto y contribuirá a su desarrollo, mantenimiento y mejora continua."
+          you_contribute: "Los desarrolladores también tienen que pagar sus facturas. Al actualizar a Enterprise, apoyará el esfuerzo de la comunidad de código abierto y contribuirá a su desarrollo, mantenimiento y mejora continua."
       working_days:
         calendar:
           empty_state_header: "Días no laborables"
@@ -533,14 +533,14 @@ es:
         backlogs:
           overview: "Administre su trabajo en la vista de <b>trabajos pendientes</b>."
           sprints: "A la derecha verá los trabajos pendientes de productos y errores de código, y a la izquierda se muestran los sprints correspondientes. Aquí puede crear <b>épicas, historias de usuario y errores de código</b>, asignar prioridades mediante funciones de arrastrar y colocar, y añadir elementos a un sprint."
-          task_board_arrow: 'Para ver el <b>panel de tareas</b>, abra el menú desplegable sprint…'
-          task_board_select: '… y seleccione la entrada del <b>panel de tareas</b>.'
-          task_board: "En el panel de tareas, se muestra el <b>progreso de este sprint</b>. Haga clic en el icono del signo más (+) junto a una historia de usuario para añadir nuevas tareas o impedimentos. <br> Puede actualizar el estado mediante las funciones de arrastrar y colocar."
+          task_board_arrow: 'Para ver el <b>tablero de tareas</b>, abra el menú desplegable sprint…'
+          task_board_select: '… y seleccione la entrada del <b>tablero de tareas</b>.'
+          task_board: "En el tablero de tareas, se muestra el <b>progreso de este sprint</b>. Haga clic en el icono del signo más (+) junto a una historia de usuario para añadir nuevas tareas o impedimentos. <br> Puede actualizar el estado mediante las funciones de arrastrar y colocar."
         boards:
-          overview: 'Seleccione los <b>paneles</b> para cambiar la vista y gestione su proyecto con la vista de paneles Agile.'
-          lists_kanban: 'Aquí puede crear varias listas (columnas) en el panel. Por ejemplo, esta función le permite crear un <b>panel Kanban</b>.'
-          lists_basic: 'Aquí puede crear varias listas (columnas) en el panel Agile.'
-          add: 'Haga clic en el icono del signo más (+) para <b>crear una tarjeta</b> o <b>añadir una tarjeta existente</b> a la lista en el panel.'
+          overview: 'Seleccione los <b>tableros</b> para cambiar la vista y gestione su proyecto con la vista de tableros Agile.'
+          lists_kanban: 'Aquí puede crear varias listas (columnas) en el tablero. Por ejemplo, esta función le permite crear un <b>tablero Kanban</b>.'
+          lists_basic: 'Aquí puede crear varias listas (columnas) en el tablero Agile.'
+          add: 'Haga clic en el icono del signo más (+) para <b>crear una tarjeta</b> o <b>añadir una tarjeta existente</b> a la lista en el tablero.'
           drag: 'Arrastre y coloque las tarjetas en una lista específica para cambiar el orden o moverlas a otra lista. <br> Para ver los detalles, haga clic en el icono de información (i) de la esquina superior derecha o haga doble clic en una tarjeta.'
         wp:
           toggler: "Ahora, veamos la sección <b>paquete de trabajo</b>, que ofrece una vista más detallada de su trabajo."
@@ -552,7 +552,7 @@ es:
           timeline: 'Aquí puede <b>editar su plan de proyecto</b>, crear nuevos paquetes de trabajo como tareas, hitos, fases y más, y <b>añadir dependencias</b>. Todos los miembros del equipo pueden ver y actualizar el plan más reciente en cualquier momento.'
         team_planner:
           overview: 'El planificador de equipo permite asignar de forma visual tareas a los miembros del equipo y obtener un resumen del trabajo de cada uno.'
-          calendar: 'En el panel de planificación semanal o bisemanal, se muestran todos los paquetes de trabajo asignados a los miembros del equipo.'
+          calendar: 'En el tablero de planificación semanal o bisemanal, se muestran todos los paquetes de trabajo asignados a los miembros del equipo.'
           add_assignee: 'Para empezar, añada usuarios asignados al planificador de equipo.'
           add_existing: 'Busque paquetes de trabajo existentes y arrástrelos hasta el planificador de equipo para asignarlos rápidamente a un miembro del equipo y defina las fechas de inicio y finalización.'
           card: 'Arrastre los paquetes de trabajo horizontalmente para hacerlos avanzar o retroceder en el tiempo, arrastre los bordes para cambiar las fechas de inicio y finalización, e incluso puede arrastrarlos verticalmente a otra fila para asignarlos a otro miembro.'
@@ -727,8 +727,8 @@ es:
         reset_title: "Restablecer la configuración del formulario"
         confirm_reset: >
           Advertencia: ¿Está seguro de que quiere restablecer la configuración del formulario? Se restablecerán los atributos al grupo predeterminado y se deshabilitarán TODOS los campos personalizados.
-        upgrade_to_ee: "Actualizar a edición Enterprise on-premises"
-        upgrade_to_ee_text: "¡Vaya! Si necesita está opción, entonces ¡es un usuario experto! ¿Le importaría apoyar a los desarrolladores de código abierto convirtiéndose en cliente de la edición Enterprise?"
+        upgrade_to_ee: "Actualizar a Enterprise On-Premises"
+        upgrade_to_ee_text: "¡Vaya! Si necesita está extensión, entonces ¡es un usuario experto! ¿Le importaría apoyar a los desarrolladores de código abierto convirtiéndose en cliente de Enterprise?"
         more_information: "Más información"
         nevermind: "No importa"
       edit:
@@ -804,7 +804,8 @@ es:
     autocompleter:
       placeholder: "Escriba para buscar"
       notFoundText: "No se encontraron elementos"
-      typeToSearchText: "Escriba para buscar"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Seleccionar etiqueta'
       select_branch: 'Seleccione rama'
@@ -883,7 +884,7 @@ es:
       zooms: "Nivel de zoom"
       outlines: "Nivel de jerarquía"
     upsale:
-      ee_only: 'Add-on de la edición Enterprise'
+      ee_only: 'Extensión Enterprise'
     wiki_formatting:
       strong: "Negrita"
       italic: "Cursiva"
@@ -1081,7 +1082,7 @@ es:
         upsale:
           attribute_highlighting: '¿Necesita que algunos paquetes de trabajo destaquen del resto?'
           relation_columns: '¿Necesita ver las relaciones en la lista de paquetes de trabajo?'
-          check_out_link: 'Echa un vistazo a la edición Enterprise.'
+          check_out_link: 'Echa un vistazo a Enterprise.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrar paquetes de trabajo por tipo de relación'
       tabs:
@@ -1226,9 +1227,9 @@ es:
           description: 'Permisos basados en el rol asignado en el proyecto seleccionado'
         placeholder:
           title: 'Usuario de marcador de posición'
-          title_no_ee: 'Usuario de marcador de posición (add-on solo para edición Enterprise)'
+          title_no_ee: 'Usuario de marcador de posición (extensión solo para Enterprise)'
           description: 'No tiene acceso al proyecto y no se enviarán correos electrónicos.'
-          description_no_ee: 'No tiene acceso al proyecto y no se enviarán correos electrónicos. <br>Consulte <a href="%{eeHref}" target="_blank">edición Enterprise</a>'
+          description_no_ee: 'No tiene acceso al proyecto y no se enviarán correos electrónicos. <br>Consulte <a href="%{eeHref}" target="_blank">Enterprise</a>'
       principal:
         label:
           name_or_email: 'Nombre o dirección de correo electrónico'

@@ -62,12 +62,12 @@ class Storages::GroupFolderPropertiesSyncService
             .automatic
             .includes(project: %i[users enabled_modules])
             .each do |project_storage|
-      project = project_storage.project
-      project_folder_path = project_folder_path(project)
-      @project_folder_ids_used_in_openproject << ensure_project_folder(project_storage:, project_folder_path:)
+              project = project_storage.project
+              project_folder_path = project_storage.project_folder_path
+              @project_folder_ids_used_in_openproject << ensure_project_folder(project_storage:, project_folder_path:)
 
-      set_project_folder_permissions(path: project_folder_path, project:)
-    end
+              set_project_folder_permissions(path: project_folder_path, project:)
+            end
 
     hide_inactive_project_folders
     add_active_users_to_group
@@ -90,10 +90,6 @@ class Storages::GroupFolderPropertiesSyncService
       .set_permissions_command
       .call(**command_params)
       .on_failure(&failure_handler('set_permissions_command', command_params))
-  end
-
-  def project_folder_path(project)
-    "#{@group_folder}/#{project.name.gsub('/', '|')} (#{project.id})/"
   end
 
   # rubocop:disable Metrics/AbcSize

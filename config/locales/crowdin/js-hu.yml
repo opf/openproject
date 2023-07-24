@@ -804,7 +804,8 @@ hu:
     autocompleter:
       placeholder: "Gépeljen a kereséshez"
       notFoundText: "Nem található elem"
-      typeToSearchText: "Gépeljen a kereséshez"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Címke kiválasztása'
       select_branch: 'Branch kiválasztása'

@@ -33,6 +33,9 @@ be:
                 здаецца што прылада "OpenProject integration" не ўсталявана. Калі ласка ўстанавіце яе і паспрабуйце зноў.
               authorization_header_missing: >
                 не ўсталявана поўнасцю. Сервер Nextcloud не атрымаў "Authorization" загаловак, які неабходны для аўтарызацыі запытаў з дапамогай Bearer токенаў. Калі ласка праверце налады вашага HTTP сервера.
+            password:
+              invalid_password: "is not valid."
+              unknown_error: "could not be validated. Please check your storage connection and try again."
         storages/file_link:
           attributes:
             origin_id:

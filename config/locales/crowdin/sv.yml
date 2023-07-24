@@ -267,7 +267,7 @@ sv:
       notice_reset_token: "En ny %{type}-token har skapats. Din åtkomst-token är:"
       token_value_warning: "Notera: Detta är den enda gång du kommer se denna token, var säker på att kopiera den nu."
       no_results_title_text: Det finns för närvarande inga tillgängliga åtkomstnycklar.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Det finns för närvarande inget att rapportera.
@@ -1302,7 +1302,7 @@ sv:
   error_enterprise_activation_user_limit: "Ditt konto kunde inte aktiveras (begränsning för antal användare har uppnåtts). Kontakta administratören för att få tillgång."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Det gick inte ta bort denna post.'
-  error_in_dependent: "Fel vid försök att ändra beroende objekt: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Fel vid försök att ändra beroende objekt: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Ogiltigt valt värde."
   error_journal_attribute_not_present: "Loggbok innehåller inte attribut %{attribute}."
@@ -1321,6 +1321,7 @@ sv:
   error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Ett fel uppstod när du försökte komma åt versionsarkivet: %{value}"
   error_scm_not_found: "Den posten eller revision finns inte i versionsarkivet."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "Arbetspaketsstatusen kan inte raderas eftersom det används av minst ett arbetspaket."
   error_unable_delete_default_status: "Det går inte att radera standardvalet för arbetspaketsstatus. Var god väl en annan arbetspaketsstatus som standardval innan du raderar den befintliga."
   error_unable_to_connect: "Kan inte ansluta (%{value})"
