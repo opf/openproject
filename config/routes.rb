@@ -601,4 +601,15 @@ OpenProject::Application.routes.draw do
 
   # Routes for design related documentation and examples pages
   get '/design/styleguide' => redirect('/assets/styleguide.html')
+
+  scope :op_turbo_sandbox do
+    scope :projects do
+      get '/' => 'op_turbo_sandbox#index'
+      get '/:id/edit' => 'op_turbo_sandbox#edit', as: 'op_turbo_sandbox_edit_project'
+      get '/:id/cancel_edit' => 'op_turbo_sandbox#cancel_edit', as: 'op_turbo_sandbox_cancel_edit_project'
+      patch '/:id/update' => 'op_turbo_sandbox#update', as: 'op_turbo_sandbox_update_project'
+      post '/' => 'op_turbo_sandbox#create', as: 'op_turbo_sandbox_create_project'
+      delete '/:id' => 'op_turbo_sandbox#destroy', as: 'op_turbo_sandbox_destroy_project'
+    end
+  end
 end
