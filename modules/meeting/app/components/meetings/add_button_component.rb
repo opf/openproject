@@ -30,19 +30,13 @@
 #
 
 module Meetings
-  class AddButtonComponent < ::ApplicationComponent
-    options :current_project
-
+  class AddButtonComponent < ::AddButtonComponent
     def render?
       if current_project
         User.current.allowed_to?(:create_meetings, current_project)
       else
         User.current.allowed_to_globally?(:create_meetings)
       end
-    end
-
-    def li_css_class
-      'toolbar-item'
     end
 
     def dynamic_path
@@ -53,26 +47,12 @@ module Meetings
       'add-meeting-button'
     end
 
-    def title
+    def accessibility_label_text
       I18n.t(:label_meeting_new)
     end
 
-    def aria_label
-      I18n.t(:label_meeting_new)
-    end
-
-    def link_css_class
-      'button -alt-highlight'
-    end
-
-    def label
-      content_tag(:span,
-                  I18n.t(:label_meeting),
-                  class: 'button--text')
-    end
-
-    def icon
-      helpers.op_icon('button--icon icon-add')
+    def label_text
+      I18n.t(:label_meeting)
     end
   end
 end

@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,28 +26,37 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+#
 
-require 'spec_helper'
-require_relative '../support/pages/calendar'
+module Calendar
+  class AddButtonComponent < ::AddButtonComponent
+    def render?
+      if current_project
+        User.current.allowed_to?(:manage_calendars, current_project)
+      else
+        User.current.allowed_to_globally?(:manage_calendars)
+      end
+    end
 
-RSpec.shared_context 'with calendar full access' do
-  shared_let(:project) do
-    create(:project, enabled_module_names: %w[work_package_tracking calendar_view])
+    def dynamic_path
+      if current_project
+        new_project_calendars_path(current_project)
+      else
+        new_calendar_path
+      end
+    end
+
+    def id
+      'add-calendar-button'
+    end
+
+    def accessibility_label_text
+      I18n.t('js.calendar.create_new')
+    end
+
+    def label_text
+      I18n.t(:label_calendar)
+    end
   end
-
-  shared_let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: %w[
-             view_work_packages edit_work_packages add_work_packages
-             manage_calendars view_calendar
-             manage_public_queries
-           ])
-  end
-
-  let(:calendar) { Pages::Calendar.new project }
-  let(:filters) { calendar.filters }
-
-  let(:current_user) { user }
 end

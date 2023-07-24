@@ -1758,6 +1758,7 @@ en:
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
+  label_favoured: "Favoured"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key created %{value} ago"
@@ -2042,6 +2043,7 @@ en:
   label_this_week: "this week"
   label_this_year: "this year"
   label_time_entry_plural: "Spent time"
+  label_title: "Title"
   label_projects_menu: "Projects"
   label_today: "today"
   label_top_menu: "Top Menu"
@@ -2950,6 +2952,11 @@ en:
   text_zoom_out: "Zoom out"
   text_setup_mail_configuration: "Configure your email provider"
 
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "am"
     formats:

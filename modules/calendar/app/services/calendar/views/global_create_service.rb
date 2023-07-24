@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,26 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../support/pages/calendar'
+module Calendar
+  module Views
+    class GlobalCreateService < ::Views::GlobalCreateService
+      private
 
-RSpec.shared_context 'with calendar full access' do
-  shared_let(:project) do
-    create(:project, enabled_module_names: %w[work_package_tracking calendar_view])
+      def view_type
+        'work_packages_calendar'
+      end
+    end
   end
-
-  shared_let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: %w[
-             view_work_packages edit_work_packages add_work_packages
-             manage_calendars view_calendar
-             manage_public_queries
-           ])
-  end
-
-  let(:calendar) { Pages::Calendar.new project }
-  let(:filters) { calendar.filters }
-
-  let(:current_user) { user }
 end

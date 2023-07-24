@@ -28,16 +28,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module TeamPlanner
-  module Views
-    class GlobalCreateContract < ::Queries::CreateContract
-      validate :validate_project_present
+require 'spec_helper'
 
-      private
+RSpec.describe Calendar::Views::GlobalCreateService do
+  shared_let(:project) { create(:project) }
+  shared_let(:user) { build_stubbed(:admin) }
+  shared_let(:instance) { described_class.new(user:) }
 
-      def validate_project_present
-        errors.add :project_id, :blank if model.project_id.blank?
-      end
+  subject { instance.call(params) }
+
+  context 'with all valid params' do
+    let(:params) do
+      {
+        name: "Batman's Itinerary",
+        project_id: project.id,
+        public: true,
+        starred: false
+      }
+    end
+
+    it 'is successful' do
+      expect(subject).to be_success
+    end
+
+    it 'creates a calendar view and its query' do
+      view = subject.result
+      query = view.query
+
+      expect(view.type).to eq 'work_packages_calendar'
+
+      expect(query.name).to eq "Batman's Itinerary"
+      expect(query.project).to eql(project)
+      expect(query).to be_public
+      expect(query).not_to be_starred
     end
   end
 end

@@ -27,9 +27,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title(t(:label_calendar_plural)) -%>
-<%= toolbar title: t(:label_calendar_plural) do %>
-  <%= render Calendar::AddButtonComponent.new(current_project: @project) %>
+<% html_title t(:label_new_calendar) %>
+<%= toolbar title: t(:label_new_calendar) %>
+<%= labelled_tabular_form_for @view, url: { controller: '/calendar/calendars', action: 'create' }, :html => {:id => 'calendar-form'} do |f| -%>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  <%= styled_button_tag t(:button_create), class: '-highlight' %>
+  <%= link_to t(:button_cancel), { controller: 'calendar/calendars', action: 'index' },
+              class: 'button' %>
 <% end %>
-
-<%= render ::Calendar::TableComponent.new(rows: @views, current_project: @project, current_user: current_user) %>

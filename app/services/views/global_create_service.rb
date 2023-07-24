@@ -28,19 +28,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
-require 'contracts/queries/shared_contract_examples'
+class Views::GlobalCreateService < BaseServices::Create
+  def initialize(user:,
+                 contract_class: Queries::GlobalCreateContract,
+                 contract_options: nil)
+    super
+  end
 
-RSpec.describe TeamPlanner::Views::GlobalCreateContract do
-  include_context 'ModelContract shared context'
-  include_context 'with queries contract'
+  def after_perform(call)
+    create_view_from_query(call)
+  end
 
-  describe 'validation' do
-    context 'if the project_id is nil' do
-      let(:project) { nil }
+  def instance_class
+    ::Query
+  end
 
-      it_behaves_like 'contract is invalid', project_id: :blank
-    end
+  private
+
+  def create_view_from_query(call)
+    ::Views::CreateService.new(user: @user)
+                          .call(view_params(call))
+  end
+
+  def view_params(call)
+    { query_id: call.result.id, type: view_type }
+  end
+
+  def view_type
+    raise 'Implement me'
   end
 end

@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,28 +26,55 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+#
 
-require 'spec_helper'
-require_relative '../support/pages/calendar'
+class AddButtonComponent < ApplicationComponent
+  options :current_project
 
-RSpec.shared_context 'with calendar full access' do
-  shared_let(:project) do
-    create(:project, enabled_module_names: %w[work_package_tracking calendar_view])
+  def render?
+    raise 'Implement the conditions for which the component should render or not'
   end
 
-  shared_let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: %w[
-             view_work_packages edit_work_packages add_work_packages
-             manage_calendars view_calendar
-             manage_public_queries
-           ])
+  def dynamic_path
+    raise "Implement the path for this component's href"
   end
 
-  let(:calendar) { Pages::Calendar.new project }
-  let(:filters) { calendar.filters }
+  def id
+    raise "Implement the id for this component"
+  end
 
-  let(:current_user) { user }
+  def li_css_class
+    'toolbar-item'
+  end
+
+  def title
+    accessibility_label_text
+  end
+
+  def label
+    content_tag(:span,
+                label_text,
+                class: 'button--text')
+  end
+
+  def aria_label
+    accessibility_label_text
+  end
+
+  def accessibility_label_text
+    raise "Specify the aria label and title text to be used for this component"
+  end
+
+  def label_text
+    raise "Specify the label text to be used for this component"
+  end
+
+  def link_css_class
+    'button -alt-highlight'
+  end
+
+  def icon
+    helpers.op_icon('button--icon icon-add')
+  end
 end
