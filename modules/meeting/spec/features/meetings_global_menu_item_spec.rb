@@ -30,38 +30,45 @@
 #
 
 require 'spec_helper'
+require_relative '../support/pages/meetings/index'
 
 RSpec.describe 'Meetings global menu item',
                :with_cuprite,
                with_flag: { more_global_index_pages: true } do
-  let(:user_without_permissions) { create(:user) }
-  let(:admin) { create(:admin) }
+  shared_let(:user_without_permissions) { create(:user) }
+  shared_let(:admin) { create(:admin) }
+  shared_let(:meetings_label) { I18n.t(:label_meeting_plural) }
 
-  let(:meetings_label) { I18n.t(:label_meeting_plural) }
+  let(:meetings_page) { Pages::Meetings::Index.new(project: nil) }
 
   before do
     login_as current_user
-    visit root_path
   end
 
   context 'as a user with permissions' do
     let(:current_user) { admin }
 
+    before do
+      meetings_page.navigate_by_global_menu
+    end
+
     it 'navigates to the global meetings index page' do
-      within '#main-menu' do
-        click_link meetings_label
-      end
-
       expect(page).to have_current_path('/meetings')
+    end
 
+    specify '"Upcoming meetings" is the default filter set' do
       within '#main-menu' do
-        expect(page).to have_selector('.selected', text: meetings_label)
+        expect(page).to have_selector('.selected', text: I18n.t(:label_upcoming_meetings))
       end
     end
   end
 
   context 'as a user without permissions' do
     let(:current_user) { user_without_permissions }
+
+    before do
+      visit root_path
+    end
 
     it 'does not render' do
       within '#main-menu' do

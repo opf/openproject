@@ -14,6 +14,7 @@ page_header:
 page_footer:
   offset: -30
   size: 8
+  spacing: 6
 
 page_logo:
   height: 20
@@ -82,9 +83,6 @@ work_package:
   subject_level_4:
     size: 11
     styles: [ "bold" ]
-  label:
-    size: 11
-    styles: [ "bold" ]
   attributes_table:
     margin_bottom: 10
     cell:
@@ -98,16 +96,6 @@ work_package:
       border_width: 0.25
     cell_label:
       styles: [ "bold" ]
-  section:
-    heading:
-      size: 9
-      styles: [ "bold" ]
-      margin_top: 4
-      margin_bottom: 4
-    item:
-      size: 9
-      styles: [ "italic" ]
-      margin_left: 10
   markdown_label:
     size: 12
     styles: [ "bold" ]
