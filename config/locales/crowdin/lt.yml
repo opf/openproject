@@ -1357,7 +1357,7 @@ lt:
   error_password_change_failed: 'Bandant pakeisti slaptažodį įvyko klaida.'
   error_scm_command_failed: "Įvyko klaida jungiantis prie repozitorijos: %{value}"
   error_scm_not_found: "Toks įrašas ar revizija nebuvo rasti repozitorijoje."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "Tipas negalėjo būti įrašytas"
   error_unable_delete_status: "Darbų paketo būsena negali būti ištrinta tol, kol yra naudojama bent viename darbų pakete."
   error_unable_delete_default_status: "Neįmanoma ištrinti numatytosios darbų paketo būsenos. Prašome pakeisti numatytąją darbų paketo būseną prieš ištrinant šią."
   error_unable_to_connect: "Negalima prisijungti (%{value})"
