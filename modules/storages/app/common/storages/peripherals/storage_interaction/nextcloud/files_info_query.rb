@@ -102,7 +102,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           result: response_object.ocs.data.to_h.map do |_, value|
             ::Storages::StorageFileInfo.new(
               value.status,
-              value.status_code,
+              value.statuscode,
               value.id,
               value.name,
               Time.zone.at(value.mtime),
