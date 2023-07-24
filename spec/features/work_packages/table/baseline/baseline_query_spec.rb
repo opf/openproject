@@ -166,7 +166,7 @@ RSpec.describe 'baseline query saving',
 
     login_as berlin_user
     wp_table.visit_query query
-    baseline.expect_legend_text "Changes since a specific date (2023-05-20 6:00 AM UTC+9)"
+    baseline.expect_legend_text "Changes since 2023-05-20 6:00 AM UTC+9"
     baseline.expect_legend_tooltip "In your local timezone: 2023-05-19 11:00 PM UTC+2"
 
     baseline_modal.expect_closed
@@ -195,7 +195,7 @@ RSpec.describe 'baseline query saving',
 
     login_as tokyo_user
     wp_table.visit_query query
-    baseline.expect_legend_text "Changes since between two specific dates (2023-05-19 8:00 AM UTC+2 - 2023-05-25 8:00 PM UTC+2)"
+    baseline.expect_legend_text "Changes since 2023-05-19 8:00 AM UTC+2 - 2023-05-25 8:00 PM UTC+2"
     baseline.expect_legend_tooltip "In your local timezone: 2023-05-19 3:00 PM UTC+9 - 2023-05-26 3:00 AM UTC+9"
 
     baseline_modal.expect_closed
