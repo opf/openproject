@@ -39,7 +39,7 @@ module JournalChanges
       @changes.merge!(subsequent_journal_data_changes)
     end
 
-    if journable.attachable?
+    if journable&.attachable?
       @changes.merge!(get_association_changes(
                         predecessor,
                         'attachable',
@@ -49,7 +49,7 @@ module JournalChanges
                       ))
     end
 
-    if journable.customizable?
+    if journable&.customizable?
       @changes.merge!(get_association_changes(
                         predecessor,
                         'customizable',

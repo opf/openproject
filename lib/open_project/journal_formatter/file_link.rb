@@ -49,8 +49,8 @@ class OpenProject::JournalFormatter::FileLink < JournalFormatter::Base
   def label(_key) = Storages::FileLink.model_name.human
 
   def format_html_file_link_detail(key, value)
-    if value.present? && a = ::Storages::FileLink.find_by(id: key.to_i)
-      link_to_file_link(a, only_path: false)
+    if value.present? && file_link = ::Storages::FileLink.find_by(id: key.to_i)
+      link_to_file_link(file_link, only_path: false)
     elsif value.present?
       value
     end
