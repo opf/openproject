@@ -27,7 +27,9 @@
 #++
 
 module Projects::Copy
-  class StoragesDependentService < ::Copy::Dependency
+  class StoragesDependentService < Dependency
+    using Storages::Peripherals::ServiceResultRefinements
+
     def self.human_name
       I18n.t(:label_project_storage_plural)
     end
@@ -39,22 +41,29 @@ module Projects::Copy
     protected
 
     def copy_dependency(*)
+      copied_project_storages = []
+
       source.projects_storages.find_each do |project_storage|
-        create_project_storage(project_storage)
+        copied_project_storages << { source: project_storage, target: create_project_storage(project_storage) }
       end
+
+      state.copied_project_storages = copied_project_storages
     end
+
+    private
 
     def create_project_storage(project_storage)
       attributes = project_storage
-        .attributes.dup.except('id', 'project_id', 'created_at', 'updated_at')
-        .merge('project_id' => target.id)
+                     .attributes.dup.except('id', 'project_id', 'created_at', 'updated_at')
+                     .merge('project_id' => target.id)
 
       service_result = ::Storages::ProjectStorages::CreateService
-        .new(user: User.current)
-        .call(attributes)
+                         .new(user: User.current)
+                         .call(attributes)
 
       copied_storage = service_result.result
       copied_storage.save
+      copied_storage
     end
   end
 end

@@ -267,7 +267,7 @@ sk:
       notice_reset_token: "Bol vytvorený nový token %{type}. Prístupový token je:"
       token_value_warning: "Poznámka: Toto je jediný čas, kedy uvidíte tento Token, uistite sa, že ste si ho skopírovali."
       no_results_title_text: Momentálne nie sú dostupné žiadne prístupové tokeny.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: V súčasnosti nie sú žiadne novinky pre nahlásenie.
@@ -1341,7 +1341,7 @@ sk:
   error_enterprise_activation_user_limit: "Váš účet nemôže byť aktivovaný (dosiahnutý limit počtu užívateľov). Prosím kontaktujte vášho správcu pre získanie prístupu."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Chyba pri odstraňovaní tejto položky.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Vybratá neplatná hodnota."
   error_journal_attribute_not_present: "Denník neobsahuje atribút %{attribute}."
@@ -1360,6 +1360,7 @@ sk:
   error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Vyskytla sa chyba pri pokuse o prístup k repository: %{value}"
   error_scm_not_found: "Položka alebo revízia nebola nájdená v repozitári."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "Stav pracovného balíčka sa nedá odstrániť, pretože ho používa ešte najmenej jeden ďalší pracovný balíček."
   error_unable_delete_default_status: "Nie je možné odstrániť predvolený stav pracovného balíčka. Pred odstránením aktuálneho vyberte iný predvolený stav."
   error_unable_to_connect: "Nedá sa pripojiť (%{value})"

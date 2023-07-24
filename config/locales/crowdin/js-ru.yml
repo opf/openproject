@@ -504,7 +504,7 @@ ru:
     label_remove_all_files: Удалить все файлы
     label_add_description: "Добавить описание для %{file}"
     label_upload_notification: "Загрузка файлов..."
-    label_work_package_upload_notification: "Загрузка файлов для пакета работ #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Загрузка файлов для пакета работ #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} добавил %{author}"
     label_files_to_upload: "Эти файлы будут загружены:"
     label_rejected_files: "Эти файлы не могут быть загружены:"

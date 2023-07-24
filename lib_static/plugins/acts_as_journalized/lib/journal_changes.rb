@@ -33,14 +33,46 @@ module JournalChanges
 
     @changes = ::Acts::Journalized::JournableDiffer.changes(predecessor&.data, data)
 
-    @changes.merge!(
-      ::Acts::Journalized::JournableDiffer.association_changes(predecessor, self, 'attachable_journals', 'attachments',
-                                                               :attachment_id, :filename),
-      ::Acts::Journalized::JournableDiffer.association_changes(predecessor, self, 'customizable_journals', 'custom_fields',
-                                                               :custom_field_id, :value)
-    )
-
     @changes[:cause] = [nil, cause] if cause.present?
+
+    if journable&.attachable?
+      @changes.merge!(
+        ::Acts::Journalized::JournableDiffer.association_changes(
+          predecessor,
+          self,
+          'attachable_journals',
+          'attachments',
+          :attachment_id,
+          :filename
+        )
+      )
+    end
+
+    if journable&.customizable?
+      @changes.merge!(
+        ::Acts::Journalized::JournableDiffer.association_changes(
+          predecessor,
+          self,
+          'customizable_journals',
+          'custom_fields',
+          :custom_field_id,
+          :value
+        )
+      )
+    end
+
+    if has_file_links?
+      @changes.merge!(
+        ::Acts::Journalized::JournableDiffer.association_changes(
+          predecessor,
+          self,
+          'storable_journals',
+          'file_links',
+          :file_link_id,
+          :link_name
+        )
+      )
+    end
 
     @changes
   end

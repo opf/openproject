@@ -269,7 +269,7 @@ vi:
       notice_reset_token: "Một mã %{type} truy cập mới vừa được tạo. Mã truy cập của bạn là:"
       token_value_warning: "Chú ý: Mã này chỉ hiện duy nhất một lần, bạn nên sao chép lại để lưu trữ."
       no_results_title_text: Không có thẻ truy cập hiện hữu.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Hiện không có tin tức báo cáo.
@@ -1286,7 +1286,7 @@ vi:
   error_enterprise_activation_user_limit: "Không thể kích hoạt tài khoản của bạn (đã đạt đến giới hạn người dùng). Vui lòng liên hệ với quản trị viên của bạn để có quyền truy cập."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Không xóa được mục này.'
-  error_in_dependent: "Lỗi khi cố gắng thay đổi đối tượng phụ thuộc: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Lỗi khi cố gắng thay đổi đối tượng phụ thuộc: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Giá trị đã chọn không hợp lệ."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
@@ -1305,6 +1305,7 @@ vi:
   error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Lỗi xảy ra khi truy cập vào kho lưu trữ: %{value}"
   error_scm_not_found: "Mục hay revision không được tìm thấy trong kho."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "Trạng thái work package không thể bị xóa vì nó được sử dụng bởi ít nhất 1 work package."
   error_unable_delete_default_status: "Không thể xoá tình trạng mặc định của work package. Vui lòng chọn tình trạng work package khác trước khi xóa một trong hiện tại."
   error_unable_to_connect: "Không thể kết nối (%{value})"

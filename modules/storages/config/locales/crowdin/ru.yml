@@ -34,8 +34,8 @@ ru:
               authorization_header_missing: >
                 не полностью настроено. Экземпляр Nextcloud не получает заголовок "Authorization", который необходим для подтверждения запросов API на основе токена Bearer. Пожалуйста, проверьте конфигурацию HTTP сервера.
             password:
-              invalid_password: "is not valid."
-              unknown_error: "could not be validated. Please check your storage connection and try again."
+              invalid_password: "недействителен."
+              unknown_error: "не удалось пройти проверку. Пожалуйста, проверьте подключение к вашему хранилищу и повторите попытку."
         storages/file_link:
           attributes:
             origin_id:

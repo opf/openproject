@@ -267,7 +267,7 @@ ar:
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: لا يوجد حالياً رموز وصول مميزة متاحة.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: لا يوجد حالياً أخبار لتقدم.
@@ -1378,7 +1378,7 @@ ar:
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
@@ -1397,6 +1397,7 @@ ar:
   error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "حدث خطأ عند محاولة الوصول إلى مستودع الوثائق: %{value}"
   error_scm_not_found: "لم يتم العثور على إدخال أو مراجعة في مستودع الوثائق."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "لا يمكن حذف حالة حزمة العمل نظراً لأنها تستخدم من قبل مجموعة عمل واحدة على الأقل."
   error_unable_delete_default_status: "غير قادر على حذف حالة مجموعة العمل الافتراضية. الرجاء تحديد وضع آخر مجموعة العمل الافتراضي قبل حذف الحالي."
   error_unable_to_connect: "غير قادر على الاتصال (%{value})"

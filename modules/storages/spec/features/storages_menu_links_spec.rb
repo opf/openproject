@@ -63,14 +63,14 @@ RSpec.describe 'Project menu', js: true, with_cuprite: true do
     context 'if user is an admin but not a member of the project' do
       let(:user) { create(:admin) }
 
-      it 'has a link to enabled storage, but not to hidden for him project' do
+      it 'has no links to enabled storage' do
         visit(project_path(id: project.id))
 
-        expect(page).to have_link(storage.name, href: storage.host)
+        expect(page).not_to have_link(storage.name, href: storage.host)
         project_folder_id = project_storage_with_manual_folder.project_folder_id
         folder_href = "#{another_storage.host}/index.php/f/#{project_folder_id}?openfile=1"
         expect(page).not_to have_link(another_storage.name, href: folder_href)
-        expect(page).to have_link(another_storage.name, href: another_storage.host)
+        expect(page).not_to have_link(another_storage.name, href: another_storage.host)
         expect(page).not_to have_link(unlinked_storage.name)
       end
     end

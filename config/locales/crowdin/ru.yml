@@ -266,7 +266,7 @@ ru:
       notice_reset_token: "Новый маркер %{type} создан. Ваш маркер доступа:"
       token_value_warning: "Примечание: Этот маркер вам больше никогда показан не будет, убедитесь что запомнили его."
       no_results_title_text: На данный момент маркеры доступа отсутствуют.
-      notice_ical_tokens_reverted: "токен iCalendar \"%{token_name}\" для календаря \"%{calendar_name}\" проекта \"%{project_name}\" был отозван. URL-адрес iCalendar с этим токеном недействителен."
+      notice_ical_token_revoked: "токен iCalendar \"%{token_name}\" для календаря \"%{calendar_name}\" проекта \"%{project_name}\" был отозван. URL-адрес iCalendar с этим токеном недействителен."
   news:
     index:
       no_results_title_text: На данный момент новостей для отчета нет.
@@ -1340,7 +1340,7 @@ ru:
   error_enterprise_activation_user_limit: "Ваша учетная запись не может быть активирована (достигнут предел пользователя). Обратитесь к администратору для получения доступа."
   error_enterprise_token_invalid_domain: "Версия Enterprise не активна. Домен вашего токена предприятия (%{actual}) не соответствует названию системного имени (%{expected})."
   error_failed_to_delete_entry: 'Не удалось удалить эту запись.'
-  error_in_dependent: "Ошибка при попытке изменить зависимый объект: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Ошибка при попытке изменить зависимый объект: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Ошибка при создании зависимого объекта: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Выбранное значение недопустимо."
   error_journal_attribute_not_present: "Журнал не содержит атрибут %{attribute}."
@@ -1359,6 +1359,7 @@ ru:
   error_password_change_failed: 'Произошла ошибка при попытке изменить пароль.'
   error_scm_command_failed: "Произошла ошибка при попытке доступа к хранилищу: %{value}"
   error_scm_not_found: "Ни статья, ни ее исправленная версия в репозитории не найдены."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "Статус пакета работ удалить нельзя, так как он используется по крайней мере одним рабочим пакетом."
   error_unable_delete_default_status: "Не удается удалить статус работы пакета по умолчанию. Пожалуйста, выберите другой статус работы пакета по умолчанию перед удалением текущего."
   error_unable_to_connect: "Не удается подключиться (%{value})"

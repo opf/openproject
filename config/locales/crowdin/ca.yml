@@ -264,7 +264,7 @@ ca:
       notice_reset_token: "S'ha generat un nou token %{type}. El teu token d'accés és:"
       token_value_warning: "Nota: Aquesta és la única vegada que veuràs aquest token, assegura't de copiar-lo ara."
       no_results_title_text: Actualment no hi ha cap token d'accés disponible.
-      notice_ical_tokens_reverted: "El token d'iCalendar \"%{token_name}\" per al calendari \"%{calendar_name}\" en el projecte \"%{project_name}\" s'ha revocat. L'URL d'iCalendar amb aquest token és ara invàlida."
+      notice_ical_token_revoked: "El token d'iCalendar \"%{token_name}\" per al calendari \"%{calendar_name}\" en el projecte \"%{project_name}\" s'ha revocat. L'URL d'iCalendar amb aquest token és ara invàlida."
   news:
     index:
       no_results_title_text: Actualment no hi ha cap novetat per a informar.
@@ -1299,8 +1299,8 @@ ca:
   error_enterprise_activation_user_limit: "El teu compte no s'ha pogut activar (límit d'usuaris assolit). Si us plau, contacte amb el teu administrador per obtenir accés."
   error_enterprise_token_invalid_domain: "L'edició Enterprise no està activa. El domini del token Enterprise (%{actual}) no concorda amb el nom d'allotjament del sistema (%{expected})."
   error_failed_to_delete_entry: 'Error a l''eliminar aquesta entrada.'
-  error_in_dependent: "Error en intentar alterar objectes dependents: %{dependent_class} #%{related_id} -%{related_subject}: %{error}" #%{related_id} -%{related_subject}: %{error}"
-  error_in_new_dependent: "Error en intentar crear objectes dependents: %{dependent_class} #%{related_id} -%{related_subject}: %{error}" #%{related_id} -%{related_subject}: %{error}"
+  error_in_dependent: "Error en intentar alterar objectes dependents: %{dependent_class} #%{related_id} -%{related_subject}: %{error}"
+  error_in_new_dependent: "Error en intentar crear objectes dependents: %{dependent_class} #%{related_id} -%{related_subject}: %{error}"
   error_invalid_selected_value: "Valor seleccionat invàlid."
   error_journal_attribute_not_present: "El diari no conté l'atribut %{attribute}."
   error_pdf_export_too_many_columns: "Masses columnes seleccionades per a l'exportació PDF. Si us plau, redueix el nombre de columnes."
@@ -1318,6 +1318,7 @@ ca:
   error_password_change_failed: 'Hi ha hagut un error l''intentar canviar la contrasenya.'
   error_scm_command_failed: "S'ha produït un error en intentar accedir al repositori: %{value}"
   error_scm_not_found: "No s'ha trobat l'entrada o la revisió en el repositori."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "No es pot suprimir l'estat del paquet de treball ja que és utilitzat per almenys un paquet de treball."
   error_unable_delete_default_status: "No es pot suprimir l'estat per defecte del paquet de treball. Seleccioneu un altre estat de paquet de treball per defecte abans de suprimir l'actual."
   error_unable_to_connect: "No s'ha pogut connectar (%{value})"
