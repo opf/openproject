@@ -90,7 +90,6 @@ RSpec.describe 'team planner onboarding tour',
 
   context 'as a new user' do
     it 'I see the team planner onboarding tour in the demo project' do
-      skip("Flaky test disabled. Fix it in https://community.openproject.org/wp/49073")
       # Set the tour parameter so that we can start on the wp page
       visit "/projects/#{demo_project.identifier}/work_packages?start_onboarding_tour=true"
 
