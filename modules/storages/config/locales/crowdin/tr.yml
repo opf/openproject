@@ -33,6 +33,9 @@ tr:
                 "OpenProject entegrasyonu" uygulamasının yüklü olmadığı görülüyor. Lütfen önce kurun ve sonra tekrar deneyin.
               authorization_header_missing: >
                 tam olarak kurulmamıştır. Nextcloud örneği, API isteklerinin Taşıyıcı belirteci tabanlı yetkilendirmesi için gerekli olan "Yetkilendirme" başlığını almaz. Lütfen HTTP sunucu yapılandırmanızı iki kez kontrol edin.
+            password:
+              invalid_password: "is not valid."
+              unknown_error: "could not be validated. Please check your storage connection and try again."
         storages/file_link:
           attributes:
             origin_id:
@@ -43,12 +46,19 @@ tr:
   storages:
     buttons:
       done_continue_setup: "Tamamlandı. Kuruluma devam et"
+      done_complete_setup: "Done, complete setup"
+      edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "OpenProject OAuth'u değiştirin"
       replace_provider_type_oauth: "%{provider_type} OAuth'u değiştirin"
       save_and_continue_setup: "Kaydet ve kuruluma devam et"
       save_and_complete_setup: "Kaydet ve kurulumu tamamla"
       select_folder: "Select folder"
+      configure: "Configure"
     page_titles:
+      managed_project_folders:
+        title: "Automatically managed project folders"
+        subtitle: >
+          Let OpenProject create folders per project automatically. This is recommended as it ensures that every team member always has the correct access permissions.
       project_settings:
         index: "Bu projedeki mevcut dosya depoları"
         new: "Bu projeye bir dosya deposu ekle"
@@ -58,6 +68,8 @@ tr:
       type_link_text: "“Entegrasyon OpenProject”"
       name: "Kullanıcıların birden fazla depolama alanı arasında ayrım yapabilmesi için depolama alanınıza bir ad verin."
       host: "Lütfen https dahil olmak üzere depolama alanınızın ana bilgisayar adresini ekleyin:"
+      managed_project_folders_application_password: >
+        Copy this value from:
       no_storage_set_up: "Henüz ayarlanmış dosya deposu yok."
       no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
       automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
@@ -81,11 +93,17 @@ tr:
         Bu depolama alanını silmek istediğinizden emin misiniz? Bu, depolamayı kullanıldığı tüm projelerden de siler. Ayrıca, iş paketlerinden o depoda saklanan dosyalara olan tüm bağlantıları da siler.
       project_storage: >
         Bu dosya deposunu bu projeden kaldırmak istediğinizden emin misiniz? Bu aynı zamanda bu proje için bu depoda saklanan dosyalara olan tüm bağlantıları da kaldıracaktır.
+    label_active: "Active"
+    label_inactive: "Inactive"
     label_creator: "Oluşturan"
     label_file_link: "Dosya bağlantısı"
     label_file_links: "Dosya bağlantıları"
     label_name: "İsim"
     label_host: "Barındırıcı URL'si"
+    label_managed_project_folders:
+      automatically_managed_folders: "Automatically managed folders"
+      application_password: "Application password"
+    label_managed_project_folders_breadcrumb: "Automatically managed project folders"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
@@ -110,4 +128,5 @@ tr:
     confirm_replace_oauth_application: "Emin misiniz? Tüm kullanıcıların OpenProject'e karşı yeniden yetkilendirmesi gerekecektir."
     confirm_replace_oauth_client: "Emin misiniz? Tüm kullanıcılar, depolamaya karşı yeniden yetkilendirme yapmak zorunda kalacak."
     oauth_client_details_missing: "Kurulumu tamamlamak için lütfen depolama alanınızdan OAuth istemci kimlik bilgilerini ekleyin."
+    automatically_managed_project_folder_missing: "To complete the setup, please configure automatically managed project folders for your storage."
     notice_oauth_application_replaced: "OpenProject OAuth uygulaması başarıyla değiştirildi."

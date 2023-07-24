@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './../../support/onboarding/onboarding_steps'
+require_relative '../../support/onboarding/onboarding_steps'
 
 RSpec.describe 'team planner onboarding tour',
                js: true,

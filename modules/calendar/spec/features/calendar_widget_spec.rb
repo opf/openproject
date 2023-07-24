@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../../../overviews/spec/support/pages/overview'
 
-RSpec.describe 'Calendar drag&dop and resizing', js: true do
+RSpec.describe 'Calendar Widget', :js, :with_cuprite do
   let(:project) do
     create(:project, enabled_module_names: %w[work_package_tracking calendar_view])
   end
@@ -61,7 +61,6 @@ RSpec.describe 'Calendar drag&dop and resizing', js: true do
     # within top-left area, add an additional widget
     overview_page.add_widget(1, 1, :row, 'Calendar')
 
-    sleep(1)
     overview_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
     # Clicking the calendar entry goes to work package full screen

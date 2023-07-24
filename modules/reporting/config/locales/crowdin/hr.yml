@@ -81,6 +81,9 @@ hr:
   units: "Jedinice"
   validation_failure_date: "nije valjan datum"
   validation_failure_integer: "nije valjan cijeli broj"
+  export:
+    cost_reports:
+      title: "Your Cost Reports XLS export"
   reporting:
     group_by:
       selected_columns: "Selected columns"

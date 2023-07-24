@@ -195,8 +195,6 @@ ca:
       no_results_content_text: Crea un camp personalitzat nou
   concatenation:
     single: 'o'
-  documentation:
-    see_more_link: Per més informació, si us plau, veu la nostra documentació en relació amb aquest tòpic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -266,7 +264,7 @@ ca:
       notice_reset_token: "S'ha generat un nou token %{type}. El teu token d'accés és:"
       token_value_warning: "Nota: Aquesta és la única vegada que veuràs aquest token, assegura't de copiar-lo ara."
       no_results_title_text: Actualment no hi ha cap token d'accés disponible.
-      notice_ical_tokens_reverted: "El token d'iCalendar \"%{token_name}\" per al calendari \"%{calendar_name}\" en el projecte \"%{project_name}\" s'ha revocat. L'URL d'iCalendar amb aquest token és ara invàlida."
+      notice_ical_token_revoked: "El token d'iCalendar \"%{token_name}\" per al calendari \"%{calendar_name}\" en el projecte \"%{project_name}\" s'ha revocat. L'URL d'iCalendar amb aquest token és ara invàlida."
   news:
     index:
       no_results_title_text: Actualment no hi ha cap novetat per a informar.
@@ -524,6 +522,7 @@ ca:
         hours: "Hores"
         spent_on: "Data"
         type: "Tipus"
+        ongoing: "En curs"
       type:
         description: "Text per defecte per la descripció"
         attribute_groups: ''
@@ -1063,6 +1062,7 @@ ca:
   button_continue: "Continua"
   button_copy: "Copiar"
   button_copy_to_clipboard: "Copiar al porta-retalls"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Copiar i continuar"
   button_create: "Crear"
   button_create_and_continue: "Crear i continuar"
@@ -1299,8 +1299,8 @@ ca:
   error_enterprise_activation_user_limit: "El teu compte no s'ha pogut activar (límit d'usuaris assolit). Si us plau, contacte amb el teu administrador per obtenir accés."
   error_enterprise_token_invalid_domain: "L'edició Enterprise no està activa. El domini del token Enterprise (%{actual}) no concorda amb el nom d'allotjament del sistema (%{expected})."
   error_failed_to_delete_entry: 'Error a l''eliminar aquesta entrada.'
-  error_in_dependent: "Error en intentar alterar objectes dependents: %{dependent_class} #%{related_id} -%{related_subject}: %{error}" #%{related_id} -%{related_subject}: %{error}"
-  error_in_new_dependent: "Error en intentar crear objectes dependents: %{dependent_class} #%{related_id} -%{related_subject}: %{error}" #%{related_id} -%{related_subject}: %{error}"
+  error_in_dependent: "Error en intentar alterar objectes dependents: %{dependent_class} #%{related_id} -%{related_subject}: %{error}"
+  error_in_new_dependent: "Error en intentar crear objectes dependents: %{dependent_class} #%{related_id} -%{related_subject}: %{error}"
   error_invalid_selected_value: "Valor seleccionat invàlid."
   error_journal_attribute_not_present: "El diari no conté l'atribut %{attribute}."
   error_pdf_export_too_many_columns: "Masses columnes seleccionades per a l'exportació PDF. Si us plau, redueix el nombre de columnes."
@@ -1318,6 +1318,7 @@ ca:
   error_password_change_failed: 'Hi ha hagut un error l''intentar canviar la contrasenya.'
   error_scm_command_failed: "S'ha produït un error en intentar accedir al repositori: %{value}"
   error_scm_not_found: "No s'ha trobat l'entrada o la revisió en el repositori."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "No es pot suprimir l'estat del paquet de treball ja que és utilitzat per almenys un paquet de treball."
   error_unable_delete_default_status: "No es pot suprimir l'estat per defecte del paquet de treball. Seleccioneu un altre estat de paquet de treball per defecte abans de suprimir l'actual."
   error_unable_to_connect: "No s'ha pogut connectar (%{value})"
@@ -1408,21 +1409,21 @@ ca:
   journals:
     changes_retracted: "S'han retractat els canvis."
     caused_changes:
-      dates_changed: "Dates changed"
+      dates_changed: "Les dates han canviat"
     cause_descriptions:
-      work_package_predecessor_changed_times: by changes to predecessor %{link}
-      work_package_parent_changed_times: by changes to parent %{link}
-      work_package_children_changed_times: by changes to child %{link}
-      work_package_related_changed_times: by changes to related %{link}
-      unaccessable_work_package_changed: by changes to a related work package
+      work_package_predecessor_changed_times: per canvis en el predecessor %{link}
+      work_package_parent_changed_times: per canvis en el pare %{link}
+      work_package_children_changed_times: per canvis en el fill %{link}
+      work_package_related_changed_times: per canvis en el relacionat %{link}
+      unaccessable_work_package_changed: per canvis a un paquet de treball relacionat
       working_days_changed:
-        changed: "by changes to working days (%{changes})"
+        changed: "per canvis en els dies laborals (%{changes})"
         days:
-          working: "%{day} is now working"
-          non_working: "%{day} is now non-working"
+          working: "%{day} és ara laboral"
+          non_working: "%{day} és ara no laboral"
         dates:
-          working: "%{date} is now working"
-          non_working: "%{date} is now non-working"
+          working: "%{date} és ara laboral"
+          non_working: "%{date} és ara no laboral"
   links:
     configuration_guide: 'Guia de configuració'
     get_in_touch: "Tens preguntes? Posa't en contacte amb nosaltres."
@@ -1489,6 +1490,7 @@ ca:
   label_age: "Edat"
   label_ago: "dies abans"
   label_all: "tot"
+  label_all_projects: "All projects"
   label_all_time: "tot el temps"
   label_all_words: "Totes les paraules"
   label_all_open_wps: "Tots els oberts"
@@ -1505,6 +1507,7 @@ ca:
   label_ical_access_key_revoke: "Revoca"
   label_applied_status: "Estat aplicat"
   label_archive_project: "Arxiva el projecte"
+  label_archived_projects: "Archived projects"
   label_ascending: "Ascendent"
   label_assigned_to_me_work_packages: "Paquets de treball assignats a mi"
   label_associated_revisions: "Revisions associades"
@@ -1641,6 +1644,7 @@ ca:
   label_everywhere: "a tot arreu"
   label_example: "Exemple"
   label_experimental: "Experimental"
+  label_i_am_member: "I am member"
   label_import: "Importació"
   label_export_to: "També disponible en:"
   label_expanded_click_to_collapse: "Desplegat. Fes clic per col·lapsar"
@@ -1677,6 +1681,7 @@ ca:
   label_hierarchy_leaf: "Branca de jerarquia"
   label_home: "Inici"
   label_subject_or_id: "Subjecte o ID"
+  label_icalendar: "iCalendar"
   label_impressum: "Avís legal"
   label_in: "en"
   label_in_less_than: "en menys de"
@@ -1720,7 +1725,7 @@ ca:
   label_logged_as: "Connectat com a"
   label_login: "Iniciar sessió"
   label_custom_logo: "Logotips personalitzats"
-  label_custom_export_logo: "Custom export logo"
+  label_custom_export_logo: "Exportar logo personalitzat"
   label_custom_favicon: "Favicon personalitzat"
   label_custom_touch_icon: "Icona \"touch\" personalitzada"
   label_logout: "Tancar sessió"
@@ -2078,7 +2083,7 @@ ca:
       more_to_see:
         one: 'Hi ha un paquet de treball més amb notificacions.'
         other: 'Hi han %{count} paquets de treball més amb notificacions.'
-      open_in_browser: 'Open in browser'
+      open_in_browser: 'Obre al navegador'
       reason:
         watched: 'Observat'
         assigned: 'Assignat'
@@ -2343,7 +2348,7 @@ ca:
       archived: "Arxivat"
   project_module_activity: "Activitat"
   project_module_forums: "Fòrums"
-  project_module_work_package_tracking: "Paquet de treball de seguiment"
+  project_module_work_package_tracking: "Paquets de treball"
   project_module_news: "Notícies"
   project_module_repository: "Repositori"
   project_module_wiki: "Wiki"
@@ -2527,7 +2532,7 @@ ca:
   setting_enabled_scm: "Activar SCM"
   setting_enabled_projects_columns: "Visible en la llista de projectes"
   setting_feeds_enabled: "Habilita els canals"
-  setting_ical_enabled: "Activa la subscripció d'iCalendar"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Límit de contingut del canals"
   setting_file_max_size_displayed: "Mida màxima dels fitxers de text mostrats en línia"
   setting_host_name: "Nom del servidor"
@@ -2591,34 +2596,21 @@ ca:
   setting_work_package_list_default_highlighted_attributes: "Atributs de destacament en línia per defecte"
   setting_working_days: "Dies laborals"
   settings:
-    general: "General"
-    other: "Altres"
-    passwords: "Contrasenyes"
-    session: "Sessió"
-    brute_force_prevention: "Bloqueig automàtic d'usuari"
     attachments:
       whitelist_text_html: >
         Defineix una llista vàlida d'extensions de fitxers i/o classes MIME per carregar fitxers. <br/>Introdueïx extensions de fitxers (ex. <code>%{ext_example}</code>) o classes MIME (ex. <code>%{mime_example}</code>). <br/> Deixa el camp buit per permetre qualsevol classe de fitxer. Es permeten múltiples valors (una línia per cada valor).
+    brute_force_prevention: "Bloqueig automàtic d'usuari"
     language_name_being_default: '%{language_name} (default)'
-    notifications:
-      events_explanation: 'Controla per a quins esdeveniments s''envien correus electrònics. Els paquets de treball estan exclosos d''aquesta llista, ja que les seves notificacions poden ser configurades específicament per a cada usuari.'
-      delay_minutes_explanation: "L'enviada de correus electrònics pot ser endarrerida per permetre als usuaris amb notificacions dins l'aplicació confirmar la notificació dins de l'aplicació abans que s'enviï. Els usuaris que han llegit la notificació a l'aplicació no rebran el correu electrònic, ja que ja han llegit la notificació."
-    display:
+    date_format:
       first_date_of_week_and_year_set: >
-        Si alguna de les opcions "%{day_of_week_setting_name}" o "%{first_week_setting_name}" estan configurades, l'altre ha d'estar també configurada per evitar inconsistències en l'aplicació.
-      first_week_of_year_text: >
-        Selecciona la data de gener que està continguda dins la primera setmana de l'any. Aquest valor conjuntament amb el primer dia de la setmana estipula el nombre total de setmanes de l'any.
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    general: "General"
     experimental:
       save_confirmation: Alerta! Risc de pèrdua de dades! Només activa les funcions experimentals si no t'importà desconfigurar la teva instal·lació d'OpenProject o perdre dades.
       warning_toast: Els marcadors de funcions són una funcionalitat que activa funcions que encara estan en desenvolupament. Només s'han d'utilitzar per a realitzar tests. No s'han d'activar mai a instal·lacions d'OpenProject amb dades importants. Aquestes funcions poden, molt probablement, corrompre les teves dades. Utilitza-les sota el teu propi risc.
       feature_flags: Marcadors de funcions
-    projects:
-      section_new_projects: "Configuració per a projectes nous"
-      section_project_overview: "Configuracions per a la llista de visió general del projecte"
-    user:
-      default_preferences: "Preferències per defecte"
-      display_format: "Format the visualització"
-      deletion: "Eliminació"
     highlighting:
       mode_long:
         inline: "Atribut(s) de destacament en línia"
@@ -2626,6 +2618,23 @@ ca:
         status: "Fila sencera per Estat"
         type: "Fila sencera per Classe"
         priority: "Fila sencera per Prioritat"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    notifications:
+      events_explanation: 'Controla per a quins esdeveniments s''envien correus electrònics. Els paquets de treball estan exclosos d''aquesta llista, ja que les seves notificacions poden ser configurades específicament per a cada usuari.'
+      delay_minutes_explanation: "L'enviada de correus electrònics pot ser endarrerida per permetre als usuaris amb notificacions dins l'aplicació confirmar la notificació dins de l'aplicació abans que s'enviï. Els usuaris que han llegit la notificació a l'aplicació no rebran el correu electrònic, ja que ja han llegit la notificació."
+    other: "Altres"
+    passwords: "Contrasenyes"
+    projects:
+      section_new_projects: "Configuració per a projectes nous"
+      section_project_overview: "Configuracions per a la llista de visió general del projecte"
+    session: "Sessió"
+    user:
+      default_preferences: "Preferències per defecte"
+      display_format: "Format the visualització"
+      deletion: "Eliminació"
     working_days:
       section_work_week: "Setmana laboral"
       section_holidays_and_closures: "Vacances i tancaments"
@@ -2668,11 +2677,11 @@ ca:
   text_custom_logo_instructions: >
     Es recomana un logo blanc amb fons transparent. Per a un millor resultat tant en pantalles retina o convencionals assegura't que la teva imatge té unes dimensions de 460px per 60px.
   text_custom_export_logo_instructions: >
-    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+    Aquest és logotip que apareix en les teves exportacions PDF. Necessita ser una imatge en format PNG o JPG. Es recomana un logotip negre o de color amb fons transparent o blanc.
   text_custom_favicon_instructions: >
-    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+    Aquest és la icona petita que apareix a la pantalla del navegador just al costat del títol de la pàgina. Ha de ser un PNG de 32 per 32 píxels amb un fons transparent.
   text_custom_touch_icon_instructions: >
-    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
+    Aquesta és la icona que apareix en el teu telèfon mòbil o tauleta quan guardes la web com a "bookmark" a la teva pantalla d'inici. Ha de ser un PNG quadrat de 180 per 180 píxels. Si us plau, assegura't que el fons de la imatge no és transparent per un millor resultat en iOS.
   text_database_allows_tsv: "La base de dades permet TSVector (opcional)"
   text_default_administrator_account_changed: "S'ha canviat el compte d'administrador predeterminat"
   text_default_encoding: "Per defecte: UTF-8"

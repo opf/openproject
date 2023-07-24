@@ -29,6 +29,7 @@ ar:
         participants: "المشاركون"
         participants_attended: "الحضور"
         participants_invited: "المدعوّون"
+        project: "Project"
         start_time: "الوقت"
         start_time_hour: "وقت البدء"
     errors:
@@ -61,6 +62,13 @@ ar:
   label_meeting_agenda_close: "أغلِق جدول الأعمال للبدء في محضر الجلسة"
   label_meeting_date_time: "التاريخ/الوقت"
   label_meeting_diff: "الاختلاف"
+  label_upcoming_meetings: "Upcoming meetings"
+  label_past_meetings: "Past meetings"
+  label_involvement: "Involvement"
+  label_upcoming_invitations: "Upcoming invitations"
+  label_past_invitations: "Past invitations"
+  label_attendee: "Attendee"
+  label_author: "Creator"
   label_notify: "إرسال للمراجعة"
   label_icalendar: "إرسال iCalendar"
   label_version: "النسخة"
@@ -85,7 +93,7 @@ ar:
   text_duration_in_hours: "المدة بالساعات"
   text_in_hours: "في الساعات"
   text_meeting_agenda_for_meeting: 'جدول أعمال للاجتماع "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the agenda?"
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting agenda?"
   text_meeting_agenda_open_are_you_sure: "سيؤدي هذا إلى استبدال جميع التغييرات في المقرر! هل تريد المتابعة؟"
   text_meeting_minutes_for_meeting: 'محضر الجسلة للاجتماع "%{meeting}"'
   text_review_meeting_agenda: "%{author} طرح %{link} للمراجعة."

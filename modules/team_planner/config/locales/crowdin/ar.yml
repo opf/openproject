@@ -2,12 +2,18 @@
 ar:
   permission_view_team_planner: "عرض مخطط الفريق"
   permission_manage_team_planner: "إدارة مخطط الفريق"
-  project_module_team_planner_view: "مخطط الفريق"
+  project_module_team_planner_view: "مخططي الفريق"
   team_planner:
     label_team_planner: "مخطط الفريق"
+    label_new_team_planner: "New team planner"
     label_create_new_team_planner: "إنشاء مخطط فريق جديد"
     label_team_planner_plural: "مخططي الفريق"
     label_assignees: "المعينون"
+    label_favoured: "Favoured"
+    help_text:
+      project: Team planners are always attached to a project. After creating a team planner you can add work packages from other projects to it.
+      public: Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+      favoured: Mark this view as favourite and add to the saved views sidebar on the left.
     upsale:
       title: "مخطط الفريق"
       description: "احصل على نظرة عامة كاملة لتخطيط فريقك مع فريق تخطيط العمل. تمديد, اختصار و سحب و إسقاط مجموعات العمل لتعديل التواريخ أو نقلها أو تغيير المحال إليهم."

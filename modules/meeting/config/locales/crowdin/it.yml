@@ -29,6 +29,7 @@ it:
         participants: "Partecipanti"
         participants_attended: "Invitati"
         participants_invited: "Invitati"
+        project: "Project"
         start_time: "Tempo"
         start_time_hour: "Ora di inizio"
     errors:
@@ -61,6 +62,13 @@ it:
   label_meeting_agenda_close: "Chiudere l'agenda per iniziare i verbali"
   label_meeting_date_time: "Data/ora"
   label_meeting_diff: "Differenza"
+  label_upcoming_meetings: "Upcoming meetings"
+  label_past_meetings: "Past meetings"
+  label_involvement: "Involvement"
+  label_upcoming_invitations: "Upcoming invitations"
+  label_past_invitations: "Past invitations"
+  label_attendee: "Attendee"
+  label_author: "Creator"
   label_notify: "Invia per revisione"
   label_icalendar: "Invia iCalendar"
   label_version: "Versione"
@@ -85,7 +93,7 @@ it:
   text_duration_in_hours: "Durata in ore"
   text_in_hours: "in ore"
   text_meeting_agenda_for_meeting: 'ordine del giorno della riunione "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Vuoi davvero chiudere l'agenda?"
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting agenda?"
   text_meeting_agenda_open_are_you_sure: "Questo sovrascriverà tutte le modifiche nei verbali! Vuoi continuare?"
   text_meeting_minutes_for_meeting: 'verbali per l''incontro "%{meeting}"'
   text_review_meeting_agenda: "%{author} ha pubblicato %{link} per la revisione."

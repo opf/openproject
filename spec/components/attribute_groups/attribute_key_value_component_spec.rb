@@ -37,4 +37,27 @@ RSpec.describe AttributeGroups::AttributeKeyValueComponent, type: :component do
     expect(page).to have_css('.attributes-key-value--key', text: 'Attribute Key') &
       have_css('.attributes-key-value--value.-text', text: 'Attribute Value')
   end
+
+  context 'with value and content' do
+    it 'renders the content' do
+      render_inline(described_class.new(key: 'Attribute Key', value: 'Attribute Value')) do
+        "<p class='test--content'>Content Value</p>"
+      end
+
+      expect(page).to have_css('.attributes-key-value--key', text: 'Attribute Key') &
+        have_css('.attributes-key-value--value.-text', text: 'Attribute Value') &
+        have_css('.attributes-key-value--value.-text', text: "<p class='test--content'>Content Value</p>")
+    end
+  end
+
+  context 'with content, no value' do
+    it 'renders the content' do
+      render_inline(described_class.new(key: 'Attribute Key')) do
+        "<p class='test--content'>Content Value</p>"
+      end
+
+      expect(page).to have_css('.attributes-key-value--key', text: 'Attribute Key') &
+        have_css('.attributes-key-value--value.-text', text: "<p class='test--content'>Content Value</p>")
+    end
+  end
 end

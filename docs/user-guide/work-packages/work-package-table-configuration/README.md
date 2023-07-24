@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Configure work package table
-  priority: 700
+  priority: 950
 description: How to configure the work package list in OpenProject.
 keywords: work packages table configuration, work package table, columns, filter, group
 ---
@@ -52,7 +52,7 @@ Clicking the **Apply** button will save your changes and adapt the table accordi
 
 ## Filter work packages
 
-In the work package table there will soon be quite a lot of work packages in a project. To filter the work packages in the table, click on the **Filter** button on top of the work packages view. The number next to it tells you how many filter criteria you have applied to a table.
+To filter the work packages in the table, click on the **Filter** button on top of the work packages view. The number next to it tells you how many filter criteria you have applied to a table.
 
 In this example one filter criterion is applied: Status = open.
 
@@ -66,6 +66,21 @@ You can add as many filter criteria as needed.
 Also, you can filter by [custom fields](../../../system-admin-guide/custom-fields) if you set this in the custom field configuration.
 
 > **Good to know**: Filtering a work package table will temporarily change the default work package type and default status to the values used in the filters to make newly created work packages visible in the table.
+
+### Filter operators
+
+Different attributes offer different filter criteria but most selection attributes like Assignee offer these:
+
+- **is (OR)**: returns all work packages that match any one of the entered values
+- **is not**: returns all work packaged that do not match any of the entered values
+- **is not empty**: returns all work packages for which the attribute has a value
+- **is empty**: returns all work packages for which the attribute does not have a value
+
+Multi-select attributes also have one extra options:
+
+- **is (AND)**: returns all work packages that match _all_ of the entered values.
+
+Other attributes like Status might offer additional criteria like _open_ or _closed_. Required attributes might only offer two options, _is (OR)_ and _is not_, since they cannot be empty.
 
 
 ### Filter by text

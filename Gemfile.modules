@@ -28,7 +28,6 @@ group :opf_plugins do
   gem 'costs',                                 path: 'modules/costs'
   gem 'openproject-reporting',                 path: 'modules/reporting'
   gem 'openproject-meeting',                   path: 'modules/meeting'
-  gem 'openproject-pdf_export',                path: 'modules/pdf_export'
   gem "openproject-backlogs",                  path: 'modules/backlogs'
   gem 'openproject-avatars',                   path: 'modules/avatars'
   gem 'openproject-two_factor_authentication', path: 'modules/two_factor_authentication'

@@ -34,9 +34,9 @@ RSpec.describe Storages::ManageNextcloudIntegrationEventsJob, type: :job do
       ActiveJob::Base.disable_test_adapter
 
       other_handler = Storages::ManageNextcloudIntegrationCronJob.perform_later.provider_job_id
-      same_handler_within_timeframe1 = described_class.set(wait: 10.seconds).perform_later.provider_job_id
-      same_handler_within_timeframe2 = described_class.set(wait: 12.seconds).perform_later.provider_job_id
-      same_handler_within_timeframe3 = described_class.set(wait: 16.seconds).perform_later.provider_job_id
+      same_handler_within_timeframe1 = described_class.set(wait: 1.seconds).perform_later.provider_job_id
+      same_handler_within_timeframe2 = described_class.set(wait: 2.seconds).perform_later.provider_job_id
+      same_handler_within_timeframe3 = described_class.set(wait: 3.seconds).perform_later.provider_job_id
       same_handler_out_of_timeframe = described_class.set(wait: 1.minute).perform_later.provider_job_id
       same_handler_within_timeframe_in_progress = described_class.set(wait: 18.seconds).perform_later.tap do |job|
         # simulate in progress state

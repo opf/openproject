@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Set and change dates and duration
-  priority: 890
+  priority: 970
 description: How to use the date picker to set and update the start date, finish date and duration of a work packages
 keywords: date picker start finish dates duration change modify update relations work package
 ---
@@ -65,6 +65,9 @@ Date changes are documented in the work package [Activity](../../activity/).
 - For a work package that already has a start and finish date, it is possible to adjust just the finish date: click on the finish date field and then click on a new date. As long as this date is after the start date, the finish date will update accordingly. If the date you pick is earlier than the start date, the original start date will then be cleared and a click on a second date will define the other end of the new range.
 
 - It is possible to set only one of the two dates. To do this, click on the field you would like to set (start date is selected by default, but you can change this manually to finish date) and click on a date. Then save without selecting a second date. Alternatively, if a a range is already selected, simply remove one of the dates and save.
+
+
+**Note**: The precedes-follows relation can constrain or affect the dates of work packages. For more information, see [Moving related work packages](../work-package-relations-hierarchies#moving-related-work-packages).
 
 ### One-day events
 

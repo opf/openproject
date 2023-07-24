@@ -197,8 +197,6 @@ sl:
       no_results_content_text: Ustvarite novo uporabniško lastnost
   concatenation:
     single: 'ali'
-  documentation:
-    see_more_link: Za več informacij si poglejte našo dokumentacijo na to temo.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -268,7 +266,7 @@ sl:
       notice_reset_token: "Ustvarjen je bil nov %{type} simbol. Vaš dostopni simbol je:"
       token_value_warning: "Opomba: To simbol boste videli samo zdaj, prepričajte se, da ga kopirate."
       no_results_title_text: Trenutno ni na voljo simbolov za dostop.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Trenutno ni nobenih novic za poročanje.
@@ -527,6 +525,7 @@ sl:
         hours: "Ure"
         spent_on: "Datum"
         type: "Vrsta"
+        ongoing: "Ongoing"
       type:
         description: "Privzeto besedilo za opis"
         attribute_groups: ''
@@ -1077,7 +1076,8 @@ sl:
   button_configure: "Nastavi"
   button_continue: "Nadaljuj"
   button_copy: "Kopiraj"
-  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_to_clipboard: "Kopiraj v odložišče"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Kopiraj in sledi"
   button_create: "Ustvari"
   button_create_and_continue: "Ustvari in nadaljuj"
@@ -1338,7 +1338,7 @@ sl:
   error_enterprise_activation_user_limit: "Vašega računa ni bilo mogoče aktivirati (dosežena uporabniška omejitev). Če želite dobiti dostop, se obrnite na skrbnika."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Izbris tega vnosa ni bilo mogoče.'
-  error_in_dependent: "Napaka pri spremembi odvisnega predmeta: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Napaka pri spremembi odvisnega predmeta: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Neveljavna izbrana vrednost."
   error_journal_attribute_not_present: "Dnevnik ne vsebuje atributa %{attribute}."
@@ -1357,6 +1357,7 @@ sl:
   error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Med vzpostavljem povezave s shrambo je prišlo do napake: %{value}"
   error_scm_not_found: "Vnos ali revizija v shrambi ni bila najdena ."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "Stanja delovnega paketa ni mogoče izbrisati, saj ga uporablja vsaj en delovni paket."
   error_unable_delete_default_status: "Privzetega stanja delovnega paketa ni mogoče izbrisati. Pred brisanjem trenutnega izberite drug status privzetega delovnega paketa."
   error_unable_to_connect: "Povezava ni mogoča (%{value})"
@@ -1528,6 +1529,7 @@ sl:
   label_age: "Starost"
   label_ago: "pred dnevi"
   label_all: "vsi"
+  label_all_projects: "All projects"
   label_all_time: "Ves čas"
   label_all_words: "Vse besede"
   label_all_open_wps: "Vse odprto"
@@ -1544,6 +1546,7 @@ sl:
   label_ical_access_key_revoke: "Prekliči"
   label_applied_status: "Uveljavljeno stanje"
   label_archive_project: "Arhivirani projekti"
+  label_archived_projects: "Archived projects"
   label_ascending: "Naraščajoče"
   label_assigned_to_me_work_packages: "Delovni paketi, ki so mi bili dodeljeni"
   label_associated_revisions: "Povezane revizije"
@@ -1630,7 +1633,7 @@ sl:
   label_database_version: "PostgreSQL verzija"
   label_date: "Datum"
   label_date_and_time: "Datum in ura"
-  label_date_format: "Date format"
+  label_date_format: "Format datuma"
   label_date_from: "Od"
   label_date_from_to: "Od %{start} do %{end}"
   label_date_to: "Do/za"
@@ -1680,6 +1683,7 @@ sl:
   label_everywhere: "Povsod"
   label_example: "Primer"
   label_experimental: "Experimental"
+  label_i_am_member: "I am member"
   label_import: "Uvozi"
   label_export_to: "Na razpolago tudi v:"
   label_expanded_click_to_collapse: "Razširjeno. Kliknite, če želite strniti"
@@ -1716,6 +1720,7 @@ sl:
   label_hierarchy_leaf: "Hierarhični list"
   label_home: "Domov"
   label_subject_or_id: "Predmet ali ID"
+  label_icalendar: "iCalendar"
   label_impressum: "Pravno obvestilo"
   label_in: "v"
   label_in_less_than: "v manj kot"
@@ -2391,7 +2396,7 @@ sl:
       archived: "Arhiviran"
   project_module_activity: "Aktivnost"
   project_module_forums: "Forumi"
-  project_module_work_package_tracking: "Sledenje delovnega paketa"
+  project_module_work_package_tracking: "Delovni paketi"
   project_module_news: "Novice"
   project_module_repository: "Repozitorij"
   project_module_wiki: "Wiki"
@@ -2564,7 +2569,7 @@ sl:
   setting_consent_decline_mail: "Kontaktni naslov elektronske pošte"
   setting_cross_project_work_package_relations: "Dovoli povezave delovnih paketov od različnih projektov"
   setting_first_week_of_year: "Prvi teden v letu vsebuje"
-  setting_date_format: "Date"
+  setting_date_format: "Datum"
   setting_default_language: "Privzeti jezik"
   setting_default_projects_modules: "Privzeti omogočeni moduli za nove projekte"
   setting_default_projects_public: "Novi projekti so privzeto javni"
@@ -2576,7 +2581,7 @@ sl:
   setting_enabled_scm: "Omogočen SCM"
   setting_enabled_projects_columns: "Vidno na seznamu projektov"
   setting_feeds_enabled: "Omogoči vire"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Omejitev vsebine vira"
   setting_file_max_size_displayed: "Največja velikost besedilnih datotek, prikazanih v vrstici"
   setting_host_name: "Ime gostitelja"
@@ -2627,7 +2632,7 @@ sl:
   setting_start_of_week: "Teden se začne na (Automatic Translation)"
   setting_sys_api_enabled: "Omogoči spletno storitev upravljanja repozitorija"
   setting_sys_api_description: "Spletna storitev za upravljanje skladišča nudi integracijo in pooblastilo uporabnika za dostop do repozitorija."
-  setting_time_format: "Time"
+  setting_time_format: "Čas"
   setting_accessibility_mode_for_anonymous: "Omogoči način dostopa za anonimne uporabnike"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Uporabniški privzeti časovni pas"
@@ -2640,34 +2645,21 @@ sl:
   setting_work_package_list_default_highlighted_attributes: "Privzeti atributi, označeni s črto"
   setting_working_days: "Working days"
   settings:
-    general: "Splošno"
-    other: "Drugo"
-    passwords: "Gesla"
-    session: "Seja"
-    brute_force_prevention: "Avtomatično blokiranje uporabnika"
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    brute_force_prevention: "Avtomatično blokiranje uporabnika"
     language_name_being_default: '%{language_name} (default)'
-    notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-    display:
+    date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
-      first_week_of_year_text: >
-        Izberi datum v januarju, ki je v prvem tednu leta. Ta vrednost skupaj s prvim dnevom tedna določi skupno število tednov v letu.
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    general: "Splošno"
     experimental:
       save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Feature flags
-    projects:
-      section_new_projects: "Nastavitve za nove projekte"
-      section_project_overview: "Nastavitve za seznam pregleda projekta."
-    user:
-      default_preferences: "Privzete nastavitve"
-      display_format: "Display format"
-      deletion: "brisanje"
     highlighting:
       mode_long:
         inline: "Označite atribut(e) v vrstici"
@@ -2675,6 +2667,23 @@ sl:
         status: "Celotna vrstica razvrščena glede na Status"
         type: "Celotna vrstica glede na Tip"
         priority: "Celotna vrstica glede na pomembnost."
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    notifications:
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+    other: "Drugo"
+    passwords: "Gesla"
+    projects:
+      section_new_projects: "Nastavitve za nove projekte"
+      section_project_overview: "Nastavitve za seznam pregleda projekta."
+    session: "Seja"
+    user:
+      default_preferences: "Privzete nastavitve"
+      display_format: "Display format"
+      deletion: "brisanje"
     working_days:
       section_work_week: "Work week"
       section_holidays_and_closures: "Holidays and closures"

@@ -81,6 +81,9 @@ ro:
   units: "Unități"
   validation_failure_date: "nu e o dată validă"
   validation_failure_integer: "nu e un întreg valid"
+  export:
+    cost_reports:
+      title: "Your Cost Reports XLS export"
   reporting:
     group_by:
       selected_columns: "Coloane selectate"

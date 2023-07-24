@@ -320,14 +320,14 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   def reassign_status(available_statuses)
     return if available_statuses.include?(work_package.status) || work_package.status.is_a?(Status::InexistentStatus)
 
-    new_status = available_statuses.detect(&:is_default) || available_statuses.first
+    new_status = available_statuses.detect(&:is_default) || available_statuses.first || Status.default
     work_package.status = new_status if new_status.present?
   end
 
   def reassign_invalid_status_if_type_changed
     # Checks that the issue can not be moved to a type with the status unchanged
     # and the target type does not have this status
-    if work_package.type_id_changed? && !work_package.status_id_changed?
+    if work_package.type_id_changed?
       reassign_status work_package.type.statuses(include_default: true)
     end
   end

@@ -65,7 +65,8 @@ ar:
     button_confirm: "تأكيد"
     button_continue: "Continue"
     button_copy: "انسخ"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "نسخ إلى الحافظة"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "الحقول المخصصة"
     button_delete: "احذف"
@@ -741,6 +742,14 @@ ar:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'وقت السجل'
+      tracking: 'تعقب الوقت'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
@@ -799,7 +808,8 @@ ar:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'حدد العلامة'
       select_branch: 'اختر فرع'

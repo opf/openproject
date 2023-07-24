@@ -48,10 +48,15 @@ class Projects::TemplatedController < ApplicationController
 
     if service_call.success?
       flash[:notice] = t(:notice_successful_update)
-      redirect_to project_settings_general_path(@project)
     else
-      @errors = service_call.errors
-      render template: 'projects/settings/general'
+      messages = [
+        t('activerecord.errors.template.header', model: Project.model_name.human, count: service_call.errors.count),
+        service_call.message
+      ]
+
+      flash[:error] = messages.join(". ")
     end
+
+    redirect_to project_settings_general_path(@project)
   end
 end

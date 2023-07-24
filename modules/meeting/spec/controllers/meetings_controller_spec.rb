@@ -95,14 +95,32 @@ RSpec.describe MeetingsController do
         allow(Meeting).to receive(:new).and_return(meeting)
       end
 
-      describe 'html' do
-        before do
-          get 'new',  params: { project_id: project.id }
-        end
+      shared_examples_for 'new action' do |response_type:|
+        describe response_type do
+          context 'when requesting the page without a project id' do
+            before do
+              get 'new'
+            end
 
-        it { expect(response).to be_successful }
-        it { expect(assigns(:meeting)).to eql meeting }
+            it { expect(response).to be_successful }
+            it { expect(assigns(:meeting)).to eql meeting }
+            it { expect(assigns(:project)).to be_nil }
+          end
+
+          context 'when requesting the page with a project id' do
+            before do
+              get 'new', params: { project_id: project.id }
+            end
+
+            it { expect(response).to be_successful }
+            it { expect(assigns(:meeting)).to eql meeting }
+            it { expect(assigns(:project)).to eql project }
+          end
+        end
       end
+
+      it_behaves_like 'new action', response_type: 'html'
+      it_behaves_like 'new action', response_type: 'turbo_stream'
     end
 
     describe 'edit' do

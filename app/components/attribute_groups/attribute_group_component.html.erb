@@ -30,9 +30,11 @@ See COPYRIGHT and LICENSE files for more details.
 <div class="attributes-group">
   <%= header %>
 
-  <div class="attributes-key-value">
+  <div class="attributes-group--attributes">
     <% attributes.each do |attribute| %>
-      <%= attribute %>
+      <div class="attributes-key-value">
+        <%= attribute %>
+      </div>
     <% end %>
   </div>
 

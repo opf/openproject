@@ -412,6 +412,7 @@ OpenProject::Application.routes.draw do
       resource :working_days, controller: '/admin/settings/working_days_settings', only: %i[show update]
       resource :users, controller: '/admin/settings/users_settings', only: %i[show update]
       resource :date_format, controller: '/admin/settings/date_format_settings', only: %i[show update]
+      resource :icalendar, controller: '/admin/settings/icalendar_settings', only: %i[show update]
 
       # Redirect /settings to general settings
       get '/', to: redirect('/admin/settings/general')
@@ -568,7 +569,9 @@ OpenProject::Application.routes.draw do
     patch '/my/settings', action: 'update_settings'
 
     post '/my/generate_rss_key', action: 'generate_rss_key'
+    delete '/my/revoke_rss_key', action: 'revoke_rss_key'
     post '/my/generate_api_key', action: 'generate_api_key'
+    delete '/my/revoke_api_key', action: 'revoke_api_key'
     delete '/my/revoke_ical_token', action: 'revoke_ical_token'
     get '/my/access_token', action: 'access_token'
   end

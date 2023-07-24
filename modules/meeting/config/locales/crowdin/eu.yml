@@ -29,6 +29,7 @@ eu:
         participants: "Parte-hartzaileak"
         participants_attended: "Bertaratuak"
         participants_invited: "Gonbidatuak"
+        project: "Project"
         start_time: "Ordua"
         start_time_hour: "Hasiera ordua"
     errors:
@@ -61,6 +62,13 @@ eu:
   label_meeting_agenda_close: "Itxi agenda Aktak hasteko."
   label_meeting_date_time: "Data/Ordua"
   label_meeting_diff: "Diferentzia"
+  label_upcoming_meetings: "Upcoming meetings"
+  label_past_meetings: "Past meetings"
+  label_involvement: "Involvement"
+  label_upcoming_invitations: "Upcoming invitations"
+  label_past_invitations: "Past invitations"
+  label_attendee: "Attendee"
+  label_author: "Creator"
   label_notify: "Berrikustera bidali"
   label_icalendar: "Bidali iEgutegia"
   label_version: "Bertsioa"
@@ -85,7 +93,7 @@ eu:
   text_duration_in_hours: "Iraupena ordutan"
   text_in_hours: "in hours"
   text_meeting_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the agenda?"
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting agenda?"
   text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
   text_meeting_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
   text_review_meeting_agenda: "%{author} has put the %{link} up for review."

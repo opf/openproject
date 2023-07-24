@@ -94,6 +94,7 @@ RSpec.describe 'API v3 storages resource', content_type: :json, webmock: true do
     before do
       mock_server_capabilities_response(host)
       mock_server_config_check_response(host)
+      mock_nextcloud_application_credentials_validation(host)
     end
 
     subject(:last_response) do
@@ -287,6 +288,10 @@ RSpec.describe 'API v3 storages resource', content_type: :json, webmock: true do
           )
         end
 
+        before do
+          mock_nextcloud_application_credentials_validation(storage.host, password: 'myappsecret')
+        end
+
         subject { last_response.body }
 
         it_behaves_like 'successful response'
@@ -306,6 +311,22 @@ RSpec.describe 'API v3 storages resource', content_type: :json, webmock: true do
         it_behaves_like 'successful response'
 
         it { is_expected.to be_json_eql('false').at_path('hasApplicationPassword') }
+      end
+
+      context 'with invalid applicationPassword' do
+        let(:params) do
+          super().merge(
+            applicationPassword: '123'
+          )
+        end
+
+        before do
+          mock_nextcloud_application_credentials_validation(storage.host, password: '123', response_code: 401)
+        end
+
+        subject { last_response.body }
+
+        it { is_expected.to be_json_eql('Password is not valid.'.to_json).at_path('message') }
       end
     end
   end

@@ -70,13 +70,14 @@ RSpec.describe 'API v3 Configuration resource' do
         .not_to have_json_path('_embedded/user_preferences')
     end
 
-    context 'with feature flags', :settings_reset do
+    context 'with feature flags',
+            :settings_reset,
+            with_env: {
+              'OPENPROJECT_FEATURE_AN_EXAMPLE_ACTIVE' => 'true',
+              'OPENPROJECT_FEATURE_ANOTHER_EXAMPLE_ACTIVE' => 'true',
+              'OPENPROJECT_FEATURE_INACTIVE_EXAMPLE_ACTIVE' => 'false'
+            } do
       before do
-        stub_const('ENV',
-                   'OPENPROJECT_FEATURE_AN_EXAMPLE_ACTIVE' => 'true',
-                   'OPENPROJECT_FEATURE_ANOTHER_EXAMPLE_ACTIVE' => 'true',
-                   'OPENPROJECT_FEATURE_INACTIVE_EXAMPLE_ACTIVE' => 'false')
-
         OpenProject::FeatureDecisions.add :an_example
         OpenProject::FeatureDecisions.add :another_example
         OpenProject::FeatureDecisions.add :deactivated_example

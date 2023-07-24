@@ -30,5 +30,13 @@ FactoryBot.define do
   factory :meeting_participant do |_mp|
     user
     meeting
+
+    trait :invitee do
+      invited { true }
+    end
+
+    trait :attendee do
+      attended { true }
+    end
   end
 end

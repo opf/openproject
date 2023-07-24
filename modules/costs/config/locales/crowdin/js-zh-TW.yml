@@ -23,10 +23,10 @@ zh-TW:
   js:
     work_packages:
       property_groups:
-        costs: "Costs"
+        costs: "費用"
       properties:
-        overallCosts: "Overall costs"
-        spentUnits: "Spent units"
-    button_log_costs: "Log unit costs"
+        overallCosts: "總計"
+        spentUnits: "支出單位"
+    button_log_costs: "紀錄支出單位"
     label_hour: "小時"
     label_hours: "小時"

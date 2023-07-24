@@ -197,8 +197,6 @@ ru:
       no_results_content_text: Создать новое настраиваемое поле
   concatenation:
     single: 'или'
-  documentation:
-    see_more_link: Для получения дополнительной информации смотрите нашу документацию по этой теме.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -268,7 +266,7 @@ ru:
       notice_reset_token: "Новый маркер %{type} создан. Ваш маркер доступа:"
       token_value_warning: "Примечание: Этот маркер вам больше никогда показан не будет, убедитесь что запомнили его."
       no_results_title_text: На данный момент маркеры доступа отсутствуют.
-      notice_ical_tokens_reverted: "токен iCalendar \"%{token_name}\" для календаря \"%{calendar_name}\" проекта \"%{project_name}\" был отозван. URL-адрес iCalendar с этим токеном недействителен."
+      notice_ical_token_revoked: "токен iCalendar \"%{token_name}\" для календаря \"%{calendar_name}\" проекта \"%{project_name}\" был отозван. URL-адрес iCalendar с этим токеном недействителен."
   news:
     index:
       no_results_title_text: На данный момент новостей для отчета нет.
@@ -529,6 +527,7 @@ ru:
         hours: "Часы"
         spent_on: "Дата"
         type: "Тип"
+        ongoing: "В процессе"
       type:
         description: "Текст для описания по умолчанию"
         attribute_groups: ''
@@ -1080,6 +1079,7 @@ ru:
   button_continue: "Продолжить"
   button_copy: "Копировать"
   button_copy_to_clipboard: "Копировать в буфер обмена"
+  button_copy_link_to_clipboard: "Копировать ссылку в буфер обмена"
   button_copy_and_follow: "Скопировать и продолжить"
   button_create: "Создать"
   button_create_and_continue: "Создать и продолжить"
@@ -1340,7 +1340,7 @@ ru:
   error_enterprise_activation_user_limit: "Ваша учетная запись не может быть активирована (достигнут предел пользователя). Обратитесь к администратору для получения доступа."
   error_enterprise_token_invalid_domain: "Версия Enterprise не активна. Домен вашего токена предприятия (%{actual}) не соответствует названию системного имени (%{expected})."
   error_failed_to_delete_entry: 'Не удалось удалить эту запись.'
-  error_in_dependent: "Ошибка при попытке изменить зависимый объект: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Ошибка при попытке изменить зависимый объект: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Ошибка при создании зависимого объекта: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Выбранное значение недопустимо."
   error_journal_attribute_not_present: "Журнал не содержит атрибут %{attribute}."
@@ -1359,6 +1359,7 @@ ru:
   error_password_change_failed: 'Произошла ошибка при попытке изменить пароль.'
   error_scm_command_failed: "Произошла ошибка при попытке доступа к хранилищу: %{value}"
   error_scm_not_found: "Ни статья, ни ее исправленная версия в репозитории не найдены."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "Статус пакета работ удалить нельзя, так как он используется по крайней мере одним рабочим пакетом."
   error_unable_delete_default_status: "Не удается удалить статус работы пакета по умолчанию. Пожалуйста, выберите другой статус работы пакета по умолчанию перед удалением текущего."
   error_unable_to_connect: "Не удается подключиться (%{value})"
@@ -1449,21 +1450,21 @@ ru:
   journals:
     changes_retracted: "Изменения отменены."
     caused_changes:
-      dates_changed: "Dates changed"
+      dates_changed: "Даты изменены"
     cause_descriptions:
-      work_package_predecessor_changed_times: by changes to predecessor %{link}
-      work_package_parent_changed_times: by changes to parent %{link}
-      work_package_children_changed_times: by changes to child %{link}
-      work_package_related_changed_times: by changes to related %{link}
-      unaccessable_work_package_changed: by changes to a related work package
+      work_package_predecessor_changed_times: внесением изменений в предшественника %{link}
+      work_package_parent_changed_times: внесением изменений в родительский %{link}
+      work_package_children_changed_times: внесением изменений в дочерний элемент %{link}
+      work_package_related_changed_times: внесением изменений в связанный элемент %{link}
+      unaccessable_work_package_changed: внесением изменений в связанный пакет работ
       working_days_changed:
-        changed: "by changes to working days (%{changes})"
+        changed: "внесением изменений в рабочие дни (%{changes})"
         days:
-          working: "%{day} is now working"
-          non_working: "%{day} is now non-working"
+          working: "%{day} сейчас рабочий"
+          non_working: "%{day} теперь нерабочий"
         dates:
-          working: "%{date} is now working"
-          non_working: "%{date} is now non-working"
+          working: "%{date} сейчас рабочий"
+          non_working: "%{day} теперь нерабочий"
   links:
     configuration_guide: 'Руководство по конфигурации'
     get_in_touch: "У вас есть вопросы? Свяжитесь с нами."
@@ -1530,6 +1531,7 @@ ru:
   label_age: "Возраст"
   label_ago: "дней назад"
   label_all: "все"
+  label_all_projects: "Все проекты"
   label_all_time: "все время"
   label_all_words: "Все слова"
   label_all_open_wps: "Все открытые"
@@ -1546,6 +1548,7 @@ ru:
   label_ical_access_key_revoke: "Отозвать"
   label_applied_status: "Прикладной статус"
   label_archive_project: "Архивировать проект"
+  label_archived_projects: "Архивные проекты"
   label_ascending: "По возрастанию"
   label_assigned_to_me_work_packages: "Переданные мне пакеты работ"
   label_associated_revisions: "Связанные изменения"
@@ -1681,7 +1684,8 @@ ru:
   label_equals: "—"
   label_everywhere: "везде"
   label_example: "Пример"
-  label_experimental: "Experimental"
+  label_experimental: "Экспериментально"
+  label_i_am_member: "Я участник"
   label_import: "Импорт"
   label_export_to: "Скачать как:"
   label_expanded_click_to_collapse: "Развернуто. Кликните для сворачивания"
@@ -1718,6 +1722,7 @@ ru:
   label_hierarchy_leaf: "Уровень иерархии"
   label_home: "Главная"
   label_subject_or_id: "Тема или ID"
+  label_icalendar: "iCalendar"
   label_impressum: "Правовое уведомление"
   label_in: "в"
   label_in_less_than: "менее чем"
@@ -1761,7 +1766,7 @@ ru:
   label_logged_as: "Войти в систему как"
   label_login: "Войти"
   label_custom_logo: "Свой логотип"
-  label_custom_export_logo: "Custom export logo"
+  label_custom_export_logo: "Пользовательский логотип экспорта"
   label_custom_favicon: "Пользовательские иконки"
   label_custom_touch_icon: "Пользовательский значок логотипа"
   label_logout: "Выход"
@@ -2121,7 +2126,7 @@ ru:
         few: 'Есть еще %{count} пакетов работ с уведомлениями.'
         many: 'Есть еще %{count} пакетов работ с уведомлениями.'
         other: 'Есть еще %{count} пакетов работ с уведомлениями.'
-      open_in_browser: 'Open in browser'
+      open_in_browser: 'Открыть в браузере'
       reason:
         watched: 'Просмотрено'
         assigned: 'Назначено'
@@ -2392,7 +2397,7 @@ ru:
       archived: "Архивирован"
   project_module_activity: "Деятельность"
   project_module_forums: "Форумы"
-  project_module_work_package_tracking: "Отслеживание пакета работ"
+  project_module_work_package_tracking: "Комплекс работ"
   project_module_news: "Новости"
   project_module_repository: "Репозиторий"
   project_module_wiki: "Wiki"
@@ -2640,34 +2645,21 @@ ru:
   setting_work_package_list_default_highlighted_attributes: "Выделенные встроенные атрибуты по умолчанию"
   setting_working_days: "Рабочие дни"
   settings:
-    general: "Общие"
-    other: "Другие"
-    passwords: "Пароли"
-    session: "Сессия"
-    brute_force_prevention: "Автоматическое блокирование пользователя"
     attachments:
       whitelist_text_html: >
         Определите список допустимых расширений файлов и/или mime типов для загруженных файлов. <br/> Введите расширения файлов (например, <code>%{ext_example}</code>) или mime типы (e. ., <code>%{mime_example}</code>). <br/> Оставьте пустым, чтобы разрешить загрузку любого типа файла. Допустимы несколько значений (одна строка для каждого значения).
-    language_name_being_default: '%{language_name} (default)'
-    notifications:
-      events_explanation: 'Регулирует, по каким событиям отправляется письмо. Пакеты работ исключаются из этого списка, поскольку уведомления для них могут быть настроены специально для каждого пользователя.'
-      delay_minutes_explanation: "Отправка электронной почты может быть отложена для разрешения пользователям с настроенными в приложении уведомлениями подтвердить уведомление внутри приложения перед отправкой почты. Пользователи, которые прочитали уведомление в приложении, не будут получать по электронной почте уже прочитанное уведомление."
-    display:
+    brute_force_prevention: "Автоматическое блокирование пользователя"
+    language_name_being_default: '%{language_name} (по умолчанию)'
+    date_format:
       first_date_of_week_and_year_set: >
         Если параметры "%{day_of_week_setting_name}" или "%{first_week_setting_name}" заданы,  должны быть заданы и другие тоже во избежание несоответствий в интерфейсе.
-      first_week_of_year_text: >
-        Выберите дату января, которая содержится в первой неделе года. Она вместе с первым днем недели определяет общее количество недель в году.
+      first_week_of_year_text_html: >
+        Выберите дату января, которая содержится в первой неделе года. Это значение вместе с первым днем недели определяет общее количество недель в году. Для получения дополнительной информации, пожалуйста, ознакомьтесь с нашей <a href="%{link}" target="_blank">документацией</a> по этой теме.
+    general: "Общие"
     experimental:
-      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
-      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
-      feature_flags: Feature flags
-    projects:
-      section_new_projects: "Настройки для новых проектов"
-      section_project_overview: "Настройки списка обзоров проекта"
-    user:
-      default_preferences: "Предпочтения по умолчанию"
-      display_format: "Формат отображения"
-      deletion: "Удаление"
+      save_confirmation: Внимание! Риск потери данных! Активируйте экспериментальные функции, только если вы не возражаете против взлома вашей установки OpenProject и потери всех содержащихся в ней данных.
+      warning_toast: Флаги функций - это настройки, активирующие функции, которые все еще находятся в стадии разработки. Они должны использоваться только в целях тестирования. Они никогда не должны активироваться на установках OpenProject, содержащих важные данные. Эти функции с большой вероятностью повредят ваши данные. Используйте их на свой страх и риск.
+      feature_flags: Флаги функций
     highlighting:
       mode_long:
         inline: "Выделите один или несколько встроенных атрибутов"
@@ -2675,6 +2667,23 @@ ru:
         status: "Вся строка по статусу"
         type: "Вся строка по типу"
         priority: "Вся строка по приоритету"
+    icalendar:
+      enable_subscriptions_text_html: Позволяет пользователям с необходимыми разрешениями подписываться на календари OpenProject и получать доступ к информации о рабочем пакете через внешний клиент календаря.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    notifications:
+      events_explanation: 'Регулирует, по каким событиям отправляется письмо. Пакеты работ исключаются из этого списка, поскольку уведомления для них могут быть настроены специально для каждого пользователя.'
+      delay_minutes_explanation: "Отправка электронной почты может быть отложена для разрешения пользователям с настроенными в приложении уведомлениями подтвердить уведомление внутри приложения перед отправкой почты. Пользователи, которые прочитали уведомление в приложении, не будут получать по электронной почте уже прочитанное уведомление."
+    other: "Другие"
+    passwords: "Пароли"
+    projects:
+      section_new_projects: "Настройки для новых проектов"
+      section_project_overview: "Настройки списка обзоров проекта"
+    session: "Сессия"
+    user:
+      default_preferences: "Предпочтения по умолчанию"
+      display_format: "Формат отображения"
+      deletion: "Удаление"
     working_days:
       section_work_week: "Рабочая неделя"
       section_holidays_and_closures: "Праздничные и нерабочие дни"
@@ -2717,11 +2726,11 @@ ru:
   text_custom_logo_instructions: >
     Рекомендуется использовать белый логотип с прозрачным фоном. Для оптимального отображения на обычных и retina-дисплеях размер картинки должен быть 460 на 110 пикселей.
   text_custom_export_logo_instructions: >
-    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+    Это логотип, который отображается при экспорте в формате PDF. Это должен быть файл изображения в формате PNG или JPEG. Рекомендуется использовать черный или цветной логотип на прозрачном или белом фоне.
   text_custom_favicon_instructions: >
-    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+    Это крошечный значок, который появляется в окне / вкладке вашего браузера рядом с заголовком страницы. Это должен быть файл изображения в формате PNG размером 32 на 32 пикселя с прозрачным фоном.
   text_custom_touch_icon_instructions: >
-    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
+    Это значок, который появляется на вашем мобильном устройстве или планшете, когда вы размещаете закладку на своем рабочем столе. Это должен быть файл изображения в формате PNG размером 180 на 180 пикселей в квадрате. Пожалуйста, убедитесь, что фон изображения не прозрачный, иначе это будет плохо смотреться на iOS.
   text_database_allows_tsv: "База данных позволяет TSVector (опционально)"
   text_default_administrator_account_changed: "Первоначальная учетная запись администратора была изменена"
   text_default_encoding: "По-умолчанию: UTF-8"

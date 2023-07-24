@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Query::Results, 'sorting and grouping', with_mail: false do
+RSpec.describe Query::Results, 'sorting and grouping' do
   create_shared_association_defaults_for_work_package_factory
 
   let(:query) do

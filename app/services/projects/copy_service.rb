@@ -42,6 +42,7 @@ module Projects
         ::Projects::Copy::BoardsDependentService,
         ::Projects::Copy::OverviewDependentService,
         ::Projects::Copy::StoragesDependentService,
+        ::Projects::Copy::StorageProjectFoldersDependentService,
         ::Projects::Copy::FileLinksDependentService
       ]
     end

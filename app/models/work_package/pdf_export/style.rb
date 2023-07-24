@@ -49,6 +49,10 @@ module WorkPackage::PDFExport::Style
       resolve_pt(@styles.dig(:page_footer, :offset), -30)
     end
 
+    def page_footer_horizontal_spacing
+      resolve_pt(@styles.dig(:page_footer, :spacing), 6)
+    end
+
     def page_logo_height
       resolve_pt(@styles.dig(:page_logo, :height), 20)
     end
@@ -133,6 +137,10 @@ module WorkPackage::PDFExport::Style
       resolve_margin(@styles[:toc])
     end
 
+    def toc_indent_mode
+      @styles.dig(:toc, :indent_mode)
+    end
+
     def toc_item(level)
       resolve_font(@styles.dig(:toc, :item)).merge(
         resolve_font(@styles.dig(:toc, "item_level_#{level}".to_sym))
@@ -153,32 +161,10 @@ module WorkPackage::PDFExport::Style
       resolve_margin(@styles[:work_package])
     end
 
-    def wp_section_heading
-      resolve_font(@styles.dig(:work_package, :section, :heading))
-    end
-
-    def wp_section_heading_margins
-      resolve_margin(@styles.dig(:work_package, :section, :heading))
-    end
-
-    def wp_section_item
-      resolve_font(@styles.dig(:work_package, :section, :item))
-    end
-
-    def wp_section_item_margins
-      resolve_margin(@styles.dig(:work_package, :section, :item))
-    end
-
-    def wp_label
-      resolve_font(@styles.dig(:work_package, :label))
-    end
-
-    def wp_label_margins
-      resolve_margin(@styles.dig(:work_package, :label))
-    end
-
-    def wp_subject
-      resolve_font(@styles.dig(:work_package, :subject))
+    def wp_subject(level)
+      resolve_font(@styles.dig(:work_package, :subject)).merge(
+        resolve_font(@styles.dig(:work_package, "subject_level_#{level}".to_sym))
+      )
     end
 
     def wp_detail_subject_margins
@@ -199,12 +185,16 @@ module WorkPackage::PDFExport::Style
       )
     end
 
-    def wp_markdown_label_size
-      resolve_pt(resolve_font(@styles.dig(:work_package, :markdown_label))[:size], 12)
+    def wp_markdown_label
+      resolve_font(@styles.dig(:work_package, :markdown_label))
+    end
+
+    def wp_markdown_label_margins
+      resolve_margin(@styles.dig(:work_package, :markdown_label))
     end
 
     def wp_markdown_margins
-      resolve_margin(@styles.dig(:work_package, :markdown))
+      resolve_margin(@styles.dig(:work_package, :markdown_margin))
     end
 
     def wp_markdown_styling_yml

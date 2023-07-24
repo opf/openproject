@@ -46,12 +46,46 @@ module Pages::Meetings
       New.new(project)
     end
 
+    def expect_no_main_menu
+      expect(page).not_to have_selector '#main-menu'
+    end
+
     def expect_no_create_new_button
-      expect(page).not_to have_selector '#add-meeting-button'
+      within '.toolbar-items' do
+        expect(page).not_to have_selector '#add-meeting-button'
+      end
+    end
+
+    def expect_no_create_new_buttons
+      within '.toolbar-items' do
+        expect(page).not_to have_selector '#add-meeting-button'
+      end
+
+      within '#main-menu' do
+        expect(page).not_to have_button 'Meeting'
+      end
     end
 
     def expect_create_new_button
-      expect(page).to have_selector '#add-meeting-button'
+      within '.toolbar-items' do
+        expect(page).to have_selector '#add-meeting-button'
+      end
+    end
+
+    def expect_create_new_buttons
+      within '.toolbar-items' do
+        expect(page).to have_selector '#add-meeting-button'
+      end
+
+      within '#main-menu' do
+        expect(page).to have_button 'Meeting'
+      end
+    end
+
+    def set_sidebar_filter(filter_name)
+      within '#main-menu' do
+        click_link text: filter_name
+      end
     end
 
     def expect_no_meetings_listed
@@ -61,8 +95,16 @@ module Pages::Meetings
       end
     end
 
+    def expect_meetings_listed_in_order(*meetings)
+      within '.generic-table tbody' do
+        listed_meeting_titles = all('tr td.title').map(&:text)
+
+        expect(listed_meeting_titles).to eq(meetings.map(&:title))
+      end
+    end
+
     def expect_meetings_listed(*meetings)
-      within '#content-wrapper' do
+      within '.generic-table tbody' do
         meetings.each do |meeting|
           expect(page).to have_selector("td.title",
                                         text: meeting.title)
@@ -91,10 +133,17 @@ module Pages::Meetings
       end
     end
 
-    def navigate_by_menu
+    def navigate_by_project_menu
       visit project_path(project)
       within '#main-menu' do
-        click_link 'Meetings'
+        click_link 'Meetings', match: :first
+      end
+    end
+
+    def navigate_by_global_menu
+      visit root_path
+      within '#main-menu' do
+        click_link 'Meetings', match: :first
       end
     end
 
@@ -103,7 +152,7 @@ module Pages::Meetings
     end
 
     def path
-      meetings_path(project)
+      polymorphic_path([project, :meetings])
     end
   end
 end

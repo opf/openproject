@@ -81,6 +81,9 @@ nl:
   units: "Eenheden"
   validation_failure_date: "is geen geldige datum"
   validation_failure_integer: "is geen geldig geheel getal"
+  export:
+    cost_reports:
+      title: "Your Cost Reports XLS export"
   reporting:
     group_by:
       selected_columns: "Geselecteerde kolommen"

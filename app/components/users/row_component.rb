@@ -45,7 +45,8 @@ module Users
 
     def login
       icon = helpers.avatar user, size: :mini
-      link = link_to h(user.login), edit_user_path(user)
+
+      link = link_to h(user.login), helpers.allowed_management_user_profile_path(user)
 
       icon + link
     end

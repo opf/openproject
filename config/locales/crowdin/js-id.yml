@@ -66,6 +66,7 @@ id:
     button_continue: "Lanjut"
     button_copy: "Salin"
     button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Isian kustom"
     button_delete: "Hapus"
@@ -126,7 +127,7 @@ id:
       errors:
         could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
     description_available_columns: "Kolom tersedia"
-    description_current_position: "You are here: "
+    description_current_position: "Kamu di sini:"
     description_select_work_package: "Select work package #%{id}"
     description_selected_columns: "Kolom dipilih"
     description_subwork_package: "Child of work package #%{id}"
@@ -261,7 +262,7 @@ id:
         add_non_working_day: "Non-working day"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
         change_button: "Save and reschedule"
-        change_title: "Change working days"
+        change_title: "Ubah hari kerja"
         removed_title: "You will remove the following days from the non-working days list:"
         change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
         warning: >
@@ -568,7 +569,7 @@ id:
         commented: 'commented'
         processed: 'processed'
         prioritized: 'prioritized'
-        dateAlert: 'Date alert'
+        dateAlert: 'Peringatan tanggal'
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
@@ -605,13 +606,13 @@ id:
           message: 'There are new notifications.'
           link_text: 'Click here to load them'
       menu:
-        accountable: 'Accountable'
+        accountable: 'Akuntabel'
         by_project: 'Unread by project'
         by_reason: 'Reason'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
         watched: 'Pemantau'
-        date_alert: 'Date alert'
+        date_alert: 'Peringatan tanggal'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
@@ -633,7 +634,7 @@ id:
             title: 'Mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: 'Pelimpahan'
-          responsible: 'Accountable'
+          responsible: 'Akuntabel'
           watched: 'Pemantau'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
@@ -679,7 +680,7 @@ id:
       context: 'Konteks proyek'
       click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
-      use_template: "Use template"
+      use_template: "Gunakan templat"
       no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
@@ -736,6 +737,14 @@ id:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'Catatan waktu'
+      tracking: 'Time tracking'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Autentikasi dua faktor'
     watchers:
@@ -794,7 +803,8 @@ id:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Pilih tag'
       select_branch: 'Pilih cabang'
@@ -828,7 +838,7 @@ id:
       button_deactivate: 'Hide Gantt chart'
       cancel: Batal
       change: "Perubahan dalam perencanaan"
-      due_date: "Finish date"
+      due_date: "Tanggal selesai"
       empty: "(kosong)"
       error: "An error has occurred."
       errors:
@@ -973,7 +983,7 @@ id:
         createdAt: "Dibuat"
         description: "Deskripsi"
         date: "Tanggal"
-        dueDate: "Finish date"
+        dueDate: "Tanggal selesai"
         duration: "Durasi"
         estimatedTime: "Estimasi Waktu"
         spentTime: "Durasi"
@@ -996,7 +1006,7 @@ id:
         created_by_me: "Created by me"
         assigned_to_me: "Assigned to me"
         recently_created: "Recently created"
-        all_open: "All open"
+        all_open: "Semua terbuka"
         summary: "Ringkasan"
       jump_marks:
         pagination: "Jump to table pagination"
@@ -1213,7 +1223,7 @@ id:
           title: 'Grup'
           description: 'Permissions based on the assigned role in the selected project'
         placeholder:
-          title: 'Placeholder user'
+          title: 'Pengguna placeholder'
           title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'Has no access to the project and no emails are sent out.'
           description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
@@ -1257,7 +1267,7 @@ id:
       clear_selection: 'Clear selection'
       apply: 'Apply'
       selected_filter:
-        all: 'All projects'
+        all: 'Semua proyek'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
       include_subprojects: 'Include all sub-projects'

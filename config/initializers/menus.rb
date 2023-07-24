@@ -39,6 +39,12 @@ Redmine::MenuManager.map :top_menu do |menu|
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?)
             }
+
+  menu.push :activity,
+            { controller: '/activities', action: 'index' },
+            context: :modules,
+            icon: 'checkmark'
+
   menu.push :work_packages,
             { controller: '/work_packages', project_id: nil, state: nil, action: 'index' },
             context: :modules,
@@ -114,23 +120,68 @@ Redmine::MenuManager.map :account_menu do |menu|
             if: Proc.new {
               User.current.allowed_to_globally?(:create_backup) ||
                 User.current.allowed_to_globally?(:manage_placeholder_user) ||
-                User.current.allowed_to_globally?(:manage_user)
+                User.current.allowed_to_globally?(:manage_user) ||
+                User.current.allowed_to_globally?(:create_user)
             }
   menu.push :logout,
             :signout_path,
             if: Proc.new { User.current.logged? }
 end
 
-Redmine::MenuManager.map :global_work_packages_menu do |menu|
-  menu.push :work_packages_query_select,
-            { controller: '/work_packages', action: 'index' },
-            partial: 'work_packages/menu_query_select'
-end
+Redmine::MenuManager.map :global_menu do |menu|
+  # Homescreen
+  menu.push :home,
+            { controller: '/homescreen', action: 'index' },
+            icon: 'home',
+            first: true
 
-Redmine::MenuManager.map :global_activities_menu do |menu|
+  # Projects
+  menu.push :projects,
+            { controller: '/projects', project_id: nil, action: 'index' },
+            caption: I18n.t('label_projects_menu'),
+            icon: 'projects',
+            after: :home,
+            if: Proc.new {
+              (User.current.logged? || !Setting.login_required?)
+            }
+
+  menu.push :projects_query_select,
+            { controller: '/projects', project_id: nil, action: 'index' },
+            parent: :projects,
+            partial: 'projects/menu_query_select'
+
+  # Activity
+  menu.push :activity,
+            { controller: '/activities', action: 'index' },
+            icon: 'checkmark',
+            after: :projects
+
   menu.push :activity_filters,
             { controller: '/activities', action: 'index' },
+            parent: :activity,
             partial: 'activities/filters_menu'
+
+  # Work packages
+  menu.push :work_packages,
+            { controller: '/work_packages', action: 'index' },
+            icon: 'view-timeline',
+            after: :activity
+
+  menu.push :work_packages_query_select,
+            { controller: '/work_packages', action: 'index' },
+            parent: :work_packages,
+            partial: 'work_packages/menu_query_select'
+
+  # News
+  menu.push :news,
+            { controller: '/news', project_id: nil, action: 'index' },
+            caption: I18n.t('label_news_plural'),
+            icon: 'news',
+            after: :boards,
+            if: Proc.new {
+              (User.current.logged? || !Setting.login_required?) &&
+                User.current.allowed_to_globally?(:view_news)
+            }
 end
 
 Redmine::MenuManager.map :notifications_menu do |menu|
@@ -188,7 +239,10 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :users,
             { controller: '/users' },
-            if: Proc.new { !User.current.admin? && User.current.allowed_to_globally?(:manage_user) },
+            if: Proc.new {
+                  !User.current.admin? &&
+                  (User.current.allowed_to_globally?(:manage_user) || User.current.allowed_to_globally?(:create_user))
+                },
             caption: :label_user_plural,
             icon: 'group'
 
@@ -316,6 +370,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_date_format,
             parent: :calendars_and_dates
 
+  menu.push :icalendar,
+            { controller: '/admin/settings/icalendar_settings', action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_icalendar,
+            parent: :calendars_and_dates
+
   menu.push :settings,
             { controller: '/admin/settings/general_settings', action: :show },
             if: Proc.new { User.current.admin? },
@@ -428,7 +488,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :colors,
             { controller: '/colors', action: 'index' },
             if: Proc.new { User.current.admin? },
-            caption: :'timelines.admin_menu.colors',
+            caption: :label_color_plural,
             icon: 'status'
 
   menu.push :enterprise,

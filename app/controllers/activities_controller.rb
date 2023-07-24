@@ -90,6 +90,11 @@ class ActivitiesController < ApplicationController
   end
 
   def determine_subprojects
+    # In OP < 13.0 session[:activity] was an Array.
+    # If such a session is still present, we need to reset it.
+    # This line can probably be removed in OP 14.0.
+    session[:activity] = nil unless session[:activity].is_a?(Hash)
+
     @with_subprojects = if params[:with_subprojects].nil? &&
                           (session[:activity].nil? || session[:activity][:with_subprojects].nil?)
                           Setting.display_subprojects_work_packages?
@@ -105,7 +110,7 @@ class ActivitiesController < ApplicationController
   end
 
   def respond_html
-    render locals: { menu_name: project_or_global_activity_menu }
+    render locals: { menu_name: project_or_global_menu }
   end
 
   def respond_atom
