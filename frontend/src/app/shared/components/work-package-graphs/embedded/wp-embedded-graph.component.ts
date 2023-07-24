@@ -79,7 +79,7 @@ export class WorkPackageEmbeddedGraphComponent {
     });
 
     uniqLabels = uniqLabels.map((label) => {
-      if (!label) {
+      if (label === null) {
         return this.i18n.t('js.placeholders.default');
       }
       return label;
