@@ -53,7 +53,7 @@ if [ "$1" == "setup-tests" ]; then
 
 	execute "time bundle install -j$JOBS"
 	# create test database "app" and dump schema
-	execute "time bundle exec rake db:create db:migrate db:schema:dump webdrivers:chromedriver:update webdrivers:geckodriver:update openproject:plugins:register_frontend"
+	execute "time bundle exec rake db:create db:migrate db:schema:dump webdrivers:chromedriver:update[114.0.5735.90] webdrivers:geckodriver:update openproject:plugins:register_frontend"
 	# create parallel test databases "app#n" and load schema
 	execute "time bundle exec rake parallel:create parallel:load_schema"
 fi
