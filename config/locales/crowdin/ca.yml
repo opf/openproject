@@ -1318,6 +1318,7 @@ ca:
   error_password_change_failed: 'Hi ha hagut un error l''intentar canviar la contrasenya.'
   error_scm_command_failed: "S'ha produït un error en intentar accedir al repositori: %{value}"
   error_scm_not_found: "No s'ha trobat l'entrada o la revisió en el repositori."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "No es pot suprimir l'estat del paquet de treball ja que és utilitzat per almenys un paquet de treball."
   error_unable_delete_default_status: "No es pot suprimir l'estat per defecte del paquet de treball. Seleccioneu un altre estat de paquet de treball per defecte abans de suprimir l'actual."
   error_unable_to_connect: "No s'ha pogut connectar (%{value})"

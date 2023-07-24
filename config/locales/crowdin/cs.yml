@@ -1360,6 +1360,7 @@ cs:
   error_password_change_failed: 'Došlo k chybě při pokusu o změnu hesla.'
   error_scm_command_failed: "Vyskytla se chyba při pokusu o přístup k repozitáři: %{value}"
   error_scm_not_found: "Položka nebo revize nebyla v repozitáři nalezena."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "Stav pracovního balíčku sa nedá odstranit, protože ho používá ještě alespoň jeden další pracovní balíček."
   error_unable_delete_default_status: "Není možné odstranit přednastavený stav pracovního balíčku. Před odstraněním aktuálního vyberte jiný přednastavený stav."
   error_unable_to_connect: "Nelze se připojit (%{value})"

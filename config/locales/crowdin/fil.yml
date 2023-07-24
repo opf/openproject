@@ -1303,7 +1303,7 @@ fil:
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Nabigong burahin ang entry na ito.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
@@ -1322,6 +1322,7 @@ fil:
   error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Isang mali ang naganap nong subukam ang pag-access ng repositoryo: %{value}"
   error_scm_not_found: "Ang entry o rebisyon ay hindi natagpuan sa repositoryo."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "Ang estado ng work package ay hindi pwedeng burahin dahil ginamit ito sa kahit isang work package."
   error_unable_delete_default_status: "Hindi mabura ang default estado ng work package. Mangyaring pumili ng ibang estado ng work package bago buburahin ang kasulukuyang isa."
   error_unable_to_connect: "Hindi makakonekta (%{value})"
