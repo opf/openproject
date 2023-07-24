@@ -47,7 +47,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       end
 
       Util.token(user:, oauth_client: @oauth_client) do |token|
-        files_info(file_ids, token) >> json >> create_storage_file_infos
+        files_info(file_ids, token).map(&parse_json) >> create_storage_file_infos
       end
     end
 
@@ -58,14 +58,15 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         result: RestClient::Request.execute(
           method: :post,
           url: Util.join_uri_path(@uri, FILES_INFO_PATH),
-          body: { fileIds: file_ids }.to_json,
+          payload: { fileIds: file_ids }.to_json,
           headers: {
             'Authorization' => "Bearer #{token.access_token}",
             'Accept' => 'application/json',
-            'Content-Type' => 'application/json'
+            'Content-Type' => 'application/json',
+            'OCS-APIRequest' => true
           }
         )
-      )
+      ).map(&:body)
     rescue RestClient::Unauthorized => e
       Util.error(:not_authorized, 'Outbound request not authorized!', e.response)
     rescue RestClient::NotFound => e
@@ -76,35 +77,37 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       Util.error(:error, 'Outbound request failed!')
     end
 
-    def json
-      ->(response) do
+    def parse_json
+      ->(response_body) do
         # rubocop:disable Style/OpenStructUse
-        response
-          .map(&:body)
-          .map { |body| JSON.parse(body, object_class: OpenStruct) }
+        JSON.parse(response_body, object_class: OpenStruct)
         # rubocop:enable Style/OpenStructUse
       end
     end
 
     # rubocop:disable Metrics/AbcSize
     def create_storage_file_infos
-      ->(json) do
+      ->(response_object) do
         ServiceResult.success(
-          result: ::Storages::StorageFileInfo.new(json.status,
-                                                  json.status_code,
-                                                  json.id,
-                                                  json.name,
-                                                  Time.zone.at(json.mtime),
-                                                  Time.zone.at(json.ctime),
-                                                  json.mimetype,
-                                                  json.size,
-                                                  json.owner_name,
-                                                  json.owner_id,
-                                                  json.trashed,
-                                                  json.modifier_name,
-                                                  json.modifier_id,
-                                                  json.dav_permissions,
-                                                  location(json.path))
+          result: response_object.ocs.data.to_h.map do |_, value|
+            ::Storages::StorageFileInfo.new(
+              value.status,
+              value.status_code,
+              value.id,
+              value.name,
+              Time.zone.at(value.mtime),
+              Time.zone.at(value.ctime),
+              value.mimetype,
+              value.size,
+              value.owner_name,
+              value.owner_id,
+              value.trashed,
+              value.modifier_name,
+              value.modifier_id,
+              value.dav_permissions,
+              location(value.path)
+            )
+          end
         )
       end
     end

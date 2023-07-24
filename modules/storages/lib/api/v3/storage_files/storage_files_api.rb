@@ -48,9 +48,8 @@ module API::V3::StorageFiles
           Storages::Peripherals::StorageRequests
             .new(storage: @storage)
             .files_info_query
-            .call(user: current_user, file_id: [params[:file_id]])
-            .map(&:first)
-            .map(&method(to_storage_file))
+            .call(user: current_user, file_ids: [params[:file_id]]).map(&:first)
+            .map { |file_info| to_storage_file(file_info) }
             .match(
               on_success: ->(storage_file) {
                 API::V3::StorageFiles::StorageFileRepresenter.new(storage_file, @storage, current_user:)
