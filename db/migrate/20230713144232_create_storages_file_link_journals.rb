@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,38 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::FileLinks::CreateService < BaseServices::Create
-  def persist(service_result)
-    if existing = find_existing(service_result.result)
-      service_result.result = existing
-      service_result
-    else
-      # create
-      super(service_result)
+class CreateStoragesFileLinkJournals < ActiveRecord::Migration[7.0]
+  def change
+    # rubocop:disable Rails/CreateTableWithTimestamps
+    create_table :storages_file_links_journals do |t|
+      t.belongs_to :journal, null: false, foreign_key: true
+      t.belongs_to :file_link, null: false
+
+      t.string :link_name, null: false
     end
-  end
-
-  private
-
-  def after_perform(service_result)
-    # This only gets called if service_result is successful
-    container = service_result.result.container
-
-    # If the container isn't journaled, no need to proceed
-    return service_result unless container&.class&.journaled?
-
-    # If journal creation fails, we don't care for now
-    container.save_journals
-
-    service_result
-  end
-
-  def find_existing(file_link)
-    Storages::FileLink.find_by(
-      origin_id: file_link.origin_id,
-      container_id: file_link.container_id,
-      container_type: file_link.container_type,
-      storage_id: file_link.storage_id
-    )
+    # rubocop:enable Rails/CreateTableWithTimestamps
   end
 end

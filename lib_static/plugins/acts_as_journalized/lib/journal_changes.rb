@@ -39,8 +39,35 @@ module JournalChanges
       @changes.merge!(subsequent_journal_data_changes)
     end
 
-    @changes.merge!(get_association_changes(predecessor, 'attachable', 'attachments', :attachment_id, :filename))
-    @changes.merge!(get_association_changes(predecessor, 'customizable', 'custom_fields', :custom_field_id, :value))
+    if journable&.attachable?
+      @changes.merge!(get_association_changes(
+                        predecessor,
+                        'attachable',
+                        'attachments',
+                        :attachment_id,
+                        :filename
+                      ))
+    end
+
+    if journable&.customizable?
+      @changes.merge!(get_association_changes(
+                        predecessor,
+                        'customizable',
+                        'custom_fields',
+                        :custom_field_id,
+                        :value
+                      ))
+    end
+
+    if has_file_links?
+      @changes.merge!(get_association_changes(
+                        predecessor,
+                        'storable',
+                        'file_links',
+                        :file_link_id,
+                        :link_name
+                      ))
+    end
 
     @changes
   end

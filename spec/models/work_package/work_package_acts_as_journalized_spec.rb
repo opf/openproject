@@ -414,6 +414,27 @@ RSpec.describe WorkPackage do
       end
     end
 
+    describe 'file_links', with_settings: { journal_aggregation_time_minutes: 0 } do
+      let(:file_link) { build(:file_link) }
+      let(:file_link_id) { "file_links_#{file_link.id}" }
+
+      before do
+        work_package.file_links << file_link
+        work_package.save!
+      end
+
+      context 'for the new file link' do
+        subject(:journal_details) { work_package.last_journal.details }
+
+        it { is_expected.to have_key file_link_id }
+        it { expect(journal_details[file_link_id]).to eq([nil, file_link.origin_name]) }
+      end
+
+      context 'when attachment saved w/o change' do
+        it { expect { file_link.save! }.not_to change(Journal, :count) }
+      end
+    end
+
     context 'for only journal notes adding' do
       subject do
         work_package.add_journal(user: User.current, notes: 'some notes')
@@ -741,12 +762,16 @@ RSpec.describe WorkPackage do
              project:,
              type:,
              custom_field_values: { custom_field.id => 5 },
-             attachments: [attachment])
+             attachments: [attachment],
+             file_links: [file_link])
     end
     let(:attachment) { build(:attachment) }
+    let(:file_link) { build(:file_link) }
+
     let!(:journal) { work_package.journals.first }
     let!(:customizable_journals) { journal.customizable_journals }
     let!(:attachable_journals) { journal.attachable_journals }
+    let!(:storable_journals) { journal.storable_journals }
 
     before do
       work_package.destroy
@@ -769,6 +794,11 @@ RSpec.describe WorkPackage do
 
     it 'removes the attachable journals' do
       expect(Journal::AttachableJournal.find_by(id: attachable_journals.map(&:id)))
+        .to be_nil
+    end
+
+    it 'removes the storable journals' do
+      expect(Journal::StorableJournal.find_by(id: attachable_journals.map(&:id)))
         .to be_nil
     end
   end

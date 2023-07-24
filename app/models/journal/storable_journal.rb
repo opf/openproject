@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,38 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::FileLinks::CreateService < BaseServices::Create
-  def persist(service_result)
-    if existing = find_existing(service_result.result)
-      service_result.result = existing
-      service_result
-    else
-      # create
-      super(service_result)
-    end
-  end
+class Journal::StorableJournal < Journal::AssociatedJournal
+  self.table_name = 'storages_file_links_journals'
 
-  private
-
-  def after_perform(service_result)
-    # This only gets called if service_result is successful
-    container = service_result.result.container
-
-    # If the container isn't journaled, no need to proceed
-    return service_result unless container&.class&.journaled?
-
-    # If journal creation fails, we don't care for now
-    container.save_journals
-
-    service_result
-  end
-
-  def find_existing(file_link)
-    Storages::FileLink.find_by(
-      origin_id: file_link.origin_id,
-      container_id: file_link.container_id,
-      container_type: file_link.container_type,
-      storage_id: file_link.storage_id
-    )
-  end
+  belongs_to :file_link, class_name: 'Storages::FileLink'
 end
