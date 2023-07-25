@@ -72,12 +72,12 @@ module API
 
           def eager_loader_classes_all
             [
-              ::API::V3::WorkPackages::EagerLoading::HistoricAttributes,
               ::API::V3::WorkPackages::EagerLoading::Hierarchy,
               ::API::V3::WorkPackages::EagerLoading::Ancestor,
               ::API::V3::WorkPackages::EagerLoading::Project,
               ::API::V3::WorkPackages::EagerLoading::Checksum,
               ::API::V3::WorkPackages::EagerLoading::CustomValue,
+              ::API::V3::WorkPackages::EagerLoading::HistoricAttributes,
               ::API::V3::WorkPackages::EagerLoading::CustomAction
             ]
           end
