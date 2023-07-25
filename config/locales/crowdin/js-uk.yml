@@ -296,6 +296,34 @@ uk:
           one: "Перший критерій впорядкування"
           two: "Другий критерій впорядкування"
           three: "Третій критерій впорядкування"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "ні"
     general_text_yes: "так"
     general_text_No: "Ні"
@@ -505,7 +533,7 @@ uk:
     label_remove_all_files: Видалити всі файли
     label_add_description: "Додати опис для %{file}"
     label_upload_notification: "Завантаження файлів ..."
-    label_work_package_upload_notification: "Завантаження файлів для пакета робіт #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Завантаження файлів для пакета робіт #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} додано користувачем %{author}"
     label_files_to_upload: "Ці файли будуть завантажені на сервер:"
     label_rejected_files: "Ці файли не можуть бути завантажені на сервер:"
@@ -825,63 +853,6 @@ uk:
       activate_no: 'активувати, щоб видалити сортування'
     text_work_packages_destroy_confirmation: "Ви впевнені у тому, що хочете видалити вибрані робочі пакети?"
     text_query_destroy_confirmation: "Ви дійсно бажаєте видалити вибраний вигляд?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Діаграма Ганта'
-      labels:
-        title: 'Конфігурація мітки'
-        bar: 'смуга міток'
-        left: 'Ліворуч'
-        right: 'Зправа'
-        farRight: 'Далі вправо'
-        showNone: '- Немає мітки -'
-        description: >
-          Оберіть атрибути, які потрібно постійно відображати у відповідних положеннях діаграми Ганта. Зверніть увагу, що під час наведення на елемент, замість цих атрибутів буде відображено його мітки.
-      button_activate: 'Показати діаграму Ганта'
-      button_deactivate: 'Сховати діаграму Ганта'
-      cancel: Скасувати
-      change: "Зміна планування"
-      due_date: "Дата закінчення"
-      empty: "(порожній)"
-      error: "Сталася помилка."
-      errors:
-        not_implemented: "Часова шкала не може бути відображена, оскільки вона використовує функцію, яка ще не реалізована."
-        report_comparison: "Часова шкала не може відобразити налаштовані порівняння. Будь ласка, перевірте відповідний розділ в конфігурації, скинувши його можна допомогти вирішити цю проблему."
-        report_epicfail: "Часова шкала не може бути завантажена через несподівану помилку."
-        report_timeout: "Часова шкала не може бути завантажена в розумний період часу."
-      filter:
-        grouping_other: "Інше"
-        noneSelection: "(нічого)"
-      name: "Ім’я"
-      outline: "Скинути виділення"
-      outlines:
-        aggregation: "Показати тільки агрегати"
-        level1: "Розширити рівень 1"
-        level2: "Розширити рівень 2"
-        level3: "Розширити рівень 3"
-        level4: "Розширити рівень 4"
-        level5: "Розширити рівень 5"
-        all: "Показати все"
-      project_status: "Статус Проекту"
-      really_close_dialog: "Ви дійсно хочете закрити діалог і втратити введені дані?"
-      responsible: "Надійний"
-      save: Зберегти
-      start_date: "Початок"
-      tooManyProjects: "Більше, ніж %{count} проект(-и,-ів). Будь ласка, використайте точніший фільтр!"
-      selection_mode:
-        notification: 'Натисніть будь-який виділений робочий пакет, щоб створити відношення. Натисніть клавішу Escape, щоб скасувати.'
-      zoom:
-        in: "Збільшити масштаб"
-        out: "Зменшити масштаб"
-        auto: "Автозбільшення"
-        days: "Днів"
-        weeks: "Тижня"
-        months: "Місяців"
-        quarters: "Приміщенням"
-        years: "Років"
-        slider: "Повзунок масштабування"
-        description: >
-          Виберіть початковий рівень масштабування, який має відображатися, коли функція автоматичного масштабування недоступна.
     tl_toolbar:
       zooms: "Рівень масштабування"
       outlines: "Рівень ієрархії"
@@ -946,10 +917,10 @@ uk:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Фільтрувати пакети робіт'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Клацніть тут, щоб додати до цього списку новий пакет робіт'

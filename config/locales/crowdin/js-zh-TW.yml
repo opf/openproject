@@ -295,6 +295,34 @@ zh-TW:
           one: "第一個排序條件"
           two: "第二個排序條件"
           three: "第三個排序條件"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "否"
     general_text_yes: "是"
     general_text_No: "否"
@@ -504,7 +532,7 @@ zh-TW:
     label_remove_all_files: 刪除所有檔案
     label_add_description: "添加 %{file} 的說明"
     label_upload_notification: "上傳檔案中..."
-    label_work_package_upload_notification: "上傳檔案到工作包 #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "上傳檔案到工作包 #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} 被 %{author} 新增"
     label_files_to_upload: "將上傳這些檔案:"
     label_rejected_files: "不能上傳這些檔案:"
@@ -821,63 +849,6 @@ zh-TW:
       activate_no: '啟動以移除排序'
     text_work_packages_destroy_confirmation: "你確定要刪除選定的工作項目嗎？"
     text_query_destroy_confirmation: "確實要刪除所選視圖嗎？"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: '甘特圖'
-      labels:
-        title: '標籤配置'
-        bar: '列標籤'
-        left: '左'
-        right: '右'
-        farRight: '最右'
-        showNone: '-- 沒有標籤 --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: '檢視甘特圖'
-      button_deactivate: '隱藏甘特圖'
-      cancel: 取消
-      change: "更改計劃"
-      due_date: "完成日期"
-      empty: "(空)"
-      error: "發生錯誤。"
-      errors:
-        not_implemented: "不會呈現時間軸，因為它使用了一種尚未實現的功能。"
-        report_comparison: "時間表無法呈現配置的比較。請檢查配置中的相應部分, 重置它可以協助解決此問題。"
-        report_epicfail: "由於出現意外錯誤, 無法載入時間表。"
-        report_timeout: "無法在合理的時間內載入時間表。"
-      filter:
-        grouping_other: "其他"
-        noneSelection: "（無）"
-      name: "名稱"
-      outline: "重置大綱"
-      outlines:
-        aggregation: "僅顯示聚合"
-        level1: "展開第1層"
-        level2: "展開第2層"
-        level3: "展開第3層"
-        level4: "展開第4層"
-        level5: "展開第5層"
-        all: "顯示全部"
-      project_status: "專案狀態"
-      really_close_dialog: "您真的要關閉對話視窗並放棄輸入的資料嗎？"
-      responsible: "責任歸屬者"
-      save: 儲存
-      start_date: "起始日期"
-      tooManyProjects: "超過 %{count} 個專案. 請使用更好的篩選條件."
-      selection_mode:
-        notification: '按一下任何標示的工作項目來建立關聯。按 ESC 取消。'
-      zoom:
-        in: "放大"
-        out: "縮小"
-        auto: "自動縮放"
-        days: "日"
-        weeks: "週"
-        months: "月"
-        quarters: "季"
-        years: "年"
-        slider: "縮放滑動器"
-        description: >
-          選擇自動縮放無法接通應顯示的初始縮放級別。
     tl_toolbar:
       zooms: "縮放等級"
       outlines: "層次結構級別"
@@ -942,10 +913,10 @@ zh-TW:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: '篩選的工作項目'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: '點擊添加新的工作項目到此清單'

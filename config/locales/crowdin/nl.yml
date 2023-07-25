@@ -166,10 +166,21 @@ nl:
     index:
       no_results_title_text: Er zijn momenteel geen kleuren.
       no_results_content_text: Maak een nieuwe kleur
-    label_no_color: 'Geen kleur'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "Geen kleur"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Acties'
+      name: "Acties"
       add: 'Actie toevoegen'
       assigned_to:
         executing_user_value: '(Toewijzen aan de uitvoerende gebruiker)'
@@ -248,6 +259,8 @@ nl:
         no_results_title_text: Momenteel zijn er geen aangepaste velden beschikbaar.
       types:
         no_results_title_text: Er zijn momenteel geen types beschikbaar.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: Momenteel zijn er geen versies voor het project.
         no_results_content_text: Maak een nieuwe versie
@@ -264,7 +277,9 @@ nl:
       notice_reset_token: "Een nieuwe %{type} -token is gegenereerd. Uw toegangstoken is:"
       token_value_warning: "Opmerking: Dit is de enige keer dat u dit token ziet, zorg ervoor dat u het nu kopiëren."
       no_results_title_text: Er zijn momenteel geen toegangstokens beschikbaar.
-      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" voor kalender \"%{calendar_name}\" van project \"%{project_name}\" is ingetrokken. De iCalendar URL met deze token is nu ongeldig."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Er is momenteel geen nieuws om te rapporteren.
@@ -1295,6 +1310,7 @@ nl:
   error_can_not_unarchive_project: "Dit project kan niet worden gedearchiveerd: %{errors}"
   error_check_user_and_role: "Kies een gebruiker en een rol."
   error_code: "Fout %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'De cookie voor OpenProject ontbreekt. Zorg ervoor dat cookies zijn ingeschakeld aangezien deze toepassing anders niet goed zal functioneren.'
   error_custom_option_not_found: "Optie bestaat niet."
   error_enterprise_activation_user_limit: "Uw account kon niet worden geactiveerd (gebruikerslimiet bereikt). Neem contact op met uw beheerder om toegang te krijgen."
@@ -1449,6 +1465,26 @@ nl:
         action: "Actie"
         expiration: "Verloopt"
       indefinite_expiration: "Nooit"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Stuur meldingen voor deze actie"
     work_packages:
@@ -1578,6 +1614,7 @@ nl:
   label_confirmation: "Bevestiging"
   label_contains: "bevat"
   label_content: "Inhoud"
+  label_color_plural: "Colors"
   label_copied: "gekopieerd"
   label_copy_same_as_target: "Zelfde als doel"
   label_copy_source: "Bron"
@@ -1606,6 +1643,7 @@ nl:
   label_deleted: "verwijderd"
   label_deleted_custom_field: "(verwijderde aangepast veld)"
   label_deleted_custom_option: "(verwijderde optie)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(ontbrekende waarde of ontbrekende machtigingen voor toegang)"
   label_descending: "Aflopend"
   label_details: "Details"
@@ -1651,6 +1689,7 @@ nl:
   label_expanded_click_to_collapse: "Uitgebreid. Klik op samenvouwen"
   label_f_hour: "%{value} uur"
   label_f_hour_plural: "%{value} uren"
+  label_favoured: "Favoured"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS toegangssleutel"
   label_feeds_access_key_created_on: "RSS toegangssleutel %{value} geleden gemaakt"
@@ -1846,7 +1885,8 @@ nl:
   label_project_new: "Nieuw project"
   label_project_plural: "Projecten"
   label_project_settings: "Project Instellingen"
-  label_project_storage_plural: "Opslagplaatsen"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} projecten die %{storage}-schijfopslag gebruiken"
   label_project_view_all: "Bekijk alle projecten"
   label_project_show_details: "Toon project details"
@@ -1934,6 +1974,7 @@ nl:
   label_this_week: "deze week"
   label_this_year: "Dit jaar"
   label_time_entry_plural: "Bestede tijd"
+  label_title: "Title"
   label_projects_menu: "Projecten"
   label_today: "vandaag"
   label_top_menu: "Hoofdmenu"
@@ -2262,7 +2303,8 @@ nl:
   permission_add_messages: "Berichten posten"
   permission_add_project: "Project Aanmaken"
   permission_archive_project: "Project archiveren"
-  permission_manage_user: "Gebruikers aanmaken en bewerken"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Maak, bewerk en verwijder tijdelijke gebruikers"
   permission_add_subprojects: "Subprojecten maken"
   permission_add_work_package_watchers: "Kijkers toevoegen"
@@ -2765,6 +2807,11 @@ nl:
   text_zoom_in: "Inzoomen"
   text_zoom_out: "Uitzoomen"
   text_setup_mail_configuration: "Configureren van uw e-mailprovider"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "am"
     formats:
@@ -2777,153 +2824,6 @@ nl:
     show: "Toon tijdschema"
     end: "naar"
     start: "van"
-  timelines:
-    admin_menu:
-      color: "Kleur"
-      colors: "Kleuren"
-    associations: "Afhankelijkheden"
-    button_delete_all: "Alles verwijderen"
-    change: "In de planning wijzigen"
-    children: "Onderliggend element"
-    color_could_not_be_saved: "Kleur kon niet opgeslagen worden"
-    current_planning: "Huidige planning"
-    dates: "Datums"
-    dates_are_calculated_based_on_sub_elements: "Datums worden berekend op basis van sub-elementen."
-    delete_all: "Alles verwijderen"
-    delete_thing: "Verwijderen"
-    duration: "Duur"
-    duration_days:
-      one: "%{count} dag"
-      other: "%{count} dagen"
-    edit_color: "Bewerk kleur"
-    edit_thing: "Wijzig"
-    edit_timeline: "Bewerk tijdlijn verslag %{timeline}"
-    delete_timeline: "Verwijder tijdlijn verslag %{timeline}"
-    empty: "(leeg)"
-    enable_type_in_project: 'Activeer type "%{type}"'
-    end: "Einde"
-    errors:
-      not_implemented: "De tijdlijn kan niet worden weergegeven omdat het gebruik maakt van een functie die is nog niet geïmplementeerd."
-      report_comparison: "De tijdlijn kan de geconfigureerde vergelijkingen tonen. Controleer de bijbehorende sectie in de configuratie, het resetten kan helpen bij het oplossen van dit probleem."
-      report_epicfail: "De tijdlijn kan niet worden geladen vanwege een onverwachte fout."
-      report_timeout: "De tijdlijn kan niet worden geladen in een redelijke hoeveelheid tijd."
-    filter:
-      errors:
-        timeframe_start: "Het begin van de termijn "
-        timeframe_end: "Het einde van de termijn "
-        compare_to_relative: "De waarde van de relatieve vergelijking "
-        compare_to_absolute: "De waarde van de absolute vergelijking "
-        planning_element_time_relative_one: "De start voor werkpakketten in een bepaalde periode "
-        planning_element_time_relative_two: "Het einde voor werkpakketten in een bepaalde periode "
-        planning_element_time_absolute_one: "De start voor werkpakketten in een bepaalde periode  "
-        planning_element_time_absolute_two: "Het einde voor werkpakketten in een bepaalde periode  "
-      sort:
-        sortation: "Sorteer op"
-        alphabet: "alfabetisch"
-        explicit_order: "expliciete volgorde"
-        project_sortation: "Sorteer projecten op"
-        date: "datum"
-        default: "standaard"
-      column:
-        assigned_to: "Toegewezene"
-        type: "Type"
-        due_date: "Einddatum"
-        name: "Naam"
-        status: "Status"
-        start_date: "Startdatum"
-      columns: "Kolommen"
-      comparisons: "Vergelijkingen"
-      comparison:
-        absolute: "Absoluut"
-        none: "Geen"
-        relative: "Relatief"
-        compare_relative_prefix: "Vergelijk de huidige planning met"
-        compare_relative_suffix: "geleden"
-        compare_absolute: "Vergelijk de huidige planning met %{date}"
-      time_relative:
-        days: "dagen"
-        weeks: "weken"
-        months: "maanden"
-      exclude_own_work_packages: "Werkpakketten van dit project verbergen"
-      exclude_reporters: "Verberg andere projecten"
-      exclude_empty: "Lege projecten verbergen"
-      grouping: "Groeperen"
-      grouping_hide_group: "Verbergen van de groep \"%{group}\""
-      grouping_one: "Eerste criterium van de groepering"
-      grouping_one_phrase: "Is een subproject van"
-      grouping_other: "Overige"
-      hide_chart: "Grafiek verbergen"
-      noneElement: "(geen)"
-      noneSelection: "(geen)"
-      outline: "Uitbreiding van de eerste schets"
-      parent: "Toon subprojecten van"
-      work_package_responsible: "Toon werkpakketten met verantwoordelijk"
-      work_package_assignee: "Toon werkpakketten met uitvoerder"
-      types: "Typen weergeven"
-      status: "Toon status"
-      project_time_filter: "Projecten met een werkpakket van een bepaald type in een bepaalde periode"
-      project_time_filter_timeframe: "Periode"
-      project_time_filter_historical_from: "van"
-      project_time_filter_historical_to: "naar"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} geleden, %{end_label} %{endspan}%{endspanunit} vanaf nu"
-      project_filters: "Filter projecten"
-      project_responsible: "Toon projecten met verantwoordelijk"
-      project_status: "Toon project status"
-      timeframe: "Toon tijdschema"
-      timeframe_end: "naar"
-      timeframe_start: "van"
-      timeline: "Algemene instellingen"
-      zoom: "Zoomfactor"
-    history: "Geschiedenis"
-    new_color: "Nieuwe kleur"
-    new_association: "Nieuwe afhankelijkheid"
-    new_work_package: "Nieuw werkpakket"
-    new_reporting: "Nieuwe rapportage"
-    new_timeline: "Nieuw rapport van de tijdlijn"
-    no_projects_for_reporting_available: "Er zijn geen projecten waarnaar een rapportage associatie kan worden gemaakt."
-    no_right_to_view_timeline: "U heeft niet de benodigde machtiging om de gekoppelde tijdlijn te bekijken."
-    no_timeline_for_id: "Er is geen tijdlijn met ID %{id}."
-    notice_successful_deleted_all_elements: "Succesvol alle elementen verwijderd"
-    outline: "Reset omlijning"
-    outlines:
-      aggregation: "Toon alleen aggregaties"
-      level1: "Uitbreiden van niveau 1"
-      level2: "Uitbreiden van niveau 2"
-      level3: "Uitbreiden van niveau 3"
-      level4: "Uitbreiden van niveau 4"
-      level5: "Uitbreiden van niveau 5"
-      all: "Toon alle"
-    reporting_for_project:
-      show: "Status gemeld aan het project: %{title}"
-      edit_delete: "statusrapport voor project: %{title}"
-      history: "Geschiedenis van wijzigingen voor status voor project: %{title}"
-    reporting:
-      delete: "Verwijder status: %{comment}"
-      edit: "Bewerk status: %{comment}"
-      show: "Status: %{comment}"
-    planning_element_update: "Bijgewerkt: %{title}"
-    type_could_not_be_saved: "Type kan niet worden opgeslagen"
-    reporting_could_not_be_saved: "Rapportage kan niet worden opgeslagen"
-    properties: "Eigenschappen"
-    really_delete_color: >
-      Weet u zeker, dat u wilt de volgende kleur verwijderen? Typen van deze kleur zullen niet worden verwijderd.
-    really_delete_reporting: >
-      Weet u zeker, dat u de volgende rapportage wilt verwijderen? Vorige rapportage statussen worden ook verwijderd.
-    start: "Start"
-    timeline: "Rapport van de tijdlijn"
-    timelines: "Tijdlijn rapporten"
-    settings: "Tijdlijnen"
-    vertical_work_package: "Verticale werkpakketten"
-    you_are_viewing_the_selected_timeline: "U bekijkt het geselecteerde tijdlijn Rapport"
-    zoom:
-      in: "Inzoomen"
-      out: "Uitzoomen"
-      days: "Dagen"
-      weeks: "Weken"
-      months: "Maanden"
-      quarters: "Kwartalen"
-      years: "Jaren"
   title_remove_and_delete_user: De uitgenodigde gebruiker uit het project verwijderen en verwijder hem/haar.
   title_enterprise_upgrade: "Upgrade om meer gebruikers te ontgrendelen."
   tooltip_user_default_timezone: >

@@ -296,6 +296,34 @@ hi:
           one: "First sorting criteria"
           two: "Second sorting criteria"
           three: "Third sorting criteria"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "no"
     general_text_yes: "yes"
     general_text_No: "No"
@@ -505,7 +533,7 @@ hi:
     label_remove_all_files: Delete all files
     label_add_description: "Add a description for %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "These files will be uploaded:"
     label_rejected_files: "These files cannot be uploaded:"
@@ -823,63 +851,6 @@ hi:
       activate_no: 'activate to remove the sort'
     text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'गैंट चार्ट'
-      labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'बाएँ'
-        right: 'दाएँ'
-        farRight: 'Far right'
-        showNone: '-- No label --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'गैन्ट चार्ट दिखाएं'
-      button_deactivate: 'गैन्ट चार्ट छुपाएं'
-      cancel: निरस्त करें
-      change: "Change in planning"
-      due_date: "समाप्ति दिनांक"
-      empty: "(empty)"
-      error: "An error has occurred."
-      errors:
-        not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
-        report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
-        report_epicfail: "The timeline could not be loaded due to an unexpected error."
-        report_timeout: "The timeline could not be loaded in a reasonable amount of time."
-      filter:
-        grouping_other: "अन्य"
-        noneSelection: "(none)"
-      name: "नाम"
-      outline: "Reset Outline"
-      outlines:
-        aggregation: "Show aggregations only"
-        level1: "Expand level 1"
-        level2: "Expand level 2"
-        level3: "Expand level 3"
-        level4: "Expand level 4"
-        level5: "Expand level 5"
-        all: "सभी दिखाएँ"
-      project_status: "प्रोजेक्ट स्थिति"
-      really_close_dialog: "Do you really want to close the dialog and lose the entered data?"
-      responsible: "जिम्मेदार"
-      save: सहेजें
-      start_date: "प्रारंभ दिनांक"
-      tooManyProjects: "More than %{count} Projects. Please use a better filter!"
-      selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
-      zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
-        slider: "Zoom slider"
-        description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
     tl_toolbar:
       zooms: "Zoom level"
       outlines: "Hierarchy level"
@@ -944,10 +915,10 @@ hi:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filter work packages'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Click here to add a new work package to this list'

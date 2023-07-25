@@ -11,6 +11,7 @@ nl:
   project_module_storages: "Bestandsopslag"
   activerecord:
     models:
+      file_link: "File link"
       storages/storage: "Opslagruimte"
     attributes:
       storages/storage:

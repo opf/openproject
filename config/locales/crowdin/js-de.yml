@@ -295,6 +295,34 @@ de:
           one: "Erstes Sortierkriterium"
           two: "Zweites Sortierkriterium"
           three: "Drittes Sortierkriterium"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "nein"
     general_text_yes: "ja"
     general_text_No: "Nein"
@@ -504,7 +532,7 @@ de:
     label_remove_all_files: Alle Dateien löschen
     label_add_description: "Fügen Sie eine Beschreibung für %{file} hinzu"
     label_upload_notification: "Dateien werden hochgeladen..."
-    label_work_package_upload_notification: "Hochladen von Dateien für Arbeitspaket #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Hochladen von Dateien für Arbeitspaket #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} erstellt von %{author}"
     label_files_to_upload: "Diese Dateien werden hochgeladen:"
     label_rejected_files: "Diese Dateien können nicht hochgeladen werden:"
@@ -822,63 +850,6 @@ de:
       activate_no: 'aktivieren um Sortierung zu entfernen'
     text_work_packages_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete löschen möchten?"
     text_query_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählte Ansicht löschen möchten?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt-Diagramm'
-      labels:
-        title: 'Konfiguration von Beschriftungen'
-        bar: 'Balkenbeschriftungen'
-        left: 'Links'
-        right: 'Rechts'
-        farRight: 'Rechts außen'
-        showNone: '-- Keine Beschriftung --'
-        description: >
-          Wählen Sie die Attribute, die an den jeweiligen Positionen des Gantt-Diagramms zu jeder Zeit angezeigt werden sollen. Bedenken Sie, dass beim Überfahren eines Elements die Datumswerte angezeigt werden anstatt dieser Attribute.
-      button_activate: 'Gantt-Diagramm zeigen'
-      button_deactivate: 'Gantt-Diagramm ausblenden'
-      cancel: Abbrechen
-      change: "Planungsänderung"
-      due_date: "Endtermin"
-      empty: "(leer)"
-      error: "Ein Fehler ist aufgetreten."
-      errors:
-        not_implemented: "Der Zeitplan-Report konnte nicht gezeichnet werden, da eine noch nicht implementierte Funktionalität benutzt wird."
-        report_comparison: "Der Zeitplan-Report konnte nicht gezeichnet werden, weil es ein Problem mit den konfigurierten Planungsvergleichen gibt. Ein Zurücksetzen der Vergleichsoptionen kann dieses Problem beheben."
-        report_epicfail: "Der Zeitplan-Report konnte wegen eines unerwarteten Fehlers nicht geladen werden."
-        report_timeout: "Der Zeitplan-Report konnte nicht in angemessener Zeit geladen werden."
-      filter:
-        grouping_other: "Andere"
-        noneSelection: "(keiner)"
-      name: "Name"
-      outline: "Hierarchie zurücksetzen"
-      outlines:
-        aggregation: "Nur Aggregationen anzeigen"
-        level1: "Bis zur ersten Ebene"
-        level2: "Bis zur zweiten Ebene"
-        level3: "Bis zur dritten Ebene"
-        level4: "Bis zur vierten Ebene"
-        level5: "Bis zur fünften Ebene"
-        all: "Alle anzeigen"
-      project_status: "Projekt-Status"
-      really_close_dialog: "Dialog schließen und eingegebene Daten verwerfen?"
-      responsible: "Verantwortlicher"
-      save: Speichern
-      start_date: "Anfangstermin"
-      tooManyProjects: "Mehr als %{count} Projekte. Bitte verwenden Sie einen genaueren Filter!"
-      selection_mode:
-        notification: 'Klicken Sie auf ein hervorgehobenes Arbeitspaket, um eine Relation zu diesem zu erstellen. Drücken Sie Escape, um den Modus abzubrechen.'
-      zoom:
-        in: "Mehr Details"
-        out: "Weniger Details"
-        auto: "Auto-Zoom"
-        days: "Tage"
-        weeks: "Wochen"
-        months: "Monate"
-        quarters: "Quartale"
-        years: "Jahre"
-        slider: "Zoom-Regler"
-        description: >
-          Wählen Sie die Zoomstufe für das Gantt-Diagramm aus, wenn kein Autozoom aktiviert ist.
     tl_toolbar:
       zooms: "Zoomstufe"
       outlines: "Hierarchie-Stufe"
@@ -943,10 +914,10 @@ de:
         addition_label: 'Innerhalb des Vergleichszeitraums zur Ansicht hinzugefügt'
         removal_label: 'Innerhalb des Vergleichszeitraums aus der Ansicht entfernt'
         modification_label: 'Innerhalb des Vergleichszeitraums geändert'
-        column_incompatible: 'Dieses Attribut ist nicht kompatibel mit dem Baseline-Vergleich und zeigt keine Unterschiede an.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Arbeitspakete filtern'
-        baseline_incompatible: 'Dieser Filter ist nicht kompatibel mit dem Baseline-Vergleich und wird nicht berücksichtigt.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Der Baseline-Vergleich ist aktiviert, aber einige Ihrer aktiven Filter sind nicht im Vergleich enthalten.'
       inline_create:
         title: 'Klicken Sie hier, um ein neues Arbeitspaket zu dieser Liste hinzufügen'
@@ -954,7 +925,7 @@ de:
         title: 'Neues Arbeitspaket'
         header: 'Neu: %{type}'
         header_no_type: 'Neues Arbeitspaket (Typ noch nicht gesetzt)'
-        header_with_parent: 'Neu: %{type} (Kind von %{parent_type} #%{id})' #%{id})'
+        header_with_parent: 'Neu: %{type} (Kind von %{parent_type} #%{id})'
         button: 'Erstellen'
       copy:
         title: 'Arbeitspaket kopieren'
