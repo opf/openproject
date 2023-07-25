@@ -1,0 +1,90 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2021 Ben Tey
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+.op-mr-pipeline
+  display: grid
+  grid-row: span 4
+  grid-template-columns: 28px 33px 1fr auto
+  grid-template-areas: "pipeline-state-icon pipeline-avatar pipeline-info pipeline-details"
+  list-style-type: none
+  border: 1px solid #dddddd
+  padding: 0.3rem 1rem
+  background: rgba(0, 0, 0, 0.05)
+  font-size: 0.9rem
+
+  &:first-child
+    border-top-right-radius: 5px
+    border-top-left-radius: 5px
+
+  &:last-child
+    border-bottom-right-radius: 5px
+    border-bottom-left-radius: 5px
+
+  &--avatar img
+    grid-area: pipeline-avatar
+    display: inline-block
+    width: 22px
+    height: 22px
+    margin-right: 5px
+    border-radius: var(--user-avatar-border-radius)
+
+  &--info
+    grid-area: pipeline-info
+
+  &--state
+    color: var(--gray-dark)
+    font-style: italic
+    margin-left: 1em
+
+  &--state-icon
+    grid-area: pipeline-state-icon
+
+    &_queued
+      color: cadetblue
+
+    &_in_progress
+      color: orange
+
+    &_success
+      color: green
+
+    &_failure,
+    &_timed_out,
+    &_action_required,
+    &_stale
+      color: red
+
+    &_skipped,
+    &_neutral,
+    &_cancelled
+      color: gray
+      color: gray
+      color: gray
+
+  &--details
+    grid-area: pipeline-details

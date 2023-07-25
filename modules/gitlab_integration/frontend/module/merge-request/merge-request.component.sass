@@ -1,0 +1,127 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2021 Ben Tey
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+@import "helpers"
+
+:host,
+.op-merge-request
+  display: grid
+  grid-template-columns: auto 1fr auto auto
+  grid-template-areas: "link link link link" "title title title state" "info info info info" "pipeline-label pipeline-label pipeline-label pipeline-label" "pipeline pipeline pipeline pipeline"
+  margin-bottom: 11px
+  padding-bottom: 11px
+  border-bottom: 1px solid #dddddd
+
+  &:last-child
+    border-bottom: none
+
+  &--title
+    @include text-shortener
+    font-weight: bold
+    grid-area: title
+    // have the same line height as the status "button" next to it
+    line-height: 32px
+    margin-right: 20px
+
+  &--avatar
+    grid-area: info
+
+  &--info
+    display: block
+    grid-area: info
+    margin-bottom: 3px
+    font-size: 0.9rem
+    grid-area: info
+    color: var(--gray-dark)
+    // The mini avatar is much higher than the text line. Compensate it.
+    margin-top: -4px
+
+  &--labels
+    display: block
+    grid-area: info
+    margin-bottom: 3px
+    font-size: 0.9rem
+    grid-area: info
+    color: var(--gray-dark)
+    margin-top: 20px
+
+  &--label
+    display: inline-block
+    padding: 6px 9px
+    border-radius: 16px
+    border: 1px solid #fff
+    color: #fff
+    font-size: 0.8rem
+    text-transform: capitalize
+
+  &--date
+    grid-area: info
+
+  &--link
+    grid-area: link
+    margin-top: 6px
+    font-size: 0.9rem
+
+  &--state
+    grid-area: state
+    display: inline-block
+    padding: 6px 10px
+    border-radius: 10rem
+    border: 3px solid #fff
+    color: #fff
+    font-size: 0.8rem
+    font-weight: 600
+    text-transform: capitalize
+
+    &_open
+      background-color: #c3e6cd
+      color: #24663b
+
+    &_ready
+      background-color: #c3e6cd
+      color: #24663b
+
+    &_merged
+      background-color: #cbe2f9 
+      color: #0b5cad
+
+    &_closed
+      background-color: #fdd4cd
+      color: #ae1800
+
+  &--pipeline-label
+    grid-area: pipeline-label
+    margin-top: 12px
+    font-size: 0.9rem
+    font-weight: bold
+
+  &--pipeline
+    margin-top: 12px
+    margin-left: 0
+    grid-area: pipeline

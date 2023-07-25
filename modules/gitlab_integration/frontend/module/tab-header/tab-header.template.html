@@ -1,0 +1,21 @@
+<div class="gitlab-mr-header">
+  <h3 class="title">
+    <op-icon icon-classes="button--icon icon-merge-branch"></op-icon>
+    {{text.title}}
+  </h3>
+  <ul class="toolbar-items hide-when-print">
+    <li class="toolbar-item">
+      <button class="button gitlab-git-copy"
+          type="button"
+          [attr.aria-label]="text.gitMenuDescription"
+          gitActionsCopyDropdown
+          [gitActionsCopyDropdown-workPackage]="workPackage">
+        <op-icon icon-classes="button--icon icon-console-light"></op-icon>
+        <span class="button--text"
+              [textContent]="text.gitMenuLabel"
+              aria-hidden="true"></span>
+        <op-icon icon-classes="button--icon icon-small icon-pulldown hidden-for-mobile"></op-icon>
+      </button>
+    </li>
+  </ul>
+</div>
