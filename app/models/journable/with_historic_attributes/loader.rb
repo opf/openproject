@@ -70,11 +70,11 @@ class Journable::WithHistoricAttributes
               'ie: WorkPackage.at_timestamp(1.day.ago) or WorkPackage.find(1).at_timestamp(1.day.ago)'
       end
 
-      journals_by_id = load_journals_by_id(journal_ids)
+      customizable_journals_by_journal_id = load_customizable_journals_by_journal_id(journal_ids)
 
       journalized.each do |work_package|
-        journal = journals_by_id[work_package.journal_id]
-        set_custom_value_association_from_journal!(work_package:, journal:)
+        customizable_journals = Array(customizable_journals_by_journal_id[work_package.journal_id])
+        set_custom_value_association_from_journal!(work_package:, customizable_journals:)
       end
       journalized
     end
@@ -116,21 +116,18 @@ class Journable::WithHistoricAttributes
       journables.first.class
     end
 
-    def load_journals_by_id(journal_ids)
-      Journal
-        .where(id: journal_ids)
-        .includes({ customizable_journals: :custom_field })
-        .index_by(&:id)
+    def load_customizable_journals_by_journal_id(journal_ids)
+      Journal::CustomizableJournal
+        .where(journal_id: journal_ids)
+        .includes(:custom_field)
+        .index_by(&:journal_id)
     end
 
-    def set_custom_value_association_from_journal!(work_package:, journal:)
-      work_package.association(:journals).loaded!
-      work_package.association(:journals).target = Array(journal)
-
+    def set_custom_value_association_from_journal!(work_package:, customizable_journals:)
       # Build the associated customizable_journals as custom values, this way the historic work packages
       # will behave just as the normal ones. Additionally set the reverse customized association
       # on the custom_values that points to the work_package itself.
-      historic_custom_values = Array(journal&.customizable_journals).map do |customizable_journal|
+      historic_custom_values = customizable_journals.map do |customizable_journal|
         customizable_journal.as_custom_value(customized: work_package)
       end
 
