@@ -224,6 +224,7 @@ class Query < ApplicationRecord
       .columns[self]
       .map { |col| col.instances(project) }
       .flatten
+      .uniq(&:name)
   end
 
   def self.displayable_columns
