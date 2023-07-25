@@ -1,4 +1,4 @@
-# Baseline comparison (work in progress)
+# Baseline comparison
 
 Baseline is a powerful tool that allows you to view changes to work package table within a given period. This can be a saved view or a new filter query. Project managers can use baseline to get a quick overview of what has changed over time, making it easier to report on project progress and status.
 
