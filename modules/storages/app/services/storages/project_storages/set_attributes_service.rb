@@ -32,11 +32,12 @@ module Storages::ProjectStorages
     def set_default_attributes(params)
       model.creator ||= user
 
-      if params[:project_folder_mode].blank? && model.storage.present? && model.storage.automatically_managed?
-        # set default to automatic, if related storage is automatically managed
-        # do NOT override values set in params
-        model.project_folder_mode = "automatic"
-      end
+      model.project_folder_mode ||=
+        if model.storage.present? && model.storage.automatically_managed?
+          "automatic"
+        else
+          "inactive"
+        end
     end
   end
 end

@@ -603,13 +603,13 @@ pl:
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_6:
               subject: Modelling & coordinating, second cycle
-              description: "## Goal\\r\n\\r\n*   ...\\r\n\\r\n## Description\\r\n\\r\n* \\  ..."
+              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
             item_7:
               subject: Modelling & coordinating, ... cycle
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_8:
               subject: Modelling & coordinating, (n-th minus 1) cycle
-              description: "## Goal\\r\n\\r\n*   ...\\r\n\\r\n## Description\\r\n\\r\n* \\  ..."
+              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
             item_9:
               subject: Modelling & coordinating n-th cycle
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.

@@ -169,10 +169,21 @@ ro:
     index:
       no_results_title_text: În acest moment nu există culori.
       no_results_content_text: Creare culoare nouă
-    label_no_color: 'Nicio culoare'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "Nicio culoare"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Acțiuni'
+      name: "Acțiuni"
       add: 'Adaugă acţiune'
       assigned_to:
         executing_user_value: '(Atribuiți utilizatorului executant)'
@@ -251,6 +262,8 @@ ro:
         no_results_title_text: În acest moment nu există câmpuri personalizate disponibile.
       types:
         no_results_title_text: În acest moment nu există tipuri disponibile.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: În acest moment nu există versiuni pentru acest proiect.
         no_results_content_text: Creare versiune nouă
@@ -267,7 +280,9 @@ ro:
       notice_reset_token: "S-a generat un token nou %{type} . Token-ul de acces este:"
       token_value_warning: "Notă: este singura dată când veți vedea acest token, asigurați-vă că îl copiați acum."
       no_results_title_text: În acest moment nu există tichete de acces disponibile.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: În acest moment nu există știri de raportat.
@@ -1317,6 +1332,7 @@ ro:
   error_can_not_unarchive_project: "Acest proiect nu poate fi dezarhivat: %{errors}"
   error_check_user_and_role: "Alegeți un utilizator și un rol."
   error_code: "Eroare %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'Cookie-ul OpenProject lipseşte. Vă rugăm să verificați setările referitoare la cookies, această aplicație nu va funcţiona corespunzător fără acestea.'
   error_custom_option_not_found: "Opțiunea nu există."
   error_enterprise_activation_user_limit: "Contul dvs. nu a putut fi activat (limita utilizatorilor a fost atinsă). Contactați administratorul dvs. pentru a avea acces."
@@ -1471,6 +1487,26 @@ ro:
         action: "Acțiune"
         expiration: "Expirare"
       indefinite_expiration: "Niciodată"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Trimite notificări pentru această acțiune"
     work_packages:
@@ -1600,6 +1636,7 @@ ro:
   label_confirmation: "Confirmare parolă"
   label_contains: "conţine"
   label_content: "Conținut"
+  label_color_plural: "Colors"
   label_copied: "copiat"
   label_copy_same_as_target: "La fel ca destinația"
   label_copy_source: "Sursă"
@@ -1628,6 +1665,7 @@ ro:
   label_deleted: "șters"
   label_deleted_custom_field: "(câmp personalizat șters)"
   label_deleted_custom_option: "(opțiune eliminată)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(valoare lipsă sau lipsa permisiunilor de acces)"
   label_descending: "Descrescător"
   label_details: "Detalii"
@@ -1673,6 +1711,7 @@ ro:
   label_expanded_click_to_collapse: "Extinse. Faceți clic pentru a restrânge"
   label_f_hour: "%{value} oră"
   label_f_hour_plural: "%{value} ore"
+  label_favoured: "Favoured"
   label_feed_plural: "Fluxuri"
   label_feeds_access_key: "Cheie de acces RSS"
   label_feeds_access_key_created_on: "Cheia de acces RSS a fost creată acum %{value}"
@@ -1868,7 +1907,8 @@ ro:
   label_project_new: "Proiect nou"
   label_project_plural: "Proiecte"
   label_project_settings: "Setările proiectului"
-  label_project_storage_plural: "Depozite"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} proiecte folosind %{storage} spațiu pe disc"
   label_project_view_all: "Vizualizare toate proiectele"
   label_project_show_details: "Arată detaliile proietului"
@@ -1956,6 +1996,7 @@ ro:
   label_this_week: "săptămâna curentă"
   label_this_year: "anul curent"
   label_time_entry_plural: "Timp consumat"
+  label_title: "Title"
   label_projects_menu: "Proiecte"
   label_today: "astăzi"
   label_top_menu: "Meniul de sus"
@@ -2286,7 +2327,8 @@ ro:
   permission_add_messages: "Publicare mesaje"
   permission_add_project: "Creare proiect"
   permission_archive_project: "Proiect de arhivă"
-  permission_manage_user: "Crearea și editarea utilizatorilor"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Creați, editați și ștergeți utilizatori de tip placeholder"
   permission_add_subprojects: "Creare subproiecte"
   permission_add_work_package_watchers: "Adăugare observatori"
@@ -2789,6 +2831,11 @@ ro:
   text_zoom_in: "Mărire"
   text_zoom_out: "Micșorare"
   text_setup_mail_configuration: "Configuraţi furnizorul dvs. de e-mail"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "AM"
     formats:
@@ -2801,154 +2848,6 @@ ro:
     show: "Afișare interval"
     end: "până la"
     start: "de la"
-  timelines:
-    admin_menu:
-      color: "Culoare"
-      colors: "Culori"
-    associations: "Dependenţe"
-    button_delete_all: "Șterge tot"
-    change: "Schimbare în planificare"
-    children: "Elemente subordonate"
-    color_could_not_be_saved: "Culoarea nu a putut fi salvată"
-    current_planning: "Planificare curentă"
-    dates: "Date"
-    dates_are_calculated_based_on_sub_elements: "Datele sunt calculate pe baza sub-elementelor."
-    delete_all: "Șterge tot"
-    delete_thing: "Ștergere"
-    duration: "Durată"
-    duration_days:
-      one: "o zi"
-      few: "%{count} zile"
-      other: "%{count} zile"
-    edit_color: "Editare culoare"
-    edit_thing: "Editare"
-    edit_timeline: "Editare raport planificări %{timeline}"
-    delete_timeline: "Ștergere raport planificări %{timeline}"
-    empty: "(gol)"
-    enable_type_in_project: 'Activare tip %{type}'
-    end: "Sfârșit"
-    errors:
-      not_implemented: "Planificările nu pot fi afișate deoarece utilizează o funcționalitate care nu este încă implementată."
-      report_comparison: "Planificările nu au putut afișa comparațiile configurate. Verificați secțiunea corespunzătoare din configurare, resetarea acesteia poate ajuta la rezolvarea problemei."
-      report_epicfail: "Planificările nu au putut fi încărcate din cauza unei erori neașteptate."
-      report_timeout: "Planificările nu au putut fi încărcate într-un interval de timp rezonabil."
-    filter:
-      errors:
-        timeframe_start: "Început interval "
-        timeframe_end: "Sfârșit interval "
-        compare_to_relative: "Valoarea pentru compararea relativă "
-        compare_to_absolute: "Valoarea pentru compararea absolută "
-        planning_element_time_relative_one: "Începutul pachetelor de lucru într-un anumit interval "
-        planning_element_time_relative_two: "Sfârșitul pachetelor de lucru într-un anumit interval "
-        planning_element_time_absolute_one: "Începutul pachetelor de lucru într-un anumit interval  "
-        planning_element_time_absolute_two: "Sfârșitul pachetelor de lucru într-un anumit interval  "
-      sort:
-        sortation: "Sortare după"
-        alphabet: "alfabetic"
-        explicit_order: "ordine explicită"
-        project_sortation: "Ordonare proiecte după"
-        date: "dată"
-        default: "implicit"
-      column:
-        assigned_to: "Executant"
-        type: "Tip"
-        due_date: "Dată de sfârşit"
-        name: "Nume"
-        status: "Stare"
-        start_date: "Data de început"
-      columns: "Coloane"
-      comparisons: "Comparaţii"
-      comparison:
-        absolute: "Absolut"
-        none: "Nimic"
-        relative: "Relativă"
-        compare_relative_prefix: "Comparare planificare curentă cu"
-        compare_relative_suffix: "în urmă"
-        compare_absolute: "Comparare planificare curentă cu %{date}"
-      time_relative:
-        days: "zile"
-        weeks: "săptămâni"
-        months: "luni"
-      exclude_own_work_packages: "Ascunde pachetele de muncă din acest proiect"
-      exclude_reporters: "Ascunde alte proiecte"
-      exclude_empty: "Ascunde proiectele goale"
-      grouping: "Grupare"
-      grouping_hide_group: "Ascunde grupul \"%{group}\""
-      grouping_one: "Primul criteriu de grupare"
-      grouping_one_phrase: "Este un subproiect din"
-      grouping_other: "Altele"
-      hide_chart: "Ascundere grafic"
-      noneElement: "(nimic)"
-      noneSelection: "(nimic)"
-      outline: "Extindere contur inițial"
-      parent: "Afișare subproiecte ale"
-      work_package_responsible: "Afișați pachetele de lucru cu responsabilități"
-      work_package_assignee: "Afișare pachete de lucru cu executant"
-      types: "Afișare tipuri"
-      status: "Afișare stare"
-      project_time_filter: "Proiecte cu pachete de lucru de un anumit tip într-un anumit interval"
-      project_time_filter_timeframe: "Interval"
-      project_time_filter_historical_from: "de la"
-      project_time_filter_historical_to: "până la"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} acum %{startspan}%{startspanunit}, %{end_label} după %{endspan}%{endspanunit}"
-      project_filters: "Filtrare proiecte"
-      project_responsible: "Afișați proiectele cu responsabilități"
-      project_status: "Afișare stare proiect"
-      timeframe: "Afișare interval"
-      timeframe_end: "până la"
-      timeframe_start: "de la"
-      timeline: "Setări generale"
-      zoom: "Factor de mărire"
-    history: "Istoric"
-    new_color: "Culoare nouă"
-    new_association: "Dependență nouă"
-    new_work_package: "Pachet de lucru nou"
-    new_reporting: "Raportare nouă"
-    new_timeline: "Raport nou de interval"
-    no_projects_for_reporting_available: "Nu există proiecte pentru care să se poată crea o asociere de raportare."
-    no_right_to_view_timeline: "Nu aveți drepturile necesare pentru a vedea planificarea asociată."
-    no_timeline_for_id: "Nu există planificarea cu ID %{id}."
-    notice_successful_deleted_all_elements: "Toate elementele au fost șterse cu succes"
-    outline: "Resetare contur"
-    outlines:
-      aggregation: "Afișare doar a agregărilor"
-      level1: "Afișare level 1"
-      level2: "Afișare level 2"
-      level3: "Afișare level 3"
-      level4: "Afișare level 4"
-      level5: "Afișare level 5"
-      all: "Afișare completă"
-    reporting_for_project:
-      show: "Stare raportată pentru proiectul: %{title}"
-      edit_delete: "raport de stare pentru proiectul: %{title}"
-      history: "Istoricul de stări pentru proiectul: %{title}"
-    reporting:
-      delete: "Stare ștergere: %{comment}"
-      edit: "Stare editare: %{comment}"
-      show: "Stare: %{comment}"
-    planning_element_update: "Actualizare: %{title}"
-    type_could_not_be_saved: "Tipul nu a putut fi salvat"
-    reporting_could_not_be_saved: "Raportarea nu a putut fi salvată"
-    properties: "Proprietăţi"
-    really_delete_color: >
-      Sunteţi sigur că doriţi să ştergeţi următoarea culoare? Tipurile care folosesc această culoare nu vor fi şterse.
-    really_delete_reporting: >
-      Sunteţi sigur că doriţi să ştergeţi următoarea raportare? Stările raportate anterior vor fi șterse, de asemenea.
-    start: "Început"
-    timeline: "Raport de interval"
-    timelines: "Raportări de interval"
-    settings: "Planificări"
-    vertical_work_package: "Pachete de lucru verticale"
-    you_are_viewing_the_selected_timeline: "Raportul de interval selectat este afișat"
-    zoom:
-      in: "Mărire"
-      out: "Micșorare"
-      days: "Zile"
-      weeks: "Săptămâni"
-      months: "Luni"
-      quarters: "Trimestre"
-      years: "Ani"
   title_remove_and_delete_user: Eliminaţi utilizatorul invitat din proiect şi ştergeţi-l.
   title_enterprise_upgrade: "Actualizați pentru a debloca mai mulți utilizatori."
   tooltip_user_default_timezone: >

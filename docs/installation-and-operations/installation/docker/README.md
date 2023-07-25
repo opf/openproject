@@ -85,6 +85,7 @@ docker run -it -p 8080:80 \
   -e OPENPROJECT_SECRET_KEY_BASE=secret \
   -e OPENPROJECT_HOST__NAME=localhost:8080 \
   -e OPENPROJECT_HTTPS=false \
+  -e OPENPROJECT_DEFAULT__LANGUAGE=en \
   openproject/community:12
 ```
 
@@ -94,6 +95,7 @@ Explanation of the used configuration values:
 - `OPENPROJECT_SECRET_KEY_BASE` sets the secret key base for Rails. Please use a pseudo-random value for this and treat it like a password.
 - `OPENPROJECT_HOST__NAME` sets the host name of the application. This value is used for generating forms and links in emails, and needs to match the external request host name (The value users are seeing in their browsers).
 - `OPENPROJECT_HTTPS=false` disables the on-by-default HTTPS mode of OpenProject so you can access the instance over HTTP-only. For all production systems we strongly advise not to set this to false, and instead set up a proper TLS/SSL termination on your outer web server.
+- `OPENPROJECT_DEFAULT__LANGUAGE` does two things. It controls for the very first installation, in which language basic data (such as types, status names, etc.) and demo data is being created in. It also sets the default fallback language for new users.
 
 This will take a bit of time the first time you launch it, but after a few
 minutes you should see a success message indicating the default administration

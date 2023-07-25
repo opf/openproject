@@ -126,10 +126,12 @@ RSpec.describe 'Status action board', js: true, with_ee: %i[board_view] do
     filters.expect_filter_by('Type', 'is (OR)', [type_task.name, type_bug.name])
 
     # Wait a bit before saving the page to ensure both values are processed
-    sleep 2
+    sleep 1
 
     board_page.expect_changed
     board_page.save
+
+    sleep 1
 
     # Move task to closed
     board_page.move_card(0, from: 'Open', to: 'Closed')
@@ -141,7 +143,7 @@ RSpec.describe 'Status action board', js: true, with_ee: %i[board_view] do
     board_page.card_for(bug_wp).expect_type 'Bug'
 
     # Wait a bit before moving the items too fast
-    sleep 2
+    sleep 1
 
     # Move bug to open
     board_page.move_card(0, from: 'Closed', to: 'Open')

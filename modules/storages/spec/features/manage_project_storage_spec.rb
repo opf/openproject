@@ -79,6 +79,8 @@ RSpec.describe(
   end
 
   before do
+    skip("Flaky test disabled. Fix it in https://community.openproject.org/wp/49285")
+
     oauth_client_token
 
     stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/")

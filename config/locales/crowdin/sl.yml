@@ -168,10 +168,21 @@ sl:
     index:
       no_results_title_text: Trenutno ni barv.
       no_results_content_text: Ustvarite novo barvo
-    label_no_color: 'Brez barve'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "Brez barve"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Akcije'
+      name: "Akcije"
       add: 'Dodaj'
       assigned_to:
         executing_user_value: '(Dodeli aktualnemu porabniku)'
@@ -250,6 +261,8 @@ sl:
         no_results_title_text: Nobeno polje po meri trenutno ni na voljo.
       types:
         no_results_title_text: Trenutno ni na voljo nobenih vrst.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: Trenutno ni nobene različice za projekt.
         no_results_content_text: Ustvari novo različico
@@ -266,7 +279,9 @@ sl:
       notice_reset_token: "Ustvarjen je bil nov %{type} simbol. Vaš dostopni simbol je:"
       token_value_warning: "Opomba: To simbol boste videli samo zdaj, prepričajte se, da ga kopirate."
       no_results_title_text: Trenutno ni na voljo simbolov za dostop.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Trenutno ni nobenih novic za poročanje.
@@ -1333,6 +1348,7 @@ sl:
   error_can_not_unarchive_project: "Tega projekta ni mogoče dearhivirati: %{errors}"
   error_check_user_and_role: "Izberite uporabnika in vlogo."
   error_code: "Napaka %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'Piškotek OpenProject manjka. Prepričajte se, da so piškotki omogočeni, saj ta aplikacija ne bo pravilno delovala brez.'
   error_custom_option_not_found: "Možnost ne obstaja."
   error_enterprise_activation_user_limit: "Vašega računa ni bilo mogoče aktivirati (dosežena uporabniška omejitev). Če želite dobiti dostop, se obrnite na skrbnika."
@@ -1487,6 +1503,26 @@ sl:
         action: "Dejanje"
         expiration: "Poteče"
       indefinite_expiration: "Nikoli"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1616,6 +1652,7 @@ sl:
   label_confirmation: "Potrditev"
   label_contains: "vsebuje"
   label_content: "Vsebina"
+  label_color_plural: "Colors"
   label_copied: "Kopirano"
   label_copy_same_as_target: "Enako kot cilj"
   label_copy_source: "Vir"
@@ -1644,6 +1681,7 @@ sl:
   label_deleted: "Izbrisano"
   label_deleted_custom_field: "(izbrisano polje po meri)"
   label_deleted_custom_option: "(izbrisana možnost)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Padajoče"
   label_details: "Podrobnosti"
@@ -1689,6 +1727,7 @@ sl:
   label_expanded_click_to_collapse: "Razširjeno. Kliknite, če želite strniti"
   label_f_hour: "%{value} ura"
   label_f_hour_plural: "%{value} ur"
+  label_favoured: "Favoured"
   label_feed_plural: "Viri"
   label_feeds_access_key: "RSS dostopni ključ"
   label_feeds_access_key_created_on: "RSS dostopni ključ narejen pred %{value}"
@@ -1884,7 +1923,8 @@ sl:
   label_project_new: "Nov projekt"
   label_project_plural: "Projekti"
   label_project_settings: "Nastavitve projekta"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} projektov, ki uporabljajo %{storage} diskovni pomnilnik"
   label_project_view_all: "Prikaži vse projekte"
   label_project_show_details: "Prikaži podrobnosti projekta"
@@ -1972,6 +2012,7 @@ sl:
   label_this_week: "ta teden"
   label_this_year: "to leto"
   label_time_entry_plural: "Porabljen čas"
+  label_title: "Title"
   label_projects_menu: "Projekti"
   label_today: "Danes"
   label_top_menu: "Zgornji meni"
@@ -2305,7 +2346,8 @@ sl:
   permission_add_messages: "Objavi sporočila"
   permission_add_project: "Ustvari projekt"
   permission_archive_project: "Arhivirani projekti"
-  permission_manage_user: "Ustvari in urejaj uporabnike"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Ustvari, uredi in izbriši nadomestne uporabnike"
   permission_add_subprojects: "Ustvari podprojekte"
   permission_add_work_package_watchers: "Dodaj opazovalce"
@@ -2807,6 +2849,11 @@ sl:
   text_zoom_in: "Povečaj"
   text_zoom_out: "Pomanjšaj"
   text_setup_mail_configuration: "Konfigurirajte ponudnika e-pošte"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "pred poldnevom"
     formats:
@@ -2819,155 +2866,6 @@ sl:
     show: "Pokaži časovni okvir"
     end: "do"
     start: "od"
-  timelines:
-    admin_menu:
-      color: "Barva"
-      colors: "Barve"
-    associations: "Odvisnosti"
-    button_delete_all: "Izbriši vse"
-    change: "Spremembe v načrtovanju"
-    children: "Podrejeni elementi"
-    color_could_not_be_saved: "Barve ni mogoče shraniti"
-    current_planning: "Trenutno načrtovanje"
-    dates: "Datumi"
-    dates_are_calculated_based_on_sub_elements: "Datumi se izračunajo na podlagi elementov."
-    delete_all: "Izbriši vse"
-    delete_thing: "Izbriši"
-    duration: "Trajanje"
-    duration_days:
-      one: "1 dan"
-      two: "%{count} dni"
-      few: "%{count} dni"
-      other: "%{count} dni"
-    edit_color: "Uredi barvo"
-    edit_thing: "Uredi"
-    edit_timeline: "Edit timeline report %{timeline}"
-    delete_timeline: "Izbriši poročilo o časovnici %{timeline}"
-    empty: "(prazno)"
-    enable_type_in_project: 'Enable type "%{type}"'
-    end: "Konec"
-    errors:
-      not_implemented: "Časovnice ni bilo mogoče upodobiti, ker uporablja funkcijo, ki še ni izvedena."
-      report_comparison: "Časovnica ne more upodobiti konfigurirane primerjave. Prosimo preverite temu primerno sekcijo v konfiguraciji, ponastavitev lahko reši ta problem."
-      report_epicfail: "Časovnica se ni mogla naložiti zaradi nepričakovane napake."
-      report_timeout: "Časovnica se ne more naložiti v razumnem času."
-    filter:
-      errors:
-        timeframe_start: "Začetek časovnega okvira"
-        timeframe_end: "Konec časovnega okvira"
-        compare_to_relative: "Vrednost relativne primerjave"
-        compare_to_absolute: "Vrednost absolutne primerjave"
-        planning_element_time_relative_one: "Začetek delovnih paketov v določenem časovnem okvirju"
-        planning_element_time_relative_two: "Zaključek delovnih paketov v določenem časovnem okvirju"
-        planning_element_time_absolute_one: "Začetek delovnih paketov v določenem časovnem okvirju"
-        planning_element_time_absolute_two: "Zaključek delovnih paketov v določenem časovnem okvirju"
-      sort:
-        sortation: "Sortiraj po"
-        alphabet: "abeceda"
-        explicit_order: "izrecno razvščeno"
-        project_sortation: "Razvrstite projekte po"
-        date: "Datum"
-        default: "Privzeto"
-      column:
-        assigned_to: "Prevzemnik"
-        type: "Vrsta"
-        due_date: "Datum zaključka"
-        name: "Ime"
-        status: "Stanje"
-        start_date: "Datum začetka"
-      columns: "Stolpci"
-      comparisons: "Primerjava"
-      comparison:
-        absolute: "Absolutno"
-        none: "Brez"
-        relative: "Relativno"
-        compare_relative_prefix: "Primerjaj trenutno načrtovanje s"
-        compare_relative_suffix: "pred"
-        compare_absolute: "Primerjaj trenutno načrtovanje s%{date}"
-      time_relative:
-        days: "dnevi"
-        weeks: "tednov"
-        months: "mesecev"
-      exclude_own_work_packages: "Skrij delovne pakete iz tega projekta"
-      exclude_reporters: "Skrij ostale projekte"
-      exclude_empty: "Skrij prazne projekte"
-      grouping: "Združevanje"
-      grouping_hide_group: "Skrij skupino \"%{group}\""
-      grouping_one: "Prvo merilo za razvrščanje"
-      grouping_one_phrase: "Je podprojekt od"
-      grouping_other: "Drugo"
-      hide_chart: "Skrij grafikon"
-      noneElement: "(brez)"
-      noneSelection: "(brez)"
-      outline: "Začetna širitev orisa"
-      parent: "Prikaži podprojekt od"
-      work_package_responsible: "Pokažite delovne pakete z odgovornostjo"
-      work_package_assignee: "Pokaži delovne pakete z dodeljenimi osebami."
-      types: "Prikaži tipe"
-      status: "Prikaži status"
-      project_time_filter: "Projekti z delovnim paketom določenega tipa v določenem časovnem okvirju"
-      project_time_filter_timeframe: "Časovni okvir"
-      project_time_filter_historical_from: "od"
-      project_time_filter_historical_to: "do"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} pred, %{end_label} %{endspan}%{endspanunit} od sedaj"
-      project_filters: "Filtriraj projekte"
-      project_responsible: "Prikaži projekte z dodeljenimi osebami"
-      project_status: "Prikaži status projekta"
-      timeframe: "Pokaži časovni okvir"
-      timeframe_end: "do"
-      timeframe_start: "od"
-      timeline: "Osnovne nastavitve\n"
-      zoom: "Faktor povečave"
-    history: "Zgodovina"
-    new_color: "Nova barva"
-    new_association: "Nova odvisnost"
-    new_work_package: "Nov delovni paket"
-    new_reporting: "novo poročanje"
-    new_timeline: "Novo poročilo časovnice"
-    no_projects_for_reporting_available: "Ni projektov, ki bi jih bilo mogoče ustanoviti poročevalsko združenje."
-    no_right_to_view_timeline: "Nimate potrebnih dovoljenj za ogled povezane časovnice."
-    no_timeline_for_id: "Ni časovnice z ID-jem %{id}."
-    notice_successful_deleted_all_elements: "Uspešno izbrisali vse elemente"
-    outline: "Ponastavite oris"
-    outlines:
-      aggregation: "Prikaži samo agregacije"
-      level1: "Razširi prvo stopnjo"
-      level2: "Razširi drugo stopnjo"
-      level3: "Razširi tretjo stopnjo"
-      level4: "Razširi četrto stopnjo"
-      level5: "Razširi stopnjo 5"
-      all: "Prikaži vse"
-    reporting_for_project:
-      show: "Stanje poročano projektu: %{title}"
-      edit_delete: "Poročanje stanja za projekt: %{title}"
-      history: "Zgodovina stanja projekta: °%{title}"
-    reporting:
-      delete: "Izbriši stanje: %{comment}"
-      edit: "Uredi stanje: %{comment}"
-      show: "Stanje: %{comment}"
-    planning_element_update: "Posodobljeno: %{title}"
-    type_could_not_be_saved: "Vnosa ni bilo mogoče shraniti"
-    reporting_could_not_be_saved: "Poročanja ni bilo mogoče shraniti"
-    properties: "Lastnosti"
-    really_delete_color: >
-      Ali ste prepričani, da želite izbrisati naslednjo barvo? Tipi, ki uporabljajo to barvo, ne bodo izbrisani.
-    really_delete_reporting: >
-      Ali ste prepričani, da želite izbrisati naslednje poročanje? Tudi prejšnja stanja poročanja bodo izbrisana.
-    start: "Začetek"
-    timeline: "Poročilo časovnice"
-    timelines: "Poročila časovnice"
-    settings: "Časovnice"
-    vertical_work_package: "Vertikalni delovni paketi"
-    you_are_viewing_the_selected_timeline: "Ogledujete si izbrano poročilo o časovnici"
-    zoom:
-      in: "Povečaj"
-      out: "Pomanjšaj"
-      days: "Dnevi"
-      weeks: "Tednov"
-      months: "Mesecev"
-      quarters: "Četrtletje"
-      years: "let"
   title_remove_and_delete_user: Povabljenega uporabnika odstranite iz projekta in izbrišite.
   title_enterprise_upgrade: "Nadgradite, da odklenete več uporabnikov."
   tooltip_user_default_timezone: >

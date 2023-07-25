@@ -12,6 +12,7 @@ en:
 
   activerecord:
     models:
+      file_link: "File link"
       storages/storage: "Storage"
     attributes:
       storages/storage:

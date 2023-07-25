@@ -175,7 +175,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     }
 
     this.text = {
-      selectionMode: this.I18n.t('js.timelines.selection_mode.notification'),
+      selectionMode: this.I18n.t('js.gantt_chart.selection_mode.notification'),
     };
 
     // Get the outer container for width computation

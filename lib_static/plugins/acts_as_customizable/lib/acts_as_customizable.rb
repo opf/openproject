@@ -64,6 +64,10 @@ module Redmine
           base.extend HumanAttributeName
         end
 
+        def customizable?
+          true
+        end
+
         def available_custom_fields
           self.class.available_custom_fields(self)
         end
@@ -408,6 +412,10 @@ module Redmine
             end
           end
         end
+      end
+
+      def customizable?
+        false
       end
     end
   end

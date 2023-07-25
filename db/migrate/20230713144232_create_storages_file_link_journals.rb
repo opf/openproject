@@ -28,16 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module TeamPlanner
-  module Views
-    class GlobalCreateContract < ::Queries::CreateContract
-      validate :validate_project_present
+class CreateStoragesFileLinkJournals < ActiveRecord::Migration[7.0]
+  def change
+    # rubocop:disable Rails/CreateTableWithTimestamps
+    create_table :storages_file_links_journals do |t|
+      t.belongs_to :journal, null: false, foreign_key: true
+      t.belongs_to :file_link, null: false
 
-      private
-
-      def validate_project_present
-        errors.add :project_id, :blank if model.project_id.blank?
-      end
+      t.string :link_name, null: false
     end
+    # rubocop:enable Rails/CreateTableWithTimestamps
   end
 end

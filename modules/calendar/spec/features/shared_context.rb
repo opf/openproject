@@ -39,7 +39,8 @@ RSpec.shared_context 'with calendar full access' do
            member_in_project: project,
            member_with_permissions: %w[
              view_work_packages edit_work_packages add_work_packages
-             view_calendar
+             manage_calendars view_calendar
+             manage_public_queries
            ])
   end
 

@@ -120,7 +120,8 @@ Redmine::MenuManager.map :account_menu do |menu|
             if: Proc.new {
               User.current.allowed_to_globally?(:create_backup) ||
                 User.current.allowed_to_globally?(:manage_placeholder_user) ||
-                User.current.allowed_to_globally?(:manage_user)
+                User.current.allowed_to_globally?(:manage_user) ||
+                User.current.allowed_to_globally?(:create_user)
             }
   menu.push :logout,
             :signout_path,
@@ -238,7 +239,10 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :users,
             { controller: '/users' },
-            if: Proc.new { !User.current.admin? && User.current.allowed_to_globally?(:manage_user) },
+            if: Proc.new {
+                  !User.current.admin? &&
+                  (User.current.allowed_to_globally?(:manage_user) || User.current.allowed_to_globally?(:create_user))
+                },
             caption: :label_user_plural,
             icon: 'group'
 
@@ -484,7 +488,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :colors,
             { controller: '/colors', action: 'index' },
             if: Proc.new { User.current.admin? },
-            caption: :'timelines.admin_menu.colors',
+            caption: :label_color_plural,
             icon: 'status'
 
   menu.push :enterprise,

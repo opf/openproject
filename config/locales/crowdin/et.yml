@@ -169,10 +169,21 @@ et:
     index:
       no_results_title_text: There are currently no colors.
       no_results_content_text: Create a new color
-    label_no_color: 'No color'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "No color"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Actions'
+      name: "Actions"
       add: 'Add action'
       assigned_to:
         executing_user_value: '(Assign to executing user)'
@@ -251,6 +262,8 @@ et:
         no_results_title_text: There are currently no custom fields available.
       types:
         no_results_title_text: There are currently no types available.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
@@ -267,7 +280,9 @@ et:
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: There are currently no access tokens available.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: There is currently no news to report.
@@ -1298,6 +1313,7 @@ et:
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Palun vali kasutaja ja roll."
   error_code: "Error %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
   error_custom_option_not_found: "Option does not exist."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
@@ -1452,6 +1468,26 @@ et:
         action: "Tegevus"
         expiration: "Aegub"
       indefinite_expiration: "Mitte kunagi"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1581,6 +1617,7 @@ et:
   label_confirmation: "Kinnitus"
   label_contains: "sisaldab"
   label_content: "Sisu"
+  label_color_plural: "Colors"
   label_copied: "kopeeritud"
   label_copy_same_as_target: "Sama mis sihtkoht"
   label_copy_source: "Lähtepunkt"
@@ -1609,6 +1646,7 @@ et:
   label_deleted: "kustutatud"
   label_deleted_custom_field: "(kustutatud lisaväli)"
   label_deleted_custom_option: "(deleted option)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Kahanev"
   label_details: "Üksikasjad"
@@ -1654,6 +1692,7 @@ et:
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} tund"
   label_f_hour_plural: "%{value} tundi"
+  label_favoured: "Favoured"
   label_feed_plural: "Kanalid"
   label_feeds_access_key: "RSS kasutuse võti"
   label_feeds_access_key_created_on: "RSS kasutuse võti on loodud %{value} tagasi"
@@ -1849,7 +1888,8 @@ et:
   label_project_new: "Uus projekt"
   label_project_plural: "Projektid"
   label_project_settings: "Projekti sätted"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: "Vaata kõiki projekte"
   label_project_show_details: "Show project details"
@@ -1937,6 +1977,7 @@ et:
   label_this_week: "sel nädalal"
   label_this_year: "sel aastal"
   label_time_entry_plural: "Kulutatud aeg"
+  label_title: "Title"
   label_projects_menu: "Projektid"
   label_today: "täna"
   label_top_menu: "Ülemine menüü"
@@ -2266,7 +2307,8 @@ et:
   permission_add_messages: "Postitusi lisada"
   permission_add_project: "Projekte luua"
   permission_archive_project: "Archive project"
-  permission_manage_user: "Create and edit users"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Alamprojekte luua"
   permission_add_work_package_watchers: "Jälgijaid lisada"
@@ -2769,6 +2811,11 @@ et:
   text_zoom_in: "Vaata lähemalt"
   text_zoom_out: "Vaata kaugemalt"
   text_setup_mail_configuration: "Configure your email provider"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "enne lõunat"
     formats:
@@ -2781,153 +2828,6 @@ et:
     show: "Kuva ajakava"
     end: "kuni"
     start: "alates"
-  timelines:
-    admin_menu:
-      color: "Värv"
-      colors: "Värvid"
-    associations: "Sõltuvused"
-    button_delete_all: "Kustuta kõik"
-    change: "Muudatus planeerimises"
-    children: "Alamelemendid"
-    color_could_not_be_saved: "Värvi ei saa salvestada"
-    current_planning: "Kehtiv plaan"
-    dates: "Kuupäevad"
-    dates_are_calculated_based_on_sub_elements: "Kuupäevad on arvutatud alamelementide järgi."
-    delete_all: "Kustuta kõik"
-    delete_thing: "Kustuta"
-    duration: "kestus"
-    duration_days:
-      one: "1 päev"
-      other: "%{count} päeva"
-    edit_color: "Muuda värvi"
-    edit_thing: "Muuda"
-    edit_timeline: "Muuda ajakulu sissekannet %{timeline}"
-    delete_timeline: "Kustuta ajakulu aruanne %{timeline}"
-    empty: "(tühi)"
-    enable_type_in_project: 'Luba kasutada tüüpi "%{type}" projektis'
-    end: "Lõpp"
-    errors:
-      not_implemented: "Ajakava ei saa koostada, kuna see kasutab funktsiooni, mis pole veel realiseeritud."
-      report_comparison: "Ajakava ei saa kujutada konfigureeritud võrdlusi. Palun kontrollige konfiguratsiooni vastavat jaotist, selle andmete algväärtustamine võib aidata probleemi lahendada."
-      report_epicfail: "Ajakava ei saa laadida ootamatu tõrke tõttu."
-      report_timeout: "Ajakava ei saa laadida vastuvõetava aja jooksul."
-    filter:
-      errors:
-        timeframe_start: "Perioodi algus "
-        timeframe_end: "Perioodi lõpp "
-        compare_to_relative: "Suhtelise võrdluse väärtus "
-        compare_to_absolute: "Absoluutse võrdluse väärtus "
-        planning_element_time_relative_one: "Teatud perioodis olevate teemade algus  "
-        planning_element_time_relative_two: "Teatud perioodis olevate teemade lõpp  "
-        planning_element_time_absolute_one: "The start for work packages in a certain timeframe  "
-        planning_element_time_absolute_two: "The end for work packages in a certain timeframe  "
-      sort:
-        sortation: "Sorteeri"
-        alphabet: "tähestikuliselt"
-        explicit_order: "käsitsi"
-        project_sortation: "Sorteeri projektid"
-        date: "ajaliselt"
-        default: "vaikimisi"
-      column:
-        assigned_to: "Määratud tegija"
-        type: "Tüüp"
-        due_date: "Lõppkuupäev"
-        name: "Nimi"
-        status: "Olek"
-        start_date: "Alguskuupäev"
-      columns: "Väljad"
-      comparisons: "Võrdlused"
-      comparison:
-        absolute: "Absoluutne"
-        none: "Mittemingi"
-        relative: "Suhteline"
-        compare_relative_prefix: "Compare current planning to"
-        compare_relative_suffix: "tagasi"
-        compare_absolute: "Võrdle praegust plaani kuupäeval %{date} kehtinud plaaniga"
-      time_relative:
-        days: "päeva"
-        weeks: "nädalat"
-        months: "kuud"
-      exclude_own_work_packages: "Ära kuva minu poolt lisatud teemad"
-      exclude_reporters: "Peida muud projektid"
-      exclude_empty: "Peida tühjad projektid"
-      grouping: "Rühmitamine"
-      grouping_hide_group: "Peida rühm \"%{group}\""
-      grouping_one: "Esimene grupeerimise kriteerium"
-      grouping_one_phrase: "On alamprojektiks projektile"
-      grouping_other: "Muu"
-      hide_chart: "Peida diagramm"
-      noneElement: "(pole)"
-      noneSelection: "(pole)"
-      outline: "Esmase kontuuri laiendamine"
-      parent: "Näita alamprojekte"
-      work_package_responsible: "Show work packages with accountable"
-      work_package_assignee: "Kuva teemad nende tegijatega"
-      types: "Kuva tüübid"
-      status: "Kuva olek"
-      project_time_filter: "Projektid teatud teema tüübiga ja teatud ajakavaga"
-      project_time_filter_timeframe: "Ajakava"
-      project_time_filter_historical_from: "alates"
-      project_time_filter_historical_to: "kuni"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} tagasi, %{end_label} %{endspan}%{endspanunit} praegusest"
-      project_filters: "Filtreeri projektid"
-      project_responsible: "Show projects with accountable"
-      project_status: "Kuva projekti olek"
-      timeframe: "Kuva ajakava"
-      timeframe_end: "kuni"
-      timeframe_start: "alates"
-      timeline: "Üldseaded"
-      zoom: "Suurendus"
-    history: "Ajalugu"
-    new_color: "Uus värv"
-    new_association: "Uus sõltuvus"
-    new_work_package: "Uus teema"
-    new_reporting: "Uus aruandlus"
-    new_timeline: "Uus aruanne ajakava kohta"
-    no_projects_for_reporting_available: "Pole ühtki projekti mille juurde võiks lisada aruandluse."
-    no_right_to_view_timeline: "Sul pole lingitud ajakava vaatamiseks vajalikke õigusi."
-    no_timeline_for_id: "Ei ole olemas ajakava, mille ID on %{id}."
-    notice_successful_deleted_all_elements: "Kõikide elementide kustutamine õnnestus"
-    outline: "Lähtesta kontuur"
-    outlines:
-      aggregation: "Näita ainult summeeritult"
-      level1: "Laienda tasemele 1"
-      level2: "Laienda tasemele 2"
-      level3: "Laienda tasemele 3"
-      level4: "Laienda tasemele 4"
-      level5: "Laienda tasemele 5"
-      all: "Näita kõiki"
-    reporting_for_project:
-      show: "Projekti %{title} oleku aruanne"
-      edit_delete: "oleku aruanne projektile %{title}"
-      history: "Projekti %{title} olekute ajalugu"
-    reporting:
-      delete: "Kustuta olek: %{comment}"
-      edit: "Muuda olekut: %{comment}"
-      show: "Olek: %{comment}"
-    planning_element_update: "Muudatus: %{title}"
-    type_could_not_be_saved: "Tüüpi ei saa salvestada"
-    reporting_could_not_be_saved: "Aruandlust ei saa salvestada"
-    properties: "Atribuudid"
-    really_delete_color: >
-      Kas oled kindel, et tahad seda värvi kustutada? Tüübid, mis seda värvi kasutavad, jäävad alles.
-    really_delete_reporting: >
-      Kas sa oled kindel, et tahad seda aruannet kustutada? Eelmised aruande olekud kustutatakse ka ära.
-    start: "Algus"
-    timeline: "Perioodi aruanne"
-    timelines: "Perioodi aruanded"
-    settings: "Perioodid"
-    vertical_work_package: "Vertikaalsed teemad"
-    you_are_viewing_the_selected_timeline: "Sa näed valitud perioodi aruannet"
-    zoom:
-      in: "Vaata lähemalt"
-      out: "Vaata kaugemalt"
-      days: "Päevad"
-      weeks: "Nädalad"
-      months: "Kuud"
-      quarters: "Kvartalid"
-      years: "Aastad"
   title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
   title_enterprise_upgrade: "Upgrade to unlock more users."
   tooltip_user_default_timezone: >

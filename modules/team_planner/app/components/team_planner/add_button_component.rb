@@ -30,9 +30,7 @@
 #
 
 module TeamPlanner
-  class AddButtonComponent < ::ApplicationComponent
-    options :current_project
-
+  class AddButtonComponent < ::AddButtonComponent
     def render?
       if current_project
         User.current.allowed_to?(:manage_team_planner, current_project)
@@ -45,30 +43,16 @@ module TeamPlanner
       polymorphic_path([:new, current_project, :team_planners])
     end
 
-    def title
+    def id
+      'add-team-planner-button'
+    end
+
+    def accessibility_label_text
       I18n.t('team_planner.label_create_new_team_planner')
     end
 
-    def aria_label
-      I18n.t('team_planner.label_create_new_team_planner')
-    end
-
-    def li_css_class
-      'toolbar-item'
-    end
-
-    def link_css_class
-      'button -alt-highlight'
-    end
-
-    def label
-      content_tag(:span,
-                  t(:'team_planner.label_team_planner'),
-                  class: 'button--text')
-    end
-
-    def icon
-      helpers.op_icon('button--icon icon-add')
+    def label_text
+      t(:'team_planner.label_team_planner')
     end
   end
 end

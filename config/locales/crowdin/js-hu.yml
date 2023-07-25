@@ -296,6 +296,34 @@ hu:
           one: "Első rendezési feltétel"
           two: "Második rendezési feltétel"
           three: "Harmadik rendezési feltétel"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "nem"
     general_text_yes: "igen"
     general_text_No: "Nem"
@@ -505,7 +533,7 @@ hu:
     label_remove_all_files: Összes fájl törlése
     label_add_description: "Adjon meg leírást a %{file} fájlhoz"
     label_upload_notification: "Fájl feltöltése folyamatban"
-    label_work_package_upload_notification: "Fájlok feltöltése a #%{id}: %{subject} feladatcsoporthoz" #%{id}: %{subject} feladatcsoporthoz"
+    label_work_package_upload_notification: "Fájlok feltöltése a #%{id}: %{subject} feladatcsoporthoz"
     label_wp_id_added_by: "%{id} hozzáadva %{author} által"
     label_files_to_upload: "Ezek a fájlok kerülnek feltöltésre:"
     label_rejected_files: "Ezeket a fájlokat nem lehet felölteni:"
@@ -823,63 +851,6 @@ hu:
       activate_no: 'aktiválva a rendezés törlése'
     text_work_packages_destroy_confirmation: "Biztosan törli a kijelölt feladatcsoportot?"
     text_query_destroy_confirmation: "Biztosan törli a kijelölt megjelenítést?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt-diagram'
-      labels:
-        title: 'Címke konfiguráció'
-        bar: 'Oszlop címkék'
-        left: 'Bal'
-        right: 'Jobb'
-        farRight: 'Jobb szélen'
-        showNone: '--Nincs címke--'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Gannt diagramm megtekintése'
-      button_deactivate: 'Gannt diagramm elrejtése'
-      cancel: Mégsem
-      change: "A tervezés módosítása"
-      due_date: "Befejezési dátum"
-      empty: "(üres)"
-      error: "Hiba történt."
-      errors:
-        not_implemented: "Az ütemterv nem jeleníthető meg, mert egy olyan tulajdonságot használ, amely még nincs beépítve."
-        report_comparison: "Az ütemterv nem nyújthatja a beállított összehasonlításokat. Kérjük, ellenőrizze a megfelelő részben a konfigurációt, az alaphelyzetbe állitása segíthet megoldani ezt a problémát."
-        report_epicfail: "Váratlan hiba miatt nem lehet betölteni az ütemtervet."
-        report_timeout: "Az ütemtervet nem lehetett betölteni az ésszerű idő alatt."
-      filter:
-        grouping_other: "Egyéb"
-        noneSelection: "(nincs)"
-      name: "Név"
-      outline: "A vázlat alaphelyzetbe állitása"
-      outlines:
-        aggregation: "Csak az összesítések megjelenítése"
-        level1: "Az 1-es szint kibontása"
-        level2: "A 2-es szint kibontása"
-        level3: "A 3-as szint kibontása"
-        level4: "A 4-es szint kibontása"
-        level5: "Az 5-ös szint kibontása"
-        all: "Minden megjelenítése"
-      project_status: "Projekt állapot"
-      really_close_dialog: "Igazán akar zárja be a párbeszédpanelt, és elveszíteni a bevitt adatokat?"
-      responsible: "Felelős"
-      save: Mentés
-      start_date: "Indulási dátum"
-      tooManyProjects: "Több mint %{count} projekt. Kérjük, használjon jobb szűrési beállításokat!"
-      selection_mode:
-        notification: 'Klikkeljen valamelyik feladatcsoportra a kapcsolat létrehozásához. Visszavonás az Esc megnyomásával.'
-      zoom:
-        in: "Nagyítás"
-        out: "Kicsinyítés"
-        auto: "Automatikus nagyítás"
-        days: "Nap"
-        weeks: "Hetek"
-        months: "Hónap"
-        quarters: "Negyedek"
-        years: "Évek"
-        slider: "Nagyítás/kicsinyítés"
-        description: >
-          Válassza ki a megjelenítendő kezdeti nagyítási szintet, ha az automatikus nagyítás nem áll rendelkezésre.
     tl_toolbar:
       zooms: "Nagyítási szint"
       outlines: "Hierarchia szint"
@@ -944,10 +915,10 @@ hu:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'A feladatcsoportok szűrése'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Ide kattintva adhatsz új munkacsomagot a listához'

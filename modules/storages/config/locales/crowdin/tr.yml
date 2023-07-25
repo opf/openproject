@@ -11,6 +11,7 @@ tr:
   project_module_storages: "Dosya depoları"
   activerecord:
     models:
+      file_link: "File link"
       storages/storage: "Depolama"
     attributes:
       storages/storage:
