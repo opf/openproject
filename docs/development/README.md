@@ -18,9 +18,9 @@ Please get in touch with us using our [development forum](https://community.open
 
 We eat our own ice cream so we use OpenProject for roadmap planning and team collaboration. Please have a look at the following pages:
 
-- [Development roadmap](https://community.openproject.com/projects/openproject/work_packages?query_id=1993)
+- [Development roadmap](https://community.openproject.org/projects/openproject/roadmap)
 
-- [Wish list](https://community.openproject.com/versions/26)
+- [Wish list](https://community.openproject.org/projects/openproject/work_packages?query_id=180)
 
 - [Bug backlog](https://community.openproject.com/projects/openproject/work_packages?query_id=491)
 
