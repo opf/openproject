@@ -92,21 +92,34 @@ module WorkPackage::PDFExport::WorkPackageDetail
   end
 
   def attribute_table_rows(work_package)
+    list = attribute_data_list(work_package)
+    0.step(list.length - 1, 2).map do |i|
+      build_columns_table_cells(list[i]) +
+        build_columns_table_cells(list[i + 1])
+    end
+  end
+
+  def attribute_data_list(work_package)
     list = if respond_to?(:column_objects)
              attributes_list_by_columns(work_package)
            else
              attributes_list_by_wp(work_package)
            end
-    0.step(list.length - 1, 2).map do |i|
-      build_columns_table_cells(list[i], work_package) +
-        build_columns_table_cells(list[i + 1], work_package)
-    end
+    list
+      .map { |entry| entry.merge({ value: get_column_value_cell(work_package, entry[:name]) }) }
+      .select { |attribute_data| can_show_attribute?(attribute_data) }
+  end
+
+  def can_show_attribute?(attribute_data)
+    attribute_data[:value].present?
   end
 
   def attributes_list_by_columns(_work_package)
     column_objects
       .reject { |column| column.name == :subject }
-      .map { |column| [column.caption || '', column.name] }
+      .map do |column|
+      { label: column.caption || '', name: column.name }
+    end
   end
 
   def attributes_list_by_wp(_work_package)
@@ -123,17 +136,17 @@ module WorkPackage::PDFExport::WorkPackageDetail
       responsible
     ]
     col_names.map do |col_name|
-      [WorkPackage.human_attribute_name(col_name), col_name]
+      { label: WorkPackage.human_attribute_name(col_name), name: col_name }
     end
   end
 
-  def build_columns_table_cells(title_name_array, work_package)
-    return ['', ''] if title_name_array.nil?
+  def build_columns_table_cells(attribute_data)
+    return ['', ''] if attribute_data.nil?
 
     # get work package attribute table cell data: [label, value]
     [
-      pdf.make_cell(title_name_array[0].upcase, styles.wp_attributes_table_label_cell),
-      get_column_value_cell(work_package, title_name_array[1])
+      pdf.make_cell(attribute_data[:label].upcase, styles.wp_attributes_table_label_cell),
+      attribute_data[:value]
     ]
   end
 
