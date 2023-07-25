@@ -47,30 +47,31 @@ module OpTurbo
     end
 
     def update_via_turbo_stream(component:)
-      modify_via_turbo_stream(component: component, action: :update)
+      modify_via_turbo_stream(component:, action: :update)
     end
-  
+
     def replace_via_turbo_stream(component:)
-      modify_via_turbo_stream(component: component, action: :replace)
+      modify_via_turbo_stream(component:, action: :replace)
     end
-    
+
     def remove_via_turbo_stream(component:)
-      modify_via_turbo_stream(component: component, action: :remove)
+      modify_via_turbo_stream(component:, action: :remove)
     end
 
     def modify_via_turbo_stream(component:, action:)
       @turbo_streams << component.render_as_turbo_stream(
-        view_context: view_context,
-        action: action
+        view_context:,
+        action:
       )
     end
-    
+
     def append_via_turbo_stream(component:, target_component:)
-      @turbo_streams << target_component.insert_as_turbo_stream(component: component, view_context: view_context, action: :append)
+      @turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:, action: :append)
     end
-    
+
     def prepend_via_turbo_stream(component:, target_component:)
-      @turbo_streams << target_component.insert_as_turbo_stream(component: component, view_context: view_context, action: :prepend)
+      @turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:,
+                                                                action: :prepend)
     end
   end
 end

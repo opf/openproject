@@ -30,6 +30,8 @@ module OpTurboSandbox
   module Projects
     class NewComponent < OpTurbo::Component
       def initialize(project: Project.new)
+        super()
+
         @project = project
       end
     end

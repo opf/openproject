@@ -29,6 +29,8 @@
 module Base
   class OpTurbo::StreamWrapperComponent < ApplicationComponent
     def initialize(template:, action:, target:)
+      super()
+
       @template = template
       @action = action
       @target = target
