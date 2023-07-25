@@ -31,28 +31,6 @@ require 'webmock/rspec'
 
 RSpec.describe Storages::FileLinkSyncService, type: :model do
   let(:user) { create(:user) }
-  let(:trashed) { false }
-
-  # let(:file_info1_s200) do
-  #   {
-  #     id: 24,
-  #     status: "OK",
-  #     statuscode: 200,
-  #     ctime: 1755334567, # -> origin_created_at
-  #     mtime: 1755301234, # -> origin_updated_at
-  #     mimetype: "application/text", # -> origin_mime_type
-  #     name: "Readme.txt", # -> origin_name
-  #     owner_id: "fraber_id",
-  #     owner_name: "fraber", # -> origin_created_by_name
-  #     size: 1270,
-  #     trashed:
-  #   }
-  # end
-  #
-  # let(:ocs_meta_s200) { { status: "ok", statuscode: 100, message: "OK", totalitems: "", itemsperpage: "" } }
-  # let(:ocs_meta_s401) { { status: "failure", statuscode: 997, message: "No login", totalitems: "", itemsperpage: "" } }
-  # let(:file_info_s403) { { status: "Forbidden", statuscode: 403 } }
-  # let(:file_info_s404) { { status: "Not Found", statuscode: 404 } }
   let(:role) { create(:existing_role, permissions: [:manage_file_links]) }
   let(:project) { create(:project, members: { user => role }) }
   let(:work_package) { create(:work_package, project:) }
