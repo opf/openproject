@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -45,8 +43,8 @@ module OpenProject::GitlabIntegration::Services
 
     def find_or_initialize(payload)
       GitlabMergeRequest.find_by_gitlab_identifiers(id: payload.object_attributes.iid,
-                                                   url: payload.object_attributes.url,
-                                                   initialize: true)
+                                                    url: payload.object_attributes.url,
+                                                    initialize: true)
     end
 
     # Receives the input from the gitlab webhook and translates them
@@ -64,7 +62,7 @@ module OpenProject::GitlabIntegration::Services
         body: payload.object_attributes.description,
         repository: payload.repository.name,
         draft: payload.object_attributes.work_in_progress,
-        merged: payload.object_attributes.state == 'merged' ? true : false,
+        merged: payload.object_attributes.state == 'merged',
         merged_by: gitlab_user_id(payload.user),
         merged_at: payload.object_attributes.state == 'merged' ? payload.object_attributes.updated_at : nil,
         labels: payload.labels.map { |values| extract_label_values(values) }

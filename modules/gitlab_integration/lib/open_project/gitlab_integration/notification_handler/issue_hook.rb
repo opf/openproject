@@ -33,11 +33,11 @@ module OpenProject::GitlabIntegration
     # Handles Gitlab issue notifications.
     class IssueHook
       include OpenProject::GitlabIntegration::NotificationHandler::Helper
-      
+
       def process(payload_params)
         @payload = wrap_payload(payload_params)
-        user = User.find_by_id(payload.open_project_user_id)
-        text = payload.object_attributes.title + ' - ' + payload.object_attributes.description
+        user = User.find_by(id: payload.open_project_user_id)
+        text = "#{payload.object_attributes.title} - #{payload.object_attributes.description}"
         work_packages = find_mentioned_work_packages(text, user)
         notes = generate_notes(payload)
         comment_on_referenced_work_packages(work_packages, user, notes)
@@ -57,14 +57,15 @@ module OpenProject::GitlabIntegration
         }[payload.object_attributes.action]
 
         return nil unless accepted_actions.include? payload.object_attributes.action
+
         I18n.t("gitlab_integration.issue_#{key_action}_referenced_comment",
-          :issue_number => payload.object_attributes.iid,
-          :issue_title => payload.object_attributes.title,
-          :issue_url => payload.object_attributes.url,
-          :repository => payload.repository.name,
-          :repository_url => payload.repository.homepage,
-          :gitlab_user => payload.user.name,
-          :gitlab_user_url => payload.user.avatar_url)
+               issue_number: payload.object_attributes.iid,
+               issue_title: payload.object_attributes.title,
+               issue_url: payload.object_attributes.url,
+               repository: payload.repository.name,
+               repository_url: payload.repository.homepage,
+               gitlab_user: payload.user.name,
+               gitlab_user_url: payload.user.avatar_url)
       end
     end
   end

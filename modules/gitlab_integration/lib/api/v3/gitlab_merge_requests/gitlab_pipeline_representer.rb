@@ -38,7 +38,7 @@ module API
         include API::Decorators::DateProperty
 
         self_link id_attribute: :id,
-                  title_getter: ->(*) { nil }
+                  title_getter: ->(*) {}
 
         property :gitlab_html_url, as: :htmlUrl
         property :gitlab_user_avatar_url, as: :userAvatarUrl

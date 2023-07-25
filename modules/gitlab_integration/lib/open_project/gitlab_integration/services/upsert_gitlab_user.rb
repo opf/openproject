@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -50,9 +48,9 @@ module OpenProject::GitlabIntegration::Services
     def extract_params(payload)
       {
         gitlab_id: payload.id,
-        gitlab_name: payload.name, 
-        gitlab_username: payload.username, 
-        gitlab_email: payload.email, 
+        gitlab_name: payload.name,
+        gitlab_username: payload.username,
+        gitlab_email: payload.email,
         gitlab_avatar_url: payload.avatar_url
       }
     end

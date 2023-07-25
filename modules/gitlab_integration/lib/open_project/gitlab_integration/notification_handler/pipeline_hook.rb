@@ -38,6 +38,7 @@ module OpenProject::GitlabIntegration
         @payload = wrap_payload(payload_params)
 
         return unless associated_with_mr?
+
         merge_request = find_merge_request
         return unless merge_request
 
@@ -58,7 +59,7 @@ module OpenProject::GitlabIntegration
 
       def find_merge_request
         gitlab_id = payload.merge_request.iid
-        GitlabMergeRequest.find_by(gitlab_id: gitlab_id)
+        GitlabMergeRequest.find_by(gitlab_id:)
       end
     end
   end

@@ -1,5 +1,4 @@
-# encoding: UTF-8
-# 
+#
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2023 Ben Tey
@@ -42,4 +41,5 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,frontend,lib}/**/*"] + %w(README.md)
 
   s.add_dependency "openproject-webhooks"
+  s.metadata['rubygems_mfa_required'] = 'true'
 end

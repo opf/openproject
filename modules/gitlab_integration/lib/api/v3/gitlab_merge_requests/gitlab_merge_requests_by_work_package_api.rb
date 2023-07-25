@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2023 Ben Tey
@@ -44,7 +42,7 @@ module API
             GitlabMergeRequestCollectionRepresenter.new(@gitlab_merge_requests,
                                                         @gitlab_merge_requests.count,
                                                         self_link: path,
-                                                        current_user: current_user)
+                                                        current_user:)
           end
         end
       end
