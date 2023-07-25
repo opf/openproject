@@ -221,6 +221,60 @@ Some administrators setup OpenProject using a self signed TLS/SSL certificate wi
 
 Attention: Please do not confuse the CA for the Nextcloud server's certificate with the CA of the OpenProject server's certificate which you might have provided in the OpenProject installation wizard. They do not necessarily need to be the same.
 
+#### While setting up Project folders
+
+While setting up the project folders we create a new user, group and group folder named `OpenProject`. At the time of set up the system expects either all of these entities to have been set up with proper permissions or none of them to be present. If one or more of these entities are present without required permissions, an error message will be displayed.
+
+##### Error message "The user "OpenProject" already exists"
+
+On Nextcloud inside the _OpenProject Integration_ App, when setting up an OpenProject user, group and folder, it shows the error **"The user "OpenProject" already exists"**. This error occurs if user `OpenProject` exists but group `OpenProject` and/or group folder `OpenProject` doesn't exist, or they exist with broken permissions. To solve this problem refer to possible solutions in section [Possible solutions to Project folders setup error](#possible-solutions-to-project-folders-setup-error)
+
+##### Error message "The group "OpenProject" already exists"
+
+On Nextcloud inside the _OpenProject Integration_ App, when setting up an OpenProject user, group and folder, it shows the error **"The group "OpenProject" already exists"**. This can occur if group or group folder `OpenProject` exists but the user `OpenProject` doesn't exist. To solve this problem refer to possible solutions in section [Possible solutions to Project folders setup error](#possible-solutions-to-project-folders-setup-error)
+
+##### Error message "The group folder name "OpenProject" already exists"
+
+On Nextcloud inside the _OpenProject Integration_ App, when setting up an OpenProject user, group and folder, it shows the error **"The group folder name "OpenProject" already exists"**. This can occur if both group and user `OpenProject` doesn't exist but the group folder `OpenProject` exists. To solve this problem refer to possible solutions in section [Possible solutions to Project folders setup error](#possible-solutions-to-project-folders-setup-error)
+
+##### Possible solutions to Project folders setup error
+
+If you are facing any of the aforementioned errors while trying to set up the `Project folders` feature for the first time, or you don't care about the `OpenProject` user/group/folder data then the easiest solution is to remove any of the created `OpenProject` user/group/folder entities. Please follow the following steps:
+
+- Disable the _OpenProject Integration_ App
+- Remove user `OpenProject`
+- Remove group `OpenProject`
+- Inside the _Group folders_ App (*Administration settings → Administration → Group folders*), remove group folder `OpenProject`
+- Enable the _OpenProject Integration_ App
+- Set up the project folders again
+
+> Note: You need to disable the _OpenProject Integration_ App because user/group `OpenProject` is protected by the app, and it won't allow you to delete the user/group named `OpenProject`. Disabling and enabling the app is safe. No app data will be deleted.
+
+If you do care about the `OpenProject` user/group/folder data then the conditions that bring the project folder setup to error state, and its possible solutions are as listed below: 
+
+- User `OpenProject` doesn't exist. Please check if the user exists, if not create a user named `OpenProject` with username and display name `OpenProject`, some secure random password, email is not necessary.
+- Group `OpenProject` doesn't exist. Please check if the group exists, if not create a group named `OpenProject`.
+- User `OpenProject` is not a member of group `OpenProject`. Please check the user is a member of the group, if not add the user `OpenProject` to the group `OpenProject`.
+- User `OpenProject` is not group admin of group `OpenProject`. Please check the user is admin of the group, if not make user `OpenProject` the group admin of group `OpenProject`
+- Group folder `OpenProject` doesn't exist. If you don't have the _Group folders_ App installed, please install and enable it. Inside the _Group folders_ App (*Administration settings → Administration → Group folders*) make a group folder named `OpenProject`. Add the group `OpenProject` to the group folder with all the permissions i.e. Write, Share, Delete. Add user `OpenProject` to advance permissions list.
+- Group folder `OpenProject` is not assigned to group `OpenProject`. Inside the _Group folders_ App (*Administration settings → Administration → Group folders*) check if the `OpenProject` group folder has group `OpenProject` assigned to it, if not add the group `OpenProject` with all the permissions i.e. Write, Share, Delete.
+- Group `OpenProject` doesn't have all the permissions for group folder `OpenProject`. Inside the _Group folders_ App (*Administration settings → Administration → Group folders*) check if the group `OpenProject` has all the permissions for group folder `OpenProject`, if not give group `OpenProject` all the permissions i.e. Write, Share, Delete.
+- User `OpenProject` doesn't have advanced permissions for group folder `OpenProject`.  Inside the _Group folders_ App (*Administration settings → Administration → Group folders*) check if the user `OpenProject` has advanced permissions for group folder `OpenProject`, if not add user `OpenProject` to advanced permissions list.
+
+> Note: The name `OpenProject` is case-sensitive, so should be in exactly that format.
+
+#### While trying to delete or disable user/group "OpenProject"
+
+If you face an error while trying to delete or disable user/group "OpenProject" then that's because user/group is protected by the _OpenProject Integration_ App. If you really need to delete the user or group follow these steps:
+
+1. Disable the _OpenProject Integration_ App
+2. Remove user `OpenProject`
+3. Remove group `OpenProject`
+4. Inside the _Group folders_ App (*Administration settings → Administration → Group folders*), remove group folder `OpenProject`
+5. Enable the _OpenProject Integration_ App
+
+> Note: Disabling and enabling the app is safe. No app data will be deleted.
+
 ### Setting up Nextcloud in OpenProject
 
 #### Error message "Host can not be connected to"
