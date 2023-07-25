@@ -28,31 +28,25 @@ Baseline offers these preset time ranges:
 
 - _Last month_: Compare work packages to thirty working days ago.
 
-For any of these options, you may either 
+By default, Baseline will compare to 8 AM local time of the relevant day. You can change this to any other time of your choosing.
 
->**Note:** These are relative comparison points, which means that _Yesterday_ will always refer to the day the current day, and not a specific day. You can use these to set up, for example, "running" baselines that show you all the things that have happened within the past week.
+>**Note:** These are relative comparison points, which means that _Yesterday_ will always refer to the day before the current day, and not a specific date. You can use these to set up "running" baselines that show you all changes within the past day or week.
 
 ### A specific date
 
 ![You can compare the present state to a specific date in the past](13-0_Baseline_specificDate.png)
 
-If you want to compare between now and a specific date in the past, you can select "a specific date" from the dropdown and select a particular date. With this option, the comparison will always be between the current state and that specific date in the past.
+If you want to compare between now and a specific date in the past, you can select "a specific date" in the dropdown and select a particular date. With this option, the comparison will always be between the current state and that specific date in the past.
 
->**Note:** You can use this to "freeze" a baseline point, so the view always shows changes in comparison to that particular time.
+>**Note:** You can use this to "freeze" the baseline comparison point so that the view always shows changes in comparison to that specific date, regardless of when you access it.
 
 ### A custom date range
 
 ![You can see changes between two dates](13-0_Baseline_dateRange.png)
 
-OpenProject also allows you to compare work packages between two specific dates in the past. To select a custom date range:
+OpenProject also allows you to compare between two specific dates in the past. To select a custom date range, choose "between two specific dates" in the dropdown and select two dates in the date picker below.
 
-1. Click on the "Baseline" button/icon in the toolbar.
-
-2. From the dropdown menu, choose "between two specific dates".
-
-3. Two date pickers will appear, representing the start and end dates of the desired range. Click on the dates to choose them accordingly.
-
->**Note**: This is will create a fixed baseline view that will remain the same regardless of when a user accesses it, since both points are in the past.
+>**Note**: This is will create a fixed baseline view that will remain the same regardless of when you accesses it, since both points are fixed in the past.
 
 ## Understanding the comparison results
 
