@@ -68,7 +68,7 @@ setup_tests() {
 	fi
 
 	# create test database "app" and dump schema because db/structure.sql is not checked in
-	execute_quiet "time bundle exec rails db:migrate db:schema:dump zeitwerk:check"
+	execute_quiet "time bundle exec rails db:migrate db:schema:dump zeitwerk:check webdrivers:chromedriver:update[114.0.5735.90] webdrivers:geckodriver:update"
 }
 
 run_units() {
