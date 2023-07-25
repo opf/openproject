@@ -5,6 +5,9 @@
 
 <%= error_messages_for @provider %>
 
+<% content_controller 'admin--openid-connect-providers',
+                      dynamic: true %>
+
 <%= labelled_tabular_form_for @provider,
                               html: { class: 'form', autocomplete: 'off' } do |f| %>
   <%= render partial: "form", locals: { f: f } %>

@@ -44,8 +44,8 @@ GIT
 
 GIT
   remote: https://github.com/opf/omniauth-openid_connect-providers.git
-  revision: a6c0c3ed78fac79cf4d007e40d4029e524ec7751
-  ref: a6c0c3ed78fac79cf4d007e40d4029e524ec7751
+  revision: 7559f44e70203f94572a90e1b4d1d1f8279cd40f
+  ref: 7559f44e70203f94572a90e1b4d1d1f8279cd40f
   specs:
     omniauth-openid_connect-providers (0.2.0)
       omniauth-openid-connect (>= 0.2.1)
@@ -574,7 +574,7 @@ GEM
     language_server-protocol (3.17.0.3)
     launchy (2.5.2)
       addressable (~> 2.8)
-    lefthook (1.4.6)
+    lefthook (1.4.7)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     listen (3.8.0)
@@ -951,7 +951,7 @@ GEM
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
       public_suffix
-    view_component (3.4.0)
+    view_component (3.5.0)
       activesupport (>= 5.2.0, < 8.0)
       concurrent-ruby (~> 1.0)
       method_source (~> 1.0)

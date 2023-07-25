@@ -147,7 +147,7 @@ class MembersController < ApplicationController
   end
 
   def suggest_invite_via_email?(user, query, principals)
-    user.allowed_to_globally?(:manage_user) &&
+    user.allowed_to_globally?(:create_user) &&
       query =~ mail_regex &&
       principals.none? { |p| p.mail == query || p.login == query } &&
       query # finally return email
@@ -188,7 +188,7 @@ class MembersController < ApplicationController
   def create_members
     overall_result = nil
 
-    with_new_member_params do |member_params|
+    each_new_member_param do |member_params|
       service_call = Members::CreateService
                        .new(user: current_user)
                        .call(member_params)
@@ -203,7 +203,7 @@ class MembersController < ApplicationController
     overall_result
   end
 
-  def with_new_member_params
+  def each_new_member_param
     user_ids = user_ids_for_new_members(params[:member])
 
     group_ids = Group.where(id: user_ids).pluck(:id)
@@ -222,8 +222,8 @@ class MembersController < ApplicationController
   def invite_new_users(user_ids)
     user_ids.map do |id|
       if id.to_i == 0 && id.present? # we've got an email - invite that user
-        # Only users with the manage_member permission can add users.
-        if current_user.allowed_to_globally?(:manage_user) && enterprise_allow_new_users?
+        # Only users with the create_user permission can add users.
+        if current_user.allowed_to_globally?(:create_user) && enterprise_allow_new_users?
           # The invitation can pretty much only fail due to the user already
           # having been invited. So look them up if it does.
           user = UserInvitation.invite_new_user(email: id) ||
@@ -278,7 +278,7 @@ class MembersController < ApplicationController
   end
 
   def no_create_errors?(members)
-    members.present? && members.map(&:errors).select(&:any?).empty?
+    members.present? && members.map(&:errors).none?(&:any?)
   end
 
   def sort_by_groups_last(members)

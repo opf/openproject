@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
-require_relative './delete_resource_examples'
+require_relative 'delete_resource_examples'
 
 RSpec.describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
                'delete' do
@@ -66,7 +66,7 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
     it_behaves_like 'deletion is not allowed'
   end
 
-  context 'when user with manage_user permission' do
+  context 'when user with manage_placeholder_user permission' do
     let(:user) { create(:user, global_permission: %[manage_placeholder_user]) }
 
     it_behaves_like 'deletion allowed'

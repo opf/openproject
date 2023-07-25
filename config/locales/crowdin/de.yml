@@ -166,10 +166,21 @@ de:
     index:
       no_results_title_text: Derzeit gibt es keine Farben.
       no_results_content_text: Neue Farbe anlegen
-    label_no_color: 'Keine Farbe'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "Keine Farbe"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Aktionen'
+      name: "Aktionen"
       add: 'Aktion hinzufügen'
       assigned_to:
         executing_user_value: '(An ausführenden Nutzer zuweisen)'
@@ -248,6 +259,8 @@ de:
         no_results_title_text: Derzeit stehen keine benutzerdefinierten Felder zur Verfügung.
       types:
         no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: Derzeit gibt es keine Versionen für das Projekt.
         no_results_content_text: Neue Version erstellen
@@ -264,6 +277,8 @@ de:
       notice_reset_token: "Ein neuer %{type} Token wurde generiert. Der Zutrittstoken lautet:"
       token_value_warning: "Hinweis: Dieser Token ist nur einmal sichtbar, der Token kann jetzt kopiert werden."
       no_results_title_text: Zur Zeit stehen keine Zugangs-Tokens zur Verfügung.
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
       notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
@@ -1293,6 +1308,7 @@ de:
   error_can_not_unarchive_project: "Dieses Projekt kann nicht ent-archiviert werden: %{errors}"
   error_check_user_and_role: "Bitte wählen Sie einen Nutzer und eine Rolle."
   error_code: "Fehler %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'Das OpenProject Cookie fehlt. Bitte stellen Sie sicher, dass Cookies aktiviert sind, da diese Applikation ohne aktivierte Cookies nicht korrekt funktioniert.'
   error_custom_option_not_found: "Option ist nicht vorhanden."
   error_enterprise_activation_user_limit: "Ihr Konto konnte nicht aktiviert werden (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff zu erhalten."
@@ -1447,6 +1463,26 @@ de:
         action: "Aktion"
         expiration: "Läuft aus"
       indefinite_expiration: "Nie"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Sende Benachrichtigungen für diese Aktion"
     work_packages:
@@ -1576,6 +1612,7 @@ de:
   label_confirmation: "Bestätigung"
   label_contains: "enthält"
   label_content: "Inhalt"
+  label_color_plural: "Colors"
   label_copied: "kopiert"
   label_copy_same_as_target: "So wie das Ziel"
   label_copy_source: "Quelle"
@@ -1604,6 +1641,7 @@ de:
   label_deleted: "gelöscht"
   label_deleted_custom_field: "(gelöschtes benutzerdefiniertes Feld)"
   label_deleted_custom_option: "(gelöschte Option)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(Fehlender Wert oder fehlende Zugriffsberechtigungen)"
   label_descending: "Absteigend"
   label_details: "Details"
@@ -1649,6 +1687,7 @@ de:
   label_expanded_click_to_collapse: "Erweitert. Klicken Sie zum Ausblenden"
   label_f_hour: "%{value} Stunde"
   label_f_hour_plural: "%{value} Stunden"
+  label_favoured: "Favoured"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS-Zugriffsschlüssel"
   label_feeds_access_key_created_on: "Atom-Zugriffsschlüssel vor %{value} erstellt"
@@ -1844,7 +1883,8 @@ de:
   label_project_new: "Neues Projekt"
   label_project_plural: "Projekte"
   label_project_settings: "Projektkonfiguration"
-  label_project_storage_plural: "Speicher"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} Projekte verbrauchen insgesamt %{storage} Speicherplatz"
   label_project_view_all: "Alle Projekte anzeigen"
   label_project_show_details: "Projektdetails anzeigen"
@@ -1932,6 +1972,7 @@ de:
   label_this_week: "aktuelle Woche"
   label_this_year: "aktuelles Jahr"
   label_time_entry_plural: "Aufgewendete Zeit"
+  label_title: "Title"
   label_projects_menu: "Projekte"
   label_today: "heute"
   label_top_menu: "Hauptmenü"
@@ -2261,7 +2302,8 @@ de:
   permission_add_messages: "Forenbeiträge hinzufügen"
   permission_add_project: "Projekt erstellen"
   permission_archive_project: "Projekt archivieren"
-  permission_manage_user: "Benutzer erstellen und bearbeiten"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Platzhalter Benutzer erstellen, bearbeiten und löschen"
   permission_add_subprojects: "Unterprojekte erstellen"
   permission_add_work_package_watchers: "Beobachter hinzufügen"
@@ -2764,6 +2806,11 @@ de:
   text_zoom_in: "Mehr Details"
   text_zoom_out: "Weniger Details"
   text_setup_mail_configuration: "Konfigurieren Sie Ihren E-Mail-Provider"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "vormittags"
     formats:
@@ -2776,153 +2823,6 @@ de:
     show: "Zeitausschnitt anzeigen"
     end: "bis"
     start: "von"
-  timelines:
-    admin_menu:
-      color: "Farbe"
-      colors: "Farben"
-    associations: "Abhängigkeiten"
-    button_delete_all: "Alle löschen"
-    change: "Planungsänderung"
-    children: "Kind-Elemente"
-    color_could_not_be_saved: "Farbe konnte nicht gespeichert werden"
-    current_planning: "Aktuelle Planung"
-    dates: "Daten"
-    dates_are_calculated_based_on_sub_elements: "Daten wurden auf Basis der Kind-Elemente berechnet."
-    delete_all: "Alle löschen"
-    delete_thing: "Löschen"
-    duration: "Dauer"
-    duration_days:
-      one: "1 Tag"
-      other: "%{count} Tage"
-    edit_color: "Farbe bearbeiten"
-    edit_thing: "Bearbeiten"
-    edit_timeline: "Zeitplan-Report %{timeline} bearbeiten"
-    delete_timeline: "Zeitplan-Report %{timeline} löschen"
-    empty: "(leer)"
-    enable_type_in_project: 'Typ "%{type}" aktivieren'
-    end: "Abschluss"
-    errors:
-      not_implemented: "Der Zeitplan-Report konnte nicht gezeichnet werden, da eine noch nicht implementierte Funktionalität benutzt wird."
-      report_comparison: "Der Zeitplan-Report konnte nicht gezeichnet werden, weil es ein Problem mit den konfigurierten Planungsvergleichen gibt. Ein Zurücksetzen der Vergleichsoptionen kann dieses Problem beheben."
-      report_epicfail: "Der Zeitplan-Report konnte wegen eines unerwarteten Fehlers nicht geladen werden."
-      report_timeout: "Der Zeitplan-Report konnte nicht in angemessener Zeit geladen werden."
-    filter:
-      errors:
-        timeframe_start: "Der Start des Zeitausschnitt "
-        timeframe_end: "Das Ende des Zeitausschnitt "
-        compare_to_relative: "Der Wert des relativen Vergleiches "
-        compare_to_absolute: "Der Wert des absoluten Vergleiches "
-        planning_element_time_relative_one: "Der Start für Arbeitspakete in einem bestimmten Zeitrahmen  "
-        planning_element_time_relative_two: "Das Ende für Arbeitspakete in einem bestimmten Zeitrahmen  "
-        planning_element_time_absolute_one: "Der Start für Arbeitspakete in einem bestimmten Zeitrahmen  "
-        planning_element_time_absolute_two: "Das Ende für Arbeitspakete in einem bestimmten Zeitrahmen  "
-      sort:
-        sortation: "Sortieren nach"
-        alphabet: "Alphabet"
-        explicit_order: "angegebener Reihenfolge"
-        project_sortation: "Projekte sortieren nach"
-        date: "Datum"
-        default: "Standard"
-      column:
-        assigned_to: "Zugewiesen an"
-        type: "Typ"
-        due_date: "Abschlussdatum"
-        name: "Name"
-        status: "Status"
-        start_date: "Anfangstermin"
-      columns: "Spalten"
-      comparisons: "Planungsvergleiche"
-      comparison:
-        absolute: "Absolut"
-        none: "Kein Planungsvergleich"
-        relative: "Relativ"
-        compare_relative_prefix: "Vergleiche aktuelle Planung mit der von vor"
-        compare_relative_suffix: " "
-        compare_absolute: "Vergleiche aktuelle Planung mit %{date}"
-      time_relative:
-        days: "Tagen"
-        weeks: "Wochen"
-        months: "Monaten"
-      exclude_own_work_packages: "Arbeitspakete dieses Projektes ausblenden"
-      exclude_reporters: "Andere Projekte ausblenden"
-      exclude_empty: "Leere Projekte ausblenden"
-      grouping: "Gruppierung"
-      grouping_hide_group: "Gruppe \"%{group}\" verstecken"
-      grouping_one: "Erstes Gruppierungskriterium"
-      grouping_one_phrase: "Ist ein Unterprojekt von"
-      grouping_other: "Andere"
-      hide_chart: "Diagramm ausblenden"
-      noneElement: "(keiner)"
-      noneSelection: "(keiner)"
-      outline: "Zu Beginn angezeigte Hierarchie"
-      parent: "Zeige Unterprojekte von"
-      work_package_responsible: "Arbeitspakete mit diesem Verantwortlichen anzeigen"
-      work_package_assignee: "Arbeitspakete mit dieser zugewiesenen Person anzeigen"
-      types: "Typen anzeigen"
-      status: "Status anzeigen"
-      project_time_filter: "Projekte mit einem Arbeitspaket eines bestimmten Typs in einem definierten Zeitfenster"
-      project_time_filter_timeframe: "Zeitausschnitt"
-      project_time_filter_historical_from: "von"
-      project_time_filter_historical_to: "bis"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} %{end_label} %{endspan}%{endspanunit}"
-      project_filters: "Projekte filtern"
-      project_responsible: "Projekte mit diesem Verantwortlichen anzeigen"
-      project_status: "Projekt-Status anzeigen"
-      timeframe: "Zeitausschnitt bestimmen"
-      timeframe_end: "bis"
-      timeframe_start: "von"
-      timeline: "Allgemeine Einstellungen"
-      zoom: "Zoomstufe"
-    history: "Historie"
-    new_color: "Neue Farbe"
-    new_association: "Neue Abhängigkeit"
-    new_work_package: "Neues Arbeitspaket"
-    new_reporting: "Neuer Statusbericht"
-    new_timeline: "Neuer Zeitplan-Report"
-    no_projects_for_reporting_available: "Es gibt keine Projekte, zu denen ein Statusbericht erstellt werden könnte."
-    no_right_to_view_timeline: "Sie haben nicht das Recht, den ausgewählten Zeitplan zu sehen."
-    no_timeline_for_id: "Es konnte keine Timeline, mit der ID %{id} gefunden werden."
-    notice_successful_deleted_all_elements: "Alle Elemente erfolgreich gelöscht"
-    outline: "Hierarchie zurücksetzen"
-    outlines:
-      aggregation: "Nur Aggregationen anzeigen"
-      level1: "Bis zur ersten Ebene"
-      level2: "Bis zur zweiten Ebene"
-      level3: "Bis zur dritten Ebene"
-      level4: "Bis zur vierten Ebene"
-      level5: "Bis zur fünften Ebene"
-      all: "Alle anzeigen"
-    reporting_for_project:
-      show: "Statusbericht zu Projekt: %{title}"
-      edit_delete: "Statusbericht zu Projekt: %{title}"
-      history: "Verlauf des Status für Projekt: %{title}"
-    reporting:
-      delete: "Statusbericht löschen: %{comment}"
-      edit: "Statusbericht bearbeiten: %{comment}"
-      show: "Statusbericht: %{comment}"
-    planning_element_update: "Aktualisiert: %{title}"
-    type_could_not_be_saved: "Typ konnte nicht gespeichert werden."
-    reporting_could_not_be_saved: "Statusbericht konnte nicht gespeichert werden."
-    properties: "Eigenschaften"
-    really_delete_color: >
-      Möchten Sie die folgende Farbe wirklich löschen? Typen, die diese Farbe verwenden, bleiben erhalten.
-    really_delete_reporting: >
-      Möchten Sie diesen Statusbericht wirklich löschen? Vorherige gemeldete Statusberichte gehen dabei verloren.
-    start: "Beginn"
-    timeline: "Zeitplan-Report"
-    timelines: "Zeitplan-Reporte"
-    settings: "Zeitpläne"
-    vertical_work_package: "Vertikale Arbeitspakete"
-    you_are_viewing_the_selected_timeline: "Sie sehen den ausgewählten Zeitplan-Report"
-    zoom:
-      in: "Mehr Details"
-      out: "Weniger Details"
-      days: "Tage"
-      weeks: "Wochen"
-      months: "Monate"
-      quarters: "Quartale"
-      years: "Jahre"
   title_remove_and_delete_user: Den eingeladenen Benutzer aus dem Projekt entfernen und löschen.
   title_enterprise_upgrade: "Upgraden um weitere Nutzer freizuschalten."
   tooltip_user_default_timezone: >

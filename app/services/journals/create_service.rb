@@ -160,6 +160,9 @@ module Journals
         cleanup_predecessor_customizable AS (
           #{cleanup_predecessor_customizable(predecessor)}
         ),
+        cleanup_predecessor_storable AS (
+          #{cleanup_predecessor_storable(predecessor)}
+        ),
         max_journals AS (
           #{select_max_journal_sql(predecessor)}
         ), changes AS (
@@ -172,6 +175,8 @@ module Journals
           #{insert_attachable_sql}
         ), insert_customizable AS (
           #{insert_customizable_sql}
+        ), insert_storable AS (
+          #{insert_storable_sql}
         )
 
         SELECT * from inserted_journal
@@ -195,6 +200,13 @@ module Journals
     def cleanup_predecessor_customizable(predecessor)
       cleanup_predecessor(predecessor,
                           'customizable_journals',
+                          :journal_id,
+                          :id)
+    end
+
+    def cleanup_predecessor_storable(predecessor)
+      cleanup_predecessor(predecessor,
+                          'storages_file_links_journals',
                           :journal_id,
                           :id)
     end
@@ -371,6 +383,30 @@ module Journals
                journable_class_name:)
     end
 
+    def insert_storable_sql
+      storable_sql = <<~SQL
+        INSERT INTO
+          storages_file_links_journals (
+            journal_id,
+            file_link_id,
+            link_name
+          )
+        SELECT
+          #{id_from_inserted_journal_sql},
+          file_links.id,
+          file_links.origin_name
+        FROM file_links
+        WHERE
+          #{only_if_created_sql}
+          AND file_links.container_id = :journable_id
+          AND file_links.container_type = :journable_class_name
+      SQL
+
+      sanitize(storable_sql,
+               journable_id: journable.id,
+               journable_class_name:)
+    end
+
     def select_max_journal_sql(predecessor)
       sql = <<~SQL
         SELECT
@@ -408,6 +444,10 @@ module Journals
           (#{attachable_changes_sql}) attachable_changes
         ON
           attachable_changes.journable_id = data_changes.journable_id
+        FULL JOIN
+          (#{storable_changes_sql}) storable_changes
+        ON
+          storable_changes.journable_id = data_changes.journable_id
       SQL
     end
 
@@ -463,6 +503,32 @@ module Journals
       sanitize(customizable_changes_sql,
                customized_type: journable_class_name,
                journable_id: journable.id)
+    end
+
+    def storable_changes_sql
+      storables_changes_sql = <<~SQL
+        SELECT
+          max_journals.journable_id
+        FROM
+          max_journals
+        LEFT OUTER JOIN
+          storages_file_links_journals
+        ON
+          storages_file_links_journals.journal_id = max_journals.id
+        FULL JOIN
+          (SELECT *
+           FROM file_links
+           WHERE file_links.container_id = :journable_id AND file_links.container_type = :container_type) file_links
+        ON
+          file_links.id = storages_file_links_journals.file_link_id
+        WHERE
+          (file_links.id IS NULL AND storages_file_links_journals.file_link_id IS NOT NULL)
+          OR (storages_file_links_journals.file_link_id IS NULL AND file_links.id IS NOT NULL)
+      SQL
+
+      sanitize(storables_changes_sql,
+               journable_id: journable.id,
+               container_type: journable_class_name)
     end
 
     def data_changes_sql

@@ -167,10 +167,21 @@ da:
     index:
       no_results_title_text: Der er i øjeblikket ingen farver.
       no_results_content_text: Opret en ny farve
-    label_no_color: 'Ingen farve'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "Ingen farve"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Handlinger'
+      name: "Handlinger"
       add: 'Tilføj handling'
       assigned_to:
         executing_user_value: '(Tildel til den udførende bruger)'
@@ -249,6 +260,8 @@ da:
         no_results_title_text: Der er i øjeblikket ingen brugerdefinerede felter tilgængelige.
       types:
         no_results_title_text: Der er i øjeblikket ingen tilgængelige typer.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: Der er i øjeblikket ingen versioner til projektet.
         no_results_content_text: Create a new version
@@ -265,6 +278,8 @@ da:
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: There are currently no access tokens available.
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
       notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
@@ -1296,6 +1311,7 @@ da:
   error_can_not_unarchive_project: "Dette projekt kan ikke fjernes fra arkivering: %{errors}"
   error_check_user_and_role: "Vælg venligst en bruger og en rolle."
   error_code: "Error %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
   error_custom_option_not_found: "Option does not exist."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
@@ -1450,6 +1466,26 @@ da:
         action: "Handling"
         expiration: "Udløber"
       indefinite_expiration: "Aldrig"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1579,6 +1615,7 @@ da:
   label_confirmation: "Bekræftelse"
   label_contains: "indeholder"
   label_content: "Indhold"
+  label_color_plural: "Colors"
   label_copied: "kopieret"
   label_copy_same_as_target: "Samme som mål"
   label_copy_source: "Kilde"
@@ -1607,6 +1644,7 @@ da:
   label_deleted: "slettet"
   label_deleted_custom_field: "(slettet selvvalgt felt)"
   label_deleted_custom_option: "(deleted option)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Faldende"
   label_details: "Detaljer"
@@ -1652,6 +1690,7 @@ da:
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} time"
   label_f_hour_plural: "%{value} timer"
+  label_favoured: "Favoured"
   label_feed_plural: "Indlæg"
   label_feeds_access_key: "RSS adgangsnøgle"
   label_feeds_access_key_created_on: "RSS adgangsnøgle lavet for %{value} siden"
@@ -1847,7 +1886,8 @@ da:
   label_project_new: "Nyt projekt"
   label_project_plural: "Projekter"
   label_project_settings: "Projektindstillinger"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} projekter forbruger %{storage} disklagerplads"
   label_project_view_all: "Se alle projekter"
   label_project_show_details: "Show project details"
@@ -1935,6 +1975,7 @@ da:
   label_this_week: "denne uge"
   label_this_year: "dette år"
   label_time_entry_plural: "Anvendt tid"
+  label_title: "Title"
   label_projects_menu: "Projekter"
   label_today: "i dag"
   label_top_menu: "Topmenu"
@@ -2264,7 +2305,8 @@ da:
   permission_add_messages: "Send beskeder"
   permission_add_project: "Opret projekt"
   permission_archive_project: "Archive project"
-  permission_manage_user: "Opret og rediger brugere"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Opret, rediger og slet brugere af pladsholdere"
   permission_add_subprojects: "Opret underprojekter"
   permission_add_work_package_watchers: "Tilføj tilsynsførende"
@@ -2765,6 +2807,11 @@ da:
   text_zoom_in: "Zoom ind"
   text_zoom_out: "Zoom ud"
   text_setup_mail_configuration: "Configure your email provider"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "formiddag"
     formats:
@@ -2777,153 +2824,6 @@ da:
     show: "Vis tidsrammer"
     end: "til"
     start: "fra"
-  timelines:
-    admin_menu:
-      color: "Farve"
-      colors: "Farver"
-    associations: "Aflæggere"
-    button_delete_all: "Slet alt"
-    change: "Ændring i planlægning"
-    children: "Underordnede elementer"
-    color_could_not_be_saved: "Farve kan ikke gemmes"
-    current_planning: "Aktuel planlægning"
-    dates: "Datoer"
-    dates_are_calculated_based_on_sub_elements: "Datoerne er beregnede udfra underelementer."
-    delete_all: "Slet alt"
-    delete_thing: "Slet"
-    duration: "Varighed"
-    duration_days:
-      one: "1 dag"
-      other: "%{count} dage"
-    edit_color: "Rediger farve"
-    edit_thing: "Rediger"
-    edit_timeline: "Rediger lidslinjerapport %{timeline}"
-    delete_timeline: "Slet tidslinjerapport %{timeline}"
-    empty: "(tom)"
-    enable_type_in_project: 'Aktivér typen "%{type}"'
-    end: "Aflsut"
-    errors:
-      not_implemented: "Tidslinjen kan ikke gengives, fordi den bruger en funktion, der endnu ikke er implementeret."
-      report_comparison: "Tidslinien kunne ikke gengive de opsatte sammenligninger. Tjek venligst den relevante del i opsætningen. En nulstilling kan formodentlig løse problemet."
-      report_epicfail: "Tidslinjen kunne ikke indlæses på grund af en uventet fejl."
-      report_timeout: "Tidslinjen kunne ikke indlæses indenfor en remelig tid."
-    filter:
-      errors:
-        timeframe_start: "Start for tidsramme "
-        timeframe_end: "Afslutning for tidsramme "
-        compare_to_relative: "Værdien af den relative sammenligning "
-        compare_to_absolute: "Værdien af den absolutte sammenligning "
-        planning_element_time_relative_one: "Start for arbejdspakker i en bestemt tidsramme "
-        planning_element_time_relative_two: "Afslutning for arbejdspakker i en bestemt tidsramme "
-        planning_element_time_absolute_one: "Start for arbejdspakker i en bestemt tidsramme  "
-        planning_element_time_absolute_two: "Afslutning for arbejdspakker i en bestemt tidsramme  "
-      sort:
-        sortation: "Sortér efter"
-        alphabet: "alfabet"
-        explicit_order: "bestemt rækkefølge"
-        project_sortation: "Sortér projekter efter"
-        date: "dato"
-        default: "Forhåndsvalgt"
-      column:
-        assigned_to: "Tildelt"
-        type: "Type"
-        due_date: "Slutdato"
-        name: "Navn"
-        status: "Status"
-        start_date: "Start dato"
-      columns: "Kolonner"
-      comparisons: "Sammenligninger"
-      comparison:
-        absolute: "Absolut"
-        none: "Ingen"
-        relative: "Relativ"
-        compare_relative_prefix: "Sammenlign aktuel planlægning med"
-        compare_relative_suffix: "siden"
-        compare_absolute: "Sammenlign aktuel planlægning med den %{date}"
-      time_relative:
-        days: "dage"
-        weeks: "uger"
-        months: "måneder"
-      exclude_own_work_packages: "Gem arbejdspakker fra dette projekt"
-      exclude_reporters: "Gem andre projekter"
-      exclude_empty: "Gem tomme projekter"
-      grouping: "Gruppering"
-      grouping_hide_group: "Gem gruppen \"%{group}\""
-      grouping_one: "Første kriterie for gruppering"
-      grouping_one_phrase: "Er et underprojekt til"
-      grouping_other: "Andet"
-      hide_chart: "Gem skema"
-      noneElement: "(ingen)"
-      noneSelection: "(ingen)"
-      outline: "Udvidet udgave af indledende disposition"
-      parent: "Vis underprojekter til"
-      work_package_responsible: "Show work packages with accountable"
-      work_package_assignee: "Vis arbejdspakker med opdragsgiver"
-      types: "Vis typer"
-      status: "Vis status"
-      project_time_filter: "Projekter med en arbejdspakke af bestemt type i en bestemt tidsramme"
-      project_time_filter_timeframe: "Tidsramme"
-      project_time_filter_historical_from: "fra"
-      project_time_filter_historical_to: "til"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} siden, %{end_label} %{endspan}%{endspanunit} fra nu"
-      project_filters: "Filtrér projekter"
-      project_responsible: "Show projects with accountable"
-      project_status: "Vis projektstatus"
-      timeframe: "Vis tidsrammer"
-      timeframe_end: "til"
-      timeframe_start: "fra"
-      timeline: "Overordnede indstillinger"
-      zoom: "Zoomfaktor"
-    history: "Historik"
-    new_color: "Ny farve"
-    new_association: "Ny sammenhæng"
-    new_work_package: "Ny arbejdspakke"
-    new_reporting: "Ny rapportering"
-    new_timeline: "Ny tidslinjerapport"
-    no_projects_for_reporting_available: "Der er ikke nogen projekter hvortil der kan skabes en rapporttilknytning."
-    no_right_to_view_timeline: "Du har ikke den nødvendige tilladelse til at se den linkede tidslinje."
-    no_timeline_for_id: "Der findes ingen tidslinje med ID %{id}."
-    notice_successful_deleted_all_elements: "Det lykkedes at slette alle elementer"
-    outline: "Nulstil dispostionen"
-    outlines:
-      aggregation: "Vis kun sammensætninger"
-      level1: "Udvidelsesniveau 1"
-      level2: "Udvidelsesniveau 2"
-      level3: "Udvidelsesniveau 3"
-      level4: "Udvidelsesniveau 4"
-      level5: "Udvidelsesniveau 5"
-      all: "Vis alt"
-    reporting_for_project:
-      show: "Status rapporteret til projektet: %{title}"
-      edit_delete: "statusrapport for projektet: %{title}"
-      history: "Historie for status af projektet: %{title}"
-    reporting:
-      delete: "Status for sletning: %{comment}"
-      edit: "Status for redigering: %{comment}"
-      show: "Status: %{comment}"
-    planning_element_update: "Updatering:  %{title}"
-    type_could_not_be_saved: "Typen kan ikke gemmes"
-    reporting_could_not_be_saved: "Rapportering kan ikke gemmes"
-    properties: "Egenskaber"
-    really_delete_color: >
-      Er du sikker på, du vil slette den følgende farve? Typer med denne farve vil ikke blive slettet.
-    really_delete_reporting: >
-      Er du sikker på, du vil slette den følgende rapportering? Tidligere status for rapportering status vil også blive slettet.
-    start: "Start"
-    timeline: "Tidslinjerapport"
-    timelines: "Tidslinjerapporter"
-    settings: "Tidslinjer"
-    vertical_work_package: "Lodret arbejdspakke"
-    you_are_viewing_the_selected_timeline: "Du ser den valgte tidslinjerapport"
-    zoom:
-      in: "Zoom ind"
-      out: "Zoom ud"
-      days: "Dage"
-      weeks: "Uger"
-      months: "Måneder"
-      quarters: "Kvartaler"
-      years: "År"
   title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
   title_enterprise_upgrade: "Upgrade to unlock more users."
   tooltip_user_default_timezone: >

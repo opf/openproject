@@ -81,7 +81,7 @@ ro:
   label_costlog: "Costuri unitare înregistrate"
   label_cost_plural: "Costuri"
   label_cost_type_plural: "Tipuri de costuri"
-  label_cost_type_specific: "Tipul de cost #%{id}: %{name}" #%{id}: %{name}"
+  label_cost_type_specific: "Tipul de cost #%{id}: %{name}"
   label_costs_per_page: "Costuri pe pagină"
   label_currency: "Moneda"
   label_currency_format: "Formatul monedei"

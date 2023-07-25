@@ -296,6 +296,34 @@ lt:
           one: "Pirmasis rikiavimo kriterijus"
           two: "Antrasis rikiavimo kriterijus"
           three: "Trečiasis rikiavimo kriterijus"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "ne"
     general_text_yes: "taip"
     general_text_No: "Ne"
@@ -825,63 +853,6 @@ lt:
       activate_no: 'aktyvuoti, kad rikiavimas būtų pašalintas'
     text_work_packages_destroy_confirmation: "Ar tikrai norite ištrinti pasirinktus(-ą) darbų paketus(-ą)?"
     text_query_destroy_confirmation: "Ar tikrai norite panaikinti pasirinktą vaizdą?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Ganto diagrama'
-      labels:
-        title: 'Etiketės konfigūracija'
-        bar: 'Juostelės etiketės'
-        left: 'Kairė'
-        right: 'Dešinė'
-        farRight: 'Toli dešinėje'
-        showNone: '-- Be etiketės --'
-        description: >
-          Pasirinkite atributus, kuriuos visada norite pamatyti atitinkamose Ganto grafiko pozicijose. Atkreipkite dėmesį, kad kai pelės klavišas užvestas virš elemento, jo datos informacija bus rodoma vietoj šių atributų.
-      button_activate: 'Parodyti Gantto diagramą'
-      button_deactivate: 'Paslėpti Gantto diagramą'
-      cancel: Nutraukti
-      change: "Pakeisti planavime"
-      due_date: "Pabaigos data"
-      empty: "(tuščia)"
-      error: "Įvyko klaida."
-      errors:
-        not_implemented: "Laiko juostos nepavyko atvaizduoti, nes reikalinga funkcija dar neįdiegta."
-        report_comparison: "Pagal nustatytus palyginimus laiko juosta negali būti atvaizduota. Prašome patikrinti atitinkamus parametrus nustatymuose, jų gražinimas į numatytąją būseną gali išspręsti šią problemą."
-        report_epicfail: "Laiko juosta negalėjo būti įkelta dėl nenumatytų priežasčių."
-        report_timeout: "Laiko juosta negalėjo būti įkelta per priimtiną laiką."
-      filter:
-        grouping_other: "Kita"
-        noneSelection: "(nėra)"
-      name: "Vardas"
-      outline: "Atnaujinti planą"
-      outlines:
-        aggregation: "Rodyti tik masėmis"
-        level1: "Išplėtimo lygis 1"
-        level2: "Išplėtimo lygis 2"
-        level3: "Išplėtimo lygis 3"
-        level4: "Išplėtimo lygis 4"
-        level5: "Išplėtimo lygis 5"
-        all: "Rodyti viską"
-      project_status: "Projekto būsena"
-      really_close_dialog: "Ar tikrai norite uždaryti dialogo langą ir prarasti įvestus duomenis?"
-      responsible: "Atsakingas"
-      save: Įrašyti
-      start_date: "Pradžios data"
-      tooManyProjects: "Daugiau nei %{count} projektų. Prašome naudoti geresnį filtrą!"
-      selection_mode:
-        notification: 'Paspauskite ant bet kurio pažymėto darbų paketo, kad sukurtumėte ryšį. Paspauskite Esc, jei norite atšaukti.'
-      zoom:
-        in: "Priartinti"
-        out: "Nutolinti"
-        auto: "Automatinis priartinimas"
-        days: "Dienos"
-        weeks: "Savaitės"
-        months: "Mėnesiai"
-        quarters: "Ketvirčiai"
-        years: "Metai"
-        slider: "Didinimo slankiklis"
-        description: >
-          Pasirinkite pradinį pritraukimo lygį, kuris bus rodomas kai automatinis pritraukimas negalimas.
     tl_toolbar:
       zooms: "Didinimo lygis"
       outlines: "Hierarchinis lygmuo"
@@ -946,10 +917,10 @@ lt:
         addition_label: 'Pridėta į vaizdą lyginimo laiko periode'
         removal_label: 'Išimta iš vaizdo lyginimo laiko periode'
         modification_label: 'Pakeista lyginimo laiko periode'
-        column_incompatible: 'Šis atributas nesuderinamas su bazine linija ir todėl skirtumai nebus rodomi.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filtruoti darbų paketus'
-        baseline_incompatible: 'Šis filtras nesuderinamas su bazine linija, todėl nebus įtrauktas į palyginimą.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Bazinės linijos režimas įjungtas, bet kai kurie aktyvūs jūsų filtrai neįtraukti į palyginimą.'
       inline_create:
         title: 'Paspauskite čia, kad pridėtumėte į sąrašą naują darbų paketą'

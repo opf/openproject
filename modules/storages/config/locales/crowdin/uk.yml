@@ -11,6 +11,7 @@ uk:
   project_module_storages: "Файлові сховища"
   activerecord:
     models:
+      file_link: "File link"
       storages/storage: "Сховище"
     attributes:
       storages/storage:

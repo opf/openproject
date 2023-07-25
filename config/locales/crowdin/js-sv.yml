@@ -295,6 +295,34 @@ sv:
           one: "Första sorteringskriteriet"
           two: "Andra sorteringskriteriet"
           three: "Tredje sorteringskriteriet"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "nej"
     general_text_yes: "ja"
     general_text_No: "Nej"
@@ -504,7 +532,7 @@ sv:
     label_remove_all_files: Ta bort alla filer
     label_add_description: "Lägga till en beskrivning för %{file}"
     label_upload_notification: "Laddar upp fil(er)..."
-    label_work_package_upload_notification: "Ladda upp filer för arbetspaket #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Ladda upp filer för arbetspaket #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} tillagd av %{author}"
     label_files_to_upload: "Dessa filer kommer att laddas upp:"
     label_rejected_files: "Dessa filer går inte att ladda upp:"
@@ -822,63 +850,6 @@ sv:
       activate_no: 'aktivera för att ta bort sortering'
     text_work_packages_destroy_confirmation: "Är du säker du vill ta bort det valda arbetspaket(paketen)?"
     text_query_destroy_confirmation: "Är du säker på att du vill ta bort den markerade vyn?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt-schema'
-      labels:
-        title: 'Etikettsinställning'
-        bar: 'Bar etiketter'
-        left: 'Vänster'
-        right: 'Höger'
-        farRight: 'Längst till höger'
-        showNone: '-- Ingen etikett --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Visa Gantt-schema'
-      button_deactivate: 'Dölj Gantt-schema'
-      cancel: Avbryt
-      change: "Ändra i planeringen"
-      due_date: "Slutdatum"
-      empty: "(tom)"
-      error: "Ett fel har inträffat."
-      errors:
-        not_implemented: "Tidslinjen kan inte skapas eftersom den använder en funktion som inte har implementerats ännu."
-        report_comparison: "Tidslinjen kunde inte återge de konfigurerade jämförelserna. Kontrollera vänligen lämpligt avsnitt i konfiguration. Att återställa konfigurationen kan lösa detta problem."
-        report_epicfail: "Tidslinjen kunde inte hämtas på grund av ett oväntat fel."
-        report_timeout: "Tidslinjen kunde inte laddas på en rimlig tid."
-      filter:
-        grouping_other: "Andra"
-        noneSelection: "(ingen)"
-      name: "Namn"
-      outline: "Återställa disposition"
-      outlines:
-        aggregation: "Visa endast aggregeringar"
-        level1: "Expandera nivå 1"
-        level2: "Expandera nivå 2"
-        level3: "Expandera nivå 3"
-        level4: "Expandera nivå 4"
-        level5: "Expandera nivå 5"
-        all: "Visa alla"
-      project_status: "Projektstatus"
-      really_close_dialog: "Vill du verkligen stänga dialogrutan och förlora inmatad data?"
-      responsible: "Ansvarig"
-      save: Spara
-      start_date: "Startdatum"
-      tooManyProjects: "Mer än %{count} projekt. Var god och använd ett bättre filter!"
-      selection_mode:
-        notification: 'Klicka på ett markerat arbetspaket för att skapa relationen. Tryck på escape för att avbryta.'
-      zoom:
-        in: "Zooma in"
-        out: "Zooma ut"
-        auto: "Autozoom"
-        days: "Dagar"
-        weeks: "Veckor"
-        months: "Månader"
-        quarters: "Kvartal"
-        years: "År"
-        slider: "Zoomreglaget"
-        description: >
-          Välj den initiala zoomnivån som ska visas när autozoom inte är tillgänglig.
     tl_toolbar:
       zooms: "Zoomnivå"
       outlines: "Hierarkinivå"
@@ -943,10 +914,10 @@ sv:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filtrera arbetspaket'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Klicka här för att lägga till ett nytt arbetspaket till listan'

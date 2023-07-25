@@ -11,6 +11,7 @@ pl:
   project_module_storages: "Magazyny plików"
   activerecord:
     models:
+      file_link: "File link"
       storages/storage: "Magazyn"
     attributes:
       storages/storage:

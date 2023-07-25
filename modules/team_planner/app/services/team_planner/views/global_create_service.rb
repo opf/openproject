@@ -30,28 +30,11 @@
 
 module TeamPlanner
   module Views
-    class GlobalCreateService < ::Queries::CreateService
-      def initialize(user:,
-                     contract_class: TeamPlanner::Views::GlobalCreateContract,
-                     contract_options: nil)
-        super
-      end
-
-      def after_perform(call)
-        create_view_from_query(call)
-      end
-
-      def instance_class
-        ::Query
-      end
-
+    class GlobalCreateService < ::Views::GlobalCreateService
       private
 
-      def create_view_from_query(call)
-        view_params = { query_id: call.result.id, type: 'team_planner' }
-
-        ::Views::CreateService.new(user: @user)
-                              .call(view_params)
+      def view_type
+        'team_planner'
       end
     end
   end

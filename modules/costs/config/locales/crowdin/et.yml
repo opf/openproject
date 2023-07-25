@@ -80,7 +80,7 @@ et:
   label_costlog: "Logged unit costs"
   label_cost_plural: "Kulud"
   label_cost_type_plural: "Kulu liigid"
-  label_cost_type_specific: "Cost type #%{id}: %{name}" #%{id}: %{name}"
+  label_cost_type_specific: "Cost type #%{id}: %{name}"
   label_costs_per_page: "Costs per page"
   label_currency: "Currency"
   label_currency_format: "Valuuta vorming"

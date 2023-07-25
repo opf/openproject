@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
 
   <div class="form--field -required">
     <%= f.text_field :name,
-                     label: Meeting.human_attribute_name(:title),
+                     label: t(:label_title),
                      required: true,
                      size: 60,
                      container_class: '-wide' %>
@@ -57,7 +57,9 @@ See COPYRIGHT and LICENSE files for more details.
       %>
     </div>
     <div class="form--field-instructions">
-      <p><%= t 'team_planner.help_text.project' %></p>
+      <p><%= t 'help_texts.views.project',
+               singular: t('team_planner.label_team_planner').downcase,
+               plural: t('team_planner.label_team_planner_plural') %></p>
     </div>
   </div>
 
@@ -71,13 +73,13 @@ See COPYRIGHT and LICENSE files for more details.
       %>
     </div>
     <div class="form--field-instructions">
-      <p><%= t 'team_planner.help_text.public' %></p>
+      <p><%= t 'help_texts.views.public' %></p>
     </div>
   </div>
 
   <div class="form--field">
     <%= styled_label_tag 'query[starred]',
-                         t('team_planner.label_favoured') %>
+                         t(:label_favoured) %>
     <div class="form--field-container">
       <%= styled_check_box_tag 'query[starred]',
                                '1',
@@ -85,7 +87,7 @@ See COPYRIGHT and LICENSE files for more details.
       %>
     </div>
     <div class="form--field-instructions">
-      <p><%= t 'team_planner.help_text.favoured' %></p>
+      <p><%= t 'help_texts.views.favoured' %></p>
     </div>
   </div>
 </section>

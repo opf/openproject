@@ -29,7 +29,7 @@
 # Used by: CreateService when setting attributes
 module Storages::ProjectStorages
   class SetAttributesService < ::BaseServices::SetAttributes
-    def set_default_attributes(params)
+    def set_default_attributes(_params)
       model.creator ||= user
 
       model.project_folder_mode ||=

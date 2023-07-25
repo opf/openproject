@@ -55,4 +55,8 @@ class Storages::ProjectStorage < ApplicationRecord
   }.freeze, _prefix: 'project_folder'
 
   scope :automatic, -> { where(project_folder_mode: 'automatic') }
+
+  def project_folder_path
+    "#{storage.group_folder}/#{project.name.gsub('/', '|')} (#{project.id})/"
+  end
 end

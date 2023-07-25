@@ -168,10 +168,21 @@ pt:
     index:
       no_results_title_text: Atualmente, não existem cores.
       no_results_content_text: Criar uma nova cor
-    label_no_color: 'Sem cor'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "Sem cor"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Ações'
+      name: "Ações"
       add: 'Adicionar ação'
       assigned_to:
         executing_user_value: '(Atribuir ao usuário que executar)'
@@ -250,6 +261,8 @@ pt:
         no_results_title_text: Não há campos personalizados disponíveis.
       types:
         no_results_title_text: Atualmente, não há tipos disponíveis.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: Atualmente, não há versões para o projeto.
         no_results_content_text: Criar uma nova versão
@@ -266,6 +279,8 @@ pt:
       notice_reset_token: "Foi gerado um novo token de %{type}. Seu token de acesso é:"
       token_value_warning: "Nota: Esta é a única vez que você verá este token, certifique-se de copiá-lo agora."
       no_results_title_text: Atualmente não há tokens de acesso disponíveis.
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
       notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
@@ -274,14 +289,14 @@ pt:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
-      browser: 'Browser'
-      device: 'Device / OS'
-      unknown_browser: 'unknown browser'
-      unknown_os: 'unknown operating system'
-      current: 'Current session'
-      title: 'Session management'
+      browser: 'Navegador'
+      device: 'Dispositivo / OS'
+      unknown_browser: 'Navegador Desconhecido'
+      unknown_os: 'Sistema Operacional desconhecido'
+      current: 'Sessão atual'
+      title: 'Gerenciamento de sessão'
       instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
-      may_not_delete_current: 'You cannot delete your current session.'
+      may_not_delete_current: 'Você não pode deletar a sessão atual.'
     groups:
       member_in_these_groups: 'No momento, este usuário é um membro dos seguintes grupos: '
       no_results_title_text: No momento, este usuário não é membro de nenhum grupo.
@@ -494,7 +509,7 @@ pt:
           false: "privado"
         queries: "Consultas"
         status_code: 'Situação do projeto'
-        status_explanation: 'Project status description'
+        status_explanation: 'Descrição do status do projeto'
         status_codes:
           not_started: 'Não iniciado'
           on_track: 'Sob controle'
@@ -525,7 +540,7 @@ pt:
         hours: "horas"
         spent_on: "Data"
         type: "Tipo"
-        ongoing: "Ongoing"
+        ongoing: "Em curso"
       type:
         description: "Texto padrão para descrição"
         attribute_groups: ''
@@ -703,8 +718,8 @@ pt:
         ical_token_query_assignment:
           attributes:
             name:
-              blank: "is mandatory. Please select a name."
-              not_unique: "is already in use. Please select another name."
+              blank: "é obrigatório. Por favor, selecione um nome."
+              not_unique: "já está em uso. Por favor, selecione outro nome."
         notifications:
           at_least_one_channel: 'É necessário especificar pelo menos um canal para o envio de notificações.'
           attributes:
@@ -946,8 +961,8 @@ pt:
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
-        updated: "changed from %{old_value} to %{value}"
-        logged_for: "Logged for"
+        updated: "alterado de %{old_value} para %{value}"
+        logged_for: "Registrado para"
     filter:
       changeset: "Cj de alterações"
       message: "Fóruns"
@@ -1065,7 +1080,7 @@ pt:
   button_continue: "Continuar"
   button_copy: "Copiar"
   button_copy_to_clipboard: "Copiar para a área de transferência"
-  button_copy_link_to_clipboard: "Copy link to clipboard"
+  button_copy_link_to_clipboard: "Link copiado da área de transferência"
   button_copy_and_follow: "Copiar e seguir"
   button_create: "Criar"
   button_create_and_continue: "Criar e continuar"
@@ -1297,6 +1312,7 @@ pt:
   error_can_not_unarchive_project: "Este projeto não pode ser desarquivado: %{errors}"
   error_check_user_and_role: "Por favor, escolha um usuário e um papel."
   error_code: "Erro %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'Está faltando o cookie do OpenProject. Por favor, certifique-se de que os cookies estão habilitados, sem os quais esta função não funcionará adequadamente.'
   error_custom_option_not_found: "A opção não existe."
   error_enterprise_activation_user_limit: "Sua conta não pôde ser ativada (limite de usuários atingido). Por favor, contate o administrador para obter acesso."
@@ -1358,9 +1374,9 @@ pt:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_overview_table: "PDF Table"
-      pdf_report_with_images: "PDF Report with images"
-      pdf_report: "PDF Report"
+      pdf_overview_table: "Tabela PDF"
+      pdf_report_with_images: "Relatório em PDF com imagens"
+      pdf_report: "Relatório em PDF"
     image:
       omitted: "Imagem não exportada."
     units:
@@ -1412,7 +1428,7 @@ pt:
   journals:
     changes_retracted: "As mudanças foram retraídas."
     caused_changes:
-      dates_changed: "Dates changed"
+      dates_changed: "Data modificada"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1451,6 +1467,26 @@ pt:
         action: "Ação"
         expiration: "Expira"
       indefinite_expiration: "Nunca"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Enviar notificações para está ação "
     work_packages:
@@ -1580,6 +1616,7 @@ pt:
   label_confirmation: "Confirmação"
   label_contains: "contém"
   label_content: "Conteúdo"
+  label_color_plural: "Colors"
   label_copied: "copiado"
   label_copy_same_as_target: "Igual ao destino"
   label_copy_source: "Fonte"
@@ -1608,6 +1645,7 @@ pt:
   label_deleted: "excluído"
   label_deleted_custom_field: "(campo personalizado excluído)"
   label_deleted_custom_option: "(opção excluída)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(algum valor faltando ou falta permissões para acessar)"
   label_descending: "Decrescente"
   label_details: "Detalhes"
@@ -1653,6 +1691,7 @@ pt:
   label_expanded_click_to_collapse: "Expandido. Clique para recolher"
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} horas"
+  label_favoured: "Favoured"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "Chave de acesso RSS"
   label_feeds_access_key_created_on: "Chave de acesso RSS criada %{value} atrás"
@@ -1848,7 +1887,8 @@ pt:
   label_project_new: "Novo projeto"
   label_project_plural: "Projetos"
   label_project_settings: "Configurações do projeto"
-  label_project_storage_plural: "Armazenamentos"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} projetos usando %{storage} de armazenamento em disco"
   label_project_view_all: "Ver todos os projetos"
   label_project_show_details: "Mostrar detalhes do projeto"
@@ -1936,6 +1976,7 @@ pt:
   label_this_week: "esta semana"
   label_this_year: "este ano"
   label_time_entry_plural: "Tempo gasto"
+  label_title: "Title"
   label_projects_menu: "Projetos"
   label_today: "hoje"
   label_top_menu: "Menu superior"
@@ -2263,7 +2304,8 @@ pt:
   permission_add_messages: "Postar mensagens"
   permission_add_project: "Criar Projeto"
   permission_archive_project: "Arquivar projeto"
-  permission_manage_user: "Criar e editar usuários"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Criar, editar e excluir usuários do espaço reservado"
   permission_add_subprojects: "Criar subprojetos"
   permission_add_work_package_watchers: "Adicionar observadores"
@@ -2766,6 +2808,11 @@ pt:
   text_zoom_in: "Aumentar zoom"
   text_zoom_out: "Diminuir zoom"
   text_setup_mail_configuration: "Configurar seu provedor de email"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "am"
     formats:
@@ -2778,153 +2825,6 @@ pt:
     show: "Mostrar intervalo de tempo"
     end: "para"
     start: "de"
-  timelines:
-    admin_menu:
-      color: "Cor"
-      colors: "Cores"
-    associations: "Dependências"
-    button_delete_all: "Excluir tudo"
-    change: "Modificar no planejamento"
-    children: "Elementos filhos"
-    color_could_not_be_saved: "Cor não pôde ser salva"
-    current_planning: "Planejamento atual"
-    dates: "Datas"
-    dates_are_calculated_based_on_sub_elements: "Datas são calculadas com base em subelementos."
-    delete_all: "Excluir tudo"
-    delete_thing: "Excluir"
-    duration: "Duração"
-    duration_days:
-      one: "1 dia"
-      other: "%{count} dias"
-    edit_color: "Editar cor"
-    edit_thing: "Editar"
-    edit_timeline: "Editar relatório de cronograma %{timeline}"
-    delete_timeline: "Excluir relatório de cronograma %{timeline}"
-    empty: "(vazio)"
-    enable_type_in_project: 'Habilitar o tipo "%{type}"'
-    end: "Fim"
-    errors:
-      not_implemented: "O cronograma não poderá ser processado porque ele usa um recurso que ainda não foi implementado."
-      report_comparison: "O cronograma não pode processar as comparações configuradas. Por favor, verifique a seção apropriada na configuração, redefina-a, pois pode ajudar a resolver este problema."
-      report_epicfail: "O cronograma não pôde ser carregado devido a um erro inesperado."
-      report_timeout: "O cronograma não pôde ser carregado em uma quantidade razoável de tempo."
-    filter:
-      errors:
-        timeframe_start: "O início do prazo "
-        timeframe_end: "O prazo final "
-        compare_to_relative: "O valor de comparação relativa "
-        compare_to_absolute: "O valor da comparação absoluta "
-        planning_element_time_relative_one: "O início para os pacotes de trabalho em um determinado período de tempo  "
-        planning_element_time_relative_two: "O fim para os pacotes de trabalho em um determinado período de tempo  "
-        planning_element_time_absolute_one: "O início para os pacotes de trabalho num determinado prazo  "
-        planning_element_time_absolute_two: "O fim para os pacotes de trabalho num determinado prazo  "
-      sort:
-        sortation: "Ordenar por"
-        alphabet: "alfabeto"
-        explicit_order: "ordem explícita"
-        project_sortation: "Ordenar projetos por"
-        date: "data"
-        default: "padrão"
-      column:
-        assigned_to: "Atribuição"
-        type: "Tipo"
-        due_date: "Data de término"
-        name: "Nome"
-        status: "Situação"
-        start_date: "Data de início"
-      columns: "Colunas"
-      comparisons: "Comparações"
-      comparison:
-        absolute: "Absoluto"
-        none: "Nenhum"
-        relative: "Relativo"
-        compare_relative_prefix: "Comparar o planejamento atual com"
-        compare_relative_suffix: "atrás"
-        compare_absolute: "Comparar o planejamento atual com %{date}"
-      time_relative:
-        days: "dias"
-        weeks: "semanas"
-        months: "meses"
-      exclude_own_work_packages: "Ocultar os pacotes de trabalho deste projeto"
-      exclude_reporters: "Ocultar outros projetos"
-      exclude_empty: "Esconder projetos vazios"
-      grouping: "Agrupamento"
-      grouping_hide_group: "Esconder o grupo \"%{group}\""
-      grouping_one: "Primeiro critério de agrupamento"
-      grouping_one_phrase: "É um subprojeto de"
-      grouping_other: "Outro"
-      hide_chart: "Esconder gráfico"
-      noneElement: "(nenhum)"
-      noneSelection: "(nenhum)"
-      outline: "Expansão do esboço inicial"
-      parent: "Visualizar subprojetos de"
-      work_package_responsible: "Mostrar os pacotes de trabalho com responsável"
-      work_package_assignee: "Mostrar os pacotes de trabalho com seus responsáveis"
-      types: "Mostrar tipos"
-      status: "Mostrar situação"
-      project_time_filter: "Projetos com um pacote de trabalho de um determinado tipo em um determinado período de tempo"
-      project_time_filter_timeframe: "Período de tempo"
-      project_time_filter_historical_from: "de"
-      project_time_filter_historical_to: "para"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} atrás, %{end_label} %{endspan}%{endspanunit} agora"
-      project_filters: "Filtrar projetos"
-      project_responsible: "Mostrar projetos com responsável"
-      project_status: "Mostrar a situação do projeto"
-      timeframe: "Mostrar calendário"
-      timeframe_end: "para"
-      timeframe_start: "de"
-      timeline: "Configurações Gerais"
-      zoom: "Fator de zoom"
-    history: "História"
-    new_color: "Nova cor"
-    new_association: "Nova dependência"
-    new_work_package: "Novo pacote de trabalho"
-    new_reporting: "Novo relatório"
-    new_timeline: "Novo relatório de cronograma"
-    no_projects_for_reporting_available: "Não existem projetos para que uma associação de relatórios possa ser criada."
-    no_right_to_view_timeline: "Você não tem a permissão necessária para visualizar o cronograma vinculado."
-    no_timeline_for_id: "Não há nenhum cronograma com ID %{id}."
-    notice_successful_deleted_all_elements: "Todos elementos excluídos com sucesso"
-    outline: "Redefinir o contorno"
-    outlines:
-      aggregation: "Mostrar somente agregações"
-      level1: "Expandir nível 1"
-      level2: "Expandir nível 2"
-      level3: "Expandir nível 3"
-      level4: "Expandir nível 4"
-      level5: "Expandir nível 5"
-      all: "Mostrar todos"
-    reporting_for_project:
-      show: "Situação comunicada ao projeto: %{title}"
-      edit_delete: "relatório de situações para o projeto: %{title}"
-      history: "História para a situação de projeto: %{title}"
-    reporting:
-      delete: "Excluir situação: %{comment}"
-      edit: "Editar situação: %{comment}"
-      show: "Situação: %{comment}"
-    planning_element_update: "Atualização: %{title}"
-    type_could_not_be_saved: "Tipo não pôde ser salvo"
-    reporting_could_not_be_saved: "Relatórios não podem ser salvos"
-    properties: "Propriedades"
-    really_delete_color: >
-      Tem certeza que deseja excluir a seguinte cor? Tipos usando essa cor não serão excluídos.
-    really_delete_reporting: >
-      Tem certeza que deseja excluir o seguinte relatório? Relatórios de situação anteriores também serão excluídos.
-    start: "Início"
-    timeline: "Relatório de cronograma"
-    timelines: "Relatórios de cronogramas"
-    settings: "Cronogramas"
-    vertical_work_package: "Pacotes de trabalho verticais"
-    you_are_viewing_the_selected_timeline: "Você está visualizando o relatório do cronograma selecionado"
-    zoom:
-      in: "Aumentar zoom"
-      out: "Diminuir zoom"
-      days: "Dias"
-      weeks: "Semanas"
-      months: "Meses"
-      quarters: "Trimestres"
-      years: "Anos"
   title_remove_and_delete_user: Remover o usuário convidado do projeto e excluí-lo.
   title_enterprise_upgrade: "Atualizar para desbloquear mais usuários."
   tooltip_user_default_timezone: >
