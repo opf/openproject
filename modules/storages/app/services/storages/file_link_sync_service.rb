@@ -54,7 +54,16 @@ class Storages::FileLinkSyncService
       .new(storage: ::Storages::Storage.find(storage_id))
       .files_info_query
       .call(user: @user, file_ids: file_links.map(&:origin_id))
-      .map(&to_hash) >> set_file_link_permissions(file_links)
+      .map(&to_hash)
+      .match(
+        on_success: set_file_link_permissions(file_links),
+        on_failure: ->(_) {
+          ServiceResult.success(result: file_links.map do |file_link|
+            file_link.origin_permission = :error
+            file_link
+          end)
+        }
+      )
   end
 
   def to_hash
