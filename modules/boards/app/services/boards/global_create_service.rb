@@ -14,6 +14,8 @@ module Boards
     end
 
     def before_perform(params, _service_result)
+      return super(params, _service_result) if grid_lacks_query?(params)
+
       create_query_result = create_query(params)
 
       super(params.merge(query_id: create_query_result.result.id), create_query_result)
@@ -39,6 +41,10 @@ module Boards
 
     private
 
+    def grid_lacks_query?(params)
+      %w[assignee].include?(params[:attribute])
+    end
+
     def create_query(params)
       Queries::CreateService.new(user: User.current)
                             .call(create_query_params(params))
@@ -62,7 +68,8 @@ module Boards
     def query_filters(params)
       {
         'basic' => [{ manual_sort: { operator: 'ow', values: [] } }],
-        'status' => [{ status_id: { operator: '=', values: [default_status.id] } }]
+        'status' => [{ status_id: { operator: '=', values: [default_status.id] } }],
+        'assignee' => []
       }.fetch(params[:attribute])
     end
 
@@ -108,7 +115,8 @@ module Boards
               "filters" => query_filters(params)
             }
           )
-        ]
+        ],
+        'assignee' => []
       }.fetch(params[:attribute])
     end
   end
