@@ -29,18 +29,13 @@
 require 'spec_helper'
 
 RSpec.describe Admin::Settings::AuthenticationSettingsController do
-  describe 'show.html' do
-    def fetch
-      get 'show'
-    end
+  shared_let(:user) { create(:admin) }
 
-    it_behaves_like 'a controller action with require_admin'
-  end
+  current_user { user }
+
+  require_admin_and_render_template('authentication_settings')
 
   describe 'PATCH #update' do
-    shared_let(:admin) { create(:admin) }
-    current_user { admin }
-
     describe 'registration_footer' do
       let(:old_settings) do
         {

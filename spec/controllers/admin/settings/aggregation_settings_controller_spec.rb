@@ -31,48 +31,10 @@
 
 require 'spec_helper'
 
-RSpec.describe Admin::Settings::LanguagesSettingsController do
+RSpec.describe Admin::Settings::AggregationSettingsController do # rubocop:disable RSpec/EmptyExampleGroup
   shared_let(:user) { create(:admin) }
 
   current_user { user }
 
-  require_admin_and_render_template('languages_settings')
-
-  describe 'PATCH #update' do
-    subject { patch 'update', params: }
-
-    let(:available_languages) { %w[en fr de] }
-    let(:base_settings) do
-      { available_languages: }
-    end
-    let(:params) { { settings: } }
-
-    context 'with valid params' do
-      let(:settings) { base_settings }
-
-      it 'succeeds' do
-        subject
-
-        expect(response).to redirect_to action: :show
-        expect(flash[:notice]).to eq I18n.t(:notice_successful_update)
-      end
-
-      it 'sets language of users having a non-available language to the default language',
-         with_settings: { available_languages: %w[en de ja], default_language: 'de' } do
-        user_de = create(:user, language: 'de')
-        user_en = create(:user, language: 'en')
-        user_foo = create(:user, language: 'foo')
-        user_fr = create(:user, language: 'fr')
-        user_ja = create(:user, language: 'ja')
-
-        subject
-
-        expect(user_de.reload.language).to eq('de')
-        expect(user_en.reload.language).to eq('en')
-        expect(user_foo.reload.language).to eq('de')
-        expect(user_fr.reload.language).to eq('de')
-        expect(user_ja.reload.language).to eq('ja')
-      end
-    end
-  end
+  require_admin_and_render_template('aggregation_settings')
 end
