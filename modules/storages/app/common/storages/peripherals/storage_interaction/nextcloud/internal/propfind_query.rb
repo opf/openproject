@@ -28,6 +28,8 @@
 
 module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
   class PropfindQuery
+    UTIL = ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
+
     # Only for information purposes currently.
     # Probably a bit later we could validate `#call` parameters.
     #
@@ -82,17 +84,15 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
         end
       end.to_xml
 
-      response = ::Storages::Peripherals::StorageInteraction::Nextcloud::Util.http(@uri).propfind(
-        ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
-          .join_uri_path(
-            @uri,
-            'remote.php/dav/files',
-            CGI.escapeURIComponent(@username),
-            ::Storages::Peripherals::StorageInteraction::Nextcloud::Util.escape_path(path)
-          ),
+      response = UTIL.http(@uri).propfind(
+        UTIL.join_uri_path(
+          @uri,
+          'remote.php/dav/files',
+          CGI.escapeURIComponent(@username),
+          UTIL.escape_path(path)
+        ),
         body,
-        ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
-          .basic_auth_header(@username, @password).merge('Depth' => depth)
+        UTIL.basic_auth_header(@username, @password).merge('Depth' => depth)
       )
 
       case response
@@ -100,12 +100,9 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
         doc = Nokogiri::XML response.body
         result = {}
         doc.xpath('/d:multistatus/d:response').each do |resource_section|
-          resource = CGI
-                       .unescape(resource_section.xpath("d:href").text.strip)
-                       .gsub!(
-                         ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
-                           .join_uri_path(@uri.path, "/remote.php/dav/files/#{@username}/"), ""
-                       )
+          resource = CGI.unescape(resource_section.xpath("d:href").text.strip)
+                        .gsub!(UTIL.join_uri_path(@uri.path, "/remote.php/dav/files/#{@username}/"), "")
+
           result[resource] = {}
 
           # In future it could be useful to respond not only with found, but not found props as well
@@ -114,19 +111,16 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
             result[resource][node.name.to_s] = node.text.strip
           end
         end
+
         ServiceResult.success(result:)
       when Net::HTTPMethodNotAllowed
-        ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
-          .error(:not_allowed)
+        UTIL.error(:not_allowed)
       when Net::HTTPUnauthorized
-        ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
-          .error(:not_authorized)
+        UTIL.error(:not_authorized)
       when Net::HTTPNotFound
-        ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
-          .error(:not_found)
+        UTIL.error(:not_found)
       else
-        ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
-          .error(:error)
+        UTIL.error(:error)
       end
     end
 

@@ -59,24 +59,24 @@ module Projects::Copy
       source_folder_name = source_project_storage.project_folder_path
       destination_folder_name = destination_project_storage.project_folder_path
 
-      result = Storages::Peripherals::StorageRequests
-                 .new(storage: source_project_storage.storage)
-                 .copy_template_folder_command
-                 .call(source_path: source_folder_name, destination_path: destination_folder_name)
-      result.on_failure { |r| add_error!(source_folder_name, r.to_active_model_errors) }
+      Storages::Peripherals::StorageRequests
+        .new(storage: source_project_storage.storage)
+        .copy_template_folder_command
+        .call(source_path: source_folder_name, destination_path: destination_folder_name)
+        .on_failure { |r| add_error!(source_folder_name, r.to_active_model_errors) }
     end
 
     def update_project_folder_id(project_storage)
       destination_folder_name = project_storage.project_folder_path
 
-      result = Storages::Peripherals::StorageRequests
-                 .new(storage: project_storage.storage)
-                 .file_id_query
-                 .call(path: destination_folder_name)
-      result.match(
-        on_success: ->(file_id) { project_storage.update!(project_folder_id: file_id) },
-        on_failure: ->(error) { add_error!(destination_folder_name, error.to_active_model_errors) }
-      )
+      Storages::Peripherals::StorageRequests
+        .new(storage: project_storage.storage)
+        .file_id_query
+        .call(path: destination_folder_name)
+        .match(
+          on_success: ->(file_id) { project_storage.update!(project_folder_id: file_id) },
+          on_failure: ->(error) { add_error!(destination_folder_name, error.to_active_model_errors) }
+        )
     end
   end
 end
