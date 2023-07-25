@@ -62,6 +62,7 @@ require('mark.js/dist/jquery.mark.min.js');
 require('fuse.js');
 
 require('moment-timezone/builds/moment-timezone-with-data.min.js');
+require('@primer/view-components/app/assets/javascripts/primer_view_components.js')
 
 require('expose-loader?URI!urijs');
 require('urijs/src/URITemplate');

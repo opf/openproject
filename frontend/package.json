@@ -81,6 +81,7 @@
     "webpack-bundle-analyzer": "^4.4.2"
   },
   "dependencies": {
+    "@angular-builders/custom-webpack": "^16.0.0",
     "@angular/animations": "^16.1.6",
     "@angular/cdk": "^16.1.5",
     "@angular/cli": "^16.1.5",
