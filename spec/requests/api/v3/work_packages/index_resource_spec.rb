@@ -258,6 +258,21 @@ RSpec.describe 'API v3 Work package resource',
         new_work_package.update_columns(created_at:)
         new_work_package
       end
+
+      let(:custom_field) do
+        create(:string_wp_custom_field,
+               name: 'String CF',
+               types: project.types,
+               projects: [project])
+      end
+
+      let(:custom_value) do
+        create(:custom_value,
+               custom_field:,
+               customized: work_package,
+               value: 'This the current value')
+      end
+
       let(:original_journal) do
         create_journal(journable: work_package, timestamp: created_at,
                        version: 1,
@@ -283,6 +298,13 @@ RSpec.describe 'API v3 Work package resource',
                                       data: build(:journal_work_package_journal, journal_attributes))
       end
 
+      def create_customizable_journal(journal:, custom_field:, value:)
+        create(:journal_customizable_journal,
+               journal:,
+               custom_field:,
+               value:)
+      end
+
       before do
         work_package.journals.destroy_all
         original_journal
@@ -299,6 +321,40 @@ RSpec.describe 'API v3 Work package resource',
           .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/subject")
         expect(subject.body)
           .to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1")
+      end
+
+      context 'when the custom fields are changed' do
+        before do
+          custom_field
+          custom_value
+          create_customizable_journal(journal: original_journal, custom_field:, value: 'Original value')
+        end
+
+        it 'embeds the custom fields in the attributesByTimestamp' do
+          expect(subject.body)
+            .to be_json_eql('Original value'.to_json)
+            .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/customField#{custom_field.id}")
+          expect(subject.body)
+            .to be_json_eql('This the current value'.to_json)
+            .at_path("_embedded/elements/0/customField#{custom_field.id}")
+          expect(subject.body)
+            .to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1")
+        end
+
+        context 'and the custom field is deactivated in the meantime' do
+          before do
+            custom_field.destroy
+          end
+
+          it 'does not embeds the custom fields in the attributesByTimestamp' do
+            expect(subject.body)
+              .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/customField#{custom_field.id}")
+            expect(subject.body)
+              .to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/0")
+            expect(subject.body)
+              .to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1")
+          end
+        end
       end
 
       it 'does not embed the attributes in attributesByTimestamp if they are the same as the current attributes' do
@@ -639,6 +695,27 @@ RSpec.describe 'API v3 Work package resource',
               .to have_json_path('_embedded/elements/0/_embedded/attributesByTimestamp/1')
             expect(subject.body)
               .not_to have_json_path('_embedded/elements/0/_embedded/attributesByTimestamp/1/subject')
+          end
+
+          context 'when the custom fields are not changed' do
+            before do
+              custom_field
+              custom_value
+            end
+
+            it 'has no attributes in the embedded objects because they are the same as in the main object' do
+              expect(subject.body)
+                .to have_json_path('_embedded/elements/0/_embedded/attributesByTimestamp/0')
+              expect(subject.body)
+                .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/customField#{custom_field.id}")
+              expect(subject.body)
+                .to have_json_path('_embedded/elements/0/_embedded/attributesByTimestamp/1')
+              expect(subject.body)
+                .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1/customField#{custom_field.id}")
+              expect(subject.body)
+                .to be_json_eql('This the current value'.to_json)
+                .at_path("_embedded/elements/0/customField#{custom_field.id}")
+            end
           end
 
           describe "_meta" do
