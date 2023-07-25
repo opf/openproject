@@ -1,6 +1,6 @@
 # Baseline comparison
 
-Baseline is a powerful tool that allows you to view changes to work package table within a given period. This can be a saved view or a new filter query. Project managers can use baseline to get a quick overview of what has changed over time, making it easier to report on project progress and status.
+Baseline is a powerful feature that allows you to view changes to work package table within a given period. This can be a saved view or a new filter query. Project managers can use baseline to get a quick overview of what has changed over time, making it easier to report on project progress and status.
 
 ![Work package table list with Baseline enabled](13-0_Baseline_overview.png)
 
@@ -17,6 +17,8 @@ Baseline comparison can be enabled on any work package table view:
 ![Clicking on the Baseline icon displays a dropdown that lets you pick a comparison point](13-0_Baseline_dropmodal.png)
 
 ### Preset periods
+
+>**Note:** Baseline comparison with yesterday is included in the community version. Other comparison points are Enterprise add-ons that are available with Enterprise cloud or Enterprise on-premises. An upgrade from the free Community edition is easily possible.
 
 Baseline offers these preset time ranges:
 
@@ -46,7 +48,7 @@ If you want to compare between now and a specific date in the past, you can sele
 
 OpenProject also allows you to compare between two specific dates in the past. To select a custom date range, choose "between two specific dates" in the dropdown and select two dates in the date picker below.
 
->**Note**: This is will create a fixed baseline view that will remain the same regardless of when you accesses it, since both points are fixed in the past.
+>**Note**: This will create a fixed baseline view that will remain the same regardless of when you accesses it, since both points are fixed in the past.
 
 ## Understanding the comparison results
 
@@ -59,9 +61,9 @@ When Baseline is enabled, you will see a legend at the top of the page which sho
 ![A legend is visible on top of the table when Baseline is enabled](13-0_Baseline_legend.png)
 
 - The comparison point or comparison period
-- The number of work packages added to view
-- The number of work packages removed from view
-- The number of work packages were modified
+- The number of work packages that now meet the filter criteria (and were thus added to view)
+- The number of work packages that no longer meet the filter criteria (and were thus removed from view)
+- The number of work packages that maintained but were modified 
 
 
 ### Change icons
@@ -72,7 +74,7 @@ When Baseline is enabled, you will see a legend at the top of the page which sho
 
 Work packages that meet the filter criteria now but did not in the past are marked with an "Added" icon. These work packages were added to the current query after the selected comparison point, either because they were newly created since then or certain attributes changed such that they meet the filter criteria. 
 
-> **Note**: These do not necessarily represent _newly created_ work packages; simply those that are new to this particular view.
+> **Note**: These do not necessarily represent _newly created_ work packages; simply those that are new to this particular view because they now meet the filter criteria.
 
 #### No longer meets filter criteria
 
