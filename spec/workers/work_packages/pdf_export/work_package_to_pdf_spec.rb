@@ -46,8 +46,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
            type:,
            subject: 'Work package 1',
            story_points: 1,
-           description: 'This is a description'
-    )
+           description: 'This is a description')
   end
   let(:options) { {} }
   let(:export) do

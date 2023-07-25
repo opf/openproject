@@ -191,7 +191,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                   '2.', '2', work_package_child.subject,
                                   '1/2', export_time_formatted, query.name,
                                   "Overview",
-                                  "STORY POINTS", "Sum", (work_package_parent.story_points + work_package_child.story_points).to_s,
+                                  "STORY POINTS",
+                                  "Sum", (work_package_parent.story_points + work_package_child.story_points).to_s,
                                   *work_package_details(work_package_parent, 1),
                                   *work_package_details(work_package_child, 2),
                                   '2/2', export_time_formatted, query.name
