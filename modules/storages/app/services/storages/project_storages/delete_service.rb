@@ -30,6 +30,30 @@ module Storages::ProjectStorages
   # Performs the deletion in the superclass. Associated FileLinks are deleted
   # by the model before_destroy hook.
   class DeleteService < ::BaseServices::Delete
+    # rubocop:disable Metrics/AbcSize
+    def before_perform(params, service_result)
+      before_result = super(params, service_result)
+      return before_result if before_result.failure? || !model.storage.is_a?(Storages::NextcloudStorage)
+
+      Storages::Peripherals::StorageRequests
+        .new(storage: model.storage)
+        .delete_folder_command
+        .call(location: model.project_folder_path)
+        .on_success { |result| result.result = model }
+        .on_failure do |result|
+        if result.errors.code == :not_found
+          # if folder was not found consider deletion to be successful
+          result.success = true
+          result.errors = nil
+          result.result = model
+        else
+          result.errors = result.errors.to_active_model_errors
+        end
+      end
+    end
+
+    # rubocop:enable Metrics/AbcSize
+
     # "persist" is a callback from BaseContracted.perform
     # that is supposed to do the actual work in a contract.
     # So in a DeleteService it performs the actual delete,

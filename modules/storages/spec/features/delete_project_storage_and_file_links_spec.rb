@@ -30,7 +30,7 @@ require_relative '../spec_helper'
 
 # Test if the deletion of a ProjectStorage actually deletes related FileLink
 # objects.
-RSpec.describe 'Delete ProjectStorage with FileLinks', js: true do
+RSpec.describe 'Delete ProjectStorage with FileLinks', js: true, webmock: true do
   let(:user) { create(:user) }
   let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }
   let(:project) do
@@ -40,13 +40,18 @@ RSpec.describe 'Delete ProjectStorage with FileLinks', js: true do
            members: { user => role },
            enabled_module_names: %i[storages work_package_tracking])
   end
-  let(:storage) { create(:storage, name: "Storage 1") }
+  let(:storage) { create(:nextcloud_storage, name: "Storage 1") }
   let(:work_package) { create(:work_package, project:) }
   let(:project_storage) { create(:project_storage, storage:, project:) }
   let(:file_link) { create(:file_link, storage:, container: work_package) }
   let(:second_file_link) { create(:file_link, container: work_package, storage:) }
+  let(:delete_folder_url) do
+    "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.project_folder_path.chop}"
+  end
 
   before do
+    stub_request(:delete, delete_folder_url).to_return(status: 204, body: nil, headers: {})
+
     # The objects defined by let(...) above are lazy instantiated, so we need
     # to "use" (just write their name) below to really create them.
     project_storage
