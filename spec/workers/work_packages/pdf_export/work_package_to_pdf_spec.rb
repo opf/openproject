@@ -38,14 +38,9 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
            member_in_project: project,
            member_with_permissions: %w[view_work_packages export_work_packages])
   end
-  let(:export_time) {
-    DateTime.new(2023, 6, 30, 23, 59, 00, '+00:00')
-  }
-  let(:export_time_formatted) {
-    format_time(export_time, true)
-  }
-
-  let(:wp) do
+  let(:export_time) { DateTime.new(2023, 6, 30, 23, 59) }
+  let(:export_time_formatted) { format_time(export_time, true) }
+  let(:work_package) do
     create(:work_package,
            project:,
            type:,
@@ -55,12 +50,10 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
     )
   end
   let(:options) { {} }
-
   let(:export) do
     login_as(user)
-    described_class.new(wp, options)
+    described_class.new(work_package, options)
   end
-
   let(:export_pdf) do
     Timecop.freeze(export_time) do
       export.export!
@@ -74,21 +67,21 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   describe 'with a request for a PDF' do
     it 'contains correct data' do
       expect(pdf.strings).to eq([
-                                  "#{type.name} ##{wp.id} - #{wp.subject}",
-                                  'ID', wp.id.to_s,
+                                  "#{type.name} ##{work_package.id} - #{work_package.subject}",
+                                  'ID', work_package.id.to_s,
                                   "UPDATED ON", export_time_formatted,
                                   "TYPE", type.name,
                                   "CREATED ON", export_time_formatted,
-                                  'STATUS', wp.status.name,
+                                  'STATUS', work_package.status.name,
                                   "FINISH DATE",
                                   "VERSION",
-                                  "PRIORITY", wp.priority.name,
+                                  "PRIORITY", work_package.priority.name,
                                   "DURATION",
                                   "WORK",
                                   "CATEGORY",
                                   "ASSIGNEE",
                                   'Description',
-                                  wp.description,
+                                  work_package.description,
                                   '1', export_time_formatted, project.name
                                 ])
     end

@@ -31,55 +31,35 @@ require 'pdf/inspector'
 
 RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   include Redmine::I18n
-  let(:type1) { create(:type_standard) }
-  let(:type2) { create(:type_bug) }
-  let(:project) { create(:project, name: 'Foo Bla. Report No. 4/2021 with/for Case 42', types: [type1, type2]) }
+  let(:type_standard) { create(:type_standard) }
+  let(:type_bug) { create(:type_bug) }
+  let(:project) { create(:project, name: 'Foo Bla. Report No. 4/2021 with/for Case 42', types: [type_standard, type_bug]) }
   let(:user) do
     create(:user,
            member_in_project: project,
            member_with_permissions: %w[view_work_packages export_work_packages])
   end
-  let(:column_names) { [:id, :subject, :status, :story_points] }
-
-  def work_package_columns(wp)
-    [wp.id.to_s, wp.subject, wp.status.name, wp.story_points.to_s]
-  end
-
-  def work_package_details(wp, nr)
-    ["#{nr}.", wp.subject,
-     'ID', wp.id.to_s,
-     'STATUS', wp.status.name,
-     'STORY POINTS', wp.story_points.to_s,
-     'Description',
-     wp.description]
-  end
-
-  let(:export_time) {
-    DateTime.new(2023, 6, 30, 23, 59, 00, '+00:00')
-  }
-  let(:export_time_formatted) {
-    format_time(export_time, true)
-  }
-
-  let(:work_package1) do
+  let(:export_time) { DateTime.new(2023, 6, 30, 23, 59) }
+  let(:export_time_formatted) { format_time(export_time, true) }
+  let(:work_package_parent) do
     create(:work_package,
            project:,
-           type: type1,
+           type: type_standard,
            subject: 'Work package 1',
            story_points: 1,
-           description: 'This is a description'
-    )
+           description: 'This is a description')
   end
-  let(:work_package2) do
-    create(:work_package, project:,
-           type: type2,
+  let(:work_package_child) do
+    create(:work_package,
+           project:,
+           parent: work_package_parent,
+           type: type_bug,
            subject: 'Work package 2',
            story_points: 2,
-           description: 'This is work package 2'
-    )
+           description: 'This is work package 2')
   end
   let(:work_packages) do
-    [work_package1, work_package2]
+    [work_package_parent, work_package_child]
   end
   let(:query_attributes) { {} }
   let!(:query) do
@@ -90,23 +70,29 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   end
   let(:column_titles) { column_names.map { |name| WorkPackage.human_attribute_name(name).upcase } }
   let(:options) { {} }
-
   let(:export) do
     login_as(user)
     work_packages
     described_class.new(query, options)
   end
-
   let(:export_pdf) do
     Timecop.freeze(export_time) do
       export.export!
     end
   end
+  let(:column_names) { %i[id subject status story_points] }
 
-  def open_temp_pdf
-    cmd = "open -a Preview #{export_pdf.content.path}"
-    puts cmd
-    `#{cmd}`
+  def work_package_columns(work_package)
+    [work_package.id.to_s, work_package.subject, work_package.status.name, work_package.story_points.to_s]
+  end
+
+  def work_package_details(work_package, index)
+    ["#{index}.", work_package.subject,
+     'ID', work_package.id.to_s,
+     'STATUS', work_package.status.name,
+     'STORY POINTS', work_package.story_points.to_s,
+     'Description',
+     work_package.description]
   end
 
   subject(:pdf) do
@@ -118,8 +104,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       expect(pdf.strings).to eq([
                                   query.name,
                                   *column_titles,
-                                  *work_package_columns(work_package1),
-                                  *work_package_columns(work_package2),
+                                  *work_package_columns(work_package_parent),
+                                  *work_package_columns(work_package_child),
                                   '1/1', export_time_formatted, query.name
                                 ])
     end
@@ -131,12 +117,12 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     it 'contains correct data' do
       expect(pdf.strings).to eq([
                                   query.name,
-                                  type1.name,
+                                  work_package_parent.type.name,
                                   *column_titles,
-                                  *work_package_columns(work_package1),
-                                  type2.name,
+                                  *work_package_columns(work_package_parent),
+                                  work_package_child.type.name,
                                   *column_titles,
-                                  *work_package_columns(work_package2),
+                                  *work_package_columns(work_package_child),
                                   '1/1', export_time_formatted, query.name
                                 ])
     end
@@ -148,14 +134,14 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     it 'contains correct data' do
       expect(pdf.strings).to eq([
                                   query.name,
-                                  type1.name,
+                                  work_package_parent.type.name,
                                   *column_titles,
-                                  *work_package_columns(work_package1),
-                                  "Sum", work_package1.story_points.to_s,
-                                  type2.name,
+                                  *work_package_columns(work_package_parent),
+                                  "Sum", work_package_parent.story_points.to_s,
+                                  work_package_child.type.name,
                                   *column_titles,
-                                  *work_package_columns(work_package2),
-                                  "Sum", work_package2.story_points.to_s,
+                                  *work_package_columns(work_package_child),
+                                  "Sum", work_package_child.story_points.to_s,
                                   '1/1', export_time_formatted, query.name
                                 ])
     end
@@ -167,11 +153,28 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     it 'contains correct data' do
       expect(pdf.strings).to eq([
                                   query.name,
-                                  '1.', '2', work_package1.subject,
-                                  '2.', '2', work_package2.subject,
+                                  '1.', '2', work_package_parent.subject,
+                                  '2.', '2', work_package_child.subject,
                                   '1/2', export_time_formatted, query.name,
-                                  *work_package_details(work_package1, 1),
-                                  *work_package_details(work_package2, 2),
+                                  *work_package_details(work_package_parent, 1),
+                                  *work_package_details(work_package_child, 2),
+                                  '2/2', export_time_formatted, query.name
+                                ])
+    end
+  end
+
+  describe 'with a request for a PDF Report with hierarchies' do
+    let(:options) { { show_report: true } }
+    let(:query_attributes) { { show_hierarchies: true } }
+
+    it 'contains correct data' do
+      expect(pdf.strings).to eq([
+                                  query.name,
+                                  '1.', '2', work_package_parent.subject,
+                                  '1.1.', '2', work_package_child.subject,
+                                  '1/2', export_time_formatted, query.name,
+                                  *work_package_details(work_package_parent, '1'),
+                                  *work_package_details(work_package_child, '1.1'),
                                   '2/2', export_time_formatted, query.name
                                 ])
     end
@@ -184,13 +187,13 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     it 'contains correct data' do
       expect(pdf.strings).to eq([
                                   query.name,
-                                  '1.', '2', work_package1.subject,
-                                  '2.', '2', work_package2.subject,
+                                  '1.', '2', work_package_parent.subject,
+                                  '2.', '2', work_package_child.subject,
                                   '1/2', export_time_formatted, query.name,
                                   "Overview",
-                                  "STORY POINTS", "Sum", (work_package1.story_points + work_package2.story_points).to_s,
-                                  *work_package_details(work_package1, 1),
-                                  *work_package_details(work_package2, 2),
+                                  "STORY POINTS", "Sum", (work_package_parent.story_points + work_package_child.story_points).to_s,
+                                  *work_package_details(work_package_parent, 1),
+                                  *work_package_details(work_package_child, 2),
                                   '2/2', export_time_formatted, query.name
                                 ])
     end
@@ -203,16 +206,16 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     it 'contains correct data' do
       expect(pdf.strings).to eq([
                                   query.name,
-                                  '1.', '2', work_package1.subject,
-                                  '2.', '2', work_package2.subject,
+                                  '1.', '2', work_package_parent.subject,
+                                  '2.', '2', work_package_child.subject,
                                   '1/2', export_time_formatted, query.name,
                                   "Overview",
                                   "TYPE", "STORY POINTS",
-                                  type1.name, work_package1.story_points.to_s,
-                                  type2.name, work_package2.story_points.to_s,
-                                  "Sum", (work_package1.story_points + work_package2.story_points).to_s,
-                                  *work_package_details(work_package1, 1),
-                                  *work_package_details(work_package2, 2),
+                                  work_package_parent.type.name, work_package_parent.story_points.to_s,
+                                  work_package_child.type.name, work_package_child.story_points.to_s,
+                                  "Sum", (work_package_parent.story_points + work_package_child.story_points).to_s,
+                                  *work_package_details(work_package_parent, 1),
+                                  *work_package_details(work_package_child, 2),
                                   '2/2', export_time_formatted, query.name
                                 ])
     end
