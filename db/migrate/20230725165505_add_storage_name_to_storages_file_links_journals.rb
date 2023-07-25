@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,50 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module JournalChanges
-  def get_changes
-    return @changes if @changes
-    return {} if data.nil?
-
-    @changes = ::Acts::Journalized::JournableDiffer.changes(predecessor&.data, data)
-
-    @changes[:cause] = [nil, cause] if cause.present?
-
-    if journable&.attachable?
-      @changes.merge!(
-        ::Acts::Journalized::JournableDiffer.association_changes(
-          predecessor,
-          self,
-          'attachable_journals',
-          'attachments',
-          :attachment_id,
-          :filename
-        )
-      )
-    end
-
-    if journable&.customizable?
-      @changes.merge!(
-        ::Acts::Journalized::JournableDiffer.association_changes(
-          predecessor,
-          self,
-          'customizable_journals',
-          'custom_fields',
-          :custom_field_id,
-          :value
-        )
-      )
-    end
-
-    if has_file_links?
-      @changes.merge!(
-        ::Acts::Journalized::FileLinkJournalDiffer.get_changes_to_file_links(
-          predecessor,
-          storable_journals
-        )
-      )
-    end
-
-    @changes
+class AddStorageNameToStoragesFileLinksJournals < ActiveRecord::Migration[7.0]
+  def change
+    add_column :storages_file_links_journals, :storage_name, :string
   end
 end
