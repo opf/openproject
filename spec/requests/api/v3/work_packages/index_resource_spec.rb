@@ -276,15 +276,15 @@ RSpec.describe 'API v3 Work package resource',
                value: 'This the current value')
       end
 
+      let(:original_journal) { work_package.journals.first }
+      let(:current_journal) { work_package.journals.last }
+
       def create_customizable_journal(journal:, custom_field:, value:)
         create(:journal_customizable_journal,
                journal:,
                custom_field:,
                value:)
       end
-
-      let(:original_journal) { work_package.journals.first }
-      let(:current_journal) { work_package.journals.last }
 
       it 'succeeds' do
         expect(subject.status).to be 200
