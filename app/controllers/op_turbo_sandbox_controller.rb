@@ -41,7 +41,7 @@ class OpTurboSandboxController < ApplicationController
       component: OpTurboSandbox::Projects::InlineEditComponent.new(project: @project, state: :edit)
     )
 
-    respond_with_turbo_streams
+    respond_to_with_turbo_streams
   end
 
   def create
@@ -72,7 +72,7 @@ class OpTurboSandboxController < ApplicationController
       )
     end
 
-    respond_with_turbo_streams
+    respond_to_with_turbo_streams
   end
 
   def cancel_edit
@@ -82,7 +82,7 @@ class OpTurboSandboxController < ApplicationController
       component: OpTurboSandbox::Projects::InlineEditComponent.new(project: @project, state: :show)
     )
 
-    respond_with_turbo_streams
+    respond_to_with_turbo_streams
   end
 
   def update
@@ -98,7 +98,7 @@ class OpTurboSandboxController < ApplicationController
       )
     end
 
-    respond_with_turbo_streams
+    respond_to_with_turbo_streams
   end
 
   def destroy
@@ -118,7 +118,7 @@ class OpTurboSandboxController < ApplicationController
       )
     end
 
-    respond_with_turbo_streams
+    respond_to_with_turbo_streams
   end
 
   private

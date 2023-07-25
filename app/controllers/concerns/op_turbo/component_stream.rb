@@ -38,11 +38,13 @@ module OpTurbo
       @turbo_streams = []
     end
 
-    def respond_with_turbo_streams
+    def respond_to_with_turbo_streams(&format_block)
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: @turbo_streams
         end
+
+        format_block.call(format) if block_given?
       end
     end
 
