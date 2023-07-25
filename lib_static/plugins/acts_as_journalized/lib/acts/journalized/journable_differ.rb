@@ -52,7 +52,7 @@ module Acts::Journalized
 
       def no_nil_to_empty_strings?(normalized_old_data, attribute, new_value)
         old_value = normalized_old_data[attribute]
-        new_value != old_value
+        new_value != old_value && ([new_value, old_value] - ['', nil]).present?
       end
 
       def journaled_attributes(object)

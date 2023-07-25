@@ -57,9 +57,9 @@ RSpec.describe Acts::Journalized::JournableDiffer do
           .to eql("subject" => [original.subject, changed.subject],
                   "author_id" => [original.author_id, changed.author_id],
                   "status_id" => [original.status_id, changed.status_id],
-                  "schedule_manually" => [original.schedule_manually, nil],
-                  "ignore_non_working_days" => [original.ignore_non_working_days, changed.ignore_non_working_days],
-                  "estimated_hours" => [original.estimated_hours, nil])
+                  "schedule_manually" => [false, nil],
+                  "ignore_non_working_days" => [true, false],
+                  "estimated_hours" => [1.0, nil])
       end
     end
 
@@ -67,7 +67,7 @@ RSpec.describe Acts::Journalized::JournableDiffer do
       let(:original) do
         build_stubbed(:journal_work_package_journal,
                       subject: 'The original work package title',
-                      description: "The description\n",
+                      description: nil,
                       priority_id: 5,
                       type_id: 89,
                       project_id: 12,
@@ -79,7 +79,7 @@ RSpec.describe Acts::Journalized::JournableDiffer do
       let(:changed) do
         build_stubbed(:journal_work_package_journal,
                       subject: 'The changed work package title',
-                      description: "The description\r\n",
+                      description: '',
                       priority_id: original.priority_id,
                       type_id: original.type_id,
                       project_id: original.project_id,
@@ -90,12 +90,14 @@ RSpec.describe Acts::Journalized::JournableDiffer do
       end
 
       it 'returns the changes' do
+        # The description field changes from nil to '', but we want filter those transitions out,
+        # hence the expected hash does not contain the description related change.
         expect(described_class.changes(original, changed))
           .to eql("subject" => [original.subject, changed.subject],
                   "status_id" => [original.status_id, changed.status_id],
-                  "schedule_manually" => [nil, changed.schedule_manually],
-                  "ignore_non_working_days" => [original.ignore_non_working_days, changed.ignore_non_working_days],
-                  "estimated_hours" => [original.estimated_hours, nil])
+                  "schedule_manually" => [nil, false],
+                  "ignore_non_working_days" => [false, true],
+                  "estimated_hours" => [1.0, nil])
       end
     end
   end
