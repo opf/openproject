@@ -80,7 +80,7 @@ de:
   label_costlog: "Gebuchte Stückkosten"
   label_cost_plural: "Kosten"
   label_cost_type_plural: "Kostentypen"
-  label_cost_type_specific: "Kostentyp #%{id}: %{name}" #%{id}: %{name}"
+  label_cost_type_specific: "Kostentyp #%{id}: %{name}"
   label_costs_per_page: "Kosten dieser Seite"
   label_currency: "Währung"
   label_currency_format: "Währungsformat"

@@ -295,6 +295,34 @@ ru:
           one: "Первый критерий сортировки"
           two: "Второй критерий сортировки"
           three: "Третий критерий сортировки"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "нет"
     general_text_yes: "Да"
     general_text_No: "Нет"
@@ -824,63 +852,6 @@ ru:
       activate_no: 'активировать для удаления сортировки'
     text_work_packages_destroy_confirmation: "Вы уверены, что хотите удалить выбранные пакеты работ?"
     text_query_destroy_confirmation: "Уверены, что хотите удалить выбранное представление?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Диаграмма Ганта'
-      labels:
-        title: 'Настройка меток'
-        bar: 'Полоса меток'
-        left: 'Влево'
-        right: 'Вправо'
-        farRight: 'Крайний справа'
-        showNone: '-- Не метка --'
-        description: >
-          Укажите атрибуты, которые вы бы хотели видеть в диаграмме Ганта всегда. Заметьте, что при наведении указателя мыши на элемент, вместо этих атрибутов будет показана их даты.
-      button_activate: 'Показать диаграмму Ганта'
-      button_deactivate: 'Скрыть диаграмму Ганта'
-      cancel: Отмена
-      change: "Изменения в планировании"
-      due_date: "Дата окончания"
-      empty: "(пусто)"
-      error: "Произошла ошибка."
-      errors:
-        not_implemented: "График не может быть отображен, так как использует ещё не реализованную функцию."
-        report_comparison: "Невозможно отобразить заданные сравнения в графике. Пожалуйста, проверьте соответствующий раздел в конфигурации, сброс может помочь в решении проблемы."
-        report_epicfail: "График не может быть загружен из-за неожиданной ошибки."
-        report_timeout: "График не может быть загружен в разумный период времени."
-      filter:
-        grouping_other: "Другие"
-        noneSelection: "(нет)"
-      name: "Имя"
-      outline: "Сбросить схему"
-      outlines:
-        aggregation: "Показать только агрегации"
-        level1: "Развернуть уровень 1"
-        level2: "Развернуть уровень 2"
-        level3: "Развернуть уровень 3"
-        level4: "Развернуть уровень 4"
-        level5: "Развернуть уровень 5"
-        all: "Показывать всё"
-      project_status: "Статус проекта"
-      really_close_dialog: "Вы действительно хотите закрыть диалоговое окно и потерять введенные данные?"
-      responsible: "Ответственный"
-      save: Сохранить
-      start_date: "Дата начала"
-      tooManyProjects: "Больше чем %{count} проектов. Пожалуйста, используйте более точный фильтр!"
-      selection_mode:
-        notification: 'Чтобы создать связь, щелкните любой подсвеченный пакет работ. Для отмены нажмите Esc.'
-      zoom:
-        in: "Увеличить"
-        out: "Уменьшить"
-        auto: "Автоувеличение"
-        days: "Дни"
-        weeks: "Недели"
-        months: "Месяцы"
-        quarters: "Кварталы"
-        years: "Годы"
-        slider: "Ползунок масштаба"
-        description: >
-          Выберите первоначальный масштаб, при отсутствии доступа к автомасштабированию.
     tl_toolbar:
       zooms: "Масштаб"
       outlines: "Уровень иерархии"
@@ -945,10 +916,10 @@ ru:
         addition_label: 'Добавлено для просмотра в период сравнения'
         removal_label: 'Удалено из просмотра в период сравнения'
         modification_label: 'Изменено в период времени сравнения'
-        column_incompatible: 'Этот атрибут несовместим с базовой линией и не будет показывать различия.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Фильтровать пакеты работ'
-        baseline_incompatible: 'Этот фильтр несовместим с базовой линией и не будет включен в сравнение.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Базовый режим включен, но некоторые из ваших активных фильтров не включены в сравнение.'
       inline_create:
         title: 'Кликните здесь, чтобы добавить новый пакет работ в этот список'

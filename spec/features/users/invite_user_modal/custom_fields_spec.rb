@@ -32,7 +32,7 @@ RSpec.describe 'Invite user modal custom fields', js: true, with_cuprite: true d
   shared_let(:project) { create(:project) }
 
   let(:permissions) { %i[view_project manage_members] }
-  let(:global_permissions) { %i[manage_user] }
+  let(:global_permissions) { %i[create_user manage_user] } # TODO: Figure out why create_user is not enough here
   let(:principal) { build(:invited_user) }
   let(:modal) do
     Components::Users::InviteUserModal.new project:,

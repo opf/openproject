@@ -296,6 +296,34 @@ id:
           one: "Kriteria penyortiran pertama"
           two: "Kriteria penyortiran kedua"
           three: "Kriteria penyortiran ketiga"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "no"
     general_text_yes: "yes"
     general_text_No: "No"
@@ -505,7 +533,7 @@ id:
     label_remove_all_files: Hapus semua file
     label_add_description: "Tambahkan deskripsi untuk %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Upload file untuk Work package #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Upload file untuk Work package #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "Upload file berikut:"
     label_rejected_files: "File ini tidak bisa di-upload:"
@@ -822,63 +850,6 @@ id:
       activate_no: 'aktifkan untuk menghapus urutan'
     text_work_packages_destroy_confirmation: "Yakin akan menghapus?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Bagan Gantt'
-      labels:
-        title: 'Label configuration'
-        bar: 'Label batang'
-        left: 'Kiri'
-        right: 'Kanan'
-        farRight: 'Jauh sekali'
-        showNone: '-- Tidak ada label --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
-      cancel: Batal
-      change: "Perubahan dalam perencanaan"
-      due_date: "Tanggal selesai"
-      empty: "(kosong)"
-      error: "An error has occurred."
-      errors:
-        not_implemented: "Timeline tidak bisa dirender karena syarat fitur yang digunakan belum diimplementasikan."
-        report_comparison: "Timeline tidak bisa merender komparasi yang dikonfigurasikan. Periksa di bagian konfigurasi, cara resetting mungkin bisa memecahkan masalah ini."
-        report_epicfail: "Error : Timeline tidak dapat dibuka karena ada kesalahan."
-        report_timeout: "Timeline tidak dapat dibuka untuk sementara waktu."
-      filter:
-        grouping_other: "Lainnya"
-        noneSelection: "(kosong)"
-      name: "Nama"
-      outline: "Reset Outline"
-      outlines:
-        aggregation: "Hanya tampilkan agregasi"
-        level1: "Buka level 1"
-        level2: "Buka level 2"
-        level3: "Buka level 3"
-        level4: "Buka level 4"
-        level5: "Buka level 5"
-        all: "Tampilkan semua"
-      project_status: "Project status"
-      really_close_dialog: "Apakah Anda benar-benar ingin menutup dialog dan kehilangan data yang dimasukkan?"
-      responsible: "Penanggung jawab"
-      save: Simpan
-      start_date: "Tanggal start"
-      tooManyProjects: "Lebih dari %{count} proyek. Silakan gunakan filter lebih baik!"
-      selection_mode:
-        notification: 'Klik pada bagian terang paket kerja untuk membuat relasi. Tekan escape untuk membatalkan.'
-      zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Zoom otomatis"
-        days: "Hari"
-        weeks: "Minggu"
-        months: "Bulan"
-        quarters: "Kuartal"
-        years: "Tahun"
-        slider: "Zoom slider"
-        description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
     tl_toolbar:
       zooms: "Zoom level"
       outlines: "Hierarchy level"
@@ -943,10 +914,10 @@ id:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filter Paket-Penugasan'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Click here to add a new work package to this list'

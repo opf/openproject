@@ -81,7 +81,7 @@ lv:
   label_costlog: "Logged unit costs"
   label_cost_plural: "Costs"
   label_cost_type_plural: "Cost types"
-  label_cost_type_specific: "Cost type #%{id}: %{name}" #%{id}: %{name}"
+  label_cost_type_specific: "Cost type #%{id}: %{name}"
   label_costs_per_page: "Costs per page"
   label_currency: "Currency"
   label_currency_format: "Format of currency"

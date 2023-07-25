@@ -297,6 +297,34 @@ ja:
           one: "最初の並べ替え条件"
           two: "2 番目の並べ替え基準"
           three: "3 番目の並べ替え条件"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "いいえ"
     general_text_yes: "はい"
     general_text_No: "いいえ"
@@ -823,63 +851,6 @@ ja:
       activate_no: '並べ替えを削除'
     text_work_packages_destroy_confirmation: "選択したワークパッケージを削除してもよろしいですか？"
     text_query_destroy_confirmation: "選択したビューを削除してもよろしいですか？"
-    timelines:
-      quarter_label: '第%{quarter_number}四半期'
-      gantt_chart: 'ガントチャート'
-      labels:
-        title: 'ラベル設定'
-        bar: 'バーのラベル'
-        left: '左'
-        right: '右'
-        farRight: '右端'
-        showNone: '-- ラベルなし --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'ガントチャートの表示'
-      button_deactivate: 'ガントチャートを隠す'
-      cancel: キャンセル
-      change: "計画の変更する"
-      due_date: "終了日"
-      empty: "（空）"
-      error: "エラーが発生しました。"
-      errors:
-        not_implemented: "まだ実装されていない機能を使用するため、タイムラインが表示できません。"
-        report_comparison: "設定された比較表はタイムラインで表示できません。該当する設定部分をご確認ください。設定をリセットすることにより、この問題を解決するに役立つことがあります。"
-        report_epicfail: "タイムラインは予期しないエラーのため読み込めませんでした。"
-        report_timeout: "タイムラインは適切な時間内に読み込めませんでした。"
-      filter:
-        grouping_other: "その他"
-        noneSelection: "(なし)"
-      name: "名称"
-      outline: "概要をリセットする"
-      outlines:
-        aggregation: "集計のみを表示"
-        level1: "レベル１を展開"
-        level2: "レベル２を展開"
-        level3: "レベル３を展開"
-        level4: "レベル４を展開"
-        level5: "レベル５を展開"
-        all: "全てを表示"
-      project_status: "プロジェクトの進捗状況"
-      really_close_dialog: "ダイアログボックスを閉じて入力したデータを破棄してもよろしいですか？"
-      responsible: "責任者"
-      save: 保存
-      start_date: "開始日"
-      tooManyProjects: "プロジェクト数が%{count} 件を超えました。フィルタを変えてください ！"
-      selection_mode:
-        notification: '関連を作成するには、強調表示されたワークパッケージをクリックします。キャンセルするにはエスケープキーを押してください。'
-      zoom:
-        in: "拡大"
-        out: "拡大"
-        auto: "自動ズーム"
-        days: "日"
-        weeks: "週"
-        months: "ヶ月"
-        quarters: "四半期ごと"
-        years: " 年"
-        slider: "ズームスライダー"
-        description: >
-          オートズームが使用できない場合に表示される初期ズームレベルを選択します。
     tl_toolbar:
       zooms: "ズームレベル"
       outlines: "階層レベル"
@@ -944,10 +915,10 @@ ja:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'ワークパッケージのフィルタ'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'クリックしてこのリストに新しい作業項目を追加します'

@@ -21,6 +21,9 @@ module OpenIDConnect
     delegate :scope, to: :omniauth_provider, allow_nil: true
     delegate :to_h, to: :omniauth_provider, allow_nil: false
 
+    delegate :tenant, to: :omniauth_provider, allow_nil: false
+    delegate :use_graph_api, to: :omniauth_provider, allow_nil: false
+
     ##
     # Controls whether or not self registration shall be limited for this provider.
     #

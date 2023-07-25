@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+#
 
-module TeamPlanner
-  module Views
-    class GlobalCreateContract < ::Queries::CreateContract
-      validate :validate_project_present
+require 'spec_helper'
 
-      private
+RSpec.describe Admin::Settings::AggregationSettingsController do # rubocop:disable RSpec/EmptyExampleGroup
+  shared_let(:user) { create(:admin) }
 
-      def validate_project_present
-        errors.add :project_id, :blank if model.project_id.blank?
-      end
-    end
-  end
+  current_user { user }
+
+  require_admin_and_render_template('aggregation_settings')
 end

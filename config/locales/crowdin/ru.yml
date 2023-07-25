@@ -168,10 +168,21 @@ ru:
     index:
       no_results_title_text: На данный момент цветов нет.
       no_results_content_text: Создать новый цвет
-    label_no_color: 'Нет цвета'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "Нет цвета"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Действия'
+      name: "Действия"
       add: 'Добавить действие'
       assigned_to:
         executing_user_value: '(назначить пользователю-исполнителю)'
@@ -250,6 +261,8 @@ ru:
         no_results_title_text: Нет доступных настраиваемых полей.
       types:
         no_results_title_text: На данный момент доступных типов нет.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: На данный момент этапы в проекте отсутствуют.
         no_results_content_text: Создать новую версию
@@ -266,7 +279,9 @@ ru:
       notice_reset_token: "Новый маркер %{type} создан. Ваш маркер доступа:"
       token_value_warning: "Примечание: Этот маркер вам больше никогда показан не будет, убедитесь что запомнили его."
       no_results_title_text: На данный момент маркеры доступа отсутствуют.
-      notice_ical_token_revoked: "токен iCalendar \"%{token_name}\" для календаря \"%{calendar_name}\" проекта \"%{project_name}\" был отозван. URL-адрес iCalendar с этим токеном недействителен."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: На данный момент новостей для отчета нет.
@@ -1335,6 +1350,7 @@ ru:
   error_can_not_unarchive_project: "Этот проект невозможно разархивировать: %{errors}"
   error_check_user_and_role: "Пожалуйста, выберите пользователя и роль."
   error_code: "Ошибка %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'Отсутствуют cookie OpenProject. Пожалуйста, убедитесь, что Cookie разрешены. Без них приложение не будет функционировать должным образом.'
   error_custom_option_not_found: "Параметр не существует."
   error_enterprise_activation_user_limit: "Ваша учетная запись не может быть активирована (достигнут предел пользователя). Обратитесь к администратору для получения доступа."
@@ -1489,6 +1505,26 @@ ru:
         action: "Действие"
         expiration: "Срок действия"
       indefinite_expiration: "Никогда"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Отправить уведомления для этого действия"
     work_packages:
@@ -1618,6 +1654,7 @@ ru:
   label_confirmation: "Подтверждение"
   label_contains: "содержит"
   label_content: "Содержание"
+  label_color_plural: "Colors"
   label_copied: "Скопировано"
   label_copy_same_as_target: "Так, как намечено"
   label_copy_source: "Источник"
@@ -1646,6 +1683,7 @@ ru:
   label_deleted: "﻿Удалено"
   label_deleted_custom_field: "(удалено настраиваемое поле)"
   label_deleted_custom_option: "(удалённая опция)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(отсутствует значение или недостаточно прав для доступа)"
   label_descending: "По убыванию"
   label_details: "Детали"
@@ -1691,6 +1729,7 @@ ru:
   label_expanded_click_to_collapse: "Развернуто. Кликните для сворачивания"
   label_f_hour: "%{value} часов"
   label_f_hour_plural: "%{value} часов"
+  label_favoured: "Favoured"
   label_feed_plural: "Ленты"
   label_feeds_access_key: "Ключ доступа к RSS"
   label_feeds_access_key_created_on: "Ключ доступа RSS, созданный %{value} назад"
@@ -1886,7 +1925,8 @@ ru:
   label_project_new: "Новый проект"
   label_project_plural: "Проекты"
   label_project_settings: "Настройки проекта"
-  label_project_storage_plural: "Хранилища"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} проектов используют %{storage} дискового пространства"
   label_project_view_all: "Просмотреть все проекты"
   label_project_show_details: "Показать детали проекта"
@@ -1974,6 +2014,7 @@ ru:
   label_this_week: "на этой неделе"
   label_this_year: "в этом году"
   label_time_entry_plural: "Затраченное время"
+  label_title: "Title"
   label_projects_menu: "Проекты"
   label_today: "Сегодня"
   label_top_menu: "Верхнее меню"
@@ -2306,7 +2347,8 @@ ru:
   permission_add_messages: "Написать сообщения"
   permission_add_project: "Создать проект"
   permission_archive_project: "Архивировать проект"
-  permission_manage_user: "Создание и редактирование пользователей"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Создавать, редактировать и удалять пользователей-заполнителей"
   permission_add_subprojects: "Создать подпроект"
   permission_add_work_package_watchers: "Добавить наблюдателей"
@@ -2807,6 +2849,11 @@ ru:
   text_zoom_in: "Увеличить"
   text_zoom_out: "Уменьшить"
   text_setup_mail_configuration: "Настройка поставщика услуг электронной почты"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "утра"
     formats:
@@ -2819,155 +2866,6 @@ ru:
     show: "Показать сроки"
     end: "до"
     start: "от"
-  timelines:
-    admin_menu:
-      color: "Цвет"
-      colors: "Цвета"
-    associations: "Связи"
-    button_delete_all: "Удалить всё"
-    change: "Изменения в планировании"
-    children: "Дочерние элементы"
-    color_could_not_be_saved: "Цвет не может быть сохранен"
-    current_planning: "Текущее планирование"
-    dates: "Даты"
-    dates_are_calculated_based_on_sub_elements: "Даты рассчитываются на основе вложенных элементов."
-    delete_all: "Удалить всё"
-    delete_thing: "Удалить"
-    duration: "Продолжительность"
-    duration_days:
-      one: "День"
-      few: "%{count} дней"
-      many: "%{count} дней"
-      other: "%{count} дней"
-    edit_color: "Изменить цвет"
-    edit_thing: "Правка"
-    edit_timeline: "Редактировать отчет по графику %{timeline}"
-    delete_timeline: "Удалить отчет графика  %{timeline}"
-    empty: "(пусто)"
-    enable_type_in_project: 'Разрешить тип «%{type}»'
-    end: "Конец"
-    errors:
-      not_implemented: "График не может быть отображен, так как использует ещё не реализованную функцию."
-      report_comparison: "Невозможно отобразить заданные сравнения в графике. Пожалуйста, проверьте соответствующий раздел в конфигурации, сброс может помочь в решении проблемы."
-      report_epicfail: "График не может быть загружен из-за неожиданной ошибки."
-      report_timeout: "График не может быть загружен в разумный период времени."
-    filter:
-      errors:
-        timeframe_start: "Сроки начала "
-        timeframe_end: "Сроки окончания "
-        compare_to_relative: "Значение относительного сравнения "
-        compare_to_absolute: "Значение абсолютного сопоставления "
-        planning_element_time_relative_one: "Запуск пакетов работ в определенные сроки  "
-        planning_element_time_relative_two: "Окончание пакетов работ в определенные сроки  "
-        planning_element_time_absolute_one: "Начало для пакетов работ в определенном тайм-фрейме  "
-        planning_element_time_absolute_two: "Конец для пакетов работ в определенном тайм-фрейме  "
-      sort:
-        sortation: "Сортировать по"
-        alphabet: "по алфавиту"
-        explicit_order: "явный порядок"
-        project_sortation: "Сортировать проекты по"
-        date: "дата"
-        default: "по умолчанию"
-      column:
-        assigned_to: "Назначенный"
-        type: "Тип"
-        due_date: "Дате окончания"
-        name: "Имя"
-        status: "Статус"
-        start_date: "Дата начала"
-      columns: "Столбцы"
-      comparisons: "Сравнения"
-      comparison:
-        absolute: "Абсолютно"
-        none: "Нет"
-        relative: "Относительно"
-        compare_relative_prefix: "Сравненит текущее планирование с"
-        compare_relative_suffix: "тому назад"
-        compare_absolute: "Сравнить текущее планирование с %{date}"
-      time_relative:
-        days: "дней"
-        weeks: "недели"
-        months: "месяцев"
-      exclude_own_work_packages: "Скрыть пакеты работ из этого проекта"
-      exclude_reporters: "Скрыть другие проекты"
-      exclude_empty: "Скрыть пустые проекты"
-      grouping: "Группировка"
-      grouping_hide_group: "Скрыть группу «%{group}»"
-      grouping_one: "Первый критерий группировки"
-      grouping_one_phrase: "Это подпроект"
-      grouping_other: "Другие"
-      hide_chart: "Скрыть диаграмму"
-      noneElement: "(нет)"
-      noneSelection: "(нет)"
-      outline: "Первоначальная схема детализации"
-      parent: "Показывать подпроекты"
-      work_package_responsible: "Показать пакеты работ с подотчетными"
-      work_package_assignee: "Показать пакеты работ с назначениями"
-      types: "Показать типы"
-      status: "Показать статус"
-      project_time_filter: "Проекты пакета работ определенного типа в определенные сроки"
-      project_time_filter_timeframe: "Срок"
-      project_time_filter_historical_from: "от"
-      project_time_filter_historical_to: "до"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan} %{startspanunit} назад, %{end_label} %{endspan} %{endspanunit} с этого момента"
-      project_filters: "Фильтр проектов"
-      project_responsible: "Показать проекты с подотчетными"
-      project_status: "Показать статус проекта"
-      timeframe: "Показать сроки"
-      timeframe_end: "до"
-      timeframe_start: "от"
-      timeline: "Общие настройки"
-      zoom: "Коэффициент масштабирования"
-    history: "История"
-    new_color: "Новый цвет"
-    new_association: "Новая зависимость"
-    new_work_package: "Новый пакет работ"
-    new_reporting: "Новые отчетности"
-    new_timeline: "Новый отчет по графику"
-    no_projects_for_reporting_available: "Нет проектов, для которых может быть создана ассоциация с отчетностью."
-    no_right_to_view_timeline: "Вы не имеете необходимых прав для просмотра связанной шкалы времени."
-    no_timeline_for_id: "Нет графика с ID %{id}."
-    notice_successful_deleted_all_elements: "Успешно удалены все элементы"
-    outline: "Сбросить схему"
-    outlines:
-      aggregation: "Показать только агрегации"
-      level1: "Развернуть уровень 1"
-      level2: "Развернуть уровень 2"
-      level3: "Развернуть уровень 3"
-      level4: "Развернуть уровень 4"
-      level5: "Развернуть уровень 5"
-      all: "Показывать всё"
-    reporting_for_project:
-      show: "Отрапортован статус проекта: %{title}"
-      edit_delete: "отчет о состоянии проекта: %{title}"
-      history: "История статусов проекта: %{title}"
-    reporting:
-      delete: "Удалить статус: %{comment}"
-      edit: "Редактировать статус: %{comment}"
-      show: "Статус: %{comment}"
-    planning_element_update: "Последняя сводка: %{title}"
-    type_could_not_be_saved: "Тип не может быть сохранен"
-    reporting_could_not_be_saved: "Отчетность не может быть сохранена"
-    properties: "Свойства"
-    really_delete_color: >
-      Вы действительно хотите удалить этот цвет? Типы, использующие этот цвет удалены не будут.
-    really_delete_reporting: >
-      Вы уверены, вы хотите удалить следующие отчетности? Предыдущие отчетные статусы будут удалены тоже.
-    start: "Начать"
-    timeline: "Отчет по графику"
-    timelines: "Отчеты по графикам"
-    settings: "Графики"
-    vertical_work_package: "Вертикальные пакеты работ"
-    you_are_viewing_the_selected_timeline: "Вы просматриваете выбранный отчет по графику"
-    zoom:
-      in: "Увеличить"
-      out: "Уменьшить"
-      days: "Дни"
-      weeks: "Недели"
-      months: "Месяцы"
-      quarters: "Кварталы"
-      years: "Годы"
   title_remove_and_delete_user: Исключить из проекта приглашенного пользователя и удалить его.
   title_enterprise_upgrade: "Обновление для разблокировки большего числа пользователей."
   tooltip_user_default_timezone: >

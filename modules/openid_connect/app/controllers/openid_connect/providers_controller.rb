@@ -13,7 +13,7 @@ module OpenIDConnect
       if openid_connect_providers_available_for_configure.none?
         redirect_to action: :index
       else
-        @provider = ::OpenIDConnect::Provider.initialize_with({})
+        @provider = ::OpenIDConnect::Provider.initialize_with({ use_graph_api: true })
       end
     end
 
@@ -62,11 +62,15 @@ module OpenIDConnect
     end
 
     def create_params
-      params.require(:openid_connect_provider).permit(:name, :display_name, :identifier, :secret, :limit_self_registration)
+      params
+        .require(:openid_connect_provider)
+        .permit(:name, :display_name, :identifier, :secret, :limit_self_registration, :tenant, :use_graph_api)
     end
 
     def update_params
-      params.require(:openid_connect_provider).permit(:display_name, :identifier, :secret, :limit_self_registration)
+      params
+        .require(:openid_connect_provider)
+        .permit(:display_name, :identifier, :secret, :limit_self_registration, :tenant, :use_graph_api)
     end
 
     def find_provider

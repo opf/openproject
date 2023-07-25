@@ -165,10 +165,21 @@ el:
     index:
       no_results_title_text: Προς το παρόν δεν υπάρχουν χρώματα.
       no_results_content_text: Δημιουργία νέου χρώματος
-    label_no_color: 'Χωρίς χρώμα'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "Χωρίς χρώμα"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Ενέργειες'
+      name: "Ενέργειες"
       add: 'Προσθήκη ενέργειας'
       assigned_to:
         executing_user_value: '(Αναθέστε στον εκτελεστή χρήστη)'
@@ -247,6 +258,8 @@ el:
         no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμα προσαρμοσμένα πεδία.
       types:
         no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμοι τύποι.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: Δεν υπάρχουν προς το παρόν εκδόσεις για το έργο.
         no_results_content_text: Δημιουργήστε μια νέα έκδοση
@@ -263,6 +276,8 @@ el:
       notice_reset_token: "Δημιουργήθηκε ένα νέο token %{type}. Το token πρόσβασής σας είναι:"
       token_value_warning: "Σημείωση: Αυτή είναι η μοναδική φορά που θα δείτε αυτό το token, φροντίστε να το αντιγράψετε τώρα."
       no_results_title_text: Δεν υπάρχουν προς το παρόν διαθέσιμα αναγνωριστικά πρόσβασης.
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
       notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
@@ -1294,6 +1309,7 @@ el:
   error_can_not_unarchive_project: "Αυτό το έργο δεν μπορεί να αρχειοθετηθεί: %{errors}"
   error_check_user_and_role: "Παρακαλούμε επιλέξτε ένα χρήστη και ένα ρόλο."
   error_code: "Σφάλμα %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'Τα cookie του OpenProject λείπουν. Παρακαλούμε σιγουρευτείτε ότι τα cookies είναι ενεργοποιημένα, καθώς αυτή η εφαρμογή δεν θα μπορεί να λειτουργήσει σωστά χωρίς αυτά.'
   error_custom_option_not_found: "Η επιλογή δεν υπάρχει."
   error_enterprise_activation_user_limit: "Ο λογαριασμός σας δεν ήταν δυνατό να ενεργοποιηθεί (επετεύχθη το όριο χρηστών). Παρακαλούμε επικοινωνήστε με τον διαχειριστή σας για να αποκτήσετε πρόσβαση."
@@ -1448,6 +1464,26 @@ el:
         action: "Ενέργεια"
         expiration: "Λήγει"
       indefinite_expiration: "Ποτέ"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1577,6 +1613,7 @@ el:
   label_confirmation: "Επιβεβαίωση"
   label_contains: "περιέχει"
   label_content: "Περιεχόμενο"
+  label_color_plural: "Colors"
   label_copied: "αντιγράφηκε"
   label_copy_same_as_target: "Ίδιο με του στόχου"
   label_copy_source: "Πηγή"
@@ -1605,6 +1642,7 @@ el:
   label_deleted: "διαγραμμένο"
   label_deleted_custom_field: "(διαγραμμένο προσαρμοσμένο πεδίο)"
   label_deleted_custom_option: "(διαγραμμένη επιλογή)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Φθίνουσα"
   label_details: "Λεπτομέρειες"
@@ -1650,6 +1688,7 @@ el:
   label_expanded_click_to_collapse: "Επεκταμένο. Πατήστε για σύμπτυξη"
   label_f_hour: "%{value} ώρα"
   label_f_hour_plural: "%{value} ώρες"
+  label_favoured: "Favoured"
   label_feed_plural: "Τροφοδοσίες"
   label_feeds_access_key: "Κλειδί πρόσβασης RSS"
   label_feeds_access_key_created_on: "Tο κλειδί πρόσβασης RSS δημιουργήθηκε πριν από %{value}"
@@ -1845,7 +1884,8 @@ el:
   label_project_new: "Νέο έργο"
   label_project_plural: "Έργα"
   label_project_settings: "Ρυθμίσεις έργου"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} έργα χρησιμοποιούν %{storage} από τον χώρο αποθήκευσης του δίσκου"
   label_project_view_all: "Εμφάνιση όλων των έργων"
   label_project_show_details: "Εμφάνιση λεπτομερειών έργου"
@@ -1933,6 +1973,7 @@ el:
   label_this_week: "αυτή την εβδομάδα"
   label_this_year: "αυτό το έτος"
   label_time_entry_plural: "Χρόνος που δαπανήθηκε"
+  label_title: "Title"
   label_projects_menu: "Έργα"
   label_today: "σήμερα"
   label_top_menu: "Επάνω μενού"
@@ -2261,7 +2302,8 @@ el:
   permission_add_messages: "Δημοσίευση μηνυμάτων"
   permission_add_project: "Δημιουργία έργου"
   permission_archive_project: "Αρχειοθέτηση έργου"
-  permission_manage_user: "Δημιουργία και επεξεργασία χρηστών"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Δημιουργήστε, επεξεργαστείτε και διαγράψτε τους placeholder χρήστες"
   permission_add_subprojects: "Δημιουργία υποέργων"
   permission_add_work_package_watchers: "Προσθήκη παρατηρητών"
@@ -2764,6 +2806,11 @@ el:
   text_zoom_in: "Μεγέθυνση"
   text_zoom_out: "Σμίκρυνση"
   text_setup_mail_configuration: "Διαμόρφωση του παρόχου email σας"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "πμ"
     formats:
@@ -2776,153 +2823,6 @@ el:
     show: "Εμφάνιση χρονικού πλαισίου"
     end: "έως"
     start: "από"
-  timelines:
-    admin_menu:
-      color: "Χρώμα"
-      colors: "Χρώματα"
-    associations: "Εξαρτήσεις"
-    button_delete_all: "Διαγραφή όλων"
-    change: "Αλλαγή στο σχεδιασμό"
-    children: "Στοιχεία-παιδιά"
-    color_could_not_be_saved: "Το χρώμα δεν ήταν δυνατό να αποθηκευθεί"
-    current_planning: "Τρέχων σχεδιασμός"
-    dates: "Ημερομηνίες"
-    dates_are_calculated_based_on_sub_elements: "Οι ημερομηνίες υπολογίζονται με βάση τα υποστοιχεία."
-    delete_all: "Διαγραφή όλων"
-    delete_thing: "Διαγραφή"
-    duration: "Διάρκεια"
-    duration_days:
-      one: "1 ημέρα"
-      other: "%{count} ημέρες"
-    edit_color: "Επεξεργασία χρώματος"
-    edit_thing: "Επεξεργασία"
-    edit_timeline: "Επεξεργασία αναφοράς χρονοδιαγράμματος %{timeline}"
-    delete_timeline: "Διαγραφή αναφοράς χρονοδιαγράμματος %{timeline}"
-    empty: "(άδειο)"
-    enable_type_in_project: 'Ενεργοποίηση τύπου "%{type}"'
-    end: "Λήξη"
-    errors:
-      not_implemented: "Το χρονοδιάγραμμα δεν μπόρεσε να επεξεργαστεί γιατί χρησιμοποιεί μια λειτουργία που δεν μπορεί να εφαρμοστεί ακόμη."
-      report_comparison: "Το χρονοδιάγραμμα δεν θα μπορούσε να αποδώσει τις διαμορφωμένες συγκρίσεις. Ελέγξτε την κατάλληλη ενότητα στη διαμόρφωση, επαναφέροντας την μπορεί να βοηθήσει στην επίλυση αυτού του προβλήματος."
-      report_epicfail: "Το χρονοδιάγραμμα δεν ήταν δυνατό να φορτωθεί λόγω απροσδόκητου σφάλματος."
-      report_timeout: "Το χρονοδιάγραμμα δεν ήταν δυνατό να φορτωθεί μέσα σε ένα λογικό χρονικό πλαίσιο."
-    filter:
-      errors:
-        timeframe_start: "Η έναρξη του χρονικού πλαισίου "
-        timeframe_end: "Η λήξη του χρονικού πλαισίου "
-        compare_to_relative: "Η τιμή της σχετικής σύγκρισης "
-        compare_to_absolute: "Η τιμή της απόλυτης σύγκρισης "
-        planning_element_time_relative_one: "Η έναρξη των πακέτων εργασίας σε ένα συγκεκριμένο χρονικό πλαίσιο "
-        planning_element_time_relative_two: "Η λήξη των πακέτων εργασίας σε ένα συγκεκριμένο χρονικό πλαίσιο "
-        planning_element_time_absolute_one: "Η έναρξη των πακέτων εργασίας σε ένα συγκεκριμένο χρονικό πλαίσιο  "
-        planning_element_time_absolute_two: "Η λήξη των πακέτων εργασίας σε ένα συγκεκριμένο χρονικό πλαίσιο  "
-      sort:
-        sortation: "Ταξινόμηση κατά"
-        alphabet: "αλφάβητο"
-        explicit_order: "σαφής σειρά"
-        project_sortation: "Ταξινόμηση έργων κατά"
-        date: "ημερομηνία"
-        default: "προεπιλογή"
-      column:
-        assigned_to: "Ανάθεση σε"
-        type: "Τύπος"
-        due_date: "Ημερομηνία λήξης"
-        name: "Όνομα"
-        status: "Κατάσταση"
-        start_date: "Ημερομηνία έναρξης"
-      columns: "Στήλες"
-      comparisons: "Συγκρίσεις"
-      comparison:
-        absolute: "Απόλυτο"
-        none: "Κανένα"
-        relative: "Συγγενής"
-        compare_relative_prefix: "Σύγκριση του τρέχοντος σχεδιασμού με"
-        compare_relative_suffix: "πριν"
-        compare_absolute: "Σύγκριση του τρέχοντος σχεδιασμού με %{date}"
-      time_relative:
-        days: "ημέρες"
-        weeks: "εβδομάδες"
-        months: "μήνες"
-      exclude_own_work_packages: "Απόκρυψη πακέτων εργασίας από αυτό το έργο"
-      exclude_reporters: "Απόκρυψη άλλων έργων"
-      exclude_empty: "Απόκρυψη των άδειων έργων"
-      grouping: "Ομαδοποίηση"
-      grouping_hide_group: "Απόκρυψη ομάδας \"%{group}\""
-      grouping_one: "Πρώτο κριτήριο ομαδοποίησης"
-      grouping_one_phrase: "Είναι υποέργο του"
-      grouping_other: "Άλλο"
-      hide_chart: "Απόκρυψη διαγράμματος"
-      noneElement: "(κανένα)"
-      noneSelection: "(κανένα)"
-      outline: "Αρχική επέκταση περιγράμματος"
-      parent: "Εμφάνιση υποέργων του"
-      work_package_responsible: "Εμφάνιση πακέτων εργασίας για τα οποία είμαι υπόλογος"
-      work_package_assignee: "Εμφάνιση πακέτων εργασίας που έχουν ανατεθεί"
-      types: "Εμφάνιση τύπων"
-      status: "Εμφάνιση κατάστασης"
-      project_time_filter: "Έργα με πακέτο εργασίας συγκεκριμένου τύπου σε ένα συγκεκριμένο χρονικό πλαίσιο"
-      project_time_filter_timeframe: "Χρονικό πλαίσιο"
-      project_time_filter_historical_from: "από"
-      project_time_filter_historical_to: "έως"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} πριν, %{end_label} %{endspan}%{endspanunit} από τώρα"
-      project_filters: "Φιλτράρισμα έργων"
-      project_responsible: "Εμφάνιση έργων με υπόλογο"
-      project_status: "Εμφάνιση κατάστασης έργου"
-      timeframe: "Εμφάνιση χρονικού πλαισίου"
-      timeframe_end: "έως"
-      timeframe_start: "από"
-      timeline: "Γενικές Ρυθμίσεις"
-      zoom: "Συντελεστής μεγέθυνσης"
-    history: "Ιστορικό"
-    new_color: "Νέο χρώμα"
-    new_association: "Νέα εξάρτηση"
-    new_work_package: "Νέο πακέτο εργασίας"
-    new_reporting: "Νέα αναφορά"
-    new_timeline: "Νέα αναφορά χρονοδιαγράμματος"
-    no_projects_for_reporting_available: "Δεν υπάρχουν έργα στα οποία μπορεί να δημιουργηθεί συσχέτιση αναφοράς."
-    no_right_to_view_timeline: "Δεν έχετε τα απαραίτητα δικαιώματα για να προβάλετε το συνδεδεμένο χρονοδιάγραμμα."
-    no_timeline_for_id: "Δεν υπάρχει χρονοδιάγραμμα με ταυτότητα %{id}."
-    notice_successful_deleted_all_elements: "Όλα τα στοιχεία διαγράφηκαν επιτυχώς"
-    outline: "Επαναφορά Περιγράμματος"
-    outlines:
-      aggregation: "Εμφάνιση συναθροίσεων μόνο"
-      level1: "Επίπεδο επέκτασης 1"
-      level2: "Επίπεδο επέκτασης 2"
-      level3: "Επίπεδο επέκτασης 3"
-      level4: "Επίπεδο επέκτασης 4"
-      level5: "Επίπεδο επέκτασης 5"
-      all: "Εμφάνιση όλων"
-    reporting_for_project:
-      show: "Η κατάσταση αναφέρθηκε στο έργο: %{title}"
-      edit_delete: "αναφορά κατάστασης για το έργο: %{title}"
-      history: "Ιστορικό για τις καταστάσεις του έργου: %{title}"
-    reporting:
-      delete: "Διαγραφή κατάστασης: %{comment}"
-      edit: "Επεξεργασία κατάστασης: %{comment}"
-      show: "Κατάσταση: %{comment}"
-    planning_element_update: "Ενημέρωση: %{title}"
-    type_could_not_be_saved: "Ο τύπος δεν ήταν δυνατό να αποθηκευθεί"
-    reporting_could_not_be_saved: "Η αναφορά δεν ήταν δυνατό να αποθηκευθεί"
-    properties: "Ιδιότητες"
-    really_delete_color: >
-      Είστε βέβαιοι ότι θέλετε να διαγράψετε το ακόλουθο χρώμα; Οι τύπου που χρησιμοποιούν αυτό το χρώμα δεν θα διαγραφούν.
-    really_delete_reporting: >
-      Είστε βέβαιοι ότι θέλετε να διαγράψετε την ακόλουθη αναφορά; Οι προηγούμενες καταστάσεις αναφορών θα διαγραφούν.
-    start: "Έναρξη"
-    timeline: "Αναφορά χρονοδιαγράμματος"
-    timelines: "Αναφορές χρονοδιαγράμματος"
-    settings: "Χρονοδιαγράμματα"
-    vertical_work_package: "Κάθετα πακέτα εργασίας"
-    you_are_viewing_the_selected_timeline: "Βλέπετε την αναφορά του επιλεγμένου χρονοδιαγράμματος"
-    zoom:
-      in: "Μεγέθυνση"
-      out: "Σμίκρυνση"
-      days: "Ημέρες"
-      weeks: "Εβδομάδες"
-      months: "Μήνες"
-      quarters: "Τρίμηνα"
-      years: "Χρόνια"
   title_remove_and_delete_user: Αφαίρεση του προσκεκλημένου χρήστη από το έργο και διαγραφή του/της.
   title_enterprise_upgrade: "Αναβαθμίστε για να ξεκλειδώσετε περισσότερους χρήστες."
   tooltip_user_default_timezone: >

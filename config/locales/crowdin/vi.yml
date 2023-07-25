@@ -171,10 +171,21 @@ vi:
     index:
       no_results_title_text: Hiện có không có màu sắc.
       no_results_content_text: Tạo một màu mới
-    label_no_color: 'Không màu'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "Không màu"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Hành động'
+      name: "Hành động"
       add: 'Thêm hành động'
       assigned_to:
         executing_user_value: '(Assign to executing user)'
@@ -253,6 +264,8 @@ vi:
         no_results_title_text: Không không có trường tùy chỉnh.
       types:
         no_results_title_text: Không có phân loại.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: Hiện đang có phiên bản dự án.
         no_results_content_text: Tạo ra một phiên bản mới
@@ -269,6 +282,8 @@ vi:
       notice_reset_token: "Một mã %{type} truy cập mới vừa được tạo. Mã truy cập của bạn là:"
       token_value_warning: "Chú ý: Mã này chỉ hiện duy nhất một lần, bạn nên sao chép lại để lưu trữ."
       no_results_title_text: Không có thẻ truy cập hiện hữu.
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
       notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
@@ -1281,6 +1296,7 @@ vi:
   error_can_not_unarchive_project: "Dự án này không thể lưu trữ: %{errors}"
   error_check_user_and_role: "Hãy chọn người dùng và một vai trò."
   error_code: "Lỗi %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
   error_custom_option_not_found: "Tùy chọn không tồn tại."
   error_enterprise_activation_user_limit: "Không thể kích hoạt tài khoản của bạn (đã đạt đến giới hạn người dùng). Vui lòng liên hệ với quản trị viên của bạn để có quyền truy cập."
@@ -1435,6 +1451,26 @@ vi:
         action: "Hành động"
         expiration: "Hết hạn"
       indefinite_expiration: "Không bao giờ"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1564,6 +1600,7 @@ vi:
   label_confirmation: "Xác nhận lại mật khẩu"
   label_contains: "bao gồm"
   label_content: "Nội dung"
+  label_color_plural: "Colors"
   label_copied: "đã sao chép"
   label_copy_same_as_target: "Giống như mục tiêu"
   label_copy_source: "Nguồn"
@@ -1592,6 +1629,7 @@ vi:
   label_deleted: "đã xóa"
   label_deleted_custom_field: "(đã xóa các mục tùy chỉnh)"
   label_deleted_custom_option: "(tùy chọn đã xóa)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Giảm dần"
   label_details: "Chi tiết"
@@ -1637,6 +1675,7 @@ vi:
   label_expanded_click_to_collapse: "Mở rộng. Bấm vào để thu gọn"
   label_f_hour: "%{value} giờ"
   label_f_hour_plural: "%{value} giờ"
+  label_favoured: "Favoured"
   label_feed_plural: "Nguồn cấp dữ liệu"
   label_feeds_access_key: "Khóa truy cập RSS"
   label_feeds_access_key_created_on: "Khoá truy cập API đựơc tạo cách đây %{value}"
@@ -1832,7 +1871,8 @@ vi:
   label_project_new: "Dự án mới"
   label_project_plural: "Các dự án"
   label_project_settings: "Thiết lập dự án"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} dự án sử dụng %{storage} ổ lưu trữ"
   label_project_view_all: "Xem tất cả các dự án"
   label_project_show_details: "Hiển thị chi tiết dự án"
@@ -1920,6 +1960,7 @@ vi:
   label_this_week: "tuần này"
   label_this_year: "năm này"
   label_time_entry_plural: "Thời gian"
+  label_title: "Title"
   label_projects_menu: "Các dự án"
   label_today: "hôm nay"
   label_top_menu: "Trình đơn trên cùng"
@@ -2247,7 +2288,8 @@ vi:
   permission_add_messages: "Đăng tin nhắn"
   permission_add_project: "Tạo Dự án"
   permission_archive_project: "Archive project"
-  permission_manage_user: "Create and edit users"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Tạo Dự án con"
   permission_add_work_package_watchers: "Thêm người theo dõi"
@@ -2750,6 +2792,11 @@ vi:
   text_zoom_in: "Phóng to"
   text_zoom_out: "Thu nhỏ"
   text_setup_mail_configuration: "Cấu hình nhà cung cấp email của bạn"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "sáng"
     formats:
@@ -2762,152 +2809,6 @@ vi:
     show: "Hiển thị khung thời gian"
     end: "đến"
     start: "từ"
-  timelines:
-    admin_menu:
-      color: "Màu sắc"
-      colors: "Màu sắc"
-    associations: "Phụ thuộc"
-    button_delete_all: "Xóa tất cả"
-    change: "Change in planning"
-    children: "Child elements"
-    color_could_not_be_saved: "Color could not be saved"
-    current_planning: "Current planning"
-    dates: "Dates"
-    dates_are_calculated_based_on_sub_elements: "Dates are calculated based on sub elements."
-    delete_all: "Xóa tất cả"
-    delete_thing: "Xoá"
-    duration: "Duration"
-    duration_days:
-      other: "%{count} ngày"
-    edit_color: "Edit color"
-    edit_thing: "Chỉnh sửa"
-    edit_timeline: "Edit timeline report %{timeline}"
-    delete_timeline: "Delete timeline report %{timeline}"
-    empty: "(empty)"
-    enable_type_in_project: 'Enable type "%{type}"'
-    end: "End"
-    errors:
-      not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
-      report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
-      report_epicfail: "The timeline could not be loaded due to an unexpected error."
-      report_timeout: "The timeline could not be loaded in a reasonable amount of time."
-    filter:
-      errors:
-        timeframe_start: "The timeframe start "
-        timeframe_end: "The timeframe end "
-        compare_to_relative: "The value of the relative comparison "
-        compare_to_absolute: "The value of the absolute comparison "
-        planning_element_time_relative_one: "The start for work packages in a certain timeframe "
-        planning_element_time_relative_two: "The end for work packages in a certain timeframe "
-        planning_element_time_absolute_one: "The start for work packages in a certain timeframe  "
-        planning_element_time_absolute_two: "The end for work packages in a certain timeframe  "
-      sort:
-        sortation: "Sort by"
-        alphabet: "alphabet"
-        explicit_order: "explicit order"
-        project_sortation: "Sort projects by"
-        date: "date"
-        default: "default"
-      column:
-        assigned_to: "Người được giao"
-        type: "Kiểu"
-        due_date: "End date"
-        name: "Tên"
-        status: "Trạng thái"
-        start_date: "Ngày bắt đầu"
-      columns: "Cột"
-      comparisons: "Comparisons"
-      comparison:
-        absolute: "Absolute"
-        none: "None"
-        relative: "Relative"
-        compare_relative_prefix: "Compare current planning to"
-        compare_relative_suffix: "ago"
-        compare_absolute: "Compare current planning to %{date}"
-      time_relative:
-        days: "ngày"
-        weeks: "weeks"
-        months: "months"
-      exclude_own_work_packages: "Hide work packages from this project"
-      exclude_reporters: "Hide other projects"
-      exclude_empty: "Hide empty projects"
-      grouping: "Grouping"
-      grouping_hide_group: "Hide group \"%{group}\""
-      grouping_one: "First grouping criterion"
-      grouping_one_phrase: "Is a subproject of"
-      grouping_other: "Khác"
-      hide_chart: "Hide chart"
-      noneElement: "(trống)"
-      noneSelection: "(trống)"
-      outline: "Initial outline expansion"
-      parent: "Show subprojects of"
-      work_package_responsible: "Hiện gói công việc"
-      work_package_assignee: "Show work packages with assignee"
-      types: "Show types"
-      status: "Show status"
-      project_time_filter: "Projects with a work package of a certain type in a certain timeframe"
-      project_time_filter_timeframe: "Timeframe"
-      project_time_filter_historical_from: "từ"
-      project_time_filter_historical_to: "đến"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago, %{end_label} %{endspan}%{endspanunit} from now"
-      project_filters: "Filter projects"
-      project_responsible: "Hiện gói công việc"
-      project_status: "Show project status"
-      timeframe: "Hiển thị khung thời gian"
-      timeframe_end: "đến"
-      timeframe_start: "từ"
-      timeline: "General Settings"
-      zoom: "Zoom factor"
-    history: "Lịch sử"
-    new_color: "New color"
-    new_association: "New dependency"
-    new_work_package: "Work package mới"
-    new_reporting: "New reporting"
-    new_timeline: "New timeline report"
-    no_projects_for_reporting_available: "There are no projects to which a reporting association can be created."
-    no_right_to_view_timeline: "You do not have the necessary permission to view the linked timeline."
-    no_timeline_for_id: "There is no timeline with ID %{id}."
-    notice_successful_deleted_all_elements: "Successfully deleted all elements"
-    outline: "Reset Outline"
-    outlines:
-      aggregation: "Show aggregations only"
-      level1: "Expand level 1"
-      level2: "Expand level 2"
-      level3: "Expand level 3"
-      level4: "Expand level 4"
-      level5: "Expand level 5"
-      all: "Show all"
-    reporting_for_project:
-      show: "Status reported to project: %{title}"
-      edit_delete: "status report for project: %{title}"
-      history: "History for status for project: %{title}"
-    reporting:
-      delete: "Delete status: %{comment}"
-      edit: "Edit status: %{comment}"
-      show: "Status: %{comment}"
-    planning_element_update: "Update: %{title}"
-    type_could_not_be_saved: "Type could not be saved"
-    reporting_could_not_be_saved: "Reporting could not be saved"
-    properties: "Thuộc tính"
-    really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
-    really_delete_reporting: >
-      Are you sure, you want to delete the following reporting? Previous reporting statuses will be deleted, too.
-    start: "Start"
-    timeline: "Timeline report"
-    timelines: "Timeline reports"
-    settings: "Timelines"
-    vertical_work_package: "Vertical work packages"
-    you_are_viewing_the_selected_timeline: "You are viewing the selected timeline report"
-    zoom:
-      in: "Phóng to"
-      out: "Thu nhỏ"
-      days: "Days"
-      weeks: "Weeks"
-      months: "Months"
-      quarters: "Quarters"
-      years: "Years"
   title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
   title_enterprise_upgrade: "Upgrade to unlock more users."
   tooltip_user_default_timezone: >

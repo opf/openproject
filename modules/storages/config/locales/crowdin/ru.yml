@@ -11,6 +11,7 @@ ru:
   project_module_storages: "Файловые хранилища"
   activerecord:
     models:
+      file_link: "File link"
       storages/storage: "Хранилище"
     attributes:
       storages/storage:
