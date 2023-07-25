@@ -94,7 +94,7 @@ $arrow-left-width: 40px
     li a
       // work around due to dom manipulation on document: ready:
       // this isn't scoped to .main-item-wrapper to avoid flickering
-      padding-left: 11px
+      padding-left: 12px
       &.toggler
         // explicitly reset to zero to avoid selector precedence problems
         padding-left: 0
@@ -105,7 +105,6 @@ $arrow-left-width: 40px
   a
     text-decoration: none
     line-height: var(--main-menu-item-height)
-    display: block
     position: relative
     height: var(--main-menu-item-height)
     color: var(--main-menu-font-color)
@@ -113,6 +112,7 @@ $arrow-left-width: 40px
     font-weight: normal
     font-size: var(--main-menu-font-size)
     font-style: normal
+    padding: 0 12px
     &:hover
       text-decoration: none
 
