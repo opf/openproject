@@ -33,10 +33,22 @@ module OpTurbo
     end
 
     def render_as_turbo_stream(view_context:, action: :update)
+      case action
+      when :update
+        @inner_html_only = true
+        template = render_in(view_context)
+      when :replace
+        template = render_in(view_context)
+      when :remove
+        template = nil
+      else
+        raise "Unsupported action #{action}"
+      end
+
       OpTurbo::StreamWrapperComponent.new(
         action:,
         target: wrapper_key,
-        template: action == :remove ? nil : render_in(view_context)
+        template:
       ).render_in(view_context)
     end
 
@@ -49,7 +61,15 @@ module OpTurbo
     end
 
     def component_wrapper(tag: "div", class: nil, data: nil, style: nil, &block)
-      content_tag(tag, id: wrapper_key, class:, data:, style:, &block)
+      if inner_html_only?
+        capture(&block)
+      else
+        content_tag(tag, id: wrapper_key, class:, data:, style:, &block)
+      end
+    end
+
+    def inner_html_only?
+      @inner_html_only == true
     end
 
     def wrapper_key
