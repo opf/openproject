@@ -66,6 +66,7 @@ de:
     button_continue: "Fortfahren"
     button_copy: "Kopieren"
     button_copy_to_clipboard: "In Zwischenablage kopieren"
+    button_copy_link_to_clipboard: "Link in Zwischenablage kopieren"
     button_copy_to_other_project: "In anderes Projekt kopieren"
     button_custom-fields: "Benutzerdefinierte Felder"
     button_delete: "Löschen"
@@ -736,6 +737,14 @@ de:
     time_entry:
       work_package_required: 'Benötigt zuerst die Auswahl eines Arbeitspakets.'
       title: 'Zeit buchen'
+      tracking: 'Zeiterfassung'
+      stop: 'Anhalten'
+    timer:
+      start_new_timer: 'Neuen Timer starten'
+      timer_already_running: 'Um einen neuen Timer zu starten, müssen Sie zuerst den aktuellen Timer beenden:'
+      timer_already_stopped: 'Kein aktiver Timer für dieses Arbeitspaket, hast du einen Timer in einem anderen Fenster gestoppt?'
+      tracking_time: 'Zeiterfassung'
+      button_stop: 'Aktuellen Timer stoppen'
     two_factor_authentication:
       label_two_factor_authentication: 'Zwei-Faktor-Authentifizierung'
     watchers:
@@ -794,7 +803,8 @@ de:
     autocompleter:
       placeholder: "Suchbegriff eintippen"
       notFoundText: "Keine Elemente gefunden"
-      typeToSearchText: "Suchbegriff eintippen"
+      project:
+        placeholder: "Projekt wählen"
     repositories:
       select_tag: 'Tag auswählen'
       select_branch: 'Branch auswählen'
@@ -1178,7 +1188,7 @@ de:
       close_search: "Suche schließen"
       current_project_and_all_descendants: "In diesem Projekt + Unterprojekten"
       current_project: "In diesem Projekt"
-      recently_viewed: "Recently viewed"
+      recently_viewed: "Vor Kurzem angesehen"
       search: "Suche"
       title:
         all_projects: "alle Projekte"

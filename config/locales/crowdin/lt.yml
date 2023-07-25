@@ -195,8 +195,6 @@ lt:
       no_results_content_text: Sukurti naują pasirinktinį lauką
   concatenation:
     single: 'arba'
-  documentation:
-    see_more_link: Daugiau informacijos galima rasti dokumentacijoje šia tema.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -266,7 +264,7 @@ lt:
       notice_reset_token: "Naujas %{type} tipo atpažinimo raktas buvo sugeneruotas. Jis dabar yra:"
       token_value_warning: "Pastaba: tai vienintelis kartas, kai matote atpažinimo raktą, todėl būtinai nusikopijuokite jį dabar."
       no_results_title_text: Nėra jokių pasiekiamų prieigos raktų.
-      notice_ical_tokens_reverted: "iCalendar žetonas „%{token_name}“ projekto „%{project_name}“ kalendoriui „%{calendar_name}“ buvo atšauktas. iCalendar URL su šituo žetonu dabar nebetinkamas."
+      notice_ical_token_revoked: "iCalendar žetonas „%{token_name}“ projekto „%{project_name}“ kalendoriui „%{calendar_name}“ buvo atšauktas. iCalendar URL su šituo žetonu dabar nebetinkamas."
   news:
     index:
       no_results_title_text: Nėra jokių naujienų.
@@ -527,6 +525,7 @@ lt:
         hours: "Valandų"
         spent_on: "Data"
         type: "Tipas"
+        ongoing: "Vykstantys"
       type:
         description: "Numatytasis aprašymo tekstas"
         attribute_groups: ''
@@ -1078,6 +1077,7 @@ lt:
   button_continue: "Tęsti"
   button_copy: "Kopijuoti"
   button_copy_to_clipboard: "Kopijuoti į iškarpinę"
+  button_copy_link_to_clipboard: "Kopijuoti nuorodą į iškarpinę"
   button_copy_and_follow: "Kopijuoti ir sekti"
   button_create: "Sukurti"
   button_create_and_continue: "Sukurti ir tęsti"
@@ -1338,7 +1338,7 @@ lt:
   error_enterprise_activation_user_limit: "Jūsų paskyra negali būti aktyvuota (pasiektas vartotojų limitas). Prašome kreiptis į savo sistemos administratorių."
   error_enterprise_token_invalid_domain: "Enterprise versija neaktyvi. Jūsų Enterprise žetono domenas (%{actual}) nesutampa su jūsų sistemos serverio vardu (%{expected})."
   error_failed_to_delete_entry: 'Šio įrašo nepavyko panaikinti.'
-  error_in_dependent: "Klaida bandant pakeisti priklausomą objektą: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Klaida bandant pakeisti priklausomą objektą: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Klaida bandant sukurti priklausomą objektą: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Netinkama parinkta reikšmė."
   error_journal_attribute_not_present: "Žurnale nėra atributo %{attribute}."
@@ -1357,6 +1357,7 @@ lt:
   error_password_change_failed: 'Bandant pakeisti slaptažodį įvyko klaida.'
   error_scm_command_failed: "Įvyko klaida jungiantis prie repozitorijos: %{value}"
   error_scm_not_found: "Toks įrašas ar revizija nebuvo rasti repozitorijoje."
+  error_type_could_not_be_saved: "Tipas negalėjo būti įrašytas"
   error_unable_delete_status: "Darbų paketo būsena negali būti ištrinta tol, kol yra naudojama bent viename darbų pakete."
   error_unable_delete_default_status: "Neįmanoma ištrinti numatytosios darbų paketo būsenos. Prašome pakeisti numatytąją darbų paketo būseną prieš ištrinant šią."
   error_unable_to_connect: "Negalima prisijungti (%{value})"
@@ -1447,21 +1448,21 @@ lt:
   journals:
     changes_retracted: "Pakeitimai buvo atšaukti."
     caused_changes:
-      dates_changed: "Dates changed"
+      dates_changed: "Datos pasikeitė"
     cause_descriptions:
-      work_package_predecessor_changed_times: by changes to predecessor %{link}
-      work_package_parent_changed_times: by changes to parent %{link}
-      work_package_children_changed_times: by changes to child %{link}
-      work_package_related_changed_times: by changes to related %{link}
-      unaccessable_work_package_changed: by changes to a related work package
+      work_package_predecessor_changed_times: dėl pirmtako pakeitimų %{link}
+      work_package_parent_changed_times: dėl tėvo pakeitimų %{link}
+      work_package_children_changed_times: dėl vaiko pakeitimų %{link}
+      work_package_related_changed_times: dėl susijusio pakeitimų %{link}
+      unaccessable_work_package_changed: dėl susijusio darbo paketo pakeitimų
       working_days_changed:
-        changed: "by changes to working days (%{changes})"
+        changed: "dėl darbo dienos pakeitimų (%{changes})"
         days:
-          working: "%{day} is now working"
-          non_working: "%{day} is now non-working"
+          working: "%{day} dabar yra darbo"
+          non_working: "%{day} dabar yra nedarbo"
         dates:
-          working: "%{date} is now working"
-          non_working: "%{date} is now non-working"
+          working: "%{date} dabar yra darbo"
+          non_working: "%{date} dabar yra nedarbo"
   links:
     configuration_guide: 'Konfigūravimo vadovas'
     get_in_touch: "Turite klausimų? Susisiekite su mumis."
@@ -1528,6 +1529,7 @@ lt:
   label_age: "Amžius"
   label_ago: "dienų prieš"
   label_all: "visi"
+  label_all_projects: "Visi projektai"
   label_all_time: "visas laikas"
   label_all_words: "Visi žodžiai"
   label_all_open_wps: "Visi atviri"
@@ -1544,6 +1546,7 @@ lt:
   label_ical_access_key_revoke: "Atšaukti"
   label_applied_status: "Taikomoji būsena"
   label_archive_project: "Archyvuoti projektą"
+  label_archived_projects: "Archyvuoti projektai"
   label_ascending: "Didėjančia tvarka"
   label_assigned_to_me_work_packages: "Man priskirti darbų paketai"
   label_associated_revisions: "Susijusios revizijos"
@@ -1680,6 +1683,7 @@ lt:
   label_everywhere: "visur"
   label_example: "Pavyzdys"
   label_experimental: "Eksperimentinis"
+  label_i_am_member: "Aš esu narys"
   label_import: "Importuoti"
   label_export_to: "Taip pat galima rasti:"
   label_expanded_click_to_collapse: "Išplėsta. Spauskite, kad sutrauktumėte"
@@ -1716,6 +1720,7 @@ lt:
   label_hierarchy_leaf: "Hierarchijos lapas"
   label_home: "Namai"
   label_subject_or_id: "Tema arba ID"
+  label_icalendar: "iCalendar"
   label_impressum: "Teisinė informacija"
   label_in: " "
   label_in_less_than: "mažiau nei"
@@ -2119,7 +2124,7 @@ lt:
         few: 'Yra dar %{count} darbų paketai su pranešimais.'
         many: 'Yra dar %{count} darbų paketai su pranešimais.'
         other: 'Yra dar %{count} darbų paketų su pranešimais.'
-      open_in_browser: 'Open in browser'
+      open_in_browser: 'Atidaryti naršyklėje'
       reason:
         watched: 'Stebimas'
         assigned: 'Paskirtas'
@@ -2389,7 +2394,7 @@ lt:
       archived: "Suarchyvuotas"
   project_module_activity: "Veikla"
   project_module_forums: "Forumai"
-  project_module_work_package_tracking: "Darbų paketo sekimas"
+  project_module_work_package_tracking: "Darbų paketai"
   project_module_news: "Naujienos"
   project_module_repository: "Repozitorija"
   project_module_wiki: "Wiki"
@@ -2637,34 +2642,21 @@ lt:
   setting_work_package_list_default_highlighted_attributes: "Atributai, kuriuos numatyta paryškinti"
   setting_working_days: "Darbo dienos"
   settings:
-    general: "Bendra"
-    other: "Kita"
-    passwords: "Slaptažodžiai"
-    session: "Sesija"
-    brute_force_prevention: "Automatinis vartotojų blokavimas"
     attachments:
       whitelist_text_html: >
         Sudarykite sąrašą leidžiamų failų praplėtimų ir/arba MIME tipų su kuriais bus leidžiama įkelti failus. <br/> Įveskite failų praplėtimus (t.y., <code>%{ext_example}</code>) arba MIME tipus (t.y., <code>%{mime_example}</code>). <br/> Palikite tuščią, jei norite leisti visus tipus. Leidžiama daugiau nei viena reikšmė (po vieną kiekvienoje eilutėje).
-    language_name_being_default: '%{language_name} (default)'
-    notifications:
-      events_explanation: 'Valdo, kuriems įvykiams yra siunčiami el.laiškai. Darbų paketai nepatenka į šį sąrašą, nes kiekvienam naudotojui pranešimai gali būti sukonfigūruoti individualiai.'
-      delay_minutes_explanation: "El.laiškų siuntimas gali būti užlaikytas, kad būtų leista naudotojams, kurie yra susikonfigūravę gauti pranešimus tiesiai programoje, patvirtinti iki to, kol bus išsiųstas laiškas. Naudotojai, kurie perskaitė pranešimus programoje, negaus tų laiškų, kurių pranešimus jau bus perskaitę."
-    display:
+    brute_force_prevention: "Automatinis vartotojų blokavimas"
+    language_name_being_default: '%{language_name} (numatytoji)'
+    date_format:
       first_date_of_week_and_year_set: >
         Jei vienas iš „%{day_of_week_setting_name}“ ir „%{first_week_setting_name}“ yra nustatytas, tai kitas taip pat turi būti nustatytas vengiant netikslumų naudotojo sąsajoje.
-      first_week_of_year_text: >
-        Pasirinkite sausio datą, kuri yra pirmoje metų savaitėje. Ši reikšmė kartu su savaitės pirmos dienos nustatymu lemia savaičių skaičių metuose.
+      first_week_of_year_text_html: >
+        Parinkite Sausio dieną, kuri yra pirmoje metų savaitėje. Ši reikšmė, kartu su pirmos savaitės dienos reikšme, nustato bendrą savaičių metuose skaičių. Daugiau informacijos rasite šios temos  <a href="%{link}" target="_blank">dokumentacijoje</a>.
+    general: "Bendra"
     experimental:
       save_confirmation: Atsargiai! Duomenų praradimo rizika! Eksperimentines savybes įjunkite tik tada, jei nebijote sugadinti savo OpenProject ir prarasti visus duomenis.
       warning_toast: Savybių vėliavėlės yra nustatymai, kurie aktyvuoja vis dar kuriamas savybes. Jos turėtų būti naudojamos tik testavimo tikslais. Jų niekada nereikia įjungti OpenProject serveriuose, kuriuose yra svarbūs duomenys. Šios savybės labai gali sugadinti jūsų duomenis. Naudokite savo rizika.
       feature_flags: Savybių vėliavėlės
-    projects:
-      section_new_projects: "Naujų projektų nustatymai"
-      section_project_overview: "Nustatymai projektų apžvalgos sąrašui"
-    user:
-      default_preferences: "Numatytosios parinktys"
-      display_format: "Rodymo formatas"
-      deletion: "Trynimas"
     highlighting:
       mode_long:
         inline: "Paryškinti tik konkrečius atributus"
@@ -2672,6 +2664,23 @@ lt:
         status: "Visa eilutė pagal būseną"
         type: "Visa eilutė pagal tipą"
         priority: "Visa eilutė pagal prioritetą"
+    icalendar:
+      enable_subscriptions_text_html: Leisti naudotojams su tinkamomis teisėmis prenumeruoti OpenProject kalendorių ir turėti prieigą prie darbo paketų informacijos per išorinį kalendoriaus klientą.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    notifications:
+      events_explanation: 'Valdo, kuriems įvykiams yra siunčiami el.laiškai. Darbų paketai nepatenka į šį sąrašą, nes kiekvienam naudotojui pranešimai gali būti sukonfigūruoti individualiai.'
+      delay_minutes_explanation: "El.laiškų siuntimas gali būti užlaikytas, kad būtų leista naudotojams, kurie yra susikonfigūravę gauti pranešimus tiesiai programoje, patvirtinti iki to, kol bus išsiųstas laiškas. Naudotojai, kurie perskaitė pranešimus programoje, negaus tų laiškų, kurių pranešimus jau bus perskaitę."
+    other: "Kita"
+    passwords: "Slaptažodžiai"
+    projects:
+      section_new_projects: "Naujų projektų nustatymai"
+      section_project_overview: "Nustatymai projektų apžvalgos sąrašui"
+    session: "Sesija"
+    user:
+      default_preferences: "Numatytosios parinktys"
+      display_format: "Rodymo formatas"
+      deletion: "Trynimas"
     working_days:
       section_work_week: "Darbo savaitė"
       section_holidays_and_closures: "Nedarbo dienos"

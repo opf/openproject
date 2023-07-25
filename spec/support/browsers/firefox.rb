@@ -1,5 +1,4 @@
 # Force the latest version of geckodriver using the webdriver gem
-require 'webdrivers/geckodriver'
 require 'socket'
 
 def register_firefox(language, name: :"firefox_#{language}")
@@ -42,7 +41,7 @@ def register_firefox(language, name: :"firefox_#{language}")
       browser: is_grid ? :remote : :firefox,
       url: ENV.fetch('SELENIUM_GRID_URL', nil),
       http_client: client,
-      capabilities: options
+      options:
     }
 
     if is_grid

@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Export work packages
-  priority: 600
+  priority: 930
 description: How to export work packages for other tools, such as Microsoft Excel
 keywords: work package exports, CSV, Excel, XLS, PDF
 ---
@@ -12,7 +12,7 @@ You can export work packages from your OpenProject instance in various formats u
 
 ## How to trigger an export
 
-To export work packages (table or card view) to another format, visit the *Work packages* module or select a saved view, opening a work package table that you want to export. Click on the settings icon in the top right corner. Trigger the **Export** dialog from the dropdown menu.
+To export work packages to another format, visit the **Work packages** module and select a default or saved work package view (table or card view) that you want to export. Click on the settings icon in the top right corner. Trigger the **Export** dialog from the dropdown menu.
 
 ![Exporting from the table](openproject_export_wp.png)
 
@@ -40,15 +40,15 @@ OpenProject has multiple options of exporting work packages, including PDF, XLS,
 OpenProject has multiple options of exporting work packages in PDF format.
 
 ### PDF Table 
-PDF Table exports the work package table displaying work packages as single rows with the selected columns for the work package table.
+PDF Table exports the work package table displaying work packages as single rows with the selected columns for the work package table. Work packages IDs are linked to the respective work packages. Clicking on a work package ID will lead you directly to the work package in OpenProject.
 
 ![OpenProject PDF Table export](openproject_pdf_table_export.png)
 
 ### PDF Report
-With PDF Reports you can export detailed up to date work plans for your project in a clean and practical format. It includes includes a table of contents (listing all of the work packages), followed by the description of single work packages in a block form. For each work package a table of attributes is included (attributes correspond to the columns in the work package table). 
+With PDF Reports you can export detailed up to date work plans for your project in a clean and practical format. It includes a table of contents (listing all of the work packages), followed by the description of single work packages in a block form. Table of contents is clickable and is linked to the respective pages within the report, making navigation much easier. For each work package a table of attributes is included (attributes correspond to the columns in the work package table). Work package ID attribute is clickable and linked directly to the respective work package in OpenProject.
 
 ![OpenProject_pdf_report_export](openproject_pdf_report.png)
-> **Note**: If "display sums" is activated in the work package table, then the sum table is included between table of contents and work packages description in an Overview section.
+> **Note**: If ["display sums" is activated](.../work-package-table-configuration/) in the work package table, then the sum table is included between table of contents and work packages description in an Overview section.
 
 ![OpenProject_work_package_table_sum](openproject_wp_table_total_sum.png)
 
@@ -57,7 +57,7 @@ With PDF Reports you can export detailed up to date work plans for your project 
 ### PDF Report with images
 PDF Report with images is the same as PDF Report, but also includes the images from the work package description. 
 
-> **Note**: Images attached to the work package or in activity comments are not included into exported report.
+> **Note**: Images attached or linked in the work package Files section or in the Activity comments are not included into the PDF Report with images. 
 
 ![OpenProject_work_package_export](openproject_pdf_report_images.png)
 
@@ -95,3 +95,9 @@ OpenProject can export the table into a comma-separated CSV. This file will be U
 OpenProject can export the table into a XML-based atom format. This file will be UTF-8 encoded.
 
 ![OpenProject_work_package_export_atom](openproject_export_atom.png)
+
+## Export single work packages
+
+It is also possible to export single work packages in PDF and Atom format. To do that click on the settings icon in the top right corner and select the preferred format from the dropdown menu.
+
+![OpenProject_single_work_package_export_options](openProject_single_work_package_export_options.png)

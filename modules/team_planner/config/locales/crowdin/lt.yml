@@ -2,12 +2,18 @@
 lt:
   permission_view_team_planner: "Žiūrėti komandos planą"
   permission_manage_team_planner: "Tvarkyti komandos planą"
-  project_module_team_planner_view: "Komandos planas"
+  project_module_team_planner_view: "Komandos planai"
   team_planner:
     label_team_planner: "Komandos planas"
+    label_new_team_planner: "Naujas komandos planas"
     label_create_new_team_planner: "Kurti naują komandos planą"
     label_team_planner_plural: "Komandos planai"
     label_assignees: "Paskirtieji"
+    label_favoured: "Mėgstamas"
+    help_text:
+      project: Komandų planai visada prisegti prie projekto. Sukūrę projekto planą jūs galite pridėti į jį darbo paketus iš kitų projektų.
+      public: Publikuoti šį vaizdą, leidžiant kitiems naudotojams prieigą prie jūsų vaizdo. Naudotojai su teise „Valdyti viešus vaizdus“ galės keisti ar išimti viešą užklausą. Tai neįtakoja darbo paketo rezultatų matomumo vaizde ir priklausomai nuo teisių, naudotojai gali matyti kitokius rezultatus.
+      favoured: Pažymėti šį vaizdą kaip mėgstamiausią ir pridėti į įrašytų vaizdų dėklą kairėje.
     upsale:
       title: "Komandos planas"
       description: "Gaukite pilną jūsų komandos plano vaizdą su Team Planner. Pakeiskite datas prailgindami, sutrumpindami ar nuvilkdami darbo paketus, perkelkite juos ar pakeiskite paskirtuosius."

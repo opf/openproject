@@ -87,7 +87,7 @@ OpenProject::Application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
-  config.cache_store = :file_store, Rails.root.join("tmp", "cache", "paralleltests#{ENV['TEST_ENV_NUMBER']}")
+  config.cache_store = :file_store, Rails.root.join("tmp", "cache", "paralleltests#{ENV.fetch('TEST_ENV_NUMBER', nil)}")
 
   if ENV['TEST_ENV_NUMBER']
     assets_cache_path = Rails.root.join("tmp/cache/assets/paralleltests#{ENV['TEST_ENV_NUMBER']}")

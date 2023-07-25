@@ -81,6 +81,9 @@ ar:
   units: "الوحدات"
   validation_failure_date: "ليس تاريخًا صالحًا"
   validation_failure_integer: "ليس عددًا صحيحًا صالحًا"
+  export:
+    cost_reports:
+      title: "Your Cost Reports XLS export"
   reporting:
     group_by:
       selected_columns: "الاعمدة المحددة"

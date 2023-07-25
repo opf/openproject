@@ -49,6 +49,10 @@ module WorkPackage::PDFExport::Style
       resolve_pt(@styles.dig(:page_footer, :offset), -30)
     end
 
+    def page_footer_horizontal_spacing
+      resolve_pt(@styles.dig(:page_footer, :spacing), 6)
+    end
+
     def page_logo_height
       resolve_pt(@styles.dig(:page_logo, :height), 20)
     end
@@ -155,30 +159,6 @@ module WorkPackage::PDFExport::Style
 
     def wp_margins
       resolve_margin(@styles[:work_package])
-    end
-
-    def wp_section_heading
-      resolve_font(@styles.dig(:work_package, :section, :heading))
-    end
-
-    def wp_section_heading_margins
-      resolve_margin(@styles.dig(:work_package, :section, :heading))
-    end
-
-    def wp_section_item
-      resolve_font(@styles.dig(:work_package, :section, :item))
-    end
-
-    def wp_section_item_margins
-      resolve_margin(@styles.dig(:work_package, :section, :item))
-    end
-
-    def wp_label
-      resolve_font(@styles.dig(:work_package, :label))
-    end
-
-    def wp_label_margins
-      resolve_margin(@styles.dig(:work_package, :label))
     end
 
     def wp_subject(level)

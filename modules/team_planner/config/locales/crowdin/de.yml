@@ -5,9 +5,15 @@ de:
   project_module_team_planner_view: "Teamplaner"
   team_planner:
     label_team_planner: "Teamplaner"
+    label_new_team_planner: "Neuer Teamplaner"
     label_create_new_team_planner: "Neuen Teamplaner erstellen"
     label_team_planner_plural: "Teamplaner"
     label_assignees: "Zugewiesene Benutzer"
+    label_favoured: "Favorisiert"
+    help_text:
+      project: Teamplaner sind immer einem Projekt zugeordnet. Nach der Erstellung eines Teamplaners können Sie Arbeitspakete aus anderen Projekten hinzufügen.
+      public: Veröffentlichen Sie diese Ansicht und erlauben Sie anderen Benutzern, auf sie zuzugreifen. Benutzer mit der Berechtigung "Öffentliche Ansichten verwalten" können öffentliche Abfragen ändern oder entfernen. Dies hat keinen Einfluss auf die Sichtbarkeit von Arbeitspaketen in dieser Ansicht und je nach Berechtigung, können Benutzer unterschiedliche Ergebnisse sehen.
+      favoured: Markiert diese Ansicht als Favorit und fügt sie der linken Seitenleiste hinzu.
     upsale:
       title: "Teamplaner"
       description: "Erhalten Sie einen kompletten Überblick über die Planung Ihres Teams mit dem Teamplaner. Strecken, verkürzen und ziehen Sie Arbeitspakete zur Änderung von Terminen, Verschieben Sie Arbeitspakete oder Ändern Sie die zugewiesenen Benutzer."

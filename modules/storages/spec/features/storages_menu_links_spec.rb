@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-RSpec.describe 'Project menu', js: true do
+RSpec.describe 'Project menu', js: true, with_cuprite: true do
   let(:storage) { create(:storage, name: "Storage 1") }
   let(:another_storage) { create(:storage, name: "Storage 2") }
   let(:unlinked_storage) { create(:storage, name: "Storage 3") }
@@ -49,14 +49,31 @@ RSpec.describe 'Project menu', js: true do
     visit(project_path(project))
   end
 
-  it 'has links to enabled storages' do
-    visit(project_path(id: project.id))
+  context 'if user has permission to see storage links' do
+    it 'has links to enabled storages' do
+      visit(project_path(id: project.id))
 
-    expect(page).to have_link(storage.name, href: storage.host)
-    project_folder_id = project_storage_with_manual_folder.project_folder_id
-    folder_href = "#{another_storage.host}/index.php/f/#{project_folder_id}?openfile=1"
-    expect(page).to have_link(another_storage.name, href: folder_href)
-    expect(page).not_to have_link(unlinked_storage.name)
+      expect(page).to have_link(storage.name, href: storage.host)
+      project_folder_id = project_storage_with_manual_folder.project_folder_id
+      folder_href = "#{another_storage.host}/index.php/f/#{project_folder_id}?openfile=1"
+      expect(page).to have_link(another_storage.name, href: folder_href)
+      expect(page).not_to have_link(unlinked_storage.name)
+    end
+
+    context 'if user is an admin but not a member of the project' do
+      let(:user) { create(:admin) }
+
+      it 'has no links to enabled storage' do
+        visit(project_path(id: project.id))
+
+        expect(page).not_to have_link(storage.name, href: storage.host)
+        project_folder_id = project_storage_with_manual_folder.project_folder_id
+        folder_href = "#{another_storage.host}/index.php/f/#{project_folder_id}?openfile=1"
+        expect(page).not_to have_link(another_storage.name, href: folder_href)
+        expect(page).not_to have_link(another_storage.name, href: another_storage.host)
+        expect(page).not_to have_link(unlinked_storage.name)
+      end
+    end
   end
 
   context 'if user has no permission to see storage links' do

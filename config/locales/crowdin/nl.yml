@@ -195,8 +195,6 @@ nl:
       no_results_content_text: Maak een nieuw aangepast veld
   concatenation:
     single: 'of'
-  documentation:
-    see_more_link: Raadpleeg onze documentatie over dit onderwerp voor meer informatie.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -266,7 +264,7 @@ nl:
       notice_reset_token: "Een nieuwe %{type} -token is gegenereerd. Uw toegangstoken is:"
       token_value_warning: "Opmerking: Dit is de enige keer dat u dit token ziet, zorg ervoor dat u het nu kopiëren."
       no_results_title_text: Er zijn momenteel geen toegangstokens beschikbaar.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" voor kalender \"%{calendar_name}\" van project \"%{project_name}\" is ingetrokken. De iCalendar URL met deze token is nu ongeldig."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" voor kalender \"%{calendar_name}\" van project \"%{project_name}\" is ingetrokken. De iCalendar URL met deze token is nu ongeldig."
   news:
     index:
       no_results_title_text: Er is momenteel geen nieuws om te rapporteren.
@@ -525,6 +523,7 @@ nl:
         hours: "Uren"
         spent_on: "Datum"
         type: "Type"
+        ongoing: "Ongoing"
       type:
         description: "Standaard tekst voor beschrijving"
         attribute_groups: ''
@@ -809,7 +808,7 @@ nl:
           attributes:
             user_id:
               not_allowed_to_view: "is not allowed to view this resource."
-              locked: "is locked."
+              locked: "is vergrendeld."
         wiki_page:
           attributes:
             slug:
@@ -1064,6 +1063,7 @@ nl:
   button_continue: "Verdergaan"
   button_copy: "Kopieer"
   button_copy_to_clipboard: "Kopiëren naar het klembord"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Kopiëren en volg"
   button_create: "Maken"
   button_create_and_continue: "Aanmaken en doorgaan"
@@ -1300,7 +1300,7 @@ nl:
   error_enterprise_activation_user_limit: "Uw account kon niet worden geactiveerd (gebruikerslimiet bereikt). Neem contact op met uw beheerder om toegang te krijgen."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Fout bij het verwijderen van deze ingave.'
-  error_in_dependent: "Fout bij poging tot wijziging van afhankelijke object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Fout bij poging tot wijziging van afhankelijke object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Fout bij het maken van afhankelijke object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "De geselecteerde waarde is ongeldig."
   error_journal_attribute_not_present: "Dagboek bevat geen kenmerk %{attribute}."
@@ -1319,6 +1319,7 @@ nl:
   error_password_change_failed: 'Er is een fout opgetreden tijdens het wijzigen van het wachtwoord.'
   error_scm_command_failed: "Er is een fout opgetreden tijdens het proberen om toegang te krijgen tot de repository: %{value}"
   error_scm_not_found: "De vermelding of de herziening werd niet gevonden in de repository."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "De status van het werkpakket kan niet worden verwijderd omdat het door minstens één werkpakket wordt gebruikt."
   error_unable_delete_default_status: "Niet in staat de status van het standaard werkpakket te verwijderen. Gelieve een andere status van het standaard werkpakket te selecteren alvorens de huidige te verwijderen."
   error_unable_to_connect: "Kan geen verbinding maken (%{value})"
@@ -1419,8 +1420,8 @@ nl:
       working_days_changed:
         changed: "by changes to working days (%{changes})"
         days:
-          working: "%{day} is now working"
-          non_working: "%{day} is now non-working"
+          working: "%{day} werkt nu"
+          non_working: "%{day} is nu niet actief"
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
@@ -1490,6 +1491,7 @@ nl:
   label_age: "Leeftijd"
   label_ago: "dagen geleden"
   label_all: "alle"
+  label_all_projects: "All projects"
   label_all_time: "aller tijden"
   label_all_words: "Alle woorden"
   label_all_open_wps: "Alles open"
@@ -1506,6 +1508,7 @@ nl:
   label_ical_access_key_revoke: "Intrekken"
   label_applied_status: "Toegepaste status"
   label_archive_project: "Project archiveren"
+  label_archived_projects: "Archived projects"
   label_ascending: "Oplopend"
   label_assigned_to_me_work_packages: "Werkpakketten toegewezen aan mij"
   label_associated_revisions: "Bijbehorende revisies"
@@ -1642,6 +1645,7 @@ nl:
   label_everywhere: "overal"
   label_example: "Voorbeeld"
   label_experimental: "Experimental"
+  label_i_am_member: "I am member"
   label_import: "Importeren"
   label_export_to: "Ook verkrijgbaar in:"
   label_expanded_click_to_collapse: "Uitgebreid. Klik op samenvouwen"
@@ -1678,6 +1682,7 @@ nl:
   label_hierarchy_leaf: "Hiërarchie blad"
   label_home: "Home"
   label_subject_or_id: "Onderwerp of ID"
+  label_icalendar: "iCalendar"
   label_impressum: "Juridische mededeling"
   label_in: "in"
   label_in_less_than: "in minder dan"
@@ -1960,7 +1965,7 @@ nl:
   label_user_plural: "Gebruikers"
   label_user_search: "Zoeken naar gebruiker"
   label_user_settings: "Gebruikersinstellingen"
-  label_users_settings: "Users settings"
+  label_users_settings: "Gebruikersinstellingen"
   label_version_new: "Nieuwe versie"
   label_version_plural: "Versies"
   label_version_sharing_descendants: "Met subprojecten"
@@ -2348,7 +2353,7 @@ nl:
       archived: "Gearchiveerd"
   project_module_activity: "Activiteit"
   project_module_forums: "Fora"
-  project_module_work_package_tracking: "Werkpakket bijhouden"
+  project_module_work_package_tracking: "Werkpakketten"
   project_module_news: "Nieuws"
   project_module_repository: "Repository"
   project_module_wiki: "Wiki"
@@ -2522,7 +2527,7 @@ nl:
   setting_consent_decline_mail: "Toestemming contact e-mailadres"
   setting_cross_project_work_package_relations: "Sta werkpakketten over meerdere projecten toe"
   setting_first_week_of_year: "De eerste week in het jaar bevat"
-  setting_date_format: "Date"
+  setting_date_format: "Datum"
   setting_default_language: "Standaard taal"
   setting_default_projects_modules: "Standaard actieve modules voor nieuwe projecten"
   setting_default_projects_public: "Nieuwe projecten zijn standaard publiek"
@@ -2534,7 +2539,7 @@ nl:
   setting_enabled_scm: "SCM Ingeschakeld"
   setting_enabled_projects_columns: "Zichtbaar in de projectlijst"
   setting_feeds_enabled: "Feeds inschakelen"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Feed inhoud limiet"
   setting_file_max_size_displayed: "Maximale grootte van tekstbestanden inline weergegeven"
   setting_host_name: "Hostnaam"
@@ -2585,7 +2590,7 @@ nl:
   setting_start_of_week: "Week begint op"
   setting_sys_api_enabled: "Repository beheer web-service inschakelen"
   setting_sys_api_description: "De repository beheer web-service biedt integratie en autorisatie van gebruikers voor toegang tot de archieven."
-  setting_time_format: "Time"
+  setting_time_format: "Tijd"
   setting_accessibility_mode_for_anonymous: "Toegankelijkheid modus voor anonieme gebruikers inschakelen"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Standaardtijdzone voor gebruikers"
@@ -2596,36 +2601,23 @@ nl:
   setting_welcome_on_homescreen: "Toon het Welkom blok op thuisscherm"
   setting_work_package_list_default_highlighting_mode: "Standaardmodus markeren"
   setting_work_package_list_default_highlighted_attributes: "Inline gemarkeerd standaardkenmerken"
-  setting_working_days: "Working days"
+  setting_working_days: "Werkdagen"
   settings:
-    general: "Algemeen"
-    other: "Overige"
-    passwords: "Wachtwoorden"
-    session: "Sessie"
-    brute_force_prevention: "Automatische gebruiker blokkering"
     attachments:
       whitelist_text_html: >
         Definieer een lijst met geldige bestandsextensies en/of MIME-types voor geüploade bestanden. <br/> Vul de bestandsextensies in (bijv. <code>%{ext_example}</code>) of MIME-types (bijv. ., <code>%{mime_example}</code>). <br/> Laat leeg om elk bestandstype te kunnen uploaden. Meerdere waarden toegestaan (één regel voor elke waarde).
+    brute_force_prevention: "Automatische gebruiker blokkering"
     language_name_being_default: '%{language_name} (default)'
-    notifications:
-      events_explanation: 'Bepaalt voor welke gebeurtenis een e-mail wordt verzonden. Werkpakketten worden uitgesloten van deze lijst omdat de meldingen ervoor kunnen worden geconfigureerd voor elke gebruiker.'
-      delay_minutes_explanation: "Het verzenden van e-mail kan worden vertraagd zodat gebruikers met in app geconfigureerde melding binnen de applicatie de melding kunnen bevestigen voordat er een e-mail wordt verzonden. Gebruikers die een melding binnen de applicatie lezen ontvangen geen e-mail voor de reeds gelezen melding."
-    display:
+    date_format:
       first_date_of_week_and_year_set: >
-        Als ofwel opties "%{day_of_week_setting_name}" of "%{first_week_setting_name}" zijn ingesteld, Ook het andere moet worden vastgesteld om inconsistenties op het frontend te voorkomen.
-      first_week_of_year_text: >
-        Selecteer de datum van januari die in de eerste week van het jaar staat. Deze waarde bepaalt samen met de eerste dag van de week het totaal aantal weken in een jaar.
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    general: "Algemeen"
     experimental:
       save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Feature flags
-    projects:
-      section_new_projects: "Instellingen voor nieuwe projecten"
-      section_project_overview: "Instellingen voor project overzicht lijst"
-    user:
-      default_preferences: "Standaardvoorkeuren"
-      display_format: "Display format"
-      deletion: "Verwijdering"
     highlighting:
       mode_long:
         inline: "Markeer attribute(s) inline"
@@ -2633,8 +2625,25 @@ nl:
         status: "Hele rij per Status"
         type: "Hele rij per Type"
         priority: "Hele rij door prioriteit"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    notifications:
+      events_explanation: 'Bepaalt voor welke gebeurtenis een e-mail wordt verzonden. Werkpakketten worden uitgesloten van deze lijst omdat de meldingen ervoor kunnen worden geconfigureerd voor elke gebruiker.'
+      delay_minutes_explanation: "Het verzenden van e-mail kan worden vertraagd zodat gebruikers met in app geconfigureerde melding binnen de applicatie de melding kunnen bevestigen voordat er een e-mail wordt verzonden. Gebruikers die een melding binnen de applicatie lezen ontvangen geen e-mail voor de reeds gelezen melding."
+    other: "Overige"
+    passwords: "Wachtwoorden"
+    projects:
+      section_new_projects: "Instellingen voor nieuwe projecten"
+      section_project_overview: "Instellingen voor project overzicht lijst"
+    session: "Sessie"
+    user:
+      default_preferences: "Standaardvoorkeuren"
+      display_format: "Display format"
+      deletion: "Verwijdering"
     working_days:
-      section_work_week: "Work week"
+      section_work_week: "Werkweek"
       section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
@@ -3021,7 +3030,7 @@ nl:
   api_v3:
     attributes:
       lock_version: "Vergrendel versie"
-      property: 'Property'
+      property: 'Eigendom'
     errors:
       code_400: "Verkeerd verzoek: %{message}"
       code_401: "U moet geauthenticeerd zijn om toegang te hebben tot deze resource."

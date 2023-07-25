@@ -77,7 +77,7 @@ class Meeting < ApplicationRecord
 
   accepts_nested_attributes_for :participants, allow_destroy: true
 
-  validates_presence_of :title, :duration
+  validates_presence_of :title, :project_id, :duration
 
   # We only save start_time as an aggregated value of start_date and hour,
   # but still need start_date and _hour for validation purposes

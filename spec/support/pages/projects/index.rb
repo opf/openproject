@@ -68,6 +68,19 @@ module Pages
         end
       end
 
+      def expect_filters_container_toggled
+        expect(page).to have_selector('form.project-filters')
+      end
+
+      def expect_filters_container_hidden
+        expect(page).to have_selector('form.project-filters', visible: :hidden)
+      end
+
+      def expect_filter_set(filter_name)
+        expect(page).to have_selector("li[filter-name='#{filter_name}']:not(.hidden)",
+                                      visible: :hidden)
+      end
+
       def filter_by_active(value)
         set_filter('active',
                    'Active',
@@ -80,6 +93,15 @@ module Pages
       def filter_by_public(value)
         set_filter('public',
                    'Public',
+                   'is',
+                   [value])
+
+        click_button 'Apply'
+      end
+
+      def filter_by_membership(value)
+        set_filter('member_of',
+                   'I am member',
                    'is',
                    [value])
 
@@ -197,7 +219,7 @@ module Pages
       private
 
       def boolean_filter?(filter)
-        %w[active public templated].include?(filter.to_s)
+        %w[active member_of public templated].include?(filter.to_s)
       end
 
       def within_row(project)

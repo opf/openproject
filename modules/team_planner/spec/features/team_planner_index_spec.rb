@@ -45,17 +45,15 @@ RSpec.describe 'Team planner index', :js, :with_cuprite, with_ee: %i[team_planne
   context 'with no view' do
     let(:team_plan) { nil }
 
-    it 'shows an index action' do
-      expect(page).to have_text 'There is currently nothing to display.'
-      expect(page).to have_selector '.button', text: 'Team planner'
+    it 'shows an empty index action' do
+      team_planner.expect_no_views_rendered
+    end
+
+    it 'shows a create button' do
+      team_planner.expect_create_button
     end
 
     it 'can create an action through the sidebar' do
-      find('[data-qa-selector="team-planner--create-button"]').click
-
-      team_planner.expect_title
-
-      # Also works from the frontend
       find('[data-qa-selector="team-planner--create-button"]').click
 
       team_planner.expect_no_toaster
@@ -65,8 +63,8 @@ RSpec.describe 'Team planner index', :js, :with_cuprite, with_ee: %i[team_planne
 
   context 'with an existing view' do
     it 'shows that view' do
-      expect(page).to have_selector 'td', text: query.name
-      expect(page).to have_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
+      team_planner.expect_view_rendered query
+      team_planner.expect_delete_button_for query
     end
 
     context 'with another user with limited access' do
@@ -77,28 +75,21 @@ RSpec.describe 'Team planner index', :js, :with_cuprite, with_ee: %i[team_planne
                member_with_permissions: %w[view_work_packages view_team_planner])
       end
 
-      it 'does not show the create button' do
-        expect(page).to have_selector 'td', text: query.name
+      it 'does not show the management buttons' do
+        team_planner.expect_view_rendered query
 
-        # Does not show the delete
-        expect(page).not_to have_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
-
-        # Does not show the create button
-        expect(page).not_to have_selector '.button', text: 'Team planner'
+        team_planner.expect_no_delete_button_for query
+        team_planner.expect_no_create_button
       end
 
       context 'when the view is non-public' do
         let(:query) { create(:query, user:, project:, public: false) }
 
         it 'does not show a non-public view' do
-          expect(page).to have_text 'There is currently nothing to display.'
-          expect(page).not_to have_selector 'td', text: query.name
+          team_planner.expect_no_views_rendered
+          team_planner.expect_view_not_rendered query
 
-          # Does not show the delete
-          expect(page).not_to have_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
-
-          # Does not show the create button
-          expect(page).not_to have_selector '.button', text: 'Team planner'
+          team_planner.expect_no_create_button
         end
       end
     end

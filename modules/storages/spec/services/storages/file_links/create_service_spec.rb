@@ -33,4 +33,22 @@ RSpec.describe Storages::FileLinks::CreateService, type: :model do
   it_behaves_like 'BaseServices create service' do
     let(:factory) { :file_link }
   end
+
+  it 'creates a journal entry for its container' do
+    project_storage = create(:project_storage)
+
+    storage = project_storage.storage
+    project = project_storage.project
+
+    work_package = create(:work_package, project:)
+    user = create(:admin)
+
+    service = described_class.new(user:, contract_class: Storages::FileLinks::CreateContract)
+    params = { creator: user, container: work_package, origin_id: 200, origin_name: 'bob_the_fake_file.png', storage: }
+
+    expect do
+      result = service.call(params)
+      expect(result).to be_success
+    end.to change(Journal, :count).by(1)
+  end
 end

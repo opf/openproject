@@ -273,12 +273,6 @@ module Settings
       cross_project_work_package_relations: {
         default: true
       },
-      # Allow in-context translations to be loaded with CSP
-      crowdin_in_context_translations: {
-        description: 'Add crowdin in-context translations helper',
-        default: true,
-        writable: false
-      },
       database_cipher_key: {
         description: 'Encryption key for repository credentials',
         format: :string,

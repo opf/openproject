@@ -68,7 +68,7 @@ class Storages::Storage < ApplicationRecord
 
   # Creates a scope of all storages, which belong to a project the user is a member
   # and has the permission ':view_file_links'
-  scope :visible, ->(user = User.current) {
+  scope :visible, ->(user = User.current) do
     if user.allowed_to_globally?(:manage_storages_in_project)
       all
     else
@@ -78,7 +78,11 @@ class Storages::Storage < ApplicationRecord
         )
       )
     end
-  }
+  end
+
+  scope :not_enabled_for_project, ->(project) do
+    where.not(id: project.projects_storages.pluck(:storage_id))
+  end
 
   def self.shorten_provider_type(provider_type)
     case /Storages::(?'provider_name'.*)Storage/.match(provider_type)

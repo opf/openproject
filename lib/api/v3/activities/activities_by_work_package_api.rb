@@ -38,6 +38,7 @@ module API
             journals = @work_package.journals.includes(:data,
                                                        :customizable_journals,
                                                        :attachable_journals,
+                                                       :storable_journals,
                                                        :bcf_comment)
 
             Activities::ActivityCollectionRepresenter.new(journals,

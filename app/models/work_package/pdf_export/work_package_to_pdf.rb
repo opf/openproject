@@ -72,7 +72,11 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
   end
 
   def heading
-    "#{work_package.project} - #{work_package.type} ##{work_package.id}"
+    "#{work_package.type} ##{work_package.id} - #{work_package.subject}"
+  end
+
+  def footer_title
+    work_package.project.name
   end
 
   def title

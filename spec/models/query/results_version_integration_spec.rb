@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Query::Results, 'Grouping and sorting for version', with_mail: false do
+RSpec.describe Query::Results, 'Grouping and sorting for version' do
   let(:query_results) do
     Query::Results.new query
   end

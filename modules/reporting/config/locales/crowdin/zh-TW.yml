@@ -81,6 +81,9 @@ zh-TW:
   units: "單位"
   validation_failure_date: "不是一個有效日期"
   validation_failure_integer: "不是一個有效的整數"
+  export:
+    cost_reports:
+      title: "Your Cost Reports XLS export"
   reporting:
     group_by:
       selected_columns: "選擇列"

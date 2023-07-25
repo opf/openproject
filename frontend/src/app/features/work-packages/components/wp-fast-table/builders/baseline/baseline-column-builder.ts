@@ -55,19 +55,19 @@ export class BaselineColumnBuilder {
   ):HTMLElement|null {
     const state = getBaselineState(workPackage, this.schemaCache, this.wpTableColumns);
     if (state === 'added') {
-      const icon = opIconElement('spot-icon', 'spot-icon_1', 'spot-icon_flex', 'spot-icon_add', 'op-table-baseline--icon-added');
+      const icon = opIconElement('spot-icon', 'spot-icon_1', 'spot-icon_flex', 'spot-icon_arrow-in', 'op-table-baseline--icon-added');
       icon.title = this.I18n.t('js.work_packages.baseline.addition_label');
       return icon;
     }
 
     if (state === 'removed') {
-      const icon = opIconElement('spot-icon', 'spot-icon_1', 'spot-icon_flex', 'spot-icon_minus1', 'op-table-baseline--icon-removed');
+      const icon = opIconElement('spot-icon', 'spot-icon_1', 'spot-icon_flex', 'spot-icon_arrow-out', 'op-table-baseline--icon-removed');
       icon.title = this.I18n.t('js.work_packages.baseline.removal_label');
       return icon;
     }
 
     if (state === 'updated') {
-      const icon = opIconElement('spot-icon', 'spot-icon_1', 'spot-icon_flex', 'spot-icon_arrow-left-right', 'op-table-baseline--icon-changed');
+      const icon = opIconElement('spot-icon', 'spot-icon_1', 'spot-icon_flex', 'spot-icon_delta-triangle', 'op-table-baseline--icon-changed');
       icon.title = this.I18n.t('js.work_packages.baseline.modification_label');
       return icon;
     }

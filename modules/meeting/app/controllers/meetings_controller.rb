@@ -32,11 +32,12 @@ class MeetingsController < ApplicationController
   before_action :build_meeting, only: %i[new create]
   before_action :find_meeting, except: %i[index new create]
   before_action :convert_params, only: %i[create update]
-  before_action :authorize, except: [:index]
-  before_action :authorize_global, only: :index
+  before_action :authorize, except: %i[index new]
+  before_action :authorize_global, only: %i[index new]
 
   helper :watchers
   helper :meeting_contents
+  include MeetingsHelper
   include Layout
   include WatchersHelper
   include PaginationHelper
@@ -48,6 +49,10 @@ class MeetingsController < ApplicationController
     @query = load_query
     @meetings = load_meetings(@query)
     render 'index', locals: { menu_name: project_or_global_menu }
+  end
+
+  current_menu_item :index do
+    :meetings
   end
 
   def show
@@ -119,12 +124,19 @@ class MeetingsController < ApplicationController
       current_user
     ).call(params)
 
+    query = apply_default_filter_if_none_given(query)
+
     if @project
       query.where("project_id", '=', @project.id)
-    else
-      # global meetings page should only list future meetings
-      query.where("time", "=", Queries::Meetings::Filters::TimeFilter::FUTURE_VALUE)
     end
+
+    query
+  end
+
+  def apply_default_filter_if_none_given(query)
+    return query if query.filters.any?
+
+    query.where("time", "=", Queries::Meetings::Filters::TimeFilter::FUTURE_VALUE)
   end
 
   def load_meetings(query)
@@ -148,15 +160,6 @@ class MeetingsController < ApplicationController
     @meeting = Meeting.new
     @meeting.project = @project
     @meeting.author = User.current
-  end
-
-  def find_optional_project
-    return true unless params[:project_id]
-
-    @project = Project.find(params[:project_id])
-    authorize
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def global_upcoming_meetings
@@ -186,7 +189,10 @@ class MeetingsController < ApplicationController
   end
 
   def meeting_params
-    params.require(:meeting).permit(:title, :location, :start_time, :duration, :start_date, :start_time_hour,
-                                    participants_attributes: %i[email name invited attended user user_id meeting id])
+    if params[:meeting].present?
+      params.require(:meeting).permit(:title, :location, :start_time,
+                                      :duration, :start_date, :start_time_hour,
+                                      participants_attributes: %i[email name invited attended user user_id meeting id])
+    end
   end
 end

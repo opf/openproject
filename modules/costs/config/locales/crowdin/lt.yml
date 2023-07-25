@@ -82,7 +82,7 @@ lt:
   label_costlog: "Į žurnalą surinkti vieneto kaštai"
   label_cost_plural: "Kaštai"
   label_cost_type_plural: "Kaštų tipai"
-  label_cost_type_specific: "Išlaidų tipas #%{id}: %{name}" #%{id}: %{name}"
+  label_cost_type_specific: "Išlaidų tipas #%{id}: %{name}"
   label_costs_per_page: "Kaštų puslapyje"
   label_currency: "Valiuta"
   label_currency_format: "Valiutos formatas"

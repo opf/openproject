@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Work package relations and hierarchies
-  priority: 600
+  priority: 940
 description: How to add or configure work package relations.
 keywords: relations, hierarchies, child, parent, blocked, includes, part of
 ---
@@ -35,16 +35,21 @@ Work package relations indicate that work packages address a similar topic or cr
 You can select one of the following relations:
 
 - **Related to** - This option adds a link from the work package A to work package B, so that project members can immediately see the connection, even if the work packages are not members of the same hierarchy. 
-- **Duplicates / Duplicated by** - This option indicates that the work package A duplicates a work package B in one way or another, for example both address the same task. This can be useful if you have the same work package that needs to be a part of a closed and public projects at the same time. The connection in this case is only semantic, the changes you make in work package A will need to be adapted in work package B manually. However, this does not affect the status, so if you change the status of workpackage A the status of workpackage B will change automatically to the same. 
+- **Duplicates / Duplicated by** - This option indicates that the work package A duplicates a work package B in one way or another, for example both address the same task. This can be useful if you have the same work package that needs to be a part of a closed and public projects at the same time. The connection in this case is only semantic, the changes you make in work package A will need to be adapted in work package B manually. However, this does not affect the status, so if you change the status of work package A the status of work package B will change automatically to the same. 
 - **Blocks / Blocked by** - This option defines status change restrictions between two work packages. If you set a work package A to be blocking work package B, the status of work package B cannot be set to closed or resolved until the work package A is closed.
-- **Precedes / Follows** - Defines a chronologically relation between two work packages. For example, if you set a work package A to precede a work package B, you will not be able to change the start date of B to be earlier than the day after the finish date of A. In addition, when you move the finish date of A, the start and finish date of B will be updated as well.
+- **Precedes / Follows** - Defines a chronological relation between two work packages. For example, if you set a work package A to precede a work package B, the start date of B has to be at least a day after the finish date of A.
   Please note: If work package B is in [manual scheduling mode](../../gantt-chart/scheduling/#manual-scheduling-mode), changing the finish date of work package A will have no effect on work package B.
 - **Includes / Part of** - Defines if work package A includes or is part of work package B. This relation type can be used for example when you have a roll-out work package and work packages which should be shown as included without using hierarchical relationships. There is no additional effect.
 - **Requires / Required by** - Defines if work package A requires or is required by work package B. There is no additional effect.
 
 The selected relation status will be automatically displayed in the work package that you enter. For example if you select "Blocks" in the current work package A and specify work package B, work package B will automatically show that it is "Blocked by" A.
 
+### Moving related work packages
+The precedes/follows relation is the only one that can constrain or affect the dates of work packages. 
 
+Work packages in a precedes/follows relationship do not need to immediately follow one other; there can be a gap. In this case, you can move either forwards or backwards in time without affecting the other as long as the finish date of the predecessor is before the start date of follower.
+
+A follower cannot be moved to start before the finish date of its predecessor. However, a predecessor can indeed be moved to start or finish _after_ the start date of its follower. When this happens, the follower will be pushed into the future such that it starts the day after the new finish date of the predecessor.
 
 ## Display relations in a work package table (Enterprise add-on)
 

@@ -29,6 +29,7 @@ el:
         participants: "Συμμετέχοντες"
         participants_attended: "Παρευρισκόμενοι"
         participants_invited: "Προσκεκλημένοι"
+        project: "Project"
         start_time: "Ώρα"
         start_time_hour: "Ώρα έναρξης"
     errors:
@@ -61,6 +62,13 @@ el:
   label_meeting_agenda_close: "Κλείστε την ατζέντα για να ξεκινήσετε τα Πρακτικά"
   label_meeting_date_time: "Ημερομηνία/Ώρα"
   label_meeting_diff: "Διαφορά"
+  label_upcoming_meetings: "Upcoming meetings"
+  label_past_meetings: "Past meetings"
+  label_involvement: "Involvement"
+  label_upcoming_invitations: "Upcoming invitations"
+  label_past_invitations: "Past invitations"
+  label_attendee: "Attendee"
+  label_author: "Creator"
   label_notify: "Αποστολή για αναθεώρηση"
   label_icalendar: "Αποστολή στο iCalendar"
   label_version: "Έκδοση"
@@ -85,7 +93,7 @@ el:
   text_duration_in_hours: "Διάρκεια σε ώρες"
   text_in_hours: "σε ώρες"
   text_meeting_agenda_for_meeting: 'ατζέντα για τη συνάντηση "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the agenda?"
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting agenda?"
   text_meeting_agenda_open_are_you_sure: "Αυτό θα αντικαταστήσει όλες τις αλλαγές στα πρακτικά συνάντησης!  Θέλετε να συνεχίσετε;"
   text_meeting_minutes_for_meeting: 'πρακτικά για τη συνάντηση "%{meeting}"'
   text_review_meeting_agenda: "Ο/Η %{author} έχει βάλει το %{link} για αναθεώρηση."

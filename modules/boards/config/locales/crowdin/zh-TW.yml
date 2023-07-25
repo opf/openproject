@@ -8,7 +8,7 @@ zh-TW:
     label_boards: "看板"
     board_types:
       free: 基本
-      action: "Action board (%{attribute})"
+      action: "行動項看板 (%{attribute})"
     board_type_attributes:
       assignee: 負責執行者
       status: 狀態

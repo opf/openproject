@@ -31,7 +31,7 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 RSpec.describe 'Work package overview graph widget on dashboard',
-               js: true, with_mail: false do
+               js: true do
   let!(:type) { create(:type) }
   let!(:priority) { create(:default_priority) }
   let!(:project) { create(:project, types: [type]) }

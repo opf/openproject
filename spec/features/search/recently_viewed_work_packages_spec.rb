@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Recently viewed work packages', js: true, with_mail: false do
+RSpec.describe 'Recently viewed work packages', js: true do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   let(:global_search) { Components::GlobalSearch.new }
