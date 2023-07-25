@@ -1303,7 +1303,7 @@ id:
   error_enterprise_activation_user_limit: "Akun Anda tidak dapat diaktifkan (batas pengguna tercapai). Silakan hubungi administrator Anda untuk mendapatkan akses."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Gagal untuk menghapus isian ini.'
-  error_in_dependent: "Kesalahan saat mencoba mengubah objek dependen: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Kesalahan saat mencoba mengubah objek dependen: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Kesalahan saat mencoba membuat objek dependen: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Nilai yang dipilih tidak valid."
   error_journal_attribute_not_present: "Jurnal tidak mengandung atribut %{attribute}."

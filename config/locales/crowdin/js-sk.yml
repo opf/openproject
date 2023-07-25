@@ -493,7 +493,7 @@ sk:
     label_remove_all_files: Odstrániť všetky súbory
     label_add_description: "Pridať popis %{file}"
     label_upload_notification: "Nahrávanie súborov..."
-    label_work_package_upload_notification: "Nahrávanie súborov pre Pracovný balík #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Nahrávanie súborov pre Pracovný balík #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} pridané %{author}"
     label_files_to_upload: "Tieto súbory budú odovzdané:"
     label_rejected_files: "Tieto súbory nie je možné odovzdať:"

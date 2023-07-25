@@ -493,7 +493,7 @@ bg:
     label_remove_all_files: Изтриване на всички файлове
     label_add_description: "Добавете на описание за %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Качване на файлове за работа пакет #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Качване на файлове за работа пакет #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "Тези файлове ще бъдат качени:"
     label_rejected_files: "Тези файлове не могат да бъдат качени:"

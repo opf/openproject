@@ -492,7 +492,7 @@ zh-TW:
     label_remove_all_files: 刪除所有檔案
     label_add_description: "添加 %{file} 的說明"
     label_upload_notification: "上傳檔案中..."
-    label_work_package_upload_notification: "上傳檔案到工作包 #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "上傳檔案到工作包 #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} 被 %{author} 新增"
     label_files_to_upload: "將上傳這些檔案:"
     label_rejected_files: "不能上傳這些檔案:"

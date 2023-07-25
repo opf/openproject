@@ -492,7 +492,7 @@ sv:
     label_remove_all_files: Ta bort alla filer
     label_add_description: "Lägga till en beskrivning för %{file}"
     label_upload_notification: "Laddar upp fil(er)..."
-    label_work_package_upload_notification: "Ladda upp filer för arbetspaket #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Ladda upp filer för arbetspaket #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} tillagd av %{author}"
     label_files_to_upload: "Dessa filer kommer att laddas upp:"
     label_rejected_files: "Dessa filer går inte att ladda upp:"

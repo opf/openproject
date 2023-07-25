@@ -492,7 +492,7 @@ sl:
     label_remove_all_files: Izbriši vse datoteke
     label_add_description: "Dodaj opis za %{file}"
     label_upload_notification: "Nalaganje datotek... "
-    label_work_package_upload_notification: "Nalaganje datotek za opravilo #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Nalaganje datotek za opravilo #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} dodal %{author}"
     label_files_to_upload: "Te datoteke bodo naložene:"
     label_rejected_files: "Teh datotek ni mogoče naložiti:"

@@ -493,7 +493,7 @@ si:
     label_remove_all_files: සියලුම ගොනු මකන්න
     label_add_description: "%{file}සඳහා විස්තරයක් එක් කරන්න"
     label_upload_notification: "ගොනු උඩුගත කිරීම..."
-    label_work_package_upload_notification: "වැඩ පැකේජය සඳහා ගොනු උඩුගත කිරීම #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "වැඩ පැකේජය සඳහා ගොනු උඩුගත කිරීම #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} විසින් එකතු කරන ලද %{author}"
     label_files_to_upload: "මෙම ගොනු උඩුගත කරනු ඇත:"
     label_rejected_files: "මෙම ගොනු උඩුගත කළ නොහැක:"

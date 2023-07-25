@@ -493,7 +493,7 @@ hr:
     label_remove_all_files: Izbrišite sve datoteke
     label_add_description: "Dodaj opis za %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Prijenos datoteka za Radni paket #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Prijenos datoteka za Radni paket #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "Ove datoteke će biti prenešene:"
     label_rejected_files: "Ove datoteke ne mogu biti prenešene:"

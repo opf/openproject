@@ -83,7 +83,7 @@ pt:
   validation_failure_integer: "não é um valor inteiro válido"
   export:
     cost_reports:
-      title: "Your Cost Reports XLS export"
+      title: "Seus Relatórios de Custo de Exportação XLS"
   reporting:
     group_by:
       selected_columns: "Colunas selecionadas"

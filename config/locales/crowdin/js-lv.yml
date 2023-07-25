@@ -493,7 +493,7 @@ lv:
     label_remove_all_files: Dzēst visus failus
     label_add_description: "Pievienot aprakstu priekš %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Augšupielādēt failus Darba pakai #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Augšupielādēt failus Darba pakai #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "Šie faili tiks augšupielādēti:"
     label_rejected_files: "Nevar augšupielādēt šos failus:"

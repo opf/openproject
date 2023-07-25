@@ -493,7 +493,7 @@ fr:
     label_remove_all_files: Supprimer tous les fichiers
     label_add_description: "Ajouter une description pour %{file}"
     label_upload_notification: "Chargement des fichiers..."
-    label_work_package_upload_notification: "Transfert en cours des fichiers pour le lot de travaux #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Transfert en cours des fichiers pour le lot de travaux #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} ajouté par %{author}"
     label_files_to_upload: "Ces fichiers vont être transférés:"
     label_rejected_files: "Ces fichiers ne peuvent pas être transférés:"

@@ -2059,7 +2059,7 @@ hu:
       you_have: 'Neked van'
     logo_alt_text: 'Logó'
     mention:
-      subject: "%{user_name} megemlített téged itt: #%{id} - %{subject}" #%{id} - %{subject}"
+      subject: "%{user_name} megemlített téged itt: #%{id} - %{subject}"
     notification:
       center: "Az értesítési központba\n"
       see_in_center: 'Lásd a megjegyzést az értesítési központban'

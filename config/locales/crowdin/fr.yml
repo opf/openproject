@@ -1327,7 +1327,7 @@ fr:
   error_enterprise_activation_user_limit: "Votre compte n'a pas pu être activé (limite d'utilisateurs atteinte). Veuillez contacter votre administrateur pour obtenir l'accès."
   error_enterprise_token_invalid_domain: "La version Entreprise n'est pas active. Le domaine de votre jeton Entreprise (%{actual}) ne correspond pas au nom d'hôte du système (%{expected})."
   error_failed_to_delete_entry: 'Échec lors de la suppression de cette entrée.'
-  error_in_dependent: "Erreur lors de la tentative de modification de l'objet dépendant : %{dependent_class} #%{related_id} - %{related_subject} : %{error}" #%{related_id} - %{related_subject} : %{error}"
+  error_in_dependent: "Erreur lors de la tentative de modification de l'objet dépendant : %{dependent_class} #%{related_id} - %{related_subject} : %{error}"
   error_in_new_dependent: "Erreur lors de la tentative de création d'un objet dépendant : %{dependent_class} - %{related_subject} : %{error}"
   error_invalid_selected_value: "Valeur sélectionnée invalide."
   error_journal_attribute_not_present: "Le journal ne contient pas l’attribut %{attribute}."

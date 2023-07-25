@@ -493,7 +493,7 @@ eo:
     label_remove_all_files: Forigi ĉiojn dosierojn
     label_add_description: "Aldonu priskribon por %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Alŝutanta dosierojn por la laborpakaĵo #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Alŝutanta dosierojn por la laborpakaĵo #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} aldonita de %{author}"
     label_files_to_upload: "Tiuj dosieroj estos alŝutitaj:"
     label_rejected_files: "Tiuj dosieroj ne estos alŝutitaj:"

@@ -80,7 +80,7 @@ bg:
   label_costlog: "Logged unit costs"
   label_cost_plural: "Разходи"
   label_cost_type_plural: "Видове разходи"
-  label_cost_type_specific: "Тип на разходите #%{id}: %{name}" #%{id}: %{name}"
+  label_cost_type_specific: "Тип на разходите #%{id}: %{name}"
   label_costs_per_page: "Costs per page"
   label_currency: "Currency"
   label_currency_format: "Format of currency"
