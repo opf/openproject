@@ -43,7 +43,8 @@ RSpec.configure do |config|
     # * chromedriver, since it might need to be downloaded
     WebMock.disable_net_connect!(allow_localhost: true, allow: ["selenium-hub",
                                                                 Capybara.server_host,
-                                                                'chromedriver.storage.googleapis.com'])
+                                                                'chromedriver.storage.googleapis.com',
+                                                                'openproject-ci-public-logs.s3.eu-west-1.amazonaws.com'])
     WebMock.enable!
     example.run
   ensure
