@@ -54,14 +54,20 @@ module Boards
 
     def query_name(params)
       {
-        'basic' => 'Unnamed list'
+        'basic' => 'Unnamed list',
+        'status' => default_status.name
       }.fetch(params[:attribute])
     end
 
     def query_filters(params)
       {
-        'basic' => [{ manual_sort: { operator: 'ow', values: [] } }]
+        'basic' => [{ manual_sort: { operator: 'ow', values: [] } }],
+        'status' => [{ status_id: { operator: '=', values: [default_status.id] } }]
       }.fetch(params[:attribute])
+    end
+
+    def default_status
+      @default_status ||= ::Status.default
     end
 
     def options_for_grid(params)
@@ -78,6 +84,19 @@ module Boards
     def options_for_widgets(params)
       {
         'basic' => [
+          Grids::Widget.new(
+            start_row: 1,
+            start_column: 1,
+            end_row: 2,
+            end_column: 2,
+            identifier: "work_package_query",
+            options: {
+              "queryId" => params[:query_id],
+              "filters" => query_filters(params)
+            }
+          )
+        ],
+        'status' => [
           Grids::Widget.new(
             start_row: 1,
             start_column: 1,
