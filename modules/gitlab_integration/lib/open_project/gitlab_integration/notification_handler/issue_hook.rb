@@ -47,7 +47,7 @@ module OpenProject::GitlabIntegration
 
       attr_reader :payload
 
-      def generate_notes(payload)
+      def generate_notes(payload) # rubocop:disable Metrics/AbcSize
         accepted_actions = %w[open reopen close]
 
         key_action = {

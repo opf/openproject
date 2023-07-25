@@ -35,7 +35,7 @@ module OpenProject::GitlabIntegration
       include OpenProject::GitlabIntegration::NotificationHandler::Helper
 
       # TODO: this can be more refactored and simplified...
-      def process(payload_params)
+      def process(payload_params) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
         @payload = wrap_payload(payload_params)
         user = User.find_by(id: payload.open_project_user_id)
         text = payload.object_attributes.note
@@ -75,7 +75,7 @@ module OpenProject::GitlabIntegration
       attr_reader :payload
 
       # TODO: add key list to simplify the code...
-      def generate_notes(payload, note_type)
+      def generate_notes(payload, note_type) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
         case payload.object_attributes.noteable_type
         when 'Commit'
           commit_id = payload.commit.id

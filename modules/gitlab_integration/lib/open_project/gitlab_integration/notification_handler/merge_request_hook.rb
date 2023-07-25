@@ -34,7 +34,7 @@ module OpenProject::GitlabIntegration
     class MergeRequestHook
       include OpenProject::GitlabIntegration::NotificationHandler::Helper
 
-      def process(payload_params)
+      def process(payload_params) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
         update_status_on_new_mr = false # true if you only reference one merge by work_package, else false.
         update_status_on_merged = false # true if you only reference one merge by work_package, else false.
         wp_status_id_on_new_mr = 7 # the id of the status.
@@ -45,14 +45,20 @@ module OpenProject::GitlabIntegration
         accepted_states = %w[closed merged]
 
         @payload = wrap_payload(payload_params)
-        return unless (accepted_actions.include? payload.object_attributes.action) || (accepted_states.include? payload.object_attributes.state)
+
+        accepted_action = accepted_actions.include?(payload.object_attributes.action)
+        accepted_state = accepted_states.include?(payload.object_attributes.state)
+
+        return unless accepted_action || accepted_state
 
         user = User.find_by(id: payload.open_project_user_id)
         text = payload.object_attributes.title
         work_packages = find_mentioned_work_packages(text, user)
         notes = generate_notes(payload)
 
-        if (accepted_actions_for_comments.include? payload.object_attributes.action) || (accepted_states.include? payload.object_attributes.state)
+        accepted_action_for_comments = accepted_actions_for_comments.include?(payload.object_attributes.action)
+
+        if accepted_action_for_comments || accepted_state
           comment_on_referenced_work_packages(work_packages, user, notes)
           if payload.object_attributes.state == 'opened' && update_status_on_new_mr
             status_on_referenced_work_packages(work_packages, user, wp_status_id_on_new_mr)
@@ -67,7 +73,7 @@ module OpenProject::GitlabIntegration
 
       attr_reader :payload
 
-      def generate_notes(payload)
+      def generate_notes(payload) # rubocop:disable Metrics/AbcSize
         key = {
           'opened' => 'opened',
           'reopened' => 'reopened',

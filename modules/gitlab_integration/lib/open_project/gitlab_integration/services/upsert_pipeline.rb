@@ -44,7 +44,7 @@ module OpenProject::GitlabIntegration::Services
 
     # Receives the input from the gitlab webhook and translates them
     # to our internal representation.
-    def extract_params(payload)
+    def extract_params(payload) # rubocop:disable Metrics/AbcSize
       {
         gitlab_id: payload.object_attributes.id,
         gitlab_html_url: "#{payload.project.web_url}-/pipelines/#{payload.object_attributes.id}",
