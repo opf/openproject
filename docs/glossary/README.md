@@ -56,7 +56,7 @@ In OpenProject, authentication is an important element to guarantee a data prote
 
 ### Backlogs
 
-A backlog in OpenProject is defined as a [plugin](#plugins--integrations) that allows to use the backlogs feature in OpenProject. The backlog is a tool in scrum: a list that contains everything needed to achieve a specific outcome. In order to use backlogs in OpenProject, the backlogs module has to be activated in the [project settings](#project-settings). [Read how to work with backlogs in OpenProject](https://www.openproject.org/docs/user-guide/backlogs-scrum)
+A backlog in OpenProject is defined as a [plugin](#plugin) that allows to use the backlogs feature in OpenProject. The backlog is a tool in scrum: a list that contains everything needed to achieve a specific outcome. In order to use backlogs in OpenProject, the backlogs module has to be activated in the [project settings](#project-settings). [Read how to work with backlogs in OpenProject](https://www.openproject.org/docs/user-guide/backlogs-scrum)
 
 ### Baseline (Comparisons)
 
@@ -175,13 +175,7 @@ Hybrid project management is an approach that combines elements of both classic 
 
 ### Integration
 
-In OpenProject, you can choose from several integrations or plugins, or add your own plugins to the Community. As an open source software, OpenProject is open to Community-created plugins. Please note that we do not guarantee error-free and seamless use of those plugins. There are also integrations developed by the core OpenProject team, such as the *Excel synchronization* or the [Nextcloud integration](#nextcloud-integration).
-
-Your activated plugins are listed together with your [modules](#module) in your instance under --> Administration --> Plugins. 
-
-**More information on plugins in OpenProject**
-- [See all available plugins and integrations for OpenProject](https://www.openproject.org/docs/system-admin-guide/integrations/)
-- [Read how to create an OpenProject plugin](https://www.openproject.org/docs/development/create-openproject-plugin/)
+In OpenProject, you can choose from several integrations, such as the [Excel synchronization](#excel-synchronization) or the [Nextcloud integration](#nextcloud-integration). In contrast to a plugin, an integration refers to cross features between two software products (e.g., OpenProject and nextcloud), where both pieces of software have code that is responsible for interacting with the other software, through e.g., an API. Whereas a [plugin](#plugin) is installed on top of / as part of the OpenProject installation. You'll need to actively install it. [See all available plugins and integrations for OpenProject](https://www.openproject.org/docs/system-admin-guide/integrations/)
 
 ### Meetings
 
@@ -235,9 +229,9 @@ OpenProject on-premises is a self-hosted version of OpenProject. As opposed to t
 
 A phase in OpenProject is defined as a [work package type](#work-package-types), which usually includes several work packages of types like task or feature. For example, typical phases for a construction repair project would be the following: Project definition, detailed Design & Tender, Construction and Post project.
 
-### Plugins / Integrations
+### Plugin
 
-In OpenProject, you can choose from several plugins or integrations, or add your own plugins to the Community. As an open source software, OpenProject is open to Community-created plugins. Please note that we do not guarantee error-free and seamless use of those plugins. There are also integrations developed by the core OpenProject team, such as the *Excel synchronization* or the [Nextcloud integration](#nextcloud-integration).
+In OpenProject, you can choose from several plugins or [integrations](#integration), or add your own plugins to the Community. In contrast to an integration, a plugin is installed on top of / as part of the OpenProject installation. As an open source software, OpenProject is open to Community-created plugins. Please note that we do not guarantee error-free and seamless use of those plugins.
 
 Your activated plugins are listed together with your [modules](#module) in your instance under --> Administration --> Plugins. 
 
