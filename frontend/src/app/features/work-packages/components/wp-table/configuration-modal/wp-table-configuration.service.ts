@@ -44,7 +44,7 @@ export class WpTableConfigurationService {
     },
     {
       id: 'timelines',
-      name: this.I18n.t('js.timelines.gantt_chart'),
+      name: this.I18n.t('js.gantt_chart.label'),
       componentClass: WpTableConfigurationTimelinesTabComponent,
     },
   ];

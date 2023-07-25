@@ -30,4 +30,10 @@ class Journal::CustomizableJournal < Journal::AssociatedJournal
   self.table_name = 'customizable_journals'
 
   belongs_to :custom_field
+
+  def as_custom_value(attributes = {})
+    custom_value = CustomValue.new(attributes.merge(custom_field:, value:))
+    custom_value.readonly!
+    custom_value
+  end
 end

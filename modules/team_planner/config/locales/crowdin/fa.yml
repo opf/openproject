@@ -9,11 +9,6 @@ fa:
     label_create_new_team_planner: "ایجاد برنامه ریز جدید تیم"
     label_team_planner_plural: "برنامه ریزهای تیم"
     label_assignees: "نمایندگان"
-    label_favoured: "Favoured"
-    help_text:
-      project: Team planners are always attached to a project. After creating a team planner you can add work packages from other projects to it.
-      public: Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
-      favoured: Mark this view as favourite and add to the saved views sidebar on the left.
     upsale:
       title: "برنامه ریز تیم"
       description: "یک نمای کلی از برنامه ریزی تیم با استفاده از برنامه ریز تیم دریافت کنید. به منظور اصلاح تاریخ، جابه جا کردن بسته های کاری و یا تغییر نمایندگان از بسط دادن، کوتاه کردن و یا کشیدن و رها کردن آنها  استفاده کنید."

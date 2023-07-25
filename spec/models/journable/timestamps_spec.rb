@@ -38,8 +38,9 @@ RSpec.describe Journable::Timestamps do
   let(:thursday) { "2022-08-04".to_datetime }
   let(:friday) { "2022-08-05".to_datetime }
 
+  let(:project) { create(:project_with_types) }
   let!(:work_package) do
-    new_work_package = create(:work_package, description: "The work package as it is since Friday", estimated_hours: 10)
+    new_work_package = create(:work_package, description: "The work package as it is since Friday", estimated_hours: 10, project:)
     new_work_package.update_columns created_at: monday
     new_work_package
   end
@@ -586,6 +587,36 @@ RSpec.describe Journable::Timestamps do
 
           it "has the typecasted value matching the journable class's data type" do
             expect(subject.send(column_name)).to eq 0
+          end
+        end
+
+        context 'with a custom field present' do
+          let!(:custom_field) do
+            create(:string_wp_custom_field,
+                   name: 'String CF',
+                   types: project.types,
+                   projects: [project])
+          end
+
+          let!(:custom_value) do
+            create(:custom_value,
+                   custom_field:,
+                   customized: work_package,
+                   value: 'The custom field as it is since Friday')
+          end
+
+          let!(:monday_customizable_journal) do
+            create(:journal_customizable_journal,
+                   journal: monday_journal,
+                   custom_field:,
+                   value: 'The custom field as it has been on Monday')
+          end
+
+          it 'loads the custom_values relation with the historic values' do
+            expect(subject.send("custom_field_#{custom_field.id}"))
+              .to eq 'The custom field as it has been on Monday'
+            expect(journable.send("custom_field_#{custom_field.id}"))
+              .to eq 'The custom field as it is since Friday'
           end
         end
       end

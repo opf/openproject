@@ -11,6 +11,7 @@ id:
   project_module_storages: "Penyimpanan berkas"
   activerecord:
     models:
+      file_link: "File link"
       storages/storage: "Penyimpanan"
     attributes:
       storages/storage:

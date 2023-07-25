@@ -295,6 +295,34 @@ sl:
           one: "Prvo merilo za razvrščanje"
           two: "Drugo merilo za razvrščanje"
           three: "Tretje merilo za razvrščanje"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "ne"
     general_text_yes: "da"
     general_text_No: "Ne"
@@ -504,7 +532,7 @@ sl:
     label_remove_all_files: Izbriši vse datoteke
     label_add_description: "Dodaj opis za %{file}"
     label_upload_notification: "Nalaganje datotek... "
-    label_work_package_upload_notification: "Nalaganje datotek za opravilo #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Nalaganje datotek za opravilo #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} dodal %{author}"
     label_files_to_upload: "Te datoteke bodo naložene:"
     label_rejected_files: "Teh datotek ni mogoče naložiti:"
@@ -824,63 +852,6 @@ sl:
       activate_no: 'aktivirajte za odstranitev razvrščanja'
     text_work_packages_destroy_confirmation: "Ali ste prepričani, da želite izbrisati izbrane delovne pakete?"
     text_query_destroy_confirmation: "Ali ste prepričani, da želite izbrisati izbran pogled?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantogram'
-      labels:
-        title: 'Konfiguracija label'
-        bar: 'Bar labele'
-        left: 'Levo'
-        right: 'Desno'
-        farRight: 'Čisto desno'
-        showNone: '-- Brez labele --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Prikaži gantogram'
-      button_deactivate: 'Skrij gantogram'
-      cancel: Prekliči
-      change: "Spremembe v načrtovanju"
-      due_date: "Končni datum"
-      empty: "(prazno)"
-      error: "Prišlo je do napake."
-      errors:
-        not_implemented: "Časovnice ni bilo mogoče upodobiti, ker uporablja funkcijo, ki še ni izvedena."
-        report_comparison: "Časovnica ne more upodobiti konfigurirane primerjave. Prosimo preverite temu primerno sekcijo v konfiguraciji, ponastavitev lahko reši ta problem."
-        report_epicfail: "Časovnica se ni mogla naložiti zaradi nepričakovane napake."
-        report_timeout: "Časovnica se ne more naložiti v razumnem času."
-      filter:
-        grouping_other: "Drugo"
-        noneSelection: "(brez)"
-      name: "Ime"
-      outline: "Ponastavite oris"
-      outlines:
-        aggregation: "Prikaži samo agregacije"
-        level1: "Razširi prvo stopnjo"
-        level2: "Razširi drugo stopnjo"
-        level3: "Razširi tretjo stopnjo"
-        level4: "Razširi četrto stopnjo"
-        level5: "Razširi stopnjo 5"
-        all: "Prikaži vse"
-      project_status: "Status projekta"
-      really_close_dialog: "Ali res želite zapreti pogovor in zgubiti vse podatke? "
-      responsible: "Odgovoren"
-      save: Shrani
-      start_date: "Datum začetka"
-      tooManyProjects: "Več kot %{count} projektov. Prosimo uporabite boljši filter!"
-      selection_mode:
-        notification: 'Za ustvarjanje razmerja kliknite kateri koli poudarjen delovni paket. Če želite preklicati, pritisnite escape.'
-      zoom:
-        in: "Povečaj"
-        out: "Pomanjšaj"
-        auto: "Samodejna povečava"
-        days: "Dnevi"
-        weeks: "Tednov"
-        months: "Mesecev"
-        quarters: "Četrtletje"
-        years: "let"
-        slider: "Drsnik za povečevanje"
-        description: >
-          Izberite začetno stopnjo povečave, ki naj bo prikazana, ko samodejno povečanje ni na voljo.
     tl_toolbar:
       zooms: "Stopnja povečave"
       outlines: "Stopnja hierarhije"
@@ -945,10 +916,10 @@ sl:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filtriraj delovne pakete'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Za dodajanje novega delovnega paketa kliknite tukaj'

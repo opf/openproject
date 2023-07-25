@@ -169,10 +169,21 @@ ar:
     index:
       no_results_title_text: لا يوجد حالياً ألوان.
       no_results_content_text: إنشاء لون جديد
-    label_no_color: 'No color'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "No color"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Actions'
+      name: "Actions"
       add: 'إضافة إجراء'
       assigned_to:
         executing_user_value: '(Assign to executing user)'
@@ -251,6 +262,8 @@ ar:
         no_results_title_text: لا تتوفر حالياً أية حقول متاحة.
       types:
         no_results_title_text: لا يوجد حالياً أي أنواع متاحة.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: لا يوجد حالياً أية إصدارات للمشروع.
         no_results_content_text: إنشاء إصدار جديد
@@ -267,6 +280,8 @@ ar:
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: لا يوجد حالياً رموز وصول مميزة متاحة.
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
       notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
@@ -1373,6 +1388,7 @@ ar:
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "الرجاءاختر مستخدم ودور."
   error_code: "Error %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'ملف تعريف الارتباط "كوكي" لأوبن بروجكت مفقود. من فضلك تأكد من أن يتم تمكين ملفات تعريف الارتباط "كوكيز"، لأن هذا التطبيق لن يعمل بشكل صحيح دون ذلك.'
   error_custom_option_not_found: "Option does not exist."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
@@ -1527,6 +1543,26 @@ ar:
         action: "الإجراء"
         expiration: "انتهاء الصلاحية"
       indefinite_expiration: "أبداً"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1656,6 +1692,7 @@ ar:
   label_confirmation: "تأكيد"
   label_contains: "يحتوي على"
   label_content: "المحتوى"
+  label_color_plural: "Colors"
   label_copied: "تم النسخ"
   label_copy_same_as_target: "نفس الهدف"
   label_copy_source: "المصدر"
@@ -1684,6 +1721,7 @@ ar:
   label_deleted: "محذوف"
   label_deleted_custom_field: "(حذف حقل مخصص)"
   label_deleted_custom_option: "(deleted option)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "ترتيب تنازلي"
   label_details: "تفاصيل"
@@ -1729,6 +1767,7 @@ ar:
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "ساعة%{value}"
   label_f_hour_plural: "ساعات%{value}"
+  label_favoured: "Favoured"
   label_feed_plural: "التدفقات"
   label_feeds_access_key: "مفتاح الوصول ل RSS"
   label_feeds_access_key_created_on: "مفتاح الوصول إلى RSS التي تم إنشاؤها %{value} من قبل"
@@ -1924,7 +1963,8 @@ ar:
   label_project_new: "مشروع جديد"
   label_project_plural: "المشاريع"
   label_project_settings: "إعدادات المشروع"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "مشاريع%{count} باستخدام التخزين %{storage} على القرص"
   label_project_view_all: "عرض جميع المشاريع"
   label_project_show_details: "Show project details"
@@ -2012,6 +2052,7 @@ ar:
   label_this_week: "هذا الأسبوع"
   label_this_year: "هذه السنة"
   label_time_entry_plural: "الوقت المستهلك"
+  label_title: "Title"
   label_projects_menu: "المشاريع"
   label_today: "اليوم"
   label_top_menu: "القائمة العليا"
@@ -2345,7 +2386,8 @@ ar:
   permission_add_messages: "نشر الرسائل"
   permission_add_project: "إنشاء مشروع"
   permission_archive_project: "Archive project"
-  permission_manage_user: "Create and edit users"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "إنشاء مشاريع فرعية"
   permission_add_work_package_watchers: "إضافة مراقب"
@@ -2846,6 +2888,11 @@ ar:
   text_zoom_in: "تكبير"
   text_zoom_out: "تصغير"
   text_setup_mail_configuration: "ضبط مزوِّدك للبريد الإلكتروني"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "وأنا"
     formats:
@@ -2858,157 +2905,6 @@ ar:
     show: "إظهار الإطار الزمني"
     end: "الى"
     start: "من"
-  timelines:
-    admin_menu:
-      color: "اللون"
-      colors: "الألوان"
-    associations: "الاعتماديات"
-    button_delete_all: "حذف الكل"
-    change: "تغيير في تخطيط"
-    children: "العناصر التابعة"
-    color_could_not_be_saved: "تعذر حفظ الألوان"
-    current_planning: "التخطيط الحالي"
-    dates: "التواريخ"
-    dates_are_calculated_based_on_sub_elements: "يتم حساب التواريخ استناداً إلى عناصر فرعية."
-    delete_all: "حذف الكل"
-    delete_thing: "احذف"
-    duration: "المدّة"
-    duration_days:
-      zero: "%{count} يوم"
-      one: "%{count} يوم"
-      two: "%{count} يوم"
-      few: "%{count} يوم"
-      many: "%{count} يوم"
-      other: "%{count} يوم"
-    edit_color: "تحرير الألوان"
-    edit_thing: "تعديل"
-    edit_timeline: "تحرير تقرير الخط الزمني %{timeline}"
-    delete_timeline: "حذف الجدول الزمني تقرير %{timeline}"
-    empty: "(فارغ)"
-    enable_type_in_project: 'تمكين نوع "%{type}"'
-    end: "النهاية"
-    errors:
-      not_implemented: "لا يمكن أن يقدم الخط الزمني لأنه يستخدم ميزة التي لم تنفذ بعد."
-      report_comparison: "يمكن تقديم جدول زمني لا مقارنات تم تكوينه. الرجاء التحقق من المقطع المناسب في التكوين، إعادة تعيينه فإنه يمكن أن يساعد في حل هذه المشكلة."
-      report_epicfail: "لا يمكن تحميل المخطط الزمني بسبب خطأ غير متوقع."
-      report_timeout: "لا يمكن تحميل المخطط الزمني في كمية معقولة من الزمن."
-    filter:
-      errors:
-        timeframe_start: "بداية الإطار الزمني "
-        timeframe_end: "نهاية الإطار الزمني "
-        compare_to_relative: "قيمة المقارنة النسبية "
-        compare_to_absolute: "قيمة المقارنة المطلقة "
-        planning_element_time_relative_one: "البداية لحزم العمل في فترة زمنية معينة "
-        planning_element_time_relative_two: "النهاية لحزم العمل في فترة زمنية معينة "
-        planning_element_time_absolute_one: "البداية لمجموعات العمل في فترة زمنية معينة  "
-        planning_element_time_absolute_two: "النهاية لمجموعات العمل في فترة زمنية معينة  "
-      sort:
-        sortation: "التصنيف حسب"
-        alphabet: "الأبجدية"
-        explicit_order: "أمر صريح"
-        project_sortation: "فرز المشاريع حسب"
-        date: "التاريخ"
-        default: "الافتراضي"
-      column:
-        assigned_to: "المُسند إليه"
-        type: "النّوع"
-        due_date: "تاريخ الانتهاء"
-        name: "الاسم"
-        status: "الحالة"
-        start_date: "تاريخ البدء"
-      columns: "الأعمدة"
-      comparisons: "مقارنات"
-      comparison:
-        absolute: "مُطلق"
-        none: "لا شيء"
-        relative: "نسبي"
-        compare_relative_prefix: "مقارنة التخطيط الحالي ب"
-        compare_relative_suffix: "مضت"
-        compare_absolute: "مقارنة التخطيط الحالي ب %{date}"
-      time_relative:
-        days: "أيام"
-        weeks: "أسابيع"
-        months: "أشهر"
-      exclude_own_work_packages: "إخفاء مجموعات العمل من هذا المشروع"
-      exclude_reporters: "إخفاء مشاريع أخرى"
-      exclude_empty: "إخفاء مشاريع فارغة"
-      grouping: "تجميع"
-      grouping_hide_group: "إخفاء مجموعة \"%{group}\""
-      grouping_one: "معيار التجميع الأول"
-      grouping_one_phrase: "مشروع فرعي من"
-      grouping_other: "اخرى"
-      hide_chart: "إخفاء المخطط"
-      noneElement: "(بلا)"
-      noneSelection: "(بلا)"
-      outline: "توسيع المخطط الأولى"
-      parent: "إظهار المشاريع الفرعية من"
-      work_package_responsible: "Show work packages with accountable"
-      work_package_assignee: "إظهار حزم العمل مع المحال إليه"
-      types: "إظهار أنواع"
-      status: "إظهار حالة"
-      project_time_filter: "المشاريع مع مجموعة عمل من نوع معين في فترة زمنية معينة"
-      project_time_filter_timeframe: "الإطار الزمني"
-      project_time_filter_historical_from: "من"
-      project_time_filter_historical_to: "الى"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit}، %{endspan}%{endspanunit} %{end_label} من الآن"
-      project_filters: "مشاريع التصفية"
-      project_responsible: "Show projects with accountable"
-      project_status: "إظهار حالة المشروع"
-      timeframe: "إظهار الإطار الزمني"
-      timeframe_end: "الى"
-      timeframe_start: "من"
-      timeline: "الإعدادات العامة"
-      zoom: "عامل التكبير"
-    history: "تاريخ"
-    new_color: "اللون الجديد"
-    new_association: "تبعية جديدة"
-    new_work_package: "مجموعة عمل جديدة"
-    new_reporting: "تقرير جديد"
-    new_timeline: "تقرير الجدول الزمني الجديد"
-    no_projects_for_reporting_available: "وهناك مشاريع لا يمكن إنشاء ارتباط إبلاغ التي."
-    no_right_to_view_timeline: "ليس لديك الإذن اللازم لعرض الجدول الزمني المرتبط."
-    no_timeline_for_id: "لا يوجد أي جدول زمني مع %{id} معرف."
-    notice_successful_deleted_all_elements: "حذف كافة العناصر بنجاح"
-    outline: "إعادة تعيين المخطط التفصيلي"
-    outlines:
-      aggregation: "إظهار المجموعات فقط"
-      level1: "توسيع مستوى 1"
-      level2: "توسيع مستوى 2"
-      level3: "توسيع مستوى 3"
-      level4: "توسيع مستوى 4"
-      level5: "توسيع مستوى 5"
-      all: "إظهار الجميع"
-    reporting_for_project:
-      show: "تقرير عن حالة المشروع: %{title}"
-      edit_delete: "تقرير حالة عن المشروع: %{title}"
-      history: "تاريخ الحصول على حالة المشروع: %{title}"
-    reporting:
-      delete: "حذف الحالة: %{comment}"
-      edit: "تعديل الحالة: %{comment}"
-      show: "الحالة: %{comment}"
-    planning_element_update: "التحديث: %{title}"
-    type_could_not_be_saved: "لا يمكن حفظ عنصر القائمة"
-    reporting_could_not_be_saved: "التقرير غير قابل للحفظ"
-    properties: "الخصائص"
-    really_delete_color: >
-      هل أنت متأكد أنك تريد حذف الألوان التالية؟ لن يتم حذف أنواع استخدام هذا اللون.
-    really_delete_reporting: >
-      هل أنت متأكد أنك تريد حذف التقارير التالية؟ أيضا سيتم حذف الحالات المشمولة بالتقرير السابق.
-    start: "إبدأ"
-    timeline: "تقرير الجدول الزمني"
-    timelines: "تقارير الجدول الزمني"
-    settings: "الخطوط الزمنية"
-    vertical_work_package: "مجموعات العمل الرأسية"
-    you_are_viewing_the_selected_timeline: "تقوم بعرض تقرير الجدول الزمني المحدد"
-    zoom:
-      in: "تكبير"
-      out: "تصغير"
-      days: "أيام"
-      weeks: "أسابيع"
-      months: "أشهر"
-      quarters: "أرباع"
-      years: "السنوات"
   title_remove_and_delete_user: قم بإزالة المستخدم المدعوين من المشروع وحذفه/حذفها.
   title_enterprise_upgrade: "Upgrade to unlock more users."
   tooltip_user_default_timezone: >

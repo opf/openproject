@@ -33,24 +33,10 @@ require 'spec_helper'
 
 RSpec.describe Admin::Settings::LanguagesSettingsController do
   shared_let(:user) { create(:admin) }
+
   current_user { user }
 
-  describe 'GET #show' do
-    subject { get 'show' }
-
-    describe 'permissions' do
-      let(:fetch) { subject }
-
-      it_behaves_like 'a controller action with require_admin'
-    end
-
-    it 'renders the language settings template' do
-      subject
-
-      expect(response).to be_successful
-      expect(response).to render_template 'admin/settings/languages_settings/show', 'layouts/admin'
-    end
-  end
+  require_admin_and_render_template('languages_settings')
 
   describe 'PATCH #update' do
     subject { patch 'update', params: }

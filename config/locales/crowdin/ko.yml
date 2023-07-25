@@ -169,10 +169,21 @@ ko:
     index:
       no_results_title_text: 색깔이 없습니다.
       no_results_content_text: 새 색깔 생성
-    label_no_color: '색상 없음'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "색상 없음"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: '작업'
+      name: "작업"
       add: '작업 추가'
       assigned_to:
         executing_user_value: '(실행 사용자에게 할당)'
@@ -251,6 +262,8 @@ ko:
         no_results_title_text: 사용 가능한 사용자 필드가 없습니다.
       types:
         no_results_title_text: 사용 가능한 타입이 없습니다.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: 프로젝트에 버전이 없습니다.
         no_results_content_text: 새 버전 생성
@@ -267,6 +280,8 @@ ko:
       notice_reset_token: "새로운 %{type} 토큰이 생성되었습니다. 액세스 토큰:"
       token_value_warning: "참고: 이번에만 이 토큰이 표시됩니다. 지금 이 토큰을 복사해야 합니다."
       no_results_title_text: 가능한 접근 토큰이 없습니다.
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
       notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
@@ -1278,6 +1293,7 @@ ko:
   error_can_not_unarchive_project: "이 프로젝트를 보관 취소할 수 없습니다: %{errors}"
   error_check_user_and_role: "사용자 및 역할을 선택하세요."
   error_code: "오류 %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'OpenProject 쿠키가 없습니다. 이 응용 프로그램은 쿠키 없이 제대로 작동하지 않으므로, 쿠키를 활성화해야 합니다.'
   error_custom_option_not_found: "존재하지 않는 옵션입니다."
   error_enterprise_activation_user_limit: "사용자 계정을 활성화할 수 없습니다(사용자 제한에 도달함). 액세스하려면 관리자에게 문의하세요."
@@ -1432,6 +1448,26 @@ ko:
         action: "액션"
         expiration: "만료"
       indefinite_expiration: "사용 안 함"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "이 작업에 대한 알림 보내기"
     work_packages:
@@ -1561,6 +1597,7 @@ ko:
   label_confirmation: "확인"
   label_contains: "포함"
   label_content: "내용"
+  label_color_plural: "Colors"
   label_copied: "복사됨"
   label_copy_same_as_target: "대상과 같음"
   label_copy_source: "소스"
@@ -1589,6 +1626,7 @@ ko:
   label_deleted: "삭제됨"
   label_deleted_custom_field: "(삭제된 사용자 지정 필드)"
   label_deleted_custom_option: "(삭제된 옵션)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(값이 없거나 액세스 권한이 없음)"
   label_descending: "내림차순"
   label_details: "세부 정보"
@@ -1634,6 +1672,7 @@ ko:
   label_expanded_click_to_collapse: "확장되었습니다. 축소하려면 클릭하세요."
   label_f_hour: "%{value}시간"
   label_f_hour_plural: "%{value}시간"
+  label_favoured: "Favoured"
   label_feed_plural: "피드"
   label_feeds_access_key: "RSS 액세스 키"
   label_feeds_access_key_created_on: "RSS 액세스 키가 %{value} 전에 생성되었습니다."
@@ -1829,7 +1868,8 @@ ko:
   label_project_new: "새 프로젝트"
   label_project_plural: "프로젝트"
   label_project_settings: "프로젝트 설정"
-  label_project_storage_plural: "저장소"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} 개의 프로젝트가 %{storage} 디스크 스토리지를 사용 중"
   label_project_view_all: "모든 프로젝트 보기"
   label_project_show_details: "프로젝트 세부 정보 표시"
@@ -1917,6 +1957,7 @@ ko:
   label_this_week: "이번 주"
   label_this_year: "올해"
   label_time_entry_plural: "소비한 시간"
+  label_title: "Title"
   label_projects_menu: "프로젝트"
   label_today: "오늘"
   label_top_menu: "상단 메뉴"
@@ -2243,7 +2284,8 @@ ko:
   permission_add_messages: "메시지 게시"
   permission_add_project: "프로젝트 만들기"
   permission_archive_project: "프로젝트 보관"
-  permission_manage_user: "사용자 생성 및 편집"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "플레이스홀더 사용자 생성, 수정, 제거"
   permission_add_subprojects: "하위 프로젝트 만들기"
   permission_add_work_package_watchers: "주시자 추가"
@@ -2744,6 +2786,11 @@ ko:
   text_zoom_in: "확대"
   text_zoom_out: "축소"
   text_setup_mail_configuration: "이메일 공급자 구성"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "오전"
     formats:
@@ -2756,152 +2803,6 @@ ko:
     show: "시간 범위 표시"
     end: "끝"
     start: "시작"
-  timelines:
-    admin_menu:
-      color: "색상"
-      colors: "색상"
-    associations: "종속성"
-    button_delete_all: "모두 삭제"
-    change: "계획에서 변경"
-    children: "자식 요소"
-    color_could_not_be_saved: "색상을 저장할 수 없습니다."
-    current_planning: "현재 계획"
-    dates: "날짜"
-    dates_are_calculated_based_on_sub_elements: "날짜는 하위 요소에 따라 계산됩니다."
-    delete_all: "모두 삭제"
-    delete_thing: "삭제"
-    duration: "기간"
-    duration_days:
-      other: "1일\n%{count}일"
-    edit_color: "색상 편집"
-    edit_thing: "편집"
-    edit_timeline: "타임라인 보고서 %{timeline} 편집"
-    delete_timeline: "타임라인 보고서 %{timeline} 삭제"
-    empty: "(비어 있음)"
-    enable_type_in_project: '유형 "%{type}" 사용'
-    end: "끝"
-    errors:
-      not_implemented: "아직 구현되지 않은 기능을 사용하기 때문에 타임라인을 렌더링할 수 없습니다."
-      report_comparison: "타임라인은 구성된 비교를 렌더링할 수 없습니다. 구성에서 적절한 섹션을 확인하세요. 이를 재설정하면 이 문제가 해결될 수 있습니다."
-      report_epicfail: "예기치 않은 오류로 인해 타임라인을 로드할 수 없습니다."
-      report_timeout: "적절한 시간에 타임라인을 로드할 수 없습니다."
-    filter:
-      errors:
-        timeframe_start: "시간 범위 시작 "
-        timeframe_end: "시간 범위 끝 "
-        compare_to_relative: "상대 비교 값 "
-        compare_to_absolute: "절대 비교 값 "
-        planning_element_time_relative_one: "특정 시간 범위에서 작업 패키지의 시작 "
-        planning_element_time_relative_two: "특정 시간 범위에서 작업 패키지의 끝 "
-        planning_element_time_absolute_one: "특정 시간 범위에서 작업 패키지의 시작  "
-        planning_element_time_absolute_two: "특정 시간 범위에서 작업 패키지의 끝  "
-      sort:
-        sortation: "정렬 기준"
-        alphabet: "알파벳"
-        explicit_order: "명시적 순서"
-        project_sortation: "프로젝트 정렬 기준"
-        date: "날짜"
-        default: "기본값"
-      column:
-        assigned_to: "담당자"
-        type: "타입"
-        due_date: "종료 날짜"
-        name: "이름"
-        status: "상태"
-        start_date: "시작 날짜"
-      columns: "컬럼"
-      comparisons: "비교"
-      comparison:
-        absolute: "절대"
-        none: "없음"
-        relative: "상대"
-        compare_relative_prefix: "현재 계획 비교 대상"
-        compare_relative_suffix: "전"
-        compare_absolute: "%{date}과(와) 현재 계획 비교"
-      time_relative:
-        days: "일"
-        weeks: "주"
-        months: "개월"
-      exclude_own_work_packages: "이 프로젝트에서 작업 패키지 숨기기"
-      exclude_reporters: "다른 프로젝트 숨기기"
-      exclude_empty: "빈 프로젝트 숨기기"
-      grouping: "그룹화"
-      grouping_hide_group: "그룹 \"%{group}\" 숨기기"
-      grouping_one: "첫 번째 그룹화 기준"
-      grouping_one_phrase: "다음의 하위 프로젝트임"
-      grouping_other: "기타"
-      hide_chart: "차트 숨기기"
-      noneElement: "(없음)"
-      noneSelection: "(없음)"
-      outline: "초기 윤곽 확장"
-      parent: "다음의 하위 프로젝트 표시"
-      work_package_responsible: "담당하는 작업 패키지 표시"
-      work_package_assignee: "작업 패키지와 담당자 표시"
-      types: "유형 표시"
-      status: "상태 표시"
-      project_time_filter: "특정 시간 범위에서 특정 유형의 작업 패키지가 있는 프로젝트"
-      project_time_filter_timeframe: "시간 범위"
-      project_time_filter_historical_from: "시작"
-      project_time_filter_historical_to: "끝"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} 전, 앞으로 %{end_label} %{endspan}%{endspanunit} 후"
-      project_filters: "프로젝트 필터링"
-      project_responsible: "담당하는 프로젝트 표시"
-      project_status: "프로젝트 상태 표시"
-      timeframe: "시간 범위 표시"
-      timeframe_end: "끝"
-      timeframe_start: "시작"
-      timeline: "일반 설정"
-      zoom: "확대/축소 비율"
-    history: "기록"
-    new_color: "새 색상"
-    new_association: "새 종속성"
-    new_work_package: "새 작업 패키지"
-    new_reporting: "새 보고"
-    new_timeline: "새 타임라인 보고서"
-    no_projects_for_reporting_available: "보고 연결을 만들 수 있는 프로젝트가 없습니다."
-    no_right_to_view_timeline: "연결된 타임라인을 보는 데 필요한 권한이 없습니다."
-    no_timeline_for_id: "ID가 %{id}인 타임라인이 없습니다."
-    notice_successful_deleted_all_elements: "모든 요소 삭제함"
-    outline: "윤곽 재설정"
-    outlines:
-      aggregation: "집계만 표시"
-      level1: "확장 수준 1"
-      level2: "확장 수준 2"
-      level3: "확장 수준 3"
-      level4: "확장 수준 4"
-      level5: "확장 수준 5"
-      all: "모두 표시"
-    reporting_for_project:
-      show: "프로젝트에 보고된 상태: %{title}"
-      edit_delete: "프로젝트에 대한 상태 보고서: %{title}"
-      history: "프로젝트의 상태에 대한 기록: %{title}"
-    reporting:
-      delete: "상태 삭제: %{comment}"
-      edit: "상태 편집: %{comment}"
-      show: "상태: %{comment}"
-    planning_element_update: "업데이트: %{title}"
-    type_could_not_be_saved: "유형을 저장할 수 없습니다."
-    reporting_could_not_be_saved: "보고를 저장할 수 없습니다."
-    properties: "속성"
-    really_delete_color: >
-      다음 색상을 삭제하시겠습니까? 이 색상을 사용하는 유형은 삭제되지 않습니다.
-    really_delete_reporting: >
-      다음 보고를 삭제하시겠습니까? 이전 보고 상태도 삭제됩니다.
-    start: "시작"
-    timeline: "타임라인 보고서"
-    timelines: "타임라인 보고서"
-    settings: "타임라인"
-    vertical_work_package: "세로 작업 패키지"
-    you_are_viewing_the_selected_timeline: "선택한 타임라인 보고서를 보고 있습니다."
-    zoom:
-      in: "확대"
-      out: "축소"
-      days: "일"
-      weeks: "주"
-      months: "개월"
-      quarters: "분기"
-      years: "년"
   title_remove_and_delete_user: 초대받은 사용자를 프로젝트에서 제거하고 해당 사용자를 삭제하세요.
   title_enterprise_upgrade: "더 많은 사용자를 잠금 해제하려면 업그레이드하세요."
   tooltip_user_default_timezone: >
