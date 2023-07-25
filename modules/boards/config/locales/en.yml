@@ -8,6 +8,7 @@ en:
     label_board: "Board"
     label_boards: "Boards"
     label_create_new_board: "Create new board"
+    label_board_type: "Board type"
     board_types:
       free: Basic
       action: "Action board (%{attribute})"

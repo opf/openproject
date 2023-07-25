@@ -1,0 +1,71 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2023 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= error_messages_for_contract @board_grid, @errors %>
+
+<section class="form--section">
+  <div class="form--field -required">
+    <%= f.text_field :name,
+                     label: t(:label_title),
+                     required: true,
+                     size: 60,
+                     container_class: '-wide' %>
+  </div>
+
+  <div class="form--field -required">
+    <label class="form--label" for="project_id"><%= Query.human_attribute_name(:project) %>:</label>
+    <div class="form--field-container">
+      <%= angular_component_tag 'op-project-autocompleter',
+                                inputs: {
+                                  apiFilters: [['user_action', '=', ['boards/create']]],
+                                  name: 'project_id',
+                                  value: @project,
+                                  appendTo: 'body',
+                                },
+                                id: 'project_id',
+                                class: 'form--select-container -wide remote-field--input',
+                                data: {
+                                  'qa-selector': 'project_id'
+                                }
+      %>
+    </div>
+  </div>
+
+  <div class="form--field -required">
+    <label class="form--label-with-radio-button" for="board_type"><%= t('boards.label_board_type') %>:</label>
+
+    <div class="form--field">
+      <%= f.label 'attribute', t('boards.board_type_attributes.basic'), value: 'basic' %>
+      <%= styled_radio_button_tag 'boards_grid[attribute]',
+                         'basic',
+                         no_label: true,
+                         container_class: '-wide'%>
+    </div>
+  </div>
+</section>
