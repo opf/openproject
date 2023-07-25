@@ -42,5 +42,4 @@ See COPYRIGHT and LICENSE files for more details.
   </fieldset>
   <%= call_hook(:view_my_settings, user: @user, form: f) %>
   <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
-<%= render(Primer::Beta::ClipboardCopy.new(value: 'COPY ME', "aria-label": 'TEST')) %>
 <% end %>
