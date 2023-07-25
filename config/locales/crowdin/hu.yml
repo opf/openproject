@@ -168,10 +168,21 @@ hu:
     index:
       no_results_title_text: Jelenleg nincsenek színek.
       no_results_content_text: Új szín létrehozása
-    label_no_color: 'Nincs szín'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "Nincs szín"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Műveletek'
+      name: "Műveletek"
       add: 'Művelet hozzáadása'
       assigned_to:
         executing_user_value: '(A megbízott felhasználó hozzárendelése)'
@@ -250,6 +261,8 @@ hu:
         no_results_title_text: Jelenleg nincs elérhető egyedi mező.
       types:
         no_results_title_text: Jelenleg nincs elérhető típus.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: Jelenleg nincsenek verziók a projekthez.
         no_results_content_text: Új verzió létrehozása
@@ -266,6 +279,8 @@ hu:
       notice_reset_token: "Egy új %{type} token létrehozva. A hozzáférési token:"
       token_value_warning: "Megjegyzés: Ez az egyetlen alkalom, mikor ezt a tokent láthatja, győződjön meg arról, hogy most átmásolta."
       no_results_title_text: Jelenleg nincs elérhető hozzáférési kulcs.
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
       notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
@@ -1295,6 +1310,7 @@ hu:
   error_can_not_unarchive_project: "Ezt a projektet nem lehet az archívumból visszavenni: %{errors}"
   error_check_user_and_role: "Légy szíves válassz felhasználót és szerepkört"
   error_code: "Hibakód: %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'Hiányzó OpenProject cookie. Ellenőrizze, hogy böngészőjében a cookie-k használata engedélyezve van, mert anélkül ez az alkalmazás nem tud megfelelően működni.'
   error_custom_option_not_found: "A beállítás nem létezik."
   error_enterprise_activation_user_limit: "Fiókját nem lehet aktiválni (elérte a felhasználói korlátot). Kérjük, lépjen kapcsolatba rendszergazdájával a hozzáféréshez."
@@ -1449,6 +1465,26 @@ hu:
         action: "Művelet"
         expiration: "Lejár"
       indefinite_expiration: "Soha"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Értesítések küldése ehhez a művelethez\n"
     work_packages:
@@ -1578,6 +1614,7 @@ hu:
   label_confirmation: "Új jelszó újra"
   label_contains: "tartalmaznak"
   label_content: "Tartalom"
+  label_color_plural: "Colors"
   label_copied: "másolva"
   label_copy_same_as_target: "Ugyanaz, mint a cél"
   label_copy_source: "Forrás"
@@ -1606,6 +1643,7 @@ hu:
   label_deleted: "Törölve"
   label_deleted_custom_field: "(egyéni mező törölve)"
   label_deleted_custom_option: "(opció törlése)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(hiányzó érték vagy a hozzáférési jogosultságok hiánya)\n"
   label_descending: "Csökkenő"
   label_details: "Részletek"
@@ -1651,6 +1689,7 @@ hu:
   label_expanded_click_to_collapse: "Kinyitva. Kattintson az összecsukáshoz"
   label_f_hour: "%{value} óra"
   label_f_hour_plural: "%{value} óra"
+  label_favoured: "Favoured"
   label_feed_plural: "Hírek"
   label_feeds_access_key: "RSS hozzáférési kulcs"
   label_feeds_access_key_created_on: "RSS-hozzáférési kulcs készítette: %{value} ezelőtt "
@@ -1846,7 +1885,8 @@ hu:
   label_project_new: "Új projekt"
   label_project_plural: "Projektek"
   label_project_settings: "Projekt beállítások"
-  label_project_storage_plural: "Tárolók"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{storage} lemezterületet %{count} projekt használja"
   label_project_view_all: "Minden projekt megtekintése"
   label_project_show_details: "Projekt részleteinek megjelenítése"
@@ -1934,6 +1974,7 @@ hu:
   label_this_week: "ezen a héten"
   label_this_year: "Ebben az évben"
   label_time_entry_plural: "Eltöltött idő"
+  label_title: "Title"
   label_projects_menu: "Projektek"
   label_today: "Ma"
   label_top_menu: "Felső menü"
@@ -2262,7 +2303,8 @@ hu:
   permission_add_messages: "Elküldött üzenetek"
   permission_add_project: "Projekt létrehozása"
   permission_archive_project: "Projekt archiválása"
-  permission_manage_user: "Felhasználó létrehozása és szerkesztése"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Teszt felhasználók létrehozása, módosítása, törlése"
   permission_add_subprojects: "Alprojektek létrehozása"
   permission_add_work_package_watchers: "Megfigyelő hozzáadása"
@@ -2765,6 +2807,11 @@ hu:
   text_zoom_in: "Nagyítás"
   text_zoom_out: "Kicsinyítés"
   text_setup_mail_configuration: "Állítsd be az e-mail szolgáltatódat"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "Délelött"
     formats:
@@ -2777,153 +2824,6 @@ hu:
     show: "Mutasd az időkeretet"
     end: "eddig"
     start: "ettől"
-  timelines:
-    admin_menu:
-      color: "Szín"
-      colors: "Színek"
-    associations: "Szükséges összetevők"
-    button_delete_all: "Összes törlése"
-    change: "A tervezés módosítása"
-    children: "Gyermek elemek"
-    color_could_not_be_saved: "A szín nem menthető"
-    current_planning: "Jelenlegi tervezés"
-    dates: "Dátumok"
-    dates_are_calculated_based_on_sub_elements: "A dátumok az al elemek alapján számítódnak ki."
-    delete_all: "Összes törlése"
-    delete_thing: "Törlés"
-    duration: "Időtartam"
-    duration_days:
-      one: "%{count} nap"
-      other: "%{count} nap"
-    edit_color: "Színek szerkesztése"
-    edit_thing: "Szerkesztés"
-    edit_timeline: "A %{timeline} ütemterv jelentés szerkesztése"
-    delete_timeline: "A %{timeline} ütemterv jelentés törlése"
-    empty: "(üres)"
-    enable_type_in_project: 'Engedélyezett típus  "%{type}"'
-    end: "Befejezés"
-    errors:
-      not_implemented: "Az ütemterv nem jeleníthető meg, mert egy olyan tulajdonságot használ, amely még nincs beépítve."
-      report_comparison: "Az ütemterv nem nyújthatja a beállított összehasonlításokat. Kérjük, ellenőrizze a megfelelő részben a konfigurációt, az alaphelyzetbe állitása segíthet megoldani ezt a problémát."
-      report_epicfail: "Váratlan hiba miatt nem lehet betölteni az ütemtervet."
-      report_timeout: "Az ütemtervet nem lehetett betölteni az ésszerű idő alatt."
-    filter:
-      errors:
-        timeframe_start: "Az időkeret indítás"
-        timeframe_end: "Az időkeret vége"
-        compare_to_relative: "A relatív összehasonlítás értéke"
-        compare_to_absolute: "Az abszolút értékben történő összehasonlítás értéke"
-        planning_element_time_relative_one: "A feladatcsoportok kezdése egy bizonyos időn belül"
-        planning_element_time_relative_two: "A feladatcsoportok elvégzése egy bizonyos időn belül"
-        planning_element_time_absolute_one: "A feladatcsoportok kezdése egy bizonyos időn belül"
-        planning_element_time_absolute_two: "A feladatcsoportok elvégzése egy bizonyos időn belül"
-      sort:
-        sortation: "Rendezés a következő szerint"
-        alphabet: "ábécé"
-        explicit_order: "Megbizás kifejezése"
-        project_sortation: "Projektek rendezése"
-        date: "dátum"
-        default: "alapértelmezett"
-      column:
-        assigned_to: "Megbízott"
-        type: "Típus"
-        due_date: "Záró dátuma"
-        name: "Név"
-        status: "Állapot"
-        start_date: "Indulási dátum"
-      columns: "Oszlopok"
-      comparisons: "Összehasonlítások"
-      comparison:
-        absolute: "Abszolút"
-        none: "None"
-        relative: "Relatív"
-        compare_relative_prefix: "Jelenlegi tervek összehasonlítása %{date} -l"
-        compare_relative_suffix: "óta"
-        compare_absolute: "Hasonlítsa össze a jelenlegi tervezési  %{date} időpont"
-      time_relative:
-        days: "nap"
-        weeks: "Hetek"
-        months: "hónap"
-      exclude_own_work_packages: "Ettől a projekttől a feladatcsoportok elrejtése"
-      exclude_reporters: "Más projektek elrejtése"
-      exclude_empty: "Üres projektek elrejtése"
-      grouping: "Csoportosítás"
-      grouping_hide_group: "Csoport \"%{group}\" elrejtése"
-      grouping_one: "Első csoportosítási feltétel"
-      grouping_one_phrase: "Az alprojektek a"
-      grouping_other: "Egyéb"
-      hide_chart: "A diagram elrejtése"
-      noneElement: "(nincs)"
-      noneSelection: "(nincs)"
-      outline: "Első vázlat bővítése"
-      parent: "Az alprojektek megjelenítése"
-      work_package_responsible: "Feladatcsoportok megjelenítése a felelősökkel"
-      work_package_assignee: "A feladatcsoportok megjelenítése a hozzárendelésekkel"
-      types: "Típusok megjelenítése"
-      status: "Állapot megjelenítése"
-      project_time_filter: "Egy bizonyos típusú egy bizonyos időn belüli  projektek a munka csomagokkal"
-      project_time_filter_timeframe: "Időkeret"
-      project_time_filter_historical_from: "ettől"
-      project_time_filter_historical_to: "eddig"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago, %{end_label} %{endspan}%{endspanunit} ból most"
-      project_filters: "Projekt szűrés"
-      project_responsible: "Projektek megjelenítése a felelősökkel"
-      project_status: "Projekt állapotának megjelenítése"
-      timeframe: "Mutasd az időkeretet"
-      timeframe_end: "eddig"
-      timeframe_start: "ettől"
-      timeline: "Általános beállítások"
-      zoom: "Zoom tényező"
-    history: "Előzmény"
-    new_color: "Új szín"
-    new_association: "Új függőség"
-    new_work_package: "Új munkacsomag"
-    new_reporting: "Új jelentés"
-    new_timeline: "Új idővonal-jelentés"
-    no_projects_for_reporting_available: "Nincsenek projektek, amelyekre a jelentés létre hozható."
-    no_right_to_view_timeline: "Nincs meg a szükséges engedélye a csatolt idővonal megtekintéséhez."
-    no_timeline_for_id: "Nincs ilyen ütemterv azonosító %{id}."
-    notice_successful_deleted_all_elements: "Minden elem törlése sikerült"
-    outline: "A vázlat alaphelyzetbe állitása"
-    outlines:
-      aggregation: "Csak az összesítések megjelenítése"
-      level1: "Az 1-es szint kibontása"
-      level2: "A 2-es szint kibontása"
-      level3: "A 3-as szint kibontása"
-      level4: "A 4-es szint kibontása"
-      level5: "Az 5-ös szint kibontása"
-      all: "Minden megjelenítése"
-    reporting_for_project:
-      show: "Állapot jelentés ehhez a projekthez: %{title}"
-      edit_delete: "állapot jelentés erről a projektről: %{title}"
-      history: "Előzmények a projekt állapotairól: %{title}"
-    reporting:
-      delete: "Az állapot törlése: %{comment}"
-      edit: "Az állapot szerkesztése: %{comment}"
-      show: "Állapot: %{comment}"
-    planning_element_update: "Frissítve: %{title}"
-    type_could_not_be_saved: "A típust nem lehet menteni"
-    reporting_could_not_be_saved: "A jelentés mentése nem sikerült"
-    properties: "Tulajdonságok"
-    really_delete_color: >
-      Biztos, hogy törli a következő színt? Ezt a színt használja egy típus, igy nem törlhető.
-    really_delete_reporting: >
-      Biztosan, törli a következő jelentést? Az előző jelentés állapotát is törli.
-    start: "Kezdő időpont"
-    timeline: "Ütemterv jelentés"
-    timelines: "Jelentések az idővonalakról"
-    settings: "Idővonalak"
-    vertical_work_package: "Függőleges feladatcsoportok"
-    you_are_viewing_the_selected_timeline: "A kijelölt ütemtervből készült jelentés megtekintése"
-    zoom:
-      in: "Nagyítás"
-      out: "Kicsinyítés"
-      days: "Nap"
-      weeks: "Hetek"
-      months: "Hónap"
-      quarters: "Negyedek"
-      years: "Évek"
   title_remove_and_delete_user: Távolítsa el a meghívott felhasználót a projektből, és törölje őt.
   title_enterprise_upgrade: "Frissítés további felhasználók feloldásához."
   tooltip_user_default_timezone: >

@@ -11,6 +11,7 @@ cs:
   project_module_storages: "Úložiště souborů"
   activerecord:
     models:
+      file_link: "File link"
       storages/storage: "Úložiště"
     attributes:
       storages/storage:

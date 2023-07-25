@@ -166,10 +166,21 @@ ca:
     index:
       no_results_title_text: Actualment no hi ha cap color.
       no_results_content_text: Crea un nou color
-    label_no_color: 'Sense color'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "Sense color"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Accions'
+      name: "Accions"
       add: 'Afegeix una acció'
       assigned_to:
         executing_user_value: '(Assigna-ho a l''usuari que ho està executant)'
@@ -248,6 +259,8 @@ ca:
         no_results_title_text: Actualment no hi ha cap camp personalitzat disponible.
       types:
         no_results_title_text: Actualment no hi ha cap classe disponible.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: Actualment no hi ha cap versió per al projecte.
         no_results_content_text: Crear una nova versió
@@ -264,7 +277,9 @@ ca:
       notice_reset_token: "S'ha generat un nou token %{type}. El teu token d'accés és:"
       token_value_warning: "Nota: Aquesta és la única vegada que veuràs aquest token, assegura't de copiar-lo ara."
       no_results_title_text: Actualment no hi ha cap token d'accés disponible.
-      notice_ical_token_revoked: "El token d'iCalendar \"%{token_name}\" per al calendari \"%{calendar_name}\" en el projecte \"%{project_name}\" s'ha revocat. L'URL d'iCalendar amb aquest token és ara invàlida."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Actualment no hi ha cap novetat per a informar.
@@ -1294,6 +1309,7 @@ ca:
   error_can_not_unarchive_project: "Aquest projecte no es pot desarxivar: %{errors}"
   error_check_user_and_role: "Trieu un usuari i un rol."
   error_code: "Error %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'La cookie d''OpenProject no s''ha trobat. Assegureu-vos que les cookies estan habilitades, ja que aquesta aplicació no pot funcionar correctament sense.'
   error_custom_option_not_found: "L'opció no existeix."
   error_enterprise_activation_user_limit: "El teu compte no s'ha pogut activar (límit d'usuaris assolit). Si us plau, contacte amb el teu administrador per obtenir accés."
@@ -1448,6 +1464,26 @@ ca:
         action: "Acció"
         expiration: "Caduca"
       indefinite_expiration: "Mai"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Envia una notificació per aquesta acció"
     work_packages:
@@ -1577,6 +1613,7 @@ ca:
   label_confirmation: "Confirmació"
   label_contains: "conté"
   label_content: "Contingut"
+  label_color_plural: "Colors"
   label_copied: "copiat"
   label_copy_same_as_target: "El mateix que l'objectiu"
   label_copy_source: "Origen"
@@ -1605,6 +1642,7 @@ ca:
   label_deleted: "suprimit"
   label_deleted_custom_field: "(camp personalitzat suprimit)"
   label_deleted_custom_option: "(opció eliminada)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(valor absent o manca de permisos per accedir)"
   label_descending: "Descendent"
   label_details: "Detalls"
@@ -1650,6 +1688,7 @@ ca:
   label_expanded_click_to_collapse: "Desplegat. Fes clic per col·lapsar"
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} hores"
+  label_favoured: "Favoured"
   label_feed_plural: "Canals"
   label_feeds_access_key: "Clau d'accés RSS"
   label_feeds_access_key_created_on: "Clau d'accés RSS creada fa %{value}"
@@ -1845,7 +1884,8 @@ ca:
   label_project_new: "Nou projecte"
   label_project_plural: "Projectes"
   label_project_settings: "Configuració del projecte"
-  label_project_storage_plural: "Emmagatzematges"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} projectes utilitzen %{storage} d'emmagatzematge a disc"
   label_project_view_all: "Veure tots els projectes"
   label_project_show_details: "Mostra detalls del projecte"
@@ -1933,6 +1973,7 @@ ca:
   label_this_week: "aquesta setmana"
   label_this_year: "aquest any"
   label_time_entry_plural: "Temps utilitzat"
+  label_title: "Title"
   label_projects_menu: "Projectes"
   label_today: "avui"
   label_top_menu: "Menú superior"
@@ -2257,7 +2298,8 @@ ca:
   permission_add_messages: "Publicar missatges"
   permission_add_project: "Crear un projecte"
   permission_archive_project: "Arxiva el projecte"
-  permission_manage_user: "Crear i editar usuaris"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Crea, edita i elimina usuaris de marcador de posició"
   permission_add_subprojects: "Crear subprojectes"
   permission_add_work_package_watchers: "Afegir observadors"
@@ -2758,6 +2800,11 @@ ca:
   text_zoom_in: "Ampliar"
   text_zoom_out: "Allunyar"
   text_setup_mail_configuration: "Configura el teu proveïdor de correu electrònic"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "AM"
     formats:
@@ -2770,153 +2817,6 @@ ca:
     show: "Mostra el esquema temporal"
     end: "a"
     start: "de"
-  timelines:
-    admin_menu:
-      color: "Color"
-      colors: "Colors"
-    associations: "Dependències"
-    button_delete_all: "Esborrar tot"
-    change: "Canvi en la planificació"
-    children: "Elements fill"
-    color_could_not_be_saved: "No s'ha pogut desar el color"
-    current_planning: "Planificació actual"
-    dates: "Dates"
-    dates_are_calculated_based_on_sub_elements: "El Càlcul de les dates es basa en els sotselements."
-    delete_all: "Esborrar tot"
-    delete_thing: "Esborrar"
-    duration: "Durada"
-    duration_days:
-      one: "Un dia"
-      other: "%{count} dies"
-    edit_color: "Editar el color"
-    edit_thing: "Editar"
-    edit_timeline: "Editar l'informe de terminis %{timeline}"
-    delete_timeline: "Esborrar l'informe de terminis %{timeline}"
-    empty: "(buit)"
-    enable_type_in_project: 'Permetre classe "%{type}"'
-    end: "Fi"
-    errors:
-      not_implemented: "La línea de temps no es pot renderitzar perquè utilitza una característica encara no implementada."
-      report_comparison: "La línia de temps no pot renderitzar les comparacions configurades. Consulteu la secció adequada a la configuració, reiniciar-la podria resoldre aquest problema."
-      report_epicfail: "No es pot carregar la línia de temps degut a un error inesperat."
-      report_timeout: "No s'ha pogut carregar la línia de temps en una quantitat raonable de temps."
-    filter:
-      errors:
-        timeframe_start: "L'inici del termini "
-        timeframe_end: "La fi del termini "
-        compare_to_relative: "El valor de la comparació relativa "
-        compare_to_absolute: "El valor de la comparació absoluta "
-        planning_element_time_relative_one: "L'inici per a paquets de treball en un període de temps determinat "
-        planning_element_time_relative_two: "La fi per a paquets de treball en un període de temps determinat "
-        planning_element_time_absolute_one: "L'inici per a paquets de treball en un període de temps determinat  "
-        planning_element_time_absolute_two: "La fi per a paquets de treball en un període de temps determinat  "
-      sort:
-        sortation: "Ordena per"
-        alphabet: "alfabet"
-        explicit_order: "ordre explícita"
-        project_sortation: "Classificar projectes mitjançant"
-        date: "data"
-        default: "per defecte"
-      column:
-        assigned_to: "Assignat a"
-        type: "Classe"
-        due_date: "Data de fi"
-        name: "Nom"
-        status: "Estat"
-        start_date: "Data d'inici"
-      columns: "Columnes"
-      comparisons: "Comparacions"
-      comparison:
-        absolute: "Absolut"
-        none: "Cap"
-        relative: "Relatiu"
-        compare_relative_prefix: "Comparar l'actual planificació amb"
-        compare_relative_suffix: "fa"
-        compare_absolute: "Comparar la planificació actual a %{date}"
-      time_relative:
-        days: "dies"
-        weeks: "setmanes"
-        months: "mesos"
-      exclude_own_work_packages: "Amagar els paquets de treball d'aquest projecte"
-      exclude_reporters: "Amaga altres projectes"
-      exclude_empty: "Amaga projectes buits"
-      grouping: "Agrupació"
-      grouping_hide_group: "Amagar el grup \"%{group}\""
-      grouping_one: "Primer criteri d'agrupació"
-      grouping_one_phrase: "És un subprojecte de"
-      grouping_other: "Altres"
-      hide_chart: "Amaga gràfic"
-      noneElement: "(cap)"
-      noneSelection: "(cap)"
-      outline: "Expansió de l'esquema inicial"
-      parent: "Mostra els subprojectes de"
-      work_package_responsible: "Mostra els paquets de treball amb responsable"
-      work_package_assignee: "Mostra els paquest de treball amb assignat"
-      types: "Mostra el tipus"
-      status: "Mostra l'estat"
-      project_time_filter: "Projectes amb un paquet de treball d'un cert tipus en un període de temps determinat"
-      project_time_filter_timeframe: "Marc temporal"
-      project_time_filter_historical_from: "de"
-      project_time_filter_historical_to: "a"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} fa %{end_label} %{endspan}%{endspanunit} des d'ara"
-      project_filters: "Filtrar projectes"
-      project_responsible: "Mostrar projectes amb responsable"
-      project_status: "Mostra l'estat del projecte"
-      timeframe: "Mostra el calendari"
-      timeframe_end: "a"
-      timeframe_start: "de"
-      timeline: "Configuració general"
-      zoom: "Factor de zoom"
-    history: "Història"
-    new_color: "Nou color"
-    new_association: "Nova dependència"
-    new_work_package: "Paquet de treball nou"
-    new_reporting: "Nou informe"
-    new_timeline: "Nou informe de terminis"
-    no_projects_for_reporting_available: "No hi ha cap projecte pel qual es pot crear una associació d'informes."
-    no_right_to_view_timeline: "No tens permisos suficients per a veure el termini enllaçat."
-    no_timeline_for_id: "No hi ha termini amb ID %{id}."
-    notice_successful_deleted_all_elements: "Suprimits amb èxit tots els elements"
-    outline: "Restablir el marc"
-    outlines:
-      aggregation: "Mostrar només agregacions"
-      level1: "Ampliar el nivell 1"
-      level2: "Ampliar el nivell 2"
-      level3: "Ampliar el nivell 3"
-      level4: "Ampliar el nivell 4"
-      level5: "Ampliar el nivell 5"
-      all: "Mostrar tots"
-    reporting_for_project:
-      show: "Estat informat al projecte: %{title}"
-      edit_delete: "informe d'estat per al projecte: %{title}"
-      history: "Historial de l'estat del projecte: %{title}"
-    reporting:
-      delete: "Suprimir l'estat: %{comment}"
-      edit: "Editar l'estat: %{comment}"
-      show: "Estat: %{comment}"
-    planning_element_update: "Actualitzat: %{title}"
-    type_could_not_be_saved: "No s'han pogut desar el tipus"
-    reporting_could_not_be_saved: "No s'ha pogut desar l'informe"
-    properties: "Propietats"
-    really_delete_color: >
-      Estàs segur que vols eliminar el següent color? Els tipus amb aquest color no s'eliminaràn.
-    really_delete_reporting: >
-      Estàs segur que vols eliminar el següent informe? Els informes d'estat anteriors també seran eliminats.
-    start: "Inici"
-    timeline: "Informe de terminis"
-    timelines: "Cronologia d'informes"
-    settings: "Línies temporals"
-    vertical_work_package: "Paquets de treball vertical"
-    you_are_viewing_the_selected_timeline: "Estàs visualitzant l'informe de terminis seleccionat"
-    zoom:
-      in: "Ampliar"
-      out: "Allunyar"
-      days: "Dies"
-      weeks: "Setmanes"
-      months: "Mesos"
-      quarters: "Quatrimestres"
-      years: "Anys"
   title_remove_and_delete_user: Eliminar l'usuari convidat del projecte i suprimir l'usuari.
   title_enterprise_upgrade: "Actualitza per desbloquejar més usuaris."
   tooltip_user_default_timezone: >

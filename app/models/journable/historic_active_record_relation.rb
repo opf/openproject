@@ -272,7 +272,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   # Does not work yet for other includes.
   #
   def add_join_projects_on_work_package_journals(relation)
-    if include_projects?(relation)
+    if include_projects?
       relation
         .except(:includes, :eager_load, :preload)
         .joins('LEFT OUTER JOIN "projects" ' \
@@ -282,8 +282,8 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     end
   end
 
-  def include_projects?(relation)
-    include_values = relation.values.fetch(:includes, [])
+  def include_projects?
+    include_values = values.fetch(:includes, [])
     include_values.include?(:project)
   end
 
@@ -293,7 +293,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   # - the `work_package_journals` table (data)
   # - the `journals` table
   #
-  # Also, add the `timestamp` as column so that we have it as attribute in our model.
+  # Also, add the `timestamp` and `journal_id` as column so that we have it as attribute in our model.
   #
   def select_columns_from_the_appropriate_tables(relation)
     if relation.select_values.count == 0
@@ -316,7 +316,8 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
       "journals.journable_id as id",
       "journables.created_at as created_at",
       "journals.updated_at as updated_at",
-      "CASE #{timestamp_case_when_statements} END as timestamp"
+      "CASE #{timestamp_case_when_statements} END as timestamp",
+      "journals.id as journal_id"
     ] + \
     model.column_names_missing_in_journal.collect do |missing_column_name|
       "null as #{missing_column_name}"

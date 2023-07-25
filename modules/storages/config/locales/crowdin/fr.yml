@@ -11,6 +11,7 @@ fr:
   project_module_storages: "Stockages de fichiers"
   activerecord:
     models:
+      file_link: "File link"
       storages/storage: "Stockage"
     attributes:
       storages/storage:
