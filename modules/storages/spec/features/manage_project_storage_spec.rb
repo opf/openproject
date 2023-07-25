@@ -79,8 +79,6 @@ RSpec.describe(
   end
 
   before do
-    skip("Flaky test disabled. Fix it in https://community.openproject.org/wp/49285")
-
     oauth_client_token
 
     stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/")
@@ -117,7 +115,7 @@ RSpec.describe(
     page.find('.toolbar .button--icon.icon-add').click
     expect(page).to have_current_path new_project_settings_projects_storage_path(project_id: project)
     expect(page).to have_text('Add a file storage')
-    expect(page).to have_select('storages_project_storage_storage_id', options: ['Storage 1 (nextcloud)'])
+    expect(page).to have_select('storages_project_storage_storage_id', options: [storage.name])
     page.click_button('Continue')
 
     # by default automatic have to be choosen if storage has automatic management enabled
