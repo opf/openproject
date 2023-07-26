@@ -19,5 +19,9 @@ ja:
       plural: OpenID プロバイダー
       singular: OpenID プロバイダー
     setting_instructions:
+      azure_graph_api: >
+        Use the graph.microsoft.com userinfo endpoint to request userdata. This should be the default unless you have an older azure application.
+      azure_tenant_html: >
+        Set the tenant of your Azure endpoint. This will control who gets access to the OpenProject instance. For more information, please see <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">our user guide on Azure OpenID connect</a>.
       limit_self_registration: >
         If enabled users can only register using this provider if the self registration setting allows for it.

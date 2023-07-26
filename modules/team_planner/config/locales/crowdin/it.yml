@@ -9,11 +9,6 @@ it:
     label_create_new_team_planner: "Crea nuovo pianificatore di team"
     label_team_planner_plural: "Organizzatori di gruppo"
     label_assignees: "Assegnatari"
-    label_favoured: "Favoured"
-    help_text:
-      project: Team planners are always attached to a project. After creating a team planner you can add work packages from other projects to it.
-      public: Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
-      favoured: Mark this view as favourite and add to the saved views sidebar on the left.
     upsale:
       title: "Pianificatore di team"
       description: "Ottieni una panoramica completa della pianificazione del tuo team con Team Planner. Allunga, accorcia e sposta le macro-attività per modificare le date, riprogrammarle o cambiare gli assegnatari."

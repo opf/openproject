@@ -77,7 +77,7 @@ RSpec.describe 'Role creation',
     click_button 'Create'
 
     expect(page)
-      .to have_selector('.notice', text: 'Successful creation.')
+      .to have_selector('.-success', text: 'Successful creation.')
 
     expect(page)
       .to have_current_path(roles_path)

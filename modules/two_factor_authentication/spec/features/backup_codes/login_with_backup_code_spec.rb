@@ -50,7 +50,7 @@ RSpec.describe 'Login with 2FA backup code', js: true, with_settings: {
       click_on 'Submit'
 
       # Expect failure
-      expect(page).to have_selector('.flash.error', text: I18n.t('two_factor_authentication.error_invalid_backup_code'))
+      expect(page).to have_selector('.op-toast.-error', text: I18n.t('two_factor_authentication.error_invalid_backup_code'))
       expect(page).to have_current_path signin_path
 
       # Try again!

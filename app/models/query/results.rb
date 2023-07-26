@@ -51,12 +51,7 @@ class ::Query::Results
   def sorted_work_packages_matching_the_filters_today
     sorted_work_packages
       .visible
-      .merge(filtered_work_packages_matching_the_filters_today)
-  end
-
-  def sorted_work_packages_matching_the_filters_at_any_of_the_given_timestamps
-    sorted_work_packages
-      .where(id: work_packages_matching_the_filters_at_any_of_the_given_timestamps)
+      .merge(filtered_work_packages.merge(filter_merges))
   end
 
   # For filtering on historic data, this returns the work packages
@@ -65,11 +60,9 @@ class ::Query::Results
   # concatenation that means that a user has to have no permission to see a work package
   # at any of the timestamps. This has to be used with care. Callers will have to
   # ensure to not reveal information.
-  def work_packages_matching_the_filters_at_any_of_the_given_timestamps
-    query.timestamps.collect do |timestamp|
-      WorkPackage
-        .where(id: filtered_work_packages.visible.at_timestamp(timestamp))
-    end.reduce(:or)
+  def sorted_work_packages_matching_the_filters_at_any_of_the_given_timestamps
+    sorted_work_packages
+      .where(id: filtered_work_packages.visible.at_timestamp(query.timestamps))
   end
 
   # Returns an active-record relation that applies the filters to find the matching
@@ -84,10 +77,6 @@ class ::Query::Results
     work_package_scope
       .joins(all_filter_joins)
       .where(query.statement)
-  end
-
-  def filtered_work_packages_matching_the_filters_today
-    filtered_work_packages.merge(filter_merges)
   end
 
   def sorted_work_packages

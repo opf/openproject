@@ -48,7 +48,14 @@ class AddWorkPackageNoteService
         work_package.save_journals
       end
 
-      journal = work_package.journals.last if success
+      if success
+        # In test environment, because of the difference in the way of handling transactions,
+        # the journal needs to be actively loaded without SQL caching in place.
+        journal = Journal.connection.uncached do
+          work_package.journals.last
+        end
+      end
+
       ServiceResult.new(success:, result: journal, errors:)
     end
   end

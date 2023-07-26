@@ -92,5 +92,5 @@ description: |-
   While attachments are returned as a link which's content is to be fetched separately, clients can choose to
   replace the work package's attachments by providing an array of already uploaded [Attachment resources](https://www.openproject.org/docs/api/endpoints/attachments/) 
   on [create](https://www.openproject.org/docs/api/endpoints/work-packages/#create-work-package)
-  and [update](https://www.openproject.org/docs/api/endpoints/work-packages/#edit-work-package). The attachments the work package has had prior to the request will be removed.
+  and [update](https://www.openproject.org/docs/api/endpoints/work-packages/#update-a-work-package). The attachments the work package has had prior to the request will be removed.
 name: Work Packages

@@ -40,7 +40,7 @@ RSpec.describe 'create placeholder users', selenium: true do
 
         new_placeholder_user_page.submit!
 
-        expect(page).to have_selector('.flash', text: 'Successful creation.')
+        expect(page).to have_selector('.op-toast', text: 'Successful creation.')
 
         new_placeholder_user = PlaceholderUser.order(Arel.sql('id DESC')).first
 

@@ -80,7 +80,7 @@ RSpec.describe 'Enterprise token',
         textarea.set 'foobar'
         submit_button.click
 
-        expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_update))
+        expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_successful_update))
         expect(page).to have_selector('[data-qa-selector="op-enterprise--active-token"]')
 
         expect(page.all('.attributes-key-value--key').map(&:text))
@@ -103,7 +103,7 @@ RSpec.describe 'Enterprise token',
 
         wait_for_reload
 
-        expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_update))
+        expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_successful_update))
 
         # Assume next request
         RequestStore.clear!
@@ -117,7 +117,7 @@ RSpec.describe 'Enterprise token',
 
         wait_for_reload
 
-        expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_delete))
+        expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_successful_delete))
 
         # Assume next request
         RequestStore.clear!

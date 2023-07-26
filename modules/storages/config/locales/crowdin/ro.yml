@@ -11,6 +11,7 @@ ro:
   project_module_storages: "Stocuri de fișiere"
   activerecord:
     models:
+      file_link: "File link"
       storages/storage: "Depozitare"
     attributes:
       storages/storage:

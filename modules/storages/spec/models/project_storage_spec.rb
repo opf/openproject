@@ -36,7 +36,8 @@ RSpec.describe Storages::ProjectStorage do
     {
       storage:,
       creator:,
-      project:
+      project:,
+      project_folder_mode: :inactive
     }
   end
 

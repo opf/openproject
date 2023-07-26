@@ -31,7 +31,10 @@ module Users
     include AssignableCustomFieldValues
 
     attribute :login,
-              writable: ->(*) { user.allowed_to_globally?(:manage_user) && model.id != user.id }
+              writable: ->(*) {
+                (user.allowed_to_globally?(:manage_user) || user.allowed_to_globally?(:create_user)) &&
+                model.id != user.id
+              }
     attribute :firstname
     attribute :lastname
     attribute :mail
@@ -40,10 +43,10 @@ module Users
     attribute :language
 
     attribute :auth_source_id,
-              writable: ->(*) { user.allowed_to_globally?(:manage_user) }
+              writable: ->(*) { user.allowed_to_globally?(:manage_user) || user.allowed_to_globally?(:create_user) }
 
     attribute :status,
-              writable: ->(*) { user.allowed_to_globally?(:manage_user) }
+              writable: ->(*) { user.allowed_to_globally?(:manage_user) || user.allowed_to_globally?(:create_user) }
 
     attribute :identity_url,
               writable: ->(*) { user.admin? }

@@ -79,6 +79,14 @@ module OpenProject
               options
     end
 
+    def link_to_file_link(file_link, options = {})
+      text = options.delete(:text) || file_link.origin_name
+
+      link_to text,
+              url_to_file_link(file_link, only_path: options.delete(:only_path) { true }),
+              options
+    end
+
     # Generates a link to a SCM revision
     # Options:
     # * :text - Link text (default to the formatted revision)
@@ -138,14 +146,24 @@ module OpenProject
     end
 
     def url_to_attachment(attachment, only_path: true)
-      # Including the module breaks the application in strange and mysterious ways
-      v3_paths = API::V3::Utilities::PathHelper::ApiV3Path
-
       if only_path
         v3_paths.attachment_content(attachment.id)
       else
         v3_paths.url_for(:attachment_content, attachment.id)
       end
+    end
+
+    def url_to_file_link(file_link, only_path: true)
+      if only_path
+        v3_paths.file_link_open(file_link.id)
+      else
+        v3_paths.url_for(:file_link_open, file_link.id)
+      end
+    end
+
+    def v3_paths
+      # Including the module breaks the application in strange and mysterious ways
+      API::V3::Utilities::PathHelper::ApiV3Path
     end
   end
 end

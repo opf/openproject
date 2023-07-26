@@ -33,14 +33,14 @@ See COPYRIGHT and LICENSE files for more details.
             as: :color do |f| %>
 
   <div class='flash warning'>
-    <%= t('timelines.really_delete_color') %>
+    <%= t('colors.label_really_delete_color') %>
     <span class="close-handler" role="button" tabindex="0" aria-label="{{ ::I18n.t('js.close_popup_title') }}">
       <%= op_icon('icon-close') %>
     </span>
   </div>
 
   <fieldset class="form--fieldset">
-    <legend class="form--fieldset-legend"><%= t('timelines.properties') %></legend>
+    <legend class="form--fieldset-legend"><%= t('colors.label_properties') %></legend>
     <div class="form--field">
       <%= f.text_field :hexcode, disabled: 'disabled' %>
       <%= icon_for_color(@color) %>

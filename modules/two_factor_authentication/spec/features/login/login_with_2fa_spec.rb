@@ -36,7 +36,7 @@ RSpec.describe 'Login with 2FA device',
       first_login_step
       two_factor_step('whatever')
 
-      expect(page).to have_selector('.flash.error', text: I18n.t(:notice_account_otp_invalid))
+      expect(page).to have_selector('.op-toast.-error', text: I18n.t(:notice_account_otp_invalid))
       expect(page).to have_current_path signin_path
     end
   end

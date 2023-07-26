@@ -36,7 +36,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::CopyTemplat
   let(:origin_user_id) { 'OpenProject' }
   let(:storage) { build(:nextcloud_storage, :as_automatically_managed, host: url, password: 'OpenProjectSecurePassword') }
 
-  subject { described_class.new(storage:) }
+  subject { described_class.new(storage) }
 
   describe '#call' do
     context 'when the source path is blank' do

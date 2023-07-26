@@ -93,7 +93,7 @@ export function setupServerResponse() {
 function flashCloseHandler() {
   jQuery('body').on('click keydown touchend', '.close-handler,.op-toast--close', function (e) {
     if (e.type === 'click' || e.which === 13) {
-      jQuery(this).parent('.flash, .errorExplanation, .op-toast')
+      jQuery(this).parent('.errorExplanation, .op-toast')
         .not('.persistent-toggle--notification')
         .remove();
     }
@@ -102,7 +102,7 @@ function flashCloseHandler() {
 
 function autoHideFlashMessage() {
   setTimeout(() => {
-    jQuery('.flash.autohide-toaster').remove();
+    jQuery('.op-toast.autohide-toaster').remove();
   }, 5000);
 }
 
@@ -140,7 +140,7 @@ function activateFlash(selector:any) {
 }
 
 function activateFlashNotice() {
-  activateFlash('.flash');
+  activateFlash('.op-toast');
 }
 
 function activateFlashError() {

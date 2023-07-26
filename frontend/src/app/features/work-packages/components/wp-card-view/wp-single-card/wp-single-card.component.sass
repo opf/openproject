@@ -7,7 +7,7 @@
   user-select: none
   // Leave space for the shadow to be displayed
   width: calc(100% - 2px)
-  border: 1px solid var(--widget-box-block-border-color)
+  border: 1px solid var(--content-default-border-color)
   border-radius: 2px
   padding: 10px
   position: relative
@@ -122,7 +122,7 @@
       grid-area: image
       max-height: 350px
 
-      @media screen and (max-width: 679px)
+      @media screen and (max-width: $breakpoint-sm)
         max-height: 250px
 
     &-dates
@@ -184,7 +184,7 @@
   &--inline-cancel-button
     color: var(--warn)
 
-  @media only screen and (max-width: 679px)
+  @media only screen and (max-width: $breakpoint-sm)
     &_shrink
       border: none
       box-shadow: none

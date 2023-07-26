@@ -166,10 +166,21 @@ lt:
     index:
       no_results_title_text: Nėra nurodytų spalvų.
       no_results_content_text: Sukurti naują spalvą
-    label_no_color: 'Be spalvų'
+      label_new_color: "Nauja spalva"
+    new:
+      label_new_color: "Nauja spalva"
+    edit:
+      label_edit_color: "Keisti spalvą"
+    form:
+      label_new_color: "Nauja spalva"
+      label_edit_color: "Keisti spalvą"
+    label_no_color: "Be spalvų"
+    label_properties: "Savybės"
+    label_really_delete_color: >
+      Ar tikrai norite ištrinti šią spalvą? Ją naudojantys tipai nebus ištrinti.
   custom_actions:
     actions:
-      name: 'Veiksmai'
+      name: "Veiksmai"
       add: 'Pridėti veiksmą'
       assigned_to:
         executing_user_value: '(Priskirti vykdančiam naudotojui)'
@@ -248,6 +259,8 @@ lt:
         no_results_title_text: Šiuo metu nėra prieinamų pasirinktinų laukų.
       types:
         no_results_title_text: Nėra prieinamų tipų.
+        form:
+          enable_type_in_project: 'Įjungti tipą „%{type}“'
       versions:
         no_results_title_text: Projektas neturi jokių laidų.
         no_results_content_text: Sukurti naują versiją
@@ -264,7 +277,9 @@ lt:
       notice_reset_token: "Naujas %{type} tipo atpažinimo raktas buvo sugeneruotas. Jis dabar yra:"
       token_value_warning: "Pastaba: tai vienintelis kartas, kai matote atpažinimo raktą, todėl būtinai nusikopijuokite jį dabar."
       no_results_title_text: Nėra jokių pasiekiamų prieigos raktų.
-      notice_ical_tokens_reverted: "iCalendar žetonas „%{token_name}“ projekto „%{project_name}“ kalendoriui „%{calendar_name}“ buvo atšauktas. iCalendar URL su šituo žetonu dabar nebetinkamas."
+      notice_api_token_revoked: "API žetonas buvo ištrintas. Norėdami sukurti naują žetoną, prašome naudoti nuorodą API sekcijoje."
+      notice_rss_token_revoked: "RSS žetonas buvo ištrintas. Norėdami sukurti naują žetoną, prašome naudoti nuorodą RSS sekcijoje."
+      notice_ical_token_revoked: "iCalendar žetonas „%{token_name}“ projekto „%{project_name}“ kalendoriui „%{calendar_name}“ buvo atšauktas. iCalendar URL su šituo žetonu dabar nebetinkamas."
   news:
     index:
       no_results_title_text: Nėra jokių naujienų.
@@ -1333,6 +1348,7 @@ lt:
   error_can_not_unarchive_project: "Projekto negalima išarchyvuoti: %{errors}"
   error_check_user_and_role: "Prašome pasirinkti naudotoją ir vaidmenį."
   error_code: "Klaida %{code}"
+  error_color_could_not_be_saved: "Nepavyko įrašyti spalvos"
   error_cookie_missing: 'OpenProject sausainėlis nerastas. Prašome patikrinti, ar sausainėliai yra įgalinti, nes kitaip aplikacija tinkamai neveiks.'
   error_custom_option_not_found: "Galimybė neegzistuoja."
   error_enterprise_activation_user_limit: "Jūsų paskyra negali būti aktyvuota (pasiektas vartotojų limitas). Prašome kreiptis į savo sistemos administratorių."
@@ -1357,6 +1373,7 @@ lt:
   error_password_change_failed: 'Bandant pakeisti slaptažodį įvyko klaida.'
   error_scm_command_failed: "Įvyko klaida jungiantis prie repozitorijos: %{value}"
   error_scm_not_found: "Toks įrašas ar revizija nebuvo rasti repozitorijoje."
+  error_type_could_not_be_saved: "Tipas negalėjo būti įrašytas"
   error_unable_delete_status: "Darbų paketo būsena negali būti ištrinta tol, kol yra naudojama bent viename darbų pakete."
   error_unable_delete_default_status: "Neįmanoma ištrinti numatytosios darbų paketo būsenos. Prašome pakeisti numatytąją darbų paketo būseną prieš ištrinant šią."
   error_unable_to_connect: "Negalima prisijungti (%{value})"
@@ -1486,6 +1503,26 @@ lt:
         action: "Veiksmas"
         expiration: "Baigiasi"
       indefinite_expiration: "Niekada"
+      simple_revoke_confirmation: "Ar tikrai norite atšaukti šį raktą?"
+      api:
+        title: "API"
+        text_hint: "API žetonai leidžia trečiųjų šalių aplikacijoms komunikuoti su šiuo OpenProject per REST"
+        static_token_name: "API žetonas"
+        disabled_text: "Administratorius neįjungė API žetonų. Prašome susisiekti su administratoriumi, kad galėtumėte naudoti šią savybę."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar žetonai leidžia naudotojams <a href=\"%{path}\" target=\"_blank\">prenumeruoti OpenProject kalendorius</a> ir gauti naujausią darbų paketų informaciją išoriniuose klientuose."
+        disabled_text: "Administratorius neįjungė iCalendar prenumeratų. Prašome susisiekti su administratoriumi, kad galėtumėte naudoti šią savybę."
+        empty_text_hint: "Norėdami pridėti iCalendar žetoną, prenumeruokite naują ar esamą kalendorių iš projekto kalendoriaus modulio. Jūs turite turėti reikiamas teises."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth žetonai leidžia trečiųjų šalių aplikacijoms prisijungti prie šio OpenProject."
+        empty_text_hint: "Nėra sukonfigūruotos ir jums aktyvios prieigos trečiųjų šalių aplikacijai. Prašome susisiekti su administratoriumi, kad būtų aktyvuota ši savybė."
+      rss:
+        title: "RSS"
+        text_hint: "RSS žetonai leidžia naudotojams gauti informaciją apie paskutinius šio OpenProject egzemplioriaus pasikeitimus per išorinę RSS skaityklę."
+        static_token_name: "RSS žetonas"
+        disabled_text: "Administratorius neįjungė RSS žetonų. Prašome susisiekti su administratoriumi, kad galėtumėte naudoti šią savybę."
   notifications:
     send_notifications: "Siųsti pranešimus apie šį veiksmą"
     work_packages:
@@ -1615,6 +1652,7 @@ lt:
   label_confirmation: "Patvirtinimas"
   label_contains: "turi"
   label_content: "Turinys"
+  label_color_plural: "Spalvos"
   label_copied: "nukopijuotas"
   label_copy_same_as_target: "Toks pat kaip tikslas"
   label_copy_source: "Šaltinis"
@@ -1643,6 +1681,7 @@ lt:
   label_deleted: "panaikintas"
   label_deleted_custom_field: "(panaikintas vartotojo laukas)"
   label_deleted_custom_option: "(panaikintas nustatymas)"
+  label_empty_element: "(tuščia)"
   label_missing_or_hidden_custom_option: "(trūksta reikšmės arba prieigos teisių)"
   label_descending: "Mažėjančiai"
   label_details: "Detali informacija"
@@ -1688,6 +1727,7 @@ lt:
   label_expanded_click_to_collapse: "Išplėsta. Spauskite, kad sutrauktumėte"
   label_f_hour: "%{value} valanda"
   label_f_hour_plural: "%{value} valandų(-os)"
+  label_favoured: "Mėgstamas"
   label_feed_plural: "Naujienų srautai"
   label_feeds_access_key: "RSS prieigos raktas"
   label_feeds_access_key_created_on: "RSS prieigos raktas sukurtas prieš %{value}"
@@ -1883,7 +1923,8 @@ lt:
   label_project_new: "Naujas projektas"
   label_project_plural: "Projektai"
   label_project_settings: "Projekto nustatymai"
-  label_project_storage_plural: "Saugyklos"
+  label_project_storage_plural: "Failų saugyklos"
+  label_project_storage_project_folder: "Failų saugyklos: projekto aplankai"
   label_projects_storage_information: "%{count} projektai(-as, -ų) naudoja %{storage} disko vietos"
   label_project_view_all: "Peržiūrėti visus projektus"
   label_project_show_details: "Rodyti detalią projekto informaciją"
@@ -1971,6 +2012,7 @@ lt:
   label_this_week: "ši savaitė"
   label_this_year: "šiemet"
   label_time_entry_plural: "Praleista laiko"
+  label_title: "Pavadinimas"
   label_projects_menu: "Projektai"
   label_today: "šiandien"
   label_top_menu: "Viršutinis meniu"
@@ -2302,7 +2344,8 @@ lt:
   permission_add_messages: "Skelbti pranešimus"
   permission_add_project: "Sukurti projektą"
   permission_archive_project: "Archyvuoti projektą"
-  permission_manage_user: "Kurti ir keisti naudotojus"
+  permission_create_user: "Kurti naudotojus"
+  permission_manage_user: "Keisti naudotojus"
   permission_manage_placeholder_user: "Kurti, keisti ir trinti statytinius naudotojus"
   permission_add_subprojects: "Sukurti sub-projektus"
   permission_add_work_package_watchers: "Pridėti stebėtojus"
@@ -2645,17 +2688,16 @@ lt:
       whitelist_text_html: >
         Sudarykite sąrašą leidžiamų failų praplėtimų ir/arba MIME tipų su kuriais bus leidžiama įkelti failus. <br/> Įveskite failų praplėtimus (t.y., <code>%{ext_example}</code>) arba MIME tipus (t.y., <code>%{mime_example}</code>). <br/> Palikite tuščią, jei norite leisti visus tipus. Leidžiama daugiau nei viena reikšmė (po vieną kiekvienoje eilutėje).
     brute_force_prevention: "Automatinis vartotojų blokavimas"
-    language_name_being_default: '%{language_name} (numatytoji)'
     date_format:
       first_date_of_week_and_year_set: >
         Jei vienas iš „%{day_of_week_setting_name}“ ir „%{first_week_setting_name}“ yra nustatytas, tai kitas taip pat turi būti nustatytas vengiant netikslumų naudotojo sąsajoje.
       first_week_of_year_text_html: >
         Parinkite Sausio dieną, kuri yra pirmoje metų savaitėje. Ši reikšmė, kartu su pirmos savaitės dienos reikšme, nustato bendrą savaičių metuose skaičių. Daugiau informacijos rasite šios temos  <a href="%{link}" target="_blank">dokumentacijoje</a>.
-    general: "Bendra"
     experimental:
       save_confirmation: Atsargiai! Duomenų praradimo rizika! Eksperimentines savybes įjunkite tik tada, jei nebijote sugadinti savo OpenProject ir prarasti visus duomenis.
       warning_toast: Savybių vėliavėlės yra nustatymai, kurie aktyvuoja vis dar kuriamas savybes. Jos turėtų būti naudojamos tik testavimo tikslais. Jų niekada nereikia įjungti OpenProject serveriuose, kuriuose yra svarbūs duomenys. Šios savybės labai gali sugadinti jūsų duomenis. Naudokite savo rizika.
       feature_flags: Savybių vėliavėlės
+    general: "Bendra"
     highlighting:
       mode_long:
         inline: "Paryškinti tik konkrečius atributus"
@@ -2667,6 +2709,7 @@ lt:
       enable_subscriptions_text_html: Leisti naudotojams su tinkamomis teisėmis prenumeruoti OpenProject kalendorių ir turėti prieigą prie darbo paketų informacijos per išorinį kalendoriaus klientą.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (numatytoji)'
     notifications:
       events_explanation: 'Valdo, kuriems įvykiams yra siunčiami el.laiškai. Darbų paketai nepatenka į šį sąrašą, nes kiekvienam naudotojui pranešimai gali būti sukonfigūruoti individualiai.'
       delay_minutes_explanation: "El.laiškų siuntimas gali būti užlaikytas, kad būtų leista naudotojams, kurie yra susikonfigūravę gauti pranešimus tiesiai programoje, patvirtinti iki to, kol bus išsiųstas laiškas. Naudotojai, kurie perskaitė pranešimus programoje, negaus tų laiškų, kurių pranešimus jau bus perskaitę."
@@ -2803,6 +2846,11 @@ lt:
   text_zoom_in: "Priartinti"
   text_zoom_out: "Nutolinti"
   text_setup_mail_configuration: "Sukonfigūruoti Jūsų el. pašto paslaugų teikėją"
+  help_texts:
+    views:
+      project: "%{plural} visada prisegti prie projekto. Sukūrus %{singular} jūs galite pridėti į darbo paketus iš kitų projektų."
+      public: "Publikuoti šį vaizdą, leidžiant kitiems naudotojams prieigą prie jūsų vaizdo. Naudotojai su teise „Valdyti viešus vaizdus“ galės keisti ar išimti viešą užklausą. Tai neįtakoja darbo paketo rezultatų matomumo vaizde ir priklausomai nuo teisių, naudotojai gali matyti kitokius rezultatus."
+      favoured: "Pažymėti šį vaizdą kaip mėgstamiausią ir pridėti į įrašytų vaizdų dėklą kairėje."
   time:
     am: "ryto"
     formats:
@@ -2815,155 +2863,6 @@ lt:
     show: "Rodyti trukmę"
     end: "iki"
     start: "nuo"
-  timelines:
-    admin_menu:
-      color: "Spalva"
-      colors: "Spalvos"
-    associations: "Priklausomybės"
-    button_delete_all: "Ištrinti viską"
-    change: "Pakeisti planavime"
-    children: "Vaikų elementai"
-    color_could_not_be_saved: "Spalva negalėjo būti išsaugota"
-    current_planning: "Dabartinis planavimas"
-    dates: "Datos"
-    dates_are_calculated_based_on_sub_elements: "Datos skaičiuojami atsižvelgiant į vidinius elementus."
-    delete_all: "Ištrinti viską"
-    delete_thing: "Ištrinti"
-    duration: "Trukmė"
-    duration_days:
-      one: "1 dieną"
-      few: "%{count} dienos"
-      many: "%{count} dienų"
-      other: "%{count} dienos"
-    edit_color: "Redaguoti spalvą"
-    edit_thing: "Redaguoti"
-    edit_timeline: "Redaguoti laiko juostos ataskaitą %{timeline}"
-    delete_timeline: "Ištrinti laiko juostos ataskaitą %{timeline}"
-    empty: "(tuščia)"
-    enable_type_in_project: 'Leisti tipą „%{type}“'
-    end: "Pabaiga"
-    errors:
-      not_implemented: "Laiko juostos nepavyko atvaizduoti, nes reikalinga funkcija dar neįdiegta."
-      report_comparison: "Pagal nustatytus palyginimus laiko juosta negali būti atvaizduota. Prašome patikrinti atitinkamus parametrus nustatymuose, jų gražinimas į numatytąją būseną gali išspręsti šią problemą."
-      report_epicfail: "Laiko juosta negalėjo būti įkelta dėl nenumatytų priežasčių."
-      report_timeout: "Laiko juosta negalėjo būti įkelta per priimtiną laiką."
-    filter:
-      errors:
-        timeframe_start: "Trukmės pradžia "
-        timeframe_end: "Trukmės pabaiga "
-        compare_to_relative: "Santykinio palyginimo reikšmė "
-        compare_to_absolute: "Absoliutaus palyginimo reikšmė "
-        planning_element_time_relative_one: "Darbų paketų pradžia tam tikroje trukmėje "
-        planning_element_time_relative_two: "Darbų paketų pabaiga tam tikroje trukmėje "
-        planning_element_time_absolute_one: "Darbų paketų pradžia tam tikroje trukmėje  "
-        planning_element_time_absolute_two: "Darbų paketų pabaiga tam tikroje trukmėje  "
-      sort:
-        sortation: "Rūšiuoti pagal"
-        alphabet: "abėcėlė"
-        explicit_order: "tiksli tvarka"
-        project_sortation: "Rikiuoti projektus pagal"
-        date: "data"
-        default: "numatytasis"
-      column:
-        assigned_to: "Paskirtas"
-        type: "Tipas"
-        due_date: "Pabaigos data"
-        name: "Vardas"
-        status: "Būsena"
-        start_date: "Pradžios data"
-      columns: "Stulpeliai"
-      comparisons: "Palyginimai"
-      comparison:
-        absolute: "Absoliutus"
-        none: "Joks"
-        relative: "Santykinis"
-        compare_relative_prefix: "Lyginti dabartinį planavimą su"
-        compare_relative_suffix: "prieš"
-        compare_absolute: "Lyginti dabartinį planavimą su %{date}"
-      time_relative:
-        days: "dienas(-ų)"
-        weeks: "savaitės(-ių)"
-        months: "mėnesiai(-ių)"
-      exclude_own_work_packages: "Slėpti darbų paketus iš šio projekto"
-      exclude_reporters: "Slėpti kitus projektus"
-      exclude_empty: "Slėpti tuščius projektus"
-      grouping: "Grupavimas"
-      grouping_hide_group: "Slėpti grupę „%{group}“"
-      grouping_one: "Pirmasis grupavimo kriterijus"
-      grouping_one_phrase: "Yra sub-projektas"
-      grouping_other: "Kita"
-      hide_chart: "Slėpti diagramą"
-      noneElement: "(nėra)"
-      noneSelection: "(nėra)"
-      outline: "Pirminio plano plėtra"
-      parent: "Rodyti sub-projektus"
-      work_package_responsible: "Rodyti darbo paketus su atsakingais"
-      work_package_assignee: "Rodyti darbų paketus su vykdančiuoju asmeniu"
-      types: "Rodyti tipus"
-      status: "Rodyti būsenas"
-      project_time_filter: "Projektai su tam tikro tipo darbų paketais tam tikru laiku"
-      project_time_filter_timeframe: "Terminai"
-      project_time_filter_historical_from: "nuo"
-      project_time_filter_historical_to: "iki"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan} %{startspanunit} prieš, %{end_label} %{endspan} %{endspanunit} nuo dabar"
-      project_filters: "Filtruoti projektus"
-      project_responsible: "Rodyti projektus su atsakingais"
-      project_status: "Rodyti projekto būseną"
-      timeframe: "Rodyti trukmę"
-      timeframe_end: "iki"
-      timeframe_start: "nuo"
-      timeline: "Bendri nustatymai"
-      zoom: "Padidinimo koeficientas"
-    history: "Istorija"
-    new_color: "Nauja spalva"
-    new_association: "Nauja priklausomybė"
-    new_work_package: "Naujas darbų paketas"
-    new_reporting: "Nauja ataskaita"
-    new_timeline: "Nauja laiko juostos ataskaita"
-    no_projects_for_reporting_available: "Čia nėra galimų projektų, kuriems gali būti sukurtos ataskaitų asociacijos."
-    no_right_to_view_timeline: "Jūs neturite reikalingų leidimų susietos laiko juostos peržiūrai."
-    no_timeline_for_id: "Laiko juosta su ID %{id} neegzistuoja."
-    notice_successful_deleted_all_elements: "Visi elementai sėkmingai ištrinti"
-    outline: "Atnaujinti planą"
-    outlines:
-      aggregation: "Rodyti tik masėmis"
-      level1: "Išplėtimo lygis 1"
-      level2: "Išplėtimo lygis 2"
-      level3: "Išplėtimo lygis 3"
-      level4: "Išplėtimo lygis 4"
-      level5: "Išplėtimo lygis 5"
-      all: "Rodyti viską"
-    reporting_for_project:
-      show: "Pranešta projekto %{title} būsena"
-      edit_delete: "būsenos ataskaita projektui: %{title}"
-      history: "%{title} projekto būsenų istorija"
-    reporting:
-      delete: "Ištrinti būseną: %{comment}"
-      edit: "Redaguoti būseną %{comment}"
-      show: "Būsena: %{comment}"
-    planning_element_update: "Atnaujinimas: %{title}"
-    type_could_not_be_saved: "Tipas negalėjo būti išsaugotas"
-    reporting_could_not_be_saved: "Ataskaita negalėjo būti išsaugota"
-    properties: "Ypatybės"
-    really_delete_color: >
-      Ar tikrai norite ištrinti šią spalvą? Ją naudojantys tipai nebus ištrinti.
-    really_delete_reporting: >
-      Ar tikrai norite ištrinti šias ataskaitas? Ankstesnės būsenos ataskaitos bus taip pat ištrintos.
-    start: "Pradžia"
-    timeline: "Laiko juostos ataskaita"
-    timelines: "Laiko juostos ataskaitos"
-    settings: "Laiko juostos"
-    vertical_work_package: "Vertikalūs darbų paketai"
-    you_are_viewing_the_selected_timeline: "Jūs peržiūrite pasirinktos laiko juostos atskaitą"
-    zoom:
-      in: "Priartinti"
-      out: "Nutolinti"
-      days: "Dienos(-ų)"
-      weeks: "Savaitės(-ių)"
-      months: "Mėnesiai(-ių)"
-      quarters: "Ketvirčiai"
-      years: "Metai(-ų)"
   title_remove_and_delete_user: Pašalinti pakviestą vartotoją iš projekto ir ištrinti jį/ją.
   title_enterprise_upgrade: "Atnaujinkite norėdami atrakinti daugiau vartotojų."
   tooltip_user_default_timezone: >

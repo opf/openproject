@@ -25,6 +25,7 @@
  *
  * See COPYRIGHT and LICENSE files for more details. ++*/
 
+$repository-entry-filename-margin-left: 24px
 
 div.changeset-changes ul
   list-style-type: none
@@ -228,13 +229,13 @@ tr
       td
         &.filename
           a
-            margin-left: var(--repository-entry-filename-margin-left)
+            margin-left: $repository-entry-filename-margin-left
 
 tr
   &.entry
     &.truncation-warning
       td
         div.op-toast
-          margin-left: var(--repository-entry-filename-margin-left)
+          margin-left: $repository-entry-filename-margin-left
           margin-top: 0
           margin-bottom: 0

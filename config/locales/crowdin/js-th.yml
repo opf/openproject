@@ -296,6 +296,34 @@ th:
           one: "First sorting criteria"
           two: "Second sorting criteria"
           three: "Third sorting criteria"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "ไม่ใช่"
     general_text_yes: "ใช่"
     general_text_No: "ไม่ใช่"
@@ -505,7 +533,7 @@ th:
     label_remove_all_files: ลบไฟล์ทั้งหมด
     label_add_description: "เพิ่มคำอธิบายสำหรับ %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "These files will be uploaded:"
     label_rejected_files: "These files cannot be uploaded:"
@@ -822,63 +850,6 @@ th:
       activate_no: 'activate to remove the sort'
     text_work_packages_destroy_confirmation: "คุณแน่ใจหรือไม่ว่าจะลบชุดภารกิจที่เลือก ?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt chart'
-      labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
-        showNone: '-- No label --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
-      cancel: ยกเลิก
-      change: "การเปลี่ยนแปลงในการวางแผน"
-      due_date: "Finish date"
-      empty: "(ว่าง)"
-      error: "An error has occurred."
-      errors:
-        not_implemented: "ไม่สามารถร่างแผนภูมิเวลา (timeline) ได้เนื่องจากใช้คุณลักษณะที่ยังไม่ได้มีการนำมาใช้ในระบบ"
-        report_comparison: "แผนภูมิเวลาไม่สามารถร่างการเปรียบเทียบที่กำหนดไว้ กรุณาตรวจสอบส่วนต่างๆ ในการตั้งค่าให้เหมาะสม หรือลองรีเซตค่าใหม่เพื่อแก้ไขปัญหา"
-        report_epicfail: "พบข้อผิดพลาด ไม่สามารถโหลดแผนภูมิเวลา ได้"
-        report_timeout: "ไม่สามารถโหลดแผนภูมิเวลาในระยะเวลาที่เหมาะสมได้"
-      filter:
-        grouping_other: "อื่น ๆ"
-        noneSelection: "(ไม่มี)"
-      name: "ชื่อ"
-      outline: "ตั้งค่าโครงร่างใหม่"
-      outlines:
-        aggregation: "แสดงรวมเท่านั้น"
-        level1: "ขยายระดับ 1"
-        level2: "ขยายระดับ 2"
-        level3: "ขยายระดับ 3"
-        level4: "ขยายระดับ 4"
-        level5: "ขยายระดับ 5"
-        all: "แสดงทั้งหมด"
-      project_status: "สถานะของโครงการ"
-      really_close_dialog: "Do you really want to close the dialog and lose the entered data?"
-      responsible: "รับผิดชอบ"
-      save: บันทึก
-      start_date: "วันเริ่มต้น"
-      tooManyProjects: "พบมากกว่า %{count} โครงการ กรุณาใช้ตัวกรองที่ดีกว่านี้ !"
-      selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
-      zoom:
-        in: "ขยาย"
-        out: "ซูมออก"
-        auto: "Auto zoom"
-        days: "วัน"
-        weeks: "สัปดาห์"
-        months: "เดือน"
-        quarters: "ไตรมาส"
-        years: "ปี"
-        slider: "ขยายแถบเลื่อน"
-        description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
     tl_toolbar:
       zooms: "ระดับการย่อ/ขยาย"
       outlines: "ระดับของ Hierarchy"
@@ -943,10 +914,10 @@ th:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'กรองชุดภารกิจ'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Click here to add a new work package to this list'

@@ -169,10 +169,21 @@ fi:
     index:
       no_results_title_text: Tällä hetkellä ei ole värejä.
       no_results_content_text: Luo uusi väri
-    label_no_color: 'Ei väriä'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "Ei väriä"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Toiminnot'
+      name: "Toiminnot"
       add: 'Lisää toiminto'
       assigned_to:
         executing_user_value: '(Assign to executing user)'
@@ -251,6 +262,8 @@ fi:
         no_results_title_text: Tällä hetkellä ei ole mukautettuja kenttiä.
       types:
         no_results_title_text: Tällä hetkellä tyyppejä ei ole saatavilla.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: Projektille ei ole versioita.
         no_results_content_text: Luo uusi versio
@@ -267,7 +280,9 @@ fi:
       notice_reset_token: "Uusi %{type} API-salasana generoitu. Salasanasi on:"
       token_value_warning: "Huomautus: Tämä on ainoa kerta kun näet tämän tunnuksen, varmista että kopio se nyt."
       no_results_title_text: Tällä hetkellä ei ole pääsyavaimia saatavilla.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Tällä hetkellä ei ole uutisia.
@@ -1298,12 +1313,13 @@ fi:
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Please choose a user and a role."
   error_code: "Virhe %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'OpenProject evästeen puuttuu. Varmista, että evästeet ovat käytössä, koska tämä sovellus ei toimi oikein ilman evästeitä.'
   error_custom_option_not_found: "Vaihtoehtoa ei ole olemassa."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Tämän merkinnän poisto ei onnistunut.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
@@ -1322,6 +1338,7 @@ fi:
   error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Tietovarastoon pääsyssä tapahtui virhe: %{value}"
   error_scm_not_found: "Syötettä ja/tai versiota ei löydy tietovarastosta."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "Toimia paketti tila ei voi poistaa koska se on käytössä vähintään yksi toimia paketti."
   error_unable_delete_default_status: "Ei voi poistaa oletuksena työ paketti tila. Ole hyvä ja valitse vielä oletusarvo työ paketti tila ennen poistamalla nykyinen yksi."
   error_unable_to_connect: "Ei voi yhdistää (%{value})"
@@ -1451,6 +1468,26 @@ fi:
         action: "Toiminto"
         expiration: "Vanhentuu"
       indefinite_expiration: "Ei koskaan"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1580,6 +1617,7 @@ fi:
   label_confirmation: "Vahvistus"
   label_contains: "sisältää"
   label_content: "Sisältö"
+  label_color_plural: "Colors"
   label_copied: "kopioitu"
   label_copy_same_as_target: "Sama kuin kohde"
   label_copy_source: "Lähde"
@@ -1608,6 +1646,7 @@ fi:
   label_deleted: "poistettu"
   label_deleted_custom_field: "(poistettu mukautettu kenttä)"
   label_deleted_custom_option: "(deleted option)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Laskeva"
   label_details: "Yksityiskohdat"
@@ -1653,6 +1692,7 @@ fi:
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} tunti"
   label_f_hour_plural: "%{value} tuntia"
+  label_favoured: "Favoured"
   label_feed_plural: "Syötteet"
   label_feeds_access_key: "RSS avain"
   label_feeds_access_key_created_on: "RSS avain luotiin %{value} sitten"
@@ -1848,7 +1888,8 @@ fi:
   label_project_new: "Uusi projekti"
   label_project_plural: "Projektit"
   label_project_settings: "Projektiasetukset"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} projektia käyttää %{storage} tallennustilaa"
   label_project_view_all: "Kaikki projektit"
   label_project_show_details: "Show project details"
@@ -1936,6 +1977,7 @@ fi:
   label_this_week: "tällä viikolla"
   label_this_year: "tänä vuonna"
   label_time_entry_plural: "Käytetty aika"
+  label_title: "Title"
   label_projects_menu: "Projektit"
   label_today: "tänään"
   label_top_menu: "Päävalikko"
@@ -2265,7 +2307,8 @@ fi:
   permission_add_messages: "Jätä viesti"
   permission_add_project: "Luo projekti"
   permission_archive_project: "Arkisto projekti"
-  permission_manage_user: "Create and edit users"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Luoda aliprojekteja"
   permission_add_work_package_watchers: "Lisää seuraajia"
@@ -2610,17 +2653,16 @@ fi:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     brute_force_prevention: "Automaattinen käyttäjän estäminen"
-    language_name_being_default: '%{language_name} (default)'
     date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text_html: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
-    general: "Yleinen"
     experimental:
       save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Feature flags
+    general: "Yleinen"
     highlighting:
       mode_long:
         inline: "Highlight attribute(s) inline"
@@ -2632,6 +2674,7 @@ fi:
       enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
@@ -2768,6 +2811,11 @@ fi:
   text_zoom_in: "Lähennä"
   text_zoom_out: "Loitonna"
   text_setup_mail_configuration: "Määritä sähköpostin palveluntarjoajasi"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "aamupäivä"
     formats:
@@ -2780,153 +2828,6 @@ fi:
     show: "Näytä aikataulu"
     end: "to"
     start: "from"
-  timelines:
-    admin_menu:
-      color: "Väri"
-      colors: "Värit"
-    associations: "Riippuvuudet"
-    button_delete_all: "Poista kaikki"
-    change: "Muuta suunnittelussa"
-    children: "Ali-elementit"
-    color_could_not_be_saved: "Väriä ei voitu tallentaa"
-    current_planning: "Tämänhetkinen suunnitelma"
-    dates: "Päivämäärät"
-    dates_are_calculated_based_on_sub_elements: "Päivämäärät lasketaan alielementeistä."
-    delete_all: "Poista kaikki"
-    delete_thing: "Poista"
-    duration: "Kesto"
-    duration_days:
-      one: "päivä"
-      other: "%{count} päivää"
-    edit_color: "Muokkaa väriä"
-    edit_thing: "Muokkaa"
-    edit_timeline: "Muokkaa aikajanaraporttia %{timeline}"
-    delete_timeline: "Poista aikajanaraportti %{timeline}"
-    empty: "(tyhjä)"
-    enable_type_in_project: 'Ota käyttöön "%{type}"'
-    end: "Loppu"
-    errors:
-      not_implemented: "Aikajanaa ei voitu muodostaa koska se käyttää toimintoa jota ei ole vielä otettu käyttöön."
-      report_comparison: "Aikajanan voi tehdä määritetty vertailuja. Tarkista oikea kohta asetukset, nollaa se voi auttaa ratkaisemaan tämän ongelman."
-      report_epicfail: "Aikajana ei voi ladata koska odottamaton virhe."
-      report_timeout: "The timeline could not be loaded in a reasonable amount of time."
-    filter:
-      errors:
-        timeframe_start: "The timeframe start "
-        timeframe_end: "The timeframe end "
-        compare_to_relative: "The value of the relative comparison "
-        compare_to_absolute: "The value of the absolute comparison "
-        planning_element_time_relative_one: "The start for work packages in a certain timeframe "
-        planning_element_time_relative_two: "The end for work packages in a certain timeframe "
-        planning_element_time_absolute_one: "The start for work packages in a certain timeframe  "
-        planning_element_time_absolute_two: "The end for work packages in a certain timeframe  "
-      sort:
-        sortation: "Lajitteluperuste"
-        alphabet: "alphabet"
-        explicit_order: "explicit order"
-        project_sortation: "Projektien lajitteluperuste"
-        date: "date"
-        default: "oletus"
-      column:
-        assigned_to: "Työn suorittaja"
-        type: "Tyyppi"
-        due_date: "End date"
-        name: "Nimi"
-        status: "Tila"
-        start_date: "Aloituspäivä"
-      columns: "Sarakkeet"
-      comparisons: "Comparisons"
-      comparison:
-        absolute: "Absolute"
-        none: "Ei mitään"
-        relative: "Relative"
-        compare_relative_prefix: "Compare current planning to"
-        compare_relative_suffix: "sitten"
-        compare_absolute: "Compare current planning to %{date}"
-      time_relative:
-        days: "päivää"
-        weeks: "viikkoa"
-        months: "kuukautta"
-      exclude_own_work_packages: "Hide work packages from this project"
-      exclude_reporters: "Hide other projects"
-      exclude_empty: "Hide empty projects"
-      grouping: "Grouping"
-      grouping_hide_group: "Hide group \"%{group}\""
-      grouping_one: "First grouping criterion"
-      grouping_one_phrase: "Is a subproject of"
-      grouping_other: "Muut"
-      hide_chart: "Hide chart"
-      noneElement: "(none)"
-      noneSelection: "(none)"
-      outline: "Initial outline expansion"
-      parent: "Show subprojects of"
-      work_package_responsible: "Näytä kaikki vastuuhenkilön tehtävät"
-      work_package_assignee: "Show work packages with assignee"
-      types: "Näytä tyypit"
-      status: "Näytä tila"
-      project_time_filter: "Projects with a work package of a certain type in a certain timeframe"
-      project_time_filter_timeframe: "Timeframe"
-      project_time_filter_historical_from: "from"
-      project_time_filter_historical_to: "to"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago, %{end_label} %{endspan}%{endspanunit} from now"
-      project_filters: "Filter projects"
-      project_responsible: "Näytä vastuuhenkilön projektit"
-      project_status: "Näytä projekti tila"
-      timeframe: "Näytä aikataulu"
-      timeframe_end: "to"
-      timeframe_start: "from"
-      timeline: "General Settings"
-      zoom: "Zoom factor"
-    history: "Historia"
-    new_color: "New color"
-    new_association: "New dependency"
-    new_work_package: "Uusi tehtävä"
-    new_reporting: "New reporting"
-    new_timeline: "Uusi aikajana-raportti"
-    no_projects_for_reporting_available: "Ei ole hankkeita joihin raportointi yhdistys voi olla luotu."
-    no_right_to_view_timeline: "Sinulla ei ole tarvittavaa lupaa tarkastella toisiinsa aikajanalla."
-    no_timeline_for_id: "There is no timeline with ID %{id}."
-    notice_successful_deleted_all_elements: "Poistettu onnistuneesti kaikki elementit"
-    outline: "Nollaa hahmotelma"
-    outlines:
-      aggregation: "Näyttää koosteita vain"
-      level1: "Laajenna taso 1"
-      level2: "Laajenna taso 2"
-      level3: "Laajenna taso 3"
-      level4: "Laajenna taso 4"
-      level5: "Laajenna taso 5"
-      all: "Näytä kaikki"
-    reporting_for_project:
-      show: "Status reported to project: %{title}"
-      edit_delete: "status report for project: %{title}"
-      history: "History for status for project: %{title}"
-    reporting:
-      delete: "Delete status: %{comment}"
-      edit: "Edit status: %{comment}"
-      show: "Status: %{comment}"
-    planning_element_update: "Update: %{title}"
-    type_could_not_be_saved: "Type could not be saved"
-    reporting_could_not_be_saved: "Raportointi ei voitu tallenneta"
-    properties: "Ominaisuudet"
-    really_delete_color: >
-      Oletko varma, että haluat poistaa seuraava väri? Tyypit käyttää tätä väri ei poisteta.
-    really_delete_reporting: >
-      Oletko varma, että haluat poistaa seuraavat raportointia? Edellisen raportoinnin statukset poistetaan, liian.
-    start: "Aloita"
-    timeline: "Timeline report"
-    timelines: "Aikajanaraportit"
-    settings: "Aikataulut"
-    vertical_work_package: "Vertical work packages"
-    you_are_viewing_the_selected_timeline: "Sinä olet katselu valittu aikajana raportti"
-    zoom:
-      in: "Lähennä"
-      out: "Loitonna"
-      days: "Päivää"
-      weeks: "Viikkoa"
-      months: "Kuukautta"
-      quarters: "Quarters"
-      years: "Vuotta"
   title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
   title_enterprise_upgrade: "Upgrade to unlock more users."
   tooltip_user_default_timezone: >

@@ -68,7 +68,7 @@ RSpec.describe 'Wysiwyg tables',
         # Save wiki page
         click_on 'Save'
 
-        expect(page).to have_selector('.flash.notice')
+        expect(page).to have_selector('.op-toast.-success')
 
         within('#content') do
           expect(page).to have_selector('table td', text: 'h1')
@@ -117,7 +117,7 @@ RSpec.describe 'Wysiwyg tables',
         # Save wiki page
         click_on 'Save'
 
-        expect(page).to have_selector('.flash.notice')
+        expect(page).to have_selector('.op-toast.-success')
 
         within('#content') do
           expect(page).to have_selector('table th', text: 'h1')
@@ -182,7 +182,7 @@ RSpec.describe 'Wysiwyg tables',
         # Save wiki page
         click_on 'Save'
 
-        expect(page).to have_selector('.flash.notice')
+        expect(page).to have_selector('.op-toast.-success')
 
         within('#content') do
           expect(page).to have_selector('td[style*="background-color:#123456"]')
@@ -233,7 +233,7 @@ RSpec.describe 'Wysiwyg tables',
         # Save wiki page
         click_on 'Save'
 
-        expect(page).to have_selector('.flash.notice')
+        expect(page).to have_selector('.op-toast.-success')
 
         within('#content') do
           # table height and width is set on figure
@@ -298,7 +298,7 @@ RSpec.describe 'Wysiwyg tables',
         # Save wiki page
         click_on 'Save'
 
-        expect(page).to have_selector('.flash.notice')
+        expect(page).to have_selector('.op-toast.-success')
 
         within('#content') do
           expect(page).to have_selector('td[style*="width:250px"]')

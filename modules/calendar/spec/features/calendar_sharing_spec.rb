@@ -32,6 +32,8 @@ require_relative './shared_context'
 RSpec.describe 'Calendar sharing via ical', js: true do
   include_context 'with calendar full access'
 
+  shared_let(:status) { create(:default_status) }
+
   let(:user_with_sharing_permission) do
     create(:user,
            firstname: 'Bernd',
@@ -59,11 +61,62 @@ RSpec.describe 'Calendar sharing via ical', js: true do
            ])
   end
 
+  shared_let(:admin) do
+    create(:admin,
+           member_in_project: project)
+  end
+
   let(:saved_query) do
     create(:query_with_view_work_packages_calendar,
            user: user_with_sharing_permission,
            project:,
            public: false)
+  end
+
+  context 'without sufficient permissions and the ical_enabled setting enabled', with_settings: { ical_enabled: true } do
+    let(:saved_query) do
+      create(:query_with_view_work_packages_calendar,
+             user: user_without_sharing_permission,
+             project:,
+             public: false)
+    end
+
+    before do
+      login_as user_without_sharing_permission
+      calendar.visit!
+    end
+
+    context 'on persisted calendar query' do
+      before do
+        saved_query
+
+        visit project_calendars_path(project)
+
+        within '#content' do
+          click_link saved_query.name
+        end
+
+        loading_indicator_saveguard
+      end
+
+      it 'shows disabled sharing menu item' do
+        # wait for settings button to become visible
+        expect(page).to have_selector("#work-packages-settings-button")
+
+        # click on settings button
+        page.find_by_id('work-packages-settings-button').click
+
+        # expect disabled sharing menu item
+        within "#settingsDropdown" do
+          # expect(page).to have_button("Subscribe to iCalendar", disabled: true) # disabled selector not working
+          expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to iCalendar")
+          page.click_button("Subscribe to iCalendar")
+
+          # modal should not be shown
+          expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+        end
+      end
+    end
   end
 
   context 'with sufficient permissions', with_settings: { ical_enabled: true } do
@@ -135,26 +188,6 @@ RSpec.describe 'Calendar sharing via ical', js: true do
         # expect active sharing menu item
         within "#settingsDropdown" do
           expect(page).to have_selector(".menu-item", text: "Subscribe to iCalendar")
-        end
-      end
-
-      context 'when ical sharing is disabled globally', with_settings: { ical_enabled: false } do
-        it 'shows a disabled menu item' do
-          # wait for settings button to become visible
-          expect(page).to have_selector("#work-packages-settings-button")
-
-          # click on settings button
-          page.find_by_id('work-packages-settings-button').click
-
-          # expect disabled sharing menu item
-          within "#settingsDropdown" do
-            # expect(page).to have_button("Subscribe to iCalendar", disabled: true) # disabled selector not working
-            expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to iCalendar")
-            page.click_button("Subscribe to iCalendar")
-
-            # modal should not be shown
-            expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
-          end
         end
       end
 
@@ -232,48 +265,56 @@ RSpec.describe 'Calendar sharing via ical', js: true do
     end
   end
 
-  context 'without sufficient permissions' do
-    let(:saved_query) do
-      create(:query_with_view_work_packages_calendar,
-             user: user_without_sharing_permission,
-             project:,
-             public: false)
-    end
+  context 'with sufficient permissions on persisted calendary query' do
+    it 'navigates to iCal settings and disables the setting as an admin, disallowing sharing for a user' do
+      login_as admin
+      visit admin_index_path
 
-    before do
-      login_as user_without_sharing_permission
-      calendar.visit!
-    end
-
-    context 'on persisted calendar query' do
-      before do
-        saved_query
-
-        visit project_calendars_path(project)
-
-        within '#content' do
-          click_link saved_query.name
-        end
-
-        loading_indicator_saveguard
+      within '.menu-blocks--container' do
+        click_link 'Calendars and dates'
       end
 
-      it 'shows disabled sharing menu item' do
-        # wait for settings button to become visible
-        expect(page).to have_selector("#work-packages-settings-button")
+      expect(page).to have_selector(".title-container", text: "Working days")
+      click_link 'iCalendar'
 
-        # click on settings button
-        page.find_by_id('work-packages-settings-button').click
+      expect(page)
+        .to have_field('Enable iCalendar subscriptions', checked: true)
 
-        # expect disabled sharing menu item
-        within "#settingsDropdown" do
-          # expect(page).to have_button("Subscribe to iCalendar", disabled: true) # disabled selector not working
-          expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to iCalendar")
-          page.click_button("Subscribe to iCalendar")
+      uncheck 'settings[ical_enabled]'
 
-          # modal should not be shown
-          expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
-        end
+      click_button 'Save'
+
+      expect(page)
+        .to have_content "Successful update."
+
+      expect(page)
+        .to have_field('Enable iCalendar subscriptions', checked: false)
+
+      login_as user_with_sharing_permission
+      saved_query
+
+      visit project_calendars_path(project)
+
+      within '#content' do
+        click_link saved_query.name
+      end
+
+      loading_indicator_saveguard
+
+      # wait for settings button to become visible
+      expect(page).to have_selector("#work-packages-settings-button")
+
+      # click on settings button
+      page.find_by_id('work-packages-settings-button').click
+
+      # expect disabled sharing menu item
+      within "#settingsDropdown" do
+        # expect(page).to have_button("Subscribe to iCalendar", disabled: true) # disabled selector not working
+        expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to iCalendar")
+        page.click_button("Subscribe to iCalendar")
+
+        # modal should not be shown
+        expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
       end
     end
   end

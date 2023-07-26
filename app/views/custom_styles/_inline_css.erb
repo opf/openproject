@@ -28,45 +28,45 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <style type="text/css">
-  :root {
-  <%  DesignColor.overwritten.each do |design_color| %>
-    --<%= design_color.variable %>: <%= design_color.hexcode %>;
+    :root {
+    <% DesignColor.overwritten.each do |design_color| %>
+        --<%= design_color.variable %>: <%= design_color.hexcode %>;
     <% if design_color.variable == "header-border-bottom-color" %>
-    --header-border-bottom-width: 1px;
+        --header-border-bottom-width: 1px;
     <% end %>
     <% if design_color.variable == "main-menu-border-color" %>
-    --main-menu-border-width: 1px;
+        --main-menu-border-width: 1px;
     <% end %>
     <% if design_color.variable == "alternative-color" %>
-    --button--alt-highlight-background-hover-color: <%= design_color.darken 0.18 %>;
+        --button--alt-highlight-background-hover-color: <%= design_color.darken 0.18 %>;
     <% end %>
     <% if design_color.variable == "primary-color" %>
-      --primary-color--minor1: <%= design_color.lighten 0.3 %>;
-      --primary-color--minor2: <%= design_color.lighten 0.6 %>;
-      --primary-color--minor3: <%= design_color.lighten 0.8 %>;
-      --primary-color--major1: <%= design_color.darken 0.2 %>;
-      --primary-color--major2: <%= design_color.darken 0.4 %>;
-      --primary-color--major3: <%= design_color.darken 0.6 %>;
+        --primary-color--minor1: <%= design_color.lighten 0.3 %>;
+        --primary-color--minor2: <%= design_color.lighten 0.6 %>;
+        --primary-color--minor3: <%= design_color.lighten 0.8 %>;
+        --primary-color--major1: <%= design_color.darken 0.2 %>;
+        --primary-color--major2: <%= design_color.darken 0.4 %>;
+        --primary-color--major3: <%= design_color.darken 0.6 %>;
     <% end %>
-  <% end %>
-  }
+    <% end %>
+    }
 
-  <%# Conditional styles %>
-  <% if DesignColor.overwritten.map(&:variable).include?('header-border-bottom-color') %>
+    <%# Conditional styles %>
+    <% if DesignColor.overwritten.map(&:variable).include?('header-border-bottom-color') %>
     <%# Remove top border of left menu to not have to borders adding to 2px %>
     #main-menu #toggle-project-menu {
-      border-top: 0px;
+        border-top: 0px;
     }
 
     <%# Trying to hit the query cache for the condition here: %>
     <% if DesignColor.overwritten.map(&:variable).include?('header-bg-color') &&
           DesignColor.overwritten.select { |design_color| design_color.variable == 'header-bg-color' }.try(:first).try(:hexcode) == '#FFFFFF' &&
           DesignColor.overwritten.select { |design_color| design_color.variable == 'header-item-bg-hover-color' }.try(:first).try(:hexcode) == '#FFFFFF' %>
-      <%# Disable hover background color to not overlap border %>
-      .op-app-menu--item-action:hover,
-      .top-menu-search.-collapsed .top-menu-search--button:hover {
+    <%# Disable hover background color to not overlap border %>
+    .op-app-menu--item-action:hover,
+    .top-menu-search.-collapsed .top-menu-search--button:hover {
         background: transparent;
-      }
+    }
     <% end %>
-  <% end %>
+    <% end %>
 </style>

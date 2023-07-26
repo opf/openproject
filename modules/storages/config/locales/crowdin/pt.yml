@@ -11,6 +11,7 @@ pt:
   project_module_storages: "Armazenamento de arquivos"
   activerecord:
     models:
+      file_link: "File link"
       storages/storage: "Armazenamento"
     attributes:
       storages/storage:

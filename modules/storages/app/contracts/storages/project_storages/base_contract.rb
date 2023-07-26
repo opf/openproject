@@ -52,10 +52,6 @@ module Storages::ProjectStorages
       end
     end
 
-    def assignable_storages
-      Storages::Storage.visible(user).where.not(id: @model.project.projects_storages.pluck(:storage_id))
-    end
-
     private
 
     def project_folder_mode_manual?

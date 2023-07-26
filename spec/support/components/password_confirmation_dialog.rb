@@ -68,10 +68,10 @@ module Components
       end
 
       if should_fail
-        expect(page).to have_selector('.flash.error',
+        expect(page).to have_selector('.op-toast.-error',
                                       text: I18n.t(:notice_password_confirmation_failed))
       else
-        expect(page).not_to have_selector('.flash.error')
+        expect(page).not_to have_selector('.op-toast.-error')
       end
     end
   end
