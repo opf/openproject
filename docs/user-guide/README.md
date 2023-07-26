@@ -34,6 +34,7 @@ Please choose the module or topic you want to learn more about.
 | [Project overview page](project-overview)                    | How to create a project overview dashboard with important project information. |
 | [Activity](activity)                                         | How to find out about the latest activities in a project.    |
 | [Backlogs (Scrum)](backlogs-scrum)                           | How to manage a Scrum team in OpenProject with a product backlog and taskboard. |
+| [Baseline comparison)](baseline-comparison)                  | View and compare changes in a work package table within a given period of time. |
 | [Boards](agile-boards)                                       | How to work with Agile boards for agile project management, e.g. Kanban. |
 | [Budgets](budgets)                                           | How to create and manage a project budget.                   |
 | [Calendar](calendar)                                         | How to display your work in a calendar in OpenProject.       |
