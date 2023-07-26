@@ -74,7 +74,8 @@ module ::Boards
         'basic' => Boards::BasicBoardCreateService,
         'status' => Boards::StatusBoardCreateService,
         'assignee' => Boards::AssigneeBoardCreateService,
-        'version' => Boards::VersionBoardCreateService
+        'version' => Boards::VersionBoardCreateService,
+        'subproject' => Boards::SubprojectBoardCreateService
       }.fetch(board_grid_params[:attribute])
     end
 

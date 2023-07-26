@@ -91,5 +91,14 @@ See COPYRIGHT and LICENSE files for more details.
                          no_label: true,
                          container_class: '-wide'%>
     </div>
+
+    <div class="form--field">
+      <%= f.label 'attribute', t('boards.board_type_attributes.subproject'), value: 'subproject' %>
+      <%= styled_radio_button_tag 'boards_grid[attribute]',
+                         'subproject',
+                         no_label: true,
+                         container_class: '-wide'%>
+      <%=  %>
+    </div>
   </div>
 </section>
