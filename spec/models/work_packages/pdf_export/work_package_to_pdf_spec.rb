@@ -40,13 +40,33 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   end
   let(:export_time) { DateTime.new(2023, 6, 30, 23, 59) }
   let(:export_time_formatted) { format_time(export_time, true) }
+  let(:image_path) { Rails.root.join("spec/fixtures/files/image.png") }
+  let(:image_attachment) { Attachment.new author: user, file: File.open(image_path) }
+  let(:attachments) { [image_attachment] }
   let(:work_package) do
+    description = <<~DESCRIPTION
+      **Lorem** _ipsum_ ~~dolor~~ `sit` [amet](https://example.com/), consetetur sadipscing elitr.
+      <mention data-text="@OpenProject Admin">@OpenProject Admin</mention>
+      ![](/api/v3/attachments/#{image_attachment.id}/content)
+      <p class="op-uc-p">
+        <figure class="op-uc-figure">
+          <div class="op-uc-figure--content">
+            <img class="op-uc-image" src="/api/v3/attachments/#{image_attachment.id}/content" alt='"foobar"'>
+          </div>
+          <figcaption>Image Caption</figcaption>
+         </figure>
+      </p>
+    DESCRIPTION
     create(:work_package,
-           project:,
-           type:,
-           subject: 'Work package 1',
-           story_points: 1,
-           description: 'This is a description')
+                project:,
+                type:,
+                subject: 'Work package 1',
+                story_points: 1,
+                description:).tap do |wp|
+      allow(wp)
+        .to receive(:attachments)
+              .and_return attachments
+    end
   end
   let(:options) { {} }
   let(:export) do
@@ -68,19 +88,21 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       expect(pdf.strings).to eq([
                                   "#{type.name} ##{work_package.id} - #{work_package.subject}",
                                   'ID', work_package.id.to_s,
-                                  "UPDATED ON", export_time_formatted,
-                                  "TYPE", type.name,
-                                  "CREATED ON", export_time_formatted,
+                                  'UPDATED ON', export_time_formatted,
+                                  'TYPE', type.name,
+                                  'CREATED ON', export_time_formatted,
                                   'STATUS', work_package.status.name,
-                                  "FINISH DATE",
-                                  "VERSION",
-                                  "PRIORITY", work_package.priority.name,
-                                  "DURATION",
-                                  "WORK",
-                                  "CATEGORY",
-                                  "ASSIGNEE",
+                                  'FINISH DATE',
+                                  'VERSION',
+                                  'PRIORITY', work_package.priority.name,
+                                  'DURATION',
+                                  'WORK',
+                                  'CATEGORY',
+                                  'ASSIGNEE',
                                   'Description',
-                                  work_package.description,
+                                  'Lorem', ' ', 'ipsum', ' ', 'dolor', ' ', 'sit', ' ',
+                                  'amet', ', consetetur sadipscing elitr.', ' ', '@OpenProject Admin',
+                                  'Image Caption',
                                   '1', export_time_formatted, project.name
                                 ])
     end
