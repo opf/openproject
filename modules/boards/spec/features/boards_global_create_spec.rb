@@ -12,6 +12,7 @@ RSpec.describe 'Boards',
   shared_let(:admin) { create(:admin) }
 
   shared_let(:status) { create(:default_status) }
+  shared_let(:versions) { create_list(:version, 3, project:) }
 
   shared_let(:new_board_page) { Pages::NewBoard.new }
 
@@ -92,6 +93,24 @@ RSpec.describe 'Boards',
           expect(page).to have_text(I18n.t(:notice_successful_create))
           expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
           expect(page).to have_text "Gotham Renewal Board"
+        end
+      end
+
+      context 'when creating a "Version" board' do
+        before do
+          new_board_page.set_board_type 'Version'
+          new_board_page.click_on_submit
+
+          wait_for_reload
+        end
+
+        it 'creates the board and redirects me to it', :aggregate_failures do
+          expect(page).to have_text(I18n.t(:notice_successful_create))
+          expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
+          expect(page).to have_text "Gotham Renewal Board"
+          versions.each do |version|
+            expect(page).to have_selector("[data-query-name='#{version.name}'")
+          end
         end
       end
     end

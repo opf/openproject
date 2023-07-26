@@ -35,12 +35,7 @@ module ::Boards
     def new; end
 
     def create
-      service_result = Boards::GlobalCreateService.new(user: User.current)
-                                                  .call(
-                                                    project: @project,
-                                                    name: board_grid_params[:name],
-                                                    attribute: board_grid_params[:attribute]
-                                                  )
+      service_result = service_call
 
       @board_grid = service_result.result
 
@@ -63,6 +58,24 @@ module ::Boards
 
     def build_board_grid
       @board_grid = Boards::Grid.new
+    end
+
+    def service_call
+      service_class.new(user: User.current)
+                   .call(
+                     project: @project,
+                     name: board_grid_params[:name],
+                     attribute: board_grid_params[:attribute]
+                   )
+    end
+
+    def service_class
+      {
+        'basic' => Boards::BasicBoardCreateService,
+        'status' => Boards::StatusBoardCreateService,
+        'assignee' => Boards::AssigneeBoardCreateService,
+        'version' => Boards::VersionBoardCreateService
+      }.fetch(board_grid_params[:attribute])
     end
 
     def board_grid_params

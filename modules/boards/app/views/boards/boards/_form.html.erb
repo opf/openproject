@@ -83,5 +83,13 @@ See COPYRIGHT and LICENSE files for more details.
                                   no_label: true,
                                   container_class: '-wide'%>
     </div>
+
+    <div class="form--field">
+      <%= f.label 'attribute', t('boards.board_type_attributes.version'), value: 'version' %>
+      <%= styled_radio_button_tag 'boards_grid[attribute]',
+                         'version',
+                         no_label: true,
+                         container_class: '-wide'%>
+    </div>
   </div>
 </section>

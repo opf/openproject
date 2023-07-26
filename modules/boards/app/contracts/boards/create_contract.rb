@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 module Boards
-  class GlobalCreateContract < ::Grids::CreateContract
+  class CreateContract < ::Grids::CreateContract
   end
 end
