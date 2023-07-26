@@ -156,8 +156,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                   '1.', '2', work_package_parent.subject,
                                   '2.', '2', work_package_child.subject,
                                   '1/2', export_time_formatted, query.name,
-                                  *work_package_details(work_package_parent, 1),
-                                  *work_package_details(work_package_child, 2),
+                                  *work_package_details(work_package_parent, "1"),
+                                  *work_package_details(work_package_child, "2"),
                                   '2/2', export_time_formatted, query.name
                                 ])
     end
