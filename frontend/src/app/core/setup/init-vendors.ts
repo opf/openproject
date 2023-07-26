@@ -68,7 +68,5 @@ require('@primer/view-components/app/assets/javascripts/primer_view_components.j
 require('expose-loader?URI!urijs');
 require('urijs/src/URITemplate');
 
-require('expose-loader?I18n!core-vendor/i18n');
-
 // Localization for fullcalendar
 require('@fullcalendar/core/locales-all');
