@@ -2642,17 +2642,16 @@ ca:
       whitelist_text_html: >
         Defineix una llista vàlida d'extensions de fitxers i/o classes MIME per carregar fitxers. <br/>Introdueïx extensions de fitxers (ex. <code>%{ext_example}</code>) o classes MIME (ex. <code>%{mime_example}</code>). <br/> Deixa el camp buit per permetre qualsevol classe de fitxer. Es permeten múltiples valors (una línia per cada valor).
     brute_force_prevention: "Bloqueig automàtic d'usuari"
-    language_name_being_default: '%{language_name} (default)'
     date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text_html: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
-    general: "General"
     experimental:
       save_confirmation: Alerta! Risc de pèrdua de dades! Només activa les funcions experimentals si no t'importà desconfigurar la teva instal·lació d'OpenProject o perdre dades.
       warning_toast: Els marcadors de funcions són una funcionalitat que activa funcions que encara estan en desenvolupament. Només s'han d'utilitzar per a realitzar tests. No s'han d'activar mai a instal·lacions d'OpenProject amb dades importants. Aquestes funcions poden, molt probablement, corrompre les teves dades. Utilitza-les sota el teu propi risc.
       feature_flags: Marcadors de funcions
+    general: "General"
     highlighting:
       mode_long:
         inline: "Atribut(s) de destacament en línia"
@@ -2664,6 +2663,7 @@ ca:
       enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Controla per a quins esdeveniments s''envien correus electrònics. Els paquets de treball estan exclosos d''aquesta llista, ja que les seves notificacions poden ser configurades específicament per a cada usuari.'
       delay_minutes_explanation: "L'enviada de correus electrònics pot ser endarrerida per permetre als usuaris amb notificacions dins l'aplicació confirmar la notificació dins de l'aplicació abans que s'enviï. Els usuaris que han llegit la notificació a l'aplicació no rebran el correu electrònic, ja que ja han llegit la notificació."
