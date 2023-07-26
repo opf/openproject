@@ -11,7 +11,7 @@ lt:
   project_module_storages: "Failų saugyklos"
   activerecord:
     models:
-      file_link: "File link"
+      file_link: "Failo nuoroda"
       storages/storage: "Saugykla"
     attributes:
       storages/storage:
