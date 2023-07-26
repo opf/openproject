@@ -10,6 +10,12 @@ en:
   permission_share_files: "Share files"
   project_module_storages: "File storages"
 
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Not authorized for external connection to storage."
+        not_found: "The requested resource could not be found at the external file storage."
+
   activerecord:
     models:
       file_link: "File link"
