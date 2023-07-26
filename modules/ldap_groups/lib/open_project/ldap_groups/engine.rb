@@ -21,6 +21,6 @@ module OpenProject::LdapGroups
 
     add_cron_jobs { LdapGroups::SynchronizationJob }
 
-    patches %i[AuthSource Group User]
+    patches %i[LdapAuthSource Group User]
   end
 end

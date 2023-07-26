@@ -219,17 +219,19 @@ RSpec.describe AccountController,
         let(:auth_source) { create(:ldap_auth_source) }
 
         it 'creates the user on the fly' do
-          allow(AuthSource).to receive(:authenticate).and_return(login: 'foo',
-                                                                 firstname: 'Foo',
-                                                                 lastname: 'Smith',
-                                                                 mail: 'foo@bar.com',
-                                                                 auth_source_id: auth_source.id)
+          allow(LdapAuthSource)
+            .to(receive(:authenticate))
+            .and_return(login: 'foo',
+                        firstname: 'Foo',
+                        lastname: 'Smith',
+                        mail: 'foo@bar.com',
+                        ldap_auth_source_id: auth_source.id)
           post :login, params: { username: 'foo', password: 'bar' }
 
           expect(response).to redirect_to home_url(first_time_user: true)
           user = User.find_by(login: 'foo')
           expect(user).to be_an_instance_of User
-          expect(user.auth_source_id).to eq(auth_source.id)
+          expect(user.ldap_auth_source_id).to eq(auth_source.id)
           expect(user.current_password).to be_nil
         end
       end
@@ -438,14 +440,14 @@ RSpec.describe AccountController,
           firstname: 'Scarlet',
           lastname: 'Scallywag',
           mail: 's.scallywag@openproject.com',
-          auth_source_id: auth_source.id
+          ldap_auth_source_id: auth_source.id
         }
       end
 
       let(:authenticate) { true }
 
       before do
-        allow(AuthSource).to receive(:authenticate).and_return(authenticate ? user_attributes : nil)
+        allow(LdapAuthSource).to receive(:authenticate).and_return(authenticate ? user_attributes : nil)
 
         # required so that the register view can be rendered
         allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
@@ -867,9 +869,9 @@ RSpec.describe AccountController,
             with_settings: { self_registration: Setting::SelfRegistration.disabled } do
       before do
         allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
-        allow(AuthSource).to receive(:authenticate).and_return(login: 'foo',
-                                                               lastname: 'Smith',
-                                                               auth_source_id: 66)
+        allow(LdapAuthSource).to receive(:authenticate).and_return(login: 'foo',
+                                                                   lastname: 'Smith',
+                                                                   ldap_auth_source_id: 66)
       end
 
       context 'with password login enabled' do
@@ -894,7 +896,7 @@ RSpec.describe AccountController,
           user = User.find_by_login('foo')
 
           expect(user).to be_an_instance_of(User)
-          expect(user.auth_source_id).to be 66
+          expect(user.ldap_auth_source_id).to be 66
           expect(user.current_password).to be_nil
         end
       end
@@ -988,8 +990,8 @@ RSpec.describe AccountController,
       }
     end
 
-    let(:auth_source) { create(:ldap_auth_source) }
-    let(:user) { create(:user, status: 2, auth_source:) }
+    let(:ldap_auth_source) { create(:ldap_auth_source) }
+    let(:user) { create(:user, status: 2, ldap_auth_source:) }
     let(:login) { user.login }
 
     before do
@@ -1017,7 +1019,7 @@ RSpec.describe AccountController,
       end
 
       before do
-        allow(AuthSource).to receive(:find_user).and_return attrs
+        allow(LdapAuthSource).to receive(:find_user).and_return attrs
       end
 
       it "shows the account creation form with an error" do
@@ -1038,7 +1040,7 @@ RSpec.describe AccountController,
       end
 
       before do
-        allow(AuthSource).to receive(:find_user).and_return attrs
+        allow(LdapAuthSource).to receive(:find_user).and_return attrs
       end
 
       it "shows the account creation form with an error" do

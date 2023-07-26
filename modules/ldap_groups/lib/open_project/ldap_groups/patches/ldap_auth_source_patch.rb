@@ -1,6 +1,6 @@
 module OpenProject::LdapGroups
   module Patches
-    module AuthSourcePatch
+    module LdapAuthSourcePatch
       def self.included(base) # :nodoc:
         base.class_eval do
           has_many :ldap_groups_synchronized_groups,

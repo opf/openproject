@@ -64,7 +64,7 @@ RSpec.describe AccountController,
         it 'registers the user on-the-fly' do
           user = User.find_by_login('foo@bar.com')
           expect(user).to be_an_instance_of(User)
-          expect(user.auth_source_id).to be_nil
+          expect(user.ldap_auth_source_id).to be_nil
           expect(user.current_password).to be_nil
           expect(user.identity_url).to eql('google:123545')
           expect(user.login).to eql('foo@bar.com')
@@ -194,7 +194,7 @@ RSpec.describe AccountController,
 
           user = User.find_by_login('login@bar.com')
           expect(user).to be_an_instance_of(User)
-          expect(user.auth_source_id).to be_nil
+          expect(user.ldap_auth_source_id).to be_nil
           expect(user.current_password).to be_nil
           expect(user.identity_url).to eql('google:123545')
         end

@@ -1,4 +1,4 @@
-class DummyAuthSource < AuthSource
+class DummyAuthSource < LdapAuthSource
   def test_connection
     # the dummy connection is always available
   end
@@ -23,7 +23,7 @@ class DummyAuthSource < AuthSource
         .find_by(login:)
         .attributes
         .slice("firstname", "lastname", "mail")
-        .merge(auth_source_id: id)
+        .merge(ldap_auth_source_id: id)
   end
 
   def find_on_the_fly_user(login)
@@ -45,7 +45,7 @@ class DummyAuthSource < AuthSource
       firstname: login.capitalize,
       lastname: 'Dummy',
       mail: 'login@DerpLAP.net',
-      auth_source_id: id
+      ldap_auth_source_id: id
     }
   end
 

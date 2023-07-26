@@ -31,7 +31,7 @@
 module LdapGroups
   module SynchronizedGroups
     class TableComponent < ::TableComponent
-      columns :dn, :auth_source, :group, :users, :sync_users
+      columns :dn, :ldap_auth_source, :group, :users, :sync_users
 
       def initial_sort
         %i[id asc]
@@ -64,7 +64,7 @@ module LdapGroups
       def headers
         [
           ['dn', { caption: ::LdapGroups::SynchronizedGroup.human_attribute_name('dn') }],
-          ['auth_source', { caption: ::LdapGroups::SynchronizedGroup.human_attribute_name('auth_source') }],
+          ['ldap_auth_source', { caption: ::LdapGroups::SynchronizedGroup.human_attribute_name('ldap_auth_source') }],
           ['group', { caption: I18n.t(:label_group) }],
           ['users', { caption: I18n.t(:label_user_plural) }],
           ['sync_users', { caption: ::LdapGroups::SynchronizedFilter.human_attribute_name('sync_users') }]

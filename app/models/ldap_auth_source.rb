@@ -28,7 +28,23 @@
 
 require 'net/ldap'
 
-class LdapAuthSource < AuthSource
+class LdapAuthSource < ApplicationRecord
+  class Error < ::StandardError; end
+
+  include Redmine::Ciphering
+
+  has_many :users,
+           dependent: :nullify
+
+  validates :name,
+            uniqueness: { case_sensitive: false },
+            length: { maximum: 60 }
+
+  def self.unique_attribute
+    :name
+  end
+  prepend ::Mixins::UniqueFinder
+
   enum tls_mode: {
     plain_ldap: 0,
     simple_tls: 1,
@@ -48,6 +64,46 @@ class LdapAuthSource < AuthSource
   after_initialize :set_default_port
   before_validation :strip_ldap_attributes
 
+  # Try to authenticate a user not yet registered against available sources
+  def self.authenticate(login, password)
+    where(onthefly_register: true).find_each do |source|
+      binding.pry
+      begin
+        Rails.logger.debug { "Authenticating '#{login}' against '#{source.name}'" }
+        attrs = source.authenticate(login, password)
+      rescue StandardError => e
+        Rails.logger.error "Error during authentication: #{e.message}"
+        attrs = nil
+      end
+      return attrs if attrs
+    end
+    nil
+  end
+
+  def self.find_user(login)
+    where(onthefly_register: true).find_each do |source|
+      binding.pry
+      begin
+        Rails.logger.debug { "Looking up '#{login}' in '#{source.name}'" }
+        attrs = source.find_user login
+      rescue StandardError => e
+        Rails.logger.error "Error during authentication: #{e.message}"
+        attrs = nil
+      end
+
+      return attrs if attrs
+    end
+    nil
+  end
+
+  def account_password
+    read_ciphered_attribute(:account_password)
+  end
+
+  def account_password=(arg)
+    write_ciphered_attribute(:account_password, arg)
+  end
+
   def authenticate(login, password)
     return nil if login.blank? || password.blank?
 
@@ -58,7 +114,7 @@ class LdapAuthSource < AuthSource
       attrs.except(:dn)
     end
   rescue Net::LDAP::Error => e
-    raise AuthSource::Error, "LdapError: #{e.message}"
+    raise LdapAuthSource::Error, "LdapError: #{e.message}"
   end
 
   def find_user(login)
@@ -71,7 +127,7 @@ class LdapAuthSource < AuthSource
       attrs.except(:dn)
     end
   rescue Net::LDAP::Error => e
-    raise AuthSource::Error, "LdapError: #{e.message}"
+    raise LdapAuthSource::Error, "LdapError: #{e.message}"
   end
 
   # Open and return a system connection
@@ -82,10 +138,10 @@ class LdapAuthSource < AuthSource
   # test the connection to the LDAP
   def test_connection
     unless authenticate_dn(account, account_password)
-      raise AuthSource::Error, I18n.t('auth_source.ldap_error', error_message: I18n.t('auth_source.ldap_auth_failed'))
+      raise LdapAuthSource::Error, I18n.t('auth_source.ldap_error', error_message: I18n.t('auth_source.ldap_auth_failed'))
     end
   rescue Net::LDAP::Error => e
-    raise AuthSource::Error, I18n.t('auth_source.ldap_error', error_message: e.to_s)
+    raise LdapAuthSource::Error, I18n.t('auth_source.ldap_error', error_message: e.to_s)
   end
 
   def auth_method_name
@@ -95,7 +151,7 @@ class LdapAuthSource < AuthSource
   def get_user_attributes_from_ldap_entry(entry)
     base_attributes = {
       dn: entry.dn,
-      auth_source_id: id
+      ldap_auth_source_id: id
     }
 
     base_attributes.merge mapped_attributes(entry)

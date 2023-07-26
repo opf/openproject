@@ -624,7 +624,7 @@ en:
         color: "Color"
       user:
         admin: "Administrator"
-        auth_source: "Authentication mode"
+        ldap_auth_source: "Authentication mode"
         current_password: "Current password"
         force_password_change: "Enforce password change on next login"
         language: "Language"

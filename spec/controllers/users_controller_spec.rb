@@ -764,17 +764,17 @@ RSpec.describe UsersController do
       let(:ldap_auth_source) { create(:ldap_auth_source) }
 
       it 'switchting to internal authentication on a password change' do
-        user.auth_source = ldap_auth_source
+        user.ldap_auth_source = ldap_auth_source
         as_logged_in_user admin do
           put :update,
               params: {
                 id: user.id,
-                user: { auth_source_id: '', password: 'newpassPASS!',
+                user: { ldap_auth_source_id: '', password: 'newpassPASS!',
                         password_confirmation: 'newpassPASS!' }
               }
         end
 
-        expect(user.reload.auth_source).to be_nil
+        expect(user.reload.ldap_auth_source).to be_nil
         expect(user.check_password?('newpassPASS!')).to be_truthy
       end
     end

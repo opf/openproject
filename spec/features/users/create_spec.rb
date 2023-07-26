@@ -105,7 +105,7 @@ RSpec.describe 'create users', with_cuprite: true do
                              last_name: 'boblast',
                              email: 'bob@mail.com',
                              login: 'bob',
-                             auth_source: auth_source.name
+                             ldap_auth_source: auth_source.name
 
       perform_enqueued_jobs do
         new_user_page.submit!
