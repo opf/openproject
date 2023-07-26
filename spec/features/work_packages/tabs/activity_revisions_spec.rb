@@ -3,28 +3,24 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 require 'support/edit_fields/edit_field'
 
-RSpec.describe 'Activity tab', js: true, selenium: true do
-  def alter_work_package_at(work_package, attributes:, at:, user:)
-    work_package.update(attributes.merge(updated_at: at))
-
-    note_journal = work_package.journals.reorder(:id).last
-    note_journal.update(created_at: at, updated_at: at, user:)
-  end
-
+RSpec.describe 'Activity tab', js: true, with_cuprite: true do
   let(:project) { create(:project_with_types, public: true) }
+
+  let(:creation_time) { 5.days.ago }
+  let(:subject_change_time) { 3.days.ago }
+  let(:revision_time) { 2.days.ago }
+  let(:comment_time) { 1.day.ago }
+
   let!(:work_package) do
-    at = 5.days.ago.to_date.to_fs(:db)
-    work_package = create(:work_package,
-                          project:,
-                          created_at: at,
-                          subject: initial_subject,
-                          journal_notes: initial_comment)
-
-    note_journal = work_package.journals.reorder(:id).last
-    note_journal.update(created_at: 5.days.ago.to_date.to_fs(:db),
-                        updated_at: 5.days.ago.to_date.to_fs(:db))
-
-    work_package
+    create(:work_package,
+           project:,
+           created_at: creation_time,
+           subject: initial_subject,
+           journals: {
+             creation_time => { notes: initial_comment },
+             subject_change_time => { subject: 'New subject', description: 'Some not so long description.' },
+             comment_time => { notes: 'A comment by a different user', user: create(:admin) }
+           })
   end
 
   let(:initial_subject) { 'My Subject' }
@@ -32,31 +28,11 @@ RSpec.describe 'Activity tab', js: true, selenium: true do
   let(:comments_in_reverse) { false }
   let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
 
-  let(:initial_note) do
+  let(:creation_journal) do
     work_package.journals.reload.first
   end
-
-  let!(:note1) do
-    attributes = { subject: 'New subject', description: 'Some not so long description.' }
-
-    alter_work_package_at(work_package,
-                          attributes:,
-                          at: 3.days.ago.to_date.to_fs(:db),
-                          user:)
-
-    work_package.journals.reorder(:id).last
-  end
-
-  let!(:note2) do
-    attributes = { journal_notes: 'Another comment by a different user' }
-
-    alter_work_package_at(work_package,
-                          attributes:,
-                          at: 1.day.ago.to_date.to_fs(:db),
-                          user: create(:admin))
-
-    work_package.journals.reorder(:id).last
-  end
+  let(:subject_change_journal) { work_package.journals[1] }
+  let(:comment_journal) { work_package.journals[2] }
 
   let!(:revision) do
     repo = build(:repository_subversion,
@@ -68,7 +44,7 @@ RSpec.describe 'Activity tab', js: true, selenium: true do
 
     changeset = build(:changeset,
                       comments: 'A comment on a changeset',
-                      committed_on: 2.days.ago.to_date.to_fs(:db),
+                      committed_on: revision_time,
                       repository: repo,
                       committer: 'cool@person.org')
 
@@ -77,8 +53,9 @@ RSpec.describe 'Activity tab', js: true, selenium: true do
     changeset
   end
 
+  current_user { user }
+
   before do
-    login_as(user)
     allow(user.pref).to receive(:warn_on_leaving_unsaved?).and_return(false)
     allow(user.pref).to receive(:comments_sorting).and_return(comments_in_reverse ? 'desc' : 'asc')
     allow(user.pref).to receive(:comments_in_reverse_order?).and_return(comments_in_reverse)
@@ -108,13 +85,13 @@ RSpec.describe 'Activity tab', js: true, selenium: true do
 
         activity = page.find("#activity-#{idx + 1}")
 
-        if activity.is_a?(Journal) && activity.id != note1.id
+        if activity.is_a?(Journal) && activity.id != subject_change_journal.id
           expect(activity).to have_selector('.user', text: activity.user.name)
           expect(activity).to have_selector('.user-comment > .message', text: activity.notes, visible: :all)
         elsif activity.is_a?(Changeset)
           expect(activity).to have_selector('.user', text: User.find(activity.user_id).name)
           expect(activity).to have_selector('.user-comment > .message', text: activity.notes, visible: :all)
-        elsif activity == note1
+        elsif activity == subject_change_journal
           expect(activity).to have_selector('.work-package-details-activities-messages .message',
                                             count: 2)
           expect(activity).to have_selector('.message',
@@ -143,7 +120,7 @@ RSpec.describe 'Activity tab', js: true, selenium: true do
                member_through_role: role)
       end
       let(:activities) do
-        [initial_note, note1, revision, note2]
+        [creation_journal, subject_change_journal, revision, comment_journal]
       end
 
       context 'with ascending comments' do
@@ -160,7 +137,7 @@ RSpec.describe 'Activity tab', js: true, selenium: true do
 
       it 'can toggle between activities and comments-only' do
         expect(page).to have_selector('.work-package-details-activities-activity-contents', count: 4)
-        expect(page).to have_selector('.user-comment > .message', text: note2.notes)
+        expect(page).to have_selector('.user-comment > .message', text: comment_journal.notes)
 
         # Show only comments
         find('.activity-comments--toggler').click
@@ -168,7 +145,7 @@ RSpec.describe 'Activity tab', js: true, selenium: true do
         # It should remove the middle
         expect(page).to have_selector('.work-package-details-activities-activity-contents', count: 2)
         expect(page).to have_selector('.user-comment > .message', text: initial_comment)
-        expect(page).to have_selector('.user-comment > .message', text: note2.notes)
+        expect(page).to have_selector('.user-comment > .message', text: comment_journal.notes)
 
         # Show all again
         find('.activity-comments--toggler').click
@@ -222,7 +199,7 @@ RSpec.describe 'Activity tab', js: true, selenium: true do
                member_through_role: role)
       end
       let(:activities) do
-        [initial_note, note1, note2]
+        [creation_journal, subject_change_journal, comment_journal]
       end
 
       context 'with ascending comments' do

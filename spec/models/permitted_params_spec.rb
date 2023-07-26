@@ -520,7 +520,7 @@ RSpec.describe PermittedParams do
       let(:attribute) { :user_create_as_admin }
       let(:default_permissions) { %w[custom_fields firstname lastname language mail auth_source_id] }
 
-      context 'non-admin' do
+      context 'for a non-admin' do
         let(:hash) { all_permissions.zip(all_permissions).to_h }
 
         it 'permits default permissions' do
@@ -528,8 +528,8 @@ RSpec.describe PermittedParams do
         end
       end
 
-      context 'non-admin with global :manage_user permission' do
-        let(:user) { create(:user, global_permission: :manage_user) }
+      context 'for a non-admin with global :create_user permission' do
+        let(:user) { create(:user, global_permission: :create_user) }
         let(:hash) { all_permissions.zip(all_permissions).to_h }
 
         it 'permits default permissions and "login"' do
@@ -537,7 +537,7 @@ RSpec.describe PermittedParams do
         end
       end
 
-      context 'admin' do
+      context 'for an admin' do
         let(:user) { admin }
 
         all_permissions.each do |field|

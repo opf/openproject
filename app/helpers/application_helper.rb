@@ -327,7 +327,7 @@ module ApplicationHelper
 
   def user_theme_data_attributes
     mode, _theme_suffix = User.current.pref.theme.split("_", 2)
-    "data-color-mode=\"#{mode}\" data-#{mode}-theme=\"#{User.current.pref.theme}\"".html_safe
+    "data-color-mode=#{mode} data-#{mode}-theme=#{User.current.pref.theme}"
   end
   def highlight_default_language(lang_options)
     lang_options.map do |(language_name, code)|

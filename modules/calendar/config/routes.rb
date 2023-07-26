@@ -10,5 +10,5 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  resources :calendars, only: :index, controller: 'calendar/calendars'
+  resources :calendars, only: %i[index new create], controller: 'calendar/calendars'
 end

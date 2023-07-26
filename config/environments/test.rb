@@ -87,7 +87,7 @@ OpenProject::Application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
-  config.cache_store = :file_store, Rails.root.join("tmp", "cache", "paralleltests#{ENV['TEST_ENV_NUMBER']}")
+  config.cache_store = :file_store, Rails.root.join("tmp", "cache", "paralleltests#{ENV.fetch('TEST_ENV_NUMBER', nil)}")
 
   if ENV['TEST_ENV_NUMBER']
     assets_cache_path = Rails.root.join("tmp/cache/assets/paralleltests#{ENV['TEST_ENV_NUMBER']}")
@@ -96,4 +96,8 @@ OpenProject::Application.configure do
 
   # Speed up tests by lowering BCrypt's cost function
   BCrypt::Engine.cost = BCrypt::Engine::MIN_COST
+
+  # Pin Chromedriver version to last version that was released the "old way"
+  # See https://github.com/titusfortner/webdrivers/issues/247
+  Webdrivers::Chromedriver.required_version = "114.0.5735.90"
 end

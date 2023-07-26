@@ -278,7 +278,7 @@ RSpec.describe 'form configuration', js: true do
       let(:cf_identifier) { custom_field.attribute_name }
       let(:cf_identifier_api) { cf_identifier.camelcase(:lower) }
 
-      before do
+      def add_cf_to_group
         project
         custom_field
 
@@ -301,6 +301,7 @@ RSpec.describe 'form configuration', js: true do
 
       context 'if inactive in project' do
         it 'can be added to the type, but is not shown' do
+          add_cf_to_group
           # Disable in project, should be invisible
           # This step is necessary, since we auto-activate custom fields
           # when adding them to the form configuration
@@ -353,6 +354,8 @@ RSpec.describe 'form configuration', js: true do
         end
 
         it 'can be added to type and is visible' do
+          add_cf_to_group
+
           # Visit work package with that type
           wp_page.visit!
           wp_page.ensure_page_loaded

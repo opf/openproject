@@ -31,7 +31,13 @@ require_relative '../spec_helper'
 # Setup storages in Project -> Settings -> File Storages
 # This tests assumes that a Storage has already been setup
 # in the Admin section, tested by admin_storage_spec.rb.
-RSpec.describe 'Activation of storages in projects', js: true, webmock: true, with_flag: { storage_project_folders: true } do
+RSpec.describe(
+  'Activation of storages in projects',
+  js: true,
+  webmock: true,
+  with_flag: { storage_project_folders: true,
+               managed_project_folders: true }
+) do
   let(:user) { create(:user) }
   # The first page is the Project -> Settings -> General page, so we need
   # to provide the user with the edit_project permission in the role.
@@ -42,7 +48,7 @@ RSpec.describe 'Activation of storages in projects', js: true, webmock: true, wi
                            edit_project])
   end
   let(:oauth_application) { create(:oauth_application) }
-  let(:storage) { create(:nextcloud_storage, oauth_application:) }
+  let(:storage) { create(:nextcloud_storage, :as_automatically_managed, oauth_application:) }
   let(:project) do
     create(:project,
            members: { user => role },
@@ -73,6 +79,8 @@ RSpec.describe 'Activation of storages in projects', js: true, webmock: true, wi
   end
 
   before do
+    skip("Flaky test disabled. Fix it in https://community.openproject.org/wp/49285")
+
     oauth_client_token
 
     stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/")
@@ -111,6 +119,9 @@ RSpec.describe 'Activation of storages in projects', js: true, webmock: true, wi
     expect(page).to have_text('Add a file storage')
     expect(page).to have_select('storages_project_storage_storage_id', options: ['Storage 1 (nextcloud)'])
     page.click_button('Continue')
+
+    # by default automatic have to be choosen if storage has automatic management enabled
+    expect(page).to have_checked_field("New folder with automatically managed permissions")
 
     page.find_by_id('storages_project_storage_project_folder_mode_manual').click
 
@@ -162,9 +173,21 @@ RSpec.describe 'Activation of storages in projects', js: true, webmock: true, wi
 
     # Press Delete icon to remove the storage from the project
     page.find('.icon.icon-delete').click
-    alert_text = page.driver.browser.switch_to.alert.text
-    expect(alert_text).to have_text 'Are you sure'
-    page.driver.browser.switch_to.alert.accept
+
+    # Danger zone confirmation flow
+    expect(page).to have_selector('.form--section-title', text: "DELETE FILE STORAGE")
+    expect(page).to have_selector('.danger-zone--warning', text: "Deleting a file storage is an irreversible action.")
+    expect(page).to have_button('Delete', disabled: true)
+
+    # Cancel Confirmation
+    page.click_link('Cancel')
+    expect(page).to have_current_path project_settings_projects_storages_path(project)
+
+    page.find('.icon.icon-delete').click
+
+    # Approve Confirmation
+    page.fill_in 'delete_confirmation', with: "Storage 1"
+    page.click_button('Delete')
 
     # List of ProjectStorages empty again
     expect(page).to have_current_path project_settings_projects_storages_path(project)

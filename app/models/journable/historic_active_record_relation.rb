@@ -61,7 +61,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
       instance_variable_set key, relation.instance_variable_get(key)
     end
 
-    self.timestamp = timestamp
+    self.timestamp = Array(timestamp)
     readonly!
     instance_variable_set :@table, model.journal_class.arel_table
   end
@@ -240,7 +240,12 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   #
   def add_timestamp_condition(relation)
     relation.joins_values = [journals_join_statement] + relation.joins_values
-    relation.merge(Journal.where(journable_type: model.name).at_timestamp(timestamp))
+
+    timestamp_condition = timestamp.map do |t|
+      Journal.where(journable_type: model.name).at_timestamp(t)
+    end.reduce(&:or)
+
+    relation.merge(timestamp_condition)
   end
 
   def journals_join_statement
@@ -267,7 +272,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   # Does not work yet for other includes.
   #
   def add_join_projects_on_work_package_journals(relation)
-    if include_projects?(relation)
+    if include_projects?
       relation
         .except(:includes, :eager_load, :preload)
         .joins('LEFT OUTER JOIN "projects" ' \
@@ -277,8 +282,8 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     end
   end
 
-  def include_projects?(relation)
-    include_values = relation.values.fetch(:includes, [])
+  def include_projects?
+    include_values = values.fetch(:includes, [])
     include_values.include?(:project)
   end
 
@@ -288,7 +293,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   # - the `work_package_journals` table (data)
   # - the `journals` table
   #
-  # Also, add the `timestamp` as column so that we have it as attribute in our model.
+  # Also, add the `timestamp` and `journal_id` as column so that we have it as attribute in our model.
   #
   def select_columns_from_the_appropriate_tables(relation)
     if relation.select_values.count == 0
@@ -311,7 +316,8 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
       "journals.journable_id as id",
       "journables.created_at as created_at",
       "journals.updated_at as updated_at",
-      "'#{timestamp}' as timestamp"
+      "CASE #{timestamp_case_when_statements} END as timestamp",
+      "journals.id as journal_id"
     ] + \
     model.column_names_missing_in_journal.collect do |missing_column_name|
       "null as #{missing_column_name}"
@@ -375,6 +381,23 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     sql_string.gsub! "\"#{model.table_name}\".", "\"#{model.journal_class.table_name}\"."
     sql_string.gsub! /(?<!_)#{CustomValue.table_name}\./, "#{Journal::CustomizableJournal.table_name}."
     sql_string.gsub! "\"#{CustomValue.table_name}\".", "\"#{Journal::CustomizableJournal.table_name}\"."
+  end
+
+  def timestamp_case_when_statements
+    timestamp
+      .map do |timestamp|
+      comparison_time = case timestamp
+                        when Timestamp
+                          timestamp.to_time
+                        when DateTime
+                          timestamp.in_time_zone
+                        else
+                          raise NotImplementedError, "Unknown timestamp type: #{timestamp.class}"
+                        end
+
+      "WHEN \"journals\".\"validity_period\" @> timestamp with time zone '#{comparison_time}' THEN '#{timestamp}'"
+    end
+      .join(" ")
   end
 
   class NotImplementedError < StandardError; end

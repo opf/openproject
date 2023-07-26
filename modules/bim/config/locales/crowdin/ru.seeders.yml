@@ -88,7 +88,7 @@ ru:
       projects:
         demo-construction-project:
           name: "(Демо) Конструкторский проект"
-          status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: Все задачи и подпроекты выполняются по графику. Вовлеченные люди знают свои задачи. Система полностью настроена.
           description: This is a short summary of the goals of this demo construction project.
           news:
             item_0:
@@ -151,7 +151,7 @@ ru:
         demo-planning-constructing-project:
           name: "(Демо) Планирование и конструирование"
           status_explanation: Все задачи выполнены по расписанию. Участвующие в них люди знают свои задачи. Система полностью настроена.
-          description: This is a short summary of the goals of this demo planning and constructing project.
+          description: Это краткое изложение целей этого демо планирования и строительства.
           news:
             item_0:
               title: Добро пожаловать в демо-проект
@@ -212,7 +212,7 @@ ru:
                 The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
               subject: Базовая оценка
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Этот тип является иерархически родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
               children:
                 item_0:
                   subject: Сбор первичной информации о проекте
@@ -244,26 +244,26 @@ ru:
                     *   ...
                 item_2:
                   subject: Окончание базовой оценки
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Этот тип является иерархически родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_2:
               subject: Предварительное планирование
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
               children:
                 item_0:
                   subject: Разработка первого черновика
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    * Создать полезный обзор результатов
+                    * Проверить, что было сделано, и обобщить результаты
+                    * Сообщить обо всех достигнутых результатах заказчику
+                    * Определить основные граничные условия проекта
 
-                    ## Description
+                    ## Описание
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
-                    *   ...
+                    * Каждая тема получает свой собственный обзор, который будет использоваться в качестве каталога результатов
+                    * Этот обзор информирует всех участников о принятых решениях
+                    * ...
                 item_1:
                   subject: Суммировать результаты
                   description: |-
@@ -281,10 +281,10 @@ ru:
                     *   ...
             item_3:
               subject: Прохождение предварительного планирования
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_4:
               subject: Планирование дизайна
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Этот тип является иерархически родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
               children:
                 item_0:
                   subject: Завершение дизайна
@@ -302,7 +302,7 @@ ru:
                     *   ...
                 item_1:
                   subject: Заморозка дизайна
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Этот тип является иерархически родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_5:
               subject: Фаза конструирования
               children:
@@ -462,17 +462,17 @@ ru:
                   name: Вехи
           work_packages:
             item_0:
-              subject: Project kick off creating BIM model
+              subject: Начало проекта по созданию BIM-модели
               description: |-
                 The project Kickoff initializes the start of the project in your company. The whole project team should be invited to the Kickoff for a first briefing.
 
                 The next step could be to check out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
               subject: Подготовка проекта
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Этот тип иерархически является родительским для типов "Столкновение" и "Запрос", таким образом, представляет собой общее примечание.
               children:
                 item_0:
-                  subject: Gathering the project specific data and information for the BIM model
+                  subject: Сбор специфичных для проекта данных и информации для BIM-модели
                   description: |-
                     ## Goal
 
@@ -502,13 +502,13 @@ ru:
                     *   ...
                 item_2:
                   subject: Завершение выполнения плана выполнения БИМ
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_2:
               subject: Окончание подготовительного этапа
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_3:
               subject: Создание исходной BIM-модели
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Этот тип иерархически является родительским для типов "Столкновение" и "Запрос", таким образом, представляет собой общее примечание.
               children:
                 item_0:
                   subject: Моделирование исходной BIM-модели
@@ -524,7 +524,7 @@ ru:
                     *   The model shall be modelled according to the LOD Matrices and contain the information needed
                     *   ...
                 item_1:
-                  subject: Initial, internal model check and revising
+                  subject: Первоначальная внутренняя проверка и пересмотр модели
                   description: |-
                     # Goal
 
@@ -536,10 +536,10 @@ ru:
                     *   ...
                 item_2:
                   subject: Отправка исходной BIM-модели
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Этот тип иерархически является родительским для типов "Столкновение" и "Запрос", таким образом, представляет собой общее примечание.
             item_4:
               subject: Моделирование, первый цикл
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
               children:
                 item_0:
                   subject: Ссылки на внешние BIM-модели
@@ -566,7 +566,7 @@ ru:
                     *   The model will be created according to the BIM execution plan
                     *   ...
                 item_2:
-                  subject: First Cycle, internal model check and revising
+                  subject: Первый цикл, проверка и пересмотр внутренней модели
                   description: |-
                     # Goal
 
@@ -578,10 +578,10 @@ ru:
                     *   ...
                 item_3:
                   subject: Отправка BIM-модели
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Этот тип иерархически является родительским для типов "Столкновение" и "Запрос", таким образом, представляет собой общее примечание.
             item_5:
               subject: Координация, первый цикл
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
               children:
                 item_0:
                   subject: Координируйте различные BIM-модели
@@ -600,22 +600,22 @@ ru:
                   subject: Управление проблемами, первый цикл
                 item_2:
                   subject: Завершение координации, первый цикл
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_6:
               subject: Моделирование и координация, второй цикл
-              description: "## Goal\\r\n\\r\n*   ...\\r\n\\r\n## Description\\r\n\\r\n* \\  ..."
+              description: "## Цель\r\n\r\n*   ...\r\n\r\n## Описание\r\n\r\n* \\  ..."
             item_7:
-              subject: Modelling & coordinating, ... cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Моделирование и координация, ... цикл
+              description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_8:
               subject: Моделирование и координация, (n-й минус 1) цикл
-              description: "## Goal\\r\n\\r\n*   ...\\r\n\\r\n## Description\\r\n\\r\n* \\  ..."
+              description: "## Цель\r\n\r\n*   ...\r\n\r\n## Описание\r\n\r\n* \\  ..."
             item_9:
-              subject: Modelling & coordinating n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Моделирование и координация n-го цикла
+              description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_10:
-              subject: Finishing modelling & coordinating, n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Завершение моделирования и координации, n-й цикл
+              description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_11:
               subject: Использовать модель для этапа конструирования
               children:

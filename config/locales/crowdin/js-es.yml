@@ -296,6 +296,34 @@ es:
           one: "Primer criterio de ordenación"
           two: "Segundo criterio de ordenación"
           three: "Tercer criterio de ordenación"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "no"
     general_text_yes: "sí"
     general_text_No: "No"
@@ -505,7 +533,7 @@ es:
     label_remove_all_files: Borrar todos los archivos
     label_add_description: "Añadir una descripción para %{file}"
     label_upload_notification: "Cargando archivos…"
-    label_work_package_upload_notification: "Cargando archivos para el paquete de trabajo #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Cargando archivos para el paquete de trabajo #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} añadido por %{author}"
     label_files_to_upload: "Estos archivos se cargarán:"
     label_rejected_files: "Estos archivos no pueden ser cargados:"
@@ -823,63 +851,6 @@ es:
       activate_no: 'activar para deshabilitar ordenación'
     text_work_packages_destroy_confirmation: "¿Esta usted seguro que desea eliminar paquete(s) de trabajo seleccionado(s)?"
     text_query_destroy_confirmation: "¿Estás seguro de que quiere eliminar la vista seleccionada?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Diagrama de Gantt'
-      labels:
-        title: 'Configuración de etiquetas'
-        bar: 'Etiquetas de barras'
-        left: 'Izquierda'
-        right: 'Derecha'
-        farRight: 'Extremo derecho'
-        showNone: '-- Sin etiqueta --'
-        description: >
-          Seleccione los atributos que quiera que se muestren en las posiciones correspondientes del diagrama de Gantt en todo momento. Tenga en cuenta que, al mantener el ratón sobre un elemento, se mostrarán las etiquetas de fecha en lugar de estos atributos.
-      button_activate: 'Mostrar diagrama de Gantt'
-      button_deactivate: 'Ocultar diagrama de Gantt'
-      cancel: Cancelar
-      change: "Cambio en la planificación"
-      due_date: "Fecha de finalización"
-      empty: "(vacío)"
-      error: "Ha ocurrido un error."
-      errors:
-        not_implemented: "La línea temporal no puede procesarse porque utiliza una función que no se ha implementado todavía."
-        report_comparison: "La línea temporal no puede hacer las comparaciones configuradas. Consulte la sección pertinente en la configuración, reiniciarla puede ayudar a resolver este problema."
-        report_epicfail: "No se pudo cargar la línea temporal debido a un error inesperado."
-        report_timeout: "No se pudo cargar la línea temporal en una cantidad razonable de tiempo."
-      filter:
-        grouping_other: "Otros"
-        noneSelection: "(ninguno)"
-      name: "Nombre"
-      outline: "Restablecer Marco"
-      outlines:
-        aggregation: "Mostrar solo las agregaciones"
-        level1: "Ampliar nivel 1"
-        level2: "Ampliar nivel 2"
-        level3: "Ampliar nivel 3"
-        level4: "Ampliar nivel 4"
-        level5: "Ampliar el nivel 5"
-        all: "Mostrar todo"
-      project_status: "Estado del proyecto"
-      really_close_dialog: "¿Quieres realmente cerrar el cuadro de diálogo y perder los datos introducidos?"
-      responsible: "Responsable"
-      save: Guardar
-      start_date: "Fecha de inicio"
-      tooManyProjects: "Más de %{count} proyectos. ¡Por favor, use un mejor filtro!"
-      selection_mode:
-        notification: 'Haga clic en cualquier paquete de trabajo destacado para crear la relación. Pulse Esc para cancelar.'
-      zoom:
-        in: "Acercar"
-        out: "Alejar"
-        auto: "Zoom automático"
-        days: "Días"
-        weeks: "Semanas"
-        months: "Meses"
-        quarters: "Cuatrimestres"
-        years: "Años"
-        slider: "Deslizador del zoom"
-        description: >
-          Seleccione el nivel de zoom inicial que debe mostrarse cuando el zoom automático no esté disponible.
     tl_toolbar:
       zooms: "Nivel de zoom"
       outlines: "Nivel de jerarquía"
@@ -944,10 +915,10 @@ es:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filtrar paquetes de trabajo'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Haga clic aquí para agregar un nuevo paquete de trabajo a esta lista'

@@ -39,7 +39,7 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
   # This defines @object as the model instance.
   model_object Storages::ProjectStorage
 
-  before_action :find_model_object, only: %i[edit update destroy] # Fill @object with ProjectStorage
+  before_action :find_model_object, only: %i[edit update destroy destroy_info] # Fill @object with ProjectStorage
   # No need to before_action :find_project_by_project_id as SettingsController already checks
   # No need to check for before_action :authorize, as the SettingsController already checks this.
 
@@ -61,20 +61,15 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
   # Show a HTML page with a form in order to create a new ProjectStorage
   # Called by: When a user clicks on the "+New" button in Project -> Settings -> File Storages
   def new
+    @available_storages = available_storages
     @project_storage = ::Storages::ProjectStorages::SetAttributesService
                          .new(user: current_user,
                               model: Storages::ProjectStorage.new,
                               contract_class: EmptyContract)
-                         .call(project: @project)
+                         .call(project: @project,
+                               storage: @available_storages.find_by(id: params.dig(:storages_project_storage, :storage_id)))
                          .result
-
-    @available_storages = available_storages
     @last_project_folders = {}
-
-    storage_id = params.dig(:storages_project_storage, :storage_id)
-    if storage_id.present?
-      @project_storage.storage = available_storages.find_by(id: storage_id)
-    end
 
     render template: '/storages/project_settings/new'
   end
@@ -151,6 +146,12 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     redirect_to project_settings_projects_storages_path
   end
 
+  def destroy_info
+    @project_storage_to_destroy = @object
+
+    render '/storages/project_settings/destroy_info'
+  end
+
   private
 
   # Define the list of permitted parameters for creating/updating a ProjectStorage.
@@ -165,6 +166,6 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
   end
 
   def available_storages
-    Storages::ProjectStorages::CreateContract.new(@project_storage, current_user).assignable_storages
+    Storages::Storage.visible.not_enabled_for_project(@project)
   end
 end

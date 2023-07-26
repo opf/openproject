@@ -15,12 +15,13 @@ Starting with version 8.0.0, OpenProject features a quasi-WYSIWYG editor, powere
 
 
 
-| Topic                                                                                                                       | Content                                                  |
-|-----------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
-| [Basic formatting](#basic-formatting)                                                                                       | Basic formatting elements in the WYSIWYG editor          |
-| [Image handling](#image-handling)                                                                                           | How to add images in the WYSIWYG editor.                 |
-| [Macros](#macros)                                                                                                           | Available macros in the WYSIWYG editor                   |
-| [Links to OpenProject resources](#links-to-openproject-resources)                                                           | How to link to resources like wikis, projects, meetings. |
+| Topic                                                        | Content                                                  |
+| ------------------------------------------------------------ | -------------------------------------------------------- |
+| [Basic formatting](#basic-formatting)                        | Basic formatting elements in the WYSIWYG editor          |
+| [Image handling](#image-handling)                            | How to add images in the WYSIWYG editor.                 |
+| [Keyboard shortcuts](#keyboard-shortcuts)                    | Working with keyboard shortcuts in the WYSIWYG editor.   |
+| [Macros](#macros)                                            | Available macros in the WYSIWYG editor                   |
+| [Links to OpenProject resources](#links-to-openproject-resources) | How to link to resources like wikis, projects, meetings. |
 | [Embedding of work package attributes and project attributes](#embedding-of-work-package-attributes-and-project-attributes) | How to embed attributes and attribute help texts.        |
 
 ## Basic formatting
@@ -73,7 +74,17 @@ The image will be automatically uploaded and stored as an attachment. You can ad
 
 ![resize-imagesshort](resize-imagesshort.gif)
 
- 
+
+
+## Keyboard shortcuts 
+
+CKEditor has a wide variety of keyboard shortcuts you can use. You can find a list of documented shortcuts here: [https://ckeditor.com/docs/ckeditor5/latest/features/keyboard-support.html](https://ckeditor.com/docs/ckeditor5/latest/features/keyboard-support.html).
+
+On top of that, OpenProject adds the following shortcut:
+
+| Shortcut (Windows / Linux) | Shortcut (Mac) | Action                                                       |
+| -------------------------- | -------------- | ------------------------------------------------------------ |
+| CTRL + ENTER               | CMD + ENTER    | **Save changes.** <br />For inline-editable fields, save the field and close it.<br />For pages with a full WYSIWYG (meetings, wiki pages), submit the form. |
 
 ## Macros
 

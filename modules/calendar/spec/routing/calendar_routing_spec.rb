@@ -48,6 +48,16 @@ RSpec.describe Calendar::CalendarsController do
   end
 
   it do
+    expect(get('/calendars/new')).to route_to(controller: 'calendar/calendars',
+                                              action: 'new')
+  end
+
+  it do
+    expect(post('/calendars')).to route_to(controller: 'calendar/calendars',
+                                           action: 'create')
+  end
+
+  it do
     expect(delete('/projects/1/calendars/2')).to route_to(controller: 'calendar/calendars',
                                                           action: 'destroy',
                                                           id: '2',

@@ -296,6 +296,34 @@ ca:
           one: "Primer criteri d'ordenació"
           two: "Segon criteri d'ordenació"
           three: "Tercer criteri d'ordenació"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "no"
     general_text_yes: "sí"
     general_text_No: "No"
@@ -505,7 +533,7 @@ ca:
     label_remove_all_files: Elimina tots els fitxers
     label_add_description: "Afegiu una descripció per a %{file}"
     label_upload_notification: "Carregant fitxers..."
-    label_work_package_upload_notification: "Carregant fitxers del paquet de treball #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Carregant fitxers del paquet de treball #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} afegit per %{author}"
     label_files_to_upload: "Es carregaran aquests fitxers:"
     label_rejected_files: "Aquests fitxers no es poden carregar:"
@@ -823,63 +851,6 @@ ca:
       activate_no: 'activeu per desactivar l''ordenació'
     text_work_packages_destroy_confirmation: "¿Estàs segur que vols eliminar el(s) paquet(s) de treball seleccionat(s)?"
     text_query_destroy_confirmation: "Estàs segur que vols eliminar la vista seleccionada?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Diagrama de Gantt'
-      labels:
-        title: 'Configuració d''etiquetes'
-        bar: 'Etiquetes de barres'
-        left: 'Esquerra'
-        right: 'Dreta'
-        farRight: 'Extrem dret'
-        showNone: '-- Sense etiqueta --'
-        description: >
-          Selecciona els atributs que vols que es mostrin en les posicions corresponents del diagrama de Gantt en tot moment. Tingui en compte que, en mantenir el ratolí sobre un element, es mostraran les etiquetes de data en lloc d'aquests atributs.
-      button_activate: 'Mostra el diagrama de Gantt'
-      button_deactivate: 'Amaga el diagrama de Gantt'
-      cancel: Cancel·la
-      change: "Canvi en la planificació"
-      due_date: "Data final"
-      empty: "(buit)"
-      error: "S'ha produït un error."
-      errors:
-        not_implemented: "La línia temporal no es pot renderitzar perquè utilitza una característica encara no implementada."
-        report_comparison: "La línia temporal no pot renderitzar les comparacions configurades. Consulteu la secció adequada a la configuració, reiniciar-la podria resoldre aquest problema."
-        report_epicfail: "No es pot carregar la línia temporal a causa d'un error inesperat."
-        report_timeout: "No s'ha pogut carregar la línia temporal en una quantitat raonable de temps."
-      filter:
-        grouping_other: "Altres"
-        noneSelection: "(cap)"
-      name: "Nom"
-      outline: "Reinicia l'esquema"
-      outlines:
-        aggregation: "Mostrar només agregacions"
-        level1: "Amplia el nivell 1"
-        level2: "Amplia el nivell 2"
-        level3: "Amplia el nivell 3"
-        level4: "Amplia el nivell 4"
-        level5: "Amplia el nivell 5"
-        all: "Mostrar tots"
-      project_status: "Estat del projecte"
-      really_close_dialog: "Realment vols tancar el diàleg i perdre les dades introduïdes?"
-      responsible: "Responsable"
-      save: Desa
-      start_date: "Data d'inici"
-      tooManyProjects: "Més de %{count} projectes. Si us plau, utilitzeu un filtre millor!"
-      selection_mode:
-        notification: 'Faci clic en qualsevol paquet de treball ressaltat per a crear la relació. Cliqui Esc per a cancel·lar.'
-      zoom:
-        in: "Ampliar"
-        out: "Allunyar"
-        auto: "Zoom automàtic"
-        days: "Dies"
-        weeks: "Setmanes"
-        months: "Mesos"
-        quarters: "Quadrimestres"
-        years: "Anys"
-        slider: "Control de zoom"
-        description: >
-          Seleccioni el nivell inicial de zoom que s'ha de mostrar quan el zoom automàtic no estigui disponible.
     tl_toolbar:
       zooms: "Nivell de zoom"
       outlines: "Nivell de jerarquia"
@@ -944,10 +915,10 @@ ca:
         addition_label: 'Afegit a la vista en el període de temps de la comparació'
         removal_label: 'Eliminat de la vista en el període de temps de la comparació'
         modification_label: 'Modificat dins del període de temps de la comparació'
-        column_incompatible: 'Aquest atribut no és compatible amb la base de referència i no es mostraran les seves diferències.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filtrar paquets de treball'
-        baseline_incompatible: 'Aquest filtre no és compatible amb la base de referència i no serà inclòs en la comparació.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'La base de referència està activat però alguns dels teus filtres actius no estan actius en la comparació.'
       inline_create:
         title: 'Fes clic aquí per afegir un nou paquet de treball a aquesta llista'

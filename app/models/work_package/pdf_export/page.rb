@@ -121,10 +121,6 @@ module WorkPackage::PDFExport::Page
     format_time(Time.zone.now, true)
   end
 
-  def footer_title
-    heading
-  end
-
   def total_page_nr_text
     @total_page_nr ? "/#{@total_page_nr}" : ''
   end

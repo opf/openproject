@@ -38,43 +38,29 @@ RSpec.describe Journable::Timestamps do
   let(:thursday) { "2022-08-04".to_datetime }
   let(:friday) { "2022-08-05".to_datetime }
 
+  let(:project) { create(:project_with_types) }
   let!(:work_package) do
-    new_work_package = create(:work_package, description: "The work package as it is since Friday", estimated_hours: 10)
-    new_work_package.update_columns created_at: monday
-    new_work_package
+    create(:work_package,
+           description: "The work package as it is since Friday",
+           estimated_hours: 10,
+           project:,
+           journals: {
+             monday => { description: "The work package as it has been on Monday", estimated_hours: 5 },
+             wednesday => { description: "The work package as it has been on Wednesday", estimated_hours: 10 },
+             friday => { description: "The work package as it is since Friday", estimated_hours: 15 }
+           })
   end
   let(:journable) { work_package }
 
   describe "when there are journals for Monday, Wednesday, and Friday" do
-    def create_journal(journable:, timestamp:, attributes: {})
-      work_package_attributes = work_package.attributes.except("id")
-      journal_attributes = work_package_attributes \
-          .extract!(*Journal::WorkPackageJournal.attribute_names) \
-          .symbolize_keys.merge(attributes)
-      create(:work_package_journal,
-             journable:, created_at: timestamp, updated_at: timestamp,
-             data: build(:journal_work_package_journal, journal_attributes))
-    end
-
     let(:monday_journal) do
-      create_journal(journable: work_package, timestamp: monday,
-                     attributes: { description: "The work package as it has been on Monday", estimated_hours: 5 })
+      work_package.journals.find_by(created_at: monday)
     end
     let(:wednesday_journal) do
-      create_journal(journable: work_package, timestamp: wednesday,
-                     attributes: { description: "The work package as it has been on Wednesday", estimated_hours: 10 })
+      work_package.journals.find_by(created_at: wednesday)
     end
     let(:friday_journal) do
-      create_journal(journable: work_package, timestamp: friday,
-                     attributes: { description: "The work package as it is since Friday", estimated_hours: 10 })
-    end
-
-    before do
-      work_package.journals.destroy_all
-      monday_journal
-      wednesday_journal
-      friday_journal
-      work_package.reload
+      work_package.journals.find_by(created_at: friday)
     end
 
     describe ".at_timestamp" do
@@ -98,6 +84,10 @@ RSpec.describe Journable::Timestamps do
 
       it "returns readonly objects" do
         expect(subject.first.readonly?).to be true
+      end
+
+      it 'adds a `timestamp` property to the returned work packages' do
+        expect(subject.first.timestamp).to eq timestamp.iso8601
       end
 
       it "returns the records with the journable id rather than the id of the journal record" do
@@ -155,6 +145,36 @@ RSpec.describe Journable::Timestamps do
         it "returns the work packages in their state of Friday" do
           expect(subject.pluck(:description)).to eq ["The work package as it is since Friday"]
           expect(subject.pluck(:id)).to eq [work_package.id]
+        end
+      end
+
+      describe ".at_timestamp(Monday and Friday)" do
+        let(:timestamp) { [monday, friday] }
+
+        it "returns the work packages two times, in their state on Monday and the one on Friday", :aggregate_failures do
+          expect(subject.length)
+            .to eq 2
+
+          expect(subject.find { |wp| wp.timestamp == monday.iso8601 }.description)
+            .to eq "The work package as it has been on Monday"
+
+          expect(subject.find { |wp| wp.timestamp == friday.iso8601 }.description)
+            .to eq "The work package as it is since Friday"
+        end
+      end
+
+      describe ".at_timestamp(Monday and PT0S)" do
+        let(:timestamp) { [monday, Timestamp.now] }
+
+        it "returns the work packages two times, in their state on Monday and the one on Friday", :aggregate_failures do
+          expect(subject.length)
+            .to eq 2
+
+          expect(subject.find { |wp| wp.timestamp == monday.iso8601 }.description)
+            .to eq "The work package as it has been on Monday"
+
+          expect(subject.find { |wp| wp.timestamp == 'PT0S' }.description)
+            .to eq "The work package as it is since Friday"
         end
       end
 
@@ -586,6 +606,27 @@ RSpec.describe Journable::Timestamps do
 
           it "has the typecasted value matching the journable class's data type" do
             expect(subject.send(column_name)).to eq 0
+          end
+        end
+
+        context 'with a custom field present' do
+          let!(:custom_field) do
+            create(:string_wp_custom_field,
+                   name: 'String CF',
+                   types: project.types,
+                   projects: [project])
+          end
+
+          let!(:monday_customizable_journal) do
+            create(:journal_customizable_journal,
+                   journal: monday_journal,
+                   custom_field:,
+                   value: 'The custom field as it has been on Monday')
+          end
+
+          it 'loads the custom_values relation with the historic values' do
+            expect(subject.send("custom_field_#{custom_field.id}"))
+              .to eq 'The custom field as it has been on Monday'
           end
         end
       end

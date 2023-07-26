@@ -5,7 +5,7 @@ cs:
       remove: 'Odstranit widget'
       configure: 'Konfigurovat widget'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        text: "Některé widgety, jako například widget s grafem pracovního balíčku, jsou dostupné pouze v Enterprise Edici."
         link: 'Enterprise Edice'
       widgets:
         custom_text:

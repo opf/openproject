@@ -49,13 +49,14 @@ module OpenProject::TextFormatting::Formats
 
         # Pass an optional resource to the CKEditor instance
         resource = context.fetch(:resource, {})
-        helpers.content_tag 'ckeditor-augmented-textarea',
-                            '',
-                            'textarea-selector': "##{field_id}",
-                            'editor-type': context[:editor_type] || 'full',
-                            'preview-context': context[:preview_context],
-                            'data-resource': resource.to_json,
-                            macros: context.fetch(:macros, true)
+        helpers.angular_component_tag 'ckeditor-augmented-textarea',
+                                      inputs: {
+                                        textareaSelector: "##{field_id}",
+                                        editorType: context[:editor_type] || 'full',
+                                        previewContext: context[:preview_context],
+                                        resource:,
+                                        macros: context.fetch(:macros, true)
+                                      }
       end
 
       protected

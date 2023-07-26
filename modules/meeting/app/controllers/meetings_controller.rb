@@ -32,8 +32,8 @@ class MeetingsController < ApplicationController
   before_action :build_meeting, only: %i[new create]
   before_action :find_meeting, except: %i[index index_in_wp_tab new create]
   before_action :convert_params, only: %i[create update]
-  before_action :authorize, except: %i[:index new :index_in_wp_tab]
-  before_action :authorize_global, only: %i[:index new :index_in_wp_tab]
+  before_action :authorize, except: %i[index new index_in_wp_tab]
+  before_action :authorize_global, only: %i[index new index_in_wp_tab]
 
   helper :watchers
   helper :meeting_contents
@@ -45,6 +45,10 @@ class MeetingsController < ApplicationController
 
   menu_item :new_meeting, only: %i[new create]
 
+  current_menu_item :index do
+    :meetings
+  end
+
   def index
     @query = load_query
     @meetings = load_meetings(@query)
@@ -52,7 +56,7 @@ class MeetingsController < ApplicationController
   end
 
   def index_in_wp_tab
-    @active_work_package = WorkPackage.find(params[:work_package_id]) unless params[:work_package_id].blank?
+    @active_work_package = WorkPackage.find(params[:work_package_id]) if params[:work_package_id].present?
     @upcoming_meetings = @project.meetings.from_today.limit(10).reorder('start_time ASC')
     @past_meetings = @project.meetings.joins(:agenda_items)
       .where(['meetings.start_time < ?', Time.now.utc]).order('start_time DESC')
@@ -70,7 +74,7 @@ class MeetingsController < ApplicationController
   end
 
   def show_in_wp_tab
-    @active_work_package = WorkPackage.find(params[:work_package_id]) unless params[:work_package_id].blank?
+    @active_work_package = WorkPackage.find(params[:work_package_id]) if params[:work_package_id].present?
     params[:tab] ||= 'minutes' if @meeting.agenda.present? && @meeting.agenda.locked?
     render layout: false
   end
@@ -140,12 +144,19 @@ class MeetingsController < ApplicationController
       current_user
     ).call(params)
 
+    query = apply_default_filter_if_none_given(query)
+
     if @project
       query.where("project_id", '=', @project.id)
-    else
-      # global meetings page should only list future meetings
-      query.where("time", "=", Queries::Meetings::Filters::TimeFilter::FUTURE_VALUE)
     end
+
+    query
+  end
+
+  def apply_default_filter_if_none_given(query)
+    return query if query.filters.any?
+
+    query.where("time", "=", Queries::Meetings::Filters::TimeFilter::FUTURE_VALUE)
   end
 
   def load_meetings(query)
