@@ -104,7 +104,7 @@ Each attribute that has changed will have a grey background, with the old value 
 
 This allows you to have a complete view of what has changed in the comparison period.
 
->**Note**: Some attributes that are not tracked by Baseline are not able to show the old values in the work package table. If any of the columns in your work package table are not tracked, a small warning in the column header will warn you of this.
+>**Note**: Some attributes like _Spent time_ and _Progress_ are not tracked by Baseline are not able to show the old values in the work package table. If any of the columns in your work package table are not tracked, a small warning in the column header will warn you of this.
 >
 > ![Unsupported columns have a warning icon next to them](13_0_Baseline_unsupportedColumn.png)
 
