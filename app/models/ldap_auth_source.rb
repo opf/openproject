@@ -67,7 +67,6 @@ class LdapAuthSource < ApplicationRecord
   # Try to authenticate a user not yet registered against available sources
   def self.authenticate(login, password)
     where(onthefly_register: true).find_each do |source|
-      binding.pry
       begin
         Rails.logger.debug { "Authenticating '#{login}' against '#{source.name}'" }
         attrs = source.authenticate(login, password)
@@ -82,7 +81,6 @@ class LdapAuthSource < ApplicationRecord
 
   def self.find_user(login)
     where(onthefly_register: true).find_each do |source|
-      binding.pry
       begin
         Rails.logger.debug { "Looking up '#{login}' in '#{source.name}'" }
         attrs = source.find_user login

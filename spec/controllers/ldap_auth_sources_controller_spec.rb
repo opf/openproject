@@ -131,37 +131,37 @@ RSpec.describe LdapAuthSourcesController do
     it 'cannot find index' do
       get :index
 
-      expect(response).to have_http_status 404
+      expect(response).to have_http_status :not_found
     end
 
     it 'cannot find new' do
       get :new
 
-      expect(response).to have_http_status 404
+      expect(response).to have_http_status :not_found
     end
 
     it 'cannot find create' do
       post :create, params: { ldap_auth_source: { name: 'Test' } }
 
-      expect(response).to have_http_status 404
+      expect(response).to have_http_status :not_found
     end
 
     it 'cannot find edit' do
       get :edit, params: { id: 42 }
 
-      expect(response).to have_http_status 404
+      expect(response).to have_http_status :not_found
     end
 
     it 'cannot find update' do
       post :update, params: { id: 42, ldap_auth_source: { name: 'TestUpdate' } }
 
-      expect(response).to have_http_status 404
+      expect(response).to have_http_status :not_found
     end
 
     it 'cannot find destroy' do
       post :destroy, params: { id: 42 }
 
-      expect(response).to have_http_status 404
+      expect(response).to have_http_status :not_found
     end
   end
 end
