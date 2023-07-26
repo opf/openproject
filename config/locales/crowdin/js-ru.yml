@@ -296,33 +296,33 @@ ru:
           two: "Второй критерий сортировки"
           three: "Третий критерий сортировки"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'График Гантта'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'Конфигурация метки'
+        bar: 'Панель меток'
+        left: 'Слева'
+        right: 'Справа'
+        farRight: 'Далеко справа'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+          Выберите атрибуты, которые вы хотите постоянно отображать в соответствующих позициях диаграммы Ганта. Обратите внимание, что при наведении курсора мыши на элемент вместо этих атрибутов будут отображаться метки даты.
+      button_activate: 'Показать график Гантта'
+      button_deactivate: 'Скрыть график Гантта'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(нет)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Щелкните по любому выделенному рабочему пакету, чтобы создать связь. Нажмите escape для отмены.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Увеличить"
+        out: "Уменьшить"
+        auto: "Авто масштаб"
+        days: "Дней"
+        weeks: "Недель"
+        months: "Месяцев"
+        quarters: "Кварталов"
+        years: "Лет"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Выберите начальный уровень масштаба, который должен быть показан, когда автозум недоступен.
     general_text_no: "нет"
     general_text_yes: "Да"
     general_text_No: "Нет"
@@ -916,10 +916,10 @@ ru:
         addition_label: 'Добавлено для просмотра в период сравнения'
         removal_label: 'Удалено из просмотра в период сравнения'
         modification_label: 'Изменено в период времени сравнения'
-        column_incompatible: 'This column does not show changes in Baseline mode.'
+        column_incompatible: 'В этом столбце не отображаются изменения в базовом режиме.'
       filters:
         title: 'Фильтровать пакеты работ'
-        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
+        baseline_incompatible: 'Этот атрибут фильтра не учитывается в базовом режиме.'
         baseline_warning: 'Базовый режим включен, но некоторые из ваших активных фильтров не включены в сравнение.'
       inline_create:
         title: 'Кликните здесь, чтобы добавить новый пакет работ в этот список'

@@ -2,7 +2,7 @@
 ru:
   label_calendar: "Календарь"
   label_calendar_plural: "Календари"
-  label_new_calendar: "New calendar"
+  label_new_calendar: "Новый календарь"
   permission_view_calendar: "Просмотр календарей"
   permission_manage_calendars: "Управление календарями"
   permission_share_calendars: "Подписаться на iCalendars"

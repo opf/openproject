@@ -2,7 +2,7 @@
 lt:
   label_calendar: "Kalendorius"
   label_calendar_plural: "Kalendoriai"
-  label_new_calendar: "New calendar"
+  label_new_calendar: "Naujas kalendorius"
   permission_view_calendar: "Žiūrėti kalendorius"
   permission_manage_calendars: "Tvarkyti kalendorius"
   permission_share_calendars: "Prenumeruokite iCalendar"
