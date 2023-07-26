@@ -20,9 +20,33 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+@keyframes svg_ani-1
+  0%
+    x: 150px
+    width: 0
+  36%
+    x: 0
+    width: 150px
+  72%
+    x: 0
+    width: 0
+  100%
+    x: 0
+    width: 0
+
+@keyframes svg_ani-2
+  0%
+    x: 150px
+  36%
+    x: 0
+  72%
+    x: -100px
+  100%
+    x: -100px
 
 $loading-indicator-bg-color: var(--body-background)
-$loading-indicator-spinner-color: var(--primary-color)
+$loading-indicator-width: 150px
+$loading-indicator-height: 70px
 
 .loading-indicator--background
   @include overlay-background
@@ -33,46 +57,50 @@ $loading-indicator-spinner-color: var(--primary-color)
 .loading-indicator--location
   position: relative
 
-.loading-indicator
-  margin: 80px auto
-  width: 100px
-  height: 50px
-  text-align: center
-  font-size: 10px
 
-  [class^='block-']
-    background-color: $loading-indicator-spinner-color
-    height: 100%
-    width: 6px
-    display: inline-block
-    animation: block-waveStretchDelay 1.2s infinite ease-in-out
-    margin: 0 1px
+.op-loading-indicator
+  margin: 0
+  position: relative
+  left: calc(50% - ($loading-indicator-width / 2))
+  top: 33%
+  width: $loading-indicator-width
+  height: $loading-indicator-height
+  view-box: 0 0 $loading-indicator-width $loading-indicator-height
 
-  .block-1
-    animation-delay: -1.2s
-  .block-2
-    animation-delay: -1.1s
-  .block-3
-    animation-delay: -1s
-  .block-4
-    animation-delay: -0.9s
-  .block-5
-    animation-delay: -0.8s
+  rect
+    rx: 4px
+    x: 152px
+    height: 10px
+    width: 150px
+    animation-duration: 2000ms
+    animation-iteration-count: infinite
+    animation-timing-function: linear
+    animation-name: svg_ani-1
 
-  &.-compact
-    margin: 20px auto
+    &:nth-of-type(1)
+      fill: #f89a43
+      x: 140px
+      y: 6px
 
-  &.-small
-    width: 40px
-    height: 24px
-    margin: 0
-    text-align: left
+    &:nth-of-type(2)
+      fill: #f89a43
+      y: 26px
+      animation-delay: 660ms
 
-    [class^='block-']
-      width: 4px
+    &:nth-of-type(3)
+      fill: #346495
+      y: 46px
+      animation-name: svg_ani-1
+      animation-delay: 1330ms
 
-@keyframes block-waveStretchDelay
-  0%, 40%, 100%
-    transform: scaleY(0.4)
-  20%
-    transform: scaleY(1)
+    &:nth-of-type(4)
+      fill: #36c434
+      y: 44px
+      rx: 2px
+      width: 14px
+      height: 14px
+      transform-box: fill-box
+      transform-origin: center
+      transform: rotate(45deg)
+      animation-name: svg_ani-2
+      animation-delay: 2130ms
