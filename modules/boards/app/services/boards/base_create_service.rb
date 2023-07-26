@@ -5,8 +5,11 @@ module Boards
     protected
 
     def instance(attributes)
-      factory_attributes = attributes.merge(scope: scope(attributes))
-      super(factory_attributes)
+      Boards::Grid.new(
+        row_count: row_count_for_board,
+        column_count: column_count_for_board,
+        project: attributes[:project]
+      )
     end
 
     def before_perform(params, _service_result)
@@ -14,13 +17,9 @@ module Boards
 
       create_query_result = create_query(params)
 
-      return result if create_query_result.failure?
+      return create_query_result if create_query_result.failure?
 
       super(params.merge(query_id: create_query_result.result.id), create_query_result)
-    end
-
-    def scope(params)
-      Rails.application.routes.url_helpers.project_work_package_boards_path(params[:project])
     end
 
     def set_attributes_params(params)
@@ -50,7 +49,7 @@ module Boards
 
     def create_query_params(params)
       {
-        project_id: params[:project].id,
+        project: params[:project],
         name: query_name(params),
         filters: query_filters(params)
       }
@@ -71,12 +70,16 @@ module Boards
       end
     end
 
-    def column_count_for_grid(_params)
-      4
-    end
-
     def options_for_widgets(params)
       raise 'Define the options for the grid widgets'
+    end
+
+    def row_count_for_board
+      1
+    end
+
+    def column_count_for_board
+      4
     end
   end
 end

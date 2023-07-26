@@ -36,5 +36,9 @@ module Pages
     def click_on_submit
       click_on 'Create'
     end
+
+    def click_on_cancel_button
+      click_on 'Cancel'
+    end
   end
 end

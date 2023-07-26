@@ -144,5 +144,50 @@ RSpec.describe 'Boards',
         end
       end
     end
+
+    context 'when missing a required field' do
+      describe 'title' do
+        before do
+          wait_for_reload # Halt until the project autocompleter is ready
+
+          new_board_page.set_project(project)
+          new_board_page.click_on_submit
+        end
+
+        it 'renders a required attribute validation error' do
+          expect(Boards::Grid.all).to be_empty
+
+          # Required HTML attribute just warns
+          expect(page).to have_current_path(new_work_package_board_path)
+        end
+      end
+
+      describe 'project_id' do
+        before do
+          new_board_page.set_title("Batman's Itinerary")
+          new_board_page.click_on_submit
+
+          wait_for_reload
+        end
+
+        it 'renders a required attribute validation error' do
+          expect(Boards::Grid.all).to be_empty
+
+          expect(page).to have_text("Project can't be blank.")
+        end
+      end
+    end
+
+    describe 'cancel button' do
+      context "when it's clicked" do
+        before do
+          new_board_page.click_on_cancel_button
+        end
+
+        it 'navigates back to the global index page' do
+          expect(page).to have_current_path(boards_all_path)
+        end
+      end
+    end
   end
 end
