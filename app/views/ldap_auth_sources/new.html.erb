@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), t(:label_auth_source_new) %>
 <% local_assigns[:additional_breadcrumb] = t(:label_auth_source_new) %>
-<%= toolbar title: "#{t(:label_auth_source_new)} (#{@auth_source.auth_method_name})" %>
+<%= toolbar title: "#{t(:label_auth_source_new)}" %>
 
 <%= labelled_tabular_form_for @auth_source, as: :auth_source do |f| %>
   <%= render partial: 'form', locals: { f: f } %>

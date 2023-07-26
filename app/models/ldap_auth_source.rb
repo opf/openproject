@@ -142,10 +142,6 @@ class LdapAuthSource < ApplicationRecord
     raise LdapAuthSource::Error, I18n.t('auth_source.ldap_error', error_message: e.to_s)
   end
 
-  def auth_method_name
-    'LDAP'
-  end
-
   def get_user_attributes_from_ldap_entry(entry)
     base_attributes = {
       dn: entry.dn,

@@ -66,15 +66,6 @@ See COPYRIGHT and LICENSE files for more details.
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
                   <span>
-                    <%= LdapAuthSource.human_attribute_name(:type) %>
-                  </span>
-                </div>
-              </div>
-            </th>
-            <th>
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                  <span>
                     <%= LdapAuthSource.human_attribute_name(:host) %>
                   </span>
                 </div>
@@ -96,7 +87,6 @@ See COPYRIGHT and LICENSE files for more details.
           <% for source in @auth_sources %>
             <tr>
               <td><%= link_to source.name, action: 'edit', id: source %></td>
-              <td><%= source.auth_method_name %></td>
               <td><%= source.host %></td>
               <td><%= source.users.count %></td>
               <td class="buttons">

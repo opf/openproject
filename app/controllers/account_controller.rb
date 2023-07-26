@@ -225,7 +225,7 @@ class AccountController < ApplicationController
     session[:invitation_token] = token.value
     user = token.user
 
-    if user.ldap_auth_source && user.ldap_auth_source.auth_method_name == 'LDAP'
+    if user.ldap_auth_source
       activate_through_ldap user
     else
       activate_user user
