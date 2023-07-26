@@ -31,9 +31,20 @@ require 'spec_helper'
 RSpec.describe 'baseline rendering',
                js: true,
                with_settings: { date_format: '%Y-%m-%d' } do
+  shared_let(:list_wp_custom_field) { create(:list_wp_custom_field, :global) }
+  shared_let(:multi_list_wp_custom_field) { create(:list_wp_custom_field, :global, multi_value: true) }
+  shared_let(:version_wp_custom_field) { create(:version_wp_custom_field, :global) }
+  shared_let(:bool_wp_custom_field) { create(:bool_wp_custom_field, :global) }
+  shared_let(:user_wp_custom_field) { create(:user_wp_custom_field, :global) }
+  shared_let(:int_wp_custom_field) { create(:int_wp_custom_field, :global) }
+  shared_let(:float_wp_custom_field) { create(:float_wp_custom_field, :global) }
+  shared_let(:string_wp_custom_field) { create(:string_wp_custom_field, :global) }
+  shared_let(:date_wp_custom_field) { create(:date_wp_custom_field, :global) }
+
   shared_let(:type_bug) { create(:type_bug) }
-  shared_let(:type_task) { create(:type_task) }
+  shared_let(:type_task) { create(:type_task, custom_fields: CustomField.all) }
   shared_let(:type_milestone) { create(:type_milestone) }
+
   shared_let(:project) { create(:project, types: [type_bug, type_task, type_milestone]) }
   shared_let(:user) do
     create(:user,
@@ -101,8 +112,8 @@ RSpec.describe 'baseline rendering',
         .new(user:, model: wp)
         .call(
           subject: 'New subject',
-          start_date: Date.today - 1.day,
-          due_date: Date.today,
+          start_date: Time.zone.today - 1.day,
+          due_date: Time.zone.today,
           assigned_to: user,
           responsible: user,
           priority: high_priority,
@@ -175,6 +186,69 @@ RSpec.describe 'baseline rendering',
       .result
   end
 
+  shared_let(:initial_custom_values) do
+    # For some reason, only one the last change is being displayed on the table.
+    # I'm still trying to figure out why it is happening, but until then please activate only
+    # the custom field you are trying to fix.
+
+    {
+      # int_wp_custom_field.id => 1, # working
+      # string_wp_custom_field.id => 'this is a string', # working
+      # bool_wp_custom_field.id => true, #working
+      # float_wp_custom_field.id => 2.9, #working
+
+      list_wp_custom_field.id => list_wp_custom_field.possible_values.first, # not working
+      multi_list_wp_custom_field.id => multi_list_wp_custom_field.possible_values.take(2) # not working
+
+      # Please leave these alone at the moment until the specs are set up correctly for
+      # the following fields:
+
+      # user_wp_custom_field.id => [assignee.id.to_s]
+      # version_wp_custom_field,
+      # date_wp_custom_field
+    }
+  end
+
+  shared_let(:changed_custom_values) do
+    # For some reason, only one the last change is being displayed on the table.
+    # I'm still trying to figure out why it is happening, but until then please activate only
+    # the custom field you are trying to fix.
+
+    {
+      # :"custom_field_#{int_wp_custom_field.id}" => 2,
+      # :"custom_field_#{string_wp_custom_field.id}" => 'this is a changed string',
+      # :"custom_field_#{bool_wp_custom_field.id}" => false,
+      # :"custom_field_#{float_wp_custom_field.id}" => 3.7,
+
+      # Not working, needs UI fix
+      "custom_field_#{list_wp_custom_field.id}": [list_wp_custom_field.possible_values.second],
+      "custom_field_#{multi_list_wp_custom_field.id}": multi_list_wp_custom_field.possible_values.take(3)
+
+      # Please leave these alone at the moment until the specs are set up correctly for
+      # the following fields:
+
+      # :"custom_field_#{user_wp_custom_field.id}" => [user.id.to_s]
+      # version_wp_custom_field,
+      # date_wp_custom_field
+    }
+  end
+
+  shared_let(:wp_task_cf) do
+    wp = Timecop.travel(5.days.ago) do
+      create(:work_package,
+             project:,
+             type: type_task,
+             subject: 'A task',
+             custom_values: initial_custom_values)
+    end
+
+    WorkPackages::UpdateService
+      .new(user:, model: wp)
+      .call(changed_custom_values)
+      .on_failure { |result| raise result.message }
+      .result
+  end
+
   shared_let(:query) do
     query = create(:query,
                    name: 'Timestamps Query',
@@ -183,7 +257,9 @@ RSpec.describe 'baseline rendering',
 
     query.timestamps = ["P-2d", "PT0S"]
     query.add_filter('type_id', '=', [type_task.id, type_milestone.id])
-    query.column_names = %w[id subject status type start_date due_date version priority assigned_to responsible]
+    query.column_names =
+      %w[id subject status type start_date due_date version priority assigned_to responsible] +
+      CustomField.all.pluck(:id).map { |id| "cf_#{id}" }
     query.save!(validate: false)
 
     query
@@ -243,6 +319,42 @@ RSpec.describe 'baseline rendering',
       baseline.expect_unchanged_attributes wp_task,
                                            :type, :subject, :start_date, :due_date,
                                            :version, :priority, :assignee, :accountable
+
+      # These expectations will be re-enabled once I figure out why it is showing
+      # only the last changed custom field.
+
+      # baseline.expect_changed_attributes wp_task_cf,
+      #                                "customField#{int_wp_custom_field.id}": [
+      #                                 '1',
+      #                                 '2'
+      #                                ],
+      #                                "customField#{string_wp_custom_field.id}": [
+      #                                 'this is a string',
+      #                                 'this is a changed string'
+      #                                ],
+      #                                "customField#{bool_wp_custom_field.id}": [
+      #                                 'yes',
+      #                                 'no'
+      #                                ]
+      #                                "customField#{float_wp_custom_field.id}": [
+      #                                 '2.9',
+      #                                 '3.7'
+      #                                ]
+      baseline.expect_changed_attributes wp_task_cf,
+                                         "customField#{list_wp_custom_field.id}": [
+                                           list_wp_custom_field.possible_values.first.value,
+                                           list_wp_custom_field.possible_values.second.value
+                                         ]
+
+      # This expectation is not clear if it works, because the multi values are being joined just by a
+      # space, probably a rework on the expectation is also needed.
+
+      baseline.expect_changed_attributes wp_task_cf,
+                                         "customField#{multi_list_wp_custom_field.id}": [
+                                           multi_list_wp_custom_field.possible_values.take(3).pluck(:value).join(" "),
+                                           multi_list_wp_custom_field.possible_values.take(2).pluck(:value).join(" ")
+                                         ]
+
       # show icons on work package single card
       display_representation.switch_to_card_layout
       within "wp-single-card[data-work-package-id='#{wp_bug_was_task.id}']" do
@@ -269,6 +381,7 @@ RSpec.describe 'baseline rendering',
       baseline.expect_inactive
     end
   end
+
   describe 'without EE', with_ee: false, with_flag: { show_changes: true } do
     it 'disabled options' do
       wp_table.visit_query(query)
