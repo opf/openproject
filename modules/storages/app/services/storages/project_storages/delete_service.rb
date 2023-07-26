@@ -30,6 +30,8 @@ module Storages::ProjectStorages
   # Performs the deletion in the superclass. Associated FileLinks are deleted
   # by the model before_destroy hook.
   class DeleteService < ::BaseServices::Delete
+    using Storages::Peripherals::ServiceResultRefinements
+
     # rubocop:disable Metrics/AbcSize
     def before_perform(params, service_result)
       before_result = super(params, service_result)
@@ -39,17 +41,16 @@ module Storages::ProjectStorages
         .new(storage: model.storage)
         .delete_folder_command
         .call(location: model.project_folder_path)
-        .on_success { |result| result.result = model }
-        .on_failure do |result|
-        if result.errors.code == :not_found
-          # if folder was not found consider deletion to be successful
-          result.success = true
-          result.errors = nil
-          result.result = model
-        else
-          result.errors = result.errors.to_active_model_errors
-        end
-      end
+        .match(
+          on_success: ->(*) { ServiceResult.success(result: model) },
+          on_failure: ->(error) do
+            if error.code == :not_found
+              ServiceResult.success(result: model)
+            else
+              ServiceResult.failure(errors: error.to_active_model_errors)
+            end
+          end
+        )
     end
 
     # rubocop:enable Metrics/AbcSize
