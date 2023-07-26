@@ -54,13 +54,22 @@ class AddValidityPeriodToJournals < ActiveRecord::Migration[7.0]
     #   small amount needs to be subtracted as later on the validity_period is calculated as a range from the predecessor's
     #   created_at to the successor's created_at. If the two values would be equal, the range would be empty
     #   resulting in an error.
-    # * updated_at is set to be the minimum of the journal's updated_at and the successor's created_at
-    #   (as the predecessor cannot have been updated after the successor was created)
+    # * updated_at is only altered if created_at and updated_at are equal, meaning the journal has never been updated.
+    #   A journal might very well be updated after its successor was created, because as a note can be updated
+    #   by the user at anytime.
+    #   This might have the consequence of the updated_at wrongfully being after the created_at of the successor,
+    #   but this will not be invalid.
+
     updated = select_rows <<~SQL.squish
       UPDATE journals
       SET
         created_at = LEAST(journals.created_at, values.created_at - interval '1  ms'),
-        updated_at = LEAST(journals.updated_at, values.created_at)
+        updated_at = CASE
+                       WHEN journals.created_at = journals.updated_at
+                       THEN LEAST(journals.created_at, values.created_at - interval '1  ms')
+                       ELSE journals.updated_at
+                     END
+
       FROM (
         SELECT
           predecessors.id,
@@ -79,7 +88,7 @@ class AddValidityPeriodToJournals < ActiveRecord::Migration[7.0]
         AND successors.journable_type = predecessors.journable_type
       ) values
       WHERE values.id = journals.id
-      AND (values.created_at <= journals.created_at OR values.created_at < journals.updated_at)
+      AND values.created_at <= journals.created_at
       #{limit_condition}
       RETURNING journals.journable_id
     SQL
