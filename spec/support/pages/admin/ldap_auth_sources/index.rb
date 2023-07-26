@@ -29,28 +29,13 @@
 require 'support/pages/page'
 
 module Pages
-  class NewUser < Page
-    def path
-      '/users/new'
-    end
-
-    ##
-    # Fills in the given user form fields.
-    def fill_in!(fields = {})
-      form = FormFiller.new fields
-
-      form.fill! 'First name', :first_name
-      form.fill! 'Last name', :last_name
-      form.fill! 'Email', :email
-
-      form.select! 'LDAP connection', :ldap_auth_source
-      form.fill! 'Username', :login
-
-      form.set_checked! 'Administrator', :admin
-    end
-
-    def submit!
-      click_button 'Create'
+  module Admin
+    module LdapAuthSources
+      class Index < ::Pages::Page
+        def path
+          ldap_auth_sources_path
+        end
+      end
     end
   end
 end

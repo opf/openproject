@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,31 +28,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
-
-module Pages
-  class NewUser < Page
-    def path
-      '/users/new'
+module LdapAuthSources
+  class RowComponent < ::RowComponent
+    def name
+      link_to model.name, edit_ldap_auth_source_path(model)
     end
 
-    ##
-    # Fills in the given user form fields.
-    def fill_in!(fields = {})
-      form = FormFiller.new fields
+    delegate :host, to: :model
 
-      form.fill! 'First name', :first_name
-      form.fill! 'Last name', :last_name
-      form.fill! 'Email', :email
-
-      form.select! 'LDAP connection', :ldap_auth_source
-      form.fill! 'Username', :login
-
-      form.set_checked! 'Administrator', :admin
+    def users
+      model.users.size
     end
 
-    def submit!
-      click_button 'Create'
+    def row_css_id
+      "ldap-auth-source-#{model.id}"
+    end
+
+    def button_links
+      [test_link, delete_link].compact
+    end
+
+    def test_link
+      link_to t(:button_test), { controller: 'ldap_auth_sources', action: 'test_connection', id: model }
+    end
+
+    def delete_link
+      return if users > 0
+
+      link_to I18n.t(:button_delete),
+              { controller: 'ldap_auth_sources', id: model.id, action: :destroy },
+              method: :delete,
+              data: { confirm: I18n.t(:text_are_you_sure) },
+              class: 'icon icon-delete',
+              title: I18n.t(:button_delete)
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,31 +28,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+module LdapAuthSources
+  class TableComponent < ::TableComponent
+    columns :name, :host, :users
 
-module Pages
-  class NewUser < Page
-    def path
-      '/users/new'
+    def initial_sort
+      %i[id asc]
     end
 
-    ##
-    # Fills in the given user form fields.
-    def fill_in!(fields = {})
-      form = FormFiller.new fields
-
-      form.fill! 'First name', :first_name
-      form.fill! 'Last name', :last_name
-      form.fill! 'Email', :email
-
-      form.select! 'LDAP connection', :ldap_auth_source
-      form.fill! 'Username', :login
-
-      form.set_checked! 'Administrator', :admin
+    def sortable?
+      true
     end
 
-    def submit!
-      click_button 'Create'
+    def sortable_column?(_column)
+      false
+    end
+
+    def inline_create_link
+      link_to(new_ldap_auth_source_path,
+              class: 'budget-add-row wp-inline-create--add-link',
+              title: I18n.t(:label_ldap_auth_source_new)) do
+        helpers.op_icon('icon icon-add')
+      end
+    end
+
+    def headers
+      [
+        ['name', { caption: LdapAuthSource.human_attribute_name('name') }],
+        ['host', { caption: LdapAuthSource.human_attribute_name('host') }],
+        ['users', { caption: I18n.t(:label_user_plural) }]
+      ]
     end
   end
 end
