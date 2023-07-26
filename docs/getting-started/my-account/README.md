@@ -8,7 +8,7 @@ keywords: my account, account settings, change language
 
 # My account
 
-Change your personal settings in My account. Here you can adapt, e.g. the language, edit notifications, or add an avatar.
+Change your personal settings in My account. Here you can adapt, e.g. the language, edit notifications, or add an avatar. Moreover you can manage access tokens and sessions.
 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -31,7 +31,7 @@ To open your personal settings in OpenProject, click on your user icon in the to
 
 Choose **My account**.
 
-![my account profil information](my-account-profil.png)
+![my account profil information](openproject_my_account_profile.png)
 
 ## Edit your user information
 To change your email address or your name, navigate to **Profile** on the right side menu of **My account** page.
@@ -83,7 +83,7 @@ There are two personal settings available for the [Backlogs module](../../user-g
 
 ## Change password
 
-In order to reset your password, navigate to the My account section and choose **Change password** in the menu.
+In order to reset your password, navigate to  **My account** and choose **Change password** in the menu.
 
 ![my account change password](openproject_my_account_change_password.png)
 
@@ -123,12 +123,46 @@ Click the blue **Continue** button to finish the registration.
 
 ## Access tokens
 To view and manage your OpenProject access tokens navigate to **My account** and choose **Access tokens** from the menu. 
+Access tokens allow you to grant external applications access to resources in OpenProject. 
 
 ![openproject_my_account_access_tokens](openproject_my_account_access_tokens.png)
 
-Access tokens allow you to grant external applications access to resources in OpenProject. For example [read here about adding GitHub Integration](https://www.openproject.org/docs/system-admin-guide/integrations/github-integration/).
+### API
+API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs. If you have not yet created an API token, this list will be empty. You may need admin privileges to be able to create an API.
+
+You can enable an API token under *Administration -> API and webhooks*. LINK TO HOW ITS DONE IN SYSTEM ADMIN GUIDE.
+### iCalendar
+iCalendar tokens allow users to subscribe to OpenProject calendars and view up-to-date work package information from external clients. 
+This list will be empty if you have not yet subscribed to any calendars. Once you [subscribe to a calendar] (LINK TO ICAL DOCUMENTATION), a list of all the calendars that you have subscribed to will appear here. The name of the calendar is clickable and will lead you directly to the respective calendar in OpenProject. 
+
+![OpenProject calendar list under my account](openproject_my_account_access_tokens_calendar_list.png)
+
+You can delete an entry in the iCalendar list by clicking on the **Delete** icon. This will trigger a warning message asking you to confirm the decision to delete.  
+
+![OpenProject delete calendar in My Account](openproject_my_account_access_tokens_delete_calendar.png)
+
+You will then see a message informing you that the the token und the iCal URL are now invalid.
+
+![OpenProject calendar access token is invalid](openproject_my_account_access_tokens_calendar_invalid.png)
+
+### OAUTH
+
+OAuth tokens allow third-party applications to connect with this OpenProject instance. OAuth tokens can be created under [*Administration-> Authentication*](https://www.openproject.org/docs/system-admin-guide/authentication/). You will need admin privileges. 
+
+Potential bug? OAuth created for my user not showing here. 
+
+### RSS
+
+RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader.  You can only create one RSS token (?). 
+
+Create by clicking the **+RSS token** button. This will create your token and trigger a message showing you the access token. 
+
+>  **Note**: You will only be able to see the RSS access token once, directly after you create it. Make sure to copy it. 
+
+![OpenProject RSS token](openproject_my_account_access_tokens_rss.png)
 
 ## Sessions management
+
 To view and manage your OpenProject sessions navigate to **My account** and choose **Sessions management** from the menu. 
 
 ![openproject_my_account_sessions_management](openproject_my_account_sessions_management.png)
