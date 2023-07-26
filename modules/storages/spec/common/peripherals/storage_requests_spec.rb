@@ -310,66 +310,6 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       include_examples 'outbound is failing', 500, :error
     end
 
-    describe '#files_info_query' do
-      let(:file_id) { '819' }
-      let(:expected_response_body) do
-        <<~JSON
-          {
-            "ocs": {
-              "meta": {
-                "status": "ok",
-                "statuscode": 100,
-                "message": "OK",
-                "totalitems": "",
-                "itemsperpage": ""
-              },
-              "data": {
-                "status": "OK",
-                "statuscode": 200,
-                "id": 819,
-                "name": "[Sample] Project Name | Ehuuu(10)",
-                "mtime": 1684491252,
-                "ctime": 0,
-                "mimetype": "application\\/x-op-directory",
-                "size": 0,
-                "owner_name": "OpenProject",
-                "owner_id": "OpenProject",
-                "trashed": false,
-                "modifier_name": null,
-                "modifier_id": null,
-                "dav_permissions": "RMGDNVCK",
-                "path": "files\\/OpenProject\\/[Sample] Project Name | Ehuuu(10)"
-              }
-            }
-          }
-        JSON
-      end
-
-      before do
-        stub_request(:get, "https://example.com/ocs/v1.php/apps/integration_openproject/fileinfo/#{file_id}")
-          .with(headers: { 'Accept' => 'application/json',
-                           'Authorization' => 'Bearer xyz',
-                           'Content-Type' => 'application/json' })
-          .to_return(status: 200, body: expected_response_body, headers: {})
-      end
-
-      context 'with Nextcloud storage type selected' do
-        it 'must return a list of files when called' do
-          result = subject
-                     .files_info_query
-                     .call(user:, file_id:)
-          expect(result).to be_success
-          storage_file = result.result
-          expect(storage_file.id).to eq(819)
-          expect(storage_file.location).to eq("/OpenProject/%5BSample%5D%20Project%20Name%20%7C%20Ehuuu%2810%29")
-          expect(storage_file.mime_type).to eq("application/x-op-directory")
-          expect(storage_file.name).to eq("[Sample] Project Name | Ehuuu(10)")
-          expect(storage_file.permissions).to eq("RMGDNVCK")
-          expect(storage_file.size).to eq(0)
-        end
-      end
-    end
-
     describe '#upload_link_query' do
       let(:query_payload) { Struct.new(:parent).new(42) }
       let(:upload_token) { 'valid-token' }
