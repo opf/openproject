@@ -51,6 +51,7 @@ RSpec.describe(
   let(:storage) { create(:nextcloud_storage, :as_automatically_managed, oauth_application:) }
   let(:project) do
     create(:project,
+           name: "Project name without sequence",
            members: { user => role },
            enabled_module_names: %i[storages work_package_tracking])
   end
@@ -87,7 +88,11 @@ RSpec.describe(
       .to_return(status: 207, body: folder1_xml_response, headers: {})
     stub_request(:get, "#{storage.host}/ocs/v1.php/apps/integration_openproject/fileinfo/11")
       .to_return(status: 200, body: folder1_fileinfo_response.to_json, headers: {})
-    stub_request(:get, "https://host1.example.com/ocs/v1.php/cloud/user").to_return(status: 200, body: "{}")
+    stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user").to_return(status: 200, body: "{}")
+    stub_request(
+      :delete,
+      "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project%20name%20without%20sequence%20(#{project.id})"
+    ).to_return(status: 200, body: "", headers: {})
 
     storage
     project
