@@ -78,7 +78,7 @@ namespace :assets do
   end
 
   desc 'Export frontend locale files'
-  task :export_locales do
+  task export_locales: :environment do
     puts "Exporting I18n.js locales"
     time = Benchmark.realtime do
       I18nJS.call(config_file: Rails.root.join('config/i18n.yml'))
