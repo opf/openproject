@@ -58,11 +58,11 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       </p>
     DESCRIPTION
     create(:work_package,
-                project:,
-                type:,
-                subject: 'Work package 1',
-                story_points: 1,
-                description:).tap do |wp|
+           project:,
+           type:,
+           subject: 'Work package 1',
+           story_points: 1,
+           description:).tap do |wp|
       allow(wp)
         .to receive(:attachments)
               .and_return attachments
