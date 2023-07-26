@@ -1,10 +1,11 @@
 @import '../../app/spot/styles/sass/variables'
+@import '../../global_styles/openproject/variables'
 
 op-time-entries-calendar
   // The two media queries below make sure the "Log time" button does not overlap
   // with the dates on mobile. Instead, it will be shown above the full calendar toolbar.
   // The media queries are the normal mobile/tablet breakpoints.
-  @media screen and (max-width: 679px)
+  @media screen and (max-width: $breakpoint-sm)
     .fc-toolbar-chunk:empty
       display: none
 

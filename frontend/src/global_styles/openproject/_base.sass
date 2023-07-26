@@ -26,35 +26,22 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-h1
-  color:              var(--h1-font-color)
-  font-weight:        bold
-  padding:          0 0 8px 0
-  margin:        0
 
-h2
-  color:              var(--h2-font-color)
-  font-weight:        bold
-  padding:            0 0 8px 0
-  margin:             0
+html, body
+  height: 100%
+  font-size: var(--body-font-size)
 
-h3
-  color:              var(--h3-font-color)
-  font-weight:        normal
-  border-bottom:      1px solid #dddddd
-  padding:            0 0 8px 0
-  margin:             0 0 20px 0
+// Set box-sizing globally to handle padding and border widths
+html
+  box-sizing: border-box
 
-h4
-  color:              var(--h4-font-color)
-  font-weight:        normal
-  border-bottom:      1px dotted #bbbbbb
-  padding:            0 0 5px 0
-  margin:             0 0 20px 0
+*, *:before, *:after
+  box-sizing: inherit
 
-h5
-  color:              var(--h5-font-color)
-  font-weight:        bold
-  border-bottom:      none
-  padding:            0
-  margin:             10px 0 0 0
+body
+  // avoid applying font-family from primer
+  font-family: var(--body-font-family) !important
+
+ul,
+ol
+  margin-left: 2rem

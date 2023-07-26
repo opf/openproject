@@ -34,7 +34,7 @@ export function scrumBacklogsTourSteps():OnboardingStep[] {
     },
     {
       event_type: 'next',
-      selector: '#sprint_backlogs_container .backlog .menu .items',
+      selector: '#sprint_backlogs_container .backlog .backlog-menu .items',
       description: I18n.t('js.onboarding.steps.backlogs.task_board_select'),
       showSkip: false,
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },

@@ -11,11 +11,14 @@
         <li class="toolbar-item">
           <button class="button"
                   *ngIf="addWidget.isAllowed"
-                  [title]="addWidget.addText"
                   (click)="areas.toggleHelpMode()"
                   [ngClass]="{'-active': areas.inHelpMode}">
-            <op-icon icon-classes="button--icon icon-add">
-            </op-icon>
+            <svg
+              op-octicon-op-watching
+              [title]="addWidget.addText"
+              [aria-label]="addWidget.addText"
+              size="medium"
+            ></svg>
           </button>
         </li>
       </ul>

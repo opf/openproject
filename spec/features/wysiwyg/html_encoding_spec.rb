@@ -52,7 +52,7 @@ RSpec.describe 'Wysiwyg escaping HTML entities (Regression #28906)',
     # Save wiki page
     click_on 'Save'
 
-    expect(page).to have_selector('.flash.notice')
+    expect(page).to have_selector('.op-toast.-success')
 
     within('#content') do
       expect(page).to have_selector('p', text: '<node foo="bar" />')

@@ -41,7 +41,7 @@ RSpec.describe 'edit placeholder users', js: true do
 
       click_on 'Save'
 
-      expect(page).to have_selector('.flash.notice', text: 'Successful update.')
+      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.')
 
       placeholder_user.reload
 

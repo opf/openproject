@@ -81,7 +81,7 @@ RSpec.describe 'Wysiwyg attribute macros', js: true do
 
       click_on 'Save'
 
-      expect(page).to have_selector('.flash.notice')
+      expect(page).to have_selector('.op-toast.-success')
 
       # Expect output widget
       within('#content') do
@@ -134,7 +134,7 @@ RSpec.describe 'Wysiwyg attribute macros', js: true do
 
         click_on 'Save'
 
-        expect(page).to have_selector('.flash.notice')
+        expect(page).to have_selector('.op-toast.-success')
 
         within('#content') do
           expect(page).to have_selector('.custom-option', count: 6)

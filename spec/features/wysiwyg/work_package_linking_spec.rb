@@ -54,7 +54,7 @@ RSpec.describe 'Wysiwyg work package linking',
       # Save wiki page
       click_on 'Save'
 
-      expect(page).to have_selector('.flash.notice')
+      expect(page).to have_selector('.op-toast.-success')
 
       within('#content') do
         expect(page).to have_selector('a.issue', count: 1)

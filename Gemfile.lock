@@ -50,6 +50,17 @@ GIT
     omniauth-openid_connect-providers (0.2.0)
       omniauth-openid-connect (>= 0.2.1)
 
+GIT
+  remote: https://github.com/opf/primer_view_components
+  revision: 18abe4d3c8059bc915443767c033543c2e6e8beb
+  ref: 18abe4d
+  specs:
+    primer_view_components (0.4.0)
+      actionview (>= 5.0.0)
+      activesupport (>= 5.0.0)
+      octicons (>= 18.0.0)
+      view_component (>= 3.1, < 4.0)
+
 PATH
   remote: modules/auth_plugins
   specs:
@@ -298,7 +309,7 @@ GEM
       airbrake-ruby (~> 6.0)
     airbrake-ruby (6.2.1)
       rbtree3 (~> 0.6)
-    appsignal (3.4.8)
+    appsignal (3.4.7)
       rack
     ast (2.4.2)
     attr_required (1.0.1)
@@ -628,6 +639,7 @@ GEM
     nokogiri (1.15.3)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
+    octicons (19.4.0)
     oj (3.15.0)
     okcomputer (1.18.4)
     omniauth-saml (1.10.3)
@@ -1088,6 +1100,7 @@ DEPENDENCIES
   plaintext (~> 0.3.2)
   posix-spawn (~> 0.3.13)
   prawn (~> 2.2)
+  primer_view_components!
   pry-byebug (~> 3.10.0)
   pry-rails (~> 0.3.6)
   pry-rescue (~> 1.5.2)

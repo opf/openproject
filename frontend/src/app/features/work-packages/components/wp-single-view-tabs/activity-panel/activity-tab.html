@@ -6,7 +6,7 @@
           *ngFor="let inf of visibleActivities; trackBy:trackByIdentifier; let first = first"
           class="work-package-details-activities-activity"
         >
-          <h3
+          <h4
             class="activity-date"
             [ngClass]="{'-with-toggler': first && showToggler}"
             *ngIf="first || inf.isNextDate"
@@ -22,7 +22,7 @@
               [textContent]="togglerText"
               (click)="toggleComments()"
             ></button>
-          </h3>
+          </h4>
 
           <activity-entry
             [workPackage]="workPackage"
