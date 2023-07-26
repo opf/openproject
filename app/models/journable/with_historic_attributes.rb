@@ -118,6 +118,10 @@ class Journable::WithHistoricAttributes < SimpleDelegator
       end
     end
 
+    def load_custom_values(journalized)
+      Loader.new(journalized).load_custom_values
+    end
+
     private
 
     def wrap_each_journable(journables, timestamps:, query:, include_only_changed_attributes:)

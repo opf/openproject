@@ -145,6 +145,9 @@ module OpenProject
     # Enable serialization of types [Symbol, Date, Time]
     config.active_record.yaml_column_permitted_classes = [Symbol, Date, Time, ActiveSupport::HashWithIndifferentAccess]
 
+    # Include tstzrange columns in the list of time zone aware types
+    ActiveRecord::Base.time_zone_aware_types += [:tstzrange]
+
     # Activate being able to specify the format in which full_message works.
     # Doing this, it is e.g. possible to avoid having the format of '%{attribute} %{message}' which
     # will always prepend the attribute name to the error message.
