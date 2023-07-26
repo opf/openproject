@@ -30,7 +30,7 @@ require 'spec_helper'
 
 module OnboardingHelper
   def step_through_onboarding_wp_tour(project, wp)
-    expect(page).not_to have_selector('.loading-indicator')
+    expect(page).not_to have_selector('.op-loading-indicator')
     expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.wp.list')), normalize_ws: true
 
     next_button.click
