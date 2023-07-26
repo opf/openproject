@@ -1528,7 +1528,7 @@ en:
   menus:
     admin:
       mail_notification: "Email notifications"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
