@@ -43,6 +43,8 @@ OpenProject::Application.routes.draw do
       collection do
         get 'new(/:work_package_id)', action: :new, as: :new
         get :cancel_new
+        put :close
+        put :open
       end
       member do
         get :cancel_edit

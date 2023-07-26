@@ -225,7 +225,7 @@ class Meeting < ApplicationRecord
       start_time = current_time
       current_time += top.duration_in_minutes&.minutes || 0.minutes
       end_time = current_time
-      top.update_columns(start_time: start_time, end_time: end_time) # avoid callbacks, infinite loop otherwise
+      top.update_columns(start_time:, end_time:) # avoid callbacks, infinite loop otherwise
     end
   end
 

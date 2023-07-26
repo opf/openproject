@@ -28,15 +28,18 @@
 
 module MeetingAgendaItems
   class NewSectionComponent < Base::OpTurbo::Component
-    def initialize(meeting:, meeting_agenda_item: nil, active_work_package: nil, state: :initial, **kwargs)
+    def initialize(meeting:, meeting_agenda_item: nil, active_work_package: nil, state: :initial, **_kwargs)
       @meeting = meeting
-      @meeting_agenda_item = meeting_agenda_item || MeetingAgendaItem.new(meeting: meeting, work_package: active_work_package, user: User.current)
+      @meeting_agenda_item = meeting_agenda_item || MeetingAgendaItem.new(meeting:, work_package: active_work_package,
+                                                                          user: User.current)
       @active_work_package = active_work_package
       @state = state
     end
 
     def call
       component_wrapper do
+        return if @meeting.agenda_items_locked?
+
         case @state
         when :initial
           initial_state_partial
@@ -48,14 +51,13 @@ module MeetingAgendaItems
 
     private
 
-
     def initial_state_partial
       flex_layout(justify_content: :flex_end) do |flex|
         flex.with_column do
           form_with(
-            url: new_meeting_agenda_item_path(@meeting), 
-            method: :get, 
-            data: { "turbo-stream": true }
+            url: new_meeting_agenda_item_path(@meeting),
+            method: :get,
+            data: { 'turbo-stream': true }
           ) do |form|
             box_collection do |collection|
               if @active_work_package.present?
@@ -74,14 +76,14 @@ module MeetingAgendaItems
 
     def button_content_partial
       render(Primer::Beta::Button.new(
-        my: 5,
-        size: :medium,
-        disabled: false,
-        scheme: :primary,
-        show_tooltip: true,
-        type: :submit,
-        "aria-label": "Add agenda item"
-      )) do
+               my: 5,
+               size: :medium,
+               disabled: false,
+               scheme: :primary,
+               show_tooltip: true,
+               type: :submit,
+               'aria-label': "Add agenda item"
+             )) do
         if @active_work_package.present?
           "Add work package to agenda"
         else
@@ -97,13 +99,13 @@ module MeetingAgendaItems
         end
         component.with_body do
           render(MeetingAgendaItems::FormComponent.new(
-            meeting: @meeting, 
-            meeting_agenda_item: @meeting_agenda_item, 
-            active_work_package: @active_work_package,
-            method: :post,
-            submit_path: meeting_agenda_items_path(@meeting),
-            cancel_path: cancel_new_meeting_agenda_items_path(@meeting)
-          ))
+                   meeting: @meeting,
+                   meeting_agenda_item: @meeting_agenda_item,
+                   active_work_package: @active_work_package,
+                   method: :post,
+                   submit_path: meeting_agenda_items_path(@meeting),
+                   cancel_path: cancel_new_meeting_agenda_items_path(@meeting)
+                 ))
         end
       end
     end

@@ -29,15 +29,15 @@
 class MeetingAgendaItemsController < ApplicationController
   before_action :set_meeting
   before_action :set_optional_active_work_package
-  before_action :set_meeting_agenda_item, except: [:index, :new, :cancel_new, :create]
+  before_action :set_meeting_agenda_item, except: %i[index new cancel_new create close open]
 
   def new
     respond_with_turbo_stream(
       {
         component: MeetingAgendaItems::NewSectionComponent,
-        params: { 
-          state: :form, 
-          meeting: @meeting, 
+        params: {
+          state: :form,
+          meeting: @meeting,
           active_work_package: @active_work_package
         },
         action: :update
@@ -58,7 +58,7 @@ class MeetingAgendaItemsController < ApplicationController
       }
     )
   end
-  
+
   def create
     @meeting_agenda_item = @meeting.agenda_items.build(meeting_agenda_item_params)
     @meeting_agenda_item.user = User.current
@@ -67,18 +67,25 @@ class MeetingAgendaItemsController < ApplicationController
       respond_with_turbo_stream(
         {
           component: MeetingAgendaItems::NewSectionComponent,
-          params: { 
+          params: {
             meeting: @meeting,
             active_work_package: @active_work_package,
-            state: :form, # enabel continue editing
+            state: :form # enabel continue editing
           },
           action: :update
         },
         {
           component: MeetingAgendaItems::ListComponent,
-          params: { 
+          params: {
             meeting: @meeting,
             active_work_package: @active_work_package
+          },
+          action: :update
+        },
+        {
+          component: MeetingAgendaItems::HeadingComponent,
+          params: {
+            meeting: @meeting
           },
           action: :update
         }
@@ -87,11 +94,11 @@ class MeetingAgendaItemsController < ApplicationController
       respond_with_turbo_stream(
         {
           component: MeetingAgendaItems::NewSectionComponent,
-          params: { 
-            meeting: @meeting, 
+          params: {
+            meeting: @meeting,
             meeting_agenda_item: @meeting_agenda_item,
             active_work_package: @active_work_package,
-            state: :form, # show validation errors
+            state: :form # show validation errors
           },
           action: :update
         }
@@ -103,8 +110,8 @@ class MeetingAgendaItemsController < ApplicationController
     respond_with_turbo_stream(
       {
         component: MeetingAgendaItems::ItemComponent,
-        params: { 
-          state: :edit, 
+        params: {
+          state: :edit,
           meeting_agenda_item: @meeting_agenda_item,
           active_work_package: @active_work_package
         },
@@ -117,8 +124,8 @@ class MeetingAgendaItemsController < ApplicationController
     respond_with_turbo_stream(
       {
         component: MeetingAgendaItems::ItemComponent,
-        params: { 
-          state: :show, 
+        params: {
+          state: :show,
           meeting_agenda_item: @meeting_agenda_item,
           active_work_package: @active_work_package
         },
@@ -134,51 +141,70 @@ class MeetingAgendaItemsController < ApplicationController
       respond_with_turbo_stream(
         {
           component: MeetingAgendaItems::ItemComponent,
-          params: { 
-            state: :edit, 
+          params: {
+            state: :edit,
             meeting_agenda_item: @meeting_agenda_item,
             active_work_package: @active_work_package
           },
           action: :update
         }
       )
+    elsif @meeting_agenda_item.duration_in_minutes_previously_changed?
+      respond_with_turbo_stream(
+        {
+          component: MeetingAgendaItems::ListComponent,
+          params: {
+            meeting: @meeting,
+            active_work_package: @active_work_package
+          },
+          action: :update
+        },
+        {
+          component: MeetingAgendaItems::HeadingComponent,
+          params: {
+            meeting: @meeting
+          },
+          action: :update
+        }
+      )
     else
-      if @meeting_agenda_item.duration_in_minutes_previously_changed?
-        respond_with_turbo_stream(
-          {
-            component: MeetingAgendaItems::ListComponent,
-            params: { 
-              meeting: @meeting,
-              active_work_package: @active_work_package
-            },
-            action: :update
-          }
-        )
-      else
-        respond_with_turbo_stream(
-          {
-            component: MeetingAgendaItems::ItemComponent,
-            params: { 
-              state: :show, 
-              meeting_agenda_item: @meeting_agenda_item,
-              active_work_package: @active_work_package
-            },
-            action: :update
-          }
-        )
-      end
+      respond_with_turbo_stream(
+        {
+          component: MeetingAgendaItems::ItemComponent,
+          params: {
+            state: :show,
+            meeting_agenda_item: @meeting_agenda_item,
+            active_work_package: @active_work_package
+          },
+          action: :update
+        },
+        {
+          component: MeetingAgendaItems::HeadingComponent,
+          params: {
+            meeting: @meeting
+          },
+          action: :update
+        }
+      )
     end
   end
-  
+
   def destroy
     @meeting_agenda_item.destroy!
 
     respond_with_turbo_stream(
       {
         component: MeetingAgendaItems::ListComponent,
-        params: { 
+        params: {
           meeting: @meeting,
           active_work_package: @active_work_package
+        },
+        action: :update
+      },
+      {
+        component: MeetingAgendaItems::HeadingComponent,
+        params: {
+          meeting: @meeting
         },
         action: :update
       }
@@ -191,13 +217,32 @@ class MeetingAgendaItemsController < ApplicationController
     respond_with_turbo_stream(
       {
         component: MeetingAgendaItems::ListComponent,
-        params: { 
+        params: {
           meeting: @meeting,
           active_work_package: @active_work_package
         },
         action: :update
+      },
+      {
+        component: MeetingAgendaItems::HeadingComponent,
+        params: {
+          meeting: @meeting
+        },
+        action: :update
       }
     )
+  end
+
+  def close
+    @meeting.update(agenda_items_locked: true)
+
+    refresh_agenda_view_via_streams
+  end
+
+  def open
+    @meeting.update(agenda_items_locked: false)
+
+    refresh_agenda_view_via_streams
   end
 
   private
@@ -211,11 +256,40 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def set_optional_active_work_package
-    @active_work_package = WorkPackage.find_by(id: params[:work_package_id]) unless params[:work_package_id].blank?
+    @active_work_package = WorkPackage.find_by(id: params[:work_package_id]) if params[:work_package_id].present?
   end
 
   def meeting_agenda_item_params
     params.require(:meeting_agenda_item).permit(:title, :duration_in_minutes, :work_package_id, :input, :output, :details)
+  end
+
+  def refresh_agenda_view_via_streams
+    respond_with_turbo_stream(
+      {
+        component: MeetingAgendaItems::ListComponent,
+        params: {
+          meeting: @meeting,
+          active_work_package: @active_work_package
+        },
+        action: :update
+      },
+      {
+        component: MeetingAgendaItems::HeadingComponent,
+        params: {
+          meeting: @meeting
+        },
+        action: :update
+      },
+      {
+        component: MeetingAgendaItems::NewSectionComponent,
+        params: {
+          meeting: @meeting,
+          active_work_package: @active_work_package,
+          state: :initial
+        },
+        action: :update
+      }
+    )
   end
 
   ###
@@ -226,7 +300,7 @@ class MeetingAgendaItemsController < ApplicationController
       if value.is_a?(Hash)
         if value[:action] == :update # only replace is supported for now in this prototype
           streams << value[:component].replace_via_turbo_stream(
-            view_context: view_context,
+            view_context:,
             **value[:params]
           )
         end
@@ -241,5 +315,4 @@ class MeetingAgendaItemsController < ApplicationController
     end
   end
   ###
-
 end

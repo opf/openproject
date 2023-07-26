@@ -28,7 +28,7 @@
 
 module MeetingAgendaItems
   class ItemComponent::ShowComponent < Base::Component
-    def initialize(meeting_agenda_item:, active_work_package: nil, **kwargs)
+    def initialize(meeting_agenda_item:, active_work_package: nil, **_kwargs)
       @meeting_agenda_item = meeting_agenda_item
       @active_work_package = active_work_package
     end
@@ -67,19 +67,23 @@ module MeetingAgendaItems
     end
 
     def drag_and_drop_enabled?
-      @active_work_package.nil?
+      if @meeting_agenda_item.meeting.agenda_items_locked?
+        false
+      else
+        @active_work_package.nil?
+      end
     end
 
     def drag_handler_partial
       render(Primer::Beta::IconButton.new(
-        ml: 2,
-        classes: "handle",
-        size: :medium,
-        disabled: false,
-        icon: :grabber,
-        show_tooltip: true,
-        "aria-label": "Drag agenda item"
-      ))
+               ml: 2,
+               classes: "handle",
+               size: :medium,
+               disabled: false,
+               icon: :grabber,
+               show_tooltip: true,
+               'aria-label': "Drag agenda item"
+             ))
     end
 
     def show_time_slot?
@@ -89,23 +93,21 @@ module MeetingAgendaItems
     def edit_enabled?
       if @active_work_package.nil?
         true
-      elsif @active_work_package&.id == @meeting_agenda_item.work_package&.id
-        true
       else
-        false
+        @active_work_package&.id == @meeting_agenda_item.work_package&.id
       end
     end
 
     def work_package_partial
       render(Primer::Box.new(style: "margin-left: -10px;")) do
-        link_to(work_package_path(@meeting_agenda_item.work_package), target: "_blank") do
-          render(Primer::Beta::Label.new(size: :large, font_weight: :bold)) do 
+        link_to(work_package_path(@meeting_agenda_item.work_package), target: "_blank", rel: "noopener") do
+          render(Primer::Beta::Label.new(size: :large, font_weight: :bold)) do
             "##{@meeting_agenda_item.work_package.id} #{@meeting_agenda_item.work_package.subject}"
           end
         end
       end
     end
-    
+
     def description_partial
       flex_layout do |flex|
         flex.with_row(mb: 2) do
@@ -136,28 +138,27 @@ module MeetingAgendaItems
       if @meeting_agenda_item.work_package.present?
         work_package_partial
       else
-        render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do 
-          "#{@meeting_agenda_item.title}" 
+        render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do
+          "#{@meeting_agenda_item.title}"
         end
       end
-
     end
 
     def meta_info_partial
       flex_layout do |flex|
         flex.with_column(pr: 1) do
-          render(Primer::Beta::Text.new(font_size: :small, color: :muted)) do 
-            "created by #{@meeting_agenda_item.user.name}" 
+          render(Primer::Beta::Text.new(font_size: :small, color: :muted)) do
+            "created by #{@meeting_agenda_item.user.name}"
           end
         end
         flex.with_column do
           render(Primer::Beta::RelativeTime.new(
-            font_size: :small,
-            color: :muted,
-            tense: :past,
-            lang: :en,
-            datetime: @meeting_agenda_item.created_at,
-          ))
+                   font_size: :small,
+                   color: :muted,
+                   tense: :past,
+                   lang: :en,
+                   datetime: @meeting_agenda_item.created_at
+                 ))
         end
       end
     end
@@ -165,14 +166,14 @@ module MeetingAgendaItems
     def details_partial
       flex_layout do |flex|
         flex.with_row do
-          render(Primer::Beta::Text.new(font_size: :small)) do 
-            "Details:" 
-          end 
+          render(Primer::Beta::Text.new(font_size: :small)) do
+            "Details:"
+          end
         end
         flex.with_row do
-          render(Primer::Box.new(font_size: :small, color: :muted)) do 
+          render(Primer::Box.new(font_size: :small, color: :muted)) do
             simple_format(@meeting_agenda_item.details, {}, wrapper_tag: "span")
-          end 
+          end
         end
       end
     end
@@ -180,14 +181,14 @@ module MeetingAgendaItems
     def input_partial
       flex_layout do |flex|
         flex.with_row do
-          render(Primer::Beta::Text.new(font_size: :small)) do 
-            "Clarification need:" 
-          end 
+          render(Primer::Beta::Text.new(font_size: :small)) do
+            "Clarification need:"
+          end
         end
         flex.with_row do
-          render(Primer::Box.new(font_size: :small, color: :muted)) do 
+          render(Primer::Box.new(font_size: :small, color: :muted)) do
             simple_format(@meeting_agenda_item.input, {}, wrapper_tag: "span")
-          end 
+          end
         end
       end
     end
@@ -195,27 +196,27 @@ module MeetingAgendaItems
     def output_partial
       flex_layout(mt: 1) do |flex|
         flex.with_row do
-          render(Primer::Beta::Text.new(font_size: :small)) do 
-            "Clarification:" 
-          end 
+          render(Primer::Beta::Text.new(font_size: :small)) do
+            "Clarification:"
+          end
         end
         flex.with_row do
-          render(Primer::Box.new(font_size: :small, color: :muted)) do 
+          render(Primer::Box.new(font_size: :small, color: :muted)) do
             simple_format(@meeting_agenda_item.output, {}, wrapper_tag: "span")
-          end 
+          end
         end
       end
     end
 
     def time_slot_partial
-      render(Primer::Beta::Text.new(font_size: :normal, color: :subtle)) do 
+      render(Primer::Beta::Text.new(font_size: :normal, color: :subtle)) do
         [
           @meeting_agenda_item.start_time.strftime("%H:%M"),
           "-",
           @meeting_agenda_item.end_time.strftime("%H:%M"),
           "(#{@meeting_agenda_item.duration_in_minutes || 0} min)"
         ].join(" ")
-      end 
+      end
     end
 
     def actions_partial
@@ -230,50 +231,52 @@ module MeetingAgendaItems
     end
 
     def edit_action_partial
-      form_with( 
-        url: edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item), 
-        method: :get, 
-        data: { "turbo-stream": true } 
-      ) do |form|
+      form_with(
+        url: edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
+        method: :get,
+        data: { 'turbo-stream': true }
+      ) do |_form|
         flex_layout do |flex|
           flex.with_row do
             hidden_field_tag :work_package_id, @active_work_package&.id
           end
           flex.with_row do
             render(Primer::Beta::IconButton.new(
-              mr: 2,
-              size: :medium,
-              disabled: false,
-              icon: :pencil,
-              show_tooltip: true,
-              type: :submit,
-              "aria-label": "Edit agenda item"
-            ))
+                     mr: 2,
+                     size: :medium,
+                     disabled: false,
+                     icon: :pencil,
+                     show_tooltip: true,
+                     type: :submit,
+                     'aria-label': "Edit agenda item"
+                   ))
           end
         end
       end
     end
 
     def delete_action_partial
-      form_with( 
-        url: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item), 
+      return if @meeting_agenda_item.meeting.agenda_items_locked?
+
+      form_with(
+        url: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
         method: :delete,
-        data: { "turbo-stream": true, confirm: "Are you sure?" } 
-      ) do |form|
+        data: { 'turbo-stream': true, confirm: "Are you sure?" }
+      ) do |_form|
         flex_layout do |flex|
           flex.with_row do
             hidden_field_tag :work_package_id, @active_work_package&.id
           end
           flex.with_row do
             render(Primer::Beta::IconButton.new(
-              scheme: :danger,
-              size: :medium,
-              disabled: false,
-              icon: :trash,
-              show_tooltip: true,
-              type: :submit,
-              "aria-label": "Delete agenda item"
-            ))
+                     scheme: :danger,
+                     size: :medium,
+                     disabled: false,
+                     icon: :trash,
+                     show_tooltip: true,
+                     type: :submit,
+                     'aria-label': "Delete agenda item"
+                   ))
           end
         end
       end
