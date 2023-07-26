@@ -149,7 +149,6 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
   def destroy_info
     @project_storage_to_destroy = @object
 
-    hide_project_in_layout
     render '/storages/project_settings/destroy_info'
   end
 
@@ -168,9 +167,5 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
 
   def available_storages
     Storages::Storage.visible.not_enabled_for_project(@project)
-  end
-
-  def hide_project_in_layout
-    @project = nil
   end
 end
