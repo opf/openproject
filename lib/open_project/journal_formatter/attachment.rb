@@ -57,7 +57,6 @@ class OpenProject::JournalFormatter::Attachment < JournalFormatter::Base
     end
   end
 
-
   def label(_key)
     Attachment.model_name.human
   end
