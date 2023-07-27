@@ -30,16 +30,16 @@ module Storages::Peripherals
   module StorageFileInfoConverter
     def to_storage_file(storage_file_info)
       Storages::StorageFile.new(
-        storage_file_info.id,
-        storage_file_info.name,
-        storage_file_info.size,
-        storage_file_info.mime_type,
-        storage_file_info.created_at,
-        storage_file_info.last_modified_at,
-        storage_file_info.owner_name,
-        storage_file_info.last_modified_by_name,
-        storage_file_info.location,
-        storage_file_info.permissions
+        id: storage_file_info.id,
+        name: storage_file_info.name,
+        size: storage_file_info.size,
+        mime_type: storage_file_info.mime_type,
+        created_at: storage_file_info.created_at,
+        last_modified_at: storage_file_info.last_modified_at,
+        created_by_name: storage_file_info.owner_name,
+        last_modified_by_name: storage_file_info.last_modified_by_name,
+        location: storage_file_info.location,
+        permissions: storage_file_info.permissions
       )
     end
   end

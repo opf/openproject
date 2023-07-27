@@ -36,46 +36,46 @@ RSpec.describe API::V3::StorageFiles::StorageFilesRepresenter do
 
   let(:parent) do
     Storages::StorageFile.new(
-      23,
-      'Documents',
-      2048,
-      'application/x-op-directory',
-      created_at,
-      last_modified_at,
-      'admin',
-      'admin',
-      '/Documents',
-      %i[readable writeable]
+      id: 23,
+      name: 'Documents',
+      size: 2048,
+      mime_type: 'application/x-op-directory',
+      created_at:,
+      last_modified_at:,
+      created_by_name: 'admin',
+      last_modified_by_name: 'admin',
+      location: '/Documents',
+      permissions: %i[readable writeable]
     )
   end
 
   let(:file) do
     Storages::StorageFile.new(
-      42,
-      'readme.md',
-      4096,
-      'text/plain',
-      created_at,
-      last_modified_at,
-      'admin',
-      'admin',
-      '/Documents/readme.md',
-      %i[readable writeable]
+      id: 42,
+      name: 'readme.md',
+      size: 4096,
+      mime_type: 'text/plain',
+      created_at:,
+      last_modified_at:,
+      created_by_name: 'admin',
+      last_modified_by_name: 'admin',
+      location: '/Documents/readme.md',
+      permissions: %i[readable writeable]
     )
   end
 
   let(:ancestor) do
     Storages::StorageFile.new(
-      47,
-      '/',
-      4096,
-      'application/x-op-directory',
-      created_at,
-      last_modified_at,
-      'admin',
-      'admin',
-      '/',
-      %i[readable writeable]
+      id: 47,
+      name: '/',
+      size: 4096,
+      mime_type: 'application/x-op-directory',
+      created_at:,
+      last_modified_at:,
+      created_by_name: 'admin',
+      last_modified_by_name: 'admin',
+      location: '/',
+      permissions: %i[readable writeable]
     )
   end
 

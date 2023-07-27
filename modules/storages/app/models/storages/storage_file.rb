@@ -26,21 +26,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::StorageFile
-  attr_reader :id, :name, :size, :mime_type, :created_at, :last_modified_at, :created_by_name, :last_modified_by_name,
-              :location, :permissions
-
-  def initialize(id, name, size, mime_type, created_at, last_modified_at, created_by_name, last_modified_by_name,
-                 location, permissions)
-    @id = id
-    @name = name
-    @size = size
-    @mime_type = mime_type
-    @created_at = created_at
-    @last_modified_at = last_modified_at
-    @created_by_name = created_by_name
-    @last_modified_by_name = last_modified_by_name
-    @location = location
-    @permissions = permissions
+module Storages
+  StorageFile = Data.define(
+    :id,
+    :name,
+    :size,
+    :mime_type,
+    :created_at,
+    :last_modified_at,
+    :created_by_name,
+    :last_modified_by_name,
+    :location,
+    :permissions
+  ) do
+    def initialize(
+      id:,
+      name:,
+      size: nil,
+      mime_type: nil,
+      created_at: nil,
+      last_modified_at: nil,
+      created_by_name: nil,
+      last_modified_by_name: nil,
+      location: nil,
+      permissions: nil
+    )
+      super(
+        id:,
+        name:,
+        size:,
+        mime_type:,
+        created_at:,
+        last_modified_at:,
+        created_by_name:,
+        last_modified_by_name:,
+        location:,
+        permissions:
+      )
+    end
   end
 end
