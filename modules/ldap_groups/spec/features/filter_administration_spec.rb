@@ -14,7 +14,7 @@ RSpec.describe 'LDAP group filter administration spec', js: true do
               OPENPROJECT_SEED_LDAP_FOO_HOST: "localhost",
               OPENPROJECT_SEED_LDAP_FOO_PORT: "12389",
               OPENPROJECT_SEED_LDAP_FOO_SECURITY: "plain_ldap",
-              OPENPROJECT_SEED_LDAP_FOO_TLSVERIFY: "false",
+              OPENPROJECT_SEED_LDAP_FOO_TLS__VERIFY: "false",
               OPENPROJECT_SEED_LDAP_FOO_BINDUSER: "uid=admin,ou=system",
               OPENPROJECT_SEED_LDAP_FOO_BINDPASSWORD: "secret",
               OPENPROJECT_SEED_LDAP_FOO_BASEDN: "dc=example,dc=com",

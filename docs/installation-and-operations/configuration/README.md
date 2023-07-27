@@ -213,7 +213,7 @@ OPENPROJECT_SEED_LDAP_EXAMPLE_PORT="389"
 # start_tls: LDAPv3 start_tls call using standard unencrypted port (e.g., 389) before upgrading connection
 OPENPROJECT_SEED_LDAP_EXAMPLE_SECURITY="start_tls"
 # Whether to verify the certificate/chain of the LDAP connection. true/false (True by default)
-OPENPROJECT_SEED_LDAP_EXAMPLE_TLSVERIFY="true"
+OPENPROJECT_SEED_LDAP_EXAMPLE_TLS__VERIFY="true"
 # Optionally, provide a certificate of the connection
 OPENPROJECT_SEED_LDAP_EXAMPLE_TLS__CERTIFICATE="-----BEGIN CERTIFICATE-----\nMII....\n-----END CERTIFICATE-----"
 # The admin LDAP bind account with read access

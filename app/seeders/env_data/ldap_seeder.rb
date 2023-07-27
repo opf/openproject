@@ -55,7 +55,7 @@ module EnvData
       ldap.port = options['port']
 
       ldap.tls_mode = options['security']
-      ldap.verify_peer = ActiveRecord::Type::Boolean.new.deserialize options.fetch('tlsverify', true)
+      ldap.verify_peer = ActiveRecord::Type::Boolean.new.deserialize options.fetch('tls_verify', true)
       ldap.onthefly_register = ActiveRecord::Type::Boolean.new.deserialize options.fetch('sync_users', false)
       ldap.tls_certificate_string = options['tls_certificate'].presence
 
