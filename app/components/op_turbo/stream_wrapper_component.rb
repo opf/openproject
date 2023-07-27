@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Base
-  class OpTurbo::StreamWrapperComponent < ApplicationComponent
+module OpTurbo
+  class StreamWrapperComponent < ApplicationComponent
     def initialize(template:, action:, target:)
       super()
 
