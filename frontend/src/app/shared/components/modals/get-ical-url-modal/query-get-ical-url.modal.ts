@@ -123,7 +123,7 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
       return;
     }
 
-    let icalUrl = '';
+    const icalUrl = '';
 
     const tokenName = (this.tokenNameForm.value as TokenNameFormValue)?.name;
 
@@ -136,7 +136,7 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
 
     void promise
       .then((response:{ icalUrl:{ href:string } }) => {
-        this.copyToClipboardService.copy(String(response.icalUrl.href));
+        this.copyToClipboardService.copy(String(response.icalUrl.href), this.I18n.t('js.ical_sharing_modal.success_message', { name: tokenName }));
         this.closeMe();
       })
       .catch((error:{ message:string }) => {
