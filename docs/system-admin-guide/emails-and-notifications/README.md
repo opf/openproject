@@ -31,7 +31,7 @@ The setting **User actions aggregated within** specifies a time interval in whic
 2. Activate **blind carbon copy recipients** (bcc).
 3. Define if the email should be formatted in **plain text** (no HTML).
 
-The frequency of sending e-mails per work package can be set in [this way](../system-settings/display-settings/#time-and-date-formatting).
+The frequency of sending e-mails per work package can be set in [this way](../calendars-and-dates/#date-format).
 
 ### Configure email header and email footer
 

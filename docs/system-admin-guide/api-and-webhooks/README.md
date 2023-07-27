@@ -23,7 +23,7 @@ If the **docs page** is enabled you can get an interactive view of the APIv3 doc
 
 ### Cross-Origin Resource Sharing (CORS)
 
-To enable **CORS** headers being returned by the [OpenProject APIv3](../../../api/),
+To enable **CORS** headers being returned by the [OpenProject APIv3](../../api/),
 enable the check box on this page. This will also enable it for dependent authentication endpoints, such as OAuth endpoints `/oauth/token` and the like.
 
 You will then have to enter the allowed values for the Origin header that OpenProject will allow access to.

@@ -63,7 +63,7 @@ The non-working days defined here are coloured differently, generally with a dar
 
 ## Date format
 
-Administrators are able to change the deafult time and date formats in OpenProject. This affects how calendars and dates are calculated and displayed.
+Administrators are able to change the default time and date formats in OpenProject. This affects how calendars and dates are calculated and displayed.
 
 To change this setting, navigate to **Date format** inside of the **Calendar and dates** settings.
 
@@ -81,7 +81,7 @@ To change this setting, navigate to **Date format** inside of the **Calendar and
    - For more information on the way the first week of the year is computed according to ISO standards, see [wikipedia](https://en.wikipedia.org/wiki/ISO_week_date#First_week)
 5. Do not forget to **save** your changes.
 
-> **Info:** Configuration options related to aggregation time (the time interval in which different user activities are displayed as one set of actions) have been moved to the [Emails and notifications](../../emails-and-notifications/) section.
+> **Info:** Configuration options related to aggregation time (the time interval in which different user activities are displayed as one set of actions) have been moved to the [Emails and notifications](../emails-and-notifications/) section.
 
 ## Calendar subscriptions
 
