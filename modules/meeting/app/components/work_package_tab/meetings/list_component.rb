@@ -28,7 +28,9 @@
 
 module WorkPackageTab
   class Meetings::ListComponent < Base::Component
-    def initialize(meetings:, active_work_package: nil,  **kwargs)
+    def initialize(meetings:, active_work_package: nil)
+      super
+
       @meetings = meetings
       @active_work_package = active_work_package
     end
@@ -37,7 +39,7 @@ module WorkPackageTab
       render(Primer::Beta::BorderBox.new(padding: :condensed)) do |component|
         @meetings.each do |meeting|
           component.with_row do
-            render(WorkPackageTab::Meetings::ItemComponent.new(meeting: meeting, active_work_package: @active_work_package))
+            render(WorkPackageTab::Meetings::ItemComponent.new(meeting:, active_work_package: @active_work_package))
           end
         end
       end

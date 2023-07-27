@@ -28,7 +28,9 @@
 
 module WorkPackageTab
   class Meetings::ItemComponent < Base::Component
-    def initialize(meeting:, active_work_package: nil, **kwargs)
+    def initialize(meeting:, active_work_package: nil)
+      super
+
       @meeting = meeting
       @active_work_package = active_work_package
     end
@@ -58,7 +60,7 @@ module WorkPackageTab
     end
 
     def meeting_date_partial
-      render(Primer::Beta::Label.new(size: :large)) do 
+      render(Primer::Beta::Label.new(size: :large)) do
         "#{format_date(@meeting.start_time)}"
       end
     end
@@ -82,14 +84,14 @@ module WorkPackageTab
           end
         end
         flex.with_column(pr: 1) do
-          render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do 
-            "#{@meeting.title}" 
+          render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do
+            "#{@meeting.title}"
           end
         end
         flex.with_column do
           render(Primer::Beta::Counter.new(
-            scheme: :primary, count: count_active_work_package_references_in_meeting || 0, hide_if_zero: true
-          ))
+                   scheme: :primary, count: count_active_work_package_references_in_meeting || 0, hide_if_zero: true
+                 ))
         end
       end
     end
@@ -101,26 +103,25 @@ module WorkPackageTab
     end
 
     def actions_partial
-      form_with( 
-        url: show_in_wp_tab_meeting_path(@meeting, work_package_id: @active_work_package&.id), 
-        method: :get, 
-        data: { "turbo-stream": true } 
-      ) do |form| 
-          render(Primer::Beta::IconButton.new(
-            mr: 2,
-            size: :medium,
-            disabled: false,
-            icon: "arrow-right",
-            show_tooltip: true,
-            type: :submit,
-            "aria-label": "Add to meeting"
-          ))
+      form_with(
+        url: show_in_wp_tab_meeting_path(@meeting, work_package_id: @active_work_package&.id),
+        method: :get,
+        data: { 'turbo-stream': true }
+      ) do |_form|
+        render(Primer::Beta::IconButton.new(
+                 mr: 2,
+                 size: :medium,
+                 disabled: false,
+                 icon: "arrow-right",
+                 show_tooltip: true,
+                 type: :submit,
+                 'aria-label': "Add to meeting"
+               ))
       end
     end
-    
+
     def count_active_work_package_references_in_meeting
       @meeting.agenda_items.where(work_package_id: @active_work_package.id).count if @active_work_package.present?
     end
-
   end
 end

@@ -28,7 +28,9 @@
 
 module WorkPackageTab
   class MeetingAgendaItems::ListComponent < Base::Component
-    def initialize(work_package:, meeting_agenda_items:, **kwargs)
+    def initialize(work_package:, meeting_agenda_items:)
+      super
+
       @meeting_agenda_items = meeting_agenda_items
       @work_package = work_package
     end
@@ -42,7 +44,7 @@ module WorkPackageTab
         end
       end
     end
-    
+
     private
 
     def row_content_partial(meeting_agenda_item)
@@ -70,14 +72,14 @@ module WorkPackageTab
     def meeting_partial(meeting_agenda_item)
       flex_layout do |flex|
         flex.with_column(pr: 1) do
-          render(Primer::Beta::Label.new(size: :large)) do 
+          render(Primer::Beta::Label.new(size: :large)) do
             "Meeting: #{meeting_agenda_item.meeting.title}"
-          end 
+          end
         end
         flex.with_column do
-          render(Primer::Beta::Label.new(size: :large)) do 
+          render(Primer::Beta::Label.new(size: :large)) do
             format_date(meeting_agenda_item.meeting.start_time)
-          end 
+          end
         end
       end
     end
@@ -103,16 +105,16 @@ module WorkPackageTab
       end
     end
 
-    def title_partial(meeting_agenda_item)
+    def title_partial(_meeting_agenda_item)
       flex_layout do |flex|
         flex.with_column(pr: 1) do
-          render(Primer::Beta::Text.new(font_size: :normal, color: :muted, font_weight: :bold)) do 
-            "Agenda item" 
+          render(Primer::Beta::Text.new(font_size: :normal, color: :muted, font_weight: :bold)) do
+            "Agenda item"
           end
         end
         # flex.with_column do
-        #   render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do 
-        #     "#{meeting_agenda_item.title}" 
+        #   render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do
+        #     "#{meeting_agenda_item.title}"
         #   end
         # end
       end
@@ -121,18 +123,18 @@ module WorkPackageTab
     def meta_info_partial(meeting_agenda_item)
       flex_layout do |flex|
         flex.with_column(pr: 1) do
-          render(Primer::Beta::Text.new(font_size: :small, color: :muted)) do 
-            "created by #{meeting_agenda_item.user.name}" 
+          render(Primer::Beta::Text.new(font_size: :small, color: :muted)) do
+            "created by #{meeting_agenda_item.user.name}"
           end
         end
         flex.with_column do
           render(Primer::Beta::RelativeTime.new(
-            font_size: :small,
-            color: :muted,
-            tense: :past,
-            lang: :en,
-            datetime: meeting_agenda_item.created_at,
-          ))
+                   font_size: :small,
+                   color: :muted,
+                   tense: :past,
+                   lang: :en,
+                   datetime: meeting_agenda_item.created_at
+                 ))
         end
       end
     end
@@ -140,14 +142,14 @@ module WorkPackageTab
     def input_partial(meeting_agenda_item)
       flex_layout do |flex|
         flex.with_row do
-          render(Primer::Beta::Text.new(font_size: :small)) do 
-            "Clarifaction need:" 
-          end 
+          render(Primer::Beta::Text.new(font_size: :small)) do
+            "Clarifaction need:"
+          end
         end
         flex.with_row do
-          render(Primer::Box.new(font_size: :small, color: :muted)) do 
+          render(Primer::Box.new(font_size: :small, color: :muted)) do
             simple_format(meeting_agenda_item.input, {}, wrapper_tag: "span")
-          end 
+          end
         end
       end
     end
@@ -155,33 +157,33 @@ module WorkPackageTab
     def output_partial(meeting_agenda_item)
       flex_layout do |flex|
         flex.with_row do
-          render(Primer::Beta::Text.new(font_size: :small)) do 
-            "Clarification:" 
-          end 
+          render(Primer::Beta::Text.new(font_size: :small)) do
+            "Clarification:"
+          end
         end
         flex.with_row do
-          render(Primer::Box.new(font_size: :small, color: :muted)) do 
+          render(Primer::Box.new(font_size: :small, color: :muted)) do
             simple_format(meeting_agenda_item.output, {}, wrapper_tag: "span")
-          end 
+          end
         end
       end
     end
 
     def actions_partial(meeting_agenda_item)
-      form_with( 
-        url: show_in_wp_tab_meeting_path(meeting_agenda_item.meeting, work_package_id: @work_package&.id), 
-        method: :get, 
-        data: { "turbo-stream": true } 
-      ) do |form|
+      form_with(
+        url: show_in_wp_tab_meeting_path(meeting_agenda_item.meeting, work_package_id: @work_package&.id),
+        method: :get,
+        data: { 'turbo-stream': true }
+      ) do |_form|
         render(Primer::Beta::IconButton.new(
-          mr: 2,
-          size: :medium,
-          disabled: false,
-          icon: "arrow-right",
-          show_tooltip: true,
-          type: :submit,
-          "aria-label": "Show meeting"
-        ))
+                 mr: 2,
+                 size: :medium,
+                 disabled: false,
+                 icon: "arrow-right",
+                 show_tooltip: true,
+                 type: :submit,
+                 'aria-label': "Show meeting"
+               ))
       end
     end
   end

@@ -28,7 +28,9 @@
 
 module MeetingAgendaItems
   class ItemComponent::ShowComponent < Base::Component
-    def initialize(meeting_agenda_item:, active_work_package: nil, **_kwargs)
+    def initialize(meeting_agenda_item:, active_work_package: nil)
+      super
+
       @meeting_agenda_item = meeting_agenda_item
       @active_work_package = active_work_package
     end

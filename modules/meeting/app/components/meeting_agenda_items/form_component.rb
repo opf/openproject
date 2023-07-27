@@ -27,8 +27,12 @@
 #++
 
 module MeetingAgendaItems
-  class FormComponent < Base::OpTurbo::Component
-    def initialize(meeting:, meeting_agenda_item:, method:, submit_path:, cancel_path:, active_work_package: nil, **_kwargs)
+  class FormComponent < Base::Component
+    include OpTurbo::Streamable
+
+    def initialize(meeting:, meeting_agenda_item:, method:, submit_path:, cancel_path:, active_work_package: nil)
+      super
+
       @meeting = meeting
       @meeting_agenda_item = meeting_agenda_item
       @active_work_package = active_work_package

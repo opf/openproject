@@ -27,8 +27,12 @@
 #++
 
 module MeetingAgendaItems
-  class ItemComponent < Base::OpTurbo::Component
-    def initialize(meeting_agenda_item:, active_work_package: nil, state: :show, **kwargs)
+  class ItemComponent < Base::Component
+    include OpTurbo::Streamable
+
+    def initialize(meeting_agenda_item:, active_work_package: nil, state: :show)
+      super
+
       @meeting_agenda_item = meeting_agenda_item
       @active_work_package = active_work_package
       @state = state

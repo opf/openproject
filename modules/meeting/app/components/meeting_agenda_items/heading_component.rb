@@ -27,9 +27,12 @@
 #++
 
 module MeetingAgendaItems
-  class HeadingComponent < Base::OpTurbo::Component
-    def initialize(meeting:, **_kwargs)
+  class HeadingComponent < Base::Component
+    include OpTurbo::Streamable
+
+    def initialize(meeting:)
       super
+
       @meeting = meeting
     end
 

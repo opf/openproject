@@ -28,7 +28,9 @@
 
 module MeetingAgendaItems
   class ItemComponent::EditComponent < Base::Component
-    def initialize(meeting_agenda_item:, active_work_package: nil, **kwargs)
+    def initialize(meeting_agenda_item:, active_work_package: nil)
+      super
+
       @meeting_agenda_item = meeting_agenda_item
       @active_work_package = active_work_package
     end
@@ -36,19 +38,19 @@ module MeetingAgendaItems
     def call
       flex_layout do |flex|
         flex.with_row(mb: 3) do
-          render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold, color: :muted)) do 
-            "Edit agenda item" 
-          end 
+          render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold, color: :muted)) do
+            "Edit agenda item"
+          end
         end
         flex.with_row do
           render(MeetingAgendaItems::FormComponent.new(
-            meeting: @meeting_agenda_item.meeting, 
-            meeting_agenda_item: @meeting_agenda_item, 
-            active_work_package: @active_work_package,
-            method: :put,
-            submit_path: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
-            cancel_path: cancel_edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item)
-          ))
+                   meeting: @meeting_agenda_item.meeting,
+                   meeting_agenda_item: @meeting_agenda_item,
+                   active_work_package: @active_work_package,
+                   method: :put,
+                   submit_path: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
+                   cancel_path: cancel_edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item)
+                 ))
         end
       end
     end

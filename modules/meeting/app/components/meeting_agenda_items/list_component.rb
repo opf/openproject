@@ -27,8 +27,12 @@
 #++
 
 module MeetingAgendaItems
-  class ListComponent < Base::OpTurbo::Component
-    def initialize(meeting:, active_work_package: nil, **_kwargs)
+  class ListComponent < Base::Component
+    include OpTurbo::Streamable
+
+    def initialize(meeting:, active_work_package: nil)
+      super
+
       @meeting = meeting
       @active_work_package = active_work_package
     end

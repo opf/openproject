@@ -27,36 +27,23 @@
 #++
 
 class MeetingAgendaItemsController < ApplicationController
+  include OpTurbo::ComponentStream
+  include AgendaComponentStreams
+
   before_action :set_meeting
   before_action :set_optional_active_work_package
   before_action :set_meeting_agenda_item, except: %i[index new cancel_new create close open]
 
   def new
-    respond_with_turbo_stream(
-      {
-        component: MeetingAgendaItems::NewSectionComponent,
-        params: {
-          state: :form,
-          meeting: @meeting,
-          active_work_package: @active_work_package
-        },
-        action: :update
-      }
-    )
+    update_new_section_via_turbo_stream(state: :form)
+
+    respond_with_turbo_streams
   end
 
   def cancel_new
-    respond_with_turbo_stream(
-      {
-        component: MeetingAgendaItems::NewSectionComponent,
-        params: {
-          state: :initial,
-          meeting: @meeting,
-          active_work_package: @active_work_package
-        },
-        action: :update
-      }
-    )
+    update_new_section_via_turbo_stream(state: :initial)
+
+    respond_with_turbo_streams
   end
 
   def create
@@ -64,185 +51,76 @@ class MeetingAgendaItemsController < ApplicationController
     @meeting_agenda_item.user = User.current
 
     if @meeting_agenda_item.save
-      respond_with_turbo_stream(
-        {
-          component: MeetingAgendaItems::NewSectionComponent,
-          params: {
-            meeting: @meeting,
-            active_work_package: @active_work_package,
-            state: :form # enabel continue editing
-          },
-          action: :update
-        },
-        {
-          component: MeetingAgendaItems::ListComponent,
-          params: {
-            meeting: @meeting,
-            active_work_package: @active_work_package
-          },
-          action: :update
-        },
-        {
-          component: MeetingAgendaItems::HeadingComponent,
-          params: {
-            meeting: @meeting
-          },
-          action: :update
-        }
-      )
+      update_new_section_via_turbo_stream(state: :form) # enabel continue editing
+      update_list_via_turbo_stream
+      update_heading_via_turbo_stream
     else
-      respond_with_turbo_stream(
-        {
-          component: MeetingAgendaItems::NewSectionComponent,
-          params: {
-            meeting: @meeting,
-            meeting_agenda_item: @meeting_agenda_item,
-            active_work_package: @active_work_package,
-            state: :form # show validation errors
-          },
-          action: :update
-        }
-      )
+      update_new_section_via_turbo_stream(state: :form, meeting_agenda_item: @meeting_agenda_item) # show errors
     end
+
+    respond_with_turbo_streams
   end
 
   def edit
-    respond_with_turbo_stream(
-      {
-        component: MeetingAgendaItems::ItemComponent,
-        params: {
-          state: :edit,
-          meeting_agenda_item: @meeting_agenda_item,
-          active_work_package: @active_work_package
-        },
-        action: :update
-      }
-    )
+    update_item_via_turbo_stream(state: :edit)
+
+    respond_with_turbo_streams
   end
 
   def cancel_edit
-    respond_with_turbo_stream(
-      {
-        component: MeetingAgendaItems::ItemComponent,
-        params: {
-          state: :show,
-          meeting_agenda_item: @meeting_agenda_item,
-          active_work_package: @active_work_package
-        },
-        action: :update
-      }
-    )
+    update_item_via_turbo_stream(state: :show)
+
+    respond_with_turbo_streams
   end
 
   def update
     @meeting_agenda_item.update(meeting_agenda_item_params)
 
     if @meeting_agenda_item.errors.any?
-      respond_with_turbo_stream(
-        {
-          component: MeetingAgendaItems::ItemComponent,
-          params: {
-            state: :edit,
-            meeting_agenda_item: @meeting_agenda_item,
-            active_work_package: @active_work_package
-          },
-          action: :update
-        }
-      )
+      update_item_via_turbo_stream(state: :edit) # show errors
     elsif @meeting_agenda_item.duration_in_minutes_previously_changed?
-      respond_with_turbo_stream(
-        {
-          component: MeetingAgendaItems::ListComponent,
-          params: {
-            meeting: @meeting,
-            active_work_package: @active_work_package
-          },
-          action: :update
-        },
-        {
-          component: MeetingAgendaItems::HeadingComponent,
-          params: {
-            meeting: @meeting
-          },
-          action: :update
-        }
-      )
+      update_list_via_turbo_stream
+      update_heading_via_turbo_stream
     else
-      respond_with_turbo_stream(
-        {
-          component: MeetingAgendaItems::ItemComponent,
-          params: {
-            state: :show,
-            meeting_agenda_item: @meeting_agenda_item,
-            active_work_package: @active_work_package
-          },
-          action: :update
-        },
-        {
-          component: MeetingAgendaItems::HeadingComponent,
-          params: {
-            meeting: @meeting
-          },
-          action: :update
-        }
-      )
+      update_item_via_turbo_stream
+      update_heading_via_turbo_stream
     end
+
+    respond_with_turbo_streams
   end
 
   def destroy
     @meeting_agenda_item.destroy!
 
-    respond_with_turbo_stream(
-      {
-        component: MeetingAgendaItems::ListComponent,
-        params: {
-          meeting: @meeting,
-          active_work_package: @active_work_package
-        },
-        action: :update
-      },
-      {
-        component: MeetingAgendaItems::HeadingComponent,
-        params: {
-          meeting: @meeting
-        },
-        action: :update
-      }
-    )
+    update_list_via_turbo_stream
+    update_heading_via_turbo_stream
+
+    respond_with_turbo_streams
   end
 
   def drop
     @meeting_agenda_item.insert_at(params[:position].to_i)
 
-    respond_with_turbo_stream(
-      {
-        component: MeetingAgendaItems::ListComponent,
-        params: {
-          meeting: @meeting,
-          active_work_package: @active_work_package
-        },
-        action: :update
-      },
-      {
-        component: MeetingAgendaItems::HeadingComponent,
-        params: {
-          meeting: @meeting
-        },
-        action: :update
-      }
-    )
+    update_list_via_turbo_stream
+    update_heading_via_turbo_stream
+
+    respond_with_turbo_streams
   end
 
   def close
     @meeting.update(agenda_items_locked: true)
 
-    refresh_agenda_view_via_streams
+    update_all_via_turbo_stream
+
+    respond_with_turbo_streams
   end
 
   def open
     @meeting.update(agenda_items_locked: false)
 
-    refresh_agenda_view_via_streams
+    update_all_via_turbo_stream
+
+    respond_with_turbo_streams
   end
 
   private
@@ -262,57 +140,4 @@ class MeetingAgendaItemsController < ApplicationController
   def meeting_agenda_item_params
     params.require(:meeting_agenda_item).permit(:title, :duration_in_minutes, :work_package_id, :input, :output, :details)
   end
-
-  def refresh_agenda_view_via_streams
-    respond_with_turbo_stream(
-      {
-        component: MeetingAgendaItems::ListComponent,
-        params: {
-          meeting: @meeting,
-          active_work_package: @active_work_package
-        },
-        action: :update
-      },
-      {
-        component: MeetingAgendaItems::HeadingComponent,
-        params: {
-          meeting: @meeting
-        },
-        action: :update
-      },
-      {
-        component: MeetingAgendaItems::NewSectionComponent,
-        params: {
-          meeting: @meeting,
-          active_work_package: @active_work_package,
-          state: :initial
-        },
-        action: :update
-      }
-    )
-  end
-
-  ###
-  # via base controller or concern
-  def respond_with_turbo_stream(*args)
-    streams = []
-    args.each do |value|
-      if value.is_a?(Hash)
-        if value[:action] == :update # only replace is supported for now in this prototype
-          streams << value[:component].replace_via_turbo_stream(
-            view_context:,
-            **value[:params]
-          )
-        end
-      else
-        streams << value
-      end
-    end
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: streams
-      end
-    end
-  end
-  ###
 end

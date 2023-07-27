@@ -27,8 +27,12 @@
 #++
 
 module MeetingAgendaItems
-  class NewSectionComponent < Base::OpTurbo::Component
-    def initialize(meeting:, meeting_agenda_item: nil, active_work_package: nil, state: :initial, **_kwargs)
+  class NewSectionComponent < Base::Component
+    include OpTurbo::Streamable
+
+    def initialize(meeting:, meeting_agenda_item: nil, active_work_package: nil, state: :initial)
+      super
+
       @meeting = meeting
       @meeting_agenda_item = meeting_agenda_item || MeetingAgendaItem.new(meeting:, work_package: active_work_package,
                                                                           user: User.current)
