@@ -275,7 +275,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
       end
 
       expect(page).to have_selector(".title-container", text: "Working days")
-      click_link 'iCalendar'
+      click_link I18n.t(:label_calendar_subscriptions)
 
       expect(page)
         .to have_field('Enable iCalendar subscriptions', checked: true)
