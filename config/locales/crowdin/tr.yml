@@ -99,14 +99,6 @@ tr:
     edit: "%{attribute_caption} için Yardım metni Düzenle"
     enterprise:
       description: 'İş paketlerinin ve projelerin öznitelikleri (özel alanlar dahil) için ek bilgiler sağlayın. Projelerde ve iş paketlerinde giriş alanlarının yanındaki soru işareti sembolüne tıklandığında yardım metinleri görüntülenir.'
-  auth_sources:
-    index:
-      no_results_content_title: Şu anda bir doğrulama modu bulunmamakta.
-      no_results_content_text: Yeni bir doğrulama modu oluştur
-  background_jobs:
-    status:
-      error_requeue: "İş bir hatayla karşılaştı ancak yeniden deniyor. Hata: %{message}"
-      cancelled_due_to: "İş, hata nedeniyle iptal edildi: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Bu LDAP formu, LDAP / Active Directory kurulumunuz hakkında teknik bilgi gerektirir.
@@ -162,6 +154,10 @@ tr:
       verify_peer_description_html: >
         Sertifika güvenilir zincirinin katı SSL doğrulamasını etkinleştirir. <br/> <strong>Uyarı:</strong> Bu seçeneğin işaretini kaldırmak, LDAP sunucu sertifikasının SSL doğrulamasını devre dışı bırakır. Bu, Man in the Middle saldırılarıyla bağlantınızı ortaya çıkarır.
       tls_certificate_description: "LDAP sunucusu sertifikası bu sistemin güvenilir kaynaklarında yoksa buradan manuel olarak ekleyebilirsiniz. Bir PEM X509 sertifika dizisi girin."
+  background_jobs:
+    status:
+      error_requeue: "İş bir hatayla karşılaştı ancak yeniden deniyor. Hata: %{message}"
+      cancelled_due_to: "İş, hata nedeniyle iptal edildi: %{message}"
   forums:
     show:
       no_results_title_text: Forumda şu anda yayın yok.
@@ -556,7 +552,7 @@ tr:
         color: "Renk"
       user:
         admin: "Yönetici"
-        auth_source: "Kimlik doğrulama modu"
+        ldap_auth_source: "LDAP connection"
         current_password: "Mevcut parola"
         force_password_change: "Sonraki oturum açma işleminde parola değişikliğine zorla"
         language: "Dil"
@@ -1561,9 +1557,9 @@ tr:
   label_attachment_plural: "Dosyalar"
   label_attribute: "Özellik"
   label_attribute_plural: "Özellikler"
-  label_auth_source: "Kimlik doğrulama modu"
-  label_auth_source_new: "Yeni kimlik doğrulama modu"
-  label_auth_source_plural: "Kimlik doğrulama modları"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Kimlik Doğrulaması"
   label_available_project_work_package_categories: 'Uygun iş paketi kategorileri'
   label_available_project_work_package_types: 'Uygun iş paketi tipleri'
@@ -2275,7 +2271,7 @@ tr:
   present_access_key_value: "% {Key_name}, şu:% {value} %{key_name} %{value}"
   notice_automatic_set_of_standard_type: "Standart türün otomatik olarak ayarlanması."
   notice_logged_out: "Oturumunuz kapatıldı."
-  notice_wont_delete_auth_source: Kimlik doğrulama modunu kullanan kullanıcılar olduğu sürece silinemez.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Projenin kullanılabilir özel alanları güncelleştirilemiyor. Proje geçersiz: %{errors}"
   notice_attachment_migration_wiki_page: >
     Bu sayfa OpenProject güncelleme sırasında otomatik olarak yaratılır. Daha önce %{container_type} "%{container_name}" ile ilişkili tüm ekleri içerir.

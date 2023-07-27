@@ -99,14 +99,6 @@ ca:
     edit: "Edita el text d'ajuda per a %{attribute_caption}"
     enterprise:
       description: 'Proveeix informació addicional pels atributs (inclosos camps personalitzats) dels paquets de treball o projectes. Els texts d''ajuda es mostren quan l''usuari fa clic al signe d''interrogació al costat dels valors de camp en projectes i paquets de treball.'
-  auth_sources:
-    index:
-      no_results_content_title: Actualment no hi ha cap mode d'autenticació.
-      no_results_content_text: Crea un nou mode d'autenticació
-  background_jobs:
-    status:
-      error_requeue: "La tasca ha produït un error, però s'està reintentant. L'error era: %{message}"
-      cancelled_due_to: "La feina s'ha cancel·lat a causa d'un error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Aquest formulari LDAP requereix coneixement tècnic sobre la teva configuració LDAP / Directori actiu.
@@ -159,6 +151,10 @@ ca:
       verify_peer_description_html: >
         Habilita verificacions SSL estrictes del certificat en cadena de confiança. <br/> <strong> Alerta:</strong> Desseleccionar  aquesta opció deshabilita la verificació SSL al certificat del servidor LDAP. Això, exposa la teva connexió als atacs d'intermediari.
       tls_certificate_description: "Si el certificat de servidor LDAP no està en els recursos de confiança d'aquest sistema, pots afegir-lo manualment aquí. Introdueix una entrada de certificat PEM X509."
+  background_jobs:
+    status:
+      error_requeue: "La tasca ha produït un error, però s'està reintentant. L'error era: %{message}"
+      cancelled_due_to: "La feina s'ha cancel·lat a causa d'un error: %{message}"
   forums:
     show:
       no_results_title_text: Ara mateix no hi ha posts en aquest fòrum.
@@ -553,7 +549,7 @@ ca:
         color: "Color"
       user:
         admin: "Administrador"
-        auth_source: "Mode d'autenticació"
+        ldap_auth_source: "LDAP connection"
         current_password: "Contrassenya actual"
         force_password_change: "Forçar el canvi de contrasenya en el proper inici de sessió"
         language: "Idioma"
@@ -1558,9 +1554,9 @@ ca:
   label_attachment_plural: "Arxius"
   label_attribute: "Atribut"
   label_attribute_plural: "Atributs"
-  label_auth_source: "Mode d'autenticació"
-  label_auth_source_new: "Nou mode d'autenticació"
-  label_auth_source_plural: "Modes d'autenticació"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autenticació"
   label_available_project_work_package_categories: 'Categories de paquet de treball disponibles'
   label_available_project_work_package_types: 'Classes de paquet de treball disponibles'
@@ -2270,7 +2266,7 @@ ca:
   present_access_key_value: "El teu %{key_name} és: %{value}"
   notice_automatic_set_of_standard_type: "Establir tipus estàndard automàticament."
   notice_logged_out: "S'ha tancat la sessió."
-  notice_wont_delete_auth_source: El mode d'autenticació no es pot suprimir mentre encara hi ha usuaris utilitzant-lo.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "No pots actualitzar els camps personalitzats disponibles del projecte. El projecte no és vàlid: %{errors}"
   notice_attachment_migration_wiki_page: >
     Aquesta pàgina s'ha generat automàticament durant l'actualització d'OpenProject. Compte tots els fitxers adjunts que anteriorment estaven associats amb el %{container_type} "%{container_name}".

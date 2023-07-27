@@ -99,14 +99,6 @@ cs:
     edit: "Upravit text nápovědy pro %{attribute_caption}"
     enterprise:
       description: 'Poskytněte další informace pro atributy (včetně vlastních polí) pracovních balíčků a projektů. Texty nápovědy se zobrazí, když uživatelé kliknou na symbol otazníku vedle vstupních polí v projektech a pracovních balíčcích.'
-  auth_sources:
-    index:
-      no_results_content_title: Nyní neexistují žádné ověřovací režimy.
-      no_results_content_text: Vytvořit nový režim ověřování
-  background_jobs:
-    status:
-      error_requeue: "Úkol zaznamenal chybu, ale opakuje se. Chyba je: %{message}"
-      cancelled_due_to: "Úkol byl zrušen z důvodu chyby: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Tento LDAP formulář vyžaduje technické znalosti nastavení LDAP / Active Directory.
@@ -162,6 +154,10 @@ cs:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
+  background_jobs:
+    status:
+      error_requeue: "Úkol zaznamenal chybu, ale opakuje se. Chyba je: %{message}"
+      cancelled_due_to: "Úkol byl zrušen z důvodu chyby: %{message}"
   forums:
     show:
       no_results_title_text: V současné době nejsou k dispozici žádné příspěvky na fórum.
@@ -559,7 +555,7 @@ cs:
         color: "Barva"
       user:
         admin: "Administrátor"
-        auth_source: "Režim ověřování"
+        ldap_auth_source: "LDAP connection"
         current_password: "Aktuální přístupové heslo"
         force_password_change: "Vynutit změnu hesla při příštím přihlášení"
         language: "Jazyk"
@@ -1600,9 +1596,9 @@ cs:
   label_attachment_plural: "Soubory"
   label_attribute: "Atribut"
   label_attribute_plural: "Atributy"
-  label_auth_source: "Režim ověřování"
-  label_auth_source_new: "Nový režim ověřování"
-  label_auth_source_plural: "Režimy ověřování"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Ověření"
   label_available_project_work_package_categories: 'Dostupné kategorie pracovních balíčků'
   label_available_project_work_package_types: 'Dostupné kategorie pracovních balíčků'
@@ -2318,7 +2314,7 @@ cs:
   present_access_key_value: "Váš %{key_name} je: %{value}"
   notice_automatic_set_of_standard_type: "Automaticky nastavit standardní typ."
   notice_logged_out: "Byli jste odhlášeni."
-  notice_wont_delete_auth_source: Režim ověřování nemůže být odstraněn, dokud ho stále používají uživatelé.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Nemůžete aktualizovat dostupné vlastní pole projektu. Projekt je neplatný: %{errors}"
   notice_attachment_migration_wiki_page: >
     Tato stránka byla generována automaticky během aktualizace OpenProject. Obsahuje všechny přílohy dříve přidružené k %{container_type} "%{container_name}".

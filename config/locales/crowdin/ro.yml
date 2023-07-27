@@ -99,14 +99,6 @@ ro:
     edit: "Editați textul de ajutor pentru %{attribute_caption}"
     enterprise:
       description: 'Oferă informații suplimentare pentru atribute (inclusiv câmpuri personalizate) ale pachetelor de lucru și ale proiectelor. Textele de ajutor sunt afișate atunci când utilizatorii fac clic pe simbolul semnului de întrebare de lângă câmpurile de introducere din proiecte și pachete de lucru.'
-  auth_sources:
-    index:
-      no_results_content_title: În acest moment nu există moduri de autentificare.
-      no_results_content_text: Creare mod de autentificare nou
-  background_jobs:
-    status:
-      error_requeue: "Lucrarea a avut o eroare, dar încearcă din nou. Eroarea a fost: %{message}"
-      cancelled_due_to: "Lucrarea a fost anulată din cauza unei erori: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Acest formular LDAP necesită cunoștințe tehnice privind configurația LDAP / Active Directory.
@@ -162,6 +154,10 @@ ro:
       verify_peer_description_html: >
         Activează verificarea SSL strictă a lanțului de încredere al certificatului. <br/> <strong>Avertisment:</strong> Debifarea acestei opțiuni dezactivează verificarea SSL a certificatului serverului LDAP. Acest lucru expune conexiunea ta cu Omul în timpul atacurilor din Mijloc.
       tls_certificate_description: "Dacă certificatul serverului LDAP nu se află în sursele de încredere ale acestui sistem, îl puteți adăuga manual aici. Introduceți un șir de certificate PEM X509."
+  background_jobs:
+    status:
+      error_requeue: "Lucrarea a avut o eroare, dar încearcă din nou. Eroarea a fost: %{message}"
+      cancelled_due_to: "Lucrarea a fost anulată din cauza unei erori: %{message}"
   forums:
     show:
       no_results_title_text: În prezent nu există mesaje pentru acest forum.
@@ -558,7 +554,7 @@ ro:
         color: "Culoare"
       user:
         admin: "Administrator"
-        auth_source: "Mod de autentificare"
+        ldap_auth_source: "LDAP connection"
         current_password: "Parola curentă"
         force_password_change: "Impune schimbarea parolei la următoarea autentificare"
         language: "Limbă"
@@ -1581,9 +1577,9 @@ ro:
   label_attachment_plural: "Fişiere"
   label_attribute: "Atribut"
   label_attribute_plural: "Atribute"
-  label_auth_source: "Mod de autentificare"
-  label_auth_source_new: "Mod de autentificare nou"
-  label_auth_source_plural: "Moduri de autentificare"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentificare"
   label_available_project_work_package_categories: 'Categorii de pachete de lucru disponibile'
   label_available_project_work_package_types: 'Tipuri de pachete de lucru disponibile'
@@ -2298,7 +2294,7 @@ ro:
   present_access_key_value: "%{key_name} tău/ta este: %{value}"
   notice_automatic_set_of_standard_type: "Setare automată a tipului standard."
   notice_logged_out: "Ați fost deconectat."
-  notice_wont_delete_auth_source: Modul de autentificare nu poate fi șters atâta timp cât există utilizatori care încă îl folosesc.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Nu puteți actualiza câmpurile particularizate disponibile ale proiectului. Proiectul este invalid: %{errors}"
   notice_attachment_migration_wiki_page: >
     Această pagină a fost generată automat în timpul actualizării OpenProject. Aceasta conține toate atașamentele asociate anterior cu %{container_type} "%{container_name}".
