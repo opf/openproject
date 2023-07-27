@@ -64,8 +64,12 @@ module Boards
 
     def options_for_grid(params)
       {}.tap do |options|
-        options[:attribute] = params[:attribute]
-        options[:type] = params[:attribute] == 'basic' ? 'free' : 'action'
+        if params[:attribute] == 'basic'
+          options[:type] = 'free'
+        else
+          options[:type] = 'action'
+          options[:attribute] = params[:attribute]
+        end
       end
     end
 
