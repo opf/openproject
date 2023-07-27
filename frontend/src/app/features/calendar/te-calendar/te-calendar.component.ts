@@ -369,7 +369,7 @@ export class TimeEntryCalendarComponent {
       rendering: 'background' as const,
       startEditable: false,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      sum: this.i18n.t('js.units.hour', { count: this.formatNumber(duration) }),
+      sum: this.i18n.t('js.units.hour', { count: duration }),
     };
   }
 

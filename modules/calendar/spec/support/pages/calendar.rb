@@ -30,6 +30,8 @@ require 'support/pages/page'
 
 module Pages
   class Calendar < ::Pages::Page
+    include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+
     attr_reader :project,
                 :filters,
                 :query
@@ -110,6 +112,39 @@ module Pages
 
     def expect_wp_not_draggable(work_package)
       expect(page).to have_selector('.fc-event:not(.fc-event-draggable)', text: work_package.subject)
+    end
+
+    def set_title(title)
+      fill_in 'Title', with: title
+    end
+
+    def set_project(project)
+      select_autocomplete(find('[data-qa-selector="project_id"]'),
+                          query: project,
+                          results_selector: 'body',
+                          wait_for_fetched_options: false)
+    end
+
+    def set_public
+      check 'Public'
+    end
+
+    def set_favoured
+      check 'Favoured'
+    end
+
+    def click_on_submit
+      click_on 'Create'
+    end
+
+    def click_on_create_button
+      within '.toolbar-items' do
+        click_link 'Calendar'
+      end
+    end
+
+    def click_on_cancel_button
+      click_on 'Cancel'
     end
 
     def expect_create_button

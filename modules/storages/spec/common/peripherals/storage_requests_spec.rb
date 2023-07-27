@@ -1000,4 +1000,21 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       end
     end
   end
+
+  describe '#delete_folder_command' do
+    before do
+      stub_request(:delete, "https://example.com/remote.php/dav/files/OpenProject/OpenProject/Folder%201")
+        .with(headers: { 'Authorization' => 'Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA==' })
+        .to_return(status: 204, body: '', headers: {})
+    end
+
+    describe 'with Nextcloud storage type selected' do
+      it 'deletes the folder' do
+        result = subject
+                   .delete_folder_command
+                   .call(location: 'OpenProject/Folder 1')
+        expect(result).to be_success
+      end
+    end
+  end
 end

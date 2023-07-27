@@ -14,7 +14,7 @@
   width: 100vw
   padding: 0 $spot-spacing-0_25
 
-  @media screen and (max-width: 679px)
+  @media screen and (max-width: $breakpoint-sm)
     grid-template-columns: minmax(0, auto) auto 1fr
     position: fixed
     top: 0
@@ -47,13 +47,13 @@
 
 
   ._header-scrolled &
-    @media screen and (max-width: 679px)
+    @media screen and (max-width: $breakpoint-sm)
       // Slide header in and out on scroll (see also: _base_mobile.sass)
       margin-top: calc(0px - #{var(--header-height)})
       transition: margin-top .4s
 
   &_search-open
-    @media screen and (max-width: 679px)
+    @media screen and (max-width: $breakpoint-sm)
       display: flex
 
       .op-app-header--start,

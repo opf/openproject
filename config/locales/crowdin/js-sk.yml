@@ -296,6 +296,34 @@ sk:
           one: "Prvé kritérium zoradenia"
           two: "Druhé kritérium zoradenia"
           three: "Tretie kritérium zoradenia"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "nie"
     general_text_yes: "áno"
     general_text_No: "Nie"
@@ -505,7 +533,7 @@ sk:
     label_remove_all_files: Odstrániť všetky súbory
     label_add_description: "Pridať popis %{file}"
     label_upload_notification: "Nahrávanie súborov..."
-    label_work_package_upload_notification: "Nahrávanie súborov pre Pracovný balík #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Nahrávanie súborov pre Pracovný balík #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} pridané %{author}"
     label_files_to_upload: "Tieto súbory budú odovzdané:"
     label_rejected_files: "Tieto súbory nie je možné odovzdať:"
@@ -825,63 +853,6 @@ sk:
       activate_no: 'aktivovať odstránenie zoradenia'
     text_work_packages_destroy_confirmation: "Naozaj chcete odstrániť vybraný pracovný balíček(y)?"
     text_query_destroy_confirmation: "Naozaj chcete odstrániť vybraté zobrazenie?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Ganttov diagram'
-      labels:
-        title: 'Konfigurácia popisku'
-        bar: 'Menovky pásov'
-        left: 'Vľavo'
-        right: 'Vpravo'
-        farRight: 'Vzdialene vpravo'
-        showNone: '-- Žiadna menovka --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Zobraziť Ganttov graf'
-      button_deactivate: 'Skryť Ganttov graf'
-      cancel: Zrušíť
-      change: "Zmena v plánovaní"
-      due_date: "Dátum dokončenia"
-      empty: "(prázdny)"
-      error: "Vyskytla sa chyba."
-      errors:
-        not_implemented: "Časovú os nebolo možné zobraziť, pretože používa funkciu, ktorá ešte nie je implementovaná."
-        report_comparison: "Časová os nemôže vykresliť konfigurované porovnania. Skontrolujte príslušnú časť v konfigurácii, vynulovanie môže pomôcť vyriešiť tento problém."
-        report_epicfail: "Časovú os nebolo možné načítať kvôli neočakávanej chybe."
-        report_timeout: "Časovú os nebolo možné načítať v primeranom čase."
-      filter:
-        grouping_other: "Ostatné"
-        noneSelection: "(žiadny)"
-      name: "Názov"
-      outline: "Obnoviť osnovu"
-      outlines:
-        aggregation: "Zobraziť iba vyznačené zoskupenia"
-        level1: "Rozbaľte položky úrovne 1"
-        level2: "Rozbaľte položky do úrovne 2"
-        level3: "Rozbaľte položky do úrovne 3"
-        level4: "Rozbaľte položky do úrovne 4"
-        level5: "Rozbaľte položky do úrovne 5"
-        all: "Zobraziť všetko"
-      project_status: "Stav projektu"
-      really_close_dialog: "Naozaj chcete zatvoriť dialógové okno a prísť o zadané údaje?"
-      responsible: "Zodpovedný"
-      save: Uložiť
-      start_date: "Dátum začiatku"
-      tooManyProjects: "Nájdených viac ako %{count} projektov. Prosím, použite presnejšiu podmienku pre filter!"
-      selection_mode:
-        notification: 'Kliknutím na ľubovoľný zvýraznený pracovný balíček vytvoríte vzťah. Ak chcete zrušiť stlačte klávesu escape.'
-      zoom:
-        in: "Priblížiť"
-        out: "Vzdialiť"
-        auto: "Automatické zväčšenie"
-        days: "Dni"
-        weeks: "Týždne"
-        months: "Mesiace"
-        quarters: "Kvartály"
-        years: "Roky"
-        slider: "Posuvný ovládač priblíženia / oddialenia"
-        description: >
-          Zvoľte počiatočnú úroveň priblíženia, ktorá by sa mala zobraziť, ak nie je k dispozícii autozoom.
     tl_toolbar:
       zooms: "Úroveň priblíženia"
       outlines: "Úroveň vnorenia"
@@ -946,10 +917,10 @@ sk:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filter pracovných balíčkov'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Kliknutím sem pridajte nový pracovný balík do tohto zoznamu'

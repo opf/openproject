@@ -242,7 +242,7 @@ RSpec.describe Calendar::ICalController do
       it_behaves_like 'success'
     end
 
-    context 'with valid params and permissions when targeting a privat query of somebody else' do
+    context 'with valid params and permissions when targeting a private query of somebody else' do
       let(:user2) do
         create(:user,
                member_in_project: project,

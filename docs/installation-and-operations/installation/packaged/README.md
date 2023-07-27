@@ -586,6 +586,16 @@ Next, tell OpenProject whether you have SSL termination enabled somewhere in you
 
 
 
+## Step 8: Default language
+
+> **Note:** This step is only shown on the very first installation of OpenProject, as it affects only the initial seeding of the basic and demo data. Changing this value after installation will have no effect.
+
+OpenProject can be used with a wide variety of languages. The initial data of the instance (basic data such as status names, types, etc.) as well as data for demonstrational purposes will be created in the language you select in this screen. Move through the list using the arrow keys and select the default language.
+
+Also, this setting will control what is the default language for new users if their browser language is not available in the system.
+
+![Default language screen](08-default-language.png)
+
 ## Result
 
 With this last step confirmed, the OpenProject wizard will complete, and apply all the configuration options that you have just selected. This might take a few minutes depending on your machine and internet connection, as OpenProject might need to install additional packages (such as the web server, database) depending on your selections.

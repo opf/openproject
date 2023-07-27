@@ -163,10 +163,21 @@ id:
     index:
       no_results_title_text: Tidak ada warna saat ini.
       no_results_content_text: Buat warna baru
-    label_no_color: 'Tidak ada warna'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "Tidak ada warna"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Tindakan'
+      name: "Tindakan"
       add: 'Tambahkan tindakan'
       assigned_to:
         executing_user_value: '(Tetapkan ke pengguna pelaksana)'
@@ -245,6 +256,8 @@ id:
         no_results_title_text: There are currently no custom fields available.
       types:
         no_results_title_text: There are currently no types available.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
@@ -261,7 +274,9 @@ id:
       notice_reset_token: "Sebuah token baru %{type} telah dibuat. Token akses Anda adalah:"
       token_value_warning: "Catatan: Anda hanya akan melihat token ini satu kali, pastikan untuk membuat salinannya sekarang."
       no_results_title_text: There are currently no access tokens available.
-      notice_ical_tokens_reverted: "Token iCalendar \"%{token_name}\" untuk kalender \"%{calendar_name}\" proyek \"%{project_name}\" telah dicabut.  URL iCalendar dengan token ini sekarang tidak valid."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: There is currently no news to report.
@@ -318,6 +333,12 @@ id:
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Add a new status
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: There are currently no types.
@@ -1272,12 +1293,13 @@ id:
   error_can_not_unarchive_project: "Proyek ini tidak dapat diarsipkan: %{errors}"
   error_check_user_and_role: "Silakan pilih user dan Role."
   error_code: "Error %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
   error_custom_option_not_found: "Pilihan tidak ada."
   error_enterprise_activation_user_limit: "Akun Anda tidak dapat diaktifkan (batas pengguna tercapai). Silakan hubungi administrator Anda untuk mendapatkan akses."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Gagal untuk menghapus isian ini.'
-  error_in_dependent: "Kesalahan saat mencoba mengubah objek dependen: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Kesalahan saat mencoba mengubah objek dependen: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Kesalahan saat mencoba membuat objek dependen: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Nilai yang dipilih tidak valid."
   error_journal_attribute_not_present: "Jurnal tidak mengandung atribut %{attribute}."
@@ -1296,6 +1318,7 @@ id:
   error_password_change_failed: 'Terjadi kesalahan saat mencoba mengubah kata sandi.'
   error_scm_command_failed: "Error ketika mengakses repositori: %{value}"
   error_scm_not_found: "Entri atau revisi tidak ditemukan dalam repositori."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "Work package tidak dapat dihapus karena dipakai oleh work package lain."
   error_unable_delete_default_status: "Status default tidak dapat dihapus. Tentukan nilai default lain sebelum menghapus status yang anda ingin hapus."
   error_unable_to_connect: "Tidak dapat terhubung (%{value})"
@@ -1410,7 +1433,7 @@ id:
   menus:
     admin:
       mail_notification: "Notifikasi email"
-      mails_and_notifications: "Email dan pemberitahuan"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API dan webhook"
     quick_add:
@@ -1425,6 +1448,26 @@ id:
         action: "Action"
         expiration: "Expires"
       indefinite_expiration: "Never"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Kirim pemberitahuan untuk tindakan ini"
     work_packages:
@@ -1554,6 +1597,7 @@ id:
   label_confirmation: "Konfirmasi"
   label_contains: "berisi"
   label_content: "Konten"
+  label_color_plural: "Colors"
   label_copied: "copied"
   label_copy_same_as_target: "Sama seperti target"
   label_copy_source: "Source"
@@ -1582,6 +1626,7 @@ id:
   label_deleted: "dihapus"
   label_deleted_custom_field: "(isian kustom dihapus)"
   label_deleted_custom_option: "(opsi dihapus)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(nilai hilang atau kurang izin untuk mengakses)"
   label_descending: "Deskending"
   label_details: "Detil"
@@ -1627,6 +1672,7 @@ id:
   label_expanded_click_to_collapse: "Diperluas. Klik untuk menciutkan"
   label_f_hour: "%{value} jam"
   label_f_hour_plural: "%{value} jam"
+  label_favoured: "Favoured"
   label_feed_plural: "Feed"
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key dibuat %{value} yang lalu"
@@ -1822,7 +1868,8 @@ id:
   label_project_new: "Project baru"
   label_project_plural: "Project"
   label_project_settings: "Projek setting"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} proyek menggunakan %{storage} dari storage"
   label_project_view_all: "Lihat semua Project"
   label_project_show_details: "Tampilkan detail proyek"
@@ -1910,6 +1957,7 @@ id:
   label_this_week: "minggu ini"
   label_this_year: "tahun ini"
   label_time_entry_plural: "Durasi"
+  label_title: "Title"
   label_projects_menu: "Project"
   label_today: "hari ini"
   label_top_menu: "Top Menu"
@@ -2235,7 +2283,8 @@ id:
   permission_add_messages: "Kirim pesan"
   permission_add_project: "Buat Project"
   permission_archive_project: "Proyek arsip"
-  permission_manage_user: "Buat dan ubah pengguna"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Buat, ubah, dan hapus pengguna placeholder"
   permission_add_subprojects: "Buat Sub Project"
   permission_add_work_package_watchers: "Tambah pemantau"
@@ -2578,17 +2627,16 @@ id:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     brute_force_prevention: "Pemblokiran otomatis user"
-    language_name_being_default: '%{language_name} (default)'
     date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text_html: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
-    general: "Umum"
     experimental:
       save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Feature flags
+    general: "Umum"
     highlighting:
       mode_long:
         inline: "Highlight attribute(s) inline"
@@ -2600,6 +2648,7 @@ id:
       enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
@@ -2736,6 +2785,11 @@ id:
   text_zoom_in: "Zoom in"
   text_zoom_out: "Zoom out"
   text_setup_mail_configuration: "Configure your email provider"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "am"
     formats:
@@ -2748,152 +2802,6 @@ id:
     show: "Tampilkan Timeframe"
     end: "untuk"
     start: "dari"
-  timelines:
-    admin_menu:
-      color: "Warna"
-      colors: "Warna"
-    associations: "Dependensi"
-    button_delete_all: "Hapus semua"
-    change: "Perubahan dalam perencanaan"
-    children: "Sub-elemen"
-    color_could_not_be_saved: "Warna tidak dapat disimpan"
-    current_planning: "Perencanaan saat ini"
-    dates: "Tanggal"
-    dates_are_calculated_based_on_sub_elements: "Tanggal dihitung berdasarkan pada sub-elemen."
-    delete_all: "Hapus semua"
-    delete_thing: "Hapus"
-    duration: "Durasi"
-    duration_days:
-      other: "%{count} hari"
-    edit_color: "Edit warna"
-    edit_thing: "Edit"
-    edit_timeline: "Edit laporan timeline %{timeline}"
-    delete_timeline: "Hapus laporan Timeline %{timeline}"
-    empty: "(kosong)"
-    enable_type_in_project: 'Aktifkan Tipe "%{type}"'
-    end: "Finish"
-    errors:
-      not_implemented: "Timeline tidak bisa dirender karena syarat fitur yang digunakan belum diimplementasikan."
-      report_comparison: "Timeline tidak bisa merender komparasi yang dikonfigurasikan. Periksa di bagian konfigurasi, cara resetting mungkin bisa memecahkan masalah ini."
-      report_epicfail: "Error : Timeline tidak dapat dibuka karena ada kesalahan."
-      report_timeout: "Timeline tidak dapat dibuka untuk sementara waktu."
-    filter:
-      errors:
-        timeframe_start: "Timeframe start "
-        timeframe_end: "Timeframe finish "
-        compare_to_relative: "The value of the relative comparison "
-        compare_to_absolute: "The value of the absolute comparison "
-        planning_element_time_relative_one: "Awal untuk Paket-Penugasan dalam jangka waktu tertentu "
-        planning_element_time_relative_two: "Akhir Paket-Penugasan dalam jangka waktu tertentu "
-        planning_element_time_absolute_one: "Awal Paket-Penugasan dalam jangka waktu tertentu  "
-        planning_element_time_absolute_two: "Akhir Paket-Penugasan dalam jangka waktu tertentu  "
-      sort:
-        sortation: "Sort by"
-        alphabet: "alphabet"
-        explicit_order: "explicit order"
-        project_sortation: "Sort projects by"
-        date: "date"
-        default: "default"
-      column:
-        assigned_to: "Pelimpahan"
-        type: "Tipe"
-        due_date: "Tanggal finish"
-        name: "Nama"
-        status: "Status"
-        start_date: "Tanggal start"
-      columns: "Kolom"
-      comparisons: "Komparasi"
-      comparison:
-        absolute: "Absolut"
-        none: "Kosong"
-        relative: "Relatif"
-        compare_relative_prefix: "Bandingkan dengan"
-        compare_relative_suffix: "yang lalu"
-        compare_absolute: "Bandingkan perencanaan saat ini dengan %{date}"
-      time_relative:
-        days: "hari"
-        weeks: "minggu"
-        months: "bulan"
-      exclude_own_work_packages: "Sembunyikan Paket-Penugasan dari Project ini"
-      exclude_reporters: "Sembunyikan Project lainnya"
-      exclude_empty: "Sembunyikan Project yang kosong"
-      grouping: "Gruping"
-      grouping_hide_group: "Sembunyikan grup \"%{group}\""
-      grouping_one: "Kriteria gruping pertama"
-      grouping_one_phrase: "Adalah Sub-Project dari"
-      grouping_other: "Lainnya"
-      hide_chart: "Sembunyikan grafik"
-      noneElement: "(kosong)"
-      noneSelection: "(kosong)"
-      outline: "Outline inisial untuk ekspansi"
-      parent: "Tampilkan Sub-Project dari"
-      work_package_responsible: "Tunjukkan paket pekerjaan dengan akuntabel"
-      work_package_assignee: "Tunjukkan Paket-Penugasan beserta pelimpahannya"
-      types: "Tunjukka Tipe"
-      status: "Tunjukkan status"
-      project_time_filter: "Project dengan Paket-Penugasan Tipe tertentu, dalam jangka waktu tertentu"
-      project_time_filter_timeframe: "Timeframe"
-      project_time_filter_historical_from: "dari"
-      project_time_filter_historical_to: "untuk"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago, %{end_label} %{endspan}%{endspanunit} dari sekarang"
-      project_filters: "Filter Project"
-      project_responsible: "Tunjukkan proyek dengan akuntabel"
-      project_status: "Tampilkan status Project"
-      timeframe: "Tampilkan Timeframe"
-      timeframe_end: "untuk"
-      timeframe_start: "dari"
-      timeline: "Pengaturan Umum"
-      zoom: "Zoom faktor"
-    history: "Histori"
-    new_color: "Warna baru"
-    new_association: "Dependensi baru"
-    new_work_package: "Paket-Penugasan baru"
-    new_reporting: "Pelaporan baru"
-    new_timeline: "Laporan Timeline baru"
-    no_projects_for_reporting_available: "Tidak ada Project yang terasosiasi dengan laporan yang akan dibuat."
-    no_right_to_view_timeline: "Anda tidak memiliki ijin untuk melihat Timeline terkait."
-    no_timeline_for_id: "Tidak ada Timeline dengan ID %{id}."
-    notice_successful_deleted_all_elements: "Semua elemen berhasil dihapus"
-    outline: "Reset Outline"
-    outlines:
-      aggregation: "Hanya tampilkan agregasi"
-      level1: "Buka level 1"
-      level2: "Buka level 2"
-      level3: "Buka level 3"
-      level4: "Buka level 4"
-      level5: "Buka level 5"
-      all: "Tampilkan semua"
-    reporting_for_project:
-      show: "Status reported to project: %{title}"
-      edit_delete: "status report for project: %{title}"
-      history: "History for status for project: %{title}"
-    reporting:
-      delete: "Delete status: %{comment}"
-      edit: "Edit status: %{comment}"
-      show: "Status: %{comment}"
-    planning_element_update: "Update: %{title}"
-    type_could_not_be_saved: "Tipe tidak bisa disimpan"
-    reporting_could_not_be_saved: "Pelaporan tidak bisa disimpan"
-    properties: "Properti"
-    really_delete_color: >
-      Yakin ingin menghapus? Tipe yang menggunakan warna tersebut tidak akan dihapus.
-    really_delete_reporting: >
-      Status Reporting sebelumnya akan terhapus juga. Yakin ingin menghapus?
-    start: "Start"
-    timeline: "Laporan Timeline"
-    timelines: "Laporan Timeline"
-    settings: "Timeline"
-    vertical_work_package: "Paket-Penugasan vertikal"
-    you_are_viewing_the_selected_timeline: "Anda sedang melihat laporan Timeline terpilih"
-    zoom:
-      in: "Zoom in"
-      out: "Zoom out"
-      days: "Hari"
-      weeks: "Minggu"
-      months: "Bulan"
-      quarters: "Kuartal"
-      years: "Tahun"
   title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
   title_enterprise_upgrade: "Tingkatkan untuk membuka lebih banyak pengguna."
   tooltip_user_default_timezone: >

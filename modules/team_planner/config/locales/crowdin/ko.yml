@@ -9,11 +9,6 @@ ko:
     label_create_new_team_planner: "새로운 팀 플래너 만들기"
     label_team_planner_plural: "팀 플래너"
     label_assignees: "담당자"
-    label_favoured: "Favoured"
-    help_text:
-      project: Team planners are always attached to a project. After creating a team planner you can add work packages from other projects to it.
-      public: Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
-      favoured: Mark this view as favourite and add to the saved views sidebar on the left.
     upsale:
       title: "팀 플래너"
       description: "팀 플래너를 사용하여 팀 계획에 대한 전체 개요를 확인하세요. 작업 패키지를 늘리거나 줄이고 끌어다 놓아 날짜를 수정하거나 이동하거나 담당자를 변경하세요."

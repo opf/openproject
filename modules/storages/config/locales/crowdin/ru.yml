@@ -9,8 +9,14 @@ ru:
   permission_delete_files: "Удалить файлы"
   permission_share_files: "Поделиться файлами"
   project_module_storages: "Файловые хранилища"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Not authorized for external connection to storage."
+        not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
+      file_link: "Ссылка на файл"
       storages/storage: "Хранилище"
     attributes:
       storages/storage:
@@ -34,8 +40,8 @@ ru:
               authorization_header_missing: >
                 не полностью настроено. Экземпляр Nextcloud не получает заголовок "Authorization", который необходим для подтверждения запросов API на основе токена Bearer. Пожалуйста, проверьте конфигурацию HTTP сервера.
             password:
-              invalid_password: "is not valid."
-              unknown_error: "could not be validated. Please check your storage connection and try again."
+              invalid_password: "недействителен."
+              unknown_error: "не удалось пройти проверку. Пожалуйста, проверьте подключение к вашему хранилищу и повторите попытку."
         storages/file_link:
           attributes:
             origin_id:
@@ -63,6 +69,7 @@ ru:
         index: "Файловые хранилища, доступные в этом проекте"
         new: "Добавить хранилище файлов в этот проект"
         edit: "Редактировать хранилище файлов для этого проекта"
+        delete: "Delete file storage"
     instructions:
       type: "Перед установкой убедитесь, что у вас есть права администрирования в вашем экземпляре Nextcloud и что перед установкой установлено следующее приложение:"
       type_link_text: "«Интеграционный OpenProject»"
@@ -92,7 +99,11 @@ ru:
       storage: >
         Вы уверены, что хотите удалить это хранилище? Это также удалит хранилище из всех проектов, где оно используется. Кроме того, будут удалены все ссылки из пакетов работ на файлы, хранящиеся в этом хранилище.
       project_storage: >
-        Вы уверены, что хотите удалить это хранилище файлов из проекта? Это также удалит все ссылки на файлы, хранящиеся в этом хранилище для этого проекта.
+        Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:
+      project_storage_delete_result_1: "Remove all links from work packages of this project to files and folders of that storage."
+      project_storage_delete_result_2: "In case this storage has an automatically managed project folder, this and its files will be deleted forever."
+      input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
+      irreversible_notice: "Deleting a file storage is an irreversible action."
     label_active: "Активный"
     label_inactive: "Неактивный"
     label_creator: "Создатель"

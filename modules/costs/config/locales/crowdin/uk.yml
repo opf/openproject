@@ -82,7 +82,7 @@ uk:
   label_costlog: "Записані витрати на одиницю продукції"
   label_cost_plural: "Витрати"
   label_cost_type_plural: "Види витрат"
-  label_cost_type_specific: "Витрати типу #%{id}: %{name}" #%{id}: %{name}"
+  label_cost_type_specific: "Витрати типу #%{id}: %{name}"
   label_costs_per_page: "Витрати на сторінку"
   label_currency: "Валюта"
   label_currency_format: "Формат валюти"

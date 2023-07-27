@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 require 'rack/test'
-require_relative './create_user_common_examples'
+require_relative 'create_user_common_examples'
 
 RSpec.describe API::V3::Users::UsersAPI do
   include API::V3::Utilities::PathHelper
@@ -192,8 +192,8 @@ RSpec.describe API::V3::Users::UsersAPI do
     end
   end
 
-  describe 'user with global user CRU permission' do
-    shared_let(:current_user) { create(:user, global_permission: :manage_user) }
+  describe 'user with global user create permission' do
+    shared_let(:current_user) { create(:user, global_permission: :create_user) }
 
     it_behaves_like 'create user request flow'
 

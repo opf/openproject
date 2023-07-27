@@ -296,6 +296,34 @@ et:
           one: "First sorting criteria"
           two: "Second sorting criteria"
           three: "Third sorting criteria"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "ei"
     general_text_yes: "jah"
     general_text_No: "Ei"
@@ -505,7 +533,7 @@ et:
     label_remove_all_files: Delete all files
     label_add_description: "Add a description for %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "These files will be uploaded:"
     label_rejected_files: "These files cannot be uploaded:"
@@ -823,63 +851,6 @@ et:
       activate_no: 'activate to remove the sort'
     text_work_packages_destroy_confirmation: "Oled Sa kindel oma soovis valitud teema(d) kustutada?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt diagrammi'
-      labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
-        showNone: '-- No label --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
-      cancel: Tühista
-      change: "Muudatus planeerimises"
-      due_date: "Lõpetamise kuupäev"
-      empty: "(tühi)"
-      error: "An error has occurred."
-      errors:
-        not_implemented: "Ajakava ei saa koostada, kuna see kasutab funktsiooni, mis pole veel realiseeritud."
-        report_comparison: "Ajakava ei saa kujutada konfigureeritud võrdlusi. Palun kontrollige konfiguratsiooni vastavat jaotist, selle andmete algväärtustamine võib aidata probleemi lahendada."
-        report_epicfail: "Ajakava ei saa laadida ootamatu tõrke tõttu."
-        report_timeout: "Ajakava ei saa laadida vastuvõetava aja jooksul."
-      filter:
-        grouping_other: "Muu"
-        noneSelection: "(pole)"
-      name: "Nimi"
-      outline: "Lähtesta kontuur"
-      outlines:
-        aggregation: "Näita ainult summeeritult"
-        level1: "Laienda tasemele 1"
-        level2: "Laienda tasemele 2"
-        level3: "Laienda tasemele 3"
-        level4: "Laienda tasemele 4"
-        level5: "Laienda tasemele 5"
-        all: "Näita kõiki"
-      project_status: "Projekti olek"
-      really_close_dialog: "Do you really want to close the dialog and lose the entered data?"
-      responsible: "Vastutaja"
-      save: Salvesta
-      start_date: "Alguskuupäev"
-      tooManyProjects: "Rohkem kui %{count} projekti. Palun kasuta paremat filtrit!"
-      selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
-      zoom:
-        in: "Vaata lähemalt"
-        out: "Vaata kaugemalt"
-        auto: "Auto zoom"
-        days: "Päevad"
-        weeks: "Nädalad"
-        months: "Kuud"
-        quarters: "Kvartalid"
-        years: "Aastad"
-        slider: "Suumiliugur"
-        description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
     tl_toolbar:
       zooms: "Suumi tase"
       outlines: "Hierarhia tase"
@@ -944,10 +915,10 @@ et:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filtreeri teemasid'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Click here to add a new work package to this list'

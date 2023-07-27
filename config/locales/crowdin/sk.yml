@@ -169,10 +169,21 @@ sk:
     index:
       no_results_title_text: Momentálne nie sú k dispozícií žiadne farby.
       no_results_content_text: Vytvoriť novú farbu
-    label_no_color: 'Žiadna farba'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "Žiadna farba"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Akcie'
+      name: "Akcie"
       add: 'Pridať akciu'
       assigned_to:
         executing_user_value: '(Priradenie vykonávaciemu užívateľovi)'
@@ -251,6 +262,8 @@ sk:
         no_results_title_text: Momentálne nie sú k dispozícii žiadne vlastné polia.
       types:
         no_results_title_text: Momentálne nie sú k dispozícii žiadne typy.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: V súčasnosti neexistujú žiadne verzie projektu.
         no_results_content_text: Vytvoriť novú verziu
@@ -267,7 +280,9 @@ sk:
       notice_reset_token: "Bol vytvorený nový token %{type}. Prístupový token je:"
       token_value_warning: "Poznámka: Toto je jediný čas, kedy uvidíte tento Token, uistite sa, že ste si ho skopírovali."
       no_results_title_text: Momentálne nie sú dostupné žiadne prístupové tokeny.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: V súčasnosti nie sú žiadne novinky pre nahlásenie.
@@ -324,6 +339,12 @@ sk:
     index:
       no_results_title_text: Momentálne nie sú žiadne stavy pracovného balíka.
       no_results_content_text: Pridať nový stav
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Momentálne neexistujú žiadne typy.
@@ -1336,12 +1357,13 @@ sk:
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Zvoľte si, prosím, používateľ a rolu."
   error_code: "Error %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'Chýbajú súbory cookie pre OpenProject. Skontrolujte, či sú povolené súbory cookie, nakoľko bez nich táto aplikácia nebude správne fungovať.'
   error_custom_option_not_found: "Nastavenie neexistuje."
   error_enterprise_activation_user_limit: "Váš účet nemôže byť aktivovaný (dosiahnutý limit počtu užívateľov). Prosím kontaktujte vášho správcu pre získanie prístupu."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Chyba pri odstraňovaní tejto položky.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Vybratá neplatná hodnota."
   error_journal_attribute_not_present: "Denník neobsahuje atribút %{attribute}."
@@ -1360,6 +1382,7 @@ sk:
   error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Vyskytla sa chyba pri pokuse o prístup k repository: %{value}"
   error_scm_not_found: "Položka alebo revízia nebola nájdená v repozitári."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "Stav pracovného balíčka sa nedá odstrániť, pretože ho používa ešte najmenej jeden ďalší pracovný balíček."
   error_unable_delete_default_status: "Nie je možné odstrániť predvolený stav pracovného balíčka. Pred odstránením aktuálneho vyberte iný predvolený stav."
   error_unable_to_connect: "Nedá sa pripojiť (%{value})"
@@ -1474,7 +1497,7 @@ sk:
   menus:
     admin:
       mail_notification: "Upozornenia e-mailom"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
@@ -1489,6 +1512,26 @@ sk:
         action: "Akcia"
         expiration: "Expiruje"
       indefinite_expiration: "Nikdy"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1618,6 +1661,7 @@ sk:
   label_confirmation: "Potvrdenie"
   label_contains: "obsahuje"
   label_content: "Obsah"
+  label_color_plural: "Colors"
   label_copied: "skopírované"
   label_copy_same_as_target: "Rovnaký ako cieľ"
   label_copy_source: "Zdroj"
@@ -1646,6 +1690,7 @@ sk:
   label_deleted: "odstránené"
   label_deleted_custom_field: "(odstrániť vlastné pole)"
   label_deleted_custom_option: "(deleted option)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Zostupne"
   label_details: "Podrobnosti"
@@ -1691,6 +1736,7 @@ sk:
   label_expanded_click_to_collapse: "Rozbalené. Kliknutí zbalíte"
   label_f_hour: "%{value} hodina"
   label_f_hour_plural: "%{value} hodín"
+  label_favoured: "Favoured"
   label_feed_plural: "RSS správy (Feeds?)"
   label_feeds_access_key: "Prístupový kľúč pre RSS"
   label_feeds_access_key_created_on: "Prístupový kľúč pre RSS vytvorený %{value} vzad"
@@ -1886,7 +1932,8 @@ sk:
   label_project_new: "Nový projekt"
   label_project_plural: "Projekty"
   label_project_settings: "Nastavenia projektu"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "projekty %{count} využívajú celkom %{storage} diskového priestoru"
   label_project_view_all: "Zobraziť všetky projekty"
   label_project_show_details: "Zobraziť detaily projektu"
@@ -1974,6 +2021,7 @@ sk:
   label_this_week: "tento týždeň"
   label_this_year: "Tento rok"
   label_time_entry_plural: "Strávený čas"
+  label_title: "Title"
   label_projects_menu: "Projekty"
   label_today: "dnes"
   label_top_menu: "Horné menu"
@@ -2306,7 +2354,8 @@ sk:
   permission_add_messages: "Publikovať správy"
   permission_add_project: "Vytvoriť projekt"
   permission_archive_project: "Archivovať projekt"
-  permission_manage_user: "Create and edit users"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Vytvoriť podprojekty"
   permission_add_work_package_watchers: "Pridať pozorovateľov"
@@ -2651,17 +2700,16 @@ sk:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     brute_force_prevention: "Automatizované blokovanie používateľa"
-    language_name_being_default: '%{language_name} (default)'
     date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text_html: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
-    general: "Všeobecné"
     experimental:
       save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Feature flags
+    general: "Všeobecné"
     highlighting:
       mode_long:
         inline: "Inline zvýraznené atribút(y)"
@@ -2673,6 +2721,7 @@ sk:
       enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
@@ -2809,6 +2858,11 @@ sk:
   text_zoom_in: "Priblížiť"
   text_zoom_out: "Vzdialiť"
   text_setup_mail_configuration: "Nakonfigurujte svoju e-mailovú službu"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "ráno"
     formats:
@@ -2821,155 +2875,6 @@ sk:
     show: "Zobraziť časový rámec"
     end: "do"
     start: "od"
-  timelines:
-    admin_menu:
-      color: "Farba"
-      colors: "Farby"
-    associations: "Závislosti"
-    button_delete_all: "Odstrániť všetky"
-    change: "Zmena v plánovaní"
-    children: "Podriadené prvky"
-    color_could_not_be_saved: "Farbu nie je možné uložiť"
-    current_planning: "Aktuálne plánovanie"
-    dates: "Dátumy"
-    dates_are_calculated_based_on_sub_elements: "Dátumy boli vypočítané na základe podradených prvkov."
-    delete_all: "Odstrániť všetky"
-    delete_thing: "Odstrániť"
-    duration: "Trvanie"
-    duration_days:
-      one: "1 deň"
-      few: "%{count} dní"
-      many: "%{count} dní"
-      other: "%{count} dní"
-    edit_color: "Upraviť farbu"
-    edit_thing: "Upraviť"
-    edit_timeline: "Upraviť prehľad časovej osi %{timeline}"
-    delete_timeline: "Odstrániť prehľad časovej osi %{timeline}"
-    empty: "(prázdny)"
-    enable_type_in_project: 'Povolenie typu "%{type}"'
-    end: "Koniec"
-    errors:
-      not_implemented: "Časovú os nebolo možné zobraziť, pretože používa funkciu, ktorá ešte nie je implementovaná."
-      report_comparison: "Časová os nemôže vykresliť konfigurované porovnania. Skontrolujte príslušnú časť v konfigurácii, vynulovanie môže pomôcť vyriešiť tento problém."
-      report_epicfail: "Časovú os nebolo možné načítať kvôli neočakávanej chybe."
-      report_timeout: "Časovú os nebolo možné načítať v primeranom čase."
-    filter:
-      errors:
-        timeframe_start: "Začiatok časového rámca "
-        timeframe_end: "Koniec časového rámca "
-        compare_to_relative: "Hodnota relatívneho porovnania "
-        compare_to_absolute: "Hodnota absolútneho porovnania "
-        planning_element_time_relative_one: "Začiatok pracovných balíčkov v konkrétnom časovom rámci "
-        planning_element_time_relative_two: "Koniec pracovných balíčkov v konkrétnom časovom rámci "
-        planning_element_time_absolute_one: "Začiatok pracovných balíčkov v konkrétnom časovom rámci  "
-        planning_element_time_absolute_two: "Koniec pracovných balíčkov v konkrétnom časovom rámci  "
-      sort:
-        sortation: "Zoradiť podľa"
-        alphabet: "abeceda"
-        explicit_order: "explicitne zoradiť"
-        project_sortation: "Zoradiť projekty podľa"
-        date: "dátum"
-        default: "predvolené"
-      column:
-        assigned_to: "Priradené"
-        type: "Typ"
-        due_date: "Dátum ukončenia"
-        name: "Názov"
-        status: "Stav"
-        start_date: "Dátum začiatku"
-      columns: "Stĺpce"
-      comparisons: "Porovnanie"
-      comparison:
-        absolute: "Absolútna"
-        none: "Žiadny"
-        relative: "Relatívna"
-        compare_relative_prefix: "Porovnať aktuálne plánovanie voči"
-        compare_relative_suffix: "vzad"
-        compare_absolute: "Porovnať aktuálne plánovanie voči %{date}"
-      time_relative:
-        days: "dní"
-        weeks: "týždne"
-        months: "mesiace"
-      exclude_own_work_packages: "Skryť pracovné balíčky z tohto projektu"
-      exclude_reporters: "Skryť ďalšie projekty"
-      exclude_empty: "Skryť prázdne projekty"
-      grouping: "Zoskupenie"
-      grouping_hide_group: "Skryť skupinu \"%{group}\""
-      grouping_one: "Prvé kritérium zoskupenia"
-      grouping_one_phrase: "Je Podprojektom"
-      grouping_other: "Ostatné"
-      hide_chart: "Skryť graf"
-      noneElement: "(žiadny)"
-      noneSelection: "(žiadny)"
-      outline: "Rozbaľte primárny osnovu"
-      parent: "Zobraziť podprojekty z"
-      work_package_responsible: "Zobraziť pracovné balíčky so zodpovednou osobou"
-      work_package_assignee: "Zobraziť pracovné balíčky s priradenou osobou"
-      types: "Zobraziť typy"
-      status: "Zobraziť stav"
-      project_time_filter: "Projekty s pracovným balíčkom určitého typu v určitom časovom rámci"
-      project_time_filter_timeframe: "Časový rámec"
-      project_time_filter_historical_from: "od"
-      project_time_filter_historical_to: "do"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} pred, %{end_label} %{endspan}%{endspanunit} od teraz"
-      project_filters: "Filtrovať projekty"
-      project_responsible: "Zobraziť projekt so zodpovednou osobou"
-      project_status: "Zobraziť stav projektu"
-      timeframe: "Zobraziť časový rámec"
-      timeframe_end: "do"
-      timeframe_start: "od"
-      timeline: "Všeobecné nastavenia"
-      zoom: "Faktor zväčšenia"
-    history: "História"
-    new_color: "Nová farba"
-    new_association: "Nová závislosť"
-    new_work_package: "Nový pracovný balíček"
-    new_reporting: "Nový prehľad stavu"
-    new_timeline: "Nová správa časovej osi"
-    no_projects_for_reporting_available: "Neexistujú žiadne projekty, pre ktoré by sa mohla vytvoriť správa o aktuálnom stave."
-    no_right_to_view_timeline: "Na zobrazenie prepojenej časovej osi nemáte potrebné povolenie."
-    no_timeline_for_id: "Neexistuje žiadna časová os s ID %{id}."
-    notice_successful_deleted_all_elements: "Všetky prvky boli úspešne odstránené"
-    outline: "Obnoviť osnovu"
-    outlines:
-      aggregation: "Zobraziť iba vyznačené zoskupenia"
-      level1: "Rozbaľte položky úrovne 1"
-      level2: "Rozbaľte položky do úrovne 2"
-      level3: "Rozbaľte položky do úrovne 3"
-      level4: "Rozbaľte položky do úrovne 4"
-      level5: "Rozbaľte položky do úrovne 5"
-      all: "Zobraziť všetko"
-    reporting_for_project:
-      show: "Správa o stave k projektu: %{title}"
-      edit_delete: "správa o stave pre projekt: %{title}"
-      history: "História stavov pre projektu: %{title}"
-    reporting:
-      delete: "Odstrániť správu o stave: %{comment}"
-      edit: "Upraviť stav: %{comment}"
-      show: "Stav: %{comment}"
-    planning_element_update: "Aktualizované: %{title}"
-    type_could_not_be_saved: "Typ nie je možné uložiť"
-    reporting_could_not_be_saved: "Hlásenia nie je možné uložiť"
-    properties: "Vlastnosti"
-    really_delete_color: >
-      Naozaj chcete odstrániť nasledujúcu farbu? Typy používajúce túto farbu nebudú odstránené.
-    really_delete_reporting: >
-      Ste si istý, že chcete odstrániť tieto správy? Predchádzajúce vykazovanie stavov sa odstráni tiež.
-    start: "Začiatok"
-    timeline: "Prehľady časovej osy"
-    timelines: "Prehľady časovej osy"
-    settings: "Časové osy"
-    vertical_work_package: "Vertikálne pracovné balíčky"
-    you_are_viewing_the_selected_timeline: "Zobrazí sa vám vybraná správa o plánovaní"
-    zoom:
-      in: "Priblížiť"
-      out: "Vzdialiť"
-      days: "Dni"
-      weeks: "Týždne"
-      months: "Mesiace"
-      quarters: "Kvartály"
-      years: "Roky"
   title_remove_and_delete_user: Odoberte pozvaného používateľa z projektu a odstráňte ho/ju.
   title_enterprise_upgrade: "Upgradujte pre odomknutie viac užívateľov."
   tooltip_user_default_timezone: >

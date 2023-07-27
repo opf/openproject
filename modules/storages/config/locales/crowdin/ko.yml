@@ -9,8 +9,14 @@ ko:
   permission_delete_files: "Delete files"
   permission_share_files: "Share files"
   project_module_storages: "파일 저장소"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Not authorized for external connection to storage."
+        not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
+      file_link: "File link"
       storages/storage: "저장소"
     attributes:
       storages/storage:
@@ -63,6 +69,7 @@ ko:
         index: "이 프로젝트에서 사용 가능한 파일 저장소"
         new: "이 프로젝트에 파일 저장소 추가"
         edit: "Edit the file storage to this project"
+        delete: "Delete file storage"
     instructions:
       type: "설정을 수행하기 전에 Nextcloud 인스턴스에서 관리 권한이 있고 다음 애플리케이션이 설치되어 있는지 확인하세요."
       type_link_text: "“Integration OpenProject”"
@@ -92,7 +99,11 @@ ko:
       storage: >
         이 저장소를 삭제하시겠습니까? 이렇게 하면 이 저장소가 사용되는 모든 프로젝트에서도 삭제됩니다. 또한 해당 저장소에 저장된 파일에 대한 모든 링크도 작업 패키지에서 삭제합니다.
       project_storage: >
-        이 프로젝트에서 해당 파일 저장소를 제거하시겠습니까? 이렇게 하면 이 프로젝트에서는 해당 저장소에 저장된 파일에 대한 모든 링크도 제거됩니다.
+        Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:
+      project_storage_delete_result_1: "Remove all links from work packages of this project to files and folders of that storage."
+      project_storage_delete_result_2: "In case this storage has an automatically managed project folder, this and its files will be deleted forever."
+      input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
+      irreversible_notice: "Deleting a file storage is an irreversible action."
     label_active: "Active"
     label_inactive: "Inactive"
     label_creator: "생성자"

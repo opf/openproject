@@ -296,6 +296,34 @@ cs:
           one: "První kritérium třídění"
           two: "Druhé kritérium třídění"
           three: "Třetí kritérium třídění"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Skrýt Gantt'
+      filter:
+        noneSelection: "(žádný)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Přiblížit"
+        out: "Oddálit"
+        auto: "Automatické přiblížení"
+        days: "Dny"
+        weeks: "Týdny"
+        months: "Měsíce"
+        quarters: "Čtvrtletí"
+        years: "Roky"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "ne"
     general_text_yes: "ano"
     general_text_No: "Ne"
@@ -746,7 +774,7 @@ cs:
       start_new_timer: 'Spustit nový časovač'
       timer_already_running: 'To start a new timer, you must first stop the current timer:'
       timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
-      tracking_time: 'Tracking time'
+      tracking_time: 'Čas sledování'
       button_stop: 'Zastavit aktuální časovač'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvoufázové ověření'
@@ -825,63 +853,6 @@ cs:
       activate_no: 'odstranit řazení'
     text_work_packages_destroy_confirmation: "Jste si jisti, že chcete odstranit vybrané pracovní balíčky?"
     text_query_destroy_confirmation: "Jste si jisti, že chcete odstranit vybrané zobrazení?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Ganttův diagram'
-      labels:
-        title: 'Konfigurace popisku'
-        bar: 'Popisky lišty'
-        left: 'Vlevo'
-        right: 'Vpravo'
-        farRight: 'Dále vpravo'
-        showNone: '-- Bez popisku --'
-        description: >
-          Vyberte atributy, které chcete zobrazit v příslušných pozicích Ganttova diagramu. Všimněte si, že při najetí kursorem myši budou místo těchto atributů zobrazeny jeho popisky s daty.
-      button_activate: 'Zobrazit Ganttův diagram'
-      button_deactivate: 'Skrýt Ganttův diagram'
-      cancel: Zrušit
-      change: "Změna v plánování"
-      due_date: "Datum dokončení"
-      empty: "(prázdný)"
-      error: "Došlo k chybě."
-      errors:
-        not_implemented: "Časová osa nemohla být vykreslena, protože používá funkci, která ještě není implementována."
-        report_comparison: "Časová osa nemohla vykreslit nakonfigurovaná srovnání. Zkontrolujte prosím příslušnou sekci v konfiguraci, resetování může pomoci tento problém vyřešit."
-        report_epicfail: "Časová osa nemohla být načtena z důvodu neočekávané chyby."
-        report_timeout: "Časová osa nemohla být načtena v přiměřené době."
-      filter:
-        grouping_other: "Ostatní"
-        noneSelection: "(žádný)"
-      name: "Jméno"
-      outline: "Obnovit osnovu"
-      outlines:
-        aggregation: "Zobrazit pouze agregace"
-        level1: "Rozšířit úroveň 1"
-        level2: "Rozšířit úroveň 1"
-        level3: "Rozšířit úroveň 3"
-        level4: "Rozšířit úroveň 4"
-        level5: "Rozšířit úroveň 5"
-        all: "Zobrazit vše"
-      project_status: "Stav projektu"
-      really_close_dialog: "Opravdu chcete zavřít dialogové okno a ztratit zadaná data?"
-      responsible: "Zodpovědný"
-      save: Uložit
-      start_date: "Datum zahájení"
-      tooManyProjects: "Více než %{count} projektů. Použijte prosím lepší filtr!"
-      selection_mode:
-        notification: 'Kliknutím na libovolný zvýrazněný pracovní balíček vytvoříte vztah. Stiskněte ESC pro zrušení.'
-      zoom:
-        in: "Přiblížit"
-        out: "Oddálit"
-        auto: "Automatický zoom"
-        days: "Dny"
-        weeks: "Týdny"
-        months: "Měsíce"
-        quarters: "Čtvrtletí"
-        years: "Roky"
-        slider: "Posuvník přiblížení/oddálení"
-        description: >
-          Vyberte počáteční úroveň přiblížení, která by se měla zobrazit, pokud není autozoom dostupný.
     tl_toolbar:
       zooms: "Úroveň zvětšení"
       outlines: "Úroveň hierarchie"
@@ -946,10 +917,10 @@ cs:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filtrovat pracovní balíčky'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Klikněte zde pro přidání nového pracovního balíčku do tohoto seznamu'

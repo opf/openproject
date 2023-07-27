@@ -190,6 +190,10 @@ module Redmine
               (persisted? && allowed_to_on_attachment?(user, self.class.attachable_options[:add_on_persisted_permission]))
           end
 
+          def attachable?
+            true
+          end
+
           private
 
           def allowed_to_on_attachment?(user, permissions)
@@ -242,6 +246,10 @@ module Redmine
             attachments_claimed.any?(&:containered?)
           end
         end
+      end
+
+      def attachable?
+        false
       end
     end
   end

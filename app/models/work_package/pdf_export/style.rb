@@ -161,30 +161,6 @@ module WorkPackage::PDFExport::Style
       resolve_margin(@styles[:work_package])
     end
 
-    def wp_section_heading
-      resolve_font(@styles.dig(:work_package, :section, :heading))
-    end
-
-    def wp_section_heading_margins
-      resolve_margin(@styles.dig(:work_package, :section, :heading))
-    end
-
-    def wp_section_item
-      resolve_font(@styles.dig(:work_package, :section, :item))
-    end
-
-    def wp_section_item_margins
-      resolve_margin(@styles.dig(:work_package, :section, :item))
-    end
-
-    def wp_label
-      resolve_font(@styles.dig(:work_package, :label))
-    end
-
-    def wp_label_margins
-      resolve_margin(@styles.dig(:work_package, :label))
-    end
-
     def wp_subject(level)
       resolve_font(@styles.dig(:work_package, :subject)).merge(
         resolve_font(@styles.dig(:work_package, "subject_level_#{level}".to_sym))

@@ -82,7 +82,7 @@ sk:
   label_costlog: "Zaúčtované jednotkové náklady"
   label_cost_plural: "Náklady"
   label_cost_type_plural: "Typy nákladov"
-  label_cost_type_specific: "Cost type #%{id}: %{name}" #%{id}: %{name}"
+  label_cost_type_specific: "Cost type #%{id}: %{name}"
   label_costs_per_page: "Náklady na stranu"
   label_currency: "Mena"
   label_currency_format: "Formát meny"

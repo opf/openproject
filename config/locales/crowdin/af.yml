@@ -169,10 +169,21 @@ af:
     index:
       no_results_title_text: There are currently no colors.
       no_results_content_text: Create a new color
-    label_no_color: 'No color'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "No color"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Actions'
+      name: "Actions"
       add: 'Voeg aksie toe'
       assigned_to:
         executing_user_value: '(Assign to executing user)'
@@ -251,6 +262,8 @@ af:
         no_results_title_text: There are currently no custom fields available.
       types:
         no_results_title_text: There are currently no types available.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
@@ -267,7 +280,9 @@ af:
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: There are currently no access tokens available.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: There is currently no news to report.
@@ -324,6 +339,12 @@ af:
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Add a new status
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: There are currently no types.
@@ -1298,12 +1319,13 @@ af:
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Kies 'n gebruiker en 'n rol."
   error_code: "Error %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'Die OpenProject koekie word vermis. Verseker asseblief dat koekies geaktiveer is, aangesien hierdie toepassing nie behoorlik sal funksioneer daarsonder nie.'
   error_custom_option_not_found: "Option does not exist."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
@@ -1322,6 +1344,7 @@ af:
   error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Daar was 'n probleem om toegang tot die bewaarplek te verkry: %{value}"
   error_scm_not_found: "Die inskrywing of hersiening is nie in die bewaarplek gevind nie."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "Die werkspakketstatus kan nie geskrap word nie omdat dit gebruik word deur ten minste een werkspakket."
   error_unable_delete_default_status: "Die verstek werkspakketstatus kan nie geskrap word nie. Kies asseblief 'n ander verstek werkspakketstatus voor die huidige een geskrap word."
   error_unable_to_connect: "Kon nie verbind nie (%{value})"
@@ -1436,7 +1459,7 @@ af:
   menus:
     admin:
       mail_notification: "E-poskennisgewings"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
@@ -1451,6 +1474,26 @@ af:
         action: "Action"
         expiration: "Expires"
       indefinite_expiration: "Never"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1580,6 +1623,7 @@ af:
   label_confirmation: "Bevestig"
   label_contains: "bevat"
   label_content: "Inhoud"
+  label_color_plural: "Colors"
   label_copied: "gekopieer"
   label_copy_same_as_target: "Dieselfde as teiken"
   label_copy_source: "Bron"
@@ -1608,6 +1652,7 @@ af:
   label_deleted: "geskrap"
   label_deleted_custom_field: "(pasgemaakte veld geskrap)"
   label_deleted_custom_option: "(deleted option)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Dalende"
   label_details: "Besonderhede"
@@ -1653,6 +1698,7 @@ af:
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} uur"
   label_f_hour_plural: "%{value} ure"
+  label_favoured: "Favoured"
   label_feed_plural: "Toevoere"
   label_feeds_access_key: "RSS toegangsleutel"
   label_feeds_access_key_created_on: "RSS toegang sleutel %{value} gelede geskep"
@@ -1848,7 +1894,8 @@ af:
   label_project_new: "Nuwe projek"
   label_project_plural: "Projekte"
   label_project_settings: "Projek-instellings"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: "Bekyk alle projekte"
   label_project_show_details: "Toon projekdetails"
@@ -1936,6 +1983,7 @@ af:
   label_this_week: "vandeesweek"
   label_this_year: "vandeesjaar"
   label_time_entry_plural: "Tyd gespandeer"
+  label_title: "Title"
   label_projects_menu: "Projekte"
   label_today: "vandag"
   label_top_menu: "Top Menu"
@@ -2265,7 +2313,8 @@ af:
   permission_add_messages: "Post messages"
   permission_add_project: "Create project"
   permission_archive_project: "Archive project"
-  permission_manage_user: "Create and edit users"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Create subprojects"
   permission_add_work_package_watchers: "Voeg dophouers by"
@@ -2610,17 +2659,16 @@ af:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     brute_force_prevention: "Automated user blocking"
-    language_name_being_default: '%{language_name} (default)'
     date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text_html: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
-    general: "Algemeen"
     experimental:
       save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Feature flags
+    general: "Algemeen"
     highlighting:
       mode_long:
         inline: "Highlight attribute(s) inline"
@@ -2632,6 +2680,7 @@ af:
       enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
@@ -2768,6 +2817,11 @@ af:
   text_zoom_in: "Zoom in"
   text_zoom_out: "Zoom out"
   text_setup_mail_configuration: "Stel jou e-pos diensverskaffer op"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "am"
     formats:
@@ -2780,153 +2834,6 @@ af:
     show: "Show timeframe"
     end: "to"
     start: "from"
-  timelines:
-    admin_menu:
-      color: "Kleur"
-      colors: "Colors"
-    associations: "Dependencies"
-    button_delete_all: "Delete all"
-    change: "Change in planning"
-    children: "Child elements"
-    color_could_not_be_saved: "Color could not be saved"
-    current_planning: "Current planning"
-    dates: "Dates"
-    dates_are_calculated_based_on_sub_elements: "Dates are calculated based on sub elements."
-    delete_all: "Delete all"
-    delete_thing: "Skrap"
-    duration: "Duration"
-    duration_days:
-      one: "1 dag"
-      other: "%{count} dae"
-    edit_color: "Edit color"
-    edit_thing: "Redigeer"
-    edit_timeline: "Edit timeline report %{timeline}"
-    delete_timeline: "Delete timeline report %{timeline}"
-    empty: "(empty)"
-    enable_type_in_project: 'Enable type "%{type}"'
-    end: "End"
-    errors:
-      not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
-      report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
-      report_epicfail: "The timeline could not be loaded due to an unexpected error."
-      report_timeout: "The timeline could not be loaded in a reasonable amount of time."
-    filter:
-      errors:
-        timeframe_start: "The timeframe start "
-        timeframe_end: "The timeframe end "
-        compare_to_relative: "The value of the relative comparison "
-        compare_to_absolute: "The value of the absolute comparison "
-        planning_element_time_relative_one: "The start for work packages in a certain timeframe "
-        planning_element_time_relative_two: "The end for work packages in a certain timeframe "
-        planning_element_time_absolute_one: "The start for work packages in a certain timeframe  "
-        planning_element_time_absolute_two: "The end for work packages in a certain timeframe  "
-      sort:
-        sortation: "Sort by"
-        alphabet: "alphabet"
-        explicit_order: "explicit order"
-        project_sortation: "Sort projects by"
-        date: "date"
-        default: "default"
-      column:
-        assigned_to: "Gedelegeerde"
-        type: "Soort"
-        due_date: "End date"
-        name: "Naam"
-        status: "Status"
-        start_date: "Begindatum"
-      columns: "Kolomme"
-      comparisons: "Comparisons"
-      comparison:
-        absolute: "Absolute"
-        none: "None"
-        relative: "Relative"
-        compare_relative_prefix: "Compare current planning to"
-        compare_relative_suffix: "ago"
-        compare_absolute: "Compare current planning to %{date}"
-      time_relative:
-        days: "dae"
-        weeks: "weeks"
-        months: "months"
-      exclude_own_work_packages: "Hide work packages from this project"
-      exclude_reporters: "Hide other projects"
-      exclude_empty: "Hide empty projects"
-      grouping: "Grouping"
-      grouping_hide_group: "Hide group \"%{group}\""
-      grouping_one: "First grouping criterion"
-      grouping_one_phrase: "Is a subproject of"
-      grouping_other: "Ander"
-      hide_chart: "Hide chart"
-      noneElement: "(none)"
-      noneSelection: "(none)"
-      outline: "Initial outline expansion"
-      parent: "Show subprojects of"
-      work_package_responsible: "Show work packages with accountable"
-      work_package_assignee: "Show work packages with assignee"
-      types: "Show types"
-      status: "Show status"
-      project_time_filter: "Projects with a work package of a certain type in a certain timeframe"
-      project_time_filter_timeframe: "Timeframe"
-      project_time_filter_historical_from: "from"
-      project_time_filter_historical_to: "to"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago, %{end_label} %{endspan}%{endspanunit} from now"
-      project_filters: "Filter projects"
-      project_responsible: "Show projects with accountable"
-      project_status: "Show project status"
-      timeframe: "Show timeframe"
-      timeframe_end: "to"
-      timeframe_start: "from"
-      timeline: "General Settings"
-      zoom: "Zoom factor"
-    history: "Geskiedenis"
-    new_color: "New color"
-    new_association: "New dependency"
-    new_work_package: "Nuwe werkspakket"
-    new_reporting: "New reporting"
-    new_timeline: "New timeline report"
-    no_projects_for_reporting_available: "There are no projects to which a reporting association can be created."
-    no_right_to_view_timeline: "You do not have the necessary permission to view the linked timeline."
-    no_timeline_for_id: "There is no timeline with ID %{id}."
-    notice_successful_deleted_all_elements: "Successfully deleted all elements"
-    outline: "Reset Outline"
-    outlines:
-      aggregation: "Show aggregations only"
-      level1: "Expand level 1"
-      level2: "Expand level 2"
-      level3: "Expand level 3"
-      level4: "Expand level 4"
-      level5: "Expand level 5"
-      all: "Show all"
-    reporting_for_project:
-      show: "Status reported to project: %{title}"
-      edit_delete: "status report for project: %{title}"
-      history: "History for status for project: %{title}"
-    reporting:
-      delete: "Delete status: %{comment}"
-      edit: "Edit status: %{comment}"
-      show: "Status: %{comment}"
-    planning_element_update: "Update: %{title}"
-    type_could_not_be_saved: "Type could not be saved"
-    reporting_could_not_be_saved: "Reporting could not be saved"
-    properties: "Properties"
-    really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
-    really_delete_reporting: >
-      Are you sure, you want to delete the following reporting? Previous reporting statuses will be deleted, too.
-    start: "Start"
-    timeline: "Timeline report"
-    timelines: "Timeline reports"
-    settings: "Timelines"
-    vertical_work_package: "Vertical work packages"
-    you_are_viewing_the_selected_timeline: "You are viewing the selected timeline report"
-    zoom:
-      in: "Zoom in"
-      out: "Zoom out"
-      days: "Days"
-      weeks: "Weeks"
-      months: "Months"
-      quarters: "Quarters"
-      years: "Years"
   title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
   title_enterprise_upgrade: "Upgrade to unlock more users."
   tooltip_user_default_timezone: >

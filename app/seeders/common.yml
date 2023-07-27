@@ -345,5 +345,6 @@ roles:
   position: 6
   permissions:
   - :add_project
+  - :create_user
   - :manage_user
   - :manage_placeholder_user

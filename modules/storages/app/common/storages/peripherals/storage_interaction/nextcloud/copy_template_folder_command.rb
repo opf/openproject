@@ -30,7 +30,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
   class CopyTemplateFolderCommand
     using Storages::Peripherals::ServiceResultRefinements
 
-    def initialize(storage:)
+    def initialize(storage)
       @uri = URI(storage.host).normalize
       @username = storage.username
       @password = storage.password
@@ -84,11 +84,11 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         when Net::HTTPSuccess
           Util.error(:conflict, 'Destination folder already exists.')
         when Net::HTTPUnauthorized
-          Util.error(:not_authorized)
+          Util.error(:not_authorized, "Not authorized (validate_destination)")
         when Net::HTTPNotFound
           ServiceResult.success(result: urls)
         else
-          Util.error(:unknown)
+          Util.error(:unknown, "Unexpected response (validate_destination): #{response.code}", response)
         end
       end
     end
@@ -96,26 +96,24 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     # rubocop:disable Metrics/AbcSize
     def copy_folder
       ->(urls) do
-        request = Net::HTTP::Copy.new(urls[:source_url])
-        request['Destination'] = urls[:destination_url]
-
         headers = Util.basic_auth_header(@username, @password)
+        headers['Destination'] = urls[:destination_url]
         headers['Depth'] = 'infinity'
-        request.initialize_http_header headers
 
+        request = Net::HTTP::Copy.new(urls[:source_url], headers)
         response = Util.http(@uri).request(request)
 
         case response
         when Net::HTTPCreated
-          ServiceResult.success(message: 'Folder was successfully copied.')
+          ServiceResult.success(message: 'Folder was successfully copied')
         when Net::HTTPUnauthorized
-          Util.error(:not_authorized)
+          Util.error(:not_authorized, "Not authorized (copy_folder)")
         when Net::HTTPNotFound
-          Util.error(:not_found)
+          Util.error(:not_found, "Project folder not found (copy_folder)")
         when Net::HTTPConflict
           Util.error(:conflict, Util.error_text_from_response(response))
         else
-          Util.error(:unknown)
+          Util.error(:unknown, "Unexpected response (copy_folder): #{response.code}", response)
         end
       end
     end
