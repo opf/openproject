@@ -59,7 +59,7 @@ module OAuth
 
       def client_credentials
         if user_id = application.client_credentials_user_id
-          link_to_user User.find(user_id)
+          helpers.link_to_user User.find(user_id)
         else
           '-'
         end
