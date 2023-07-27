@@ -32,7 +32,8 @@ class MeetingAgendaItem::New::WorkPackage < ApplicationForm
       name: :work_package_id,
       label: "Work package",
       include_blank: true,
-      visually_hide_label: true
+      visually_hide_label: true,
+      disabled: @disabled
     ) do |wp_select_list|
       WorkPackage.visible
         .order(:id)
@@ -44,5 +45,9 @@ class MeetingAgendaItem::New::WorkPackage < ApplicationForm
           )
         end
     end
+  end
+
+  def initialize(disabled: false)
+    @disabled = disabled
   end
 end

@@ -73,11 +73,13 @@ module MeetingAgendaItems
     end
 
     def state_partial
-      case @meeting.agenda_items_locked?
-      when false
-        render(Primer::Beta::State.new(title: "Open", scheme: :open, size: :small)) { "Open" }
-      when true
-        render(Primer::Beta::State.new(title: "Closed", scheme: :closed, size: :small)) { "Closed" }
+      case @meeting.agenda_items_state
+      when "open"
+        render(Primer::Beta::State.new(title: "Open", scheme: :open, size: :small)) { "Agenda open" }
+      when "locked"
+        render(Primer::Beta::State.new(title: "Locked", scheme: :closed, size: :small)) { "Agenda locked" }
+      when "closed"
+        render(Primer::Beta::State.new(title: "Closed", scheme: :merged, size: :small)) { "Meeting closed" }
       end
     end
 
@@ -86,11 +88,50 @@ module MeetingAgendaItems
     end
 
     def actions_partial
-      case @meeting.agenda_items_locked?
-      when false
-        close_action_partial
-      when true
-        open_action_partial
+      case @meeting.agenda_items_state
+      when "open"
+        actions_when_open_partial
+      when "locked"
+        actions_when_locked_partial
+      when "closed"
+        actions_when_closed_partial
+      end
+    end
+
+    def actions_when_open_partial
+      form_with(
+        url: lock_meeting_agenda_items_path(@meeting),
+        method: :put,
+        data: { 'turbo-stream': true }
+      ) do
+        render(Primer::Beta::Button.new(scheme: :default, type: :submit)) do |component|
+          component.with_leading_visual_icon(icon: "key")
+          "Lock agenda"
+        end
+      end
+    end
+
+    def actions_when_locked_partial
+      flex_layout(align_items: :center) do |flex|
+        flex.with_column do
+          unlock_action_partial
+        end
+        flex.with_column(ml: 1) do
+          close_action_partial
+        end
+      end
+    end
+
+    def unlock_action_partial
+      form_with(
+        url: unlock_meeting_agenda_items_path(@meeting),
+        method: :put,
+        data: { 'turbo-stream': true }
+      ) do
+        render(Primer::Beta::Button.new(scheme: :default, type: :submit)) do |component|
+          component.with_leading_visual_icon(icon: "issue-reopened")
+          "Unlock agenda"
+        end
       end
     end
 
@@ -102,20 +143,20 @@ module MeetingAgendaItems
       ) do
         render(Primer::Beta::Button.new(scheme: :default, type: :submit)) do |component|
           component.with_leading_visual_icon(icon: "issue-closed")
-          "Close agenda"
+          "Close meeting"
         end
       end
     end
 
-    def open_action_partial
+    def actions_when_closed_partial
       form_with(
-        url: open_meeting_agenda_items_path(@meeting),
+        url: lock_meeting_agenda_items_path(@meeting),
         method: :put,
         data: { 'turbo-stream': true }
       ) do
         render(Primer::Beta::Button.new(scheme: :default, type: :submit)) do |component|
           component.with_leading_visual_icon(icon: "issue-reopened")
-          "Reopen agenda"
+          "Reopen meeting"
         end
       end
     end

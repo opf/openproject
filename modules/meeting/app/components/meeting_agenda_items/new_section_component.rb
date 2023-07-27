@@ -42,7 +42,7 @@ module MeetingAgendaItems
 
     def call
       component_wrapper do
-        return if @meeting.agenda_items_locked?
+        return unless @meeting.agenda_items_open?
 
         case @state
         when :initial

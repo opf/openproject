@@ -39,6 +39,12 @@ class Meeting < ApplicationRecord
   has_many :participants, dependent: :destroy, class_name: 'MeetingParticipant'
   has_many :agenda_items, dependent: :destroy, class_name: 'MeetingAgendaItem'
 
+  enum agenda_items_state: {
+    open: 0,
+    locked: 1,
+    closed: 2
+  }, _prefix: :agenda_items
+
   default_scope do
     order("#{Meeting.table_name}.start_time DESC")
   end

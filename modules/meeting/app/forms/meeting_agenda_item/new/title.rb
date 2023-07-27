@@ -35,6 +35,11 @@ class MeetingAgendaItem::New::Title < ApplicationForm
       visually_hide_label: true,
       required: true,
       autofocus: true,
+      disabled: @disabled
     )
+  end
+
+  def initialize(disabled: false)
+    @disabled = disabled
   end
 end

@@ -32,7 +32,8 @@ class MeetingAgendaItem::New::Author < ApplicationForm
       name: :user_id,
       label: "Owner",
       include_blank: true,
-      visually_hide_label: true
+      visually_hide_label: true,
+      disabled: @disabled
     ) do |user_select_list|
       User.active
         .order(:id)
@@ -44,5 +45,9 @@ class MeetingAgendaItem::New::Author < ApplicationForm
           )
         end
     end
+  end
+
+  def initialize(disabled: false)
+    @disabled = disabled
   end
 end

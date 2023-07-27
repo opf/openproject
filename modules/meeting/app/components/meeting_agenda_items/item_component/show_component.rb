@@ -69,7 +69,7 @@ module MeetingAgendaItems
     end
 
     def drag_and_drop_enabled?
-      if @meeting_agenda_item.meeting.agenda_items_locked?
+      if @meeting_agenda_item.meeting.agenda_items_locked? || @meeting_agenda_item.meeting.agenda_items_closed?
         false
       else
         @active_work_package.nil?
@@ -101,11 +101,14 @@ module MeetingAgendaItems
     end
 
     def work_package_partial
-      render(Primer::Box.new(style: "margin-left: -10px;")) do
+      render(Primer::Box.new) do
         link_to(work_package_path(@meeting_agenda_item.work_package), target: "_blank", rel: "noopener") do
-          render(Primer::Beta::Label.new(size: :large, font_weight: :bold)) do
+          render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do
             "##{@meeting_agenda_item.work_package.id} #{@meeting_agenda_item.work_package.subject}"
           end
+          # render(Primer::Beta::Label.new(size: :large, font_weight: :bold)) do
+          #   "##{@meeting_agenda_item.work_package.id} #{@meeting_agenda_item.work_package.subject}"
+          # end
         end
       end
     end
@@ -233,6 +236,8 @@ module MeetingAgendaItems
     end
 
     def edit_action_partial
+      return if @meeting_agenda_item.meeting.agenda_items_closed?
+
       form_with(
         url: edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
         method: :get,
@@ -244,7 +249,6 @@ module MeetingAgendaItems
           end
           flex.with_row do
             render(Primer::Beta::IconButton.new(
-                     mr: 2,
                      size: :medium,
                      disabled: false,
                      icon: :pencil,
@@ -258,7 +262,7 @@ module MeetingAgendaItems
     end
 
     def delete_action_partial
-      return if @meeting_agenda_item.meeting.agenda_items_locked?
+      return unless @meeting_agenda_item.meeting.agenda_items_open?
 
       form_with(
         url: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
@@ -271,6 +275,7 @@ module MeetingAgendaItems
           end
           flex.with_row do
             render(Primer::Beta::IconButton.new(
+                     ml: 2,
                      scheme: :danger,
                      size: :medium,
                      disabled: false,

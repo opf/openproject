@@ -33,7 +33,12 @@ class MeetingAgendaItem::New::Duration < ApplicationForm
       placeholder: "Duration in minutes",
       label: "Duration in minutes",
       visually_hide_label: true,
-      type: :number
+      type: :number,
+      disabled: @disabled
     )
+  end
+
+  def initialize(disabled: false)
+    @disabled = disabled
   end
 end

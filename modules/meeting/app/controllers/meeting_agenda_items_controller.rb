@@ -32,7 +32,7 @@ class MeetingAgendaItemsController < ApplicationController
 
   before_action :set_meeting
   before_action :set_optional_active_work_package
-  before_action :set_meeting_agenda_item, except: %i[index new cancel_new create close open]
+  before_action :set_meeting_agenda_item, except: %i[index new cancel_new create lock unlock close]
 
   def new
     update_new_section_via_turbo_stream(state: :form)
@@ -107,16 +107,24 @@ class MeetingAgendaItemsController < ApplicationController
     respond_with_turbo_streams
   end
 
-  def close
-    @meeting.update(agenda_items_locked: true)
+  def lock
+    @meeting.agenda_items_locked!
 
     update_all_via_turbo_stream
 
     respond_with_turbo_streams
   end
 
-  def open
-    @meeting.update(agenda_items_locked: false)
+  def unlock
+    @meeting.agenda_items_open!
+
+    update_all_via_turbo_stream
+
+    respond_with_turbo_streams
+  end
+
+  def close
+    @meeting.agenda_items_closed!
 
     update_all_via_turbo_stream
 

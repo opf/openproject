@@ -57,27 +57,29 @@ module MeetingAgendaItems
               flex.with_column(flex: 1, flex_layout: true, mr: 5) do |flex|
                 flex.with_column(flex: 1, data: { 'meeting-agenda-item-form-target': "titleInput" },
                                  display: display_title_input_value) do
-                  render(MeetingAgendaItem::New::Title.new(f))
+                  render(MeetingAgendaItem::New::Title.new(f, disabled: !@meeting.agenda_items_open?))
                 end
                 unless @active_work_package.present?
                   flex.with_column(flex: 1, data: { 'meeting-agenda-item-form-target': "workPackageInput" },
                                    display: display_work_package_input_value) do
-                    render(MeetingAgendaItem::New::WorkPackage.new(f))
+                    render(MeetingAgendaItem::New::WorkPackage.new(f, disabled: !@meeting.agenda_items_open?))
                   end
-                  flex.with_column(ml: 2, data: { 'meeting-agenda-item-form-target': "workPackageButton" },
-                                   display: display_work_package_button_value) do
-                    render(Primer::Beta::Button.new(data: { action: 'click->meeting-agenda-item-form#addWorkPackage keydown.enter->meeting-agenda-item-form#addWorkPackage' })) do |_button|
-                      "Reference work package instead"
+                  if @meeting.agenda_items_open?
+                    flex.with_column(ml: 2, data: { 'meeting-agenda-item-form-target': "workPackageButton" },
+                                     display: display_work_package_button_value) do
+                      render(Primer::Beta::Button.new(data: { action: 'click->meeting-agenda-item-form#addWorkPackage keydown.enter->meeting-agenda-item-form#addWorkPackage' })) do |_button|
+                        "Reference work package instead"
+                      end
                     end
                   end
                 end
               end
               unless @active_work_package.present?
                 flex.with_column(ml: 2) do
-                  render(MeetingAgendaItem::New::Duration.new(f))
+                  render(MeetingAgendaItem::New::Duration.new(f, disabled: !@meeting.agenda_items_open?))
                 end
                 flex.with_column(ml: 2) do
-                  render(MeetingAgendaItem::New::Author.new(f))
+                  render(MeetingAgendaItem::New::Author.new(f, disabled: !@meeting.agenda_items_open?))
                 end
               end
             end
