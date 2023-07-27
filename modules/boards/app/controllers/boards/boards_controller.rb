@@ -13,6 +13,7 @@ module ::Boards
     end
 
     before_action :authorize_global, only: %i[overview new create]
+    before_action :ensure_board_type_not_restricted, only: %i[create]
 
     menu_item :board_view
 
@@ -37,8 +38,6 @@ module ::Boards
     def new; end
 
     def create
-      return render_403 if restricted_board_type?
-
       service_result = service_call
 
       @board_grid = service_result.result
@@ -62,6 +61,10 @@ module ::Boards
 
     def build_board_grid
       @board_grid = Boards::Grid.new
+    end
+
+    def ensure_board_type_not_restricted
+      render_403 if restricted_board_type?
     end
 
     def restricted_board_type?
