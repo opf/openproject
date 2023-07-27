@@ -40,14 +40,14 @@ export class CopyToClipboardService {
     readonly I18n:I18nService,
   ) { }
 
-  copy(content:string) {
+  copy(content:string, successMessage?:string) {
     if (!navigator.clipboard) {
       // fallback for browsers that don't support clipboard API at all
       this.addNotification('addError', this.I18n.t('js.clipboard.browser_error', { content }));
     } else {
       void navigator.clipboard.writeText(content)
         .then(() => {
-          this.addNotification('addSuccess', this.I18n.t('js.clipboard.copied_successful'));
+          this.addNotification('addSuccess', successMessage || this.I18n.t('js.clipboard.copied_successful'));
         })
         .catch(() => {
           // fallback when running into e.g. browser permission errors
