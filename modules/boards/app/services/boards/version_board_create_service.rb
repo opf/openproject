@@ -26,12 +26,10 @@ module Boards
     end
 
     def create_query_params(params, version)
-      {
-        project: params[:project],
+      default_create_query_params(params).merge(
         name: query_name(version),
-        public: true,
         filters: query_filters(version)
-      }
+      )
     end
 
     def query_name(version)

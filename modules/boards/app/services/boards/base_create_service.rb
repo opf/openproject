@@ -46,11 +46,17 @@ module Boards
     end
 
     def create_query_params(params)
+      default_create_query_params(params).merge(
+        name: query_name,
+        filters: query_filters
+      )
+    end
+
+    def default_create_query_params(params)
       {
         project: params[:project],
-        name: query_name,
         public: true,
-        filters: query_filters
+        sort_criteria: query_sort_criteria
       }
     end
 
@@ -60,6 +66,10 @@ module Boards
 
     def query_filters
       raise 'Define the query filters'
+    end
+
+    def query_sort_criteria
+      [[:manual_sorting, 'asc'], [:id, 'asc']]
     end
 
     def options_for_grid(params)

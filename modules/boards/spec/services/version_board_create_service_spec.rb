@@ -29,6 +29,7 @@
 #++
 
 require 'spec_helper'
+require_relative 'base_create_service_shared_examples'
 
 RSpec.describe Boards::VersionBoardCreateService do
   shared_let(:project) { create(:project) }
@@ -79,6 +80,8 @@ RSpec.describe Boards::VersionBoardCreateService do
 
         expect(queries_filters).to match_array(widgets_filters)
       end
+
+      it_behaves_like 'sets the appropriate sort_criteria on each query'
     end
   end
 end

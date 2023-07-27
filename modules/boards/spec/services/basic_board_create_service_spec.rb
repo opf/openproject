@@ -29,6 +29,7 @@
 #++
 
 require 'spec_helper'
+require_relative 'base_create_service_shared_examples'
 
 RSpec.describe Boards::BasicBoardCreateService do
   shared_let(:project) { create(:project) }
@@ -79,6 +80,8 @@ RSpec.describe Boards::BasicBoardCreateService do
         expect(query_filter).to have_key :manual_sort
         expect(query_filter).to eq widget_filter
       end
+
+      it_behaves_like 'sets the appropriate sort_criteria on each query'
     end
   end
 end
