@@ -39,7 +39,7 @@ module Boards
     end
 
     def query_filters(version)
-      [{ version_id: { operator: '=', values: [version.id] } }]
+      [{ version_id: { operator: '=', values: [version.id.to_s] } }]
     end
 
     def options_for_widgets(params)
