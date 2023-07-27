@@ -33,7 +33,7 @@ module OpenProject::Boards
                    dependencies: :view_work_packages,
                    contract_actions: { boards: %i[read] }
         permission :manage_board_views,
-                   { 'boards/boards': %i[index] },
+                   { 'boards/boards': %i[index new create] },
                    dependencies: :manage_public_queries,
                    contract_actions: { boards: %i[create update destroy] }
       end

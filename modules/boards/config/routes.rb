@@ -1,6 +1,11 @@
 OpenProject::Application.routes.draw do
   get '/boards/all', to: 'boards/boards#overview'
 
+  resources :boards,
+            controller: 'boards/boards',
+            only: %i[new create],
+            as: :work_package_boards
+
   scope '', as: :work_package_boards do
     get '/boards(/*state)', to: 'boards/boards#index'
   end

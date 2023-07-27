@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,28 +30,34 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Boards routing' do
-  it do
-    expect(subject)
-      .to route(:get, '/projects/foobar/boards/state')
-            .to(controller: 'boards/boards', action: 'index', project_id: 'foobar', state: 'state')
-  end
+RSpec.describe Boards::SubtasksBoardCreateService do
+  shared_let(:project) { create(:project) }
+  shared_let(:user) { build_stubbed(:admin) }
+  shared_let(:instance) { described_class.new(user:) }
 
-  it do
-    expect(subject)
-      .to route(:get, '/boards/state')
-            .to(controller: 'boards/boards', action: 'index', state: 'state')
-  end
+  subject { instance.call(params) }
 
-  it do
-    expect(subject)
-      .to route(:get, '/boards/new')
-            .to(controller: 'boards/boards', action: 'new')
-  end
+  context 'with all valid params' do
+    let(:params) do
+      {
+        name: "Gotham Renewal Board",
+        project:,
+        attribute: 'subtasks'
+      }
+    end
 
-  it do
-    expect(subject)
-      .to route(:post, '/boards')
-            .to(controller: 'boards/boards', action: 'create')
+    it 'is successful' do
+      expect(subject).to be_success
+    end
+
+    it 'creates a "Parent-child" board with no widgets attached', :aggregate_failures do
+      board = subject.result
+
+      expect(board.name).to eq("Gotham Renewal Board")
+      expect(board.options[:attribute]).to eq('subtasks')
+      expect(board.options[:type]).to eq('action')
+
+      expect(board.widgets).to be_empty
+    end
   end
 end

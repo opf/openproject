@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,29 +29,27 @@
 #++
 
 require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
-RSpec.describe 'Boards routing' do
-  it do
-    expect(subject)
-      .to route(:get, '/projects/foobar/boards/state')
-            .to(controller: 'boards/boards', action: 'index', project_id: 'foobar', state: 'state')
+RSpec.describe Boards::CreateContract do
+  include_context 'ModelContract shared context'
+  let(:project) { build_stubbed(:project) }
+  let(:name) { 'My Board' }
+  let(:user) { build_stubbed(:user) }
+  let(:grid) do
+    build_stubbed(:board_grid, project:, name:)
+  end
+  let(:contract) { described_class.new(grid, user) }
+
+  context 'when :project not provided' do
+    let(:project) { nil }
+
+    it_behaves_like 'contract is invalid', project: :blank
   end
 
-  it do
-    expect(subject)
-      .to route(:get, '/boards/state')
-            .to(controller: 'boards/boards', action: 'index', state: 'state')
-  end
+  context 'when :name not provided' do
+    let(:name) { nil }
 
-  it do
-    expect(subject)
-      .to route(:get, '/boards/new')
-            .to(controller: 'boards/boards', action: 'new')
-  end
-
-  it do
-    expect(subject)
-      .to route(:post, '/boards')
-            .to(controller: 'boards/boards', action: 'create')
+    it_behaves_like 'contract is invalid', name: :blank
   end
 end

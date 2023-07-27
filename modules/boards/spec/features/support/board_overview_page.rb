@@ -41,6 +41,18 @@ module Pages
       end
     end
 
+    def expect_create_button
+      within '.toolbar-items' do
+        expect(page).to have_link 'Board'
+      end
+    end
+
+    def expect_no_create_button
+      within '.toolbar-items' do
+        expect(page).not_to have_link 'Board'
+      end
+    end
+
     def expect_no_boards_listed
       within '#content-wrapper' do
         expect(page).to have_content I18n.t(:no_results_title_text)

@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,32 +26,29 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+#
 
-require 'spec_helper'
+module Boards
+  class AddButtonComponent < ::AddButtonComponent
+    def render?
+      User.current.allowed_to_globally?(:manage_board_views)
+    end
 
-RSpec.describe 'Boards routing' do
-  it do
-    expect(subject)
-      .to route(:get, '/projects/foobar/boards/state')
-            .to(controller: 'boards/boards', action: 'index', project_id: 'foobar', state: 'state')
-  end
+    def dynamic_path
+      new_work_package_board_path
+    end
 
-  it do
-    expect(subject)
-      .to route(:get, '/boards/state')
-            .to(controller: 'boards/boards', action: 'index', state: 'state')
-  end
+    def id
+      'add-board-button'
+    end
 
-  it do
-    expect(subject)
-      .to route(:get, '/boards/new')
-            .to(controller: 'boards/boards', action: 'new')
-  end
+    def accessibility_label_text
+      I18n.t('boards.label_create_new_board')
+    end
 
-  it do
-    expect(subject)
-      .to route(:post, '/boards')
-            .to(controller: 'boards/boards', action: 'create')
+    def label_text
+      I18n.t('boards.label_board')
+    end
   end
 end

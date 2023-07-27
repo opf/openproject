@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,28 +30,12 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Boards routing' do
-  it do
-    expect(subject)
-      .to route(:get, '/projects/foobar/boards/state')
-            .to(controller: 'boards/boards', action: 'index', project_id: 'foobar', state: 'state')
-  end
+RSpec.shared_examples 'sets the appropriate sort_criteria on each query' do
+  it '', :aggregate_failures do
+    subject
 
-  it do
-    expect(subject)
-      .to route(:get, '/boards/state')
-            .to(controller: 'boards/boards', action: 'index', state: 'state')
-  end
+    queries_sort_criteria = queries.map(&:sort_criteria)
 
-  it do
-    expect(subject)
-      .to route(:get, '/boards/new')
-            .to(controller: 'boards/boards', action: 'new')
-  end
-
-  it do
-    expect(subject)
-      .to route(:post, '/boards')
-            .to(controller: 'boards/boards', action: 'create')
+    expect(queries_sort_criteria).to all eq([%w[manual_sorting asc], %w[id asc]])
   end
 end
