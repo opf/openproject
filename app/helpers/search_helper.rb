@@ -94,6 +94,24 @@ module SearchHelper
     end
   end
 
+  def breadcrumb_from_event(event)
+    if event.is_a? WikiPage
+      prefix = breadcrumb_prefix(event.project)
+      prefix += (event.ancestors.reverse + [event]).collect { |w| link_to h(w.breadcrumb_title), { controller: '/wiki', action: 'show', project_id: w.wiki.project, id: w.title } }
+      prefix[-1] += " (#{event.model_name.human})"
+      return prefix
+    end
+    if event.is_a? Project
+      prefix = breadcrumb_prefix(event)
+      prefix[-1] += " (#{event.model_name.human})"
+      return prefix
+    end
+  end
+
+  def breadcrumb_prefix(project)
+    (project.ancestors.reverse + [project]).collect { |p| link_to h(p.name), p }
+  end
+
   def type_label(t)
     OpenProject::GlobalSearch.tab_name(t)
   end
