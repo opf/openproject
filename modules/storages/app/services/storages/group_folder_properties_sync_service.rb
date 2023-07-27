@@ -62,12 +62,12 @@ class Storages::GroupFolderPropertiesSyncService
             .automatic
             .includes(project: %i[users enabled_modules])
             .each do |project_storage|
-              project = project_storage.project
-              project_folder_path = project_storage.project_folder_path
-              @project_folder_ids_used_in_openproject << ensure_project_folder(project_storage:, project_folder_path:)
+      project = project_storage.project
+      project_folder_path = project_storage.project_folder_path
+      @project_folder_ids_used_in_openproject << ensure_project_folder(project_storage:, project_folder_path:)
 
-              set_project_folder_permissions(path: project_folder_path, project:)
-            end
+      set_project_folder_permissions(path: project_folder_path, project:)
+    end
 
     hide_inactive_project_folders
     add_active_users_to_group
@@ -147,10 +147,10 @@ class Storages::GroupFolderPropertiesSyncService
   def obtain_file_id
     ->((project_storage, path)) do
       @requests
-        .files_id_query
+        .file_ids_query
         .call(path:)
         .match(
-          on_success: ->(file_ids) { ServiceResult.success(result: [project_storage, file_ids.first]) },
+          on_success: ->(file_ids) { ServiceResult.success(result: [project_storage, file_ids.dig(path, 'fileid')]) },
           on_failure: failure_handler('file_id_query', { path: })
         )
     end
