@@ -339,6 +339,12 @@ sk:
     index:
       no_results_title_text: Momentálne nie sú žiadne stavy pracovného balíka.
       no_results_content_text: Pridať nový stav
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Momentálne neexistujú žiadne typy.
@@ -1491,7 +1497,7 @@ sk:
   menus:
     admin:
       mail_notification: "Upozornenia e-mailom"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:

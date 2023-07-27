@@ -339,6 +339,12 @@ th:
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: เพิ่มสถานะใหม่
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: There are currently no types.
@@ -1434,7 +1440,7 @@ th:
   menus:
     admin:
       mail_notification: "อีเมล์แจ้งเตือน"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:

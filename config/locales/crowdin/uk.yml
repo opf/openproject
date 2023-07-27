@@ -334,6 +334,12 @@ uk:
     index:
       no_results_title_text: Наразі немає статусів робочих пакетів.
       no_results_content_text: Додати новий статус
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Наразі немає типів.
@@ -1486,7 +1492,7 @@ uk:
   menus:
     admin:
       mail_notification: "Email сповіщення"
-      mails_and_notifications: "Електронні листи й сповіщення"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Агрегація'
       api_and_webhooks: "API та вебгуки"
     quick_add:

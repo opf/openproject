@@ -339,6 +339,12 @@ lv:
     index:
       no_results_title_text: Pašlaik nav nevienas darba pakas statuss.
       no_results_content_text: Pievienot jaunu statusu
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Pašlaik nav neviena veida.
@@ -1471,7 +1477,7 @@ lv:
   menus:
     admin:
       mail_notification: "E-pasta paziņojumi"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:

@@ -308,20 +308,20 @@ cs:
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_deactivate: 'Skrýt Gantt'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(žádný)"
       selection_mode:
         notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Přiblížit"
+        out: "Oddálit"
+        auto: "Automatické přiblížení"
+        days: "Dny"
+        weeks: "Týdny"
+        months: "Měsíce"
+        quarters: "Čtvrtletí"
+        years: "Roky"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "ne"
@@ -774,7 +774,7 @@ cs:
       start_new_timer: 'Spustit nový časovač'
       timer_already_running: 'To start a new timer, you must first stop the current timer:'
       timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
-      tracking_time: 'Tracking time'
+      tracking_time: 'Čas sledování'
       button_stop: 'Zastavit aktuální časovač'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvoufázové ověření'

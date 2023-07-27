@@ -336,6 +336,12 @@ es:
     index:
       no_results_title_text: Actualmente no hay estados de paquetes de trabajo.
       no_results_content_text: Añadir un nuevo estado
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Actualmente no existen tipos.
@@ -1450,7 +1456,7 @@ es:
   menus:
     admin:
       mail_notification: "Notificaciones de correo electrónico"
-      mails_and_notifications: "Correos electrónicos y notificaciones"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Agregación'
       api_and_webhooks: "API y webhooks"
     quick_add:

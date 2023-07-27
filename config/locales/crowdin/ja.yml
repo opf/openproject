@@ -335,6 +335,12 @@ ja:
     index:
       no_results_title_text: 現在、ワークパッケージのステータスはありません。
       no_results_content_text: 新しいステータスを追加
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: 現在、種類はありません。
@@ -1430,7 +1436,7 @@ ja:
   menus:
     admin:
       mail_notification: "電子メールの通知"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: '集計'
       api_and_webhooks: "API and webhooks"
     quick_add:

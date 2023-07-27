@@ -337,6 +337,12 @@ sl:
     index:
       no_results_title_text: Trenutno ni statusov delovnega paketa.
       no_results_content_text: Dodaj nov status
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Trenutno ni vrst.
@@ -1488,7 +1494,7 @@ sl:
   menus:
     admin:
       mail_notification: "E-poštna obvestila"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:

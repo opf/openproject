@@ -339,6 +339,12 @@ tr:
     index:
       no_results_title_text: Şu anda çalışma paketi durumu yok.
       no_results_content_text: Yeni durum ekle
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Şu anda hiç tip yok.
@@ -1452,7 +1458,7 @@ tr:
   menus:
     admin:
       mail_notification: "E-posta bildirimleri"
-      mails_and_notifications: "E-postalar ve bildirim"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Kümelenme'
       api_and_webhooks: "API ve web kancaları"
     quick_add:

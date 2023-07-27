@@ -166,18 +166,18 @@ ca:
     index:
       no_results_title_text: Actualment no hi ha cap color.
       no_results_content_text: Crea un nou color
-      label_new_color: "New color"
+      label_new_color: "Nou color"
     new:
-      label_new_color: "New Color"
+      label_new_color: "Nou color"
     edit:
-      label_edit_color: "Edit Color"
+      label_edit_color: "Edita el color"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Nou color"
+      label_edit_color: "Edita el color"
     label_no_color: "Sense color"
-    label_properties: "Properties"
+    label_properties: "Propietats"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Estàs segur que vols eliminar el següent color? Els tipus amb aquest color no s'eliminaràn.
   custom_actions:
     actions:
       name: "Accions"
@@ -260,7 +260,7 @@ ca:
       types:
         no_results_title_text: Actualment no hi ha cap classe disponible.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'Activar tipus "%{type}"'
       versions:
         no_results_title_text: Actualment no hi ha cap versió per al projecte.
         no_results_content_text: Crear una nova versió
@@ -336,6 +336,12 @@ ca:
     index:
       no_results_title_text: Actualment no hi ha cap estat de paquet de treball.
       no_results_content_text: Afegir un nou estat
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Actualment no hi ha cap tipus.
@@ -1449,7 +1455,7 @@ ca:
   menus:
     admin:
       mail_notification: "Notificacions de correu electrònic"
-      mails_and_notifications: "Correus electrònics i notificacions"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Agregació'
       api_and_webhooks: "API i webhooks"
     quick_add:

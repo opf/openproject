@@ -9,6 +9,11 @@ ro:
   permission_delete_files: "Delete files"
   permission_share_files: "Share files"
   project_module_storages: "Stocuri de fișiere"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Not authorized for external connection to storage."
+        not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
       file_link: "File link"
@@ -64,6 +69,7 @@ ro:
         index: "Stocare de fișiere disponibile în acest proiect"
         new: "Adaugă un fișier de stocare în acest proiect"
         edit: "Edit the file storage to this project"
+        delete: "Delete file storage"
     instructions:
       type: "Asigurați-vă că aveți drepturi de administrare în instanța Nextcloud și că aveți următoarea aplicație instalată înainte de a face configurarea:"
       type_link_text: "Integrare OpenProject”"
@@ -93,7 +99,11 @@ ro:
       storage: >
         Sunteţi sigur că doriţi să ştergeţi acest stocare? Acest lucru va şterge şi stocarea din toate proiectele în care este folosit. În plus, va șterge toate link-urile din pachetele de lucru către fișierele care sunt stocate în stocare.
       project_storage: >
-        Ești sigur că vrei să ștergi această stocare de fișiere din acest proiect? Acest lucru va elimina, de asemenea, toate link-urile către fișierele stocate în această stocare pentru acest proiect.
+        Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:
+      project_storage_delete_result_1: "Remove all links from work packages of this project to files and folders of that storage."
+      project_storage_delete_result_2: "In case this storage has an automatically managed project folder, this and its files will be deleted forever."
+      input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
+      irreversible_notice: "Deleting a file storage is an irreversible action."
     label_active: "Active"
     label_inactive: "Inactive"
     label_creator: "Creator"

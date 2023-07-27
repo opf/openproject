@@ -339,6 +339,12 @@ fil:
     index:
       no_results_title_text: Sa kasalukuyan ay walang mga estado ng work package.
       no_results_content_text: Magdagdag ng bagong estado
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Sa kasalukuyan ay walang mga uri.
@@ -1453,7 +1459,7 @@ fil:
   menus:
     admin:
       mail_notification: "Mga abiso ng emailba"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:

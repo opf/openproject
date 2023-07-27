@@ -334,6 +334,12 @@ de:
     index:
       no_results_title_text: Derzeit gibt es keine Arbeitspaket-Status.
       no_results_content_text: Neuen Status hinzufügen
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Derzeit gibt es keine Typen.
@@ -1448,7 +1454,7 @@ de:
   menus:
     admin:
       mail_notification: "Mailbenachrichtigung"
-      mails_and_notifications: "E-Mails und Benachrichtigungen"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Zusammenfassungen'
       api_and_webhooks: "API und Webhooks"
     quick_add:

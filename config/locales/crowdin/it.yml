@@ -336,6 +336,12 @@ it:
     index:
       no_results_title_text: Al momento non vi sono relazioni sullo stato delle macro-attività.
       no_results_content_text: Aggiungi un nuovo stato
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Al momento non esistono tipi.
@@ -1450,7 +1456,7 @@ it:
   menus:
     admin:
       mail_notification: "Notifiche email"
-      mails_and_notifications: "Email e notifiche"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregazione'
       api_and_webhooks: "API e webhooks"
     quick_add:

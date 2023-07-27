@@ -333,6 +333,12 @@ id:
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Add a new status
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: There are currently no types.
@@ -1427,7 +1433,7 @@ id:
   menus:
     admin:
       mail_notification: "Notifikasi email"
-      mails_and_notifications: "Email dan pemberitahuan"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API dan webhook"
     quick_add:

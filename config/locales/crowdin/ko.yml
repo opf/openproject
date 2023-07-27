@@ -338,6 +338,12 @@ ko:
     index:
       no_results_title_text: 작업 패키지 상태가 없습니다.
       no_results_content_text: 새 상태 추가
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: 타입이 없습니다.
@@ -1433,7 +1439,7 @@ ko:
   menus:
     admin:
       mail_notification: "이메일 알림"
-      mails_and_notifications: "이메일 및 알림"
+      mails_and_notifications: "Emails and notifications"
       aggregation: '집계'
       api_and_webhooks: "API 및 webhook"
     quick_add:

@@ -339,6 +339,12 @@ fr:
     index:
       no_results_title_text: Aucun statut de lots de travaux pour le moment.
       no_results_content_text: Ajouter un nouveau statut
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Il n'y a actuellement aucun type.
@@ -1453,7 +1459,7 @@ fr:
   menus:
     admin:
       mail_notification: "Notifications par courriel"
-      mails_and_notifications: "E-mails et notifications"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Agrégation'
       api_and_webhooks: "API et webhooks"
     quick_add:

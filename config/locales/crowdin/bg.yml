@@ -339,6 +339,12 @@ bg:
     index:
       no_results_title_text: Има в момента няма статуси за работни пакети.
       no_results_content_text: Добавяне на ново състояние
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: В момента няма типове.
@@ -1453,7 +1459,7 @@ bg:
   menus:
     admin:
       mail_notification: "Известия по имейл"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:

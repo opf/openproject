@@ -339,6 +339,12 @@ zh-TW:
     index:
       no_results_title_text: 目前沒有工作項目狀態
       no_results_content_text: 新增一個狀態
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: 目前沒有類型
@@ -1434,7 +1440,7 @@ zh-TW:
   menus:
     admin:
       mail_notification: "電子郵件通知"
-      mails_and_notifications: "電子郵件通知"
+      mails_and_notifications: "Emails and notifications"
       aggregation: '聚合'
       api_and_webhooks: "API and webhooks"
     quick_add:

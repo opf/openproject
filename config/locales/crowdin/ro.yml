@@ -339,6 +339,12 @@ ro:
     index:
       no_results_title_text: În acest moment nu există stări pentru pachetele de lucru.
       no_results_content_text: Adăugare stare nouă
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: În acest moment nu există tipuri.
@@ -1472,7 +1478,7 @@ ro:
   menus:
     admin:
       mail_notification: "Notificări prin e-mail"
-      mails_and_notifications: "Email-uri și notificări"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Agregare'
       api_and_webhooks: "API și webhook-uri"
     quick_add:

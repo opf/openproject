@@ -9,6 +9,11 @@ ca:
   permission_delete_files: "Eliminar fitxers"
   permission_share_files: "Compartir fitxers"
   project_module_storages: "Emmagatzematges de fitxers"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Not authorized for external connection to storage."
+        not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
       file_link: "File link"
@@ -64,6 +69,7 @@ ca:
         index: "Emmagatzematges de fitxers no disponibles en aquest projecte"
         new: "Afegeix un emmagatzematge de fitxers a aquest projecte"
         edit: "Editar l'emmagatzematge de fitxers a aquest projecte"
+        delete: "Delete file storage"
     instructions:
       type: "Si us plau, assegura't que tens privilegis d'administrador a la instància Nextcloud i tens la següent aplicació instal·lada abans de fer la configuració:"
       type_link_text: "\"Integració d'OpenProject\""
@@ -93,7 +99,11 @@ ca:
       storage: >
         Estàs segur que vols eliminar aquest emmagatzematge? Aquesta acció també eliminarà l'emmagatzematge de tots els projectes on s'utilitza. També eliminarà tots els enllaços de fitxers dels paquets de treball que s'emmagatzemen en aquest emmagatzematge.
       project_storage: >
-        Estàs segur que vols eliminar aquest emmagatzematge de fitxers d'aquest projecte? Aquesta acció també eliminarà tots els enllaços de fitxers d'aquest projecte que s'emmagatzemen en aquest emmagatzematge.
+        Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:
+      project_storage_delete_result_1: "Remove all links from work packages of this project to files and folders of that storage."
+      project_storage_delete_result_2: "In case this storage has an automatically managed project folder, this and its files will be deleted forever."
+      input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
+      irreversible_notice: "Deleting a file storage is an irreversible action."
     label_active: "Active"
     label_inactive: "Inactive"
     label_creator: "Autor"
