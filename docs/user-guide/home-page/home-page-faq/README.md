@@ -1,12 +1,12 @@
 ---
 sidebar_navigation:
-  title: Start page FAQ
+  title: Home page FAQ
   priority: 001
-description: Frequently asked questions regarding start page
-keywords: start page FAQ, landing page, application start page, homepage
+description: Frequently asked questions regarding home page
+keywords: start page FAQ, home page FAQ, landing page, application start page, homepage, home page
 ---
 
-# Frequently asked questions (FAQ) for start page
+# Frequently asked questions (FAQ) for home page
 
 ## Can I edit the start page?
 

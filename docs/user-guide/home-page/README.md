@@ -1,18 +1,18 @@
 ---
 sidebar_navigation:
-  title: Start page
+  title: Home page
   priority: 990
 description: What do I see on the application start page?
 keywords: application start page
 ---
 
-# Application start page
+# Application home page
 
-On the **application start page** (home page) you will get an overview about important information.
+On the **application home page** (start page) you will get an overview about important information.
 
-**To get to the application start page, click on the logo in the header of the application.**
+**To get to the application home page, click on the logo in the header of the application.**
 
-![User-guide-application-start-page](User-guide-application-start-page.png)
+![User-guide-application-start-page](openproject_user_guide_home_page.png)
 
 1. **Welcome text block** to welcome your team members, share important project information, or any other information. You can configure the [welcome text](../../system-admin-guide/system-settings/general-settings/#welcome-block-text) block under -> *Administration* -> *System settings* -> *General*.
 2. The **projects block** displays your latest project. You can [create a new project](../../getting-started/projects/#create-a-new-project) or [view all projects](../../user-guide/projects/#projects-list).
