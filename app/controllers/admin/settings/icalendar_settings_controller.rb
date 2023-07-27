@@ -31,7 +31,7 @@ module Admin::Settings
     menu_item :icalendar
 
     def default_breadcrumb
-      t(:label_icalendar)
+      t(:label_calendar_subscriptions)
     end
   end
 end
