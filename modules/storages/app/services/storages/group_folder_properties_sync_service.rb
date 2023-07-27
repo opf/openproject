@@ -147,10 +147,10 @@ class Storages::GroupFolderPropertiesSyncService
   def obtain_file_id
     ->((project_storage, path)) do
       @requests
-        .file_id_query
+        .files_id_query
         .call(path:)
         .match(
-          on_success: ->(file_id) { ServiceResult.success(result: [project_storage, file_id]) },
+          on_success: ->(file_ids) { ServiceResult.success(result: [project_storage, file_ids.first]) },
           on_failure: failure_handler('file_id_query', { path: })
         )
     end

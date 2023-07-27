@@ -42,7 +42,6 @@ module Storages::Peripherals
       download_link_query
       files_info_query
       files_query
-      file_id_query
       file_ids_query
       upload_link_query
       group_users_query

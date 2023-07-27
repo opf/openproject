@@ -34,17 +34,17 @@ class Storages::FileLinkSyncService
   end
 
   def call(file_links)
-    file_links
+    resulting_file_links = file_links
       .group_by(&:storage_id)
       .map { |storage_id, storage_file_links| sync_nextcloud(storage_id, storage_file_links) }
-      .reduce(ServiceResult.success(result: [])) do |state, sync_result|
-      state >> ->(state_result) do
+      .reduce([]) do |state, sync_result|
         sync_result.match(
-          on_success: ->(sr) { ServiceResult.success(result: state_result + sr) },
-          on_failure: ->(_) { ServiceResult.success(result: state_result) }
+          on_success: ->(sr) { state + sr },
+          on_failure: ->(_) { state }
         )
       end
-    end
+
+    ServiceResult.success(result: resulting_file_links)
   end
 
   private
@@ -54,7 +54,7 @@ class Storages::FileLinkSyncService
       .new(storage: ::Storages::Storage.find(storage_id))
       .files_info_query
       .call(user: @user, file_ids: file_links.map(&:origin_id))
-      .map(&to_hash)
+      .map { |file_infos| to_hash(file_infos) }
       .match(
         on_success: set_file_link_permissions(file_links),
         on_failure: ->(_) {
@@ -66,8 +66,8 @@ class Storages::FileLinkSyncService
       )
   end
 
-  def to_hash
-    ->(file_infos) { file_infos.index_by { |file_info| file_info.id.to_s }.to_h }
+  def to_hash(file_infos)
+    file_infos.index_by { |file_info| file_info.id.to_s }.to_h
   end
 
   def set_file_link_permissions(file_links)

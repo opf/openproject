@@ -71,10 +71,10 @@ module Projects::Copy
 
       Storages::Peripherals::StorageRequests
         .new(storage: project_storage.storage)
-        .file_id_query
+        .file_ids_query
         .call(path: destination_folder_name)
         .match(
-          on_success: ->(file_id) { project_storage.update!(project_folder_id: file_id) },
+          on_success: ->(file_ids) { project_storage.update!(project_folder_id: file_ids.first) },
           on_failure: ->(error) { add_error!(destination_folder_name, error.to_active_model_errors) }
         )
     end
