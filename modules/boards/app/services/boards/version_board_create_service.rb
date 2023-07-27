@@ -29,6 +29,7 @@ module Boards
       {
         project: params[:project],
         name: query_name(version),
+        public: true,
         filters: query_filters(version)
       }
     end

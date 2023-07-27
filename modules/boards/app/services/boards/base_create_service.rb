@@ -49,6 +49,7 @@ module Boards
       {
         project: params[:project],
         name: query_name,
+        public: true,
         filters: query_filters
       }
     end
