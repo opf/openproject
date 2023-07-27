@@ -57,56 +57,32 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
   </div>
 
-  <div class="form--field -required">
-    <label class="form--label-with-radio-button" for="board_type"><%= t('boards.label_board_type') %>:</label>
+  <div class="form--field -required -align-start">
+    <label class="form--label" for="board_type"><%= t('boards.label_board_type') %></label>
+    <div class="form--field-container">
+      <div class="op-tile-block">
+        <% board_types.each do |board_type| %>
+          <label class="op-tile-block--tile form--radio-button-container -wide"
+                 for="boards_grid_attribute_<%= board_type.radio_button_value %>"
+                 data-qa-selector="op-tile-block">
+            <div class="op-tile-block--content">
+              <%= styled_radio_button_tag 'boards_grid[attribute]',
+                                          board_type.radio_button_value,
+                                          no_label: true,
+                                          class: 'radio-button' %>
+              <div>
+                <span data-qa-selector="op-tile-block-title" class="op-tile-block--title">
+                  <%= board_type.title %>
+                </span>
+                <p class="op-tile-block--description"><%= board_type.description %></p>
+              </div>
+            </div>
 
-    <div class="form--field">
-      <%= f.label 'attribute', t('boards.board_type_attributes.basic'), value: 'basic' %>
-      <%= styled_radio_button_tag 'boards_grid[attribute]',
-                         'basic',
-                         no_label: true,
-                         container_class: '-wide'%>
-    </div>
-
-    <div class="form--field">
-      <%= f.label 'attribute', t('boards.board_type_attributes.status'), value: 'status' %>
-      <%= styled_radio_button_tag 'boards_grid[attribute]',
-                         'status',
-                         no_label: true,
-                         container_class: '-wide'%>
-    </div>
-
-    <div class="form--field">
-      <%= f.label 'attribute', t('boards.board_type_attributes.assignee'), value: 'assignee' %>
-      <%= styled_radio_button_tag 'boards_grid[attribute]',
-                                  'assignee',
-                                  no_label: true,
-                                  container_class: '-wide'%>
-    </div>
-
-    <div class="form--field">
-      <%= f.label 'attribute', t('boards.board_type_attributes.version'), value: 'version' %>
-      <%= styled_radio_button_tag 'boards_grid[attribute]',
-                         'version',
-                         no_label: true,
-                         container_class: '-wide'%>
-    </div>
-
-    <div class="form--field">
-      <%= f.label 'attribute', t('boards.board_type_attributes.subproject'), value: 'subproject' %>
-      <%= styled_radio_button_tag 'boards_grid[attribute]',
-                         'subproject',
-                         no_label: true,
-                         container_class: '-wide'%>
-      <%=  %>
-    </div>
-
-    <div class="form--field">
-      <%= f.label 'attribute', t('boards.board_type_attributes.subtasks'), value: 'subtasks' %>
-      <%= styled_radio_button_tag 'boards_grid[attribute]',
-                         'subtasks',
-                         no_label: true,
-                         container_class: '-wide'%>
+            <img src="<%= frontend_asset_path board_type.image_path %>"
+                 class="op-tile-block--image"/>
+          </label>
+        <% end %>
+      </div>
     </div>
   </div>
 </section>

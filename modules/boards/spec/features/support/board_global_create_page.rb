@@ -30,7 +30,7 @@ module Pages
     end
 
     def set_board_type(board_type)
-      choose board_type
+      choose board_type, match: :first
     end
 
     def click_on_submit

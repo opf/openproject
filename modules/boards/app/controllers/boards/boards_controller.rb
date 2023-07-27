@@ -1,5 +1,7 @@
 module ::Boards
   class BoardsController < BaseController
+    include ::BoardsHelper
+
     before_action :find_optional_project
     before_action :build_board_grid, only: %i[new]
 

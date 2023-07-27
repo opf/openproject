@@ -26,8 +26,8 @@ module Boards
       {}.tap do |grid_params|
         grid_params[:name] = params[:name]
         grid_params[:options] = options_for_grid(params)
-        grid_params[:row_count] = 1
-        grid_params[:column_count] = column_count_for_grid(params)
+        grid_params[:row_count] = row_count_for_board
+        grid_params[:column_count] = column_count_for_board
         grid_params[:widgets] = options_for_widgets(params)
       end
     end
