@@ -160,9 +160,100 @@ Configuring OpenProject through environment variables is described in detail [in
 
 
 
-## Examples for common use cases
+# Seeding through environment
 
-* [`admin_user`](#admin-user) (default: 'repositories')
+OpenProject allows some resources to be seeded/created initially through configuration variables.
+
+| Topic                                                       | Description                                                  |
+| ----------------------------------------------------------- | ------------------------------------------------------------ |
+| [Initial admin user creation](#initial-admin-user-creation) | Changing attributes or passwords of the initially created administrator |
+| [Seeding LDAP connections](#seeding-ldap-connections)       | How to create an LDAP connection through configuration       |
+
+
+
+## Initial admin user creation
+
+**Note:** These variables are only applicable during the first initial setup of your OpenProject setup. Changing or setting them later will have no effect, as the admin user will already have been created.
+
+By default, an admin user will be created with the login and password set to `admin`. You will be required to change this password on first login.
+
+In case of automated deployments, you might find it useful to seed an admin user with password and attributes of your choosing. For that, you can use the following set of variables:
+
+
+
+```bash
+OPENPROJECT_SEED_ADMIN_USER_PASSWORD="admin" # Password to set for the admin user
+OPENPROJECT_SEED_ADMIN_USER_PASSWORD_RESET="true" # Whether to force a password reset on first login (true/false)
+OPENPROJECT_SEED_ADMIN_USER_NAME="OpenProject Admin" # Name to assign to that user (First and lastnames will be split on the space character)
+OPENPROJECT_SEED_ADMIN_USER_MAIL="admin@example.net" # Email attribute to assign to that user. Note that in packaged installations, a wizard step will assign this variable as well.
+```
+
+
+
+## Seeding LDAP connections
+
+OpenProject allows you to create and maintain an LDAP connection with optional synchronized group filters. This is relevant for e.g., automated deployments, where you want to trigger the synchronization right at the start.
+
+The connection can be set with the following options. Please note that "EXAMPLE" stands for an arbitrary name (expressable in ENV keys)  which will become the name of the connection. In this case, "example" and "examplefilter" for the synchronized filter.
+
+The following options are possible
+
+```bash
+# Host name of the connection
+OPENPROJECT_SEED_LDAP_EXAMPLE_HOST="localhost"
+# Port of the connection
+OPENPROJECT_SEED_LDAP_EXAMPLE_PORT="389"
+# LDAP security options. One of the following
+# plain_ldap: Unencrypted connection, no TLS/SSL
+# simple_tls: Using deprecated LDAPS/SSL (often in combination with port 636)
+# start_tls: LDAPv3 start_tls call using standard unencrypted port (e.g., 389) before upgrading connection
+OPENPROJECT_SEED_LDAP_EXAMPLE_SECURITY="start_tls"
+# Whether to verify the certificate/chain of the LDAP connection. true/false (True by default)
+OPENPROJECT_SEED_LDAP_EXAMPLE_TLSVERIFY="true"
+# The admin LDAP bind account with read access
+OPENPROJECT_SEED_LDAP_EXAMPLE_BINDUSER="uid=admin,ou=system"
+# Password for the bind account
+OPENPROJECT_SEED_LDAP_EXAMPLE_BINDPASSWORD="secret"
+# BASE DN of the connection
+OPENPROJECT_SEED_LDAP_EXAMPLE_BASEDN="dc=example,dc=com"
+# Optional filter string to restrict which users may log in to OpenProject
+# (relevant when for automatic creation of users is active)
+OPENPROJECT_SEED_LDAP_EXAMPLE_FILTER="(uid=*)"
+# Whether to create found and matching users automatically when they log in
+OPENPROJECT_SEED_LDAP_EXAMPLE_SYNC__USERS="true"
+# Attribute mapping for the OpenProject login attribute
+OPENPROJECT_SEED_LDAP_EXAMPLE_LOGIN__MAPPING="uid"
+# Attribute mapping for the OpenProject first name attribute
+OPENPROJECT_SEED_LDAP_EXAMPLE_FIRSTNAME__MAPPING="givenName"
+# Attribute mapping for the OpenProject last name attribute
+OPENPROJECT_SEED_LDAP_EXAMPLE_LASTNAME__MAPPING="sn"
+# Attribute mapping for the OpenProject mail attribute
+OPENPROJECT_SEED_LDAP_EXAMPLE_MAIL__MAPPING="mail"
+# Attribute mapping for the OpenProject admin attribute
+# Leave empty or remove to not derive admin status from an attribute
+OPENPROJECT_SEED_LDAP_EXAMPLE_ADMIN__MAPPING=""
+```
+
+To define a synchronized LDAP filter (for automatic group creation and synchronization), you can add these values:
+
+```bash
+# Define a filter called "examplefilter" with the following options
+# LDAP base to search for groups
+OPENPROJECT_SEED_LDAP_EXAMPLE_GROUPFILTER_EXAMPLEFILTER_BASE="ou=groups,dc=example,dc=com"
+# LDAP filter to locate groups to synchronize with OpenProject
+OPENPROJECT_SEED_LDAP_EXAMPLE_GROUPFILTER_EXAMPLEFILTER_FILTER="(cn=*)"
+# Whether users found in these groups are automatically created
+OPENPROJECT_SEED_LDAP_EXAMPLE_GROUPFILTER_EXAMPLEFILTER_SYNC__USERS="true"
+# The attribute used for the OpenProject group name
+OPENPROJECT_SEED_LDAP_EXAMPLE_GROUPFILTER_EXAMPLEFILTER_GROUP__ATTRIBUTE="cn"
+```
+
+When a filter is defined, synchronization happens directly during seeding for enterprise editions. Be aware of that when you create the connection that e.g., the LDAP connection needs to be reachable.
+
+
+
+# Examples for common use cases
+
 * `attachments_storage_path`
 * `autologin_cookie_name` (default: 'autologin'),
 * `autologin_cookie_path` (default: '/')
@@ -191,27 +282,6 @@ Configuring OpenProject through environment variables is described in detail [in
 * [`show_community_links`](#show-community-links)
 * [`web`](#web) (nested configuration)
 * [`statsd`](#statsd) (nested configuration)
-
-
-
-## Admin user
-
-**Note:** These variables are only applicable during the first initial setup of your OpenProject setup. Changing or setting them later will have no effect, as the admin user will already have been created.
-
-By default, an admin user will be created with the login and password set to `admin`. You will be required to change this password on first login.
-
-In case of automated deployments, you might find it useful to seed an admin user with password and attributes of your choosing. For that, you can use the following set of variables:
-
-
-
-```bash
-OPENPROJECT_SEED_ADMIN_USER_PASSWORD="admin" # Password to set for the admin user
-OPENPROJECT_SEED_ADMIN_USER_PASSWORD_RESET="true" # Whether to force a password reset on first login (true/false)
-OPENPROJECT_SEED_ADMIN_USER_NAME="OpenProject Admin" # Name to assign to that user (First and lastnames will be split on the space character)
-OPENPROJECT_SEED_ADMIN_USER_MAIL="admin@example.net" # Email attribute to assign to that user. Note that in packaged installations, a wizard step will assign this variable as well.
-```
-
-
 
 
 

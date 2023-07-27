@@ -114,6 +114,12 @@ Duplicates in the unique attributes (login, email) are not allowed and a second 
 
 
 
+## LDAP connections through seeding / Environment variables
+
+OpenProject allows you to define an LDAP connection (and optionally, synchronized group filters for enterprise editions) through a configuration or environment variable.
+
+Please see the [advanced configuration guide](../../../installation-and-operations/configuration/) for more information.
+
 ## LDAP user synchronization
 
 By default, OpenProject will synchronize user account details (name, e-mail, login) and their account status from the LDAP through a background worker job every 24 hours. 
