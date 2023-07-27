@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_context'
+require_relative 'shared_context'
 
 RSpec.describe 'Calendar sharing via ical', js: true do
   include_context 'with calendar full access'
@@ -44,6 +44,12 @@ RSpec.describe 'Calendar sharing via ical', js: true do
              view_calendar
              share_calendars
            ])
+  end
+  let(:saved_query) do
+    create(:query_with_view_work_packages_calendar,
+           user: user_with_sharing_permission,
+           project:,
+           public: false)
   end
 
   let(:user_without_sharing_permission) do
@@ -64,13 +70,6 @@ RSpec.describe 'Calendar sharing via ical', js: true do
   shared_let(:admin) do
     create(:admin,
            member_in_project: project)
-  end
-
-  let(:saved_query) do
-    create(:query_with_view_work_packages_calendar,
-           user: user_with_sharing_permission,
-           project:,
-           public: false)
   end
 
   context 'without sufficient permissions and the ical_enabled setting enabled', with_settings: { ical_enabled: true } do
@@ -108,12 +107,12 @@ RSpec.describe 'Calendar sharing via ical', js: true do
 
         # expect disabled sharing menu item
         within "#settingsDropdown" do
-          # expect(page).to have_button("Subscribe to iCalendar", disabled: true) # disabled selector not working
-          expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to iCalendar")
-          page.click_button("Subscribe to iCalendar")
+          # expect(page).to have_button("Subscribe to calendar", disabled: true) # disabled selector not working
+          expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to calendar")
+          page.click_button("Subscribe to calendar")
 
           # modal should not be shown
-          expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+          expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to calendar")
         end
       end
     end
@@ -155,12 +154,12 @@ RSpec.describe 'Calendar sharing via ical', js: true do
 
         # expect disabled sharing menu item
         within "#settingsDropdown" do
-          # expect(page).to have_button("Subscribe to iCalendar", disabled: true) # disabled selector not working
-          expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to iCalendar")
-          page.click_button("Subscribe to iCalendar")
+          # expect(page).to have_button("Subscribe to calendar", disabled: true) # disabled selector not working
+          expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to calendar")
+          page.click_button("Subscribe to calendar")
 
           # modal should not be shown
-          expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+          expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to calendar")
         end
       end
     end
@@ -187,35 +186,35 @@ RSpec.describe 'Calendar sharing via ical', js: true do
 
         # expect active sharing menu item
         within "#settingsDropdown" do
-          expect(page).to have_selector(".menu-item", text: "Subscribe to iCalendar")
+          expect(page).to have_selector(".menu-item", text: "Subscribe to calendar")
         end
       end
 
       it 'shows a sharing modal' do
         open_sharing_modal
 
-        expect(page).to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+        expect(page).to have_selector('.spot-modal--header', text: "Subscribe to calendar")
       end
 
       it 'closes the sharing modal when closed by user by clicking the close button' do
         open_sharing_modal
 
-        expect(page).to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+        expect(page).to have_selector('.spot-modal--header', text: "Subscribe to calendar")
 
         click_button "Cancel"
 
-        expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+        expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to calendar")
       end
 
       it 'successfully requests a new tokenized iCalendar URL when a unique name is provided' do
         open_sharing_modal
 
-        fill_in "Token name", with: "A token name"
+        fill_in "Where will you be using this?", with: "A token name"
 
         click_button "Copy URL"
 
         # implicitly testing for success -> modal is closed and fallback message is shown
-        expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+        expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to calendar")
         expect(page).to have_content("/projects/#{saved_query.project.id}/calendars/#{saved_query.id}/ical?ical_token=")
 
         # explictly testing for success message is not working in test env, probably
@@ -236,30 +235,30 @@ RSpec.describe 'Calendar sharing via ical', js: true do
         click_button "Copy URL"
 
         # modal is still shown and error message is shown
-        expect(page).to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+        expect(page).to have_selector('.spot-modal--header', text: "Subscribe to calendar")
         expect(page).to have_content("Name is mandatory")
       end
 
       it 'validates the uniqueness of a name' do
         open_sharing_modal
 
-        fill_in "Token name", with: "A token name"
+        fill_in "Where will you be using this?", with: "A token name"
 
         click_button "Copy URL"
 
-        expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+        expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to calendar")
         expect(page).to have_content("/projects/#{saved_query.project.id}/calendars/#{saved_query.id}/ical?ical_token=")
 
         # do the same thing again, now expect validation error
 
         open_sharing_modal
 
-        fill_in "Token name", with: "A token name" # same name for same user and same query -> not allowed
+        fill_in "Where will you be using this?", with: "A token name" # same name for same user and same query -> not allowed
 
         click_button "Copy URL"
 
         # modal is still shown and error message is shown
-        expect(page).to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+        expect(page).to have_selector('.spot-modal--header', text: "Subscribe to calendar")
         expect(page).to have_content("Name is already in use")
       end
     end
@@ -309,12 +308,12 @@ RSpec.describe 'Calendar sharing via ical', js: true do
 
       # expect disabled sharing menu item
       within "#settingsDropdown" do
-        # expect(page).to have_button("Subscribe to iCalendar", disabled: true) # disabled selector not working
-        expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to iCalendar")
-        page.click_button("Subscribe to iCalendar")
+        # expect(page).to have_button("Subscribe to calendar", disabled: true) # disabled selector not working
+        expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to calendar")
+        page.click_button("Subscribe to calendar")
 
         # modal should not be shown
-        expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+        expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to calendar")
       end
     end
   end
@@ -330,8 +329,8 @@ RSpec.describe 'Calendar sharing via ical', js: true do
 
     # expect disabled sharing menu item
     within "#settingsDropdown" do
-      expect(page).to have_selector(".menu-item", text: "Subscribe to iCalendar")
-      page.click_button("Subscribe to iCalendar")
+      expect(page).to have_selector(".menu-item", text: "Subscribe to calendar")
+      page.click_button("Subscribe to calendar")
     end
   end
 end
