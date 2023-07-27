@@ -30,7 +30,8 @@ require 'spec_helper'
 require_relative '../support/pages/backlogs'
 
 RSpec.describe 'Stories in backlog',
-               js: true do
+               js: true,
+               with_cuprite: false do
   let!(:project) do
     create(:project,
            types: [story, task, other_story],
@@ -129,13 +130,6 @@ RSpec.describe 'Stories in backlog',
            status: default_status,
            version: sprint,
            story_points: 10)
-  end
-  let!(:export_card_configurations) do
-    ExportCardConfiguration.create!(name: 'Default',
-                                    per_page: 1,
-                                    page_size: 'A4',
-                                    orientation: 'landscape',
-                                    rows: "group1:\n  has_border: false\n  rows:\n    row1:\n      height: 50\n      priority: 1\n      columns:\n        id:\n          has_label: false")
   end
   let(:backlogs_page) { Pages::Backlogs.new(project) }
 
@@ -318,12 +312,6 @@ RSpec.describe 'Stories in backlog',
                         subject: 'Altered backlog story1',
                         status: default_status.name,
                         type: other_story.name)
-
-    # The pdf export is reachable via the menu
-    SeleniumHubWaiter.wait
-    backlogs_page
-      .click_in_backlog_menu(sprint, 'Export')
-    # Will download something that is currently not speced
 
     # Clicking would lead to having the burndown chart opened in another tab
     # which seems hard to test with selenium.

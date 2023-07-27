@@ -43,5 +43,15 @@ FactoryBot.define do
     trait :readonly do
       is_readonly { true }
     end
+
+    transient do
+      workflow_for_type { nil }
+    end
+
+    callback(:after_create) do |status, evaluator|
+      if evaluator.workflow_for_type
+        create(:workflow, type: evaluator.workflow_for_type, old_status: status)
+      end
+    end
   end
 end

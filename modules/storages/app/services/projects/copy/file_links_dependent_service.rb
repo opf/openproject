@@ -27,7 +27,7 @@
 #++
 
 module Projects::Copy
-  class FileLinksDependentService < ::Copy::Dependency
+  class FileLinksDependentService < Dependency
     def self.human_name
       I18n.t(:'projects.copy.work_package_file_links')
     end

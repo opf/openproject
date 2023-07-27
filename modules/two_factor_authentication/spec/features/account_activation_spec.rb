@@ -51,7 +51,7 @@ RSpec.describe 'activating an invited account',
 
       activate!
 
-      expect(page).to have_selector('.flash.notice', text: 'Developer strategy generated the following one-time password:')
+      expect(page).to have_selector('.op-toast.-success', text: 'Developer strategy generated the following one-time password:')
 
       SeleniumHubWaiter.wait
       fill_in I18n.t(:field_otp), with: sms_token
@@ -64,7 +64,7 @@ RSpec.describe 'activating an invited account',
     it 'handles faulty user input on two factor authentication' do
       activate!
 
-      expect(page).to have_selector('.flash.notice', text: 'Developer strategy generated the following one-time password:')
+      expect(page).to have_selector('.op-toast.-success', text: 'Developer strategy generated the following one-time password:')
 
       fill_in I18n.t(:field_otp), with: 'asdf' # faulty token
       click_button I18n.t(:button_login)

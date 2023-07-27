@@ -153,13 +153,11 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
         break;
       case 'aSpecificDate':
         [upstreamDate, localDate] = this.formatUpstreamAndLocal(moment.parseZone(timestamps[0]));
-        description = this.I18n.t('js.baseline.drop_down.a_specific_date');
-        description += ` (${upstreamDate})`;
+        description += upstreamDate;
         break;
       case 'betweenTwoSpecificDates':
         [upstreamDate, localDate] = this.deriveDateRange(moment.parseZone(timestamps[0]), moment.parseZone(timestamps[1]));
-        description = this.I18n.t('js.baseline.drop_down.between_two_specific_dates');
-        description += ` (${upstreamDate})`;
+        description += upstreamDate;
         break;
       default:
         break;

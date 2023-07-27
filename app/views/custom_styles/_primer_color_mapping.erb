@@ -1,0 +1,19 @@
+<style type="text/css">
+
+  /* Overwrite Primer primitives */
+  [data-color-mode] {
+      --body-background: var(--color-canvas-default);
+      --body-font-color: var(--color-fg-default);
+      --color-accent-fg: var(--content-link-color) !important;
+
+  <% DesignColor.overwritten.each do |design_color| %>
+    <% if design_color.variable == "alternative-color" %>
+        --color-btn-primary-bg:  <%= design_color.hexcode %> !important;
+        --color-btn-primary-hover-bg:  <%= design_color.darken 0.18 %> !important;
+    <% end %>
+    <% if design_color.variable == "content-link-color" %>
+        --color-accent-fg: <%= design_color.hexcode %> !important;
+    <% end %>
+  <% end %>
+  }
+</style>

@@ -59,6 +59,9 @@ import {
 import * as moment from 'moment-timezone';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
+import { DayElement } from 'flatpickr/dist/types/instance';
+
+const DEFAULT_SELECTED_TIME = '08:00';
 
 @Component({
   selector: 'op-baseline',
@@ -192,7 +195,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   public resetSelection():void {
-    this.selectedTimes = ['00:00', '00:00'];
+    this.selectedTimes = [DEFAULT_SELECTED_TIME, DEFAULT_SELECTED_TIME];
     this.selectedDates = ['', ''];
     this.selectedFilter = null;
     this.mappedSelectedDate = null;
@@ -243,6 +246,11 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
         this.mappedSelectedDate = null;
         break;
     }
+  }
+
+  public futureDateComparer():(dayElem:DayElement) => boolean {
+    const now = moment();
+    return (dayElem:DayElement) => moment(dayElem.dateObj).isAfter(now, 'days');
   }
 
   private updateDateValues(date:string) {

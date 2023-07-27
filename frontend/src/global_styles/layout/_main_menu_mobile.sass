@@ -26,9 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-@include breakpoint(680px down)
+@media screen and (max-width: $breakpoint-sm)
   .main-menu
     @include spot-z-index("main-menu")
+    width: var(--breakpoint-sm)
     position: fixed
     border-bottom: 1px solid var(--main-menu-border-color)
     border: none
@@ -36,18 +37,18 @@
     min-width: 75vw
 
   #main-menu-toggle
-    .spot-icon_hamburger
+    .icon-hamburger
       display: none
-    .spot-icon_close
+    .icon-close
       display: block
 
   .hidden-navigation
     .main-menu
       display: none
     #main-menu-toggle
-      .spot-icon_hamburger
+      .icon-hamburger
         display: block
-      .spot-icon_close
+      .icon-close
         display: none
 
 

@@ -81,6 +81,9 @@ he:
   units: "יחידות"
   validation_failure_date: "אינו תאריך בר תוקף"
   validation_failure_integer: "אינו מספר שלם חוקי"
+  export:
+    cost_reports:
+      title: "Your Cost Reports XLS export"
   reporting:
     group_by:
       selected_columns: "Selected columns"

@@ -100,7 +100,7 @@ module WorkPackage::PDFExport::Common
     return '' if value.nil?
 
     formatter = formatter_for(column_name, :pdf)
-    formatter.format_value(value)
+    formatter.format_value(value, {})
   end
 
   def escape_tags(value)
@@ -125,37 +125,9 @@ module WorkPackage::PDFExport::Common
     "<link anchor=\"#{anchor}\">#{caption}</link>"
   end
 
-  def align_to_left_position(text, align, text_style)
-    text_width = pdf.width_of(text, text_style)
-    if align == :right
-      pdf.bounds.right - text_width
-    elsif align == :center
-      (pdf.bounds.width - text_width) / 2
-    else
-      pdf.bounds.left
-    end
-  end
-
   def link_target_at_current_y(id)
     pdf_dest = pdf.dest_xyz(0, pdf.y)
     pdf.add_dest(id.to_s, pdf_dest)
-  end
-
-  def draw_repeating_text(text:, align:, top:, text_style:)
-    left = align_to_left_position(text, align, text_style)
-    opts = text_style.merge({ at: [left, top] })
-    pdf.repeat :all do
-      pdf.draw_text text, opts
-    end
-  end
-
-  def draw_repeating_dynamic_text(align, top, text_style)
-    pdf.repeat :all, dynamic: true do
-      text = yield
-      left = align_to_left_position(text, align, text_style)
-      opts = text_style.merge({ at: [left, top] })
-      pdf.draw_text text, opts
-    end
   end
 
   def pdf_table_auto_widths(data, column_widths, options, &)
@@ -164,10 +136,84 @@ module WorkPackage::PDFExport::Common
     pdf.table(data, options.merge({ column_widths: }), &)
   end
 
+  def draw_text_multiline_left(text:, text_style:, max_left:, top:, max_lines:)
+    lines = wrap_to_lines(text, max_left - pdf.bounds.left, text_style, max_lines)
+    starting_position = top
+    lines.reverse.each do |line|
+      starting_position += draw_text_multiline_part(line, text_style, pdf.bounds.left, starting_position)
+    end
+  end
+
+  def draw_text_multiline_right(text:, text_style:, max_left:, top:, max_lines:)
+    lines = wrap_to_lines(text, pdf.bounds.right - max_left, text_style, max_lines)
+    starting_position = top
+    lines.reverse.each do |line|
+      line_width = measure_text_width(line, text_style)
+      line_x = pdf.bounds.right - line_width
+      starting_position += draw_text_multiline_part(line, text_style, line_x, starting_position)
+    end
+  end
+
+  def draw_text_centered(text, text_style, top)
+    text_width = measure_text_width(text, text_style)
+    text_x = (pdf.bounds.width - text_width) / 2
+    pdf.draw_text text, text_style.merge({ at: [text_x, top] })
+    [text_x, text_width]
+  end
+
+  def draw_text_multiline_part(line, text_style, x_position, y_position)
+    pdf.draw_text line, text_style.merge({ at: [x_position, y_position] })
+    measure_text_height(line, text_style)
+  end
+
+  def truncate_ellipsis(text, available_width, text_style)
+    line = text.dup
+    while line.present? && (measure_text_width("#{line}...", text_style) > available_width)
+      line = line.chop
+    end
+    "#{line}..."
+  end
+
+  def split_wrapped_lines(text, available_width, text_style)
+    split_text = text.dup
+    lines = []
+    arranger = Prawn::Text::Formatted::Arranger.new(pdf)
+    line_wrapper = Prawn::Text::Formatted::LineWrap.new
+    until split_text.blank?
+      arranger.format_array = [text_style.merge({ text: split_text })]
+      single_line = line_wrapper.wrap_line(arranger:, width: available_width, document: pdf)
+      lines << single_line
+      split_text.slice!(single_line)
+    end
+    lines
+  end
+
+  def wrap_to_lines(text, available_width, text_style, max_lines)
+    split_text = text.dup
+    title_text_width = measure_text_width(split_text, text_style)
+    if title_text_width < available_width
+      [split_text]
+    else
+      lines = split_wrapped_lines(text, available_width, text_style)
+      if lines.length > max_lines
+        lines[max_lines - 1] = truncate_ellipsis(lines[max_lines - 1], available_width, text_style)
+        lines = lines.first(3)
+      end
+      lines
+    end
+  end
+
   def measure_text_width(text, opts)
     @pdf.save_font do
       @pdf.font(opts[:font], opts)
       @pdf.width_of(text, opts)
+    end
+  end
+
+  def measure_text_height(text, opts)
+    @pdf.save_font do
+      @pdf.font(opts[:font], opts)
+      @pdf.height_of(text, opts)
     end
   end
 
@@ -213,6 +259,15 @@ module WorkPackage::PDFExport::Common
 
   def with_attachments?
     options[:show_images]
+  end
+
+  def build_pdf_filename(base)
+    suffix = "_#{title_datetime}.pdf"
+    "#{truncate(base, length: 255 - suffix.chars.length)}#{suffix}".gsub(' ', '-')
+  end
+
+  def title_datetime
+    DateTime.now.strftime('%Y-%m-%d_%H-%M')
   end
 
   def current_page_nr

@@ -12,6 +12,10 @@
                 "time_zone": {
                     "type": ["string", "null"]
                 },
+                "theme": {
+                  "type": "string",
+                  "enum": ["light", "light_high_contrast", "dark", "dark_dimmed", "dark_high_contrast"]
+                },
                 "warn_on_leaving_unsaved": {
                     "type": "boolean"
                 },

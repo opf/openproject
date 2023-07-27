@@ -31,6 +31,7 @@ module Pages
     class Center < ::Pages::Page
       def open
         bell_element.click
+        wait_for_network_idle if using_cuprite?
         expect_open
       end
 
@@ -52,11 +53,19 @@ module Pages
         click_button 'All'
       end
 
-      def click_item(notification)
+      def item_title(notification)
         text = notification.resource.is_a?(WorkPackage) ? notification.resource.subject : notification.subject
         within_item(notification) do
-          page.find('span', text:, exact_text: true).click
+          page.find('span', text:, exact_text: true)
         end
+      end
+
+      def click_item(notification)
+        item_title(notification).click
+      end
+
+      def double_click_item(notification)
+        item_title(notification).double_click
       end
 
       def within_item(notification, &)

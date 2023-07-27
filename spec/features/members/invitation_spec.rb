@@ -37,7 +37,7 @@ RSpec.describe 'invite user via email', js: true do
 
   current_user do
     create(:user,
-           global_permissions: [:manage_user],
+           global_permissions: [:create_user],
            member_in_project: project,
            member_with_permissions: %i[view_members manage_members])
   end

@@ -1,0 +1,16 @@
+import { Canvas, Meta, ArgsTable } from '@storybook/blocks';
+
+import { SpotToggleComponent } from '../toggle.component';
+import * as ToggleStories from './Toggle.stories';
+
+<Meta of={ToggleStories} />
+
+# Toggles
+
+All of these examples are static.
+
+<Canvas of={ToggleStories.Default} />
+<Canvas of={ToggleStories.WithValue} />
+<Canvas of={ToggleStories.FourOptions} />
+
+<ArgsTable of={SpotToggleComponent} />

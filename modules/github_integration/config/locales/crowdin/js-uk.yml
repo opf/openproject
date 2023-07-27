@@ -37,13 +37,11 @@ uk:
           copy_success: '✅ Скопійовано!'
           copy_error: '❌ Не скопійовано!'
       tab_prs:
-        empty: 'Немає прив’язаних запитів на включення. Прив''яжіть наявний PR за допомогою коду <code>OP#%{wp_id}</code> в описі PR або створіть новий PR.'
+        empty: 'Немає прив’язаних запитів на включення. Прив’яжіть наявний PR за допомогою коду <code>OP#%{wp_id}</code> в описі PR або створіть новий PR.'
       github_actions: Дії
       pull_requests:
-        message: >
-          Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}. #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}.
-        referenced_message: >
-          %{github_user_link} referenced this work package in pull request #%{pr_number} %{pr_link} on %{repository_link}. #%{pr_number} %{pr_link} on %{repository_link}.
+        message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
+        referenced_message: "%{github_user_link} referenced this work package in pull request #%{pr_number} %{pr_link} on %{repository_link}."
         states:
           opened: 'opened'
           closed: 'зачинено'

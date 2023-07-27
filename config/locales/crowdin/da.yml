@@ -167,10 +167,21 @@ da:
     index:
       no_results_title_text: Der er i øjeblikket ingen farver.
       no_results_content_text: Opret en ny farve
-    label_no_color: 'Ingen farve'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "Ingen farve"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Handlinger'
+      name: "Handlinger"
       add: 'Tilføj handling'
       assigned_to:
         executing_user_value: '(Tildel til den udførende bruger)'
@@ -196,8 +207,6 @@ da:
       no_results_content_text: Oprette en ny brugerdefineret felt
   concatenation:
     single: 'eller'
-  documentation:
-    see_more_link: For mere information, se vores dokumentation om dette emne.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -251,6 +260,8 @@ da:
         no_results_title_text: Der er i øjeblikket ingen brugerdefinerede felter tilgængelige.
       types:
         no_results_title_text: Der er i øjeblikket ingen tilgængelige typer.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: Der er i øjeblikket ingen versioner til projektet.
         no_results_content_text: Create a new version
@@ -267,7 +278,9 @@ da:
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: There are currently no access tokens available.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: There is currently no news to report.
@@ -275,6 +288,8 @@ da:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
       unknown_browser: 'unknown browser'
       unknown_os: 'unknown operating system'
       current: 'Current session'
@@ -524,6 +539,7 @@ da:
         hours: "Timer"
         spent_on: "Dato"
         type: "Type"
+        ongoing: "Ongoing"
       type:
         description: "Default text for description"
         attribute_groups: ''
@@ -1062,6 +1078,8 @@ da:
   button_configure: "Opsæt"
   button_continue: "Fortsæt"
   button_copy: "Kopier"
+  button_copy_to_clipboard: "Kopiér til Udklipsholder"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Kopier og følg"
   button_create: "Opret"
   button_create_and_continue: "Opret og fortsæt"
@@ -1293,12 +1311,13 @@ da:
   error_can_not_unarchive_project: "Dette projekt kan ikke fjernes fra arkivering: %{errors}"
   error_check_user_and_role: "Vælg venligst en bruger og en rolle."
   error_code: "Error %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
   error_custom_option_not_found: "Option does not exist."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
@@ -1317,6 +1336,7 @@ da:
   error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Der opstod en fejl da du forsøgte at tilgå projektarkivet: %{value}"
   error_scm_not_found: "Indholdet eller ændring findes ikke i projektarkivet."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "Arbejdspakkens status kan ikke slettes da den bruges af mindst én pakke."
   error_unable_delete_default_status: "Det er ikke muligt at slette forhåndsværdien for arbejdspakkens status. Vælg venligst en anden status for arbejdspakken før den nuværende slettes."
   error_unable_to_connect: "Kan ikke forbinde til (%{value})"
@@ -1406,6 +1426,22 @@ da:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Ændringerne blev trukket tilbage."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'Configuration guide'
     get_in_touch: "Har du spørgsmål? Kom i kontakt med os."
@@ -1430,6 +1466,26 @@ da:
         action: "Handling"
         expiration: "Udløber"
       indefinite_expiration: "Aldrig"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1472,6 +1528,7 @@ da:
   label_age: "Alder"
   label_ago: "dage siden"
   label_all: "alle"
+  label_all_projects: "All projects"
   label_all_time: "alle tider"
   label_all_words: "Alle ord"
   label_all_open_wps: "All open"
@@ -1488,6 +1545,7 @@ da:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Tildelt status"
   label_archive_project: "Archive project"
+  label_archived_projects: "Archived projects"
   label_ascending: "Stigende"
   label_assigned_to_me_work_packages: "Mine tilknyttede arbejdspakker"
   label_associated_revisions: "Tilknyttede ændringer"
@@ -1557,8 +1615,8 @@ da:
   label_confirmation: "Bekræftelse"
   label_contains: "indeholder"
   label_content: "Indhold"
+  label_color_plural: "Colors"
   label_copied: "kopieret"
-  label_copy_to_clipboard: "Kopiér til Udklipsholder"
   label_copy_same_as_target: "Samme som mål"
   label_copy_source: "Kilde"
   label_copy_target: "Mål"
@@ -1575,7 +1633,7 @@ da:
   label_database_version: "PostgreSQL version"
   label_date: "Dato"
   label_date_and_time: "Date and time"
-  label_date_format: "Date format"
+  label_date_format: "Datoformat"
   label_date_from: "Fra"
   label_date_from_to: "Fra %{start} til %{end}"
   label_date_to: "Til"
@@ -1586,6 +1644,7 @@ da:
   label_deleted: "slettet"
   label_deleted_custom_field: "(slettet selvvalgt felt)"
   label_deleted_custom_option: "(deleted option)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Faldende"
   label_details: "Detaljer"
@@ -1624,11 +1683,14 @@ da:
   label_equals: "er"
   label_everywhere: "everywhere"
   label_example: "Eksempel"
+  label_experimental: "Eksperimental"
+  label_i_am_member: "I am member"
   label_import: "Import"
   label_export_to: "Også til rådighed i:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} time"
   label_f_hour_plural: "%{value} timer"
+  label_favoured: "Favoured"
   label_feed_plural: "Indlæg"
   label_feeds_access_key: "RSS adgangsnøgle"
   label_feeds_access_key_created_on: "RSS adgangsnøgle lavet for %{value} siden"
@@ -1660,6 +1722,7 @@ da:
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Hjem"
   label_subject_or_id: "Subject or ID"
+  label_icalendar: "iCalendar"
   label_impressum: "Legal notice"
   label_in: "i"
   label_in_less_than: "på mindre end"
@@ -1703,6 +1766,7 @@ da:
   label_logged_as: "Logget ind som"
   label_login: "Log ind"
   label_custom_logo: "Custom logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "Log ud"
@@ -1822,7 +1886,8 @@ da:
   label_project_new: "Nyt projekt"
   label_project_plural: "Projekter"
   label_project_settings: "Projektindstillinger"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} projekter forbruger %{storage} disklagerplads"
   label_project_view_all: "Se alle projekter"
   label_project_show_details: "Show project details"
@@ -1910,6 +1975,7 @@ da:
   label_this_week: "denne uge"
   label_this_year: "dette år"
   label_time_entry_plural: "Anvendt tid"
+  label_title: "Title"
   label_projects_menu: "Projekter"
   label_today: "i dag"
   label_top_menu: "Topmenu"
@@ -2060,6 +2126,7 @@ da:
       more_to_see:
         one: 'There is 1 more work package with notifications.'
         other: 'There are %{count} more work packages with notifications.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Watched'
         assigned: 'Assigned'
@@ -2238,7 +2305,8 @@ da:
   permission_add_messages: "Send beskeder"
   permission_add_project: "Opret projekt"
   permission_archive_project: "Archive project"
-  permission_manage_user: "Opret og rediger brugere"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Opret, rediger og slet brugere af pladsholdere"
   permission_add_subprojects: "Opret underprojekter"
   permission_add_work_package_watchers: "Tilføj tilsynsførende"
@@ -2329,7 +2397,7 @@ da:
       archived: "Archived"
   project_module_activity: "Aktivivtet"
   project_module_forums: "Fora"
-  project_module_work_package_tracking: "Sporing af arbejdspakke"
+  project_module_work_package_tracking: "Arbejdspakker"
   project_module_news: "Nyheder"
   project_module_repository: "Projektarkiv"
   project_module_wiki: "Wiki"
@@ -2501,7 +2569,7 @@ da:
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Tillad forbindelser mellem arbejdspakker på tværs af projekter"
   setting_first_week_of_year: "Første uge i året indeholder"
-  setting_date_format: "Date"
+  setting_date_format: "Dato"
   setting_default_language: "Forhåndsvalgt sprog"
   setting_default_projects_modules: "Forhåndsvalgt aktive moduler for nye projekter"
   setting_default_projects_public: "Nye projekter er på forhånd sat som offentlige"
@@ -2513,7 +2581,7 @@ da:
   setting_enabled_scm: "Aktiver SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Aktiver feeds"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Grænse for indhold af feeds"
   setting_file_max_size_displayed: "Maksimal størrelse af tekstfiler, der vises inline"
   setting_host_name: "Værtsnavn"
@@ -2564,7 +2632,7 @@ da:
   setting_start_of_week: "Week starts on"
   setting_sys_api_enabled: "Aktiver repositorieadministrations-webtjeneste"
   setting_sys_api_description: "Repositorieadministration-webtjenesten sørger for integration og brugertilladelse for adgang til repositorier."
-  setting_time_format: "Time"
+  setting_time_format: "Tidspunkt"
   setting_accessibility_mode_for_anonymous: "Aktivér tilgængelighedstilstand for anonyme brugere"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
@@ -2577,29 +2645,20 @@ da:
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   setting_working_days: "Working days"
   settings:
-    general: "Generelle"
-    other: "Andet"
-    passwords: "Adgangskoder"
-    session: "Session"
-    brute_force_prevention: "Automatiseret brugerblokering"
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
-    notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-    display:
+    brute_force_prevention: "Automatiseret brugerblokering"
+    date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
-      first_week_of_year_text: >
-        Vælg datoen for januar, der er indeholdt i den første uge af året. Denne værdi afgør, sammen med den første dag i ugen, det samlede antal uger i et år.
-    projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
-    user:
-      default_preferences: "Default preferences"
-      display_format: "Display format"
-      deletion: "Deletion"
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
+    general: "Generelle"
     highlighting:
       mode_long:
         inline: "Highlight attribute(s) inline"
@@ -2607,6 +2666,24 @@ da:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
+    notifications:
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+    other: "Andet"
+    passwords: "Adgangskoder"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
+    session: "Session"
+    user:
+      default_preferences: "Default preferences"
+      display_format: "Display format"
+      deletion: "Deletion"
     working_days:
       section_work_week: "Work week"
       section_holidays_and_closures: "Holidays and closures"
@@ -2648,10 +2725,12 @@ da:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    This is the tiny icon that appears in your browser window/tab next to the page's title. It's needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It's needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Database allows TSVector (optional)"
   text_default_administrator_account_changed: "Forhåndsvalgt administratorkonto ændret"
   text_default_encoding: "Forhåndsvalgt: UTF-8"
@@ -2728,6 +2807,11 @@ da:
   text_zoom_in: "Zoom ind"
   text_zoom_out: "Zoom ud"
   text_setup_mail_configuration: "Configure your email provider"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "formiddag"
     formats:
@@ -2740,153 +2824,6 @@ da:
     show: "Vis tidsrammer"
     end: "til"
     start: "fra"
-  timelines:
-    admin_menu:
-      color: "Farve"
-      colors: "Farver"
-    associations: "Aflæggere"
-    button_delete_all: "Slet alt"
-    change: "Ændring i planlægning"
-    children: "Underordnede elementer"
-    color_could_not_be_saved: "Farve kan ikke gemmes"
-    current_planning: "Aktuel planlægning"
-    dates: "Datoer"
-    dates_are_calculated_based_on_sub_elements: "Datoerne er beregnede udfra underelementer."
-    delete_all: "Slet alt"
-    delete_thing: "Slet"
-    duration: "Varighed"
-    duration_days:
-      one: "1 dag"
-      other: "%{count} dage"
-    edit_color: "Rediger farve"
-    edit_thing: "Rediger"
-    edit_timeline: "Rediger lidslinjerapport %{timeline}"
-    delete_timeline: "Slet tidslinjerapport %{timeline}"
-    empty: "(tom)"
-    enable_type_in_project: 'Aktivér typen "%{type}"'
-    end: "Aflsut"
-    errors:
-      not_implemented: "Tidslinjen kan ikke gengives, fordi den bruger en funktion, der endnu ikke er implementeret."
-      report_comparison: "Tidslinien kunne ikke gengive de opsatte sammenligninger. Tjek venligst den relevante del i opsætningen. En nulstilling kan formodentlig løse problemet."
-      report_epicfail: "Tidslinjen kunne ikke indlæses på grund af en uventet fejl."
-      report_timeout: "Tidslinjen kunne ikke indlæses indenfor en remelig tid."
-    filter:
-      errors:
-        timeframe_start: "Start for tidsramme "
-        timeframe_end: "Afslutning for tidsramme "
-        compare_to_relative: "Værdien af den relative sammenligning "
-        compare_to_absolute: "Værdien af den absolutte sammenligning "
-        planning_element_time_relative_one: "Start for arbejdspakker i en bestemt tidsramme "
-        planning_element_time_relative_two: "Afslutning for arbejdspakker i en bestemt tidsramme "
-        planning_element_time_absolute_one: "Start for arbejdspakker i en bestemt tidsramme  "
-        planning_element_time_absolute_two: "Afslutning for arbejdspakker i en bestemt tidsramme  "
-      sort:
-        sortation: "Sortér efter"
-        alphabet: "alfabet"
-        explicit_order: "bestemt rækkefølge"
-        project_sortation: "Sortér projekter efter"
-        date: "dato"
-        default: "Forhåndsvalgt"
-      column:
-        assigned_to: "Tildelt"
-        type: "Type"
-        due_date: "Slutdato"
-        name: "Navn"
-        status: "Status"
-        start_date: "Start dato"
-      columns: "Kolonner"
-      comparisons: "Sammenligninger"
-      comparison:
-        absolute: "Absolut"
-        none: "Ingen"
-        relative: "Relativ"
-        compare_relative_prefix: "Sammenlign aktuel planlægning med"
-        compare_relative_suffix: "siden"
-        compare_absolute: "Sammenlign aktuel planlægning med den %{date}"
-      time_relative:
-        days: "dage"
-        weeks: "uger"
-        months: "måneder"
-      exclude_own_work_packages: "Gem arbejdspakker fra dette projekt"
-      exclude_reporters: "Gem andre projekter"
-      exclude_empty: "Gem tomme projekter"
-      grouping: "Gruppering"
-      grouping_hide_group: "Gem gruppen \"%{group}\""
-      grouping_one: "Første kriterie for gruppering"
-      grouping_one_phrase: "Er et underprojekt til"
-      grouping_other: "Andet"
-      hide_chart: "Gem skema"
-      noneElement: "(ingen)"
-      noneSelection: "(ingen)"
-      outline: "Udvidet udgave af indledende disposition"
-      parent: "Vis underprojekter til"
-      work_package_responsible: "Show work packages with accountable"
-      work_package_assignee: "Vis arbejdspakker med opdragsgiver"
-      types: "Vis typer"
-      status: "Vis status"
-      project_time_filter: "Projekter med en arbejdspakke af bestemt type i en bestemt tidsramme"
-      project_time_filter_timeframe: "Tidsramme"
-      project_time_filter_historical_from: "fra"
-      project_time_filter_historical_to: "til"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} siden, %{end_label} %{endspan}%{endspanunit} fra nu"
-      project_filters: "Filtrér projekter"
-      project_responsible: "Show projects with accountable"
-      project_status: "Vis projektstatus"
-      timeframe: "Vis tidsrammer"
-      timeframe_end: "til"
-      timeframe_start: "fra"
-      timeline: "Overordnede indstillinger"
-      zoom: "Zoomfaktor"
-    history: "Historik"
-    new_color: "Ny farve"
-    new_association: "Ny sammenhæng"
-    new_work_package: "Ny arbejdspakke"
-    new_reporting: "Ny rapportering"
-    new_timeline: "Ny tidslinjerapport"
-    no_projects_for_reporting_available: "Der er ikke nogen projekter hvortil der kan skabes en rapporttilknytning."
-    no_right_to_view_timeline: "Du har ikke den nødvendige tilladelse til at se den linkede tidslinje."
-    no_timeline_for_id: "Der findes ingen tidslinje med ID %{id}."
-    notice_successful_deleted_all_elements: "Det lykkedes at slette alle elementer"
-    outline: "Nulstil dispostionen"
-    outlines:
-      aggregation: "Vis kun sammensætninger"
-      level1: "Udvidelsesniveau 1"
-      level2: "Udvidelsesniveau 2"
-      level3: "Udvidelsesniveau 3"
-      level4: "Udvidelsesniveau 4"
-      level5: "Udvidelsesniveau 5"
-      all: "Vis alt"
-    reporting_for_project:
-      show: "Status rapporteret til projektet: %{title}"
-      edit_delete: "statusrapport for projektet: %{title}"
-      history: "Historie for status af projektet: %{title}"
-    reporting:
-      delete: "Status for sletning: %{comment}"
-      edit: "Status for redigering: %{comment}"
-      show: "Status: %{comment}"
-    planning_element_update: "Updatering:  %{title}"
-    type_could_not_be_saved: "Typen kan ikke gemmes"
-    reporting_could_not_be_saved: "Rapportering kan ikke gemmes"
-    properties: "Egenskaber"
-    really_delete_color: >
-      Er du sikker på, du vil slette den følgende farve? Typer med denne farve vil ikke blive slettet.
-    really_delete_reporting: >
-      Er du sikker på, du vil slette den følgende rapportering? Tidligere status for rapportering status vil også blive slettet.
-    start: "Start"
-    timeline: "Tidslinjerapport"
-    timelines: "Tidslinjerapporter"
-    settings: "Tidslinjer"
-    vertical_work_package: "Lodret arbejdspakke"
-    you_are_viewing_the_selected_timeline: "Du ser den valgte tidslinjerapport"
-    zoom:
-      in: "Zoom ind"
-      out: "Zoom ud"
-      days: "Dage"
-      weeks: "Uger"
-      months: "Måneder"
-      quarters: "Kvartaler"
-      years: "År"
   title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
   title_enterprise_upgrade: "Upgrade to unlock more users."
   tooltip_user_default_timezone: >

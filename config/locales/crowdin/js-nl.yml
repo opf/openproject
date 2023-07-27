@@ -65,6 +65,8 @@ nl:
     button_confirm: "Accepteren"
     button_continue: "Ga verder"
     button_copy: "Kopieer"
+    button_copy_to_clipboard: "Kopiëren naar het klembord"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Kopiëren naar een ander project"
     button_custom-fields: "Aangepaste velden"
     button_delete: "Verwijderen"
@@ -105,7 +107,7 @@ nl:
       remove_from_list: 'Verwijder kaart uit lijst'
     caption_rate_history: "Beoordeel geschiedenis"
     clipboard:
-      browser_error: "Uw browser ondersteunt kopiëren naar het klembord niet. Kopieer de geselecteerde tekst handmatig."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Succesvol gekopieerd naar klembord!"
     chart:
       type: 'Grafiek type'
@@ -254,12 +256,12 @@ nl:
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
       working_days:
         calendar:
-          empty_state_header: "Non-working days"
+          empty_state_header: "Vrije dagen"
           empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
-          new_date: '(new)'
-        add_non_working_day: "Non-working day"
+          new_date: '(nieuw)'
+        add_non_working_day: "Vrije dagen"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
-        change_button: "Save and reschedule"
+        change_button: "Opslaan en opnieuw plannen"
         change_title: "Wijzig werkdagen"
         removed_title: "You will remove the following days from the non-working days list:"
         change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
@@ -294,6 +296,34 @@ nl:
           one: "Eerste sorteercriteria"
           two: "Tweede sorteercriteria"
           three: "Derde sorteercriteria"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "Nee"
     general_text_yes: "Ja"
     general_text_No: "Nee"
@@ -325,10 +355,8 @@ nl:
       token_name_label: "Token name"
       token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
       token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
-      copy_url_label: "Copy URL"
+      copy_url_label: "URL kopiëren"
       ical_generation_error_text: "An error occured while generating the iCal URL."
-      copy_url_success_text: "URL copied to clipboard."
-      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Activeren"
     label_assignee: 'Toegewezene'
     label_add_column_after: "Kolom toevoegen"
@@ -420,7 +448,7 @@ nl:
     label_no_data: "Geen gegevens om weer te geven"
     label_no_due_date: "geen einddatum"
     label_no_start_date: "geen startdatum"
-    label_no_date: "no date"
+    label_no_date: "geen datum"
     label_no_value: "Geen waarde"
     label_none: "geen"
     label_not_contains: "bevat geen"
@@ -498,14 +526,14 @@ nl:
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: U kunt geen mappen uploaden als bijlage. Selecteer a. u. b. enkele bestanden.
-    label_add_attachments: "Attach files"
+    label_add_attachments: "Bestanden toevoegen"
     label_formattable_attachment_hint: "Hecht en link bestanden door deze in dit veld te slepen, of plak deze vanuit het klembord."
     label_remove_file: "%{fileName} verwijderen"
     label_remove_watcher: "Volger %{name} verwijderen"
     label_remove_all_files: Verwijder alle bestanden
     label_add_description: "Een beschrijving voor %{file} toevoegen"
     label_upload_notification: "Uploaden van bestanden..."
-    label_work_package_upload_notification: "Uploaden van bestanden voor werk pakket #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Uploaden van bestanden voor werk pakket #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} toegevoegd door %{author}"
     label_files_to_upload: "Deze bestanden worden geüpload:"
     label_rejected_files: "Deze bestanden kunnen niet worden geüpload:"
@@ -574,10 +602,10 @@ nl:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
         overdue_since: 'since %{difference_in_days}'
-        property_today: 'is today'
+        property_today: 'is vandaag'
         property_is: 'is in %{difference_in_days}'
-        property_was: 'was %{difference_in_days} ago'
-        property_is_deleted: 'is deleted'
+        property_was: 'was %{difference_in_days} geleden'
+        property_is_deleted: 'Is verwijderd'
         upsale:
           title: 'Date alerts'
           description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
@@ -599,7 +627,7 @@ nl:
         text_update_date: "%{date} door"
         total_count_warning: "De %{newest_count} meest recente meldingen weergeven. %{more_count} meer worden niet weergegeven."
         empty_state:
-          no_notification: "Looks like you are all caught up."
+          no_notification: "Het lijkt erop dat u helemaal bij bent."
           no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Klik op een melding om alle activiteit details te bekijken."
@@ -609,7 +637,7 @@ nl:
       menu:
         accountable: 'Verantwoording afleggen'
         by_project: 'Ongelezen per project'
-        by_reason: 'Reason'
+        by_reason: 'Reden'
         inbox: 'Inkomend'
         mentioned: 'Genoemd'
         watched: 'Kijker'
@@ -619,17 +647,17 @@ nl:
         title: "Instellingen voor meldingen"
         notify_me: "Waarschuw mij"
         reminders:
-          no_notification: No notification
+          no_notification: Geen melding
           timeframes:
             normal:
-              PT0S: same day
-              P1D: 1 day before
-              P3D: 3 days before
-              P7D: a week before
+              PT0S: dezelfde dag
+              P1D: 1 dag ervoor
+              P3D: 3 dagen ervoor
+              P7D: een week ervoor
             overdue:
-              P1D: every day
-              P3D: every 3 days
-              P7D: every week
+              P1D: elke dag
+              P3D: elke 3 dagen
+              P7D: elke week
         reasons:
           mentioned:
             title: 'Genoemd'
@@ -682,7 +710,7 @@ nl:
       click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "Sjabloon gebruiken"
-      no_template_selected: "(None)"
+      no_template_selected: "(Geen)"
       copy:
         copy_options: "Copy options"
       autocompleter:
@@ -716,8 +744,8 @@ nl:
         title: 'E-mail herinneringen'
         pause:
           label: 'Temporarily pause daily email reminders'
-          first_day: 'First day'
-          last_day: 'Last day'
+          first_day: 'Eerste dag'
+          last_day: 'Laatste dag'
     text_are_you_sure: "Weet u het zeker?"
     text_data_lost: "Alle ingevoerde gegevens zullen verloren gaan."
     types:
@@ -738,6 +766,14 @@ nl:
     time_entry:
       work_package_required: 'Vereist eerst een werkpakket te selecteren.'
       title: 'Gelogde tijd'
+      tracking: 'Tijdregistratie'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Twee-factor-authenticatie'
     watchers:
@@ -796,7 +832,8 @@ nl:
     autocompleter:
       placeholder: "Typ om te zoeken"
       notFoundText: "Geen items gevonden"
-      typeToSearchText: "Typ om te zoeken"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Selecteer label'
       select_branch: 'Selecteer pad'
@@ -814,63 +851,6 @@ nl:
       activate_no: 'activeer om de sortering te verwijderen'
     text_work_packages_destroy_confirmation: "Weet u zeker dat u geselecteerd(e) werkpakket(ten) wilt verwijderen?"
     text_query_destroy_confirmation: "Weet u zeker dat u het geselecteerde overzicht wilt verwijderen?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt-grafiek'
-      labels:
-        title: 'Label configuratie'
-        bar: 'Bar etiketten'
-        left: 'Linkerkant'
-        right: 'Rechterkant'
-        farRight: 'Uiterst rechts'
-        showNone: '--Geen label--'
-        description: >
-          Selecteer de attributen die u te allen tijde wilt laten zien in de respectieve posities van het Gantt-diagram. Merk op dat wanneer de muis over een element beweegt, de datum labels worden getoond in plaats van deze eigenschappen.
-      button_activate: 'Toon Gantt-diagram'
-      button_deactivate: 'Verberg Gantt-diagram'
-      cancel: Annuleren
-      change: "In de planning wijzigen"
-      due_date: "Einddatum"
-      empty: "(leeg)"
-      error: "Er is een fout opgetreden."
-      errors:
-        not_implemented: "De tijdlijn kan niet worden weergegeven omdat het gebruik maakt van een functie die is nog niet geïmplementeerd."
-        report_comparison: "De tijdlijn kan de geconfigureerde vergelijkingen tonen. Controleer de bijbehorende sectie in de configuratie, het resetten kan helpen bij het oplossen van dit probleem."
-        report_epicfail: "De tijdlijn kan niet worden geladen vanwege een onverwachte fout."
-        report_timeout: "De tijdlijn kan niet worden geladen in een redelijke hoeveelheid tijd."
-      filter:
-        grouping_other: "Overige"
-        noneSelection: "(geen)"
-      name: "Naam"
-      outline: "Reset omlijning"
-      outlines:
-        aggregation: "Toon alleen aggregaties"
-        level1: "Uitbreiden van niveau 1"
-        level2: "Uitbreiden van niveau 2"
-        level3: "Uitbreiden van niveau 3"
-        level4: "Uitbreiden van niveau 4"
-        level5: "Uitbreiden van niveau 5"
-        all: "Toon alle"
-      project_status: "Projectstatus"
-      really_close_dialog: "Wilt u echt het dialoogvenster sluiten alle ingevoerde data verliezen?"
-      responsible: "Verantwoordelijk"
-      save: Opslaan
-      start_date: "Startdatum"
-      tooManyProjects: "Meer dan %{count} projecten. Gebruik een beter filter!"
-      selection_mode:
-        notification: 'Klik op elk gemarkeerde werkpakket om een relatie te maken. Druk op escape om te annuleren.'
-      zoom:
-        in: "Inzoomen"
-        out: "Uitzoomen"
-        auto: "Auto-zoom"
-        days: "Dagen"
-        weeks: "Weken"
-        months: "Maanden"
-        quarters: "Kwartalen"
-        years: "Jaren"
-        slider: "Zoom-schuifregelaar"
-        description: >
-          Selecteer het oorspronkelijke zoomniveau dat moet worden weergegeven wanneer autozoom niet beschikbaar is.
     tl_toolbar:
       zooms: "Zoom niveau"
       outlines: "Niveau van de hiërarchie"
@@ -911,7 +891,7 @@ nl:
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
         ignore_non_working_days:
-          title: 'Working days only'
+          title: 'Alleen werkdagen'
       description_filter: "Filter"
       description_enter_text: "Tekst invoeren"
       description_options_hide: "Verberg opties"
@@ -935,10 +915,10 @@ nl:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filter werkpakketten'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Klik hier om een nieuw werkpakket aan deze lijst toe te voegen'
@@ -1007,7 +987,7 @@ nl:
         label_content: "Klik hier om het menu overslaan en ga naar de inhoud"
       placeholders:
         default: "-"
-        date: "Select date"
+        date: "Datum selecteren"
       query:
         column_names: "Kolommen"
         group_by: "Groepeer resultaten op"
@@ -1019,7 +999,7 @@ nl:
         move_column_left: "Verplaats kolom naar links"
         move_column_right: "Verplaats kolom naar rechts"
         hide_column: "Verberg kolom"
-        insert_columns: "Insert columns"
+        insert_columns: "Kolommen invoegen"
         filters: "Filters"
         display_sums: "Bedragen weergeven"
         confirm_edit_cancel: "Weet u zeker dat u wilt stoppen met het bewerken van de naam van deze weergave? De Titel zal terug naar vorige waarde worden ingesteld."
@@ -1177,10 +1157,11 @@ nl:
       button_deactivate: 'Deactiveren van zen modus'
     global_search:
       all_projects: "Voor alle projecten"
-      search: "Zoeken"
       close_search: "Sluit zoekopdracht"
-      current_project: "In dit project"
       current_project_and_all_descendants: "In dit project + subprojecten"
+      current_project: "In dit project"
+      recently_viewed: "Recently viewed"
+      search: "Zoeken"
       title:
         all_projects: "alle projecten"
         project_and_subprojects: "en alle subprojecten"
@@ -1275,7 +1256,7 @@ nl:
       apply: 'Toepassen'
       header_description: 'Highlight changes made to this list since any point in the past.'
       enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
-      show_changes_since: 'Show changes since'
+      show_changes_since: 'Toon wijzigingen sinds'
       baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
@@ -1295,7 +1276,7 @@ nl:
         now_meets_filter_criteria: 'Now meets filter criteria'
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'
-        in_your_timezone: 'In your local timezone:'
+        in_your_timezone: 'In je lokale tijdzone:'
       icon_tooltip:
         added: 'Added to view within the comparison time period'
         removed: 'Removed from view within the comparison time period'

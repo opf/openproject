@@ -51,8 +51,9 @@ module Pages
     end
 
     def delete_group!(name)
-      find_group(name).find('a[data-method=delete]').click
-      accept_alert_dialog!
+      accept_alert do
+        find_group(name).find('a[data-method=delete]').click
+      end
     end
 
     def find_group(name)
@@ -104,6 +105,13 @@ module Pages
       open_projects_tab!
       SeleniumHubWaiter.wait
       find_project(name).find('a[data-method=delete]').click
+    end
+
+    def search_for_project(query)
+      autocomplete = page.find('[data-qa-selector="membership_project_id"]')
+      search_autocomplete autocomplete,
+                          query:,
+                          results_selector: 'body'
     end
 
     def find_project(name)

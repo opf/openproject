@@ -79,7 +79,7 @@ ko:
   label_costlog: "기록된 단위 비용"
   label_cost_plural: "비용"
   label_cost_type_plural: "비용 유형"
-  label_cost_type_specific: "비용 유형 #%{id}: %{name}" #%{id}: %{name}"
+  label_cost_type_specific: "비용 유형 #%{id}: %{name}"
   label_costs_per_page: "페이지당 비용"
   label_currency: "통화"
   label_currency_format: "통화 형식"

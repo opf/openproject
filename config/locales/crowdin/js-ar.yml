@@ -65,6 +65,8 @@ ar:
     button_confirm: "تأكيد"
     button_continue: "Continue"
     button_copy: "انسخ"
+    button_copy_to_clipboard: "نسخ إلى الحافظة"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "الحقول المخصصة"
     button_delete: "احذف"
@@ -105,7 +107,7 @@ ar:
       remove_from_list: 'Remove card from list'
     caption_rate_history: "تاريخ السعر"
     clipboard:
-      browser_error: "لا يدعم المتصفح الخاص بك النسخ إلى الحافظة, من فضلك انسخ النص المختار يدوياً."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
@@ -294,6 +296,34 @@ ar:
           one: "أولاً يتم فرز المعايير"
           two: "ثانياً يتم فرز المعايير"
           three: "ثالثاً يتم فرز المعايير"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "لا"
     general_text_yes: "نعم"
     general_text_No: "لا"
@@ -327,8 +357,6 @@ ar:
       token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
       copy_url_label: "Copy URL"
       ical_generation_error_text: "An error occured while generating the iCal URL."
-      copy_url_success_text: "URL copied to clipboard."
-      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "تفعيل"
     label_assignee: 'المُسند إليه'
     label_add_column_after: "Add column after"
@@ -742,6 +770,14 @@ ar:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'وقت السجل'
+      tracking: 'تعقب الوقت'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
@@ -800,7 +836,8 @@ ar:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'حدد العلامة'
       select_branch: 'اختر فرع'
@@ -818,63 +855,6 @@ ar:
       activate_no: 'activate to remove the sort'
     text_work_packages_destroy_confirmation: "هل أنت متأكد من أنك تريد حذف العناصر المحددة؟"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt chart'
-      labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
-        showNone: '- بدون تسمية -'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
-      cancel: إلغاء
-      change: "تغيير في تخطيط"
-      due_date: "Finish date"
-      empty: "(فارغ)"
-      error: "لقد حدث خطأ ما."
-      errors:
-        not_implemented: "لا يمكن أن يقدم الخط الزمني لأنه يستخدم ميزة التي لم تنفذ بعد."
-        report_comparison: "يمكن تقديم جدول زمني لا مقارنات تم تكوينه. الرجاء التحقق من المقطع المناسب في التكوين، إعادة تعيينه فإنه يمكن أن يساعد في حل هذه المشكلة."
-        report_epicfail: "لا يمكن تحميل المخطط الزمني بسبب خطأ غير متوقع."
-        report_timeout: "لا يمكن تحميل المخطط الزمني في كمية معقولة من الزمن."
-      filter:
-        grouping_other: "اخرى"
-        noneSelection: "(بلا)"
-      name: "الاسم"
-      outline: "إعادة تعيين المخطط التفصيلي"
-      outlines:
-        aggregation: "إظهار المجموعات فقط"
-        level1: "توسيع مستوى 1"
-        level2: "توسيع مستوى 2"
-        level3: "توسيع مستوى 3"
-        level4: "توسيع مستوى 4"
-        level5: "توسيع مستوى 5"
-        all: "إظهار الجميع"
-      project_status: "حالة المشروع"
-      really_close_dialog: "هل تريد حقًا إغلاق الحوار وفقدان البيانات المدخلة؟"
-      responsible: "مسؤول"
-      save: حفظ
-      start_date: "تاريخ البدء"
-      tooManyProjects: "أكثر من %{count} مشاريع. من فضلك استخدم عامل تصفية أفضل!"
-      selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
-      zoom:
-        in: "تكبير"
-        out: "تصغير"
-        auto: "Auto zoom"
-        days: "أيام"
-        weeks: "أسابيع"
-        months: "أشهر"
-        quarters: "أرباع"
-        years: "السنوات"
-        slider: "تكبير شريط التمرير"
-        description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
     tl_toolbar:
       zooms: "تكبير المستوى"
       outlines: "مستوى التسلسل الهرمي"
@@ -939,10 +919,10 @@ ar:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'تصفية مجموعات العمل'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'اضغط هنا لإضافة مجموعة عمل جديدة للقائمة'
@@ -1187,10 +1167,11 @@ ar:
       button_deactivate: 'Deactivate zen mode'
     global_search:
       all_projects: "In all projects"
-      search: "البحث"
       close_search: "Close search"
-      current_project: "In this project"
       current_project_and_all_descendants: "In this project + subprojects"
+      current_project: "In this project"
+      recently_viewed: "Recently viewed"
+      search: "البحث"
       title:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"

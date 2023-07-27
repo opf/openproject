@@ -64,11 +64,11 @@ module Pages
       end
 
       def delete(type)
-        within_row(type) do
-          find('.icon-delete').click
+        accept_alert do
+          within_row(type) do
+            find('.icon-delete').click
+          end
         end
-
-        accept_alert_dialog!
       end
 
       private

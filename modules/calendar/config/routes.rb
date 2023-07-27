@@ -9,4 +9,6 @@ OpenProject::Application.routes.draw do
       get '(/*state)' => 'calendar/calendars#show', on: :member, as: ''
     end
   end
+
+  resources :calendars, only: %i[index new create], controller: 'calendar/calendars'
 end

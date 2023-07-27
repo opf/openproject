@@ -165,31 +165,31 @@ RSpec.describe 'Copy work packages through Rails view', js: true do
 
           expect(page)
             .to have_selector(
-              '.flash.error',
+              '.op-toast.-error',
               text: I18n.t('work_packages.bulk.none_could_be_saved', total: 3)
             )
 
           expect(page)
             .to have_selector(
-              '.flash.error',
+              '.op-toast.-error',
               text: I18n.t('work_packages.bulk.selected_because_descendants', total: 3, selected: 2)
             )
 
           expect(page)
             .to have_selector(
-              '.flash.error',
+              '.op-toast.-error',
               text: "#{work_package.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}"
             )
 
           expect(page)
             .to have_selector(
-              '.flash.error',
+              '.op-toast.-error',
               text: "#{work_package2.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}"
             )
 
           expect(page)
             .to have_selector(
-              '.flash.error',
+              '.op-toast.-error',
               text: "#{child.id} (descendant of selected): Type #{I18n.t('activerecord.errors.messages.inclusion')}"
             )
         end
@@ -240,7 +240,7 @@ RSpec.describe 'Copy work packages through Rails view', js: true do
     before do
       wp_table.expect_work_package_count 2
       context_menu.open_for work_package
-      context_menu.choose 'Copy to clipboard'
+      context_menu.choose 'Copy link to clipboard'
     end
 
     it 'successfully copies the short url of the work package' do
@@ -306,7 +306,7 @@ RSpec.describe 'Copy work packages through Rails view', js: true do
       click_on 'Copy and follow'
 
       expect(page)
-        .to have_selector('.flash.notice',
+        .to have_selector('.op-toast.-success',
                           text: I18n.t(:notice_successful_create))
 
       wp_page = Pages::FullWorkPackage.new(WorkPackage.last)

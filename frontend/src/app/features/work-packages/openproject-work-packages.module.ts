@@ -186,6 +186,9 @@ import { OpBaselineComponent } from 'core-app/features/work-packages/components/
 import { OpBaselineLoadingComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-loading/baseline-loading.component';
 import { OpBaselineLegendsComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-legends/baseline-legends.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { WorkPackageTimerButtonComponent } from 'core-app/features/work-packages/components/wp-timer-button/wp-timer-button.component';
+import { OpenprojectTimeEntriesModule } from 'core-app/shared/components/time_entries/openproject-time-entries.module';
+import { RecentItemsService } from 'core-app/core/recent-items.service';
 
 @NgModule({
   imports: [
@@ -206,6 +209,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     OpenprojectModalModule,
 
     OpenprojectAutocompleterModule,
+
+    OpenprojectTimeEntriesModule,
 
     OpWpTabsModule,
 
@@ -246,6 +251,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 
     StoragesResourceService,
     ProjectStoragesResourceService,
+
+    RecentItemsService,
   ],
   declarations: [
     // Routing
@@ -344,6 +351,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     WorkPackageRelationQueryComponent,
     WorkPackageFormAttributeGroupComponent,
     BackButtonComponent,
+    WorkPackageTimerButtonComponent,
 
     // Activity Tab
     NewestActivityOnOverviewComponent,

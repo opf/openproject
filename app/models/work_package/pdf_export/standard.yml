@@ -14,6 +14,7 @@ page_header:
 page_footer:
   offset: -30
   size: 8
+  spacing: 6
 
 page_logo:
   height: 20
@@ -49,6 +50,7 @@ overview:
 
 toc:
   subject_indent: 4
+  indent_mode: "stairs"
   margin_top: 10
   margin_bottom: 20
   item:
@@ -66,10 +68,19 @@ toc:
 work_package:
   margin_bottom: 20
   subject:
-    size: 14
+    size: 10
     styles: [ "bold" ]
     margin_bottom: 10
-  label:
+  subject_level_1:
+    size: 14
+    styles: [ "bold" ]
+  subject_level_2:
+    size: 13
+    styles: [ "bold" ]
+  subject_level_3:
+    size: 12
+    styles: [ "bold" ]
+  subject_level_4:
     size: 11
     styles: [ "bold" ]
   attributes_table:
@@ -85,21 +96,13 @@ work_package:
       border_width: 0.25
     cell_label:
       styles: [ "bold" ]
-  section:
-    heading:
-      size: 9
-      styles: [ "bold" ]
-      margin_top: 4
-      margin_bottom: 4
-    item:
-      size: 9
-      styles: [ "italic" ]
-      margin_left: 10
   markdown_label:
     size: 12
+    styles: [ "bold" ]
+    margin_top: 2
+    margin_bottom: 4
   markdown_margin:
-    margin_top: 12
-    margin_bottom: 8
+    margin_bottom: 16
   markdown:
     font:
       size: 10
@@ -107,9 +110,9 @@ work_package:
     header:
       size: 8
       styles: [ "bold" ]
+      padding_top: 4
     header_1:
       size: 10
-      padding_bottom: 4
     header_2:
       size: 10
     header_3:
@@ -153,7 +156,11 @@ work_package:
       no_border_bottom: true
       no_border_top: true
     image:
-      align: "left"
+      align: "center"
+      margin_bottom: 4
+      caption:
+        size: 8
+        align: "center"
     codeblock:
       background_color: "F5F5F5"
       color: "880000"

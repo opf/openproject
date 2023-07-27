@@ -1,89 +1,107 @@
 # Schema: GroupModel
 ---
 type: object
+required:
+  - _type
+  - id
+  - _links
 properties:
   id:
     type: integer
-    description: Group's id
-    readOnly: true
-    minimum: 0
-    exclusiveMinimum: true
+    description: The group id
+    minimum: 1
   name:
     type: string
     description: |-
       Group's full name, formatting depends on instance settings
-
+      
       # Conditions
-
-      Admin to write
+      - admin
   createdAt:
     type: string
     format: date-time
     description: |-
       Time of creation
-
+      
       # Conditions
-
-      Only visible by admins
-    readOnly: true
+      - admin
   updatedAt:
     type: string
     format: date-time
     description: Time of the most recent change to the user
-    readOnly: true
   _links:
     type: object
     required:
-    - self
+      - self
     properties:
-      delete:
-        allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Deletes the group.
-
-            # Conditions
-
-            **Permission**: Administrator
-          readOnly: true
-      updateImmediately:
-        allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Updates the group's attributes.
-
-            # Conditions
-
-            **Permission**: Administrator
-          readOnly: true
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This group
-
-            **Resource**: Group
-          readOnly: true
+          - $ref: './link.yml'
+          - description: |-
+              This group resource
+              
+              **Resource**: Group
+      delete:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Deletes the group.
+              
+              # Conditions
+              **Permission**: Administrator
+      updateImmediately:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Updates the group's attributes.
+              
+              # Conditions
+              **Permission**: Administrator
       memberships:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Link to collection of all the group's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions.
-
-            **Resource**: MemberCollection
-
-            # Conditions
-
-            **Permission**: view members or manage members in any project
-          readOnly: true
+          - $ref: './link.yml'
+          - description: |-
+              Link to collection of all the group's memberships. The list will only include the memberships in projects
+              in which the requesting user has the necessary permissions.
+              
+              **Resource**: MemberCollection
+              
+              # Conditions
+              **Permission**: `view members` or `manage members` in any project
       members:
-        allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The list all all the users that are members of the group
+        type: array
+        items:
+          allOf:
+            - $ref: './link.yml'
+            - description: |-
+                One of the members of the group.
+                
+                **Resource**: User
+                
+                # Conditions
+                **Permission**: `manage members` in any project to read & admin to write
 
-            **Resource**: UserCollection
-
-            # Conditions
-
-            **Permission**: manage members in any project to read & admin to write
+example:
+  _type: Group
+  id: 9
+  name: Stormtroopers
+  createdAt: '2022-09-23T11:06:36Z'
+  updatedAt: '2022-09-23T11:06:36Z'
+  _links:
+    self:
+      href: '/api/v3/groups/9'
+      title: Stormtroopers
+    delete:
+      href: '/api/v3/group/9'
+      method: delete
+    memberships:
+      href: '/api/v3/memberships?filters=[{"principal":{"operator":"=","values":["9"]}}]'
+      title: Memberships
+    updateImmediately:
+      href: '/api/v3/group/9'
+      method: patch
+    members:
+      - href: '/api/v3/users/363'
+        title: ST-097E
+      - href: '/api/v3/users/60'
+        title: ST-C-334

@@ -28,22 +28,20 @@ cs:
         title: "Pull Requesty"
         copy_menu:
           label: Git snippets
-          description: Kopírovat snippety gitu do schránky
+          description: Kopírovat úryvky gitu do schránky
         git_actions:
           branch_name: Název pobočky
           commit_message: Commit message
           cmd: Vytvořit větev s prázdným commitem
           title: Rychlé snippety pro Git
-          copy_success: '✅ Zkopírováno!'
+          copy_success: '✅ zkopírováno!'
           copy_error: '❌ Kopírování selhalo!'
       tab_prs:
         empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
       github_actions: Akce
       pull_requests:
-        message: >
-          Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}. #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}.
-        referenced_message: >
-          %{github_user_link} referenced this work package in pull request #%{pr_number} %{pr_link} on %{repository_link}. #%{pr_number} %{pr_link} on %{repository_link}.
+        message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
+        referenced_message: "%{github_user_link} referenced this work package in pull request #%{pr_number} %{pr_link} on %{repository_link}."
         states:
           opened: 'otevřeno'
           closed: 'zavřeno'

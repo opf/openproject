@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-RSpec.describe 'group memberships through groups page', js: true do
+RSpec.describe 'group memberships through groups page',
+               js: true,
+               with_cuprite: true do
   shared_let(:admin) { create(:admin) }
   let!(:group) { create(:group, lastname: "Bob's Team") }
 
@@ -45,7 +47,7 @@ RSpec.describe 'group memberships through groups page', js: true do
 
       groups_page.delete_group! "Bob's Team"
 
-      expect(page).to have_selector('.flash.info', text: I18n.t(:notice_deletion_scheduled))
+      expect(page).to have_selector('.op-toast.-info', text: I18n.t(:notice_deletion_scheduled))
       expect(groups_page).to have_group "Bob's Team"
 
       perform_enqueued_jobs

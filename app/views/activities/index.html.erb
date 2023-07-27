@@ -70,37 +70,4 @@ See COPYRIGHT and LICENSE files for more details.
                               { format: 'atom', from: nil, key: User.current.rss_key }) %>
 <% end %>
 
-<% content_for :sidebar do %>
-  <%= form_tag({}, method: :get) do %>
-    <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= t(:description_filter) %></legend>
-    <p>
-      <%= hidden_field_tag "event_types[]" %>
-      <% @activity.event_types.sort_by { |type| t("activity.filter.#{type.singularize}") }.each do |t| %>
-        <% unless t == "project_attributes" %>
-          <%= check_box_tag "event_types[]", t, @activity.scope.include?(t), id: "event_types_#{t}" %>
-          <label for="event_types_<%=t%>"><%=t("activity.filter.#{t.singularize}")%></label>
-          <br />
-        <% end -%>
-      <% end %>
-    </p>
-    <p>
-      <% if @activity.event_types.include?("project_attributes") %>
-        <%= check_box_tag "event_types[]", "project_attributes", @activity.scope.include?("project_attributes"), id: "event_types_project_attributes" %>
-        <label for="event_types_project_attributes"><%=t("activity.filter.project_attribute")%></label>
-        <br />
-      <% end -%>
-      <% if @project && @project.descendants.active.any? %>
-        <%= hidden_field_tag 'with_subprojects', 0 %>
-        <%= check_box_tag 'with_subprojects', 1, @with_subprojects, id: "with_subprojects" %>
-        <label for="with_subprojects"><%=t("activity.filter.subproject")%></label>
-      <% end %>
-    </p>
-    <%= hidden_field_tag('user_id', params[:user_id]) if params[:user_id].present? %>
-    <%= hidden_field_tag('from', params[:from]) if params[:from].present? %>
-    <p><%= submit_tag t(:button_apply), class: 'button -small -highlight', name: nil %></p>
-    </fieldset>
-  <% end %>
-<% end %>
-
 <% html_title(t(:label_activity), @author) -%>

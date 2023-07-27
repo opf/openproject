@@ -177,8 +177,8 @@ module Pages
       # wait for reload of lists to start and finish
       # Not sure if that's the most reliable way to do it, but there is nothing visible
       # about the PATCH request being sent and executed successfully after moving a card.
-      expect(page).to have_selector('.loading-indicator', wait: 5)
-      expect(page).not_to have_selector('.loading-indicator')
+      expect(page).to have_selector('.op-loading-indicator', wait: 5)
+      expect(page).not_to have_selector('.op-loading-indicator')
     end
 
     def add_list(option: nil, query: option)

@@ -169,10 +169,21 @@ bg:
     index:
       no_results_title_text: В момента има няма цветове.
       no_results_content_text: Създайте нов цвят
-    label_no_color: 'No color'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "No color"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Действия'
+      name: "Действия"
       add: 'Add action'
       assigned_to:
         executing_user_value: '(Assign to executing user)'
@@ -198,8 +209,6 @@ bg:
       no_results_content_text: Създаване на ново персонализирано поле
   concatenation:
     single: 'or'
-  documentation:
-    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -253,6 +262,8 @@ bg:
         no_results_title_text: В момента няма налични потребителски полета.
       types:
         no_results_title_text: В момента има няма типове на разположение.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: В момента няма версии за проекта.
         no_results_content_text: Създаване на нова версия
@@ -269,7 +280,9 @@ bg:
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: В момента няма възможност за достъп на повече потребители.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Няма новини за докладване.
@@ -277,6 +290,8 @@ bg:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
       unknown_browser: 'unknown browser'
       unknown_os: 'unknown operating system'
       current: 'Current session'
@@ -526,6 +541,7 @@ bg:
         hours: "Часове"
         spent_on: "Дата"
         type: "Тип"
+        ongoing: "Ongoing"
       type:
         description: "Default text for description"
         attribute_groups: ''
@@ -1064,6 +1080,8 @@ bg:
   button_configure: "Конфигуриране"
   button_continue: "Продължаване"
   button_copy: "Копиране"
+  button_copy_to_clipboard: "Копирай в буфер"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Копирате и следвайте"
   button_create: "Създаване"
   button_create_and_continue: "Създаване и продължи"
@@ -1295,12 +1313,13 @@ bg:
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Моля, изберете потребител и роля."
   error_code: "Error %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: '"Бисквитката" на OpenProject липсва. Моля уверете се че cookies са активирани, тъй като това приложение не функционира правилно без тях.'
   error_custom_option_not_found: "Опцията не съществува."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
@@ -1319,6 +1338,7 @@ bg:
   error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Възникна грешка при опит за достъп до хранилището: %{value}"
   error_scm_not_found: "Търсеното или негова версия не е намерено в хранилището."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "Състоянието на работният пакет не може да бъде изтрито, тъй като се използва от най-малко един работен пакет."
   error_unable_delete_default_status: "Не може да се изтрие статуса на работният пакет по подразбиране. Моля изберете друг статус по подразбиране за работен пакет преди да изтриете настоящият."
   error_unable_to_connect: "Не може да се свърже (%{value})"
@@ -1408,6 +1428,22 @@ bg:
     imagemagick: 'Магия на изображението'
   journals:
     changes_retracted: "The changes were retracted."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'Configuration guide'
     get_in_touch: "You have questions? Get in touch with us."
@@ -1432,6 +1468,26 @@ bg:
         action: "Действие"
         expiration: "Изтича на"
       indefinite_expiration: "Никога"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1474,6 +1530,7 @@ bg:
   label_age: "Възраст"
   label_ago: "преди"
   label_all: "всички"
+  label_all_projects: "All projects"
   label_all_time: "всички времена"
   label_all_words: "Всички думи"
   label_all_open_wps: "Всичко отворено"
@@ -1490,6 +1547,7 @@ bg:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Приложен статус"
   label_archive_project: "Archive project"
+  label_archived_projects: "Archived projects"
   label_ascending: "Възходящо"
   label_assigned_to_me_work_packages: "Работни пакети, възложени на мен"
   label_associated_revisions: "Асоциирани ревизии"
@@ -1559,8 +1617,8 @@ bg:
   label_confirmation: "Потвърждение"
   label_contains: "съдържа"
   label_content: "Съдържание"
+  label_color_plural: "Colors"
   label_copied: "копирани"
-  label_copy_to_clipboard: "Копирай в буфер"
   label_copy_same_as_target: "Също като целта"
   label_copy_source: "Източник"
   label_copy_target: "Цел"
@@ -1577,7 +1635,7 @@ bg:
   label_database_version: "Версия на PostgreSQL"
   label_date: "Дата"
   label_date_and_time: "Дата и час"
-  label_date_format: "Date format"
+  label_date_format: "Формат на датата"
   label_date_from: "От"
   label_date_from_to: "От %{start} до %{end}"
   label_date_to: "До"
@@ -1588,6 +1646,7 @@ bg:
   label_deleted: "изтрит"
   label_deleted_custom_field: "(изтрито потребителско поле)"
   label_deleted_custom_option: "(deleted option)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Низходящо"
   label_details: "Подробности"
@@ -1626,11 +1685,14 @@ bg:
   label_equals: "е"
   label_everywhere: "навсякъде"
   label_example: "Пример"
+  label_experimental: "Experimental"
+  label_i_am_member: "I am member"
   label_import: "Import"
   label_export_to: "Also available in:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} час"
   label_f_hour_plural: "%{value} часа"
+  label_favoured: "Favoured"
   label_feed_plural: "Информационни канали"
   label_feeds_access_key: "RSS ключ за достъп"
   label_feeds_access_key_created_on: "RSS ключ за достъп създаден преди %{value}"
@@ -1662,6 +1724,7 @@ bg:
   label_hierarchy_leaf: "Йерархично листо"
   label_home: "Начална страница"
   label_subject_or_id: "Тема или №"
+  label_icalendar: "iCalendar"
   label_impressum: "Legal notice"
   label_in: "в"
   label_in_less_than: "в по-малко от"
@@ -1705,6 +1768,7 @@ bg:
   label_logged_as: "Влезли сте като"
   label_login: "Влизане"
   label_custom_logo: "Custom logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "Изход"
@@ -1824,7 +1888,8 @@ bg:
   label_project_new: "Нов проект"
   label_project_plural: "Проекти"
   label_project_settings: "Настройки на проекта"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} проекти с помощта на %{storage} диск за съхранение на данни"
   label_project_view_all: "Покажи всички проекти"
   label_project_show_details: "Show project details"
@@ -1912,6 +1977,7 @@ bg:
   label_this_week: "тази седмица"
   label_this_year: "тази година"
   label_time_entry_plural: "Отработено време"
+  label_title: "Title"
   label_projects_menu: "Проекти"
   label_today: "днес"
   label_top_menu: "Главно меню"
@@ -2062,6 +2128,7 @@ bg:
       more_to_see:
         one: 'There is 1 more work package with notifications.'
         other: 'There are %{count} more work packages with notifications.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Watched'
         assigned: 'Assigned'
@@ -2240,7 +2307,8 @@ bg:
   permission_add_messages: "Post messages"
   permission_add_project: "Създаване на проект"
   permission_archive_project: "Archive project"
-  permission_manage_user: "Създавайте и редактирайте потребители"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Създаване на подпроекти"
   permission_add_work_package_watchers: "Добавяне на наблюдатели"
@@ -2331,7 +2399,7 @@ bg:
       archived: "Archived"
   project_module_activity: "Активност"
   project_module_forums: "Форуми"
-  project_module_work_package_tracking: "Проследяване на работен пакет"
+  project_module_work_package_tracking: "Работни пакети"
   project_module_news: "Новини"
   project_module_repository: "Хранилище"
   project_module_wiki: "Wiki"
@@ -2505,7 +2573,7 @@ bg:
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Allow cross-project work package relations"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "Date"
+  setting_date_format: "Дата"
   setting_default_language: "Език по подразбиране"
   setting_default_projects_modules: "Default enabled modules for new projects"
   setting_default_projects_public: "New projects are public by default"
@@ -2517,7 +2585,7 @@ bg:
   setting_enabled_scm: "Enabled SCM"
   setting_enabled_projects_columns: "Вижда се в списъка с проекти"
   setting_feeds_enabled: "Enable Feeds"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Име на хост"
@@ -2568,7 +2636,7 @@ bg:
   setting_start_of_week: "Week starts on"
   setting_sys_api_enabled: "Enable repository management web service"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
-  setting_time_format: "Time"
+  setting_time_format: "Час"
   setting_accessibility_mode_for_anonymous: "Разрешаване на достъпен режим за анонимни потребители"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
@@ -2581,29 +2649,20 @@ bg:
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   setting_working_days: "Working days"
   settings:
-    general: "Общ"
-    other: "Други"
-    passwords: "Пароли"
-    session: "Сесия"
-    brute_force_prevention: "Automated user blocking"
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
-    notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-    display:
+    brute_force_prevention: "Automated user blocking"
+    date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
-      first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
-    projects:
-      section_new_projects: "Настройки за нови проекти"
-      section_project_overview: "Настройки за списък с преглед на проекти"
-    user:
-      default_preferences: "Настройки по подразбиране"
-      display_format: "Display format"
-      deletion: "Deletion"
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
+    general: "Общ"
     highlighting:
       mode_long:
         inline: "Highlight attribute(s) inline"
@@ -2611,6 +2670,24 @@ bg:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
+    notifications:
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+    other: "Други"
+    passwords: "Пароли"
+    projects:
+      section_new_projects: "Настройки за нови проекти"
+      section_project_overview: "Настройки за списък с преглед на проекти"
+    session: "Сесия"
+    user:
+      default_preferences: "Настройки по подразбиране"
+      display_format: "Display format"
+      deletion: "Deletion"
     working_days:
       section_work_week: "Work week"
       section_holidays_and_closures: "Holidays and closures"
@@ -2652,10 +2729,12 @@ bg:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    This is the tiny icon that appears in your browser window/tab next to the page's title. It's needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It's needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Database allows TSVector (optional)"
   text_default_administrator_account_changed: "Default administrator account changed"
   text_default_encoding: "Default: UTF-8"
@@ -2732,6 +2811,11 @@ bg:
   text_zoom_in: "Приближаване"
   text_zoom_out: "Отдалечаване"
   text_setup_mail_configuration: "Конфигуриране на вашия имейл доставчик"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "сутрин"
     formats:
@@ -2744,153 +2828,6 @@ bg:
     show: "Show timeframe"
     end: "до"
     start: "от"
-  timelines:
-    admin_menu:
-      color: "Цвят"
-      colors: "Цветове"
-    associations: "Зависимости"
-    button_delete_all: "Изтриване на всичко"
-    change: "Change in planning"
-    children: "Дъщерни елементи"
-    color_could_not_be_saved: "Color could not be saved"
-    current_planning: "Current planning"
-    dates: "Дати"
-    dates_are_calculated_based_on_sub_elements: "Dates are calculated based on sub elements."
-    delete_all: "Изтриване на всичко"
-    delete_thing: "Изтрий"
-    duration: "Продължителност"
-    duration_days:
-      one: "1 ден"
-      other: "%{count} дни"
-    edit_color: "Редактиране на цвета"
-    edit_thing: "Редактиране"
-    edit_timeline: "Edit timeline report %{timeline}"
-    delete_timeline: "Delete timeline report %{timeline}"
-    empty: "(празно)"
-    enable_type_in_project: 'Enable type "%{type}"'
-    end: "Край"
-    errors:
-      not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
-      report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
-      report_epicfail: "The timeline could not be loaded due to an unexpected error."
-      report_timeout: "The timeline could not be loaded in a reasonable amount of time."
-    filter:
-      errors:
-        timeframe_start: "The timeframe start "
-        timeframe_end: "The timeframe end "
-        compare_to_relative: "The value of the relative comparison "
-        compare_to_absolute: "The value of the absolute comparison "
-        planning_element_time_relative_one: "The start for work packages in a certain timeframe "
-        planning_element_time_relative_two: "The end for work packages in a certain timeframe "
-        planning_element_time_absolute_one: "The start for work packages in a certain timeframe  "
-        planning_element_time_absolute_two: "The end for work packages in a certain timeframe  "
-      sort:
-        sortation: "Подреждане по"
-        alphabet: "азбучно"
-        explicit_order: "explicit order"
-        project_sortation: "Sort projects by"
-        date: "дата"
-        default: "default"
-      column:
-        assigned_to: "Изпълнител"
-        type: "Тип"
-        due_date: "Крайна дата"
-        name: "Име"
-        status: "Състояние"
-        start_date: "Начална дата"
-      columns: "Колони"
-      comparisons: "Сравнения"
-      comparison:
-        absolute: "Абсолютно"
-        none: "None"
-        relative: "Относително"
-        compare_relative_prefix: "Compare current planning to"
-        compare_relative_suffix: "преди"
-        compare_absolute: "Compare current planning to %{date}"
-      time_relative:
-        days: "дни"
-        weeks: "седмици"
-        months: "месеци"
-      exclude_own_work_packages: "Hide work packages from this project"
-      exclude_reporters: "Hide other projects"
-      exclude_empty: "Hide empty projects"
-      grouping: "Групиране"
-      grouping_hide_group: "Hide group \"%{group}\""
-      grouping_one: "First grouping criterion"
-      grouping_one_phrase: "Is a subproject of"
-      grouping_other: "Други"
-      hide_chart: "Hide chart"
-      noneElement: "(none)"
-      noneSelection: "(none)"
-      outline: "Initial outline expansion"
-      parent: "Show subprojects of"
-      work_package_responsible: "Show work packages with accountable"
-      work_package_assignee: "Show work packages with assignee"
-      types: "Show types"
-      status: "Show status"
-      project_time_filter: "Projects with a work package of a certain type in a certain timeframe"
-      project_time_filter_timeframe: "Timeframe"
-      project_time_filter_historical_from: "от"
-      project_time_filter_historical_to: "до"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago, %{end_label} %{endspan}%{endspanunit} from now"
-      project_filters: "Filter projects"
-      project_responsible: "Show projects with accountable"
-      project_status: "Show project status"
-      timeframe: "Show timeframe"
-      timeframe_end: "до"
-      timeframe_start: "от"
-      timeline: "Общи настройки"
-      zoom: "Zoom factor"
-    history: "История"
-    new_color: "Нов цвят"
-    new_association: "Нова зависимост"
-    new_work_package: "Нов работен пакет"
-    new_reporting: "New reporting"
-    new_timeline: "New timeline report"
-    no_projects_for_reporting_available: "There are no projects to which a reporting association can be created."
-    no_right_to_view_timeline: "You do not have the necessary permission to view the linked timeline."
-    no_timeline_for_id: "There is no timeline with ID %{id}."
-    notice_successful_deleted_all_elements: "Successfully deleted all elements"
-    outline: "Reset Outline"
-    outlines:
-      aggregation: "Show aggregations only"
-      level1: "Expand level 1"
-      level2: "Expand level 2"
-      level3: "Expand level 3"
-      level4: "Expand level 4"
-      level5: "Expand level 5"
-      all: "Показване на всичко"
-    reporting_for_project:
-      show: "Status reported to project: %{title}"
-      edit_delete: "status report for project: %{title}"
-      history: "History for status for project: %{title}"
-    reporting:
-      delete: "Delete status: %{comment}"
-      edit: "Edit status: %{comment}"
-      show: "Status: %{comment}"
-    planning_element_update: "Update: %{title}"
-    type_could_not_be_saved: "Type could not be saved"
-    reporting_could_not_be_saved: "Reporting could not be saved"
-    properties: "Свойства"
-    really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
-    really_delete_reporting: >
-      Are you sure, you want to delete the following reporting? Previous reporting statuses will be deleted, too.
-    start: "Start"
-    timeline: "Timeline report"
-    timelines: "Timeline reports"
-    settings: "Timelines"
-    vertical_work_package: "Vertical work packages"
-    you_are_viewing_the_selected_timeline: "You are viewing the selected timeline report"
-    zoom:
-      in: "Приближаване"
-      out: "Отдалечаване"
-      days: "Дни"
-      weeks: "Седмици"
-      months: "Месеци"
-      quarters: "Tримесечие"
-      years: "Години"
   title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
   title_enterprise_upgrade: "Upgrade to unlock more users."
   tooltip_user_default_timezone: >

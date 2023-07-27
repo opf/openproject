@@ -31,7 +31,7 @@ module RbMasterBacklogsHelper
 
   def render_backlog_menu(backlog)
     # associated javascript defined in taskboard.js
-    content_tag(:div, class: 'menu') do
+    content_tag(:div, class: 'backlog-menu') do
       [
         content_tag(:div, '', class: "menu-trigger icon-context icon-pulldown icon-small"),
         content_tag(:ul, class: 'items') do
@@ -72,29 +72,11 @@ module RbMasterBacklogsHelper
                                     project_id: @project,
                                     sprint_id: backlog.sprint)
 
-    if @export_card_config_meta[:count] > 0
-      items[:configs] = export_export_cards_link(backlog)
-    end
-
     if current_user.allowed_to?(:manage_versions, @project)
       items[:properties] = properties_link(backlog)
     end
 
     items
-  end
-
-  def export_export_cards_link(backlog)
-    if @export_card_config_meta[:count] == 1
-      link_to(I18n.t(:label_backlogs_export_card_export),
-              controller: '/rb_export_card_configurations',
-              action: 'show',
-              project_id: @project,
-              sprint_id: backlog.sprint,
-              id: @export_card_config_meta[:default],
-              format: :pdf)
-    else
-      export_modal_link(backlog)
-    end
   end
 
   def properties_link(backlog)
@@ -103,12 +85,6 @@ module RbMasterBacklogsHelper
     version_path = edit_version_path(backlog.sprint, back_url: back_path, project_id: @project.id)
 
     link_to(I18n.t(:'backlogs.properties'), version_path)
-  end
-
-  def export_modal_link(backlog, options = {})
-    path = backlogs_project_sprint_export_card_configurations_path(@project.id, backlog.sprint.id)
-    html_id = "modal_work_package_#{SecureRandom.hex(10)}"
-    link_to(I18n.t(:label_backlogs_export_card_export), path, options.merge(id: html_id, 'data-modal': ''))
   end
 
   def sprint_backlog_menu_items_for(backlog)

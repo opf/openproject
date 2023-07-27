@@ -94,7 +94,7 @@
           padding-bottom: 2px
 
           h3.attributes-group--header-text
-            line-height: calc(var(--work-package-details--tab-height) - 10px)
+            line-height: calc(30px)
 
   &--split-right
     min-width: 530px
@@ -131,17 +131,6 @@
       display: block !important
       visibility: hidden
 
-  &--resizer
-    position: sticky
-    top: 50%
-    bottom: 50%
-    width: 18px
-    .work-packages--resizer
-      left: -2px
-      width: 18px
-      &::before
-        left: 0
-
 .nosidebar
   ul.subject-header
     width: 67%
@@ -150,13 +139,13 @@
       &.inline-edit
         width: 75%
 
-@media only screen and (max-width: 1280px)
+@media only screen and (max-width: $breakpoint-xl)
   .work-packages--details
     @at-root
       .detailsViewMenuItem
         display: block
 
-@media only screen and (max-width: 78rem)
+@media only screen and (max-width: $breakpoint-lg)
   .work-packages--show-view
     // Important for Safari
     height: initial
@@ -164,7 +153,7 @@
     overflow: visible
     flex-basis: initial !important
 
-@media only screen and (max-width: 679px)
+@media only screen and (max-width: $breakpoint-sm)
   #toolbar
     #toolbar-items
       margin-left: 0
@@ -182,9 +171,9 @@
 
 .work-packages--show-view
   .wp-show--header-container
-    @media only screen and (max-width: 679px)
+    @media only screen and (max-width: $breakpoint-sm)
       width: 100%
-    @media only screen and (min-width: 679px)
+    @include breakpoint(sm)
       flex: 1 1 auto
 
   .subject-header

@@ -143,7 +143,7 @@ module API
                  getter: ->(*) { represented.mail },
                  setter: ->(fragment:, represented:, **) { represented.mail = fragment },
                  exec_context: :decorator,
-                 cache_if: -> { !represented.pref.hide_mail || represented.new_record? || current_user_can_manage? }
+                 cache_if: -> { represented.pref.can_expose_mail? || represented.new_record? || current_user_can_manage? }
 
         property :avatar,
                  exec_context: :decorator,
@@ -228,7 +228,11 @@ module API
         end
 
         def current_user_can_manage?
-          current_user && (current_user.allowed_to_globally?(:manage_user) || current_user_is_self?)
+          current_user && (
+            current_user.allowed_to_globally?(:manage_user) ||
+            current_user.allowed_to_globally?(:create_user) ||
+            current_user_is_self?
+          )
         end
 
         private

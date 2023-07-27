@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Enterprise Edition token domain', js: true do
+RSpec.describe 'Enterprise Edition token domain',
+               js: true,
+               with_cuprite: true do
   let(:current_user) { create(:admin) }
   let(:ee_token) { Rails.root.join("spec/fixtures/ee_tokens/v2_1_user_localhost_3001.token").read }
 
@@ -40,9 +42,11 @@ RSpec.describe 'Enterprise Edition token domain', js: true do
     before do
       visit '/admin/enterprise'
 
-      fill_in "enterprise_token[encoded_token]", with: ee_token
+      within '#new_enterprise_token' do
+        fill_in "enterprise_token[encoded_token]", with: ee_token
 
-      click_on "Save"
+        click_on "Save"
+      end
     end
   end
 
@@ -51,9 +55,6 @@ RSpec.describe 'Enterprise Edition token domain', js: true do
       it_behaves_like 'when uploading a token' do
         it 'saves the token' do
           expect(body).to have_text 'Successful update.'
-        end
-
-        it 'shows the token info' do
           expect(page).to have_selector('[data-qa-selector="ee-active-trial-email"]', text: 'operations@openproject.com')
         end
       end
@@ -81,9 +82,10 @@ RSpec.describe 'Enterprise Edition token domain', js: true do
       before do
         click_on "Replace your current support token"
 
-        fill_in "enterprise_token[encoded_token]", with: new_token
-
-        click_on "Save"
+        within '#new_enterprise_token' do
+          fill_in "enterprise_token[encoded_token]", with: new_token
+          click_on "Save"
+        end
       end
     end
 

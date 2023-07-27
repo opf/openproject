@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Projects custom fields', js: true do
+RSpec.describe 'Projects custom fields',
+               js: true,
+               with_cuprite: true do
   shared_let(:current_user) { create(:admin) }
   shared_let(:project) { create(:project, name: 'Foo project', identifier: 'foo-project') }
   let(:name_field) { FormFields::InputFormField.new :name }
@@ -161,7 +163,8 @@ RSpec.describe 'Projects custom fields', js: true do
     end
 
     context 'with german locale',
-            driver: :firefox_de do
+            driver: :firefox_de,
+            with_cuprite: false do
       let(:current_user) { create(:admin, language: 'de') }
 
       it 'displays the float with german locale' do
@@ -274,6 +277,18 @@ RSpec.describe 'Projects custom fields', js: true do
       project.reload
       cv = project.custom_values.find_by(custom_field_id: custom_field.id).typed_value
       expect(cv).to eq invisible_user
+    end
+
+    it 'does not show invite user button when there is no project selected' do
+      visit new_project_path
+
+      name_field.set_value 'My project name'
+
+      find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
+
+      cf_field.expect_visible
+      cf_field.expect_no_option invisible_user
+      expect(page).not_to have_selector('.ng-dropdown-footer button', text: 'Invite')
     end
   end
 end

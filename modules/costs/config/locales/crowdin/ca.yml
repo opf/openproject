@@ -80,7 +80,7 @@ ca:
   label_costlog: "Costs d'unitat registrats"
   label_cost_plural: "Costs"
   label_cost_type_plural: "Estils de cost"
-  label_cost_type_specific: "Estil de cost #%{id}: %{name}" #%{id}: %{name}"
+  label_cost_type_specific: "Estil de cost #%{id}: %{name}"
   label_costs_per_page: "Costs per pàgina"
   label_currency: "Divisa"
   label_currency_format: "Format de divisa"

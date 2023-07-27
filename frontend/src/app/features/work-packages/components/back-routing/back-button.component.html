@@ -3,9 +3,7 @@
   data-qa-selector="op-back-button"
   [ngClass]="linkClass"
   [title]="text.goBack"
-  [attr.aria-label]="text.goBack"
   (click)="goBack()"
-  type="button"
 >
-  <span class="spot-icon spot-icon_back-up op-back-button--icon"></span>
+  <op-icon icon-classes="op-back-button--icon button--icon icon-back-up"></op-icon>
 </button>

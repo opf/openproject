@@ -89,7 +89,9 @@ module Components
       end
 
       def open_select_in_step(selector, query = '')
-        search_autocomplete modal_element.find(selector),
+        select_field = modal_element.find(selector)
+
+        search_autocomplete select_field,
                             query:,
                             results_selector: 'body'
       end
@@ -128,7 +130,9 @@ module Components
       end
 
       def autocomplete(selector, query, select_text: query)
-        select_autocomplete modal_element.find(selector),
+        select_field = modal_element.find(selector, wait: 5)
+
+        select_autocomplete select_field,
                             query:,
                             select_text:,
                             results_selector: 'body'
@@ -142,6 +146,7 @@ module Components
 
       def click_next
         click_modal_button 'Next'
+        wait_for_reload
       end
 
       def invitation_message(text)

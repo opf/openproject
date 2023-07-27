@@ -116,8 +116,11 @@ $advanced-filters--grid-gap: 10px
     &:hover
       text-decoration: none
 
+.advanced-filters--remove-filter-icon
+  @extend .icon-close, .icon4
+
 .advanced-filters--add-filter-label-icon
-  margin-right: 4px
+  @extend .icon-add, .icon4
 
 .advanced-filters--add-filter-info
   @include grid-content()
@@ -137,7 +140,7 @@ $advanced-filters--grid-gap: 10px
 .work-packages-embedded-view--container .advanced-filters--container
   margin: 0 0 1rem 0
 
-@include breakpoint(680px down)
+@media screen and (max-width: $breakpoint-sm)
   .advanced-filters--filters
     .advanced-filters--filter
       grid-gap: 0 10px

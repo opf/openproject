@@ -59,7 +59,7 @@ RSpec.describe 'Managing file links in work package', js: true, webmock: true do
   before do
     allow(Storages::FileLinkSyncService).to receive(:new).and_return(sync_service)
 
-    stub_request(:get, "https://host1.example.com/ocs/v1.php/cloud/user")
+    stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user")
       .with(
         headers: {
           'Authorization' => 'Bearer 1234567890-1',

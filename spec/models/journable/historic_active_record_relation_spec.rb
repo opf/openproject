@@ -37,51 +37,32 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
   let(:wednesday) { "2022-08-03".to_datetime }
   let(:thursday) { "2022-08-04".to_datetime }
   let(:friday) { "2022-08-05".to_datetime }
-  let(:default_work_package_attributes) do
-    { description: "The work package as it is since Friday", estimated_hours: 10, project: }
-  end
   let(:work_package_attributes) { {} }
   let(:project) { create(:project) }
   let!(:work_package) do
-    new_work_package = create(:work_package, default_work_package_attributes.merge(work_package_attributes))
-    new_work_package.update_columns created_at: monday
-    new_work_package
+    create(:work_package,
+           description: "The work package as it is since Friday",
+           estimated_hours: 10,
+           project:,
+           journals: {
+             monday => { description: "The work package as it has been on Monday", estimated_hours: 5 },
+             wednesday => { description: "The work package as it has been on Wednesday", estimated_hours: 10 },
+             friday => { description: "The work package as it is since Friday", estimated_hours: 10 }
+           })
   end
   let(:journable) { work_package }
-
   let(:monday_journal) do
-    create_journal(journable: work_package, timestamp: monday,
-                   attributes: { description: "The work package as it has been on Monday", estimated_hours: 5 })
+    work_package.journals.find_by(created_at: monday)
   end
   let(:wednesday_journal) do
-    create_journal(journable: work_package, timestamp: wednesday,
-                   attributes: { description: "The work package as it has been on Wednesday", estimated_hours: 10 })
+    work_package.journals.find_by(created_at: wednesday)
   end
   let(:friday_journal) do
-    create_journal(journable: work_package, timestamp: friday,
-                   attributes: { description: "The work package as it is since Friday", estimated_hours: 10 })
+    work_package.journals.find_by(created_at: friday)
   end
 
   let(:relation) { WorkPackage.all }
   let(:historic_relation) { relation.at_timestamp(wednesday) }
-
-  def create_journal(journable:, timestamp:, attributes: {})
-    work_package_attributes = work_package.attributes.except("id")
-    journal_attributes = work_package_attributes \
-        .extract!(*Journal::WorkPackageJournal.attribute_names) \
-        .symbolize_keys.merge(attributes)
-    create(:work_package_journal,
-           journable:, created_at: timestamp, updated_at: timestamp,
-           data: build(:journal_work_package_journal, journal_attributes))
-  end
-
-  before do
-    work_package.journals.destroy_all
-    monday_journal
-    wednesday_journal
-    friday_journal
-    work_package.reload
-  end
 
   subject { historic_relation }
 

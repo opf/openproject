@@ -1,5 +1,7 @@
 name: pullpreview
 
+concurrency: ${{ github.ref }}
+
 on:
   schedule:
     # this is used to make sure no dangling resources are left
@@ -25,7 +27,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Generate .env.pullpreview file
       run: |
-        echo "OP_ADMIN_USER_SEEDER_FORCE_PASSWORD_CHANGE=off" >> .env.pullpreview
+        echo "OPENPROJECT_SEED_ADMIN_USER_PASSWORD_RESET=false" >> .env.pullpreview
         echo "OPENPROJECT_SHOW__SETTING__MISMATCH__WARNING=false" >> .env.pullpreview
         echo "OPENPROJECT_FEATURE__STORAGES__MODULE__ACTIVE=true" >> .env.pullpreview
         echo "OPENPROJECT_FEATURE__SHOW__CHANGES__ACTIVE=true" >> .env.pullpreview
@@ -42,11 +44,11 @@ jobs:
     - uses: pullpreview/action@v5
       with:
         admins: crohr,HDinger,machisuji,oliverguenther,ulferts,wielinde,b12f,cbliard
-        always_on: dev
         compose_files: docker-compose.pullpreview.yml
-        instance_type: large_2_0
+        instance_type: large
         ports: 80,443,8080
         default_port: 443
+        ttl: 10d
       env:
         AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
         AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"

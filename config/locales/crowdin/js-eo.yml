@@ -65,6 +65,8 @@ eo:
     button_confirm: "Konfirmi"
     button_continue: "Daŭrigi"
     button_copy: "Kopii"
+    button_copy_to_clipboard: "Kopii al la tondujo"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Propraj kampoj"
     button_delete: "Forigi"
@@ -105,7 +107,7 @@ eo:
       remove_from_list: 'Forigi karton de la listo'
     caption_rate_history: "Rate history"
     clipboard:
-      browser_error: "Via retumilo ne subtenas tondujan kopiadon. Bonvolu permane kopiu la elektitan tekston."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Grafika tipo'
@@ -294,6 +296,34 @@ eo:
           one: "Unua ordiga kriterio"
           two: "Dua ordiga kriterio"
           three: "Tria ordiga kriterio"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "ne"
     general_text_yes: "jes"
     general_text_No: "Ne"
@@ -327,8 +357,6 @@ eo:
       token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
       copy_url_label: "Copy URL"
       ical_generation_error_text: "An error occured while generating the iCal URL."
-      copy_url_success_text: "URL copied to clipboard."
-      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Activate"
     label_assignee: 'Asignita al'
     label_add_column_after: "Aldoni kolumnon dektre"
@@ -505,7 +533,7 @@ eo:
     label_remove_all_files: Forigi ĉiojn dosierojn
     label_add_description: "Aldonu priskribon por %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Alŝutanta dosierojn por la laborpakaĵo #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Alŝutanta dosierojn por la laborpakaĵo #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} aldonita de %{author}"
     label_files_to_upload: "Tiuj dosieroj estos alŝutitaj:"
     label_rejected_files: "Tiuj dosieroj ne estos alŝutitaj:"
@@ -738,6 +766,14 @@ eo:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'Tempoprotokolo'
+      tracking: 'Time tracking'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
@@ -796,7 +832,8 @@ eo:
     autocompleter:
       placeholder: "Tajpu por serĉi"
       notFoundText: "No items found"
-      typeToSearchText: "Tajpu por serĉi"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Elekti etikedon'
       select_branch: 'Elekti branĉon'
@@ -814,63 +851,6 @@ eo:
       activate_no: 'activate to remove the sort'
     text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt chart'
-      labels:
-        title: 'Etikeda agordo'
-        bar: 'Bretaj etikedoj'
-        left: 'Maldektre'
-        right: 'Dekstre'
-        farRight: 'Far right'
-        showNone: '-- Ne etikedo --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
-      cancel: Nnuligi
-      change: "Change in planning"
-      due_date: "Findato"
-      empty: "(empty)"
-      error: "Eraro okazis."
-      errors:
-        not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
-        report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
-        report_epicfail: "The timeline could not be loaded due to an unexpected error."
-        report_timeout: "The timeline could not be loaded in a reasonable amount of time."
-      filter:
-        grouping_other: "Aliaj"
-        noneSelection: "(neniu)"
-      name: "Nomo"
-      outline: "Reset Outline"
-      outlines:
-        aggregation: "Show aggregations only"
-        level1: "Expand level 1"
-        level2: "Expand level 2"
-        level3: "Expand level 3"
-        level4: "Expand level 4"
-        level5: "Expand level 5"
-        all: "Show all"
-      project_status: "Projecta statuso"
-      really_close_dialog: "Do you really want to close the dialog and lose the entered data?"
-      responsible: "Respondeculo"
-      save: Konservi
-      start_date: "Komencdato"
-      tooManyProjects: "Pli ol %{count} Projectoj. Bonvolu izi pli bonan filtradon!"
-      selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
-      zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
-        slider: "Zoom slider"
-        description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
     tl_toolbar:
       zooms: "Zoom level"
       outlines: "Hierarkia nivelo"
@@ -935,10 +915,10 @@ eo:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filter work packages'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Klaki ĉi tie por aldoni novan laborpakaĵon al tiu ĉi listo'
@@ -1177,10 +1157,11 @@ eo:
       button_deactivate: 'Malaktivigi zen reĝimo'
     global_search:
       all_projects: "En ĉiuj projektoj"
-      search: "Search"
       close_search: "Fermi serĉon"
-      current_project: "En tiu ĉi projekto"
       current_project_and_all_descendants: "En tiu ĉi projekto + subprojektoj"
+      current_project: "En tiu ĉi projekto"
+      recently_viewed: "Recently viewed"
+      search: "Search"
       title:
         all_projects: "ĉiuj projektoj"
         project_and_subprojects: "kaj ĉiuj subprojektoj"

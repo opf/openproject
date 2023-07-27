@@ -168,10 +168,21 @@ pt:
     index:
       no_results_title_text: Atualmente, não existem cores.
       no_results_content_text: Criar uma nova cor
-    label_no_color: 'Sem cor'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "Sem cor"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Ações'
+      name: "Ações"
       add: 'Adicionar ação'
       assigned_to:
         executing_user_value: '(Atribuir ao usuário que executar)'
@@ -197,8 +208,6 @@ pt:
       no_results_content_text: Criar um novo campo personalizado
   concatenation:
     single: 'ou'
-  documentation:
-    see_more_link: Para mais informações, por favor consulte nossa documentação sobre este tópico.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -252,6 +261,8 @@ pt:
         no_results_title_text: Não há campos personalizados disponíveis.
       types:
         no_results_title_text: Atualmente, não há tipos disponíveis.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: Atualmente, não há versões para o projeto.
         no_results_content_text: Criar uma nova versão
@@ -268,7 +279,9 @@ pt:
       notice_reset_token: "Foi gerado um novo token de %{type}. Seu token de acesso é:"
       token_value_warning: "Nota: Esta é a única vez que você verá este token, certifique-se de copiá-lo agora."
       no_results_title_text: Atualmente não há tokens de acesso disponíveis.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Atualmente, não há notícias para comunicar.
@@ -276,12 +289,14 @@ pt:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
-      unknown_browser: 'unknown browser'
-      unknown_os: 'unknown operating system'
-      current: 'Current session'
-      title: 'Session management'
+      browser: 'Navegador'
+      device: 'Dispositivo / OS'
+      unknown_browser: 'Navegador Desconhecido'
+      unknown_os: 'Sistema Operacional desconhecido'
+      current: 'Sessão atual'
+      title: 'Gerenciamento de sessão'
       instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
-      may_not_delete_current: 'You cannot delete your current session.'
+      may_not_delete_current: 'Você não pode deletar a sessão atual.'
     groups:
       member_in_these_groups: 'No momento, este usuário é um membro dos seguintes grupos: '
       no_results_title_text: No momento, este usuário não é membro de nenhum grupo.
@@ -494,7 +509,7 @@ pt:
           false: "privado"
         queries: "Consultas"
         status_code: 'Situação do projeto'
-        status_explanation: 'Project status description'
+        status_explanation: 'Descrição do status do projeto'
         status_codes:
           not_started: 'Não iniciado'
           on_track: 'Sob controle'
@@ -525,6 +540,7 @@ pt:
         hours: "horas"
         spent_on: "Data"
         type: "Tipo"
+        ongoing: "Em curso"
       type:
         description: "Texto padrão para descrição"
         attribute_groups: ''
@@ -702,8 +718,8 @@ pt:
         ical_token_query_assignment:
           attributes:
             name:
-              blank: "is mandatory. Please select a name."
-              not_unique: "is already in use. Please select another name."
+              blank: "é obrigatório. Por favor, selecione um nome."
+              not_unique: "já está em uso. Por favor, selecione outro nome."
         notifications:
           at_least_one_channel: 'É necessário especificar pelo menos um canal para o envio de notificações.'
           attributes:
@@ -945,8 +961,8 @@ pt:
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
-        updated: "changed from %{old_value} to %{value}"
-        logged_for: "Logged for"
+        updated: "alterado de %{old_value} para %{value}"
+        logged_for: "Registrado para"
     filter:
       changeset: "Cj de alterações"
       message: "Fóruns"
@@ -1063,6 +1079,8 @@ pt:
   button_configure: "Configurar"
   button_continue: "Continuar"
   button_copy: "Copiar"
+  button_copy_to_clipboard: "Copiar para a área de transferência"
+  button_copy_link_to_clipboard: "Link copiado da área de transferência"
   button_copy_and_follow: "Copiar e seguir"
   button_create: "Criar"
   button_create_and_continue: "Criar e continuar"
@@ -1294,12 +1312,13 @@ pt:
   error_can_not_unarchive_project: "Este projeto não pode ser desarquivado: %{errors}"
   error_check_user_and_role: "Por favor, escolha um usuário e um papel."
   error_code: "Erro %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'Está faltando o cookie do OpenProject. Por favor, certifique-se de que os cookies estão habilitados, sem os quais esta função não funcionará adequadamente.'
   error_custom_option_not_found: "A opção não existe."
   error_enterprise_activation_user_limit: "Sua conta não pôde ser ativada (limite de usuários atingido). Por favor, contate o administrador para obter acesso."
   error_enterprise_token_invalid_domain: "A edição Enterprise não esta ativa. Seu domínio do token Enterprise (%{actual}) não corresponde ao nome do host do sistema (%{expected})."
   error_failed_to_delete_entry: 'Falha ao excluir esta entrada.'
-  error_in_dependent: "Erro ao tentar alterar o objeto dependente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Erro ao tentar alterar o objeto dependente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Erro ao tentar criar objeto dependente: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Valor selecionado inválido."
   error_journal_attribute_not_present: "O diário não contem atributo %{attribute}."
@@ -1318,6 +1337,7 @@ pt:
   error_password_change_failed: 'Ocorreu um erro durante a tentativa de alterar a senha.'
   error_scm_command_failed: "Ocorreu um erro ao tentar acessar o repositório: %{value}"
   error_scm_not_found: "A entrada ou a revisão não foi encontrada no repositório."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "A situação de pacote de trabalho não pode ser excluída, pois ela é usada por ao menos um pacote de trabalho."
   error_unable_delete_default_status: "Não é possível excluir a situação padrão de pacotes de trabalho. Selecione outra situação padrão de pacote de trabalho antes de excluir a atual."
   error_unable_to_connect: "Não é possível conectar (%{value})"
@@ -1354,9 +1374,9 @@ pt:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_overview_table: "PDF Table"
-      pdf_report_with_images: "PDF Report with images"
-      pdf_report: "PDF Report"
+      pdf_overview_table: "Tabela PDF"
+      pdf_report_with_images: "Relatório em PDF com imagens"
+      pdf_report: "Relatório em PDF"
     image:
       omitted: "Imagem não exportada."
     units:
@@ -1407,6 +1427,22 @@ pt:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "As mudanças foram retraídas."
+    caused_changes:
+      dates_changed: "Data modificada"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} agora é um dia útil"
+          non_working: "%{day} agora é um dia não útil"
+        dates:
+          working: "%{date} agora está funcionando"
+          non_working: "%{date} não está funcionando agora"
   links:
     configuration_guide: 'Guia de configuração'
     get_in_touch: "Com dúvidas? Entre em contato conosco."
@@ -1431,6 +1467,26 @@ pt:
         action: "Ação"
         expiration: "Expira"
       indefinite_expiration: "Nunca"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Enviar notificações para está ação "
     work_packages:
@@ -1473,6 +1529,7 @@ pt:
   label_age: "Idade"
   label_ago: "dias atrás"
   label_all: "todos"
+  label_all_projects: "All projects"
   label_all_time: "todos os tempos"
   label_all_words: "Todas as palavras"
   label_all_open_wps: "Tudo aberto"
@@ -1489,6 +1546,7 @@ pt:
   label_ical_access_key_revoke: "Revogar"
   label_applied_status: "Situação aplicada"
   label_archive_project: "Arquivar projeto"
+  label_archived_projects: "Archived projects"
   label_ascending: "Ascendente"
   label_assigned_to_me_work_packages: "Pacotes de trabalho atribuídos a mim"
   label_associated_revisions: "Revisões associadas"
@@ -1558,8 +1616,8 @@ pt:
   label_confirmation: "Confirmação"
   label_contains: "contém"
   label_content: "Conteúdo"
+  label_color_plural: "Colors"
   label_copied: "copiado"
-  label_copy_to_clipboard: "Copiar para a área de transferência"
   label_copy_same_as_target: "Igual ao destino"
   label_copy_source: "Fonte"
   label_copy_target: "Destino"
@@ -1576,7 +1634,7 @@ pt:
   label_database_version: "Versão do PostgreSQL"
   label_date: "Data"
   label_date_and_time: "Data e hora"
-  label_date_format: "Date format"
+  label_date_format: "Formato de data"
   label_date_from: "De"
   label_date_from_to: "De %{start} até %{end}"
   label_date_to: "Para"
@@ -1587,6 +1645,7 @@ pt:
   label_deleted: "excluído"
   label_deleted_custom_field: "(campo personalizado excluído)"
   label_deleted_custom_option: "(opção excluída)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(algum valor faltando ou falta permissões para acessar)"
   label_descending: "Decrescente"
   label_details: "Detalhes"
@@ -1625,11 +1684,14 @@ pt:
   label_equals: "é"
   label_everywhere: "em todos os lugares"
   label_example: "Exemplo"
+  label_experimental: "Experimental"
+  label_i_am_member: "I am member"
   label_import: "Importar"
   label_export_to: "Também disponível em:"
   label_expanded_click_to_collapse: "Expandido. Clique para recolher"
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} horas"
+  label_favoured: "Favoured"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "Chave de acesso RSS"
   label_feeds_access_key_created_on: "Chave de acesso RSS criada %{value} atrás"
@@ -1661,6 +1723,7 @@ pt:
   label_hierarchy_leaf: "Folha de hierarquia"
   label_home: "Início"
   label_subject_or_id: "Assunto ou ID"
+  label_icalendar: "iCalendar"
   label_impressum: "Aviso legal"
   label_in: "em"
   label_in_less_than: "em menos de"
@@ -1704,6 +1767,7 @@ pt:
   label_logged_as: "Conectado como"
   label_login: "Fazer login"
   label_custom_logo: "Logotipo personalizado"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Ícone personalizado"
   label_custom_touch_icon: "Ícone de toque personalizado"
   label_logout: "Desconectar"
@@ -1823,7 +1887,8 @@ pt:
   label_project_new: "Novo projeto"
   label_project_plural: "Projetos"
   label_project_settings: "Configurações do projeto"
-  label_project_storage_plural: "Armazenamentos"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} projetos usando %{storage} de armazenamento em disco"
   label_project_view_all: "Ver todos os projetos"
   label_project_show_details: "Mostrar detalhes do projeto"
@@ -1911,6 +1976,7 @@ pt:
   label_this_week: "esta semana"
   label_this_year: "este ano"
   label_time_entry_plural: "Tempo gasto"
+  label_title: "Title"
   label_projects_menu: "Projetos"
   label_today: "hoje"
   label_top_menu: "Menu superior"
@@ -2061,6 +2127,7 @@ pt:
       more_to_see:
         one: 'Há mais 1 pacote de trabalho com notificações.'
         other: 'Há mais %{count} pacotes de trabalho com notificações.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Assistido'
         assigned: 'Atribuído'
@@ -2237,7 +2304,8 @@ pt:
   permission_add_messages: "Postar mensagens"
   permission_add_project: "Criar Projeto"
   permission_archive_project: "Arquivar projeto"
-  permission_manage_user: "Criar e editar usuários"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Criar, editar e excluir usuários do espaço reservado"
   permission_add_subprojects: "Criar subprojetos"
   permission_add_work_package_watchers: "Adicionar observadores"
@@ -2328,7 +2396,7 @@ pt:
       archived: "Arquivado"
   project_module_activity: "Atividade"
   project_module_forums: "Fóruns"
-  project_module_work_package_tracking: "Acompanhamento de pacote de trabalho"
+  project_module_work_package_tracking: "Pacotes de trabalho"
   project_module_news: "Notícias"
   project_module_repository: "Repositório"
   project_module_wiki: "Wiki"
@@ -2502,7 +2570,7 @@ pt:
   setting_consent_decline_mail: "E-mail de contato do consentimento"
   setting_cross_project_work_package_relations: "Permitir relacionamento entre pacotes de trabalho de diferentes projetos"
   setting_first_week_of_year: "A primeira semana no ano contém"
-  setting_date_format: "Date"
+  setting_date_format: "Data"
   setting_default_language: "Idioma padrão"
   setting_default_projects_modules: "Módulos habilitados por padrão para novos projetos"
   setting_default_projects_public: "Novos projetos são públicos por padrão"
@@ -2514,7 +2582,7 @@ pt:
   setting_enabled_scm: "SCM habilitado"
   setting_enabled_projects_columns: "Visível na lista de projetos"
   setting_feeds_enabled: "Habilitar Feeds"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Limite de conteúdo de feed"
   setting_file_max_size_displayed: "Tamanho máximo de arquivos de texto exibidos em linha"
   setting_host_name: "Nome do servidor"
@@ -2565,7 +2633,7 @@ pt:
   setting_start_of_week: "A semana começa em"
   setting_sys_api_enabled: "Habilitar o serviço web de gerenciamento de repositório"
   setting_sys_api_description: "O serviço de web de gerenciamento de repositório fornece integração e autorização de usuário para acessar repositórios."
-  setting_time_format: "Time"
+  setting_time_format: "Horário"
   setting_accessibility_mode_for_anonymous: "Ativar o modo de acessibilidade para usuários anônimos"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Fuso horário padrão"
@@ -2576,31 +2644,22 @@ pt:
   setting_welcome_on_homescreen: "Exibir bloco de boas-vindas na tela inicial"
   setting_work_package_list_default_highlighting_mode: "Modo de destaque padrão"
   setting_work_package_list_default_highlighted_attributes: "Atributos embutidos com destaque padrão"
-  setting_working_days: "Working days"
+  setting_working_days: "Dias úteis"
   settings:
-    general: "Geral"
-    other: "Outro"
-    passwords: "Senhas"
-    session: "Sessão"
-    brute_force_prevention: "Bloqueio automatizado de usuário"
     attachments:
       whitelist_text_html: >
         Defina uma lista de extensões de arquivo válidas e/ou tipos MIME para arquivos carregados. <br/> Insira as extensões de arquivo  (e.x., <code>%{ext_example}</code>) ou tipos de mime (e.x., <code>%{mime_example}</code>). <br/> Deixe em branco para permitir que qualquer tipo de arquivo seja carregado. Vários valores permitidos (uma linha para cada valor).
-    notifications:
-      events_explanation: 'Governa para qual evento um e-mail é enviado. Como as notificações de pacotes de trabalhos podem ser configuradas especificamente para todos os usuários, eles são excluídos desta lista.'
-      delay_minutes_explanation: "O envio de e-mail pode ser atrasado para permitir que os usuários com a notificação configurada no aplicativo confirmem a notificação dentro da aplicação antes que o e-mail seja enviado. Usuários que lerem uma notificação no aplicativo não receberão um e-mail dessa mesma notificação"
-    display:
+    brute_force_prevention: "Bloqueio automatizado de usuário"
+    date_format:
       first_date_of_week_and_year_set: >
-        Se as opções "%{day_of_week_setting_name}" ou "%{first_week_setting_name}" forem definidas, a outra também deve ser definida, para evitar inconsistências no front-end.
-      first_week_of_year_text: >
-        Selecione a data de janeiro que está contida na primeira semana do ano. Este valor, juntamente com o primeiro dia da semana, determina o número total de semanas num ano.
-    projects:
-      section_new_projects: "Configurações para novos projetos"
-      section_project_overview: "Configurações para a lista de visão geral do projeto"
-    user:
-      default_preferences: "Preferências padrão"
-      display_format: "Display format"
-      deletion: "Exclusão"
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
+    general: "Geral"
     highlighting:
       mode_long:
         inline: "Destacar atributo(s) embutido(s)"
@@ -2608,8 +2667,26 @@ pt:
         status: "Toda a linha por Situação"
         type: "Toda linha por Tipo"
         priority: "Toda linha por Prioridade"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
+    notifications:
+      events_explanation: 'Governa para qual evento um e-mail é enviado. Como as notificações de pacotes de trabalhos podem ser configuradas especificamente para todos os usuários, eles são excluídos desta lista.'
+      delay_minutes_explanation: "O envio de e-mail pode ser atrasado para permitir que os usuários com a notificação configurada no aplicativo confirmem a notificação dentro da aplicação antes que o e-mail seja enviado. Usuários que lerem uma notificação no aplicativo não receberão um e-mail dessa mesma notificação"
+    other: "Outro"
+    passwords: "Senhas"
+    projects:
+      section_new_projects: "Configurações para novos projetos"
+      section_project_overview: "Configurações para a lista de visão geral do projeto"
+    session: "Sessão"
+    user:
+      default_preferences: "Preferências padrão"
+      display_format: "Display format"
+      deletion: "Exclusão"
     working_days:
-      section_work_week: "Work week"
+      section_work_week: "Semana de trabalho"
       section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
@@ -2649,10 +2726,12 @@ pt:
     A edição Enterprise (Edição corporativa) contará com estes complementos adicionais para campos personalizados dos Projetos: <br> <ul> <li><b>Adicionar campos personalizados para projetos a sua Lista de projetos para criar uma visão do portfólio de projetos</b></li> </ul>
   text_custom_logo_instructions: >
     Recomenda-se um logotipo branco sobre fundo transparente. Para obter melhores resultados em telas convencionais e de retina, certifique-se de que as dimensões de sua imagem são de 460px por 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Este é o pequeno ícone que aparece em sua janela/aba do navegador ao lado do título da página. É necessário ser um arquivo de imagem PNG de 32 por 32 pixels com fundo transparente.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Este é o ícone que aparece no seu celular ou tablet quando você coloca um marcador no sua tela inicial. É necessário um arquivo de imagem PNG de 180 por 180 pixels. Por favor, certifique-se de que plano de fundo da imagem não é transparente caso contrário vai ficar ruim no iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Banco de dados permite TSVector (opcional)"
   text_default_administrator_account_changed: "Conta do administrador padrão alterada"
   text_default_encoding: "Padrão: UTF-8"
@@ -2729,6 +2808,11 @@ pt:
   text_zoom_in: "Aumentar zoom"
   text_zoom_out: "Diminuir zoom"
   text_setup_mail_configuration: "Configurar seu provedor de email"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "am"
     formats:
@@ -2741,153 +2825,6 @@ pt:
     show: "Mostrar intervalo de tempo"
     end: "para"
     start: "de"
-  timelines:
-    admin_menu:
-      color: "Cor"
-      colors: "Cores"
-    associations: "Dependências"
-    button_delete_all: "Excluir tudo"
-    change: "Modificar no planejamento"
-    children: "Elementos filhos"
-    color_could_not_be_saved: "Cor não pôde ser salva"
-    current_planning: "Planejamento atual"
-    dates: "Datas"
-    dates_are_calculated_based_on_sub_elements: "Datas são calculadas com base em subelementos."
-    delete_all: "Excluir tudo"
-    delete_thing: "Excluir"
-    duration: "Duração"
-    duration_days:
-      one: "1 dia"
-      other: "%{count} dias"
-    edit_color: "Editar cor"
-    edit_thing: "Editar"
-    edit_timeline: "Editar relatório de cronograma %{timeline}"
-    delete_timeline: "Excluir relatório de cronograma %{timeline}"
-    empty: "(vazio)"
-    enable_type_in_project: 'Habilitar o tipo "%{type}"'
-    end: "Fim"
-    errors:
-      not_implemented: "O cronograma não poderá ser processado porque ele usa um recurso que ainda não foi implementado."
-      report_comparison: "O cronograma não pode processar as comparações configuradas. Por favor, verifique a seção apropriada na configuração, redefina-a, pois pode ajudar a resolver este problema."
-      report_epicfail: "O cronograma não pôde ser carregado devido a um erro inesperado."
-      report_timeout: "O cronograma não pôde ser carregado em uma quantidade razoável de tempo."
-    filter:
-      errors:
-        timeframe_start: "O início do prazo "
-        timeframe_end: "O prazo final "
-        compare_to_relative: "O valor de comparação relativa "
-        compare_to_absolute: "O valor da comparação absoluta "
-        planning_element_time_relative_one: "O início para os pacotes de trabalho em um determinado período de tempo  "
-        planning_element_time_relative_two: "O fim para os pacotes de trabalho em um determinado período de tempo  "
-        planning_element_time_absolute_one: "O início para os pacotes de trabalho num determinado prazo  "
-        planning_element_time_absolute_two: "O fim para os pacotes de trabalho num determinado prazo  "
-      sort:
-        sortation: "Ordenar por"
-        alphabet: "alfabeto"
-        explicit_order: "ordem explícita"
-        project_sortation: "Ordenar projetos por"
-        date: "data"
-        default: "padrão"
-      column:
-        assigned_to: "Atribuição"
-        type: "Tipo"
-        due_date: "Data de término"
-        name: "Nome"
-        status: "Situação"
-        start_date: "Data de início"
-      columns: "Colunas"
-      comparisons: "Comparações"
-      comparison:
-        absolute: "Absoluto"
-        none: "Nenhum"
-        relative: "Relativo"
-        compare_relative_prefix: "Comparar o planejamento atual com"
-        compare_relative_suffix: "atrás"
-        compare_absolute: "Comparar o planejamento atual com %{date}"
-      time_relative:
-        days: "dias"
-        weeks: "semanas"
-        months: "meses"
-      exclude_own_work_packages: "Ocultar os pacotes de trabalho deste projeto"
-      exclude_reporters: "Ocultar outros projetos"
-      exclude_empty: "Esconder projetos vazios"
-      grouping: "Agrupamento"
-      grouping_hide_group: "Esconder o grupo \"%{group}\""
-      grouping_one: "Primeiro critério de agrupamento"
-      grouping_one_phrase: "É um subprojeto de"
-      grouping_other: "Outro"
-      hide_chart: "Esconder gráfico"
-      noneElement: "(nenhum)"
-      noneSelection: "(nenhum)"
-      outline: "Expansão do esboço inicial"
-      parent: "Visualizar subprojetos de"
-      work_package_responsible: "Mostrar os pacotes de trabalho com responsável"
-      work_package_assignee: "Mostrar os pacotes de trabalho com seus responsáveis"
-      types: "Mostrar tipos"
-      status: "Mostrar situação"
-      project_time_filter: "Projetos com um pacote de trabalho de um determinado tipo em um determinado período de tempo"
-      project_time_filter_timeframe: "Período de tempo"
-      project_time_filter_historical_from: "de"
-      project_time_filter_historical_to: "para"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} atrás, %{end_label} %{endspan}%{endspanunit} agora"
-      project_filters: "Filtrar projetos"
-      project_responsible: "Mostrar projetos com responsável"
-      project_status: "Mostrar a situação do projeto"
-      timeframe: "Mostrar calendário"
-      timeframe_end: "para"
-      timeframe_start: "de"
-      timeline: "Configurações Gerais"
-      zoom: "Fator de zoom"
-    history: "História"
-    new_color: "Nova cor"
-    new_association: "Nova dependência"
-    new_work_package: "Novo pacote de trabalho"
-    new_reporting: "Novo relatório"
-    new_timeline: "Novo relatório de cronograma"
-    no_projects_for_reporting_available: "Não existem projetos para que uma associação de relatórios possa ser criada."
-    no_right_to_view_timeline: "Você não tem a permissão necessária para visualizar o cronograma vinculado."
-    no_timeline_for_id: "Não há nenhum cronograma com ID %{id}."
-    notice_successful_deleted_all_elements: "Todos elementos excluídos com sucesso"
-    outline: "Redefinir o contorno"
-    outlines:
-      aggregation: "Mostrar somente agregações"
-      level1: "Expandir nível 1"
-      level2: "Expandir nível 2"
-      level3: "Expandir nível 3"
-      level4: "Expandir nível 4"
-      level5: "Expandir nível 5"
-      all: "Mostrar todos"
-    reporting_for_project:
-      show: "Situação comunicada ao projeto: %{title}"
-      edit_delete: "relatório de situações para o projeto: %{title}"
-      history: "História para a situação de projeto: %{title}"
-    reporting:
-      delete: "Excluir situação: %{comment}"
-      edit: "Editar situação: %{comment}"
-      show: "Situação: %{comment}"
-    planning_element_update: "Atualização: %{title}"
-    type_could_not_be_saved: "Tipo não pôde ser salvo"
-    reporting_could_not_be_saved: "Relatórios não podem ser salvos"
-    properties: "Propriedades"
-    really_delete_color: >
-      Tem certeza que deseja excluir a seguinte cor? Tipos usando essa cor não serão excluídos.
-    really_delete_reporting: >
-      Tem certeza que deseja excluir o seguinte relatório? Relatórios de situação anteriores também serão excluídos.
-    start: "Início"
-    timeline: "Relatório de cronograma"
-    timelines: "Relatórios de cronogramas"
-    settings: "Cronogramas"
-    vertical_work_package: "Pacotes de trabalho verticais"
-    you_are_viewing_the_selected_timeline: "Você está visualizando o relatório do cronograma selecionado"
-    zoom:
-      in: "Aumentar zoom"
-      out: "Diminuir zoom"
-      days: "Dias"
-      weeks: "Semanas"
-      months: "Meses"
-      quarters: "Trimestres"
-      years: "Anos"
   title_remove_and_delete_user: Remover o usuário convidado do projeto e excluí-lo.
   title_enterprise_upgrade: "Atualizar para desbloquear mais usuários."
   tooltip_user_default_timezone: >

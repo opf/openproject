@@ -169,10 +169,21 @@ ar:
     index:
       no_results_title_text: لا يوجد حالياً ألوان.
       no_results_content_text: إنشاء لون جديد
-    label_no_color: 'No color'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "No color"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Actions'
+      name: "Actions"
       add: 'إضافة إجراء'
       assigned_to:
         executing_user_value: '(Assign to executing user)'
@@ -198,8 +209,6 @@ ar:
       no_results_content_text: إنشاء ملف زبون جديد
   concatenation:
     single: 'أو'
-  documentation:
-    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -253,6 +262,8 @@ ar:
         no_results_title_text: لا تتوفر حالياً أية حقول متاحة.
       types:
         no_results_title_text: لا يوجد حالياً أي أنواع متاحة.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: لا يوجد حالياً أية إصدارات للمشروع.
         no_results_content_text: إنشاء إصدار جديد
@@ -269,7 +280,9 @@ ar:
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: لا يوجد حالياً رموز وصول مميزة متاحة.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: لا يوجد حالياً أخبار لتقدم.
@@ -277,6 +290,8 @@ ar:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
       unknown_browser: 'unknown browser'
       unknown_os: 'unknown operating system'
       current: 'Current session'
@@ -530,6 +545,7 @@ ar:
         hours: "الساعات"
         spent_on: "التاريخ"
         type: "النّوع"
+        ongoing: "Ongoing"
       type:
         description: "Default text for description"
         attribute_groups: ''
@@ -1092,6 +1108,8 @@ ar:
   button_configure: "تكوين"
   button_continue: "Continue"
   button_copy: "انسخ"
+  button_copy_to_clipboard: "نسخ إلى الحافظة"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "انسخ واتبع"
   button_create: "إنشاء"
   button_create_and_continue: "إنشاء ومواصلة"
@@ -1370,12 +1388,13 @@ ar:
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "الرجاءاختر مستخدم ودور."
   error_code: "Error %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'ملف تعريف الارتباط "كوكي" لأوبن بروجكت مفقود. من فضلك تأكد من أن يتم تمكين ملفات تعريف الارتباط "كوكيز"، لأن هذا التطبيق لن يعمل بشكل صحيح دون ذلك.'
   error_custom_option_not_found: "Option does not exist."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
@@ -1394,6 +1413,7 @@ ar:
   error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "حدث خطأ عند محاولة الوصول إلى مستودع الوثائق: %{value}"
   error_scm_not_found: "لم يتم العثور على إدخال أو مراجعة في مستودع الوثائق."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "لا يمكن حذف حالة حزمة العمل نظراً لأنها تستخدم من قبل مجموعة عمل واحدة على الأقل."
   error_unable_delete_default_status: "غير قادر على حذف حالة مجموعة العمل الافتراضية. الرجاء تحديد وضع آخر مجموعة العمل الافتراضي قبل حذف الحالي."
   error_unable_to_connect: "غير قادر على الاتصال (%{value})"
@@ -1483,6 +1503,22 @@ ar:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'Configuration guide'
     get_in_touch: "You have questions? Get in touch with us."
@@ -1507,6 +1543,26 @@ ar:
         action: "الإجراء"
         expiration: "انتهاء الصلاحية"
       indefinite_expiration: "أبداً"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1549,6 +1605,7 @@ ar:
   label_age: "العمر"
   label_ago: "أيام مضت"
   label_all: "الكل"
+  label_all_projects: "All projects"
   label_all_time: "كل الوقت"
   label_all_words: "كافة الكلمات"
   label_all_open_wps: "All open"
@@ -1565,6 +1622,7 @@ ar:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "الحالة المطبقة"
   label_archive_project: "Archive project"
+  label_archived_projects: "Archived projects"
   label_ascending: "ترتيب تصاعدي"
   label_assigned_to_me_work_packages: "مجموعات العمل الموكلة لي"
   label_associated_revisions: "التعديلات المرتبطة بها"
@@ -1634,8 +1692,8 @@ ar:
   label_confirmation: "تأكيد"
   label_contains: "يحتوي على"
   label_content: "المحتوى"
+  label_color_plural: "Colors"
   label_copied: "تم النسخ"
-  label_copy_to_clipboard: "نسخ إلى الحافظة"
   label_copy_same_as_target: "نفس الهدف"
   label_copy_source: "المصدر"
   label_copy_target: "الهدف"
@@ -1652,7 +1710,7 @@ ar:
   label_database_version: "PostgreSQL version"
   label_date: "التاريخ"
   label_date_and_time: "Date and time"
-  label_date_format: "Date format"
+  label_date_format: "صيغة التاريخ"
   label_date_from: "من"
   label_date_from_to: "من %{start} إلى %{end}"
   label_date_to: "إلى"
@@ -1663,6 +1721,7 @@ ar:
   label_deleted: "محذوف"
   label_deleted_custom_field: "(حذف حقل مخصص)"
   label_deleted_custom_option: "(deleted option)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "ترتيب تنازلي"
   label_details: "تفاصيل"
@@ -1701,11 +1760,14 @@ ar:
   label_equals: "يكون"
   label_everywhere: "everywhere"
   label_example: "مثال"
+  label_experimental: "شارة تجريبية"
+  label_i_am_member: "I am member"
   label_import: "Import"
   label_export_to: "متاح أيضاً في:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "ساعة%{value}"
   label_f_hour_plural: "ساعات%{value}"
+  label_favoured: "Favoured"
   label_feed_plural: "التدفقات"
   label_feeds_access_key: "مفتاح الوصول ل RSS"
   label_feeds_access_key_created_on: "مفتاح الوصول إلى RSS التي تم إنشاؤها %{value} من قبل"
@@ -1737,6 +1799,7 @@ ar:
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "الصفحة الرئيسية"
   label_subject_or_id: "Subject or ID"
+  label_icalendar: "iCalendar"
   label_impressum: "Legal notice"
   label_in: "في"
   label_in_less_than: "في أقل من"
@@ -1780,6 +1843,7 @@ ar:
   label_logged_as: "تسجيل الدخول ك"
   label_login: "تسجيل الدخول"
   label_custom_logo: "Custom logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "تسجيل الخروج"
@@ -1899,7 +1963,8 @@ ar:
   label_project_new: "مشروع جديد"
   label_project_plural: "المشاريع"
   label_project_settings: "إعدادات المشروع"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "مشاريع%{count} باستخدام التخزين %{storage} على القرص"
   label_project_view_all: "عرض جميع المشاريع"
   label_project_show_details: "Show project details"
@@ -1987,6 +2052,7 @@ ar:
   label_this_week: "هذا الأسبوع"
   label_this_year: "هذه السنة"
   label_time_entry_plural: "الوقت المستهلك"
+  label_title: "Title"
   label_projects_menu: "المشاريع"
   label_today: "اليوم"
   label_top_menu: "القائمة العليا"
@@ -2137,6 +2203,7 @@ ar:
         few: 'There are %{count} more work packages with notifications.'
         many: 'There are %{count} more work packages with notifications.'
         other: 'There are %{count} more work packages with notifications.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Watched'
         assigned: 'Assigned'
@@ -2319,7 +2386,8 @@ ar:
   permission_add_messages: "نشر الرسائل"
   permission_add_project: "إنشاء مشروع"
   permission_archive_project: "Archive project"
-  permission_manage_user: "Create and edit users"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "إنشاء مشاريع فرعية"
   permission_add_work_package_watchers: "إضافة مراقب"
@@ -2410,7 +2478,7 @@ ar:
       archived: "Archived"
   project_module_activity: "النشاط"
   project_module_forums: "منتديات"
-  project_module_work_package_tracking: "تتبع مجموعة العمل"
+  project_module_work_package_tracking: "مجموعات العمل"
   project_module_news: "الأخبار"
   project_module_repository: "مستودع البيانات"
   project_module_wiki: "Wiki"
@@ -2582,7 +2650,7 @@ ar:
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "السماح بعلاقات عبر-المشروع مجموعة العمل"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "Date"
+  setting_date_format: "التاريخ"
   setting_default_language: "اللغة الافتراضية"
   setting_default_projects_modules: "وحدات التمكين الافتراضية للمشاريع الجديدة"
   setting_default_projects_public: "هناك مشاريع جديدة عامة بشكل افتراضي"
@@ -2594,7 +2662,7 @@ ar:
   setting_enabled_scm: "تمكين SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "تمكين التغذية"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "حد محتوى تغذية"
   setting_file_max_size_displayed: "عرض الحد الأقصى لحجم الملفات النصية المضمنة في السطر"
   setting_host_name: "إسم المضيف"
@@ -2645,7 +2713,7 @@ ar:
   setting_start_of_week: "Week starts on"
   setting_sys_api_enabled: "تمكين خدمة ويب إدارة المستودع"
   setting_sys_api_description: "ويوفر خدمة ويب إدارة المستودع التكامل و إذن للمستخدم  للوصول إلى المستودعات."
-  setting_time_format: "Time"
+  setting_time_format: "الوقت"
   setting_accessibility_mode_for_anonymous: "تمكين وضع إمكانية الوصول للمستخدمين المجهولين"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
@@ -2658,29 +2726,20 @@ ar:
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   setting_working_days: "Working days"
   settings:
-    general: "عام"
-    other: "اخرى"
-    passwords: "كلمات المرور"
-    session: "الجلسة"
-    brute_force_prevention: "حجب المستخدم الآلي"
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
-    notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-    display:
+    brute_force_prevention: "حجب المستخدم الآلي"
+    date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
-      first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
-    projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
-    user:
-      default_preferences: "Default preferences"
-      display_format: "Display format"
-      deletion: "Deletion"
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
+    general: "عام"
     highlighting:
       mode_long:
         inline: "Highlight attribute(s) inline"
@@ -2688,6 +2747,24 @@ ar:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
+    notifications:
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+    other: "اخرى"
+    passwords: "كلمات المرور"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
+    session: "الجلسة"
+    user:
+      default_preferences: "Default preferences"
+      display_format: "Display format"
+      deletion: "Deletion"
     working_days:
       section_work_week: "Work week"
       section_holidays_and_closures: "Holidays and closures"
@@ -2729,10 +2806,12 @@ ar:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    This is the tiny icon that appears in your browser window/tab next to the page's title. It's needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It's needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Database allows TSVector (optional)"
   text_default_administrator_account_changed: "تغيير حساب المسؤول الافتراضي"
   text_default_encoding: "الافتراضي: UTF-8"
@@ -2809,6 +2888,11 @@ ar:
   text_zoom_in: "تكبير"
   text_zoom_out: "تصغير"
   text_setup_mail_configuration: "ضبط مزوِّدك للبريد الإلكتروني"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "وأنا"
     formats:
@@ -2821,157 +2905,6 @@ ar:
     show: "إظهار الإطار الزمني"
     end: "الى"
     start: "من"
-  timelines:
-    admin_menu:
-      color: "اللون"
-      colors: "الألوان"
-    associations: "الاعتماديات"
-    button_delete_all: "حذف الكل"
-    change: "تغيير في تخطيط"
-    children: "العناصر التابعة"
-    color_could_not_be_saved: "تعذر حفظ الألوان"
-    current_planning: "التخطيط الحالي"
-    dates: "التواريخ"
-    dates_are_calculated_based_on_sub_elements: "يتم حساب التواريخ استناداً إلى عناصر فرعية."
-    delete_all: "حذف الكل"
-    delete_thing: "احذف"
-    duration: "المدّة"
-    duration_days:
-      zero: "%{count} يوم"
-      one: "%{count} يوم"
-      two: "%{count} يوم"
-      few: "%{count} يوم"
-      many: "%{count} يوم"
-      other: "%{count} يوم"
-    edit_color: "تحرير الألوان"
-    edit_thing: "تعديل"
-    edit_timeline: "تحرير تقرير الخط الزمني %{timeline}"
-    delete_timeline: "حذف الجدول الزمني تقرير %{timeline}"
-    empty: "(فارغ)"
-    enable_type_in_project: 'تمكين نوع "%{type}"'
-    end: "النهاية"
-    errors:
-      not_implemented: "لا يمكن أن يقدم الخط الزمني لأنه يستخدم ميزة التي لم تنفذ بعد."
-      report_comparison: "يمكن تقديم جدول زمني لا مقارنات تم تكوينه. الرجاء التحقق من المقطع المناسب في التكوين، إعادة تعيينه فإنه يمكن أن يساعد في حل هذه المشكلة."
-      report_epicfail: "لا يمكن تحميل المخطط الزمني بسبب خطأ غير متوقع."
-      report_timeout: "لا يمكن تحميل المخطط الزمني في كمية معقولة من الزمن."
-    filter:
-      errors:
-        timeframe_start: "بداية الإطار الزمني "
-        timeframe_end: "نهاية الإطار الزمني "
-        compare_to_relative: "قيمة المقارنة النسبية "
-        compare_to_absolute: "قيمة المقارنة المطلقة "
-        planning_element_time_relative_one: "البداية لحزم العمل في فترة زمنية معينة "
-        planning_element_time_relative_two: "النهاية لحزم العمل في فترة زمنية معينة "
-        planning_element_time_absolute_one: "البداية لمجموعات العمل في فترة زمنية معينة  "
-        planning_element_time_absolute_two: "النهاية لمجموعات العمل في فترة زمنية معينة  "
-      sort:
-        sortation: "التصنيف حسب"
-        alphabet: "الأبجدية"
-        explicit_order: "أمر صريح"
-        project_sortation: "فرز المشاريع حسب"
-        date: "التاريخ"
-        default: "الافتراضي"
-      column:
-        assigned_to: "المُسند إليه"
-        type: "النّوع"
-        due_date: "تاريخ الانتهاء"
-        name: "الاسم"
-        status: "الحالة"
-        start_date: "تاريخ البدء"
-      columns: "الأعمدة"
-      comparisons: "مقارنات"
-      comparison:
-        absolute: "مُطلق"
-        none: "لا شيء"
-        relative: "نسبي"
-        compare_relative_prefix: "مقارنة التخطيط الحالي ب"
-        compare_relative_suffix: "مضت"
-        compare_absolute: "مقارنة التخطيط الحالي ب %{date}"
-      time_relative:
-        days: "أيام"
-        weeks: "أسابيع"
-        months: "أشهر"
-      exclude_own_work_packages: "إخفاء مجموعات العمل من هذا المشروع"
-      exclude_reporters: "إخفاء مشاريع أخرى"
-      exclude_empty: "إخفاء مشاريع فارغة"
-      grouping: "تجميع"
-      grouping_hide_group: "إخفاء مجموعة \"%{group}\""
-      grouping_one: "معيار التجميع الأول"
-      grouping_one_phrase: "مشروع فرعي من"
-      grouping_other: "اخرى"
-      hide_chart: "إخفاء المخطط"
-      noneElement: "(بلا)"
-      noneSelection: "(بلا)"
-      outline: "توسيع المخطط الأولى"
-      parent: "إظهار المشاريع الفرعية من"
-      work_package_responsible: "Show work packages with accountable"
-      work_package_assignee: "إظهار حزم العمل مع المحال إليه"
-      types: "إظهار أنواع"
-      status: "إظهار حالة"
-      project_time_filter: "المشاريع مع مجموعة عمل من نوع معين في فترة زمنية معينة"
-      project_time_filter_timeframe: "الإطار الزمني"
-      project_time_filter_historical_from: "من"
-      project_time_filter_historical_to: "الى"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit}، %{endspan}%{endspanunit} %{end_label} من الآن"
-      project_filters: "مشاريع التصفية"
-      project_responsible: "Show projects with accountable"
-      project_status: "إظهار حالة المشروع"
-      timeframe: "إظهار الإطار الزمني"
-      timeframe_end: "الى"
-      timeframe_start: "من"
-      timeline: "الإعدادات العامة"
-      zoom: "عامل التكبير"
-    history: "تاريخ"
-    new_color: "اللون الجديد"
-    new_association: "تبعية جديدة"
-    new_work_package: "مجموعة عمل جديدة"
-    new_reporting: "تقرير جديد"
-    new_timeline: "تقرير الجدول الزمني الجديد"
-    no_projects_for_reporting_available: "وهناك مشاريع لا يمكن إنشاء ارتباط إبلاغ التي."
-    no_right_to_view_timeline: "ليس لديك الإذن اللازم لعرض الجدول الزمني المرتبط."
-    no_timeline_for_id: "لا يوجد أي جدول زمني مع %{id} معرف."
-    notice_successful_deleted_all_elements: "حذف كافة العناصر بنجاح"
-    outline: "إعادة تعيين المخطط التفصيلي"
-    outlines:
-      aggregation: "إظهار المجموعات فقط"
-      level1: "توسيع مستوى 1"
-      level2: "توسيع مستوى 2"
-      level3: "توسيع مستوى 3"
-      level4: "توسيع مستوى 4"
-      level5: "توسيع مستوى 5"
-      all: "إظهار الجميع"
-    reporting_for_project:
-      show: "تقرير عن حالة المشروع: %{title}"
-      edit_delete: "تقرير حالة عن المشروع: %{title}"
-      history: "تاريخ الحصول على حالة المشروع: %{title}"
-    reporting:
-      delete: "حذف الحالة: %{comment}"
-      edit: "تعديل الحالة: %{comment}"
-      show: "الحالة: %{comment}"
-    planning_element_update: "التحديث: %{title}"
-    type_could_not_be_saved: "لا يمكن حفظ عنصر القائمة"
-    reporting_could_not_be_saved: "التقرير غير قابل للحفظ"
-    properties: "الخصائص"
-    really_delete_color: >
-      هل أنت متأكد أنك تريد حذف الألوان التالية؟ لن يتم حذف أنواع استخدام هذا اللون.
-    really_delete_reporting: >
-      هل أنت متأكد أنك تريد حذف التقارير التالية؟ أيضا سيتم حذف الحالات المشمولة بالتقرير السابق.
-    start: "إبدأ"
-    timeline: "تقرير الجدول الزمني"
-    timelines: "تقارير الجدول الزمني"
-    settings: "الخطوط الزمنية"
-    vertical_work_package: "مجموعات العمل الرأسية"
-    you_are_viewing_the_selected_timeline: "تقوم بعرض تقرير الجدول الزمني المحدد"
-    zoom:
-      in: "تكبير"
-      out: "تصغير"
-      days: "أيام"
-      weeks: "أسابيع"
-      months: "أشهر"
-      quarters: "أرباع"
-      years: "السنوات"
   title_remove_and_delete_user: قم بإزالة المستخدم المدعوين من المشروع وحذفه/حذفها.
   title_enterprise_upgrade: "Upgrade to unlock more users."
   tooltip_user_default_timezone: >

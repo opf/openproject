@@ -2,7 +2,10 @@ require 'spec_helper'
 require 'features/page_objects/notification'
 
 # rubocop:disable RSpec/ScatteredLet
-RSpec.describe "Notification center date alerts", js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
+RSpec.describe "Notification center date alerts",
+               js: true,
+               with_cuprite: true,
+               with_settings: { journal_aggregation_time_minutes: 0 } do
   include ActiveSupport::Testing::TimeHelpers
 
   # Find an assignable time zone with the same UTC offset as the local time zone
@@ -197,6 +200,7 @@ RSpec.describe "Notification center date alerts", js: true, with_settings: { jou
     perform_enqueued_jobs
     login_as user
     visit notifications_center_path
+    wait_for_reload
   end
 
   context 'without date alerts ee' do
@@ -234,6 +238,7 @@ RSpec.describe "Notification center date alerts", js: true, with_settings: { jou
 
       # When switch to date alerts, it shows the alert, no longer the mention
       side_menu.click_item 'Date alert'
+      wait_for_network_idle
       center.expect_item(notification_wp_double_date_alert, 'Finish date is in 1 day')
       center.expect_no_item(notification_wp_double_mention)
 
@@ -250,6 +255,7 @@ RSpec.describe "Notification center date alerts", js: true, with_settings: { jou
       center.click_item notification_wp_start_past
       split_screen = Pages::SplitWorkPackage.new wp_start_past
       split_screen.expect_tab :overview
+      wait_for_network_idle
 
       # We expect no badge count
       activity_tab.expect_no_notification_badge
@@ -258,6 +264,7 @@ RSpec.describe "Notification center date alerts", js: true, with_settings: { jou
       center.click_item notification_wp_double_date_alert
       split_screen = Pages::SplitWorkPackage.new wp_double_notification
       split_screen.expect_tab :overview
+      wait_for_network_idle
 
       # We expect one badge
       activity_tab.expect_notification_count 1
@@ -265,6 +272,7 @@ RSpec.describe "Notification center date alerts", js: true, with_settings: { jou
       # When a work package is updated to a different date
       wp_double_notification.update_column(:due_date, time_zone.now + 5.days)
       page.driver.refresh
+      wait_for_reload
 
       center.expect_item(notification_wp_double_date_alert, 'Finish date is in 5 days')
       center.expect_no_item(notification_wp_double_mention)

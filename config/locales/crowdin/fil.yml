@@ -169,10 +169,21 @@ fil:
     index:
       no_results_title_text: Walang mga kasulukuyan kulay.
       no_results_content_text: Gumawa ng bagong kulay
-    label_no_color: 'No color'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "No color"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Mga aksyon'
+      name: "Mga aksyon"
       add: 'Magdagdag ng aksyon'
       assigned_to:
         executing_user_value: '(Assign to executing user)'
@@ -198,8 +209,6 @@ fil:
       no_results_content_text: Gumawa ng bagong patlang na custom
   concatenation:
     single: 'or'
-  documentation:
-    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -253,6 +262,8 @@ fil:
         no_results_title_text: Sa kasalukuyan ay walang mga custom field na available.
       types:
         no_results_title_text: Sa kasalukuyan ay walang mga uri na available.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: Sa kasalukuyan ay walang mga bersyon para sa proyekto.
         no_results_content_text: Gumawa ng bagong bersyon
@@ -269,7 +280,9 @@ fil:
       notice_reset_token: "Ang bagong %{type} token ay nabuo. Ang iyong access token ay:"
       token_value_warning: "Tandaan: Ito ay ang oras na makita mo ang token na itom, siguraduhin kopyahin ito ngayon."
       no_results_title_text: Sa kasalukuyan ay walang mga access tokens na available.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Sa kasalukuyan ay walang mga balita para ma-ireport.
@@ -277,6 +290,8 @@ fil:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
       unknown_browser: 'unknown browser'
       unknown_os: 'unknown operating system'
       current: 'Current session'
@@ -526,6 +541,7 @@ fil:
         hours: "Mga oras"
         spent_on: "Petsa"
         type: "Uri"
+        ongoing: "Ongoing"
       type:
         description: "Default text for description"
         attribute_groups: ''
@@ -1064,6 +1080,8 @@ fil:
   button_configure: "I-configure"
   button_continue: "Ipagpatuloy"
   button_copy: "Kopyahin"
+  button_copy_to_clipboard: "Kopyahin sa clipboard"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Kopyahin at sundin"
   button_create: "Lumikha"
   button_create_and_continue: "Lumikha at magpatuloy"
@@ -1295,12 +1313,13 @@ fil:
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Mangyaring pumili ng gumagamit at tungkulin."
   error_code: "Error %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'Ang OpenProject cookie ay nawawala. Mangyaring siguraduhin na ang mga cookie ay pinagana, bilang aplikasyon na ito ay hindi gumagana ng maayos na hindi kasama ang.'
   error_custom_option_not_found: "Ang opsyon ay hindi umiiral."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Nabigong burahin ang entry na ito.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
@@ -1319,6 +1338,7 @@ fil:
   error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Isang mali ang naganap nong subukam ang pag-access ng repositoryo: %{value}"
   error_scm_not_found: "Ang entry o rebisyon ay hindi natagpuan sa repositoryo."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "Ang estado ng work package ay hindi pwedeng burahin dahil ginamit ito sa kahit isang work package."
   error_unable_delete_default_status: "Hindi mabura ang default estado ng work package. Mangyaring pumili ng ibang estado ng work package bago buburahin ang kasulukuyang isa."
   error_unable_to_connect: "Hindi makakonekta (%{value})"
@@ -1408,6 +1428,22 @@ fil:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'Gabay ng kumpigurasyon'
     get_in_touch: "You have questions? Get in touch with us."
@@ -1432,6 +1468,26 @@ fil:
         action: "Aksyon"
         expiration: "Natapos"
       indefinite_expiration: "Hindi kailanman"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1474,6 +1530,7 @@ fil:
   label_age: "Edad"
   label_ago: "ang mga araw nakalipas"
   label_all: "lahat"
+  label_all_projects: "All projects"
   label_all_time: "sa lahat ng oras"
   label_all_words: "Lahat ng mga salita"
   label_all_open_wps: "All open"
@@ -1490,6 +1547,7 @@ fil:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Estadong nilapat"
   label_archive_project: "I-archive ang proyekto"
+  label_archived_projects: "Archived projects"
   label_ascending: "Pataas"
   label_assigned_to_me_work_packages: "Ang work package ay nakatakaga sa akin"
   label_associated_revisions: "Nauugnay ng mga rebisyon"
@@ -1559,8 +1617,8 @@ fil:
   label_confirmation: "Kompirmasyon"
   label_contains: "naglalaman"
   label_content: "Nilalaman"
+  label_color_plural: "Colors"
   label_copied: "kinopya"
-  label_copy_to_clipboard: "Kopyahin sa clipboard"
   label_copy_same_as_target: "Tulad bilang target"
   label_copy_source: "Pinagkukunan"
   label_copy_target: "Target"
@@ -1577,7 +1635,7 @@ fil:
   label_database_version: "PostgreSQL version"
   label_date: "Petsa"
   label_date_and_time: "Petsa at oras"
-  label_date_format: "Date format"
+  label_date_format: "Format ng petsa"
   label_date_from: "Mula sa"
   label_date_from_to: "Mula sa %{start} hanggang %{end}"
   label_date_to: "Sa"
@@ -1588,6 +1646,7 @@ fil:
   label_deleted: "binura"
   label_deleted_custom_field: "(binurang custom field)"
   label_deleted_custom_option: "(deleted option)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Pababa"
   label_details: "Mga detalye"
@@ -1626,11 +1685,14 @@ fil:
   label_equals: "ay"
   label_everywhere: "everywhere"
   label_example: "Halimbawa"
+  label_experimental: "Experimental"
+  label_i_am_member: "I am member"
   label_import: "Import"
   label_export_to: "Magagamit rin sa:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} oras"
   label_f_hour_plural: "%{value} mga oras"
+  label_favoured: "Favoured"
   label_feed_plural: "Ang mga feed"
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key na nillikha %{value} nakalipas"
@@ -1662,6 +1724,7 @@ fil:
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Tahanan"
   label_subject_or_id: "Subject or ID"
+  label_icalendar: "iCalendar"
   label_impressum: "Legal notice"
   label_in: "sa"
   label_in_less_than: "mas mababa kaysa"
@@ -1705,6 +1768,7 @@ fil:
   label_logged_as: "Naka-log in bilang"
   label_login: "Mag-sign in"
   label_custom_logo: "Custom logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Ang icon ng kustom pindutan"
   label_logout: "Mag-sign out"
@@ -1824,7 +1888,8 @@ fil:
   label_project_new: "Bagong proyekto"
   label_project_plural: "Mga proyekto"
   label_project_settings: "Ang mga setting ng proyekto"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "Ang %{count} proyekto gamit ang %{storage} lalagyan ng disk"
   label_project_view_all: "Tingnan lahat ang mga proyekto"
   label_project_show_details: "Ipakita ang mga detalye ng proyekto"
@@ -1912,6 +1977,7 @@ fil:
   label_this_week: "ngayong semana"
   label_this_year: "ngayong taon"
   label_time_entry_plural: "Nauubos na oras"
+  label_title: "Title"
   label_projects_menu: "Mga proyekto"
   label_today: "ngayon"
   label_top_menu: "Itaas na pagpipilian"
@@ -2062,6 +2128,7 @@ fil:
       more_to_see:
         one: 'There is 1 more work package with notifications.'
         other: 'There are %{count} more work packages with notifications.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Watched'
         assigned: 'Assigned'
@@ -2240,7 +2307,8 @@ fil:
   permission_add_messages: "Mga post na mensahe"
   permission_add_project: "Lumikha ng proyekto"
   permission_archive_project: "I-archive ang proyekto"
-  permission_manage_user: "Create and edit users"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Lumikha ng mga subproject"
   permission_add_work_package_watchers: "Magdagdag ng manunuod"
@@ -2331,7 +2399,7 @@ fil:
       archived: "Archived"
   project_module_activity: "Aktibidad"
   project_module_forums: "Mga forum"
-  project_module_work_package_tracking: "Ang pagtra-track ng work package"
+  project_module_work_package_tracking: "Ang mga work package"
   project_module_news: "Mga balita"
   project_module_repository: "Repositoryo"
   project_module_wiki: "Wiki"
@@ -2503,7 +2571,7 @@ fil:
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Pahintulutan ang cross-project na relasyon ng work package"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "Date"
+  setting_date_format: "Petsa"
   setting_default_language: "Default na linggwahe"
   setting_default_projects_modules: "I-default ang pinaganang mga modyul para sa bagong proyekto"
   setting_default_projects_public: "Bagong proyektong ay publiko sa pamamagitan ng default"
@@ -2515,7 +2583,7 @@ fil:
   setting_enabled_scm: "Paganahin ang SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Paganahin ang mga feed"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Limitasyon ng nilalaman na feed"
   setting_file_max_size_displayed: "Max na laki ng mga tekstong file na ipinapakita inline"
   setting_host_name: "Host name"
@@ -2566,7 +2634,7 @@ fil:
   setting_start_of_week: "Pagsisimula ng linggo sa"
   setting_sys_api_enabled: "Paganahin ang serbisyo ng repository management web"
   setting_sys_api_description: "Ang serbisyo ng repositoryo management web ay nagbibigay ng intregrasyon at user awtorisasyon para sa pag-access ng mga repositoryo."
-  setting_time_format: "Time"
+  setting_time_format: "Oras"
   setting_accessibility_mode_for_anonymous: "Paganahin ang aksebilidad mode para sa mga gumagamit ng anonymous"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Ang mga user defaullt time zone"
@@ -2579,29 +2647,20 @@ fil:
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   setting_working_days: "Working days"
   settings:
-    general: "Pangkalahatan"
-    other: "Iba pa"
-    passwords: "Ang mga password"
-    session: "Sesyon"
-    brute_force_prevention: "Naka-automate na user block"
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
-    notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-    display:
+    brute_force_prevention: "Naka-automate na user block"
+    date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
-      first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
-    projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
-    user:
-      default_preferences: "Default preferences"
-      display_format: "Display format"
-      deletion: "Deletion"
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
+    general: "Pangkalahatan"
     highlighting:
       mode_long:
         inline: "Highlight attribute(s) inline"
@@ -2609,6 +2668,24 @@ fil:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
+    notifications:
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+    other: "Iba pa"
+    passwords: "Ang mga password"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
+    session: "Sesyon"
+    user:
+      default_preferences: "Default preferences"
+      display_format: "Display format"
+      deletion: "Deletion"
     working_days:
       section_work_week: "Work week"
       section_holidays_and_closures: "Holidays and closures"
@@ -2650,10 +2727,12 @@ fil:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Ang puting logo sa transparent background ay inirerekomend. Para sa pinakamahusay na result sa dalawang, conventional at mga displey na retina, siguraduhjn ang iyong dimensyon ng larawan ay 460px by 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Ito ay ang manipis na icon na lilitaw sa iyong browser window/tab sa susunod ng pamagat na pahina. Ito ay kailangan na maging kuwadrado 32 by 32 pixels na laki PNG image file na mayroong malinaw na nakapalibot.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Ito ay ang icon na lilitaw sa iyong mobile at tablet kung maglagay ka ng bookmark sa iyong homescreen. Ito ay kinakailangan na naka-kwadrado 180 by 180 pixels na laki ng PNG image file. Mangyaring siguraduhin ang larawan nakapalibot ay hindi transparent kung hindi ito ay magiginf masamang tingnan sa IOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Ang database ay pinapayagan ang TSVector (opsyonal)"
   text_default_administrator_account_changed: "I-default ang tagapangasiwa ng pagbago ng akwant"
   text_default_encoding: "I-default: UTF-8"
@@ -2730,6 +2809,11 @@ fil:
   text_zoom_in: "Palakihin"
   text_zoom_out: "Zoom out"
   text_setup_mail_configuration: "I-configure ang iyong tagapag-bigay ng email"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "am"
     formats:
@@ -2742,153 +2826,6 @@ fil:
     show: "Magpakita ng timeframe"
     end: "sa"
     start: "mula sa"
-  timelines:
-    admin_menu:
-      color: "Kulay"
-      colors: "Mga kulay"
-    associations: "Dependencia"
-    button_delete_all: "Burahin ang lahat"
-    change: "Baguhin ang pagpaplano"
-    children: "Ang mga bata na elemento"
-    color_could_not_be_saved: "Ang kulay ay hindi dapat naka-save"
-    current_planning: "Kasulukuyang pagpaplano"
-    dates: "Mga petsa"
-    dates_are_calculated_based_on_sub_elements: "Ang mga petsa ay kinakalkula nakabase sa mga sub element."
-    delete_all: "Burahin ang lahat"
-    delete_thing: "Burahin"
-    duration: "Durasyon"
-    duration_days:
-      one: "Isang araw"
-      other: "mga Isang %{count} araw"
-    edit_color: "I-edit ang kulay"
-    edit_thing: "I-edit"
-    edit_timeline: "I-edit ang timeline ng ulat %{timeline}"
-    delete_timeline: "Burahin ang timeline ng proyekto %{timeline}"
-    empty: "(walang laman)"
-    enable_type_in_project: 'Paganahin ang uri "%{type}"'
-    end: "Katapusan"
-    errors:
-      not_implemented: "Ang timeline ay hindi dapat naka-render dahil ito ay gumagamit ng tampok na hindi pa naipapatupad."
-      report_comparison: "Ang timeline ay dapathindi naka-render ang nakaayos na paghahambing na ito. Mangyaring suriin ang nararapat na seksyon sa kumpigurasyo, pag-resetting ay maaring makatulog sa pag resolba ng problema."
-      report_epicfail: "Ang timeline ay hindi maipupuno sa kadahilanang may di inaasahang pagkakamali."
-      report_timeout: "Ang timeline ay hindi maipupuno dahil sa isang makatwirang halaga ng oras."
-    filter:
-      errors:
-        timeframe_start: "Ang timeframe ay nagsisimula "
-        timeframe_end: "Ang timeframe ay natapos na "
-        compare_to_relative: "Ang halaga ng paghahambing ng kamag-anak "
-        compare_to_absolute: "Ang halaga ng ganap na paghahambing "
-        planning_element_time_relative_one: "Ang pagsisimula ng para sa mga packages na gawain sa isang tiyak na timeframe "
-        planning_element_time_relative_two: "Ang pagtatapos sa mga packages ng gawain sa isang tiyak na timeframe "
-        planning_element_time_absolute_one: "Ang pagsisimula sa mga package ng gawain sa isang tiyak na timeframe  "
-        planning_element_time_absolute_two: "Ang pagtatapos ng mga package na gawain sa tiyak na timeframe  "
-      sort:
-        sortation: "Pag-uuri sa pamamagitan ng"
-        alphabet: "ang alpabeto"
-        explicit_order: "tahasang pagkasunud-sunod"
-        project_sortation: "Inuring mga proyekto sa pamamagitan ng"
-        date: "ang petsa"
-        default: "pasadya"
-      column:
-        assigned_to: "Naitalaga"
-        type: "Uri"
-        due_date: "Ang pagtatapos ng petsa"
-        name: "Pangalan"
-        status: "Estado"
-        start_date: "Petsa ng pagsimula"
-      columns: "Mga hanay"
-      comparisons: "Mga kahalintulad"
-      comparison:
-        absolute: "Ganap"
-        none: "Wala"
-        relative: "Ang kamag-anak"
-        compare_relative_prefix: "Ikumpara sa kasalukuyang pagpaplano sa"
-        compare_relative_suffix: "ang nakalipas"
-        compare_absolute: "Ikumpara sa kasalukyang pagpaplano sa %{date}"
-      time_relative:
-        days: "mga araw"
-        weeks: "mga linggo"
-        months: "mga buwan"
-      exclude_own_work_packages: "Itago ang mga package na gawain mula sa proeyktong ito"
-      exclude_reporters: "Itago ang iba pang mga proyekto"
-      exclude_empty: "Itago ang mga walang nilalaman na mga proyekto"
-      grouping: "Ang pagpapangkat"
-      grouping_hide_group: "Itago ang grupo na \"%{group}\""
-      grouping_one: "Unang pagpapangkat na kriterya"
-      grouping_one_phrase: "Ay isang subproject sa"
-      grouping_other: "Iba pa"
-      hide_chart: "Itago ang tsart"
-      noneElement: "(wala)"
-      noneSelection: "(wala)"
-      outline: "Paunang pagpapalawak ng balangkas"
-      parent: "Ipakita ang mga subproject sa"
-      work_package_responsible: "Show work packages with accountable"
-      work_package_assignee: "Ipakita ang mga itinalagang package na gawain"
-      types: "Ipakita ang mga uri"
-      status: "Ipakita ang estado"
-      project_time_filter: "Mga proyektong mayroong package na gawain sa isang tiyak na uri sa tiyak na timeframe"
-      project_time_filter_timeframe: "Ang timeframe"
-      project_time_filter_historical_from: "mula sa"
-      project_time_filter_historical_to: "sa"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} na ang nakakaraan, %{end_label} %{endspan}%{endspanunit} mula sa ngayon"
-      project_filters: "I-filter ang mga proyekto"
-      project_responsible: "Show projects with accountable"
-      project_status: "Ipakita ang estado ng proyekto"
-      timeframe: "Magpakita ng timeframe"
-      timeframe_end: "sa"
-      timeframe_start: "mula sa"
-      timeline: "Mga pangkalahatan na setting"
-      zoom: "Ang zoom na kadahilanan"
-    history: "Kasaysayan"
-    new_color: "Bagong kulay"
-    new_association: "Bagong dependencia"
-    new_work_package: "Bagong work package"
-    new_reporting: "Bagong pag-uulat"
-    new_timeline: "Bagong timeline na ulat"
-    no_projects_for_reporting_available: "Walang mga proyekto upang piliin kung alin proyekto asosasyon ang maaring likhain."
-    no_right_to_view_timeline: "Wala kang kailangang permiso na tingnan ang naka-link sa timeline."
-    no_timeline_for_id: "Walang timeline sa ID na %{id}."
-    notice_successful_deleted_all_elements: "Matagumpay na naibura ang mga elemento"
-    outline: "I-reset ang balangkas"
-    outlines:
-      aggregation: "Ipakita lamang ang mga pinagsama-sama"
-      level1: "Palawakin ang ika-1 na antas"
-      level2: "Palawakin ang ika-2 antas"
-      level3: "Palawakin ang ika-3 na antas"
-      level4: "Palawakin ang ika-4 na antas"
-      level5: "Palawakin ang ika-5 na antas"
-      all: "Ipakita ang lahat"
-    reporting_for_project:
-      show: "Estadong ini-ulat sa proyektong: %{title}"
-      edit_delete: "estadong ulat na para sa proyektong: %{title}"
-      history: "Kasaysayan na para sa estadong para sa proyektong: %{title}"
-    reporting:
-      delete: "Burahin ang estado: %{comment}"
-      edit: "I-edit ang estado: %{comment}"
-      show: "Estado: %{comment}"
-    planning_element_update: "I-update: %{title}"
-    type_could_not_be_saved: "Ang mga uri ay hindi mai-save"
-    reporting_could_not_be_saved: "Ang paguulat ay hindi mai-save"
-    properties: "Mga property"
-    really_delete_color: >
-      Sigurado ka ba, na gusto mong burahin ang sumusunod na kulay? Ang mga uri gamit ang kulay ay hindi mabubura.
-    really_delete_reporting: >
-      Sigurado ka ba gusto mong burahin ang sumusunod ng mga pag-uulat? Nakaraang oag-uulat ay buburahin rin.
-    start: "Simulan"
-    timeline: "Timeline na ulat"
-    timelines: "Ang mga ulat ng timeline"
-    settings: "Ang mga timeline"
-    vertical_work_package: "Pataas na work package"
-    you_are_viewing_the_selected_timeline: "Ikaw at tumatanaw sa napiling timeline na ulat"
-    zoom:
-      in: "Palakihin"
-      out: "Zoom out"
-      days: "Mga araw"
-      weeks: "Mga linggo"
-      months: "Mga buwan"
-      quarters: "Mga quarter"
-      years: "Mga taon"
   title_remove_and_delete_user: Alisin ang inimbitahan na user mula proyekto at tanggalin siya.
   title_enterprise_upgrade: "Upgrade to unlock more users."
   tooltip_user_default_timezone: >

@@ -65,6 +65,8 @@ ru:
     button_confirm: "Подтвердить"
     button_continue: "Продолжить"
     button_copy: "Копировать"
+    button_copy_to_clipboard: "Копировать в буфер обмена"
+    button_copy_link_to_clipboard: "Копировать ссылку в буфер обмена"
     button_copy_to_other_project: "Копировать в другой проект"
     button_custom-fields: "Настраиваемые поля"
     button_delete: "Удалить"
@@ -105,7 +107,7 @@ ru:
       remove_from_list: 'Удалить карту из списка'
     caption_rate_history: "История оценок"
     clipboard:
-      browser_error: "Ваш браузер не поддерживает копирование в буфер обмена. Пожалуйста, скопируйте выделенный текст вручную."
+      browser_error: "Ваш браузер не поддерживает копирование в буфер обмена. Пожалуйста, скопируйте его вручную: %{content}"
       copied_successful: "Успешно скопировано в буфер обмена!"
     chart:
       type: 'Тип диаграммы'
@@ -293,6 +295,34 @@ ru:
           one: "Первый критерий сортировки"
           two: "Второй критерий сортировки"
           three: "Третий критерий сортировки"
+    gantt_chart:
+      label: 'График Гантта'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Конфигурация метки'
+        bar: 'Панель меток'
+        left: 'Слева'
+        right: 'Справа'
+        farRight: 'Далеко справа'
+        description: >
+          Выберите атрибуты, которые вы хотите постоянно отображать в соответствующих позициях диаграммы Ганта. Обратите внимание, что при наведении курсора мыши на элемент вместо этих атрибутов будут отображаться метки даты.
+      button_activate: 'Показать график Гантта'
+      button_deactivate: 'Скрыть график Гантта'
+      filter:
+        noneSelection: "(нет)"
+      selection_mode:
+        notification: 'Щелкните по любому выделенному рабочему пакету, чтобы создать связь. Нажмите escape для отмены.'
+      zoom:
+        in: "Увеличить"
+        out: "Уменьшить"
+        auto: "Авто масштаб"
+        days: "Дней"
+        weeks: "Недель"
+        months: "Месяцев"
+        quarters: "Кварталов"
+        years: "Лет"
+        description: >
+          Выберите начальный уровень масштаба, который должен быть показан, когда автозум недоступен.
     general_text_no: "нет"
     general_text_yes: "Да"
     general_text_No: "Нет"
@@ -326,8 +356,6 @@ ru:
       token_name_description_text: "Это имя будет использоваться для выделения других маркеров в <a href=\"my/access_token\", target=\"_blank\">списке маркеров доступа</a>. Может быть использовано только один раз в календарь."
       copy_url_label: "Копировать URL"
       ical_generation_error_text: "Произошла ошибка при генерации URL-адреса iCal."
-      copy_url_success_text: "URL скопирован в буфер обмена."
-      copy_url_error_text: "Из-за ошибок браузера URL не может быть скопирован в буфер обмена. Пожалуйста, скопируйте его вручную: %{icalUrl}"
     label_activate: "Активировать"
     label_assignee: 'Ответственный'
     label_add_column_after: "Добавить столбец после"
@@ -504,7 +532,7 @@ ru:
     label_remove_all_files: Удалить все файлы
     label_add_description: "Добавить описание для %{file}"
     label_upload_notification: "Загрузка файлов..."
-    label_work_package_upload_notification: "Загрузка файлов для пакета работ #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Загрузка файлов для пакета работ #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} добавил %{author}"
     label_files_to_upload: "Эти файлы будут загружены:"
     label_rejected_files: "Эти файлы не могут быть загружены:"
@@ -739,6 +767,14 @@ ru:
     time_entry:
       work_package_required: 'Сначала необходимо выбрать пакет работ.'
       title: 'Журналировать время'
+      tracking: 'Учет времени'
+      stop: 'Стоп'
+    timer:
+      start_new_timer: 'Начать новый таймер'
+      timer_already_running: 'Для запуска нового таймера необходимо остановить текущий таймер:'
+      timer_already_stopped: 'Нет таймера для этого пакета работ, вы остановили его в другом окне?'
+      tracking_time: 'Время отслеживания'
+      button_stop: 'Остановить текущий таймер'
     two_factor_authentication:
       label_two_factor_authentication: 'Двухфакторная аутентификация'
     watchers:
@@ -797,7 +833,8 @@ ru:
     autocompleter:
       placeholder: "Введите для поиска"
       notFoundText: "Элементов не найдено"
-      typeToSearchText: "Введите для поиска"
+      project:
+        placeholder: "Выберите проект"
     repositories:
       select_tag: 'Выберите тег'
       select_branch: 'Выберите ветку'
@@ -815,63 +852,6 @@ ru:
       activate_no: 'активировать для удаления сортировки'
     text_work_packages_destroy_confirmation: "Вы уверены, что хотите удалить выбранные пакеты работ?"
     text_query_destroy_confirmation: "Уверены, что хотите удалить выбранное представление?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Диаграмма Ганта'
-      labels:
-        title: 'Настройка меток'
-        bar: 'Полоса меток'
-        left: 'Влево'
-        right: 'Вправо'
-        farRight: 'Крайний справа'
-        showNone: '-- Не метка --'
-        description: >
-          Укажите атрибуты, которые вы бы хотели видеть в диаграмме Ганта всегда. Заметьте, что при наведении указателя мыши на элемент, вместо этих атрибутов будет показана их даты.
-      button_activate: 'Показать диаграмму Ганта'
-      button_deactivate: 'Скрыть диаграмму Ганта'
-      cancel: Отмена
-      change: "Изменения в планировании"
-      due_date: "Дата окончания"
-      empty: "(пусто)"
-      error: "Произошла ошибка."
-      errors:
-        not_implemented: "График не может быть отображен, так как использует ещё не реализованную функцию."
-        report_comparison: "Невозможно отобразить заданные сравнения в графике. Пожалуйста, проверьте соответствующий раздел в конфигурации, сброс может помочь в решении проблемы."
-        report_epicfail: "График не может быть загружен из-за неожиданной ошибки."
-        report_timeout: "График не может быть загружен в разумный период времени."
-      filter:
-        grouping_other: "Другие"
-        noneSelection: "(нет)"
-      name: "Имя"
-      outline: "Сбросить схему"
-      outlines:
-        aggregation: "Показать только агрегации"
-        level1: "Развернуть уровень 1"
-        level2: "Развернуть уровень 2"
-        level3: "Развернуть уровень 3"
-        level4: "Развернуть уровень 4"
-        level5: "Развернуть уровень 5"
-        all: "Показывать всё"
-      project_status: "Статус проекта"
-      really_close_dialog: "Вы действительно хотите закрыть диалоговое окно и потерять введенные данные?"
-      responsible: "Ответственный"
-      save: Сохранить
-      start_date: "Дата начала"
-      tooManyProjects: "Больше чем %{count} проектов. Пожалуйста, используйте более точный фильтр!"
-      selection_mode:
-        notification: 'Чтобы создать связь, щелкните любой подсвеченный пакет работ. Для отмены нажмите Esc.'
-      zoom:
-        in: "Увеличить"
-        out: "Уменьшить"
-        auto: "Автоувеличение"
-        days: "Дни"
-        weeks: "Недели"
-        months: "Месяцы"
-        quarters: "Кварталы"
-        years: "Годы"
-        slider: "Ползунок масштаба"
-        description: >
-          Выберите первоначальный масштаб, при отсутствии доступа к автомасштабированию.
     tl_toolbar:
       zooms: "Масштаб"
       outlines: "Уровень иерархии"
@@ -936,10 +916,10 @@ ru:
         addition_label: 'Добавлено для просмотра в период сравнения'
         removal_label: 'Удалено из просмотра в период сравнения'
         modification_label: 'Изменено в период времени сравнения'
-        column_incompatible: 'Этот атрибут несовместим с базовой линией и не будет показывать различия.'
+        column_incompatible: 'В этом столбце не отображаются изменения в базовом режиме.'
       filters:
         title: 'Фильтровать пакеты работ'
-        baseline_incompatible: 'Этот фильтр несовместим с базовой линией и не будет включен в сравнение.'
+        baseline_incompatible: 'Этот атрибут фильтра не учитывается в базовом режиме.'
         baseline_warning: 'Базовый режим включен, но некоторые из ваших активных фильтров не включены в сравнение.'
       inline_create:
         title: 'Кликните здесь, чтобы добавить новый пакет работ в этот список'
@@ -1182,10 +1162,11 @@ ru:
       button_deactivate: 'Отключить полноэкранный режим'
     global_search:
       all_projects: "Во всех проектах"
-      search: "Искать"
       close_search: "Закрыть поиск"
-      current_project: "В этом проекте"
       current_project_and_all_descendants: "В этом проекте + подпроектах"
+      current_project: "В этом проекте"
+      recently_viewed: "Недавно просмотренные"
+      search: "Искать"
       title:
         all_projects: "все проекты"
         project_and_subprojects: "и все подпроекты"

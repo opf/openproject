@@ -65,6 +65,8 @@ it:
     button_confirm: "Conferma"
     button_continue: "Continua"
     button_copy: "Copia"
+    button_copy_to_clipboard: "Copia negli appunti"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copia su altro progetto"
     button_custom-fields: "Campo personalizzato"
     button_delete: "Cancella"
@@ -105,7 +107,7 @@ it:
       remove_from_list: 'Rimuovi la carta dall''elenco'
     caption_rate_history: "Cronologia tariffe"
     clipboard:
-      browser_error: "Il tuo browser non supporta la copia negli appunti. Copia il testo selezionato manualmente."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Copia negli appunti completata con successo!"
     chart:
       type: 'Tipo di grafico'
@@ -294,6 +296,34 @@ it:
           one: "Primo criterio di ordinamento"
           two: "Secondo criterio di ordinamento"
           three: "Terzo criterio di ordinamento"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "no"
     general_text_yes: "si"
     general_text_No: "No"
@@ -327,8 +357,6 @@ it:
       token_name_description_text: "Questo nome sarà utilizzato per distinguerlo da altri token nell'<a href=\"my/access_token\", target=\"_blank\">elenco di token d'accesso</a>. Può essere utilizzato soltanto una volta per calendario."
       copy_url_label: "Copia URL"
       ical_generation_error_text: "Si è verificato un errore generando l'URL di iCal."
-      copy_url_success_text: "URL copiato negli appunti."
-      copy_url_error_text: "A causa di errori del browser, non è stato possibile copiare l'URL negli appunti. Sei pregato di copiarlo manualmente: %{icalUrl}"
     label_activate: "Attiva"
     label_assignee: 'Assegnatario'
     label_add_column_after: "Aggiungi colonna dopo"
@@ -505,7 +533,7 @@ it:
     label_remove_all_files: Elimina tutti i file
     label_add_description: "Aggiunge una descrizione per %{file}"
     label_upload_notification: "Caricamento dei file..."
-    label_work_package_upload_notification: "Caricamento dei file per la macro-attività #%{id}: %{subject} in corso" #%{id}: %{subject} in corso"
+    label_work_package_upload_notification: "Caricamento dei file per la macro-attività #%{id}: %{subject} in corso"
     label_wp_id_added_by: "#%{id} aggiunto da%{author}"
     label_files_to_upload: "Verranno caricati questi files:"
     label_rejected_files: "Questi file non possono essere caricati:"
@@ -738,6 +766,14 @@ it:
     time_entry:
       work_package_required: 'Richiede prima di selezionare una macro-attività.'
       title: 'Registra l''orario effettuato'
+      tracking: 'Monitoraggio tempi'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticazione due fattori'
     watchers:
@@ -796,7 +832,8 @@ it:
     autocompleter:
       placeholder: "Digita per cercare"
       notFoundText: "Nessun elemento trovato"
-      typeToSearchText: "Digita per cercare"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Selezionare tag'
       select_branch: 'Selezionare ramo'
@@ -814,63 +851,6 @@ it:
       activate_no: 'attivalo per rimuovere l''ordinamento'
     text_work_packages_destroy_confirmation: "Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?"
     text_query_destroy_confirmation: "Sei sicuro di voler eliminare la vista selezionata?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Diagramma di Gantt'
-      labels:
-        title: 'Configurazione etichetta'
-        bar: 'Etichette di barra'
-        left: 'Sinistra'
-        right: 'Destra'
-        farRight: 'Estrema destra'
-        showNone: '-- Nessuna etichetta --'
-        description: >
-          Seleziona gli attributi che desideri mostrare nelle rispettive posizioni del diagramma di Gantt in ogni momento. Nota che al passaggio del mouse su un elemento, verranno visualizzate le etichette delle date anziché questi attributi.
-      button_activate: 'Mostra Diagramma di Gantt'
-      button_deactivate: 'Nascondi Diagramma di Gantt'
-      cancel: Annulla
-      change: "Cambiare nella pianificazione"
-      due_date: "Data di fine"
-      empty: "(vuoto)"
-      error: "Si è verificato un errore."
-      errors:
-        not_implemented: "Non è stato possibile renderizzare la cronologia perché utilizza una funzionalità che non è stata ancora implementata."
-        report_comparison: "La cronologia non può renderizzare i confronti configurati. Per favore controlla la sezione appropriata nella configurazione, un reset può aiutare a risolvere questo problema."
-        report_epicfail: "Non è stato possibile caricare la cronologia a causa di un errore inaspettato."
-        report_timeout: "Non è stato possibile caricare la cronologia in un lasso ti tempo ragionevole."
-      filter:
-        grouping_other: "Altro"
-        noneSelection: "(nessuno)"
-      name: "Nome"
-      outline: "Reimposta le scale"
-      outlines:
-        aggregation: "Visualizza solo le aggregazioni"
-        level1: "Espandi livello 1"
-        level2: "Espandi livello 2"
-        level3: "Espandi livello 3"
-        level4: "Espandi livello 4"
-        level5: "Espandi livello 5"
-        all: "Mostra tutti"
-      project_status: "Stato del progetto"
-      really_close_dialog: "Vuoi davvero chiudere la finestra di dialogo e perdere i dati inseriti?"
-      responsible: "Responsabile"
-      save: Salva
-      start_date: "Data di inizio"
-      tooManyProjects: "Più di %{count} Progetti. Si prega di utilizzare uno o più filtri!"
-      selection_mode:
-        notification: 'Clicca su qualsiasi macro-attività evidenziata per creare una relazione. Premi ESC per annullare.'
-      zoom:
-        in: "Zoom avanti"
-        out: "Zoom indietro"
-        auto: "Zoom automatico"
-        days: "Giorni"
-        weeks: "Settimane"
-        months: "Mesi"
-        quarters: "Trimestri"
-        years: "Anni"
-        slider: "cursore di zoom"
-        description: >
-          Seleziona il livello di zoom iniziale da mostrare quando lo zoom automatico non è disponibile.
     tl_toolbar:
       zooms: "Livello di zoom"
       outlines: "Livello della gerarchia"
@@ -935,10 +915,10 @@ it:
         addition_label: 'Aggiunto per la visualizzazione entro il periodo di confronto'
         removal_label: 'Rimosso dalla vista entro il periodo di confronto'
         modification_label: 'Modificato entro il periodo di confronto'
-        column_incompatible: 'Questo attributo non è compatibile con la base di riferimento e non mostrerà alcuna differenza.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filtra le macro-attività'
-        baseline_incompatible: 'Questo filtro è incompatibile con la base di riferimento e non sarà incluso nel confronto.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'La modalità di base di riferimento è attiva, ma alcuni dei tuoi filtri attivi non sono inclusi nel confronto.'
       inline_create:
         title: 'Clicca qui per aggiungere un nuovo work package a questa lista'
@@ -1177,10 +1157,11 @@ it:
       button_deactivate: 'Disattiva modalità zen'
     global_search:
       all_projects: "In tutti progetti"
-      search: "Cerca"
       close_search: "Chiudi ricerca"
-      current_project: "In questo progetto"
       current_project_and_all_descendants: "In questo progetto + sottoprogetti"
+      current_project: "In questo progetto"
+      recently_viewed: "Recently viewed"
+      search: "Cerca"
       title:
         all_projects: "tutti i progetti"
         project_and_subprojects: "e tutti i sottoprogetti"

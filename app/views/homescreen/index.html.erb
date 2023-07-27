@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% breadcrumb_paths(nil) %>
 <h2 class="headline--application">
-  <%= organization_icon %>
+  <span><%= organization_icon %></span>
   <%= organization_name %>
 </h2>
 
@@ -51,8 +51,8 @@ See COPYRIGHT and LICENSE files for more details.
   <% @homescreen[:links].each do |link| %>
     <% title = I18n.t(link[:label], scope: 'homescreen.links', default: I18n.t(link[:label])) %>
     <a class="homescreen--links--item" href="<%= link[:url] %>" target="_blank" title="<%= title %>">
-      <%= spot_icon(link[:icon], classnames: 'homescreen--links--item_icon') %>
-      <%= content_tag(:span, title, class: 'homescreen--links--item_label') %>
+      <%= op_icon(link[:icon]) %>
+      <%= title %>
     </a>
   <% end %>
   </section>

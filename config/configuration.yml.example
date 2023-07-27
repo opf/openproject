@@ -139,7 +139,6 @@
 #       - settings
 #       - ldap_authentication
 #       - colors
-#       - export_card_configurations
 #       - plugins
 #       - info
 #
@@ -153,7 +152,6 @@
 #   blacklisted_routes:
 #     - 'admin/info'
 #     - 'admin/plugins'
-#     - 'export_card_configurations'
 #     - 'colors'
 #     - 'settings'
 #     - 'admin/enumerations'

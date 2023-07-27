@@ -34,7 +34,11 @@ RSpec.describe Acts::Journalized::JournableDiffer do
       let(:original) do
         build_stubbed(:work_package,
                       subject: 'The original work package title',
-                      description: "The description\n")
+                      description: "The description\n",
+                      assigned_to_id: nil,
+                      schedule_manually: false,
+                      ignore_non_working_days: true,
+                      estimated_hours: 1)
       end
       let(:changed) do
         build_stubbed(:work_package,
@@ -42,14 +46,20 @@ RSpec.describe Acts::Journalized::JournableDiffer do
                       description: "The description\r\n",
                       priority: original.priority,
                       type: original.type,
-                      project: original.project)
+                      project: original.project,
+                      schedule_manually: nil,
+                      ignore_non_working_days: false,
+                      estimated_hours: nil)
       end
 
       it 'returns the changes' do
         expect(described_class.changes(original, changed))
           .to eql("subject" => [original.subject, changed.subject],
                   "author_id" => [original.author_id, changed.author_id],
-                  "status_id" => [original.status_id, changed.status_id])
+                  "status_id" => [original.status_id, changed.status_id],
+                  "schedule_manually" => [false, nil],
+                  "ignore_non_working_days" => [true, false],
+                  "estimated_hours" => [1.0, nil])
       end
     end
 
@@ -57,26 +67,37 @@ RSpec.describe Acts::Journalized::JournableDiffer do
       let(:original) do
         build_stubbed(:journal_work_package_journal,
                       subject: 'The original work package title',
-                      description: "The description\n",
+                      description: nil,
                       priority_id: 5,
                       type_id: 89,
                       project_id: 12,
-                      status_id: 45)
+                      status_id: 45,
+                      schedule_manually: nil,
+                      ignore_non_working_days: false,
+                      estimated_hours: 1)
       end
       let(:changed) do
         build_stubbed(:journal_work_package_journal,
                       subject: 'The changed work package title',
-                      description: "The description\r\n",
+                      description: '',
                       priority_id: original.priority_id,
                       type_id: original.type_id,
                       project_id: original.project_id,
-                      status_id: original.status_id + 12)
+                      status_id: original.status_id + 12,
+                      schedule_manually: false,
+                      ignore_non_working_days: true,
+                      estimated_hours: nil)
       end
 
       it 'returns the changes' do
+        # The description field changes from nil to '', but we want filter those transitions out,
+        # hence the expected hash does not contain the description related change.
         expect(described_class.changes(original, changed))
           .to eql("subject" => [original.subject, changed.subject],
-                  "status_id" => [original.status_id, changed.status_id])
+                  "status_id" => [original.status_id, changed.status_id],
+                  "schedule_manually" => [nil, false],
+                  "ignore_non_working_days" => [false, true],
+                  "estimated_hours" => [1.0, nil])
       end
     end
   end

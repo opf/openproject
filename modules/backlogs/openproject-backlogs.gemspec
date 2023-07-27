@@ -10,8 +10,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'acts_as_list', '~> 1.1.0'
 
-  s.add_dependency 'openproject-pdf_export'
-
   s.add_development_dependency 'factory_girl_rails', '~> 4.0'
   s.metadata['rubygems_mfa_required'] = 'true'
 end

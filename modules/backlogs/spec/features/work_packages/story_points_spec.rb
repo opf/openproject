@@ -64,8 +64,6 @@ RSpec.describe 'Work packages having story points', js: true do
       wp_page.expect_subject
 
       wp_page.expect_attributes storyPoints: story_points
-
-      wp_page.ensure_page_loaded
     end
   end
 end

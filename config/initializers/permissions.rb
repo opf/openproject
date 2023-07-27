@@ -50,15 +50,25 @@ Rails.application.reloader.to_prepare do
                      global: true,
                      enabled: -> { OpenProject::Configuration.backup_enabled? }
 
+      map.permission :create_user,
+                     {
+                       users: %i[index show new create resend_invitation],
+                       'users/memberships': %i[create],
+                       admin: %i[index]
+                     },
+                     require: :loggedin,
+                     global: true,
+                     contract_actions: { users: %i[read create] }
+
       map.permission :manage_user,
                      {
-                       users: %i[index show new create edit update resend_invitation],
+                       users: %i[index show edit update],
                        'users/memberships': %i[create update destroy],
                        admin: %i[index]
                      },
                      require: :loggedin,
                      global: true,
-                     contract_actions: { users: %i[create read update] }
+                     contract_actions: { users: %i[read update] }
 
       map.permission :manage_placeholder_user,
                      {
@@ -363,7 +373,7 @@ Rails.application.reloader.to_prepare do
 
     map.project_module :activity do
       map.permission :view_project_activity,
-                     { activities: [:index] },
+                     { activities: %i[index menu] },
                      public: true,
                      contract_actions: { activities: %i[read] }
     end

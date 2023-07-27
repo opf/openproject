@@ -29,6 +29,7 @@
         participants: "Deltagere"
         participants_attended: "Tilsluttete"
         participants_invited: "Inviterte"
+        project: "Project"
         start_time: "Tidspunkt"
         start_time_hour: "Starter"
     errors:
@@ -61,6 +62,13 @@
   label_meeting_agenda_close: "Lukk sakslisten for å begynne referatet"
   label_meeting_date_time: "Dato/klokkeslett"
   label_meeting_diff: "Forskjell"
+  label_upcoming_meetings: "Upcoming meetings"
+  label_past_meetings: "Past meetings"
+  label_involvement: "Involvement"
+  label_upcoming_invitations: "Upcoming invitations"
+  label_past_invitations: "Past invitations"
+  label_attendee: "Attendee"
+  label_author: "Creator"
   label_notify: "Send till gjennomgang"
   label_icalendar: "Send til iCalendar"
   label_version: "Versjon"
@@ -85,7 +93,7 @@
   text_duration_in_hours: "Varighet i timer"
   text_in_hours: "i timer"
   text_meeting_agenda_for_meeting: 'saksliste for møtet "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the agenda?"
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting agenda?"
   text_meeting_agenda_open_are_you_sure: "Dette vil overskrive alle endringer i minuttene! Vil du fortsette?"
   text_meeting_minutes_for_meeting: 'referat for møtet "%{meeting}"'
   text_review_meeting_agenda: "%{author} har lagt opp %{link} for gjennomgang."

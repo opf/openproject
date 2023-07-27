@@ -47,6 +47,8 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
 
   public buttonId = 'work-packages-filter-toggle-button';
 
+  public iconClass = 'icon-filter';
+
   public title = this.I18n.t('js.work_packages.filters.title');
 
   constructor(

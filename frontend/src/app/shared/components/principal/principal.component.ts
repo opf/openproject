@@ -28,10 +28,12 @@
 
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
   OnInit,
+  ViewEncapsulation,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -57,7 +59,9 @@ export interface PrincipalInput {
 @Component({
   template: '',
   selector: principalSelector,
+  styleUrls: ['./principal.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class OpPrincipalComponent implements OnInit {
   @Input() principal:PrincipalLike;
@@ -78,26 +82,25 @@ export class OpPrincipalComponent implements OnInit {
     readonly I18n:I18nService,
     readonly apiV3Service:ApiV3Service,
     readonly timezoneService:TimezoneService,
+    readonly cdRef:ChangeDetectorRef,
   ) {
     populateInputsFromDataset(this);
   }
 
   ngOnInit() {
-    if (!this.principal.name) {
-      return;
+    if (this.principal.name) {
+      this.principalRenderer.render(
+        this.elementRef.nativeElement as HTMLElement,
+        this.principal,
+        {
+          hide: this.hideName,
+          link: this.link,
+        },
+        {
+          hide: this.hideAvatar,
+          size: this.size,
+        },
+      );
     }
-
-    this.principalRenderer.render(
-      this.elementRef.nativeElement as HTMLElement,
-      this.principal,
-      {
-        hide: this.hideName,
-        link: this.link,
-      },
-      {
-        hide: this.hideAvatar,
-        size: this.size,
-      },
-    );
   }
 }

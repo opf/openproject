@@ -116,7 +116,7 @@ RSpec.shared_examples 'notification settings workflow' do
     end
 
     context 'without enterprise', with_ee: false do
-      it 'does not renders the date alerts' do
+      it 'does not render the date alerts' do
         # Expect default settings
         settings_page.expect_represented
 

@@ -35,6 +35,8 @@ RSpec.describe Admin::Settings::DateFormatSettingsController do
   shared_let(:user) { create(:admin) }
   current_user { user }
 
+  require_admin_and_render_template('date_format_settings')
+
   describe 'PATCH #update' do
     subject { patch 'update', params: }
 
@@ -58,7 +60,7 @@ RSpec.describe Admin::Settings::DateFormatSettingsController do
 
           expect(response).to redirect_to action: :show
           expect(flash[:error])
-            .to eq(I18n.t('settings.display.first_date_of_week_and_year_set',
+            .to eq(I18n.t('settings.date_format.first_date_of_week_and_year_set',
                           first_week_setting_name: I18n.t(:setting_first_week_of_year),
                           day_of_week_setting_name: I18n.t(:setting_start_of_week)))
         end

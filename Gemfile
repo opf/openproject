@@ -91,7 +91,7 @@ gem 'escape_utils', '~> 1.3'
 # Syntax highlighting used in html-pipeline with rouge
 gem 'rouge', '~> 4.1.0'
 # HTML sanitization used for html-pipeline
-gem 'sanitize', '~> 6.0.1'
+gem 'sanitize', '~> 6.0.2'
 # HTML autolinking for mails and urls (replaces autolink)
 gem 'rinku', '~> 2.0.4'
 # Version parsing with semver
@@ -156,7 +156,7 @@ gem 'structured_warnings', '~> 0.4.0'
 gem 'airbrake', '~> 13.0.0', require: false
 
 gem 'prawn', '~> 2.2'
-gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', tag: 'v0.0.18'
+gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: '76945d45c14b841e2312f992422e2631a4524114'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
 
@@ -170,7 +170,7 @@ group :production do
   gem 'dalli', '~> 3.2.0'
 end
 
-gem 'i18n-js', '~> 3.9.0'
+gem 'i18n-js', '~> 4.2.3'
 gem 'rails-i18n', '~> 7.0.0'
 
 gem 'sprockets', '~> 3.7.2' # lock sprockets below 4.0
@@ -202,6 +202,9 @@ gem 'mini_magick', '~> 4.12.0', require: false
 
 gem 'validate_url'
 
+# ActiveRecord extension which adds typecasting to store accessors
+gem "store_attribute", "~> 1.0"
+
 # Appsignal integration
 gem "appsignal", "~> 3.0", require: false
 
@@ -228,6 +231,9 @@ group :test do
   gem 'retriable', '~> 3.1.1'
   gem 'rspec-retry', '~> 0.6.1'
 
+  # Modify ENV
+  gem 'climate_control'
+
   # XML comparison tests
   gem 'compare-xml', '~> 0.66', require: false
 
@@ -236,6 +242,7 @@ group :test do
 
   gem 'capybara', '~> 3.39.0'
   gem 'capybara-screenshot', '~> 1.0.17'
+  gem 'cuprite', '~> 0.14.3'
   gem 'selenium-webdriver', '~> 4.0'
   gem 'webdrivers', '~> 5.2.0'
 
@@ -348,3 +355,5 @@ gemfiles.each do |file|
   # don't use eval_gemfile(file) here as it will break dependabot!
   send(:eval_gemfile, file) if File.readable?(file)
 end
+
+gem "primer_view_components", git: 'https://github.com/opf/primer_view_components', ref: '18abe4d'

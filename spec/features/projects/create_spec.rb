@@ -28,31 +28,49 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Projects', 'creation', js: true do
-  let(:name_field) { FormFields::InputFormField.new :name }
+RSpec.describe 'Projects', 'creation',
+               :js,
+               :with_cuprite do
+  shared_let(:name_field) { FormFields::InputFormField.new :name }
 
   current_user { create(:admin) }
 
   shared_let(:project) { create(:project, name: 'Foo project', identifier: 'foo-project') }
 
+  let(:projects_page) { Pages::Projects::Index.new }
+
   before do
-    visit projects_path
+    projects_page.visit!
+  end
+
+  context 'within the button on the global sidebar' do
+    it 'can navigate to the create project page' do
+      projects_page.navigate_to_new_project_page_from_global_sidebar
+
+      expect(page).to have_current_path(new_project_path)
+    end
+  end
+
+  context 'with the button on the toolbar items' do
+    it 'can navigate to the create project page' do
+      projects_page.navigate_to_new_project_page_from_toolbar_items
+
+      expect(page).to have_current_path(new_project_path)
+    end
   end
 
   it 'can create a project' do
-    click_on 'New project'
+    projects_page.navigate_to_new_project_page_from_toolbar_items
 
     name_field.set_value 'Foo bar'
     click_button 'Save'
 
-    sleep 1
-
-    expect(page).to have_content 'Foo bar'
     expect(page).to have_current_path /\/projects\/foo-bar\/?/
+    expect(page).to have_content 'Foo bar'
   end
 
   it 'does not create a project with an already existing identifier' do
-    click_on 'New project'
+    projects_page.navigate_to_new_project_page_from_toolbar_items
 
     name_field.set_value 'Foo project'
     click_on 'Save'
@@ -68,7 +86,7 @@ RSpec.describe 'Projects', 'creation', js: true do
     let(:list_field) { FormFields::SelectFormField.new list_custom_field }
 
     it 'can create a project' do
-      click_on 'New project'
+      projects_page.navigate_to_new_project_page_from_toolbar_items
 
       name_field.set_value 'Foo bar'
 
@@ -94,8 +112,8 @@ RSpec.describe 'Projects', 'creation', js: true do
 
     find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
 
-    expect(page).to have_no_content 'Active'
-    expect(page).to have_no_content 'Identifier'
+    expect(page).not_to have_content 'Active'
+    expect(page).not_to have_content 'Identifier'
   end
 
   context 'with optional and required custom fields' do
@@ -111,7 +129,7 @@ RSpec.describe 'Projects', 'creation', js: true do
                             is_required: true)
     end
 
-    it 'seperates optional and required custom fields for new' do
+    it 'separates optional and required custom fields for new' do
       visit new_project_path
 
       expect(page).to have_content 'Required Foo'

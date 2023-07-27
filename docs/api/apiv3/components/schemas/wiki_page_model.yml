@@ -8,8 +8,7 @@ properties:
     type: integer
     description: Identifier of this wiki page
     readOnly: true
-    minimum: 0
-    exclusiveMinimum: true
+    exclusiveMinimum: 0
   title:
     type: string
     description: The wiki page's title

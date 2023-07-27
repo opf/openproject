@@ -33,8 +33,8 @@ RSpec.describe 'baseline rendering',
                with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:type_task) { create(:type_task) }
-  shared_let(:project) { create(:project, types: [type_bug, type_task]) }
-  let(:baseline_modal) { Components::WorkPackages::BaselineModal.new }
+  shared_let(:type_milestone) { create(:type_milestone) }
+  shared_let(:project) { create(:project, types: [type_bug, type_task, type_milestone]) }
   shared_let(:user) do
     create(:user,
            firstname: 'Itsa',
@@ -113,6 +113,23 @@ RSpec.describe 'baseline rendering',
     end
   end
 
+  shared_let(:wp_task_assigned) do
+    wp = Timecop.travel(5.days.ago) do
+      create(:work_package,
+             project:,
+             type: type_task,
+             assigned_to: nil)
+    end
+
+    Timecop.travel(1.day.ago) do
+      WorkPackages::UpdateService
+        .new(user:, model: wp)
+        .call(assigned_to: user)
+        .on_failure { |result| raise result.message }
+        .result
+    end
+  end
+
   shared_let(:wp_task_was_bug) do
     wp = Timecop.travel(5.days.ago) do
       create(:work_package, project:, type: type_bug, subject: 'Bug changed to Task')
@@ -141,6 +158,23 @@ RSpec.describe 'baseline rendering',
     end
   end
 
+  shared_let(:wp_milestone_date_changed) do
+    wp = Timecop.travel(5.days.ago) do
+      create(:work_package,
+             project:,
+             type: type_milestone,
+             subject: 'Milestone 1',
+             start_date: Time.zone.today,
+             due_date: Time.zone.today)
+    end
+
+    WorkPackages::UpdateService
+      .new(user:, model: wp)
+      .call(start_date: Time.zone.today + 1.day, due_date: Time.zone.today + 1.day)
+      .on_failure { |result| raise result.message }
+      .result
+  end
+
   shared_let(:query) do
     query = create(:query,
                    name: 'Timestamps Query',
@@ -148,28 +182,33 @@ RSpec.describe 'baseline rendering',
                    user:)
 
     query.timestamps = ["P-2d", "PT0S"]
-    query.add_filter('type_id', '=', [type_task.id])
+    query.add_filter('type_id', '=', [type_task.id, type_milestone.id])
     query.column_names = %w[id subject status type start_date due_date version priority assigned_to responsible]
     query.save!(validate: false)
 
     query
   end
 
+  let(:today) { Time.zone.today }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:baseline) { Components::WorkPackages::Baseline.new }
+  let(:baseline_modal) { Components::WorkPackages::BaselineModal.new }
 
   current_user { user }
 
   describe 'with feature enabled', with_ee: %i[baseline_comparison], with_flag: { show_changes: true } do
     it 'does show changes' do
       wp_table.visit_query(query)
-      wp_table.expect_work_package_listed wp_task, wp_task_changed, wp_task_was_bug, wp_bug_was_task
+      wp_table.expect_work_package_listed wp_task, wp_task_changed, wp_task_was_bug, wp_bug_was_task,
+                                          wp_task_assigned, wp_milestone_date_changed
       wp_table.ensure_work_package_not_listed! wp_bug
 
       baseline.expect_active
       baseline.expect_added wp_task_was_bug
       baseline.expect_removed wp_bug_was_task
       baseline.expect_changed wp_task_changed
+      baseline.expect_changed wp_task_assigned
+      baseline.expect_changed wp_milestone_date_changed
       baseline.expect_unchanged wp_task
 
       baseline.expect_changed_attributes wp_task_was_bug,
@@ -180,12 +219,25 @@ RSpec.describe 'baseline rendering',
 
       baseline.expect_changed_attributes wp_task_changed,
                                          subject: ['Old subject', 'New subject'],
-                                         startDate: ['2023-05-01', (Date.today - 2.days).iso8601],
-                                         dueDate: ['2023-05-02', (Date.today - 1.day).iso8601],
+                                         startDate: ['2023-05-01', (today - 2.days).iso8601],
+                                         dueDate: ['2023-05-02', (today - 1.day).iso8601],
                                          version: ['Version A', 'Version B'],
                                          priority: ['Default', 'High priority'],
                                          assignee: ['Assigned User', 'Itsa Me'],
                                          responsible: ['Assigned User', 'Itsa Me']
+
+      baseline.expect_changed_attributes wp_task_assigned,
+                                         assignee: ['-', 'Itsa Me']
+
+      baseline.expect_changed_attributes wp_milestone_date_changed,
+                                         startDate: [
+                                           (today - 5.days).iso8601,
+                                           (today + 1.day).iso8601
+                                         ],
+                                         dueDate: [
+                                           (today - 5.days).iso8601,
+                                           (today + 1.day).iso8601
+                                         ]
 
       baseline.expect_unchanged_attributes wp_task_changed, :type
       baseline.expect_unchanged_attributes wp_task,

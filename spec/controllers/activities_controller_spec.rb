@@ -46,18 +46,7 @@ RSpec.describe ActivitiesController do
     end
 
     describe 'global' do
-      let(:work_package) { create(:work_package) }
-      let!(:journal) do
-        create(:work_package_journal,
-               journable_id: work_package.id,
-               created_at: 3.days.ago.to_date.to_fs(:db),
-               version: Journal.maximum(:version) + 1,
-               data: build(:journal_work_package_journal,
-                           subject: work_package.subject,
-                           status_id: work_package.status_id,
-                           type_id: work_package.type_id,
-                           project_id: work_package.project_id))
-      end
+      let!(:work_package) { create(:work_package, :created_in_past, created_at: 3.days.ago) }
 
       before { get 'index' }
 
@@ -202,30 +191,36 @@ RSpec.describe ActivitiesController do
 
         it { expect(assigns(:activity).scope).to match_array(default_scope) }
 
-        it { expect(session[:activity]).to match_array(default_scope) }
+        it { expect(session[:activity][:scope]).to match_array(default_scope) }
+
+        it { expect(session[:activity][:with_subprojects]).to be(true) }
       end
 
       describe 'subsequent activity requests' do
         let(:scope) { [] }
         let(:params) { {} }
-        let(:session_hash) { { activity: [] } }
+        let(:session_hash) { { activity: { scope: [], with_subprojects: true } } }
 
         include_context 'for GET index with params'
 
         it { expect(assigns(:activity).scope).to match_array(scope) }
 
-        it { expect(session[:activity]).to match_array(scope) }
+        it { expect(session[:activity][:scope]).to match_array(scope) }
+
+        it { expect(session[:activity][:with_subprojects]).to be(true) }
       end
 
       describe 'selection with apply' do
         let(:scope) { [] }
-        let(:params) { { event_types: [''] } }
+        let(:params) { { event_types: [''], with_subprojects: 0 } }
 
         include_context 'for GET index with params'
 
         it { expect(assigns(:activity).scope).to match_array(scope) }
 
-        it { expect(session[:activity]).to match_array(scope) }
+        it { expect(session[:activity][:scope]).to match_array(scope) }
+
+        it { expect(session[:activity][:with_subprojects]).to be(false) }
       end
     end
   end

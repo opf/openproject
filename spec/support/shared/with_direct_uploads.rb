@@ -61,7 +61,7 @@ class WithDirectUploads
   end
 
   def around(example)
-    example.metadata[:driver] = :chrome_billy
+    example.metadata[:javascript_driver] = example.metadata[:driver] = :chrome_billy
 
     csp_config = SecureHeaders::Configuration.instance_variable_get("@default_config").csp
 

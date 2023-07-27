@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Query::Results, 'Subproject filter integration', with_mail: false do
+RSpec.describe Query::Results, 'Subproject filter integration' do
   let(:query) do
     build(:query,
           user:,

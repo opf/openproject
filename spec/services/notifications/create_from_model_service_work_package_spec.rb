@@ -67,7 +67,7 @@ RSpec.describe Notifications::CreateFromModelService,
   let(:resource) { work_package }
   let(:journal) { work_package.journals.first }
   let(:journal_2_with_notes) do
-    work_package.add_journal author, 'something I have to say'
+    work_package.add_journal user: author, notes: 'something I have to say'
     work_package.save(validate: false)
     work_package.journals.last
   end
@@ -1108,7 +1108,7 @@ RSpec.describe Notifications::CreateFromModelService,
             end
 
             expect(call.all_results)
-              .to match_array([notification_group_recipient, notification_other_recipient])
+              .to contain_exactly(notification_group_recipient, notification_other_recipient)
           end
         end
       end
@@ -1117,7 +1117,7 @@ RSpec.describe Notifications::CreateFromModelService,
     describe 'in the journal notes' do
       let(:journal) { journal_2_with_notes }
       let(:journal_2_with_notes) do
-        work_package.add_journal author, note
+        work_package.add_journal user: author, notes: note
         work_package.save(validate: false)
         work_package.journals.last
       end

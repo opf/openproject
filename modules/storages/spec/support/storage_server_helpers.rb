@@ -90,6 +90,28 @@ module StorageServerHelpers
       body: response_body
     )
   end
+
+  def mock_nextcloud_application_credentials_validation(nextcloud_host,
+                                                        username: 'OpenProject',
+                                                        password: 'Password123',
+                                                        response_code: nil,
+                                                        response_headers: nil,
+                                                        response_body: nil)
+    response_code ||= 200
+    response_headers ||= {
+      'Content-Type' => 'text/html; charset=UTF-8',
+      'Authorization' => "Basic #{Base64::strict_encode64("#{username}:#{password}")}"
+    }
+
+    stub_request(
+      :head,
+      File.join(nextcloud_host, 'remote.php/dav')
+    ).to_return(
+      status: response_code,
+      headers: response_headers,
+      body: response_body
+    )
+  end
 end
 
 RSpec.configure do |c|

@@ -29,7 +29,9 @@
 require 'spec_helper'
 
 RSpec.describe 'Projects index page',
-               js: true, with_ee: %i[custom_fields_in_projects_list], with_settings: { login_required?: false } do
+               js: true,
+               with_cuprite: true,
+               with_ee: %i[custom_fields_in_projects_list], with_settings: { login_required?: false } do
   shared_let(:admin) { create(:admin) }
 
   let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
@@ -120,7 +122,7 @@ RSpec.describe 'Projects index page',
       # Save the page
       scroll_to_and_click(find('.button', text: 'Save'))
 
-      expect(page).to have_selector('.flash.notice', text: 'Successful update.')
+      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.')
 
       RequestStore.clear!
       query = JSON.parse Setting.project_gantt_query

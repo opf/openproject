@@ -64,7 +64,7 @@ npm-debug.log*
 # Generated files
 /app/assets/javascripts/editor/*
 /app/assets/javascripts/locales/*.*
-/frontend/src/locales/*.js
+/frontend/src/locales/*
 /modules/*/frontend/module/module
 /config/additional_environment.rb
 /config/configuration.yml
@@ -134,8 +134,10 @@ structure.sql
 /.envrc
 /.direnv
 
-# lefthook.yml user override
+# local user override
 lefthook-local.yml
+.rubocop-local.yml
+
 frontend/package-lock.json
 
 # Testing and nextcloud infrastructure

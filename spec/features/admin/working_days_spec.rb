@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Working Days', js: true do
+RSpec.describe 'Working Days', js: true, with_cuprite: true do
   create_shared_association_defaults_for_work_package_factory
 
   shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
@@ -77,7 +77,7 @@ RSpec.describe 'Working Days', js: true do
         dialog.cancel
       end
 
-      expect(page).not_to have_selector('.flash.notice')
+      expect(page).not_to have_selector('.op-toast.-success')
 
       expect(working_days_setting).to eq([1, 2, 3, 4, 5])
 
@@ -101,7 +101,7 @@ RSpec.describe 'Working Days', js: true do
         dialog.confirm
       end
 
-      expect(page).to have_selector('.flash.notice', text: 'Successful update.')
+      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.')
       expect(page).to have_unchecked_field 'Monday'
       expect(page).to have_unchecked_field 'Friday'
       expect(page).to have_unchecked_field 'Saturday'
@@ -123,7 +123,9 @@ RSpec.describe 'Working Days', js: true do
       wp_page = Pages::FullWorkPackage.new(earliest_work_package)
       wp_page.visit!
 
-      wp_page.expect_comment(text: "Working days changed (Monday is now non-working, Friday is now non-working).")
+      wp_page.expect_activity_message(
+        "Dates changed by changes to working days (Monday is now non-working, Friday is now non-working)"
+      )
     end
 
     it 'shows error when non working days are all unset' do
@@ -139,7 +141,8 @@ RSpec.describe 'Working Days', js: true do
         dialog.confirm
       end
 
-      expect(page).to have_selector('.flash.error', text: 'At least one day of the week must be defined as a working day.')
+      expect(page).to have_selector('.op-toast.-error',
+                                    text: 'At least one day of the week must be defined as a working day.')
       # Restore the checkboxes to their valid state
       expect(page).to have_checked_field 'Monday'
       expect(page).to have_checked_field 'Tuesday'
@@ -172,7 +175,7 @@ RSpec.describe 'Working Days', js: true do
       # Not executing the background jobs
       dialog.confirm
 
-      expect(page).to have_selector('.flash.error',
+      expect(page).to have_selector('.op-toast.-error',
                                     text: 'The previous changes to the working days configuration have not been applied yet.')
     end
   end
@@ -229,7 +232,7 @@ RSpec.describe 'Working Days', js: true do
       click_on 'Apply changes'
       click_on 'Save and reschedule'
 
-      expect(page).to have_selector('.flash.notice', text: 'Successful update.')
+      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.')
 
       nwd1 = NonWorkingDay.find_by(name: 'My holiday')
       expect(nwd1.date).to eq date1
@@ -265,7 +268,7 @@ RSpec.describe 'Working Days', js: true do
         expect(page).to have_selector('tr', text: nwd.date.strftime("%B %-d, %Y"))
       end
 
-      delete_button = page.first('[data-qa-selector="op-non-working-days-list--delete-icon"]', visible: :all)
+      delete_button = page.first('.op-non-working-days-list--delete-icon .icon-delete', visible: :all)
       delete_button.hover
       delete_button.click
 
@@ -287,7 +290,7 @@ RSpec.describe 'Working Days', js: true do
         .and_return(errors)
       # rubocop:enable RSpec/AnyInstance
 
-      delete_button = page.first('[data-qa-selector="op-non-working-days-list--delete-icon"]', visible: :all)
+      delete_button = page.first('.op-non-working-days-list--delete-icon .icon-delete', visible: :all)
       delete_button.hover
       delete_button.click
 

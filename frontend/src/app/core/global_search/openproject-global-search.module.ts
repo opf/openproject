@@ -36,6 +36,7 @@ import { GlobalSearchService } from 'core-app/core/global_search/services/global
 import { GlobalSearchWorkPackagesEntryComponent } from 'core-app/core/global_search/global-search-work-packages-entry.component';
 import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { OpSharedModule } from 'core-app/shared/shared.module';
+import { RecentItemsService } from 'core-app/core/recent-items.service';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { OpSharedModule } from 'core-app/shared/shared.module';
   ],
   providers: [
     GlobalSearchService,
+    RecentItemsService,
   ],
   declarations: [
     GlobalSearchInputComponent,

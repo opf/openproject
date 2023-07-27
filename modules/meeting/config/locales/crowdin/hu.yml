@@ -29,6 +29,7 @@ hu:
         participants: "Közreműködők"
         participants_attended: "Résztvevők"
         participants_invited: "Meghívottak"
+        project: "Project"
         start_time: "Idő"
         start_time_hour: "Kezdési időpont"
     errors:
@@ -61,6 +62,13 @@ hu:
   label_meeting_agenda_close: "Napirend lezárása a jegyzőkönyv megkezdéséhez"
   label_meeting_date_time: "Dátum/idő"
   label_meeting_diff: "Eltérés"
+  label_upcoming_meetings: "Upcoming meetings"
+  label_past_meetings: "Past meetings"
+  label_involvement: "Involvement"
+  label_upcoming_invitations: "Upcoming invitations"
+  label_past_invitations: "Past invitations"
+  label_attendee: "Attendee"
+  label_author: "Creator"
   label_notify: "Küldés véleményezésre"
   label_icalendar: "iCalendar küldése"
   label_version: "Verzió"
@@ -85,7 +93,7 @@ hu:
   text_duration_in_hours: "Hossza (óra)"
   text_in_hours: "órában"
   text_meeting_agenda_for_meeting: 'a "%{meeting}" megbeszélés napirendje'
-  text_meeting_closing_are_you_sure: "Biztosan be akarod fejezni a megbeszélést?"
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting agenda?"
   text_meeting_agenda_open_are_you_sure: "Ez minden változást felül fog írni. Biztosan folytani akarja?"
   text_meeting_minutes_for_meeting: 'a "%{meeting}" megbeszélés jegyzőkönyve'
   text_review_meeting_agenda: "%{author} véleményezésre küldte %{link} -t."

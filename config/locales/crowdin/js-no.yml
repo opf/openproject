@@ -65,6 +65,8 @@
     button_confirm: "Bekreft"
     button_continue: "Fortsett"
     button_copy: "Kopier"
+    button_copy_to_clipboard: "Kopier til utklippstavlen"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Egendefinerte felter"
     button_delete: "Slett"
@@ -105,7 +107,7 @@
       remove_from_list: 'Remove card from list'
     caption_rate_history: "Rate history"
     clipboard:
-      browser_error: "Nettleseren støtter ikke kopiering til utklippstavle. Kopier den merkede teksten manuelt."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
@@ -294,6 +296,34 @@
           one: "First sorting criteria"
           two: "Second sorting criteria"
           three: "Third sorting criteria"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "nei"
     general_text_yes: "ja"
     general_text_No: "Nei"
@@ -327,8 +357,6 @@
       token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
       copy_url_label: "Copy URL"
       ical_generation_error_text: "An error occured while generating the iCal URL."
-      copy_url_success_text: "URL copied to clipboard."
-      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Aktiver"
     label_assignee: 'Deltaker'
     label_add_column_after: "Add column after"
@@ -468,7 +496,7 @@
     label_this_week: "denne uken"
     label_today: "I dag"
     label_time_entry_plural: "Tid brukt"
-    label_up: "Up"
+    label_up: "Opp"
     label_user_plural: "Brukere"
     label_activity_show_only_comments: "Show activities with comments only"
     label_activity_show_all: "Show all activities"
@@ -505,7 +533,7 @@
     label_remove_all_files: Delete all files
     label_add_description: "Add a description for %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "These files will be uploaded:"
     label_rejected_files: "These files cannot be uploaded:"
@@ -584,7 +612,7 @@
       facets:
         unread: 'Unread'
         unread_title: 'Show unread'
-        all: 'All'
+        all: 'Alle'
         all_title: 'Vis alle'
       center:
         label_actor_and: 'og'
@@ -738,6 +766,14 @@
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'Logg tid'
+      tracking: 'Tidsstyring'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Tofaktorautentisering'
     watchers:
@@ -796,7 +832,8 @@
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Select tag'
       select_branch: 'Select branch'
@@ -814,63 +851,6 @@
       activate_no: 'activate to remove the sort'
     text_work_packages_destroy_confirmation: "Er du sikker på at du vil slette valgte arbeidspakke(r)?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt diagram'
-      labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
-        showNone: '-- No label --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
-      cancel: Avbryt
-      change: "Endre i planlegging"
-      due_date: "Sluttdato"
-      empty: "(tom)"
-      error: "En feil har oppstått."
-      errors:
-        not_implemented: "Tidslinjen kunne ikke rendres fordi den bruker en funksjon som ennå ikke er implementert."
-        report_comparison: "Tidslinjen kunne ikke rendre de valgte sammenligningene. Vennligst kontroller den aktuelle seksjonen i oppsettet. Det kan være tilstrekkelig å nullstille den."
-        report_epicfail: "Tidslinjen kunne ikke lastes på grunn av en uventet feil."
-        report_timeout: "Tidslinjen brukte for lang tid på å laste."
-      filter:
-        grouping_other: "Øvrig"
-        noneSelection: "(ingen)"
-      name: "Navn"
-      outline: "Nullstill disposisjon"
-      outlines:
-        aggregation: "Bare vis samlinger"
-        level1: "Ekspander nivå 1"
-        level2: "Ekspander nivå 2"
-        level3: "Ekspander nivå 3"
-        level4: "Ekspander nivå 4"
-        level5: "Ekspander nivå 5"
-        all: "Vis alle"
-      project_status: "Prosjektstatus"
-      really_close_dialog: "Er du sikker på at du vil lukke dialogboksen og tape data som ikke er lagret?"
-      responsible: "Ansvarlig"
-      save: Lagre
-      start_date: "Startdato"
-      tooManyProjects: "Mer enn %{count} prosjekter. Bruk et bedre filter!"
-      selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
-      zoom:
-        in: "Zoom inn"
-        out: "Zoom ut"
-        auto: "Auto zoom"
-        days: "Dager"
-        weeks: "Uker"
-        months: "Måneder"
-        quarters: "Kvartaler"
-        years: "År"
-        slider: "Zoom-bryter"
-        description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
     tl_toolbar:
       zooms: "Zoom-nivå"
       outlines: "Nivå"
@@ -935,10 +915,10 @@
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filtrer arbeidspakker'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Klikk her for å legge til en nye arbeidspakke i listen'
@@ -1177,10 +1157,11 @@
       button_deactivate: 'Deactivate zen mode'
     global_search:
       all_projects: "In all projects"
-      search: "Søk"
       close_search: "Close search"
-      current_project: "In this project"
       current_project_and_all_descendants: "In this project + subprojects"
+      current_project: "In this project"
+      recently_viewed: "Recently viewed"
+      search: "Søk"
       title:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"

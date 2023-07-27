@@ -30,6 +30,11 @@ require 'spec_helper'
 
 RSpec.describe Calendar::CalendarsController do
   it do
+    expect(get('calendars')).to route_to(controller: 'calendar/calendars',
+                                         action: 'index')
+  end
+
+  it do
     expect(get('/projects/1/calendars')).to route_to(controller: 'calendar/calendars',
                                                      action: 'index',
                                                      project_id: '1')
@@ -40,6 +45,16 @@ RSpec.describe Calendar::CalendarsController do
                                                        action: 'show',
                                                        id: '2',
                                                        project_id: '1')
+  end
+
+  it do
+    expect(get('/calendars/new')).to route_to(controller: 'calendar/calendars',
+                                              action: 'new')
+  end
+
+  it do
+    expect(post('/calendars')).to route_to(controller: 'calendar/calendars',
+                                           action: 'create')
   end
 
   it do

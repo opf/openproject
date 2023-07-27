@@ -40,10 +40,6 @@ module Admin::Settings
       t(:label_date_format)
     end
 
-    def show_local_breadcrumb
-      true
-    end
-
     private
 
     def validate_start_of_week_and_first_week_of_year_combination
@@ -52,7 +48,7 @@ module Admin::Settings
 
       if start_of_week.present? ^ start_of_year.present?
         flash[:error] = I18n.t(
-          'settings.display.first_date_of_week_and_year_set',
+          'settings.date_format.first_date_of_week_and_year_set',
           first_week_setting_name: I18n.t(:setting_first_week_of_year),
           day_of_week_setting_name: I18n.t(:setting_start_of_week)
         )

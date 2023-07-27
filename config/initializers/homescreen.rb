@@ -75,22 +75,22 @@ OpenProject::Static::Homescreen.manage :links do |links|
   links.push(
     {
       label: :user_guides,
-      icon: 'rename',
+      icon: 'icon-context icon-rename',
       url: link_hash[:user_guides][:href]
     },
     {
       label: :glossary,
-      icon: 'glossar',
+      icon: 'icon-context icon-glossar',
       url: link_hash[:glossary][:href]
     },
     {
       label: :shortcuts,
-      icon: 'shortcuts',
+      icon: 'icon-context icon-shortcuts',
       url: link_hash[:shortcuts][:href]
     },
     {
       label: :forums,
-      icon: 'forums',
+      icon: 'icon-context icon-forums',
       url: link_hash[:forums][:href]
     }
   )

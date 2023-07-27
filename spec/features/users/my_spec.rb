@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'my', js: true do
+RSpec.describe 'my', js: true, with_cuprite: true do
   let(:user_password) { 'bob' * 4 }
   let(:user) do
     create(:user,
@@ -53,7 +53,7 @@ RSpec.describe 'my', js: true do
   end
 
   before do
-    login_as(user)
+    login_as user
 
     # Create dangling session
     session = Sessions::SqlBypass.new data: { user_id: user.id }, session_id: 'other'
@@ -124,115 +124,294 @@ RSpec.describe 'my', js: true do
       end
     end
 
-    it 'in Access Tokens they can generate their API key' do
-      visit my_access_token_path
-      expect(page).to have_content 'Missing API access key'
-      find(:xpath, "//tr[contains(.,'API')]/td/a", text: 'Generate').click
-
-      expect(page).to have_content 'A new API token has been generated. Your access token is'
-
-      User.current.reload
-      visit my_access_token_path
-
-      expect(page).not_to have_content 'Missing API access key'
-    end
-
-    it 'in Access Tokens they can generate their RSS key' do
-      visit my_access_token_path
-      expect(page).to have_content 'Missing RSS access key'
-      find(:xpath, "//tr[contains(.,'RSS')]/td/a", text: 'Generate').click
-
-      expect(page).to have_content 'A new RSS token has been generated. Your access token is'
-
-      User.current.reload
-      visit my_access_token_path
-
-      expect(page).not_to have_content 'Missing RSS access key'
-    end
-
-    describe "iCalendar tokens" do
-      let!(:project) { create(:project) }
-      let!(:query) { create(:query, project:) }
-      let!(:another_query) { create(:query, project:) }
-
-      it 'in Access Tokens they can see if iCalendar tokens exists grouped by query and project' do
-        visit my_access_token_path
-
-        within(:xpath, "//tr[contains(.,'iCalendar')]") do
-          expect(page).to have_content 'iCalendar token(s) not present'
-        end
-
-        ical_token_for_query = create(:ical_token, user:, query:, name: "Some Token Name")
-
-        visit my_access_token_path
-
-        expect(page).not_to have_content 'iCalendar token(s) not present'
-
-        token_name = ical_token_for_query.ical_token_query_assignment.name
-
-        expected_content = "iCalendar token \"#{token_name}\" for \"#{query.name}\" in \"#{project.name}\""
-
-        within(:xpath, "//tr[contains(.,'#{expected_content}')]") do
-          expect(page).to have_content expected_content
-          expect(page).to have_content I18n.l(ical_token_for_query.created_at, format: :time).to_s
-        end
-
-        Timecop.travel(1.minute.from_now) do
-          another_ical_token_for_query = create(:ical_token, user:, query:, name: "Some Other Token Name")
-
+    describe "API tokens" do
+      context 'when API access is disabled via global settings', with_settings: { rest_api_enabled: false } do
+        it 'shows notice about disabled token' do
           visit my_access_token_path
 
-          token_name = another_ical_token_for_query.ical_token_query_assignment.name
-
-          expected_content = "iCalendar token \"#{token_name}\" for \"#{query.name}\" in \"#{project.name}\""
-
-          within(:xpath, "//tr[contains(.,'#{expected_content}')]") do
-            expect(page).to have_content expected_content
-            expect(page).to have_content I18n.l(another_ical_token_for_query.created_at, format: :time).to_s
-          end
-        end
-
-        Timecop.travel(2.minutes.from_now) do
-          ical_token_for_another_query = create(:ical_token, user:, query: another_query, name: "Some Token Name")
-
-          visit my_access_token_path
-
-          token_name = ical_token_for_another_query.ical_token_query_assignment.name
-
-          expected_content = "iCalendar token \"#{token_name}\" for \"#{another_query.name}\" in \"#{project.name}\""
-
-          within(:xpath, "//tr[contains(.,'#{expected_content}')]") do
-            expect(page).to have_content expected_content
-            expect(page).to have_content I18n.l(ical_token_for_another_query.created_at, format: :time).to_s
+          within '#api-token-section' do
+            expect(page).to have_content('API tokens are not enabled by the administrator.')
+            expect(page).not_to have_selector("[data-qa-selector='api-token-add']", text: 'API token')
           end
         end
       end
 
-      it 'in Access Tokens they can revoke all existing Ical tokens' do
-        ical_token_for_query = create(:ical_token, user:, query:, name: "Some Token Name")
-        create(:ical_token, user:, query:, name: "Some Other Token Name")
-        create(:ical_token, user:, query: another_query, name: "Some Token Name")
+      context 'when API access is enabled via global settings', with_settings: { rest_api_enabled: true } do
+        it 'API tokens can generated and revoked' do
+          visit my_access_token_path
 
-        expect(user.ical_tokens.count).to eq 3
+          expect(page).not_to have_content('API tokens are not enabled by the administrator.')
 
-        visit my_access_token_path
+          within '#api-token-section' do
+            expect(page).to have_selector("[data-qa-selector='api-token-add']", text: 'API token')
+            find("[data-qa-selector='api-token-add']").click
+          end
 
-        token_name = ical_token_for_query.ical_token_query_assignment.name
+          expect(page).to have_content 'A new API token has been generated. Your access token is'
 
-        expected_content = "iCalendar token \"#{token_name}\" for \"#{query.name}\" in \"#{project.name}\""
+          User.current.reload
+          visit my_access_token_path
 
-        within(:xpath, "//tr[contains(.,'#{expected_content}')]") do
-          expect(page).to have_content "Revoke"
-          click_link "Revoke"
+          # only one API token can be created
+          within '#api-token-section' do
+            expect(page).not_to have_selector("[data-qa-selector='api-token-add']", text: 'API token')
+          end
+
+          # revoke API token
+          within '#api-token-section' do
+            accept_confirm do
+              find("[data-qa-selector='api-token-revoke']").click
+            end
+          end
+
+          expect(page).to have_content 'The API token has been deleted.'
+
+          User.current.reload
+          visit my_access_token_path
+
+          # API token can be created again
+          within '#api-token-section' do
+            expect(page).to have_selector("[data-qa-selector='api-token-add']", text: 'API token')
+          end
+        end
+      end
+    end
+
+    describe "RSS tokens" do
+      context 'when RSS access is disabled via global settings', with_settings: { feeds_enabled: false } do
+        it 'shows notice about disabled token' do
+          visit my_access_token_path
+
+          within '#rss-token-section' do
+            expect(page).to have_content('RSS tokens are not enabled by the administrator.')
+            expect(page).not_to have_selector("[data-qa-selector='rss-token-add']", text: 'RSS token')
+          end
+        end
+      end
+
+      context 'when RSS access is enabled via global settings', with_settings: { feeds_enabled: true } do
+        it 'in Access Tokens they can generate and revoke their RSS key' do
+          visit my_access_token_path
+
+          expect(page).not_to have_content('RSS tokens are not enabled by the administrator.')
+
+          within '#rss-token-section' do
+            expect(page).to have_selector("[data-qa-selector='rss-token-add']", text: 'RSS token')
+            find("[data-qa-selector='rss-token-add']").click
+          end
+
+          expect(page).to have_content 'A new RSS token has been generated. Your access token is'
+
+          User.current.reload
+          visit my_access_token_path
+
+          # only one RSS token can be created
+          within '#rss-token-section' do
+            expect(page).not_to have_selector("[data-qa-selector='rss-token-add']", text: 'RSS token')
+          end
+
+          # revoke RSS token
+          within '#rss-token-section' do
+            accept_confirm do
+              find("[data-qa-selector='rss-token-revoke']").click
+            end
+          end
+
+          expect(page).to have_content 'The RSS token has been deleted.'
+
+          User.current.reload
+          visit my_access_token_path
+
+          # RSS token can be created again
+          within '#rss-token-section' do
+            expect(page).to have_selector("[data-qa-selector='rss-token-add']", text: 'RSS token')
+          end
+        end
+      end
+    end
+
+    describe "iCalendar tokens" do
+      context 'when iCalendar access is disabled via global settings', with_settings: { ical_enabled: false } do
+        it 'shows notice about disabled token' do
+          visit my_access_token_path
+
+          within '#icalendar-token-section' do
+            expect(page).to have_content('iCalendar subscriptions are not enabled by the administrator.')
+          end
+        end
+      end
+
+      context 'when iCalendar access is enable via global settings', with_settings: { ical_enabled: true } do
+        context 'when no iCalendar token exists' do
+          it 'shows notice about how to use iCalendar tokens' do
+            visit my_access_token_path
+
+            within '#icalendar-token-section' do
+              expect(page).to have_content('To add an iCalendar token') # ...
+            end
+          end
         end
 
-        expect(page).to have_content(
-          "\"#{token_name}\" for calendar \"#{query.name}\" of project \"#{project.name}\" has been revoked."
-        )
+        context 'when multiple iCalendar tokens exist' do
+          let!(:project) { create(:project) }
+          let!(:query) { create(:query, project:) }
+          let!(:another_query) { create(:query, project:) }
+          let!(:ical_token_for_query) { create(:ical_token, user:, query:, name: "First Token Name") }
+          let!(:ical_token_for_another_query) { create(:ical_token, user:, query: another_query, name: "Second Token Name") }
+          let!(:second_ical_token_for_query) { create(:ical_token, user:, query:, name: "Third Token Name") }
 
-        expect(page).not_to have_content expected_content
+          it 'shows iCalendar tokens with their calender and project info' do
+            visit my_access_token_path
 
-        expect(user.ical_tokens.count).to eq 2
+            expect(page).not_to have_content('To add an iCalendar token') # ...
+
+            within '#icalendar-token-section' do
+              [
+                ical_token_for_query,
+                ical_token_for_another_query,
+                second_ical_token_for_query
+              ].each do |ical_token|
+                token_name = ical_token.ical_token_query_assignment.name
+                query = ical_token.ical_token_query_assignment.query
+
+                expect(page).to have_selector("[data-qa-selector='ical-token-row-#{ical_token.id}-name']", text: token_name)
+                expect(page).to have_selector("[data-qa-selector='ical-token-row-#{ical_token.id}-query-name']", text: query.name)
+                expect(page).to have_selector("[data-qa-selector='ical-token-row-#{ical_token.id}-project-name']",
+                                              text: query.project.name)
+              end
+            end
+          end
+
+          it 'single iCalendar tokens can be deleted' do
+            visit my_access_token_path
+
+            within '#icalendar-token-section' do
+              accept_confirm do
+                find("[data-qa-selector='ical-token-row-#{ical_token_for_query.id}-revoke']").click
+              end
+            end
+
+            expect(page).to have_content 'The iCalendar URL with this token is now invalid.'
+
+            User.current.reload
+            visit my_access_token_path
+
+            within '#icalendar-token-section' do
+              expect(page).not_to have_selector("[data-qa-selector='ical-token-row-#{ical_token_for_query.id}-revoke']")
+            end
+          end
+        end
+      end
+    end
+
+    describe "OAuth tokens" do
+      context 'when no OAuth access is configured' do
+        it 'shows notice about no existing tokens' do
+          visit my_access_token_path
+
+          within '#oauth-token-section' do
+            expect(page).to have_content('There is no third-party application access configured and active for you')
+          end
+        end
+      end
+
+      context 'when OAuth access is configured' do
+        let!(:app) do
+          create(:oauth_application,
+                 name: 'Some App',
+                 confidential: false)
+        end
+        let!(:token_for_app) do
+          create(:oauth_access_token,
+                 application: app,
+                 resource_owner: user)
+        end
+        let!(:second_app) do
+          create(:oauth_application,
+                 name: 'Some Second App',
+                 uid: '56789',
+                 confidential: false)
+        end
+        let!(:token_for_second_app) do
+          create(:oauth_access_token,
+                 application: second_app,
+                 resource_owner: user)
+        end
+
+        context 'when single OAuth token per app is configured' do
+          it 'shows token for granted applications' do
+            visit my_access_token_path
+
+            [app, second_app].each do |app|
+              within '#oauth-token-section' do
+                expect(page).to have_selector("[data-qa-selector='oauth-token-row-#{app.id}-name']", text: app.name)
+                expect(page).to have_selector("[data-qa-selector='oauth-token-row-#{app.id}-name']", text: '(one active token)')
+              end
+            end
+          end
+
+          it 'can revoke tokens' do
+            visit my_access_token_path
+
+            [app, second_app].each do |app|
+              within '#oauth-token-section' do
+                accept_confirm do
+                  find("[data-qa-selector='oauth-token-row-#{app.id}-revoke']").click
+                end
+              end
+            end
+
+            User.current.reload
+            visit my_access_token_path
+
+            [app, second_app].each do |app|
+              within '#oauth-token-section' do
+                expect(page).not_to have_selector("[data-qa-selector='oauth-token-row-#{app.id}-revoke']")
+              end
+            end
+          end
+        end
+
+        context 'when multiple OAuth tokens per app are configured' do
+          let!(:second_token_for_app) do
+            create(:oauth_access_token,
+                   application: app,
+                   resource_owner: user)
+          end
+          let!(:second_token_for_second_app) do
+            create(:oauth_access_token,
+                   application: second_app,
+                   resource_owner: user)
+          end
+
+          it 'shows token for granted applications' do
+            visit my_access_token_path
+
+            [app, second_app].each do |app|
+              within '#oauth-token-section' do
+                expect(page).to have_selector("[data-qa-selector='oauth-token-row-#{app.id}-name']", text: app.name)
+                expect(page).to have_selector("[data-qa-selector='oauth-token-row-#{app.id}-name']", text: '(2 active token)')
+              end
+            end
+          end
+
+          it 'can revoke mutliple tokens per app' do
+            visit my_access_token_path
+
+            within '#oauth-token-section' do
+              accept_confirm do
+                find("[data-qa-selector='oauth-token-row-#{app.id}-revoke']").click
+              end
+            end
+
+            User.current.reload
+            visit my_access_token_path
+
+            within '#oauth-token-section' do
+              expect(page).not_to have_selector("[data-qa-selector='oauth-token-row-#{app.id}-revoke']")
+            end
+          end
+        end
       end
     end
   end

@@ -11,6 +11,7 @@ ru:
   project_module_storages: "Файловые хранилища"
   activerecord:
     models:
+      file_link: "Ссылка на файл"
       storages/storage: "Хранилище"
     attributes:
       storages/storage:
@@ -33,6 +34,9 @@ ru:
                 похоже, что приложение "Интеграция с OpenProject" не установлено. Сначала установите его и повторите попытку.
               authorization_header_missing: >
                 не полностью настроено. Экземпляр Nextcloud не получает заголовок "Authorization", который необходим для подтверждения запросов API на основе токена Bearer. Пожалуйста, проверьте конфигурацию HTTP сервера.
+            password:
+              invalid_password: "недействителен."
+              unknown_error: "не удалось пройти проверку. Пожалуйста, проверьте подключение к вашему хранилищу и повторите попытку."
         storages/file_link:
           attributes:
             origin_id:
@@ -43,12 +47,19 @@ ru:
   storages:
     buttons:
       done_continue_setup: "Готово. Продолжить установку"
+      done_complete_setup: "Готово, завершить установку"
+      edit_automatically_managed_project_folders: "Редактировать автоматически управляемые папки проекта"
       replace_openproject_oauth: "Заменить OAuth OpenProject"
       replace_provider_type_oauth: "Заменить %{provider_type} OAuth"
       save_and_continue_setup: "Сохранить и продолжить установку"
       save_and_complete_setup: "Сохранить и завершить установку"
       select_folder: "Выберите папку"
+      configure: "Настроить"
     page_titles:
+      managed_project_folders:
+        title: "Автоматически управляемые папки проектов"
+        subtitle: >
+          Пусть OpenProject создает папки для каждого проекта автоматически. Это рекомендуется для того, чтобы каждый член команды всегда имел правильные права доступа.
       project_settings:
         index: "Файловые хранилища, доступные в этом проекте"
         new: "Добавить хранилище файлов в этот проект"
@@ -58,6 +69,8 @@ ru:
       type_link_text: "«Интеграционный OpenProject»"
       name: "Дайте вашему хранилищу имя, чтобы пользователи могли различать между несколькими хранилищами."
       host: "Пожалуйста, добавьте адрес вашего хранилища, включая https://. Он не должен быть длиннее 255 символов."
+      managed_project_folders_application_password: >
+        Скопировать это значение из:
       no_storage_set_up: "Нет настроенных хранилищ файлов."
       no_specific_folder: "По умолчанию каждый пользователь при загрузке файла начинает работу со своей собственной домашней папки."
       automatic_folder: "Это автоматически создаст корневую папку для этого проекта и будет управлять правами доступа для каждого участника проекта."
@@ -81,11 +94,17 @@ ru:
         Вы уверены, что хотите удалить это хранилище? Это также удалит хранилище из всех проектов, где оно используется. Кроме того, будут удалены все ссылки из пакетов работ на файлы, хранящиеся в этом хранилище.
       project_storage: >
         Вы уверены, что хотите удалить это хранилище файлов из проекта? Это также удалит все ссылки на файлы, хранящиеся в этом хранилище для этого проекта.
+    label_active: "Активный"
+    label_inactive: "Неактивный"
     label_creator: "Создатель"
     label_file_link: "Ссылка на файл"
     label_file_links: "Ссылки на файл"
     label_name: "Имя"
     label_host: "URL хоста"
+    label_managed_project_folders:
+      automatically_managed_folders: "Автоматически управляемые папки"
+      application_password: "Пароль приложения"
+    label_managed_project_folders_breadcrumb: "Автоматически управляемые папки проектов"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
@@ -110,4 +129,5 @@ ru:
     confirm_replace_oauth_application: "Вы уверены? Всем пользователям придется снова авторизоваться в OpenProject."
     confirm_replace_oauth_client: "Вы уверены? Все пользователи должны будут снова авторизоваться на хранилище."
     oauth_client_details_missing: "Чтобы завершить установку, пожалуйста, добавьте учетные данные клиента OAuth из вашего хранилища."
+    automatically_managed_project_folder_missing: "Для завершения установки, пожалуйста, настройте автоматически управляемые папки проекта для вашего хранилища."
     notice_oauth_application_replaced: "Приложение OpenProject OAuth успешно заменено."

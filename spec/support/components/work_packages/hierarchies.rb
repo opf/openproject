@@ -48,11 +48,11 @@ module Components
       alias_method :enable_via_menu, :enable_hierarchy
 
       def enable_via_header
-        page.find('[data-qa-hierarchy-type="no-hierarchy"]').click
+        page.find('.wp-table--table-header .icon-no-hierarchy').click
       end
 
       def disable_via_header
-        page.find('[data-qa-hierarchy-type="hierarchy"]').click
+        page.find('.wp-table--table-header .icon-hierarchy').click
       end
 
       def disable_hierarchy
@@ -68,11 +68,11 @@ module Components
       alias_method :expect_mode_disabled, :expect_no_hierarchies
 
       def expect_mode_enabled
-        expect(page).to have_selector('[data-qa-hierarchy-type="hierarchy"]')
+        expect(page).to have_selector('.wp-table--table-header .icon-hierarchy')
       end
 
       def expect_mode_disabled
-        expect(page).to have_selector('[data-qa-hierarchy-type="no-hierarchy"]')
+        expect(page).to have_selector('.wp-table--table-header .icon-no-hierarchy')
       end
 
       def expect_indent(work_package, indent: true, outdent: true)

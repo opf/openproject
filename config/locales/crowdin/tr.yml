@@ -169,10 +169,21 @@ tr:
     index:
       no_results_title_text: Şu anda hiç renk bulunmamakta.
       no_results_content_text: Yeni bir renk oluştur
-    label_no_color: 'Renk yok'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "Renk yok"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Eylemler'
+      name: "Eylemler"
       add: 'Eylem ekle'
       assigned_to:
         executing_user_value: '(Kullanıcıyı çalıştırma ata)'
@@ -198,8 +209,6 @@ tr:
       no_results_content_text: Yeni bir özel alan oluştur
   concatenation:
     single: 'ya da'
-  documentation:
-    see_more_link: Daha fazla bilgi için lütfen bu konuyla ilgili belgelerimize bakın.
   global_search:
     overwritten_tabs:
       wiki_pages: "Viki"
@@ -253,6 +262,8 @@ tr:
         no_results_title_text: Şu anda kullanılabilir özel alan bulunmamakta.
       types:
         no_results_title_text: Şu anda hiçbir tip mevcut değil.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: Şu anda proje için versiyon mevcut değil.
         no_results_content_text: Yeni bir versiyon oluştur
@@ -269,7 +280,9 @@ tr:
       notice_reset_token: "Yeni bir %{type} anahtar üretildi. Erişim anahtarınız:"
       token_value_warning: "Not: Bu anahtarı görebileceğiniz tek an bu, kopyaladığınıza emin olun."
       no_results_title_text: Şu anda hiçbir erişim anahtarı mevcut değil.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Şu anda rapor edilecek bir haber yok.
@@ -277,6 +290,8 @@ tr:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
       unknown_browser: 'unknown browser'
       unknown_os: 'unknown operating system'
       current: 'Current session'
@@ -525,6 +540,7 @@ tr:
         hours: "Saat"
         spent_on: "Tarih"
         type: "Tür"
+        ongoing: "Ongoing"
       type:
         description: "Açıklama için varsayılan metin"
         attribute_groups: ''
@@ -1063,6 +1079,8 @@ tr:
   button_configure: "Düzenle"
   button_continue: "Devam et"
   button_copy: "Kopyala"
+  button_copy_to_clipboard: "Panoya kopyala"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Kopyala ve takip et"
   button_create: "Oluştur"
   button_create_and_continue: "Oluştur ve devam et"
@@ -1294,12 +1312,13 @@ tr:
   error_can_not_unarchive_project: "Bu proje arşivlenemez: %{errors}"
   error_check_user_and_role: "Lütfen bir kullanıcı ve bir rol seçin."
   error_code: "Hata  %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'OpenProject çerezi yok. Lütfen uygulamanın düzgün çalışabilmesi için, tarayıcınızda çerezlere izin verildiğine emin olun.'
   error_custom_option_not_found: "Seçenek yok."
   error_enterprise_activation_user_limit: "Hesabınız etkinleştirilemedi (kullanıcı limitine ulaşıldı). Erişim sağlamak için lütfen yöneticinize başvurun."
   error_enterprise_token_invalid_domain: "Enterprise sürümü etkin değil. Enterprise belirtecinizin alanı (%{actual}), sistemin ana bilgisayar adıyla (%{expected}) eşleşmiyor."
   error_failed_to_delete_entry: 'Girdi silinemedi.'
-  error_in_dependent: "Bağımlı nesneyi değiştirmeye çalışırken hata: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Bağımlı nesneyi değiştirmeye çalışırken hata: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Bağımlı nesne yaratma girişiminde hata oluştu: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Seçili değeri geçersiz."
   error_journal_attribute_not_present: "Günlük  %{attribute} özniteliği içermiyor."
@@ -1318,6 +1337,7 @@ tr:
   error_password_change_failed: 'Şifreyi değiştirmeye çalışırken bir hata oluştu.'
   error_scm_command_failed: "Depoya erişmeye çalışılırken bir hata oluştu:%{value}"
   error_scm_not_found: "Depoda girme veya düzeltme bulunamadı."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "İş paketi durumu en az bir tarafından kullanılır beri silinemez iş paketi."
   error_unable_delete_default_status: "Varsayılan iş paketi durumu silinemiyor. Mevcut bir silmeden önce lütfen başka bir varsayılan iş paketi durumu seçin."
   error_unable_to_connect: "Bağlanma başarısız (%{value})"
@@ -1407,6 +1427,22 @@ tr:
     imagemagick: 'Resim büyüsü'
   journals:
     changes_retracted: "Değişiklikler geri çekildi."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} artık çalışma günü"
+          non_working: "%{day} artık çalışılmayan gün"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} artık çalışılmayan tarih"
   links:
     configuration_guide: 'Yapılandırma rehberi'
     get_in_touch: "Senin soruların var? Bizimle temasa geçin."
@@ -1431,6 +1467,26 @@ tr:
         action: "Eylem"
         expiration: "Bitiş tarihi"
       indefinite_expiration: "Hiçbir zaman"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Bu işlem için bildirim gönder"
     work_packages:
@@ -1473,6 +1529,7 @@ tr:
   label_age: "Yaş"
   label_ago: "gün önce"
   label_all: "tüm"
+  label_all_projects: "All projects"
   label_all_time: "her zaman"
   label_all_words: "Bütün kelimeler"
   label_all_open_wps: "Tüm açık"
@@ -1489,6 +1546,7 @@ tr:
   label_ical_access_key_revoke: "İptal etmek"
   label_applied_status: "Uygulanan statü"
   label_archive_project: "Projeyi arşivle"
+  label_archived_projects: "Archived projects"
   label_ascending: "Azalan"
   label_assigned_to_me_work_packages: "Bana atanan iş paketleri"
   label_associated_revisions: "İlişkili sürümler"
@@ -1558,8 +1616,8 @@ tr:
   label_confirmation: "Onay"
   label_contains: "içerir"
   label_content: "İçerik"
+  label_color_plural: "Colors"
   label_copied: "kopyalandı"
-  label_copy_to_clipboard: "Panoya kopyala"
   label_copy_same_as_target: "Hedefle aynı"
   label_copy_source: "Kaynak"
   label_copy_target: "Hedef"
@@ -1576,7 +1634,7 @@ tr:
   label_database_version: "PostgreSQL sürümü"
   label_date: "Tarih"
   label_date_and_time: "Tarih ve zaman"
-  label_date_format: "Date format"
+  label_date_format: "Tarih formatı"
   label_date_from: "Başlangıç"
   label_date_from_to: "%{start} tarihinden %{end} tarihine"
   label_date_to: "Bitiş"
@@ -1587,6 +1645,7 @@ tr:
   label_deleted: "silindi"
   label_deleted_custom_field: "(özel alan silindi)"
   label_deleted_custom_option: "(silinen seçenek)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(eksik değer veya erişim izinleri eksik)"
   label_descending: "Azalan"
   label_details: "Detaylar"
@@ -1625,11 +1684,14 @@ tr:
   label_equals: "şuysa"
   label_everywhere: "heryer"
   label_example: "Örnek"
+  label_experimental: "Deneysel"
+  label_i_am_member: "I am member"
   label_import: "İçeri Aktar"
   label_export_to: "Ayrıca şu adreste bulunabilir:"
   label_expanded_click_to_collapse: "Genişletilmiş. Daraltmak için tıklayın"
   label_f_hour: "%{value} saat"
   label_f_hour_plural: "%{value} saat"
+  label_favoured: "Favoured"
   label_feed_plural: "Akışlar"
   label_feeds_access_key: "RSS erişim anahtarı"
   label_feeds_access_key_created_on: "RSS erişim anahtarı %{value} önce oluşturuldu"
@@ -1661,6 +1723,7 @@ tr:
   label_hierarchy_leaf: "Hiyerarşi ağacı"
   label_home: "Ana sayfa"
   label_subject_or_id: "Konu ya da ID"
+  label_icalendar: "iCalendar"
   label_impressum: "Yasal uyarı"
   label_in: "şurada"
   label_in_less_than: "daha azdır"
@@ -1704,6 +1767,7 @@ tr:
   label_logged_as: "Giriş yapılan kullanıcı"
   label_login: "Oturum aç"
   label_custom_logo: "Özel logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Özel favicon"
   label_custom_touch_icon: "Özel dokunma simgesi"
   label_logout: "Oturumu kapat"
@@ -1823,7 +1887,8 @@ tr:
   label_project_new: "Yeni proje"
   label_project_plural: "Projeler"
   label_project_settings: "Proje Ayarları"
-  label_project_storage_plural: "Depolamalar"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} proje %{storage} disk alanı kullanıyor"
   label_project_view_all: "Tüm projeleri görüntüle"
   label_project_show_details: "Proje detaylarını göster"
@@ -1911,6 +1976,7 @@ tr:
   label_this_week: "bu hafta"
   label_this_year: "bu yıl"
   label_time_entry_plural: "Harcanan zaman"
+  label_title: "Title"
   label_projects_menu: "Projeler"
   label_today: "bugün"
   label_top_menu: "Üst Menü"
@@ -2061,6 +2127,7 @@ tr:
       more_to_see:
         one: 'Bildirimli 1 iş paketi daha var.'
         other: 'Bildirimleri olan %{count} iş paketi daha var.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'İzlendi'
         assigned: 'Atanmış'
@@ -2236,7 +2303,8 @@ tr:
   permission_add_messages: "İleti göndermek"
   permission_add_project: "Proje oluşturmak"
   permission_archive_project: "Projeyi arşivle"
-  permission_manage_user: "Kullanıcılar oluştur ve düzenle"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Yer tutucu kullanıcıları oluşturun, düzenleyin ve silin"
   permission_add_subprojects: "Alt proje oluşturmak"
   permission_add_work_package_watchers: "Takipçi ekle"
@@ -2327,7 +2395,7 @@ tr:
       archived: "Arşivlenen"
   project_module_activity: "Etkinlik"
   project_module_forums: "Forumlar"
-  project_module_work_package_tracking: "İş paketi takibi"
+  project_module_work_package_tracking: "İş paketleri"
   project_module_news: "Haberler"
   project_module_repository: "Depo"
   project_module_wiki: "Viki"
@@ -2501,7 +2569,7 @@ tr:
   setting_consent_decline_mail: "Onay iletişim posta adresi"
   setting_cross_project_work_package_relations: "Projeler arası iş paketi ilişkilerine izin ver"
   setting_first_week_of_year: "Yılın ilk haftası"
-  setting_date_format: "Date"
+  setting_date_format: "Tarih"
   setting_default_language: "Varsayılan dil"
   setting_default_projects_modules: "Yeni projeler için varsayılan etkin modüller"
   setting_default_projects_public: "Yeni projeler varsayılan olarak herkese açık"
@@ -2513,7 +2581,7 @@ tr:
   setting_enabled_scm: "Etkinleştirilmiş SCM"
   setting_enabled_projects_columns: "Proje listesinde görünür"
   setting_feeds_enabled: "Yayınları Etkinleştir"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Besleme içeriği sınırı"
   setting_file_max_size_displayed: "Satır içi görüntülenen maksimum metin dosyası boyutu"
   setting_host_name: "Ana bilgisayar adı"
@@ -2564,7 +2632,7 @@ tr:
   setting_start_of_week: "Hafta Başlangıcı"
   setting_sys_api_enabled: "Depo yönetimi web hizmetini etkinleştir"
   setting_sys_api_description: "Depo yönetimi web servisi depolara erişmek için entegrasyon ve kullanıcı yetkilendirmesi sağlar."
-  setting_time_format: "Time"
+  setting_time_format: "Saat"
   setting_accessibility_mode_for_anonymous: "İsimsiz kullanıcılar için erişilebilirlik modunu etkinleştir"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Kullanıcıların varsayılan saat dilimi"
@@ -2575,31 +2643,22 @@ tr:
   setting_welcome_on_homescreen: "Hoşgeldiniz bloğunu ana ekranda göster"
   setting_work_package_list_default_highlighting_mode: "Varsayılan vurgulama modu"
   setting_work_package_list_default_highlighted_attributes: "Varsayılan satır içi vurgulanan özellikler"
-  setting_working_days: "Working days"
+  setting_working_days: "İş Günleri"
   settings:
-    general: "Genel"
-    other: "Diğer"
-    passwords: "Parolalar"
-    session: "Oturum"
-    brute_force_prevention: "Otomatik kullanıcı engelleme"
     attachments:
       whitelist_text_html: >
         Yüklenen dosyalar için geçerli dosya uzantılarının ve/veya mim türlerinin bir listesini tanımlayın. <br/> Dosya uzantılarını (ör. <code>%{ext_example}</code>) veya mime türlerini (ör. <code>%{mime_example}</code>) girin. <br/> Herhangi bir dosya türünün yüklenmesine izin vermek için boş bırakın. Birden çok değere izin verilir (her değer için bir satır).
-    notifications:
-      events_explanation: 'Bir e-postanın hangi olay için gönderileceğini yönetir. İş paketleri, bildirimleri her kullanıcı için özel olarak yapılandırılabileceğinden bu listenin dışında tutulur.'
-      delay_minutes_explanation: "E-posta gönderimi, uygulama bildirimi yapılandırılmış olan kullanıcıların bir posta gönderilmeden önce uygulama içindeki bildirimi onaylamasına izin vermek için geciktirilebilir. Uygulama içinde bir bildirim okuyan kullanıcılar, okunan bildirim için bir e-posta almaz."
-    display:
+    brute_force_prevention: "Otomatik kullanıcı engelleme"
+    date_format:
       first_date_of_week_and_year_set: >
-        Eğer %{day_of_week_setting_name} veya %{first_week_setting_name} seçeneklerinden biri ayarlanmışsa, ön uçta tutarsızlık yaşanmaması için diğer seçeneğin de ayarlanması gerekir.
-      first_week_of_year_text: >
-        Yılın ilk haftasında yer alan Ocak tarihini seçin. Haftanın ilk günü ile birlikte bu değer, bir yıldaki toplam hafta sayısını belirler.
-    projects:
-      section_new_projects: "Yeni projeler için ayarlar"
-      section_project_overview: "Projeye genel bakış listesi ayarları"
-    user:
-      default_preferences: "Varsayılan Tercihler"
-      display_format: "Display format"
-      deletion: "Silme"
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
+    general: "Genel"
     highlighting:
       mode_long:
         inline: "Satır içi öznitelikleri vurgula "
@@ -2607,8 +2666,26 @@ tr:
         status: "Duruma göre tüm satır"
         type: "Türe göre tüm satır"
         priority: "Önceliğe göre tüm satır"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
+    notifications:
+      events_explanation: 'Bir e-postanın hangi olay için gönderileceğini yönetir. İş paketleri, bildirimleri her kullanıcı için özel olarak yapılandırılabileceğinden bu listenin dışında tutulur.'
+      delay_minutes_explanation: "E-posta gönderimi, uygulama bildirimi yapılandırılmış olan kullanıcıların bir posta gönderilmeden önce uygulama içindeki bildirimi onaylamasına izin vermek için geciktirilebilir. Uygulama içinde bir bildirim okuyan kullanıcılar, okunan bildirim için bir e-posta almaz."
+    other: "Diğer"
+    passwords: "Parolalar"
+    projects:
+      section_new_projects: "Yeni projeler için ayarlar"
+      section_project_overview: "Projeye genel bakış listesi ayarları"
+    session: "Oturum"
+    user:
+      default_preferences: "Varsayılan Tercihler"
+      display_format: "Display format"
+      deletion: "Silme"
     working_days:
-      section_work_week: "Work week"
+      section_work_week: "Çalışma Haftası"
       section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
@@ -2648,10 +2725,12 @@ tr:
     Enterprise sürümü, projelerin özel alanları için şu ek eklentileri ekleyecektir: <br> <ul> <li><b>Bir proje portföy görünümü oluşturmak için Projeler için özel alanları Proje listenize ekleyin</b></li > </ul>
   text_custom_logo_instructions: >
     Saydam arka plan üzerinde beyaz bir logo önerilir. Hem geleneksel en iyi sonuçları almak ve retina görüntüler için resm boyutlarının 60px ye 460px olduğundan emin olun.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Bu küçük ikon tarayıcı penceresinin/sekmesinin yanında gözükür. Kare, 32x32 piksel boyoutlarında PNG formatında ve arka planı transparan olmak zorundadır.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Bu ikon mobil araçlarda ya da tabletlerde yerimleri bölümünde anasayfanızda görünür. Kare, 180x180 piksel boyutlarında, PNG formatında olmak zorundadır. Arka planının transparan olmasına özen gösterin. Aksi halde iOS üzerinde çok kötü gözükür.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Veritabanı TSVector erişimi  (isteğe bağlı)"
   text_default_administrator_account_changed: "Varsayılan yönetici hesabı değişti"
   text_default_encoding: "Varsayılan: UTF-8"
@@ -2728,6 +2807,11 @@ tr:
   text_zoom_in: "Yakınlaştır"
   text_zoom_out: "Uzaklaştır"
   text_setup_mail_configuration: "E-posta sağlayıcısını yapılandır"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "öö"
     formats:
@@ -2740,153 +2824,6 @@ tr:
     show: "Zaman aralığını göster"
     end: "bitiş"
     start: "başlangıç"
-  timelines:
-    admin_menu:
-      color: "Renk"
-      colors: "Renkler"
-    associations: "Bağımlılıklar"
-    button_delete_all: "Tümünü sil"
-    change: "Planlama değişikliği"
-    children: "Çocuk elemanları"
-    color_could_not_be_saved: "Renk kaydedilemedi"
-    current_planning: "Mevcut planlama"
-    dates: "Tarih"
-    dates_are_calculated_based_on_sub_elements: "Tarihler, alt öğeler temel alınarak hesaplanır."
-    delete_all: "Tümünü sil"
-    delete_thing: "Sil"
-    duration: "Süre"
-    duration_days:
-      one: "1 gün"
-      other: "%{count} gün"
-    edit_color: "Renk Düzenle"
-    edit_thing: "Düzenle"
-    edit_timeline: "Zaman çizelgesi raporunu düzenle %{timeline}"
-    delete_timeline: "Zaman çizelgesi raporunu sil %{timeline}"
-    empty: "(boş)"
-    enable_type_in_project: '" %{type} " türünü etkinleştir'
-    end: "Son"
-    errors:
-      not_implemented: "Zaman çizelgesi, henüz uygulanmayan bir özellik kullandığından oluşturulamadı."
-      report_comparison: "Zaman çizelgesi, yapılandırılmış karşılaştırmaları işleyemedi. Lütfen konfigürasyonda uygun bölümü kontrol edin, bu sorunu sıfırlamak, bu sorunu çözmenize yardımcı olabilir."
-      report_epicfail: "Beklenmeyen bir hata nedeniyle zaman çizelgesi yüklenemedi."
-      report_timeout: "Zaman çizelgesi makul bir süre içinde yüklenemedi."
-    filter:
-      errors:
-        timeframe_start: "Zaman çerçevesi başlıyor "
-        timeframe_end: "Zaman çerçevesi sonu "
-        compare_to_relative: "Göreceli karşılaştırma değeri "
-        compare_to_absolute: "Mutlak karşılaştırma değeri "
-        planning_element_time_relative_one: "Belli bir zaman aralığında iş paketlerine başlama "
-        planning_element_time_relative_two: "Belli bir zaman aralığında iş paketlerinin sonu "
-        planning_element_time_absolute_one: "Belli bir zaman aralığında iş paketlerine başlama  "
-        planning_element_time_absolute_two: "Belli bir zaman aralığında iş paketlerinin sonu  "
-      sort:
-        sortation: "Sıralama şekli"
-        alphabet: "alfabe"
-        explicit_order: "açık sipariş"
-        project_sortation: "Projeleri sırala"
-        date: "tarih"
-        default: "varsayılan"
-      column:
-        assigned_to: "Atanan"
-        type: "Tür"
-        due_date: "Bitiş tarihi"
-        name: "İsim"
-        status: "Durum"
-        start_date: "Başlangıç tarihi"
-      columns: "Sütunlar"
-      comparisons: "Karşılaştırmalar"
-      comparison:
-        absolute: "Mutlak"
-        none: "Hiçbiri"
-        relative: "Göreceli"
-        compare_relative_prefix: "Mevcut planlama ile kıyasla"
-        compare_relative_suffix: "önce"
-        compare_absolute: "Mevcut planlamayı %{date} ile karşılaştır"
-      time_relative:
-        days: "gün"
-        weeks: "hafta"
-        months: "ay"
-      exclude_own_work_packages: "İş paketlerini bu projeden gizle"
-      exclude_reporters: "Diğer projeleri gizle"
-      exclude_empty: "Boş projeleri gizle"
-      grouping: "Gruplama"
-      grouping_hide_group: "\"%{group}\" grubunu gizle"
-      grouping_one: "İlk gruplama ölçütü"
-      grouping_one_phrase: "Şunun bir alt projesi"
-      grouping_other: "Diğer"
-      hide_chart: "Grafiği gizle"
-      noneElement: "(yok)"
-      noneSelection: "(yok)"
-      outline: "İlk seferde anahat genişletme"
-      parent: "Şunun altprojelerini göster"
-      work_package_responsible: "Sorumlularıyla birlikte iş paketlerini göster"
-      work_package_assignee: "Atanmış kişiye ait iş paketlerini göster"
-      types: "Türleri göster"
-      status: "Durumu göster"
-      project_time_filter: "Belirli bir zaman diliminde belirli türde bir iş paketine sahip projeler"
-      project_time_filter_timeframe: "Zaman çerçevesi"
-      project_time_filter_historical_from: "başlangıç"
-      project_time_filter_historical_to: "bitiş"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label}  %{startspan} %{startspanunit} önce, %{end_label}  %{endspan} %{endspanunit} bundan sonra"
-      project_filters: "Projeleri filtrele"
-      project_responsible: "Sorumlularıyla birlikte projeleri göster"
-      project_status: "Proje durumunu göster"
-      timeframe: "Zaman aralığını göster"
-      timeframe_end: "bitiş"
-      timeframe_start: "başlangıç"
-      timeline: "Genel Ayarlar"
-      zoom: "Yakınlaştırma faktörü"
-    history: "Geçmiş"
-    new_color: "Yeni renk"
-    new_association: "Yeni bağımlılık"
-    new_work_package: "Yeni iş paketi"
-    new_reporting: "Yeni raporlama"
-    new_timeline: "Yeni zaman çizelgesi raporu"
-    no_projects_for_reporting_available: "Bir raporlama birliğinin oluşturulabileceği proje bulunmamaktadır."
-    no_right_to_view_timeline: "Bağlantılı zaman çizelgesi görüntülemek için gerekli izniniz yok."
-    no_timeline_for_id: "%{id} kimlik numaralı bir zaman akışı yok."
-    notice_successful_deleted_all_elements: "Tüm elementler başarıyla silindi"
-    outline: "Anahat Sıfırla"
-    outlines:
-      aggregation: "Sadece toplu gösterimler"
-      level1: "Düzey 1 genişletin"
-      level2: "Düzey 2 genişletin"
-      level3: "Düzey 3 genişletin"
-      level4: "Seviye 4 genişletin"
-      level5: "Seviye 5 genişletin"
-      all: "Tümünü göster"
-    reporting_for_project:
-      show: "Projeye rapor edilen durum:%{title}"
-      edit_delete: "proje durum raporu: %{title}"
-      history: "Proje durum geçmişi: %{title}"
-    reporting:
-      delete: "Silinme durumu: %{comment}"
-      edit: "Düzenleme durumu: %{comment}"
-      show: "Durum: %{comment}"
-    planning_element_update: "Güncelleme: %{title}"
-    type_could_not_be_saved: "Type kaydedilemedi"
-    reporting_could_not_be_saved: "Raporlama kaydedilemedi"
-    properties: "Özellikler"
-    really_delete_color: >
-      Aşağıdaki rengi silmek istediğinizden emin misiniz? Bu rengi kullanan türler silinmeyecek.
-    really_delete_reporting: >
-      Aşağıdaki raporlama silmek istediğinizden emin misiniz? Önceki raporlama durumları da silinir.
-    start: "Başla"
-    timeline: "Zaman çizelgesi raporu"
-    timelines: "Zaman çizelgesi raporu"
-    settings: "Zaman çizelgeleri"
-    vertical_work_package: "Dikey iş paketleri"
-    you_are_viewing_the_selected_timeline: "Seçili zaman çizelgesi raporu görüntüleme"
-    zoom:
-      in: "Yakınlaştır"
-      out: "Uzaklaştır"
-      days: "Gün"
-      weeks: "Hafta"
-      months: "Ay"
-      quarters: "Üç aylık"
-      years: "Yıl"
   title_remove_and_delete_user: Davet edilen kullanıcıyı projeden çıkarın ve onu silin.
   title_enterprise_upgrade: "Daha fazla kullanıcının kilidini açmak için yükseltme."
   tooltip_user_default_timezone: >

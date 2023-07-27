@@ -26,16 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require 'support/pages/admin/system_settings/page'
 
 module Pages::Admin::SystemSettings
-  class General < ::Pages::Page
+  class General < Page
     def path
       "/admin/settings/general"
-    end
-
-    def toast_type
-      :rails
     end
 
     def welcome_text_editor
@@ -43,12 +39,7 @@ module Pages::Admin::SystemSettings
     end
 
     def welcome_text_selector
-      'ckeditor-augmented-textarea[textarea-selector="#settings_welcome_text"]'
-    end
-
-    def press_save_button
-      scroll_to(:bottom)
-      click_button('Save')
+      'ckeditor-augmented-textarea[data-textarea-selector="\"#settings_welcome_text\""]'
     end
   end
 end

@@ -21,7 +21,10 @@ Users can book their time or units spent on an activity within a project directl
 | [Delete time entries](#delete-time-entries)                  | How to delete time entries logged to a work package.         |
 | [Logging and editing time for other users](#logging-and-editing-time-for-other-users) | How to log time to work packages.                            |
 | [Spent time widget on the My Page](#spent-time-widget-on-the-my-page) | How to easily track and display spent time in the spent time widget on the MyPage. |
-| [Track time with Toggl](./toggl-integration)                 | How to track spent time with Toggl integration.              |
+| [Define hourly rate for labor costs](#define-hourly-rate-for-labor-costs) | How to easily track labor costs per user.                    |
+| [Toggl integration](./toggl-integration)                     | How to track spent time with Toggl.                          |
+| [TimeCamp integration](./timecamp-integration)               | How to track spent time using TimeCamp.                      |
+| [Time Tracker integration](./time-tracker-integration)       | How to record and log spent time using Time Tracker.         |
 
 
 ## Logging time in the work package view

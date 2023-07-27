@@ -2,8 +2,7 @@ require_relative '../../spec_helper'
 
 RSpec.describe 'Create BCF',
                js: true,
-               with_config: { edition: 'bim' },
-               with_mail: false do
+               with_config: { edition: 'bim' } do
   let(:project) do
     create(:project,
            types: [type, type_with_cf],

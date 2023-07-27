@@ -10,16 +10,16 @@
              name="query-title-filter"
              id="query-title-filter"
              [attr.placeholder]="text.search"/>
-      <span class="spot-icon spot-icon_search searchable-menu--search-icon"></span>
+      <i class="icon-search searchable-menu--search-icon"></i>
     </div>
 
     <p class="searchable-menu--no-results-container"
-       [hidden]="(views$ | async).length > 0"
+       [hidden]="items.length > 0"
        [textContent]="text.no_results"></p>
 
     <op-sidemenu
       class="op-view-select--search-results"
-      [items]="views$ | async"
+      [items]="items"
       [collapsible]="true"
       [searchable]="true"
     >

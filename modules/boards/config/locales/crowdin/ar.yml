@@ -14,5 +14,5 @@ ar:
       status: الحالة
       version: الإصدار
       subproject: مشروع فرعي
-      subtasks: Parent-child
+      subtasks: الاصل والفرع
       basic: Basic

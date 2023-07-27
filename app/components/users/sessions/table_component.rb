@@ -31,7 +31,7 @@
 module Users
   module Sessions
     class TableComponent < ::TableComponent
-      columns :is_current, :name, :updated_at
+      columns :is_current, :browser, :device, :updated_at
       sortable_columns :updated_at
       options :current_session
 
@@ -42,7 +42,8 @@ module Users
       def headers
         [
           [:is_current, { caption: I18n.t('users.sessions.current') }],
-          [:name, { caption: I18n.t(:label_name) }],
+          [:browser, { caption: I18n.t('users.sessions.browser') }],
+          [:device, { caption: I18n.t('users.sessions.device') }],
           [:updated_at, { caption: I18n.t('attributes.updated_at') }]
         ]
       end
