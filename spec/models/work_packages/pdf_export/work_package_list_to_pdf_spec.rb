@@ -90,6 +90,10 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     WorkPackage.human_attribute_name(column_name)
   end
 
+  def work_packages_sum
+    work_package_parent.story_points + work_package_child.story_points
+  end
+
   def work_package_columns(work_package)
     [work_package.id.to_s, work_package.subject, work_package.status.name, work_package.story_points.to_s]
   end
@@ -199,7 +203,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                   '1/2', export_time_formatted, query.name,
                                   I18n.t('js.work_packages.tabs.overview'),
                                   column_title(:story_points),
-                                  I18n.t('js.label_sum'), (work_package_parent.story_points + work_package_child.story_points).to_s,
+                                  I18n.t('js.label_sum'), work_packages_sum.to_s,
                                   *work_package_details(work_package_parent, 1),
                                   *work_package_details(work_package_child, 2),
                                   '2/2', export_time_formatted, query.name
@@ -221,7 +225,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                   column_title(:type), column_title(:story_points),
                                   work_package_parent.type.name, work_package_parent.story_points.to_s,
                                   work_package_child.type.name, work_package_child.story_points.to_s,
-                                  I18n.t('js.label_sum'), (work_package_parent.story_points + work_package_child.story_points).to_s,
+                                  I18n.t('js.label_sum'), work_packages_sum.to_s,
                                   *work_package_details(work_package_parent, 1),
                                   *work_package_details(work_package_child, 2),
                                   '2/2', export_time_formatted, query.name
