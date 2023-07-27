@@ -26,26 +26,82 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::StorageFileInfo
-  attr_reader :status, :status_code, :id, :name, :last_modified_at, :created_at, :mime_type, :size, :owner_name,
-              :owner_id, :trashed, :last_modified_by_name, :last_modified_by_id, :permissions, :location
-
-  def initialize(status, status_code, id, name, last_modified_at, created_at, mime_type, size, owner_name, owner_id,
-                 trashed, last_modified_by_name, last_modified_by_id, permissions, location)
-    @status = status
-    @status_code = status_code
-    @id = id
-    @name = name
-    @last_modified_at = last_modified_at
-    @created_at = created_at
-    @mime_type = mime_type
-    @size = size
-    @owner_name = owner_name
-    @owner_id = owner_id
-    @trashed = trashed
-    @last_modified_by_name = last_modified_by_name
-    @last_modified_by_id = last_modified_by_id
-    @permissions = permissions
-    @location = location
+module Storages
+  StorageFileInfo = Data.define(
+    :status,
+    :status_code,
+    :id,
+    :name,
+    :last_modified_at,
+    :created_at,
+    :mime_type,
+    :size,
+    :owner_name,
+    :owner_id,
+    :trashed,
+    :last_modified_by_name,
+    :last_modified_by_id,
+    :permissions,
+    :location
+  ) do
+    def initialize(
+      status:,
+      status_code:,
+      id:,
+      name: nil,
+      last_modified_at: nil,
+      created_at: nil,
+      mime_type: nil,
+      size: nil,
+      owner_name: nil,
+      owner_id: nil,
+      trashed: nil,
+      last_modified_by_name: nil,
+      last_modified_by_id: nil,
+      permissions: nil,
+      location: nil
+    )
+      super(
+        status:,
+        status_code:,
+        id:,
+        name:,
+        last_modified_at:,
+        created_at:,
+        mime_type:,
+        size:,
+        owner_name:,
+        owner_id:,
+        trashed:,
+        last_modified_by_name:,
+        last_modified_by_id:,
+        permissions:,
+        location:
+      )
+    end
   end
 end
+
+# class Storages::StorageFileInfo
+#   attr_reader :status, :status_code, :id, :name, :last_modified_at, :created_at, :mime_type, :size, :owner_name,
+#               :owner_id, :trashed, :last_modified_by_name, :last_modified_by_id, :permissions, :location
+#
+#   def initialize(status, status_code, id, name, last_modified_at, created_at, mime_type, size, owner_name, owner_id,
+#                  trashed, last_modified_by_name, last_modified_by_id, permissions, location)
+#     @status = status
+#     @status_code = status_code
+#     @id = id
+#     @name = name
+#     @last_modified_at = last_modified_at
+#     @created_at = created_at
+#     @mime_type = mime_type
+#     @size = size
+#     @owner_name = owner_name
+#     @owner_id = owner_id
+#     @trashed = trashed
+#     @last_modified_by_name = last_modified_by_name
+#     @last_modified_by_id = last_modified_by_id
+#     @permissions = permissions
+#     @location = location
+#   end
+# end

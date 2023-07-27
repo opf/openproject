@@ -102,39 +102,27 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           result: response_object.ocs.data.to_h.map do |key, value|
             if value.statuscode == 200
               ::Storages::StorageFileInfo.new(
-                value.status,
-                value.statuscode,
-                value.id,
-                value.name,
-                Time.zone.at(value.mtime),
-                Time.zone.at(value.ctime),
-                value.mimetype,
-                value.size,
-                value.owner_name,
-                value.owner_id,
-                value.trashed,
-                value.modifier_name,
-                value.modifier_id,
-                value.dav_permissions,
-                location(value.path)
+                status: value.status,
+                status_code: value.statuscode,
+                id: value.id,
+                name: value.name,
+                last_modified_at: Time.zone.at(value.mtime),
+                created_at: Time.zone.at(value.ctime),
+                mime_type: value.mimetype,
+                size: value.size,
+                owner_name: value.owner_name,
+                owner_id: value.owner_id,
+                trashed: value.trashed,
+                last_modified_by_name: value.modifier_name,
+                last_modified_by_id: value.modifier_id,
+                permissions: value.dav_permissions,
+                location: location(value.path)
               )
             else
               ::Storages::StorageFileInfo.new(
-                value.status,
-                value.statuscode,
-                key.to_s.to_i,
-                nil,
-                nil,
-                nil,
-                nil,
-                nil,
-                nil,
-                nil,
-                nil,
-                nil,
-                nil,
-                nil,
-                nil
+                status: value.status,
+                status_code: value.statuscode,
+                id: key.to_s.to_i
               )
             end
           end
