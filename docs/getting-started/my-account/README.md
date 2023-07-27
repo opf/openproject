@@ -147,13 +147,17 @@ You will then see a message informing you that the the token und the iCal URL ar
 
 ### OAUTH
 
-OAuth tokens allow third-party applications to connect with this OpenProject instance. OAuth tokens can be created under [*Administration-> Authentication*](https://www.openproject.org/docs/system-admin-guide/authentication/). You will need admin privileges. 
+OAuth tokens allow third-party applications to connect with this OpenProject instance, for example Nextcloud (see [here](https://www.openproject.org/docs/user-guide/nextcloud-integration/)how to set up Nextcloud integration.  OAuth tokens can be created under [*Administration-> Authentication*](https://www.openproject.org/docs/system-admin-guide/authentication/). 
 
-Potential bug? OAuth created for my user not showing here. 
+If no third-party application integration has been activated yet, this list will be empty. Please contact your administrator to help you set it up. Once an integration has been set up, you will see the details here and will be able to delete any OAuth tokens by clicking on the **Delete** icon. 
+
+![OpenProject OAuth tokens under My Account](openproject_my_account_access_tokens_oauth.png)
+
+
 
 ### RSS
 
-RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader.  You can only create one RSS token (?). 
+RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader.  You can only have one active RSS token. 
 
 Create by clicking the **+RSS token** button. This will create your token and trigger a message showing you the access token. 
 
