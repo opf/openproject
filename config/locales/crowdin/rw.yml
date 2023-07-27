@@ -99,14 +99,6 @@ rw:
     edit: "Edit help text for %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: There are currently no authentication modes.
-      no_results_content_text: Create a new authentication mode
-  background_jobs:
-    status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -162,6 +154,10 @@ rw:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   forums:
     show:
       no_results_title_text: There are currently no posts for the forum.
@@ -557,7 +553,7 @@ rw:
         color: "Color"
       user:
         admin: "Administrator"
-        auth_source: "Authentication mode"
+        ldap_auth_source: "LDAP connection"
         current_password: "Current password"
         force_password_change: "Enforce password change on next login"
         language: "Language"
@@ -1562,9 +1558,9 @@ rw:
   label_attachment_plural: "Files"
   label_attribute: "Attribute"
   label_attribute_plural: "Attributes"
-  label_auth_source: "Authentication mode"
-  label_auth_source_new: "New authentication mode"
-  label_auth_source_plural: "Authentication modes"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Authentication"
   label_available_project_work_package_categories: 'Available work package categories'
   label_available_project_work_package_types: 'Available work package types'
@@ -2279,7 +2275,7 @@ rw:
   present_access_key_value: "Your %{key_name} is: %{value}"
   notice_automatic_set_of_standard_type: "Set standard type automatically."
   notice_logged_out: "You have been logged out."
-  notice_wont_delete_auth_source: The authentication mode cannot be deleted as long as there are still users using it.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields. The project is invalid: %{errors}"
   notice_attachment_migration_wiki_page: >
     This page was generated automatically during the update of OpenProject. It contains all attachments previously associated with the %{container_type} "%{container_name}".

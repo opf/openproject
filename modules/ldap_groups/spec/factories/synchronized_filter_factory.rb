@@ -4,7 +4,7 @@ FactoryBot.define do
     filter_string { '(|(cn=foo)(cn=bar))' }
     group_name_attribute { 'cn' }
     base_dn { 'dc=example,dc=com' }
-    auth_source factory: :ldap_auth_source
+    ldap_auth_source
     sync_users { true }
   end
 end

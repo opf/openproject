@@ -25,7 +25,7 @@ RSpec.describe 'LDAP group sync administration spec', js: true do
       find('.button', text: I18n.t('ldap_groups.synchronized_groups.singular')).click
       SeleniumHubWaiter.wait
 
-      select 'ldap', from: 'synchronized_group_auth_source_id'
+      select 'ldap', from: 'synchronized_group_ldap_auth_source_id'
       select 'foo', from: 'synchronized_group_group_id'
       fill_in 'synchronized_group_dn', with: 'cn=foo,ou=groups,dc=example,dc=com'
       check 'synchronized_group_sync_users'
@@ -33,7 +33,7 @@ RSpec.describe 'LDAP group sync administration spec', js: true do
       click_on 'Create'
       expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_successful_create))
       expect(page).to have_selector('td.dn', text: 'cn=foo,ou=groups,dc=example,dc=com')
-      expect(page).to have_selector('td.auth_source', text: 'ldap')
+      expect(page).to have_selector('td.ldap_auth_source', text: 'ldap')
       expect(page).to have_selector('td.group', text: 'foo')
       expect(page).to have_selector('td.users', text: '0')
 
@@ -45,7 +45,7 @@ RSpec.describe 'LDAP group sync administration spec', js: true do
       # Check created group
       sync = LdapGroups::SynchronizedGroup.last
       expect(sync.group_id).to eq(group.id)
-      expect(sync.auth_source_id).to eq(auth_source.id)
+      expect(sync.ldap_auth_source_id).to eq(auth_source.id)
       expect(sync.dn).to eq 'cn=foo,ou=groups,dc=example,dc=com'
 
       # Assume we have a membership

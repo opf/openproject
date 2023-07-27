@@ -99,14 +99,6 @@ hu:
     edit: "Súgószöveg \"%{attribute_caption}\" szerkesztése"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: Jelenleg nincs autentikációs mód.
-      no_results_content_text: Új autentikációs mód létrehozása
-  background_jobs:
-    status:
-      error_requeue: "A művelet hibát észlelt, de újra próbálkozik. A hiba a következő volt: %{message}\n"
-      cancelled_due_to: "A műveletet hiba miatt törölték: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Ehhez az LDAP űrlaphoz az Ön LDAP / Acitive Directory beállításainak ismerete szükséges.
@@ -161,6 +153,10 @@ hu:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
+  background_jobs:
+    status:
+      error_requeue: "A művelet hibát észlelt, de újra próbálkozik. A hiba a következő volt: %{message}\n"
+      cancelled_due_to: "A műveletet hiba miatt törölték: %{message}"
   forums:
     show:
       no_results_title_text: Jelenleg nincs fórumbejegyzés.
@@ -554,7 +550,7 @@ hu:
         color: "Szín"
       user:
         admin: "Adminisztrátor"
-        auth_source: "Hitelesítési mód"
+        ldap_auth_source: "LDAP connection"
         current_password: "Jelenlegi jelszó"
         force_password_change: "Kötelező jelszóváltás a következő bejelentkezéskor"
         language: "Nyelv"
@@ -1559,9 +1555,9 @@ hu:
   label_attachment_plural: "Fájlok"
   label_attribute: "Attribútum"
   label_attribute_plural: "Attribútumok"
-  label_auth_source: "Hitelesítési mód"
-  label_auth_source_new: "Új hitelesítési mód"
-  label_auth_source_plural: "Hitelesítési mód"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Hitelesítés"
   label_available_project_work_package_categories: 'Rendelkezésre álló munkacsomag kategóriák'
   label_available_project_work_package_types: 'Rendelkezésre álló munkacsomag típusok'
@@ -2275,7 +2271,7 @@ hu:
   present_access_key_value: "A Te %{key_name} is: %{value}"
   notice_automatic_set_of_standard_type: "Automatikusan beállítja alap típust ."
   notice_logged_out: "Kijelentkeztél."
-  notice_wont_delete_auth_source: Az autentikációs mód nem törölhető, amíg valamelyik felhasználó azt használja.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Nem tudod firssíteni a projekt egyedi mezőit. A projekt érvénytelen: %{errors}"
   notice_attachment_migration_wiki_page: >
     Ez az oldal automatikusan jött létre az OpenProject frissítésekor. Tartalmazza az összes mellékletet az alábbiakhoz: %{container_type} %{container_name}.

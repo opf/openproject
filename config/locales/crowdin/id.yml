@@ -99,14 +99,6 @@ id:
     edit: "Mengedit teks bantuan untuk %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: Tidak ada mode otentikasi saat ini.
-      no_results_content_text: Buat mode otentikasi baru
-  background_jobs:
-    status:
-      error_requeue: "Pekerjaan mengalami kesalahan tetapi mencoba lagi.  Kesalahannya adalah: %{message}"
-      cancelled_due_to: "Pekerjaan dibatalkan karena kesalahan: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Formulir LDAP ini membutuhkan pengetahuan teknis LDAP anda / pengaturan Direktori Aktif. <br/><a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Silahkan kungjungi dokumentasi untuk instruksi lebih jelas</a>.
@@ -156,6 +148,10 @@ id:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
+  background_jobs:
+    status:
+      error_requeue: "Pekerjaan mengalami kesalahan tetapi mencoba lagi.  Kesalahannya adalah: %{message}"
+      cancelled_due_to: "Pekerjaan dibatalkan karena kesalahan: %{message}"
   forums:
     show:
       no_results_title_text: Saat ini tidak ada postingan di forum.
@@ -549,7 +545,7 @@ id:
         color: "Warna"
       user:
         admin: "Administrator"
-        auth_source: "Mode otentikasi"
+        ldap_auth_source: "LDAP connection"
         current_password: "Current password"
         force_password_change: "Ubah password saat pertama Login"
         language: "Bahasa"
@@ -1536,9 +1532,9 @@ id:
   label_attachment_plural: "File"
   label_attribute: "Atribut"
   label_attribute_plural: "Atribut"
-  label_auth_source: "Mode otentikasi"
-  label_auth_source_new: "Mode otentikasi baru"
-  label_auth_source_plural: "Mode otentikasi"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Otentikasi"
   label_available_project_work_package_categories: 'Available work package categories'
   label_available_project_work_package_types: 'Jenis paket pekerjaan yang tersedia'
@@ -2250,7 +2246,7 @@ id:
   present_access_key_value: "Your %{key_name} is: %{value}"
   notice_automatic_set_of_standard_type: "Set Tipe standar secara otomatis."
   notice_logged_out: "Anda telah logout."
-  notice_wont_delete_auth_source: The authentication mode cannot be deleted as long as there are still users using it.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields. The project is invalid: %{errors}"
   notice_attachment_migration_wiki_page: >
     Halaman ini dihasilkan secara otomatis selama pembaharuan OpenProject. Ini berisi semua lampiran yang terkait sebelumnya dengan %{container_type} "%{container_name}".

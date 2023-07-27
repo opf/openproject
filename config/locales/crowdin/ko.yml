@@ -99,14 +99,6 @@ ko:
     edit: "%{attribute_caption}에 대한 도움말 텍스트 편집"
     enterprise:
       description: '작업 패키지 및 프로젝트의 특성(사용자 지정 필드 포함)에 대한 추가 정보를 제공합니다. 사용자가 프로젝트 및 작업 패키지의 입력 필드 옆에 있는 물음표 기호를 클릭하면 도움말 텍스트가 표시됩니다.'
-  auth_sources:
-    index:
-      no_results_content_title: 사용인증 모드가 없습니다.
-      no_results_content_text: 새 사용인증 모드 생성
-  background_jobs:
-    status:
-      error_requeue: "작업 중에 오류가 발생했지만 다시 시도 중입니다. 오류 메시지: %{message}"
-      cancelled_due_to: "오류로 인해 작업이 취소되었습니다: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       이 LDAP 양식을 사용하려면 LDAP / Active Directory 설정에 대한 기술 지식이 필요합니다.
@@ -162,6 +154,10 @@ ko:
       verify_peer_description_html: >
         인증서 신뢰 체인의 엄격한 SSL 인증을 활성화합니다. <br/> <strong>경고:</strong> 이 옵션을 선택 취소하면 LDAP 서버 인증서의 SSL 인증이 비활성화됩니다. 이렇게 하면 사용자의 연결이 중간자 공격에 노출됩니다.
       tls_certificate_description: "LDAP 서버 인증서가 이 시스템의 신뢰 소스에 없으면 여기에서 수동으로 추가할 수 있습니다. PEM X509 인증서 문자열을 입력하세요."
+  background_jobs:
+    status:
+      error_requeue: "작업 중에 오류가 발생했지만 다시 시도 중입니다. 오류 메시지: %{message}"
+      cancelled_due_to: "오류로 인해 작업이 취소되었습니다: %{message}"
   forums:
     show:
       no_results_title_text: 포럼에 대한 포스트가 현재 없습니다.
@@ -555,7 +551,7 @@ ko:
         color: "색상"
       user:
         admin: "관리자"
-        auth_source: "인증모드"
+        ldap_auth_source: "LDAP connection"
         current_password: "기존 비밀번호"
         force_password_change: "다음 로그인 암호 변경 적용"
         language: "언어"
@@ -1542,9 +1538,9 @@ ko:
   label_attachment_plural: "파일"
   label_attribute: "특성"
   label_attribute_plural: "특성"
-  label_auth_source: "인증모드"
-  label_auth_source_new: "새 인증 모드"
-  label_auth_source_plural: "인증 모드"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "인증"
   label_available_project_work_package_categories: '사용 가능한 작업 패키지 카테고리'
   label_available_project_work_package_types: '사용 가능한 작업 패키지 유형'
@@ -2257,7 +2253,7 @@ ko:
   present_access_key_value: "당신의 %{key_name} : %{value}"
   notice_automatic_set_of_standard_type: "자동으로 표준 유형을 설정합니다."
   notice_logged_out: "로그아웃했습니다."
-  notice_wont_delete_auth_source: 사용자가 사용 중인 인증 모드는 삭제할 수 없습니다.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "프로젝트의 사용 가능한 사용자 지정 필드를 업데이트할 수 없습니다. 프로젝트가 유효하지 않습니다: %{errors}"
   notice_attachment_migration_wiki_page: >
     이 페이지는 OpenProject 업데이트 중에 자동으로 생성되었습니다. 이 페이지에는 %{container_type} "%{container_name}"과(와) 이전에 연결된 모든 첨부 파일이 포함되어 있습니다.

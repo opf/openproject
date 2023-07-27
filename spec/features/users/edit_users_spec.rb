@@ -33,14 +33,14 @@ RSpec.describe 'edit users', js: true, with_cuprite: true do
   let(:current_user) { admin }
   let(:user) { create(:user, mail: 'foo@example.com') }
 
-  let!(:auth_source) { create(:auth_source) }
+  let!(:auth_source) { create(:ldap_auth_source) }
 
   before do
     allow(User).to receive(:current).and_return current_user
   end
 
   def auth_select
-    find 'select#user_auth_source_id'
+    find 'select#user_ldap_auth_source_id'
   end
 
   def user_password
@@ -66,7 +66,7 @@ RSpec.describe 'edit users', js: true, with_cuprite: true do
 
   context 'with external authentication' do
     before do
-      user.auth_source = auth_source
+      user.ldap_auth_source = auth_source
       user.save!
 
       visit edit_user_path(user)
@@ -95,7 +95,7 @@ RSpec.describe 'edit users', js: true, with_cuprite: true do
       expect(page).not_to have_selector('.users-and-permissions-menu-item', text: 'Users and permissions')
       expect(page).to have_selector('.users-menu-item.selected', text: 'Users')
 
-      expect(page).to have_select(id: 'user_auth_source_id')
+      expect(page).to have_select(id: 'user_ldap_auth_source_id')
       expect(page).not_to have_field '#user_password'
 
       expect(page).to have_selector '#user_login'
@@ -108,7 +108,7 @@ RSpec.describe 'edit users', js: true, with_cuprite: true do
         firstname_field.send_keys(:backspace)
       end
       firstname_field.set 'NewName'
-      select auth_source.name, from: 'user[auth_source_id]'
+      select auth_source.name, from: 'user[ldap_auth_source_id]'
 
       click_on 'Save'
 
@@ -117,7 +117,7 @@ RSpec.describe 'edit users', js: true, with_cuprite: true do
       user.reload
 
       expect(user.firstname).to eq 'NewName'
-      expect(user.auth_source).to eq auth_source
+      expect(user.ldap_auth_source).to eq auth_source
     end
 
     it 'can reinvite the user' do

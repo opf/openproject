@@ -32,6 +32,7 @@ RSpec.describe LdapAuthSourcesController do
   let(:current_user) { create(:admin) }
 
   before do
+    allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
     allow(User).to receive(:current).and_return current_user
   end
 
@@ -44,9 +45,123 @@ RSpec.describe LdapAuthSourcesController do
     it { is_expected.to respond_with :success }
     it { is_expected.to render_template :new }
 
-    it 'initializes a new AuthSource' do
+    it 'initializes a new LdapAuthSource' do
       expect(assigns(:auth_source).class).to eq LdapAuthSource
       expect(assigns(:auth_source)).to be_new_record
+    end
+  end
+
+  describe 'index' do
+    before do
+      get :index
+    end
+
+    it { is_expected.to respond_with :success }
+    it { is_expected.to render_template :index }
+  end
+
+  describe 'create' do
+    before do
+      post :create, params: { ldap_auth_source: { name: 'Test', host: 'example.com', attr_login: 'foo' } }
+    end
+
+    it { is_expected.to respond_with :redirect }
+    it { is_expected.to redirect_to ldap_auth_sources_path }
+    it { is_expected.to set_flash.to /success/i }
+  end
+
+  describe 'edit' do
+    let(:ldap) { create(:ldap_auth_source, name: 'TestEdit') }
+
+    before do
+      get :edit, params: { id: ldap.id }
+    end
+
+    it { expect(assigns(:auth_source)).to eq ldap }
+    it { is_expected.to respond_with :success }
+    it { is_expected.to render_template :edit }
+  end
+
+  describe 'update' do
+    let(:ldap) { create(:ldap_auth_source, name: 'TestEdit') }
+
+    before do
+      post :update, params: { id: ldap.id, ldap_auth_source: { name: 'TestUpdate' } }
+    end
+
+    it { is_expected.to respond_with :redirect }
+    it { is_expected.to redirect_to ldap_auth_sources_path }
+    it { is_expected.to set_flash.to /update/i }
+  end
+
+  describe 'destroy' do
+    let(:ldap) { create(:ldap_auth_source, name: 'TestEdit') }
+
+    context 'without users' do
+      before do
+        post :destroy, params: { id: ldap.id }
+      end
+
+      it { is_expected.to respond_with :redirect }
+      it { is_expected.to redirect_to ldap_auth_sources_path }
+      it { is_expected.to set_flash.to /deletion/i }
+    end
+
+    context 'with users' do
+      let!(:ldap) { create(:ldap_auth_source, name: 'TestEdit') }
+      let!(:user) { create(:user, ldap_auth_source: ldap) }
+
+      before do
+        post :destroy, params: { id: ldap.id }
+      end
+
+      it { is_expected.to respond_with :redirect }
+
+      it 'does not destroy the LdapAuthSource' do
+        expect(LdapAuthSource.find(ldap.id)).not_to be_nil
+      end
+    end
+  end
+
+  context 'with password login disabled' do
+    before do
+      allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+    end
+
+    it 'cannot find index' do
+      get :index
+
+      expect(response).to have_http_status :not_found
+    end
+
+    it 'cannot find new' do
+      get :new
+
+      expect(response).to have_http_status :not_found
+    end
+
+    it 'cannot find create' do
+      post :create, params: { ldap_auth_source: { name: 'Test' } }
+
+      expect(response).to have_http_status :not_found
+    end
+
+    it 'cannot find edit' do
+      get :edit, params: { id: 42 }
+
+      expect(response).to have_http_status :not_found
+    end
+
+    it 'cannot find update' do
+      post :update, params: { id: 42, ldap_auth_source: { name: 'TestUpdate' } }
+
+      expect(response).to have_http_status :not_found
+    end
+
+    it 'cannot find destroy' do
+      post :destroy, params: { id: 42 }
+
+      expect(response).to have_http_status :not_found
     end
   end
 end

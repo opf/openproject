@@ -3,11 +3,11 @@ id:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        auth_source: 'koneksi LDAP'
+        ldap_auth_source: 'LDAP connection'
         sync_users: 'Sinkronkan pengguna'
       ldap_groups/synchronized_filter:
         filter_string: 'penyaring LDAP'
-        auth_source: 'koneksi LDAP'
+        ldap_auth_source: 'LDAP connection'
         group_name_attribute: "Atribut nama grup"
         sync_users: 'Sinkronkan pengguna'
         base_dn: "Cari basis DN"

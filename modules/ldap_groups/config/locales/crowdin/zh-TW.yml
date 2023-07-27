@@ -3,11 +3,11 @@ zh-TW:
     attributes:
       ldap_groups/synchronized_group:
         dn: '獨特名'
-        auth_source: 'LDAP 連線'
+        ldap_auth_source: 'LDAP connection'
         sync_users: '同步使用者'
       ldap_groups/synchronized_filter:
         filter_string: '簡約登入目錄制約(LDAP)篩選'
-        auth_source: 'LDAP 連線'
+        ldap_auth_source: 'LDAP connection'
         group_name_attribute: "群組名字屬性"
         sync_users: '同步使用者'
         base_dn: "搜尋基礎 DN"
