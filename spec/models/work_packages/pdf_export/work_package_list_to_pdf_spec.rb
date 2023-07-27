@@ -204,8 +204,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                   I18n.t('js.work_packages.tabs.overview'),
                                   column_title(:story_points),
                                   I18n.t('js.label_sum'), work_packages_sum.to_s,
-                                  *work_package_details(work_package_parent, 1),
-                                  *work_package_details(work_package_child, 2),
+                                  *work_package_details(work_package_parent, "1"),
+                                  *work_package_details(work_package_child, "2"),
                                   '2/2', export_time_formatted, query.name
                                 ])
     end
@@ -226,8 +226,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                   work_package_parent.type.name, work_package_parent.story_points.to_s,
                                   work_package_child.type.name, work_package_child.story_points.to_s,
                                   I18n.t('js.label_sum'), work_packages_sum.to_s,
-                                  *work_package_details(work_package_parent, 1),
-                                  *work_package_details(work_package_child, 2),
+                                  *work_package_details(work_package_parent, "1"),
+                                  *work_package_details(work_package_child, "2"),
                                   '2/2', export_time_formatted, query.name
                                 ])
     end
