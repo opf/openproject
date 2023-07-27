@@ -4,11 +4,11 @@ module Boards
   class BasicBoardCreateService < BaseCreateService
     private
 
-    def query_name(_params)
+    def query_name
       'Unnamed list'
     end
 
-    def query_filters(_params)
+    def query_filters
       [{ manual_sort: { operator: 'ow', values: [] } }]
     end
 
@@ -22,7 +22,7 @@ module Boards
           identifier: "work_package_query",
           options: {
             "queryId" => params[:query_id],
-            "filters" => query_filters(params)
+            "filters" => query_filters
           }
         )
       ]

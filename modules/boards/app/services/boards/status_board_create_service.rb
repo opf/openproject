@@ -4,11 +4,11 @@ module Boards
   class StatusBoardCreateService < BaseCreateService
     private
 
-    def query_name(_params)
+    def query_name
       default_status.name
     end
 
-    def query_filters(_params)
+    def query_filters
       [{ status_id: { operator: '=', values: [default_status.id] } }]
     end
 
@@ -26,7 +26,7 @@ module Boards
           identifier: "work_package_query",
           options: {
             "queryId" => params[:query_id],
-            "filters" => query_filters(params)
+            "filters" => query_filters
           }
         )
       ]

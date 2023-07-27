@@ -27,7 +27,7 @@ module Boards
 
     def create_query_params(params, version)
       {
-        project_id: params[:project].id,
+        project: params[:project],
         name: query_name(version),
         filters: query_filters(version)
       }
@@ -43,9 +43,7 @@ module Boards
 
     def options_for_widgets(params)
       query_ids_with_versions = params[:query_ids].zip(versions(params))
-      query_ids_with_versions.map.with_index do |query_id_with_version, index|
-        query_id, version = query_id_with_version
-
+      query_ids_with_versions.map.with_index do |(query_id, version), index|
         Grids::Widget.new(
           start_row: 1,
           start_column: 1 + index,

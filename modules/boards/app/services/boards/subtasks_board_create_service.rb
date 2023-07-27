@@ -4,12 +4,8 @@ module Boards
   class SubtasksBoardCreateService < BaseCreateService
     private
 
-    def grid_lacks_query?(_params)
+    def no_widgets_initially?
       true
-    end
-
-    def options_for_widgets(_params)
-      []
     end
   end
 end
