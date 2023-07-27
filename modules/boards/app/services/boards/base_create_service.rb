@@ -9,7 +9,7 @@ module Boards
         name: attributes[:name],
         project: attributes[:project],
         row_count: row_count_for_board,
-        column_count: column_count_for_board,
+        column_count: column_count_for_board
       )
     end
 
@@ -73,7 +73,7 @@ module Boards
       end
     end
 
-    def options_for_widgets(params)
+    def options_for_widgets(_params)
       return [] if no_widgets_initially?
 
       raise 'Define the options for the grid widgets'
