@@ -114,7 +114,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
     attribute_data[:value].present?
   end
 
-  def attributes_list_by_columns(_work_package)
+  def attributes_list_by_columns
     column_objects
       .reject { |column| column.name == :subject }
       .map do |column|
