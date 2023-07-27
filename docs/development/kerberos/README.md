@@ -215,7 +215,7 @@ This is expected, as there is no `user1` login with an auth source connected. To
 ```ruby
 auth_source = LdapAuthSource.create! name: 'test', host: 'localhost', attr_login: 'uid'
 
-user = User.create! login: 'user1', firstname: 'user', lastname: 'one', mail: 'user1@example.org', admin: true, auth_source: auth_source
+user = User.create! login: 'user1', firstname: 'user', lastname: 'one', mail: 'user1@example.org', admin: true, ldap_auth_source: auth_source
 ```
 
 

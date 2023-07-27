@@ -42,7 +42,7 @@ module LdapGroups
       end
 
       def auth_source
-        link_to synchronized_filter.auth_source.name, edit_ldap_auth_source_path(synchronized_filter.auth_source)
+        link_to synchronized_filter.ldap_auth_source.name, edit_ldap_auth_source_path(synchronized_filter.ldap_auth_source)
       end
 
       def groups

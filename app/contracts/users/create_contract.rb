@@ -62,7 +62,7 @@ module Users
     end
 
     def no_auth?
-      model.password.blank? && model.auth_source_id.blank? && model.identity_url.blank?
+      model.password.blank? && model.ldap_auth_source_id.blank? && model.identity_url.blank?
     end
 
     ##

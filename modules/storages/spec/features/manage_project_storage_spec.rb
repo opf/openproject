@@ -51,6 +51,7 @@ RSpec.describe(
   let(:storage) { create(:nextcloud_storage, :as_automatically_managed, oauth_application:) }
   let(:project) do
     create(:project,
+           name: "Project name without sequence",
            members: { user => role },
            enabled_module_names: %i[storages work_package_tracking])
   end
@@ -79,8 +80,6 @@ RSpec.describe(
   end
 
   before do
-    skip("Flaky test disabled. Fix it in https://community.openproject.org/wp/49285")
-
     oauth_client_token
 
     stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/")
@@ -89,7 +88,11 @@ RSpec.describe(
       .to_return(status: 207, body: folder1_xml_response, headers: {})
     stub_request(:get, "#{storage.host}/ocs/v1.php/apps/integration_openproject/fileinfo/11")
       .to_return(status: 200, body: folder1_fileinfo_response.to_json, headers: {})
-    stub_request(:get, "https://host1.example.com/ocs/v1.php/cloud/user").to_return(status: 200, body: "{}")
+    stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user").to_return(status: 200, body: "{}")
+    stub_request(
+      :delete,
+      "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project%20name%20without%20sequence%20(#{project.id})"
+    ).to_return(status: 200, body: "", headers: {})
 
     storage
     project
@@ -117,7 +120,8 @@ RSpec.describe(
     page.find('.toolbar .button--icon.icon-add').click
     expect(page).to have_current_path new_project_settings_projects_storage_path(project_id: project)
     expect(page).to have_text('Add a file storage')
-    expect(page).to have_select('storages_project_storage_storage_id', options: ['Storage 1 (nextcloud)'])
+    expect(page).to have_select('storages_project_storage_storage_id',
+                                options: ["#{storage.name} (#{storage.short_provider_type})"])
     page.click_button('Continue')
 
     # by default automatic have to be choosen if storage has automatic management enabled
@@ -173,9 +177,21 @@ RSpec.describe(
 
     # Press Delete icon to remove the storage from the project
     page.find('.icon.icon-delete').click
-    alert_text = page.driver.browser.switch_to.alert.text
-    expect(alert_text).to have_text 'Are you sure'
-    page.driver.browser.switch_to.alert.accept
+
+    # Danger zone confirmation flow
+    expect(page).to have_selector('.form--section-title', text: "DELETE FILE STORAGE")
+    expect(page).to have_selector('.danger-zone--warning', text: "Deleting a file storage is an irreversible action.")
+    expect(page).to have_button('Delete', disabled: true)
+
+    # Cancel Confirmation
+    page.click_link('Cancel')
+    expect(page).to have_current_path project_settings_projects_storages_path(project)
+
+    page.find('.icon.icon-delete').click
+
+    # Approve Confirmation
+    page.fill_in 'delete_confirmation', with: "Storage 1"
+    page.click_button('Delete')
 
     # List of ProjectStorages empty again
     expect(page).to have_current_path project_settings_projects_storages_path(project)

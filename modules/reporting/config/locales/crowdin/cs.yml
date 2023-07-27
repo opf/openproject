@@ -83,7 +83,7 @@ cs:
   validation_failure_integer: "není platné číslo"
   export:
     cost_reports:
-      title: "Your Cost Reports XLS export"
+      title: "Váš export XLS zprávy o nákladech"
   reporting:
     group_by:
       selected_columns: "Vybrané sloupce"

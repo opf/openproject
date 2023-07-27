@@ -30,11 +30,11 @@ source 'https://rubygems.org'
 
 ruby '~> 3.2.1'
 
+gem 'ox'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.4.0'
 gem 'activerecord-session_store', '~> 2.0.0'
-gem 'ox'
 gem 'rails', '~> 7.0', '>= 7.0.3.1'
 gem 'responders', '~> 3.0'
 
@@ -155,8 +155,8 @@ gem 'structured_warnings', '~> 0.4.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 13.0.0', require: false
 
-gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: '76945d45c14b841e2312f992422e2631a4524114'
 gem 'prawn', '~> 2.2'
+gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: '76945d45c14b841e2312f992422e2631a4524114'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
 
@@ -170,7 +170,7 @@ group :production do
   gem 'dalli', '~> 3.2.0'
 end
 
-gem 'i18n-js', '~> 3.9.0'
+gem 'i18n-js', '~> 4.2.3'
 gem 'rails-i18n', '~> 7.0.0'
 
 gem 'sprockets', '~> 3.7.2' # lock sprockets below 4.0
@@ -244,6 +244,7 @@ group :test do
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'cuprite', '~> 0.14.3'
   gem 'selenium-webdriver', '~> 4.0'
+  gem 'webdrivers', '~> 5.2.0'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
@@ -354,3 +355,5 @@ gemfiles.each do |file|
   # don't use eval_gemfile(file) here as it will break dependabot!
   send(:eval_gemfile, file) if File.readable?(file)
 end
+
+gem "primer_view_components", git: 'https://github.com/opf/primer_view_components', ref: '18abe4d'

@@ -99,14 +99,6 @@ zh-TW:
     edit: "編輯 %{attribute_caption} 的說明文字"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: 目前沒有身份驗證模式
-      no_results_content_text: 建立新身分驗證模式
-  background_jobs:
-    status:
-      error_requeue: "作業出現錯誤但重試中.錯誤訊息%{message}"
-      cancelled_due_to: "作業因錯誤取消: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -162,6 +154,10 @@ zh-TW:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
+  background_jobs:
+    status:
+      error_requeue: "作業出現錯誤但重試中.錯誤訊息%{message}"
+      cancelled_due_to: "作業因錯誤取消: %{message}"
   forums:
     show:
       no_results_title_text: 論壇上目前沒有任何貼文。
@@ -339,6 +335,12 @@ zh-TW:
     index:
       no_results_title_text: 目前沒有工作項目狀態
       no_results_content_text: 新增一個狀態
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: 目前沒有類型
@@ -550,7 +552,7 @@ zh-TW:
         color: "顏色"
       user:
         admin: "管理員"
-        auth_source: "身份驗證模式"
+        ldap_auth_source: "LDAP connection"
         current_password: "目前的密碼"
         force_password_change: "強制在下次登入時更改密碼"
         language: "語言"
@@ -1434,7 +1436,7 @@ zh-TW:
   menus:
     admin:
       mail_notification: "電子郵件通知"
-      mails_and_notifications: "電子郵件通知"
+      mails_and_notifications: "Emails and notifications"
       aggregation: '聚合'
       api_and_webhooks: "API and webhooks"
     quick_add:
@@ -1537,9 +1539,9 @@ zh-TW:
   label_attachment_plural: "檔案"
   label_attribute: "属性"
   label_attribute_plural: "属性"
-  label_auth_source: "身份驗證模式"
-  label_auth_source_new: "新的身份驗證模式"
-  label_auth_source_plural: "身份驗證模式"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "身份驗證"
   label_available_project_work_package_categories: '可用的工作項目類別'
   label_available_project_work_package_types: '可用的工作包類型'
@@ -2252,7 +2254,7 @@ zh-TW:
   present_access_key_value: "您的 %{key_name} 是 %{value}"
   notice_automatic_set_of_standard_type: "自動設定標準類型"
   notice_logged_out: "您已登出"
-  notice_wont_delete_auth_source: 身份驗證模式無法在仍有使用者的情況下被刪除
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "無法更新專案的可用自訂欄位。專案無效：%{errors}"
   notice_attachment_migration_wiki_page: >
     此頁面是因為更新 OpenProject 而自動產生的。他包含了所有之前與 %{container_type} "%{container_name}" 有關聯的附加檔案。
@@ -2631,17 +2633,16 @@ zh-TW:
       whitelist_text_html: >
         為上傳的文件定義有效文件副檔名和/或 MIME 類型的列表。 <br/> 輸入文件副檔名（例如 <code>%{ext_example}</code>）或 MIME 類型（例如 <code>%{mime_example}</code>）。 <br/> 留空以允許上傳任何文件類型。允許多個值（每個值一行）。
     brute_force_prevention: "自動禁止使用者"
-    language_name_being_default: '%{language_name} (default)'
     date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text_html: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
-    general: "一般"
     experimental:
       save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Feature flags
+    general: "一般"
     highlighting:
       mode_long:
         inline: "顯示內聯屬性"
@@ -2653,6 +2654,7 @@ zh-TW:
       enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: '控制發送電子郵件的事件。工作包不包括在此列表中，因為可以為每個用戶專門配置它們的通知'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."

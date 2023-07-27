@@ -40,7 +40,8 @@ RSpec.describe Storages::FileLinks::CreateService, type: :model do
     storage = project_storage.storage
     project = project_storage.project
 
-    work_package = create(:work_package, project:)
+    # Tap as the changes would otherwise mess with the journal creation i.e. the updated_at timestamp
+    work_package = create(:work_package, project:).tap(&:clear_changes_information)
     user = create(:admin)
 
     service = described_class.new(user:, contract_class: Storages::FileLinks::CreateContract)

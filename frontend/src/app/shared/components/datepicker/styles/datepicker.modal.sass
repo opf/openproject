@@ -1,4 +1,5 @@
 @import '../../app/spot/styles/sass/variables'
+@import '../../global_styles/openproject/variables'
 
 .op-datepicker-modal
   display: flex
@@ -64,7 +65,7 @@
     &.spot-container
       margin-top: $spot-spacing-0_5
 
-@media screen and (max-width: 679px)
+@media screen and (max-width: $breakpoint-sm)
   .op-datepicker-modal
     // Use same width as spot-modal mobile
     width: calc(100vw - 2rem)

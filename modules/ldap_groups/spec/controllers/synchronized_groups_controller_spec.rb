@@ -122,7 +122,7 @@ RSpec.describe LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups
       end
 
       context 'with valid params' do
-        let(:params) { { auth_source_id: 1, group_id: 1, dn: 'cn=foo,ou=groups,dc=example,dc=com' } }
+        let(:params) { { ldap_auth_source_id: 1, group_id: 1, dn: 'cn=foo,ou=groups,dc=example,dc=com' } }
 
         context 'and saving succeeds' do
           let(:save_result) { true }

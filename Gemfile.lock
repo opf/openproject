@@ -50,6 +50,17 @@ GIT
     omniauth-openid_connect-providers (0.2.0)
       omniauth-openid-connect (>= 0.2.1)
 
+GIT
+  remote: https://github.com/opf/primer_view_components
+  revision: 18abe4d3c8059bc915443767c033543c2e6e8beb
+  ref: 18abe4d
+  specs:
+    primer_view_components (0.4.0)
+      actionview (>= 5.0.0)
+      activesupport (>= 5.0.0)
+      octicons (>= 18.0.0)
+      view_component (>= 3.1, < 4.0)
+
 PATH
   remote: modules/auth_plugins
   specs:
@@ -307,8 +318,8 @@ GEM
     awesome_nested_set (3.5.0)
       activerecord (>= 4.0.0, < 7.1)
     aws-eventstream (1.2.0)
-    aws-partitions (1.790.0)
-    aws-sdk-core (3.178.0)
+    aws-partitions (1.792.0)
+    aws-sdk-core (3.180.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
@@ -316,8 +327,8 @@ GEM
     aws-sdk-kms (1.71.0)
       aws-sdk-core (~> 3, >= 3.177.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.131.0)
-      aws-sdk-core (~> 3, >= 3.177.0)
+    aws-sdk-s3 (1.132.0)
+      aws-sdk-core (~> 3, >= 3.179.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.6)
     aws-sdk-sns (1.65.0)
@@ -480,6 +491,7 @@ GEM
     fuubar (2.5.1)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
+    glob (0.4.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
     gon (6.4.0)
@@ -530,8 +542,9 @@ GEM
     httpclient (2.8.3)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
-    i18n-js (3.9.2)
-      i18n (>= 0.6.6)
+    i18n-js (4.2.3)
+      glob (>= 0.4.0)
+      i18n
     icalendar (2.8.0)
       ice_cube (~> 0.16)
     ice_cube (0.16.4)
@@ -628,6 +641,7 @@ GEM
     nokogiri (1.15.3)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
+    octicons (19.4.0)
     oj (3.15.0)
     okcomputer (1.18.4)
     omniauth-saml (1.10.3)
@@ -816,7 +830,7 @@ GEM
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
     rspec-support (3.12.1)
-    rubocop (1.54.2)
+    rubocop (1.55.0)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
@@ -824,7 +838,7 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml (>= 3.2.5, < 4.0)
-      rubocop-ast (>= 1.28.0, < 2.0)
+      rubocop-ast (>= 1.28.1, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.29.0)
@@ -947,6 +961,10 @@ GEM
       rack (>= 2.0.9)
     warden-basic_auth (0.2.1)
       warden (~> 1.2)
+    webdrivers (5.2.0)
+      nokogiri (~> 1.6)
+      rubyzip (>= 1.3.0)
+      selenium-webdriver (~> 4.0)
     webfinger (2.1.2)
       activesupport
       faraday (~> 2.0)
@@ -1030,7 +1048,7 @@ DEPENDENCIES
   grids!
   html-pipeline (~> 2.14.0)
   htmldiff
-  i18n-js (~> 3.9.0)
+  i18n-js (~> 4.2.3)
   json_schemer (~> 1.0.1)
   json_spec (~> 1.1.4)
   ladle
@@ -1084,6 +1102,7 @@ DEPENDENCIES
   plaintext (~> 0.3.2)
   posix-spawn (~> 0.3.13)
   prawn (~> 2.2)
+  primer_view_components!
   pry-byebug (~> 3.10.0)
   pry-rails (~> 0.3.6)
   pry-rescue (~> 1.5.2)
@@ -1146,6 +1165,7 @@ DEPENDENCIES
   view_component
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
+  webdrivers (~> 5.2.0)
   webmock (~> 3.12)
   will_paginate (~> 4.0.0)
   with_advisory_lock (~> 4.6.0)

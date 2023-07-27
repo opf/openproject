@@ -77,7 +77,7 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
         dialog.cancel
       end
 
-      expect(page).not_to have_selector('.flash.notice')
+      expect(page).not_to have_selector('.op-toast.-success')
 
       expect(working_days_setting).to eq([1, 2, 3, 4, 5])
 
@@ -101,7 +101,7 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
         dialog.confirm
       end
 
-      expect(page).to have_selector('.flash.notice', text: 'Successful update.')
+      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.')
       expect(page).to have_unchecked_field 'Monday'
       expect(page).to have_unchecked_field 'Friday'
       expect(page).to have_unchecked_field 'Saturday'
@@ -141,7 +141,7 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
         dialog.confirm
       end
 
-      expect(page).to have_selector('.flash.error',
+      expect(page).to have_selector('.op-toast.-error',
                                     text: 'At least one day of the week must be defined as a working day.')
       # Restore the checkboxes to their valid state
       expect(page).to have_checked_field 'Monday'
@@ -175,7 +175,7 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
       # Not executing the background jobs
       dialog.confirm
 
-      expect(page).to have_selector('.flash.error',
+      expect(page).to have_selector('.op-toast.-error',
                                     text: 'The previous changes to the working days configuration have not been applied yet.')
     end
   end
@@ -232,7 +232,7 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
       click_on 'Apply changes'
       click_on 'Save and reschedule'
 
-      expect(page).to have_selector('.flash.notice', text: 'Successful update.')
+      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.')
 
       nwd1 = NonWorkingDay.find_by(name: 'My holiday')
       expect(nwd1.date).to eq date1

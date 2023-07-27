@@ -103,7 +103,7 @@ RSpec.describe 'Time entries widget on dashboard', js: true do
 
     within spent_time_widget.area do
       expect(page)
-        .to have_content "Total: 11.00"
+        .to have_content "Total: 11 h"
 
       expect(page)
         .to have_content Date.today.strftime('%m/%d/%Y')

@@ -383,7 +383,7 @@ OpenProject::Application.routes.draw do
       end
     end
 
-    resources :auth_sources, :ldap_auth_sources do
+    resources :ldap_auth_sources do
       member do
         get :test_connection
       end

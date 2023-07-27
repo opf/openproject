@@ -42,7 +42,7 @@ module Users
               writable: ->(*) { user.admin? && model.id != user.id }
     attribute :language
 
-    attribute :auth_source_id,
+    attribute :ldap_auth_source_id,
               writable: ->(*) { user.allowed_to_globally?(:manage_user) || user.allowed_to_globally?(:create_user) }
 
     attribute :status,
@@ -91,7 +91,7 @@ module Users
 
     # rubocop:disable Rails/DynamicFindBy
     def existing_auth_source
-      if auth_source_id && AuthSource.find_by_unique(auth_source_id).nil?
+      if ldap_auth_source_id && LdapAuthSource.find_by_unique(ldap_auth_source_id).nil?
         errors.add :auth_source, :error_not_found
       end
     end

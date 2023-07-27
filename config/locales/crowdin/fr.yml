@@ -99,14 +99,6 @@ fr:
     edit: "Modifier le texte d’aide pour %{attribute_caption}"
     enterprise:
       description: 'Fournissez des informations supplémentaires pour les attributs (y compris les champs personnalisés) des lots de travaux et des projets. Les textes d''aide sont affichés lorsque les utilisateurs cliquent sur le symbole point d''interrogation à côté des champs de saisie dans les projets et les lots de travaux.'
-  auth_sources:
-    index:
-      no_results_content_title: Il n'y a actuellement aucun mode d'authentification.
-      no_results_content_text: Créer un nouveau mode d'authentification
-  background_jobs:
-    status:
-      error_requeue: "La tâche a rencontré une erreur mais réessaie. L'erreur était : %{message}"
-      cancelled_due_to: "La tâche a été annulée en raison d'une erreur : %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Ce formulaire LDAP nécessite une connaissance technique de votre configuration LDAP / Active Directory.
@@ -162,6 +154,10 @@ fr:
       verify_peer_description_html: >
         Active la vérification SSL stricte de la chaîne de confiance du certificat. <br/> <strong> Avertissement :</strong> décocher cette option désactive la vérification SSL du certificat de serveur LDAP. Cela expose votre connexion aux attaques de type "Man In The Middle".
       tls_certificate_description: "Si le certificat du serveur LDAP n'appartient pas aux sources de confiance de ce système, vous pouvez manuellement l'ajouter ici. Entrez une chaîne de certificat PEM X509."
+  background_jobs:
+    status:
+      error_requeue: "La tâche a rencontré une erreur mais réessaie. L'erreur était : %{message}"
+      cancelled_due_to: "La tâche a été annulée en raison d'une erreur : %{message}"
   forums:
     show:
       no_results_title_text: Il n'y a actuellement aucun message pour le forum.
@@ -339,6 +335,12 @@ fr:
     index:
       no_results_title_text: Aucun statut de lots de travaux pour le moment.
       no_results_content_text: Ajouter un nouveau statut
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Il n'y a actuellement aucun type.
@@ -551,7 +553,7 @@ fr:
         color: "Couleur"
       user:
         admin: "Administrateur"
-        auth_source: "Mode d'authentification"
+        ldap_auth_source: "LDAP connection"
         current_password: "Mot de passe actuel"
         force_password_change: "Obliger l'utilisateur à changer de mot de passe à la prochaine connexion"
         language: "Langue"
@@ -1453,7 +1455,7 @@ fr:
   menus:
     admin:
       mail_notification: "Notifications par courriel"
-      mails_and_notifications: "E-mails et notifications"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Agrégation'
       api_and_webhooks: "API et webhooks"
     quick_add:
@@ -1556,9 +1558,9 @@ fr:
   label_attachment_plural: "Fichiers"
   label_attribute: "Attribut"
   label_attribute_plural: "Attributs"
-  label_auth_source: "Mode d'authentification"
-  label_auth_source_new: "Nouveau mode d'authentification"
-  label_auth_source_plural: "Modes d'authentification"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Authentification"
   label_available_project_work_package_categories: 'Catégories de lots de travaux disponibles'
   label_available_project_work_package_types: 'Types de paquet de travail disponible'
@@ -2273,7 +2275,7 @@ fr:
   present_access_key_value: "Votre %{key_name} est : %{value}"
   notice_automatic_set_of_standard_type: "Fixer le type standard automatiquement."
   notice_logged_out: "Vous avez été déconnecté."
-  notice_wont_delete_auth_source: Cette méthode d'authentification ne peut être supprimée tant qu'elle est utilisée par un utilisateur.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Vous ne pouvez pas mettre à jour les champs personnalisés disponibles du projet. Le projet n’est pas valide : %{errors}"
   notice_attachment_migration_wiki_page: >
     Cette page a été générée automatiquement durant la mise à jour de OpenProject. Il contient toutes les pièces jointes précédemment associées à la %{container_type} « %{container_name} ».
@@ -2653,17 +2655,16 @@ fr:
       whitelist_text_html: >
         Définissez une liste d'extensions de fichiers et/ou de types MIME valides pour les fichiers téléversés. <br/> Entrez les extensions de fichier (par exemple, <code>%{ext_example}</code>) ou les types mime (par exemple, <code>%{mime_example}</code>). <br/> Laissez vide pour permettre le téléversement de tout type de fichier. Plusieurs valeurs autorisées (une ligne pour chaque valeur).
     brute_force_prevention: "Blocage d'utilisateur automatique (pour éviter les pirates)"
-    language_name_being_default: '%{language_name} (default)'
     date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text_html: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
-    general: "Général"
     experimental:
       save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Feature flags
+    general: "Général"
     highlighting:
       mode_long:
         inline: "Mettre en surbrillance le(s) attribut(s) en ligne"
@@ -2675,6 +2676,7 @@ fr:
       enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Définit pour quel événement un e-mail est envoyé. Les lots de travaux sont exclus de cette liste car les notifications pour ceux-ci peuvent être configurées spécifiquement pour chaque utilisateur.'
       delay_minutes_explanation: "L'envoi d'e-mails peut être retardé pour permettre aux utilisateurs ayant des notifications configurées dans l'application de confirmer la notification dans l'application avant l'envoi. Les utilisateurs qui lisent une notification dans l'application ne recevront pas d'e-mail pour la notification déjà lue."

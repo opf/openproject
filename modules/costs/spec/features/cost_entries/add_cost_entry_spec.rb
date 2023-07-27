@@ -100,7 +100,7 @@ RSpec.describe 'Work Package cost fields', js: true do
     click_on 'Save'
 
     # Expect correct costs
-    expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_cost_logged_successfully))
+    expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_cost_logged_successfully))
     entry = CostEntry.last
     expect(entry.cost_type_id).to eq(cost_type2.id)
     expect(entry.units).to eq(2.0)
@@ -137,7 +137,7 @@ RSpec.describe 'Work Package cost fields', js: true do
       click_on I18n.t(:button_save)
 
       # Expect correct costs
-      expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_cost_logged_successfully))
+      expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_cost_logged_successfully))
       entry = CostEntry.last
       expect(entry.cost_type_id).to eq(cost_type2.id)
       expect(entry.units).to eq(1.42)

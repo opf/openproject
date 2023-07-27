@@ -149,7 +149,7 @@ RSpec.describe 'Create repository', js: true, selenium: true do
 
         click_button(I18n.t(:button_create))
 
-        expect(page).to have_selector('div.flash.notice',
+        expect(page).to have_selector('div.op-toast.-success',
                                       text: I18n.t('repositories.create_successful'))
         expect(page).to have_selector('a.icon-delete', text: I18n.t(:button_delete))
       end
@@ -162,7 +162,7 @@ RSpec.describe 'Create repository', js: true, selenium: true do
 
         click_button(I18n.t(:button_create))
 
-        expect(page).to have_selector('div.flash.notice',
+        expect(page).to have_selector('div.op-toast.-success',
                                       text: I18n.t('repositories.create_successful'))
         expect(page).to have_selector('button[type="submit"]', text: I18n.t(:button_save))
         expect(page).to have_selector('a.icon-remove', text: I18n.t(:button_remove))

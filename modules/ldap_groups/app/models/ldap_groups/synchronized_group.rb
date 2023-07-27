@@ -5,7 +5,7 @@ module LdapGroups
   class SynchronizedGroup < ApplicationRecord
     belongs_to :group
 
-    belongs_to :auth_source
+    belongs_to :ldap_auth_source
 
     belongs_to :filter,
                class_name: '::LdapGroups::SynchronizedFilter'
@@ -18,7 +18,7 @@ module LdapGroups
     validates_presence_of :dn
     validates_presence_of :group
     validates_associated :group
-    validates_presence_of :auth_source
+    validates_presence_of :ldap_auth_source
 
     before_destroy :remove_all_members
 

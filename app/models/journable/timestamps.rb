@@ -84,7 +84,7 @@ module Journable::Timestamps
     end
   end
 
-  # Instantiates a journable with historic data from the given timestap.
+  # Instantiates a journable with historic data from the given timestamp.
   #
   #     WorkPackage.find(1).at_timestamp(1.year.ago)
   #
@@ -124,6 +124,6 @@ module Journable::Timestamps
   def rollback!
     raise ActiveRecord::RecordNotSaved, "This is no historic data. You can only revert to historic data." unless historic?
 
-    self.class.find(id).update! attributes.except("id", "timestamp", "journal_id")
+    self.class.find(id).update! attributes.except("id", "timestamp", "journal_id", "created_at", "updated_at")
   end
 end

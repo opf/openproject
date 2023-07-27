@@ -6,7 +6,7 @@ module LdapGroups
       @ldap = ldap
 
       # Get current synced groups in OP
-      @synced_groups = ::LdapGroups::SynchronizedGroup.where(auth_source: ldap)
+      @synced_groups = ::LdapGroups::SynchronizedGroup.where(ldap_auth_source: ldap)
     end
 
     def call

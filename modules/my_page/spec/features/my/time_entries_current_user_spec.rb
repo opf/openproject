@@ -140,7 +140,7 @@ RSpec.describe 'My page time entries current user widget spec', js: true do
     expect(page).to have_selector('.fc-day-sun.fc-non-working-day')
 
     expect(page)
-      .to have_content "Total: 6.00"
+      .to have_content "Total: 6 h"
 
     expect(page)
       .to have_content visible_time_entry.spent_on.strftime('%-m/%-d')
@@ -158,7 +158,7 @@ RSpec.describe 'My page time entries current user widget spec', js: true do
     end
 
     expect(page)
-      .to have_content "Total: 8.00"
+      .to have_content "Total: 8 h"
 
     expect(page)
       .to have_content(last_week_visible_time_entry.spent_on.strftime('%-m/%-d'))
@@ -171,7 +171,7 @@ RSpec.describe 'My page time entries current user widget spec', js: true do
     end
 
     expect(page)
-      .to have_content "Total: 6.00"
+      .to have_content "Total: 6 h"
 
     within entries_area.area do
       find(".te-calendar--time-entry", match: :first).hover
@@ -228,7 +228,7 @@ RSpec.describe 'My page time entries current user widget spec', js: true do
     end
 
     expect(page)
-      .to have_content "Total: 10.00"
+      .to have_content "Total: 10 h"
 
     expect(TimeEntry.count)
       .to be 6
@@ -276,7 +276,7 @@ RSpec.describe 'My page time entries current user widget spec', js: true do
       .to have_selector('.ui-tooltip', text: "Comment: Some comment")
 
     expect(page)
-      .to have_content "Total: 13.00"
+      .to have_content "Total: 13 h"
 
     ## Hiding weekdays
     entries_area.click_menu_item I18n.t('js.grid.configure')

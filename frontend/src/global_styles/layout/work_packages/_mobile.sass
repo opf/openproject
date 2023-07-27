@@ -25,7 +25,7 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
-@media screen and (max-width: 1248px), print
+@media screen and (max-width: $breakpoint-xl), print
   .router--work-packages-base
 
     // ------------- FULL SCREEN -------------------
@@ -70,7 +70,7 @@
         .work-packages-full-view--resizer
           display: none
 
-@include breakpoint(1248px down)
+@media screen and (max-width: $breakpoint-xl)
   .router--work-packages-base
     // --------------- ALL WP VIEWS ---------------
     .toolbar-container
@@ -103,7 +103,7 @@
       font-size: 1rem
 
 
-@include breakpoint(680px down)
+@media screen and (max-width: $breakpoint-sm)
   .router--work-packages-full-view
     #content
       position: relative

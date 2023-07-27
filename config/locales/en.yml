@@ -111,10 +111,10 @@ en:
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
 
-  auth_sources:
+  ldap_auth_sources:
     index:
-      no_results_content_title: There are currently no authentication modes.
-      no_results_content_text: Create a new authentication mode
+      no_results_content_title: There are currently no LDAP connections.
+      no_results_content_text: Create a new LDAP connection
 
   background_jobs:
     status:
@@ -385,6 +385,13 @@ en:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Add a new status
 
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
+
   types:
     index:
       no_results_title_text: There are currently no types.
@@ -617,7 +624,7 @@ en:
         color: "Color"
       user:
         admin: "Administrator"
-        auth_source: "Authentication mode"
+        ldap_auth_source: "LDAP connection"
         current_password: "Current password"
         force_password_change: "Enforce password change on next login"
         language: "Language"
@@ -1521,7 +1528,7 @@ en:
   menus:
     admin:
       mail_notification: "Email notifications"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
@@ -1639,9 +1646,9 @@ en:
   label_attachment_plural: "Files"
   label_attribute: "Attribute"
   label_attribute_plural: "Attributes"
-  label_auth_source: "Authentication mode"
-  label_auth_source_new: "New authentication mode"
-  label_auth_source_plural: "Authentication modes"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Authentication"
   label_available_project_work_package_categories: 'Available work package categories'
   label_available_project_work_package_types: 'Available work package types'
@@ -2370,7 +2377,7 @@ en:
   present_access_key_value: "Your %{key_name} is: %{value}"
   notice_automatic_set_of_standard_type: "Set standard type automatically."
   notice_logged_out: "You have been logged out."
-  notice_wont_delete_auth_source: The authentication mode cannot be deleted as long as there are still users using it.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields. The project is invalid: %{errors}"
   notice_attachment_migration_wiki_page: >
     This page was generated automatically during the update of OpenProject.

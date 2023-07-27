@@ -94,7 +94,7 @@ $arrow-left-width: 40px
     li a
       // work around due to dom manipulation on document: ready:
       // this isn't scoped to .main-item-wrapper to avoid flickering
-      padding-left: 11px
+      padding-left: 12px
       &.toggler
         // explicitly reset to zero to avoid selector precedence problems
         padding-left: 0
@@ -105,7 +105,6 @@ $arrow-left-width: 40px
   a
     text-decoration: none
     line-height: var(--main-menu-item-height)
-    display: block
     position: relative
     height: var(--main-menu-item-height)
     color: var(--main-menu-font-color)
@@ -113,6 +112,7 @@ $arrow-left-width: 40px
     font-weight: normal
     font-size: var(--main-menu-font-size)
     font-style: normal
+    padding: 0 12px
     &:hover
       text-decoration: none
 
@@ -255,27 +255,13 @@ a.main-menu--parent-node
 #sidebar, #menu-sidebar .sidebar
   padding: 0 17px 0 17px
   width: auto
-  color: var(--main-menu-sidebar-font-color)
+  color: var(--main-menu-font-color)
   font-family: var(--body-font-family)
   font-style: normal
 
-  h3
-    display: block
-    border: none
-    color: var(--main-menu-sidebar-h3-color)
-    font-weight: normal
-    font-size: var(--main-menu-sidebar-h3-font-size)
-    margin: 30px 0 8px 0
-    padding: 10px 0 0 0
-
-    text-transform: uppercase
-
-  > h3:first-child
-    margin-top: 0
-
   a, a:link
     &:not(.searchable-menu--item-link):not(.searchable-menu--category-icon)
-      color: var(--main-menu-sidebar-link-color)
+      color: var(--main-menu-font-color)
       display: inline
       position: static
       text-decoration: underline
@@ -284,7 +270,7 @@ a.main-menu--parent-node
     text-decoration: underline
 
   label
-    color: var(--main-menu-sidebar-font-color)
+    color: var(--main-menu-font-color)
     @include text-shortener
     max-width: 80%
     vertical-align: top
@@ -296,9 +282,6 @@ a.main-menu--parent-node
       border: none
     li a
       padding: 0
-
-  &.-hidden
-    display: none
 
 .menu-wiki-pages-tree
   height: 100%
@@ -349,7 +332,7 @@ a.main-menu--parent-node
   &:hover
     border-left-color: var(--main-menu-resizer-color)
     i:before
-      color: var(--main-menu-navigation-toggler-font-hover-color)
+      color: var(--main-menu-resizer-color)
   &.show
     left: var(--main-menu-folded-width)
 
@@ -368,7 +351,7 @@ a.main-menu--parent-node
       position: absolute
       right: 0
   &:hover
-    color: var(--main-menu-navigation-toggler-font-hover-color)
+    color: var(--main-menu-resizer-color)
     .main-menu--navigation-toggler
       background-color: var(--main-menu-bg-color)
       &.open:before

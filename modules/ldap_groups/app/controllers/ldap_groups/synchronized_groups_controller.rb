@@ -9,8 +9,8 @@ module LdapGroups
     include PaginationHelper
 
     def index
-      @groups = SynchronizedGroup.includes(:auth_source, :group)
-      @filters = SynchronizedFilter.includes(:auth_source, :groups)
+      @groups = SynchronizedGroup.includes(:ldap_auth_source, :group)
+      @filters = SynchronizedFilter.includes(:ldap_auth_source, :groups)
     end
 
     def new
@@ -66,7 +66,7 @@ module LdapGroups
     def permitted_params
       params
         .require(:synchronized_group)
-        .permit(:dn, :group_id, :auth_source_id, :sync_users)
+        .permit(:dn, :group_id, :ldap_auth_source_id, :sync_users)
     end
 
     def default_breadcrumb

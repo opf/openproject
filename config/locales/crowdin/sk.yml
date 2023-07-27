@@ -99,14 +99,6 @@ sk:
     edit: "Upraviť text pomocníka pre %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: Momentálne nie sú žiadne metódy overovania identity.
-      no_results_content_text: Vytvoriť novú metódu overovania identity
-  background_jobs:
-    status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -162,6 +154,10 @@ sk:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   forums:
     show:
       no_results_title_text: There are currently no posts for the forum.
@@ -339,6 +335,12 @@ sk:
     index:
       no_results_title_text: Momentálne nie sú žiadne stavy pracovného balíka.
       no_results_content_text: Pridať nový stav
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Momentálne neexistujú žiadne typy.
@@ -553,7 +555,7 @@ sk:
         color: "Farba"
       user:
         admin: "Správca"
-        auth_source: "Spôsob autentifikácie"
+        ldap_auth_source: "LDAP connection"
         current_password: "Aktuálne heslo"
         force_password_change: "Požadovať zmenu hesla pri ďalšom prihlásení"
         language: "Jazyk"
@@ -1491,7 +1493,7 @@ sk:
   menus:
     admin:
       mail_notification: "Upozornenia e-mailom"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
@@ -1594,9 +1596,9 @@ sk:
   label_attachment_plural: "Súbory"
   label_attribute: "Atribút"
   label_attribute_plural: "Atribúty"
-  label_auth_source: "Spôsob autentifikácie"
-  label_auth_source_new: "Nový režim autentifikácie"
-  label_auth_source_plural: "Režimy autentifikácie"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentifikácia"
   label_available_project_work_package_categories: 'Dostupné kategórie pracovných balíčkov'
   label_available_project_work_package_types: 'Dostupné kategórie pracovných balíčkov'
@@ -2312,7 +2314,7 @@ sk:
   present_access_key_value: "Vašš %{key_name} je: %{value}"
   notice_automatic_set_of_standard_type: "Nastaviť štandardný typ automaticky."
   notice_logged_out: "Boli ste odhlásený."
-  notice_wont_delete_auth_source: Režim overenia nie je možné odstrániť pokiaľ existujú používatelia, ktorí ho používajú.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Dostupné vlastné polia projektu sa nedajú aktualizovať. Projekt je neplatný: %{errors}"
   notice_attachment_migration_wiki_page: >
     Táto stránka bola vygenerovaná automaticky počas aktualizácie OpenProject. Obsahuje všetky prílohy, ktoré boli predtým priradené k %{container_type} "%{container_name}".
@@ -2694,17 +2696,16 @@ sk:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     brute_force_prevention: "Automatizované blokovanie používateľa"
-    language_name_being_default: '%{language_name} (default)'
     date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text_html: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
-    general: "Všeobecné"
     experimental:
       save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Feature flags
+    general: "Všeobecné"
     highlighting:
       mode_long:
         inline: "Inline zvýraznené atribút(y)"
@@ -2716,6 +2717,7 @@ sk:
       enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."

@@ -99,14 +99,6 @@ de:
     edit: "Hilfe-Text für %{attribute_caption} bearbeiten"
     enterprise:
       description: 'Geben Sie zusätzliche Informationen für Attribute (inkl. benutzerdefinierter Felder) von Arbeitspaketen und Projekten an. Hilfetexte werden angezeigt, wenn Benutzer in Projekten und Arbeitspaketen auf das Fragezeichensymbol neben Eingabefeldern klicken.'
-  auth_sources:
-    index:
-      no_results_content_title: Derzeit gibt es keine Authentifizierungsmodi.
-      no_results_content_text: Erstellen Sie einen neuen Authentifizierungsmodus
-  background_jobs:
-    status:
-      error_requeue: "Der Job ist mit einem Fehler fehlgeschlagen, wird aber erneut eingestellt. Der Fehler war: %{message}"
-      cancelled_due_to: "Job wurde aufgrund eines Fehlers abgebrochen: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Dieses LDAP-Formular erfordert technische Kenntnisse ihres LDAP-/Active Directory Setups.
@@ -159,6 +151,10 @@ de:
       verify_peer_description_html: >
         Aktiviert die strikte SSL-Überprüfung der vertrauenswürdigen Zertifikatskette. <br/> <strong>Warnung:</strong> Ausstellen dieser Option deaktiviert die SSL-Überprüfung des LDAP-Serverzertifikats. Ihre Verbindung wird anfällig für Man-In-The-Middle (MITM) Angriffe.
       tls_certificate_description: "Wenn sich das LDAP-Server-Zertifikat nicht in den vertrauenswürdigen Quellen dieses Systems befindet, können Sie es hier manuell hinzufügen. Fügen Sie an dieser Stelle ein oder mehrere PEM X509 Zertifkate ein."
+  background_jobs:
+    status:
+      error_requeue: "Der Job ist mit einem Fehler fehlgeschlagen, wird aber erneut eingestellt. Der Fehler war: %{message}"
+      cancelled_due_to: "Job wurde aufgrund eines Fehlers abgebrochen: %{message}"
   forums:
     show:
       no_results_title_text: Zur Zeit existieren keine Forumseinträge für dieses Forum.
@@ -166,18 +162,18 @@ de:
     index:
       no_results_title_text: Derzeit gibt es keine Farben.
       no_results_content_text: Neue Farbe anlegen
-      label_new_color: "New color"
+      label_new_color: "Neue Farbe"
     new:
-      label_new_color: "New Color"
+      label_new_color: "Neue Farbe"
     edit:
-      label_edit_color: "Edit Color"
+      label_edit_color: "Farbe bearbeiten"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Neue Farbe"
+      label_edit_color: "Farbe bearbeiten"
     label_no_color: "Keine Farbe"
-    label_properties: "Properties"
+    label_properties: "Eigenschaften"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Möchten Sie die folgende Farbe wirklich löschen? Typen, die diese Farbe verwenden, bleiben erhalten.
   custom_actions:
     actions:
       name: "Aktionen"
@@ -260,7 +256,7 @@ de:
       types:
         no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'Typ "%{type}" aktivieren'
       versions:
         no_results_title_text: Derzeit gibt es keine Versionen für das Projekt.
         no_results_content_text: Neue Version erstellen
@@ -277,9 +273,9 @@ de:
       notice_reset_token: "Ein neuer %{type} Token wurde generiert. Der Zutrittstoken lautet:"
       token_value_warning: "Hinweis: Dieser Token ist nur einmal sichtbar, der Token kann jetzt kopiert werden."
       no_results_title_text: Zur Zeit stehen keine Zugangs-Tokens zur Verfügung.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
-      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
-      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "Der API-Token wurde gelöscht. Um ein neues Token zu erstellen, benutzen Sie bitte den Link im API-Bereich."
+      notice_rss_token_revoked: "Der RSS-Token wurde gelöscht. Um ein neues Token zu erstellen, benutzen Sie bitte den Link im RSS-Bereich."
+      notice_ical_token_revoked: "iCalendar-Token „%{token_name}“ für Kalender „%{calendar_name}“ des Projekts „%{project_name}“ wurde widerrufen. Die iCal-URL mit diesem Token ist jetzt ungültig."
   news:
     index:
       no_results_title_text: Es gibt aktuell keine Neuigkeiten.
@@ -334,6 +330,12 @@ de:
     index:
       no_results_title_text: Derzeit gibt es keine Arbeitspaket-Status.
       no_results_content_text: Neuen Status hinzufügen
+  themes:
+    light: "Hell"
+    light_high_contrast: "Hell (hoher Kontrast)"
+    dark: "Dunkel"
+    dark_dimmed: "Dunkel gedimmt"
+    dark_high_contrast: "Dunkel (hoher Kontrast)"
   types:
     index:
       no_results_title_text: Derzeit gibt es keine Typen.
@@ -546,7 +548,7 @@ de:
         color: "Farbe"
       user:
         admin: "Administrator"
-        auth_source: "Authentifizierungs-Modus"
+        ldap_auth_source: "LDAP connection"
         current_password: "Aktuelles Passwort"
         force_password_change: "Erzwinge Passwortwechsel beim nächsten Login"
         language: "Sprache"
@@ -1308,7 +1310,7 @@ de:
   error_can_not_unarchive_project: "Dieses Projekt kann nicht ent-archiviert werden: %{errors}"
   error_check_user_and_role: "Bitte wählen Sie einen Nutzer und eine Rolle."
   error_code: "Fehler %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "Farbe konnte nicht gespeichert werden"
   error_cookie_missing: 'Das OpenProject Cookie fehlt. Bitte stellen Sie sicher, dass Cookies aktiviert sind, da diese Applikation ohne aktivierte Cookies nicht korrekt funktioniert.'
   error_custom_option_not_found: "Option ist nicht vorhanden."
   error_enterprise_activation_user_limit: "Ihr Konto konnte nicht aktiviert werden (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff zu erhalten."
@@ -1333,7 +1335,7 @@ de:
   error_password_change_failed: 'Beim Ändern des Passworts ist ein Fehler aufgetreten.'
   error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler aufgetreten: %{value}"
   error_scm_not_found: "Eintrag und/oder Revision existiert nicht im Projektarchiv."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "Typ konnte nicht gespeichert werden."
   error_unable_delete_status: "Der Arbeitspaket-Status kann nicht gelöscht werden, da er von mindestens einem Arbeitspaket genutzt wird."
   error_unable_delete_default_status: "Der Standardstatus für neue Arbeitspakete kann nicht gelöscht werden. Bitte wählen Sie einen anderen Standardstatus, bevor Sie diesen Status löschen."
   error_unable_to_connect: "Fehler beim Verbinden (%{value})"
@@ -1463,26 +1465,26 @@ de:
         action: "Aktion"
         expiration: "Läuft aus"
       indefinite_expiration: "Nie"
-      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      simple_revoke_confirmation: "Sind Sie sicher, dass Sie dieses Token widerrufen möchten?"
       api:
-        title: "API"
-        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
-        static_token_name: "API token"
-        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+        title: "Schnittstelle (API)"
+        text_hint: "API-Token erlauben es Drittanbieter-Anwendungen, mit dieser OpenProject-Instanz über REST-APIs zu kommunizieren."
+        static_token_name: "API-Token"
+        disabled_text: "API-Token sind vom Administrator nicht aktiviert. Bitte kontaktieren Sie Ihren Administrator, um diese Funktion zu nutzen."
       ical:
         title: "iCalendar"
-        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
-        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
-        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+        text_hint: "iCalendar Token erlauben es Benutzern <a href=\"%{path}\" target=\"_blank\">OpenProject Kalender</a> zu abonnieren und aktuelle Arbeitspaket-Informationen auf externen Clients anzuzeigen."
+        disabled_text: "iCalendar Abonnements sind vom Administrator nicht aktiviert. Bitte kontaktieren Sie Ihren Administrator, um diese Funktion zu nutzen."
+        empty_text_hint: "Um einen iCalendar Token hinzuzufügen, abonnieren Sie einen neuen oder bestehenden Kalender innerhalb des Kalender-Moduls eines Projekts. Sie müssen über die erforderlichen Berechtigungen verfügen."
       oauth:
         title: "OAuth"
-        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
-        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+        text_hint: "OAuth Tokens erlauben es Drittanbieter-Anwendungen, sich mit dieser OpenProject Instanz zu verbinden."
+        empty_text_hint: "Für Sie ist kein Zugriff auf die Anwendung von Drittanbietern konfiguriert. Bitte kontaktieren Sie Ihren Administrator, um diese Funktion zu aktivieren."
       rss:
         title: "RSS"
-        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
-        static_token_name: "RSS token"
-        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+        text_hint: "RSS-Token erlauben es Benutzern über einen externen RSS-Reader auf dem Laufenden zu bleiben."
+        static_token_name: "RSS-Token"
+        disabled_text: "RSS-Token sind vom Administrator nicht aktiviert. Bitte kontaktieren Sie Ihren Administrator, um diese Funktion zu nutzen."
   notifications:
     send_notifications: "Sende Benachrichtigungen für diese Aktion"
     work_packages:
@@ -1551,9 +1553,9 @@ de:
   label_attachment_plural: "Dateien"
   label_attribute: "Attribut"
   label_attribute_plural: "Attribute"
-  label_auth_source: "Authentifizierungs-Modus"
-  label_auth_source_new: "Neuer Authentifizierungs-Modus"
-  label_auth_source_plural: "Authentifizierungs-Arten"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Authentifizierung"
   label_available_project_work_package_categories: 'Verfügbare Arbeitspaket-Kategorien'
   label_available_project_work_package_types: 'Verfügbare Arbeitspaket-Typen'
@@ -1612,7 +1614,7 @@ de:
   label_confirmation: "Bestätigung"
   label_contains: "enthält"
   label_content: "Inhalt"
-  label_color_plural: "Colors"
+  label_color_plural: "Farben"
   label_copied: "kopiert"
   label_copy_same_as_target: "So wie das Ziel"
   label_copy_source: "Quelle"
@@ -1687,7 +1689,7 @@ de:
   label_expanded_click_to_collapse: "Erweitert. Klicken Sie zum Ausblenden"
   label_f_hour: "%{value} Stunde"
   label_f_hour_plural: "%{value} Stunden"
-  label_favoured: "Favoured"
+  label_favoured: "Favorisiert"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS-Zugriffsschlüssel"
   label_feeds_access_key_created_on: "Atom-Zugriffsschlüssel vor %{value} erstellt"
@@ -1883,8 +1885,8 @@ de:
   label_project_new: "Neues Projekt"
   label_project_plural: "Projekte"
   label_project_settings: "Projektkonfiguration"
-  label_project_storage_plural: "File Storages"
-  label_project_storage_project_folder: "File Storages: Project folders"
+  label_project_storage_plural: "Dateispeicher"
+  label_project_storage_project_folder: "Dateispeicher: Projektordner"
   label_projects_storage_information: "%{count} Projekte verbrauchen insgesamt %{storage} Speicherplatz"
   label_project_view_all: "Alle Projekte anzeigen"
   label_project_show_details: "Projektdetails anzeigen"
@@ -1972,7 +1974,7 @@ de:
   label_this_week: "aktuelle Woche"
   label_this_year: "aktuelles Jahr"
   label_time_entry_plural: "Aufgewendete Zeit"
-  label_title: "Title"
+  label_title: "Titel"
   label_projects_menu: "Projekte"
   label_today: "heute"
   label_top_menu: "Hauptmenü"
@@ -2268,7 +2270,7 @@ de:
   present_access_key_value: "Ihr %{key_name} ist: %{value}"
   notice_automatic_set_of_standard_type: "Der Standard-Typ wurde automatisch gesetzt."
   notice_logged_out: "Sie wurden ausgeloggt."
-  notice_wont_delete_auth_source: Die Authentifizierungsmethode kann nicht gelöscht werden, solange es noch Benutzer gibt, die diese verwenden.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Sie können die benutzerdefinierten Felder dieses Projekts nicht aktualisieren. Das Projekt ist ungültig: %{errors}"
   notice_attachment_migration_wiki_page: >
     Diese Seite wurde automatisch während der Aktualisierung von OpenProject generiert. Es enthält alle Anhänge, die zuvor innerhalb %{container_type} "%{container_name}" zugeordnet waren.
@@ -2302,8 +2304,8 @@ de:
   permission_add_messages: "Forenbeiträge hinzufügen"
   permission_add_project: "Projekt erstellen"
   permission_archive_project: "Projekt archivieren"
-  permission_create_user: "Create users"
-  permission_manage_user: "Edit users"
+  permission_create_user: "Benutzer erstellen"
+  permission_manage_user: "Benutzer bearbeiten"
   permission_manage_placeholder_user: "Platzhalter Benutzer erstellen, bearbeiten und löschen"
   permission_add_subprojects: "Unterprojekte erstellen"
   permission_add_work_package_watchers: "Beobachter hinzufügen"
@@ -2648,17 +2650,16 @@ de:
       whitelist_text_html: >
         Legen Sie eine Liste gültiger Dateierweiterungen und/oder Mime-Typen für hochgeladene Dateien fest. <br/> Dateierweiterungen (z. B. <code>%{ext_example}</code>) oder Mime-Typen (z. ., <code>%{mime_example}</code>). <br/> Lassen Sie diese Liste leer, um das Hochladen beliebiger Dateitypen zu erlauben. Mehrere Werte erlaubt (eine Zeile pro Wert).
     brute_force_prevention: "Automatisches Sperren von Benutzern"
-    language_name_being_default: '%{language_name} (Standard)'
     date_format:
       first_date_of_week_and_year_set: >
         Wenn beide Optionen "%{day_of_week_setting_name}" oder "%{first_week_setting_name}" gesetzt sind der andere muss ebenfalls gesetzt werden, um die Darstellung konsistent zu halten.
       first_week_of_year_text_html: >
         Wählen Sie das Datum aus dem Monat Januar, das in der ersten Woche des Jahres enthalten ist. Dieser Wert zusammen mit dem ersten Wochentag bestimmt die Gesamtzahl der Wochen in einem Jahr. Weitere Informationen finden Sie in unserer <a href="%{link}" target="_blank">Dokumentation</a> zu diesem Thema.
-    general: "Allgemein"
     experimental:
       save_confirmation: Achtung! Risiko für Datenverlust! Aktivieren Sie diese experimentelle Funktionen nur, wenn diese Instanz zu Testzwecken verwendet wird und Datenverlust oder -korruption akzeptiert wird.
       warning_toast: Feature Flags sind Einstellungen, die Funktionen aktivieren, die noch in Entwicklung sind. Sie werden nur für Testzwecke verwendet. Sie sollten niemals in OpenProject Installationen aktiviert werden, die produktive Daten enthalten. Diese Funktionen werden sehr wahrscheinlich Ihre Daten beschädigen. Verwenden Sie diese Optionen auf eigene Gefahr.
       feature_flags: Feature Flags
+    general: "Allgemein"
     highlighting:
       mode_long:
         inline: "Inline hervorgehobene Attribute"
@@ -2670,6 +2671,7 @@ de:
       enable_subscriptions_text_html: Ermöglicht Benutzern mit der notwendigen Berechtigung, OpenProject-Kalender zu abonnieren und über einen externen Kalender-Client auf Informationen über Arbeitspakete zuzugreifen.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (Standard)'
     notifications:
       events_explanation: 'Bestimmt, für welche Ereignisse eine E-Mail verschickt wird. Arbeitspakete sind von dieser Liste ausgeschlossen, da die Benachrichtigungen hierfür pro Benutzer konfiguriert werden können.'
       delay_minutes_explanation: "Das Senden von E-Mails kann verzögert werden, damit Benutzer über In-App-Benachrichtigungen benachrichtigt werden können, bevor eine E-Mail versendet wird. Benutzer, die eine Benachrichtigung innerhalb der Anwendung lesen, erhalten keine separate E-Mail."
@@ -2808,9 +2810,9 @@ de:
   text_setup_mail_configuration: "Konfigurieren Sie Ihren E-Mail-Provider"
   help_texts:
     views:
-      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
-      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
-      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
+      project: "%{plural} sind immer einem Projekt zugeordnet. Nach dem Erstellen eines %{singular} können Sie Arbeitspakete von anderen Projekten hinzufügen."
+      public: "Veröffentlichen Sie diese Ansicht und erlauben Sie anderen Benutzern, auf sie zuzugreifen. Benutzer mit der Berechtigung \"Öffentliche Ansichten verwalten\" können öffentliche Abfragen ändern oder entfernen. Dies hat keinen Einfluss auf die Sichtbarkeit von Arbeitspaketen in dieser Ansicht und je nach Berechtigung, können Benutzer unterschiedliche Ergebnisse sehen."
+      favoured: "Markiert diese Ansicht als Favorit und fügt sie der linken Seitenleiste hinzu."
   time:
     am: "vormittags"
     formats:

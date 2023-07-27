@@ -4,11 +4,11 @@ RSpec.describe Ldap::SynchronizeUsersService do
   include_context 'with temporary LDAP'
 
   subject do
-    described_class.new(auth_source).call
+    described_class.new(ldap_auth_source).call
   end
 
   context 'when updating an admin' do
-    let!(:user_aa729) { create(:user, login: 'aa729', firstname: 'Foobar', auth_source:, admin: true) }
+    let!(:user_aa729) { create(:user, login: 'aa729', firstname: 'Foobar', ldap_auth_source:, admin: true) }
 
     it 'does not update the admin attribute if not defined (Regression #42396)' do
       expect(user_aa729).to be_admin
@@ -20,8 +20,8 @@ RSpec.describe Ldap::SynchronizeUsersService do
   end
 
   context 'when updating users' do
-    let!(:user_aa729) { create(:user, login: 'aa729', firstname: 'Foobar', auth_source:) }
-    let!(:user_bb459) { create(:user, login: 'bb459', firstname: 'Bla', auth_source:) }
+    let!(:user_aa729) { create(:user, login: 'aa729', firstname: 'Foobar', ldap_auth_source:) }
+    let!(:user_bb459) { create(:user, login: 'bb459', firstname: 'Bla', ldap_auth_source:) }
 
     context 'when user sync status is enabled',
             with_config: { ldap_users_sync_status: true } do
@@ -76,7 +76,7 @@ RSpec.describe Ldap::SynchronizeUsersService do
 
       context 'with a user that is in another LDAP' do
         let(:auth_source2) { create(:ldap_auth_source, name: 'Another LDAP') }
-        let(:user_foo) { create(:user, login: 'login', auth_source: auth_source2) }
+        let(:user_foo) { create(:user, login: 'login', ldap_auth_source: auth_source2) }
 
         it 'does not touch that user' do
           expect(user_foo).to be_active
@@ -103,10 +103,10 @@ RSpec.describe Ldap::SynchronizeUsersService do
     end
 
     context 'when requesting only a subset of users' do
-      let!(:user_cc414) { create(:user, login: 'cc414', auth_source:) }
+      let!(:user_cc414) { create(:user, login: 'cc414', ldap_auth_source:) }
 
       subject do
-        described_class.new(auth_source, %w[Aa729 cc414]).call
+        described_class.new(ldap_auth_source, %w[Aa729 cc414]).call
       end
 
       it 'syncs all case-insensitive users' do
@@ -131,7 +131,7 @@ RSpec.describe Ldap::SynchronizeUsersService do
   end
 
   context 'with a user that is no longer in LDAP' do
-    let(:user_foo) { create(:user, login: 'login', auth_source:) }
+    let(:user_foo) { create(:user, login: 'login', ldap_auth_source:) }
 
     context 'when user sync status is enabled',
             with_config: { ldap_users_sync_status: true } do

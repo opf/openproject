@@ -27,12 +27,6 @@
 # ++
 
 class Journable::WithHistoricAttributes
-  class << self
-    def load_custom_values(journalized)
-      Loader.new(journalized).load_custom_values
-    end
-  end
-
   class Loader
     def initialize(journables)
       @journables = Array(journables)

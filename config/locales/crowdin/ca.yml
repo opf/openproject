@@ -99,14 +99,6 @@ ca:
     edit: "Edita el text d'ajuda per a %{attribute_caption}"
     enterprise:
       description: 'Proveeix informació addicional pels atributs (inclosos camps personalitzats) dels paquets de treball o projectes. Els texts d''ajuda es mostren quan l''usuari fa clic al signe d''interrogació al costat dels valors de camp en projectes i paquets de treball.'
-  auth_sources:
-    index:
-      no_results_content_title: Actualment no hi ha cap mode d'autenticació.
-      no_results_content_text: Crea un nou mode d'autenticació
-  background_jobs:
-    status:
-      error_requeue: "La tasca ha produït un error, però s'està reintentant. L'error era: %{message}"
-      cancelled_due_to: "La feina s'ha cancel·lat a causa d'un error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Aquest formulari LDAP requereix coneixement tècnic sobre la teva configuració LDAP / Directori actiu.
@@ -159,6 +151,10 @@ ca:
       verify_peer_description_html: >
         Habilita verificacions SSL estrictes del certificat en cadena de confiança. <br/> <strong> Alerta:</strong> Desseleccionar  aquesta opció deshabilita la verificació SSL al certificat del servidor LDAP. Això, exposa la teva connexió als atacs d'intermediari.
       tls_certificate_description: "Si el certificat de servidor LDAP no està en els recursos de confiança d'aquest sistema, pots afegir-lo manualment aquí. Introdueix una entrada de certificat PEM X509."
+  background_jobs:
+    status:
+      error_requeue: "La tasca ha produït un error, però s'està reintentant. L'error era: %{message}"
+      cancelled_due_to: "La feina s'ha cancel·lat a causa d'un error: %{message}"
   forums:
     show:
       no_results_title_text: Ara mateix no hi ha posts en aquest fòrum.
@@ -166,18 +162,18 @@ ca:
     index:
       no_results_title_text: Actualment no hi ha cap color.
       no_results_content_text: Crea un nou color
-      label_new_color: "New color"
+      label_new_color: "Nou color"
     new:
-      label_new_color: "New Color"
+      label_new_color: "Nou color"
     edit:
-      label_edit_color: "Edit Color"
+      label_edit_color: "Edita el color"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Nou color"
+      label_edit_color: "Edita el color"
     label_no_color: "Sense color"
-    label_properties: "Properties"
+    label_properties: "Propietats"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Estàs segur que vols eliminar el següent color? Els tipus amb aquest color no s'eliminaràn.
   custom_actions:
     actions:
       name: "Accions"
@@ -260,7 +256,7 @@ ca:
       types:
         no_results_title_text: Actualment no hi ha cap classe disponible.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'Activar tipus "%{type}"'
       versions:
         no_results_title_text: Actualment no hi ha cap versió per al projecte.
         no_results_content_text: Crear una nova versió
@@ -336,6 +332,12 @@ ca:
     index:
       no_results_title_text: Actualment no hi ha cap estat de paquet de treball.
       no_results_content_text: Afegir un nou estat
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Actualment no hi ha cap tipus.
@@ -547,7 +549,7 @@ ca:
         color: "Color"
       user:
         admin: "Administrador"
-        auth_source: "Mode d'autenticació"
+        ldap_auth_source: "LDAP connection"
         current_password: "Contrassenya actual"
         force_password_change: "Forçar el canvi de contrasenya en el proper inici de sessió"
         language: "Idioma"
@@ -1449,7 +1451,7 @@ ca:
   menus:
     admin:
       mail_notification: "Notificacions de correu electrònic"
-      mails_and_notifications: "Correus electrònics i notificacions"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Agregació'
       api_and_webhooks: "API i webhooks"
     quick_add:
@@ -1552,9 +1554,9 @@ ca:
   label_attachment_plural: "Arxius"
   label_attribute: "Atribut"
   label_attribute_plural: "Atributs"
-  label_auth_source: "Mode d'autenticació"
-  label_auth_source_new: "Nou mode d'autenticació"
-  label_auth_source_plural: "Modes d'autenticació"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autenticació"
   label_available_project_work_package_categories: 'Categories de paquet de treball disponibles'
   label_available_project_work_package_types: 'Classes de paquet de treball disponibles'
@@ -2264,7 +2266,7 @@ ca:
   present_access_key_value: "El teu %{key_name} és: %{value}"
   notice_automatic_set_of_standard_type: "Establir tipus estàndard automàticament."
   notice_logged_out: "S'ha tancat la sessió."
-  notice_wont_delete_auth_source: El mode d'autenticació no es pot suprimir mentre encara hi ha usuaris utilitzant-lo.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "No pots actualitzar els camps personalitzats disponibles del projecte. El projecte no és vàlid: %{errors}"
   notice_attachment_migration_wiki_page: >
     Aquesta pàgina s'ha generat automàticament durant l'actualització d'OpenProject. Compte tots els fitxers adjunts que anteriorment estaven associats amb el %{container_type} "%{container_name}".
@@ -2642,17 +2644,16 @@ ca:
       whitelist_text_html: >
         Defineix una llista vàlida d'extensions de fitxers i/o classes MIME per carregar fitxers. <br/>Introdueïx extensions de fitxers (ex. <code>%{ext_example}</code>) o classes MIME (ex. <code>%{mime_example}</code>). <br/> Deixa el camp buit per permetre qualsevol classe de fitxer. Es permeten múltiples valors (una línia per cada valor).
     brute_force_prevention: "Bloqueig automàtic d'usuari"
-    language_name_being_default: '%{language_name} (default)'
     date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text_html: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
-    general: "General"
     experimental:
       save_confirmation: Alerta! Risc de pèrdua de dades! Només activa les funcions experimentals si no t'importà desconfigurar la teva instal·lació d'OpenProject o perdre dades.
       warning_toast: Els marcadors de funcions són una funcionalitat que activa funcions que encara estan en desenvolupament. Només s'han d'utilitzar per a realitzar tests. No s'han d'activar mai a instal·lacions d'OpenProject amb dades importants. Aquestes funcions poden, molt probablement, corrompre les teves dades. Utilitza-les sota el teu propi risc.
       feature_flags: Marcadors de funcions
+    general: "General"
     highlighting:
       mode_long:
         inline: "Atribut(s) de destacament en línia"
@@ -2664,6 +2665,7 @@ ca:
       enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Controla per a quins esdeveniments s''envien correus electrònics. Els paquets de treball estan exclosos d''aquesta llista, ja que les seves notificacions poden ser configurades específicament per a cada usuari.'
       delay_minutes_explanation: "L'enviada de correus electrònics pot ser endarrerida per permetre als usuaris amb notificacions dins l'aplicació confirmar la notificació dins de l'aplicació abans que s'enviï. Els usuaris que han llegit la notificació a l'aplicació no rebran el correu electrònic, ja que ja han llegit la notificació."

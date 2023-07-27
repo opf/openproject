@@ -9,6 +9,11 @@ uk:
   permission_delete_files: "Delete files"
   permission_share_files: "Share files"
   project_module_storages: "Файлові сховища"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Not authorized for external connection to storage."
+        not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
       file_link: "File link"
@@ -64,6 +69,7 @@ uk:
         index: "Файлові сховища доступні в цьому проєкті"
         new: "Додайте сховище файлів до цього проєкту"
         edit: "Edit the file storage to this project"
+        delete: "Delete file storage"
     instructions:
       type: "Перш ніж виконувати налаштування, переконайтеся, що маєте права адміністратора у своєму екземплярі Nextcloud і що встановлено цей додаток:"
       type_link_text: "«Інтеграція OpenProject»"
@@ -93,7 +99,11 @@ uk:
       storage: >
         Справді видалити це сховище? Це сховище буде також видалено з усіх проєктів, де воно використовувалося. Крім того, буде видалено всі посилання в пакетах робіт на файли, які зберігалися в цьому сховищі.
       project_storage: >
-        Справді видалити це файлове сховище з проєкту? Буде також видалено всі посилання на файли, які зберігалися в цьому сховищі для цього проєкту.
+        Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:
+      project_storage_delete_result_1: "Remove all links from work packages of this project to files and folders of that storage."
+      project_storage_delete_result_2: "In case this storage has an automatically managed project folder, this and its files will be deleted forever."
+      input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
+      irreversible_notice: "Deleting a file storage is an irreversible action."
     label_active: "Active"
     label_inactive: "Inactive"
     label_creator: "Автор"

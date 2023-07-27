@@ -32,8 +32,8 @@ require 'spec_helper'
 RSpec.describe AccountController, 'Auth header logout' do
   render_views
 
-  let!(:auth_source) { DummyAuthSource.create name: "Dummy LDAP" }
-  let!(:user) { create(:user, login:, auth_source_id: auth_source.id) }
+  let!(:auth_source) { create(:ldap_auth_source, name: "Dummy LDAP") }
+  let!(:user) { create(:user, login:, ldap_auth_source_id: auth_source.id) }
   let(:login) { "h.wurst" }
 
   before do

@@ -99,14 +99,6 @@ fil:
     edit: "I-edit na tulong na teksto para sa %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: Sa kasalukuyan ay walang mga authentication mode.
-      no_results_content_text: Gumawa ng bagong authentication mode
-  background_jobs:
-    status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -162,6 +154,10 @@ fil:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   forums:
     show:
       no_results_title_text: There are currently no posts for the forum.
@@ -339,6 +335,12 @@ fil:
     index:
       no_results_title_text: Sa kasalukuyan ay walang mga estado ng work package.
       no_results_content_text: Magdagdag ng bagong estado
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Sa kasalukuyan ay walang mga uri.
@@ -551,7 +553,7 @@ fil:
         color: "Kulay"
       user:
         admin: "Tagapangasiwa"
-        auth_source: "Mode ng pagpapatunay"
+        ldap_auth_source: "LDAP connection"
         current_password: "Kasulukuyang password"
         force_password_change: "Ipatupad ang password na ibahin sa susunod na login"
         language: "Linggwahe"
@@ -1453,7 +1455,7 @@ fil:
   menus:
     admin:
       mail_notification: "Mga abiso ng emailba"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
@@ -1556,9 +1558,9 @@ fil:
   label_attachment_plural: "Mga file"
   label_attribute: "Katangian"
   label_attribute_plural: "Mga katangian"
-  label_auth_source: "Mode ng pagpapatunay"
-  label_auth_source_new: "Bagong authentication mode"
-  label_auth_source_plural: "Ang mga mode ng pagpapatunay"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Pagpapatunay"
   label_available_project_work_package_categories: 'Ang mga kategorya ng magagamit na work package'
   label_available_project_work_package_types: 'Available work package types'
@@ -2273,7 +2275,7 @@ fil:
   present_access_key_value: "Ang iyong %{key_name} ay: %{value}"
   notice_automatic_set_of_standard_type: "Magtakda ng automatikong pamantayang uri."
   notice_logged_out: "Ikaw ay naka-log out na."
-  notice_wont_delete_auth_source: Ang authentication mode ay hindi pwedeng burahin hanggang meron pang user ang gumagamit nito.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Hindi mo pwedeng i-update ang mga patlang ng project's available custom. Ang proyekto ay hindi balido: %{errors}"
   notice_attachment_migration_wiki_page: >
     Ang pahinang ito ay awtomatikong binuo sa panahon ng pag-update sa OpenProject. Ito ay naglalaman ng lahat na mga nakakalakip sa nakaraang nauugnay sa %{container_type} "%{container_name}".
@@ -2651,17 +2653,16 @@ fil:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     brute_force_prevention: "Naka-automate na user block"
-    language_name_being_default: '%{language_name} (default)'
     date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text_html: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
-    general: "Pangkalahatan"
     experimental:
       save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Feature flags
+    general: "Pangkalahatan"
     highlighting:
       mode_long:
         inline: "Highlight attribute(s) inline"
@@ -2673,6 +2674,7 @@ fil:
       enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."

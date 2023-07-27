@@ -50,7 +50,7 @@ RSpec.describe 'Wysiwyg linking',
       # Save wiki page
       click_on 'Save'
 
-      expect(page).to have_selector('.flash.notice')
+      expect(page).to have_selector('.op-toast.-success')
 
       wiki_page = project.wiki.pages.first.reload
 

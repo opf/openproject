@@ -79,16 +79,22 @@ RSpec.describe WorkPackage do
       end
 
       it 'has the timestamp of the work package update time for created_at' do
-        # This seemingly unnecessary reload leads to the updated_at having the same
-        # precision as the created_at of the Journal. It is database dependent, so it would work without
-        # reload on PG 12 but does not work on PG 9.
         expect(work_package.last_journal.created_at)
           .to eql(work_package.reload.updated_at)
+      end
+
+      it 'has the updated_at of the work package as the lower bound for validity_period and no upper bound' do
+        expect(work_package.last_journal.validity_period)
+          .to eql(work_package.reload.updated_at...Float::INFINITY)
       end
     end
 
     context 'when nothing is changed' do
       it { expect { work_package.save! }.not_to change(Journal, :count) }
+
+      it 'does not update the updated_at time of the work package' do
+        expect { work_package.save! }.not_to change(work_package, :updated_at)
+      end
     end
 
     context 'for different newlines', with_settings: { journal_aggregation_time_minutes: 0 } do
@@ -127,28 +133,21 @@ RSpec.describe WorkPackage do
       end
 
       context 'when there is a legacy journal containing non-escaped newlines' do
-        let!(:work_package_journal1) do
-          create(:work_package_journal,
-                 journable_id: work_package1.id,
-                 version: 2,
-                 data: build(:journal_work_package_journal,
-                             description:))
-        end
-        let!(:work_package_journal2) do
-          create(:work_package_journal,
-                 journable_id: work_package1.id,
-                 version: 3,
-                 data: build(:journal_work_package_journal,
-                             description: changed_description))
+        let!(:work_package1) do
+          create(:work_package,
+                 journals: {
+                   5.minutes.ago => { description: },
+                   3.minutes.ago => { description: changed_description }
+                 })
         end
 
-        subject { work_package1.last_journal.details }
-
-        it { is_expected.not_to have_key :description }
+        it 'does not track the change to the newline characters' do
+          expect(work_package1.reload.last_journal.details).not_to have_key :description
+        end
       end
     end
 
-    describe 'on work package change', with_settings: { journal_aggregation_time_minutes: 0 } do
+    describe 'on work package change without aggregation', with_settings: { journal_aggregation_time_minutes: 0 } do
       let(:parent_work_package) do
         create(:work_package,
                project_id: project.id,
@@ -274,11 +273,19 @@ RSpec.describe WorkPackage do
       end
 
       it 'has the timestamp of the work package update time for created_at' do
-        # This seemingly unnecessary reload leads to the updated_at having the same
-        # precision as the created_at of the Journal. It is database dependent, so it would work without
-        # reload on PG 12 but does not work on PG 9.
         expect(work_package.last_journal.created_at)
           .to eql(work_package.reload.updated_at)
+      end
+
+      it 'has the updated_at of the work package as the lower bound for validity_period and no upper bound' do
+        expect(work_package.last_journal.validity_period)
+          .to eql(work_package.reload.updated_at...Float::INFINITY)
+      end
+
+      it 'sets the upper bound of the preceeding journal to be the created_at time of the newly created journal' do
+        former_last_journal = work_package.journals[-2]
+        expect(former_last_journal.validity_period)
+          .to eql(former_last_journal.created_at...work_package.last_journal.created_at)
       end
     end
 
@@ -369,6 +376,13 @@ RSpec.describe WorkPackage do
         end
 
         it { expect { work_package.save! }.not_to change(Journal, :count) }
+
+        it 'does not set an upper bound to the already existing journal' do
+          work_package.save
+
+          expect(work_package.last_journal.validity_period.last)
+            .to eql(Float::INFINITY)
+        end
       end
 
       context 'when custom value removed' do
@@ -439,6 +453,7 @@ RSpec.describe WorkPackage do
       subject do
         work_package.add_journal(user: User.current, notes: 'some notes')
         work_package.save
+        work_package
       end
 
       it 'does not create a new journal entry' do
@@ -446,8 +461,11 @@ RSpec.describe WorkPackage do
       end
 
       it 'has the timestamp of the work package update time for updated_at' do
-        subject
-        expect(work_package.last_journal.updated_at).to eql(work_package.updated_at)
+        expect(subject.last_journal.updated_at).to eql(work_package.reload.updated_at)
+      end
+
+      it 'updates the updated_at time of the work package' do
+        expect { subject.reload }.to change(work_package, :updated_at)
       end
 
       it 'stores the note with the existing journal entry' do
@@ -460,6 +478,7 @@ RSpec.describe WorkPackage do
         work_package.add_journal(user: User.current, notes: 'some notes')
         work_package.subject = 'blubs'
         work_package.save
+        work_package
       end
 
       it 'does not create a new journal entry' do
@@ -467,8 +486,11 @@ RSpec.describe WorkPackage do
       end
 
       it 'has the timestamp of the work package update time for updated_at' do
-        subject
-        expect(work_package.last_journal.updated_at).to eql(work_package.updated_at)
+        expect(subject.last_journal.updated_at).to eql(work_package.reload.updated_at)
+      end
+
+      it 'updates the updated_at time of the work package' do
+        expect { subject.reload }.to change(work_package, :updated_at)
       end
 
       it 'stores the note with the existing journal entry' do
@@ -481,16 +503,24 @@ RSpec.describe WorkPackage do
         work_package.add_journal(
           user: User.current,
           cause: {
-            type: 'work_package_predecessor_changed_times',
+            type: 'some cause',
             work_package_id: 42
           }
         )
         work_package.save
+        work_package
+      end
+
+      it 'has the cause logged in the last journal' do
+        expect(subject.last_journal.cause).to eql({ 'type' => 'some cause', 'work_package_id' => 42 })
       end
 
       it 'has the timestamp of the work package update time for created_at' do
-        subject
-        expect(work_package.last_journal.updated_at).to eql(work_package.updated_at)
+        expect(subject.last_journal.updated_at).to eql(work_package.reload.updated_at)
+      end
+
+      it 'updates the updated_at time of the work package' do
+        expect { subject.reload }.to change(work_package, :updated_at)
       end
 
       it 'does create a new journal entry' do
@@ -510,6 +540,7 @@ RSpec.describe WorkPackage do
         )
         work_package.subject = 'blubs'
         work_package.save
+        work_package
       end
 
       it 'has the timestamp of the work package update time for created_at' do
@@ -518,6 +549,12 @@ RSpec.describe WorkPackage do
 
       it 'does create a new journal entry' do
         expect { subject }.to change(work_package, :last_journal)
+      end
+
+      it 'updates the updated_at time of the work package' do
+        updated_at_before = work_package.updated_at
+
+        expect(subject.reload.updated_at).not_to eql(updated_at_before)
       end
 
       it 'stores the cause and note with the existing journal entry' do
@@ -570,7 +607,7 @@ RSpec.describe WorkPackage do
     context 'when updated within aggregation time' do
       subject(:journals) { work_package.journals }
 
-      let(:current_user) { user1 }
+      current_user { user1 }
 
       let(:notes) { nil }
       let(:user1) { create(:user) }
@@ -697,6 +734,11 @@ RSpec.describe WorkPackage do
             end
           end
         end
+
+        it 'has the journal\'s creation time as the lower and no upper bound for validity_period' do
+          expect(work_package.last_journal.validity_period)
+            .to eql(work_package.last_journal.created_at...Float::INFINITY)
+        end
       end
 
       context 'with a different author' do
@@ -704,24 +746,47 @@ RSpec.describe WorkPackage do
 
         it 'leads to two journals' do
           expect(subject.count).to be 2
+        end
+
+        it 'has the initial user as the author of the first journal' do
           expect(subject.first.user)
             .to eql current_user
+        end
 
+        it 'has the second user as he author of the second journal' do
           expect(subject.second.user)
             .to eql new_author
+        end
 
+        it 'has the changes (compared to the initial state) in the second journal' do
           expect(subject.second.get_changes)
             .to eql("status_id" => [status.id, new_status.id])
+        end
+
+        it 'has the first journal\'s creation time as the lower and the second journal\'s creation time ' \
+           'as the upper bound for validity_period of the first journal' do
+          expect(subject.first.validity_period)
+            .to eql(subject.first.created_at...subject.second.created_at)
+        end
+
+        it 'has the second journal\'s creation time as the lower and no upper bound for validity_period of the second journal' do
+          expect(subject.second.validity_period)
+            .to eql(subject.second.created_at...Float::INFINITY)
         end
       end
     end
 
     context 'when updated after aggregation timeout expired', with_settings: { journal_aggregation_time_minutes: 1 } do
+      let(:last_update_time) { 2.minutes.ago }
+
       subject(:journals) { work_package.journals }
 
       before do
-        work_package.last_journal.update_columns(created_at: 2.minutes.ago,
-                                                 updated_at: 2.minutes.ago)
+        work_package.last_journal.update_columns(created_at: last_update_time,
+                                                 updated_at: last_update_time,
+                                                 validity_period: last_update_time..Float::INFINITY)
+        work_package.update_columns(created_at: last_update_time,
+                                    updated_at: last_update_time)
 
         work_package.status = build(:status)
         work_package.save!
@@ -729,6 +794,17 @@ RSpec.describe WorkPackage do
 
       it 'creates a new journal' do
         expect(journals.count).to be 2
+      end
+
+      it 'has the first journal\'s creation time as the lower and the second journal\'s creation time ' \
+         'as the upper bound for validity_period of the first journal' do
+        expect(subject.first.validity_period)
+          .to eql(subject.first.created_at...subject.second.created_at)
+      end
+
+      it 'has the second journal\'s creation time as the lower and no upper bound for validity_period of the second journal' do
+        expect(subject.second.validity_period)
+          .to eql(subject.second.created_at...Float::INFINITY)
       end
     end
 
@@ -744,6 +820,40 @@ RSpec.describe WorkPackage do
         it 'creates a new journal' do
           expect(journals.count).to be 2
         end
+      end
+    end
+
+    context 'when aggregation leads to an empty change (changing back and forth)',
+            with_settings: { journal_aggregation_time_minutes: 1 } do
+      let!(:work_package) do
+        User.execute_as current_user do
+          create(:work_package,
+                 :created_in_past,
+                 created_at: 5.minutes.ago,
+                 project_id: project.id,
+                 type:,
+                 description: 'Description',
+                 priority:,
+                 status:,
+                 duration: 1)
+        end
+      end
+
+      let(:other_status) { create(:status) }
+
+      before do
+        work_package.status = other_status
+        work_package.save!
+        work_package.status = status
+        work_package.save!
+      end
+
+      it 'creates a new journal' do
+        expect(work_package.journals.count).to be 2
+      end
+
+      it 'has the old state in the last journal`s data' do
+        expect(work_package.journals.last.data.status_id).to be status.id
       end
     end
   end
