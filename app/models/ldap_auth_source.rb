@@ -140,10 +140,12 @@ class LdapAuthSource < ApplicationRecord
   # test the connection to the LDAP
   def test_connection
     unless authenticate_dn(account, account_password)
-      raise LdapAuthSource::Error, I18n.t('auth_source.ldap_error', error_message: I18n.t('auth_source.ldap_auth_failed'))
+      raise LdapAuthSource::Error,
+            I18n.t('ldap_auth_sources.ldap_error', error_message: I18n.t('ldap_auth_sources.ldap_auth_failed'))
     end
   rescue Net::LDAP::Error => e
-    raise LdapAuthSource::Error, I18n.t('auth_source.ldap_error', error_message: e.to_s)
+    raise LdapAuthSource::Error,
+          I18n.t('ldap_auth_sources.ldap_error', error_message: e.to_s)
   end
 
   def get_user_attributes_from_ldap_entry(entry)

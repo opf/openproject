@@ -194,7 +194,11 @@ OPENPROJECT_SEED_ADMIN_USER_MAIL="admin@example.net" # Email attribute to assign
 
 OpenProject allows you to create and maintain an LDAP connection with optional synchronized group filters. This is relevant for e.g., automated deployments, where you want to trigger the synchronization right at the start.
 
+**Note:** These variables are applied whenever `db:seed` rake task is being executed. This happens on every packaged `configure` call or when the seeder container job is being run, so be aware that these changes might happen repeatedly.
+
 The connection can be set with the following options. Please note that "EXAMPLE" stands for an arbitrary name (expressable in ENV keys)  which will become the name of the connection. In this case, "example" and "examplefilter" for the synchronized filter.
+
+The name of the LDAP connection is derived from the ENV key behind `SEED_LDAP_`, so you need to take care to use only valid characters. If you need to place an underscore, use a double underscore to encode it e.g., `my__ldap`.
 
 The following options are possible
 
@@ -210,6 +214,8 @@ OPENPROJECT_SEED_LDAP_EXAMPLE_PORT="389"
 OPENPROJECT_SEED_LDAP_EXAMPLE_SECURITY="start_tls"
 # Whether to verify the certificate/chain of the LDAP connection. true/false (True by default)
 OPENPROJECT_SEED_LDAP_EXAMPLE_TLSVERIFY="true"
+# Optionally, provide a certificate of the connection
+OPENPROJECT_SEED_LDAP_EXAMPLE_TLS__CERTIFICATE="-----BEGIN CERTIFICATE-----\nMII....\n-----END CERTIFICATE-----"
 # The admin LDAP bind account with read access
 OPENPROJECT_SEED_LDAP_EXAMPLE_BINDUSER="uid=admin,ou=system"
 # Password for the bind account
