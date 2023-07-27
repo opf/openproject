@@ -401,7 +401,7 @@ en:
       token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you to distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
       copy_url_label: "Copy URL"
       ical_generation_error_text: "An error occured while generating the calendar URL."
-      success_message: "The URL \"%{name}\" was successfull copied to your clipboard. Paste it in your calendar client to complete the subscription."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
 
     label_activate: "Activate"
     label_assignee: 'Assignee'
