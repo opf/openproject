@@ -122,7 +122,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
     end
   end
 
-  def attributes_list_by_wp(_work_package)
+  def attributes_list_by_wp
     col_names = %i[
       id
       updated_at
