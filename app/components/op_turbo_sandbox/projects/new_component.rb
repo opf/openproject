@@ -28,7 +28,9 @@
 
 module OpTurboSandbox
   module Projects
-    class NewComponent < OpTurbo::Component
+    class NewComponent < ApplicationComponent
+      include OpTurbo::Streamable
+
       def initialize(project: Project.new)
         super()
 

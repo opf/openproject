@@ -28,7 +28,9 @@
 
 module OpTurboSandbox
   module Projects
-    class IndexComponent < OpTurbo::Component
+    class IndexComponent < ApplicationComponent
+      include OpTurbo::Streamable
+
       def initialize(projects:)
         super()
         @projects = projects

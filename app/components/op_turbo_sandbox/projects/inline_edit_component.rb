@@ -28,7 +28,9 @@
 
 module OpTurboSandbox
   module Projects
-    class InlineEditComponent < OpTurbo::Component
+    class InlineEditComponent < ApplicationComponent
+      include OpTurbo::Streamable
+
       def initialize(project:, state: :show)
         super()
 
