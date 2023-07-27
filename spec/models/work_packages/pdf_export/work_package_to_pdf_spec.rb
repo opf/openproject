@@ -88,26 +88,31 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   end
 
   subject(:pdf) do
-    # File.binwrite('WorkPackageToPdf-test-preview.pdf', export_pdf.content)
-    PDF::Inspector::Text.analyze(export_pdf.content)
+    content = export_pdf.content
+    # File.binwrite('WorkPackageToPdf-test-preview.pdf', content)
+    { strings: PDF::Inspector::Text.analyze(content).strings,
+      images: PDF::Inspector::XObject.analyze(content).page_xobjects.flat_map do |o|
+        o.values.select { |v| v.hash[:Subtype] == :Image }
+      end }
   end
 
   describe 'with a request for a PDF' do
     it 'contains correct data' do
-      expect(pdf.strings).to eq([
-                                  "#{type.name} ##{work_package.id} - #{work_package.subject}",
-                                  column_title(:id), work_package.id.to_s,
-                                  column_title(:updated_at), export_time_formatted,
-                                  column_title(:type), type.name,
-                                  column_title(:created_at), export_time_formatted,
-                                  column_title(:status), work_package.status.name,
-                                  column_title(:priority), work_package.priority.name,
-                                  label_title(:description),
-                                  'Lorem', ' ', 'ipsum', ' ', 'dolor', ' ', 'sit', ' ',
-                                  'amet', ', consetetur sadipscing elitr.', ' ', '@OpenProject Admin',
-                                  'Image Caption',
-                                  '1', export_time_formatted, project.name
-                                ])
+      expect(pdf[:strings]).to eq([
+                                    "#{type.name} ##{work_package.id} - #{work_package.subject}",
+                                    column_title(:id), work_package.id.to_s,
+                                    column_title(:updated_at), export_time_formatted,
+                                    column_title(:type), type.name,
+                                    column_title(:created_at), export_time_formatted,
+                                    column_title(:status), work_package.status.name,
+                                    column_title(:priority), work_package.priority.name,
+                                    label_title(:description),
+                                    'Lorem', ' ', 'ipsum', ' ', 'dolor', ' ', 'sit', ' ',
+                                    'amet', ', consetetur sadipscing elitr.', ' ', '@OpenProject Admin',
+                                    'Image Caption',
+                                    '1', export_time_formatted, project.name
+                                  ])
+      expect(pdf[:images].length).to eq(2)
     end
   end
 end
