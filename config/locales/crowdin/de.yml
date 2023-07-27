@@ -334,6 +334,12 @@ de:
     index:
       no_results_title_text: Derzeit gibt es keine Arbeitspaket-Status.
       no_results_content_text: Neuen Status hinzufügen
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Derzeit gibt es keine Typen.
@@ -1448,7 +1454,7 @@ de:
   menus:
     admin:
       mail_notification: "Mailbenachrichtigung"
-      mails_and_notifications: "E-Mails und Benachrichtigungen"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Zusammenfassungen'
       api_and_webhooks: "API und Webhooks"
     quick_add:
@@ -2648,17 +2654,16 @@ de:
       whitelist_text_html: >
         Legen Sie eine Liste gültiger Dateierweiterungen und/oder Mime-Typen für hochgeladene Dateien fest. <br/> Dateierweiterungen (z. B. <code>%{ext_example}</code>) oder Mime-Typen (z. ., <code>%{mime_example}</code>). <br/> Lassen Sie diese Liste leer, um das Hochladen beliebiger Dateitypen zu erlauben. Mehrere Werte erlaubt (eine Zeile pro Wert).
     brute_force_prevention: "Automatisches Sperren von Benutzern"
-    language_name_being_default: '%{language_name} (Standard)'
     date_format:
       first_date_of_week_and_year_set: >
         Wenn beide Optionen "%{day_of_week_setting_name}" oder "%{first_week_setting_name}" gesetzt sind der andere muss ebenfalls gesetzt werden, um die Darstellung konsistent zu halten.
       first_week_of_year_text_html: >
         Wählen Sie das Datum aus dem Monat Januar, das in der ersten Woche des Jahres enthalten ist. Dieser Wert zusammen mit dem ersten Wochentag bestimmt die Gesamtzahl der Wochen in einem Jahr. Weitere Informationen finden Sie in unserer <a href="%{link}" target="_blank">Dokumentation</a> zu diesem Thema.
-    general: "Allgemein"
     experimental:
       save_confirmation: Achtung! Risiko für Datenverlust! Aktivieren Sie diese experimentelle Funktionen nur, wenn diese Instanz zu Testzwecken verwendet wird und Datenverlust oder -korruption akzeptiert wird.
       warning_toast: Feature Flags sind Einstellungen, die Funktionen aktivieren, die noch in Entwicklung sind. Sie werden nur für Testzwecke verwendet. Sie sollten niemals in OpenProject Installationen aktiviert werden, die produktive Daten enthalten. Diese Funktionen werden sehr wahrscheinlich Ihre Daten beschädigen. Verwenden Sie diese Optionen auf eigene Gefahr.
       feature_flags: Feature Flags
+    general: "Allgemein"
     highlighting:
       mode_long:
         inline: "Inline hervorgehobene Attribute"
@@ -2670,6 +2675,7 @@ de:
       enable_subscriptions_text_html: Ermöglicht Benutzern mit der notwendigen Berechtigung, OpenProject-Kalender zu abonnieren und über einen externen Kalender-Client auf Informationen über Arbeitspakete zuzugreifen.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (Standard)'
     notifications:
       events_explanation: 'Bestimmt, für welche Ereignisse eine E-Mail verschickt wird. Arbeitspakete sind von dieser Liste ausgeschlossen, da die Benachrichtigungen hierfür pro Benutzer konfiguriert werden können.'
       delay_minutes_explanation: "Das Senden von E-Mails kann verzögert werden, damit Benutzer über In-App-Benachrichtigungen benachrichtigt werden können, bevor eine E-Mail versendet wird. Benutzer, die eine Benachrichtigung innerhalb der Anwendung lesen, erhalten keine separate E-Mail."

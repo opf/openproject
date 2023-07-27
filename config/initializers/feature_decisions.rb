@@ -41,3 +41,4 @@ require_relative '../../lib_static/open_project/feature_decisions'
 
 OpenProject::FeatureDecisions.add :show_changes
 OpenProject::FeatureDecisions.add :more_global_index_pages
+OpenProject::FeatureDecisions.add :personal_theme_selection

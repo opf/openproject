@@ -116,7 +116,7 @@ RSpec.describe 'Wysiwyg child pages spec',
         # Save wiki page
         click_on 'Save'
 
-        expect(page).to have_selector('.flash.notice')
+        expect(page).to have_selector('.op-toast.-success')
 
         within('#content') do
           expect(page).to have_selector('.pages-hierarchy')
@@ -149,7 +149,7 @@ RSpec.describe 'Wysiwyg child pages spec',
         # Save wiki page
         click_on 'Save'
 
-        expect(page).to have_selector('.flash.notice')
+        expect(page).to have_selector('.op-toast.-success')
 
         within('#content') do
           expect(page).to have_selector('.pages-hierarchy')

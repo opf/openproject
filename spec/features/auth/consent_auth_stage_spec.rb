@@ -158,7 +158,7 @@ RSpec.describe 'Authentication Stages' do
       find_by_id('toggle_consent_time').set(true)
 
       click_on 'Save'
-      expect(page).to have_selector('.flash.notice')
+      expect(page).to have_selector('.op-toast.-success')
 
       Setting.clear_cache
       expect(Setting.consent_time).to be_present
@@ -205,7 +205,7 @@ RSpec.describe 'Authentication Stages' do
       check 'consent_check'
       click_on I18n.t(:button_create)
 
-      expect(page).to have_selector('.flash.notice')
+      expect(page).to have_selector('.op-toast.-success')
       expect_logged_in
     end
 
@@ -242,7 +242,7 @@ RSpec.describe 'Authentication Stages' do
         # Decline the consent
         click_on I18n.t(:button_decline)
 
-        expect(page).to have_selector('.flash.error', text: 'foo@example.org')
+        expect(page).to have_selector('.op-toast.-error', text: 'foo@example.org')
       end
     end
   end

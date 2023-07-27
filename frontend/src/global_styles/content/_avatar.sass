@@ -1,16 +1,27 @@
+$user-avatar-width: 36px
+$user-avatar-height: 36px
+$user-avatar-medium-border-radius: 50%
+$user-avatar-medium-width: 28px
+$user-avatar-medium-height: 28px
+$user-avatar-mini-border-radius: 50%
+$user-avatar-mini-width: 20px
+$user-avatar-mini-height: 20px
+$user-avatar-default-bg-color: white
+
+
 .op-avatar
   border-radius: var(--user-avatar-border-radius)
-  width: var(--user-avatar-width)
+  width: $user-avatar-width
   // min-width was added because the avatar was getting squished as a flex-child
-  min-width: var(--user-avatar-width)
-  height: var(--user-avatar-height)
+  min-width: $user-avatar-width
+  height: $user-avatar-height
   color: white
   display: inline-block
   text-align: center
   vertical-align: middle
   cursor: inherit
   user-select: none
-  background-color: var(--user-avatar-default-bg-color)
+  background-color: $user-avatar-default-bg-color
   // Default size
   line-height: 36px
   font-size: 16px
@@ -20,19 +31,19 @@
     max-width: none
 
   &_mini
-    border-radius: var(--user-avatar-mini-border-radius)
-    width: var(--user-avatar-mini-width)
-    min-width: var(--user-avatar-mini-width)
-    height: var(--user-avatar-mini-height)
-    line-height: var(--user-avatar-mini-height)
+    border-radius: $user-avatar-mini-border-radius
+    width: $user-avatar-mini-width
+    min-width: $user-avatar-mini-width
+    height: $user-avatar-mini-height
+    line-height: $user-avatar-mini-height
     font-size: 10px
 
   &_medium
-    border-radius: var(--user-avatar-medium-border-radius)
-    width: var(--user-avatar-medium-width)
-    min-width: var(--user-avatar-medium-width)
-    height: var(--user-avatar-medium-height)
-    line-height: var(--user-avatar-medium-height)
+    border-radius: $user-avatar-medium-border-radius
+    width: $user-avatar-medium-width
+    min-width: $user-avatar-medium-width
+    height: $user-avatar-medium-height
+    line-height: $user-avatar-medium-height
     font-size: 13px
 
   // Different border styling for placeholders

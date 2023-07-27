@@ -19,5 +19,9 @@ ru:
       plural: Провайдеры OpenID
       singular: Провайдер OpenID
     setting_instructions:
+      azure_graph_api: >
+        Используйте endpoint userinfo graph.microsoft.com для запроса пользовательских данных. Это должно быть по умолчанию, если у вас нет более старого azure.
+      azure_tenant_html: >
+        Установите клиента вашей конечной точки Azure. Это будет определять, кто получает доступ к экземпляру OpenProject. Для получения дополнительной информации, пожалуйста, смотрите <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory"> наше руководство пользователя по Azure OpenID connect</a>.
       limit_self_registration: >
         Если включено, пользователи могут зарегистрироваться только с помощью данного провайдера, если это позволяет сама регистрация.

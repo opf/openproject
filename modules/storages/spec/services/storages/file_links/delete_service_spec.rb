@@ -37,15 +37,16 @@ RSpec.describe Storages::FileLinks::DeleteService, type: :model do
 
   it 'creates a journal entry for its container', with_settings: { journal_aggregation_time_minutes: 0 } do
     project_storage = create(:project_storage)
-    work_package = create(:work_package, project: project_storage.project)
+    # Tap as the changes would otherwise mess with the journal creation i.e. the updated_at timestamp
+    work_package = create(:work_package, project: project_storage.project).tap(&:clear_changes_information)
+
     file_link = create(:file_link, container: work_package, storage: project_storage.storage)
 
-    user = create(:admin)
-    service = described_class.new(model: file_link, user:, contract_class: Storages::FileLinks::DeleteContract)
+    service = described_class.new(model: file_link, user: create(:admin), contract_class: Storages::FileLinks::DeleteContract)
     params = { id: file_link.id }
 
     # We need a previous entry that added the file link to record the removal
-    Journals::CreateService.new(work_package, user).call
+    work_package.save_journals
 
     expect do
       result = service.call(params)

@@ -193,7 +193,7 @@ RSpec.describe 'Repository Settings', js: true do
 
       click_button(I18n.t(:button_save))
       expect(page).to have_selector('[name="repository[login]"][value="foobar"]')
-      expect(page).to have_selector('.flash',
+      expect(page).to have_selector('.op-toast',
                                     text: I18n.t('repositories.update_settings_successful'))
     end
   end

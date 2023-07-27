@@ -81,6 +81,7 @@
     "webpack-bundle-analyzer": "^4.4.2"
   },
   "dependencies": {
+    "@angular-builders/custom-webpack": "^16.0.0",
     "@angular/animations": "^16.1.6",
     "@angular/cdk": "^16.1.5",
     "@angular/cli": "^16.1.5",
@@ -115,7 +116,10 @@
     "@ng-select/ng-select": "^11.0.0",
     "@ngneat/content-loader": "^7.0.0",
     "@ngx-formly/core": "^6.1.4",
+    "@openproject/octicons-angular": "^19.6.3",
     "@openproject/reactivestates": "^3.0.1",
+    "@primer/css": "^21.0.2",
+    "@primer/primitives": "^7.11.12",
     "@uirouter/angular": "^12.0.0",
     "@uirouter/core": "^6.0.8",
     "@uirouter/rx": "^1.0.0",
@@ -137,6 +141,7 @@
     "fuse.js": "^3.4.5",
     "glob": "^7.1.4",
     "hammerjs": "^2.0.8",
+    "i18n-js": "^4.3.0",
     "jquery": "^3.5.1",
     "jquery-ui": "1.13.2",
     "jquery-ujs": "^1.2.2",
@@ -174,7 +179,7 @@
   },
   "scripts": {
     "analyze": "ng build --configuration production --stats-json && webpack-bundle-analyzer -h 0.0.0.0 -p 9999 ../public/assets/frontend/stats.json",
-    "build:ci": "node ./node_modules/@angular/cli/bin/ng build --configuration production --named-chunks --source-map=false --build-optimizer=false --optimization=false",
+    "build:ci": "node ./node_modules/@angular/cli/bin/ng build --configuration production --named-chunks --source-map=false",
     "build": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --configuration production --named-chunks --source-map",
     "build:watch": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --watch --named-chunks",
     "tokens:generate": "theo src/app/spot/styles/tokens/tokens.yml --transform web --format sass,json --dest src/app/spot/styles/tokens/dist",
@@ -189,5 +194,8 @@
     "generate-typings": "tsc -d -p src/tsconfig.app.json",
     "storybook:serve": "ng run OpenProject:storybook",
     "storybook:build": "ng run OpenProject:build-storybook"
+  },
+  "overrides": {
+    "@primer/view-components": "git+https://github.com/opf/primer_view_components.git#18abe4d"
   }
 }

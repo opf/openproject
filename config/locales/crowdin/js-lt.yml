@@ -297,33 +297,33 @@ lt:
           two: "Antrasis rikiavimo kriterijus"
           three: "Trečiasis rikiavimo kriterijus"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Ganto diagrama'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'Užrašo konfigūracija'
+        bar: 'Juostelės užrašai'
+        left: 'Kairė'
+        right: 'Dešinė'
+        farRight: 'Toli dešinėje'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+          Pasirinkite atributus, kuriuos visada norite pamatyti atitinkamose Ganto grafiko pozicijose. Atkreipkite dėmesį, kad kai pelės klavišas užvestas virš elemento, jo datos informacija bus rodoma vietoj šių atributų.
+      button_activate: 'Rodyti Gantto diagramą'
+      button_deactivate: 'Slėpti Gantto diagramą'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(nėra)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Paspauskite ant bet kurio pažymėto darbų paketo, kad sukurtumėte ryšį. Paspauskite Esc, jei norite atšaukti.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Priartinti"
+        out: "Nutolinti"
+        auto: "Automatinis priartinimas"
+        days: "Dienos"
+        weeks: "Savaitės"
+        months: "Mėnesiai"
+        quarters: "Ketvirčiai"
+        years: "Metai"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Pasirinkite pradinį pritraukimo lygį, kuris bus rodomas kai automatinis pritraukimas negalimas.
     general_text_no: "ne"
     general_text_yes: "taip"
     general_text_No: "Ne"
@@ -917,10 +917,10 @@ lt:
         addition_label: 'Pridėta į vaizdą lyginimo laiko periode'
         removal_label: 'Išimta iš vaizdo lyginimo laiko periode'
         modification_label: 'Pakeista lyginimo laiko periode'
-        column_incompatible: 'This column does not show changes in Baseline mode.'
+        column_incompatible: 'Šis stulpelis nerodo pakeitimų Bazinės linijos režime.'
       filters:
         title: 'Filtruoti darbų paketus'
-        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
+        baseline_incompatible: 'Šis filtro atributas neįvertinamas Bazinės linijos režime.'
         baseline_warning: 'Bazinės linijos režimas įjungtas, bet kai kurie aktyvūs jūsų filtrai neįtraukti į palyginimą.'
       inline_create:
         title: 'Paspauskite čia, kad pridėtumėte į sąrašą naują darbų paketą'

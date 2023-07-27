@@ -33,7 +33,8 @@ RSpec.describe Burndown do
     story.reload
     story.send(attribute, value)
     story.save!
-    story.last_journal.update(created_at: day, updated_at: day)
+    story.journals[-2].update_columns(validity_period: story.journals[-2].created_at...day) if story.journals.count > 1
+    story.journals[-1].update_columns(created_at: day, updated_at: day, validity_period: day..Float::INFINITY)
   end
 
   let(:user) { create(:user) }
@@ -165,7 +166,9 @@ RSpec.describe Burndown do
                                           priority: issue_priority,
                                           created_at: Time.zone.today - (20 - i).days,
                                           updated_at: Time.zone.today - (20 - i).days)
-              stories[i].last_journal.update_columns(created_at: stories[i].created_at, updated_at: stories[i].created_at)
+              stories[i].last_journal.update_columns(created_at: stories[i].created_at,
+                                                     updated_at: stories[i].created_at,
+                                                     validity_period: stories[i].created_at..Float::INFINITY)
             end
 
             stories

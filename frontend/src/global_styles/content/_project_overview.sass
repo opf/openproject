@@ -55,7 +55,7 @@
     &:last-child
       margin-bottom: 10px
 
-@include breakpoint(680px down)
+@media screen and (max-width: $breakpoint-sm)
   #visible-grid .grid-block,
   #invisible-grid .grid-block
     flex-wrap: wrap

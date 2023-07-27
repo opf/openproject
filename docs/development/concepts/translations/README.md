@@ -30,7 +30,7 @@ The OpenProject localizable strings are stored in the [Rails-standard I18n YAML 
 
 Additionally, modules can define their own translations, such as `modules/budgets/config/locales/en.yml`. 
 
-The `js-en.yml` are not special on their own, but are simply prefixed with the `js:` key at the beginning of the file. This means all translations within are prefixed with the `js.` key. This is picked up by [`I18n.js`](https://github.com/fnando/i18n-js), a Ruby gem and frontend library that helps outputting javascript objects for the frontend. Only strings that are prefixed with `js.` and some internals will end up in the frontend due to the config we applied in [`config/i18n-js.yml`](https://github.com/opf/openproject/blob/dev/config/i18n-js.yml). The translations are output by the take task `./bin/rails i18n:js:export` and are output to `frontend/src/locales/{language}.js`.
+The `js-en.yml` are not special on their own, but are simply prefixed with the `js:` key at the beginning of the file. This means all translations within are prefixed with the `js.` key. This is picked up by [`I18n.js`](https://github.com/fnando/i18n-js), a Ruby gem and frontend library that helps outputting javascript objects for the frontend. Only strings that are prefixed with `js.` and some internals will end up in the frontend due to the config we applied in [`config/i18n-js.yml`](https://github.com/opf/openproject/blob/dev/config/i18n-js.yml). The translations are output by the take task `./bin/rails assets:export_locales` and are output to `frontend/src/locales/{language}.js`.
 
 
 

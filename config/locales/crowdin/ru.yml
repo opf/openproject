@@ -168,18 +168,18 @@ ru:
     index:
       no_results_title_text: На данный момент цветов нет.
       no_results_content_text: Создать новый цвет
-      label_new_color: "New color"
+      label_new_color: "Новый цвет"
     new:
-      label_new_color: "New Color"
+      label_new_color: "Новый цвет"
     edit:
-      label_edit_color: "Edit Color"
+      label_edit_color: "Изменить цвет"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Новый цвет"
+      label_edit_color: "Изменить цвет"
     label_no_color: "Нет цвета"
-    label_properties: "Properties"
+    label_properties: "Свойства"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Вы уверены, что хотите удалить этот цвет? Типы, использующие этот цвет, не будут удалены.
   custom_actions:
     actions:
       name: "Действия"
@@ -262,7 +262,7 @@ ru:
       types:
         no_results_title_text: На данный момент доступных типов нет.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'Разрешить тип «%{type}»'
       versions:
         no_results_title_text: На данный момент этапы в проекте отсутствуют.
         no_results_content_text: Создать новую версию
@@ -279,9 +279,9 @@ ru:
       notice_reset_token: "Новый маркер %{type} создан. Ваш маркер доступа:"
       token_value_warning: "Примечание: Этот маркер вам больше никогда показан не будет, убедитесь что запомнили его."
       no_results_title_text: На данный момент маркеры доступа отсутствуют.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
-      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
-      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "API токен был удален. Чтобы создать новый токен, пожалуйста, используйте ссылку в разделе API."
+      notice_rss_token_revoked: "Ключ RSS был удален. Чтобы создать новый токен, пожалуйста, используйте ссылку в разделе RSS."
+      notice_ical_token_revoked: "токен iCalendar \"%{token_name}\" для календаря \"%{calendar_name}\" проекта \"%{project_name}\" был отозван. URL-адрес iCalendar с этим токеном недействителен."
   news:
     index:
       no_results_title_text: На данный момент новостей для отчета нет.
@@ -338,6 +338,12 @@ ru:
     index:
       no_results_title_text: В данный момент статусы пакетов работ отсутствуют.
       no_results_content_text: Добавить новый статус
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: В данный момент типы отсутствуют.
@@ -1350,7 +1356,7 @@ ru:
   error_can_not_unarchive_project: "Этот проект невозможно разархивировать: %{errors}"
   error_check_user_and_role: "Пожалуйста, выберите пользователя и роль."
   error_code: "Ошибка %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "Цвет не может быть сохранен"
   error_cookie_missing: 'Отсутствуют cookie OpenProject. Пожалуйста, убедитесь, что Cookie разрешены. Без них приложение не будет функционировать должным образом.'
   error_custom_option_not_found: "Параметр не существует."
   error_enterprise_activation_user_limit: "Ваша учетная запись не может быть активирована (достигнут предел пользователя). Обратитесь к администратору для получения доступа."
@@ -1375,7 +1381,7 @@ ru:
   error_password_change_failed: 'Произошла ошибка при попытке изменить пароль.'
   error_scm_command_failed: "Произошла ошибка при попытке доступа к хранилищу: %{value}"
   error_scm_not_found: "Ни статья, ни ее исправленная версия в репозитории не найдены."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "Тип не может быть сохранён"
   error_unable_delete_status: "Статус пакета работ удалить нельзя, так как он используется по крайней мере одним рабочим пакетом."
   error_unable_delete_default_status: "Не удается удалить статус работы пакета по умолчанию. Пожалуйста, выберите другой статус работы пакета по умолчанию перед удалением текущего."
   error_unable_to_connect: "Не удается подключиться (%{value})"
@@ -1490,7 +1496,7 @@ ru:
   menus:
     admin:
       mail_notification: "Уведомления по электронной почте"
-      mails_and_notifications: "Электронные письма и уведомления"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Агрегация'
       api_and_webhooks: "API и вебхуки"
     quick_add:
@@ -1505,26 +1511,26 @@ ru:
         action: "Действие"
         expiration: "Срок действия"
       indefinite_expiration: "Никогда"
-      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      simple_revoke_confirmation: "Вы уверены, что хотите отменить этот токен?"
       api:
         title: "API"
-        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
-        static_token_name: "API token"
-        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+        text_hint: "Маркеры API позволяют приложениям общаться с этим экземпляром OpenProject через REST API."
+        static_token_name: "API-токен"
+        disabled_text: "Маркеры API не включены администратором. Пожалуйста, обратитесь к администратору для использования этой функции."
       ical:
         title: "iCalendar"
-        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
-        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
-        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+        text_hint: "Токены iCalendar позволяют пользователям <a href=\"%{path}\" target=\"_blank\"> подписываться на календари OpenProject</a> и просматривать актуальную информацию о рабочих пакетах от внешних клиентов."
+        disabled_text: "Подписки на iCalendar не включены администратором. Обратитесь к администратору для использования этой функции."
+        empty_text_hint: "Чтобы добавить токен iCalendar, подпишитесь на новый или существующий календарь из модуля календаря проекта. Вы должны иметь необходимые разрешения."
       oauth:
         title: "OAuth"
-        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
-        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+        text_hint: "Токены OAuth позволяют сторонним приложениям подключаться к этому экземпляру OpenProject."
+        empty_text_hint: "Для вас не настроен и не активирован доступ к сторонним приложениям. Пожалуйста, свяжитесь с вашим администратором, чтобы активировать эту функцию."
       rss:
         title: "RSS"
-        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
-        static_token_name: "RSS token"
-        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+        text_hint: "Токены RSS позволяют пользователям следить за последними изменениями в этом экземпляре OpenProject через внешний RSS-трекер."
+        static_token_name: "Токен RSS"
+        disabled_text: "Токены RSS не включены администратором. Пожалуйста, обратитесь к администратору, чтобы использовать эту функцию."
   notifications:
     send_notifications: "Отправить уведомления для этого действия"
     work_packages:
@@ -1654,7 +1660,7 @@ ru:
   label_confirmation: "Подтверждение"
   label_contains: "содержит"
   label_content: "Содержание"
-  label_color_plural: "Colors"
+  label_color_plural: "Цвета"
   label_copied: "Скопировано"
   label_copy_same_as_target: "Так, как намечено"
   label_copy_source: "Источник"
@@ -1683,7 +1689,7 @@ ru:
   label_deleted: "﻿Удалено"
   label_deleted_custom_field: "(удалено настраиваемое поле)"
   label_deleted_custom_option: "(удалённая опция)"
-  label_empty_element: "(empty)"
+  label_empty_element: "(пусто)"
   label_missing_or_hidden_custom_option: "(отсутствует значение или недостаточно прав для доступа)"
   label_descending: "По убыванию"
   label_details: "Детали"
@@ -1729,7 +1735,7 @@ ru:
   label_expanded_click_to_collapse: "Развернуто. Кликните для сворачивания"
   label_f_hour: "%{value} часов"
   label_f_hour_plural: "%{value} часов"
-  label_favoured: "Favoured"
+  label_favoured: "Избранное"
   label_feed_plural: "Ленты"
   label_feeds_access_key: "Ключ доступа к RSS"
   label_feeds_access_key_created_on: "Ключ доступа RSS, созданный %{value} назад"
@@ -1925,8 +1931,8 @@ ru:
   label_project_new: "Новый проект"
   label_project_plural: "Проекты"
   label_project_settings: "Настройки проекта"
-  label_project_storage_plural: "File Storages"
-  label_project_storage_project_folder: "File Storages: Project folders"
+  label_project_storage_plural: "Файловые хранилища"
+  label_project_storage_project_folder: "Файловые хранилища: Папки проекта"
   label_projects_storage_information: "%{count} проектов используют %{storage} дискового пространства"
   label_project_view_all: "Просмотреть все проекты"
   label_project_show_details: "Показать детали проекта"
@@ -2014,7 +2020,7 @@ ru:
   label_this_week: "на этой неделе"
   label_this_year: "в этом году"
   label_time_entry_plural: "Затраченное время"
-  label_title: "Title"
+  label_title: "Заголовок"
   label_projects_menu: "Проекты"
   label_today: "Сегодня"
   label_top_menu: "Верхнее меню"
@@ -2347,8 +2353,8 @@ ru:
   permission_add_messages: "Написать сообщения"
   permission_add_project: "Создать проект"
   permission_archive_project: "Архивировать проект"
-  permission_create_user: "Create users"
-  permission_manage_user: "Edit users"
+  permission_create_user: "Создать пользователей"
+  permission_manage_user: "Изменить пользователей"
   permission_manage_placeholder_user: "Создавать, редактировать и удалять пользователей-заполнителей"
   permission_add_subprojects: "Создать подпроект"
   permission_add_work_package_watchers: "Добавить наблюдателей"
@@ -2691,17 +2697,16 @@ ru:
       whitelist_text_html: >
         Определите список допустимых расширений файлов и/или mime типов для загруженных файлов. <br/> Введите расширения файлов (например, <code>%{ext_example}</code>) или mime типы (e. ., <code>%{mime_example}</code>). <br/> Оставьте пустым, чтобы разрешить загрузку любого типа файла. Допустимы несколько значений (одна строка для каждого значения).
     brute_force_prevention: "Автоматическое блокирование пользователя"
-    language_name_being_default: '%{language_name} (по умолчанию)'
     date_format:
       first_date_of_week_and_year_set: >
         Если параметры "%{day_of_week_setting_name}" или "%{first_week_setting_name}" заданы,  должны быть заданы и другие тоже во избежание несоответствий в интерфейсе.
       first_week_of_year_text_html: >
         Выберите дату января, которая содержится в первой неделе года. Это значение вместе с первым днем недели определяет общее количество недель в году. Для получения дополнительной информации, пожалуйста, ознакомьтесь с нашей <a href="%{link}" target="_blank">документацией</a> по этой теме.
-    general: "Общие"
     experimental:
       save_confirmation: Внимание! Риск потери данных! Активируйте экспериментальные функции, только если вы не возражаете против взлома вашей установки OpenProject и потери всех содержащихся в ней данных.
       warning_toast: Флаги функций - это настройки, активирующие функции, которые все еще находятся в стадии разработки. Они должны использоваться только в целях тестирования. Они никогда не должны активироваться на установках OpenProject, содержащих важные данные. Эти функции с большой вероятностью повредят ваши данные. Используйте их на свой страх и риск.
       feature_flags: Флаги функций
+    general: "Общие"
     highlighting:
       mode_long:
         inline: "Выделите один или несколько встроенных атрибутов"
@@ -2713,6 +2718,7 @@ ru:
       enable_subscriptions_text_html: Позволяет пользователям с необходимыми разрешениями подписываться на календари OpenProject и получать доступ к информации о рабочем пакете через внешний клиент календаря.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (по умолчанию)'
     notifications:
       events_explanation: 'Регулирует, по каким событиям отправляется письмо. Пакеты работ исключаются из этого списка, поскольку уведомления для них могут быть настроены специально для каждого пользователя.'
       delay_minutes_explanation: "Отправка электронной почты может быть отложена для разрешения пользователям с настроенными в приложении уведомлениями подтвердить уведомление внутри приложения перед отправкой почты. Пользователи, которые прочитали уведомление в приложении, не будут получать по электронной почте уже прочитанное уведомление."
@@ -2851,9 +2857,9 @@ ru:
   text_setup_mail_configuration: "Настройка поставщика услуг электронной почты"
   help_texts:
     views:
-      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
-      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
-      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
+      project: "%{plural} всегда прикреплены к проекту. После создания %{singular} вы можете добавить к нему пакеты работ из других проектов."
+      public: "Опубликуйте это представление, позволив другим пользователям получить доступ к вашему представлению. Пользователи с разрешением \"Управление общедоступными представлениями\" могут изменять или удалять общедоступный запрос. Это не влияет на видимость результатов рабочего пакета в этом представлении, и в зависимости от их разрешений пользователи могут видеть разные результаты."
+      favoured: "Отметить это представление как избранное и добавить в панель сохранённых представлений слева."
   time:
     am: "утра"
     formats:

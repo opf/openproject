@@ -9,8 +9,17 @@
       "projectType": "application",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "customWebpackConfig": {
+              "verbose": {
+                "properties": ["entry"]
+              },
+              "path": "./extra-webpack.config.js",
+              "mergeStrategies": {
+                "externals": "replace"
+              }
+            },
             "allowedCommonJsDependencies": [
               "core-app/init-vendors",
               "core-app/init-globals",
@@ -44,7 +53,8 @@
               "node_modules/jquery-ui/themes/base/core.css",
               "node_modules/jquery-ui/themes/base/datepicker.css",
               "node_modules/jquery-ui/themes/base/dialog.css",
-              "node_modules/flatpickr/dist/flatpickr.min.css"
+              "node_modules/flatpickr/dist/flatpickr.min.css",
+              "node_modules/@primer/css/core/index.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -70,7 +80,11 @@
                 }
               ],
               "preserveSymlinks": true,
-              "optimization": true,
+              "optimization": {
+                "scripts" : false,
+                "styles" : true,
+                "fonts" : true
+              },
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,

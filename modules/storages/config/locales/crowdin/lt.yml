@@ -9,9 +9,14 @@ lt:
   permission_delete_files: "Trinti failus"
   permission_share_files: "Bendrinti failus"
   project_module_storages: "Failų saugyklos"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Not authorized for external connection to storage."
+        not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
-      file_link: "File link"
+      file_link: "Failo nuoroda"
       storages/storage: "Saugykla"
     attributes:
       storages/storage:
@@ -64,6 +69,7 @@ lt:
         index: "Šiame projekte prieinamos failų saugyklos."
         new: "Pridėti failų saugyklą šiam projektui"
         edit: "Keisti šio projekto failų saugyklą"
+        delete: "Delete file storage"
     instructions:
       type: "Prašome įsitikinti, kad turite administratoriaus teises jūsų Nextcloud egzemplioriuje bei kad įdiegtos šios aplikacijos, prieš tęsiant nustatymą:"
       type_link_text: "„Integration OpenProject“"
@@ -93,7 +99,11 @@ lt:
       storage: >
         Ar tikrai norite ištrinti šią failų saugyklą? Saugykla taipogi bus ištrinta iš visų projektų, kur ji naudojama. Taipogi tai ištrins visus ryšius iš darbo paketų į failus, esančius šioje saugykloje.
       project_storage: >
-        Ar tikrai norite išimti šią failų saugyklą iš jūsų projekto? Taipogi bus išimtos visos šio projekto nuorodos į failus, saugomus šioje saugykloje.
+        Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:
+      project_storage_delete_result_1: "Remove all links from work packages of this project to files and folders of that storage."
+      project_storage_delete_result_2: "In case this storage has an automatically managed project folder, this and its files will be deleted forever."
+      input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
+      irreversible_notice: "Deleting a file storage is an irreversible action."
     label_active: "Aktyvus"
     label_inactive: "Neaktyvus"
     label_creator: "Kūrėjas"

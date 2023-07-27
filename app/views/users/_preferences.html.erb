@@ -33,6 +33,11 @@ See COPYRIGHT and LICENSE files for more details.
         container_class: (defined? input_size) ? "-#{input_size}" : "-wide"
       )
   %>
+  <% if OpenProject::FeatureDecisions.personal_theme_selection_active? %>
+    <div class="form--field">
+      <%= pref_fields.select :theme, theme_options_for_select,  container_class: '-middle' %>
+    </div>
+  <% end %>
   <div class="form--field">
     <%= pref_fields.select :comments_sorting,
                            [[t(:label_chronological_order), 'asc'],
