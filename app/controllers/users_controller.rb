@@ -72,7 +72,7 @@ class UsersController < ApplicationController
 
     if can_show_user?
       @events = events
-      render layout: 'no_menu'
+      render layout: (can_manage_or_create_users? ? 'admin' : 'no_menu')
     else
       render_404
     end
@@ -232,12 +232,16 @@ class UsersController < ApplicationController
   private
 
   def can_show_user?
-    return true if current_user.allowed_to_globally?(:manage_user)
-    return true if current_user.allowed_to_globally?(:create_user)
+    return true if can_manage_or_create_users?
     return true if @user == User.current
 
     (@user.active? || @user.registered?) \
     && (@memberships.present? || events.present?)
+  end
+
+  def can_manage_or_create_users?
+    current_user.allowed_to_globally?(:manage_user) ||
+    current_user.allowed_to_globally?(:create_user)
   end
 
   def events
@@ -304,7 +308,7 @@ class UsersController < ApplicationController
   end
 
   def show_local_breadcrumb
-    action_name != 'show'
+    true
   end
 
   def build_user_update_params
