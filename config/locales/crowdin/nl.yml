@@ -2933,7 +2933,7 @@ nl:
     error_status_change_failed: "Veranderen van de gebruikersstatus is mislukt vanwege de volgende fouten: %{errors}"
     invite: Uitnodigen via e-mail
     invited: uitgenodigd
-    lock: "Permanent blokeren"
+    lock: "Permanent blokkeren"
     locked: "permanent geblokkeerd"
     no_login: "Deze gebruiker wordt geverifieerd via login met wachtwoord. Omdat deze is uitgeschakeld, kunnen niet zij inloggen."
     password_change_unsupported: Wijziging van het wachtwoord wordt niet ondersteund.
