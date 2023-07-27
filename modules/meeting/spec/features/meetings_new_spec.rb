@@ -173,6 +173,11 @@ RSpec.describe 'Meetings new', :js do
 
     context 'as an admin' do
       let(:current_user) { admin }
+      let(:field) do
+        TextEditorField.new(page,
+                            '',
+                            selector: '[data-qa-selector="op-meeting--meeting_agenda"]')
+      end
 
       it 'allows creating meeting in a project without members' do
         index_page.visit!
@@ -187,6 +192,30 @@ RSpec.describe 'Meetings new', :js do
 
         # Not sure if that is then intended behaviour but that is what is currently programmed
         show_page.expect_invited(admin)
+      end
+
+      it 'can save the meeting agenda via cmd+Enter' do
+        index_page.visit!
+
+        new_page = index_page.click_create_new
+
+        new_page.set_title 'Some title'
+
+        show_page = new_page.click_create
+
+        show_page.expect_toast(message: 'Successful creation')
+
+        meeting = Meeting.last
+
+        field.set_value('My new meeting text')
+
+        field.submit_by_enter
+
+        show_page.expect_and_dismiss_toaster message: 'Successful update'
+
+        meeting.reload
+
+        expect(meeting.agenda.text).to eq 'My new meeting text'
       end
     end
   end

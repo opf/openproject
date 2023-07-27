@@ -76,8 +76,6 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   public wrappedTextArea:HTMLTextAreaElement;
 
-  public attachmentsElement:HTMLElement;
-
   // Remember if the user changed
   public changed = false;
 
@@ -125,7 +123,6 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     this.initialContent = this.wrappedTextArea.value;
     this.readOnly = this.wrappedTextArea.disabled;
 
-    this.attachmentsElement = this.formElement.querySelector('#attachments_fields') as HTMLElement;
     this.context = {
       type: this.editorType,
       resource: this.halResource,
@@ -154,7 +151,6 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   public saveForm():void {
     this.syncToTextarea();
-    this.addUploadedAttachmentsToForm();
     window.OpenProject.pageIsSubmitted = true;
     this.formElement.submit();
   }
@@ -236,35 +232,5 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     fromEvent(label, 'click')
       .pipe(this.untilDestroyed())
       .subscribe(() => ckContent.focus());
-  }
-
-  private addUploadedAttachmentsToForm() {
-    if (!this.halResource || !this.halResource.attachments || this.halResource.id) {
-      return;
-    }
-
-    const attachments = Array.from(this.attachmentsElement.querySelectorAll<HTMLInputElement>("input[type='file']"));
-    const takenIds = attachments.map((input) => {
-      const match = /attachments\[(\d+)\]\[(?:file|id)\]/.exec((input.name || ''));
-
-      if (match) {
-        return parseInt(match[1], 10);
-      }
-      return 0;
-    });
-
-    const maxValue:number = takenIds.sort().pop() || 0;
-
-    const addedAttachments = this.halResource?.attachments.elements || [];
-
-    addedAttachments.forEach((attachment:HalResource, index:number) => {
-      const input = document.createElement('input');
-      input.type = 'hidden';
-
-      input.name = `attachments[${maxValue + index + 1}][id]`;
-      input.value = attachment.id as string;
-
-      this.attachmentsElement.appendChild(input);
-    });
   }
 }
