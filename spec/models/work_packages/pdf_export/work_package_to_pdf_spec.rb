@@ -56,6 +56,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           <figcaption>Image Caption</figcaption>
          </figure>
       </p>
+      <p><unknown-tag>Foo</unknown-tag></p>
     DESCRIPTION
     create(:work_package,
            project:,
@@ -110,6 +111,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
                                     'Lorem', ' ', 'ipsum', ' ', 'dolor', ' ', 'sit', ' ',
                                     'amet', ', consetetur sadipscing elitr.', ' ', '@OpenProject Admin',
                                     'Image Caption',
+                                    'Foo',
                                     '1', export_time_formatted, project.name
                                   ])
       expect(pdf[:images].length).to eq(2)
