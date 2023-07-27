@@ -308,7 +308,7 @@ class UsersController < ApplicationController
   end
 
   def show_local_breadcrumb
-    true
+    can_manage_or_create_users?
   end
 
   def build_user_update_params
