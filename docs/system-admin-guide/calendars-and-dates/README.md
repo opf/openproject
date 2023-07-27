@@ -13,7 +13,7 @@ Navigate to **Administration → Calendar and dates**.
 
 | Topic                                             | Content                                                      |
 | ------------------------------------------------- | ------------------------------------------------------------ |
-| [Workign days](#working-days)                     | Define which days of the week are considered working days for scheduling and calculation of duration. |
+| [Working days](#working-days)                     | Define which days of the week are considered working days for scheduling and calculation of duration. |
 | [Date format](#date-format)                       | Change time and date formats.                                |
 | [Calendar subscriptions](#calendar-subscriptions) | Allow users to subscribe to calendars.                       |
 
