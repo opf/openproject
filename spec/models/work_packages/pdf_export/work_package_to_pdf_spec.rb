@@ -79,7 +79,16 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
     end
   end
 
+  def column_title(column_name)
+    label_title(column_name).upcase
+  end
+
+  def label_title(column_name)
+    WorkPackage.human_attribute_name(column_name)
+  end
+
   subject(:pdf) do
+    # File.binwrite('WorkPackageToPdf-test-preview.pdf', export_pdf.content)
     PDF::Inspector::Text.analyze(export_pdf.content)
   end
 
@@ -87,19 +96,13 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
     it 'contains correct data' do
       expect(pdf.strings).to eq([
                                   "#{type.name} ##{work_package.id} - #{work_package.subject}",
-                                  'ID', work_package.id.to_s,
-                                  'UPDATED ON', export_time_formatted,
-                                  'TYPE', type.name,
-                                  'CREATED ON', export_time_formatted,
-                                  'STATUS', work_package.status.name,
-                                  'FINISH DATE',
-                                  'VERSION',
-                                  'PRIORITY', work_package.priority.name,
-                                  'DURATION',
-                                  'WORK',
-                                  'CATEGORY',
-                                  'ASSIGNEE',
-                                  'Description',
+                                  column_title(:id), work_package.id.to_s,
+                                  column_title(:updated_at), export_time_formatted,
+                                  column_title(:type), type.name,
+                                  column_title(:created_at), export_time_formatted,
+                                  column_title(:status), work_package.status.name,
+                                  column_title(:priority), work_package.priority.name,
+                                  label_title(:description),
                                   'Lorem', ' ', 'ipsum', ' ', 'dolor', ' ', 'sit', ' ',
                                   'amet', ', consetetur sadipscing elitr.', ' ', '@OpenProject Admin',
                                   'Image Caption',

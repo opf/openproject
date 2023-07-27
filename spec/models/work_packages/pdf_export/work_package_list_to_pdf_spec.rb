@@ -68,7 +68,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       q.sort_criteria = [%w[id asc]]
     end
   end
-  let(:column_titles) { column_names.map { |name| WorkPackage.human_attribute_name(name).upcase } }
+  let(:column_titles) { column_names.map { |name| column_title(name) } }
   let(:options) { {} }
   let(:export) do
     login_as(user)
@@ -82,17 +82,24 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   end
   let(:column_names) { %i[id subject status story_points] }
 
+  def column_title(column_name)
+    label_title(column_name).upcase
+  end
+
+  def label_title(column_name)
+    WorkPackage.human_attribute_name(column_name)
+  end
+
   def work_package_columns(work_package)
     [work_package.id.to_s, work_package.subject, work_package.status.name, work_package.story_points.to_s]
   end
 
   def work_package_details(work_package, index)
     ["#{index}.", work_package.subject,
-     'ID', work_package.id.to_s,
-     'STATUS', work_package.status.name,
-     'STORY POINTS', work_package.story_points.to_s,
-     'Description',
-     work_package.description]
+     column_title(:id), work_package.id.to_s,
+     column_title(:status), work_package.status.name,
+     column_title(:story_points), work_package.story_points.to_s,
+     label_title(:description), work_package.description]
   end
 
   subject(:pdf) do
@@ -137,11 +144,11 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                   work_package_parent.type.name,
                                   *column_titles,
                                   *work_package_columns(work_package_parent),
-                                  "Sum", work_package_parent.story_points.to_s,
+                                  I18n.t('js.label_sum'), work_package_parent.story_points.to_s,
                                   work_package_child.type.name,
                                   *column_titles,
                                   *work_package_columns(work_package_child),
-                                  "Sum", work_package_child.story_points.to_s,
+                                  I18n.t('js.label_sum'), work_package_child.story_points.to_s,
                                   '1/1', export_time_formatted, query.name
                                 ])
     end
@@ -190,9 +197,9 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                   '1.', '2', work_package_parent.subject,
                                   '2.', '2', work_package_child.subject,
                                   '1/2', export_time_formatted, query.name,
-                                  "Overview",
-                                  "STORY POINTS",
-                                  "Sum", (work_package_parent.story_points + work_package_child.story_points).to_s,
+                                  I18n.t('js.work_packages.tabs.overview'),
+                                  column_title(:story_points),
+                                  I18n.t('js.label_sum'), (work_package_parent.story_points + work_package_child.story_points).to_s,
                                   *work_package_details(work_package_parent, 1),
                                   *work_package_details(work_package_child, 2),
                                   '2/2', export_time_formatted, query.name
@@ -210,11 +217,11 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                   '1.', '2', work_package_parent.subject,
                                   '2.', '2', work_package_child.subject,
                                   '1/2', export_time_formatted, query.name,
-                                  "Overview",
-                                  "TYPE", "STORY POINTS",
+                                  I18n.t('js.work_packages.tabs.overview'),
+                                  column_title(:type), column_title(:story_points),
                                   work_package_parent.type.name, work_package_parent.story_points.to_s,
                                   work_package_child.type.name, work_package_child.story_points.to_s,
-                                  "Sum", (work_package_parent.story_points + work_package_child.story_points).to_s,
+                                  I18n.t('js.label_sum'), (work_package_parent.story_points + work_package_child.story_points).to_s,
                                   *work_package_details(work_package_parent, 1),
                                   *work_package_details(work_package_child, 2),
                                   '2/2', export_time_formatted, query.name
