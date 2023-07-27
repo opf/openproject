@@ -322,6 +322,9 @@ fieldset.form--fieldset
   &.-visible-overflow .form--field-container
     overflow: visible
 
+  &.-align-start
+    align-items: start
+
   &.-vertical,
   .form.-vertical &
     @include grid-orient(vertical)
@@ -449,6 +452,10 @@ fieldset.form--fieldset
 
       > *:last-child
         margin-right: auto
+
+  &.-enterprise-restricted
+    flex-direction: column
+    align-items: start
 
   .form--field.-visible-overflow &
     overflow: visible
