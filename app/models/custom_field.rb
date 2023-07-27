@@ -275,7 +275,7 @@ class CustomField < ApplicationRecord
   end
 
   def multi_value_possible?
-    %w[user list].include?(field_format) &&
+    %w[version user list].include?(field_format) &&
       [ProjectCustomField, WorkPackageCustomField].include?(self.class)
   end
 
