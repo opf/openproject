@@ -101,9 +101,9 @@ module WorkPackage::PDFExport::WorkPackageDetail
 
   def attribute_data_list(work_package)
     list = if respond_to?(:column_objects)
-             attributes_list_by_columns(work_package)
+             attributes_list_by_columns
            else
-             attributes_list_by_wp(work_package)
+             attributes_list_by_wp
            end
     list
       .map { |entry| entry.merge({ value: get_column_value_cell(work_package, entry[:name]) }) }
