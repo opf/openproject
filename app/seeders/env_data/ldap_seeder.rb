@@ -38,10 +38,13 @@ module EnvData
         end
       end
 
+      print_status '    ↳ Synchronizing LDAP connections' do
+        LdapGroups::SynchronizationJob.perform_now
+      end
     end
 
     def applicable?
-      Setting.seed_ldap.any?
+      Setting.seed_ldap.present?
     end
 
     private
@@ -80,7 +83,7 @@ module EnvData
 
     def upsert_existing_filters(ldap, filters)
       filters.each do |name, options|
-        filter = ::LdapGroups::SynchronizedFilter.find_or_initialize_by(auth_source: ldap, name:)
+        filter = ::LdapGroups::SynchronizedFilter.find_or_initialize_by(ldap_auth_source: ldap, name:)
         print_ldap_status(filter)
 
         filter.group_name_attribute = options.fetch('group_attribute', 'dn')

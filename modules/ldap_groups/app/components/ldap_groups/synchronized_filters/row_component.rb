@@ -57,10 +57,12 @@ module LdapGroups
         [
           edit_link,
           delete_link
-        ]
+        ].compact
       end
 
       def edit_link
+        return if model.seeded_from_env?
+
         link_to I18n.t(:button_edit),
                 { controller: table.target_controller, ldap_filter_id: model.id, action: :edit },
                 class: 'icon icon-edit',
@@ -68,6 +70,8 @@ module LdapGroups
       end
 
       def delete_link
+        return if model.seeded_from_env?
+
         link_to I18n.t(:button_delete),
                 { controller: table.target_controller, ldap_filter_id: model.id, action: :destroy_info },
                 class: 'icon icon-delete',

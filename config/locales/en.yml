@@ -111,17 +111,13 @@ en:
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
 
-  ldap_auth_sources:
-    index:
-      no_results_content_title: There are currently no LDAP connections.
-      no_results_content_text: Create a new LDAP connection
-
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
       cancelled_due_to: "Job was cancelled due to error: %{message}"
 
   ldap_auth_sources:
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
       <br/>
@@ -2171,6 +2167,7 @@ en:
   label_global_role: "Global Role"
   label_not_changeable: "(not changeable)"
   label_global: "Global"
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
 
   auth_source:
     using_abstract_auth_source: "Can't use an abstract authentication source."

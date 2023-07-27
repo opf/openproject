@@ -94,6 +94,10 @@ class LdapAuthSource < ApplicationRecord
     nil
   end
 
+  def seeded_from_env?
+    Setting.seed_ldap&.key?(name)
+  end
+
   def account_password
     read_ciphered_attribute(:account_password)
   end

@@ -31,7 +31,12 @@
 module LdapAuthSources
   class RowComponent < ::RowComponent
     def name
-      link_to model.name, edit_ldap_auth_source_path(model)
+      content = link_to model.name, edit_ldap_auth_source_path(model)
+      if model.seeded_from_env?
+        content += helpers.op_icon('icon icon-info2', title: I18n.t(:label_seeded_from_env_warning))
+      end
+
+      content
     end
 
     delegate :host, to: :model
