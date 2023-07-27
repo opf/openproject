@@ -61,13 +61,14 @@ See COPYRIGHT and LICENSE files for more details.
     <label class="form--label" for="board_type"><%= t('boards.label_board_type') %></label>
     <div class="form--field-container">
       <div class="op-tile-block">
-        <% board_types.each do |board_type| %>
+        <% board_types.each_with_index do |board_type, tile_number| %>
           <label class="op-tile-block--tile form--radio-button-container -wide"
                  for="boards_grid_attribute_<%= board_type.radio_button_value %>"
                  data-qa-selector="op-tile-block">
             <div class="op-tile-block--content">
               <%= styled_radio_button_tag 'boards_grid[attribute]',
                                           board_type.radio_button_value,
+                                          tile_number == 0,
                                           no_label: true,
                                           class: 'radio-button' %>
               <div>
