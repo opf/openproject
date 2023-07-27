@@ -15,7 +15,7 @@ RSpec.describe LdapGroups::SynchronizeFilterService, with_ee: %i[ldap_groups] do
   # Ldap has:
   # three users aa729, bb459, cc414
   # two groups foo (aa729), bar(aa729, bb459, cc414)
-  let(:auth_source) do
+  let(:ldap_auth_source) do
     create(:ldap_auth_source,
            port: ParallelHelper.port_for_ldap.to_s,
            account: 'uid=admin,ou=system',
@@ -32,7 +32,7 @@ RSpec.describe LdapGroups::SynchronizeFilterService, with_ee: %i[ldap_groups] do
       :ldap_synchronized_group,
       dn: 'cn=foo,ou=groups,dc=example,dc=com',
       group: group_foo,
-      auth_source:
+      ldap_auth_source:
     )
   end
   let(:synced_bar) do
@@ -40,11 +40,11 @@ RSpec.describe LdapGroups::SynchronizeFilterService, with_ee: %i[ldap_groups] do
       :ldap_synchronized_group,
       dn: 'cn=bar,ou=groups,dc=example,dc=com',
       group: group_bar,
-      auth_source:
+      ldap_auth_source:
     )
   end
 
-  let(:filter_foo_bar) { create(:ldap_synchronized_filter, auth_source:) }
+  let(:filter_foo_bar) { create(:ldap_synchronized_filter, ldap_auth_source:) }
 
   subject { described_class.new(filter_foo_bar).call }
 
@@ -97,12 +97,12 @@ RSpec.describe LdapGroups::SynchronizeFilterService, with_ee: %i[ldap_groups] do
              dn: 'cn=foo,ou=groups,dc=example,dc=com',
              group: group_foo,
              sync_users: false,
-             auth_source:)
+             ldap_auth_source:)
     end
     let(:filter_foo_bar) do
       create(:ldap_synchronized_filter,
              sync_users: true,
-             auth_source:)
+             ldap_auth_source:)
     end
 
     before do
@@ -125,7 +125,7 @@ RSpec.describe LdapGroups::SynchronizeFilterService, with_ee: %i[ldap_groups] do
              dn: 'cn=doesnotexist,ou=groups,dc=example,dc=com',
              group: group_doesnotexist,
              filter: filter_foo_bar,
-             auth_source:)
+             ldap_auth_source:)
     end
 
     it 'removes that group' do
@@ -135,7 +135,7 @@ RSpec.describe LdapGroups::SynchronizeFilterService, with_ee: %i[ldap_groups] do
   end
 
   describe 'when filter has sync_users selected' do
-    let(:filter_foo_bar) { create(:ldap_synchronized_filter, auth_source:, sync_users: true) }
+    let(:filter_foo_bar) { create(:ldap_synchronized_filter, ldap_auth_source:, sync_users: true) }
 
     it 'creates the groups with sync_users flag set' do
       expect { subject }.not_to raise_error
@@ -154,7 +154,7 @@ RSpec.describe LdapGroups::SynchronizeFilterService, with_ee: %i[ldap_groups] do
   describe 'when filter has its own base dn' do
     let(:filter_foo_bar) do
       create(:ldap_synchronized_filter,
-             auth_source:,
+             ldap_auth_source:,
              base_dn: 'ou=users,dc=example,dc=com')
     end
 

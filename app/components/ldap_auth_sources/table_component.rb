@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,41 +28,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+module LdapAuthSources
+  class TableComponent < ::TableComponent
+    columns :name, :host, :users
 
-Capybara.register_driver :auth_source_sso do |app|
-  Capybara::RackTest::Driver.new(app, headers: { 'HTTP_X_REMOTE_USER' => 'bob' })
-end
+    def initial_sort
+      %i[id asc]
+    end
 
-RSpec.describe 'Login with auth source SSO',
-               driver: :auth_source_sso do
-  before do
-    allow(OpenProject::Configuration)
-      .to receive(:auth_source_sso)
-            .and_return(sso_config)
-  end
+    def sortable?
+      true
+    end
 
-  let(:sso_config) do
-    {
-      header: 'X-Remote-User',
-      logout_url: 'http://google.com/'
-    }
-  end
+    def sortable_column?(_column)
+      false
+    end
 
-  let(:ldap_auth_source) { create(:ldap_auth_source) }
-  let!(:user) { create(:user, login: 'bob', ldap_auth_source:) }
+    def inline_create_link
+      link_to(new_ldap_auth_source_path,
+              class: 'budget-add-row wp-inline-create--add-link',
+              title: I18n.t(:label_ldap_auth_source_new)) do
+        helpers.op_icon('icon icon-add')
+      end
+    end
 
-  it 'can log out after multiple visits' do
-    visit home_path
-
-    expect(page).to have_selector('.controller-homescreen')
-
-    visit home_path
-
-    expect(page).to have_selector('.controller-homescreen')
-
-    visit signout_path
-
-    expect(current_url).to eq 'http://google.com/'
+    def headers
+      [
+        ['name', { caption: LdapAuthSource.human_attribute_name('name') }],
+        ['host', { caption: LdapAuthSource.human_attribute_name('host') }],
+        ['users', { caption: I18n.t(:label_user_plural) }]
+      ]
+    end
   end
 end

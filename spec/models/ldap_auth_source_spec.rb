@@ -275,7 +275,7 @@ RSpec.describe LdapAuthSource do
           expect(attributes[:firstname]).to eq 'Belle'
           expect(attributes[:lastname]).to eq 'Baldwin'
           expect(attributes[:mail]).to eq 'belle@example.org'
-          expect(attributes[:auth_source_id]).to eq ldap.id
+          expect(attributes[:ldap_auth_source_id]).to eq ldap.id
 
           expect { User.new(attributes) }.not_to raise_error
         end

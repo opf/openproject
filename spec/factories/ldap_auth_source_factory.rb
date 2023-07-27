@@ -26,41 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-
-Capybara.register_driver :auth_source_sso do |app|
-  Capybara::RackTest::Driver.new(app, headers: { 'HTTP_X_REMOTE_USER' => 'bob' })
-end
-
-RSpec.describe 'Login with auth source SSO',
-               driver: :auth_source_sso do
-  before do
-    allow(OpenProject::Configuration)
-      .to receive(:auth_source_sso)
-            .and_return(sso_config)
-  end
-
-  let(:sso_config) do
-    {
-      header: 'X-Remote-User',
-      logout_url: 'http://google.com/'
-    }
-  end
-
-  let(:ldap_auth_source) { create(:ldap_auth_source) }
-  let!(:user) { create(:user, login: 'bob', ldap_auth_source:) }
-
-  it 'can log out after multiple visits' do
-    visit home_path
-
-    expect(page).to have_selector('.controller-homescreen')
-
-    visit home_path
-
-    expect(page).to have_selector('.controller-homescreen')
-
-    visit signout_path
-
-    expect(current_url).to eq 'http://google.com/'
+FactoryBot.define do
+  factory :ldap_auth_source, class: 'LdapAuthSource' do
+    name { 'Test LDAP LdapAuthSource' }
+    host { '127.0.0.1' }
+    port { 225 }  # a reserved port, should not be in use
+    attr_login { 'uid' }
+    tls_mode { 'plain_ldap' }
   end
 end

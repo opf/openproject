@@ -26,7 +26,7 @@ module AccountsHelper
   # is active. However, if an auth source is present, do show it independently from
   # the `email_login` setting as we can't say if the auth source's login is the email address.
   def registration_show_email?
-    !Setting.email_login? || @user.auth_source_id.present?
+    !Setting.email_login? || @user.ldap_auth_source_id.present? # rubocop:disable Rails/HelperInstanceVariable
   end
 
   def registration_footer

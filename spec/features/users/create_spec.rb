@@ -31,7 +31,7 @@ require 'spec_helper'
 RSpec.describe 'create users', with_cuprite: true do
   shared_let(:admin) { create(:admin) }
   let(:current_user) { admin }
-  let!(:auth_source) { create(:dummy_auth_source) }
+  let!(:auth_source) { create(:ldap_auth_source) }
   let(:new_user_page) { Pages::NewUser.new }
   let(:mail) do
     ActionMailer::Base.deliveries.last
@@ -105,7 +105,7 @@ RSpec.describe 'create users', with_cuprite: true do
                              last_name: 'boblast',
                              email: 'bob@mail.com',
                              login: 'bob',
-                             auth_source: auth_source.name
+                             ldap_auth_source: auth_source.name
 
       perform_enqueued_jobs do
         new_user_page.submit!
@@ -130,7 +130,19 @@ RSpec.describe 'create users', with_cuprite: true do
         end
 
         it 'registers the user upon submission' do
-          # login is already filled with 'bob'
+          user = User.find_by login: 'bob'
+
+          allow(User)
+            .to(receive(:find_by_login))
+            .with('bob')
+            .and_return(user)
+
+          allow(user).to receive(:ldap_auth_source).and_return(auth_source)
+
+          allow(auth_source)
+            .to(receive(:authenticate).with('bob', 'dummy'))
+            .and_return({ dn: 'cn=bob,ou=users,dc=example,dc=com' })
+
           fill_in 'password', with: 'dummy' # accepted by DummyAuthSource
 
           click_button 'Sign in'

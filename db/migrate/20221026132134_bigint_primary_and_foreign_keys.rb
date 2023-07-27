@@ -35,7 +35,7 @@ class BigintPrimaryAndForeignKeys < ActiveRecord::Migration[7.0]
     Journal::AttachmentJournal => %i[id container_id author_id],
     Attachment => %i[id container_id author_id],
     AttributeHelpText => [:id],
-    AuthSource => [:id],
+    :auth_sources => [:id],
     Journal::BudgetJournal => %i[id project_id author_id],
     Budget => %i[id project_id author_id],
     Category => %i[id project_id assigned_to_id],
