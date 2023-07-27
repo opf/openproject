@@ -123,7 +123,6 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
       return;
     }
 
-    const icalUrl = '';
 
     const tokenName = (this.tokenNameForm.value as TokenNameFormValue)?.name;
 
