@@ -75,27 +75,19 @@ module WorkPackage::PDFExport::Markdown
     end
 
     def handle_unknown_inline_html_tag(tag, node, opts)
-      result = []
-      case tag.name
-      when 'mention'
-        return [handle_mention_html_tag(tag, node, opts), opts]
-      when 'span'
-        text = tag.text
-        result.push(text_hash(text, opts)) if text.present?
-      else
-        result.push(text_hash(tag.to_s, opts))
-      end
+      result = if tag.name == 'mention'
+                 handle_mention_html_tag(tag, node, opts)
+               else
+                 # unknown/unsupported html tags eg. <foo>hi</foo> are ignored
+                 # but scanned for supported or text children
+                 data_inlinehtml_tag(tag, node, opts)
+               end
       [result, opts]
     end
 
-    def handle_unknown_html_tag(tag, node, opts)
-      case tag.name
-      when 'div', 'p'
-        # nop, but scan children [true, ...]
-      else
-        draw_formatted_text([text_hash(tag.to_s, opts)], opts, node)
-        return [false, opts]
-      end
+    def handle_unknown_html_tag(_tag, _node, opts)
+      # unknown/unsupported html tags eg. <foo>hi</foo> are ignored
+      # but scanned for supported or text children [true, ...]
       [true, opts]
     end
 
