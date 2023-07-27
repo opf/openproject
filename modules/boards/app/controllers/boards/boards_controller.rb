@@ -37,6 +37,8 @@ module ::Boards
     def new; end
 
     def create
+      return render_403 if restricted_board_type?
+
       service_result = service_call
 
       @board_grid = service_result.result
@@ -60,6 +62,10 @@ module ::Boards
 
     def build_board_grid
       @board_grid = Boards::Grid.new
+    end
+
+    def restricted_board_type?
+      !EnterpriseToken.allows_to?(:board_view) && board_grid_params[:attribute] != 'basic'
     end
 
     def service_call

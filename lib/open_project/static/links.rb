@@ -243,6 +243,9 @@ module OpenProject
               attribute_highlighting: {
                 href: 'https://www.openproject.org/docs/user-guide/work-packages/work-package-table-configuration/#attribute-highlighting-enterprise-add-on'
               },
+              boards: {
+                href: 'https://www.openproject.org/docs/user-guide/agile-boards/#action-boards-enterprise-add-on'
+              },
               custom_field_projects: {
                 href: 'https://www.openproject.org/docs/system-admin-guide/custom-fields/custom-fields-projects/'
               },

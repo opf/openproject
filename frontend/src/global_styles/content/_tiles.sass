@@ -26,6 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+.form--field-container
+  &.-enterprise-restricted
+    flex-direction: column
+    align-items: start
+
 .form--field
   &.-align-start
     align-items: start
@@ -56,6 +61,9 @@
       border: 1px solid grey
       border-radius: 10px !important
       cursor: pointer
+
+    &.-disabled
+      @include button-disabled
 
   &--content
     display: flex
