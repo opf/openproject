@@ -99,7 +99,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def create_storage_file_infos
       ->(response_object) do
         ServiceResult.success(
-          result: response_object.ocs.data.to_h.map do |key, value|
+          result: response_object.ocs.data.each_pair.map do |key, value|
             if value.statuscode == 200
               ::Storages::StorageFileInfo.new(
                 status: value.status,
