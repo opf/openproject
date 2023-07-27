@@ -99,14 +99,6 @@ sv:
     edit: "Redigera hjälptext för %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: Det finns för närvarande inga autentiseringslägen.
-      no_results_content_text: Skapa ett nytt autentiseringsläge
-  background_jobs:
-    status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Jobbet avbröts på grund av fel: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Detta LDAP-formulär kräver teknisk kunskap om din LDAP / Active Directory-inställning.
@@ -162,6 +154,10 @@ sv:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Jobbet avbröts på grund av fel: %{message}"
   forums:
     show:
       no_results_title_text: Det finns för närvarande inga inlägg i forumet.
@@ -338,6 +334,12 @@ sv:
     index:
       no_results_title_text: Det finns för närvarande inga statusar för arbetspaket.
       no_results_content_text: Lägg till ny status
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Det finns för närvarande inga typer.
@@ -550,7 +552,7 @@ sv:
         color: "Färg"
       user:
         admin: "Administratör"
-        auth_source: "Autentiseringsläge"
+        ldap_auth_source: "LDAP connection"
         current_password: "Nuvarande lösenord"
         force_password_change: "Tvinga lösenordsändring vid nästa inloggning"
         language: "Språk"
@@ -1452,7 +1454,7 @@ sv:
   menus:
     admin:
       mail_notification: "E-postaviseringar"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
@@ -1555,9 +1557,9 @@ sv:
   label_attachment_plural: "Filer"
   label_attribute: "Attributet"
   label_attribute_plural: "Attribut"
-  label_auth_source: "Autentiseringsläge"
-  label_auth_source_new: "Nya autentiseringsläge"
-  label_auth_source_plural: "Autentiseringslägen"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentisering"
   label_available_project_work_package_categories: 'Tillgängliga arbetspaketkategorier'
   label_available_project_work_package_types: 'Tillgängliga typer för arbetspaket'
@@ -2272,7 +2274,7 @@ sv:
   present_access_key_value: "Din %{key_name} är: %{value}"
   notice_automatic_set_of_standard_type: "Ange standard typ automatiskt."
   notice_logged_out: "Du har loggats ut."
-  notice_wont_delete_auth_source: Autentiseringsläget kan inte tas bort så länge det finns användare som använder det.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Du kan inte uppdatera projektets anpassade fält. Projektet är ogiltig: %{errors}"
   notice_attachment_migration_wiki_page: >
     Denna sida genererades automatiskt under uppdateringen av OpenProject. Den innehåller alla bilagor som tidigare associerats med %{container_type} "%{container_name}".

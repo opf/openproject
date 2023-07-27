@@ -99,14 +99,6 @@ hr:
     edit: "Edit help text for %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: Trenutno ne postoji mehanizam provjere autentičnosti.
-      no_results_content_text: Dodaj novi mod provjere autentičnosti
-  background_jobs:
-    status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -162,6 +154,10 @@ hr:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   forums:
     show:
       no_results_title_text: There are currently no posts for the forum.
@@ -339,6 +335,12 @@ hr:
     index:
       no_results_title_text: Trenutačno ne postoje izvješća o statusu radnih paketa.
       no_results_content_text: Novi status
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Trenutno ne postoji niti jedan tip projekta.
@@ -552,7 +554,7 @@ hr:
         color: "Boja"
       user:
         admin: "Administrator"
-        auth_source: "Provjera autentičnosti"
+        ldap_auth_source: "LDAP connection"
         current_password: "Trenutna lozinka"
         force_password_change: "Promjena lozinke pri sljedećoj prijavi na sustav"
         language: "Jezik"
@@ -1472,7 +1474,7 @@ hr:
   menus:
     admin:
       mail_notification: "Obavijesti e-mailom"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
@@ -1575,9 +1577,9 @@ hr:
   label_attachment_plural: "Datoteke"
   label_attribute: "Atribut"
   label_attribute_plural: "Atributi"
-  label_auth_source: "Provjera autentičnosti"
-  label_auth_source_new: "Novi način provjere autentičnosti"
-  label_auth_source_plural: "Provjera autentičnosti"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentifikacija"
   label_available_project_work_package_categories: 'Dostupne kategorije radnih paketa'
   label_available_project_work_package_types: 'Available work package types'
@@ -2293,7 +2295,7 @@ hr:
   present_access_key_value: "Vaš %{key_name} je: %{value}"
   notice_automatic_set_of_standard_type: "Automatski postavite standardni tip."
   notice_logged_out: "Uspješno ste odjavljeni."
-  notice_wont_delete_auth_source: Oblik autentifikacije ne može biti izbrisan sve dok postoje korisnici koji ga još koriste.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields. The project is invalid: %{errors}"
   notice_attachment_migration_wiki_page: >
     This page was generated automatically during the update of OpenProject. It contains all attachments previously associated with the %{container_type} "%{container_name}".

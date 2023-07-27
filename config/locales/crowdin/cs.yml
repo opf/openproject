@@ -99,14 +99,6 @@ cs:
     edit: "Upravit text nápovědy pro %{attribute_caption}"
     enterprise:
       description: 'Poskytněte další informace pro atributy (včetně vlastních polí) pracovních balíčků a projektů. Texty nápovědy se zobrazí, když uživatelé kliknou na symbol otazníku vedle vstupních polí v projektech a pracovních balíčcích.'
-  auth_sources:
-    index:
-      no_results_content_title: Nyní neexistují žádné ověřovací režimy.
-      no_results_content_text: Vytvořit nový režim ověřování
-  background_jobs:
-    status:
-      error_requeue: "Úkol zaznamenal chybu, ale opakuje se. Chyba je: %{message}"
-      cancelled_due_to: "Úkol byl zrušen z důvodu chyby: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Tento LDAP formulář vyžaduje technické znalosti nastavení LDAP / Active Directory.
@@ -162,6 +154,10 @@ cs:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
+  background_jobs:
+    status:
+      error_requeue: "Úkol zaznamenal chybu, ale opakuje se. Chyba je: %{message}"
+      cancelled_due_to: "Úkol byl zrušen z důvodu chyby: %{message}"
   forums:
     show:
       no_results_title_text: V současné době nejsou k dispozici žádné příspěvky na fórum.
@@ -169,16 +165,16 @@ cs:
     index:
       no_results_title_text: Momentálně zde nejsou žádné barvy.
       no_results_content_text: Vytvořit novou barvu
-      label_new_color: "New color"
+      label_new_color: "Nová barva"
     new:
-      label_new_color: "New Color"
+      label_new_color: "Nová barva"
     edit:
-      label_edit_color: "Edit Color"
+      label_edit_color: "Upravit barvu"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Nová barva"
+      label_edit_color: "Upravit barvu"
     label_no_color: "Bez barvy"
-    label_properties: "Properties"
+    label_properties: "Vlastnosti"
     label_really_delete_color: >
       Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
@@ -263,7 +259,7 @@ cs:
       types:
         no_results_title_text: V současné době nejsou k dispozici žádné typy.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'Povolit typ "%{type}"'
       versions:
         no_results_title_text: V současné době neexistují žádné verze pro projekt.
         no_results_content_text: Vytvořit novou verzi
@@ -339,6 +335,12 @@ cs:
     index:
       no_results_title_text: Momentálně zde nejsou žádné stavy pracovního balíčku.
       no_results_content_text: Přidat nový stav
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: V současné době neexistují žádné typy.
@@ -553,7 +555,7 @@ cs:
         color: "Barva"
       user:
         admin: "Administrátor"
-        auth_source: "Režim ověřování"
+        ldap_auth_source: "LDAP connection"
         current_password: "Aktuální přístupové heslo"
         force_password_change: "Vynutit změnu hesla při příštím přihlášení"
         language: "Jazyk"
@@ -1351,7 +1353,7 @@ cs:
   error_can_not_unarchive_project: "Tento projekt nemůže být odarchivován: %{errors}"
   error_check_user_and_role: "Vyberte uživatele a roli."
   error_code: "Chyba %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "Barvu nelze uložit"
   error_cookie_missing: 'OpenProject cookie chybí. Ujistěte se, že jsou soubory cookie povoleny, protože aplikace nebude správně fungovat.'
   error_custom_option_not_found: "Nastavení neexistuje."
   error_enterprise_activation_user_limit: "Váš účet nebyl aktivován (dosažen limit počtu uživatelů). Prosím obraťte se na správce pro získání přístupu."
@@ -1491,7 +1493,7 @@ cs:
   menus:
     admin:
       mail_notification: "E-mailová upozornění"
-      mails_and_notifications: "E-maily & Notifikace"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Agregace'
       api_and_webhooks: "API & Webhooky"
     quick_add:
@@ -1594,9 +1596,9 @@ cs:
   label_attachment_plural: "Soubory"
   label_attribute: "Atribut"
   label_attribute_plural: "Atributy"
-  label_auth_source: "Režim ověřování"
-  label_auth_source_new: "Nový režim ověřování"
-  label_auth_source_plural: "Režimy ověřování"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Ověření"
   label_available_project_work_package_categories: 'Dostupné kategorie pracovních balíčků'
   label_available_project_work_package_types: 'Dostupné kategorie pracovních balíčků'
@@ -1655,7 +1657,7 @@ cs:
   label_confirmation: "Potvrzení"
   label_contains: "obsahuje"
   label_content: "Obsah"
-  label_color_plural: "Colors"
+  label_color_plural: "Barvy"
   label_copied: "zkopírováno"
   label_copy_same_as_target: "Stejný jako cíl"
   label_copy_source: "Zdroj"
@@ -1684,7 +1686,7 @@ cs:
   label_deleted: "Smazáno"
   label_deleted_custom_field: "(odstraněno vlastní pole)"
   label_deleted_custom_option: "(deleted option)"
-  label_empty_element: "(empty)"
+  label_empty_element: "(prázdný)"
   label_missing_or_hidden_custom_option: "(chybí hodnota nebo chybí oprávnění k přístupu)"
   label_descending: "Sestupně"
   label_details: "Podrobnosti"
@@ -1926,8 +1928,8 @@ cs:
   label_project_new: "Nový projekt"
   label_project_plural: "Projekty"
   label_project_settings: "Nastavení projektu"
-  label_project_storage_plural: "File Storages"
-  label_project_storage_project_folder: "File Storages: Project folders"
+  label_project_storage_plural: "Úložiště souborů"
+  label_project_storage_project_folder: "Úložiště souborů: Složky projektů"
   label_projects_storage_information: "%{count} projekty používající úložiště disků %{storage}"
   label_project_view_all: "Zobrazit všechny projekty - seznam"
   label_project_show_details: "Zobrazit detail projektu"
@@ -2015,7 +2017,7 @@ cs:
   label_this_week: "tento týden"
   label_this_year: "tento rok"
   label_time_entry_plural: "Strávený čas"
-  label_title: "Title"
+  label_title: "Název"
   label_projects_menu: "Projekty"
   label_today: "dnes"
   label_top_menu: "Horní menu"
@@ -2312,7 +2314,7 @@ cs:
   present_access_key_value: "Váš %{key_name} je: %{value}"
   notice_automatic_set_of_standard_type: "Automaticky nastavit standardní typ."
   notice_logged_out: "Byli jste odhlášeni."
-  notice_wont_delete_auth_source: Režim ověřování nemůže být odstraněn, dokud ho stále používají uživatelé.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Nemůžete aktualizovat dostupné vlastní pole projektu. Projekt je neplatný: %{errors}"
   notice_attachment_migration_wiki_page: >
     Tato stránka byla generována automaticky během aktualizace OpenProject. Obsahuje všechny přílohy dříve přidružené k %{container_type} "%{container_name}".
@@ -2348,8 +2350,8 @@ cs:
   permission_add_messages: "Odesílat zprávy"
   permission_add_project: "Vytvořit projekt"
   permission_archive_project: "Archivovat projekt"
-  permission_create_user: "Create users"
-  permission_manage_user: "Edit users"
+  permission_create_user: "Vytvořit uživatele"
+  permission_manage_user: "Upravit uživatele"
   permission_manage_placeholder_user: "Vytvořit, upravit a odstranit placeholder uživatele"
   permission_add_subprojects: "Vytvořit podprojekty"
   permission_add_work_package_watchers: "Přidat sledující"
@@ -2715,7 +2717,7 @@ cs:
       enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
-    language_name_being_default: '%{language_name} (default)'
+    language_name_being_default: '%{language_name} (výchozí)'
     notifications:
       events_explanation: 'Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože oznámení pro ně mohou být nastavena speciálně pro každého uživatele.'
       delay_minutes_explanation: "Odesílání e-mailu může být pozdrženo, aby bylo uživatelům s nakonfigurovaným v oznámení aplikace před odesláním pošty potvrzeno oznámení. Uživatelé, kteří si přečtou oznámení v aplikaci, nedostanou e-mail pro již přečtené oznámení."

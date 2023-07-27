@@ -62,8 +62,8 @@ class PermittedParams
     params.require(:attribute_help_text).permit(*self.class.permitted_attributes[:attribute_help_text])
   end
 
-  def auth_source
-    params.require(:auth_source).permit(*self.class.permitted_attributes[:auth_source])
+  def ldap_auth_source
+    params.require(:ldap_auth_source).permit(*self.class.permitted_attributes[:ldap_auth_source])
   end
 
   def forum
@@ -210,7 +210,7 @@ class PermittedParams
                            change_password_allowed,
                            additional_params = [])
 
-    additional_params << :auth_source_id unless external_authentication
+    additional_params << :ldap_auth_source_id unless external_authentication
 
     if current_user.admin?
       additional_params << :force_password_change if change_password_allowed
@@ -416,7 +416,7 @@ class PermittedParams
           attribute_name
           help_text
         ),
-        auth_source: %i(
+        ldap_auth_source: %i(
           name
           host
           port

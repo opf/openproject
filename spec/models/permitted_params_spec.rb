@@ -513,12 +513,12 @@ RSpec.describe PermittedParams do
                        'mail',
                        'language',
                        'custom_fields',
-                       'auth_source_id',
+                       'ldap_auth_source_id',
                        'force_password_change']
 
     describe :user_create_as_admin do
       let(:attribute) { :user_create_as_admin }
-      let(:default_permissions) { %w[custom_fields firstname lastname language mail auth_source_id] }
+      let(:default_permissions) { %w[custom_fields firstname lastname language mail ldap_auth_source_id] }
 
       context 'for a non-admin' do
         let(:hash) { all_permissions.zip(all_permissions).to_h }
@@ -560,10 +560,10 @@ RSpec.describe PermittedParams do
         end
 
         context 'with external authentication' do
-          let(:hash) { { 'auth_source_id' => 'true' } }
+          let(:hash) { { 'ldap_auth_source_id' => 'true' } }
           let(:external_authentication) { true }
 
-          it 'does not permit auth_source_id' do
+          it 'does not permit ldap_auth_source_id' do
             expect(subject).to eq({})
           end
         end

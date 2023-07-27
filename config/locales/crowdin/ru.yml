@@ -99,14 +99,6 @@ ru:
     edit: "Редактировать текст справки для %{attribute_caption}"
     enterprise:
       description: 'Предоставьте дополнительную информацию для атрибутов (включая пользовательские поля) пакетов работ и проектов. Текст справки отображается, когда пользователи нажимают на знак вопроса рядом с полями ввода в проектах и пакетах работ.'
-  auth_sources:
-    index:
-      no_results_content_title: На данный момент способы аутентификации отсутствуют.
-      no_results_content_text: Создать новый способ аутентификации
-  background_jobs:
-    status:
-      error_requeue: "Осуществляется повторный запуск задания, т.к. предыдущий завершился с ошибкой: %{message}"
-      cancelled_due_to: "Задание было отменено из-за ошибки: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Эта LDAP форма требует технических знаний по LDAP / Active Directory.
@@ -161,6 +153,10 @@ ru:
       verify_peer_description_html: >
         Включает строгую проверку SSL цепочки доверенных сертификатов. <br/> <strong>Предупреждение:</strong> Отключение этой опции отключает проверку SSL сертификата сервера LDAP. Это раскрывает вашу связь с Человеком во время средних атак.
       tls_certificate_description: "Если сертификат сервера LDAP отсутствует в источниках доверия этой системы, вы можете добавить его вручную. Введите строку сертификации PEM X509."
+  background_jobs:
+    status:
+      error_requeue: "Осуществляется повторный запуск задания, т.к. предыдущий завершился с ошибкой: %{message}"
+      cancelled_due_to: "Задание было отменено из-за ошибки: %{message}"
   forums:
     show:
       no_results_title_text: На данный момент сообщений для форума нет.
@@ -338,6 +334,12 @@ ru:
     index:
       no_results_title_text: В данный момент статусы пакетов работ отсутствуют.
       no_results_content_text: Добавить новый статус
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: В данный момент типы отсутствуют.
@@ -552,7 +554,7 @@ ru:
         color: "Цвет"
       user:
         admin: "Администратор"
-        auth_source: "Способ аутентификации"
+        ldap_auth_source: "LDAP connection"
         current_password: "Текущий пароль"
         force_password_change: "Принудительное изменение пароля при следующем входе"
         language: "Язык"
@@ -1490,7 +1492,7 @@ ru:
   menus:
     admin:
       mail_notification: "Уведомления по электронной почте"
-      mails_and_notifications: "Электронные письма и уведомления"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Агрегация'
       api_and_webhooks: "API и вебхуки"
     quick_add:
@@ -1593,9 +1595,9 @@ ru:
   label_attachment_plural: "Файлы"
   label_attribute: "Атрибут"
   label_attribute_plural: "Атрибуты"
-  label_auth_source: "Способ аутентификации"
-  label_auth_source_new: "Новый режим аутентификации"
-  label_auth_source_plural: "Режимы аутентификации"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Аутентификация"
   label_available_project_work_package_categories: 'Доступные категории рабочих пакетов'
   label_available_project_work_package_types: 'Доступные типы пакетов работ'
@@ -2311,7 +2313,7 @@ ru:
   present_access_key_value: "Ваш ключ %{key_name}: %{value}"
   notice_automatic_set_of_standard_type: "Установить стандартный тип автоматически."
   notice_logged_out: "Вы вышли из системы."
-  notice_wont_delete_auth_source: Способ проверки подлинности нельзя удалить, пока есть пользователи его использующие.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Не удается обновить имеющиеся настраиваемые поля проекта. Этот проект является недопустимым: %{errors}"
   notice_attachment_migration_wiki_page: >
     Эта страница была автоматически создана во время обновления OpenProject. Она содержит все вложения, ранее связанные с %{container_type} «%{container_name}».

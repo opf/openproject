@@ -11,7 +11,7 @@ RSpec.describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
   # Ldap has:
   # three users aa729, bb459, cc414
   # two groups foo (aa729), bar(aa729, bb459, cc414)
-  let(:auth_source) do
+  let(:ldap_auth_source) do
     create(:ldap_auth_source,
            port: ParallelHelper.port_for_ldap.to_s,
            account: 'uid=admin,ou=system',
@@ -29,9 +29,9 @@ RSpec.describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
   let(:sync_users) { false }
   let(:ldap_filter) { nil }
 
-  let(:user_aa729) { create(:user, login: 'aa729', auth_source:) }
-  let(:user_bb459) { create(:user, login: 'bb459', auth_source:) }
-  let(:user_cc414) { create(:user, login: 'cc414', auth_source:) }
+  let(:user_aa729) { create(:user, login: 'aa729', ldap_auth_source:) }
+  let(:user_bb459) { create(:user, login: 'bb459', ldap_auth_source:) }
+  let(:user_cc414) { create(:user, login: 'cc414', ldap_auth_source:) }
 
   let(:group_foo) { create(:group, lastname: 'foo_internal') }
   let(:group_bar) { create(:group, lastname: 'bar') }
@@ -41,20 +41,20 @@ RSpec.describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
            dn: 'cn=foo,ou=groups,dc=example,dc=com',
            group: group_foo,
            sync_users:,
-           auth_source:)
+           ldap_auth_source:)
   end
   let(:synced_bar) do
     create(:ldap_synchronized_group,
            dn: 'cn=bar,ou=groups,dc=example,dc=com',
            group: group_bar,
            sync_users:,
-           auth_source:)
+           ldap_auth_source:)
   end
 
   subject do
     # Need the system user for admin permission
     User.system.run_given do
-      described_class.new(auth_source).call
+      described_class.new(ldap_auth_source).call
     end
   end
 
@@ -141,7 +141,7 @@ RSpec.describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
           end
 
           it 'removes all memberships and groups after removing auth source' do
-            expect { auth_source.destroy! }
+            expect { ldap_auth_source.destroy! }
               .to change { LdapGroups::Membership.count }.from(4).to(0)
 
             expect { synced_foo.reload }.to raise_error ActiveRecord::RecordNotFound
@@ -332,7 +332,7 @@ RSpec.describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
   end
 
   context 'with invalid connection' do
-    let(:auth_source) { create(:ldap_auth_source) }
+    let(:ldap_auth_source) { create(:ldap_auth_source) }
 
     before do
       synced_foo
@@ -351,11 +351,11 @@ RSpec.describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
   context 'with invalid base' do
     let(:synced_foo) do
       create(:ldap_synchronized_group, dn: 'cn=foo,ou=invalid,dc=example,dc=com', group: group_foo,
-                                       auth_source:)
+                                       ldap_auth_source:)
     end
     let(:synced_bar) do
       create(:ldap_synchronized_group, dn: 'cn=bar,ou=invalid,dc=example,dc=com', group: group_bar,
-                                       auth_source:)
+                                       ldap_auth_source:)
     end
 
     context 'when one synced group exists' do

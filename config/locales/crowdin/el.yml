@@ -99,14 +99,6 @@ el:
     edit: "Επεξεργασία βοηθητικού κειμένου για %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: Αυτήν τη στιγμή δεν υπάρχουν λειτουργίες ταυτοποίησης.
-      no_results_content_text: Δημιουργήστε μια νέα λειτουργία ταυτοποίησης
-  background_jobs:
-    status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Η εργασία ακυρώθηκε λόγω σφάλματος: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Αυτή η φόρμα LDAP απαιτεί τεχνικές γνώσεις για την LDAP / Active Directory εγκατάσταση σας.
@@ -158,6 +150,10 @@ el:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Η εργασία ακυρώθηκε λόγω σφάλματος: %{message}"
   forums:
     show:
       no_results_title_text: Προς το παρόν δεν υπάρχουν αναρτήσεις σε αυτό το φόρουμ.
@@ -335,6 +331,12 @@ el:
     index:
       no_results_title_text: Προς το παρόν δεν υπάρχουν καταστάσεις για το πακέτο εργασίας.
       no_results_content_text: Προσθέσετε μια νέα κατάσταση
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Αυτή τη στιγμή δεν υπάρχουν τύποι.
@@ -547,7 +549,7 @@ el:
         color: "Χρώμα"
       user:
         admin: "Διαχειριστής"
-        auth_source: "Τρόπος αυθεντικοποίησης"
+        ldap_auth_source: "LDAP connection"
         current_password: "Τρέχων κωδικός πρόσβασης"
         force_password_change: "Επιβολή αλλαγής κωδικού πρόσβασης στην επόμενη σύνδεση"
         language: "Γλώσσα"
@@ -1449,7 +1451,7 @@ el:
   menus:
     admin:
       mail_notification: "Ειδοποιήσεις email"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
@@ -1552,9 +1554,9 @@ el:
   label_attachment_plural: "Αρχεία"
   label_attribute: "Χαρακτηριστικό"
   label_attribute_plural: "Χαρακτηριστικά"
-  label_auth_source: "Τρόπος αυθεντικοποίησης"
-  label_auth_source_new: "Νέος τρόπος ταυτοποίησης"
-  label_auth_source_plural: "Τρόποι ταυτοποίησης"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Ταυτοποίηση"
   label_available_project_work_package_categories: 'Διαθέσιμες κατηγορίες πακέτων εργασίας'
   label_available_project_work_package_types: 'Διαθέσιμοι τύποι εργασιών'
@@ -2268,7 +2270,7 @@ el:
   present_access_key_value: "Το %{key_name} είναι: %{value}"
   notice_automatic_set_of_standard_type: "Ορισμός κανονικού τύπου αυτόματα."
   notice_logged_out: "Έχετε αποσυνδεθεί."
-  notice_wont_delete_auth_source: Η τρόπος ταυτοποίησης δεν μπορεί να διαγραφεί όσο υπάρχουν ακόμα χρήστες που το χρησιμοποιούν.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Δεν μπορείτε να ενημερώσετε τα διαθέσιμα προσαρμοσμένα πεδία του έργου. Το έργο δεν είναι έγκυρο: %{errors}"
   notice_attachment_migration_wiki_page: >
     Αυτή η σελίδα δημιουργήθηκε αυτόματα κατά την διάρκεια της ενημέρωσης του OpenProject. Περιέχει όλα τα συνημμένα που σχετίζονταν προηγουμένως με το %{container_type} "%{container_name}".

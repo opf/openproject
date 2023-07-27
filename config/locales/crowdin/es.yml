@@ -99,14 +99,6 @@ es:
     edit: "Editar texto de ayuda para %{attribute_caption}"
     enterprise:
       description: 'Proporcione información adicional para atributos (incl. campos personalizados) de los paquetes de trabajo y proyectos. Los textos de ayuda se muestran cuando los usuarios hacen clic en el símbolo de signo de interrogación junto a los campos correspondientes en proyectos y paquetes de trabajo.'
-  auth_sources:
-    index:
-      no_results_content_title: Actualmente no hay modos de autenticación.
-      no_results_content_text: Crear un nuevo modo de autenticación
-  background_jobs:
-    status:
-      error_requeue: "El trabajo experimentó un error pero se está reintentando. El error fue: %{message}"
-      cancelled_due_to: "El trabajo ha sido cancelado debido al error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Este formulario LDAP requiere conocimientos técnicos para la configuración de su  LDAP / Directorio Activo <br/>
@@ -159,6 +151,10 @@ es:
       verify_peer_description_html: >
         Permite la verificación estricta SSL de la cadena de confianza del certificado. <br/> <strong>Advertencia:</strong> Desmarcar esta opción desactiva la verificación SSL del certificado del servidor LDAP. Esto expone tu conexión a los ataques de intermediario.
       tls_certificate_description: "Si el certificado de servidor LDAP no está en las fuentes de confianza de este sistema, puede añadirlo manualmente aquí. Introduzca una cadena de certificación PEM X509."
+  background_jobs:
+    status:
+      error_requeue: "El trabajo experimentó un error pero se está reintentando. El error fue: %{message}"
+      cancelled_due_to: "El trabajo ha sido cancelado debido al error: %{message}"
   forums:
     show:
       no_results_title_text: Actualmente no hay publicaciones en el foro.
@@ -336,6 +332,12 @@ es:
     index:
       no_results_title_text: Actualmente no hay estados de paquetes de trabajo.
       no_results_content_text: Añadir un nuevo estado
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Actualmente no existen tipos.
@@ -548,7 +550,7 @@ es:
         color: "Color"
       user:
         admin: "Administrador"
-        auth_source: "Modos de autentificación"
+        ldap_auth_source: "LDAP connection"
         current_password: "Contraseña actual"
         force_password_change: "Aplicar el cambio de contraseña en el proximo inicio de sesión"
         language: "Idioma"
@@ -1450,7 +1452,7 @@ es:
   menus:
     admin:
       mail_notification: "Notificaciones de correo electrónico"
-      mails_and_notifications: "Correos electrónicos y notificaciones"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Agregación'
       api_and_webhooks: "API y webhooks"
     quick_add:
@@ -1553,9 +1555,9 @@ es:
   label_attachment_plural: "Archivos"
   label_attribute: "Atributo"
   label_attribute_plural: "Atributos"
-  label_auth_source: "Modo de autentificación"
-  label_auth_source_new: "Nuevo modo de autenticaficación"
-  label_auth_source_plural: "Modos de autentificación"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentificación"
   label_available_project_work_package_categories: 'Categorias de paquetes de trabjo disponibles'
   label_available_project_work_package_types: 'Tipos de paquete de trabajo disponibles'
@@ -2269,7 +2271,7 @@ es:
   present_access_key_value: "Su %{key_name} es: %{value}"
   notice_automatic_set_of_standard_type: "Establecer tipo estándar automáticamente."
   notice_logged_out: "Has cerrado la sesion."
-  notice_wont_delete_auth_source: El modo de autenticación no puede ser borrado mientras haya usuarios utilizándolo.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "No se pueden actualizar campos personalizados disponibles del proyecto. El proyecto es inválido: %{errors}"
   notice_attachment_migration_wiki_page: >
     Esta página se generó automáticamente al actualizar OpenProject. Contiene todos los datos adjuntos que estaban asociados anteriormente al %{container_type} "%{container_name}".

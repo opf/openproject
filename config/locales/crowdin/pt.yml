@@ -99,14 +99,6 @@ pt:
     edit: "Editar texto de ajuda para %{attribute_caption}"
     enterprise:
       description: 'Forneça informações adicionais para os atributos (incl. campos personalizados) dos pacotes de trabalho e projetos. Os textos de ajuda são exibidos quando os usuários clicam no símbolo de interrogação ao lado dos campos de entrada nos projetos e pacotes de trabalho.  '
-  auth_sources:
-    index:
-      no_results_content_title: Atualmente, não existem modos de autenticação.
-      no_results_content_text: Criar um novo modo de autenticação
-  background_jobs:
-    status:
-      error_requeue: "A tarefa apresentou um erro, mas está tentando novamente. O erro foi: %{message}"
-      cancelled_due_to: "A tarefa foi cancelada devido ao erro: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Este formulário LDAP requer conhecimento técnico da sua configuração LDAP / Active Directory.
@@ -161,6 +153,10 @@ pt:
       verify_peer_description_html: >
         Permite uma verificação SSL estrita da cadeia de confiança do certificado. <br/> <strong>Aviso:</strong> Desmarcar esta opção desativa a verificação SSL do certificado do servidor LDAP, o que expõe a sua conexão a ataques man-in-the-middle.
       tls_certificate_description: "Se o certificado do servidor LDAP não estiver nas fontes de confiança deste sistema, você poderá adicioná-lo manualmente. Digite uma cadeia de caracteres de certificado PEM X509."
+  background_jobs:
+    status:
+      error_requeue: "A tarefa apresentou um erro, mas está tentando novamente. O erro foi: %{message}"
+      cancelled_due_to: "A tarefa foi cancelada devido ao erro: %{message}"
   forums:
     show:
       no_results_title_text: Não há postagens no fórum no momento.
@@ -338,6 +334,12 @@ pt:
     index:
       no_results_title_text: Atualmente, não há nenhuma situação de pacote de trabalho.
       no_results_content_text: Adicionar uma nova situação
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Atualmente, não há nenhum tipo.
@@ -550,7 +552,7 @@ pt:
         color: "Cor"
       user:
         admin: "Administrador"
-        auth_source: "Modo de autenticação"
+        ldap_auth_source: "LDAP connection"
         current_password: "Senha Atual"
         force_password_change: "Forçar alteração de senha no próximo acesso"
         language: "Idioma"
@@ -1452,7 +1454,7 @@ pt:
   menus:
     admin:
       mail_notification: "Notificações por e-mail"
-      mails_and_notifications: "E-mails e notificação"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Agregação'
       api_and_webhooks: "API e webhooks"
     quick_add:
@@ -1555,9 +1557,9 @@ pt:
   label_attachment_plural: "Arquivos"
   label_attribute: "Atributo"
   label_attribute_plural: "Atributos"
-  label_auth_source: "Modo de autenticação"
-  label_auth_source_new: "Novo modo de autenticação"
-  label_auth_source_plural: "Modos de autenticação"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autenticação"
   label_available_project_work_package_categories: 'Categorias de pacote de trabalho disponíveis'
   label_available_project_work_package_types: 'Tipos de pacote de trabalho disponíveis'
@@ -2270,7 +2272,7 @@ pt:
   present_access_key_value: "Seu %{key_name} é: %{value}"
   notice_automatic_set_of_standard_type: "Defina o tipo padrão automaticamente."
   notice_logged_out: "Você foi desconectado."
-  notice_wont_delete_auth_source: O modo de autenticação não pode ser excluído, enquanto ainda há usuários a utilizá-lo.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Você não pode atualizar campos personalizados disponíveis do projeto. O projeto é inválido: %{errors}"
   notice_attachment_migration_wiki_page: >
     Esta página foi gerada automaticamente durante a atualização do OpenProject. Ela contém todos os anexos anteriormente associados a %{container_type} "%{container_name}".

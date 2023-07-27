@@ -99,14 +99,6 @@ lt:
     edit: "Redaguoti pagalbos tekstą atributui: %{attribute_caption}"
     enterprise:
       description: 'Teikia papildomą informaciją apie darbo paketų ir projektų atributus (įskaitant savus laukus).'
-  auth_sources:
-    index:
-      no_results_content_title: Šiuo metu nėra jokių autentifikacijos būdų.
-      no_results_content_text: Sukurti naują autentifikacijos būdą
-  background_jobs:
-    status:
-      error_requeue: "Vykdant užduotį buvo rasta klaida, tačiau bandoma dar kartą. Klaida buvo: %{message}"
-      cancelled_due_to: "Užduotis buvo nutraukta dėl klaidos: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Ši LDAP forma reikalauja jūsų LDAP / Active Directory tvarkos žinojimo.
@@ -159,6 +151,10 @@ lt:
       verify_peer_description_html: >
         Įjungia griežtą SSL sertifikatų pasitikėjimo grandinių tikrinimą. <br/> <strong>Įspėjimas:</strong> išjungus šią parinktį išjungiamas LDAP serverio sertifikato SSL tikrinimas. Tai padaro jūsų jungtis pažeidžiamomis Žmogaus per vidurį atakoms.
       tls_certificate_description: "Jei LDAP serverio sertifikatas neįtrauktas į šios sistemos pasitikimuosius, jūs galite jį pridėti rankiniu būdu čia. Įveskite PEM X509 sertifikato eilutę."
+  background_jobs:
+    status:
+      error_requeue: "Vykdant užduotį buvo rasta klaida, tačiau bandoma dar kartą. Klaida buvo: %{message}"
+      cancelled_due_to: "Užduotis buvo nutraukta dėl klaidos: %{message}"
   forums:
     show:
       no_results_title_text: Šiuo metu forume nėra įrašų.
@@ -336,6 +332,12 @@ lt:
     index:
       no_results_title_text: Nėra jokių darbų paketo būsenų.
       no_results_content_text: Pridėti naują būseną
+  themes:
+    light: "Šviesi"
+    light_high_contrast: "Šviesi kontrastinga"
+    dark: "Tamsi"
+    dark_dimmed: "Tamsi pritemdyta"
+    dark_high_contrast: "Tamsi kontrastinga"
   types:
     index:
       no_results_title_text: Nėra jokių rūšių.
@@ -550,7 +552,7 @@ lt:
         color: "Spalva"
       user:
         admin: "Administratorius"
-        auth_source: "Autentikacijos būdas"
+        ldap_auth_source: "LDAP connection"
         current_password: "Dabartinis slaptažodis"
         force_password_change: "Versti pasikeisti slaptažodį kitą kartą prisijungus"
         language: "Kalba"
@@ -1488,7 +1490,7 @@ lt:
   menus:
     admin:
       mail_notification: "El. pašto priminimai"
-      mails_and_notifications: "E-paštas ir pranešimai"
+      mails_and_notifications: "Laiškai ir pranešimai"
       aggregation: 'Agregacija'
       api_and_webhooks: "API ir tinklo jungtys"
     quick_add:
@@ -1591,9 +1593,9 @@ lt:
   label_attachment_plural: "Failai"
   label_attribute: "Atributas"
   label_attribute_plural: "Atributai"
-  label_auth_source: "Autentifikacijos būdas"
-  label_auth_source_new: "Naujas autentifikacijos būdas"
-  label_auth_source_plural: "Autentifikacijos būdai"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentifikacija"
   label_available_project_work_package_categories: 'Galimos darbų paketo kategorijos'
   label_available_project_work_package_types: 'Galimi darbo paketų tipai'
@@ -2308,7 +2310,7 @@ lt:
   present_access_key_value: "Jūsų %{key_name} yra: %{value}"
   notice_automatic_set_of_standard_type: "Automatiškai nustatyti standartinį tipą."
   notice_logged_out: "Jūs sėkmingai atsijungėte."
-  notice_wont_delete_auth_source: Autentifikacijos būdas negali būti ištrintas ligi tol, kol yra jį naudojančių vartotojų.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Jūs negalite atnaujinti projekto pasirinktinų laukų. Projektas yra netinkamas: %{errors}"
   notice_attachment_migration_wiki_page: >
     Šis puslapis buvo sugeneruotas automatiškai, kai buvo naujinama OpenProject. Jame yra visi prisegti failai, kurie buvo susieti su %{container_type} „%{container_name}“.

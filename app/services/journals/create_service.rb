@@ -99,12 +99,22 @@ module Journals
       Journal.instantiate(result) if result
     end
 
-    # The sql necessary for creating the journal inside the database.
+    # The result of the whole SQL statement is a snapshot of the journable (e.g. a WorkPackage or a WikPage) at the point
+    # the SQL statement was run:
+    # * There will be either a newly created entry in the `journals` table or an updated entry in it if the former journal
+    #   of the journable was aggregated (two consecutive updates within a configurable time frame by the same user).
+    # * A new entry in the data table of the journable (e.g. work_package_journals for a WorkPackage) will be created
+    #   containing a copy of the columns of the journable.
+    # * New entries in the attachable_journals table, one for every attachment the journable has at the time.
+    # * New entries in the customizable_journals table, one for every custom value the journable has at the time.
+    # * New entries in the storages_file_links_journals table, one for file link value the journable has at the time.
+    #
     # It consists of a couple of parts that are kept as individual queries (as CTEs) but
     # are all executed within a single database call.
     #
-    # The first three CTEs('cleanup_predecessor_data', 'cleanup_predecessor_attachable' and 'cleanup_predecessor_customizable')
-    # strip the information of a predecessor if one exists. If no predecessor exists, a noop SQL statement is employed instead.
+    # The first four CTEs('cleanup_predecessor_data', 'cleanup_predecessor_attachable', 'cleanup_predecessor_customizable'
+    # and cleanup_predecessor_storable) strip the information of a predecessor if one exists. If no predecessor exists,
+    # a noop SQL statement is employed instead.
     # To strip the information from the journal, the data record (e.g. from work_packages_journals) as well as the
     # attachment and custom value information is removed. The journal itself is kept and will later on have its
     # updated_at and possibly its notes property updated.
@@ -113,49 +123,71 @@ module Journals
     # (i.e. when determining the latest state of the journable, when getting the current version number and when
     # comparing the timestamps of the last journalization time and the work package's updated_at time).
     #
-    # The next CTE (`changes`) determines whether a change as occurred so that a new journal needs to be created. The subsequent
-    # CTEs, which are inserting new data, will only do so if the changes CTE returns an entry. The only three exceptions
-    # to this check are that if a note is provided, the predecessor has a different cause than the new journal would have
-    # or a predecessor is replaced, a journal will be created regardless of whether any changes are detected. To determine
-    # whether a change is worthy of being journalized, the current and the latest journalized state are compared in three aspects:
+    # The next CTE (`changes`) determines whether a change as occurred so that a new journal needs to be created. This check
+    # is carried out the check if journalization needs to be carried out at all. To determine
+    # whether a change is worthy of being journalized, the current and the latest journalized state are compared in four aspects:
     # * the journable's table columns are compared to the columns in the journable's journal data table
     # (e.g. work_package_journals for WorkPackages). Only columns that exist in the journable's journal data table are considered
     # (and some columns like the primary key `id` is ignored). Therefore, to add an attribute to be journalized, it needs to
     # be added to that table.
     # * the journable's attachments are compared to the attachable_journals entries being associated with the most recent journal.
     # * the journable's custom values are compared to the customizable_journals entries being associated with the most
-    # recent journal.
+    #   recent journal.
+    # * the journable's file_links are compared to the storages_file_links_journals entries being associated with the most
+    #   recent journal.
     # When comparing text based values, newlines are normalized as otherwise users having a different OS might change a text value
     # without intending to.
     #
-    # Only if a change has been identified (or if a note/cause/predecessor is present) is a journal inserted by the
-    # `inserted_journal` CTE. Its creation timestamp will be the updated_at value of the journable as this is the
-    # logical creation time. If a note or a cause is present, however, the current time is taken as it signifies an action in
-    # itself and there might not be a change to the journable at all. To account for this case, in which the updated_at of the
-    # journable will be equal to the updated_at of the most recent journal (so the one before the current run),
-    # the statement_timestamp() function is used to set a timestamp both on the journable (`touch_journable`) and
-    # have that available in the later stages of the SQL as the authoritative time used whenever updated/created_at or
-    # validity timestamps need to be touched (`fetch_time`).
+    # Journalization is then continued only if
+    # * a change has been identified (by the `changes` CTE)
+    # * OR a note is present
+    # * OR a cause is present (which would be different from the cause of the predecessor as that one would otherwise be
+    #   aggregated with)
+    # * OR a predecessor is replaced
     #
-    # In case a predecessor is aggregated the `inserted_journal`, does not insert in fact but rather it updates the already
-    # persisted, and stripped of its data, journal.
+    # To enforce consistent timestamps throughout the data structure of journable and journal, the time used for further timestamp
+    # setting is then calculated once between the two CTEs `touch_journable` and `fetch_time`. The auxiliary tables
+    # (attachable_journals, customizable_journals and storages_file_links_journals) don't have timestamps so they can be
+    # disregarded.
     #
-    # All cases (having a change, a note or a cause) can at this point be identified by a journal having been created.
-    # Therefore, the return value of that insert statement is further on used to identify whether the next statements
-    # (`insert_data`, `insert_attachable` and `insert_customizable`) should actually insert data. It is additionally
+    # Most of the time, the time used will be the updated_at of the journable. This follows the logic that most of the time
+    # the journable receives new attributes first which will subsequently trigger the run of this service. During the course
+    # of the journable saving, the updated_at will receive a current timestamp by Rails. But if only a cause or a note is added,
+    # or if a custom value, an attachable or a file_link is altered, the journable will not have been touched before and
+    # therefore the time this SQL statement is run at will be used. The SQL will in this case touch the journable with that
+    # timestamp itself (`touch_journable`).
+    # Whether the journable was updated before or the SQL statement did it, the value of either will end up in the result
+    # of the `fetch_time` CTE to be used in the later stages of the SQL.
+    #
+    # After the SQL is run, the timestamps of the journable, the predecessor journal and the newly created journal will have
+    # interdependencies:
+    # * If a new journal is created (i.e. no predecessor is aggregated):
+    #   * The updated_at of the journable, the newly created journal's created_at, updated_at and the lower bound of its
+    #     validity_period as well as the upper bound of the predecessor's validity_period will be the same (`fetch_time` value).
+    #   * The upper bound of the newly created journal's validity_period will be NULL meaning that it does not end yet.
+    # * If a predecessor is aggregated:
+    #   * The updated_at of the journable and the aggregated journal's updated_at will be the same.
+    #   * The created_at of the aggregated journal as well as its lower bound of the validity_period will be the same as
+    #     before.
+    # The timestamps are updated by `touch_journable` and `update_predecessor` respectively.
+    #
+    # In case of no aggregation, the preceding journal will now have values for both the upper as well as the lower bound
+    # of its validity_range. Such a journal can then be considered closed.
+    #
+    # The `inserted_journal` will either update the updated_at value of the aggregated predecessor or, in the absence
+    # of an aggregated predecessor create a new journal with the timestamps as described above. Both rely on the return
+    # value of `insert_data'. That CTE, on the basis of what was identified in `changes` (and only if there are some)
+    # writes the snapshot of the journables column into the correct data journal (e.g work_package_journals for a
+    # WorkPackage). The return values of the `insert_data` is relevant also for the `inserted_data` CTE as the `data_id` field
+    # needs to be inserted into the journal. This is also the reason why the `insert_data` CTE is run before
+    # the `inserted_journal`.
+    #
+    # All cases (having a change, a note or a cause) can at this point be identified by a journal having been created
+    # or replaced which are treated the same.
+    # Therefore, the return value of the `inserted_journal` is further on used to identify whether the next statements
+    # (`insert_attachable`, `insert_customizable` and `insert_storable`) should actually insert data. It is additionally
     # used as the values returned by the overall SQL statement so that an AR instance can be instantiated with it.
     #
-    # If a journal is created, all columns that also exist in the journable's data table are inserted as a new entry into
-    # to the data table with a reference to the newly created journal. Again, newlines are normalized.
-    #
-    # If a journal is created, all entries in the attachments table associated to the journable are recreated as entries
-    # in the attachable_journals table.
-    #
-    # If a journal is created, all entries in the custom_values table associated to the journable are recreated as entries
-    # in the customizable_journals table. Again, newlines are normalized.
-    #
-    # In case of no aggregation, the preceding journal will have its validity_range updated to be the created_at time of the newly
-    # inserted journal. Such a journal can then be considered closed.
     def create_journal_sql(predecessor, notes, cause)
       <<~SQL
         WITH cleanup_predecessor_data AS (
@@ -415,15 +447,15 @@ module Journals
     end
 
     # Updates the updated_at timestamp of the journable.
-    # That is only carried out if the journable doesn't already have a newer timestamp than the most recent journal.
+    # That is only carried out if the journable doesn't already have a newer timestamp than the most recent journal or
+    # hasn't been updated by the `#save` call after which this service runs.
     # Most recent in this case can mean one of two things:
     #  * if there is a predecessor we are aggregating with, it is that predecessor
     #  * otherwise, the most recent journal that we are not aggregating with.
-    # Whenever an attribute is updated on the journable before creating the journal, the udpated_at timestamp
+    # Whenever an attribute is updated on the journable before creating the journal, the updated_at timestamp
     # will already have been increased so nothing needs to be done.
     # But if any of the associated data is updated or if only a cause or note is added, the journable would
     # otherwise not have receive an updated timestamp.
-    # There is a special case if the updated_at of the journable is itself updated. In such a case, that value is used.
     def touch_journable_sql(predecessor, notes, cause)
       if journable.class.aaj_options[:timestamp].to_sym == :updated_at
         update_sql = <<~SQL

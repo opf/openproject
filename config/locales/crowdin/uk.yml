@@ -99,14 +99,6 @@ uk:
     edit: "Редагувати текст довідки для %{attribute_caption}"
     enterprise:
       description: 'Надайте додаткову інформацію для атрибутів (включно з користувацькими полями) пакетів робіт і проєктів. Підказки з’являються, коли користувачі натискають на знак питання біля полів введення в проєктах і пакетах робіт.'
-  auth_sources:
-    index:
-      no_results_content_title: Наразі немає режимів аутентифікації.
-      no_results_content_text: Створіть новий режим аутентифікації
-  background_jobs:
-    status:
-      error_requeue: "Виконується повторний запуск завдання, оскільки попередня спроба завершилася такою помилкою: %{message}"
-      cancelled_due_to: "Завдання скасовано через помилку: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Ця форма LDAP вимагає технічних знань про налаштування LDAP / Active Directory.<br/><a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Щоб отримати докладні вказівки, ознайомтеся з нашою документацією</a>.
@@ -157,6 +149,10 @@ uk:
       verify_peer_description_html: >
         Вмикає сувору перевірку SSL ланцюжка довірених сертифікатів. <br/> <strong>Увага!</strong> Якщо зняти цей прапорець, буде вимкнено перевірку SSL сертифіката сервера LDAP. Через це ваше з’єднання може стати  вразливим до MITM-атаки.
       tls_certificate_description: "Якщо сертифікат сервера LDAP не належить до надійних джерел цієї системи, ви можете додати його вручну тут. Введіть рядок сертифіката PEM X509."
+  background_jobs:
+    status:
+      error_requeue: "Виконується повторний запуск завдання, оскільки попередня спроба завершилася такою помилкою: %{message}"
+      cancelled_due_to: "Завдання скасовано через помилку: %{message}"
   forums:
     show:
       no_results_title_text: На даний момент на форумі немає публікацій.
@@ -334,6 +330,12 @@ uk:
     index:
       no_results_title_text: Наразі немає статусів робочих пакетів.
       no_results_content_text: Додати новий статус
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Наразі немає типів.
@@ -548,7 +550,7 @@ uk:
         color: "Колір"
       user:
         admin: "Адміністратор"
-        auth_source: "Режим аутентифікації"
+        ldap_auth_source: "LDAP connection"
         current_password: "Поточний пароль"
         force_password_change: "Примусово змінити пароль на наступному вході в систему"
         language: "Мова"
@@ -1486,7 +1488,7 @@ uk:
   menus:
     admin:
       mail_notification: "Email сповіщення"
-      mails_and_notifications: "Електронні листи й сповіщення"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Агрегація'
       api_and_webhooks: "API та вебгуки"
     quick_add:
@@ -1589,9 +1591,9 @@ uk:
   label_attachment_plural: "Файли"
   label_attribute: "Атрибут"
   label_attribute_plural: "Атрибути"
-  label_auth_source: "Режим аутентифікації"
-  label_auth_source_new: "Новий режим автентифікації"
-  label_auth_source_plural: "Режими аутентифікації"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Автентифікація"
   label_available_project_work_package_categories: 'Доступні категорії робочих пакетів'
   label_available_project_work_package_types: 'Доступні типи пакетів робіт'
@@ -2305,7 +2307,7 @@ uk:
   present_access_key_value: "Ваш ключ %{key_name}: %{value}"
   notice_automatic_set_of_standard_type: "Встановіть стандартний тип автоматично."
   notice_logged_out: "Ви вийшли з системи."
-  notice_wont_delete_auth_source: Режим автентифікації не може бути видалений, поки користувачі все ще використовують його.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Неможливо оновити доступні користувальницькі поля проекту. Проект недійсний: %{errors}"
   notice_attachment_migration_wiki_page: >
     Ця сторінка була створена автоматично під час оновлення OpenProject. Він містить усі вкладення, раніше пов'язані з %{container_type} %{container_name}.

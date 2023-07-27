@@ -99,14 +99,6 @@ ja:
     edit: "%{attribute_caption} のヘルプ テキストを編集"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: 現在認証モードはありません。
-      no_results_content_text: 新しい認証モードを作成
-  background_jobs:
-    status:
-      error_requeue: "ジョブにエラーが発生しましたが、再試行中です。エラー: %{message}"
-      cancelled_due_to: "エラーが発生したため、ジョブはキャンセルされました。エラー: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       この LDAP フォームには、LDAP / Active Directory の設定に関する技術的な知識が必要です。
@@ -160,6 +152,10 @@ ja:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
+  background_jobs:
+    status:
+      error_requeue: "ジョブにエラーが発生しましたが、再試行中です。エラー: %{message}"
+      cancelled_due_to: "エラーが発生したため、ジョブはキャンセルされました。エラー: %{message}"
   forums:
     show:
       no_results_title_text: 現在、フォーラムへの投稿はありません。
@@ -335,6 +331,12 @@ ja:
     index:
       no_results_title_text: 現在、ワークパッケージのステータスはありません。
       no_results_content_text: 新しいステータスを追加
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: 現在、種類はありません。
@@ -546,7 +548,7 @@ ja:
         color: "色"
       user:
         admin: "管理者"
-        auth_source: "認証モード"
+        ldap_auth_source: "LDAP connection"
         current_password: "現在のパスワード"
         force_password_change: "次回ログイン時にパスワード変更を強制する"
         language: "言語"
@@ -1430,7 +1432,7 @@ ja:
   menus:
     admin:
       mail_notification: "電子メールの通知"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: '集計'
       api_and_webhooks: "API and webhooks"
     quick_add:
@@ -1533,9 +1535,9 @@ ja:
   label_attachment_plural: "ファイルを添付する"
   label_attribute: "属性"
   label_attribute_plural: "属性"
-  label_auth_source: "認証モード"
-  label_auth_source_new: "新しい認証方式"
-  label_auth_source_plural: "認証方式"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "認証"
   label_available_project_work_package_categories: '有効なワークパッケージのカテゴリ'
   label_available_project_work_package_types: '利用可能なワークパッケージのタイプ'
@@ -2249,7 +2251,7 @@ ja:
   present_access_key_value: "%{key_name} は: %{value}"
   notice_automatic_set_of_standard_type: "自動的に標準型を設定します。"
   notice_logged_out: "ログアウトしました。"
-  notice_wont_delete_auth_source: 認証モードは、まだ使用しているユーザが残っている限り、削除できません。
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "プロジェクトの有効なカスタムフィールドを更新できません。プロジェクトは無効です: %{errors}"
   notice_attachment_migration_wiki_page: >
     このページは、OpenProject の更新時に自動的に生成されました。%{container_type} "%{container_name}" と関連付けられていたすべての添付ファイルが含まれています。

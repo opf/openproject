@@ -10,7 +10,7 @@ module LdapGroups
       LdapAuthSource.find_each do |ldap|
         Rails.logger.info { "[LDAP groups] Retrieving groups from filters for ldap auth source #{ldap.name}" }
         LdapGroups::SynchronizedFilter
-          .where(auth_source_id: ldap.id)
+          .where(ldap_auth_source_id: ldap.id)
           .find_each do |filter|
           LdapGroups::SynchronizeFilterService
             .new(filter)
