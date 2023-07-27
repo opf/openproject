@@ -1157,7 +1157,7 @@ en:
         save_as: "Save as"
         export: "Export"
         visibility_settings: "Visibility settings"
-        share_calendar: "Subscribe to iCalendar"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Rename view"
         delete: "Delete"
       filter: "Filter"
