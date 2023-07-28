@@ -11,7 +11,7 @@ Welcome to the OpenProject **System Administration guide**.
 
 In order to make changes to settings affecting your entire OpenProject environment, you need to navigate to the OpenProject administration.
 
-If you are an administrator on your OpenProject environment,  you can access the administration by clicking on your user Avatar in the upper right corner and selecting -> **Administration** from the dropdown menu.
+If you are an administrator on your OpenProject environment, you can access the administration by clicking on your user Avatar in the upper right corner and selecting -> **Administration** from the dropdown menu.
 
 Click on one of the categories in order to proceed with the configuration.
 
