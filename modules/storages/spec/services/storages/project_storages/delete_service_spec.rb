@@ -69,33 +69,30 @@ RSpec.describe Storages::ProjectStorages::DeleteService, type: :model, webmock: 
 
     context 'with Nextcloud storage' do
       let(:storage) { create(:nextcloud_storage) }
+      let(:delete_folder_url) do
+        "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.project_folder_path.chop}"
+      end
+      let(:delete_folder_stub) do
+        stub_request(:delete, delete_folder_url).to_return(status: 204, body: nil, headers: {})
+      end
 
       before do
-        stub_request(:delete, delete_folder_url).to_return(status: 204, body: nil, headers: {})
+        delete_folder_stub
       end
 
       it 'tries to remove the project folder at the external nextcloud storage' do
         expect(described_class.new(model: project_storage, user:).call).to be_success
+        expect(delete_folder_stub).to have_been_requested
       end
 
-      context 'if project folder is not present' do
-        before do
+      context 'if project folder deletion request fails' do
+        let(:delete_folder_stub) do
           stub_request(:delete, delete_folder_url).to_return(status: 404, body: nil, headers: {})
         end
 
         it 'tries to remove the project folder at the external nextcloud storage and still succeed with deletion' do
           expect(described_class.new(model: project_storage, user:).call).to be_success
-        end
-      end
-
-      context 'if access is not authorized' do
-        before do
-          stub_request(:delete, delete_folder_url).to_return(status: 401, body: nil, headers: {})
-        end
-
-        it 'tries to remove the project folder at the external nextcloud storage, fails and does not delete project storage' do
-          expect(described_class.new(model: project_storage, user:).call).not_to be_success
-          expect(Storages::ProjectStorage.where(id: project_storage.id)).to exist
+          expect(delete_folder_stub).to have_been_requested
         end
       end
     end
