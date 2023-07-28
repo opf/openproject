@@ -32,7 +32,11 @@
 module Boards
   class AddButtonComponent < ::AddButtonComponent
     def render?
-      User.current.allowed_to_globally?(:manage_board_views)
+      if current_project
+        User.current.allowed_to?(:manage_board_views, current_project)
+      else
+        User.current.allowed_to_globally?(:manage_board_views)
+      end
     end
 
     def dynamic_path
