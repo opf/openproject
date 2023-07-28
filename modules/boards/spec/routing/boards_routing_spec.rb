@@ -37,6 +37,12 @@ RSpec.describe 'Boards routing' do
 
   it do
     expect(subject)
+      .to route(:get, '/boards')
+            .to(controller: 'boards/boards', action: 'index')
+  end
+
+  it do
+    expect(subject)
       .to route(:get, '/boards/state')
             .to(controller: 'boards/boards', action: 'index', state: 'state')
   end
