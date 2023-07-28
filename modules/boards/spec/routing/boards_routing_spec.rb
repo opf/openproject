@@ -49,6 +49,12 @@ RSpec.describe 'Boards routing' do
 
   it do
     expect(subject)
+      .to route(:get, '/projects/foobar/boards/new')
+            .to(controller: 'boards/boards', action: 'new', project_id: 'foobar')
+  end
+
+  it do
+    expect(subject)
       .to route(:get, '/boards/new')
             .to(controller: 'boards/boards', action: 'new')
   end

@@ -11,6 +11,11 @@ OpenProject::Application.routes.draw do
   end
 
   scope 'projects/:project_id', as: 'project' do
+    resources :boards,
+              controller: 'boards/boards',
+              only: %i[new],
+              as: :work_package_boards
+
     get '/boards(/*state)', to: 'boards/boards#index', as: :work_package_boards
   end
 end
