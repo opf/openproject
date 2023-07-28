@@ -3,7 +3,7 @@ module ::Boards
     before_action :find_optional_project
     before_action :build_board_grid, only: %i[new]
 
-    with_options only: [:index] do
+    with_options only: %i[index show] do
       # The boards permission alone does not suffice
       # to view work packages
       before_action :authorize
@@ -33,6 +33,10 @@ module ::Boards
       :boards
     end
 
+    def show
+      render layout: 'angular/angular'
+    end
+
     def new; end
 
     def create
@@ -42,7 +46,7 @@ module ::Boards
 
       if service_result.success?
         flash[:notice] = I18n.t(:notice_successful_create)
-        redirect_to board_grid_path
+        redirect_to project_work_package_board_path(@project, @board_grid)
       else
         @errors = service_result.errors
         render action: :new
@@ -91,10 +95,6 @@ module ::Boards
 
     def board_grid_params
       params.require(:boards_grid).permit(%i[name attribute])
-    end
-
-    def board_grid_path
-      "/projects/#{@project.identifier}/boards/#{@board_grid.id}"
     end
   end
 end
