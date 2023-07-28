@@ -1722,7 +1722,7 @@ el:
   label_hierarchy_leaf: "Φύλλο ιεραρχίας"
   label_home: "Αρχική"
   label_subject_or_id: "Θέμα ή ταυτότητα"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Νομική Ειδοποίηση"
   label_in: "σε"
   label_in_less_than: "σε λιγότερο από"

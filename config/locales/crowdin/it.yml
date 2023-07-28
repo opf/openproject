@@ -1723,7 +1723,7 @@ it:
   label_hierarchy_leaf: "Foglia della gerarchia"
   label_home: "Radice (home)"
   label_subject_or_id: "Oggetto o ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Note legali"
   label_in: "in"
   label_in_less_than: "in meno di"

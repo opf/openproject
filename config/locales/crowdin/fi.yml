@@ -1726,7 +1726,7 @@ fi:
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Koti"
   label_subject_or_id: "Aihe tai ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Legal notice"
   label_in: "tässä"
   label_in_less_than: "pienempi kuin"

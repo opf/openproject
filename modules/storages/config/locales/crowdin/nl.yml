@@ -16,7 +16,7 @@ nl:
         not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
-      file_link: "File link"
+      file_link: "Bestand link"
       storages/storage: "Opslagruimte"
     attributes:
       storages/storage:
@@ -40,7 +40,7 @@ nl:
               authorization_header_missing: >
                 is niet volledig ingesteld. De Nextcloud instantie ontvangt geen "Autorisatie" header, wat nodig is voor een Bearer token gebaseerd op API verzoeken. Controleer de configuratie van uw HTTP-server.
             password:
-              invalid_password: "is not valid."
+              invalid_password: "is niet geldig."
               unknown_error: "could not be validated. Please check your storage connection and try again."
         storages/file_link:
           attributes:
@@ -59,24 +59,24 @@ nl:
       save_and_continue_setup: "Opslaan en doorgaan met instellen"
       save_and_complete_setup: "Opslaan en de installatie voltooien"
       select_folder: "Selecteer map"
-      configure: "Configure"
+      configure: "Configureren"
     page_titles:
       managed_project_folders:
-        title: "Automatically managed project folders"
+        title: "Automatisch beheerde projectmappen"
         subtitle: >
           Let OpenProject create folders per project automatically. This is recommended as it ensures that every team member always has the correct access permissions.
       project_settings:
         index: "Bestandsopslag beschikbaar in dit project"
         new: "Voeg een bestandsopslag toe aan dit project"
-        edit: "Edit the file storage to this project"
-        delete: "Delete file storage"
+        edit: "Bewerk de bestandsopslag voor dit project"
+        delete: "Verwijder bestandsopslag"
     instructions:
       type: "Zorg ervoor dat u beheerrechten heeft in uw Nextcloud en dat de volgende applicatie geïnstalleerd is voordat u de installatie uitvoert:"
       type_link_text: "Integratie met OpenProject\""
       name: "Geef uw opslag een naam zodat gebruikers onderscheid kunnen maken tussen meerdere opslagplaatsen."
       host: "Voeg het hostadres van je opslag toe, inclusief de https://. Het mag niet langer dan 255 tekens zijn."
       managed_project_folders_application_password: >
-        Copy this value from:
+        Kopieer deze waarde van:
       no_storage_set_up: "There are no file storages set up yet."
       no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
       automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
@@ -126,10 +126,10 @@ nl:
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_no_specific_folder: "No specific folder"
     label_automatic_folder: "New folder with automatically managed permissions"
-    label_no_selected_folder: "No selected folder"
+    label_no_selected_folder: "Geen geselecteerde map"
     label_storage: "Opslag"
     label_storages: "Opslagplaatsen"
-    no_results: "No storages set up yet."
+    no_results: "Er zijn nog geen opslagplaatsen ingesteld."
     provider_types:
       label: "Type provider"
       nextcloud:

@@ -1724,7 +1724,7 @@ da:
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Hjem"
   label_subject_or_id: "Subject or ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Legal notice"
   label_in: "i"
   label_in_less_than: "på mindre end"

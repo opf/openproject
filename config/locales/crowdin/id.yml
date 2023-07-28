@@ -1700,7 +1700,7 @@ id:
   label_hierarchy_leaf: "Daun hierarki"
   label_home: "Home"
   label_subject_or_id: "Subyek atau ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Pernyataan hukum"
   label_in: "dalam"
   label_in_less_than: "kurang dari"

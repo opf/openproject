@@ -1726,7 +1726,7 @@ fr:
   label_hierarchy_leaf: "Feuille de hiérarchie"
   label_home: "Accueil"
   label_subject_or_id: "Objet ou ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Mentions légales"
   label_in: "dans"
   label_in_less_than: "dans moins de"

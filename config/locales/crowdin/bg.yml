@@ -1726,7 +1726,7 @@ bg:
   label_hierarchy_leaf: "Йерархично листо"
   label_home: "Начална страница"
   label_subject_or_id: "Тема или №"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Legal notice"
   label_in: "в"
   label_in_less_than: "в по-малко от"

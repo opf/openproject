@@ -1723,7 +1723,7 @@ es:
   label_hierarchy_leaf: "Hoja de jerarquía"
   label_home: "Inicio"
   label_subject_or_id: "Asunto o ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Aviso legal"
   label_in: "en"
   label_in_less_than: "en menos de"

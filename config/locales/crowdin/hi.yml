@@ -1724,7 +1724,7 @@ hi:
   label_hierarchy_leaf: "पदानुक्रम पत्ती"
   label_home: "मुखपृष्ठ"
   label_subject_or_id: "Subject or ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Legal notice"
   label_in: "में"
   label_in_less_than: "से भी कम समय में"

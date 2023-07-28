@@ -1745,7 +1745,7 @@ ro:
   label_hierarchy_leaf: "Frunză de ierarhie"
   label_home: "Pagina de start"
   label_subject_or_id: "Subiect sau ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Notificare legala"
   label_in: "în"
   label_in_less_than: "în mai puțin de"

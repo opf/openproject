@@ -552,7 +552,7 @@ lt:
         color: "Spalva"
       user:
         admin: "Administratorius"
-        ldap_auth_source: "LDAP connection"
+        ldap_auth_source: "LDAP jungtis"
         current_password: "Dabartinis slaptažodis"
         force_password_change: "Versti pasikeisti slaptažodį kitą kartą prisijungus"
         language: "Kalba"
@@ -1593,9 +1593,9 @@ lt:
   label_attachment_plural: "Failai"
   label_attribute: "Atributas"
   label_attribute_plural: "Atributai"
-  label_ldap_auth_source_new: "New LDAP connection"
-  label_ldap_auth_source: "LDAP connection"
-  label_ldap_auth_source_plural: "LDAP connections"
+  label_ldap_auth_source_new: "Nauja LDAP jungtis"
+  label_ldap_auth_source: "LDAP jungtis"
+  label_ldap_auth_source_plural: "LDAP jungtis"
   label_authentication: "Autentifikacija"
   label_available_project_work_package_categories: 'Galimos darbų paketo kategorijos'
   label_available_project_work_package_types: 'Galimi darbo paketų tipai'
@@ -1761,7 +1761,7 @@ lt:
   label_hierarchy_leaf: "Hierarchijos lapas"
   label_home: "Namai"
   label_subject_or_id: "Tema arba ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Teisinė informacija"
   label_in: " "
   label_in_less_than: "mažiau nei"
@@ -2310,7 +2310,7 @@ lt:
   present_access_key_value: "Jūsų %{key_name} yra: %{value}"
   notice_automatic_set_of_standard_type: "Automatiškai nustatyti standartinį tipą."
   notice_logged_out: "Jūs sėkmingai atsijungėte."
-  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
+  notice_wont_delete_auth_source: Negalima ištrinti LDAP jungties, kol naudotojai ją naudoja.
   notice_project_cannot_update_custom_fields: "Jūs negalite atnaujinti projekto pasirinktinų laukų. Projektas yra netinkamas: %{errors}"
   notice_attachment_migration_wiki_page: >
     Šis puslapis buvo sugeneruotas automatiškai, kai buvo naujinama OpenProject. Jame yra visi prisegti failai, kurie buvo susieti su %{container_type} „%{container_name}“.

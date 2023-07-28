@@ -342,21 +342,22 @@ it:
           learn_about: "Scopri di più sulle nuove funzionalità"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                La versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Carica e collega i file dai pacchetti di lavoro al tuo archivio di file Nextcloud.</li> <li>Follow-up su modifiche al progetto con il monitoraggio delle attività del progetto.</li> <li>Aggiungi giorni festivi a livello di istanza (giorni non lavorativi).</li> <li>Archivia i progetti da non amministratori.</li> <li>Nuovo filtro predefinito per macro-attività scadute.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
     ical_sharing_modal:
-      title: "Iscriviti a iCalendar"
+      title: "Subscribe to calendar"
       inital_setup_error_message: "Si è verificato un errore recuperando i dati."
-      description: "Puoi utilizzare l'URL di iCalendar per importare o iscriverti a questo calendario su un client esterno e per visualizzare le informazioni sul pacchetto di lavoro aggiornate da lì."
-      warning: "Sei pregato di non condividerlo con utenti esterni. Chiunque abbia questo link potrà visualizzare i dettagli del pacchetto di lavoro senza un profilo o una password."
-      token_name_label: "Nome del token"
-      token_name_placeholder: "Digita un nome per questo token, es. \"Applicazione del mio calendario\""
-      token_name_description_text: "Questo nome sarà utilizzato per distinguerlo da altri token nell'<a href=\"my/access_token\", target=\"_blank\">elenco di token d'accesso</a>. Può essere utilizzato soltanto una volta per calendario."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
       copy_url_label: "Copia URL"
-      ical_generation_error_text: "Si è verificato un errore generando l'URL di iCal."
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Attiva"
     label_assignee: 'Assegnatario'
     label_add_column_after: "Aggiungi colonna dopo"
@@ -1080,7 +1081,7 @@ it:
         save_as: "Salva come"
         export: "Esporta"
         visibility_settings: "Impostazioni di visibilità"
-        share_calendar: "Iscriviti a iCalendar"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Rinomina vista"
         delete: "Cancella"
       filter: "Filtro"

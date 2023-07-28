@@ -1726,7 +1726,7 @@ si:
   label_hierarchy_leaf: "ධූරාවලිය කොළ"
   label_home: "නිවස"
   label_subject_or_id: "විෂය හෝ හැඳුනුම්පත"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "නීතිමය දැනුම්දීම"
   label_in: "තුළ"
   label_in_less_than: "වඩා අඩු"

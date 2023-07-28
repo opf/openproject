@@ -1709,7 +1709,7 @@ vi:
   label_hierarchy_leaf: "Hệ thống phân cấp lá"
   label_home: "Trang chủ"
   label_subject_or_id: "Chủ đề hoặc Mã"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Thông báo pháp lý"
   label_in: "trong"
   label_in_less_than: "ít hơn"

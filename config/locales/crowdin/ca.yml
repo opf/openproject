@@ -1722,7 +1722,7 @@ ca:
   label_hierarchy_leaf: "Branca de jerarquia"
   label_home: "Inici"
   label_subject_or_id: "Subjecte o ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Avís legal"
   label_in: "en"
   label_in_less_than: "en menys de"

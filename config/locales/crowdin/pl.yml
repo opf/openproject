@@ -1761,7 +1761,7 @@ pl:
   label_hierarchy_leaf: "Liść hierarchii"
   label_home: "Strona główna"
   label_subject_or_id: "Temat lub identyfikator"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Informacje prawne"
   label_in: "w"
   label_in_less_than: "w mniej niż"

@@ -1726,7 +1726,7 @@ et:
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Avaleht"
   label_subject_or_id: "Subject or ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Legal notice"
   label_in: "sisaldub hulgas"
   label_in_less_than: "on väiksem kui"

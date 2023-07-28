@@ -1725,7 +1725,7 @@ tr:
   label_hierarchy_leaf: "Hiyerarşi ağacı"
   label_home: "Ana sayfa"
   label_subject_or_id: "Konu ya da ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Yasal uyarı"
   label_in: "şurada"
   label_in_less_than: "daha azdır"

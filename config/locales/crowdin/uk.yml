@@ -1759,7 +1759,7 @@ uk:
   label_hierarchy_leaf: "Ієрархічний лист"
   label_home: "Додому"
   label_subject_or_id: "Тема або ідентифікатор"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Правове повідомлення"
   label_in: "в"
   label_in_less_than: "менш ніж"

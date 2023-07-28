@@ -341,21 +341,22 @@ ru:
           learn_about: "Подробнее о новых функциях"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Загрузить и связать файлы с рабочими пакетами до вашего хранилища файлов Nextcloud.</li> <li>Последующая деятельность по изменениям проекта при отслеживании активности проекта.</li> <li>Добавляет публичные праздники в один экземпляр (нерабочие дни).</li> <li>Архивные проекты неадминов.</li> <li>Новый фильтр по умолчанию для просроченных пакетов работ.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
     ical_sharing_modal:
-      title: "Подписаться на iCalendar"
+      title: "Subscribe to calendar"
       inital_setup_error_message: "Произошла ошибка при получении данных."
-      description: "Вы можете использовать URL-адрес iCalendar для импорта или подписки на этот календарь во внешнем клиенте и просматривать информацию о рабочем пакете отсюда."
-      warning: "Пожалуйста, не делитесь этим URL-адресом с внешними пользователями. Любой пользователь с этой ссылкой сможет просматривать детали пакета работ без учетной записи или пароля."
-      token_name_label: "Имя токена"
-      token_name_placeholder: "Введите имя для этого токена, например \"Приложение Моего календаря\""
-      token_name_description_text: "Это имя будет использоваться для выделения других маркеров в <a href=\"my/access_token\", target=\"_blank\">списке маркеров доступа</a>. Может быть использовано только один раз в календарь."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
       copy_url_label: "Копировать URL"
-      ical_generation_error_text: "Произошла ошибка при генерации URL-адреса iCal."
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Активировать"
     label_assignee: 'Ответственный'
     label_add_column_after: "Добавить столбец после"
@@ -1081,7 +1082,7 @@ ru:
         save_as: "Сохранить как"
         export: "Экспортировать"
         visibility_settings: "Настройки видимости"
-        share_calendar: "Подписаться на iCalendar"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Переименовать представления"
         delete: "Удалить"
       filter: "Фильтр"

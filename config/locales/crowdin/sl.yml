@@ -1761,7 +1761,7 @@ sl:
   label_hierarchy_leaf: "Hierarhični list"
   label_home: "Domov"
   label_subject_or_id: "Predmet ali ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Pravno obvestilo"
   label_in: "v"
   label_in_less_than: "v manj kot"

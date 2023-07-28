@@ -5,7 +5,7 @@ nl:
   project_module_team_planner_view: "Team planners"
   team_planner:
     label_team_planner: "Team planner"
-    label_new_team_planner: "New team planner"
+    label_new_team_planner: "Nieuwe teamplanner"
     label_create_new_team_planner: "Maak een nieuwe teamplanner"
     label_team_planner_plural: "Team planners"
     label_assignees: "Toegewezen personen"
