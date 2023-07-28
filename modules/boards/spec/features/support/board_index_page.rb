@@ -27,10 +27,10 @@
 #++
 
 require 'support/pages/page'
-require_relative './board_page'
+require_relative 'board_list_page'
 
 module Pages
-  class BoardIndex < Page
+  class BoardIndex < BoardListPage
     attr_reader :project
 
     def initialize(project = nil)
@@ -45,18 +45,6 @@ module Pages
       end
     end
 
-    def expect_create_button
-      within '.toolbar-items' do
-        expect(page).to have_link 'Board'
-      end
-    end
-
-    def expect_no_create_button
-      within '.toolbar-items' do
-        expect(page).not_to have_link 'Board'
-      end
-    end
-
     def expect_editable(editable)
       # Editable / draggable check
       expect(page).to have_conditional_selector(editable, '.buttons a.icon-delete')
@@ -66,38 +54,6 @@ module Pages
 
     def expect_board(name, present: true)
       expect(page).to have_conditional_selector(present, 'td.name', text: name)
-    end
-
-    def expect_boards_listed(*boards)
-      within '#content-wrapper' do
-        boards.each do |board|
-          expect(page).to have_selector("td.name", text: board.name)
-        end
-      end
-    end
-
-    def expect_boards_not_listed(*boards)
-      within '#content-wrapper' do
-        boards.each do |board|
-          expect(page).not_to have_selector("td.title", text: board.name)
-        end
-      end
-    end
-
-    def expect_no_boards_listed
-      within '#content-wrapper' do
-        expect(page).to have_content I18n.t(:no_results_title_text)
-      end
-    end
-
-    def expect_to_be_on_page(number)
-      expect(page).to have_selector('.op-pagination--item_current', text: number)
-    end
-
-    def to_page(number)
-      within '.op-pagination--pages' do
-        click_link number.to_s
-      end
     end
 
     def create_board(action: nil, expect_empty: false, via_toolbar: false)
