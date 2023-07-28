@@ -74,7 +74,7 @@ RSpec.describe Acts::Journalized::JournableDiffer do
                       status_id: 45,
                       schedule_manually: nil,
                       ignore_non_working_days: false,
-                      estimated_hours: 1)
+                      estimated_hours: nil)
       end
       let(:changed) do
         build_stubbed(:journal_work_package_journal,
@@ -86,7 +86,7 @@ RSpec.describe Acts::Journalized::JournableDiffer do
                       status_id: original.status_id + 12,
                       schedule_manually: false,
                       ignore_non_working_days: true,
-                      estimated_hours: nil)
+                      estimated_hours: 1)
       end
 
       it 'returns the changes' do
@@ -97,7 +97,38 @@ RSpec.describe Acts::Journalized::JournableDiffer do
                   "status_id" => [original.status_id, changed.status_id],
                   "schedule_manually" => [nil, false],
                   "ignore_non_working_days" => [false, true],
-                  "estimated_hours" => [1.0, nil])
+                  "estimated_hours" => [nil, 1.0])
+      end
+    end
+  end
+
+  describe '.association_changes' do
+    context 'when the objects are work packages' do
+      let(:original) do
+        build(:work_package,
+              custom_values: [
+                build_stubbed(:work_package_custom_value, custom_field_id: 1, value: 1),
+                build_stubbed(:work_package_custom_value, custom_field_id: 2, value: nil),
+                build_stubbed(:work_package_custom_value, custom_field_id: 3, value: "")
+              ])
+      end
+
+      let(:changed) do
+        build(:work_package,
+              custom_values: [
+                build_stubbed(:work_package_custom_value, custom_field_id: 1, value: ""),
+                build_stubbed(:work_package_custom_value, custom_field_id: 2, value: ""),
+                build_stubbed(:work_package_custom_value, custom_field_id: 3, value: 2)
+              ])
+      end
+
+      it 'returns the changes' do
+        params = [original, changed, 'custom_values', 'custom_field', :custom_field_id, :value]
+        expect(described_class.association_changes(*params))
+          .to eql(
+            "custom_field_1" => ["1", ""],
+            "custom_field_3" => ["", "2"]
+          )
       end
     end
   end

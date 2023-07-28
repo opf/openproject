@@ -209,9 +209,9 @@ RSpec.describe 'baseline rendering',
       int_wp_custom_field.id => 1,
       string_wp_custom_field.id => 'this is a string',
       bool_wp_custom_field.id => true,
-      float_wp_custom_field.id => 2.9,
+      float_wp_custom_field.id => nil,
       date_wp_custom_field.id => Date.yesterday,
-      list_wp_custom_field.id => list_wp_custom_field.possible_values.first,
+      list_wp_custom_field.id => nil,
       multi_list_wp_custom_field.id => multi_list_wp_custom_field.possible_values, # not working
       user_wp_custom_field.id => [assignee.id.to_s],
       version_wp_custom_field.id => version_a
@@ -220,14 +220,14 @@ RSpec.describe 'baseline rendering',
 
   shared_let(:changed_custom_values) do
     {
-      "custom_field_#{int_wp_custom_field.id}": 2,
+      "custom_field_#{int_wp_custom_field.id}": nil,
       "custom_field_#{string_wp_custom_field.id}": 'this is a changed string',
       "custom_field_#{bool_wp_custom_field.id}": false,
       "custom_field_#{float_wp_custom_field.id}": 3.7,
       "custom_field_#{date_wp_custom_field.id}": Time.zone.today,
       "custom_field_#{list_wp_custom_field.id}": [list_wp_custom_field.possible_values.second],
       "custom_field_#{multi_list_wp_custom_field.id}": multi_list_wp_custom_field.possible_values.take(2),
-      "custom_field_#{user_wp_custom_field.id}": [user.id.to_s],
+      "custom_field_#{user_wp_custom_field.id}": nil,
       "custom_field_#{version_wp_custom_field.id}": version_b
     }
   end
@@ -328,7 +328,7 @@ RSpec.describe 'baseline rendering',
       baseline.expect_changed_attributes wp_task_cf,
                                          "customField#{int_wp_custom_field.id}": [
                                            '1',
-                                           '2'
+                                           '-'
                                          ],
                                          "customField#{string_wp_custom_field.id}": [
                                            'this is a string',
@@ -339,7 +339,7 @@ RSpec.describe 'baseline rendering',
                                            'no'
                                          ],
                                          "customField#{float_wp_custom_field.id}": [
-                                           '2.9',
+                                           '-',
                                            '3.7'
                                          ],
                                          "customField#{date_wp_custom_field.id}": [
@@ -347,8 +347,8 @@ RSpec.describe 'baseline rendering',
                                            Time.zone.today.iso8601
                                          ],
                                          "customField#{list_wp_custom_field.id}": [
-                                           list_wp_custom_field.possible_values.first.value,
-                                           list_wp_custom_field.possible_values.second.value
+                                           "-",
+                                           "B"
                                          ],
                                          "customField#{multi_list_wp_custom_field.id}": [
                                            "A, B, ...\n7",
@@ -356,7 +356,7 @@ RSpec.describe 'baseline rendering',
                                          ],
                                          "customField#{user_wp_custom_field.id}": [
                                            'Assigned User',
-                                           'Itsa Me'
+                                           '-'
                                          ],
                                          "customField#{version_wp_custom_field.id}": [
                                            'Version A',

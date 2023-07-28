@@ -38,8 +38,8 @@ module Acts::Journalized
           .with_indifferent_access
       end
 
-      def association_changes(original, changed, *association_params)
-        get_association_changes(original, changed, *association_params)
+      def association_changes(original, changed, *)
+        get_association_changes(original, changed, *)
       end
 
       private
@@ -90,12 +90,12 @@ module Acts::Journalized
 
       def added_references(merged_references)
         merged_references
-          .select { |_, (old_value, new_value)| old_value.nil? && new_value.present? }
+          .select { |_, (old_value, new_value)| old_value.to_s.empty? && new_value.present? }
       end
 
       def removed_references(merged_references)
         merged_references
-          .select { |_, (old_value, new_value)| old_value.present? && new_value.nil? }
+          .select { |_, (old_value, new_value)| old_value.present? && new_value.to_s.empty? }
       end
 
       def changed_references(merged_references)
