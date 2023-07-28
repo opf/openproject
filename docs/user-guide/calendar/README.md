@@ -2,84 +2,114 @@
 sidebar_navigation:
   title: Calendar
   priority: 840
-description: Create a calendar in OpenProject.
-keywords: calendar
+description: How to create, use and subscribe to a calendar in OpenProject.
+keywords: calendar, ical, month, week, view
 ---
+
 
 # Calendar
 
-The calendar shows all of the project's work packages in calendar form.
+The calendar module gives you an overview of work packages scheduled in a particular month or week. This makes it easier to track and follow multiple parallel tasks and get a sense of how a project will evolve (or has evolved) over time.
+
+To use it, you must first enable the Calendar module in your [project settings](# "Link to documentation on project settings").
 
 | Topic                                                        | Content                                               |
 | ------------------------------------------------------------ | ----------------------------------------------------- |
-| [Calendar overview](#calendar-overview)                      | How to use the calendar in OpenProject.               |
-| [Filters in calendar](#filters-in-calendar)                  | How to filter in the calendar view.                   |
-| [Zen mode](#zen-mode)                                        | How to work distraction free in a calendar view.      |
-| [Project overarching calendar](#project-overarching-calendar) | How to display more than one project in the calendar. |
+| [Creating a new calendar](#creating-a-new-calendar)          | How to create a new calendar and manage visibility settings. |
+| [Using the calendar](#using-the-calendar)                    | How to view, modify, create and filter work packages in the calendar. |
+| [Subscribing to a calendar](#subscribing-to-a-calendar)      | How to subscribe to and access a calendar from an external client.      |
 
 
-## Calendar overview
+## Creating a new calendar
 
-To display a calendar in a project, the module **calendar** needs to be activated in the [project settings](../projects/#project-settings).
+**[IMG: Example calendar view]**
 
-When you open the calendar, all work packages within the current project are displayed on the calendar, displaying the title of the work package. The colors represent the different [work package types](../../system-admin-guide/manage-work-packages/work-package-types).
+Once enabled, clicking on the **Calendars** entry on the left sidebar takes you to the calendar module with a list of all existing calendars. Initially, it will be empty.
 
-The current month is automatically selected. You can change the  date range between month or week and navigate through the views with the arrows on the left. The **today** button brings you back to the current date.
+[IMG: Module overview with public, private, favorite sections in the sidebar)
 
-Hovering over one item displays more information to a work package, such as the type, status, start and finish date, assignee and priority, as well as the project to which the work package belongs.
+- You can create a new calendar by clicking on either the **+ Calendar** button at the top right corner near your avatar or at the bottom of the sidebar on the left.
+    
+- Click on an existing (saved) calendar to view it.
+    
+- You can change the visibility settings of any calendar by clicking on **[⋮] (more)** -> **Visibility settings.**
+    
+    - Any calendar that has the **Favored** option checked will be displayed under the **Favorite** heading in the sidebar to the left.
+        
+    - Any calendar that has the **Public** option checked will be visible to all members of the current project and listed under the **Public** heading in the sidebar to the left.
+        
+    - Any calendar that has the **Public** option unchecked will be considered **Private** and displayed under the **Private Views** heading in the menu bar to the left.
+        
 
-Click on any item to open the work package details or to edit an item.
+## Using the calendar
 
-![Calendar overview](calendar-overview.png)
+### Viewing work packages
 
-The numbers in the instruction below correspond to the numbers in the image above:
+When you open a new calendar, all work packages within the current project are displayed as horizontal strips that span all dates between the start and finish dates (inclusive). The color represents the [work package type](https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-types). The subject or title displayed on the strip (insomuch as the length allows).
 
-1. Edit/change the name of your calendar or add additional calendars. Each calendar can be customized to display work packages from specific project(s). You can further fine-tune the information displayed using the filters.
+The current month is automatically selected. You can use the controls on the top right corner to switch between either a month view or a week view and use the arrows on the top left corner to move forwards or backwards in time. The **today** button brings you back to the current date.
 
-2. Change your calendar to be private to you or public to your organization: Select the **[⋮] button** -> **Visibility settings**
+When multiple work package are scheduled or span a single day, they are displayed in a vertical stack.
 
-   a. Check the **Public** box to make the calendar visible to your entire organization.
+Click on a work package strip to view the work package in split screen mode.
 
-   b. Check the **Favored** box to save the calendar to your favorites.
+### Creating work packages
 
-3. Any calendar that has the **Favored** box checked in the "Visibility settings" will be displayed under the **Favorite Views** heading in the menu bar to the left.
+You can create new work packages directly on the calendar. To do so, either click on a single date or click and drag across a date range. A new work package form will open in a split screen with the selected date(s) pre-filled.
 
-4. Any calendar that has the **Public** box checked in the "Visibility settings" will be displayed under the **Public Views** heading in the menu bar to the left.
+### Modifying work packages
 
-5. Any calendar that has the **Public** box unchecked in the **Visibility settings** will be considered **Private**, and hence displayed under the **Private Views** heading in the menu bar to the left.
+You can make basic date modifications simply by manipulating the work package strips:
 
-> **Note**: The calendar will highlight non-working days with a darker background colour. By default, a work package cannot be dragged or resized such that it begins or ends on these days unless the "Working days only" switch is turned off for that work package. To learn how to do this, refer to the documentation on [Working days and duration](../work-packages/set-change-dates/#working-days-and-duration).
->
-> Work packages can also expand and retract in width depending on how many non-working days are spanned (for example, a 3-day task starting on Thursday and ending on Monday will spread across 5 calendar days;  dragging that same work package so that it starts on a Tuesday and ends on a Thursday means that it will spread across 3 calendar days. In both cases, the duration remains 3 days.
+- Change the start date by grabbing the drag handle on the left edge of the strip and extending or shortening it.
+- Change the finish date by grabbing the drag handle on the right edge of the strip and extending or shortening it.
+- Drag an entire strip to move the work package forwards or backwards in time whilst preserving duration.
 
+> **Note**: The calendar will highlight non-working days with a darker background colour. By default, a work package cannot be dragged or resized such that it begins or ends on these days unless the “Working days only” switch is turned off for that work package. To learn how to do this, refer to the documentation on [Working days and duration](https://www.openproject.org/docs/user-guide/work-packages/set-change-dates/#working-days-and-duration).
+> Work packages can also expand and retract in width depending on how many non-working days are spanned (for example, a 3-day task starting on Thursday and ending on Monday will spread across 5 calendar days; dragging that same work package so that it starts on a Tuesday and ends on a Thursday means that it will spread across 3 calendar days. In both cases, the duration remains 3 days.
 
+### Filtering
 
-## Filters in calendar
+You can filter the work packages displayed in a calendar by adding any number of [filters](# "Learn more about work package filters"), e.g. *Author*, *Due Date*, *Priority*, *Assignee*, etc. This allows you to create a custom calendar showing only relevant work packages, either for yourself (as a private calendar) or for your team (as a public calendar visible to all project members).
 
-You can filter the work packages in the calendar view by adding any number of filters, e.g. *Author*, *Due Date*, *Priority*, *Assignee*, etc.
+Click the **Filter** button on the top right above the calendar to open the filter details.To add another filter criteria, select the drop down next to **+ Add filter** and choose a filter criteria.The number of different filter criteria is displayed on the filter button.
 
-Click the **Filter** button on the top right above the calendar to open the filter details.
+[IMG: Calendar filters]
 
-To add another filter criteria, select the drop down next to **+ Add filter** and choose a filter criteria.
+> **Note:** OpenProject also offers a module called Team planner that allows you to view modules in a calendar by assignee. [Learn more about Team planner](# "Documentation about Team planner").
 
-The number of different filter criteria is displayed on the filter button.
+### Including other projects
 
-![filter-calendar](filter-calendar.png)
+Much like with work package tables, it is possible to display work packages from more other projects. Use the **Include projects** dialog, where you can select/unselect from a list of projects and sub-projects. To automatically include all sub-projects for each project you chose to select, check the **Include all sub-projects** box at the bottom of the dialog.
 
-You can also display the calendar on the dashboard in the [project overview](../project-overview/#calendar-widget).
+**[IMG: Include projects?]**
 
-## Zen mode
+### Embedding a calendar in the project overview
 
-You can display the calendar in a full screen view to eliminate header and project menu and work distraction free.
+You can also display the calendar on the dashboard in the [project overview](https://www.openproject.org/docs/user-guide/project-overview/#calendar-widget).
 
-Click the **Activate zen mode** button on the top of the calendar.
+### Zen mode
 
-Click Escape (**Esc**) to leave the Zen mode.
+You can display the calendar full screen mode by hiding the navigation bar  and sidebar to work free of distractions. Click the **Activate zen mode** button on the top of the calendar. Press the escape key (**Esc**) to exist Zen mode.
 
-![zen-calendar](zen-calendar.png)
+**[IMG: Zen mode]**
 
-## Project overarching calendar
+## Subscribing to a calendar
 
-It is possible to display the work packages from more than one project in the calendar. To include, or exclude such work packages, use the **Include projects** dialog, where you can select/unselect the appropriate projects and sub-projects. To automatically include all subprojects for each project you chose to select, check the **Include all sub-projects** box at the bottom of the dialog.
+OpenProject allows you to subscribe to and access any of your calendars using an external client that supports the .ics format.
 
+This makes it possible for you to keep an eye on your project schedule from any compatible device (including mobile devices) without having to connect to your OpenProject instance and always remain up to date with relevant work packages.
+
+> **Note:** You can only subscribe to saved calendars. If you are creating a new calendar, please save it before you are able to subscribe to it.
+
+To subscribe to a calendar:
+
+1.  Click on the **[⋮]** (more) on the toolbar and select **Subscribe to calendar**.
+2.  In the modal that appears, give this calendar a name. We recommend naming it based on where you will be subscribing to this calendar from ("personal phone" or "work tablet" for example).
+3.  Click on **Copy URL**. This creates the a [calendar token](# "Learn more about calendar tokens") and copies the calendar URL to your clipboard.
+4.  Paste this URL in your desired calendar client to subscribe.
+
+[IMG: Subscribe to calendar modal]
+
+> **Important: **Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password.
 ![Select projects](select-projects.png)
