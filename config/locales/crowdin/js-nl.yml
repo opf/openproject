@@ -560,7 +560,7 @@ nl:
         dateAlert: 'Date alert'
       date_alerts:
         milestone_date: 'Milestone date'
-        overdue: 'Overdue'
+        overdue: 'Te laat'
         overdue_since: 'since %{difference_in_days}'
         property_today: 'is vandaag'
         property_is: 'is in %{difference_in_days}'
@@ -632,15 +632,15 @@ nl:
           work_package_scheduled: 'Alle datum wijzigingen '
         global:
           immediately:
-            title: 'Participating'
+            title: 'Deelnemend'
             description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
-            title: 'Non-participating'
+            title: 'Niet-deelnemend'
             description: 'Additional notifications for activities in all projects.'
           date_alerts:
             title: 'Date alerts'
             description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
-            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+            teaser_text: 'Met datummeldingen wordt u op de hoogte gebracht van de start- of einddatum, zodat u nooit een belangrijke deadline mist of vergeet.'
           overdue: When overdue
         project_specific:
           title: 'Project-specifieke meldingsinstellingen'
@@ -897,7 +897,7 @@ nl:
         start_date_limited_by_relations: "Available start and finish dates are limited by relations."
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
-        show_relations: 'Show relations'
+        show_relations: 'Relaties tonen'
         ignore_non_working_days:
           title: 'Alleen werkdagen'
       description_filter: "Filter"
@@ -1069,7 +1069,7 @@ nl:
         months: "maanden"
     toolbar:
       settings:
-        configure_view: "Configure view"
+        configure_view: "Weergave configureren"
         columns: "Kolommen"
         sort_by: "Sorteer op"
         group_by: "Groeperen op"
@@ -1099,8 +1099,8 @@ nl:
         text: 'Weet u zeker dat u deze actie wilt uitvoeren?'
       destroy_work_package:
         title: "Bevestig verwijdering van %{label}"
-        single_text: "Are you sure you want to delete the work package"
-        bulk_text: "Are you sure you want to delete the following %{label}?"
+        single_text: "Weet u zeker dat u het werkpakket wilt verwijderen"
+        bulk_text: "Weet u zeker dat u de volgende %{label} wilt verwijderen?"
         has_children: "Het werkpakket heeft %{childUnits}:"
         confirm_deletion_children: "Ik erken dat alle onderliggende werkpakketten van de weergegeven werkpakketten verwijderd worden."
         deletes_children: "Alle onderliggende werkpakketten en hun nakomelingen ook worden verwijderd."

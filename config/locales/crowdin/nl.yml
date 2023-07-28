@@ -911,12 +911,12 @@ nl:
     field_erroneous_label: "Dit veld is ongeldig: %{full_errors} \nVoer alstublieft een geldige waarde in."
   activity:
     item:
-      created_by_on: "created by %{user} on %{datetime}"
-      created_on: "created on %{datetime}"
-      updated_by_on: "updated by %{user} on %{datetime}"
-      updated_on: "updated on %{datetime}"
+      created_by_on: "aangemaakt door %{user} op %{datetime}"
+      created_on: "aangemaakt op %{datetime}"
+      updated_by_on: "bijgewerkt door %{user} op %{datetime}"
+      updated_on: "bijgewerkt op %{datetime}"
       parent_without_of: "Subproject"
-      parent_no_longer: "No longer subproject of"
+      parent_no_longer: "Niet langer subproject van"
     filter:
       changeset: "Wijzigingensets"
       message: "Fora"
@@ -1826,7 +1826,7 @@ nl:
   label_product_version: "Versie van het product"
   label_professional_support: "Professionele ondersteuning"
   label_profile: "Profiel"
-  label_project_activity: "Project activity"
+  label_project_activity: "Projectactiviteit"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Totale aantal projecten"
   label_project_copy_notifications: "Verzenden van e-mailmeldingen tijdens het project kopiëren"
@@ -2073,7 +2073,7 @@ nl:
       more_to_see:
         one: 'Er is nog 1 werkpakket met meldingen.'
         other: 'Er zijn nog %{count} werkpakketten met meldingen.'
-      open_in_browser: 'Open in browser'
+      open_in_browser: 'Openen in de browser'
       reason:
         watched: 'Bekeken'
         assigned: 'Toegewezen'
