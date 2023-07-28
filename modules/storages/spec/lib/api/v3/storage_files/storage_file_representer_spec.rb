@@ -35,16 +35,16 @@ RSpec.describe API::V3::StorageFiles::StorageFileRepresenter do
   let(:storage) { build_stubbed(:storage) }
   let(:file) do
     Storages::StorageFile.new(
-      42,
-      'readme.md',
-      4096,
-      'text/plain',
-      created_at,
-      last_modified_at,
-      'admin',
-      'admin',
-      '/readme.md',
-      %i[readable writeable]
+      id: 42,
+      name: 'readme.md',
+      size: 4096,
+      mime_type: 'text/plain',
+      created_at:,
+      last_modified_at:,
+      created_by_name: 'admin',
+      last_modified_by_name: 'admin',
+      location: '/readme.md',
+      permissions: %i[readable writeable]
     )
   end
   let(:representer) { described_class.new(file, storage, current_user: user) }

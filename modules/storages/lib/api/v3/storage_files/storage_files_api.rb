@@ -29,7 +29,7 @@
 module API::V3::StorageFiles
   class StorageFilesAPI < ::API::OpenProjectAPI
     using Storages::Peripherals::ServiceResultRefinements
-    helpers Storages::Peripherals::StorageErrorHelper
+    helpers Storages::Peripherals::StorageErrorHelper, Storages::Peripherals::StorageFileInfoConverter
 
     resources :files do
       get do
@@ -47,8 +47,9 @@ module API::V3::StorageFiles
         get do
           Storages::Peripherals::StorageRequests
             .new(storage: @storage)
-            .file_query
-            .call(user: current_user, file_id: params[:file_id])
+            .files_info_query
+            .call(user: current_user, file_ids: [params[:file_id]]).map(&:first)
+            .map { |file_info| to_storage_file(file_info) }
             .match(
               on_success: ->(storage_file) {
                 API::V3::StorageFiles::StorageFileRepresenter.new(storage_file, @storage, current_user:)

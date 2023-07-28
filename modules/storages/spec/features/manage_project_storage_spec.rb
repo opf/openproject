@@ -66,14 +66,19 @@ RSpec.describe(
   let(:folder1_fileinfo_response) do
     {
       ocs: {
+        meta: {
+          status: 'ok'
+        },
         data: {
-          status: 'OK',
-          statuscode: 200,
-          id: 11,
-          name: 'Folder1',
-          path: 'files/Folder1',
-          mtime: 1682509719,
-          ctime: 0
+          '11': {
+            status: 'OK',
+            statuscode: 200,
+            id: 11,
+            name: 'Folder1',
+            path: 'files/Folder1',
+            mtime: 1682509719,
+            ctime: 0
+          }
         }
       }
     }
@@ -86,7 +91,7 @@ RSpec.describe(
       .to_return(status: 207, body: root_xml_response, headers: {})
     stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/Folder1")
       .to_return(status: 207, body: folder1_xml_response, headers: {})
-    stub_request(:get, "#{storage.host}/ocs/v1.php/apps/integration_openproject/fileinfo/11")
+    stub_request(:post, "#{storage.host}/ocs/v1.php/apps/integration_openproject/filesinfo")
       .to_return(status: 200, body: folder1_fileinfo_response.to_json, headers: {})
     stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user").to_return(status: 200, body: "{}")
     stub_request(

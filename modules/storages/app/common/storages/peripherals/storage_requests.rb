@@ -40,11 +40,11 @@ module Storages::Peripherals
 
     QUERIES = %i[
       download_link_query
-      file_query
+      files_info_query
       files_query
+      file_ids_query
       upload_link_query
       group_users_query
-      propfind_query
     ].freeze
 
     def initialize(storage:)

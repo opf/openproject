@@ -69,22 +69,13 @@ module Projects::Copy
     def update_project_folder_id(project_storage)
       destination_folder_name = project_storage.project_folder_path
 
-      query_params = {
-        depth: '0',
-        path: destination_folder_name,
-        props: %w[oc:fileid]
-      }
-
       Storages::Peripherals::StorageRequests
         .new(storage: project_storage.storage)
-        .propfind_query
-        .call(**query_params)
+        .file_ids_query
+        .call(path: destination_folder_name)
         .match(
-          on_success: ->(r) do
-            file_id = r[destination_folder_name]["fileid"]
-            project_storage.update!(project_folder_id: file_id)
-          end,
-          on_failure: ->(r) { add_error!(destination_folder_name, r.to_active_model_errors) }
+          on_success: ->(file_ids) { project_storage.update!(project_folder_id: file_ids.first) },
+          on_failure: ->(error) { add_error!(destination_folder_name, error.to_active_model_errors) }
         )
     end
   end

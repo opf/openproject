@@ -26,43 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  StorageFile = Data.define(
-    :id,
-    :name,
-    :size,
-    :mime_type,
-    :created_at,
-    :last_modified_at,
-    :created_by_name,
-    :last_modified_by_name,
-    :location,
-    :permissions
-  ) do
-    def initialize(
-      id:,
-      name:,
-      size: nil,
-      mime_type: nil,
-      created_at: nil,
-      last_modified_at: nil,
-      created_by_name: nil,
-      last_modified_by_name: nil,
-      location: nil,
-      permissions: nil
-    )
-      super(
-        id:,
-        name:,
-        size:,
-        mime_type:,
-        created_at:,
-        last_modified_at:,
-        created_by_name:,
-        last_modified_by_name:,
-        location:,
-        permissions:
-      )
+module Storages::Peripherals::StorageInteraction::Nextcloud
+  class FileIdsQuery
+    def initialize(storage)
+      @query = ::Storages::Peripherals::StorageInteraction::Nextcloud::Internal::PropfindQuery.new(storage)
+    end
+
+    def call(path:)
+      query_params = {
+        depth: '1',
+        path:,
+        props: %w[oc:fileid]
+      }
+
+      @query.call(**query_params)
     end
   end
 end

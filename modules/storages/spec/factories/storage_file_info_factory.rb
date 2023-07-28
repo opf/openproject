@@ -26,43 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  StorageFile = Data.define(
-    :id,
-    :name,
-    :size,
-    :mime_type,
-    :created_at,
-    :last_modified_at,
-    :created_by_name,
-    :last_modified_by_name,
-    :location,
-    :permissions
-  ) do
-    def initialize(
-      id:,
-      name:,
-      size: nil,
-      mime_type: nil,
-      created_at: nil,
-      last_modified_at: nil,
-      created_by_name: nil,
-      last_modified_by_name: nil,
-      location: nil,
-      permissions: nil
-    )
-      super(
-        id:,
-        name:,
-        size:,
-        mime_type:,
-        created_at:,
-        last_modified_at:,
-        created_by_name:,
-        last_modified_by_name:,
-        location:,
-        permissions:
-      )
+FactoryBot.define do
+  factory :storage_file_info, class: '::Storages::StorageFileInfo' do
+    status { "OK" }
+    status_code { 200 }
+    sequence(:id) { |n| "20000#{n}" }
+    sequence(:name) { |n| "file_name_#{n}.txt" }
+    last_modified_at { Time.zone.now }
+    created_at { Time.zone.now }
+    mime_type { "text/plain" }
+    sequence(:size) { |n| n * 123 }
+    owner_name { "Peter Pan" }
+    owner_id { "peter" }
+    trashed { false }
+    last_modified_by_name { "Petra Panadera" }
+    last_modified_by_id { "petra" }
+    permissions { "RMGDNVCK" }
+    sequence(:location) { |n| "files/peter/file_name_#{n}.txt" }
+
+    initialize_with do
+      new(status, status_code, id, name, last_modified_at, created_at, mime_type, size, owner_name, owner_id,
+          trashed, last_modified_by_name, last_modified_by_id, permissions, location)
     end
   end
 end
