@@ -823,6 +823,12 @@ module Settings
         default: true,
         writable: false
       },
+      seed_ldap: {
+        description: 'Provide an LDAP connection and sync settings through ENV',
+        writable: false,
+        default: nil,
+        format: :hash
+      },
       self_registration: {
         default: 2
       },

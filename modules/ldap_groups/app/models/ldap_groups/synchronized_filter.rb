@@ -10,6 +10,7 @@ module LdapGroups
              foreign_key: 'filter_id',
              dependent: :destroy
 
+    validates_presence_of :name
     validates_presence_of :filter_string
     validates_presence_of :ldap_auth_source
     validate :validate_filter_syntax
@@ -21,6 +22,13 @@ module LdapGroups
 
     def used_base_dn
       base_dn.presence || ldap_auth_source.base_dn
+    end
+
+    def seeded_from_env?
+      return false if ldap_auth_source.nil?
+
+      ldap_auth_source&.seeded_from_env? &&
+        Setting.seed_ldap.dig(ldap_auth_source.name, 'groupfilter', name)
     end
 
     private

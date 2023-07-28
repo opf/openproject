@@ -33,5 +33,6 @@ FactoryBot.define do
     port { 225 }  # a reserved port, should not be in use
     attr_login { 'uid' }
     tls_mode { 'plain_ldap' }
+    base_dn { 'dc=example,dc=com' }
   end
 end

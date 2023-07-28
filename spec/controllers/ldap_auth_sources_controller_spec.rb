@@ -41,13 +41,13 @@ RSpec.describe LdapAuthSourcesController do
       get :new
     end
 
-    it { expect(assigns(:auth_source)).not_to be_nil }
+    it { expect(assigns(:ldap_auth_source)).not_to be_nil }
     it { is_expected.to respond_with :success }
     it { is_expected.to render_template :new }
 
     it 'initializes a new LdapAuthSource' do
-      expect(assigns(:auth_source).class).to eq LdapAuthSource
-      expect(assigns(:auth_source)).to be_new_record
+      expect(assigns(:ldap_auth_source).class).to eq LdapAuthSource
+      expect(assigns(:ldap_auth_source)).to be_new_record
     end
   end
 
@@ -77,7 +77,7 @@ RSpec.describe LdapAuthSourcesController do
       get :edit, params: { id: ldap.id }
     end
 
-    it { expect(assigns(:auth_source)).to eq ldap }
+    it { expect(assigns(:ldap_auth_source)).to eq ldap }
     it { is_expected.to respond_with :success }
     it { is_expected.to render_template :edit }
   end

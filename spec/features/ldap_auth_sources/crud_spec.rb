@@ -95,4 +95,27 @@ RSpec.describe 'CRUD LDAP connections',
     ldap_page.expect_and_dismiss_toaster message: 'Successful update.'
     expect(page).to have_selector('td.name', text: 'Updated Admin connection')
   end
+
+  context 'when providing seed variables',
+          :settings_reset,
+          with_env: {
+            OPENPROJECT_SEED_LDAP_FOOBAR_HOST: "localhost"
+          } do
+    let!(:ldap_auth_source) { create(:ldap_auth_source, name: 'foobar') }
+
+    it 'blocks editing of that connection by name' do
+      reset(:seed_ldap)
+
+      ldap_page.visit!
+      expect(page).to have_text 'foobar'
+
+      page.within("#ldap-auth-source-#{ldap_auth_source.id}") do
+        click_on 'foobar'
+      end
+
+      expect(page).to have_text(I18n.t(:label_seeded_from_env_warning))
+      expect(page).to have_field('ldap_auth_source_name', with: 'foobar', disabled: true)
+      expect(page).not_to have_button 'Save'
+    end
+  end
 end

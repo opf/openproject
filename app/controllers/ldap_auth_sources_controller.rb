@@ -34,24 +34,26 @@ class LdapAuthSourcesController < ApplicationController
   before_action :require_admin
   before_action :block_if_password_login_disabled
 
+  self._model_object = LdapAuthSource
+  before_action :find_model_object, only: %i(edit update destroy)
+  before_action :prevent_editing_when_seeded, only: %i(update)
+
   def index
-    @auth_sources = LdapAuthSource
+    @ldap_auth_sources = LdapAuthSource
       .order(id: :asc)
       .page(page_param)
       .per_page(per_page_param)
   end
 
   def new
-    @auth_source = LdapAuthSource.new
+    @ldap_auth_source = LdapAuthSource.new
   end
 
-  def edit
-    @auth_source = LdapAuthSource.find(params[:id])
-  end
+  def edit; end
 
   def create
-    @auth_source = LdapAuthSource.new permitted_params.ldap_auth_source
-    if @auth_source.save
+    @ldap_auth_source = LdapAuthSource.new permitted_params.ldap_auth_source
+    if @ldap_auth_source.save
       flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to action: 'index'
     else
@@ -60,11 +62,11 @@ class LdapAuthSourcesController < ApplicationController
   end
 
   def update
-    @auth_source = LdapAuthSource.find(params[:id])
+    @ldap_auth_source = LdapAuthSource.find(params[:id])
     updated = permitted_params.ldap_auth_source
     updated.delete :account_password if updated[:account_password].blank?
 
-    if @auth_source.update updated
+    if @ldap_auth_source.update updated
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: 'index'
     else
@@ -84,9 +86,9 @@ class LdapAuthSourcesController < ApplicationController
   end
 
   def destroy
-    @auth_source = LdapAuthSource.find(params[:id])
-    if @auth_source.users.empty?
-      @auth_source.destroy
+    @ldap_auth_source = LdapAuthSource.find(params[:id])
+    if @ldap_auth_source.users.empty?
+      @ldap_auth_source.destroy
 
       flash[:notice] = t(:notice_successful_delete)
     else
@@ -96,6 +98,13 @@ class LdapAuthSourcesController < ApplicationController
   end
 
   protected
+
+  def prevent_editing_when_seeded
+    if @ldap_auth_source.seeded_from_env?
+      flash[:warning] = I18n.t(:label_seeded_from_env_warning)
+      redirect_to action: :index
+    end
+  end
 
   def default_breadcrumb
     if action_name == 'index'
