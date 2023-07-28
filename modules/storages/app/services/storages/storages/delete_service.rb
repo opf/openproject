@@ -29,36 +29,18 @@
 # See also: create_service.rb for comments
 module Storages::Storages
   class DeleteService < ::BaseServices::Delete
-    using Storages::Peripherals::ServiceResultRefinements
+    def before_perform(*)
+      delete_project_storages
 
-    # rubocop:disable Metrics/AbcSize
-    def before_perform(params, service_result)
-      before_result = super(params, service_result)
-      return before_result if before_result.failure? || !model.is_a?(Storages::NextcloudStorage)
-
-      deletion_results =
-        model.projects_storages
-             .map do |project_storage|
-          Storages::Peripherals::StorageRequests
-            .new(storage: model)
-            .delete_folder_command
-            .call(location: project_storage.project_folder_path)
-            .match(
-              on_success: ->(*) { ServiceResult.success(result: project_storage) },
-              on_failure: ->(error) do
-                if error.code == :not_found
-                  ServiceResult.success(result: project_storage)
-                else
-                  ServiceResult.failure(errors: error.to_active_model_errors)
-                end
-              end
-            )
-        end
-
-      result = ServiceResult.success(result: model)
-      result.add_dependent!(*deletion_results) if deletion_results.count > 0
-      result
+      super
     end
-    # rubocop:enable Metrics/AbcSize
+
+    private
+
+    def delete_project_storages
+      model.projects_storages.map do |project_storage|
+        Storages::ProjectStorages::DeleteService.new(user:, model: project_storage).call
+      end
+    end
   end
 end
