@@ -4,7 +4,6 @@ module Storages
       extend Dry::Container::Mixin
     end
 
-    require_relative 'storage_interaction/nextcloud'
-    require_relative 'storage_interaction/sharepoint'
+    Registry.import StorageInteraction::Nextcloud::Queries
   end
 end

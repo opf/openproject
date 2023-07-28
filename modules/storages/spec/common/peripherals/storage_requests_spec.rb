@@ -86,7 +86,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
         it 'must return a download link URL' do
           result = subject
                      .download_link_query
-                     .call(user:, file_link:)
+                     .call(storage:, user:, file_link:)
           expect(result).to be_success
           expect(result.result).to be_eql(uri)
         end
@@ -97,7 +97,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           it 'must return a download link URL' do
             result = subject
                        .download_link_query
-                       .call(user:, file_link:)
+                       .call(storage:, user:, file_link:)
             expect(result).to be_success
             expect(result.result).to be_eql(uri)
           end
@@ -124,7 +124,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
         it 'must return ":not_authorized" ServiceResult' do
           result = subject
                      .download_link_query
-                     .call(user:, file_link:)
+                     .call(storage:, user:, file_link:)
           expect(result).to be_failure
           expect(result.errors.code).to be(:not_authorized)
         end
@@ -138,7 +138,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
         it 'must return :not_authorized ServiceResult' do
           result = subject
                      .download_link_query
-                     .call(user:, file_link:)
+                     .call(user:, file_link:, storage:)
           expect(result).to be_failure
           expect(result.errors.code).to be(:not_authorized)
         end
@@ -153,7 +153,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           it "must return :#{symbol} ServiceResult" do
             result = subject
                        .download_link_query
-                       .call(user:, file_link:)
+                       .call(user:, file_link:, storage:)
             expect(result).to be_failure
             expect(result.errors.code).to be(symbol)
           end
@@ -187,23 +187,25 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
         describe 'with Nextcloud storage type selected' do
           it 'returns a list files directories with names and permissions' do
-            result = subject.files_query.call(folder: nil, user:)
+            result = subject.files_query.call(folder: nil, user:, storage:)
             expect(result).to be_success
-            expect(result.result.files.size).to eq(4)
-            expect(result.result.ancestors.size).to eq(0)
-            expect(result.result.parent).not_to be_nil
-            expect(result.result.files[0]).to have_attributes(id: '11',
-                                                              name: 'Folder1',
-                                                              mime_type: 'application/x-op-directory',
-                                                              permissions: include(:readable, :writeable))
-            expect(result.result.files[1]).to have_attributes(mime_type: 'application/x-op-directory',
-                                                              permissions: %i[readable])
-            expect(result.result.files[2]).to have_attributes(id: '12',
-                                                              name: 'README.md',
-                                                              mime_type: 'text/markdown',
-                                                              permissions: include(:readable, :writeable))
-            expect(result.result.files[3]).to have_attributes(mime_type: 'application/pdf',
-                                                              permissions: %i[readable])
+
+            query_result = result.result
+            expect(query_result.files.size).to eq(4)
+            expect(query_result.ancestors.size).to eq(0)
+            expect(query_result.parent).not_to be_nil
+            expect(query_result.files[0]).to have_attributes(id: '11',
+                                                             name: 'Folder1',
+                                                             mime_type: 'application/x-op-directory',
+                                                             permissions: include(:readable, :writeable))
+            expect(query_result.files[1]).to have_attributes(mime_type: 'application/x-op-directory',
+                                                             permissions: %i[readable])
+            expect(query_result.files[2]).to have_attributes(id: '12',
+                                                             name: 'README.md',
+                                                             mime_type: 'text/markdown',
+                                                             permissions: include(:readable, :writeable))
+            expect(query_result.files[3]).to have_attributes(mime_type: 'application/pdf',
+                                                             permissions: %i[readable])
           end
 
           describe 'with origin user id containing whitespaces' do
@@ -213,7 +215,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
             it do
               result = subject
                          .files_query
-                         .call(folder: parent, user:)
+                         .call(folder: parent, user:, storage:)
               expect(result.result.files[0].location).to eq('/Folder1')
 
               assert_requested(:propfind, request_url)
@@ -226,7 +228,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
             it do
               result = subject
                          .files_query
-                         .call(folder: parent, user:)
+                         .call(folder: parent, user:, storage:)
               expect(result.result.files[2].location).to eq('/Photos/Birds/README.md')
               expect(result.result.ancestors[0].location).to eq('/')
               expect(result.result.ancestors[1].location).to eq('/Photos')
@@ -241,7 +243,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
             it do
               result = subject
                          .files_query
-                         .call(folder: nil, user:)
+                         .call(folder: nil, user:, storage:)
               expect(result.result.files[2].location).to eq('/README.md')
               assert_requested(:propfind, request_url)
             end
@@ -254,7 +256,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
             it do
               result = subject
                          .files_query
-                         .call(folder: parent, user:)
+                         .call(folder: parent, user:, storage:)
 
               expect(result.result.files[2].location).to eq('/Photos/Birds/README.md')
               assert_requested(:propfind, request_url)
@@ -282,7 +284,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           it 'must return ":not_authorized" ServiceResult' do
             result = subject
                        .files_query
-                       .call(folder: parent, user:)
+                       .call(folder: parent, user:, storage:)
             expect(result).to be_failure
             expect(result.errors.code).to be(:not_authorized)
           end
@@ -298,7 +300,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           it "must return :#{symbol} ServiceResult" do
             result = subject
                        .files_query
-                       .call(folder: parent, user:)
+                       .call(folder: parent, user:, storage:)
             expect(result).to be_failure
             expect(result.errors.code).to be(symbol)
           end
@@ -436,7 +438,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
     it 'responds with a strings array with group users' do
       result = subject
                  .group_users_query
-                 .call
+                 .call(storage:)
       expect(result).to be_success
       expect(result.result).to eq(["admin", "OpenProject", "reader", "TestUser", "TestUser34"])
     end

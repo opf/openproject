@@ -39,18 +39,19 @@ module Storages::Peripherals
     ].freeze
 
     QUERIES = %i[
-      download_link_query
-      files_info_query
-      files_query
       file_ids_query
+      files_info_query
       folder_files_file_ids_deep_query
       upload_link_query
-      group_users_query
     ].freeze
 
     def initialize(storage:)
       @storage = storage
     end
+    #
+    # def self.call(storage:, operation:, **)
+    #   Registry.resolve("queries.#{storage.short_provider_type}.#{operation}").call(storage:, **)
+    # end
 
     (COMMANDS + QUERIES).each do |request|
       define_method(request) do
@@ -58,6 +59,20 @@ module Storages::Peripherals
                 "#{@storage.short_provider_type.capitalize}::#{request.to_s.classify}".constantize
         clazz.new(@storage).method(:call).to_proc
       end
+    end
+
+    private
+
+    def method_missing(name, *args)
+      Registry.resolve("queries.#{@storage.short_provider_type}.#{name}")
+    rescue Dry::Container::KeyError
+      super
+    end
+
+    def respond_to_missing?(name)
+      !!Registry.resolve("queries.#{@storage.short_provider_type}.#{name}")
+    rescue Dry::Container::KeyError
+      super
     end
   end
 end

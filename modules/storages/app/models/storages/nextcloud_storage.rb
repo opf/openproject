@@ -66,4 +66,6 @@ class Storages::NextcloudStorage < Storages::Storage
   def provider_fields_defaults
     PROVIDER_FIELDS_DEFAULTS
   end
+
+  def namespace = 'nextcloud'
 end
