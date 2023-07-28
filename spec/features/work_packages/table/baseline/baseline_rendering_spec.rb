@@ -205,39 +205,30 @@ RSpec.describe 'baseline rendering',
   end
 
   shared_let(:initial_custom_values) do
-    # For some reason, only one the last change is being displayed on the table.
-    # I'm still trying to figure out why it is happening, but until then please activate only
-    # the custom field you are trying to fix.
-
     {
-      # int_wp_custom_field.id => 1,
-      # string_wp_custom_field.id => 'this is a string',
-      # bool_wp_custom_field.id => true,
-      # float_wp_custom_field.id => 2.9,
-      # date_wp_custom_field.id => Date.yesterday,
-      # list_wp_custom_field.id => list_wp_custom_field.possible_values.first,
-      multi_list_wp_custom_field.id => multi_list_wp_custom_field.possible_values.take(3) # not working
-      # user_wp_custom_field.id => [assignee.id.to_s],
-      # version_wp_custom_field.id => version_a
+      int_wp_custom_field.id => 1,
+      string_wp_custom_field.id => 'this is a string',
+      bool_wp_custom_field.id => true,
+      float_wp_custom_field.id => 2.9,
+      date_wp_custom_field.id => Date.yesterday,
+      list_wp_custom_field.id => list_wp_custom_field.possible_values.first,
+      multi_list_wp_custom_field.id => multi_list_wp_custom_field.possible_values, # not working
+      user_wp_custom_field.id => [assignee.id.to_s],
+      version_wp_custom_field.id => version_a
     }
   end
 
   shared_let(:changed_custom_values) do
-    # For some reason, only one the last change is being displayed on the table.
-    # I'm still trying to figure out why it is happening, but until then please activate only
-    # the custom field you are trying to fix.
-
     {
-      # :"custom_field_#{int_wp_custom_field.id}" => 2,
-      # :"custom_field_#{string_wp_custom_field.id}" => 'this is a changed string',
-      # :"custom_field_#{bool_wp_custom_field.id}" => false,
-      # :"custom_field_#{float_wp_custom_field.id}" => 3.7,
-      # :"custom_field_#{date_wp_custom_field.id}" => Time.zone.today,
-
-      # "custom_field_#{list_wp_custom_field.id}": [list_wp_custom_field.possible_values.second],
-      "custom_field_#{multi_list_wp_custom_field.id}": multi_list_wp_custom_field.possible_values.take(2)
-      # "custom_field_#{user_wp_custom_field.id}": [user.id.to_s],
-      # "custom_field_#{version_wp_custom_field.id}": version_b
+      "custom_field_#{int_wp_custom_field.id}": 2,
+      "custom_field_#{string_wp_custom_field.id}": 'this is a changed string',
+      "custom_field_#{bool_wp_custom_field.id}": false,
+      "custom_field_#{float_wp_custom_field.id}": 3.7,
+      "custom_field_#{date_wp_custom_field.id}": Time.zone.today,
+      "custom_field_#{list_wp_custom_field.id}": [list_wp_custom_field.possible_values.second],
+      "custom_field_#{multi_list_wp_custom_field.id}": multi_list_wp_custom_field.possible_values.take(2),
+      "custom_field_#{user_wp_custom_field.id}": [user.id.to_s],
+      "custom_field_#{version_wp_custom_field.id}": version_b
     }
   end
 
@@ -334,57 +325,43 @@ RSpec.describe 'baseline rendering',
                                            :type, :subject, :start_date, :due_date,
                                            :version, :priority, :assignee, :accountable
 
-      # These expectations will be re-enabled once I figure out why it is showing
-      # only the last changed custom field.
-      # baseline.expect_changed_attributes wp_task_cf,
-      #                                    "customField#{int_wp_custom_field.id}": [
-      #                                     '1',
-      #                                     '2'
-      #                                    ],
-      #                                    "customField#{string_wp_custom_field.id}": [
-      #                                     'this is a string',
-      #                                     'this is a changed string'
-      #                                    ],
-      #                                    "customField#{bool_wp_custom_field.id}": [
-      #                                     'yes',
-      #                                     'no'
-      #                                    ],
-      #                                    "customField#{float_wp_custom_field.id}": [
-      #                                     '2.9',
-      #                                     '3.7'
-      #                                    ],
-      #                                    "customField#{date_wp_custom_field.id}": [
-      #                                      Date.yesterday.iso8601,
-      #                                      Time.zone.today.iso8601
-      #                                    ]
-
-      # Not working:
-
-      # baseline.expect_changed_attributes wp_task_cf,
-      #                                    "customField#{list_wp_custom_field.id}": [
-      #                                      list_wp_custom_field.possible_values.first.value,
-      #                                      list_wp_custom_field.possible_values.second.value
-      #                                    ]
-
-      # This expectation is not clear if it works, because the multi values are being joined just by a
-      # space, probably a rework on the expectation is also needed.
-
       baseline.expect_changed_attributes wp_task_cf,
+                                         "customField#{int_wp_custom_field.id}": [
+                                           '1',
+                                           '2'
+                                         ],
+                                         "customField#{string_wp_custom_field.id}": [
+                                           'this is a string',
+                                           'this is a changed string'
+                                         ],
+                                         "customField#{bool_wp_custom_field.id}": [
+                                           'yes',
+                                           'no'
+                                         ],
+                                         "customField#{float_wp_custom_field.id}": [
+                                           '2.9',
+                                           '3.7'
+                                         ],
+                                         "customField#{date_wp_custom_field.id}": [
+                                           Date.yesterday.iso8601,
+                                           Time.zone.today.iso8601
+                                         ],
+                                         "customField#{list_wp_custom_field.id}": [
+                                           list_wp_custom_field.possible_values.first.value,
+                                           list_wp_custom_field.possible_values.second.value
+                                         ],
                                          "customField#{multi_list_wp_custom_field.id}": [
-                                           "A, B, ...\n5",
+                                           "A, B, ...\n7",
                                            "A, B"
+                                         ],
+                                         "customField#{user_wp_custom_field.id}": [
+                                           'Assigned User',
+                                           'Itsa Me'
+                                         ],
+                                         "customField#{version_wp_custom_field.id}": [
+                                           'Version A',
+                                           'Version B'
                                          ]
-
-      # baseline.expect_changed_attributes wp_task_cf,
-      #                                    "customField#{user_wp_custom_field.id}": [
-      #                                      'Assigned User',
-      #                                      'Itsa Me'
-      #                                    ]
-      # baseline.expect_changed_attributes wp_task_cf,
-      #                                    "customField#{version_wp_custom_field.id}": [
-      #                                      'Version A',
-      #                                      'Version B'
-      #                                    ]
 
       # show icons on work package single card
       display_representation.switch_to_card_layout
