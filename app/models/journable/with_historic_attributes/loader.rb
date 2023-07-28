@@ -121,7 +121,8 @@ class Journable::WithHistoricAttributes
       # Build the associated customizable_journals as custom values, this way the historic work packages
       # will behave just as the normal ones. Additionally set the reverse customized association
       # on the custom_values that points to the work_package itself.
-      historic_custom_values = customizable_journals.map do |customizable_journal|
+      all_journals = Journal::CustomizableJournal.all
+      historic_custom_values = all_journals.map do |customizable_journal|
         customizable_journal.as_custom_value(customized: work_package)
       end
 

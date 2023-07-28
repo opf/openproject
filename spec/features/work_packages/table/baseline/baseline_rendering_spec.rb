@@ -210,16 +210,15 @@ RSpec.describe 'baseline rendering',
     # the custom field you are trying to fix.
 
     {
-      # int_wp_custom_field.id => 1, # working
-      # string_wp_custom_field.id => 'this is a string', # working
-      # bool_wp_custom_field.id => true, #working
-      # float_wp_custom_field.id => 2.9, #working
-      date_wp_custom_field.id => Date.yesterday # working
-
-      # list_wp_custom_field.id => list_wp_custom_field.possible_values.first, # not working
-      # multi_list_wp_custom_field.id => multi_list_wp_custom_field.possible_values.take(2) # not working
-      # user_wp_custom_field.id => [assignee.id.to_s] # not working
-      # version_wp_custom_field.id => version_a # not working
+      # int_wp_custom_field.id => 1,
+      # string_wp_custom_field.id => 'this is a string',
+      # bool_wp_custom_field.id => true,
+      # float_wp_custom_field.id => 2.9,
+      # date_wp_custom_field.id => Date.yesterday,
+      # list_wp_custom_field.id => list_wp_custom_field.possible_values.first,
+      multi_list_wp_custom_field.id => multi_list_wp_custom_field.possible_values.take(3) # not working
+      # user_wp_custom_field.id => [assignee.id.to_s],
+      # version_wp_custom_field.id => version_a
     }
   end
 
@@ -233,12 +232,11 @@ RSpec.describe 'baseline rendering',
       # :"custom_field_#{string_wp_custom_field.id}" => 'this is a changed string',
       # :"custom_field_#{bool_wp_custom_field.id}" => false,
       # :"custom_field_#{float_wp_custom_field.id}" => 3.7,
-      "custom_field_#{date_wp_custom_field.id}" => Time.zone.today
+      # :"custom_field_#{date_wp_custom_field.id}" => Time.zone.today,
 
-      # Not working, needs UI fix
       # "custom_field_#{list_wp_custom_field.id}": [list_wp_custom_field.possible_values.second],
-      # "custom_field_#{multi_list_wp_custom_field.id}": multi_list_wp_custom_field.possible_values.take(3)
-      # "custom_field_#{user_wp_custom_field.id}": [user.id.to_s]
+      "custom_field_#{multi_list_wp_custom_field.id}": multi_list_wp_custom_field.possible_values.take(2)
+      # "custom_field_#{user_wp_custom_field.id}": [user.id.to_s],
       # "custom_field_#{version_wp_custom_field.id}": version_b
     }
   end
@@ -253,7 +251,7 @@ RSpec.describe 'baseline rendering',
                :skip_validations,
                project:,
                type: type_task,
-               subject: 'A task',
+               subject: 'A task with CFs',
                custom_values: initial_custom_values)
       end
     end
@@ -338,28 +336,27 @@ RSpec.describe 'baseline rendering',
 
       # These expectations will be re-enabled once I figure out why it is showing
       # only the last changed custom field.
-
-      baseline.expect_changed_attributes wp_task_cf,
-                                         # "customField#{int_wp_custom_field.id}": [
-                                         #  '1',
-                                         #  '2'
-                                         # ],
-                                         # "customField#{string_wp_custom_field.id}": [
-                                         #  'this is a string',
-                                         #  'this is a changed string'
-                                         # ],
-                                         # "customField#{bool_wp_custom_field.id}": [
-                                         #  'yes',
-                                         #  'no'
-                                         # ],
-                                         # "customField#{float_wp_custom_field.id}": [
-                                         #  '2.9',
-                                         #  '3.7'
-                                         # ],
-                                         "customField#{date_wp_custom_field.id}": [
-                                           Date.yesterday.iso8601,
-                                           Time.zone.today.iso8601
-                                         ]
+      # baseline.expect_changed_attributes wp_task_cf,
+      #                                    "customField#{int_wp_custom_field.id}": [
+      #                                     '1',
+      #                                     '2'
+      #                                    ],
+      #                                    "customField#{string_wp_custom_field.id}": [
+      #                                     'this is a string',
+      #                                     'this is a changed string'
+      #                                    ],
+      #                                    "customField#{bool_wp_custom_field.id}": [
+      #                                     'yes',
+      #                                     'no'
+      #                                    ],
+      #                                    "customField#{float_wp_custom_field.id}": [
+      #                                     '2.9',
+      #                                     '3.7'
+      #                                    ],
+      #                                    "customField#{date_wp_custom_field.id}": [
+      #                                      Date.yesterday.iso8601,
+      #                                      Time.zone.today.iso8601
+      #                                    ]
 
       # Not working:
 
@@ -372,11 +369,11 @@ RSpec.describe 'baseline rendering',
       # This expectation is not clear if it works, because the multi values are being joined just by a
       # space, probably a rework on the expectation is also needed.
 
-      # baseline.expect_changed_attributes wp_task_cf,
-      #                                    "customField#{multi_list_wp_custom_field.id}": [
-      #                                      multi_list_wp_custom_field.possible_values.take(3).pluck(:value).join(" "),
-      #                                      multi_list_wp_custom_field.possible_values.take(2).pluck(:value).join(" ")
-      #                                    ]
+      baseline.expect_changed_attributes wp_task_cf,
+                                         "customField#{multi_list_wp_custom_field.id}": [
+                                           "A, B, ...\n5",
+                                           "A, B"
+                                         ]
 
       # baseline.expect_changed_attributes wp_task_cf,
       #                                    "customField#{user_wp_custom_field.id}": [
