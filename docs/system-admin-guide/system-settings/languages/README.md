@@ -7,12 +7,12 @@ keywords: languages
 ---
 # Languages
 
-Choose the languages which you want to activate for your system. Those languages which you will check will appear in the language settings of the user profiles and can be set for the system.
+The Languages page lets you select languages you would like to activate from the list of those that are available. These langauges are then available to individual users via their user settings and as the default language for the instance.
 
 ![System Languages](openproject-system-languages.png)
 
-At the moment there are more than 30 languages available.
+At the moment there are over 30 languages available.
 
-> **Note**: Many languages are translated by the Community. We highly appreciate if you want to [help translating OpenProject to your language](../../../development/translate-openproject).
+> **Note**: Many languages are translated by the community. We highly appreciate if you want to [help translating OpenProject to your language](../../../development/translate-openproject).
 
 You can [choose your language in your user profile](../../../getting-started/my-account/#change-your-language).
