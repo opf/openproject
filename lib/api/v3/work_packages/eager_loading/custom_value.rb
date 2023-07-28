@@ -110,7 +110,7 @@ module API
           def eager_load_values(field_format, scope)
             cvs = custom_values_of(field_format)
 
-            ids_of_values = cvs.map(&:value).select { |v| v =~ /\A\d+\z/ }
+            ids_of_values = cvs.map(&:value).grep(/\A\d+\z/)
 
             return {} if ids_of_values.empty?
 
@@ -136,7 +136,7 @@ module API
 
           def custom_field(id)
             @loaded_custom_fields_by_id ||= WorkPackageCustomField
-                .where(id: usages.map { |u| u['custom_field_id'] }.uniq)
+                .where(id: usages.pluck('custom_field_id').uniq)
                 .index_by(&:id)
 
             @loaded_custom_fields_by_id[id]
