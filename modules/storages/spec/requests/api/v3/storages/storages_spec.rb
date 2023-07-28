@@ -41,7 +41,7 @@ RSpec.describe 'API v3 storages resource', content_type: :json, webmock: true do
   end
 
   let(:oauth_application) { create(:oauth_application) }
-  let(:storage) { create(:storage, creator: current_user, oauth_application:) }
+  let(:storage) { create(:nextcloud_storage, creator: current_user, oauth_application:) }
   let(:project_storage) { create(:project_storage, project:, storage:) }
 
   let(:authorize_url) { 'https://example.com/authorize' }
@@ -333,9 +333,19 @@ RSpec.describe 'API v3 storages resource', content_type: :json, webmock: true do
 
   describe 'DELETE /api/v3/storages/:storage_id' do
     let(:path) { api_v3_paths.storage(storage.id) }
+    let(:delete_folder_url) do
+      "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.project_folder_path.chop}"
+    end
+    let(:deletion_request_stub) do
+      stub_request(:delete, delete_folder_url).to_return(status: 204, body: nil, headers: {})
+    end
 
     subject(:last_response) do
       delete path
+    end
+
+    before do
+      deletion_request_stub
     end
 
     context 'as admin' do
@@ -347,6 +357,10 @@ RSpec.describe 'API v3 storages resource', content_type: :json, webmock: true do
     context 'as non-admin' do
       context 'if user belongs to a project using the given storage' do
         it_behaves_like 'unauthorized access'
+
+        it 'does not request project folder deletion' do
+          expect(deletion_request_stub).not_to have_been_requested
+        end
       end
 
       context 'if user does not belong to a project using the given storage' do
@@ -355,6 +369,10 @@ RSpec.describe 'API v3 storages resource', content_type: :json, webmock: true do
         end
 
         it_behaves_like 'not found'
+
+        it 'does not request project folder deletion' do
+          expect(deletion_request_stub).not_to have_been_requested
+        end
       end
     end
   end
