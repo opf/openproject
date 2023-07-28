@@ -106,9 +106,6 @@ module MeetingAgendaItems
           render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do
             "##{@meeting_agenda_item.work_package.id} #{@meeting_agenda_item.work_package.subject}"
           end
-          # render(Primer::Beta::Label.new(size: :large, font_weight: :bold)) do
-          #   "##{@meeting_agenda_item.work_package.id} #{@meeting_agenda_item.work_package.subject}"
-          # end
         end
       end
     end
