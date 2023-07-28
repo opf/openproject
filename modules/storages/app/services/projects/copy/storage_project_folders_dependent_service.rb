@@ -45,10 +45,16 @@ module Projects::Copy
       return unless state.copied_project_storages
 
       state.copied_project_storages.each do |copied_project_storage|
-        if copied_project_storage[:source].project_folder_automatic?
-          copy_project_folder(copied_project_storage[:source], copied_project_storage[:target])
-
-          update_project_folder_id(copied_project_storage[:target])
+        source = copied_project_storage[:source]
+        target = copied_project_storage[:target]
+        if source.project_folder_automatic?
+          copy_project_folder(source, target)
+          update_project_folder_id(target)
+        elsif source.project_folder_manual?
+          target.update!(
+            project_folder_id: source.project_folder_id,
+            project_folder_mode: 'manual'
+          )
         end
       end
     end
@@ -74,7 +80,12 @@ module Projects::Copy
         .file_ids_query
         .call(path: destination_folder_name)
         .match(
-          on_success: ->(file_ids) { project_storage.update!(project_folder_id: file_ids.first) },
+          on_success: ->(file_ids) do
+            project_storage.update!(
+              project_folder_id: file_ids.values.first['fileid'],
+              project_folder_mode: 'automatic'
+            )
+          end,
           on_failure: ->(error) { add_error!(destination_folder_name, error.to_active_model_errors) }
         )
     end
