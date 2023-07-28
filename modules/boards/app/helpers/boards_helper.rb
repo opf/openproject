@@ -25,4 +25,8 @@ module BoardsHelper
                             "assets/images/board_creation_modal/#{image_name}.svg",
                             disabled)
   end
+
+  def global_board_create_context?
+    request.path == new_work_package_board_path
+  end
 end

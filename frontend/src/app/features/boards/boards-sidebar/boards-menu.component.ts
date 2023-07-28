@@ -14,7 +14,6 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { MainMenuNavigationService } from 'core-app/core/main-menu/main-menu-navigation.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { NewBoardModalComponent } from 'core-app/features/boards/new-board-modal/new-board-modal.component';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
 
@@ -88,7 +87,11 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   showNewBoardModal():void {
-    this.opModalService.show(NewBoardModalComponent, this.injector);
+    const newBoardFormPath = (this.currentProject && this.currentProject.identifier)
+      ? `${window.appBasePath}/projects/${this.currentProject.identifier}/boards/new`
+      : `${window.appBasePath}/boards/new`;
+
+    window.location.href = newBoardFormPath;
   }
 
   private focusBackArrow():void {

@@ -35,7 +35,7 @@ module Boards
     end
 
     def name
-      link_to model.name, project_work_package_boards_path(model.project, model)
+      link_to model.name, project_work_package_board_path(model.project, model)
     end
 
     def created_at

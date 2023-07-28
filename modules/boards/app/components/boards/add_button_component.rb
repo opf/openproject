@@ -40,7 +40,7 @@ module Boards
     end
 
     def dynamic_path
-      new_work_package_board_path
+      polymorphic_path([:new, current_project, :work_package_board])
     end
 
     def id
