@@ -19,7 +19,7 @@ module Pages
     end
 
     def set_title(title)
-      fill_in 'Title', with: title
+      fill_in I18n.t(:label_title), with: title
     end
 
     def set_project(project)
@@ -34,7 +34,7 @@ module Pages
     end
 
     def click_on_submit
-      click_on 'Create'
+      click_on I18n.t(:button_create)
     end
 
     def click_on_cancel_button

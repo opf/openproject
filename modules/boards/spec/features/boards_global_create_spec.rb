@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require_relative 'support/board_global_create_page'
+require_relative 'support/board_new_page'
 
 RSpec.describe 'Boards',
                'Creating a view from a Global Context',

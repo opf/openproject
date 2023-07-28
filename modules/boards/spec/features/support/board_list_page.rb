@@ -47,17 +47,29 @@ module Pages
     end
 
     def expect_boards_listed(*boards)
+      board_names = if boards.all? { |board| board.to_s == board }
+                      boards
+                    else
+                      boards.map(&:name)
+                    end
+
       within '#content-wrapper' do
-        boards.each do |board|
-          expect(page).to have_selector("td.name", text: board.name)
+        board_names.each do |board_name|
+          expect(page).to have_selector("td.name", text: board_name)
         end
       end
     end
 
     def expect_boards_not_listed(*boards)
+      board_names = if boards.all? { |board| board.to_s == board }
+                      boards
+                    else
+                      boards.map(&:name)
+                    end
+
       within '#content-wrapper' do
-        boards.each do |board|
-          expect(page).not_to have_selector("td.title", text: board.name)
+        board_names.each do |board_name|
+          expect(page).not_to have_selector("td.title", text: board_name)
         end
       end
     end

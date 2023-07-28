@@ -92,7 +92,7 @@ RSpec.describe 'Custom field filter in boards', js: true, with_ee: %i[board_view
     board_index.visit!
 
     # Create new board
-    board_page = board_index.create_board action: :Status
+    board_page = board_index.create_board action: 'Status'
 
     # expect lists of default status
     board_page.expect_list 'Open'
@@ -103,7 +103,7 @@ RSpec.describe 'Custom field filter in boards', js: true, with_ee: %i[board_view
 
     filters.add_filter_by(custom_field.name,
                           'is (OR)',
-                          ['A', 'B'],
+                          %w[A B],
                           custom_field.attribute_name(:camel_case))
 
     board_page.expect_changed

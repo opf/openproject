@@ -111,7 +111,7 @@ RSpec.describe 'Status action board', js: true, with_ee: %i[board_view] do
     board_index.visit!
 
     # Create new board
-    board_page = board_index.create_board action: :Status
+    board_page = board_index.create_board action: 'Status'
 
     # expect lists of default status
     board_page.expect_list 'Open'
