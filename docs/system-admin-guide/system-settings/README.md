@@ -7,12 +7,11 @@ keywords: system settings
 ---
 # System settings
 
-There are various project overarching settings that are referred to as system settings.
+System settings allow you to configure a number of options concerning your OpenProject installation, such as host name, languages, defaults for new work package and projects and file attachments.
 
-To adapt these system settings, navigate to **Administration → System settings**.
+To modify these settings, navigate to **Administration → System settings**.
 
 ![Administration system settings](system-settings.png)
-
 
 
 ## Overview
