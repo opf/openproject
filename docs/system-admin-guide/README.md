@@ -35,7 +35,7 @@ Click on one of the categories in order to proceed with the configuration.
 | [Authentication](./authentication)                                  | Configure authentication methods in OpenProject, e.g. OAuth, OpenID, Two-factor-authentication, LDAP, and more.          |
 | [GDPR](../enterprise-guide/enterprise-cloud-guide/gdpr-compliance/) | Review and sign a Data Processing Agreement (DPA).                                                                       |
 | [Announcement](./announcement)                                      | How to create a system announcement.                                                                                     |
-| [Design](./design)                                                  | Create your own design and make it compliant to your company's Corporate Identity, upload logo and customize colors.     |
+| [Design](./design)                                                  | Create your own design and make it compliant to your company's corporate identity, upload logo and customize colors.     |
 | [Colors](./colors)                                                  | Configure colors used in the system, e.g. status colors, work package types, priorities and more.                        |
 | [Enterprise edition](../enterprise-guide/)                          | Upgrading and managing OpenProject Enterprise and other administrative topics.                                           |
 | [Time and costs](./time-and-costs)                                  | Configure your currency and create cost types in OpenProject.                                                            |
