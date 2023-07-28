@@ -54,7 +54,7 @@ module API
           parent
         ].freeze
 
-        SUPPORTED_CUSTOM_PROPERTIES = [/^custom_field_\d+$/].freeze
+        SUPPORTED_CUSTOM_PROPERTIES = [/^customField\d+$/].freeze
 
         SUPPORTED_PROPERTIES = (SUPPORTED_NON_LINK_PROPERTIES + SUPPORTED_LINK_PROPERTIES).freeze
 
@@ -102,7 +102,7 @@ module API
             represented
               .attributes_changed_to_baseline
               .flat_map do |property|
-              if property.ends_with?('_id')
+              if property.ends_with?('_id') || property.starts_with?("custom_field_")
                 API::Utilities::PropertyNameConverter.from_ar_name(property)
               elsif %w[start_date due_date].include?(property)
                 ['date', property]

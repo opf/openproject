@@ -386,6 +386,48 @@ RSpec.describe 'API v3 Work package resource',
         end
       end
 
+      context 'when a link type custom value changes' do
+        let(:original_user) { create(:user, member_in_project: project, member_through_role: role) }
+        let(:custom_field) do
+          create(:user_wp_custom_field,
+                 name: 'User CF',
+                 types: project.types,
+                 projects: [project])
+        end
+
+        let(:custom_value) do
+          create(:custom_value,
+                 custom_field:,
+                 customized: work_package,
+                 value: current_user.id)
+        end
+
+        before do
+          custom_value
+          create_customizable_journal(journal: original_journal, custom_field:, value: original_user.id)
+          create_customizable_journal(journal: current_journal, custom_field:, value: custom_value.value)
+        end
+
+        it 'embeds the custom fields in the attributesByTimestamp' do
+          expect(subject.body)
+            .to be_json_eql(original_user.name.to_json)
+                  .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/_links/customField#{custom_field.id}/title")
+          expect(subject.body)
+            .to be_json_eql(current_user.name.to_json)
+                  .at_path("_embedded/elements/0/_links/customField#{custom_field.id}/title")
+          expect(subject.body)
+            .to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1")
+          expect(subject.body)
+            .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1/_links/customField#{custom_field.id}")
+        end
+
+        it 'includes a custom field description in the schema' do
+          expect(subject.body)
+            .to be_json_eql(custom_field.name.to_json)
+                  .at_path("_embedded/schemas/_embedded/elements/0/customField#{custom_field.id}/name")
+        end
+      end
+
       context 'when there is a custom value in the past but not in the now as the custom field has been destroyed' do
         before do
           create_customizable_journal(journal: original_journal, custom_field:, value: 'Original value')
