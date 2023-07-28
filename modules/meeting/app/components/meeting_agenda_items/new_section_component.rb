@@ -42,13 +42,13 @@ module MeetingAgendaItems
 
     def call
       component_wrapper do
-        return unless @meeting.agenda_items_open?
-
-        case @state
-        when :initial
-          initial_state_partial
-        when :form
-          form_state_partial
+        if @meeting.agenda_items_open?
+          case @state
+          when :initial
+            initial_state_partial
+          when :form
+            form_state_partial
+          end
         end
       end
     end
