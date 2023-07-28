@@ -65,9 +65,13 @@
         max-width: 90%
         display: inline-block
         vertical-align: middle
-        line-height: 32px
+        // Inherit from Parent, e.g. strikethrough for baseline comparison
+        text-decoration: inherit
         &:first-of-type
           padding-right: 5px
+
+      .badge
+        height: 1rem
 
   &.split-time-field
     white-space: nowrap
