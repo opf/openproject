@@ -7,7 +7,7 @@ keywords: api webhooks
 ---
 # API and webhooks
 
-Configure all API related settings and add and manage webhooks to your OpenProject.
+Configure all API-related settings and add and manage webhooks to your OpenProject environment.
 
 Navigate to **Administration → API and webhooks**.
 
@@ -15,7 +15,7 @@ Navigate to **Administration → API and webhooks**.
 
 ![Administration settings API](admin-api.png)
 
-In the API global settings, you can manage the **REST web service** to selectively control whether foreign applications may access your OpenProject API endpoints from within the browser. You can also set the **maximum page size** the API will respond with. It will not be possible to perform API requests that return more values on a single page.
+Here, you can manage the **REST web service** to selectively control whether foreign applications may access your OpenProject API endpoints from within the browser. You can also set the **maximum page size** the API will respond with. It will not be possible to perform API requests that return more values on a single page.
 
 ### Documentation
 
@@ -26,8 +26,8 @@ If the **docs page** is enabled you can get an interactive view of the APIv3 doc
 To enable **CORS** headers being returned by the [OpenProject APIv3](../../api/),
 enable the check box on this page. This will also enable it for dependent authentication endpoints, such as OAuth endpoints `/oauth/token` and the like.
 
-You will then have to enter the allowed values for the Origin header that OpenProject will allow access to.
-This is necessary, since authenticated resources of OpenProject cannot be accessible to all origins with the `*` header value.
+You will then have to enter the allowed values for the Origin header to which OpenProject will allow access.
+This is necessary since authenticated resources of OpenProject cannot be accessible to all origins with the `*` header value.
 
 For more information on the concepts of Cross-Origin Resource Sharing (CORS), please see:
 
