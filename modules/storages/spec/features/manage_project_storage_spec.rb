@@ -151,7 +151,7 @@ RSpec.describe(
 
     # The list of enabled file storages should now contain Storage 1
     expect(page).to have_text('File storages available in this project')
-    expect(page).to have_text('Storage 1')
+    expect(page).to have_text(storage.name)
 
     # Press Edit icon to change the project folder mode to inactive
     page.find('.icon.icon-edit').click
@@ -159,7 +159,7 @@ RSpec.describe(
                                                                                   id: Storages::ProjectStorage.last)
     expect(page).to have_text('Edit the file storage to this project')
     expect(page).not_to have_select('storages_project_storage_storage_id')
-    expect(page).to have_text('Storage 1')
+    expect(page).to have_text(storage.name)
     expect(page).to have_checked_field('storages_project_storage_project_folder_mode_manual')
     expect(page).to have_text('Folder1')
 
@@ -170,7 +170,7 @@ RSpec.describe(
 
     # The list of enabled file storages should still contain Storage 1
     expect(page).to have_text('File storages available in this project')
-    expect(page).to have_text('Storage 1')
+    expect(page).to have_text(storage.name)
 
     # Click Edit icon again but cancel the edit
     page.find('.icon.icon-edit').click
@@ -195,7 +195,7 @@ RSpec.describe(
     page.find('.icon.icon-delete').click
 
     # Approve Confirmation
-    page.fill_in 'delete_confirmation', with: "Storage 1"
+    page.fill_in 'delete_confirmation', with: storage.name
     page.click_button('Delete')
 
     # List of ProjectStorages empty again
