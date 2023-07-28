@@ -39,9 +39,6 @@ FactoryBot.define do
     visible { true }
     field_format { 'bool' }
 
-    trait :global do
-      is_for_all { true }
-    end
 
     callback(:after_create) do
       # As the request store keeps track of the created custom fields
