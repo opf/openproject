@@ -16,7 +16,7 @@ module ::Boards
     menu_item :board_view
 
     def index
-      render layout: 'angular/angular'
+      @board_grids = Boards::Grid.includes(:project).where(project: @project)
     end
 
     def overview
