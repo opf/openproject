@@ -36,7 +36,6 @@ import { BoardsRootComponent } from 'core-app/features/boards/boards-root/boards
 import { BoardInlineAddAutocompleterComponent } from 'core-app/features/boards/board/inline-add/board-inline-add-autocompleter.component';
 import { BoardsToolbarMenuDirective } from 'core-app/features/boards/board/toolbar-menu/boards-toolbar-menu.directive';
 import { BoardConfigurationModalComponent } from 'core-app/features/boards/board/configuration-modal/board-configuration.modal';
-import { BoardsIndexPageComponent } from 'core-app/features/boards/index-page/boards-index-page.component';
 import { BoardsMenuComponent } from 'core-app/features/boards/boards-sidebar/boards-menu.component';
 import { NewBoardModalComponent } from 'core-app/features/boards/new-board-modal/new-board-modal.component';
 import { AddListModalComponent } from 'core-app/features/boards/board/add-list-modal/add-list-modal.component';
@@ -74,7 +73,6 @@ import { TileViewComponent } from './tile-view/tile-view.component';
     }),
   ],
   declarations: [
-    BoardsIndexPageComponent,
     BoardPartitionedPageComponent,
     BoardListContainerComponent,
     BoardListComponent,
