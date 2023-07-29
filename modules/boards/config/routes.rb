@@ -3,7 +3,7 @@ OpenProject::Application.routes.draw do
 
   resources :boards,
             controller: 'boards/boards',
-            only: %i[index show new create],
+            only: %i[index show new create destroy],
             as: :work_package_boards
 
   scope 'projects/:project_id', as: 'project' do

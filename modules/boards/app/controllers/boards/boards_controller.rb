@@ -10,7 +10,8 @@ module ::Boards
       before_action :authorize_work_package_permission
     end
 
-    before_action :authorize_global, only: %i[overview new create]
+    before_action :authorize_global, only: %i[overview new create destroy]
+    before_action :find_board_grid, only: %i[destroy]
     before_action :ensure_board_type_not_restricted, only: %i[create]
 
     menu_item :board_view
@@ -53,7 +54,24 @@ module ::Boards
       end
     end
 
+    def destroy
+      project = @board_grid.project
+      @board_grid.destroy
+
+      flash[:notice] = I18n.t(:notice_successful_delete)
+
+      respond_to do |format|
+        format.json do
+          render json: { redirect_url: project_work_package_boards_path(project) }
+        end
+      end
+    end
+
     private
+
+    def find_board_grid
+      @board_grid = Boards::Grid.find(params[:id])
+    end
 
     def authorize_work_package_permission
       unless current_user.allowed_to?(:view_work_packages, @project, global: @project.nil?)
