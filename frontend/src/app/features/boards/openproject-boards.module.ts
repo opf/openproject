@@ -37,7 +37,6 @@ import { BoardInlineAddAutocompleterComponent } from 'core-app/features/boards/b
 import { BoardsToolbarMenuDirective } from 'core-app/features/boards/board/toolbar-menu/boards-toolbar-menu.directive';
 import { BoardConfigurationModalComponent } from 'core-app/features/boards/board/configuration-modal/board-configuration.modal';
 import { BoardsMenuComponent } from 'core-app/features/boards/boards-sidebar/boards-menu.component';
-import { NewBoardModalComponent } from 'core-app/features/boards/new-board-modal/new-board-modal.component';
 import { AddListModalComponent } from 'core-app/features/boards/board/add-list-modal/add-list-modal.component';
 import { BoardHighlightingTabComponent } from 'core-app/features/boards/board/configuration-modal/tabs/highlighting-tab.component';
 import { AddCardDropdownMenuDirective } from 'core-app/features/boards/board/add-card-dropdown/add-card-dropdown-menu.directive';
@@ -83,7 +82,6 @@ import { TileViewComponent } from './tile-view/tile-view.component';
     BoardConfigurationModalComponent,
     BoardsToolbarMenuDirective,
     BoardsMenuButtonComponent,
-    NewBoardModalComponent,
     AddListModalComponent,
     AddCardDropdownMenuDirective,
     BoardListMenuComponent,

@@ -86,7 +86,7 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
       });
   }
 
-  showNewBoardModal():void {
+  redirectToNewBoardForm():void {
     const newBoardFormPath = (this.currentProject && this.currentProject.identifier)
       ? `${window.appBasePath}/projects/${this.currentProject.identifier}/boards/new`
       : `${window.appBasePath}/boards/new`;
