@@ -30,7 +30,7 @@
 
 module Boards
   class TableComponent < ::TableComponent
-    options :current_project
+    options :current_project, :current_user
     sortable_columns :name, :project_id, :created_at
 
     def initial_sort

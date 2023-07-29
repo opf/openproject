@@ -50,5 +50,31 @@ module Boards
         t('boards.board_types.free')
       end
     end
+
+    def button_links
+      [delete_link].compact
+    end
+
+    def delete_link
+      if render_delete_link?
+        link_to(
+          '',
+          work_package_board_path(model),
+          method: :delete,
+          class: 'icon icon-delete',
+          data: {
+            confirm: I18n.t(:text_are_you_sure),
+            'qa-selector': "board-remove-#{model.id}"
+          },
+          title: t(:button_delete)
+        )
+      end
+    end
+
+    private
+
+    def render_delete_link?
+      table.current_project && table.current_user.allowed_to?(:manage_board_views, table.current_project)
+    end
   end
 end

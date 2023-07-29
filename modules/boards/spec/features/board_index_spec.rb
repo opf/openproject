@@ -92,7 +92,7 @@ RSpec.describe 'Work Package Project Boards Index Page',
     end
   end
 
-  context 'when boards exists' do
+  context 'when boards exist' do
     before do
       board_view
       other_board_view
@@ -102,6 +102,28 @@ RSpec.describe 'Work Package Project Boards Index Page',
       board_index.visit!
 
       board_index.expect_boards_listed(board_view, other_board_view)
+    end
+
+    context 'as a user with board management permissions' do
+      let(:permissions) { management_permissions }
+
+      it 'renders delete links for each board' do
+        board_index.visit!
+
+        board_index.expect_delete_button(board_view)
+        board_index.expect_delete_button(other_board_view)
+      end
+    end
+
+    context 'as a user without board management permissions' do
+      let(:permissions) { view_only_permissions }
+
+      it 'does not render delete links' do
+        board_index.visit!
+
+        board_index.expect_no_delete_button(board_view)
+        board_index.expect_no_delete_button(other_board_view)
+      end
     end
 
     it 'paginates results', with_settings: { per_page_options: '1' } do

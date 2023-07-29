@@ -107,11 +107,14 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger {
             && this.board.grid.delete
             && window.confirm(this.I18n.t('js.text_query_destroy_confirmation'))) {
             void this.http
-              .delete(`/boards/${this.board.id}`)
+              .delete(
+                `/boards/${this.board.id}`,
+                { responseType: 'json' },
+              )
               .toPromise()
               .then(
-                (response:{ redirectUrl:string }) => {
-                  window.location.href = response.redirectUrl;
+                (response:{ redirect_url:string }) => {
+                  window.location.href = response.redirect_url;
                 },
               );
           }

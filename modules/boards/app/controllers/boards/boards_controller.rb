@@ -55,14 +55,16 @@ module ::Boards
     end
 
     def destroy
-      project = @board_grid.project
       @board_grid.destroy
 
       flash[:notice] = I18n.t(:notice_successful_delete)
 
       respond_to do |format|
         format.json do
-          render json: { redirect_url: project_work_package_boards_path(project) }
+          render json: { redirect_url: project_work_package_boards_path(@project) }
+        end
+        format.html do
+          redirect_to action: 'index', project_id: @project
         end
       end
     end
@@ -71,6 +73,7 @@ module ::Boards
 
     def find_board_grid
       @board_grid = Boards::Grid.find(params[:id])
+      @project = @board_grid.project
     end
 
     def authorize_work_package_permission

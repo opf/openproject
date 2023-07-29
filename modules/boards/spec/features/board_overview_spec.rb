@@ -111,7 +111,7 @@ RSpec.describe 'Work Package Boards Overview',
     end
   end
 
-  context 'when boards exists' do
+  context 'when boards exist' do
     before do
       board_view
       other_board_view
@@ -123,6 +123,14 @@ RSpec.describe 'Work Package Boards Overview',
 
       board_overview.expect_boards_listed(board_view, other_board_view)
       board_overview.expect_boards_not_listed(other_project_board_view)
+    end
+
+    it 'does not render delete links' do
+      board_overview.visit!
+
+      board_overview.expect_no_delete_button(board_view)
+      board_overview.expect_no_delete_button(other_board_view)
+      board_overview.expect_no_delete_button(other_project_board_view)
     end
 
     it 'paginates results', with_settings: { per_page_options: '1' } do
