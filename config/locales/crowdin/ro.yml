@@ -99,7 +99,14 @@ ro:
     edit: "Editați textul de ajutor pentru %{attribute_caption}"
     enterprise:
       description: 'Oferă informații suplimentare pentru atribute (inclusiv câmpuri personalizate) ale pachetelor de lucru și ale proiectelor. Textele de ajutor sunt afișate atunci când utilizatorii fac clic pe simbolul semnului de întrebare de lângă câmpurile de introducere din proiecte și pachete de lucru.'
+  background_jobs:
+    status:
+      error_requeue: "Lucrarea a avut o eroare, dar încearcă din nou. Eroarea a fost: %{message}"
+      cancelled_due_to: "Lucrarea a fost anulată din cauza unei erori: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Acest formular LDAP necesită cunoștințe tehnice privind configurația LDAP / Active Directory.
       <br/>
@@ -154,10 +161,6 @@ ro:
       verify_peer_description_html: >
         Activează verificarea SSL strictă a lanțului de încredere al certificatului. <br/> <strong>Avertisment:</strong> Debifarea acestei opțiuni dezactivează verificarea SSL a certificatului serverului LDAP. Acest lucru expune conexiunea ta cu Omul în timpul atacurilor din Mijloc.
       tls_certificate_description: "Dacă certificatul serverului LDAP nu se află în sursele de încredere ale acestui sistem, îl puteți adăuga manual aici. Introduceți un șir de certificate PEM X509."
-  background_jobs:
-    status:
-      error_requeue: "Lucrarea a avut o eroare, dar încearcă din nou. Eroarea a fost: %{message}"
-      cancelled_due_to: "Lucrarea a fost anulată din cauza unei erori: %{message}"
   forums:
     show:
       no_results_title_text: În prezent nu există mesaje pentru acest forum.
@@ -446,17 +449,17 @@ ro:
       attribute_help_text:
         attribute_name: 'Atribut'
         help_text: 'Text de ajutor'
-      auth_source:
-        account: "Cont"
-        attr_firstname: "Câmp prenume"
-        attr_lastname: "Câmp nume"
-        attr_login: "Atributul nume de utilizator"
-        attr_mail: "Atribut e-mail"
-        base_dn: "Nume domeniu de bază"
-        host: "Server gazdă"
-        onthefly: "Crearea automată a utilizatorilor"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatic user creation"
         port: "Port"
-        tls_certificate_string: "Certificat SSL pentru serverul LDAP"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repo"
       comment:
@@ -675,10 +678,10 @@ ro:
           nu oferă un "Context securizat". Folosiţi fie HTTPS sau o adresă de tip buclă, cum ar fi localhost.
         wrong_length: "nu are lungimea corectă (ar trebui să fie de %{count} characters)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "Certificatul SSL furnizat nu este valid: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -898,8 +901,8 @@ ro:
                 description: "Valoarea din 'Confirmare parolă' ar trebui să fie identică cu cea introdusă în 'Parolă nouă'."
             status:
               invalid_on_create: "nu este un statut valabil pentru utilizatorii noi."
-            auth_source:
-              error_not_found: "%s nu a fost găsit"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Trebuie să alegeţi cel puţin un utilizator sau grup."
           role_blank: "trebuie să fie atribuite."
@@ -2102,10 +2105,7 @@ ro:
   label_global_role: "Rolul global"
   label_not_changeable: "(nu se poate modifica)"
   label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "Nu poate fi folosită o sursă de autentificare abstractă."
-    ldap_error: "Eroare LDAP: %{error_message}"
-    ldap_auth_failed: "Nu a putut fi realizată autentificarea pe serverul LDAP."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Eroare la execuția macro-ului %{macro_name}"
   macro_unavailable: "Macro-ul %{macro_name} nu poate fi afișat."
   macros:

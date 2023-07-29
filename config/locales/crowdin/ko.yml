@@ -99,7 +99,14 @@ ko:
     edit: "%{attribute_caption}에 대한 도움말 텍스트 편집"
     enterprise:
       description: '작업 패키지 및 프로젝트의 특성(사용자 지정 필드 포함)에 대한 추가 정보를 제공합니다. 사용자가 프로젝트 및 작업 패키지의 입력 필드 옆에 있는 물음표 기호를 클릭하면 도움말 텍스트가 표시됩니다.'
+  background_jobs:
+    status:
+      error_requeue: "작업 중에 오류가 발생했지만 다시 시도 중입니다. 오류 메시지: %{message}"
+      cancelled_due_to: "오류로 인해 작업이 취소되었습니다: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       이 LDAP 양식을 사용하려면 LDAP / Active Directory 설정에 대한 기술 지식이 필요합니다.
       <br/>
@@ -154,10 +161,6 @@ ko:
       verify_peer_description_html: >
         인증서 신뢰 체인의 엄격한 SSL 인증을 활성화합니다. <br/> <strong>경고:</strong> 이 옵션을 선택 취소하면 LDAP 서버 인증서의 SSL 인증이 비활성화됩니다. 이렇게 하면 사용자의 연결이 중간자 공격에 노출됩니다.
       tls_certificate_description: "LDAP 서버 인증서가 이 시스템의 신뢰 소스에 없으면 여기에서 수동으로 추가할 수 있습니다. PEM X509 인증서 문자열을 입력하세요."
-  background_jobs:
-    status:
-      error_requeue: "작업 중에 오류가 발생했지만 다시 시도 중입니다. 오류 메시지: %{message}"
-      cancelled_due_to: "오류로 인해 작업이 취소되었습니다: %{message}"
   forums:
     show:
       no_results_title_text: 포럼에 대한 포스트가 현재 없습니다.
@@ -443,17 +446,17 @@ ko:
       attribute_help_text:
         attribute_name: '특성'
         help_text: '도움말 텍스트'
-      auth_source:
-        account: "계정"
-        attr_firstname: "성 속성"
-        attr_lastname: "이름 속성"
-        attr_login: "사용자 이름 특성"
-        attr_mail: "이메일 속성"
-        base_dn: "기본 DN"
-        host: "호스트"
-        onthefly: "자동 사용자 생성"
-        port: "포트"
-        tls_certificate_string: "LDAP 서버 SSL 인증서"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatic user creation"
+        port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "리포지토리"
       comment:
@@ -672,10 +675,10 @@ ko:
           "보안 컨텍스트"를 제공하지 않습니다. HTTPS 또는 localhost 같은 루프백 주소를 사용하세요.
         wrong_length: "너무 짧습니다 (최소 %{count} 자 이상이어야 합니다)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "제공된 SSL 인증서가 유효하지 않습니다: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -893,8 +896,8 @@ ko:
                 description: "비밀번호와 비밀번호 확인 필드가 일치하지 해야 합니다."
             status:
               invalid_on_create: "은(는) 새 사용자에 대해 유효한 상태가 아닙니다."
-            auth_source:
-              error_not_found: "찾을 수 없음"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "하나 이상의 사용자 또는 그룹을 선택 하십시오."
           role_blank: "할당해야 합니다."
@@ -2063,10 +2066,7 @@ ko:
   label_global_role: "글로벌 역할"
   label_not_changeable: "(변경할 수 없음)"
   label_global: "글로벌"
-  auth_source:
-    using_abstract_auth_source: "추상 인증 소스를 사용할 수 없습니다."
-    ldap_error: "LDAP 오류: %{error_message}"
-    ldap_auth_failed: "LDAP 서버에서 인증할 수 없습니다."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "매크로 %{macro_name} 실행 중에 오류 발생"
   macro_unavailable: "매크로 %{macro_name}은(는) 표시할 수 없습니다."
   macros:

@@ -99,7 +99,14 @@ el:
     edit: "Επεξεργασία βοηθητικού κειμένου για %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Η εργασία ακυρώθηκε λόγω σφάλματος: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Αυτή η φόρμα LDAP απαιτεί τεχνικές γνώσεις για την LDAP / Active Directory εγκατάσταση σας.
       <br/>
@@ -150,10 +157,6 @@ el:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
-  background_jobs:
-    status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Η εργασία ακυρώθηκε λόγω σφάλματος: %{message}"
   forums:
     show:
       no_results_title_text: Προς το παρόν δεν υπάρχουν αναρτήσεις σε αυτό το φόρουμ.
@@ -441,16 +444,16 @@ el:
       attribute_help_text:
         attribute_name: 'Χαρακτηριστικό'
         help_text: 'Κείμενο βοήθειας'
-      auth_source:
-        account: "Λογαριασμός"
-        attr_firstname: "Χαρακτηριστικό ονόματος"
-        attr_lastname: "Χαρακτηριστικό επωνύμου"
-        attr_login: "Χαρακτηριστικό ονόματος χρήστη"
-        attr_mail: "Χαρακτηριστικό email"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
         base_dn: "Base DN"
-        host: "Διακομιστής"
-        onthefly: "Αυτόματη δημιουργία χρήστη"
-        port: "Θύρα"
+        host: "Host"
+        onthefly: "Automatic user creation"
+        port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Αποθετήριο"
@@ -670,7 +673,7 @@ el:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "έχει λάθος μέγεθος (πρέπει να είναι %{count} χαρακτήρες)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -892,8 +895,8 @@ el:
                 description: "Ο 'Κωδικός Επιβεβαίωσης' θα πρέπει να ταιριάζει με την είσοδο του πεδίου 'Νέος Κωδικός'."
             status:
               invalid_on_create: "δεν είναι έγκυρη κατάσταση για νέους χρήστες."
-            auth_source:
-              error_not_found: "δεν βρέθηκε"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Παρακαλούμε επιλέξτε τουλάχιστον ένα χρήστη ή ομάδα."
           role_blank: "πρέπει να ανατεθεί."
@@ -2079,10 +2082,7 @@ el:
   label_global_role: "Καθολικός Ρόλος"
   label_not_changeable: "(μη μεταβλητό)"
   label_global: "Καθολικό"
-  auth_source:
-    using_abstract_auth_source: "Δεν μπορεί να χρησιμοποιηθεί μια αφηρημένη πηγή αυθεντικοποίησης."
-    ldap_error: "Σφάλμα-LDAP: %{error_message}"
-    ldap_auth_failed: "Δεν ήταν δυνατή η ταυτοποίηση στον LDAP-Server."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Σφάλμα στην εκτέλεση της μακροεντολής %{macro_name}"
   macro_unavailable: "Η μακροεντολή %{macro_name} δεν μπορεί να εμφανιστεί."
   macros:

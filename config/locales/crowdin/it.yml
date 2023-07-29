@@ -99,7 +99,14 @@ it:
     edit: "Modifica il testo guida per %{attribute_caption}"
     enterprise:
       description: 'Fornisci informazioni aggiuntive per gli attributi (inclusi i campi personalizzati) di macro-attività e progetti. I testi della guida vengono visualizzati quando gli utenti cliccano sul simbolo del punto interrogativo accanto ai campi di immissione nei progetti e nelle macro-attività.'
+  background_jobs:
+    status:
+      error_requeue: "Si è verificato un errore col lavoro ma si sta riprovando. Errore: %{message}"
+      cancelled_due_to: "Il lavoro è stato annullato a causa di un errore: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Questo form LDAP richiede una conoscenza tecnica dell'attuale setup LDAP / Active Directory. <br/>
       <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Per favore visita la nostra documentazione per istruzioni dettagliate</a>.
@@ -151,10 +158,6 @@ it:
       verify_peer_description_html: >
         Abilita la rigorosa verifica della catena attendibile del certificato SSL. <br/> <strong>Attenzione:</strong> Deselezionare questa opzione disabilita la verifica del certificato SSL del server LDAP. Questo espone la tua connessione ad attacchi di tipo Man in the Middle.
       tls_certificate_description: "Se il certificato del server LDAP non è nelle fonti di fiducia di questo sistema, è possibile aggiungerlo manualmente qui. Inserisci una stringa certificata PEM X509."
-  background_jobs:
-    status:
-      error_requeue: "Si è verificato un errore col lavoro ma si sta riprovando. Errore: %{message}"
-      cancelled_due_to: "Il lavoro è stato annullato a causa di un errore: %{message}"
   forums:
     show:
       no_results_title_text: Al momento non vi sono post sul forum.
@@ -442,17 +445,17 @@ it:
       attribute_help_text:
         attribute_name: 'Attributo'
         help_text: 'Testo guida'
-      auth_source:
+      ldap_auth_source:
         account: "Account"
-        attr_firstname: "Attributo nome"
-        attr_lastname: "Attributo cognome"
-        attr_login: "Attributo Nome Utente"
-        attr_mail: "Attributo email"
-        base_dn: "Nome Dominio (DN) base"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
+        base_dn: "Base DN"
         host: "Host"
-        onthefly: "Creazione automatica degli utenti"
-        port: "Porta"
-        tls_certificate_string: "Certificato SSL del server LDAP"
+        onthefly: "Automatic user creation"
+        port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Archivio"
       comment:
@@ -671,10 +674,10 @@ it:
           non fornisce un "Contesto sicuro". Usa HTTPS o un indirizzo di loopback, come localhost.
         wrong_length: "è della lunghezza sbagliata (dovrebbe essere %{count} caratteri)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "Il certificato SSL fornito non è valido: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -893,8 +896,8 @@ it:
                 description: "'Conferma password' deve coincidere con il testo del campo 'Nuova password'."
             status:
               invalid_on_create: "non è uno stato valido per i nuovi utenti."
-            auth_source:
-              error_not_found: "non trovato"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Si prega di scegliere almeno un utente o un gruppo."
           role_blank: "deve essere assegnato."
@@ -2080,10 +2083,7 @@ it:
   label_global_role: "Ruolo globale"
   label_not_changeable: "(non modificabile)"
   label_global: "Globale"
-  auth_source:
-    using_abstract_auth_source: "Non è possibile utilizzare una fonte di autenticazione astratta."
-    ldap_error: "Errore LDAP: %{error_message}"
-    ldap_auth_failed: "Non è possibile autenticare attraverso il Server LDAP."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Errore nell'esecuzione della macro %{macro_name}"
   macro_unavailable: "Non può essere visualizzata la macro %{macro_name}."
   macros:

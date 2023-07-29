@@ -99,7 +99,14 @@ ru:
     edit: "Редактировать текст справки для %{attribute_caption}"
     enterprise:
       description: 'Предоставьте дополнительную информацию для атрибутов (включая пользовательские поля) пакетов работ и проектов. Текст справки отображается, когда пользователи нажимают на знак вопроса рядом с полями ввода в проектах и пакетах работ.'
+  background_jobs:
+    status:
+      error_requeue: "Осуществляется повторный запуск задания, т.к. предыдущий завершился с ошибкой: %{message}"
+      cancelled_due_to: "Задание было отменено из-за ошибки: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Эта LDAP форма требует технических знаний по LDAP / Active Directory.
       <br/>
@@ -153,10 +160,6 @@ ru:
       verify_peer_description_html: >
         Включает строгую проверку SSL цепочки доверенных сертификатов. <br/> <strong>Предупреждение:</strong> Отключение этой опции отключает проверку SSL сертификата сервера LDAP. Это раскрывает вашу связь с Человеком во время средних атак.
       tls_certificate_description: "Если сертификат сервера LDAP отсутствует в источниках доверия этой системы, вы можете добавить его вручную. Введите строку сертификации PEM X509."
-  background_jobs:
-    status:
-      error_requeue: "Осуществляется повторный запуск задания, т.к. предыдущий завершился с ошибкой: %{message}"
-      cancelled_due_to: "Задание было отменено из-за ошибки: %{message}"
   forums:
     show:
       no_results_title_text: На данный момент сообщений для форума нет.
@@ -446,17 +449,17 @@ ru:
       attribute_help_text:
         attribute_name: 'Атрибут'
         help_text: 'Текст справки'
-      auth_source:
-        account: "Учетная запись"
-        attr_firstname: "Атрибут имени"
-        attr_lastname: "Атрибут фамилии"
-        attr_login: "Атрибут имени пользователя"
-        attr_mail: "Атрибуты e-mail"
-        base_dn: "Корневой элемент(Base DN)"
-        host: "Хост"
-        onthefly: "Автоматическое создание пользователя"
-        port: "Порт"
-        tls_certificate_string: "SSL-сертификат сервера LDAP"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatic user creation"
+        port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Репозиторий"
       comment:
@@ -675,10 +678,10 @@ ru:
           не предоставляет "Secure Context". Используйте HTTPS или обратный адрес, например localhost.
         wrong_length: "неправильная длина (должно быть %{count} знаков)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "Указанный сертификат SSL недействителен: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -899,8 +902,8 @@ ru:
                 description: "«Подтвержденный пароль» должен совпадать с введенным «новым паролем»."
             status:
               invalid_on_create: "не является допустимым статусом для новых пользователей."
-            auth_source:
-              error_not_found: "не найдено"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Пожалуйста, выберите по крайней мере одного пользователя или группу."
           role_blank: "требуется назначить."
@@ -2120,10 +2123,7 @@ ru:
   label_global_role: "Глобальная роль"
   label_not_changeable: "(неизменяемая)"
   label_global: "Глобальная"
-  auth_source:
-    using_abstract_auth_source: "Нельзя использовать абстрактную аутентификацию."
-    ldap_error: "LDAP-ошибка: %{error_message}"
-    ldap_auth_failed: "Не удалось проверить подлинность через LDAP-сервер."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Ошибка при выполнении макроса %{macro_name}"
   macro_unavailable: "Макрос %{macro_name} не может быть отображен."
   macros:

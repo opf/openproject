@@ -6,8 +6,8 @@ lt:
   boards:
     label_board: "Lenta"
     label_boards: "Lentos"
-    label_create_new_board: "Create new board"
-    label_board_type: "Board type"
+    label_create_new_board: "Kurti naują lentą"
+    label_board_type: "Lentos tipas"
     board_types:
       free: Pagrindinis
       action: "Veiksmų lenta (%{attribute})"
@@ -20,17 +20,17 @@ lt:
       basic: Pagrindinis
     board_type_descriptions:
       basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
+        Pradėkite iš pradžių nuo tuščios lentos. Rankiniu būdu pridėkite korteles ir stulpelius į šią lentą.
       status: >
-        Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        Paprasta kanban stiliaus lenta su stulpeliais statusams, tokiems kaip To Do, Vykdoma, Įvykdyta.
       assignee: >
-        Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        Lenta su automatiniais stulpeliais pagrįstais priskirtu naudotoju. Ideali darbo paketų paskirstymui.
       version: >
-        Board with automated columns based on the version attribute. Ideal for planning product development.
+        Lenta su automatiniais stulpeliais, pagrįstais versijos atributu. Ideali produkto vystymo planavimui.
       subproject: >
-        Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        Lenta su automatiniais stulpeliais sub-projektams. Darbų paketo perkėlimas į kitą sąrašą atitinkamai pakeičia (sub-)projektą.
       subtasks: >
-        Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        Lenta su automatiniais stulpeliais sub-elementams. Darbų paketo perkėlimas į kitą sąrašą atitinkamai atnaujina tėtį.
     upsale:
-      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-      upgrade: 'Upgrade now'
+      teaser_text: 'Ar norite automatizuoti jūsų procesus su Lentomis? Išmaniosios lentos yra Enterprise priedas. Prašome pasikeisti į mokamą planą.'
+      upgrade: 'Užsisakykite dabar'

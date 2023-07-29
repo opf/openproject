@@ -99,7 +99,14 @@ hu:
     edit: "Súgószöveg \"%{attribute_caption}\" szerkesztése"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+  background_jobs:
+    status:
+      error_requeue: "A művelet hibát észlelt, de újra próbálkozik. A hiba a következő volt: %{message}\n"
+      cancelled_due_to: "A műveletet hiba miatt törölték: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Ehhez az LDAP űrlaphoz az Ön LDAP / Acitive Directory beállításainak ismerete szükséges.
       <br/>
@@ -153,10 +160,6 @@ hu:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
-  background_jobs:
-    status:
-      error_requeue: "A művelet hibát észlelt, de újra próbálkozik. A hiba a következő volt: %{message}\n"
-      cancelled_due_to: "A műveletet hiba miatt törölték: %{message}"
   forums:
     show:
       no_results_title_text: Jelenleg nincs fórumbejegyzés.
@@ -442,16 +445,16 @@ hu:
       attribute_help_text:
         attribute_name: 'Attribútum'
         help_text: 'Súgószöveg'
-      auth_source:
-        account: "Felhasználói fiók"
-        attr_firstname: "Keresztnév attribútum"
-        attr_lastname: "Vezetéknév attribútum"
-        attr_login: "Felhasználónév attribútum"
-        attr_mail: "Email attribútum"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "Automatikus felhasználó készítés"
-        port: "Port szám"
+        onthefly: "Automatic user creation"
+        port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Csomagtároló"
@@ -671,7 +674,7 @@ hu:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "nem megfelelő hosszúságú (%{count} karakter szükséges)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -893,8 +896,8 @@ hu:
                 description: "A \"'Jelszó megerősítés\"-nek meg kell egyeznie az \"Új jelszó\" mezővel."
             status:
               invalid_on_create: "ez nem egy érvényes állapot, az új felhasználó számára."
-            auth_source:
-              error_not_found: "nem található"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Kérem, válasszon legalább egy felhasználót vagy csoportot."
           role_blank: "Hozzá kell rendelve lennie"
@@ -2080,10 +2083,7 @@ hu:
   label_global_role: "Globális szerep"
   label_not_changeable: "(nem módosítható)"
   label_global: "Globális"
-  auth_source:
-    using_abstract_auth_source: "Nem használható egy absztrakt hitelesítési forrás."
-    ldap_error: "LDAP-hiba: %{error_message}"
-    ldap_auth_failed: "A hitelesítés meghiúsult az LDAP-kiszolgálón."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Hiba a makro %{macro_name} végrehajtásában"
   macro_unavailable: "A %{macro_name} makró nem jeleníthető meg."
   macros:

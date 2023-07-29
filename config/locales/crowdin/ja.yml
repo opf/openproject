@@ -99,7 +99,14 @@ ja:
     edit: "%{attribute_caption} のヘルプ テキストを編集"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+  background_jobs:
+    status:
+      error_requeue: "ジョブにエラーが発生しましたが、再試行中です。エラー: %{message}"
+      cancelled_due_to: "エラーが発生したため、ジョブはキャンセルされました。エラー: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       この LDAP フォームには、LDAP / Active Directory の設定に関する技術的な知識が必要です。
       <br/>
@@ -152,10 +159,6 @@ ja:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
-  background_jobs:
-    status:
-      error_requeue: "ジョブにエラーが発生しましたが、再試行中です。エラー: %{message}"
-      cancelled_due_to: "エラーが発生したため、ジョブはキャンセルされました。エラー: %{message}"
   forums:
     show:
       no_results_title_text: 現在、フォーラムへの投稿はありません。
@@ -440,16 +443,16 @@ ja:
       attribute_help_text:
         attribute_name: '属性'
         help_text: 'ヘルプ テキスト'
-      auth_source:
-        account: "アカウント"
-        attr_firstname: "名前"
-        attr_lastname: "苗字"
-        attr_login: "ユーザー名属性"
-        attr_mail: "メール"
-        base_dn: "ベースDN"
-        host: "ホスト"
-        onthefly: "ユーザーの自動作成"
-        port: "ポート番号"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatic user creation"
+        port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "リポジトリ"
@@ -669,7 +672,7 @@ ja:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "は%{count}文字を入力してください。"
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -890,8 +893,8 @@ ja:
                 description: "「パスワードの確認」は、「新しいパスワード」フィールドの入力と一致する必要があります。"
             status:
               invalid_on_create: "新規ユーザーの有効なステータスではありません。"
-            auth_source:
-              error_not_found: "存在しません"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "一つ以上のユーザまたはグループを選択してください。"
           role_blank: "を割り当てる必要があります。"
@@ -2060,10 +2063,7 @@ ja:
   label_global_role: "グローバルロール"
   label_not_changeable: "（変更不可）"
   label_global: "全般"
-  auth_source:
-    using_abstract_auth_source: "概要認証元を使用できません。"
-    ldap_error: "LDAPエラー: %{error_message}"
-    ldap_auth_failed: "LDAPサーバーで認証できませんでした。"
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "マクロ%{macro_name}を実行中にエラーが発生しました。"
   macro_unavailable: "マクロ%{macro_name}を表示できません。"
   macros:

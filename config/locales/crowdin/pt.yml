@@ -99,7 +99,14 @@ pt:
     edit: "Editar texto de ajuda para %{attribute_caption}"
     enterprise:
       description: 'Forneça informações adicionais para os atributos (incl. campos personalizados) dos pacotes de trabalho e projetos. Os textos de ajuda são exibidos quando os usuários clicam no símbolo de interrogação ao lado dos campos de entrada nos projetos e pacotes de trabalho.  '
+  background_jobs:
+    status:
+      error_requeue: "A tarefa apresentou um erro, mas está tentando novamente. O erro foi: %{message}"
+      cancelled_due_to: "A tarefa foi cancelada devido ao erro: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Este formulário LDAP requer conhecimento técnico da sua configuração LDAP / Active Directory.
       <br/>
@@ -153,10 +160,6 @@ pt:
       verify_peer_description_html: >
         Permite uma verificação SSL estrita da cadeia de confiança do certificado. <br/> <strong>Aviso:</strong> Desmarcar esta opção desativa a verificação SSL do certificado do servidor LDAP, o que expõe a sua conexão a ataques man-in-the-middle.
       tls_certificate_description: "Se o certificado do servidor LDAP não estiver nas fontes de confiança deste sistema, você poderá adicioná-lo manualmente. Digite uma cadeia de caracteres de certificado PEM X509."
-  background_jobs:
-    status:
-      error_requeue: "A tarefa apresentou um erro, mas está tentando novamente. O erro foi: %{message}"
-      cancelled_due_to: "A tarefa foi cancelada devido ao erro: %{message}"
   forums:
     show:
       no_results_title_text: Não há postagens no fórum no momento.
@@ -444,17 +447,17 @@ pt:
       attribute_help_text:
         attribute_name: 'Atributo'
         help_text: 'Texto de ajuda'
-      auth_source:
-        account: "Conta"
-        attr_firstname: "Campo do nome"
-        attr_lastname: "Campo do sobrenome"
-        attr_login: "Atributo nome de usuário"
-        attr_mail: "Campo do E-mail"
-        base_dn: "DN principal"
-        host: "Servidor"
-        onthefly: "Criação de usuário automático"
-        port: "Porta"
-        tls_certificate_string: "Certificado SSL do servidor LDAP"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatic user creation"
+        port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repositório"
       comment:
@@ -673,10 +676,10 @@ pt:
           não está fornecendo um "Secure Context". Você pode tanto usar HTTPS  ou um endereço loopback.
         wrong_length: "é o tamanho errado (deve ser %{count} caracteres)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "O certificado SSL fornecido é inválido: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -895,8 +898,8 @@ pt:
                 description: "'Confirmação de senha' deve coincidir com a entrada no campo 'nova senha'."
             status:
               invalid_on_create: "não é um estado válido para novos usuários."
-            auth_source:
-              error_not_found: "não encontrado"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Por favor, escolha ao menos um usuário ou grupo."
           role_blank: "precisa ser atribuído."
@@ -2082,10 +2085,7 @@ pt:
   label_global_role: "Papel global"
   label_not_changeable: "(não modificável)"
   label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "Não é possível usar uma fonte de autenticação abstrata."
-    ldap_error: "Erro LDAP: %{error_message}"
-    ldap_auth_failed: "Não foi possível autenticar com o servidor LDAP."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Erro de execução da macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} não pode ser exibida."
   macros:

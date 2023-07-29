@@ -346,18 +346,18 @@ lt:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+                Laidoje yra naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Bazinės linijos lyginimas lengvesniam pokyčių sekimui.</li> <li>Darbo plano PDF eksportas ataskaitoms.</li> <li>Projekto kalendorių prenumerata per URL (iCalendar).</li> <li>Projekto aplankai su dokumentų šablonais Nextcloud integracijai.</li> <li>Lokalizuotas visų duomenų siuntimas.</li> <li>Globalūs moduliai rodomi naujuose turinio puslapiuose.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to calendar"
+      title: "Prenumeruoti kalendorių"
       inital_setup_error_message: "Gaunant duomenis įvyko klaida."
-      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
-      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Where will you be using this?"
-      token_name_placeholder: "Type a name, e.g. \"Phone\""
-      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      description: "Jūs galite naudoti URL (iCalendar), kad prenumeruotumėte šį kalendorių išoriniame kliente ir žiūrėti naujausią darbo paketų informaciją."
+      warning: "Prašome nesidalinti šiuo URL su kitais naudotojais. Bet kas su šia nuoroda galės peržiūrėti darbo paketo detales be paskyros ar slaptažodžio."
+      token_name_label: "Kur jūs tai naudosite?"
+      token_name_placeholder: "Įrašykite pavadinimą, pvz. „Telefonas“"
+      token_name_description_text: "Jei prenumeruojate kalendorių iš kelių įrenginių, šis pavadinimas padės atskirti juos jūsų <a href=\"my/access_token\", target=\"_blank\">prieigos žetonų</a> sąraše."
       copy_url_label: "Kopijuoti URL"
-      ical_generation_error_text: "An error occured while generating the calendar URL."
-      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
+      ical_generation_error_text: "Kuriant kalendoriaus URL įvyko klaida."
+      success_message: "URL „%{name}“ buvo sėkmingai nukopijuotas į jūsų iškarpinę. Įkelkite jį į jūsų kalendoriaus klientą, kad baigtumėte prenumeratą."
     label_activate: "Aktyvuoti"
     label_assignee: 'Paskirtas'
     label_add_column_after: "Pridėti stulpelį po"
@@ -1083,7 +1083,7 @@ lt:
         save_as: "Įrašyti kaip"
         export: "Eksportuoti"
         visibility_settings: "Matomumo nustatymai"
-        share_calendar: "Subscribe to calendar"
+        share_calendar: "Prenumeruoti kalendorių"
         page_settings: "Pervardinti vaizdą"
         delete: "Trinti"
       filter: "Filtras"

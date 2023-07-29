@@ -29,7 +29,7 @@ it:
         participants: "Partecipanti"
         participants_attended: "Invitati"
         participants_invited: "Invitati"
-        project: "Project"
+        project: "Progetto"
         start_time: "Tempo"
         start_time_hour: "Ora di inizio"
     errors:
@@ -67,7 +67,7 @@ it:
   label_involvement: "Involvement"
   label_upcoming_invitations: "Upcoming invitations"
   label_past_invitations: "Past invitations"
-  label_attendee: "Attendee"
+  label_attendee: "Presenti"
   label_author: "Creator"
   label_notify: "Invia per revisione"
   label_icalendar: "Invia iCalendar"

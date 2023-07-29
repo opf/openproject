@@ -99,7 +99,14 @@ de:
     edit: "Hilfe-Text für %{attribute_caption} bearbeiten"
     enterprise:
       description: 'Geben Sie zusätzliche Informationen für Attribute (inkl. benutzerdefinierter Felder) von Arbeitspaketen und Projekten an. Hilfetexte werden angezeigt, wenn Benutzer in Projekten und Arbeitspaketen auf das Fragezeichensymbol neben Eingabefeldern klicken.'
+  background_jobs:
+    status:
+      error_requeue: "Der Job ist mit einem Fehler fehlgeschlagen, wird aber erneut eingestellt. Der Fehler war: %{message}"
+      cancelled_due_to: "Job wurde aufgrund eines Fehlers abgebrochen: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Dieses LDAP-Formular erfordert technische Kenntnisse ihres LDAP-/Active Directory Setups.
       <br/>
@@ -151,10 +158,6 @@ de:
       verify_peer_description_html: >
         Aktiviert die strikte SSL-Überprüfung der vertrauenswürdigen Zertifikatskette. <br/> <strong>Warnung:</strong> Ausstellen dieser Option deaktiviert die SSL-Überprüfung des LDAP-Serverzertifikats. Ihre Verbindung wird anfällig für Man-In-The-Middle (MITM) Angriffe.
       tls_certificate_description: "Wenn sich das LDAP-Server-Zertifikat nicht in den vertrauenswürdigen Quellen dieses Systems befindet, können Sie es hier manuell hinzufügen. Fügen Sie an dieser Stelle ein oder mehrere PEM X509 Zertifkate ein."
-  background_jobs:
-    status:
-      error_requeue: "Der Job ist mit einem Fehler fehlgeschlagen, wird aber erneut eingestellt. Der Fehler war: %{message}"
-      cancelled_due_to: "Job wurde aufgrund eines Fehlers abgebrochen: %{message}"
   forums:
     show:
       no_results_title_text: Zur Zeit existieren keine Forumseinträge für dieses Forum.
@@ -440,17 +443,17 @@ de:
       attribute_help_text:
         attribute_name: 'Attribut'
         help_text: 'Hilfe-Text'
-      auth_source:
-        account: "Konto"
-        attr_firstname: "Vorname-Attribut"
-        attr_lastname: "Nachname-Attribut"
-        attr_login: "Benutzername"
-        attr_mail: "E-Mail-Attribut"
-        base_dn: "BASE-DN"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
+        base_dn: "Base DN"
         host: "Host"
-        onthefly: "Benutzer automatisch erzeugen"
+        onthefly: "Automatic user creation"
         port: "Port"
-        tls_certificate_string: "LDAP-Server SSL-Zertifikat"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Projektarchiv"
       comment:
@@ -669,10 +672,10 @@ de:
           stellt keinen "Secure Context" zur Verfügung: Benutzen Sie entweder HTTPS oder eine Loopback-Adresse, wie z.B. localhost.
         wrong_length: "hat die falsche Länge (muss genau %{count} Zeichen haben)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "Das angegebene SSL-Zertifikat ist ungültig: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -891,8 +894,8 @@ de:
                 description: "\"Kennwortbestätigung\" sollte mit \"Neues Kennwort\" übereinstimmen."
             status:
               invalid_on_create: "ist kein gültiger Status für neue Benutzer."
-            auth_source:
-              error_not_found: "nicht gefunden"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Bitte wählen Sie mindestens einen Benutzer oder eine Gruppe."
           role_blank: "muss zugeordnet werden."
@@ -2078,10 +2081,7 @@ de:
   label_global_role: "Globale Rolle"
   label_not_changeable: "(nicht veränderbar)"
   label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "Abstrakte Authentifizierungsquellen können nicht verwendet werden."
-    ldap_error: "LDAP-Fehler: %{error_message}"
-    ldap_auth_failed: "Auf dem LDAP-Server konnte nicht authentifiziert werden."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Fehler beim Ausführen des Makros %{macro_name}"
   macro_unavailable: "Das Makro %{macro_name} kann nicht angezeigt werden."
   macros:

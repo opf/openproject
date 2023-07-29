@@ -99,7 +99,14 @@ sl:
     edit: "Uredite besedilo pomoči za %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+  background_jobs:
+    status:
+      error_requeue: "V opravilu je prišlo do napake, poskus opravila se izvaja ponovno. Napaka je bila: %{message}"
+      cancelled_due_to: "Opravilo je bilo prekinjeno zaradi napake: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Ta obrazec LDAP zahteva tehnično znanje o vaši namestitvi LDAP / Active Directory.
       <br/>
@@ -153,10 +160,6 @@ sl:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
-  background_jobs:
-    status:
-      error_requeue: "V opravilu je prišlo do napake, poskus opravila se izvaja ponovno. Napaka je bila: %{message}"
-      cancelled_due_to: "Opravilo je bilo prekinjeno zaradi napake: %{message}"
   forums:
     show:
       no_results_title_text: Trenutno ni nobenih objav za forum.
@@ -444,16 +447,16 @@ sl:
       attribute_help_text:
         attribute_name: 'Atribut'
         help_text: 'Besedilo pomoči'
-      auth_source:
-        account: "Račun"
-        attr_firstname: "Oznaka za ime"
-        attr_lastname: "Oznaka za priimek"
-        attr_login: "Lastnosti uporabnikov"
-        attr_mail: "Atribut elektronskega naslova"
-        base_dn: "Bazni DN"
-        host: "Gostitelj"
-        onthefly: "Samodejno ustvarjanje uporabnika"
-        port: "Vrata"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatic user creation"
+        port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitorij"
@@ -673,7 +676,7 @@ sl:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "je napačna dolžina (mora biti %{count} znakov). "
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -897,8 +900,8 @@ sl:
                 description: "'Potrditev gesla' se mora ujemati z vnosom v polju 'Novo geslo'."
             status:
               invalid_on_create: "za nove uporabnike ni veljaven status."
-            auth_source:
-              error_not_found: "Ni najdeno"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Prosimo izberite vsaj eno osebo ali kategorijo."
           role_blank: "treba dodeliti"
@@ -2118,10 +2121,7 @@ sl:
   label_global_role: "Globalna vloga"
   label_not_changeable: "(ne spremenljivo)"
   label_global: "Globalno"
-  auth_source:
-    using_abstract_auth_source: "Ne morem uporabiti vira abstraktne avtentikacije."
-    ldap_error: "LDAP-Napaka: %{error_message}"
-    ldap_auth_failed: "Overitev ni mogoča na LDAP-Strežniku"
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Napaka pri izvajanju makre %{macro_name}"
   macro_unavailable: "Makra %{macro_name} ne more biti prikazana"
   macros:

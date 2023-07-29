@@ -99,7 +99,14 @@ id:
     edit: "Mengedit teks bantuan untuk %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+  background_jobs:
+    status:
+      error_requeue: "Pekerjaan mengalami kesalahan tetapi mencoba lagi.  Kesalahannya adalah: %{message}"
+      cancelled_due_to: "Pekerjaan dibatalkan karena kesalahan: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Formulir LDAP ini membutuhkan pengetahuan teknis LDAP anda / pengaturan Direktori Aktif. <br/><a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Silahkan kungjungi dokumentasi untuk instruksi lebih jelas</a>.
     attribute_texts:
@@ -148,10 +155,6 @@ id:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
-  background_jobs:
-    status:
-      error_requeue: "Pekerjaan mengalami kesalahan tetapi mencoba lagi.  Kesalahannya adalah: %{message}"
-      cancelled_due_to: "Pekerjaan dibatalkan karena kesalahan: %{message}"
   forums:
     show:
       no_results_title_text: Saat ini tidak ada postingan di forum.
@@ -437,15 +440,15 @@ id:
       attribute_help_text:
         attribute_name: 'Atribut'
         help_text: 'Teks bantuan'
-      auth_source:
-        account: "Akun"
-        attr_firstname: "Atribut nama depan"
-        attr_lastname: "Atribut nama belakang"
-        attr_login: "Atribut nama pengguna"
-        attr_mail: "Atribut email"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "Otomatis membuat pengguna"
+        onthefly: "Automatic user creation"
         port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
@@ -666,7 +669,7 @@ id:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "panjang tidak sesuai (harus %{count} karakter)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -887,8 +890,8 @@ id:
                 description: "Isian konfirmasi password tidak sama dengan masukan password."
             status:
               invalid_on_create: "bukan status yang valid untuk user baru."
-            auth_source:
-              error_not_found: "tidak ditemukan"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Silakan pilih setidaknya satu user atau grup."
           role_blank: "need to be assigned."
@@ -2057,10 +2060,7 @@ id:
   label_global_role: "Peran global"
   label_not_changeable: "(tidak berubah)"
   label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "Can't use an abstract authentication source."
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Authentikasi pada LDAP-Server gagal."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "ERROR eksekusi makro %{macro_name}"
   macro_unavailable: "Makro %{macro_name} tidak dapat ditampilkan."
   macros:

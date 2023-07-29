@@ -99,7 +99,14 @@ cs:
     edit: "Upravit text nápovědy pro %{attribute_caption}"
     enterprise:
       description: 'Poskytněte další informace pro atributy (včetně vlastních polí) pracovních balíčků a projektů. Texty nápovědy se zobrazí, když uživatelé kliknou na symbol otazníku vedle vstupních polí v projektech a pracovních balíčcích.'
+  background_jobs:
+    status:
+      error_requeue: "Úkol zaznamenal chybu, ale opakuje se. Chyba je: %{message}"
+      cancelled_due_to: "Úkol byl zrušen z důvodu chyby: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Tento LDAP formulář vyžaduje technické znalosti nastavení LDAP / Active Directory.
       <br/>
@@ -154,10 +161,6 @@ cs:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
-  background_jobs:
-    status:
-      error_requeue: "Úkol zaznamenal chybu, ale opakuje se. Chyba je: %{message}"
-      cancelled_due_to: "Úkol byl zrušen z důvodu chyby: %{message}"
   forums:
     show:
       no_results_title_text: V současné době nejsou k dispozici žádné příspěvky na fórum.
@@ -447,17 +450,17 @@ cs:
       attribute_help_text:
         attribute_name: 'Atribut'
         help_text: 'Text nápovědy'
-      auth_source:
-        account: "Účet"
-        attr_firstname: "Křestní jméno"
-        attr_lastname: "Příjmení"
-        attr_login: "Atribut uživatelského jména"
-        attr_mail: "Email"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
         base_dn: "Base DN"
-        host: "Hostitel"
-        onthefly: "Automatické vytváření uživatele"
+        host: "Host"
+        onthefly: "Automatic user creation"
         port: "Port"
-        tls_certificate_string: "SSL certifikát LDAP serveru"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitář"
       comment:
@@ -676,7 +679,7 @@ cs:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "má chybnou délku (měla by být %{count} znaků)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -900,8 +903,8 @@ cs:
                 description: "\"Potvrzení hesla\" musí odpovídat vstupu v poli \"Nové heslo\"."
             status:
               invalid_on_create: "není platný stav pro nové uživatele."
-            auth_source:
-              error_not_found: "nenalezeno"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Zvolte alespoň jednoho uživatele nebo skupinu."
           role_blank: "musí být přiřazen."
@@ -2121,10 +2124,7 @@ cs:
   label_global_role: "Globální role"
   label_not_changeable: "(neměnitelné)"
   label_global: "Globální"
-  auth_source:
-    using_abstract_auth_source: "Nelze použít abstraktní zdroj ověřování."
-    ldap_error: "Chyba LDAP: %{error_message}"
-    ldap_auth_failed: "Nelze autentizovat u serveru LDAP."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Chyba při provádění makra %{macro_name}"
   macro_unavailable: "Makro %{macro_name} nelze zobrazit."
   macros:

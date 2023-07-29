@@ -99,7 +99,14 @@ fi:
     edit: "Muokkaa aputeksiä ominaisuudelle %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
       <br/>
@@ -154,10 +161,6 @@ fi:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
-  background_jobs:
-    status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
   forums:
     show:
       no_results_title_text: There are currently no posts for the forum.
@@ -445,16 +448,16 @@ fi:
       attribute_help_text:
         attribute_name: 'Määre'
         help_text: 'Help text'
-      auth_source:
-        account: "Käyttäjätili"
-        attr_firstname: "Etunimi-tietue"
-        attr_lastname: "Sukunimi-tietue"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
         attr_login: "Username attribute"
-        attr_mail: "Sähköposti-tietue"
+        attr_mail: "Email attribute"
         base_dn: "Base DN"
-        host: "Isäntä"
+        host: "Host"
         onthefly: "Automatic user creation"
-        port: "Portti"
+        port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Tietovarasto"
@@ -674,7 +677,7 @@ fi:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -896,8 +899,8 @@ fi:
                 description: "\"Salasanan vahvistus\" -kentän arvon tulee olla identtinen \"Uusi salasana\" -kentän arvon kanssa."
             status:
               invalid_on_create: "ei ole kelvollinen tila uusille käyttäjille."
-            auth_source:
-              error_not_found: "ei löydetty"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Valitse vähintään yksi käyttäjä tai ryhmä."
           role_blank: "need to be assigned."
@@ -2083,10 +2086,7 @@ fi:
   label_global_role: "Yleinen rooli"
   label_not_changeable: "(ei vaihdettavissa)"
   label_global: "Yleinen"
-  auth_source:
-    using_abstract_auth_source: "Voi käyttää abstrakti autentikointi lähde."
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
   macros:

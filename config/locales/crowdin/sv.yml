@@ -99,7 +99,14 @@ sv:
     edit: "Redigera hjälptext för %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Jobbet avbröts på grund av fel: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Detta LDAP-formulär kräver teknisk kunskap om din LDAP / Active Directory-inställning.
       <br/>
@@ -154,10 +161,6 @@ sv:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
-  background_jobs:
-    status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Jobbet avbröts på grund av fel: %{message}"
   forums:
     show:
       no_results_title_text: Det finns för närvarande inga inlägg i forumet.
@@ -444,12 +447,12 @@ sv:
       attribute_help_text:
         attribute_name: 'Attributet'
         help_text: 'Hjälptext'
-      auth_source:
-        account: "Konto"
-        attr_firstname: "Förnamnsattribut"
-        attr_lastname: "Efternamnsattribut"
-        attr_login: "Attribut för användarnamn"
-        attr_mail: "E-postattribut"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
         base_dn: "Base DN"
         host: "Host"
         onthefly: "Automatic user creation"
@@ -673,7 +676,7 @@ sv:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "har fel längd (måste vara %{count} tecken)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -895,8 +898,8 @@ sv:
                 description: "Lösenorden som anges i de två fälten måste matcha varandra."
             status:
               invalid_on_create: "är inte en giltig status för nya användare."
-            auth_source:
-              error_not_found: "hittades inte"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Välj minst en användare eller grupp."
           role_blank: "måste tilldelas."
@@ -2082,10 +2085,7 @@ sv:
   label_global_role: "Globalroll"
   label_not_changeable: "(kan inte ändras)"
   label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "Kan inte använda en abstrakt autentiseringskälla."
-    ldap_error: "LDAP-fel: %{error_message}"
-    ldap_auth_failed: "Kunde inte autentisera på LDAP-servern."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Fel under körning av makrot %{macro_name}"
   macro_unavailable: "Makrot %{macro_name} kan inte visas."
   macros:

@@ -6,8 +6,8 @@ ru:
   boards:
     label_board: "Доска"
     label_boards: "Доски"
-    label_create_new_board: "Create new board"
-    label_board_type: "Board type"
+    label_create_new_board: "Создать новую доску"
+    label_board_type: "Тип доски"
     board_types:
       free: Базовый
       action: "Доска действий (%{attribute})"
@@ -20,17 +20,17 @@ ru:
       basic: Базовый
     board_type_descriptions:
       basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
+        Начните с нуля с чистой доски. Вручную добавьте карточки и столбцы на эту доску.
       status: >
-        Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        Базовая доска в стиле канбан со столбцами для определения статуса, такими как "Сделано", "В процессе", "Готово".
       assignee: >
-        Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        Доска с автоматическими колонками на основе назначенных пользователей. Идеально подходит для отправки пакетов работ.
       version: >
-        Board with automated columns based on the version attribute. Ideal for planning product development.
+        Доска с автоматизированными колонками на основе атрибута версии. Идеально подходит для планирования разработки продукта.
       subproject: >
-        Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        Доска с автоматизированными колонками для подпроектов. Перетаскивание пакетов работ в другие списки соответствующим образом обновляет подпроект.
       subtasks: >
-        Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        Доска с автоматизированными колонками для подэлементов. Перетаскивание пакетов работ в другие списки соответствующим образом обновляет родительский список.
     upsale:
-      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-      upgrade: 'Upgrade now'
+      teaser_text: 'Хотите автоматизировать работу с досками? Обновите платный план до корпоративного.'
+      upgrade: 'Обновить сейчас'

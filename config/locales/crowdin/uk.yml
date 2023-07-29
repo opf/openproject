@@ -99,7 +99,14 @@ uk:
     edit: "Редагувати текст довідки для %{attribute_caption}"
     enterprise:
       description: 'Надайте додаткову інформацію для атрибутів (включно з користувацькими полями) пакетів робіт і проєктів. Підказки з’являються, коли користувачі натискають на знак питання біля полів введення в проєктах і пакетах робіт.'
+  background_jobs:
+    status:
+      error_requeue: "Виконується повторний запуск завдання, оскільки попередня спроба завершилася такою помилкою: %{message}"
+      cancelled_due_to: "Завдання скасовано через помилку: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Ця форма LDAP вимагає технічних знань про налаштування LDAP / Active Directory.<br/><a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Щоб отримати докладні вказівки, ознайомтеся з нашою документацією</a>.
     attribute_texts:
@@ -149,10 +156,6 @@ uk:
       verify_peer_description_html: >
         Вмикає сувору перевірку SSL ланцюжка довірених сертифікатів. <br/> <strong>Увага!</strong> Якщо зняти цей прапорець, буде вимкнено перевірку SSL сертифіката сервера LDAP. Через це ваше з’єднання може стати  вразливим до MITM-атаки.
       tls_certificate_description: "Якщо сертифікат сервера LDAP не належить до надійних джерел цієї системи, ви можете додати його вручну тут. Введіть рядок сертифіката PEM X509."
-  background_jobs:
-    status:
-      error_requeue: "Виконується повторний запуск завдання, оскільки попередня спроба завершилася такою помилкою: %{message}"
-      cancelled_due_to: "Завдання скасовано через помилку: %{message}"
   forums:
     show:
       no_results_title_text: На даний момент на форумі немає публікацій.
@@ -442,17 +445,17 @@ uk:
       attribute_help_text:
         attribute_name: 'Атрибут'
         help_text: 'Довідковий текст'
-      auth_source:
-        account: "Обліковий запис"
-        attr_firstname: "Атрибут Ім'я"
-        attr_lastname: "Атрибут Прізвище"
-        attr_login: "Атрибут імені користувача"
-        attr_mail: "Атрибут Email"
-        base_dn: "База DN"
-        host: "Хост"
-        onthefly: "Автоматичне створення користувачів"
-        port: "Порт"
-        tls_certificate_string: "Сертифікат SSL сервера LDAP"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatic user creation"
+        port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Репозиторій"
       comment:
@@ -671,10 +674,10 @@ uk:
           не надає контекст безпеки. Використовуйте HTTPS або адресу loopback, наприклад localhost.
         wrong_length: "неправильна довжина (повинна бути %{count} символів)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "Наданий сертифікат SSL неприпустимий: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -895,8 +898,8 @@ uk:
                 description: "\"Підтвердження пароля\" має відповідати введеному в полі \"Новий пароль\"."
             status:
               invalid_on_create: "не є дійсним статусом для нових користувачів."
-            auth_source:
-              error_not_found: "не знайдено"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Виберіть принаймні одного користувача або групу."
           role_blank: "повинні бути призначені."
@@ -2116,10 +2119,7 @@ uk:
   label_global_role: "Глобальна роль"
   label_not_changeable: "(не змінюється)"
   label_global: "Глобальний"
-  auth_source:
-    using_abstract_auth_source: "Неможливо використовувати абстрактне джерело автентифікації."
-    ldap_error: "LDAP-Помилка: %{error_message}"
-    ldap_auth_failed: "Не вдалося перевірити автентичність через LDAP-сервер."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Помилка виконання макросу %{macro_name}"
   macro_unavailable: "Макрос %{macro_name} не може бути відображений."
   macros:

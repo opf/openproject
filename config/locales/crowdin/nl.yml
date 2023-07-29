@@ -99,7 +99,14 @@ nl:
     edit: "Bewerken van help-tekst voor %{attribute_caption}"
     enterprise:
       description: 'Geef aanvullende informatie voor attributen (incl. aangepaste velden) van werkpakketten en projecten. Helpteksten worden weergegeven wanneer gebruikers klikken op het vraagtekensymbool naast invoervelden in projecten en werkpakketten.'
+  background_jobs:
+    status:
+      error_requeue: "Taak ondervond een foutmelding maar probeert opnieuw. De fout was: %{message}"
+      cancelled_due_to: "Taak is geannuleerd als gevolg van fout: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Dit LDAP-formulier vereist technische kennis van uw LDAP / Active Directory-configuratie.
       <br/>
@@ -151,10 +158,6 @@ nl:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
-  background_jobs:
-    status:
-      error_requeue: "Taak ondervond een foutmelding maar probeert opnieuw. De fout was: %{message}"
-      cancelled_due_to: "Taak is geannuleerd als gevolg van fout: %{message}"
   forums:
     show:
       no_results_title_text: Er zijn momenteel geen berichten voor het forum.
@@ -442,16 +445,16 @@ nl:
       attribute_help_text:
         attribute_name: 'Kenmerk'
         help_text: 'Helptekst'
-      auth_source:
+      ldap_auth_source:
         account: "Account"
-        attr_firstname: "Voornaam"
-        attr_lastname: "Achternaam"
-        attr_login: "Gebruikersnaam attribuut"
-        attr_mail: "Emailadres"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "Automatische gebruiker aanmaken"
-        port: "Poort"
+        onthefly: "Automatic user creation"
+        port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repository"
@@ -671,7 +674,7 @@ nl:
           bevat geen "Secure Context". Gebruik HTTPS of een loopbackadres, zoals localhost.
         wrong_length: "is de verkeerde lengte (dient %{count} karakters te zijn)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -893,8 +896,8 @@ nl:
                 description: "'Wachtwoordbevestiging' moet hetzelfde zijn als de invoer bij het 'Nieuw wachtwoord'-veld."
             status:
               invalid_on_create: "is niet een geldige status voor nieuwe gebruikers."
-            auth_source:
-              error_not_found: "niet gevonden"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Kies ten minste één gebruiker of groep."
           role_blank: "moet worden toegewezen."
@@ -2080,10 +2083,7 @@ nl:
   label_global_role: "Globale functie"
   label_not_changeable: "(niet wijzigbaar)"
   label_global: "Globaal"
-  auth_source:
-    using_abstract_auth_source: "Kan geen abstracte authenticatiebron gebruiken."
-    ldap_error: "LDAP-fout: %{error_message}"
-    ldap_auth_failed: "Kon niet authenticeren met LDAP-server."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Fout bij het uitvoeren van de macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} kan niet worden weergegeven."
   macros:

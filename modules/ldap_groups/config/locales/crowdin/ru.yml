@@ -3,11 +3,11 @@ ru:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        ldap_auth_source: 'LDAP connection'
+        ldap_auth_source: 'Подключение к LDAP'
         sync_users: 'Синхронизация пользователей'
       ldap_groups/synchronized_filter:
         filter_string: 'Фильтр LDAP'
-        ldap_auth_source: 'LDAP connection'
+        ldap_auth_source: 'Подключение к LDAP'
         group_name_attribute: "Атрибут имени группы"
         sync_users: 'Синхронизация пользователей'
         base_dn: "Поиск базы DN"

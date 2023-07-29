@@ -99,7 +99,14 @@ lt:
     edit: "Redaguoti pagalbos tekstą atributui: %{attribute_caption}"
     enterprise:
       description: 'Teikia papildomą informaciją apie darbo paketų ir projektų atributus (įskaitant savus laukus).'
+  background_jobs:
+    status:
+      error_requeue: "Vykdant užduotį buvo rasta klaida, tačiau bandoma dar kartą. Klaida buvo: %{message}"
+      cancelled_due_to: "Užduotis buvo nutraukta dėl klaidos: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Ši LDAP forma reikalauja jūsų LDAP / Active Directory tvarkos žinojimo.
       <br/>
@@ -151,10 +158,6 @@ lt:
       verify_peer_description_html: >
         Įjungia griežtą SSL sertifikatų pasitikėjimo grandinių tikrinimą. <br/> <strong>Įspėjimas:</strong> išjungus šią parinktį išjungiamas LDAP serverio sertifikato SSL tikrinimas. Tai padaro jūsų jungtis pažeidžiamomis Žmogaus per vidurį atakoms.
       tls_certificate_description: "Jei LDAP serverio sertifikatas neįtrauktas į šios sistemos pasitikimuosius, jūs galite jį pridėti rankiniu būdu čia. Įveskite PEM X509 sertifikato eilutę."
-  background_jobs:
-    status:
-      error_requeue: "Vykdant užduotį buvo rasta klaida, tačiau bandoma dar kartą. Klaida buvo: %{message}"
-      cancelled_due_to: "Užduotis buvo nutraukta dėl klaidos: %{message}"
   forums:
     show:
       no_results_title_text: Šiuo metu forume nėra įrašų.
@@ -444,17 +447,17 @@ lt:
       attribute_help_text:
         attribute_name: 'Atributas'
         help_text: 'Pagalbos tekstas'
-      auth_source:
-        account: "Paskyra"
-        attr_firstname: "Vardo atributas"
-        attr_lastname: "Pavardės atributas"
-        attr_login: "Naudotojo atributas"
-        attr_mail: "El. paštos atributas"
-        base_dn: "Bazinis DN"
-        host: "Hostas"
-        onthefly: "Automatinis naudotojų kūrimas"
-        port: "Jungtis"
-        tls_certificate_string: "LDAP serverio SSL sertifikatas"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatic user creation"
+        port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitorija"
       comment:
@@ -673,10 +676,10 @@ lt:
           neteikia „Saugaus konteksto“. Arba naudokite HTTPS, arba atgalinį adresą, tokį kaip localhost.
         wrong_length: "yra neteisingo ilgio (turi būti %{count} simbolių)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "Pateiktas SSL sertifikatas netinkamas: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -897,8 +900,8 @@ lt:
                 description: "„Slaptažodžio patvirtinimas“ turi sutapti su įvestu į laukelį „Naujas slaptažodis“."
             status:
               invalid_on_create: "yra netinkama naujų naudotojų būsena."
-            auth_source:
-              error_not_found: "nerasta"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Prašome pasirinkti bent vieną naudotoją ar grupę."
           role_blank: "turi būti priskirtas."
@@ -1761,7 +1764,7 @@ lt:
   label_hierarchy_leaf: "Hierarchijos lapas"
   label_home: "Namai"
   label_subject_or_id: "Tema arba ID"
-  label_calendar_subscriptions: "Calendar subscriptions"
+  label_calendar_subscriptions: "Kalendoriaus prenumeratos"
   label_impressum: "Teisinė informacija"
   label_in: " "
   label_in_less_than: "mažiau nei"
@@ -2118,10 +2121,7 @@ lt:
   label_global_role: "Globalus vaidmuo"
   label_not_changeable: "(negalima pakeisti)"
   label_global: "Globali"
-  auth_source:
-    using_abstract_auth_source: "Negalima naudoti abstraktaus autentifikavimo šaltinio."
-    ldap_error: "LDAP-Klaida: %{error_message}"
-    ldap_auth_failed: "LDAP serveryje autentifikacija nepavyko."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Klaida vykdant makrokomandą %{macro_name}"
   macro_unavailable: "Makrokomanda %{macro_name} negali būti rodoma."
   macros:

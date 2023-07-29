@@ -99,7 +99,14 @@ ca:
     edit: "Edita el text d'ajuda per a %{attribute_caption}"
     enterprise:
       description: 'Proveeix informació addicional pels atributs (inclosos camps personalitzats) dels paquets de treball o projectes. Els texts d''ajuda es mostren quan l''usuari fa clic al signe d''interrogació al costat dels valors de camp en projectes i paquets de treball.'
+  background_jobs:
+    status:
+      error_requeue: "La tasca ha produït un error, però s'està reintentant. L'error era: %{message}"
+      cancelled_due_to: "La feina s'ha cancel·lat a causa d'un error: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Aquest formulari LDAP requereix coneixement tècnic sobre la teva configuració LDAP / Directori actiu.
       <br/>
@@ -151,10 +158,6 @@ ca:
       verify_peer_description_html: >
         Habilita verificacions SSL estrictes del certificat en cadena de confiança. <br/> <strong> Alerta:</strong> Desseleccionar  aquesta opció deshabilita la verificació SSL al certificat del servidor LDAP. Això, exposa la teva connexió als atacs d'intermediari.
       tls_certificate_description: "Si el certificat de servidor LDAP no està en els recursos de confiança d'aquest sistema, pots afegir-lo manualment aquí. Introdueix una entrada de certificat PEM X509."
-  background_jobs:
-    status:
-      error_requeue: "La tasca ha produït un error, però s'està reintentant. L'error era: %{message}"
-      cancelled_due_to: "La feina s'ha cancel·lat a causa d'un error: %{message}"
   forums:
     show:
       no_results_title_text: Ara mateix no hi ha posts en aquest fòrum.
@@ -441,17 +444,17 @@ ca:
       attribute_help_text:
         attribute_name: 'Atribut'
         help_text: 'Text d''ajuda'
-      auth_source:
-        account: "Compte"
-        attr_firstname: "Atribut Nom"
-        attr_lastname: "Atribut Cognom"
-        attr_login: "Atribut Nom d'usuari"
-        attr_mail: "Atribut de Correu electrònic"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
         base_dn: "Base DN"
-        host: "Servidor"
-        onthefly: "Creació d'usuari automàtica"
+        host: "Host"
+        onthefly: "Automatic user creation"
         port: "Port"
-        tls_certificate_string: "Servidor LDAP del certificat SSL"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repositori"
       comment:
@@ -670,10 +673,10 @@ ca:
           no està proveint un "Context Segur". Utilitza HTTPS o bé una adreça de retroalimentació, com un host local.
         wrong_length: "la longitud és incorrecta (haurien de ser %{count} caràcters)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "El certificat SSL proporcionat és invàlid: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -892,8 +895,8 @@ ca:
                 description: "'Confirmació de la contrasenya' ha de coincidir amb la introduïda al camp 'Nova contrasenya'."
             status:
               invalid_on_create: "no és un valor vàlid per a nous usuaris."
-            auth_source:
-              error_not_found: "no trobat"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Trieu com a mínim un usuari o grup."
           role_blank: "s'ha d'assignar."
@@ -2079,10 +2082,7 @@ ca:
   label_global_role: "Rol global"
   label_not_changeable: "(no variable)"
   label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "No podeu utilitzar una font d'autenticació abstracte."
-    ldap_error: "Error LDAP: %{error_message}"
-    ldap_auth_failed: "No s'ha pogut autenticar en el servidor de LDAP."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Error en l'execució de la macro %{macro_name}"
   macro_unavailable: "No es pot mostrar la macro %{macro_name}."
   macros:

@@ -99,7 +99,14 @@ sk:
     edit: "Upraviť text pomocníka pre %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
       <br/>
@@ -154,10 +161,6 @@ sk:
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
-  background_jobs:
-    status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
   forums:
     show:
       no_results_title_text: There are currently no posts for the forum.
@@ -447,12 +450,12 @@ sk:
       attribute_help_text:
         attribute_name: 'Atribút'
         help_text: 'Text pomocníka'
-      auth_source:
-        account: "Účet"
-        attr_firstname: "Krstné meno"
-        attr_lastname: "Priezvisko"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
         attr_login: "Username attribute"
-        attr_mail: "E-mail adresa"
+        attr_mail: "Email attribute"
         base_dn: "Base DN"
         host: "Host"
         onthefly: "Automatic user creation"
@@ -676,7 +679,7 @@ sk:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "má chybnú dĺžku (správne má byť %{count} znakov)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -900,8 +903,8 @@ sk:
                 description: "\"Potvrdenie hesla\" musí byť rovnaké ako v poli \"Nové heslo\"."
             status:
               invalid_on_create: "nie je platný stav pre nových používateľov."
-            auth_source:
-              error_not_found: "nenájdené"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Vyberte aspoň jedného používateľa alebo skupinu."
           role_blank: "musí byť pridelené."
@@ -2121,10 +2124,7 @@ sk:
   label_global_role: "Globálna rola"
   label_not_changeable: "(nemodifikovateľná)"
   label_global: "Globálna"
-  auth_source:
-    using_abstract_auth_source: "Nie je možné použiť abstraktný zdroj overovania."
-    ldap_error: "LDAP-Chyba: %{error_message}"
-    ldap_auth_failed: "Nemožno overiť v LDAP-Serveri."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Pri spúšťaní makra sa vyskytla chyba %{macro_name}"
   macro_unavailable: "Makro %{macro_name} sa nedá zobraziť."
   macros:
