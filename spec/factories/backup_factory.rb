@@ -28,5 +28,7 @@
 
 FactoryBot.define do
   factory :backup, class: 'Backup' do
+    creator factory: :user
+    sequence(:comment) { |n| "Backup number ##{n}" }
   end
 end

@@ -1,7 +1,11 @@
-class Backup < Export
+class Backup < ActiveRecord::Base
   class << self
-    def permission
+    def create_permission
       :create_backup
+    end
+
+    def restore_permission
+      :restore_backup
     end
 
     def include_attachments?
@@ -33,10 +37,20 @@ class Backup < Export
     end
   end
 
+  belongs_to :creator, class_name: 'User'
+
+  has_one(
+    :job_status,
+    -> { where(reference_type: "Backup") },
+    class_name: "JobStatus::Status",
+    foreign_key: :reference_id,
+    dependent: :destroy
+  )
+
   acts_as_attachable(
-    view_permission: permission,
-    add_permission: permission,
-    delete_permission: permission,
+    view_permission: create_permission,
+    add_permission: create_permission,
+    delete_permission: create_permission,
     only_user_allowed: true
   )
 

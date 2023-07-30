@@ -45,23 +45,6 @@ See COPYRIGHT and LICENSE files for more details.
       <span class="button--text"><%= t('backup.label_backup_token') %></span>
     <% end %>
   </li>
-  <% if @backup_token.present? %>
-  <li class="toolbar-item">
-    <% label = t("backup.label_delete_token") %>
-    <%=
-      link_to(
-        { action: 'delete_token' },
-        method: :post,
-        class: 'button -alt-highlight',
-        aria: {label: label},
-        title: label
-      ) do
-    %>
-      <%= op_icon("button--icon icon-delete") %>
-      <span class="button--text"><%= t('backup.label_backup_token') %></span>
-    <% end %>
-  </li>
-  <% end %>
 <% end %>
 
 <p>

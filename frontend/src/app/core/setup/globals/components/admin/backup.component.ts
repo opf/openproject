@@ -79,6 +79,8 @@ export class BackupComponent implements AfterViewInit {
 
   public backupToken = '';
 
+  public comment = '';
+
   @InjectField() opBackup:OpenProjectBackupService;
 
   @ViewChild('backupTokenInput') backupTokenInput:ElementRef;
@@ -126,7 +128,7 @@ export class BackupComponent implements AfterViewInit {
     this.backupToken = '';
 
     this.opBackup
-      .triggerBackup(backupToken, this.includeAttachments)
+      .triggerBackup(backupToken, this.includeAttachments, this.comment)
       .subscribe(
         (resp:HalResource) => {
           this.jobStatusId = resp.jobStatusId;

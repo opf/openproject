@@ -331,6 +331,9 @@ gem 'googleauth', require: false
 # Required for contracts
 gem 'disposable', '~> 0.6.2'
 
+# required for the restore/preview backup feature
+gem 'apartment', git: 'https://github.com/opf/apartment', ref: '2c8658c'
+
 platforms :mri, :mingw, :x64_mingw do
   group :postgres do
     gem 'pg', '~> 1.5.0'

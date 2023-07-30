@@ -422,8 +422,19 @@ OpenProject::Application.routes.draw do
       post 'plugin/:id', action: :update_plugin
     end
 
-    resource :backups, controller: '/admin/backups', only: %i[show] do
+    resources :backups, controller: '/admin/backups', only: %i[index new destroy] do
+      member do
+        get :preview
+        get :restore
+      end
+
       collection do
+        get :back
+        get :restored
+
+        get :upload
+        post :upload, action: :perform_upload
+
         get :reset_token
         post :reset_token, action: :perform_token_reset
 

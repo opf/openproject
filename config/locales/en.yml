@@ -1065,6 +1065,7 @@ en:
     content: "Content"
     color: "Color"
     created_at: "Created on"
+    creator: "Creator"
     custom_options: "Possible values"
     custom_values: "Custom fields"
     date: "Date"
@@ -1096,6 +1097,7 @@ en:
     responsible: "Accountable"
     role: "Role"
     roles: "Roles"
+    size_in_mb: "Size in MB"
     start_date: "Start date"
     status: "Status"
     subject: "Subject"
@@ -1111,12 +1113,23 @@ en:
     work_package: "Work package"
 
   backup:
+    button_upload: "Upload backup"
     failed: "Backup failed"
+    file_instructions: Requires a backup (zip archive) downloaded from OpenProject
+    job_status:
+      in_queue: "Backup queued"
+      in_process: "Backup in progress"
+      success: "Backup complete"
+    label_comment: "Comment"
+    label_create: "Create backup"
+    label_upload: "Upload backup"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
     label_reset_token: "Reset backup token"
     label_token_users: "The following users have active backup tokens"
+    notice_deleted: Backup deleted
+    notice_uploaded: Backup '%{comment}' uploaded
     reset_token:
       action_create: Create
       action_reset: Reset
@@ -1137,6 +1150,14 @@ en:
       warning: >
         When you create a new token you will only be allowed to request a backup after
         24 hours. This is a safety measure. After that you can request a backup any time using that token.
+    restore:
+      failed: Could not restore backup
+      complete: Backup restored
+      not_complete: Backup has not been restored yet
+      job_status:
+        in_queue: "Backup about to be restored"
+        in_process: "Backup is being restored"
+        success: "Backup has been restored. Please refresh."
     text_token_deleted:
       Backup token deleted. Backups are now disabled.
     error:
@@ -1144,6 +1165,19 @@ en:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
+  backup_preview:
+    info: Any changes you make during the preview will be lost. Attachments are not available.
+    label_by: by
+    label_created: Created
+    label_previewing: Previewing backup
+    label_return: Back
+    label_unknown_users: Unknown user
+    restore:
+      not_complete: Backup preview has not been restored yet
+      job_status:
+        in_queue: "Backup preview about to be restored"
+        in_process: "Backup preview is being restored"
+        success: "Backup preview has been restored. Please refresh to see it."
 
   button_add: "Add"
   button_add_comment: "Add comment"
@@ -1735,6 +1769,7 @@ en:
   label_deleted_custom_field: "(deleted custom field)"
   label_deleted_custom_option: "(deleted option)"
   label_empty_element: "(empty)"
+  label_maintenance_mode: Maintenance mode
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Descending"
   label_details: "Details"
@@ -1959,6 +1994,7 @@ en:
   label_precedes: "precedes"
   label_preferences: "Preferences"
   label_preview: "Preview"
+  label_preview_backup: "Preview backup"
   label_previous: "Previous"
   label_previous_week: "Previous week"
   label_principal_invite_via_email: " or invite new users via email"
@@ -2012,6 +2048,7 @@ en:
   label_repository_plural: "Repositories"
   label_required: 'required'
   label_requires: 'requires'
+  label_restore_backup: "Restore backup"
   label_result_plural: "Results"
   label_reverse_chronological_order: "Newest first"
   label_revision: "Revision"

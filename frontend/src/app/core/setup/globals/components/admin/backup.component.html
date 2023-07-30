@@ -39,6 +39,20 @@
           <legend class="form--fieldset-legend">
             {{ text.options }}
           </legend>
+          <div class="form--field">
+            <label class="form--label">Comment:</label>
+            <div class="form--field-container">
+              <div class="form--text-field-container">
+                <input
+                  type="text"
+                  class="form--text-field"
+                  name="comment"
+                  [value]="comment"
+                  (input)="comment = $event.target.value"
+                />
+              </div>
+            </div>
+          </div>
           <label class="form--label-with-check-box" [title]="includeAttachmentsTitle()">
             <div class="form--check-box-container">
               <input

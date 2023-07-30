@@ -9,6 +9,17 @@ GIT
       rspec (>= 3.10)
 
 GIT
+  remote: https://github.com/opf/apartment
+  revision: 2c8658c09345e01ee6d6fe02ab1423feaf477542
+  ref: 2c8658c
+  specs:
+    apartment (2.2.1)
+      activerecord (>= 3.1.2, < 8)
+      parallel (>= 0.7.1)
+      public_suffix (>= 2)
+      rack (>= 1.3.6)
+
+GIT
   remote: https://github.com/opf/md-to-pdf
   revision: 76945d45c14b841e2312f992422e2631a4524114
   ref: 76945d45c14b841e2312f992422e2631a4524114
@@ -998,6 +1009,7 @@ DEPENDENCIES
   acts_as_tree (~> 2.9.0)
   addressable (~> 2.8.0)
   airbrake (~> 13.0.0)
+  apartment!
   appsignal (~> 3.0)
   auto_strip_attributes (~> 2.5)
   awesome_nested_set (~> 3.5.0)

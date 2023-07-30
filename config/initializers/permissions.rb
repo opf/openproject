@@ -44,7 +44,16 @@ Rails.application.reloader.to_prepare do
       map.permission :create_backup,
                      {
                        admin: %i[index],
-                       'admin/backups': %i[delete_token perform_token_reset reset_token show]
+                       'admin/backups': %i[delete_token perform_token_reset reset_token new index]
+                     },
+                     require: :loggedin,
+                     global: true,
+                     enabled: -> { OpenProject::Configuration.backup_enabled? }
+      
+      map.permission :restore_backup,
+                     {
+                       admin: %i[index],
+                       'admin/backups': %i[restore]
                      },
                      require: :loggedin,
                      global: true,

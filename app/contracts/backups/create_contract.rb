@@ -28,7 +28,10 @@
 
 module Backups
   class CreateContract < ::ModelContract
-    include SingleTableInheritanceModelContract
+    attribute :comment
+    attribute :creator
+
+    validates :creator, presence: true
 
     validate :user_allowed_to_create_backup
     validate :backup_token
@@ -64,8 +67,7 @@ module Backups
     end
 
     def no_pending_backups
-      current_backup = Backup.last
-      if pending_statuses.include? current_backup&.job_status&.status
+      if pending_backups?
         errors.add :base, :backup_pending, message: I18n.t("backup.error.backup_pending")
       end
     end
@@ -75,7 +77,14 @@ module Backups
     end
 
     def user_allowed_to_create_backup?
-      user.allowed_to_globally? Backup.permission
+      user.allowed_to_globally? Backup.create_permission
+    end
+
+    def pending_backups?
+      Backup
+        .joins(:job_status)
+        .where(job_status: { status: pending_statuses })
+        .exists?
     end
 
     def pending_statuses

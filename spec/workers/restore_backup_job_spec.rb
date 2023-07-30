@@ -28,11 +28,10 @@
 
 require 'spec_helper'
 
-RSpec.describe BackupJob, type: :model do
-  shared_examples "it creates a backup" do |opts = {}|
-    let(:job) { BackupJob.new }
+RSpec.describe RestoreBackupJob, type: :model do
+  shared_examples "it restores the backup" do |opts = {}|
+    let(:job) { RestoreBackupJob.new }
 
-    let(:previous_backup) { create(:backup) }
     let(:backup) { create(:backup) }
     let(:status) { :in_queue }
     let(:job_id) { 42 }
@@ -47,28 +46,27 @@ RSpec.describe BackupJob, type: :model do
       )
     end
 
-    let(:db_dump_process_status) do
-      success = db_dump_success
+    let(:db_restore_process_status) do
+      success = db_restore_success
 
       Object.new.tap do |o|
         o.define_singleton_method(:success?) { success }
       end
     end
 
-    let(:db_dump_success) { false }
+    let(:db_restore_success) { false }
 
     let(:arguments) { [{ backup:, user:, **opts.except(:remote_storage) }] }
 
     let(:user) { create(:admin) }
 
     before do
-      previous_backup
       backup
 
       allow(job).to receive(:arguments).and_return arguments
       allow(job).to receive(:job_id).and_return job_id
 
-      allow(Open3).to receive(:capture3).and_return [nil, "Dump failed", db_dump_process_status]
+      allow(Open3).to receive(:capture3).and_return [nil, "mock restore cmd", db_restore_process_status]
 
       allow_any_instance_of(BackupJob)
         .to receive(:tmp_file_name).with("openproject", ".sql").and_return("/tmp/openproject.sql")
@@ -84,47 +82,12 @@ RSpec.describe BackupJob, type: :model do
       job.perform **arguments.first
     end
 
-    describe '#pg_env' do
-      subject { job.pg_env }
-
-      context 'when config has user reference, not username (regression #44251)' do
-        let(:config_double) do
-          {
-            adapter: :postgresql,
-            password: "blabla",
-            database: "test",
-            user: "foobar"
-          }
-        end
-
-        before do
-          allow(job).to receive(:database_config).and_return(config_double)
-        end
-
-        it 'still sets a PGUSER' do
-          expect(subject['PGUSER']).to eq 'foobar'
-          expect(subject['PGPASSWORD']).to eq 'blabla'
-          expect(subject['PGDATABASE']).to eq 'test'
-        end
-      end
-    end
-
-    context "with a failed database dump" do
-      let(:db_dump_success) { false }
-
-      before { perform }
-
-      it "retains previous backups" do
-        expect(Backup.find_by(id: previous_backup.id)).not_to be_nil
-      end
-    end
-
     context "with a successful database dump" do
-      let(:db_dump_success) { true }
+      let(:db_restore_success) { true }
 
       let!(:attachment) { create(:attachment) }
       let!(:pending_direct_upload) { create(:pending_direct_upload) }
-      let(:stored_backup) { Attachment.where(container_type: "Backup").last }
+      let(:stored_backup) { Attachment.where(container_type: "Export").last }
       let(:backup_files) { Zip::File.open(stored_backup.file.path) { |zip| zip.entries.map(&:name) } }
 
       def backed_up_attachment(attachment)
@@ -135,10 +98,6 @@ RSpec.describe BackupJob, type: :model do
         allow(job).to receive(:remove_paths!)
 
         perform
-      end
-
-      it "does not destroy previous backups" do
-        expect(Backup.find_by(id: previous_backup.id)).to be_present
       end
 
       it "stores a new backup as an attachment" do
@@ -177,39 +136,10 @@ RSpec.describe BackupJob, type: :model do
   end
 
   context "per default" do
-    it_behaves_like "it creates a backup"
+    it_behaves_like "it restores the backup"
   end
 
-  context(
-    "with remote storage",
-    with_config: {
-      attachments_storage: :fog,
-      fog: {
-        directory: MockCarrierwave.bucket,
-        credentials: MockCarrierwave.credentials
-      }
-    }
-  ) do
-    let(:dummy_path) { "/tmp/op_uploaded_files/1639754082-3468-0002-0911/file.ext" }
-
-    before do
-      FileUtils.mkdir_p Pathname(dummy_path).parent.to_s
-      File.open(dummy_path, "w") { |f| f.puts 'dummy' }
-
-      allow_any_instance_of(LocalFileUploader).to receive(:cached?).and_return(true)
-      allow_any_instance_of(LocalFileUploader)
-        .to receive(:local_file)
-              .and_return(File.new(dummy_path))
-    end
-
-    after do
-      FileUtils.rm_rf dummy_path
-    end
-
-    it_behaves_like "it creates a backup", remote_storage: true
-  end
-
-  context "with include_attachments: false" do
-    it_behaves_like "it creates a backup", include_attachments: false
+  context "with preview: true" do
+    it_behaves_like "it restores the backup", preview: true
   end
 end

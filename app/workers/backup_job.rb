@@ -65,7 +65,6 @@ class BackupJob < ApplicationJob
     )
 
     store_backup(file_name, backup:, user:)
-    cleanup_previous_backups!
 
     notify_backup_ready!
   end
@@ -111,10 +110,6 @@ class BackupJob < ApplicationJob
     true
   end
 
-  def cleanup_previous_backups!
-    Backup.where.not(id: backup.id).destroy_all
-  end
-
   def success?
     job_status.status == JobStatus::Status.statuses[:success]
   end
@@ -136,6 +131,9 @@ class BackupJob < ApplicationJob
         .call(container: backup, filename: file_name, file:, description: 'OpenProject backup')
 
       call.on_success do
+        size_in_mb = (call.result.filesize / 1024.0 / 1024.0).round(2)
+        backup.update size_in_mb: size_in_mb
+
         download_url = ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(call.result.id)
 
         upsert_status(

@@ -75,6 +75,13 @@ module Accounts::CurrentUser
       user = User.try_to_autologin(cookies[OpenProject::Configuration['autologin_cookie_name']])
       session[:user_id] = user.id if user
       user
+    elsif user_id = cookies.signed[:login_user_id].presence
+      cookies.delete :login_user_id
+
+      user = User.active.where(id: user_id).first
+      session[:user_id] = user.id if user
+
+      user
     elsif params[:format] == 'atom' && params[:key] && accept_key_auth_actions.include?(params[:action])
       # RSS key authentication does not start a session
       User.find_by_rss_key(params[:key])

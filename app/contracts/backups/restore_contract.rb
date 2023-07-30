@@ -27,30 +27,45 @@
 #++
 
 module Backups
-  class CreateService < ::BaseServices::Create
-    attr_reader :comment
+  class RestoreContract < ::ParamsContract
+    validate :backup_exists
+    validate :user_allowed_to_restore_backup
+    validate :backup_token
+    validate :no_pending_backups
 
-    def initialize(user:, backup_token:, comment: nil, include_attachments: true, contract_class: ::Backups::CreateContract)
-      super user:, contract_class:, contract_options: { backup_token: }
+    private
 
-      @include_attachments = include_attachments
-      @comment = comment
-    end
-
-    def include_attachments?
-      @include_attachments
-    end
-
-    def after_perform(call)
-      if call.success?
-        BackupJob.perform_later(
-          backup: call.result,
-          user:,
-          include_attachments: include_attachments?
-        )
+    def backup_exists
+      if !Backup.where(id: params[:backup_id]).exists?
+        errors.add :base, :not_found, message: I18n.t("label_not_found")
       end
+    end
 
-      call
+    def backup_token
+      token = Token::Backup.find_by_plaintext_value options[:backup_token].to_s
+
+      if token.blank? || token.user_id != user.id
+        errors.add :base, :invalid_token, message: I18n.t("backup.error.invalid_token")
+      end
+    end
+
+    def no_pending_backups
+      current_backup = Backup.last
+      if pending_statuses.include? current_backup&.job_status&.status
+        errors.add :base, :backup_pending, message: I18n.t("backup.error.backup_pending")
+      end
+    end
+
+    def user_allowed_to_restore_backup
+      errors.add :base, :error_unauthorized unless user_allowed_to_restore_backup?
+    end
+
+    def user_allowed_to_restore_backup?
+      user.allowed_to_globally? Backup.restore_permission
+    end
+
+    def pending_statuses
+      ::JobStatus::Status.statuses.slice(:in_queue, :in_process).values
     end
   end
 end

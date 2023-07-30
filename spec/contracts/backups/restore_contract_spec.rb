@@ -26,31 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Backups
-  class CreateService < ::BaseServices::Create
-    attr_reader :comment
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
-    def initialize(user:, backup_token:, comment: nil, include_attachments: true, contract_class: ::Backups::CreateContract)
-      super user:, contract_class:, contract_options: { backup_token: }
+RSpec.describe Backups::RestoreContract do
+  let(:backup) { create :backup }
+  let(:contract) { described_class.new nil, current_user, options: { backup_token: backup_token }, params: params }
+  let(:backup_token) { create(:backup_token, user: current_user).plain_value }
+  let(:params) { { backup_id: backup.id } }
 
-      @include_attachments = include_attachments
-      @comment = comment
+  include_context 'ModelContract shared context'
+
+  context 'with a regular user who has the :restore_backup permission' do
+    let(:current_user) { create(:user, global_permissions: [:restore_backup]) }
+
+    it_behaves_like 'contract is valid'
+
+    context 'with a missing backup' do
+      let(:params) { { backup_id: 0 } }
+
+      it_behaves_like 'contract is invalid'
     end
 
-    def include_attachments?
-      @include_attachments
-    end
+    context 'with an invalid backup token' do
+      let(:backup_token) { "42" }
 
-    def after_perform(call)
-      if call.success?
-        BackupJob.perform_later(
-          backup: call.result,
-          user:,
-          include_attachments: include_attachments?
-        )
-      end
-
-      call
+      it_behaves_like 'contract is invalid'
     end
+  end
+
+  context 'with a user missing the required permission' do
+    let(:current_user) { create(:user) }
+
+    it_behaves_like 'contract is invalid'
   end
 end

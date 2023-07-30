@@ -1,0 +1,40 @@
+  <form class="form danger-zone" action="#">
+<div class='wiki'>
+    <section class="form--section">
+    <h3 class="form--section-title">
+        {{ preview ? text.previewTitle : text.restoreTitle }} '{{ backupComment }}'
+    </h3>
+
+    <p>
+        {{ preview ? text.previewInfo : text.restoreInfo }}
+    </p>
+
+    <p class="danger-zone--warning">
+        <span class="icon icon-error"></span>
+        <span>{{ preview ? text.previewNote : text.restoreNote }}</span>
+    </p>
+    <div class="danger-zone--verification">
+        <input
+        type="password"
+        name="backupToken"
+        placeholder="Backup token"
+        required="required"
+        [value]="backupToken"
+        (input)="backupToken = $event.target.value"
+        #backupTokenInput
+        />
+        <button
+        name="button"
+        type="submit"
+        class="-highlight button"
+        [disabled]="backupToken.length === 0"
+        (click)="triggerRestore($event)"
+        >
+        <i class="button--icon icon-export"></i>
+        <span class="button--text">{{ preview ? text.previewBackup : text.restoreBackup }}</span>
+        </button>
+    </div>
+    </section>
+</div>
+</form>
+  

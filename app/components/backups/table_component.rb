@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,30 +29,30 @@
 #++
 
 module Backups
-  class CreateService < ::BaseServices::Create
-    attr_reader :comment
+  class TableComponent < ::TableComponent
+    columns :comment, :creator, :size_in_mb, :status, :created_at
 
-    def initialize(user:, backup_token:, comment: nil, include_attachments: true, contract_class: ::Backups::CreateContract)
-      super user:, contract_class:, contract_options: { backup_token: }
-
-      @include_attachments = include_attachments
-      @comment = comment
+    def initial_sort
+      %i[created_at desc]
     end
 
-    def include_attachments?
-      @include_attachments
-    end
-
-    def after_perform(call)
-      if call.success?
-        BackupJob.perform_later(
-          backup: call.result,
-          user:,
-          include_attachments: include_attachments?
-        )
+    def headers
+      columns.map do |name|
+        [name.to_s, header_options(name)]
       end
+    end
 
-      call
+    def header_options(name)
+      options = { caption: User.human_attribute_name(name) }
+
+      options[:default_order] = 'desc' if desc_by_default.include? name
+
+      options
+    end
+
+    def desc_by_default
+      %i[created_at]
     end
   end
 end
+  

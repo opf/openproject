@@ -38,12 +38,21 @@ export class Apiv3BackupsPath extends ApiV3GettableResource<ConfigurationResourc
     super(apiRoot, basePath, 'backups');
   }
 
-  public post(backupToken:string, includeAttachments:boolean):Observable<HalResource> {
+  public post(backupToken:string, includeAttachments:boolean, comment:string):Observable<HalResource> {
     return this
       .halResourceService
       .post(
         this.path,
-        { backupToken, attachments: includeAttachments },
+        { backupToken, attachments: includeAttachments, comment },
+      );
+  }
+
+  public restore(backupToken:string, backupId:string, preview:boolean):Observable<HalResource> {
+    return this
+      .halResourceService
+      .post(
+        this.path + '/' + backupId + (preview ? '/preview' : '/restore'),
+        { backupToken },
       );
   }
 }

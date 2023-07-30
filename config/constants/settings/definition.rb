@@ -31,6 +31,12 @@ module Settings
     ENV_PREFIX = 'OPENPROJECT_'.freeze
     AR_BOOLEAN_TYPE = ActiveRecord::Type::Boolean.new
     DEFINITIONS = {
+      # internal settings are prefixed with an underscore
+      _maintenance_mode: {
+        format: :hash,
+        default: { enabled: false, message: nil },
+        writable: true
+      },
       activity_days_default: {
         default: 30
       },

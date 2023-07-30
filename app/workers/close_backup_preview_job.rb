@@ -26,31 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Backups
-  class CreateService < ::BaseServices::Create
-    attr_reader :comment
+class CloseBackupPreviewJob < ApplicationJob
+  queue_with_priority :high
 
-    def initialize(user:, backup_token:, comment: nil, include_attachments: true, contract_class: ::Backups::CreateContract)
-      super user:, contract_class:, contract_options: { backup_token: }
+  def perform(backup_id)
+    return unless RestoreBackupJob.preview_active? backup_id: backup_id
 
-      @include_attachments = include_attachments
-      @comment = comment
-    end
-
-    def include_attachments?
-      @include_attachments
-    end
-
-    def after_perform(call)
-      if call.success?
-        BackupJob.perform_later(
-          backup: call.result,
-          user:,
-          include_attachments: include_attachments?
-        )
-      end
-
-      call
-    end
+    RestoreBackupJob.close_preview! backup_id: backup_id
   end
 end

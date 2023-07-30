@@ -1,0 +1,18 @@
+<div class="op-top-warning">
+  <p class="op-top-warning--text">
+    <strong><%= I18n.t("backup_preview.label_previewing") %>: <%= backup_preview[:comment] %></strong>
+    <i class="icon icon-help1" title="<%= I18n.t('backup_preview.info') %>"></i>
+    <br/>
+    <%= I18n.t("backup_preview.label_created") %>: <%= format_time backup_preview[:created_at] %>
+    (<%= (Date.today - backup_preview[:created_at].to_date).to_i %> <%= I18n.t(:label_ago) %>)
+    <%= I18n.t("backup_preview.label_by") %> <%= avatar(User.find_by(id: backup_preview[:creator_id]), size: :mini, hide_name: false).presence || I18n.t("backup_preview.label_unknown_user") %>
+  </p>
+  <div class="op-top-warning--actions">
+    <a href="<%= back_admin_backups_path(restore: true) %>">
+      <button type="button" class="op-top-warning--button button -small -highlight"><%= I18n.t(:label_restore_backup) %></button>
+    </a>
+    <a href="<%= back_admin_backups_path %>">
+      <button type="button" class="op-top-warning--button button -small"><%= I18n.t('backup_preview.label_return') %></button>
+    </a>
+  </div>
+</div>

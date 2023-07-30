@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,30 +29,51 @@
 #++
 
 module Backups
-  class CreateService < ::BaseServices::Create
-    attr_reader :comment
+  class RowComponent < ::RowComponent
+    property :comment, :size_in_mb, :creator, :created_at, :status
 
-    def initialize(user:, backup_token:, comment: nil, include_attachments: true, contract_class: ::Backups::CreateContract)
-      super user:, contract_class:, contract_options: { backup_token: }
-
-      @include_attachments = include_attachments
-      @comment = comment
+    def backup
+      model
     end
 
-    def include_attachments?
-      @include_attachments
+    def comment
+      backup.comment
     end
 
-    def after_perform(call)
-      if call.success?
-        BackupJob.perform_later(
-          backup: call.result,
-          user:,
-          include_attachments: include_attachments?
-        )
+    def size_in_mb
+      backup.size_in_mb || 0
+    end
+
+    def created_at
+      helpers.format_time backup.created_at
+    end
+
+    def creator
+      backup.creator.name
+    end
+
+    def status
+      status = backup.job_status&.status.presence
+
+      if status
+        I18n.t("backup.job_status.#{status}")
+      else
+        "?"
+      end
+    end
+
+    def button_links
+      links = []
+
+      if backup.ready?
+        links << helpers.link_to("Download", "/attachments/#{backup.attachments.first.id}", class: "icon icon-download")
+        links << helpers.link_to("Preview", preview_admin_backup_path(backup.id), class: "icon icon-watched")
+        links << helpers.link_to("Restore", restore_admin_backup_path(backup.id), class: "icon icon-import")
       end
 
-      call
+      links << helpers.link_to("Delete", admin_backup_path(backup.id), method: :delete, class: "icon icon-delete")
+
+      links
     end
   end
 end
