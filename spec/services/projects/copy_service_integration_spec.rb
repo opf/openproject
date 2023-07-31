@@ -770,7 +770,8 @@ RSpec.describe Projects::CopyService, 'integration', type: :model, with_ee: %i[r
 
         before do
           custom_field
-          work_package.reload
+          # Void the custom field caching
+          RequestStore.clear!
           work_package.send(custom_field.attribute_setter, current_user.id)
           work_package.save!(validate: false)
         end

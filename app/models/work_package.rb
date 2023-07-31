@@ -449,8 +449,46 @@ class WorkPackage < ApplicationRecord
 
   # Overrides Redmine::Acts::Customizable::ClassMethods#available_custom_fields
   def self.available_custom_fields(work_package)
-    WorkPackage::AvailableCustomFields.for(work_package.project, work_package.type)
+    if work_package.project_id && work_package.type_id
+      RequestStore.fetch(available_custom_field_key(work_package)) do
+        available_custom_fields_from_db([work_package])
+      end
+    else
+      []
+    end
   end
+
+  def self.preload_available_custom_fields(work_packages)
+    custom_fields = available_custom_fields_from_db(work_packages)
+                    .select('projects.id project_id',
+                            'types.id type_id',
+                            'custom_fields.*')
+
+    work_packages.each do |work_package|
+      RequestStore.store[available_custom_field_key(work_package)] = custom_fields
+                                                                       .select do |cf|
+        ((cf.project_id == work_package.project_id) || cf.is_for_all?) && cf.type_id == work_package.type_id
+      end
+    end
+  end
+
+  def self.available_custom_fields_from_db(work_packages)
+    WorkPackageCustomField
+      .left_joins(:projects, :types)
+      .where(projects: { id: work_packages.map(&:project_id).uniq },
+             types: { id: work_packages.map(&:type_id).uniq })
+      .or(WorkPackageCustomField
+            .left_joins(:projects, :types)
+            .references(:projects, :types)
+            .where(is_for_all: true)
+            .where(types: { id: work_packages.map(&:type_id).uniq }))
+  end
+  private_class_method :available_custom_fields_from_db
+
+  def self.available_custom_field_key(work_package)
+    :"#work_package_custom_fields_#{work_package.project_id}_#{work_package.type_id}"
+  end
+  private_class_method :available_custom_field_key
 
   def custom_field_cache_key
     [project_id, type_id]
