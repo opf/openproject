@@ -116,7 +116,7 @@ RSpec.describe 'Board management spec', js: true, with_ee: %i[board_view] do
       board_index.expect_board board_view.name
 
       # Create new board
-      board_page = board_index.create_board action: nil
+      board_page = board_index.create_board
       board_page.rename_board 'Board test'
 
       # Rename through toolbar
@@ -202,6 +202,19 @@ RSpec.describe 'Board management spec', js: true, with_ee: %i[board_view] do
       # Remove entire board
       board_page.delete_board
       board_index.expect_board 'Board foo', present: false
+    end
+
+    it 'allows creating a new project board form via the sidebar' do
+      board_index.visit!
+
+      board_page = board_index.create_board title: 'My Board created via the sidebar',
+                                            via_toolbar: false
+      board_page.board(reload: true) do |board|
+        expect(board.name).to eq 'My Board created via the sidebar'
+        queries = board.contained_queries
+        expect(queries.count).to eq(1)
+        expect(queries.first.name).to eq 'Unnamed list'
+      end
     end
   end
 

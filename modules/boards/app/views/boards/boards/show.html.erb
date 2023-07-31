@@ -28,13 +28,3 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% html_title(t('boards.label_boards')) -%>
-
-<%= toolbar title: t('boards.label_boards') do %>
-  <%= render Boards::AddButtonComponent.new(current_project: @project) %>
-<% end %>
-
-<% if @board_grids.empty? -%>
-  <%= no_results_box %>
-<% else -%>
-  <%= render Boards::TableComponent.new(rows: @board_grids, current_user: User.current, current_project: @project) %>
-<% end -%>

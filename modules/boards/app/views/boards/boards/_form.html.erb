@@ -38,24 +38,26 @@ See COPYRIGHT and LICENSE files for more details.
                      container_class: '-wide' %>
   </div>
 
-  <div class="form--field -required">
-    <label class="form--label" for="project_id"><%= Query.human_attribute_name(:project) %>:</label>
-    <div class="form--field-container">
-      <%= angular_component_tag 'op-project-autocompleter',
-                                inputs: {
-                                  apiFilters: [['user_action', '=', ['boards/create']]],
-                                  name: 'project_id',
-                                  value: @project,
-                                  appendTo: 'body',
-                                },
-                                id: 'project_id',
-                                class: 'form--select-container -wide remote-field--input',
-                                data: {
-                                  'qa-selector': 'project_id'
-                                }
-      %>
+  <% if global_board_create_context? %>
+    <div class="form--field -required">
+      <label class="form--label" for="project_id"><%= Query.human_attribute_name(:project) %>:</label>
+      <div class="form--field-container">
+        <%= angular_component_tag 'op-project-autocompleter',
+                                  inputs: {
+                                    apiFilters: [['user_action', '=', ['boards/create']]],
+                                    name: 'project_id',
+                                    value: @project,
+                                    appendTo: 'body',
+                                  },
+                                  id: 'project_id',
+                                  class: 'form--select-container -wide remote-field--input',
+                                  data: {
+                                    'qa-selector': 'project_id'
+                                  }
+        %>
+      </div>
     </div>
-  </div>
+  <% end %>
 
   <div class="form--field -required -align-start">
     <label class="form--label" for="board_type"><%= t('boards.label_board_type') %></label>

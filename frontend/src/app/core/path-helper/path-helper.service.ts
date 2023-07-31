@@ -172,11 +172,15 @@ export class PathHelperService {
     return `${this.projectWorkPackagesPath(projectId)}/new`;
   }
 
-  public projectBoardsPath(projectIdentifier:string|null) {
+  public boardsPath(projectIdentifier:string|null) {
     if (projectIdentifier) {
       return `${this.projectPath(projectIdentifier)}/boards`;
     }
     return `${this.staticBase}/boards`;
+  }
+
+  public newBoardsPath(projectIdentifier:string|null) {
+    return `${this.boardsPath(projectIdentifier)}/new`;
   }
 
   public projectDashboardsPath(projectIdentifier:string) {
