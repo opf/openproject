@@ -378,6 +378,49 @@ RSpec.describe 'baseline rendering',
         expect(page).not_to have_selector(".op-wp-single-card--content-baseline")
       end
     end
+
+    shared_examples_for 'selecting a builtin view' do
+      let(:builtin_view_name) { 'All open' }
+
+      before do
+        within '#main-menu' do
+          click_link builtin_view_name
+        end
+      end
+
+      it 'does not show changes or render baseline details' do
+        wp_table.expect_title builtin_view_name
+
+        baseline.expect_inactive
+        baseline.expect_no_legends
+        baseline_modal.toggle_drop_modal
+        baseline_modal.expect_selected '-'
+      end
+    end
+
+    context 'when a baseline filter is set', :with_cuprite do
+      before do
+        wp_table.visit!
+
+        wait_for_reload # Ensure page is fully loaded
+
+        baseline_modal.toggle_drop_modal
+        baseline_modal.select_filter 'yesterday'
+        baseline_modal.apply
+      end
+
+      context 'and the query is saved' do
+        before do
+          wp_table.save_as 'My Baseline Query'
+        end
+
+        it_behaves_like 'selecting a builtin view'
+      end
+
+      context 'and the query is not saved' do
+        it_behaves_like 'selecting a builtin view'
+      end
+    end
   end
 
   describe 'with feature disabled', with_flag: { show_changes: false } do
