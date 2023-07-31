@@ -407,13 +407,8 @@ class RestoreBackupJob < ApplicationJob
     }
   end
 
-  def self.preview_active?(backup_id: nil)
-    id = backup_id.present? ? backup_id : '%'
-    op = backup_id.present? ? '=' : 'LIKE'
-    schema = preview_schema_name backup_id: id
-    query = "SELECT schema_name FROM information_schema.schemata WHERE schema_name LIKE '#{schema}';"
-
-    ActiveRecord::Base.connection.execute(query).to_a.map { |row| row["schema_name"] }.first
+  def self.preview_active?(backup_id:)
+    schema_exists? preview_schema_name(backup_id: id)
   end
 
   def self.close_preview!(backup_id: nil)
