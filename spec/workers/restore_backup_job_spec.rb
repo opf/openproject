@@ -33,16 +33,13 @@ RSpec.describe RestoreBackupJob, type: :model do
     let(:job) { RestoreBackupJob.new }
 
     let(:backup) { create(:backup) }
-    let(:status) { :in_queue }
-    let(:job_id) { 42 }
-
-    let(:job_status) do
+    let(:attachment) do
       create(
-        :delayed_job_status,
-        user:,
-        reference: backup,
-        status: JobStatus::Status.statuses[status],
-        job_id:
+        :attachment,
+        file: Rack::Test::UploadedFile.new(
+          Rails.root.join('spec', 'fixtures', 'files', 'openproject-backup-test.zip')
+        ),
+        container: backup
       )
     end
 
@@ -55,91 +52,48 @@ RSpec.describe RestoreBackupJob, type: :model do
     end
 
     let(:db_restore_success) { false }
+    let(:preview) { false }
 
-    let(:arguments) { [{ backup:, user:, **opts.except(:remote_storage) }] }
+    let(:arguments) { [{ backup:, user:, preview:, **opts }] }
 
     let(:user) { create(:admin) }
 
+    def job_status
+      JobStatus::Status.last
+    end
+
     before do
       backup
-
-      allow(job).to receive(:arguments).and_return arguments
-      allow(job).to receive(:job_id).and_return job_id
+      attachment
 
       allow(Open3).to receive(:capture3).and_return [nil, "mock restore cmd", db_restore_process_status]
 
-      allow_any_instance_of(BackupJob)
-        .to receive(:tmp_file_name).with("openproject", ".sql").and_return("/tmp/openproject.sql")
+      schema_name = "backup_preview_#{backup.id}"
 
-      allow_any_instance_of(BackupJob)
-        .to receive(:tmp_file_name).with("openproject-backup", ".zip").and_return("/tmp/openproject.zip")
+      expect(job).to receive(:create_new_schema!).with(schema_name)
+      expect(Apartment::Migrator).to receive(:migrate).with(schema_name)
 
-      allow(File).to receive(:read).and_call_original
-      allow(File).to receive(:read).with("/tmp/openproject.sql").and_return "SOME SQL"
+      allow(Apartment::Tenant).to receive(:switch) { |schema, _args|
+        expect(schema).to eq schema_name
+      }
     end
 
     def perform
       job.perform **arguments.first
     end
 
-    context "with a successful database dump" do
-      let(:db_restore_success) { true }
-
-      let!(:attachment) { create(:attachment) }
-      let!(:pending_direct_upload) { create(:pending_direct_upload) }
-      let(:stored_backup) { Attachment.where(container_type: "Export").last }
-      let(:backup_files) { Zip::File.open(stored_backup.file.path) { |zip| zip.entries.map(&:name) } }
-
-      def backed_up_attachment(attachment)
-        "attachment/file/#{attachment.id}/#{attachment.filename}"
-      end
-
+    context "with a successfully restored database" do
       before do
-        allow(job).to receive(:remove_paths!)
-
         perform
       end
 
-      it "stores a new backup as an attachment" do
-        expect(stored_backup.filename).to eq "openproject.zip"
-      end
-
-      it "includes the database dump in the backup" do
-        expect(backup_files).to include "openproject.sql"
-      end
-
-      if opts[:include_attachments] == false
-        it "does not include attachments in the backup" do
-          expect(backup_files).not_to include backed_up_attachment(attachment)
-          expect(backup_files).not_to include backed_up_attachment(pending_direct_upload)
-        end
-      else
-        it "includes attachments in the backup" do
-          expect(backup_files).to include backed_up_attachment(attachment)
-        end
-
-        it "does not include pending direct uploads" do
-          expect(backup_files).not_to include backed_up_attachment(pending_direct_upload)
-        end
-
-        if opts[:remote_storage] == true
-          it "cleans up locally cached files afterwards" do
-            expect(job).to have_received(:remove_paths!).with([Pathname(attachment.diskfile.path).parent.to_s])
-          end
-        else
-          it "does not clean up files afterwards as none were cached" do
-            expect(job).to have_received(:remove_paths!).with([])
-          end
-        end
+      it "works" do
+        expect(job_status.status).to eq "success"
       end
     end
   end
 
-  context "per default" do
+  context "by default" do
     it_behaves_like "it restores the backup"
-  end
-
-  context "with preview: true" do
-    it_behaves_like "it restores the backup", preview: true
   end
 end
