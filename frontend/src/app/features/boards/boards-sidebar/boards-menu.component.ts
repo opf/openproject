@@ -16,6 +16,7 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 export const boardsMenuSelector = 'boards-menu';
 
@@ -63,14 +64,13 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
   };
 
   constructor(
-    private readonly boardService:BoardService,
-    private readonly apiV3Service:ApiV3Service,
-    private readonly currentProject:CurrentProjectService,
-    private readonly mainMenuService:MainMenuNavigationService,
+    readonly boardService:BoardService,
+    readonly apiV3Service:ApiV3Service,
+    readonly currentProject:CurrentProjectService,
+    readonly mainMenuService:MainMenuNavigationService,
     readonly currentUserService:CurrentUserService,
     readonly I18n:I18nService,
-    private readonly opModalService:OpModalService,
-    private readonly injector:Injector,
+    readonly pathHelper:PathHelperService
   ) {
     super();
   }
@@ -87,11 +87,7 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   redirectToNewBoardForm():void {
-    const newBoardFormPath = (this.currentProject && this.currentProject.identifier)
-      ? `${window.appBasePath}/projects/${this.currentProject.identifier}/boards/new`
-      : `${window.appBasePath}/boards/new`;
-
-    window.location.href = newBoardFormPath;
+    window.location.href = this.pathHelper.newBoardsPath(this.currentProject.identifier);
   }
 
   private focusBackArrow():void {
