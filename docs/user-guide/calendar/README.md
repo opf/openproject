@@ -105,7 +105,7 @@ You can display the calendar full screen mode by hiding the navigation bar  and
 
 ## Subscribing to a calendar
 
-OpenProject allows you to subscribe to and access any of your calendars using an external client that supports the .ics format.
+OpenProject allows you to subscribe to and access any of your calendars using an external client that supports the iCalendar format (such as Thunderbird, Open-Xchange, Apple Calendar or Google Calendar).
 
 This makes it possible for you to keep an eye on your project schedule from any compatible device (including mobile devices) without having to connect to your OpenProject instance and always remain up to date with relevant work packages.
 
@@ -115,9 +115,9 @@ This makes it possible for you to keep an eye on your project schedule from any 
 
 To subscribe to a calendar:
 
-1.  Click on the **[⋮]** (more) on the toolbar and select **Subscribe to calendar**.
-2.  In the modal that appears, give this calendar a name. We recommend naming it based on where you will be subscribing to this calendar from ("personal phone" or "work tablet" for example).
-3.  Click on **Copy URL**. This creates the a calendar token and copies the calendar URL to your clipboard.
+1.  Click on the **[⋮]** **(more) button** on the toolbar and select **Subscribe to calendar**.
+2.  In the modal that appears, give this calendar a unique name (you can only use it once). We recommend naming it based on where you will be subscribing to this calendar from ("personal phone" or "work tablet" for example).  
+3.  Click on **Copy URL**. This creates the a [calendar token](../../getting-started/my-account/#access-tokens) and copies the calendar URL to your clipboard.
 4.  Paste this URL in your desired calendar client to subscribe.
 
 ![Subscribe to calendar modal](subscribeToCalendar-modal.png)
