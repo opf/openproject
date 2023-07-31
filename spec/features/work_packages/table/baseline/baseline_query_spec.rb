@@ -29,7 +29,8 @@
 require 'spec_helper'
 
 RSpec.describe 'baseline query saving',
-               js: true,
+               :js,
+               :with_cuprite,
                with_ee: %i[baseline_comparison],
                with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:project) { create(:project) }
@@ -195,7 +196,7 @@ RSpec.describe 'baseline query saving',
 
     login_as tokyo_user
     wp_table.visit_query query
-    baseline.expect_legend_text "Changes since 2023-05-19 8:00 AM UTC+2 - 2023-05-25 8:00 PM UTC+2"
+    baseline.expect_legend_text "Changes between 2023-05-19 8:00 AM UTC+2 and 2023-05-25 8:00 PM UTC+2"
     baseline.expect_legend_tooltip "In your local timezone: 2023-05-19 3:00 PM UTC+9 - 2023-05-26 3:00 AM UTC+9"
 
     baseline_modal.expect_closed
