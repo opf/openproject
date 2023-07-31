@@ -108,8 +108,6 @@ module OpenProject::Meeting
     patches [:Project]
     patch_with_namespace :BasicData, :SettingSeeder
 
-    patch_with_namespace :OpenProject, :TextFormatting, :Formats, :Markdown, :TextileConverter
-
     add_api_endpoint 'API::V3::Root' do
       mount ::API::V3::Meetings::MeetingContentsAPI
     end

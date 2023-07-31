@@ -38,7 +38,6 @@ fi
 apt-get update -qq
 apt-get install -y \
 	apt-transport-https \
-	pandoc \
 	poppler-utils \
 	unrtf \
 	tesseract-ocr \
