@@ -29,7 +29,8 @@
 require 'spec_helper'
 
 RSpec.describe 'baseline rendering',
-               js: true,
+               :js,
+               :with_cuprite,
                with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:list_wp_custom_field) { create(:list_wp_custom_field) }
   shared_let(:multi_list_wp_custom_field) { create(:list_wp_custom_field, multi_value: true) }
@@ -351,7 +352,7 @@ RSpec.describe 'baseline rendering',
                                            "B"
                                          ],
                                          "customField#{multi_list_wp_custom_field.id}": [
-                                           "A, B, ...\n7",
+                                           "A, B, ...7",
                                            "A, B"
                                          ],
                                          "customField#{user_wp_custom_field.id}": [
@@ -398,7 +399,7 @@ RSpec.describe 'baseline rendering',
       end
     end
 
-    context 'when a baseline filter is set', :with_cuprite do
+    context 'when a baseline filter is set' do
       before do
         wp_table.visit!
 
