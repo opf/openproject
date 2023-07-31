@@ -37,6 +37,10 @@ module Backups
       @comment = comment
     end
 
+    def instance(_params)
+      instance_class.new creator: user
+    end
+
     def include_attachments?
       @include_attachments
     end
