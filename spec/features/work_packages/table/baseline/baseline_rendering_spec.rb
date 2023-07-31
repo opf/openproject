@@ -31,12 +31,41 @@ require 'spec_helper'
 RSpec.describe 'baseline rendering',
                js: true,
                with_settings: { date_format: '%Y-%m-%d' } do
+  shared_let(:list_wp_custom_field) { create(:list_wp_custom_field) }
+  shared_let(:multi_list_wp_custom_field) { create(:list_wp_custom_field, multi_value: true) }
+  shared_let(:version_wp_custom_field) { create(:version_wp_custom_field) }
+  shared_let(:bool_wp_custom_field) { create(:bool_wp_custom_field) }
+  shared_let(:user_wp_custom_field) { create(:user_wp_custom_field) }
+  shared_let(:int_wp_custom_field) { create(:int_wp_custom_field) }
+  shared_let(:float_wp_custom_field) { create(:float_wp_custom_field) }
+  shared_let(:string_wp_custom_field) { create(:string_wp_custom_field) }
+  shared_let(:date_wp_custom_field) { create(:date_wp_custom_field) }
+
+  shared_let(:custom_fields) do
+    [
+      list_wp_custom_field,
+      multi_list_wp_custom_field,
+      version_wp_custom_field,
+      bool_wp_custom_field,
+      user_wp_custom_field,
+      int_wp_custom_field,
+      float_wp_custom_field,
+      string_wp_custom_field,
+      date_wp_custom_field
+    ]
+  end
+
   shared_let(:type_bug) { create(:type_bug) }
-  shared_let(:type_task) { create(:type_task) }
+  shared_let(:type_task) { create(:type_task, custom_fields:) }
   shared_let(:type_milestone) { create(:type_milestone) }
-  shared_let(:project) { create(:project, types: [type_bug, type_task, type_milestone]) }
+
+  shared_let(:project) do
+    create(:project,
+           types: [type_bug, type_task, type_milestone],
+           work_package_custom_fields: custom_fields)
+  end
   shared_let(:user) do
-    create(:user,
+    create(:admin,
            firstname: 'Itsa',
            lastname: 'Me',
            member_in_project: project,
@@ -101,8 +130,8 @@ RSpec.describe 'baseline rendering',
         .new(user:, model: wp)
         .call(
           subject: 'New subject',
-          start_date: Date.today - 1.day,
-          due_date: Date.today,
+          start_date: Time.zone.today - 1.day,
+          due_date: Time.zone.today,
           assigned_to: user,
           responsible: user,
           priority: high_priority,
@@ -175,6 +204,56 @@ RSpec.describe 'baseline rendering',
       .result
   end
 
+  shared_let(:initial_custom_values) do
+    {
+      int_wp_custom_field.id => 1,
+      string_wp_custom_field.id => 'this is a string',
+      bool_wp_custom_field.id => true,
+      float_wp_custom_field.id => nil,
+      date_wp_custom_field.id => Date.yesterday,
+      list_wp_custom_field.id => nil,
+      multi_list_wp_custom_field.id => multi_list_wp_custom_field.possible_values, # not working
+      user_wp_custom_field.id => [assignee.id.to_s],
+      version_wp_custom_field.id => version_a
+    }
+  end
+
+  shared_let(:changed_custom_values) do
+    {
+      "custom_field_#{int_wp_custom_field.id}": nil,
+      "custom_field_#{string_wp_custom_field.id}": 'this is a changed string',
+      "custom_field_#{bool_wp_custom_field.id}": false,
+      "custom_field_#{float_wp_custom_field.id}": 3.7,
+      "custom_field_#{date_wp_custom_field.id}": Time.zone.today,
+      "custom_field_#{list_wp_custom_field.id}": [list_wp_custom_field.possible_values.second],
+      "custom_field_#{multi_list_wp_custom_field.id}": multi_list_wp_custom_field.possible_values.take(2),
+      "custom_field_#{user_wp_custom_field.id}": nil,
+      "custom_field_#{version_wp_custom_field.id}": version_b
+    }
+  end
+
+  shared_let(:wp_task_cf) do
+    wp = Timecop.travel(5.days.ago) do
+      # We do not have a logged in user and setting a user id for the custom_values user field
+      # fails validation, because the AnonymousUser does not have visibility to any users.
+      # To solve the issue, we create the work package as `user`.
+      User.execute_as user do
+        create(:work_package,
+               :skip_validations,
+               project:,
+               type: type_task,
+               subject: 'A task with CFs',
+               custom_values: initial_custom_values)
+      end
+    end
+
+    WorkPackages::UpdateService
+      .new(user:, model: wp)
+      .call(changed_custom_values)
+      .on_failure { |result| raise result.message }
+      .result
+  end
+
   shared_let(:query) do
     query = create(:query,
                    name: 'Timestamps Query',
@@ -183,7 +262,9 @@ RSpec.describe 'baseline rendering',
 
     query.timestamps = ["P-2d", "PT0S"]
     query.add_filter('type_id', '=', [type_task.id, type_milestone.id])
-    query.column_names = %w[id subject status type start_date due_date version priority assigned_to responsible]
+    query.column_names =
+      %w[id subject status type start_date due_date version priority assigned_to responsible] +
+      CustomField.all.pluck(:id).map { |id| "cf_#{id}" }
     query.save!(validate: false)
 
     query
@@ -243,6 +324,45 @@ RSpec.describe 'baseline rendering',
       baseline.expect_unchanged_attributes wp_task,
                                            :type, :subject, :start_date, :due_date,
                                            :version, :priority, :assignee, :accountable
+
+      baseline.expect_changed_attributes wp_task_cf,
+                                         "customField#{int_wp_custom_field.id}": [
+                                           '1',
+                                           '-'
+                                         ],
+                                         "customField#{string_wp_custom_field.id}": [
+                                           'this is a string',
+                                           'this is a changed string'
+                                         ],
+                                         "customField#{bool_wp_custom_field.id}": [
+                                           'yes',
+                                           'no'
+                                         ],
+                                         "customField#{float_wp_custom_field.id}": [
+                                           '-',
+                                           '3.7'
+                                         ],
+                                         "customField#{date_wp_custom_field.id}": [
+                                           Date.yesterday.iso8601,
+                                           Time.zone.today.iso8601
+                                         ],
+                                         "customField#{list_wp_custom_field.id}": [
+                                           "-",
+                                           "B"
+                                         ],
+                                         "customField#{multi_list_wp_custom_field.id}": [
+                                           "A, B, ...\n7",
+                                           "A, B"
+                                         ],
+                                         "customField#{user_wp_custom_field.id}": [
+                                           'Assigned User',
+                                           '-'
+                                         ],
+                                         "customField#{version_wp_custom_field.id}": [
+                                           'Version A',
+                                           'Version B'
+                                         ]
+
       # show icons on work package single card
       display_representation.switch_to_card_layout
       within "wp-single-card[data-work-package-id='#{wp_bug_was_task.id}']" do
@@ -269,6 +389,7 @@ RSpec.describe 'baseline rendering',
       baseline.expect_inactive
     end
   end
+
   describe 'without EE', with_ee: false, with_flag: { show_changes: true } do
     it 'disabled options' do
       wp_table.visit_query(query)

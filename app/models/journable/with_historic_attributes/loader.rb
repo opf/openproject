@@ -114,7 +114,7 @@ class Journable::WithHistoricAttributes
       Journal::CustomizableJournal
         .where(journal_id: journal_ids)
         .includes(:custom_field)
-        .index_by(&:journal_id)
+        .group_by(&:journal_id)
     end
 
     def set_custom_value_association_from_journal!(work_package:, customizable_journals:)
