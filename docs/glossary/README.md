@@ -261,15 +261,11 @@ In OpenProject, the project overview is defined as a single [dashboard](#dashboa
 
 ### Project settings
 
-Project settings means project-specific setting configuration. The project settings contain general settings (e.g. the name and ID of the project), configuration of [modules](#module), [work package categories](#work-package-categories) and [types](#work-package-types), [custom fields](#custom-field), [version](#versions) settings, [time tracking activities](#time-and-costs), required disk storage, [file storages](#file-storage) and [Backlogs](#backlogs) settings (if plugin is installed). [Read more about project settings in OpenProject](https://www.openproject.org/docs/user-guide/projects/#project-settings)
+Project settings means project-specific setting configuration. The project settings contain general settings (e.g. the name and [project identifier](#project-identifier)), configuration of [modules](#module), [work package categories](#work-package-categories) and [types](#work-package-types), [custom fields](#custom-field), [version](#versions) settings, [time tracking activities](#time-and-costs), required disk storage, [file storages](#file-storage) and [Backlogs](#backlogs) settings (if plugin is installed). [Read more about project settings in OpenProject](https://www.openproject.org/docs/user-guide/projects/#project-settings)
 
 ### Project status
 
 The project status in OpenProject is defined as an information for yourself and the team if the project is on track – to then being able to quickly act in case it is off track. [Read more about the project status in OpenProject](https://www.openproject.org/docs/user-guide/projects/project-status/)
-
-### Project status reporting
-
-The status reporting in OpenProject is the reporting relationship between different [projects](#project). Reporting relationships can be assigned a [project status](#project-status). Status reports can be used to display multiple projects (and the associated [work packages](#work-package)) in a single timeline: The reporting project and its work packages are displayed in the timeline of the project that is reported to.
 
 ### Project template
 
@@ -333,7 +329,7 @@ A widget in OpenProject is defined as a small and customizable element that prov
 
 ### Wiki
 
-In OpenProject, a wiki is defined as a [module](#module) that allows to use textile-based wiki pages. In order to use the wiki module, it has to be activated in the [project settings](#project-settings) by a project admin. [Read more about wikis in OpenProject](https://www.openproject.org/docs/user-guide/wiki/)
+In OpenProject, a wiki is defined as a [module](#module) that allows to use wiki pages. In order to use the wiki module, it has to be activated in the [project settings](#project-settings) by a project admin. [Read more about wikis in OpenProject](https://www.openproject.org/docs/user-guide/wiki/)
 
 ![A wiki module in OpenProject](glossary-openproject-wiki.png)
 
