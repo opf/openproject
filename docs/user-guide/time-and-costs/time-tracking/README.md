@@ -16,7 +16,7 @@ Users can book their time or units spent on an activity within a project directl
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Log time in the work package view](#logging-time-in-the-work-package-view) | How to log time to a work package.                           |
-| [Log time via time tracking button](#logging-time-via-time-tracking-button) | How to track time via the time tracking button.              |
+| [Log time via the time tracking button](#logging-time-via-time-tracking-button) | How to track time in real time using the start/stop time tracking button |
 | [Log time via commit message](#logging-time-via-commit-message) | How to log time via a commit message to a work package.      |
 | [Log time via My page](#logging-time-via-my-page)            | How to easily track and display spent time in the spent time widget on the MyPage. |
 | [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package.                   |
@@ -48,21 +48,23 @@ You will be directed to the detailed view to log time where you can edit the fol
 
 The aggregated time spent on a work package is shown in the work package details view.
 
-## Log time via time tracking button
+## Log time via the time tracking button
 
-Since OpenProject 13.0 you can also track time via the time tracking button. To do that select a work package you are working on and click on the **Time tracking button** to start tracking time .
+Staring OpenProject 13.0, you can also track time in real time using the start/stop time tracking button. To do this, navigate to a work package you are working on and click on the **Start time tracking button**. 
 
 ![OpenProject start time tracking button](openproject_user_guide_time_tracking_button.png)
 
-Timer will start recording the time. You can stop it once you are done working on this work package. Timer button icon will also appear next to your avatar in the top right corner as a reminder in case you navigate away from the work package.
+This will start the time tracking timer for the current work package. A timer icon will also appear next to your avatar in the top right corner as a reminder in case you navigate away from the work package.
 
 ![OpenProject time tracking button in action](openproject_user_guide_time_tracking_button_records.png)
 
-Once you are done working you can stop tracking time by clicking the **Time tracking button** again. This will open a pop up window, which has pre-recorded the time spent. If you want to continue tracking time, click *Cancel* and the timer will continue tracking time spent. If you do not want to log time, click *Delete*. Clicking *Save* will log the time you have spent in the same way as if you had manually logged it. 
+Once you are done working, you can stop tracking time by clicking the **Stop time tracking button**. This will open a pop up window with the recorded time spent based on the timer. You may correct or adjust this time manually if you wish.
+
+If you want to continue tracking time, click **Cancel** and the timer will continue running. If you do not want to log time, click **Delete**. Clicking **Save** will log the time the same as if you had manually logged it. 
 
 ![OpenProject stop time tracking button](openproject_user_guide_time_tracking_button_stop.png)
 
-If you navigated away from the work package, in which you activated the **Time tracking button** you can easily stop by clicking on your avatar without having to look for the work package in question.
+If you navigate away from the work package in which you have a timer running, you can easily navigate back to it or stop the timer via the time tracking controls visible when you click on your avatar from anywhere in OpenProject.
 
 ![OpenProject_stop_tracking_from_avatar](openproject_user_guide_time_tracking_button_stop_avatar.png)
 
