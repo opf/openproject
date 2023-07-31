@@ -125,7 +125,7 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
   public getFilterName(timestamps:string[]) {
     const datesAndTimes = timestamps.map((el) => el.split(/[@T]/));
     const baselineValue = baselineFilterFromValue(this.wpTableBaseline.current);
-    const changesSince = this.I18n.t('js.baseline.legends.changes_since');
+    const changesSinceOrBetween = this.deriveChangesSinceOrBetween(baselineValue);
     let description = '';
     let upstreamDate = '';
     let localDate = '';
@@ -162,10 +162,18 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
       default:
         break;
     }
-    description = `${changesSince} ${description}`;
+    description = `${changesSinceOrBetween} ${description}`;
     this.legendDescription = description;
     this.localDate = localDate;
     return description;
+  }
+
+  private deriveChangesSinceOrBetween(baselineValue:string|null) {
+    if (baselineValue === 'betweenTwoSpecificDates') {
+      return this.I18n.t('js.baseline.legends.changes_between');
+    }
+
+    return this.I18n.t('js.baseline.legends.changes_since');
   }
 
   private deriveSingleDate(date:string, timestamp:string):[string, string] {
@@ -178,7 +186,7 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
     const endRange = this.formatUpstreamAndLocal(end);
 
     return [
-      `${startRange[0]} - ${endRange[0]}`,
+      `${startRange[0]} ${this.I18n.t('js.label_and')} ${endRange[0]}`,
       `${startRange[1]} - ${endRange[1]}`,
     ];
   }
