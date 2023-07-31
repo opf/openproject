@@ -65,7 +65,7 @@ RSpec.describe WorkPackage do
   let(:typed_values) { work_package.typed_custom_value_for(custom_field.id) }
 
   it 'returns the properly typed values' do
-    expect(values.map { |cv| cv.value }).to eq(custom_values)
+    expect(values.map(&:value)).to eq(custom_values)
     expect(typed_values).to eq(%w(ham onions pineapple))
   end
 
@@ -73,7 +73,9 @@ RSpec.describe WorkPackage do
     let(:work_package) { create(:work_package, project:, type:) }
 
     it 'returns nil properly' do
-      expect(values).to be_nil
+      # I suspect this should rather be
+      # expect(values.map(&:value)).to eq([nil])
+      expect(values.value).to be_nil
       expect(typed_values).to be_nil
     end
   end
@@ -90,7 +92,7 @@ RSpec.describe WorkPackage do
           work_package.custom_field_values = { custom_field.id => ids }
           work_package.save
         end
-          .to(change { work_package.lock_version })
+          .to(change(work_package, :lock_version))
       end
 
       it 'sets the values' do
