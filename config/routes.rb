@@ -601,7 +601,7 @@ OpenProject::Application.routes.draw do
     get 'callback', controller: 'oauth_clients', action: :callback
   end
 
-  if Rails.env.development?
+  if OpenProject::Configuration.lookbook_enabled?
     mount Lookbook::Engine, at: "/lookbook"
   end
 end

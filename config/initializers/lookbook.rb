@@ -1,5 +1,5 @@
 OpenProject::Application.configure do
-  next unless Rails.env.development?
+  next unless OpenProject::Configuration.lookbook_enabled?
 
   config.lookbook.project_name = "OpenProject Lookbook"
   config.lookbook.project_logo = Rails.root.join('app/assets/images/icon_logo_white.svg').read
