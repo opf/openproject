@@ -29,7 +29,8 @@
 require 'spec_helper'
 
 RSpec.describe 'baseline query saving',
-               js: true,
+               :js,
+               :with_cuprite,
                with_ee: %i[baseline_comparison],
                with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:project) { create(:project) }
