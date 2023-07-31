@@ -111,8 +111,7 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger {
                 `/boards/${this.board.id}`,
                 { responseType: 'json' },
               )
-              .toPromise()
-              .then(
+              .subscribe(
                 (response:{ redirect_url:string }) => {
                   window.location.href = response.redirect_url;
                 },
