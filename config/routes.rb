@@ -602,6 +602,6 @@ OpenProject::Application.routes.draw do
   end
 
   if Rails.env.development?
-    mount Lookbook::Engine, at: "/design/lookbook"
+    mount Lookbook::Engine, at: "/lookbook"
   end
 end
