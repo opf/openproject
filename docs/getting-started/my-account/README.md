@@ -18,7 +18,7 @@ Change your personal settings in My account. Here you can adapt, e.g. the langua
 | [Profile settings: change your language, time zone or display of comments](#profile-settings) | How to change the language, time zone or display of comments in OpenProject |
 | [Change password](#change-password)                          | How to change my password                                    |
 | [Two-factor authentication](#two-factor-authentication)      | How to set up a two-factor authentication                    |
-| [Access tokens](#access-tokens)                              |                                                              |
+| [Access tokens](#access-tokens)                              | How to set up access tokens in OpenProject                   |
 | [Session management](#session-management)                    | How to manage your OpenProject sessions                      |
 | [Notifications settings](#notifications-settings)            | How to change in-app notifications in OpenProject            |
 | [Email reminders](#email-reminders)                          | How to change email reminders sent by OpenProject            |
