@@ -216,8 +216,10 @@ RSpec.describe(
 
     context 'with all modules selected' do
       let(:only_args) { all_modules }
+      # rubocop:disable RSpec/IndexedLet
       let(:storage1) { source_automatic_project_storage.storage }
       let(:storage2) { source_manual_project_storage.storage }
+      # rubocop:enable RSpec/IndexedLet
       let(:host) { storage1.host }
       let!(:file_outside_project_folder_link) do
         create(:file_link,
@@ -433,7 +435,8 @@ RSpec.describe(
         expect(file_outside_project_folder_link_copy.storage_id).to eq(file_outside_project_folder_link.storage_id)
         expect(file_inside_automatic_project_folder_link_copy.id).not_to eq(file_inside_automatic_project_folder_link.id)
         expect(file_inside_automatic_project_folder_link_copy.origin_id).to eq("430")
-        expect(file_inside_automatic_project_folder_link_copy.storage_id).to eq(file_inside_automatic_project_folder_link.storage_id)
+        expect(file_inside_automatic_project_folder_link_copy.storage_id)
+          .to eq(file_inside_automatic_project_folder_link.storage_id)
         expect(file_inside_manual_project_folder_link_copy.id).not_to eq(file_inside_manual_project_folder_link.id)
         expect(file_inside_manual_project_folder_link_copy.origin_id).to eq("102")
         expect(file_inside_manual_project_folder_link_copy.storage_id).to eq(file_inside_manual_project_folder_link.storage_id)

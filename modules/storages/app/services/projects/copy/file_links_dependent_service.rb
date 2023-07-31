@@ -38,6 +38,8 @@ module Projects::Copy
 
     protected
 
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/PerceivedComplexity
     def copy_dependency(*)
       # If no work packages were copied, we cannot copy their file_links
       return unless state.work_package_id_lookup
@@ -46,72 +48,73 @@ module Projects::Copy
       Storages::FileLink
         .where(container_id: source_wp_ids, container_type: "WorkPackage")
         .group_by(&:storage_id)
+        .filter { |_storage_id, source_file_links| source_file_links.any? }
         .each do |(storage_id, source_file_links)|
-        if source_file_links.any?
-          tmp = state
-                  .copied_project_storages
-                  .find { |item| item["source"].storage_id == storage_id }
-          source_project_storage = tmp['source']
-          target_project_storage = tmp['target']
-          storage_requests = Storages::Peripherals::StorageRequests.new(storage: source_project_storage.storage)
+        tmp = state
+                .copied_project_storages
+                .find { |item| item["source"].storage_id == storage_id }
+        source_project_storage = tmp['source']
+        target_project_storage = tmp['target']
+        storage_requests = Storages::Peripherals::StorageRequests.new(storage: source_project_storage.storage)
 
-          if source_project_storage.project_folder_mode == 'automatic'
-            files_info_query_result = files_info_query(storage_requests:,
-                                                       file_ids: source_file_links.map(&:origin_id))
-            folder_files_file_ids_deep_query_result = folder_files_file_ids_deep_query(
-              storage_requests:,
-              path: target_project_storage.project_folder_path
-            )
-            source_file_links.each do |old_file_link|
-              attributes = {
-                storage_id: old_file_link.storage_id,
-                creator_id: User.current.id,
-                container_id: state.work_package_id_lookup[old_file_link.container_id.to_s],
-                container_type: 'WorkPackage',
-                origin_name: old_file_link.origin_name,
-                origin_mime_type: old_file_link.origin_mime_type
-              }
+        if source_project_storage.project_folder_mode == 'automatic'
+          files_info_query_result = files_info_query(storage_requests:,
+                                                     file_ids: source_file_links.map(&:origin_id))
+          folder_files_file_ids_deep_query_result = folder_files_file_ids_deep_query(
+            storage_requests:,
+            path: target_project_storage.project_folder_path
+          )
+          source_file_links.each do |old_file_link|
+            attributes = {
+              storage_id: old_file_link.storage_id,
+              creator_id: User.current.id,
+              container_id: state.work_package_id_lookup[old_file_link.container_id.to_s],
+              container_type: 'WorkPackage',
+              origin_name: old_file_link.origin_name,
+              origin_mime_type: old_file_link.origin_mime_type
+            }
 
-              original_file_location = files_info_query_result
-                                         .find { |i| i.id.to_i == old_file_link.origin_id.to_i }
-                                         .location
+            original_file_location = files_info_query_result
+                                       .find { |i| i.id.to_i == old_file_link.origin_id.to_i }
+                                       .location
 
-              attributes['origin_id'] =
-                if source_project_storage.file_inside_project_folder?(original_file_location)
-                  new_file_location = original_file_location.gsub(
-                    source_project_storage.project_folder_path_escaped,
-                    target_project_storage.project_folder_path_escaped
-                  )
-                  new_file_location = CGI.unescape(new_file_location[1..])
-                  folder_files_file_ids_deep_query_result[new_file_location]['fileid']
-                else
-                  old_file_link.origin_id
-                end
-              Storages::FileLinks::CreateService.new(user: User.current).call(attributes)
-            end
-          else
-            source_file_links.each do |old_file_link|
-              attributes = {
-                storage_id: old_file_link.storage_id,
-                creator_id: User.current.id,
-                container_id: state.work_package_id_lookup[old_file_link.container_id.to_s],
-                container_type: 'WorkPackage',
-                origin_name: old_file_link.origin_name,
-                origin_mime_type: old_file_link.origin_mime_type,
-                origin_id: old_file_link.origin_id
-              }
-              Storages::FileLinks::CreateService.new(user: User.current).call(attributes)
-            end
+            attributes['origin_id'] =
+              if source_project_storage.file_inside_project_folder?(original_file_location)
+                new_file_location = original_file_location.gsub(
+                  source_project_storage.project_folder_path_escaped,
+                  target_project_storage.project_folder_path_escaped
+                )
+                new_file_location = CGI.unescape(new_file_location[1..])
+                folder_files_file_ids_deep_query_result[new_file_location]['fileid']
+              else
+                old_file_link.origin_id
+              end
+            Storages::FileLinks::CreateService.new(user: User.current).call(attributes)
+          end
+        else
+          source_file_links.each do |old_file_link|
+            attributes = {
+              storage_id: old_file_link.storage_id,
+              creator_id: User.current.id,
+              container_id: state.work_package_id_lookup[old_file_link.container_id.to_s],
+              container_type: 'WorkPackage',
+              origin_name: old_file_link.origin_name,
+              origin_mime_type: old_file_link.origin_mime_type,
+              origin_id: old_file_link.origin_id
+            }
+            Storages::FileLinks::CreateService.new(user: User.current).call(attributes)
           end
         end
       end
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/PerceivedComplexity
 
     def files_info_query(storage_requests:, file_ids:)
       storage_requests
         .files_info_query
         .call(user: User.current, file_ids:)
-        .on_failure { |result| raise "files_info_query failed: #{result}" }
+        .on_failure { |r| add_error!("files_info_query", r.to_active_model_errors) }
         .result
     end
 
@@ -119,7 +122,7 @@ module Projects::Copy
       storage_requests
         .folder_files_file_ids_deep_query
         .call(path:)
-        .on_failure { |result| raise "folder_files_file_ids_deep_query failed: #{result}" }
+        .on_failure { |r| add_error!("folder_files_file_ids_deep_query", r.to_active_model_errors) }
         .result
     end
   end

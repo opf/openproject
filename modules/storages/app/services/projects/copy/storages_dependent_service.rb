@@ -40,6 +40,7 @@ module Projects::Copy
 
     protected
 
+    # rubocop:disable Metrics/AbcSize
     def copy_dependency(*)
       state.copied_project_storages = source.projects_storages.each_with_object([]) do |source_project_storage, array|
         project_storage_copy =
@@ -48,10 +49,12 @@ module Projects::Copy
             .call(storage_id: source_project_storage.storage_id,
                   project_id: target.id,
                   project_folder_mode: 'inactive')
-            .on_failure { |result| raise "ProjectStorage creation failed: #{result}" }.result
+            .on_failure { |r| add_error!(source_project_storage.class.to_s, r.to_active_model_errors) }
+            .result
 
         array << { source: source_project_storage, target: project_storage_copy }
       end
     end
+    # rubocop:enable Metrics/AbcSize
   end
 end
