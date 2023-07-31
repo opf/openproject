@@ -446,6 +446,25 @@ RSpec.describe 'API v3 Work package resource',
         end
       end
 
+      context 'when there is a custom value in the past but not in the now' \
+              'as the custom field has been disabled for the project' do
+        before do
+          create_customizable_journal(journal: original_journal, custom_field:, value: 'Original value')
+          project.update(work_package_custom_fields: [])
+        end
+
+        it 'does not embed the custom fields in the attributesByTimestamp' do
+          expect(subject.body)
+            .to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/0")
+          expect(subject.body)
+            .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/customField#{custom_field.id}")
+          expect(subject.body)
+            .to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1")
+          expect(subject.body)
+            .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1/customField#{custom_field.id}")
+        end
+      end
+
       context 'when there is a custom value now but not in the past' do
         before do
           custom_value
