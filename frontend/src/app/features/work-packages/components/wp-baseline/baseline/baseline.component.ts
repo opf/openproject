@@ -192,6 +192,15 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
         }
       });
     }
+
+    this.wpTableBaseline
+      .pristine$()
+      .subscribe((timestamps) => {
+        if (_.isEqual(timestamps, [DEFAULT_TIMESTAMP])) {
+          this.resetSelection();
+          this.wpTableBaseline.disable();
+        }
+      });
   }
 
   public resetSelection():void {
