@@ -59,4 +59,20 @@ class Storages::ProjectStorage < ApplicationRecord
   def project_folder_path
     "#{storage.group_folder}/#{project.name.gsub('/', '|')} (#{project.id})/"
   end
+
+  def project_folder_path_escaped
+    escape_path(project_folder_path)
+  end
+
+  def file_inside_project_folder?(escaped_file_path)
+    escaped_file_path.match?(%r|^/#{project_folder_path_escaped}|)
+  end
+
+  private
+
+  def escape_path(path)
+    ::Storages::Peripherals::StorageInteraction::Nextcloud::Util.escape_path(
+      path
+    )
+  end
 end

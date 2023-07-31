@@ -26,35 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::Copy
-  class StoragesDependentService < Dependency
-    using Storages::Peripherals::ServiceResultRefinements
-
-    def self.human_name
-      I18n.t(:label_project_storage_plural)
+module Storages::Peripherals::StorageInteraction::Nextcloud
+  class FolderFilesFileIdsDeepQuery
+    def initialize(storage)
+      @query = ::Storages::Peripherals::StorageInteraction::Nextcloud::Internal::PropfindQuery.new(storage)
     end
 
-    def source_count
-      source.storages.count
+    def call(path:)
+      @query.call(
+        depth: 'infinity',
+        path:,
+        props: %w[oc:fileid]
+      )
     end
-
-    protected
-
-    # rubocop:disable Metrics/AbcSize
-    def copy_dependency(*)
-      state.copied_project_storages = source.projects_storages.each_with_object([]) do |source_project_storage, array|
-        project_storage_copy =
-          ::Storages::ProjectStorages::CreateService
-            .new(user: User.current)
-            .call(storage_id: source_project_storage.storage_id,
-                  project_id: target.id,
-                  project_folder_mode: 'inactive')
-            .on_failure { |r| add_error!(source_project_storage.class.to_s, r.to_active_model_errors) }
-            .result
-
-        array << { source: source_project_storage, target: project_storage_copy }
-      end
-    end
-    # rubocop:enable Metrics/AbcSize
   end
 end
