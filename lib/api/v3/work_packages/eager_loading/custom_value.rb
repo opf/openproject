@@ -31,8 +31,6 @@ module API
     module WorkPackages
       module EagerLoading
         class CustomValue < Base
-          attr_accessor :query
-
           def initialize(work_packages, **options)
             super
 
@@ -129,10 +127,6 @@ module API
             @loaded_custom_fields_by_id ||= work_packages.map(&:available_custom_fields).flatten.uniq.index_by(&:id)
 
             @loaded_custom_fields_by_id[id]
-          end
-
-          def timestamped?
-            @timestamped ||= query.try(:timestamps).any?(&:historic?)
           end
         end
       end
