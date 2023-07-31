@@ -27,10 +27,10 @@
 #++
 
 require 'spec_helper'
-require 'pdf/inspector'
 
 RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   include Redmine::I18n
+  include PDFExportSpecUtils
   let(:type_standard) { create(:type_standard) }
   let(:type_bug) { create(:type_bug) }
   let(:project) { create(:project, name: 'Foo Bla. Report No. 4/2021 with/for Case 42', types: [type_standard, type_bug]) }
@@ -81,14 +81,6 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     end
   end
   let(:column_names) { %i[id subject status story_points] }
-
-  def column_title(column_name)
-    label_title(column_name).upcase
-  end
-
-  def label_title(column_name)
-    WorkPackage.human_attribute_name(column_name)
-  end
 
   def work_packages_sum
     work_package_parent.story_points + work_package_child.story_points

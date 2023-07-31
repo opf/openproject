@@ -27,10 +27,10 @@
 #++
 
 require 'spec_helper'
-require 'pdf/inspector'
 
 RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   include Redmine::I18n
+  include PDFExportSpecUtils
   let(:type) { create(:type_bug) }
   let(:project) { create(:project, name: 'Foo Bla. Report No. 4/2021 with/for Case 42', types: [type]) }
   let(:user) do
@@ -78,14 +78,6 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
     Timecop.freeze(export_time) do
       export.export!
     end
-  end
-
-  def column_title(column_name)
-    label_title(column_name).upcase
-  end
-
-  def label_title(column_name)
-    WorkPackage.human_attribute_name(column_name)
   end
 
   subject(:pdf) do
