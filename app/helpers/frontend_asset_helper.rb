@@ -54,6 +54,12 @@ module FrontendAssetHelper
     end
   end
 
+  def include_spot_assets
+    capture do
+      concat stylesheet_link_tag variable_asset_path("spot.css"), media: :all, skip_pipeline: true
+    end
+  end
+
   private
 
   def angular_cli_asset(path)
