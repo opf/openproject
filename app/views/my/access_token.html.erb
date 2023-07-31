@@ -46,6 +46,9 @@ See COPYRIGHT and LICENSE files for more details.
 	<%= render partial: 'my/access_token_partials/rss_tokens_section', 
 							locals: { rss_token: @user.rss_token } 
 	%>
+  <%= render partial: 'my/access_token_partials/storage_tokens_section',
+             locals: { storage_tokens: @storage_tokens }
+  %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <table class="generic-table">

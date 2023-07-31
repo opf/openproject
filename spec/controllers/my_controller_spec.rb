@@ -345,5 +345,21 @@ RSpec.describe MyController do
         end
       end
     end
+
+    describe 'file storage' do
+      let(:client) { create(:oauth_client, integration: create(:nextcloud_storage)) }
+      let(:token) { create(:oauth_client_token, oauth_client: client, scope: nil, user:, expires_in: 3_600) }
+
+      render_views
+
+      before { token }
+
+      it 'list the tokens' do
+        get :access_token
+        expect(response.body).to have_selector("#storage-oauth-token-#{token.id}")
+      end
+
+      it 'can remove the token'
+    end
   end
 end

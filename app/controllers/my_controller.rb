@@ -78,7 +78,27 @@ class MyController < ApplicationController
   end
 
   # Administer access tokens
-  def access_token; end
+  def access_token
+    @storage_tokens = OAuthClientToken
+                        .preload(:oauth_client)
+                        .joins(:oauth_client)
+                        .where(user: @user, oauth_client: { integration_type: 'Storages::Storage' })
+  end
+
+  def delete_storage_token
+    token = OAuthClientToken
+      .preload(:oauth_client)
+      .joins(:oauth_client)
+      .where(user: @user, oauth_client: { integration_type: 'Storages::Storage' }).find_by(id: params[:id])
+
+    if token&.destroy
+      # TODO i18n this
+      flash[:notice] = I18n.t('my.access_tokens.storages.removed')
+    else
+      flash[:error] = I18n.t('my.access_tokens.storages.failed')
+    end
+    redirect_to action: :access_token
+  end
 
   # Configure user's in app notifications
   def notifications
