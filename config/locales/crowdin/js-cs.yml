@@ -297,17 +297,17 @@ cs:
           two: "Druhé kritérium třídění"
           three: "Třetí kritérium třídění"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Ganttův diagram'
       quarter_label: 'Q%{quarter_number}'
       labels:
         title: 'Label configuration'
         bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        left: 'Vlevo'
+        right: 'Vpravo'
+        farRight: 'Dále vpravo'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
+      button_activate: 'Zobrazit Ganttův diagram'
       button_deactivate: 'Skrýt Gantt'
       filter:
         noneSelection: "(žádný)"
@@ -352,8 +352,8 @@ cs:
       inital_setup_error_message: "Při načítání dat došlo k chybě."
       description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
       warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Where will you be using this?"
-      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_label: "Kde to použijete?"
+      token_name_placeholder: "Zadejte jméno, např. \"Telefon\""
       token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
       copy_url_label: "Kopírovat URL"
       ical_generation_error_text: "An error occured while generating the calendar URL."
@@ -623,7 +623,7 @@ cs:
           many: 'a %{count} dalšich'
           other: 'a %{count} dalšich'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you.'
+          at_all: 'Nová oznámení se zobrazí zde, když se objeví aktivita, která se vás týká'
           with_current_filter: 'V současné době nejsou v tomto zobrazení žádná oznámení'
         mark_all_read: 'Označit vše jako přečtené'
         mark_as_read: 'Označit jako přečteno'

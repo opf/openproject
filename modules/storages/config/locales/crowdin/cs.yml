@@ -69,7 +69,7 @@ cs:
         index: "Úložiště souborů v tomto projektu"
         new: "Přidat úložiště souborů k tomuto projektu"
         edit: "Upravit úložiště souborů pro tento projekt"
-        delete: "Delete file storage"
+        delete: "Odstranit úložiště souborů"
     instructions:
       type: "Ujistěte se prosím, že máte oprávnění administrace v Nextcloud instanci a máte nainstalovanou následující aplikaci:"
       type_link_text: "„Integration OpenProject“"
@@ -100,10 +100,10 @@ cs:
         Jste si jisti, že chcete smazat toto úložiště? Toto také odstraní úložiště ze všech projektů, kde je použito. Dále také smaže všechny odkazy z pracovních balíčků do souborů, které jsou uloženy v úložišti.
       project_storage: >
         Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:
-      project_storage_delete_result_1: "Remove all links from work packages of this project to files and folders of that storage."
+      project_storage_delete_result_1: "Odstraňte všechny odkazy z pracovních balíčků tohoto projektu do souborů a složek tohoto úložiště."
       project_storage_delete_result_2: "In case this storage has an automatically managed project folder, this and its files will be deleted forever."
       input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
-      irreversible_notice: "Deleting a file storage is an irreversible action."
+      irreversible_notice: "Smazání úložiště souborů je nevratná akce."
     label_active: "Aktivní"
     label_inactive: "Neaktivní"
     label_creator: "Vytvořil"
