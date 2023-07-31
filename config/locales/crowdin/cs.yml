@@ -3038,7 +3038,7 @@ cs:
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
-      changed: _**Working days** changed (%{changes})._
+      changed: _**Pracovní dny** změněny (%{changes})._
       days:
         working: "%{day} je pracovní "
         non_working: "%{day} je nepracovní "
