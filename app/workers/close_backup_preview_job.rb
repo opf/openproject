@@ -30,8 +30,8 @@ class CloseBackupPreviewJob < ApplicationJob
   queue_with_priority :high
 
   def perform(backup_id)
-    return unless RestoreBackupJob.preview_active? backup_id: backup_id
+    return unless RestoreBackupJob.preview_active?(backup_id:)
 
-    RestoreBackupJob.close_preview! backup_id: backup_id
+    RestoreBackupJob.close_preview!(backup_id:)
   end
 end

@@ -1,4 +1,4 @@
-class Backup < ActiveRecord::Base
+class Backup < ApplicationRecord
   class << self
     def create_permission
       :create_backup

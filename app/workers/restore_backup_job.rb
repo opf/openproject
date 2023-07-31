@@ -43,19 +43,19 @@ class RestoreBackupJob < ApplicationJob
     def schema_exists?(schema_name)
       query = "SELECT schema_name FROM information_schema.schemata WHERE schema_name = :schema_name"
 
-      execute_sql(query, schema_name: schema_name).to_a.map { |row| row["schema_name"] }.first
+      execute_sql(query, schema_name:).to_a.map { |row| row["schema_name"] }.first # rubocop:disable Rails/Pluck
     end
 
     def create_new_schema!(schema_name)
-      execute_sql('CREATE SCHEMA :schema_name', schema_name: schema_name, double_quote: true)
+      execute_sql('CREATE SCHEMA :schema_name', schema_name:, double_quote: true)
     end
 
     def rename_schema!(from, to)
-      execute_sql('ALTER SCHEMA :from RENAME TO :to', from: from, to: to, double_quote: true)
+      execute_sql('ALTER SCHEMA :from RENAME TO :to', from:, to:, double_quote: true)
     end
 
     def drop_schema!(schema_name)
-      execute_sql('DROP SCHEMA :schema_name CASCADE', schema_name: schema_name, double_quote: true)
+      execute_sql('DROP SCHEMA :schema_name CASCADE', schema_name:, double_quote: true)
     end
 
     def execute_sql(query, params = {})
@@ -408,11 +408,11 @@ class RestoreBackupJob < ApplicationJob
   end
 
   def self.preview_active?(backup_id:)
-    schema_exists? preview_schema_name(backup_id: id)
+    schema_exists? preview_schema_name(backup_id:)
   end
 
-  def self.close_preview!(backup_id: nil)
-    preview_schema = preview_active? backup_id: backup_id
+  def self.close_preview!(backup_id:)
+    preview_schema = preview_active?(backup_id:)
 
     drop_schema! preview_schema
   end

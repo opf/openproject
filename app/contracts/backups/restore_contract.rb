@@ -42,8 +42,7 @@ module Backups
     end
 
     def backup_token
-      # rubocop:disable Rails/DynamicFindBy
-      token = Token::Backup.find_by_plaintext_value options[:backup_token].to_s
+      token = Token::Backup.find_by_plaintext_value options[:backup_token].to_s # rubocop:disable Rails/DynamicFindBy
 
       if token.blank? || token.user_id != user.id
         errors.add :base, :invalid_token, message: I18n.t("backup.error.invalid_token")

@@ -131,8 +131,7 @@ class BackupJob < ApplicationJob
         .call(container: backup, filename: file_name, file:, description: 'OpenProject backup')
 
       call.on_success do
-        size_in_mb = (call.result.filesize / 1024.0 / 1024.0).round(2)
-        backup.update size_in_mb:
+        backup.update size_in_mb: (call.result.filesize / 1024.0 / 1024.0).round(2)
 
         download_url = ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(call.result.id)
 

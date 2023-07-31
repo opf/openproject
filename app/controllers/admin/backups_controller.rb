@@ -100,7 +100,7 @@ class Admin::BackupsController < ApplicationController
         return redirect_to admin_backups_path
       end
 
-      return do_preview backup_id: params[:id]
+      do_preview backup_id: params[:id]
     end
   end
 
@@ -112,7 +112,7 @@ class Admin::BackupsController < ApplicationController
         return redirect_to admin_backups_path
       end
 
-      return do_restore backup_id: params[:id]
+      do_restore backup_id: params[:id]
     end
   end
 
@@ -173,11 +173,15 @@ class Admin::BackupsController < ApplicationController
 
     cookies.delete :backup_preview
 
-    if String(params[:restore]).to_bool
+    if restore_after_back?
       redirect_to restore_admin_backup_path(backup_id, reset: true)
     else
       redirect_to home_path
     end
+  end
+
+  def restore_after_back?
+    String(params[:restore]).to_bool
   end
 
   def close_preview!
@@ -206,7 +210,7 @@ class Admin::BackupsController < ApplicationController
     redirect_to "/admin/backups"
   end
 
-  def create_uploaded_backup
+  def create_uploaded_backup # rubocop:disable Metrics/AbcSize
     Backup.new creator: current_user, comment: params[:comment]
     backup.attachments.build file: params[:backup_file], author: current_user
     backup.save!

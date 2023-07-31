@@ -36,8 +36,7 @@ module Backups
       model
     end
 
-    # rubocop:disable Rails/Delegate
-    def comment
+    def comment # rubocop:disable Rails/Delegate
       backup.comment
     end
 
@@ -64,7 +63,7 @@ module Backups
     end
 
     def button_links
-      if backup.ready?  
+      if backup.ready?
         ready_links + default_links
       else
         default_links
@@ -79,7 +78,7 @@ module Backups
       [
         helpers.link_to("Download", "/attachments/#{backup.attachments.first.id}", class: "icon icon-download"),
         helpers.link_to("Preview", preview_admin_backup_path(backup.id), class: "icon icon-watched"),
-        helpers.link_to("Restore", restore_admin_backup_path(backup.id), class: "icon icon-import"),
+        helpers.link_to("Restore", restore_admin_backup_path(backup.id), class: "icon icon-import")
       ]
     end
   end
