@@ -53,7 +53,7 @@ class Admin::BackupsController < ApplicationController
     if action_name == 'index'
       t('label_backup')
     else
-      ActionController::Base.helpers.link_to(t('label_backup'), backup_path)
+      ActionController::Base.helpers.link_to(t('label_backup'), admin_backups_path)
     end
   end
 
