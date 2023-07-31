@@ -31,7 +31,7 @@ To open your personal settings in OpenProject, click on your user icon in the to
 
 Choose **My account**.
 
-![my account profil information](openproject_my_account_profile.png)
+![my account profil information](openproject_open_my_account_page.png)
 
 ## Edit your user information
 To change your email address or your name, navigate to **Profile** on the right side menu of **My account** page.
@@ -130,14 +130,14 @@ Access tokens allow you to grant external applications access to resources in Op
 ### API
 API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs. If you have not yet created an API token, this list will be empty. You may need admin privileges to be able to create an API.
 
-You can enable an API token under *Administration -> API and webhooks*. LINK TO HOW ITS DONE IN SYSTEM ADMIN GUIDE.
+You can enable an API token under [*Administration -> API and webhooks*](../../system-admin-guide/api-and-webhooks/). Please not that you can only create a single API token.
 ### iCalendar
 iCalendar tokens allow users to subscribe to OpenProject calendars and view up-to-date work package information from external clients. 
 This list will be empty if you have not yet subscribed to any calendars. Once you [subscribe to a calendar] (LINK TO ICAL DOCUMENTATION), a list of all the calendars that you have subscribed to will appear here. The name of the calendar is clickable and will lead you directly to the respective calendar in OpenProject. 
 
 ![OpenProject calendar list under my account](openproject_my_account_access_tokens_calendar_list.png)
 
-You can delete an entry in the iCalendar list by clicking on the **Delete** icon. This will trigger a warning message asking you to confirm the decision to delete.  
+You can delete an entry in the iCalendar list by clicking on the **Delete** icon. This will trigger a warning message asking you to confirm the decision to delete.  By deleting this token you will no longer have access to OpenProject information in all the linked clients using this token.
 
 ![OpenProject delete calendar in My Account](openproject_my_account_access_tokens_delete_calendar.png)
 
@@ -147,7 +147,7 @@ You will then see a message informing you that the the token und the iCal URL ar
 
 ### OAUTH
 
-OAuth tokens allow third-party applications to connect with this OpenProject instance, for example Nextcloud (see [here](https://www.openproject.org/docs/user-guide/nextcloud-integration/)how to set up Nextcloud integration.  OAuth tokens can be created under [*Administration-> Authentication*](https://www.openproject.org/docs/system-admin-guide/authentication/). 
+OAuth tokens allow third-party applications to connect with this OpenProject instance, for example Nextcloud (see [here](https://www.openproject.org/docs/user-guide/nextcloud-integration/) how to set up Nextcloud integration.  OAuth tokens can be created under [*Administration-> Authentication*](https://www.openproject.org/docs/system-admin-guide/authentication/). 
 
 If no third-party application integration has been activated yet, this list will be empty. Please contact your administrator to help you set it up. Once an integration has been set up, you will see the details here and will be able to delete any OAuth tokens by clicking on the **Delete** icon. 
 
