@@ -60,7 +60,7 @@ module Backups
           payload: {}
         )
 
-        ServiceResult.new success: true, result: backup
+        ServiceResult.success(result: backup)
       else
         call
       end

@@ -44,7 +44,8 @@ class Backup < ActiveRecord::Base
     -> { where(reference_type: "Backup") },
     class_name: "JobStatus::Status",
     foreign_key: :reference_id,
-    dependent: :destroy
+    dependent: :destroy,
+    inverse_of: :reference
   )
 
   acts_as_attachable(

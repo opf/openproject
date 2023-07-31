@@ -36,6 +36,7 @@ module Backups
       model
     end
 
+    # rubocop:disable Rails/Delegate
     def comment
       backup.comment
     end
@@ -63,17 +64,23 @@ module Backups
     end
 
     def button_links
-      links = []
-
-      if backup.ready?
-        links << helpers.link_to("Download", "/attachments/#{backup.attachments.first.id}", class: "icon icon-download")
-        links << helpers.link_to("Preview", preview_admin_backup_path(backup.id), class: "icon icon-watched")
-        links << helpers.link_to("Restore", restore_admin_backup_path(backup.id), class: "icon icon-import")
+      if backup.ready?  
+        ready_links + default_links
+      else
+        default_links
       end
+    end
 
-      links << helpers.link_to("Delete", admin_backup_path(backup.id), method: :delete, class: "icon icon-delete")
+    def default_links
+      [helpers.link_to("Delete", admin_backup_path(backup.id), method: :delete, class: "icon icon-delete")]
+    end
 
-      links
+    def ready_links
+      [
+        helpers.link_to("Download", "/attachments/#{backup.attachments.first.id}", class: "icon icon-download"),
+        helpers.link_to("Preview", preview_admin_backup_path(backup.id), class: "icon icon-watched"),
+        helpers.link_to("Restore", restore_admin_backup_path(backup.id), class: "icon icon-import"),
+      ]
     end
   end
 end

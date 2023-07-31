@@ -36,12 +36,13 @@ module Backups
     private
 
     def backup_exists
-      if !Backup.where(id: params[:backup_id]).exists?
+      if !Backup.exists?(id: params[:backup_id])
         errors.add :base, :not_found, message: I18n.t("label_not_found")
       end
     end
 
     def backup_token
+      # rubocop:disable Rails/DynamicFindBy
       token = Token::Backup.find_by_plaintext_value options[:backup_token].to_s
 
       if token.blank? || token.user_id != user.id

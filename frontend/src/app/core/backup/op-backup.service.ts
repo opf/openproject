@@ -45,7 +45,7 @@ export class OpenProjectBackupService {
       .post(backupToken, includeAttachments, comment);
   }
 
-  public triggerRestore(backupToken:string, backupId:string, preview:boolean = true):Observable<HalResource> {
+  public triggerRestore(backupToken:string, backupId:string, preview = true):Observable<HalResource> {
     return this
       .apiV3Service
       .backups

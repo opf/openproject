@@ -83,8 +83,7 @@ module Backups
     def pending_backups?
       Backup
         .joins(:job_status)
-        .where(job_status: { status: pending_statuses })
-        .exists?
+        .exists?(job_status: { status: pending_statuses })
     end
 
     def pending_statuses

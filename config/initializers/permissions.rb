@@ -49,7 +49,7 @@ Rails.application.reloader.to_prepare do
                      require: :loggedin,
                      global: true,
                      enabled: -> { OpenProject::Configuration.backup_enabled? }
-      
+
       map.permission :restore_backup,
                      {
                        admin: %i[index],

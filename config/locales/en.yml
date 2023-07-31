@@ -1114,6 +1114,7 @@ en:
 
   backup:
     button_upload: "Upload backup"
+    error_no_preview_active: No preview active
     failed: "Backup failed"
     file_instructions: Requires a backup (zip archive) downloaded from OpenProject
     job_status:
