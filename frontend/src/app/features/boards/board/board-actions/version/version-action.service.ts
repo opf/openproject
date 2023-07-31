@@ -59,21 +59,6 @@ export class BoardVersionActionService extends CachedBoardActionService {
     return this.writable$;
   }
 
-  public addInitialColumnsForAction(board:Board):Promise<Board> {
-    return firstValueFrom(this.loadValues())
-      .then((results) => Promise.all<unknown>(
-        results.map((version:VersionResource) => {
-          const definingName = _.get(version, 'definingProject.name', null);
-          if (version.isOpen() && definingName && definingName === this.currentProject.name) {
-            return this.addColumnWithActionAttribute(board, version);
-          }
-
-          return Promise.resolve(board);
-        }),
-      )
-        .then(() => board));
-  }
-
   /**
    * Adds an entry to the list menu to edit the version if allowed
    * @param {QueryResource} query The active query
