@@ -182,6 +182,21 @@ FactoryBot.define do
       type { 'WorkPackageCustomField' }
       is_filter { true }
 
+      transient do
+        projects { [] }
+      end
+
+      after(:create) do |custom_field, evaluator|
+        evaluator.projects.each do |project|
+          project.work_package_custom_fields << custom_field
+        end
+
+        if evaluator.projects.any? || evaluator.types.any?
+          # As the request store keeps track of the available custom fields of work packages
+          RequestStore.clear!
+        end
+      end
+
       factory :list_wp_custom_field do
         sequence(:name) { |n| "List CF #{n}" }
         field_format { 'list' }

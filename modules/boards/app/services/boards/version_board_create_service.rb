@@ -22,7 +22,9 @@ module Boards
     end
 
     def versions(params)
-      @versions ||= params[:project].shared_versions.with_status_open
+      @versions ||= Version.includes(:project)
+                           .where(projects: { id: params[:project].id })
+                           .with_status_open
     end
 
     def create_query_params(params, version)

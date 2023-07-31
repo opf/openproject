@@ -29,9 +29,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t('boards.label_create_new_board') %>
 <%= toolbar title: t('boards.label_create_new_board') %>
-<%= labelled_tabular_form_for @board_grid, url: { controller: '/boards/boards', action: 'create' }, :html => {:id => 'board-form'} do |f| -%>
+<%= labelled_tabular_form_for @board_grid, url: { controller: '/boards/boards', action: 'create', project_id: @project }, :html => {:id => 'board-form'} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>
   <%= styled_button_tag t(:button_create), class: '-highlight' %>
-  <%= link_to t(:button_cancel), { controller: 'boards/boards', action: 'overview' },
+  <%= link_to t(:button_cancel), { controller: 'boards/boards', action: (@project ? 'index' : 'overview') },
               class: 'button' %>
 <% end %>

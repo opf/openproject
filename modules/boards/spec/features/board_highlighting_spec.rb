@@ -74,7 +74,7 @@ RSpec.describe 'Work Package boards spec', js: true, with_ee: %i[board_view] do
   it 'navigates from boards to the WP full view and back' do
     board_index.visit!
 
-    board_page = board_index.create_board action: :Status
+    board_page = board_index.create_board action: 'Status'
 
     # See the work packages
     board_page.expect_query 'Open', editable: false

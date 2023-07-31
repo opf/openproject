@@ -27,15 +27,15 @@
 #++
 
 require 'spec_helper'
-require_relative './support/board_overview_page'
+require_relative 'support/board_index_page'
 
-RSpec.describe 'Work Package Boards Overview',
+RSpec.describe 'Work Package Project Boards Index Page',
+               :js,
                :with_cuprite,
                with_ee: %i[board_view],
                with_flag: { more_global_index_pages: true } do
   # The identifier is important to test https://community.openproject.com/wp/29754
   shared_let(:project) { create(:project, identifier: 'boards', enabled_module_names: %i[work_package_tracking board_view]) }
-  shared_let(:other_project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
 
   shared_let(:management_permissions) do
     %i[show_board_views manage_board_views add_work_packages view_work_packages manage_public_queries]
@@ -57,27 +57,20 @@ RSpec.describe 'Work Package Boards Overview',
 
   let(:board_view) { create(:board_grid_with_query, name: 'My board', project:) }
   let(:other_board_view) { create(:board_grid_with_query, name: 'My other board', project:) }
-  let(:other_project_board_view) { create(:board_grid_with_query, name: 'Unseeable Board', project: other_project) }
 
-  let(:board_overview) { Pages::BoardOverview.new }
+  let(:board_index) { Pages::BoardIndex.new(project) }
 
   before do
     login_as user
-  end
-
-  it 'renders the global menu with its item selected' do
-    board_overview.visit!
-
-    board_overview.expect_global_menu_item_selected
   end
 
   context 'as a user with board management permissions' do
     let(:permissions) { management_permissions }
 
     it 'shows a create button' do
-      board_overview.visit!
+      board_index.visit!
 
-      board_overview.expect_create_button
+      board_index.expect_create_button
     end
   end
 
@@ -85,29 +78,17 @@ RSpec.describe 'Work Package Boards Overview',
     let(:permissions) { view_only_permissions }
 
     it 'does not show a create button' do
-      board_overview.visit!
+      board_index.visit!
 
-      board_overview.expect_no_create_button
+      board_index.expect_no_create_button
     end
   end
 
   context 'when no boards exist' do
     it 'displays the empty message' do
-      board_overview.visit!
+      board_index.visit!
 
-      board_overview.expect_no_boards_listed
-    end
-  end
-
-  context 'when only boards exist that the user does not have access to' do
-    before do
-      other_project_board_view
-    end
-
-    it 'displays the empty message' do
-      board_overview.visit!
-
-      board_overview.expect_no_boards_listed
+      board_index.expect_no_boards_listed
     end
   end
 
@@ -115,35 +96,47 @@ RSpec.describe 'Work Package Boards Overview',
     before do
       board_view
       other_board_view
-      other_project_board_view
     end
 
     it 'lists the boards' do
-      board_overview.visit!
+      board_index.visit!
 
-      board_overview.expect_boards_listed(board_view, other_board_view)
-      board_overview.expect_boards_not_listed(other_project_board_view)
+      board_index.expect_boards_listed(board_view, other_board_view)
     end
 
-    it 'does not render delete links' do
-      board_overview.visit!
+    context 'as a user with board management permissions' do
+      let(:permissions) { management_permissions }
 
-      board_overview.expect_no_delete_button(board_view)
-      board_overview.expect_no_delete_button(other_board_view)
-      board_overview.expect_no_delete_button(other_project_board_view)
+      it 'renders delete links for each board' do
+        board_index.visit!
+
+        board_index.expect_delete_button(board_view)
+        board_index.expect_delete_button(other_board_view)
+      end
+    end
+
+    context 'as a user without board management permissions' do
+      let(:permissions) { view_only_permissions }
+
+      it 'does not render delete links' do
+        board_index.visit!
+
+        board_index.expect_no_delete_button(board_view)
+        board_index.expect_no_delete_button(other_board_view)
+      end
     end
 
     it 'paginates results', with_settings: { per_page_options: '1' } do
       # First page displays the historically last meeting
-      board_overview.visit!
-      board_overview.expect_boards_listed(board_view)
-      board_overview.expect_boards_not_listed(other_board_view)
+      board_index.visit!
+      board_index.expect_boards_listed(board_view)
+      board_index.expect_boards_not_listed(other_board_view)
 
-      board_overview.expect_to_be_on_page(1)
+      board_index.expect_to_be_on_page(1)
 
-      board_overview.to_page(2)
-      board_overview.expect_boards_listed(other_board_view)
-      board_overview.expect_boards_not_listed(board_view)
+      board_index.to_page(2)
+      board_index.expect_boards_listed(other_board_view)
+      board_index.expect_boards_not_listed(board_view)
     end
   end
 end

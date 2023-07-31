@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require_relative 'support/board_global_create_page'
+require_relative 'support/board_new_page'
 
 RSpec.describe 'Boards',
                'Creating a view from a Global Context',
@@ -9,10 +9,17 @@ RSpec.describe 'Boards',
                :with_cuprite,
                with_ee: %i[board_view] do
   shared_let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
+  shared_let(:other_project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   shared_let(:admin) { create(:admin) }
 
   shared_let(:status) { create(:default_status) }
   shared_let(:versions) { create_list(:version, 3, project:) }
+  shared_let(:excluded_versions) do
+    [
+      create(:version, project:, status: 'closed'),
+      create(:version, project: other_project, sharing: 'system')
+    ]
+  end
 
   shared_let(:new_board_page) { Pages::NewBoard.new }
 
@@ -122,6 +129,9 @@ RSpec.describe 'Boards',
             expect(page).to have_text "Gotham Renewal Board"
             versions.each do |version|
               expect(page).to have_selector("[data-query-name='#{version.name}'")
+            end
+            excluded_versions.each do |version|
+              expect(page).not_to have_selector("[data-query-name='#{version.name}'")
             end
           end
         end

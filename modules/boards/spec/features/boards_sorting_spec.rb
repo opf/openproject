@@ -27,8 +27,8 @@
 #++
 
 require 'spec_helper'
-require_relative './support/board_index_page'
-require_relative './support/board_page'
+require_relative 'support/board_index_page'
+require_relative 'support/board_page'
 
 RSpec.describe 'Work Package boards sorting spec', js: true, with_ee: %i[board_view] do
   let(:admin) { create(:admin) }
@@ -47,38 +47,27 @@ RSpec.describe 'Work Package boards sorting spec', js: true, with_ee: %i[board_v
   # By adding each board the sort of table will change
   # The currently added board should be at the top
   it 'sorts the boards grid and menu based on their names' do
-    board_page = board_index.create_board action: nil
+    board_page = board_index.create_board title: 'My Basic Board'
 
-    retry_block do
-      board_page.back_to_index
-      find('[data-qa-selector="boards-table-column--name"]', text: 'Unnamed board')
-    end
+    board_page.back_to_index
+    board_index.expect_boards_listed 'My Basic Board'
+    query_menu.expect_menu_entry 'My Basic Board'
 
-    expect(page.all('[data-qa-selector="boards-table-column--name"]').map(&:text))
-      .to eq ['Unnamed board']
-    query_menu.expect_menu_entry 'Unnamed board'
+    board_page = board_index.create_board title: 'My Action Board',
+                                          action: 'Version',
+                                          expect_empty: true
+    board_page.back_to_index
+    board_index.expect_boards_listed 'My Action Board',
+                                     'My Basic Board'
+    query_menu.expect_menu_entry 'My Action Board'
 
-    board_page = board_index.create_board action: :Version, expect_empty: true
-    retry_block do
-      board_page.back_to_index
-      find('[data-qa-selector="boards-table-column--name"]', text: 'Action board (version)')
-    end
-
-    expect(page.all('[data-qa-selector="boards-table-column--name"]').map(&:text))
-      .to eq ['Action board (version)', 'Unnamed board']
-    query_menu.expect_menu_entry 'Action board (version)'
-
-    board_page = board_index.create_board action: :Status
+    board_page = board_index.create_board title: 'My Status Board',
+                                          action: 'Status'
     board_page.back_to_index
 
-    retry_block do
-      board_page.back_to_index
-      find('[data-qa-selector="boards-table-column--name"]', text: 'Action board (status)')
-    end
-
-    expect(page.all('[data-qa-selector="boards-table-column--name"]').map(&:text))
-      .to eq ['Action board (status)', 'Action board (version)', 'Unnamed board']
-
-    query_menu.expect_menu_entry 'Action board (status)'
+    board_index.expect_boards_listed 'My Status Board',
+                                     'My Action Board',
+                                     'My Basic Board'
+    query_menu.expect_menu_entry 'My Status Board'
   end
 end

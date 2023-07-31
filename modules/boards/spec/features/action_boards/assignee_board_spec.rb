@@ -92,7 +92,9 @@ RSpec.describe 'Assignee action board',
       board_index.visit!
 
       # Create new board
-      board_page = board_index.create_board action: :Assignee, expect_empty: true
+      board_page = board_index.create_board title: 'My Assignee Board',
+                                            action: 'Assignee',
+                                            expect_empty: true
 
       # Expect no assignees to be present
       board_page.expect_empty
@@ -113,7 +115,7 @@ RSpec.describe 'Assignee action board',
       board_page.expect_list_option '(none)'
 
       board_page.board(reload: true) do |board|
-        expect(board.name).to eq 'Action board (assignee)'
+        expect(board.name).to eq 'My Assignee Board'
         queries = board.contained_queries
         expect(queries.count).to eq(3)
 

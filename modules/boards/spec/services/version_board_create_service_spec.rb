@@ -33,7 +33,15 @@ require_relative 'base_create_service_shared_examples'
 
 RSpec.describe Boards::VersionBoardCreateService do
   shared_let(:project) { create(:project) }
+  shared_let(:other_project) { create(:project) }
   shared_let(:versions) { create_list(:version, 3, project:) }
+  shared_let(:excluded_versions) do
+    [
+      create(:version, project:, status: 'closed'),
+      create(:version, project: other_project, sharing: 'system')
+    ]
+  end
+
   shared_let(:user) { build_stubbed(:admin) }
   shared_let(:instance) { described_class.new(user:) }
 
@@ -65,11 +73,13 @@ RSpec.describe Boards::VersionBoardCreateService do
       let(:widgets) { board.widgets }
       let(:queries) { Query.all }
 
-      it 'creates one of each per version', :aggregate_failures do
+      it 'creates one of each per expected version', :aggregate_failures do
         subject
 
         expect(widgets.count).to eq(versions.count)
         expect(queries.count).to eq(versions.count)
+
+        expect(queries.map(&:name)).to match_array(versions.map(&:name))
       end
 
       it 'sets the filters on each' do
