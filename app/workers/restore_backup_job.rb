@@ -35,25 +35,25 @@ class RestoreBackupJob < ApplicationJob
     def default_schema_name
       "public"
     end
-  
+
     def preview_schema_name(backup_id:)
       "backup_preview_#{backup_id}"
     end
-  
+
     def schema_exists?(schema_name)
       query = "SELECT schema_name FROM information_schema.schemata WHERE schema_name = :schema_name"
-  
+
       execute_sql(query, schema_name: schema_name).to_a.map { |row| row["schema_name"] }.first
     end
-  
+
     def create_new_schema!(schema_name)
       execute_sql('CREATE SCHEMA :schema_name', schema_name: schema_name, double_quote: true)
     end
-  
+
     def rename_schema!(from, to)
       execute_sql('ALTER SCHEMA :from RENAME TO :to', from: from, to: to, double_quote: true)
     end
-  
+
     def drop_schema!(schema_name)
       execute_sql('DROP SCHEMA :schema_name CASCADE', schema_name: schema_name, double_quote: true)
     end
@@ -239,6 +239,10 @@ class RestoreBackupJob < ApplicationJob
     end
   end
 
+  def preview_schema_name
+    @preview_schema_name ||= self.class.preview_schema_name backup_id: backup.id
+  end
+
   def restore_database!(sql_file_path)
     run_command! restore_command(sql_file_path)
   end
@@ -408,7 +412,7 @@ class RestoreBackupJob < ApplicationJob
     op = backup_id.present? ? '=' : 'LIKE'
     schema = preview_schema_name backup_id: id
     query = "SELECT schema_name FROM information_schema.schemata WHERE schema_name LIKE '#{schema}';"
-  
+
     ActiveRecord::Base.connection.execute(query).to_a.map { |row| row["schema_name"] }.first
   end
 

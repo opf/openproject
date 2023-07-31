@@ -189,7 +189,7 @@ class Admin::BackupsController < ApplicationController
 
     backup.size_in_mb = (backup.attachments.first.filesize / 1024.0 / 1024.0).round(2)
     backup.save!
-    
+
     JobStatus::Status.create(reference: backup, message: "imported", status: :success)
 
     flash[:info] = I18n.t("backup.notice_uploaded", comment: backup.comment)
@@ -230,14 +230,6 @@ class Admin::BackupsController < ApplicationController
     flash[:info] = t("backup.text_token_deleted")
 
     redirect_to action: 'new'
-  end
-
-  def default_breadcrumb
-    t(:label_backup)
-  end
-
-  def show_local_breadcrumb
-    true
   end
 
   def check_enabled
