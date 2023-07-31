@@ -114,9 +114,6 @@ gem 'mail', '= 2.8.1'
 # provide compatible filesystem information for available storage
 gem 'sys-filesystem', '~> 1.4.0', require: false
 
-# Faster posix-compliant spawns for 8.0. conversions with pandoc
-gem 'posix-spawn', '~> 0.3.13', require: false
-
 gem 'bcrypt', '~> 3.1.6'
 
 gem 'multi_json', '~> 1.15.0'

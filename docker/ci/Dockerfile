@@ -32,7 +32,7 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main" > /etc/a
 
 RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update -qq && apt-get install -y \
-    postgresql-13 postgresql-client-13 time pandoc imagemagick default-jre-headless firefox-esr
+    postgresql-13 postgresql-client-13 time imagemagick default-jre-headless firefox-esr
 
 ENV CHROME_SOURCE_URL="https://dl.google.com/dl/linux/direct/google-chrome-stable_current_amd64.deb"
 RUN f="/tmp/chrome.deb"; wget --no-verbose -O $f $CHROME_SOURCE_URL && apt install -y $f && rm -f $f
