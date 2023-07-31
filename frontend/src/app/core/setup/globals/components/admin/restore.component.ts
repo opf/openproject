@@ -27,93 +27,93 @@
 //++
 
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    Injector,
-    ViewChild,
-  } from '@angular/core';
-  import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-  import { I18nService } from 'core-app/core/i18n/i18n.service';
-  import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-  import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
-  import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-  import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-  import { OpenProjectBackupService } from 'core-app/core/backup/op-backup.service';
-  import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-  import { HalError } from 'core-app/features/hal/services/hal-error';
-  
-  export const restoreSelector = 'restore';
-  
-  @Component({
-    selector: restoreSelector,
-    templateUrl: './restore.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-  })
-  export class RestoreComponent implements AfterViewInit {
-    public text = {
-      restoreInfo: this.i18n.t('js.restore.info'),
-      restoreNote: this.i18n.t('js.restore.note'),
-      restoreTitle: this.i18n.t('js.restore.title'),
-      previewInfo: this.i18n.t('js.restore.preview_info'),
-      previewNote: this.i18n.t('js.restore.preview_note'),
-      previewTitle: this.i18n.t('js.restore.preview_title'),
-      restoreBackup: this.i18n.t('js.restore.restore_backup'),
-      previewBackup: this.i18n.t('js.restore.preview_backup'),
-    };
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Injector,
+  ViewChild,
+} from '@angular/core';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { OpenProjectBackupService } from 'core-app/core/backup/op-backup.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalError } from 'core-app/features/hal/services/hal-error';
 
-    public jobStatusId:string = this.elementRef.nativeElement.dataset.jobStatusId;
-  
-    public isInProgress = false;
-  
-    public backupToken:string = '';
+export const restoreSelector = 'restore';
 
-    public backupId:string = this.elementRef.nativeElement.dataset.backupId;
+@Component({
+  selector: restoreSelector,
+  templateUrl: './restore.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class RestoreComponent implements AfterViewInit {
+  public text = {
+    restoreInfo: this.i18n.t('js.restore.info'),
+    restoreNote: this.i18n.t('js.restore.note'),
+    restoreTitle: this.i18n.t('js.restore.title'),
+    previewInfo: this.i18n.t('js.restore.preview_info'),
+    previewNote: this.i18n.t('js.restore.preview_note'),
+    previewTitle: this.i18n.t('js.restore.preview_title'),
+    restoreBackup: this.i18n.t('js.restore.restore_backup'),
+    previewBackup: this.i18n.t('js.restore.preview_backup'),
+  };
 
-    public backupComment:string = this.elementRef.nativeElement.dataset.backupComment;
+  public jobStatusId:string = this.elementRef.nativeElement.dataset.jobStatusId;
 
-    public preview:boolean = this.elementRef.nativeElement.dataset.preview != 'false';
-  
-    @InjectField() opBackup:OpenProjectBackupService;
-  
-    @ViewChild('backupTokenInput') backupTokenInput:ElementRef;
-  
-    constructor(
-      readonly elementRef:ElementRef,
-      public injector:Injector,
-      protected i18n:I18nService,
-      protected toastService:ToastService,
-      protected opModalService:OpModalService,
-      protected pathHelper:PathHelperService,
-    ) {
-    }
-  
-    ngAfterViewInit():void {
-      this.backupTokenInput.nativeElement.focus();
-    }
-  
-    public triggerRestore(event?:JQuery.TriggeredEvent) {
-      if (event) {
-        event.stopPropagation();
-        event.preventDefault();
-      }
-  
-      const { backupToken } = this;
-  
-      this.backupToken = '';
-  
-      this.opBackup
-        .triggerRestore(backupToken, this.backupId, this.preview)
-        .subscribe(
-          (resp:HalResource) => {
-            this.jobStatusId = resp.jobStatusId;
-            this.opModalService.show(JobStatusModalComponent, 'global', { jobId: resp.jobStatusId });
-          },
-          (error:HalError) => {
-            this.toastService.addError(error.message);
-          },
-        );
-    }
+  public isInProgress = false;
+
+  public backupToken:string = '';
+
+  public backupId:string = this.elementRef.nativeElement.dataset.backupId;
+
+  public backupComment:string = this.elementRef.nativeElement.dataset.backupComment;
+
+  public preview:boolean = this.elementRef.nativeElement.dataset.preview != 'false';
+
+  @InjectField() opBackup:OpenProjectBackupService;
+
+  @ViewChild('backupTokenInput') backupTokenInput:ElementRef;
+
+  constructor(
+    readonly elementRef:ElementRef,
+    public injector:Injector,
+    protected i18n:I18nService,
+    protected toastService:ToastService,
+    protected opModalService:OpModalService,
+    protected pathHelper:PathHelperService,
+  ) {
   }
+
+  ngAfterViewInit():void {
+    this.backupTokenInput.nativeElement.focus();
+  }
+
+  public triggerRestore(event?:JQuery.TriggeredEvent) {
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+    const { backupToken } = this;
+
+    this.backupToken = '';
+
+    this.opBackup
+      .triggerRestore(backupToken, this.backupId, this.preview)
+      .subscribe(
+        (resp:HalResource) => {
+          this.jobStatusId = resp.jobStatusId;
+          this.opModalService.show(JobStatusModalComponent, 'global', { jobId: resp.jobStatusId });
+        },
+        (error:HalError) => {
+          this.toastService.addError(error.message);
+        },
+      );
+  }
+}
   
