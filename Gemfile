@@ -237,6 +237,9 @@ group :test do
   # XML comparison tests
   gem 'compare-xml', '~> 0.66', require: false
 
+  # PDF Export tests
+  gem 'pdf-inspector', '~> 1.2'
+
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
