@@ -135,53 +135,90 @@ RSpec.describe MeetingsController do
         it { expect(assigns(:meeting)).to eql meeting }
       end
     end
+  end
 
+  describe 'POST' do
     describe 'create' do
       render_views
 
+      let(:base_params) do
+        {
+          project_id: project&.id,
+          meeting: meeting_params
+        }
+      end
+
+      let(:base_meeting_params) do
+        {
+          title: 'Foobar',
+          duration: '1.0',
+          start_date: '2015-06-01',
+          start_time_hour: '10:00'
+        }
+      end
+
+      let(:params) { base_params }
+      let(:meeting_params) { base_meeting_params }
+
       before do
         allow(Project).to receive(:find).and_return(project)
+
         post :create,
-             params: {
-               project_id: project.id,
-               meeting: {
-                 title: 'Foobar',
-                 duration: '1.0'
-               }.merge(params)
-             }
+             params:
       end
 
-      describe 'invalid start_date' do
-        let(:params) do
-          {
-            start_date: '-',
-            start_time_hour: '10:00'
-          }
+      context 'with a project_id' do
+        context 'and an invalid start_date with start_time_hour' do
+          let(:meeting_params) do
+            base_meeting_params.merge(start_date: '-')
+          end
+
+          it 'renders an error' do
+            expect(response).to have_http_status :ok
+            expect(response).to render_template :new
+            expect(response.body)
+              .to have_selector '#errorExplanation li',
+                                text: "Start date #{I18n.t('activerecord.errors.messages.not_an_iso_date')}"
+          end
         end
+
+        context 'and an invalid start_time_hour with start_date' do
+          let(:meeting_params) do
+            base_meeting_params.merge(start_time_hour: '-')
+          end
+
+          it 'renders an error' do
+            expect(response).to have_http_status :ok
+            expect(response).to render_template :new
+            expect(response.body)
+              .to have_selector '#errorExplanation li',
+                                text: "Starting time #{I18n.t('activerecord.errors.messages.invalid_time_format')}"
+          end
+        end
+      end
+
+      context 'with a nil project_id' do
+        let(:project) { nil }
 
         it 'renders an error' do
           expect(response).to have_http_status :ok
           expect(response).to render_template :new
           expect(response.body)
             .to have_selector '#errorExplanation li',
-                              text: "Start date #{I18n.t('activerecord.errors.messages.not_an_iso_date')}"
+                              text: "Project #{I18n.t('activerecord.errors.messages.blank')}"
         end
       end
 
-      describe 'invalid start_time_hour' do
-        let(:params) do
-          {
-            start_date: '2015-06-01',
-            start_time_hour: '-'
-          }
-        end
+      context 'without a project_id' do
+        let(:params) { base_params.except(:project_id) }
+        let(:project) { nil }
 
         it 'renders an error' do
           expect(response).to have_http_status :ok
           expect(response).to render_template :new
           expect(response.body)
             .to have_selector '#errorExplanation li',
-                              text: "Starting time #{I18n.t('activerecord.errors.messages.invalid_time_format')}"
+                              text: "Project #{I18n.t('activerecord.errors.messages.blank')}"
         end
       end
     end

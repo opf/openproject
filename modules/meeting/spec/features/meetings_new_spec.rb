@@ -64,6 +64,7 @@ RSpec.describe 'Meetings new', :js do
     end
 
     let(:index_page) { Pages::Meetings::Index.new(project: nil) }
+    let(:new_page) { Pages::Meetings::New.new(nil) }
 
     context 'with permission to create meetings' do
       it 'does not render menus' do
@@ -93,6 +94,40 @@ RSpec.describe 'Meetings new', :js do
           show_page.expect_invited(user, other_user)
 
           show_page.expect_date_time "03/28/2013 01:30 PM - 03:00 PM"
+        end
+      end
+
+      context 'without a title set', :with_cuprite do
+        before do
+          new_page.visit!
+
+          # Wait for project dropdown to be initialized
+          expect_angular_frontend_initialized
+
+          new_page.set_project project
+        end
+
+        it 'renders a validation error' do
+          expect do
+            new_page.click_create
+          end.not_to change(Query, :count)
+
+          # HTML required attribute validation error
+          expect(page).to have_current_path(new_page.path)
+        end
+      end
+
+      context 'without a project set', :with_cuprite do
+        before do
+          new_page.visit!
+          new_page.set_title 'Some title'
+        end
+
+        it 'renders a validation error' do
+          new_page.click_create
+
+          new_page.expect_toast(message: "#{Project.model_name.human} #{I18n.t('activerecord.errors.messages.blank')}",
+                                type: :error)
         end
       end
     end
