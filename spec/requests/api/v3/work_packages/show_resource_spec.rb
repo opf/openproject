@@ -229,7 +229,10 @@ RSpec.describe 'API v3 Work package resource',
                  project:,
                  journals: {
                    created_at => { subject: "The original work package" },
-                   1.day.ago => {}
+                   # This journal creation conflicts with the timestamp "P-1D" due to timing issues.
+                   # P-1D is always evaluated to the current time at runtime, thus we cannot control that.
+                   # To solve the issue, we modify the journal's creation time, we add 1 second to it.
+                   1.day.ago + 1 => {}
                  })
         end
         let(:original_journal) { work_package.journals.first }
