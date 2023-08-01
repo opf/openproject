@@ -34,9 +34,7 @@ require_relative '../spec_helper'
 RSpec.describe(
   'Activation of storages in projects',
   js: true,
-  webmock: true,
-  with_flag: { storage_project_folders: true,
-               managed_project_folders: true }
+  webmock: true
 ) do
   let(:user) { create(:user) }
   # The first page is the Project -> Settings -> General page, so we need

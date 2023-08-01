@@ -50,9 +50,7 @@ module Storages::ProjectsStorages
     end
 
     def button_links
-      [delete_link].tap do |links|
-        links.unshift edit_link if OpenProject::FeatureDecisions.storage_project_folders_active?
-      end
+      [edit_link, delete_link]
     end
 
     def edit_link
