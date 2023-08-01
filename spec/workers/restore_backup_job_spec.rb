@@ -36,9 +36,7 @@ RSpec.describe RestoreBackupJob, type: :model do
     let(:backup_attachment) do
       create(
         :attachment,
-        file: Rack::Test::UploadedFile.new(
-          Rails.root.join('spec', 'fixtures', 'files', 'openproject-backup-test.zip')
-        ),
+        file: Rack::Test::UploadedFile.new(Rails.root.join("spec/fixtures/files/openproject-backup-test.zip")),
         container: backup
       )
     end

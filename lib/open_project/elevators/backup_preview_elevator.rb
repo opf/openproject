@@ -30,7 +30,7 @@ module OpenProject
         Apartment::Tenant.switch(schema) do
           app.call env
         end
-      rescue Apartment::TenantNotFound => e
+      rescue Apartment::TenantNotFound
         set_flash env, error: 'tenant not found'
 
         app.call env
