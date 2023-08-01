@@ -30,10 +30,10 @@ require 'spec_helper'
 
 RSpec.describe RestoreBackupJob, type: :model do
   shared_examples "it restores the backup" do |opts = {}|
-    let(:job) { RestoreBackupJob.new }
+    let(:job) { described_class.new }
 
     let(:backup) { create(:backup) }
-    let(:attachment) do
+    let(:backup_attachment) do
       create(
         :attachment,
         file: Rack::Test::UploadedFile.new(
@@ -55,31 +55,67 @@ RSpec.describe RestoreBackupJob, type: :model do
     let(:preview) { false }
 
     let(:arguments) { [{ backup:, user:, preview:, **opts }] }
+    let(:job_id) { 42 }
 
     let(:user) { create(:admin) }
+
+    let(:schema_name) { "backup_preview_#{backup.id}" }
+
+    # attachments contained in spec/fixtures/files/openproject-backup-test.zip
+    let(:attachments) do
+      data = [
+        [1, "demo_project_teaser.png"],
+        [2, "scrum_project_teaser.png"],
+        [7, "ff-cactus.jpg"],
+        [8, "Pop-Ich-klein_400x400.png"]
+      ]
+
+      data.map do |id, file|
+        create(:attachment, id:, author: user, filesize: 0, digest: "").tap do |a|
+          a.update_column :file, file
+        end
+      end
+    end
 
     def job_status
       JobStatus::Status.last
     end
 
     before do
-      backup
-      attachment
+      backup_attachment
+      attachments
+
+      allow(job).to receive_messages(arguments:, job_id:)
+      allow(job).to receive(:create_new_schema!)
+
+      allow(Apartment::Migrator).to receive(:migrate)
+      allow(Apartment::Tenant).to receive(:switch) do |schema, &block|
+        if schema == schema_name
+          block.call
+        else
+          raise "Expected schema '#{schema_name}', got '#{schema}'"
+        end
+      end
 
       allow(Open3).to receive(:capture3).and_return [nil, "mock restore cmd", db_restore_process_status]
 
-      schema_name = "backup_preview_#{backup.id}"
+      cleanup_attachments!
+    end
 
-      expect(job).to receive(:create_new_schema!).with(schema_name)
-      expect(Apartment::Migrator).to receive(:migrate).with(schema_name)
-
-      allow(Apartment::Tenant).to receive(:switch) { |schema, _args|
-        expect(schema).to eq schema_name
-      }
+    after do
+      cleanup_attachments!
     end
 
     def perform
       job.perform **arguments.first
+    end
+
+    def cleanup_attachments!
+      path = OpenProject::Configuration.attachments_storage_path.join("attachment/file")
+
+      attachments.each do |a|
+        FileUtils.rm_rf path.join(a.id.to_s).to_s
+      end
     end
 
     context "with a successfully restored database" do
@@ -87,13 +123,38 @@ RSpec.describe RestoreBackupJob, type: :model do
         perform
       end
 
-      it "works" do
+      it "completes successfully" do
         expect(job_status.status).to eq "success"
+      end
+
+      it 'creates a new schema' do
+        expect(job).to have_received(:create_new_schema!).with(schema_name)
+      end
+
+      it 'restores the database' do
+        expect(Open3).to have_received(:capture3) do |_pgenv, cmd|
+          expect(cmd).to start_with "psql -f"
+          expect(cmd).to end_with ".sql"
+        end
+      end
+
+      it 'migrates the restored schema' do
+        expect(Apartment::Migrator).to have_received(:migrate).with(schema_name)
+      end
+
+      it 'imports the attachments from the backup' do
+        attachments.each do |a|
+          exists = File.exist? a.reload.diskfile.path.to_s
+
+          expect(exists).to be true
+          expect(a.filesize).to be > 10000
+          expect(a.digest).to be_present
+        end
       end
     end
   end
 
-  context "by default" do
+  context "with an existing, valid backup" do
     it_behaves_like "it restores the backup"
   end
 end

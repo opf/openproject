@@ -200,7 +200,7 @@ class RestoreBackupJob < ApplicationJob
         raise "SQL missing search path"
       end
 
-      save_dump
+      save_dump import_sql
     end
   end
 
@@ -232,7 +232,7 @@ class RestoreBackupJob < ApplicationJob
     file_name = Pathname(entry.name).basename.to_s
     file_path = Pathname(tmp_dir).join(file_name).to_s
 
-    upload_attachment_file! attachment, entry, file_path, progress, total
+    upload_attachment_file! attachment, entry, file_path
 
     update_upload_status progress, total
   end
