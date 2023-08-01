@@ -1274,6 +1274,7 @@ it:
         between_two_specific_dates: 'tra due date specifiche'
       legends:
         changes_since: 'Modifiche dal'
+        changes_between: 'Changes between'
         now_meets_filter_criteria: 'Ora soddisfa i criteri del filtro'
         no_longer_meets_filter_criteria: 'Non soddisfa più i criteri del filtro'
         maintained_with_changes: 'Mantenuto con le modifiche'

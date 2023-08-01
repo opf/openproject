@@ -104,9 +104,9 @@ ru:
       error_requeue: "Осуществляется повторный запуск задания, т.к. предыдущий завершился с ошибкой: %{message}"
       cancelled_due_to: "Задание было отменено из-за ошибки: %{message}"
   ldap_auth_sources:
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
-    back_to_index: 'Click here to go back to the list of connection.'
+    ldap_error: "LDAP-ошибка: %{error_message}"
+    ldap_auth_failed: "Не удалось авторизоваться на LDAP-сервере."
+    back_to_index: 'Нажмите здесь, чтобы вернуться к списку подключений.'
     technical_warning_html: |
       Эта LDAP форма требует технических знаний по LDAP / Active Directory.
       <br/>
@@ -338,11 +338,11 @@ ru:
       no_results_title_text: В данный момент статусы пакетов работ отсутствуют.
       no_results_content_text: Добавить новый статус
   themes:
-    light: "Light"
-    light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
+    light: "Светлая"
+    light_high_contrast: "Светлый высокий контраст"
+    dark: "Тёмная"
+    dark_dimmed: "Тёмная затемненная"
+    dark_high_contrast: "Темный высокий контраст"
   types:
     index:
       no_results_title_text: В данный момент типы отсутствуют.
@@ -450,16 +450,16 @@ ru:
         attribute_name: 'Атрибут'
         help_text: 'Текст справки'
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
-        attr_login: "Username attribute"
-        attr_mail: "Email attribute"
-        base_dn: "Base DN"
-        host: "Host"
-        onthefly: "Automatic user creation"
-        port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
+        account: "Аккаунт"
+        attr_firstname: "Атрибут имени"
+        attr_lastname: "Атрибут Фамилия"
+        attr_login: "Имя пользователя"
+        attr_mail: "Атрибут Email"
+        base_dn: "Базовый DN"
+        host: "Хост"
+        onthefly: "Автоматическое создание пользователя"
+        port: "Порт"
+        tls_certificate_string: "SSL-сертификат сервера LDAP"
       changeset:
         repository: "Репозиторий"
       comment:
@@ -557,7 +557,7 @@ ru:
         color: "Цвет"
       user:
         admin: "Администратор"
-        ldap_auth_source: "LDAP connection"
+        ldap_auth_source: "Подключение к LDAP"
         current_password: "Текущий пароль"
         force_password_change: "Принудительное изменение пароля при следующем входе"
         language: "Язык"
@@ -681,7 +681,7 @@ ru:
         ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "Указанный сертификат SSL недействителен: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -903,7 +903,7 @@ ru:
             status:
               invalid_on_create: "не является допустимым статусом для новых пользователей."
             ldap_auth_source:
-              error_not_found: "not found"
+              error_not_found: "не найдено"
         member:
           principal_blank: "Пожалуйста, выберите по крайней мере одного пользователя или группу."
           role_blank: "требуется назначить."
@@ -1495,7 +1495,7 @@ ru:
   menus:
     admin:
       mail_notification: "Уведомления по электронной почте"
-      mails_and_notifications: "Emails and notifications"
+      mails_and_notifications: "Письма и уведомления"
       aggregation: 'Агрегация'
       api_and_webhooks: "API и вебхуки"
     quick_add:
@@ -1598,9 +1598,9 @@ ru:
   label_attachment_plural: "Файлы"
   label_attribute: "Атрибут"
   label_attribute_plural: "Атрибуты"
-  label_ldap_auth_source_new: "New LDAP connection"
-  label_ldap_auth_source: "LDAP connection"
-  label_ldap_auth_source_plural: "LDAP connections"
+  label_ldap_auth_source_new: "Новое LDAP соединение"
+  label_ldap_auth_source: "Подключение к LDAP"
+  label_ldap_auth_source_plural: "Соединения LDAP"
   label_authentication: "Аутентификация"
   label_available_project_work_package_categories: 'Доступные категории рабочих пакетов'
   label_available_project_work_package_types: 'Доступные типы пакетов работ'
@@ -1766,7 +1766,7 @@ ru:
   label_hierarchy_leaf: "Уровень иерархии"
   label_home: "Главная"
   label_subject_or_id: "Тема или ID"
-  label_calendar_subscriptions: "Calendar subscriptions"
+  label_calendar_subscriptions: "Подписки на календарь"
   label_impressum: "Правовое уведомление"
   label_in: "в"
   label_in_less_than: "менее чем"
@@ -2123,7 +2123,7 @@ ru:
   label_global_role: "Глобальная роль"
   label_not_changeable: "(неизменяемая)"
   label_global: "Глобальная"
-  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
+  label_seeded_from_env_warning: Эта запись была создана с помощью параметра / переменной среды. Она не может редактироваться через пользовательский интерфейс.
   macro_execution_error: "Ошибка при выполнении макроса %{macro_name}"
   macro_unavailable: "Макрос %{macro_name} не может быть отображен."
   macros:
@@ -2313,7 +2313,7 @@ ru:
   present_access_key_value: "Ваш ключ %{key_name}: %{value}"
   notice_automatic_set_of_standard_type: "Установить стандартный тип автоматически."
   notice_logged_out: "Вы вышли из системы."
-  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
+  notice_wont_delete_auth_source: Соединение LDAP не может быть удалено, пока есть пользователи, использующие его.
   notice_project_cannot_update_custom_fields: "Не удается обновить имеющиеся настраиваемые поля проекта. Этот проект является недопустимым: %{errors}"
   notice_attachment_migration_wiki_page: >
     Эта страница была автоматически создана во время обновления OpenProject. Она содержит все вложения, ранее связанные с %{container_type} «%{container_name}».

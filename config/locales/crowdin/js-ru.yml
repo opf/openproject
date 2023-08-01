@@ -345,18 +345,18 @@ ru:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li> Сравнение базовых показателей для удобства отслеживания изменений.</li> <li> Экспорт в PDF для отчетов по рабочим планам.</li> <li>Подпишитесь на календари проекта по URL (iCalendar).</li> <li> Папки проекта с шаблонами документов для интеграции Nextcloud.</li> <li> Локализованный ввод всех исходных данных.</li> <li>Глобальные модули перечислены на новых страницах индекса.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to calendar"
+      title: "Подписаться на календарь"
       inital_setup_error_message: "Произошла ошибка при получении данных."
-      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
-      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Where will you be using this?"
-      token_name_placeholder: "Type a name, e.g. \"Phone\""
-      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      description: "Вы можете использовать URL-адрес (iCalendar), чтобы подписаться на этот календарь во внешнем клиенте и просматривать информацию о рабочем пакете отсюда."
+      warning: "Пожалуйста, не передайте этот URL другим пользователям. Любой пользователь с этой ссылкой сможет просматривать детали пакета работ без учетной записи или пароля."
+      token_name_label: "Где вы будете использовать это?"
+      token_name_placeholder: "Введите имя, например «Телефон»"
+      token_name_description_text: "Если вы подписаны на этот календарь с нескольких устройств, это имя поможет вам различать их в вашем списке <a href=\"my/access_token\", target=\"_blank\"> токенов доступа</a>."
       copy_url_label: "Копировать URL"
-      ical_generation_error_text: "An error occured while generating the calendar URL."
-      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
+      ical_generation_error_text: "Произошла ошибка при генерации URL-адреса календаря."
+      success_message: "URL-адрес \"%{name}\" был успешно скопирован в ваш буфер обмена. Вставьте его в свой клиент календаря, чтобы завершить подписку."
     label_activate: "Активировать"
     label_assignee: 'Ответственный'
     label_add_column_after: "Добавить столбец после"
@@ -1082,7 +1082,7 @@ ru:
         save_as: "Сохранить как"
         export: "Экспортировать"
         visibility_settings: "Настройки видимости"
-        share_calendar: "Subscribe to calendar"
+        share_calendar: "Подписаться на календарь"
         page_settings: "Переименовать представления"
         delete: "Удалить"
       filter: "Фильтр"
@@ -1279,6 +1279,7 @@ ru:
         between_two_specific_dates: 'между двумя определенными датами'
       legends:
         changes_since: 'Изменения с'
+        changes_between: 'Changes between'
         now_meets_filter_criteria: 'Теперь соответствует критериям фильтра'
         no_longer_meets_filter_criteria: 'Больше не соответствует критериям фильтра'
         maintained_with_changes: 'Поддерживается с изменениями'
