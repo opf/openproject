@@ -42,10 +42,11 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
 
   describe '#render' do
     context 'having the origin_name as nil' do
+      let(:changes) { { "link_name" => file_link.origin_name, "storage_name" => nil } }
+
       it 'if the storage name is nil it tries to find it out looking at the file link' do
         link = "#{Setting.protocol}://#{Setting.host_name}/api/v3/file_links/#{file_link.id}/open"
 
-        changes = { "link_name" => file_link.origin_name, "storage_name" => nil }
         expect(instance.render(key, [nil, changes]))
           .to eq(I18n.t(:text_journal_file_link_added,
                         label: "<strong>#{I18n.t('activerecord.models.file_link')}</strong>",
@@ -54,7 +55,6 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
       end
 
       it 'if the storage name is nil and the file link does not exist, "Unknown storage" is used' do
-        changes = { "link_name" => file_link.origin_name, "storage_name" => nil }
         expect(instance.render('file_links_12', [changes, nil]))
           .to eq(I18n.t(:text_journal_file_link_deleted,
                         label: "<strong>#{I18n.t('activerecord.models.file_link')}</strong>",
