@@ -31,6 +31,7 @@ module Redmine::MenuManager::MenuHelper
   include ::Redmine::MenuManager::WikiMenuHelper
   include AccessibilityHelper
   include IconsHelper
+  include IconsHelper
 
   delegate :current_menu_item, to: :controller
 
@@ -170,7 +171,7 @@ module Redmine::MenuManager::MenuHelper
                 class: 'toggler main-menu-toggler',
                 type: :button,
                 data: { action: 'menus--main#descend' }) do
-      spot_icon('arrow-right3', size: '1')
+      render(Primer::Beta::Octicon.new("arrow-right", size: :small))
     end
   end
 
@@ -210,7 +211,7 @@ module Redmine::MenuManager::MenuHelper
   def render_children_back_up_link
     content_tag(
       :a,
-      spot_icon('arrow-left1', size: '1_25'),
+      render(Primer::Beta::Octicon.new("arrow-left", size: :small)),
       title: I18n.t('js.label_up'),
       class: 'main-menu--arrow-left-to-project',
       data: {
