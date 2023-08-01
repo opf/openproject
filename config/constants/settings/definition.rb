@@ -160,6 +160,11 @@ module Settings
         default: true,
         writable: false
       },
+      restore_backup_enabled: {
+        description: 'Enable restoring application backups through the UI',
+        default: true,
+        writable: false
+      },
       backup_daily_limit: {
         description: 'Maximum number of application backups allowed per day',
         default: 3,

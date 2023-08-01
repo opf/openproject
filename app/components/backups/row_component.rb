@@ -75,8 +75,15 @@ module Backups
     end
 
     def ready_links
+      ready = [helpers.link_to("Download", "/attachments/#{backup.attachments.first.id}", class: "icon icon-download")]
+
+      ready + restore_links
+    end
+
+    def restore_links
+      return [] unless Setting.restore_backup_enabled?
+
       [
-        helpers.link_to("Download", "/attachments/#{backup.attachments.first.id}", class: "icon icon-download"),
         helpers.link_to("Preview", preview_admin_backup_path(backup.id), class: "icon icon-watched"),
         helpers.link_to("Restore", restore_admin_backup_path(backup.id), class: "icon icon-import")
       ]

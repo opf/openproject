@@ -467,7 +467,9 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :backups,
             { controller: '/admin/backups', action: 'index' },
-            if: Proc.new { OpenProject::Configuration.backup_enabled? && User.current.allowed_to_globally?(Backup.create_permission) },
+            if: Proc.new {
+              OpenProject::Configuration.backup_enabled? && User.current.allowed_to_globally?(Backup.create_permission)
+            },
             caption: :label_backup,
             last: true,
             icon: 'save'

@@ -27,15 +27,13 @@ module OpenProject
       end
 
       def preview!(schema, env)
-        begin
-          Apartment::Tenant.switch(schema) do
-            app.call env
-          end
-        rescue Apartment::TenantNotFound => e
-          set_flash env, error: 'tenant not found'
-
+        Apartment::Tenant.switch(schema) do
           app.call env
         end
+      rescue Apartment::TenantNotFound => e
+        set_flash env, error: 'tenant not found'
+
+        app.call env
       end
 
       def make_request(env)
@@ -43,7 +41,7 @@ module OpenProject
       end
 
       def skip?(env)
-        !env["HTTP_COOKIE"].include?("backup_preview=")
+        env["HTTP_COOKIE"].exclude?("backup_preview=")
       end
 
       def maintenance?(env)
@@ -64,7 +62,7 @@ module OpenProject
       def preview_schema(request)
         yaml = request.cookie_jar.signed[:backup_preview]
 
-        return nil unless yaml.present?
+        return nil if yaml.blank?
 
         preview = load_backup_preview_yaml yaml
 
@@ -77,12 +75,16 @@ module OpenProject
 
       def maintenance_response
         message = Hash(Setting._maintenance_mode)['message'].presence || 'maintenance mode'
-        response = Rack::Response.new([message], 503, {
-          'Content-Type' => 'text/html',
-          'Cache-Control' => 'no-cache, no-store',
-          'Pragma' => 'no-cache',
-          'Expires' => 'Fri, 01 Jan 1990 00:00:00 GMT'
-        })
+        response = Rack::Response.new(
+          [message],
+          503,
+          {
+            'Content-Type' => 'text/html',
+            'Cache-Control' => 'no-cache, no-store',
+            'Pragma' => 'no-cache',
+            'Expires' => 'Fri, 01 Jan 1990 00:00:00 GMT'
+          }
+        )
 
         response.finish
       end

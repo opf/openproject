@@ -32,6 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title t(:label_administration), backups_label -%>
 
 <%= toolbar title: backups_label do %>
+  <% if @allow_restore %>
   <li class="toolbar-item">
     <% label = t("backup.label_upload") %>
     <%=
@@ -46,6 +47,8 @@ See COPYRIGHT and LICENSE files for more details.
       <span class="button--text"><%= t('backup.label_upload') %></span>
     <% end %>
   </li>
+  <% end %>
+  <% if @allow_backup %>
   <li class="toolbar-item">
     <% label = t("backup.label_create") %>
     <%=
@@ -60,6 +63,7 @@ See COPYRIGHT and LICENSE files for more details.
       <span class="button--text"><%= t('backup.label_create') %></span>
     <% end %>
   </li>
+  <% end %>
 <% end %>
 
 <%= render Backups::TableComponent.new(rows: @backups, current_user: ) %>

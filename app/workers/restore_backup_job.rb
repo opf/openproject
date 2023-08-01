@@ -80,9 +80,12 @@ class RestoreBackupJob < ApplicationJob
     @backup = backup
     @user = user
     @preview = preview
-    @success = false
     @paths_to_clean = []
 
+    perform_restore
+  end
+
+  def perform_restore
     attachment = backup.attachments.first
 
     if attachment.file.cached?
@@ -95,15 +98,21 @@ class RestoreBackupJob < ApplicationJob
     )
 
     restore_backup!
-
-    @success = true
   rescue StandardError => e
-    failure! error: e.message
-
-    Rails.logger.error e
-    Rails.logger.error e.backtrace.join("\n")
+    handle_error e
   ensure
     after_restore
+  end
+
+  def handle_error(error)
+    failure! error: error.message
+
+    Rails.logger.error error
+    Rails.logger.error error.backtrace.join("\n")
+
+    # We do not re-raise the exception as we don't want to restore job
+    # do retry. It's a costly operation not relying on external services,
+    # and it would make more sense to check out what went wrong straight away.
   end
 
   def status_reference
@@ -133,7 +142,7 @@ class RestoreBackupJob < ApplicationJob
   end
 
   def i18n_key
-    "backup" + i18n_suffix
+    "backup#{i18n_suffix}"
   end
 
   def i18n_suffix
@@ -142,17 +151,41 @@ class RestoreBackupJob < ApplicationJob
 
   def self.switch_database_to_restored_backup!(backup_id:)
     ActiveRecord::Base.transaction do
-      job = self.new
-      job.drop_schema! default_schema_name
-      job.rename_schema! preview_schema_name(backup_id: backup_id), default_schema_name
+      drop_schema! default_schema_name
+      rename_schema! preview_schema_name(backup_id:), default_schema_name
     end
   end
 
   def restore_backup_into_separate_schema
+    reset_schema!
+    extract_database
+    ensure_database_extracted!
+    create_new_schema! preview_schema_name
+    restore_database! db_dump_file_name
+    migrate_database!
+  end
+
+  def migrate_database!
+    Apartment::Migrator.migrate preview_schema_name
+
+    Apartment::Tenant.switch(preview_schema_name) do
+      ActiveRecord::Migration.check_pending! # will raise error if there are still migrations pending
+    end
+  end
+
+  def reset_schema!
     if schema_exists? preview_schema_name
       drop_schema! preview_schema_name
     end
+  end
 
+  def ensure_database_extracted!
+    if !File.exist?(db_dump_file_name)
+      raise "Failed to write import SQL"
+    end
+  end
+
+  def extract_database
     Zip::File.open(backup_file_path) do |zip_file|
       sql_file_entry = zip_file.find_entry "openproject.sql"
 
@@ -163,67 +196,60 @@ class RestoreBackupJob < ApplicationJob
       import_sql = normalized_structure sql, schema_name: import_schema, new_schema_name: preview_schema_name
 
       # make sure we set a search path as to not import into the current schema
-      if !import_sql.include?("SET search_path = \"#{preview_schema_name}\";")
+      if import_sql.exclude?("SET search_path = \"#{preview_schema_name}\";")
         raise "SQL missing search path"
       end
 
-      File.open(db_dump_file_name, "w") do |file|
-        file.puts import_sql
-      end
+      save_dump
     end
+  end
 
-    if !File.exist?(db_dump_file_name)
-      raise "Failed to write import SQL"
-    end
-
-    create_new_schema! preview_schema_name
-    restore_database! db_dump_file_name
-
-    Apartment::Migrator.migrate preview_schema_name
-
-    Apartment::Tenant.switch(preview_schema_name) do
-      ActiveRecord::Migration.check_pending! # will raise error if there are still migrations pending
+  def save_dump(import_sql)
+    File.open(db_dump_file_name, "w") do |file|
+      file.puts import_sql
     end
   end
 
   def restore_attachments!
     Zip::File.open(backup_file_path) do |zip_file|
-      i = 0
-      n = zip_file.entries.size
+      progress = 0
+      total = zip_file.entries.size
 
       zip_file.entries.each do |entry|
         next if entry.name == "openproject.sql"
 
-        upload_file entry, i, n if entry.file?
+        upload_file! entry, progress, total if entry.file?
 
-        i += 1
+        progress += 1
       end
     end
   end
 
-  def upload_file(entry, i, n)
+  def upload_file!(entry, progress, total)
     attachment_id = entry.name.scan(/file\/(\d+)\//).flatten.first
     attachment = Attachment.find attachment_id
     tmp_dir = Dir.mktmpdir "files"
     file_name = Pathname(entry.name).basename.to_s
     file_path = Pathname(tmp_dir).join(file_name).to_s
 
-    begin
-      entry.extract file_path
+    upload_attachment_file! attachment, entry, file_path, progress, total
 
-      attachment.file = File.open file_path
-      attachment.save!
-
-      update_upload_status i, n
-    ensure
-      FileUtils.rm file_path
-    end
+    update_upload_status progress, total
   end
 
-  def update_upload_status(i, n)
+  def upload_attachment_file!(attachment, entry, file_path)
+    entry.extract file_path
+
+    attachment.file = File.open file_path
+    attachment.save!
+  ensure
+    FileUtils.rm file_path
+  end
+
+  def update_upload_status(progress, total)
     upsert_status(
       status: :in_process,
-      message: I18n.t("backup.restore.job_status.in_process") + " (#{i}/#{n} #{I18n.t('label_attachment_plural')})"
+      message: I18n.t("backup.restore.job_status.in_process") + " (#{progress}/#{total} #{I18n.t('label_attachment_plural')})"
     )
   end
 
@@ -275,20 +301,28 @@ class RestoreBackupJob < ApplicationJob
   end
 
   def after_restore
-    if !@success
-      if schema_exists?(preview_schema_name)
-        drop_schema! preview_schema_name
-      end
+    if !success? && schema_exists?(preview_schema_name)
+      drop_schema! preview_schema_name
     end
 
     remove_files! paths_to_clean
 
-    Setting._maintenance_mode = { enabled: false }
+    update_maintenance_mode!
 
     Rails.logger.info(
       "RestoreBackupJob(backup_id: #{backup.id}, preview: #{preview?}) finished " \
       "with status #{status} "
     )
+  end
+
+  def update_maintenance_mode!
+    enabled = Hash(Setting._maintenance_mode)
+
+    if enabled
+      mode = success? ? { enabled: false } : { enabled: true, message: I18n.t('backup.restore.job_status.failure') }
+
+      Setting._maintenance_mode = mode
+    end
   end
 
   def get_cache_folder_path(attachment)
@@ -306,18 +340,6 @@ class RestoreBackupJob < ApplicationJob
     @db_dump_file_name ||= tmp_file_name "openproject", ".sql"
   end
 
-  def status_reference
-    nil
-  end
-
-  def updates_own_status?
-    true
-  end
-
-  def success?
-    job_status.status == JobStatus::Status.statuses[:success]
-  end
-
   def preview?
     @preview
   end
@@ -326,37 +348,6 @@ class RestoreBackupJob < ApplicationJob
     Array(files).each do |file|
       FileUtils.rm_rf file
     end
-  end
-
-  def local_disk_path(attachment)
-    # If an attachment is destroyed on disk, skip it
-    diskfile = attachment.diskfile
-    return unless diskfile
-
-    diskfile.path
-  rescue StandardError => e
-    Rails.logger.error do
-      "Failed to access attachment #{attachment.id} #{attachment.file&.path} for backup: #{e.message}"
-    end
-
-    nil
-  end
-
-  def remove_paths!(paths)
-    paths.each do |path|
-      FileUtils.rm_rf path
-    end
-  end
-
-  def get_cache_folder_path(attachment)
-    # expecting paths like /tmp/op_uploaded_files/1639754082-3468-0002-0911/file.ext
-    # just making extra sure so we don't delete anything wrong later on
-    unless attachment.diskfile.path =~ /#{attachment.file.cache_dir}\/[^\/]+\/[^\/]+/
-      raise "Unexpected cache path for attachment ##{attachment.id}: #{attachment.diskfile}"
-    end
-
-    # returning parent as each cached file is in a separate folder which shall be removed too
-    Pathname(attachment.diskfile.path).parent.to_s
   end
 
   def tmp_file_name(name, ext)

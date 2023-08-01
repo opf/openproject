@@ -1121,6 +1121,7 @@ en:
       in_queue: "Backup queued"
       in_process: "Backup in progress"
       success: "Backup complete"
+      failure: "Backup failed"
     label_comment: "Comment"
     label_create: "Create backup"
     label_upload: "Upload backup"
@@ -1159,6 +1160,7 @@ en:
         in_queue: "Backup about to be restored"
         in_process: "Backup is being restored"
         success: "Backup has been restored. Please refresh."
+        failure: "Backup could not be restored"
     text_token_deleted:
       Backup token deleted. Backups are now disabled.
     error:

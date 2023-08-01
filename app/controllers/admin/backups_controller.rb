@@ -35,7 +35,8 @@ class Admin::BackupsController < ApplicationController
 
   layout 'admin'
 
-  before_action :check_enabled
+  before_action :check_backup_allowed
+  before_action :check_restore_allowed, only: %i[preview restore upload]
   before_action :authorize_global, except: %i[back]
 
   before_action :check_password_confirmation, only: %i[perform_token_reset], if: :check_password?
@@ -49,6 +50,8 @@ class Admin::BackupsController < ApplicationController
 
   def index
     @backups = Backup.all
+    @allow_restore = may_restore?
+    @allow_backup = may_backup?
   end
 
   def default_breadcrumb
@@ -91,6 +94,57 @@ class Admin::BackupsController < ApplicationController
     @backup = Backup.find params[:id]
     @job_status_id = @backup.job_status.job_id
   end
+
+  def restored
+    flash[:info] = I18n.t("backup.restore.complete")
+
+    redirect_to home_path
+  end
+
+  def back
+    cookies.signed[:login_user_id] = backup_preview[:previous_user_id]
+
+    close_preview!
+
+    cookies.delete :backup_preview
+
+    if restore_after_back?
+      redirect_to restore_admin_backup_path(backup_id, reset: true)
+    else
+      redirect_to home_path
+    end
+  end
+
+  def destroy
+    backup = Backup.find params[:id]
+
+    backup.destroy!
+
+    flash[:info] = I18n.t("backup.notice_deleted")
+
+    redirect_to "/admin/backups/"
+  end
+
+  def reset_token
+    return perform_token_reset if omniauth_consent_given?(current_user)
+
+    @backup_token = Token::Backup.find_by user: current_user
+    @user = current_user
+  end
+
+  def perform_token_reset
+    token = create_backup_token user: current_user
+
+    token_reset_successful! token
+  rescue StandardError => e
+    token_reset_failed! e
+  ensure
+    redirect_to action: 'new'
+  end
+
+  def upload; end
+
+  private
 
   def preview_if_active!
     if preview_active?
@@ -150,12 +204,6 @@ class Admin::BackupsController < ApplicationController
     redirect_to restored_admin_backups_path
   end
 
-  def restored
-    flash[:info] = I18n.t("backup.restore.complete")
-
-    redirect_to home_path
-  end
-
   def get_schema_user_id(schema)
     Apartment::Tenant.switch(schema) do
       if User.exists?(id: current_user.id)
@@ -163,20 +211,6 @@ class Admin::BackupsController < ApplicationController
       else
         User.active.admin.pick(:id)
       end
-    end
-  end
-
-  def back
-    cookies.signed[:login_user_id] = backup_preview[:previous_user_id]
-
-    close_preview!
-
-    cookies.delete :backup_preview
-
-    if restore_after_back?
-      redirect_to restore_admin_backup_path(backup_id, reset: true)
-    else
-      redirect_to home_path
     end
   end
 
@@ -197,8 +231,6 @@ class Admin::BackupsController < ApplicationController
       redirect_to admin_backups_path
     end
   end
-
-  def upload; end
 
   def perform_upload
     backup = create_uploaded_backup
@@ -221,33 +253,6 @@ class Admin::BackupsController < ApplicationController
     backup
   end
 
-  def destroy
-    backup = Backup.find params[:id]
-
-    backup.destroy!
-
-    flash[:info] = I18n.t("backup.notice_deleted")
-
-    redirect_to "/admin/backups/"
-  end
-
-  def reset_token
-    return perform_token_reset if omniauth_consent_given?(current_user)
-
-    @backup_token = Token::Backup.find_by user: current_user
-    @user = current_user
-  end
-
-  def perform_token_reset
-    token = create_backup_token user: current_user
-
-    token_reset_successful! token
-  rescue StandardError => e
-    token_reset_failed! e
-  ensure
-    redirect_to action: 'new'
-  end
-
   def delete_token
     Token::Backup.where(user: current_user).destroy_all
 
@@ -255,12 +260,6 @@ class Admin::BackupsController < ApplicationController
 
     redirect_to action: 'new'
   end
-
-  def check_enabled
-    render_404 unless OpenProject::Configuration.backup_enabled?
-  end
-
-  private
 
   def check_password?
     !current_user.uses_external_authentication?
@@ -301,5 +300,21 @@ class Admin::BackupsController < ApplicationController
 
   def may_include_attachments?
     Backup.include_attachments? && Backup.attachments_size_in_bounds?
+  end
+
+  def may_restore?
+    Setting.restore_backup_enabled? && current_user.allowed_to_globally?(Backup.restore_permission)
+  end
+
+  def may_backup?
+    Setting.backup_enabled? && current_user.allowed_to_globally?(Backup.create_permission)
+  end
+
+  def check_backup_allowed
+    render_404 unless may_backup?
+  end
+
+  def check_restore_allowed
+    render_404 unless may_restore?
   end
 end

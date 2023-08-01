@@ -30,8 +30,8 @@ require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
 RSpec.describe Backups::RestoreContract do
-  let(:backup) { create :backup }
-  let(:contract) { described_class.new nil, current_user, options: { backup_token: backup_token }, params: params }
+  let(:backup) { create(:backup) }
+  let(:contract) { described_class.new nil, current_user, options: { backup_token: }, params: }
   let(:backup_token) { create(:backup_token, user: current_user).plain_value }
   let(:params) { { backup_id: backup.id } }
 

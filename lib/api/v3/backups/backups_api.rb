@@ -81,29 +81,35 @@ module API
             requires :id, desc: 'Backup id'
           end
           route_param :id do
+            before do
+              raise API::Errors::NotFound unless OpenProject::Configuration.restore_backup_enabled?
+            end
+
+            after_validation do
+              authorize Backup.restore_permission, global: true
+            end
+
             params do
               requires :backupToken, type: String
             end
             post :restore do
               service = ::Backups::RestoreService.new user: current_user, backup_token: params[:backupToken]
               call = service.call backup_id: params[:id], preview: false
-  
+
               if call.failure?
                 errors = call.errors.errors
-  
-                if err = errors.find { |e| e.type == :invalid_token || e.type == :token_cooldown }
+
+                if err = errors.find { |e| e.type == :invalid_token }
                   fail ::API::Errors::Unauthorized, message: err.full_message
                 elsif err = errors.find { |e| e.type == :backup_pending }
                   fail ::API::Errors::Conflict, message: err.full_message
-                elsif err = errors.find { |e| e.type == :limit_reached }
-                  fail ::API::Errors::TooManyRequests, message: err.full_message
                 end
-  
+
                 fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
               end
-  
+
               status 202
-  
+
               BackupRepresenter.new call.result, current_user:
             end
 
@@ -111,25 +117,25 @@ module API
               requires :backupToken, type: String
             end
             post :preview do
+              authorize Backup.restore_permission, global: true
+
               service = ::Backups::RestoreService.new user: current_user, backup_token: params[:backupToken]
               call = service.call backup_id: params[:id], preview: true
-  
+
               if call.failure?
                 errors = call.errors.errors
-  
-                if err = errors.find { |e| e.type == :invalid_token || e.type == :token_cooldown }
+
+                if err = errors.find { |e| e.type == :invalid_token }
                   fail ::API::Errors::Unauthorized, message: err.full_message
                 elsif err = errors.find { |e| e.type == :backup_pending }
                   fail ::API::Errors::Conflict, message: err.full_message
-                elsif err = errors.find { |e| e.type == :limit_reached }
-                  fail ::API::Errors::TooManyRequests, message: err.full_message
                 end
-  
+
                 fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
               end
-  
+
               status 202
-  
+
               BackupRepresenter.new call.result, current_user:
             end
           end

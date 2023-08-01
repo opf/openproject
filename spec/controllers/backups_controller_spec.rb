@@ -29,50 +29,56 @@
 require 'spec_helper'
 
 RSpec.describe Admin::BackupsController, skip_2fa_stage: true do
-  context "with an OmniAuth user (a user without a password)" do
-    let(:user) { create :omniauth_user, admin: true }
-
-    before do
-      login_as user
+  # rubocop:disable RSpec/AnyInstance
+  describe 'token reset' do
+    it 'has no tokens initially' do
+      expect(Token::Backup.count).to eq 0
     end
 
-    describe '#perform_token_reset' do
+    context "with an OmniAuth user (a user without a password)" do
+      let(:user) { create(:omniauth_user, admin: true) }
+
       before do
-        post 'perform_token_reset'
+        login_as user
       end
 
-      it 'redirects to the authentication endpoint prompting for consent' do
-        expect(response).to redirect_to "/auth/concierge?prompt=consent"
-      end
-    end
+      describe '#perform_token_reset' do
+        before do
+          post 'perform_token_reset'
+        end
 
-    describe '#reset_token' do
-      before do
-        expect(Token::Backup.count).to eq 0
-
-        allow_any_instance_of(ActionDispatch::Flash::FlashHash)
-          .to receive(:[])
-          .and_call_original
-
-        allow_any_instance_of(ActionDispatch::Flash::FlashHash)
-          .to receive(:[])
-          .with(:omniauth_consent_user_uid)
-          .and_return(user.identity_url.split(":").last)
-
-        get 'reset_token'
+        it 'redirects to the authentication endpoint prompting for consent' do
+          expect(response).to redirect_to "/auth/concierge?prompt=consent"
+        end
       end
 
-      it 'redirects back to the new backup page' do
-        expect(response).to redirect_to "/admin/backups/new"
-      end
+      describe '#reset_token' do
+        before do
+          allow_any_instance_of(ActionDispatch::Flash::FlashHash)
+            .to receive(:[])
+            .and_call_original
 
-      it 'creates a new backup token' do
-        expect(Token::Backup.count).to eq 1
-      end
+          allow_any_instance_of(ActionDispatch::Flash::FlashHash)
+            .to receive(:[])
+            .with(:omniauth_consent_user_uid)
+            .and_return(user.identity_url.split(":").last)
 
-      it 'shows the backup token in a flash message' do
-        expect(flash[:warning].first).to include "A new Backup token"
+          get 'reset_token'
+        end
+
+        it 'redirects back to the new backup page' do
+          expect(response).to redirect_to "/admin/backups/new"
+        end
+
+        it 'creates a new backup token' do
+          expect(Token::Backup.count).to eq 1
+        end
+
+        it 'shows the backup token in a flash message' do
+          expect(flash[:warning].first).to include "A new Backup token"
+        end
       end
     end
   end
+  # rubocop:enable RSpec/AnyInstance
 end
