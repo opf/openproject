@@ -6,8 +6,6 @@ on:
     - cron: '20 2 * * *' # Daily at 02:20
 
   push:
-    branches:
-      - feature/docker-slim-image
     tags:
       - v*
 
@@ -26,16 +24,16 @@ jobs:
         include:
           - platform: linux/amd64
             target: slim
-          # - platform: linux/arm64/v8
-          #   target: slim
+          - platform: linux/arm64/v8
+            target: slim
           - platform: linux/amd64
             target: all-in-one
-          # - platform: linux/ppc64le
-          #   bim_support: false
-          #   target: all-in-one
-          # - platform: linux/arm64/v8
-          #   bim_support: false
-          #   target: all-in-one
+          - platform: linux/ppc64le
+            bim_support: false
+            target: all-in-one
+          - platform: linux/arm64/v8
+            bim_support: false
+            target: all-in-one
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -143,7 +141,6 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
             type=raw,value=dev,priority=200,enable={{is_default_branch}}
-            type=ref,enable=true,priority=100,event=branch
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
