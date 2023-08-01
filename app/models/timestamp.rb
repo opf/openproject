@@ -102,6 +102,12 @@ class Timestamp
     def now
       new(ActiveSupport::Duration.build(0).iso8601)
     end
+
+    def allowed(timestamps)
+      return timestamps if EnterpriseToken.allows_to?(:baseline_comparison)
+
+      timestamps.select { |t| t.one_day_ago? || t.to_time >= Date.yesterday }
+    end
   end
 
   def initialize(arg = Timestamp.now.to_s)
