@@ -311,7 +311,7 @@ GEM
       airbrake-ruby (~> 6.0)
     airbrake-ruby (6.2.1)
       rbtree3 (~> 0.6)
-    appsignal (3.4.9)
+    appsignal (3.4.10)
       rack
     ast (2.4.2)
     attr_required (1.0.1)
@@ -724,7 +724,7 @@ GEM
       puma (>= 5.0, < 7)
     raabro (1.4.0)
     racc (1.7.1)
-    rack (2.2.7)
+    rack (2.2.8)
     rack-accept (0.4.5)
       rack (>= 0.4)
     rack-attack (6.6.1)
