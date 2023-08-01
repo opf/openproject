@@ -15,8 +15,8 @@ This guide will provide some insights in how to develop and test integrations wi
 The packager.io website observes changes in the repository through webhooks and will automatically triggers builds for these branches:
 
 - `dev`: https://packager.io/gh/opf/openproject
-- `release/*` (e.g.,) https://packager.io/gh/opf/openproject/refs/release/12.2
-- `stable/*` (e.g.,) https://packager.io/gh/opf/openproject/refs/stable/12
+- `release/*` (e.g.,) https://packager.io/gh/opf/openproject/refs/release/13.0
+- `stable/*` (e.g.,) https://packager.io/gh/opf/openproject/refs/stable/13
 - `packaging/*`
 
 To see the status of a build, simply follow one of the links and choose a distribution whose logs you want to look at.
