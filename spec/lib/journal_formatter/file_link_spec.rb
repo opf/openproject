@@ -31,22 +31,47 @@
 require 'spec_helper'
 
 RSpec.describe OpenProject::JournalFormatter::FileLink do
-  let(:work_package) { create(:work_package) }
+  let(:work_package) { build(:work_package) }
   let(:journal) { instance_double(Journal, journable: work_package) }
-  let(:file_link) { create(:file_link, container: work_package) }
+  let(:file_link) { create(:file_link, container: work_package, storage: build(:storage)) }
   let(:key) { "file_links_#{file_link.id}" }
+
+  let(:changes) { { "link_name" => file_link.origin_name, "storage_name" => file_link.storage.name } }
 
   subject(:instance) { described_class.new(journal) }
 
   describe '#render' do
-    context 'having the first value being nil, and the second an file link name as string' do
+    context 'having the origin_name as nil' do
+      let(:changes) { { "link_name" => file_link.origin_name, "storage_name" => nil } }
+
+      it 'if the storage name is nil it tries to find it out looking at the file link' do
+        link = "#{Setting.protocol}://#{Setting.host_name}/api/v3/file_links/#{file_link.id}/open"
+
+        expect(instance.render(key, [nil, changes]))
+          .to eq(I18n.t(:text_journal_file_link_added,
+                        label: "<strong>#{I18n.t('activerecord.models.file_link')}</strong>",
+                        value: "<a href=\"#{link}\">#{file_link.origin_name}</a>",
+                        storage: file_link.storage.name))
+      end
+
+      it 'if the storage name is nil and the file link does not exist, "Unknown storage" is used' do
+        expect(instance.render('file_links_12', [changes, nil]))
+          .to eq(I18n.t(:text_journal_file_link_deleted,
+                        label: "<strong>#{I18n.t('activerecord.models.file_link')}</strong>",
+                        old: "<strike><i>#{file_link.origin_name}</i></strike>",
+                        storage: I18n.t('storages.unknown_storage')))
+      end
+    end
+
+    context 'having the first value being nil, and the second an hash of properties' do
       context 'as HTML' do
         it 'adds a file link added text' do
           link = "#{Setting.protocol}://#{Setting.host_name}/api/v3/file_links/#{file_link.id}/open"
-          expect(instance.render(key, [nil, file_link.origin_name]))
-            .to eq(I18n.t(:text_journal_added,
-                          label: "<strong>#{I18n.t(:'activerecord.models.file_link')}</strong>",
-                          value: "<a href=\"#{link}\">#{file_link.origin_name}</a>"))
+          expect(instance.render(key, [nil, changes]))
+            .to eq(I18n.t(:text_journal_file_link_added,
+                          label: "<strong>#{I18n.t('activerecord.models.file_link')}</strong>",
+                          value: "<a href=\"#{link}\">#{file_link.origin_name}</a>",
+                          storage: file_link.storage.name))
         end
 
         context 'with a configured relative url root' do
@@ -54,41 +79,47 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
 
           it 'adds an file link added text' do
             link = "#{Setting.protocol}://#{Setting.host_name}/blubs/api/v3/file_links/#{file_link.id}/open"
-            expect(instance.render(key, [nil, file_link.origin_name]))
-              .to eq(I18n.t(:text_journal_added,
-                            label: "<strong>#{I18n.t(:'activerecord.models.file_link')}</strong>",
-                            value: "<a href=\"#{link}\">#{file_link.origin_name}</a>"))
+            expect(instance.render(key, [nil, changes]))
+              .to eq(I18n.t(:text_journal_file_link_added,
+                            label: "<strong>#{I18n.t('activerecord.models.file_link')}</strong>",
+                            value: "<a href=\"#{link}\">#{file_link.origin_name}</a>",
+                            storage: file_link.storage.name))
           end
         end
       end
 
       context 'as plain text' do
         it 'adds a file link added text' do
-          message = I18n.t(:text_journal_added,
-                           label: I18n.t(:'activerecord.models.file_link'),
-                           value: file_link.id)
+          message = I18n.t(:text_journal_file_link_added,
+                           label: I18n.t('activerecord.models.file_link'),
+                           value: file_link.origin_name,
+                           storage: file_link.storage.name)
 
-          expect(instance.render(key, [nil, file_link.id.to_s], html: false)).to eq(message)
+          expect(instance.render(key, [nil, changes], html: false)).to eq(message)
         end
       end
     end
 
-    context 'having the first value being an id as string, and the second nil' do
+    context 'having the first value being an props hash, and the second nil' do
       context 'as HTML' do
         it 'adds a file link remove text' do
-          message = I18n.t(:text_journal_deleted,
-                           label: "<strong>#{I18n.t(:'activerecord.models.file_link')}</strong>",
-                           old: "<strike><i>#{file_link.id}</i></strike>")
+          message = I18n.t(:text_journal_file_link_deleted,
+                           label: "<strong>#{I18n.t('activerecord.models.file_link')}</strong>",
+                           old: "<strike><i>#{file_link.origin_name}</i></strike>",
+                           storage: file_link.storage.name)
 
-          expect(instance.render(key, [file_link.id.to_s, nil])).to eq(message)
+          expect(instance.render(key, [changes, nil])).to eq(message)
         end
       end
 
       context 'as plain text' do
         it 'adds a file link removed' do
-          message = I18n.t(:text_journal_deleted, label: Storages::FileLink.model_name.human, old: file_link.id)
+          message = I18n.t(:text_journal_file_link_deleted,
+                           label: I18n.t('activerecord.models.file_link'),
+                           old: file_link.origin_name,
+                           storage: file_link.storage.name)
 
-          expect(instance.render(key, [file_link.id.to_s, nil], html: false)).to eq(message)
+          expect(instance.render(key, [changes, nil], html: false)).to eq(message)
         end
       end
     end
