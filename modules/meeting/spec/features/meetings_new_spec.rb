@@ -145,6 +145,8 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
 
           new_page.expect_toast(message: "#{Project.model_name.human} #{I18n.t('activerecord.errors.messages.blank')}",
                                 type: :error)
+
+          new_page.expect_project_dropdown
         end
       end
     end
@@ -190,6 +192,7 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
 
           new_page.expect_toast(message: "#{Project.model_name.human} #{I18n.t('activerecord.errors.messages.blank')}",
                                 type: :error)
+          new_page.expect_project_dropdown
         end
       end
 

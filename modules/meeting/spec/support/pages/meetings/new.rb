@@ -53,6 +53,10 @@ module Pages::Meetings
       fill_in 'Title', with: text
     end
 
+    def expect_project_dropdown
+      find "[data-qa-selector='project_id']"
+    end
+
     def set_project(project)
       select_autocomplete find("[data-qa-selector='project_id']"),
                           query: project.name,

@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%= f.text_field :title, :required => true, :size => 60, container_class: '-wide' %>
   </div>
 
-  <% if global_create_context? %>
+  <% if global_meeting_create_context? %>
     <div class="form--field -required">
       <label class="form--label" for="project_id"><%= Meeting.human_attribute_name(:project) %>:</label>
       <div class="form--field-container">

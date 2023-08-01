@@ -171,7 +171,15 @@ module MeetingsHelper
     content_tag('div', "#{header}#{details}".html_safe, id: "change-#{journal.id}", class: 'journal')
   end
 
-  def global_create_context?
+  def global_meeting_create_context?
+    global_new_meeting_action? || global_create_meeting_action?
+  end
+
+  def global_new_meeting_action?
     request.path == new_meeting_path
+  end
+
+  def global_create_meeting_action?
+    request.path == meetings_path && @project.nil?
   end
 end
