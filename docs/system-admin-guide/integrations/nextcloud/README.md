@@ -145,23 +145,7 @@ Additional settings on this page also allow you, as an administrator, to define 
 
 Now that the integration is set up, the next step is to make the Nextcloud file storage you just created available to individual projects.
 
-To do so, navigate to any existing project in your OpenProject instance and click on  **Project settings** **→ Modules**. There, active the **File Storages** module by clicking on the checkbox next to it and then clicking on **Save**.
-
-![List of modules activated for a project](project-modules.png)
-
-Click on this new **Files storages** menu entry. It will take you to a page titled **File storages available in this project**, which is normally empty.
-
-Click on **+ Storage**.
-
-![List of file storages available to a project, empty](file-storages-available-in-project.png)
-
-In the page that follows, make sure your newly-created Nextcloud file storage is selected under **Storage**. If you only have one Nextcloud file storage set up (which is the most likely scenario), it should already be selected by default.
-
-![Add your new file storage to a project](add-file-storage-to-project.png)
-
-Click on **Add** to add your new Nextcloud file storage to this project.
-
-The Nextcloud file storage is now available to all work packages in this project. 
+To do so, navigate to any existing project in your OpenProject instance and click on  **Project settings** **→ Modules **and follow the instructions in the [Project settings user guide](../../../user-guide/projects/project-settings/file-storages).
 
 > **Note:** For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../user-guide/nextcloud-integration/).
 
@@ -255,9 +239,9 @@ The integration OpenProject with Nextcloud makes use of authorized HTTP requests
   ```bash
   curl --location --request GET 'https://nextcloud.example.com/index.php/apps/integration_openproject/check-config' --header 'Authorization: foo'
   ```
-  
+
   If Nextcloud setup correctly the response should look like the following
-  
+
   ```
   {"user_id":"","authorization_header":foo}
   ```
