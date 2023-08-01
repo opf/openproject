@@ -22,6 +22,10 @@ module Pages
       fill_in I18n.t(:label_title), with: title
     end
 
+    def expect_project_dropdown
+      find "[data-qa-selector='project_id']"
+    end
+
     def set_project(project)
       select_autocomplete(find('[data-qa-selector="project_id"]'),
                           query: project,

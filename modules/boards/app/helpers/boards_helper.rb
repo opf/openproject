@@ -27,6 +27,14 @@ module BoardsHelper
   end
 
   def global_board_create_context?
+    global_board_new_action? || global_board_create_action?
+  end
+
+  def global_board_new_action?
     request.path == new_work_package_board_path
+  end
+
+  def global_board_create_action?
+    request.path == work_package_boards_path && @project.nil?
   end
 end
