@@ -26,14 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Base
-  module OpPrimer::ComponentHelpers
-    def flex_layout(**, &)
-      render(OpPrimer::FlexLayoutComponent.new(**), &)
-    end
-
-    def box_collection(**, &)
-      render(OpPrimer::BoxCollectionComponent.new(**), &)
+class Issue::Submit < ApplicationForm
+  form do |issue_form|
+    issue_form.group(layout: :horizontal) do |button_group|
+      button_group.submit(name: :submit, label: "Submit", scheme: :primary)
     end
   end
 end

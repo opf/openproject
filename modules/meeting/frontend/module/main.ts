@@ -33,6 +33,7 @@ import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
 import { WorkPackageTabsService } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
 import { MeetingsTabComponent } from './meetings-tab/meetings-tab.component';
+import { IssuesTabComponent } from './issues-tab/issues-tab.component';
 
 export function initializeMeetingPlugin(injector:Injector) {
   const wpTabService = injector.get(WorkPackageTabsService);
@@ -40,6 +41,12 @@ export function initializeMeetingPlugin(injector:Injector) {
     component: MeetingsTabComponent,
     name: "Meetings",
     id: 'meetings',
+    displayable: (workPackage) => true,
+  });
+  wpTabService.register({
+    component: IssuesTabComponent,
+    name: "Issues",
+    id: 'issues',
     displayable: (workPackage) => true,
   });
 }
@@ -51,9 +58,11 @@ export function initializeMeetingPlugin(injector:Injector) {
   ],
   declarations: [
     MeetingsTabComponent,
+    IssuesTabComponent,
   ],
   exports: [
     MeetingsTabComponent,
+    IssuesTabComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

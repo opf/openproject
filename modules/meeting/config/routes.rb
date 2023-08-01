@@ -35,6 +35,20 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  resources :work_packages, only: %i[] do
+    resources :issues, only: %i[new create edit update destroy] do
+      collection do
+        get :open
+        get :closed
+      end
+      member do
+        get :edit_resolution
+        patch :resolve
+        patch :reopen
+      end
+    end
+  end
+
   resources :meetings do
     member do
       get 'show_in_wp_tab/:work_package_id', action: :show_in_wp_tab, as: :show_in_wp_tab

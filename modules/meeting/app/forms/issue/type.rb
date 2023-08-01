@@ -26,14 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Base
-  module OpPrimer::ComponentHelpers
-    def flex_layout(**, &)
-      render(OpPrimer::FlexLayoutComponent.new(**), &)
-    end
-
-    def box_collection(**, &)
-      render(OpPrimer::BoxCollectionComponent.new(**), &)
+class Issue::Type < ApplicationForm
+  form do |issue_form|
+    issue_form.select_list(
+      name: :issue_type,
+      label: "Type",
+      include_blank: false
+    ) do |type_select_list|
+      Issue.issue_types.to_a.each do |k, _v|
+        type_select_list.option(
+          label: k.humanize.capitalize,
+          value: k
+        )
+      end
     end
   end
 end

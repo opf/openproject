@@ -26,14 +26,55 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Base
-  module OpPrimer::ComponentHelpers
-    def flex_layout(**, &)
-      render(OpPrimer::FlexLayoutComponent.new(**), &)
+module WorkPackageTab
+  class Issues::ResolveComponent < Base::Component
+    include OpTurbo::Streamable
+
+    def initialize(issue:)
+      super
+
+      @issue = issue
     end
 
-    def box_collection(**, &)
-      render(OpPrimer::BoxCollectionComponent.new(**), &)
+    def call
+      component_wrapper do
+        primer_form_with(
+          model: @issue,
+          url: submit_path
+        ) do |form|
+          flex_layout do |flex|
+            flex.with_row(mt: 2) do
+              render(Issue::Resolution.new(form))
+            end
+            flex.with_row(flex_layout: true, justify_content: :flex_end, mt: 2) do |flex|
+              flex.with_column(mr: 2) do
+                back_link_partial
+              end
+              flex.with_column do
+                render(Issue::Submit.new(form))
+              end
+            end
+          end
+        end
+      end
+    end
+
+    private
+
+    def submit_path
+      resolve_work_package_issue_path(@issue.work_package, @issue)
+    end
+
+    def back_link_partial
+      link_to(open_work_package_issues_path(@issue.work_package)) do
+        render(Primer::Beta::Button.new(
+                 scheme: :secondary,
+                 block: false,
+                 mb: 3
+               )) do |_component|
+          "Cancel"
+        end
+      end
     end
   end
 end

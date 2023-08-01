@@ -26,12 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingAgendaItem::New::Details < ApplicationForm
-  form do |agenda_item_form|
-    agenda_item_form.text_area(
-      name: :details,
-      label: "Details",
-      autofocus: true,
-    )
+class Issue < ApplicationRecord
+  self.table_name = 'issues'
+
+  belongs_to :work_package
+  belongs_to :author, class_name: 'User'
+  belongs_to :resolved_by, class_name: 'User', optional: true
+
+  # has_many :meeting_agenda_items, dependent: :destroy, class_name: 'MeetingAgendaItem'
+
+  enum issue_type: %i[input_need clarification_need decision_need]
+
+  default_scope { order(updated_at: :desc) }
+
+  scope :open, -> { where(resolved_at: nil) }
+  scope :closed, -> { where.not(resolved_at: nil) }
+
+  validates :description, presence: true
+
+  def open?
+    resolved_at.nil?
+  end
+
+  def closed?
+    !open?
+  end
+
+  def resolve(user, resolution)
+    update(resolved_at: Time.zone.now, resolved_by: user, resolution:)
+  end
+
+  def reopen
+    update(resolved_at: nil, resolved_by: nil) # leave resolution in place
   end
 end

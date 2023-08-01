@@ -26,14 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Base
-  module OpPrimer::ComponentHelpers
-    def flex_layout(**, &)
-      render(OpPrimer::FlexLayoutComponent.new(**), &)
-    end
-
-    def box_collection(**, &)
-      render(OpPrimer::BoxCollectionComponent.new(**), &)
-    end
+class Issue::Description < ApplicationForm
+  form do |issue_form|
+    issue_form.text_area(
+      name: :description,
+      label: "Description",
+      autofocus: true
+    )
   end
 end
