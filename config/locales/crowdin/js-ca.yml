@@ -1274,6 +1274,7 @@ ca:
         between_two_specific_dates: 'entre dues dates específiques'
       legends:
         changes_since: 'Canvis des de'
+        changes_between: 'Changes between'
         now_meets_filter_criteria: 'Ara compleix els criteris del filtre'
         no_longer_meets_filter_criteria: 'Ja no compleix els criteris del filtre'
         maintained_with_changes: 'Mantingut amb canvis'

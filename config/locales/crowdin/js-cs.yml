@@ -1280,6 +1280,7 @@ cs:
         between_two_specific_dates: 'mezi dvěma konkrétními daty'
       legends:
         changes_since: 'Změny od'
+        changes_between: 'Changes between'
         now_meets_filter_criteria: 'Nyní splňuje kritéria filtru'
         no_longer_meets_filter_criteria: 'Již nesplňuje kritéria filtru'
         maintained_with_changes: 'Maintained with changes'

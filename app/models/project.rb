@@ -213,12 +213,6 @@ class Project < ApplicationRecord
     Authorization.projects(permission, user)
   end
 
-  def reload(*args)
-    @all_work_package_custom_fields = nil
-
-    super
-  end
-
   # Returns a :conditions SQL string that can be used to find the issues associated with this project.
   #
   # Examples:

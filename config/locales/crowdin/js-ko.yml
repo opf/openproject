@@ -1271,6 +1271,7 @@ ko:
         between_two_specific_dates: 'between two specific dates'
       legends:
         changes_since: 'Changes since'
+        changes_between: 'Changes between'
         now_meets_filter_criteria: 'Now meets filter criteria'
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'

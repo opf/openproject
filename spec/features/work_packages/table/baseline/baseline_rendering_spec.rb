@@ -29,7 +29,8 @@
 require 'spec_helper'
 
 RSpec.describe 'baseline rendering',
-               js: true,
+               :js,
+               :with_cuprite,
                with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:list_wp_custom_field) { create(:list_wp_custom_field) }
   shared_let(:multi_list_wp_custom_field) { create(:list_wp_custom_field, multi_value: true) }
@@ -351,7 +352,7 @@ RSpec.describe 'baseline rendering',
                                            "B"
                                          ],
                                          "customField#{multi_list_wp_custom_field.id}": [
-                                           "A, B, ...\n7",
+                                           "A, B, ...7",
                                            "A, B"
                                          ],
                                          "customField#{user_wp_custom_field.id}": [
@@ -376,6 +377,49 @@ RSpec.describe 'baseline rendering',
       end
       within "wp-single-card[data-work-package-id='#{wp_task.id}']" do
         expect(page).not_to have_selector(".op-wp-single-card--content-baseline")
+      end
+    end
+
+    shared_examples_for 'selecting a builtin view' do
+      let(:builtin_view_name) { 'All open' }
+
+      before do
+        within '#main-menu' do
+          click_link builtin_view_name
+        end
+      end
+
+      it 'does not show changes or render baseline details' do
+        wp_table.expect_title builtin_view_name
+
+        baseline.expect_inactive
+        baseline.expect_no_legends
+        baseline_modal.toggle_drop_modal
+        baseline_modal.expect_selected '-'
+      end
+    end
+
+    context 'when a baseline filter is set' do
+      before do
+        wp_table.visit!
+
+        wait_for_reload # Ensure page is fully loaded
+
+        baseline_modal.toggle_drop_modal
+        baseline_modal.select_filter 'yesterday'
+        baseline_modal.apply
+      end
+
+      context 'and the query is saved' do
+        before do
+          wp_table.save_as 'My Baseline Query'
+        end
+
+        it_behaves_like 'selecting a builtin view'
+      end
+
+      context 'and the query is not saved' do
+        it_behaves_like 'selecting a builtin view'
       end
     end
   end

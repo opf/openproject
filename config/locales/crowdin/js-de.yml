@@ -1273,6 +1273,7 @@ de:
         between_two_specific_dates: 'zwischen zwei bestimmten Daten'
       legends:
         changes_since: 'Änderungen seit'
+        changes_between: 'Changes between'
         now_meets_filter_criteria: 'Erfüllt nun die Filterkriterien'
         no_longer_meets_filter_criteria: 'Erfüllt Filterkriterien nicht mehr'
         maintained_with_changes: 'Änderungen erhalten'

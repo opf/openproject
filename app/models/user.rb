@@ -326,8 +326,8 @@ class User < Principal
   # If +update_legacy+ is set, will automatically save legacy passwords using the current
   # format.
   def check_password?(clear_password, update_legacy: true)
-    if ldap_auth_source_id.present?
-      auth_source.authenticate(login, clear_password)
+    if ldap_auth_source.present?
+      ldap_auth_source.authenticate(login, clear_password)
     else
       return false if current_password.nil?
 

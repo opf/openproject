@@ -43,6 +43,7 @@ module Storages::Peripherals
       files_info_query
       files_query
       file_ids_query
+      folder_files_file_ids_deep_query
       upload_link_query
       group_users_query
     ].freeze

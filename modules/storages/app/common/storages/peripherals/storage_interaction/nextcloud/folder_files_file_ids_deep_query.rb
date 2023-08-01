@@ -26,21 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Meeting::Patches
-  module TextileConverterPatch
-    extend ActiveSupport::Concern
-
-    included do
-      prepend(Patch)
+module Storages::Peripherals::StorageInteraction::Nextcloud
+  class FolderFilesFileIdsDeepQuery
+    def initialize(storage)
+      @query = ::Storages::Peripherals::StorageInteraction::Nextcloud::Internal::PropfindQuery.new(storage)
     end
 
-    module Patch
-      def models_to_convert
-        super.merge(
-          ::MeetingContent => [:text],
-          ::Journal::MeetingContentJournal => [:text]
-        )
-      end
+    def call(path:)
+      @query.call(
+        depth: 'infinity',
+        path:,
+        props: %w[oc:fileid]
+      )
     end
   end
 end

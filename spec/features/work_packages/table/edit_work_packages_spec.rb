@@ -116,28 +116,32 @@ RSpec.describe 'Inline editing work packages', js: true do
   end
 
   context 'custom field' do
-    let(:custom_fields) do
+    let!(:custom_fields) do
       fields = [
         create(
           :work_package_custom_field,
           field_format: 'list',
           possible_values: %w(foo bar xyz),
-          is_required: true,
-          is_for_all: false
+          is_required: false,
+          is_for_all: false,
+          types: [type],
+          projects: [project]
         ),
         create(
           :work_package_custom_field,
           field_format: 'string',
-          is_required: true,
-          is_for_all: false
+          is_required: false,
+          is_for_all: false,
+          types: [type],
+          projects: [project]
         )
       ]
 
       fields
     end
-    let(:type) { create(:type_task, custom_fields:) }
+    let(:type) { create(:type_task) }
     let(:project) { create(:project, types: [type]) }
-    let(:work_package) do
+    let!(:work_package) do
       create(:work_package,
              subject: 'Foobar',
              status: status1,
@@ -146,12 +150,11 @@ RSpec.describe 'Inline editing work packages', js: true do
     end
 
     before do
-      work_package
       workflow
 
-      # Require custom fields for this project
-      project.work_package_custom_fields = custom_fields
-      project.save!
+      custom_fields.each do |custom_field|
+        custom_field.update_attribute(:is_required, true)
+      end
 
       wp_table.visit!
       wp_table.expect_work_package_listed(work_package)

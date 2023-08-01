@@ -94,7 +94,7 @@ RSpec.describe 'Status action board', js: true, with_ee: %i[board_view] do
       board_index.visit!
 
       # Create new board
-      board_page = board_index.create_board action: :Status
+      board_page = board_index.create_board action: 'Status'
 
       # expect lists of default status
       board_page.expect_list 'Open'
@@ -111,7 +111,7 @@ RSpec.describe 'Status action board', js: true, with_ee: %i[board_view] do
       board_index.visit!
 
       # Create new board
-      board_page = board_index.create_board action: :Status
+      board_page = board_index.create_board action: 'Status'
 
       board_page.add_list option: 'Whatever'
       board_page.expect_list 'Whatever'
@@ -152,7 +152,8 @@ RSpec.describe 'Status action board', js: true, with_ee: %i[board_view] do
       board_index.visit!
 
       # Create new board
-      board_page = board_index.create_board action: :Status
+      board_page = board_index.create_board title: 'My Status Board',
+                                            action: 'Status'
 
       # expect lists of default status
       board_page.expect_list 'Open'
@@ -161,7 +162,7 @@ RSpec.describe 'Status action board', js: true, with_ee: %i[board_view] do
       board_page.expect_list 'Closed'
 
       board_page.board(reload: true) do |board|
-        expect(board.name).to eq 'Action board (status)'
+        expect(board.name).to eq 'My Status Board'
         queries = board.contained_queries
         expect(queries.count).to eq(2)
 
@@ -298,14 +299,15 @@ RSpec.describe 'Status action board', js: true, with_ee: %i[board_view] do
       board_index.visit!
 
       # Create new board
-      board_page = board_index.create_board action: :Status
+      board_page = board_index.create_board action: 'Status'
 
       # expect lists of default status
       board_page.expect_list 'Open'
       expect(board_page.list_count).to eq(1)
 
+      board_index.visit!
       # Create another status board
-      second_board_page = board_index.create_board action: :Status, via_toolbar: true
+      second_board_page = board_index.create_board action: 'Status', via_toolbar: false
 
       # Expect only one list with the default status
       second_board_page.expect_list 'Open'

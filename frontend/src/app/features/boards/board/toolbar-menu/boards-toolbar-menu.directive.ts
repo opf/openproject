@@ -29,6 +29,7 @@
 import {
   Directive, ElementRef, Injector, Input,
 } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
@@ -46,18 +47,17 @@ import { triggerEditingEvent } from 'core-app/shared/components/editable-toolbar
 export class BoardsToolbarMenuDirective extends OpContextMenuTrigger {
   @Input('boardsToolbarMenu-resource') public board:Board;
 
-  public text = {
-    deleteSuccessful: this.I18n.t('js.notice_successful_delete'),
-  };
-
-  constructor(readonly elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef,
     readonly opContextMenu:OPContextMenuService,
     readonly opModalService:OpModalService,
     readonly boardService:BoardService,
     readonly Notifications:ToastService,
     readonly State:StateService,
     readonly injector:Injector,
-    readonly I18n:I18nService) {
+    readonly I18n:I18nService,
+    readonly http:HttpClient,
+  ) {
     super(elementRef, opContextMenu);
   }
 
@@ -103,13 +103,19 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger {
         linkText: this.I18n.t('js.toolbar.settings.delete'),
         icon: 'icon-delete',
         onClick: () => {
-          if (this.board.grid.delete
+          if (this.board.id
+            && this.board.grid.delete
             && window.confirm(this.I18n.t('js.text_query_destroy_confirmation'))) {
-            this.boardService
-              .delete(this.board)
-              .then(() => {
-                this.State.go('boards.list', { flash_message: { type: 'success', message: this.text.deleteSuccessful } });
-              });
+            void this.http
+              .delete(
+                `/boards/${this.board.id}`,
+                { responseType: 'json' },
+              )
+              .subscribe(
+                (response:{ redirect_url:string }) => {
+                  window.location.href = response.redirect_url;
+                },
+              );
           }
 
           return true;

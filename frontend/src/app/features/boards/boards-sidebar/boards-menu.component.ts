@@ -14,9 +14,9 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { MainMenuNavigationService } from 'core-app/core/main-menu/main-menu-navigation.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { NewBoardModalComponent } from 'core-app/features/boards/new-board-modal/new-board-modal.component';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 export const boardsMenuSelector = 'boards-menu';
 
@@ -64,14 +64,13 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
   };
 
   constructor(
-    private readonly boardService:BoardService,
-    private readonly apiV3Service:ApiV3Service,
-    private readonly currentProject:CurrentProjectService,
-    private readonly mainMenuService:MainMenuNavigationService,
+    readonly boardService:BoardService,
+    readonly apiV3Service:ApiV3Service,
+    readonly currentProject:CurrentProjectService,
+    readonly mainMenuService:MainMenuNavigationService,
     readonly currentUserService:CurrentUserService,
     readonly I18n:I18nService,
-    private readonly opModalService:OpModalService,
-    private readonly injector:Injector,
+    readonly pathHelper:PathHelperService
   ) {
     super();
   }
@@ -87,8 +86,8 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
       });
   }
 
-  showNewBoardModal():void {
-    this.opModalService.show(NewBoardModalComponent, this.injector);
+  redirectToNewBoardForm():void {
+    window.location.href = this.pathHelper.newBoardsPath(this.currentProject.identifier);
   }
 
   private focusBackArrow():void {

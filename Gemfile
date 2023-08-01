@@ -30,11 +30,11 @@ source 'https://rubygems.org'
 
 ruby '~> 3.2.1'
 
-gem 'ox'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.4.0'
 gem 'activerecord-session_store', '~> 2.0.0'
+gem 'ox'
 gem 'rails', '~> 7.0', '>= 7.0.3.1'
 gem 'responders', '~> 3.0'
 
@@ -114,9 +114,6 @@ gem 'mail', '= 2.8.1'
 # provide compatible filesystem information for available storage
 gem 'sys-filesystem', '~> 1.4.0', require: false
 
-# Faster posix-compliant spawns for 8.0. conversions with pandoc
-gem 'posix-spawn', '~> 0.3.13', require: false
-
 gem 'bcrypt', '~> 3.1.6'
 
 gem 'multi_json', '~> 1.15.0'
@@ -155,8 +152,8 @@ gem 'structured_warnings', '~> 0.4.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 13.0.0', require: false
 
-gem 'prawn', '~> 2.2'
 gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: '76945d45c14b841e2312f992422e2631a4524114'
+gem 'prawn', '~> 2.2'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
 
@@ -237,6 +234,9 @@ group :test do
   # XML comparison tests
   gem 'compare-xml', '~> 0.66', require: false
 
+  # PDF Export tests
+  gem 'pdf-inspector', '~> 1.2'
+
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
@@ -244,7 +244,6 @@ group :test do
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'cuprite', '~> 0.14.3'
   gem 'selenium-webdriver', '~> 4.0'
-  gem 'webdrivers', '~> 5.2.0'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'

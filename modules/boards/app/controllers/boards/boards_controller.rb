@@ -3,20 +3,21 @@ module ::Boards
     before_action :find_optional_project
     before_action :build_board_grid, only: %i[new]
 
-    with_options only: [:index] do
+    with_options only: %i[index show] do
       # The boards permission alone does not suffice
       # to view work packages
       before_action :authorize
       before_action :authorize_work_package_permission
     end
 
-    before_action :authorize_global, only: %i[overview new create]
+    before_action :authorize_global, only: %i[overview new create destroy]
+    before_action :find_board_grid, only: %i[destroy]
     before_action :ensure_board_type_not_restricted, only: %i[create]
 
     menu_item :board_view
 
     def index
-      render layout: 'angular/angular'
+      @board_grids = Boards::Grid.includes(:project).where(project: @project)
     end
 
     def overview
@@ -33,6 +34,10 @@ module ::Boards
       :boards
     end
 
+    def show
+      render layout: 'angular/angular'
+    end
+
     def new; end
 
     def create
@@ -42,14 +47,34 @@ module ::Boards
 
       if service_result.success?
         flash[:notice] = I18n.t(:notice_successful_create)
-        redirect_to board_grid_path
+        redirect_to project_work_package_board_path(@project, @board_grid)
       else
         @errors = service_result.errors
         render action: :new
       end
     end
 
+    def destroy
+      @board_grid.destroy
+
+      flash[:notice] = I18n.t(:notice_successful_delete)
+
+      respond_to do |format|
+        format.json do
+          render json: { redirect_url: project_work_package_boards_path(@project) }
+        end
+        format.html do
+          redirect_to action: 'index', project_id: @project
+        end
+      end
+    end
+
     private
+
+    def find_board_grid
+      @board_grid = Boards::Grid.find(params[:id])
+      @project = @board_grid.project
+    end
 
     def authorize_work_package_permission
       unless current_user.allowed_to?(:view_work_packages, @project, global: @project.nil?)
@@ -91,10 +116,6 @@ module ::Boards
 
     def board_grid_params
       params.require(:boards_grid).permit(%i[name attribute])
-    end
-
-    def board_grid_path
-      "/projects/#{@project.identifier}/boards/#{@board_grid.id}"
     end
   end
 end
