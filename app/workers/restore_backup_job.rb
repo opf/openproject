@@ -276,7 +276,7 @@ class RestoreBackupJob < ApplicationJob
   def run_command!(command)
     _out, err, st = Open3.capture3 pg_env, command
 
-    failure! error: err unless st.success?
+    raise err unless st.success?
 
     st.success?
   end
@@ -373,7 +373,7 @@ class RestoreBackupJob < ApplicationJob
       possible_keys = Array(config_key)
       value = possible_keys
         .lazy
-        .filter_map { |key| database_config[key] }
+        .filter_map { |k| database_config[k] }
         .first
 
       [key.to_s, value.to_s] if value.present?
