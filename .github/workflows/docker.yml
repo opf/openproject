@@ -13,7 +13,7 @@ permissions:
   contents: read # to fetch code (actions/checkout)
 
 env:
-  REGISTRY_IMAGE: openproject/community-test
+  REGISTRY_IMAGE: openproject/community
 
 jobs:
   build:
