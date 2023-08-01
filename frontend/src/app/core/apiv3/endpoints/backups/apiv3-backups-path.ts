@@ -33,8 +33,10 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
 
 export class Apiv3BackupsPath extends ApiV3GettableResource<ConfigurationResource> {
-  constructor(protected apiRoot:ApiV3Service,
-    readonly basePath:string) {
+  constructor(
+    protected apiRoot:ApiV3Service,
+    readonly basePath:string,
+  ) {
     super(apiRoot, basePath, 'backups');
   }
 
@@ -51,7 +53,7 @@ export class Apiv3BackupsPath extends ApiV3GettableResource<ConfigurationResourc
     return this
       .halResourceService
       .post(
-        this.path + '/' + backupId + (preview ? '/preview' : '/restore'),
+        `${this.path}/${backupId}${preview ? '/preview' : '/restore'}`,
         { backupToken },
       );
   }

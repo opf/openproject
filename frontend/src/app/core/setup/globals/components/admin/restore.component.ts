@@ -63,17 +63,17 @@ export class RestoreComponent implements AfterViewInit {
     previewBackup: this.i18n.t('js.restore.preview_backup'),
   };
 
-  public jobStatusId:string = this.elementRef.nativeElement.dataset.jobStatusId;
+  private inputDataset = (this.elementRef.nativeElement as HTMLElement).dataset;
 
-  public isInProgress = false;
+  jobStatusId:string = this.inputDataset.jobStatusId || '';
 
-  public backupToken:string = '';
+  backupToken = '';
 
-  public backupId:string = this.elementRef.nativeElement.dataset.backupId;
+  backupId:string = this.inputDataset.backupId || '';
 
-  public backupComment:string = this.elementRef.nativeElement.dataset.backupComment;
+  backupComment:string = this.inputDataset.backupComment || '';
 
-  public preview:boolean = this.elementRef.nativeElement.dataset.preview != 'false';
+  preview:boolean = this.inputDataset.preview !== 'false';
 
   @InjectField() opBackup:OpenProjectBackupService;
 
@@ -90,12 +90,14 @@ export class RestoreComponent implements AfterViewInit {
   }
 
   ngAfterViewInit():void {
-    this.backupTokenInput.nativeElement.focus();
+    (this.backupTokenInput.nativeElement as HTMLElement).focus();
   }
 
-  public triggerRestore(event?:JQuery.TriggeredEvent) {
+  public triggerRestore(event:JQuery.TriggeredEvent) {
     if (event) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       event.stopPropagation();
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       event.preventDefault();
     }
 
@@ -107,7 +109,7 @@ export class RestoreComponent implements AfterViewInit {
       .triggerRestore(backupToken, this.backupId, this.preview)
       .subscribe(
         (resp:HalResource) => {
-          this.jobStatusId = resp.jobStatusId;
+          this.jobStatusId = resp.jobStatusId as string;
           this.opModalService.show(JobStatusModalComponent, 'global', { jobId: resp.jobStatusId });
         },
         (error:HalError) => {
@@ -116,4 +118,3 @@ export class RestoreComponent implements AfterViewInit {
       );
   }
 }
-  
