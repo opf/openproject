@@ -50,6 +50,10 @@ module OpTurbo
           raise "Unsupported action #{action}"
         end
 
+        unless @component_wrapper_used
+          raise "You need to wrap your component in a `component_wrapper` block in order to use the turbo-stream methods"
+        end
+
         OpTurbo::StreamWrapperComponent.new(
           action:,
           target: wrapper_key,
@@ -58,14 +62,21 @@ module OpTurbo
       end
 
       def insert_as_turbo_stream(component:, view_context:, action: :append)
+        template = component.render_in(view_context)
+
+        unless @component_wrapper_used
+          raise "You need to wrap your component in a `component_wrapper` block in order to use the turbo-stream methods"
+        end
+
         OpTurbo::StreamWrapperComponent.new(
           action:,
           target: insert_target_modified? ? insert_target_modifier_id : wrapper_key,
-          template: component.render_in(view_context)
+          template:
         ).render_in(view_context)
       end
 
       def component_wrapper(tag: "div", class: nil, data: nil, style: nil, &block)
+        @component_wrapper_used = true
         if inner_html_only?
           capture(&block)
         else
