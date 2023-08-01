@@ -26,23 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTab
-  class Meetings::ListComponent < Base::Component
-    def initialize(meetings:, active_work_package: nil)
-      super
+class WorkPackageIssue < ApplicationRecord
+  self.table_name = 'work_package_issues'
 
-      @meetings = meetings
-      @active_work_package = active_work_package
-    end
+  belongs_to :work_package
+  belongs_to :author, class_name: 'User'
+  belongs_to :resolved_by, class_name: 'User', optional: true
 
-    def call
-      render(Primer::Beta::BorderBox.new(padding: :condensed)) do |component|
-        @meetings.each do |meeting|
-          component.with_row do
-            render(WorkPackageTab::Meetings::ItemComponent.new(meeting:, active_work_package: @active_work_package))
-          end
-        end
-      end
-    end
+  has_many :meeting_agenda_items, dependent: :destroy, class_name: 'MeetingAgendaItem'
+
+  enum issue_type: %i[input_need clarification_need decision_need]
+
+  default_scope { order(updated_at: :desc) }
+
+  scope :open, -> { where(resolved_at: nil) }
+  scope :closed, -> { where.not(resolved_at: nil) }
+
+  validates :description, presence: true
+  validates :resolution, presence: true, if: :closed?
+
+  def open?
+    resolved_at.nil?
+  end
+
+  def closed?
+    !open?
+  end
+
+  def resolve(user, resolution)
+    update(resolved_at: Time.zone.now, resolved_by: user, resolution:)
+  end
+
+  def reopen
+    update(resolved_at: nil, resolved_by: nil) # leave resolution in place
   end
 end

@@ -28,15 +28,11 @@
 
 OpenProject::Application.routes.draw do
   resources :projects, only: %i[] do
-    resources :meetings, only: %i[index new create] do
-      collection do
-        get 'index_in_wp_tab/:work_package_id', action: :index_in_wp_tab, as: :index_in_wp_tab
-      end
-    end
+    resources :meetings, only: %i[index new create]
   end
 
   resources :work_packages, only: %i[] do
-    resources :issues, only: %i[new create edit update destroy] do
+    resources :issues, only: %i[new create edit update destroy], controller: 'work_package_issues' do
       collection do
         get :open
         get :closed
@@ -45,14 +41,13 @@ OpenProject::Application.routes.draw do
         get :edit_resolution
         patch :resolve
         patch :reopen
+        get :new_meeting
+        patch :save_meeting
       end
     end
   end
 
   resources :meetings do
-    member do
-      get 'show_in_wp_tab/:work_package_id', action: :show_in_wp_tab, as: :show_in_wp_tab
-    end
     resources :agenda_items, controller: 'meeting_agenda_items' do
       collection do
         get 'new(/:work_package_id)', action: :new, as: :new
@@ -65,6 +60,12 @@ OpenProject::Application.routes.draw do
       member do
         get :cancel_edit
         put :drop
+        get :edit_issue_resolution
+        get :cancel_edit_issue_resolution
+        patch :resolve_issue
+        get :edit_notes
+        get :cancel_edit_notes
+        patch :save_notes
       end
     end
 

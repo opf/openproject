@@ -26,19 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingAgendaItem::New::Duration < ApplicationForm
+class MeetingAgendaItem::Submit < ApplicationForm
   form do |agenda_item_form|
-    agenda_item_form.text_field(
-      name: :duration_in_minutes,
-      placeholder: "Duration in minutes",
-      label: "Duration in minutes",
-      visually_hide_label: true,
-      type: :number,
-      disabled: @disabled
-    )
-  end
-
-  def initialize(disabled: false)
-    @disabled = disabled
+    agenda_item_form.group(layout: :horizontal) do |button_group|
+      # button_group.button(name: :button, label: "Cancel", data: { action: 'click->meeting-agenda-item-form#cancel' })
+      button_group.submit(name: :submit, label: "Submit", scheme: :primary)
+    end
   end
 end

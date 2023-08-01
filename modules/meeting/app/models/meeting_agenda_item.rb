@@ -30,19 +30,19 @@
 class MeetingAgendaItem < ApplicationRecord
   belongs_to :meeting
   has_one :project, through: :meeting
-  belongs_to :work_package, optional: true
+  belongs_to :work_package_issue, class_name: 'WorkPackageIssue', optional: true
   belongs_to :user
 
   acts_as_list scope: :meeting
   default_scope { order(:position) }
 
-  validates :title, presence: true, if: Proc.new { |item| item.work_package_id.blank? }
-  validates :work_package, presence: true, if: Proc.new { |item| item.title.blank? }
+  validates :title, presence: true, if: Proc.new { |item| item.work_package_issue_id.blank? }
+  validates :work_package_issue_id, presence: true, if: Proc.new { |item| item.title.blank? }
   validates :duration_in_minutes, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
   after_create :trigger_meeting_agenda_item_time_slots_calculation
-  after_save :trigger_meeting_agenda_item_time_slots_calculation, if: Proc.new { 
-    |item| item.duration_in_minutes_previously_changed? || item.position_previously_changed? 
+  after_save :trigger_meeting_agenda_item_time_slots_calculation, if: Proc.new { |item|
+    item.duration_in_minutes_previously_changed? || item.position_previously_changed?
   }
   after_destroy :trigger_meeting_agenda_item_time_slots_calculation
 

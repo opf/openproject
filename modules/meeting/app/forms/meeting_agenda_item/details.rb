@@ -26,25 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingAgendaItem::New::Author < ApplicationForm
+class MeetingAgendaItem::Details < ApplicationForm
   form do |agenda_item_form|
-    agenda_item_form.select_list(
-      name: :user_id,
-      label: "Owner",
-      include_blank: true,
+    agenda_item_form.text_area(
+      name: :details,
+      placeholder: "Notes",
+      label: "Notes",
       visually_hide_label: true,
+      required: true,
+      autofocus: true,
       disabled: @disabled
-    ) do |user_select_list|
-      User.active
-        .order(:id)
-        .map { |user| [user.name, user.id] }
-        .each do |name, id|
-          user_select_list.option(
-            label: "#{name}",
-            value: id
-          )
-        end
-    end
+    )
   end
 
   def initialize(disabled: false)

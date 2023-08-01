@@ -30,11 +30,10 @@ module MeetingAgendaItems
   class ListComponent < Base::Component
     include OpTurbo::Streamable
 
-    def initialize(meeting:, active_work_package: nil)
+    def initialize(meeting:)
       super
 
       @meeting = meeting
-      @active_work_package = active_work_package
     end
 
     def call
@@ -59,24 +58,13 @@ module MeetingAgendaItems
 
     def row_partial(border_box, meeting_agenda_item)
       border_box.with_row(
-        scheme: row_scheme(meeting_agenda_item),
+        scheme: :default,
         data: {
           id: meeting_agenda_item.id,
           'drop-url': drop_meeting_agenda_item_path(meeting_agenda_item.meeting, meeting_agenda_item)
         }
       ) do
-        render(MeetingAgendaItems::ItemComponent.new(
-                 meeting_agenda_item:,
-                 active_work_package: @active_work_package
-               ))
-      end
-    end
-
-    def row_scheme(meeting_agenda_item)
-      if @active_work_package.present? && (@active_work_package&.id == meeting_agenda_item.work_package&.id)
-        :info
-      else
-        :default
+        render(MeetingAgendaItems::ItemComponent.new(meeting_agenda_item:))
       end
     end
   end

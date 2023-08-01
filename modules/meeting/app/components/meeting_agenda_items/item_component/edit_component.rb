@@ -28,18 +28,16 @@
 
 module MeetingAgendaItems
   class ItemComponent::EditComponent < Base::Component
-    def initialize(meeting_agenda_item:, active_work_package: nil)
+    def initialize(meeting_agenda_item:)
       super
 
       @meeting_agenda_item = meeting_agenda_item
-      @active_work_package = active_work_package
     end
 
     def call
       render(MeetingAgendaItems::FormComponent.new(
                meeting: @meeting_agenda_item.meeting,
                meeting_agenda_item: @meeting_agenda_item,
-               active_work_package: @active_work_package,
                method: :put,
                submit_path: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
                cancel_path: cancel_edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item)

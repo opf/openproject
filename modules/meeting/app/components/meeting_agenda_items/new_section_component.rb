@@ -30,13 +30,11 @@ module MeetingAgendaItems
   class NewSectionComponent < Base::Component
     include OpTurbo::Streamable
 
-    def initialize(meeting:, meeting_agenda_item: nil, active_work_package: nil, state: :initial)
+    def initialize(meeting:, meeting_agenda_item: nil, state: :initial)
       super
 
       @meeting = meeting
-      @meeting_agenda_item = meeting_agenda_item || MeetingAgendaItem.new(meeting:, work_package: active_work_package,
-                                                                          user: User.current)
-      @active_work_package = active_work_package
+      @meeting_agenda_item = meeting_agenda_item || MeetingAgendaItem.new(meeting:, user: User.current)
       @state = state
     end
 
@@ -62,13 +60,8 @@ module MeetingAgendaItems
             url: new_meeting_agenda_item_path(@meeting),
             method: :get,
             data: { 'turbo-stream': true }
-          ) do |form|
+          ) do |_form|
             box_collection do |collection|
-              if @active_work_package.present?
-                collection.with_box do
-                  form.hidden_field :work_package_id, value: @active_work_package.id
-                end
-              end
               collection.with_box do
                 button_content_partial
               end
@@ -88,11 +81,7 @@ module MeetingAgendaItems
                type: :submit,
                'aria-label': "Add agenda item"
              )) do
-        if @active_work_package.present?
-          "Add work package to agenda"
-        else
-          "Add agenda item"
-        end
+        "Add agenda item"
       end
     end
 
@@ -105,7 +94,6 @@ module MeetingAgendaItems
           render(MeetingAgendaItems::FormComponent.new(
                    meeting: @meeting,
                    meeting_agenda_item: @meeting_agenda_item,
-                   active_work_package: @active_work_package,
                    method: :post,
                    submit_path: meeting_agenda_items_path(@meeting),
                    cancel_path: cancel_new_meeting_agenda_items_path(@meeting)

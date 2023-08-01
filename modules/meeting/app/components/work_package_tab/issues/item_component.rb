@@ -28,10 +28,11 @@
 
 module WorkPackageTab
   class Issues::ItemComponent < Base::Component
-    def initialize(issue:)
+    def initialize(issue:, called_from_meeting: nil)
       super
 
       @issue = issue
+      @called_from_meeting = called_from_meeting
     end
 
     def call
@@ -39,8 +40,10 @@ module WorkPackageTab
         flex.with_column do
           content_partial
         end
-        flex.with_column do
-          actions_partial
+        unless @called_from_meeting
+          flex.with_column do
+            actions_partial
+          end
         end
       end
     end
@@ -80,8 +83,15 @@ module WorkPackageTab
             issue_meta_info_partial
           end
         end
-        flex.with_row(mt: 2, pl: 0) do
+        flex.with_row(mt: 2, mb: 1, pl: 0) do
           description_partial
+        end
+        if @issue.meeting_agenda_items.any? && !@called_from_meeting
+          @issue.meeting_agenda_items.each do |meeting_agenda_item|
+            flex.with_row(mt: 1, pl: 0) do
+              meeting_assignment_partial(meeting_agenda_item)
+            end
+          end
         end
       end
     end
@@ -176,11 +186,42 @@ module WorkPackageTab
     def add_to_meeting_action_item(menu)
       return unless @issue.open?
 
-      menu.with_item(label: "Add to meeting", href: "/")
+      menu.with_item(label: "Add to meeting",
+                     href: new_meeting_work_package_issue_path(
+                       work_package_id: @issue.work_package.id, id: @issue.id
+                     ))
     end
 
     def count_active_work_package_references_in_meeting
       @meeting.agenda_items.where(work_package_id: @active_work_package.id).count if @active_work_package.present?
+    end
+
+    def meeting_assignment_partial(meeting_agenda_item)
+      flex_layout do |flex|
+        flex.with_column(mr: 1) do
+          render(Primer::Beta::Octicon.new(icon: "comment-discussion", 'aria-label': "meeting", color: :muted))
+        end
+        flex.with_column(flex_layout: true, mr: 1) do |flex|
+          flex.with_row do
+            render(Primer::Beta::Text.new(font_size: :small, color: :muted)) do
+              "In meeting #{meeting_link(meeting_agenda_item.meeting)} from #{meeting_agenda_item.meeting.start_time.strftime('%d.%m.%Y')}".html_safe
+            end
+          end
+          if meeting_agenda_item.details.present?
+            flex.with_row(mt: 1, ml: 1, border: :left, pl: 2) do
+              render(Primer::Box.new(font_size: :small, color: :default)) do
+                simple_format(meeting_agenda_item.details, {}, wrapper_tag: "span")
+              end
+            end
+          end
+        end
+      end
+    end
+
+    def meeting_link(meeting)
+      link_to(meeting_path(meeting), target: "_blank", rel: "noopener") do
+        meeting.title
+      end
     end
 
     def description_partial
@@ -215,8 +256,8 @@ module WorkPackageTab
         flex.with_row do
           original_author_partial
         end
-        flex.with_row do
-          open_description_partial(:muted)
+        flex.with_row(mt: 1) do
+          open_description_partial
         end
       end
     end

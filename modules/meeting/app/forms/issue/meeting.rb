@@ -26,20 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingAgendaItem::New::Title < ApplicationForm
-  form do |agenda_item_form|
-    agenda_item_form.text_field(
-      name: :title,
-      placeholder: "Title",
-      label: "Title",
-      visually_hide_label: true,
-      required: true,
-      autofocus: true,
-      disabled: @disabled
-    )
-  end
-
-  def initialize(disabled: false)
-    @disabled = disabled
+class Issue::Meeting < ApplicationForm
+  form do |issue_form|
+    issue_form.select_list(
+      name: :meeting_id,
+      label: "Meeting"
+    ) do |issue_select_list|
+      Meeting.future.each do |meeting|
+        issue_select_list.option(
+          label: "#{meeting.title} #{meeting.start_time.strftime('%d.%m.%Y')}",
+          value: meeting.id
+        )
+      end
+    end
   end
 end

@@ -37,13 +37,11 @@ export default class extends Controller {
   }
   declare cancelUrlValue: string
 
-  static targets = [ "titleInput", "clarificationNeedInput", "clarificationInput", "workPackageInput", "workPackageButton", "detailsInput"]
+  static targets = [ "titleInput", "issueInput", "issueButton", "detailsInput"]
   declare readonly titleInputTarget: HTMLInputElement
-  declare readonly clarificationNeedInputTarget: HTMLInputElement
-  declare readonly clarificationInputTarget: HTMLInputElement
   declare readonly detailsInputTarget: HTMLInputElement
-  declare readonly workPackageInputTarget: HTMLInputElement
-  declare readonly workPackageButtonTarget: HTMLInputElement
+  declare readonly issueInputTarget: HTMLInputElement
+  declare readonly issueButtonTarget: HTMLInputElement
 
   connect(): void {
     this.focusInput();
@@ -76,26 +74,6 @@ export default class extends Controller {
     }
   }
 
-  async addClarificationNeed() {
-    this.clarificationNeedInputTarget.classList.remove("d-none");
-    const textarea = this.element.querySelector('textarea[name="meeting_agenda_item[input]"]');
-    setTimeout(() => {
-      if(textarea) {
-        (textarea as HTMLInputElement).focus();
-      }
-    }, 100);
-  }
-
-  async addClarification() {
-    this.clarificationInputTarget.classList.remove("d-none");
-    const textarea = this.element.querySelector('textarea[name="meeting_agenda_item[output]"]');
-    setTimeout(() => {
-      if(textarea) {
-        (textarea as HTMLInputElement).focus();
-      }
-    }, 100);
-  }
-
   async addDetails() {
     this.detailsInputTarget.classList.remove("d-none");
     const textarea = this.element.querySelector('textarea[name="meeting_agenda_item[details]"]');
@@ -106,11 +84,11 @@ export default class extends Controller {
     }, 100);
   }
 
-  async addWorkPackage() {
+  async addIssue() {
     this.titleInputTarget.classList.add("d-none");
-    this.workPackageButtonTarget.classList.add("d-none");
-    this.workPackageInputTarget.classList.remove("d-none");
-    const select = this.element.querySelector('select[name="meeting_agenda_item[work_package_id]"]');
+    this.issueButtonTarget.classList.add("d-none");
+    this.issueInputTarget.classList.remove("d-none");
+    const select = this.element.querySelector('select[name="meeting_agenda_item[work_package_issue_id]"]');
     setTimeout(() => {
       if(select) {
         (select as HTMLInputElement).focus();

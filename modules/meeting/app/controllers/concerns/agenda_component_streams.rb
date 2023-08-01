@@ -30,25 +30,22 @@ module AgendaComponentStreams
   extend ActiveSupport::Concern
 
   included do
-    def update_new_section_via_turbo_stream(state: :initial, meeting_agenda_item: nil, meeting: @meeting,
-                                            active_work_package: @active_work_package)
+    def update_new_section_via_turbo_stream(state: :initial, meeting_agenda_item: nil, meeting: @meeting)
       update_via_turbo_stream(
         component: MeetingAgendaItems::NewSectionComponent.new(
           state:,
           meeting:,
-          meeting_agenda_item:,
-          active_work_package:
+          meeting_agenda_item:
         )
       )
     end
 
-    def update_list_via_turbo_stream(meeting: @meeting, active_work_package: @active_work_package)
+    def update_list_via_turbo_stream(meeting: @meeting)
       # replace needs to be called in order to mount the drag and drop handlers again
       # update would not do that and drag and drop would stop working after the first update
       replace_via_turbo_stream(
         component: MeetingAgendaItems::ListComponent.new(
-          meeting:,
-          active_work_package:
+          meeting:
         )
       )
     end
@@ -61,13 +58,11 @@ module AgendaComponentStreams
       )
     end
 
-    def update_item_via_turbo_stream(state: :show, meeting_agenda_item: @meeting_agenda_item,
-                                     active_work_package: @active_work_package)
+    def update_item_via_turbo_stream(state: :show, meeting_agenda_item: @meeting_agenda_item)
       update_via_turbo_stream(
         component: MeetingAgendaItems::ItemComponent.new(
           state:,
-          meeting_agenda_item:,
-          active_work_package:
+          meeting_agenda_item:
         )
       )
     end

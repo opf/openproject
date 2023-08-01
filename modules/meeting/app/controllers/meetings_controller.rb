@@ -28,12 +28,12 @@
 
 class MeetingsController < ApplicationController
   around_action :set_time_zone
-  before_action :find_optional_project, only: %i[index index_in_wp_tab new create]
+  before_action :find_optional_project, only: %i[index new create]
   before_action :build_meeting, only: %i[new create]
-  before_action :find_meeting, except: %i[index index_in_wp_tab new create]
+  before_action :find_meeting, except: %i[index new create]
   before_action :convert_params, only: %i[create update]
-  before_action :authorize, except: %i[index new index_in_wp_tab]
-  before_action :authorize_global, only: %i[index new index_in_wp_tab]
+  before_action :authorize, except: %i[index new]
+  before_action :authorize_global, only: %i[index new]
 
   helper :watchers
   helper :meeting_contents
@@ -53,20 +53,6 @@ class MeetingsController < ApplicationController
     @query = load_query
     @meetings = load_meetings(@query)
     render 'index', locals: { menu_name: project_or_global_menu }
-  end
-
-  def index_in_wp_tab
-    @active_work_package = WorkPackage.find(params[:work_package_id]) if params[:work_package_id].present?
-    @upcoming_meetings = @project.meetings.from_today.limit(10).reorder('start_time ASC')
-    @past_meetings = @project.meetings.joins(:agenda_items)
-      .where(['meetings.start_time < ?', Time.now.utc]).order('start_time DESC')
-      .where('meeting_agenda_items.work_package_id = ?', @active_work_package.id)
-      .distinct
-
-    @discussed_agenda_items = @active_work_package.meeting_agenda_items.where.not(output: "")
-    @open_agenda_items = @active_work_package.meeting_agenda_items.where(output: "").where.not(input: "")
-
-    render layout: false
   end
 
   def show

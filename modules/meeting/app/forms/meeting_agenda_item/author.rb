@@ -26,21 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingAgendaItem::New::WorkPackage < ApplicationForm
+class MeetingAgendaItem::Author < ApplicationForm
   form do |agenda_item_form|
     agenda_item_form.select_list(
-      name: :work_package_id,
-      label: "Work package",
+      name: :user_id,
+      label: "Owner",
       include_blank: true,
       visually_hide_label: true,
       disabled: @disabled
-    ) do |wp_select_list|
-      WorkPackage.visible
+    ) do |user_select_list|
+      User.active
         .order(:id)
-        .map { |wp| [wp.subject, wp.id] }
-        .each do |subject, id|
-          wp_select_list.option(
-            label: "##{id} #{subject}",
+        .map { |user| [user.name, user.id] }
+        .each do |name, id|
+          user_select_list.option(
+            label: "#{name}",
             value: id
           )
         end

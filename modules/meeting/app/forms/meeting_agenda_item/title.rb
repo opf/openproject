@@ -26,51 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingAgendaItemForm < ApplicationForm
+class MeetingAgendaItem::Title < ApplicationForm
   form do |agenda_item_form|
-    unless @preselected_work_package.present?
-      agenda_item_form.text_field(
-        name: :duration_in_minutes,
-        label: "Duration in minutes",
-        type: :number
-      )
-    end
-    agenda_item_form.select_list(
-      name: :work_package_id,
-      label: "Work package",
-      include_blank: true,
-      # disabled: @preselected_work_package.present? # does not work, work_package_id is nil when form gets submitted
-    ) do |wp_select_list|
-      WorkPackage.visible
-        .order(:id)
-        .map { |wp| [wp.subject, wp.id] }
-        .each do |subject, id|
-          wp_select_list.option(
-            label: "##{id} #{subject}",
-            value: id
-          )
-        end
-    end
     agenda_item_form.text_field(
       name: :title,
+      placeholder: "Title",
       label: "Title",
-      required: true
+      visually_hide_label: true,
+      required: true,
+      autofocus: true,
+      disabled: @disabled
     )
-    agenda_item_form.text_area(
-      name: :input,
-      label: "Input",
-    )
-    unless @preselected_work_package.present?
-      agenda_item_form.text_area(
-        name: :output,
-        label: "Output",
-      )
-    end
-    
-    agenda_item_form.submit(name: "Save", label: "Save", scheme: :primary)
   end
 
-  def initialize(preselected_work_package: nil)
-    @preselected_work_package = preselected_work_package
+  def initialize(disabled: false)
+    @disabled = disabled
   end
 end

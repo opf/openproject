@@ -26,12 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingAgendaItem::New::Clarification < ApplicationForm
+class MeetingAgendaItem::Duration < ApplicationForm
   form do |agenda_item_form|
-    agenda_item_form.text_area(
-      name: :output,
-      label: "Clarification",
-      autofocus: true,
+    agenda_item_form.text_field(
+      name: :duration_in_minutes,
+      placeholder: "Duration in minutes",
+      label: "Duration in minutes",
+      visually_hide_label: true,
+      type: :number,
+      disabled: @disabled
     )
+  end
+
+  def initialize(disabled: false)
+    @disabled = disabled
   end
 end

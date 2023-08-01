@@ -26,37 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Issue < ApplicationRecord
-  self.table_name = 'issues'
-
-  belongs_to :work_package
-  belongs_to :author, class_name: 'User'
-  belongs_to :resolved_by, class_name: 'User', optional: true
-
-  # has_many :meeting_agenda_items, dependent: :destroy, class_name: 'MeetingAgendaItem'
-
-  enum issue_type: %i[input_need clarification_need decision_need]
-
-  default_scope { order(updated_at: :desc) }
-
-  scope :open, -> { where(resolved_at: nil) }
-  scope :closed, -> { where.not(resolved_at: nil) }
-
-  validates :description, presence: true
-
-  def open?
-    resolved_at.nil?
+class MeetingAgendaItem::Issue < ApplicationForm
+  form do |agenda_item_form|
+    agenda_item_form.select_list(
+      name: :work_package_issue_id,
+      label: "Issue",
+      include_blank: true,
+      visually_hide_label: true,
+      disabled: @disabled
+    ) do |issue_select_list|
+      WorkPackageIssue.includes(:work_package).open.each do |issue|
+        issue_select_list.option(
+          label: "##{issue.work_package.id} #{issue.work_package.subject.truncate(100)} - #{issue.issue_type.humanize}: #{issue.description.truncate(100)}",
+          value: issue.id
+        )
+      end
+    end
   end
 
-  def closed?
-    !open?
-  end
-
-  def resolve(user, resolution)
-    update(resolved_at: Time.zone.now, resolved_by: user, resolution:)
-  end
-
-  def reopen
-    update(resolved_at: nil, resolved_by: nil) # leave resolution in place
+  def initialize(disabled: false)
+    @disabled = disabled
   end
 end

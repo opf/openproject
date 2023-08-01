@@ -33,7 +33,7 @@ class Issue::Type < ApplicationForm
       label: "Type",
       include_blank: false
     ) do |type_select_list|
-      Issue.issue_types.to_a.each do |k, _v|
+      WorkPackageIssue.issue_types.to_a.each do |k, _v|
         type_select_list.option(
           label: k.humanize.capitalize,
           value: k

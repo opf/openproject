@@ -61,8 +61,8 @@ class WorkPackage < ApplicationRecord
 
   has_many :storages, through: :project
 
-  has_many :meeting_agenda_items # should become through issue relation
-  has_many :issues, dependent: :destroy
+  has_many :issues, class_name: 'WorkPackageIssue', dependent: :destroy
+  has_many :meeting_agenda_items, through: :issues
 
   has_and_belongs_to_many :changesets, -> { # rubocop:disable Rails/HasAndBelongsToMany
     order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")

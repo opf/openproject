@@ -31,7 +31,6 @@ class MeetingAgendaItemsController < ApplicationController
   include AgendaComponentStreams
 
   before_action :set_meeting
-  before_action :set_optional_active_work_package
   before_action :set_meeting_agenda_item, except: %i[index new cancel_new create lock unlock close]
 
   def new
@@ -131,6 +130,82 @@ class MeetingAgendaItemsController < ApplicationController
     respond_with_turbo_streams
   end
 
+  def edit_issue_resolution
+    update_via_turbo_stream(
+      component: MeetingAgendaItems::ItemComponent::IssueResolutionComponent.new(issue: @meeting_agenda_item.work_package_issue,
+                                                                                 meeting_agenda_item: @meeting_agenda_item,
+                                                                                 state: :edit)
+    )
+
+    respond_with_turbo_streams
+  end
+
+  def cancel_edit_issue_resolution
+    update_via_turbo_stream(
+      component: MeetingAgendaItems::ItemComponent::IssueResolutionComponent.new(issue: @meeting_agenda_item.work_package_issue,
+                                                                                 meeting_agenda_item: @meeting_agenda_item,
+                                                                                 state: :initial)
+    )
+
+    respond_with_turbo_streams
+  end
+
+  def resolve_issue
+    @issue = @meeting_agenda_item.work_package_issue
+    if @issue.resolve(User.current, issue_params[:resolution])
+      update_item_via_turbo_stream
+    else
+      update_via_turbo_stream(
+        component: MeetingAgendaItems::ItemComponent::IssueResolutionComponent.new(issue: @issue,
+                                                                                   meeting_agenda_item: @meeting_agenda_item,
+                                                                                   state: :edit)
+      )
+    end
+    respond_with_turbo_streams
+  end
+
+  def reopen_issue
+    if @issue.reopen # keep the former resolution in place
+      redirect_to open_work_package_issues_path(@work_package)
+    end
+  end
+
+  def edit_notes
+    update_via_turbo_stream(
+      component: MeetingAgendaItems::ItemComponent::NotesComponent.new(
+        meeting_agenda_item: @meeting_agenda_item,
+        state: :edit
+      )
+    )
+
+    respond_with_turbo_streams
+  end
+
+  def cancel_edit_notes
+    update_via_turbo_stream(
+      component: MeetingAgendaItems::ItemComponent::NotesComponent.new(
+        meeting_agenda_item: @meeting_agenda_item,
+        state: :initial
+      )
+    )
+
+    respond_with_turbo_streams
+  end
+
+  def save_notes
+    if @meeting_agenda_item.update(details: meeting_agenda_item_params[:details])
+      update_item_via_turbo_stream
+    else
+      update_via_turbo_stream(
+        component: MeetingAgendaItems::ItemComponent::NotesComponent.new(
+          meeting_agenda_item: @meeting_agenda_item,
+          state: :edit
+        )
+      )
+    end
+    respond_with_turbo_streams
+  end
+
   private
 
   def set_meeting
@@ -141,11 +216,11 @@ class MeetingAgendaItemsController < ApplicationController
     @meeting_agenda_item = MeetingAgendaItem.find(params[:id])
   end
 
-  def set_optional_active_work_package
-    @active_work_package = WorkPackage.find_by(id: params[:work_package_id]) if params[:work_package_id].present?
+  def meeting_agenda_item_params
+    params.require(:meeting_agenda_item).permit(:title, :duration_in_minutes, :work_package_issue_id, :details, :user_id)
   end
 
-  def meeting_agenda_item_params
-    params.require(:meeting_agenda_item).permit(:title, :duration_in_minutes, :work_package_id, :input, :output, :details)
+  def issue_params
+    params.require(:work_package_issue).permit(:resolution, :resolved_by_id)
   end
 end

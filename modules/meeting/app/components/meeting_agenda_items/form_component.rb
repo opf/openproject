@@ -30,12 +30,11 @@ module MeetingAgendaItems
   class FormComponent < Base::Component
     include OpTurbo::Streamable
 
-    def initialize(meeting:, meeting_agenda_item:, method:, submit_path:, cancel_path:, active_work_package: nil)
+    def initialize(meeting:, meeting_agenda_item:, method:, submit_path:, cancel_path:)
       super
 
       @meeting = meeting
       @meeting_agenda_item = meeting_agenda_item
-      @active_work_package = active_work_package
       @method = method
       @submit_path = submit_path
       @cancel_path = cancel_path
@@ -45,65 +44,10 @@ module MeetingAgendaItems
       component_wrapper(data: wrapper_data_attributes) do
         primer_form_with(
           model: @meeting_agenda_item,
-          method: :post,
           method: @method,
           url: @submit_path
         ) do |f|
-          flex_layout do |flex|
-            flex.with_row do
-              hidden_field_tag :work_package_id, @active_work_package&.id
-            end
-            flex.with_row(flex_layout: true) do |flex|
-              flex.with_column(flex: 1, flex_layout: true, mr: 5) do |flex|
-                flex.with_column(flex: 1, data: { 'meeting-agenda-item-form-target': "titleInput" },
-                                 display: display_title_input_value) do
-                  render(MeetingAgendaItem::New::Title.new(f, disabled: !@meeting.agenda_items_open?))
-                end
-                unless @active_work_package.present?
-                  flex.with_column(flex: 1, data: { 'meeting-agenda-item-form-target': "workPackageInput" },
-                                   display: display_work_package_input_value) do
-                    render(MeetingAgendaItem::New::WorkPackage.new(f, disabled: !@meeting.agenda_items_open?))
-                  end
-                  if @meeting.agenda_items_open?
-                    flex.with_column(ml: 2, data: { 'meeting-agenda-item-form-target': "workPackageButton" },
-                                     display: display_work_package_button_value) do
-                      render(Primer::Beta::Button.new(data: { action: 'click->meeting-agenda-item-form#addWorkPackage keydown.enter->meeting-agenda-item-form#addWorkPackage' })) do |_button|
-                        "Reference work package instead"
-                      end
-                    end
-                  end
-                end
-              end
-              unless @active_work_package.present?
-                flex.with_column(ml: 2) do
-                  render(MeetingAgendaItem::New::Duration.new(f, disabled: !@meeting.agenda_items_open?))
-                end
-                flex.with_column(ml: 2) do
-                  render(MeetingAgendaItem::New::Author.new(f, disabled: !@meeting.agenda_items_open?))
-                end
-              end
-            end
-            flex.with_row(mt: 2, data: { 'meeting-agenda-item-form-target': "detailsInput" },
-                          display: display_details_input_value) do
-              render(MeetingAgendaItem::New::Details.new(f))
-            end
-            flex.with_row(mt: 2, data: { 'meeting-agenda-item-form-target': "clarificationNeedInput" },
-                          display: display_clarification_need_input_value) do
-              render(MeetingAgendaItem::New::ClarificationNeed.new(f))
-            end
-            flex.with_row(mt: 2, data: { 'meeting-agenda-item-form-target': "clarificationInput" },
-                          display: display_clarification_input_value) do
-              render(MeetingAgendaItem::New::Clarification.new(f))
-            end
-            flex.with_row(mt: 2) do
-              action_menu_partial
-            end
-            flex.with_row(flex_layout: true, justify_content: :flex_end, mt: 2) do |flex|
-              flex.with_column do
-                render(MeetingAgendaItem::New::Submit.new(f, preselected_work_package: @active_work_package))
-              end
-            end
-          end
+          form_content_partial(f)
         end
       end
     end
@@ -118,32 +62,66 @@ module MeetingAgendaItems
       }
     end
 
-    def display_title_input_value
-      @meeting_agenda_item.work_package.present? ? :none : :block
+    def form_content_partial(f)
+      flex_layout do |flex|
+        flex.with_row(flex_layout: true) do |flex|
+          flex.with_column(flex: 1, flex_layout: true, mr: 5) do |flex|
+            flex.with_column(flex: 1, data: { 'meeting-agenda-item-form-target': "titleInput" },
+                             display: display_title_input_value) do
+              render(MeetingAgendaItem::Title.new(f, disabled: !@meeting.agenda_items_open?))
+            end
+            flex.with_column(flex: 1, data: { 'meeting-agenda-item-form-target': "issueInput" },
+                             display: display_issue_input_value) do
+              render(MeetingAgendaItem::Issue.new(f, disabled: !@meeting.agenda_items_open?))
+            end
+            if @meeting.agenda_items_open?
+              flex.with_column(ml: 2, data: { 'meeting-agenda-item-form-target': "issueButton" },
+                               display: display_issue_button_value) do
+                render(Primer::Beta::Button.new(data: { action: 'click->meeting-agenda-item-form#addIssue keydown.enter->meeting-agenda-item-form#addIssue' })) do |_button|
+                  "Reference issue instead"
+                end
+              end
+            end
+          end
+          flex.with_column(ml: 2) do
+            render(MeetingAgendaItem::Duration.new(f, disabled: !@meeting.agenda_items_open?))
+          end
+          # flex.with_column(ml: 2) do
+          #   render(MeetingAgendaItem::Author.new(f, disabled: !@meeting.agenda_items_open?))
+          # end
+        end
+        # flex.with_row(mt: 2) do
+        #   action_menu_partial
+        # end
+        flex.with_row(flex_layout: true, justify_content: :flex_end, mt: 2) do |flex|
+          flex.with_column(mr: 2) do
+            back_link_partial
+          end
+          flex.with_column do
+            render(MeetingAgendaItem::Submit.new(f))
+          end
+        end
+      end
     end
 
-    def display_work_package_button_value
+    def display_title_input_value
+      @meeting_agenda_item.work_package_issue.present? ? :none : :block
+    end
+
+    def display_issue_button_value
       display_title_input_value
     end
 
-    def display_work_package_input_value
-      @meeting_agenda_item.work_package.nil? ? :none : nil
+    def display_issue_input_value
+      @meeting_agenda_item.work_package_issue.nil? ? :none : nil
     end
 
     def display_details_input_value
       @meeting_agenda_item.details.blank? ? :none : nil
     end
 
-    def display_clarification_need_input_value
-      @meeting_agenda_item.input.blank? ? :none : nil
-    end
-
-    def display_clarification_input_value
-      @meeting_agenda_item.output.blank? ? :none : nil
-    end
-
     def action_menu_partial
-      if @meeting_agenda_item.details.blank? || @meeting_agenda_item.input.blank? || @meeting_agenda_item.output.blank?
+      if @meeting_agenda_item.details.blank?
         render(Primer::Alpha::ActionMenu.new(menu_id: "meeting-agenda-item-additional-fields-menu-#{@meeting_agenda_item.id || 'new'}")) do |menu|
           menu.with_show_button do |button|
             button.with_trailing_action_icon(icon: :'triangle-down')
@@ -153,15 +131,18 @@ module MeetingAgendaItems
             menu.with_item(label: "Details",
                            data: { action: 'click->meeting-agenda-item-form#addDetails keydown.enter->meeting-agenda-item-form#addDetails' })
           end
-          if @meeting_agenda_item.input.blank?
-            menu.with_item(label: "Clarification need",
-                           data: { action: 'click->meeting-agenda-item-form#addClarificationNeed keydown.enter->meeting-agenda-item-form#addClarificationNeed' })
-          end
-          if @meeting_agenda_item.output.blank?
-            menu.with_item(label: "Clarification",
-                           data: { action: 'click->meeting-agenda-item-form#addClarification keydown.enter->meeting-agenda-item-form#addClarifciation' })
-          end
         end
+      end
+    end
+
+    def back_link_partial
+      render(Primer::Beta::Button.new(
+               scheme: :secondary,
+               tag: :a,
+               href: @cancel_path,
+               data: { confirm: 'Are you sure?', 'turbo-stream': true }
+             )) do |_c|
+        "Cancel"
       end
     end
   end

@@ -30,11 +30,10 @@ module MeetingAgendaItems
   class ItemComponent < Base::Component
     include OpTurbo::Streamable
 
-    def initialize(meeting_agenda_item:, active_work_package: nil, state: :show)
+    def initialize(meeting_agenda_item:, state: :show)
       super
 
       @meeting_agenda_item = meeting_agenda_item
-      @active_work_package = active_work_package
       @state = state
     end
 
@@ -57,8 +56,7 @@ module MeetingAgendaItems
 
     def child_component_params
       {
-        meeting_agenda_item: @meeting_agenda_item,
-        active_work_package: @active_work_package
+        meeting_agenda_item: @meeting_agenda_item
       }
     end
   end
