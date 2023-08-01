@@ -126,7 +126,7 @@ jobs:
         id: set_prefix
         run: |
           prefix="-${{ matrix.target }}"
-          if [ "$prefix" = "-all-in-one" ]; then prefix = "" ; fi
+          if [ "$prefix" = "-all-in-one" ]; then prefix="" ; fi
           echo "prefix=$prefix" >> "$GITHUB_OUTPUT"
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
