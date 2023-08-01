@@ -62,7 +62,7 @@ sudo mkdir -p /var/lib/openproject/{pgdata,assets}
 docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/assets:/var/openproject/assets \
-  openproject/community:12
+  openproject/community:13
 ```
 
 Then you would need to backup the `/var/lib/openproject` folder (for instance to S3 or FTP server).
