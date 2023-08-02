@@ -180,7 +180,7 @@ class Admin::BackupsController < ApplicationController
 
   def do_preview(backup_id:)
     backup = Backup.find backup_id
-    schema = RestoreBackupJob.preview_schema_name backup_id:
+    schema = RestoreBackupJob.preview_schema_name(backup_id:)
 
     cookies.signed[:backup_preview] = backup.attributes
       .merge(schema:, previous_user_id: current_user.id)
@@ -197,7 +197,7 @@ class Admin::BackupsController < ApplicationController
 
     cookies.signed[:login_user_id] = get_schema_user_id schema
 
-    RestoreBackupJob.switch_database_to_restored_backup! backup_id:
+    RestoreBackupJob.switch_database_to_restored_backup!(backup_id:)
 
     Setting._maintenance_mode = { enabled: false }
 
