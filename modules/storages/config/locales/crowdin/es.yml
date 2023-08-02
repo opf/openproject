@@ -16,7 +16,7 @@ es:
         not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
-      file_link: "File link"
+      file_link: "File"
       storages/storage: "Almacén"
     attributes:
       storages/storage:
@@ -50,6 +50,7 @@ es:
     errors:
       too_many_elements_created_at_once: "Se intentaron crear demasiados elementos a la vez. Se esperaban como máximo %{max}, pero se recibieron %{actual}."
   storages:
+    unknown_storage: "Unknown storage"
     buttons:
       done_continue_setup: "Hecho. Continuar configuración"
       done_complete_setup: "Done, complete setup"

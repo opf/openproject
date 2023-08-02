@@ -16,7 +16,7 @@ fr:
         not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
-      file_link: "File link"
+      file_link: "File"
       storages/storage: "Stockage"
     attributes:
       storages/storage:
@@ -50,6 +50,7 @@ fr:
     errors:
       too_many_elements_created_at_once: "Trop d'éléments créés à la fois. %{max} attendu au maximum, obtenu %{actual}."
   storages:
+    unknown_storage: "Unknown storage"
     buttons:
       done_continue_setup: "Terminé. Poursuivre la configuration"
       done_complete_setup: "Done, complete setup"

@@ -16,7 +16,7 @@ cs:
         not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
-      file_link: "Odkaz na soubor"
+      file_link: "File"
       storages/storage: "Úložiště"
     attributes:
       storages/storage:
@@ -50,6 +50,7 @@ cs:
     errors:
       too_many_elements_created_at_once: "Příliš mnoho prvků vytvořených najednou. Očekáváno nanejvýš %{max} , získáno %{actual}."
   storages:
+    unknown_storage: "Unknown storage"
     buttons:
       done_continue_setup: "Hotovo. Pokračovat v nastavení"
       done_complete_setup: "Hotovo, kompletní nastavení"

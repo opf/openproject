@@ -490,16 +490,16 @@ ru:
                 item_1:
                   subject: Создание плана выполнения BIM
                   description: |-
-                    # Goal
+                    # Цель
 
-                    *   A BIM execution plan will be defined according to the exchange requirements specifications (ERS)
-                    *   All team members and partners have a plan on how to reach each of the project goals
+                    * План выполнения BIM будет определен согласно спецификациям требований (ERS)
+                    * Все члены команды и партнеры имеют план достижения каждой из целей проекта
 
-                    # Description
+                    # Описание
 
-                    *   Depending on the identifies use cases, the individual Information Delivery Manuals will be defined
-                    *   To handle the technological interfaces, a software topology will be defined and analyzed and verified
-                    *   ...
+                    * В зависимости от вариантов использования, индивидуальные Руководства по доставке информации будут определены
+                    * Для обработки технологических интерфейсов, Программная топология будет определена и проанализирована и проверена
+                    * ...
                 item_2:
                   subject: Завершение выполнения плана выполнения БИМ
                   description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
@@ -513,16 +513,16 @@ ru:
                 item_0:
                   subject: Моделирование исходной BIM-модели
                   description: |-
-                    # Goal
+                    # Цель
 
-                    *   Modelling the initial BIM model
-                    *   Creating a BIM model for the whole project team
+                    * Моделирование начальной модели BIM
+                    * Создание модели BIM для всей команды проекта
 
-                    # Description
+                    # Описание
 
-                    *   According to the gathered data from the customer, the initial model will be modelled
-                    *   The model shall be modelled according to the LOD Matrices and contain the information needed
-                    *   ...
+                    * По собранным данным от клиента, начальная модель будет смоделирована
+                    * Модель должна быть смоделирована в соответствии с матрицами LOD и содержать необходимую информацию
+                    * ...
                 item_1:
                   subject: Первоначальная внутренняя проверка и пересмотр модели
                   description: |-
