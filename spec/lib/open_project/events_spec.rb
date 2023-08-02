@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 RSpec.describe OpenProject::Events do
-  def subject_constructor(event)
+  def fire_event(event_constant_name)
     OpenProject::Notifications.send(
-      "#{described_class}::#{event}".constantize,
+      "#{described_class}::#{event_constant_name}".constantize,
       payload
     )
   end
@@ -42,7 +42,7 @@ RSpec.describe OpenProject::Events do
     PROJECT_STORAGE_DESTROYED
   ].each do |event|
     describe(event) do
-      subject { subject_constructor(event) }
+      subject { fire_event(event) }
 
       context 'when payload is empty' do
         let(:payload) { {} }
@@ -76,7 +76,7 @@ RSpec.describe OpenProject::Events do
     PROJECT_RENAMED
   ].each do |event|
     describe(event) do
-      subject { subject_constructor(event) }
+      subject { fire_event(event) }
 
       let(:payload) { {} }
 
@@ -92,7 +92,7 @@ RSpec.describe OpenProject::Events do
   end
 
   describe 'OAUTH_CLIENT_TOKEN_CREATED' do
-    subject { subject_constructor('OAUTH_CLIENT_TOKEN_CREATED') }
+    subject { fire_event('OAUTH_CLIENT_TOKEN_CREATED') }
 
     context 'when payload is empty' do
       let(:payload) { {} }
@@ -117,7 +117,7 @@ RSpec.describe OpenProject::Events do
   end
 
   describe 'ROLE_UPDATED' do
-    subject { subject_constructor('ROLE_UPDATED') }
+    subject { fire_event('ROLE_UPDATED') }
 
     context 'when payload is empty' do
       let(:payload) { {} }
@@ -142,7 +142,7 @@ RSpec.describe OpenProject::Events do
   end
 
   describe 'ROLE_DESTROYED' do
-    subject { subject_constructor('ROLE_DESTROYED') }
+    subject { fire_event('ROLE_DESTROYED') }
 
     context 'when payload is empty' do
       let(:payload) { {} }
