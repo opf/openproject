@@ -42,7 +42,7 @@ class Role < ApplicationRecord
   before_destroy(prepend: true) do
     unless deletable?
       errors.add(:base, "can't be destroyed")
-      throw :abort
+      raise ActiveRecord::RecordNotDestroyed
     end
   end
 
