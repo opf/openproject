@@ -39,7 +39,7 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
   # This defines @object as the model instance.
   model_object Storages::ProjectStorage
 
-  before_action :find_model_object, only: %i[edit update destroy destroy_info] # Fill @object with ProjectStorage
+  before_action :find_model_object, only: %i[show edit update destroy destroy_info] # Fill @object with ProjectStorage
   # No need to before_action :find_project_by_project_id as SettingsController already checks
   # No need to check for before_action :authorize, as the SettingsController already checks this.
 
@@ -56,6 +56,16 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     # Render the list storages using ViewComponents in the /app/components folder which defines
     # the ways rows are rendered in a table layout.
     render '/storages/project_settings/index'
+  end
+
+  # Show a HTML page with the details of a ProjectStorage including the list of associated Members
+  # Called by: Project -> Settings -> File Storages -> Click on a ProjectStorage
+  def show
+    @memberships = Member
+      .where(project_id: @project_storage.project_id)
+      .includes(:principal, :oauth_client_tokens)
+
+    render '/storages/project_settings/show'
   end
 
   # Show a HTML page with a form in order to create a new ProjectStorage
