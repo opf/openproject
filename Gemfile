@@ -206,6 +206,8 @@ gem "store_attribute", "~> 1.0"
 gem "appsignal", "~> 3.0", require: false
 
 gem 'view_component'
+# Lookbook
+gem 'lookbook', '~> 2.0.3'
 
 gem 'turbo-rails', "~> 1.1"
 
@@ -274,10 +276,6 @@ group :development do
 
   gem 'spring'
   gem 'spring-commands-rspec'
-
-  # Gems for living styleguide
-  gem 'livingstyleguide', '~> 2.1.0'
-  gem 'sassc-rails'
 
   gem 'colored2'
 

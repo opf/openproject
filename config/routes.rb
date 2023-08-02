@@ -601,6 +601,7 @@ OpenProject::Application.routes.draw do
     get 'callback', controller: 'oauth_clients', action: :callback
   end
 
-  # Routes for design related documentation and examples pages
-  get '/design/styleguide' => redirect('/assets/styleguide.html')
+  if OpenProject::Configuration.lookbook_enabled?
+    mount Lookbook::Engine, at: "/lookbook"
+  end
 end
