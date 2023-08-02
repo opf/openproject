@@ -116,7 +116,7 @@
     "@ng-select/ng-select": "^11.0.0",
     "@ngneat/content-loader": "^7.0.0",
     "@ngx-formly/core": "^6.1.4",
-    "@openproject/octicons-angular": "^19.6.5",
+    "@openproject/octicons-angular": "^19.6.7",
     "@openproject/reactivestates": "^3.0.1",
     "@primer/css": "^21.0.2",
     "@primer/primitives": "^7.11.12",
