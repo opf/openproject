@@ -664,7 +664,7 @@ GEM
       validate_email
       validate_url
       webfinger (~> 2.0)
-    openproject-octicons (19.6.3)
+    openproject-octicons (19.6.6)
     openproject-token (3.0.1)
       activemodel
     os (1.1.4)
