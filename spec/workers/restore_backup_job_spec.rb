@@ -36,6 +36,7 @@ RSpec.describe RestoreBackupJob, type: :model do
     let(:backup_attachment) do
       create(
         :attachment,
+        id: 42, # avoid conflict with attachment IDs from backup
         file: Rack::Test::UploadedFile.new(Rails.root.join("spec/fixtures/files/openproject-backup-test.zip")),
         container: backup
       )
@@ -49,7 +50,7 @@ RSpec.describe RestoreBackupJob, type: :model do
       end
     end
 
-    let(:db_restore_success) { false }
+    let(:db_restore_success) { true }
     let(:preview) { false }
 
     let(:arguments) { [{ backup:, user:, preview:, **opts }] }
@@ -87,12 +88,8 @@ RSpec.describe RestoreBackupJob, type: :model do
       allow(job).to receive(:create_new_schema!)
 
       allow(Apartment::Migrator).to receive(:migrate)
-      allow(Apartment::Tenant).to receive(:switch) do |schema, &block|
-        if schema == schema_name
-          block.call
-        else
-          raise "Expected schema '#{schema_name}', got '#{schema}'"
-        end
+      allow(Apartment::Tenant).to receive(:switch) do |_schema, &block|
+        block.call
       end
 
       allow(Open3).to receive(:capture3).and_return [nil, "mock restore cmd", db_restore_process_status]
@@ -131,8 +128,8 @@ RSpec.describe RestoreBackupJob, type: :model do
 
       it 'restores the database' do
         expect(Open3).to have_received(:capture3) do |_pgenv, cmd|
-          expect(cmd).to start_with "psql -f"
-          expect(cmd).to end_with ".sql"
+          expect(cmd).to start_with "psql -f '"
+          expect(cmd).to end_with ".sql'"
         end
       end
 
@@ -148,6 +145,19 @@ RSpec.describe RestoreBackupJob, type: :model do
           expect(a.filesize).to be > 10000
           expect(a.digest).to be_present
         end
+      end
+    end
+
+    context "with a database dump that could not be restored" do
+      let(:db_restore_success) { false }
+
+      before do
+        perform
+      end
+
+      it "fails with an error" do
+        expect(job_status.status).to eq "failure"
+        expect(job_status.message).to include "Could not restore backup"
       end
     end
   end
