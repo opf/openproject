@@ -1280,7 +1280,7 @@ lt:
         between_two_specific_dates: 'tarp dviejų konkrečių datų'
       legends:
         changes_since: 'Pakeitimai nuo'
-        changes_between: 'Changes between'
+        changes_between: 'Pakeitimai tarp'
         now_meets_filter_criteria: 'Dabar atitinka filtro kriterijų'
         no_longer_meets_filter_criteria: 'Nebeatitinka filtro kriterijaus'
         maintained_with_changes: 'Palaikoma su pakeitimais'

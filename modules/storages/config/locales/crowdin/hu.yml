@@ -16,7 +16,7 @@ hu:
         not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
-      file_link: "File link"
+      file_link: "File"
       storages/storage: "Tárhely"
     attributes:
       storages/storage:
@@ -50,6 +50,7 @@ hu:
     errors:
       too_many_elements_created_at_once: "Egyszerre túl sok elem létrehozása történt. Legfejlebb %{max} lehet, ténylegesen %{actual} volt."
   storages:
+    unknown_storage: "Unknown storage"
     buttons:
       done_continue_setup: "Done. Continue setup"
       done_complete_setup: "Done, complete setup"

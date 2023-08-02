@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,50 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module JournalChanges
-  def get_changes
-    return @changes if @changes
-    return {} if data.nil?
+class AddFileLinkJournalsToExistingContainers < ActiveRecord::Migration[7.0]
+  def up
+    system_user = SystemUser.first
+    containers = Storages::FileLink.includes(:container).map(&:container).uniq
 
-    @changes = ::Acts::Journalized::JournableDiffer.changes(predecessor&.data, data)
+    containers.each do |container|
+      next unless container.class.journaled?
 
-    @changes[:cause] = [nil, cause] if cause.present?
-
-    if journable&.attachable?
-      @changes.merge!(
-        ::Acts::Journalized::JournableDiffer.association_changes(
-          predecessor,
-          self,
-          'attachable_journals',
-          'attachments',
-          :attachment_id,
-          :filename
-        )
-      )
+      Journals::CreateService.new(container, system_user).call(notes: "File link activity added by a system update")
     end
-
-    if journable&.customizable?
-      @changes.merge!(
-        ::Acts::Journalized::JournableDiffer.association_changes(
-          predecessor,
-          self,
-          'customizable_journals',
-          'custom_fields',
-          :custom_field_id,
-          :value
-        )
-      )
-    end
-
-    if has_file_links?
-      @changes.merge!(
-        ::Acts::Journalized::FileLinkJournalDiffer.get_changes_to_file_links(
-          predecessor,
-          storable_journals
-        )
-      )
-    end
-
-    @changes
   end
+
+  def down; end
 end

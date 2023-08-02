@@ -16,7 +16,7 @@ nl:
         not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
-      file_link: "Bestand link"
+      file_link: "File"
       storages/storage: "Opslagruimte"
     attributes:
       storages/storage:
@@ -50,6 +50,7 @@ nl:
     errors:
       too_many_elements_created_at_once: "Te veel elementen gemaakt tegelijk. %{max} verwacht hoogstens %{actual}."
   storages:
+    unknown_storage: "Unknown storage"
     buttons:
       done_continue_setup: "Klaar. Ga verder met instellen"
       done_complete_setup: "Done, complete setup"

@@ -40,25 +40,19 @@ RSpec.describe OpenProject::JournalFormatter::Attachment do
     { only_path: true }
   end
 
-  let(:klass) { OpenProject::JournalFormatter::Attachment }
-  let(:instance) { klass.new(journal) }
-  let(:id) { 1 }
-  let(:journal) do
-    OpenStruct.new(id:)
-  end
+  let(:journal) { instance_double(Journal, id: 1) }
   let(:user) { create(:user) }
-  let(:attachment) do
-    create(:attachment,
-           author: user)
-  end
+  let(:attachment) { create(:attachment, author: user) }
   let(:key) { "attachments_#{attachment.id}" }
+
+  subject(:instance) { described_class.new(journal) }
 
   describe '#render' do
     describe 'WITH the first value being nil, and the second an id as string' do
       it 'adds an attachment added text' do
         link = "#{Setting.protocol}://#{Setting.host_name}/api/v3/attachments/#{attachment.id}/content"
-        expect(instance.render(key, [nil, attachment.id.to_s]))
-          .to eq(I18n.t(:text_journal_added,
+        expect(instance.render(key, [nil, attachment.filename.to_s]))
+          .to eq(I18n.t(:text_journal_attachment_added,
                         label: "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>",
                         value: "<a href=\"#{link}\">#{attachment.filename}</a>"))
       end
@@ -72,8 +66,8 @@ RSpec.describe OpenProject::JournalFormatter::Attachment do
 
         it 'adds an attachment added text' do
           link = "#{Setting.protocol}://#{Setting.host_name}/blubs/api/v3/attachments/#{attachment.id}/content"
-          expect(instance.render(key, [nil, attachment.id.to_s]))
-            .to eq(I18n.t(:text_journal_added,
+          expect(instance.render(key, [nil, attachment.filename.to_s]))
+            .to eq(I18n.t(:text_journal_attachment_added,
                           label: "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>",
                           value: "<a href=\"#{link}\">#{attachment.filename}</a>"))
         end
@@ -82,34 +76,34 @@ RSpec.describe OpenProject::JournalFormatter::Attachment do
 
     describe 'WITH the first value being an id as string, and the second nil' do
       let(:expected) do
-        I18n.t(:text_journal_deleted,
+        I18n.t(:text_journal_attachment_deleted,
                label: "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>",
-               old: "<strike><i>#{attachment.id}</i></strike>")
+               old: "<strike><i>#{attachment.filename}</i></strike>")
       end
 
-      it { expect(instance.render(key, [attachment.id.to_s, nil])).to eq(expected) }
+      it { expect(instance.render(key, [attachment.filename.to_s, nil])).to eq(expected) }
     end
 
     describe "WITH the first value being nil, and the second an id as a string
               WITH specifying not to output html" do
       let(:expected) do
-        I18n.t(:text_journal_added,
+        I18n.t(:text_journal_attachment_added,
                label: I18n.t(:'activerecord.models.attachment'),
-               value: attachment.id)
+               value: attachment.filename)
       end
 
-      it { expect(instance.render(key, [nil, attachment.id.to_s], html: false)).to eq(expected) }
+      it { expect(instance.render(key, [nil, attachment.filename.to_s], html: false)).to eq(expected) }
     end
 
     describe "WITH the first value being an id as string, and the second nil,
               WITH specifying not to output html" do
       let(:expected) do
-        I18n.t(:text_journal_deleted,
+        I18n.t(:text_journal_attachment_deleted,
                label: I18n.t(:'activerecord.models.attachment'),
-               old: attachment.id)
+               old: attachment.filename)
       end
 
-      it { expect(instance.render(key, [attachment.id.to_s, nil], html: false)).to eq(expected) }
+      it { expect(instance.render(key, [attachment.filename.to_s, nil], html: false)).to eq(expected) }
     end
   end
 end

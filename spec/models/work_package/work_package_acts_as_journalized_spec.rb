@@ -441,11 +441,20 @@ RSpec.describe WorkPackage do
         subject(:journal_details) { work_package.last_journal.details }
 
         it { is_expected.to have_key file_link_id }
-        it { expect(journal_details[file_link_id]).to eq([nil, file_link.origin_name]) }
+
+        it {
+          expect(journal_details[file_link_id])
+            .to eq([nil, { 'link_name' => file_link.origin_name, 'storage_name' => nil }])
+        }
       end
 
-      context 'when attachment saved w/o change' do
-        it { expect { file_link.save! }.not_to change(Journal, :count) }
+      context 'when file link saved w/o change' do
+        it {
+          expect do
+            file_link.save
+            work_package.save_journals
+          end.not_to change(Journal, :count)
+        }
       end
     end
 

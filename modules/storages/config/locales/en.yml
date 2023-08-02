@@ -18,7 +18,7 @@ en:
 
   activerecord:
     models:
-      file_link: "File link"
+      file_link: "File"
       storages/storage: "Storage"
     attributes:
       storages/storage:
@@ -58,6 +58,7 @@ en:
       too_many_elements_created_at_once: "Too many elements created at once. Expected %{max} at most, got %{actual}."
 
   storages:
+    unknown_storage: "Unknown storage"
     buttons:
       done_continue_setup: "Done. Continue setup"
       done_complete_setup: "Done, complete setup"
