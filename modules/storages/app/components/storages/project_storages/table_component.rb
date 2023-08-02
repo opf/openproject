@@ -31,7 +31,7 @@
 # page.
 # See also: row_component.rb, which contains a method
 # for every "column" defined below.
-module Storages::ProjectsStorages
+module Storages::ProjectStorages
   class TableComponent < ::TableComponent
     columns :name,
             :provider_type,
@@ -47,7 +47,7 @@ module Storages::ProjectsStorages
     end
 
     def inline_create_link
-      link_to(new_project_settings_projects_storage_path,
+      link_to(new_project_settings_project_storage_path,
               class: 'wp-inline-create--add-link',
               title: I18n.t('storages.label_new_storage')) do
         helpers.op_icon('icon icon-add')

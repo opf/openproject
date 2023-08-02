@@ -33,7 +33,7 @@
 # https://guides.rubyonrails.org/action_controller_overview.html
 # Called by: Calls to the controller methods are initiated by user Web GUI
 # actions and mapped to this controller by storages/config/routes.rb.
-class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
+class Storages::Admin::ProjectStoragesController < Projects::SettingsController
   # This is the resource handled in this controller.
   # So the controller knows that the ID in params (URl) refer to instances of this model.
   # This defines @object as the model instance.
@@ -46,13 +46,13 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
   # This MenuController method defines the default menu item to be used (highlighted)
   # when rendering the main menu in the left (part of the base layout).
   # The menu item itself is registered in modules/storages/lib/open_project/storages/engine.rb
-  menu_item :settings_projects_storages
+  menu_item :settings_project_storages
 
   # Show a HTML page with the list of ProjectStorages
   # Called by: Project -> Settings -> File Storages
   def index
     # Just get the list of ProjectStorages associated with the project
-    @projects_storages = Storages::ProjectStorage.where(project: @project).includes(:storage)
+    @project_storages = Storages::ProjectStorage.where(project: @project).includes(:storage)
     # Render the list storages using ViewComponents in the /app/components folder which defines
     # the ways rows are rendered in a table layout.
     render '/storages/project_settings/index'
@@ -86,7 +86,7 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     # Create success/error messages to the user
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_create)
-      redirect_to project_settings_projects_storages_path
+      redirect_to project_settings_project_storages_path
     else
       @errors = service_result.errors
       @project_storage = service_result.result
@@ -105,7 +105,7 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     @project_storage = @object
 
     @last_project_folders = Storages::LastProjectFolder
-                              .where(projects_storage: @project_storage)
+                              .where(project_storage: @project_storage)
                               .pluck(:mode, :origin_folder_id)
                               .to_h
 
@@ -123,7 +123,7 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
 
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to project_settings_projects_storages_path
+      redirect_to project_settings_project_storages_path
     else
       @errors = service_result.errors
       @project_storage = @object
@@ -143,7 +143,7 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
       .on_failure { |service_result| flash[:error] = service_result.errors.full_messages }
 
     # Redirect the user to the URL of Projects -> Settings -> File Storages
-    redirect_to project_settings_projects_storages_path
+    redirect_to project_settings_project_storages_path
   end
 
   def destroy_info

@@ -78,7 +78,7 @@ module Projects
     end
 
     def destroy_all_storages
-      model.projects_storages.map do |project_storage|
+      model.project_storages.map do |project_storage|
         Storages::ProjectStorages::DeleteService.new(user:, model: project_storage).call
       end
     end

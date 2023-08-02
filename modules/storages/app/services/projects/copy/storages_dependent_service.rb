@@ -42,7 +42,7 @@ module Projects::Copy
 
     # rubocop:disable Metrics/AbcSize
     def copy_dependency(*)
-      state.copied_project_storages = source.projects_storages.each_with_object([]) do |source_project_storage, array|
+      state.copied_project_storages = source.project_storages.each_with_object([]) do |source_project_storage, array|
         project_storage_copy =
           ::Storages::ProjectStorages::CreateService
             .new(user: User.current)
