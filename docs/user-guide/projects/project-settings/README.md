@@ -13,7 +13,7 @@ Open a project via the Select a project drop-down menu and navigate to -> *Proje
 
 ![User-guide-open-project-settings](User-guide-open-project-settings.png)
 
-> **Note**: You have to be a project admin in order to see and access the project settings.
+> **Note**: You have to be a project administrator in order to see and access the project settings.
 
 
 ## Overview

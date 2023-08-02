@@ -7,7 +7,8 @@ keywords: file storages, project folder, storages
 ---
 # File storages
 
-To **set up or manage a storage ** in a project navigate to **Project settings → File storages**.
+>**Info**: Before a storage service can be added to a project, an administrator must first set up [Nextcloud integration](../../../system-admin-guide/integrations/nextcloud/) with OpenProject.
+
 
 | Topic                                             | Description                         |
 | ------------------------------------------------- | :---------------------------------- |
@@ -15,10 +16,8 @@ To **set up or manage a storage ** in a project navigate to **Project settings �
 | [Edit and delete a storage](#edit-delete-storage) | Edit and delete an existing storage |
 
 
-
 ## Add your new Nextcloud file storage to a project
-
-With the steps to [setup a storage integration](../../../system-admin-guide/integrations/nextcloud/) completed, navigate to any existing project in your OpenProject instance and click on  **Project settings** **→ Modules**. There, active the **File Storages** module by clicking on the checkbox next to it and then clicking on **Save**.
+Once you are certain that an administrator has set up a Nextcloud storage, navigate to any existing project in your OpenProject instance and click on  **Project settings** **→ Modules**. There, active the **File Storages** module by clicking on the checkbox next to it and then clicking on **Save**.
 
 ![List of modules activated for a project](project-modules.png)
 
@@ -36,7 +35,7 @@ In the last step of the process, you will be able to choose which kind of projec
 
 1. **No specific folder**: By default, each user will start at their own home folder when they upload a file.
 2. **New folder with automatically managed permissions**: This will automatically create a root folder for this project and manage the access permissions for each project member. This option will only be available if the administrator has set up the storage with automatic managed folders.
-3. **Existing folder with manually managed permissions**: Once selected this option, you can designate an existing folder as the root folder for this project using the button **Select folder**. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
+3. **Existing folder with manually managed permissions**: Once selected this option, you can designate an existing folder as the root folder for this project using the button **Select folder**. The permissions are however not automatically managed. The administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
 
 ![Select the project folder type](storage-add-project-folder.png)
 
@@ -46,11 +45,11 @@ Click on **Add** to add your new Nextcloud file storage to this project.
 
 The Nextcloud file storage is now available to all work packages in this project. 
 
-> **Note:** For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../user-guide/nextcloud-integration/).
+> **Note:** For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../nextcloud-integration/).
 
 ## Edit and delete an existing storage
 
-To edit or delete an existing storage in a project you can click on the icons on the right side of the list.
+To edit or remove an existing storage from a project, you can click on the icons on the right side of the list.
 
 ![List of project storages, edit or delete](storage-list-edit-delete.png)
 
