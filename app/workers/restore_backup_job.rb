@@ -247,10 +247,15 @@ class RestoreBackupJob < ApplicationJob
   end
 
   def update_upload_status(progress, total)
-    upsert_status(
-      status: :in_process,
-      message: I18n.t("backup.restore.job_status.in_process") + " (#{progress}/#{total} #{I18n.t('label_attachment_plural')})"
-    )
+    # We switched into the preview schema to restore the files.
+    # We have to switch back to the not yet dropped default schema
+    # to update the progress there.
+    Apartment::Tenant.switch(default_schema_name) do
+      upsert_status(
+        status: :in_process,
+        message: I18n.t("backup.restore.job_status.in_process") + " (#{progress}/#{total} #{I18n.t('label_attachment_plural')})"
+      )
+    end
   end
 
   def get_current_schema_name(sql)
