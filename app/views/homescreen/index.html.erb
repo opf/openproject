@@ -27,35 +27,96 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <% breadcrumb_paths(nil) %>
-<h2 class="headline--application">
-  <span><%= organization_icon %></span>
-  <%= organization_name %>
-</h2>
 
-<%= render partial: 'announcements/show' %>
+<% require 'octicons'%>
+<% icons = %w[
+   op-arrow-in
+   op-attachmentadd
+   op-backlogs
+   op-baseline
+   op-bcf
+   op-boards
+   op-book-edit
+   op-budget
+   op-calendar-alert
+   op-cart
+   op-columns-left
+   op-columns-right
+   op-copy-to-project
+   op-cost-reports
+   op-custom-fields
+   op-enterprise-addons
+   op-file-atom
+   op-file-bcf
+   op-file-check
+   op-file-comment
+   op-file-csv
+   op-file-doc
+   op-file-download
+   op-file-edit
+   op-file-form
+   op-file-presentation
+   op-file-sheet
+   op-file-text
+   op-file-xls-descriptions
+   op-glossar
+   op-grid-menu
+   op-group
+   op-hierarchy
+   op-ifc
+   op-inbox-in
+   op-indent
+   op-input-disabled
+   op-installation-services
+   op-kebab-vertical
+   op-link-add
+   op-list-select-all
+   op-logo-gitlab
+   op-logo-google-plus
+   op-logo-nextcloud
+   op-logo-openproject
+   op-logo-slack
+   op-mail-sent
+   op-mark-nextcloud
+   op-mention-comment
+   op-move
+   op-no-hierarchy
+   op-outdent
+   op-pdf-description
+   op-pdf
+   op-person-accountable
+   op-person-assigned
+   op-person-missing
+   op-person-remove
+   op-phone
+   op-printer
+   op-read-all
+   op-relation-follows
+   op-relation-new-child
+   op-relations
+   op-reload
+   op-resizer-bottom-right
+   op-resizer-vertical-lines
+   op-save
+   op-server-key
+   op-shortcuts
+   op-sort-by
+   op-stopwatch-start
+   op-stopwatch-stop
+   op-team-planner
+   op-triangle-delta
+   op-view-cards
+   op-view-fullscreen
+   op-view-list
+   op-view-modal
+   op-view-split-modal
+   op-view-split
+   op-view-timeline
+   op-work-packages
+   op-xls-relations
+   op-xls] %>
 
-<% if @homescreen[:blocks].any? %>
-  <section class="widget-boxes -flex">
-  <% @homescreen[:blocks].each do |block| %>
-    <% if block[:if].nil? || instance_eval(&block[:if]) %>
-      <div class="widget-box <%= block[:partial] %>">
-      <%= render partial: "homescreen/blocks/#{block[:partial]}", locals: (block[:locals] || {}) %>
-      </div>
-    <% end %>
-  <% end %>
-  </section>
+<% icons.each do |icon| %>
+  <%= render(Primer::Beta::Octicon.new(icon: icon)) %>
+  <div class="mb-3"></div>
 <% end %>
-
-<% if show_homescreen_links? && @homescreen[:links].any? %>
-  <section class="homescreen--links">
-  <% @homescreen[:links].each do |link| %>
-    <% title = I18n.t(link[:label], scope: 'homescreen.links', default: I18n.t(link[:label])) %>
-    <a class="homescreen--links--item" href="<%= link[:url] %>" target="_blank" title="<%= title %>">
-      <%= op_icon(link[:icon]) %>
-      <%= title %>
-    </a>
-  <% end %>
-  </section>
-<% end %>
-
-<%= call_hook :homescreen_after_links %>

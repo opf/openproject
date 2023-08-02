@@ -52,10 +52,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/primer_view_components
-  revision: 18abe4d3c8059bc915443767c033543c2e6e8beb
-  ref: 18abe4d
+  revision: dd9c282273bcaaf2f641ed81458989cf7c1daac3
+  ref: dd9c282
   specs:
-    primer_view_components (0.4.0)
+    primer_view_components (0.5.1)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
       octicons (>= 18.0.0)
@@ -644,7 +644,7 @@ GEM
     nokogiri (1.15.3)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    octicons (19.4.0)
+    octicons (19.5.0)
     oj (3.15.1)
     okcomputer (1.18.4)
     omniauth-saml (1.10.3)
@@ -1097,7 +1097,7 @@ DEPENDENCIES
   openproject-job_status!
   openproject-ldap_groups!
   openproject-meeting!
-  openproject-octicons (~> 19.6.3)
+  openproject-octicons (~> 19.6.6)
   openproject-openid_connect!
   openproject-recaptcha!
   openproject-reporting!
