@@ -29,11 +29,11 @@ module OpenProject::Boards
              name: 'OpenProject Boards' do
       project_module :board_view, dependencies: :work_package_tracking, order: 80 do
         permission :show_board_views,
-                   { 'boards/boards': %i[index overview] },
+                   { 'boards/boards': %i[index show overview] },
                    dependencies: :view_work_packages,
                    contract_actions: { boards: %i[read] }
         permission :manage_board_views,
-                   { 'boards/boards': %i[index] },
+                   { 'boards/boards': %i[index show new create destroy] },
                    dependencies: :manage_public_queries,
                    contract_actions: { boards: %i[create update destroy] }
       end
@@ -64,6 +64,8 @@ module OpenProject::Boards
            { controller: '/boards/boards', action: 'overview' },
            context: :modules,
            caption: :project_module_board_view,
+           before: :news,
+           after: :team_planners,
            icon: 'boards',
            if: should_render_global_menu_item
 

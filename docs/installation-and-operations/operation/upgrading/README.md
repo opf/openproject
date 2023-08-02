@@ -37,14 +37,14 @@ sudo openproject configure
 
 On Ubuntu 22.04., you might see warnings like these:
 
-> W: https://dl.packager.io/srv/deb/opf/openproject/stable/12/ubuntu/dists/22.04/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.
+> W: https://dl.packager.io/srv/deb/opf/openproject/stable/13/ubuntu/dists/22.04/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.
 
 This message is due to Ubuntu 22.04 switching to a more secure way of adding repository sources, which is not yet supported by the repository provider. There is ongoing work on this item, the message is for information only.
 
 If you get an error like the following:
 
-> E: Repository 'https://dl.packager.io/srv/deb/opf/openproject/stable/12/ubuntu 22.04 InRelease' changed its 'Origin' value from '' to 'https://packager.io/gh/opf/openproject'
-> E: Repository 'https://dl.packager.io/srv/deb/opf/openproject/stable/12/ubuntu 22.04 InRelease' changed its 'Label' value from '' to 'Ubuntu 22.04 packages for opf/openproject'
+> E: Repository 'https://dl.packager.io/srv/deb/opf/openproject/stable/13/ubuntu 22.04 InRelease' changed its 'Origin' value from '' to 'https://packager.io/gh/opf/openproject'
+> E: Repository 'https://dl.packager.io/srv/deb/opf/openproject/stable/13/ubuntu 22.04 InRelease' changed its 'Label' value from '' to 'Ubuntu 22.04 packages for opf/openproject'
 
 These two messages messages are expected, due to a change in Origin and Label repository metadata, to better explain what the repository is about. You should allow the change, and/or run `sudo apt-get update --allow-releaseinfo-change` for the update to go through.
 
@@ -72,15 +72,15 @@ This means that if you want to switch from (e.g.) OpenProject 11.x to 12.x, you 
 
 The necessary steps are the same as setting up the package source for the first time. You can also check the [installation guide](../../installation/packaged) for more information. Please follow the link below to see the appropriate steps for your Linux distribution.
 
-| Distribution (64 bits only)                                             |
-|-------------------------------------------------------------------------|
-| [Ubuntu 20.04 Focal](../../installation/packaged/#ubuntu-2004)          |
-| [Ubuntu 18.04 Bionic Beaver](../../installation/packaged/#ubuntu-1804)  |
-| [Debian 11 Bullseye](../../installation/packaged/#debian-11)            |
-| [Debian 10 Buster](../../installation/packaged/#debian-10)              |
-| [CentOS/RHEL 8.x](../../installation/packaged/#centos-8--rhel-8)        |
-| [CentOS/RHEL 7.x](../../installation/packaged/#centos-7--rhel-7)        |
-| [Suse Linux Enterprise Server 12](../../installation/packaged/#sles-12) |
+| Distribution (64 bits only)                                              |
+|--------------------------------------------------------------------------|
+| [Ubuntu 22.04 Jammy Jellyfish](../../installation/packaged/#ubuntu-2204) |
+| [Ubuntu 20.04 Focal](../../installation/packaged/#ubuntu-2004)           |
+| [Debian 11 Bullseye](../../installation/packaged/#debian-11)             |
+| [Debian 10 Buster](../../installation/packaged/#debian-10)               |
+| [CentOS/RHEL 8.x](../../installation/packaged/#centos-8--rhel-8)         |
+| [CentOS/RHEL 7.x](../../installation/packaged/#centos-7--rhel-7)         |
+| [Suse Linux Enterprise Server 12](../../installation/packaged/#sles-12)  |
 
 After following the steps to update the package source, updating the openproject package and running `openproject configure`, your system will be up to date.
 

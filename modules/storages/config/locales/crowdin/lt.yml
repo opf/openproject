@@ -9,8 +9,14 @@ lt:
   permission_delete_files: "Trinti failus"
   permission_share_files: "Bendrinti failus"
   project_module_storages: "Failų saugyklos"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Neautorizuota išoriniam prisijungimui prie saugyklos."
+        not_found: "Prašytas resursas nerastas išorinėje failų saugykloje."
   activerecord:
     models:
+      file_link: "File"
       storages/storage: "Saugykla"
     attributes:
       storages/storage:
@@ -33,6 +39,9 @@ lt:
                 panašu neturi įdiegtos „OpenProject integracijos“ aplikacijos. Prašome ją įdiegti ir bandyti dar kartą.
               authorization_header_missing: >
                 nėra pilnai nustatytas. Nextcloud egzempliorius negauna „Autorizacijos“ antraštės, kuri būtina Turėtojo žetonu paremtoms autorizacijos API užklausoms. Prašome patikrinti jūsų HTTP serverio konfigūraciją.
+            password:
+              invalid_password: "netinkamas."
+              unknown_error: "nepavyko patikrinti. Prašome patikrinti jūsų saugyklos jungtį ir bandyti dar kartą."
         storages/file_link:
           attributes:
             origin_id:
@@ -41,6 +50,7 @@ lt:
     errors:
       too_many_elements_created_at_once: "Per daug elementu vienu metu. Tikėtasi daugiausia %{max}, gauta %{actual}."
   storages:
+    unknown_storage: "Unknown storage"
     buttons:
       done_continue_setup: "Atlikta. Tęsti nustatymą"
       done_complete_setup: "Atlikta, baigti nustatymą"
@@ -60,6 +70,7 @@ lt:
         index: "Šiame projekte prieinamos failų saugyklos."
         new: "Pridėti failų saugyklą šiam projektui"
         edit: "Keisti šio projekto failų saugyklą"
+        delete: "Trinti failų saugyklą"
     instructions:
       type: "Prašome įsitikinti, kad turite administratoriaus teises jūsų Nextcloud egzemplioriuje bei kad įdiegtos šios aplikacijos, prieš tęsiant nustatymą:"
       type_link_text: "„Integration OpenProject“"
@@ -89,7 +100,11 @@ lt:
       storage: >
         Ar tikrai norite ištrinti šią failų saugyklą? Saugykla taipogi bus ištrinta iš visų projektų, kur ji naudojama. Taipogi tai ištrins visus ryšius iš darbo paketų į failus, esančius šioje saugykloje.
       project_storage: >
-        Ar tikrai norite išimti šią failų saugyklą iš jūsų projekto? Taipogi bus išimtos visos šio projekto nuorodos į failus, saugomus šioje saugykloje.
+        Ar tikrai norite ištrinti %{file_storage} iš šio projekto? Šio veiksmo patvirtinimui prašome įvesti saugyklos pavadinimą lauke žemiau, tai:
+      project_storage_delete_result_1: "Išims iš šio projekto darbo paketų visas nuorodas į tos saugyklos failus ir aplankus."
+      project_storage_delete_result_2: "Jei saugykla turi automatiškai tvarkomą projekto aplanką, tai ir jo failai bus visam laikui ištrinti."
+      input_delete_confirmation: "Įveskite failų saugyklos pavadinimą %{file_storage}, kad patvirtintumėte trynimą."
+      irreversible_notice: "Failų saugyklos trynimas yra neatstatomas veiksmas."
     label_active: "Aktyvus"
     label_inactive: "Neaktyvus"
     label_creator: "Kūrėjas"

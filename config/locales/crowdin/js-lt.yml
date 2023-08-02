@@ -296,6 +296,34 @@ lt:
           one: "Pirmasis rikiavimo kriterijus"
           two: "Antrasis rikiavimo kriterijus"
           three: "Trečiasis rikiavimo kriterijus"
+    gantt_chart:
+      label: 'Ganto diagrama'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Užrašo konfigūracija'
+        bar: 'Juostelės užrašai'
+        left: 'Kairė'
+        right: 'Dešinė'
+        farRight: 'Toli dešinėje'
+        description: >
+          Pasirinkite atributus, kuriuos visada norite pamatyti atitinkamose Ganto grafiko pozicijose. Atkreipkite dėmesį, kad kai pelės klavišas užvestas virš elemento, jo datos informacija bus rodoma vietoj šių atributų.
+      button_activate: 'Rodyti Gantto diagramą'
+      button_deactivate: 'Slėpti Gantto diagramą'
+      filter:
+        noneSelection: "(nėra)"
+      selection_mode:
+        notification: 'Paspauskite ant bet kurio pažymėto darbų paketo, kad sukurtumėte ryšį. Paspauskite Esc, jei norite atšaukti.'
+      zoom:
+        in: "Priartinti"
+        out: "Nutolinti"
+        auto: "Automatinis priartinimas"
+        days: "Dienos"
+        weeks: "Savaitės"
+        months: "Mėnesiai"
+        quarters: "Ketvirčiai"
+        years: "Metai"
+        description: >
+          Pasirinkite pradinį pritraukimo lygį, kuris bus rodomas kai automatinis pritraukimas negalimas.
     general_text_no: "ne"
     general_text_yes: "taip"
     general_text_No: "Ne"
@@ -314,21 +342,22 @@ lt:
           learn_about: "Sužinokite daugiau apie naujas galimybes"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                Šioje laidoje yra įvairios naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Įkelkite ir susiekite failus iš darbo paketų į jūsų Nextcloud failų saugyklą.</li> <li>Nepraleiskite projekto pokyčių naudodami aktyvumo sekimą.</li> <li>Pridėkite bendras atostogas (nedarbo dienas).</li> <li>Projektus archyvuoti gali ir ne administratoriai.</li> <li>Naujas numatytasis filtras pavėluotiems darbo paketams.</li> </ul>
+                Laidoje yra naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Bazinės linijos lyginimas lengvesniam pokyčių sekimui.</li> <li>Darbo plano PDF eksportas ataskaitoms.</li> <li>Projekto kalendorių prenumerata per URL (iCalendar).</li> <li>Projekto aplankai su dokumentų šablonais Nextcloud integracijai.</li> <li>Lokalizuotas visų duomenų siuntimas.</li> <li>Globalūs moduliai rodomi naujuose turinio puslapiuose.</li> </ul>
     ical_sharing_modal:
-      title: "Prenumeruokite iCalendar"
+      title: "Prenumeruoti kalendorių"
       inital_setup_error_message: "Gaunant duomenis įvyko klaida."
-      description: "Jūs galite naudoti iCalendar URL, kad importuotumėte ar prenumeruotumėte šį kalendorių išoriniame kliente ir matytumėte ten aktualią darbo paketo informaciją."
-      warning: "Prašome nesidalinti šiuo URL su išoriniais naudotojais. Bet kas su šia nuoroda galės peržiūrėti darbo paketo detales be paskyros ar slaptažodžio."
-      token_name_label: "Žetono pavadinimas"
-      token_name_placeholder: "Įrašykite šio žetono pavadinimą, pvz. „Mano kalendoriaus aplikacija“"
-      token_name_description_text: "Šis pavadinimas bus naudojamas atskirti jį nuo kitų žetonų, esančių <a href=\"my/access_token\", target=\"_blank\">prieigos žetonų sąraše</a>. Jį galima panaudoti tik vieną kartą kalendoriuje."
+      description: "Jūs galite naudoti URL (iCalendar), kad prenumeruotumėte šį kalendorių išoriniame kliente ir žiūrėti naujausią darbo paketų informaciją."
+      warning: "Prašome nesidalinti šiuo URL su kitais naudotojais. Bet kas su šia nuoroda galės peržiūrėti darbo paketo detales be paskyros ar slaptažodžio."
+      token_name_label: "Kur jūs tai naudosite?"
+      token_name_placeholder: "Įrašykite pavadinimą, pvz. „Telefonas“"
+      token_name_description_text: "Jei prenumeruojate kalendorių iš kelių įrenginių, šis pavadinimas padės atskirti juos jūsų <a href=\"my/access_token\", target=\"_blank\">prieigos žetonų</a> sąraše."
       copy_url_label: "Kopijuoti URL"
-      ical_generation_error_text: "Kuriant iCal URL įvyko klaida."
+      ical_generation_error_text: "Kuriant kalendoriaus URL įvyko klaida."
+      success_message: "URL „%{name}“ buvo sėkmingai nukopijuotas į jūsų iškarpinę. Įkelkite jį į jūsų kalendoriaus klientą, kad baigtumėte prenumeratą."
     label_activate: "Aktyvuoti"
     label_assignee: 'Paskirtas'
     label_add_column_after: "Pridėti stulpelį po"
@@ -505,7 +534,7 @@ lt:
     label_remove_all_files: Trinti visus failus
     label_add_description: "Pridėti %{file} aprašymą"
     label_upload_notification: "Įkeliami failai..."
-    label_work_package_upload_notification: "Įkelti failus darbų paketui #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Įkelti failus darbų paketui #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} pridėjo %{author}"
     label_files_to_upload: "Šie failai bus įkelti:"
     label_rejected_files: "Negalima įkelti šių failų:"
@@ -806,7 +835,8 @@ lt:
     autocompleter:
       placeholder: "Paieškai pradėkite rinkti tekstą"
       notFoundText: "Nieko nerasta"
-      typeToSearchText: "Paieškai pradėkite rinkti tekstą"
+      project:
+        placeholder: "Pasirinkite projektą"
     repositories:
       select_tag: 'Pasirinkti žymę'
       select_branch: 'Parinkti padalinį'
@@ -824,63 +854,6 @@ lt:
       activate_no: 'aktyvuoti, kad rikiavimas būtų pašalintas'
     text_work_packages_destroy_confirmation: "Ar tikrai norite ištrinti pasirinktus(-ą) darbų paketus(-ą)?"
     text_query_destroy_confirmation: "Ar tikrai norite panaikinti pasirinktą vaizdą?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Ganto diagrama'
-      labels:
-        title: 'Etiketės konfigūracija'
-        bar: 'Juostelės etiketės'
-        left: 'Kairė'
-        right: 'Dešinė'
-        farRight: 'Toli dešinėje'
-        showNone: '-- Be etiketės --'
-        description: >
-          Pasirinkite atributus, kuriuos visada norite pamatyti atitinkamose Ganto grafiko pozicijose. Atkreipkite dėmesį, kad kai pelės klavišas užvestas virš elemento, jo datos informacija bus rodoma vietoj šių atributų.
-      button_activate: 'Parodyti Gantto diagramą'
-      button_deactivate: 'Paslėpti Gantto diagramą'
-      cancel: Nutraukti
-      change: "Pakeisti planavime"
-      due_date: "Pabaigos data"
-      empty: "(tuščia)"
-      error: "Įvyko klaida."
-      errors:
-        not_implemented: "Laiko juostos nepavyko atvaizduoti, nes reikalinga funkcija dar neįdiegta."
-        report_comparison: "Pagal nustatytus palyginimus laiko juosta negali būti atvaizduota. Prašome patikrinti atitinkamus parametrus nustatymuose, jų gražinimas į numatytąją būseną gali išspręsti šią problemą."
-        report_epicfail: "Laiko juosta negalėjo būti įkelta dėl nenumatytų priežasčių."
-        report_timeout: "Laiko juosta negalėjo būti įkelta per priimtiną laiką."
-      filter:
-        grouping_other: "Kita"
-        noneSelection: "(nėra)"
-      name: "Vardas"
-      outline: "Atnaujinti planą"
-      outlines:
-        aggregation: "Rodyti tik masėmis"
-        level1: "Išplėtimo lygis 1"
-        level2: "Išplėtimo lygis 2"
-        level3: "Išplėtimo lygis 3"
-        level4: "Išplėtimo lygis 4"
-        level5: "Išplėtimo lygis 5"
-        all: "Rodyti viską"
-      project_status: "Projekto būsena"
-      really_close_dialog: "Ar tikrai norite uždaryti dialogo langą ir prarasti įvestus duomenis?"
-      responsible: "Atsakingas"
-      save: Įrašyti
-      start_date: "Pradžios data"
-      tooManyProjects: "Daugiau nei %{count} projektų. Prašome naudoti geresnį filtrą!"
-      selection_mode:
-        notification: 'Paspauskite ant bet kurio pažymėto darbų paketo, kad sukurtumėte ryšį. Paspauskite Esc, jei norite atšaukti.'
-      zoom:
-        in: "Priartinti"
-        out: "Nutolinti"
-        auto: "Automatinis priartinimas"
-        days: "Dienos"
-        weeks: "Savaitės"
-        months: "Mėnesiai"
-        quarters: "Ketvirčiai"
-        years: "Metai"
-        slider: "Didinimo slankiklis"
-        description: >
-          Pasirinkite pradinį pritraukimo lygį, kuris bus rodomas kai automatinis pritraukimas negalimas.
     tl_toolbar:
       zooms: "Didinimo lygis"
       outlines: "Hierarchinis lygmuo"
@@ -945,10 +918,10 @@ lt:
         addition_label: 'Pridėta į vaizdą lyginimo laiko periode'
         removal_label: 'Išimta iš vaizdo lyginimo laiko periode'
         modification_label: 'Pakeista lyginimo laiko periode'
-        column_incompatible: 'Šis atributas nesuderinamas su bazine linija ir todėl skirtumai nebus rodomi.'
+        column_incompatible: 'Šis stulpelis nerodo pakeitimų Bazinės linijos režime.'
       filters:
         title: 'Filtruoti darbų paketus'
-        baseline_incompatible: 'Šis filtras nesuderinamas su bazine linija, todėl nebus įtrauktas į palyginimą.'
+        baseline_incompatible: 'Šis filtro atributas neįvertinamas Bazinės linijos režime.'
         baseline_warning: 'Bazinės linijos režimas įjungtas, bet kai kurie aktyvūs jūsų filtrai neįtraukti į palyginimą.'
       inline_create:
         title: 'Paspauskite čia, kad pridėtumėte į sąrašą naują darbų paketą'
@@ -1110,7 +1083,7 @@ lt:
         save_as: "Įrašyti kaip"
         export: "Eksportuoti"
         visibility_settings: "Matomumo nustatymai"
-        share_calendar: "Prenumeruokite iCalendar"
+        share_calendar: "Prenumeruoti kalendorių"
         page_settings: "Pervardinti vaizdą"
         delete: "Trinti"
       filter: "Filtras"
@@ -1307,6 +1280,7 @@ lt:
         between_two_specific_dates: 'tarp dviejų konkrečių datų'
       legends:
         changes_since: 'Pakeitimai nuo'
+        changes_between: 'Pakeitimai tarp'
         now_meets_filter_criteria: 'Dabar atitinka filtro kriterijų'
         no_longer_meets_filter_criteria: 'Nebeatitinka filtro kriterijaus'
         maintained_with_changes: 'Palaikoma su pakeitimais'

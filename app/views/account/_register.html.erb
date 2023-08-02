@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="spot-modal--body spot-container">
       <h2><%= t(:label_register) %></h2>
       <section class="form--section">
-        <% if @user.auth_source_id.nil? %>
+        <% if @user.ldap_auth_source_id.nil? %>
           <div class="form--field -required -wide-label">
             <% if Setting.email_login? %>
               <%= email_field(f) %>

@@ -74,7 +74,7 @@ export class OpAttachmentListItemComponent extends UntilDestroyedMixin implement
     dragHint: this.I18n.t('js.attachments.draggable_hint'),
     deleteTitle: this.I18n.t('js.attachments.delete'),
     deleteConfirmation: this.I18n.t('js.attachments.delete_confirmation'),
-    removeFile: (arg:unknown):string => this.I18n.t('js.label_remove_file', arg),
+    removeFile: (arg:object):string => this.I18n.t('js.label_remove_file', arg),
   };
 
   public get deleteIconTitle():string {

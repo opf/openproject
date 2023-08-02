@@ -31,7 +31,7 @@ require 'spec_helper'
 RSpec.describe 'create users', with_cuprite: true do
   shared_let(:admin) { create(:admin) }
   let(:current_user) { admin }
-  let!(:auth_source) { create(:dummy_auth_source) }
+  let!(:auth_source) { create(:ldap_auth_source) }
   let(:new_user_page) { Pages::NewUser.new }
   let(:mail) do
     ActionMailer::Base.deliveries.last
@@ -43,13 +43,13 @@ RSpec.describe 'create users', with_cuprite: true do
     allow(User).to receive(:current).and_return current_user
   end
 
-  shared_examples_for 'successful user creation' do
+  shared_examples_for 'successful user creation' do |redirect_to_edit_page: true|
     it 'creates the user' do
-      expect(page).to have_selector('.flash', text: 'Successful creation.')
+      expect(page).to have_selector('.op-toast', text: 'Successful creation.')
 
       new_user = User.order(Arel.sql('id DESC')).first
 
-      expect(page).to have_current_path edit_user_path(new_user.id)
+      expect(page).to have_current_path redirect_to_edit_page ? edit_user_path(new_user) : user_path(new_user)
     end
 
     it 'sends out an activation email' do
@@ -105,7 +105,7 @@ RSpec.describe 'create users', with_cuprite: true do
                              last_name: 'boblast',
                              email: 'bob@mail.com',
                              login: 'bob',
-                             auth_source: auth_source.name
+                             ldap_auth_source: auth_source.name
 
       perform_enqueued_jobs do
         new_user_page.submit!
@@ -130,7 +130,19 @@ RSpec.describe 'create users', with_cuprite: true do
         end
 
         it 'registers the user upon submission' do
-          # login is already filled with 'bob'
+          user = User.find_by login: 'bob'
+
+          allow(User)
+            .to(receive(:find_by_login))
+            .with('bob')
+            .and_return(user)
+
+          allow(user).to receive(:ldap_auth_source).and_return(auth_source)
+
+          allow(auth_source)
+            .to(receive(:authenticate).with('bob', 'dummy'))
+            .and_return({ dn: 'cn=bob,ou=users,dc=example,dc=com' })
+
           fill_in 'password', with: 'dummy' # accepted by DummyAuthSource
 
           click_button 'Sign in'
@@ -143,9 +155,9 @@ RSpec.describe 'create users', with_cuprite: true do
     end
   end
 
-  context 'as global user' do
-    shared_let(:global_manage_user) { create(:user, global_permission: :manage_user) }
-    let(:current_user) { global_manage_user }
+  context 'as global user (with only create_user permission)' do
+    shared_let(:global_create_user) { create(:user, global_permission: %i[create_user]) }
+    let(:current_user) { global_create_user }
 
     context 'with internal authentication' do
       before do
@@ -160,7 +172,7 @@ RSpec.describe 'create users', with_cuprite: true do
         end
       end
 
-      it_behaves_like 'successful user creation' do
+      it_behaves_like 'successful user creation', redirect_to_edit_page: false do
         describe 'activation' do
           before do
             allow(User).to receive(:current).and_call_original
@@ -184,6 +196,27 @@ RSpec.describe 'create users', with_cuprite: true do
           end
         end
       end
+    end
+  end
+
+  context 'as global user (with manage_user and create_user permission)' do
+    shared_let(:global_create_user) { create(:user, global_permission: %i[create_user manage_user]) }
+    let(:current_user) { global_create_user }
+
+    context 'with internal authentication' do
+      before do
+        visit new_user_path
+
+        new_user_page.fill_in! first_name: 'bobfirst',
+                               last_name: 'boblast',
+                               email: 'bob@mail.com'
+
+        perform_enqueued_jobs do
+          new_user_page.submit!
+        end
+      end
+
+      it_behaves_like 'successful user creation', redirect_to_edit_page: true
     end
   end
 end

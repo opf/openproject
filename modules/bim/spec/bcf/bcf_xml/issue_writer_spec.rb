@@ -90,7 +90,6 @@ RSpec.describe OpenProject::Bim::BcfXml::IssueWriter do
            vp_snapshot:)
   end
   let(:priority) { create(:priority_low) }
-  let(:current_user) { create(:user) }
   let(:due_date) { DateTime.now }
   let(:type) { create(:type, name: 'Issue') }
   let(:work_package) do
@@ -102,10 +101,14 @@ RSpec.describe OpenProject::Bim::BcfXml::IssueWriter do
            due_date:,
            type:)
   end
+  let(:first_journal) { work_package.journals.first }
+  let(:comment_journal) { bcf_issue.comments.first.journal }
+
+  current_user { create(:user) }
 
   before do
-    allow(User).to receive(:current).and_return current_user
-    bcf_issue.comments.first.journal.update_columns(journable_id: work_package.id, version: 2)
+    first_journal.update_columns(validity_period: first_journal.created_at...comment_journal.created_at)
+    comment_journal.update_columns(journable_id: work_package.id, version: 2)
   end
 
   subject { Nokogiri::XML(described_class.update_from!(work_package).markup) }

@@ -42,8 +42,8 @@ RSpec.describe MyController,
   let(:header) { "X-Remote-User" }
   let(:secret) { "42" }
 
-  let!(:auth_source) { DummyAuthSource.create name: "Dummy LDAP" }
-  let!(:user) { create(:user, login:, auth_source_id: auth_source.id, last_login_on: 5.days.ago) }
+  let!(:ldap_auth_source) { create(:ldap_auth_source) }
+  let!(:user) { create(:user, login:, ldap_auth_source:, last_login_on: 5.days.ago) }
   let(:login) { "h.wurst" }
   let(:header_login_value) { login }
   let(:header_value) { "#{header_login_value}#{secret ? ':' : ''}#{secret}" }
@@ -131,7 +131,7 @@ RSpec.describe MyController,
 
     context 'when the user is invited' do
       let!(:user) do
-        create(:user, login:, status: Principal.statuses[:invited], auth_source_id: auth_source.id)
+        create(:user, login:, status: Principal.statuses[:invited], ldap_auth_source:)
       end
 
       it "logs in given user and activate it" do
@@ -150,19 +150,19 @@ RSpec.describe MyController,
     end
 
     context "with a non-active user user" do
-      let(:user) { create(:user, login:, auth_source_id: auth_source.id, status: 2) }
+      let(:user) { create(:user, login:, ldap_auth_source:, status: 2) }
 
       it_behaves_like "auth source sso failure"
     end
 
     context "with an invalid user" do
-      let(:auth_source) { DummyAuthSource.create name: "Onthefly LDAP", onthefly_register: true }
+      let(:ldap_auth_source) { create(:ldap_auth_source, onthefly_register: true) }
 
       let!(:duplicate) { create(:user, mail: "login@DerpLAP.net") }
       let(:login) { "dummy_dupuser" }
 
       let(:user) do
-        build(:user, login:, mail: duplicate.mail, auth_source_id: auth_source.id)
+        build(:user, login:, mail: duplicate.mail, ldap_auth_source:)
       end
 
       it_behaves_like "auth source sso failure"

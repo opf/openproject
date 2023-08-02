@@ -45,7 +45,7 @@ RSpec.shared_examples_for 'user contract' do
   end
 
   context 'when global user' do
-    let(:current_user) { create(:user, global_permission: :manage_user) }
+    let(:current_user) { create(:user, global_permission: %i[create_user manage_user]) }
 
     describe 'cannot set the password' do
       before do
@@ -65,11 +65,11 @@ RSpec.shared_examples_for 'user contract' do
     end
 
     describe 'can set the auth_source' do
-      let!(:auth_source) { create(:auth_source) }
+      let!(:auth_source) { create(:ldap_auth_source) }
 
       before do
         user.password = user.password_confirmation = nil
-        user.auth_source = auth_source
+        user.ldap_auth_source = auth_source
       end
 
       it_behaves_like 'contract is valid'

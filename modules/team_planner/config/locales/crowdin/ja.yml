@@ -1,19 +1,14 @@
 #English strings go here
 ja:
-  permission_view_team_planner: "View team planner"
-  permission_manage_team_planner: "Manage team planner"
-  project_module_team_planner_view: "Team planners"
+  permission_view_team_planner: "チームプランナーを表示"
+  permission_manage_team_planner: "チームプランナーの管理"
+  project_module_team_planner_view: "チーム プランナー"
   team_planner:
-    label_team_planner: "Team planner"
-    label_new_team_planner: "New team planner"
-    label_create_new_team_planner: "Create new team planner"
-    label_team_planner_plural: "Team planners"
-    label_assignees: "Assignees"
-    label_favoured: "Favoured"
-    help_text:
-      project: Team planners are always attached to a project. After creating a team planner you can add work packages from other projects to it.
-      public: Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
-      favoured: Mark this view as favourite and add to the saved views sidebar on the left.
+    label_team_planner: "チーム プランナー"
+    label_new_team_planner: "新しいチームプランナー"
+    label_create_new_team_planner: "新しいチームプランナーを作成"
+    label_team_planner_plural: "チーム プランナー"
+    label_assignees: "担当者"
     upsale:
-      title: "Team planner"
+      title: "チーム プランナー"
       description: "Get a complete overview of your team’s planning with Team Planner. Stretch, shorten and drag-and-drop work packages to modify dates, move them or change assignees."

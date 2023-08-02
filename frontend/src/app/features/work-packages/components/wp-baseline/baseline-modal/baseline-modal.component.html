@@ -1,6 +1,5 @@
 <spot-drop-modal
   [opened]="opened"
-  alignment="bottom-right"
   (closed)="opened = false"
   class="op-baseline-modal"
 >
@@ -8,6 +7,7 @@
     slot="trigger"
     type="button"
     class="button"
+    [class.-active]="opened"
     (click)="toggleOpen()"
     [title]="text.toggle_title"
     data-qa-selector="baseline-button"

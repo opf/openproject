@@ -6,18 +6,14 @@ require 'support/edit_fields/edit_field'
 RSpec.describe 'Activity tab notifications', js: true, selenium: true do
   shared_let(:project) { create(:project_with_types, public: true) }
   shared_let(:work_package) do
-    work_package = create(:work_package,
-                          project:,
-                          created_at: 5.days.ago.to_date.to_fs(:db))
-
-    work_package.update({ journal_notes: 'First comment on this wp.',
-                          updated_at: 5.days.ago.to_date.to_s })
-    work_package.update({ journal_notes: 'Second comment on this wp.',
-                          updated_at: 4.days.ago.to_date.to_s })
-    work_package.update({ journal_notes: 'Third comment on this wp.',
-                          updated_at: 3.days.ago.to_date.to_s })
-
-    work_package
+    create(:work_package,
+           project:,
+           journals: {
+             6.days.ago => {},
+             5.days.ago => { notes: 'First comment on this wp.' },
+             4.days.ago => { notes: 'Second comment on this wp.' },
+             3.days.ago => { notes: 'Third comment on this wp.' }
+           })
   end
   shared_let(:admin) { create(:admin) }
 
@@ -35,7 +31,7 @@ RSpec.describe 'Activity tab notifications', js: true, selenium: true do
 
     it 'shows a notification icon next to activities that have an unread notification' do
       expect(page).to have_selector('[data-qa-selector="user-activity-bubble"]', count: 1)
-      expect(page).to have_selector('[data-qa-activity-number="3"] [data-qa-selector="user-activity-bubble"]')
+      expect(page).to have_selector('[data-qa-activity-number="4"] [data-qa-selector="user-activity-bubble"]')
     end
 
     it 'shows a button to mark the notifications as read' do

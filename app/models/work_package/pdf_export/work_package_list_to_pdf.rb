@@ -232,6 +232,10 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
     query.name || I18n.t(:label_work_package_plural)
   end
 
+  def footer_title
+    heading
+  end
+
   def with_images?
     options[:show_images]
   end

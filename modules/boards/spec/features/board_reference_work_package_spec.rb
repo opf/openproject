@@ -70,7 +70,7 @@ RSpec.describe 'Board reference work package spec', js: true, with_ee: %i[board_
     board_index.visit!
 
     # Create new board
-    board_page = board_index.create_board action: nil
+    board_page = board_index.create_board
     board_page.rename_list 'Unnamed list', 'First'
 
     # Filter for Version
@@ -108,7 +108,7 @@ RSpec.describe 'Board reference work package spec', js: true, with_ee: %i[board_
       board_index.visit!
 
       # Create new board
-      board_page = board_index.create_board action: nil
+      board_page = board_index.create_board
       board_page.rename_list 'Unnamed list', 'First'
 
       # Reference an existing work package

@@ -69,7 +69,7 @@ Add the OpenProject package source:
 
 ```bash
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
-  https://dl.packager.io/srv/opf/openproject/stable/12/installer/ubuntu/22.04.repo
+  https://dl.packager.io/srv/opf/openproject/stable/13/installer/ubuntu/22.04.repo
 ```
 
 Download the OpenProject package:
@@ -102,7 +102,7 @@ Add the OpenProject package source:
 
 ```bash
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
-  https://dl.packager.io/srv/opf/openproject/stable/12/installer/ubuntu/20.04.repo
+  https://dl.packager.io/srv/opf/openproject/stable/13/installer/ubuntu/20.04.repo
 ```
 
 Download the OpenProject package:
@@ -136,7 +136,7 @@ Add the OpenProject package source:
 
 ```bash
 wget -O /etc/apt/sources.list.d/openproject.list \
-  https://dl.packager.io/srv/opf/openproject/stable/12/installer/debian/12.repo
+  https://dl.packager.io/srv/opf/openproject/stable/13/installer/debian/12.repo
 ```
 
 Download the OpenProject package:
@@ -168,7 +168,7 @@ Add the OpenProject package source:
 
 ```bash
 wget -O /etc/apt/sources.list.d/openproject.list \
-  https://dl.packager.io/srv/opf/openproject/stable/12/installer/debian/11.repo
+  https://dl.packager.io/srv/opf/openproject/stable/13/installer/debian/11.repo
 ```
 
 Download the OpenProject package:
@@ -199,7 +199,7 @@ Add the OpenProject package source:
 
 ```bash
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
-  https://dl.packager.io/srv/opf/openproject/stable/12/installer/debian/10.repo
+  https://dl.packager.io/srv/opf/openproject/stable/13/installer/debian/10.repo
 ```
 
 Download the OpenProject package:
@@ -219,7 +219,7 @@ Add the OpenProject package source:
 
 ```bash
 sudo wget -O /etc/yum.repos.d/openproject.repo \
-  https://dl.packager.io/srv/opf/openproject/stable/12/installer/el/9.repo
+  https://dl.packager.io/srv/opf/openproject/stable/13/installer/el/9.repo
 ```
 
 If it is not already enabled, make sure to enable [Extra Packages for Enterprise Linux](https://fedoraproject.org/wiki/EPEL) (EPEL).
@@ -245,7 +245,7 @@ Add the OpenProject package source:
 
 ```bash
 sudo wget -O /etc/yum.repos.d/openproject.repo \
-  https://dl.packager.io/srv/opf/openproject/stable/12/installer/el/8.repo
+  https://dl.packager.io/srv/opf/openproject/stable/13/installer/el/8.repo
 ```
 
 If it is not already enabled, make sure to enable [Extra Packages for Enterprise Linux](https://fedoraproject.org/wiki/EPEL) (EPEL).
@@ -271,7 +271,7 @@ Add the OpenProject package source:
 
 ```bash
 sudo wget -O /etc/yum.repos.d/openproject.repo \
-  https://dl.packager.io/srv/opf/openproject/stable/12/installer/el/7.repo
+  https://dl.packager.io/srv/opf/openproject/stable/13/installer/el/7.repo
 ```
 
 Download the OpenProject package:
@@ -308,7 +308,7 @@ Add the OpenProject package source:
 
 ```bash
 wget -O /etc/zypp/repos.d/openproject.repo \
-  https://dl.packager.io/srv/opf/openproject/stable/12/installer/sles/15.repo
+  https://dl.packager.io/srv/opf/openproject/stable/13/installer/sles/15.repo
 ```
 
 If you already had an old package source that is being updated you must refresh
@@ -332,7 +332,7 @@ Add the OpenProject package source:
 
 ```bash
 wget -O /etc/zypp/repos.d/openproject.repo \
-  https://dl.packager.io/srv/opf/openproject/stable/12/installer/sles/12.repo
+  https://dl.packager.io/srv/opf/openproject/stable/13/installer/sles/12.repo
 ```
 
 If you already had an old package source that is being updated you must refresh
@@ -585,6 +585,16 @@ Next, tell OpenProject whether you have SSL termination enabled somewhere in you
 ![HTTPS setting](07b-protocol.png)
 
 
+
+## Step 8: Default language
+
+> **Note:** This step is only shown on the very first installation of OpenProject, as it affects only the initial seeding of the basic and demo data. Changing this value after installation will have no effect.
+
+OpenProject can be used with a wide variety of languages. The initial data of the instance (basic data such as status names, types, etc.) as well as data for demonstrational purposes will be created in the language you select in this screen. Move through the list using the arrow keys and select the default language.
+
+Also, this setting will control what is the default language for new users if their browser language is not available in the system.
+
+![Default language screen](08-default-language.png)
 
 ## Result
 

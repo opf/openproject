@@ -66,6 +66,9 @@ Date changes are documented in the work package [Activity](../../activity/).
 
 - It is possible to set only one of the two dates. To do this, click on the field you would like to set (start date is selected by default, but you can change this manually to finish date) and click on a date. Then save without selecting a second date. Alternatively, if a a range is already selected, simply remove one of the dates and save.
 
+
+**Note**: The precedes-follows relation can constrain or affect the dates of work packages. For more information, see [Moving related work packages](../work-package-relations-hierarchies#moving-related-work-packages).
+
 ### One-day events
 
 If you want the work package to start and finish on the same date, simply click the same date twice.
@@ -84,7 +87,7 @@ Certain work package types (such as Milestones) can only span one day and thus h
 
 Starting with OpenProject 12.3, it is possible to manually input a duration for a work package and decide whether this duration should include working days only or all calendar days. 
 
-> **Note:** Working dates are currently defined by the administrator of your OpenProject instance. By default, they are Monday to Friday, with Saturday and Sunday considered non-working. If you are an administrator, please read our [admin guide on working days](../../../system-admin-guide/working-days/)
+> **Note:** Working dates are currently defined by the administrator of your OpenProject instance. By default, they are Monday to Friday, with Saturday and Sunday considered non-working. If you are an administrator, please read our [admin guide on working days](../../../system-admin-guide/calendars-and-dates/#working-days)
 >
 > **When upgrading to 12.3 from a previous version:** Please note that this switch will be set to ***off*** for all existing work packages so as to preserve start and finish dates. However, the switch will be ***on*** by default for new work packages.
 

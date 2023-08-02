@@ -30,9 +30,9 @@ require 'spec_helper'
 
 require_relative '../support/pages/meetings/index'
 
-RSpec.describe 'Meetings new', js: true do
-  let(:project) { create(:project, enabled_module_names: %w[meetings]) }
-  let(:index_page) { Pages::Meetings::Index.new(project:) }
+RSpec.describe 'Meetings new', :js do
+  shared_let(:project) { create(:project, enabled_module_names: %w[meetings]) }
+  shared_let(:admin) { create(:admin) }
   let(:time_zone) { 'utc' }
   let(:user) do
     create(:user,
@@ -50,72 +50,173 @@ RSpec.describe 'Meetings new', js: true do
            member_in_project: project,
            member_with_permissions: permissions)
   end
-  let(:admin) do
-    create(:admin)
-  end
   let(:permissions) { %i[view_meetings create_meetings] }
   let(:current_user) { user }
 
   before do
-    login_as(current_user)
+    login_as current_user
   end
 
-  context 'with permission to create meetings', with_cuprite: false do
+  context 'when creating a meeting from the global page' do
     before do
       other_user
+      project
     end
 
-    ['CET', 'UTC', '', 'Pacific Time (US & Canada)'].each do |zone|
-      let(:time_zone) { zone }
+    let(:index_page) { Pages::Meetings::Index.new(project: nil) }
 
-      it "allows creating a project and handles errors in time zone #{zone}" do
+    context 'with permission to create meetings' do
+      it 'does not render menus' do
+        index_page.expect_no_main_menu
+      end
+
+      ['CET', 'UTC', '', 'Pacific Time (US & Canada)'].each do |zone|
+        let(:time_zone) { zone }
+
+        it "allows creating a project and handles errors in time zone #{zone}", with_cuprite: false do
+          index_page.visit!
+
+          new_page = index_page.click_create_new
+
+          new_page.set_title 'Some title'
+          new_page.set_project project
+
+          new_page.set_start_date '2013-03-28'
+          new_page.set_start_time '13:30'
+          new_page.set_duration '1.5'
+          new_page.invite(other_user)
+
+          show_page = new_page.click_create
+
+          show_page.expect_toast(message: 'Successful creation')
+
+          show_page.expect_invited(user, other_user)
+
+          show_page.expect_date_time "03/28/2013 01:30 PM - 03:00 PM"
+        end
+      end
+    end
+
+    context 'without permission to create meetings' do
+      let(:permissions) { %i[view_meetings] }
+
+      it 'shows no edit link' do
+        index_page.visit!
+
+        index_page.expect_no_create_new_button
+      end
+    end
+
+    context 'as an admin' do
+      let(:current_user) { admin }
+
+      it 'allows creating meeting in a project without members', with_cuprite: false do
         index_page.visit!
 
         new_page = index_page.click_create_new
-
         new_page.set_title 'Some title'
-        new_page.set_start_date '2013-03-28'
-        new_page.set_start_time '13:30'
-        new_page.set_duration '1.5'
-        new_page.invite(other_user)
+
+        new_page.set_project project
 
         show_page = new_page.click_create
 
         show_page.expect_toast(message: 'Successful creation')
 
-        show_page.expect_invited(user, other_user)
-
-        show_page.expect_date_time "03/28/2013 01:30 PM - 03:00 PM"
+        # Not sure if that is then intended behaviour but that is what is currently programmed
+        show_page.expect_invited(admin)
       end
     end
   end
 
-  context 'without permission to create meetings' do
-    let(:permissions) { %i[view_meetings] }
+  context 'when creating a meeting from the project-specific page' do
+    let(:index_page) { Pages::Meetings::Index.new(project:) }
 
-    it 'shows no edit link' do
-      index_page.visit!
+    context 'with permission to create meetings' do
+      before do
+        other_user
+      end
 
-      index_page.expect_no_create_new_button
+      ['CET', 'UTC', '', 'Pacific Time (US & Canada)'].each do |zone|
+        let(:time_zone) { zone }
+
+        it "allows creating a project and handles errors in time zone #{zone}", with_cuprite: false do
+          index_page.visit!
+
+          new_page = index_page.click_create_new
+
+          new_page.set_title 'Some title'
+          new_page.set_start_date '2013-03-28'
+          new_page.set_start_time '13:30'
+          new_page.set_duration '1.5'
+          new_page.invite(other_user)
+
+          show_page = new_page.click_create
+
+          show_page.expect_toast(message: 'Successful creation')
+
+          show_page.expect_invited(user, other_user)
+
+          show_page.expect_date_time "03/28/2013 01:30 PM - 03:00 PM"
+        end
+      end
     end
-  end
 
-  context 'as an admin' do
-    let(:current_user) { admin }
+    context 'without permission to create meetings' do
+      let(:permissions) { %i[view_meetings] }
 
-    it 'allows creating meeting in a project without members' do
-      index_page.visit!
+      it 'shows no edit link' do
+        index_page.visit!
 
-      new_page = index_page.click_create_new
+        index_page.expect_no_create_new_button
+      end
+    end
 
-      new_page.set_title 'Some title'
+    context 'as an admin' do
+      let(:current_user) { admin }
+      let(:field) do
+        TextEditorField.new(page,
+                            '',
+                            selector: '[data-qa-selector="op-meeting--meeting_agenda"]')
+      end
 
-      show_page = new_page.click_create
+      it 'allows creating meeting in a project without members' do
+        index_page.visit!
 
-      show_page.expect_toast(message: 'Successful creation')
+        new_page = index_page.click_create_new
 
-      # Not sure if that is then intended behaviour but that is what is currently programmed
-      show_page.expect_invited(admin)
+        new_page.set_title 'Some title'
+
+        show_page = new_page.click_create
+
+        show_page.expect_toast(message: 'Successful creation')
+
+        # Not sure if that is then intended behaviour but that is what is currently programmed
+        show_page.expect_invited(admin)
+      end
+
+      it 'can save the meeting agenda via cmd+Enter' do
+        index_page.visit!
+
+        new_page = index_page.click_create_new
+
+        new_page.set_title 'Some title'
+
+        show_page = new_page.click_create
+
+        show_page.expect_toast(message: 'Successful creation')
+
+        meeting = Meeting.last
+
+        field.set_value('My new meeting text')
+
+        field.submit_by_enter
+
+        show_page.expect_and_dismiss_toaster message: 'Successful update'
+
+        meeting.reload
+
+        expect(meeting.agenda.text).to eq 'My new meeting text'
+      end
     end
   end
 end

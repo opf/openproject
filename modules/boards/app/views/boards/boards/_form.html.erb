@@ -1,0 +1,106 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2023 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= error_messages_for_contract @board_grid, @errors %>
+
+<section class="form--section">
+  <div class="form--field -required">
+    <%= f.text_field :name,
+                     label: t(:label_title),
+                     required: true,
+                     size: 60,
+                     container_class: '-wide' %>
+  </div>
+
+  <% if global_board_create_context? %>
+    <div class="form--field -required">
+      <label class="form--label" for="project_id"><%= Query.human_attribute_name(:project) %>:</label>
+      <div class="form--field-container">
+        <%= angular_component_tag 'op-project-autocompleter',
+                                  inputs: {
+                                    apiFilters: [['user_action', '=', ['boards/create']]],
+                                    name: 'project_id',
+                                    value: @project,
+                                    appendTo: 'body',
+                                  },
+                                  id: 'project_id',
+                                  class: 'form--select-container -wide remote-field--input',
+                                  data: {
+                                    'qa-selector': 'project_id'
+                                  }
+        %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="form--field -required -align-start">
+    <label class="form--label" for="board_type"><%= t('boards.label_board_type') %></label>
+    <div class="form--field-container -enterprise-restricted">
+      <% unless EnterpriseToken.allows_to?(:board_view) %>
+        <p>
+          <%= angular_component_tag 'op-enterprise-banner',
+                                    inputs: {
+                                      collapsible: false,
+                                      opReferrer: 'boards',
+                                      linkMessage: t('boards.upsale.upgrade'),
+                                      textMessage: t('boards.upsale.teaser_text'),
+                                      moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:boards][:href]
+                                    }
+          %>
+        </p>
+      <% end %>
+
+      <div class="op-tile-block">
+        <% board_types.each_with_index do |board_type, tile_number| %>
+          <label class="op-tile-block--tile form--radio-button-container -wide <%= '-disabled' if board_type.disabled? %>"
+                 for="boards_grid_attribute_<%= board_type.radio_button_value %>"
+                 data-qa-selector="op-tile-block">
+            <div class="op-tile-block--content">
+              <%= styled_radio_button_tag 'boards_grid[attribute]',
+                                          board_type.radio_button_value,
+                                          tile_number == 0,
+                                          no_label: true,
+                                          disabled: board_type.disabled?,
+                                          class: 'radio-button' %>
+              <div>
+                <span data-qa-selector="op-tile-block-title" class="op-tile-block--title">
+                  <%= board_type.title %>
+                </span>
+                <p class="op-tile-block--description"><%= board_type.description %></p>
+              </div>
+            </div>
+
+            <img src="<%= frontend_asset_path board_type.image_path %>"
+                 class="op-tile-block--image"/>
+          </label>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>

@@ -855,7 +855,7 @@ The modifier classes **-middle**, **-wide**, ... can be applied to the form-[inp
     <a href="#">Files<span class="fieldset-toggle-state-label hidden-for-sighted">expanded</span></a>
   </legend>
   <div style="">
-    <div id="attachments_fields">
+    <div>
       <div class="grid-block" id="attachment_template">
         <div class="form--field">
           <div class="attachment_field form--field-container -vertical -shrink">

@@ -59,11 +59,11 @@ class Storages::GroupFolderPropertiesSyncService
     set_group_folder_root_permissions
 
     @storage.projects_storages
-      .automatic
-      .includes(project: %i[users enabled_modules])
-      .each do |project_storage|
+            .automatic
+            .includes(project: %i[users enabled_modules])
+            .each do |project_storage|
       project = project_storage.project
-      project_folder_path = project_folder_path(project)
+      project_folder_path = project_storage.project_folder_path
       @project_folder_ids_used_in_openproject << ensure_project_folder(project_storage:, project_folder_path:)
 
       set_project_folder_permissions(path: project_folder_path, project:)
@@ -73,6 +73,7 @@ class Storages::GroupFolderPropertiesSyncService
     add_active_users_to_group
     remove_inactive_users_from_group
   end
+
   # rubocop:enable Metrics/AbcSize
 
   private
@@ -91,10 +92,6 @@ class Storages::GroupFolderPropertiesSyncService
       .on_failure(&failure_handler('set_permissions_command', command_params))
   end
 
-  def project_folder_path(project)
-    "#{@group_folder}/#{project.name.gsub('/', '|')} (#{project.id})/"
-  end
-
   # rubocop:disable Metrics/AbcSize
   def ensure_project_folder(project_storage:, project_folder_path:)
     project_folder_id = project_storage.project_folder_id
@@ -110,6 +107,7 @@ class Storages::GroupFolderPropertiesSyncService
     # then the value inside the local variable will not be updated
     project_storage.project_folder_id
   end
+
   # rubocop:enable Metrics/AbcSize
 
   def file_ids
@@ -118,18 +116,11 @@ class Storages::GroupFolderPropertiesSyncService
 
   def folders_properties
     @folders_properties ||=
-      begin
-        query_params = {
-          depth: '1',
-          path: @group_folder,
-          props: %w[oc:fileid]
-        }
-        @requests
-          .propfind_query
-          .call(**query_params)
-          .on_failure(&failure_handler('propfind_query', query_params))
-          .result
-      end
+      @requests
+        .file_ids_query
+        .call(path: @group_folder)
+        .on_failure(&failure_handler('file_ids_query', { path: @group_folder }))
+        .result
   end
 
   def rename_folder(source:, target:)
@@ -141,10 +132,10 @@ class Storages::GroupFolderPropertiesSyncService
 
   def create_folder(path:, project_storage:)
     @requests.create_folder_command.call(folder_path: path)
-      .match(
-        on_success: ->(_) { ServiceResult.success(result: [project_storage, path]) },
-        on_failure: failure_handler('create_folder_command', { folder_path: path })
-      )
+             .match(
+               on_success: ->(_) { ServiceResult.success(result: [project_storage, path]) },
+               on_failure: failure_handler('create_folder_command', { folder_path: path })
+             )
   end
 
   def save_file_id
@@ -155,17 +146,12 @@ class Storages::GroupFolderPropertiesSyncService
 
   def obtain_file_id
     ->((project_storage, path)) do
-      query_params = {
-        depth: '0',
-        path:,
-        props: %w[oc:fileid]
-      }
       @requests
-        .propfind_query
-        .call(**query_params)
+        .file_ids_query
+        .call(path:)
         .match(
-          on_success: ->(result) { ServiceResult.success(result: [project_storage, result.dig(path, 'fileid')]) },
-          on_failure: failure_handler('propfind_query', query_params)
+          on_success: ->(file_ids) { ServiceResult.success(result: [project_storage, file_ids.dig(path, 'fileid')]) },
+          on_failure: failure_handler('file_id_query', { path: })
         )
     end
   end
@@ -201,10 +187,10 @@ class Storages::GroupFolderPropertiesSyncService
     @group_users ||= begin
       query_params = { group: @group }
       @requests
-        .group_users_query
-        .call(**query_params)
-        .on_failure(&failure_handler('group_users_query', query_params))
-        .result
+       .group_users_query
+       .call(**query_params)
+       .on_failure(&failure_handler('group_users_query', query_params))
+       .result
     end
   end
 

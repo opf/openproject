@@ -99,7 +99,8 @@ RSpec.describe 'API v3 file links resource' do
       size: 12706214,
       owner_id: "admin",
       owner_name: "admin",
-      trashed: false
+      trashed: false,
+      path: "/Nextcloud Manual.pdf"
     }
   end
   let(:file_info_trashed) do
@@ -114,7 +115,8 @@ RSpec.describe 'API v3 file links resource' do
       size: 954123,
       owner_id: "admin",
       owner_name: "admin",
-      trashed: true
+      trashed: true,
+      path: "/Nextcloud Manual.pdf"
     }
   end
 

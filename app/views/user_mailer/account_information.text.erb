@@ -26,8 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% if @user.auth_source %>
-  <%= t(:mail_body_account_information_external, value: @user.auth_source.name) %>
+<% if @user.ldap_auth_source %>
+  <%= t(:mail_body_account_information_external, value: @user.ldap_auth_source.name) %>
 <% else %>
   <%= t(:mail_body_account_information) %>:
 * <%= User.human_attribute_name(:login) %>: <%= @user.login %>

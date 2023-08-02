@@ -40,7 +40,7 @@ cs:
         item_3:
           name: Problém
         item_4:
-          name: Remark
+          name: Poznámka
         item_5:
           name: Požadavek
         item_6:
@@ -55,11 +55,11 @@ cs:
               group_name: Potomci
       groups:
         item_0:
-          name: Architects
+          name: Architekti
         item_1:
-          name: BIM Coordinators
+          name: Koordinátoři BIM
         item_2:
-          name: BIM Managers
+          name: Manažeři BIM
         item_3:
           name: BIM Modellers
         item_4:
@@ -67,11 +67,11 @@ cs:
         item_5:
           name: MEP Engineers
         item_6:
-          name: Planners
+          name: Plánovače
         item_7:
-          name: Structural Engineers
+          name: Strukturální inženýři
       welcome:
-        title: Welcome to OpenProject BIM edition!
+        title: Vítejte ve verzi BIM OpenProject !
         text: |
           Checkout the demo projects to get started with some examples.
 
@@ -87,7 +87,7 @@ cs:
           You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-construction-project:
-          name: "(Demo) Construction project"
+          name: "(Demo) Stavební projekt"
           status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo construction project.
           news:
@@ -96,9 +96,9 @@ cs:
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
-              description: The actual news
+              description: Aktuální novinky
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategorie 1 (bude změněno v nastavení projektu)
           queries:
             item_0:
               name: Plán projektu
@@ -149,7 +149,7 @@ cs:
                 options:
                   name: Milníky
         demo-planning-constructing-project:
-          name: "(Demo) Planning & constructing"
+          name: "(Demo) Plánování a výstavba"
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo planning and constructing project.
           news:
@@ -158,9 +158,9 @@ cs:
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
-              description: The actual news
+              description: Aktuální novinky
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategorie 1 (bude změněno v nastavení projektu)
           queries:
             item_0:
               name: Plán projektu
@@ -215,7 +215,7 @@ cs:
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Gathering first project information
+                  subject: Shromažďování informací o prvním projektu
                   description: |-
                     ## Goal
 
@@ -228,7 +228,7 @@ cs:
                     *   Each need shall represent a task with its corresponding work packages
                     *   Derive the cost estimation and time frame
                 item_1:
-                  subject: Summarize the results
+                  subject: Shrňte výsledky
                   description: |-
                     ## Goal
 
@@ -243,7 +243,7 @@ cs:
                     *   This overview informs all participants about the decisions made
                     *   ...
                 item_2:
-                  subject: End of basic evaluation
+                  subject: Konec základního hodnocení
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_2:
               subject: Preliminary planning
@@ -265,7 +265,7 @@ cs:
                     *   This overview informs all participants about the decisions made
                     *   ...
                 item_1:
-                  subject: Summarize results
+                  subject: Shrnutí výsledků
                   description: |-
                     ## Goal
 
@@ -321,7 +321,7 @@ cs:
                     *   Get the team together
                     *   ...
                 item_1:
-                  subject: Foundation
+                  subject: Základ
                   description: |-
                     ## Goal
 
@@ -334,7 +334,7 @@ cs:
                     *   Setting up the supply chain for the concrete
                     *   ...
                 item_2:
-                  subject: Building construction
+                  subject: Stavba budov
                   description: |-
                     ## Goal
 
@@ -403,7 +403,7 @@ cs:
                     *   Invite your friends
                     *   Bring some drinks, snacks and your smile
         demo-bim-project:
-          name: "(Demo) BIM project"
+          name: "(Demo) BIM projekt"
           status_explanation: All tasks and sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo BIM project.
           news:
@@ -412,7 +412,7 @@ cs:
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
-              description: The actual news
+              description: Aktuální novinky
           categories:
             item_0: Category 1 (to be changed in Project settings)
           queries:
@@ -468,7 +468,7 @@ cs:
 
                 The next step could be to check out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
-              subject: Project preparation
+              subject: Příprava projektu
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
@@ -504,7 +504,7 @@ cs:
                   subject: Completion of the BIM execution plan
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_2:
-              subject: End of preparation phase
+              subject: Konec přípravné fáze
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_3:
               subject: Creating initial BIM model
@@ -603,13 +603,13 @@ cs:
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_6:
               subject: Modelling & coordinating, second cycle
-              description: "## Goal\\r\n\\r\n*   ...\\r\n\\r\n## Description\\r\n\\r\n* \\  ..."
+              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
             item_7:
               subject: Modelling & coordinating, ... cycle
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_8:
               subject: Modelling & coordinating, (n-th minus 1) cycle
-              description: "## Goal\\r\n\\r\n*   ...\\r\n\\r\n## Description\\r\n\\r\n* \\  ..."
+              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
             item_9:
               subject: Modelling & coordinating n-th cycle
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
@@ -647,7 +647,7 @@ cs:
                     *   The BCF files will be used to assign, track and correct issues
                     *   ...
                 item_2:
-                  subject: Finish construction
+                  subject: Dokončit výstavbu
             item_12:
               subject: Issue management, construction phase
             item_13:
@@ -665,10 +665,10 @@ cs:
                 *   The model can be used for the operating system of the building
                 *   ...
             item_14:
-              subject: Asset Management
+              subject: Správa majetku
               description: Enjoy your building :)
         demo-bcf-management-project:
-          name: "(Demo) BCF management"
+          name: "(Demo) řízení BCF"
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo BCF management project.
           ifc_models:
@@ -686,9 +686,9 @@ cs:
             item_1:
               name: Clashes
             item_2:
-              name: Requests
+              name: Požadavky
             item_3:
-              name: Remarks
+              name: Poznámky
             item_4:
               name: Plán projektu
             item_5:
@@ -699,7 +699,7 @@ cs:
               name: Týmový plánovač
           boards:
             bcf:
-              name: BCF issues
+              name: Problémy s BCF
           project-overview:
             widgets:
               item_0:

@@ -43,7 +43,7 @@ module Pages
       form.fill! 'Last name', :last_name
       form.fill! 'Email', :email
 
-      form.select! 'Authentication mode', :auth_source
+      form.select! 'LDAP connection', :ldap_auth_source
       form.fill! 'Username', :login
 
       form.set_checked! 'Administrator', :admin

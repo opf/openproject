@@ -81,7 +81,7 @@ hr:
   label_costlog: "Zabilježeni jedinični troškovi"
   label_cost_plural: "Troškovi"
   label_cost_type_plural: "Vrsta troška"
-  label_cost_type_specific: "Cost type #%{id}: %{name}" #%{id}: %{name}"
+  label_cost_type_specific: "Cost type #%{id}: %{name}"
   label_costs_per_page: "Troškova po stranici"
   label_currency: "Valuta"
   label_currency_format: "Oblik valute"

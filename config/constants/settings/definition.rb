@@ -823,6 +823,12 @@ module Settings
         default: true,
         writable: false
       },
+      seed_ldap: {
+        description: 'Provide an LDAP connection and sync settings through ENV',
+        writable: false,
+        default: nil,
+        format: :hash
+      },
       self_registration: {
         default: 2
       },
@@ -978,6 +984,13 @@ module Settings
       },
       users_deletable_by_admins: {
         default: false
+      },
+      user_default_theme: {
+        default: 'light',
+        format: :string,
+        allowed: -> do
+          UserPreferences::Schema.schema.dig('definitions', 'UserPreferences', 'properties', 'theme', 'enum')
+        end
       },
       users_deletable_by_self: {
         default: false

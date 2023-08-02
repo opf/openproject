@@ -30,8 +30,6 @@ module Overviews
       end
     end
 
-    patch_with_namespace :OpenProject, :TextFormatting, :Formats, :Markdown, :TextileConverter
-
     initializer 'overviews.conversion' do
       require Rails.root.join('config/constants/ar_to_api_conversions')
 

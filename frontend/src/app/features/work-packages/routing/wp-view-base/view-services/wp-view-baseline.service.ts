@@ -150,7 +150,9 @@ export class WorkPackageViewBaselineService extends WorkPackageQueryStateService
 
   public isChanged(workPackage:WorkPackageResource, attribute:string):boolean {
     const timestamps = workPackage.attributesByTimestamp || [];
-    return this.isActive() && timestamps.length >= 1 && !!timestamps[0][attribute as keyof IWorkPackageTimestamp];
+    return this.isActive()
+      && timestamps.length >= 1
+      && Object.prototype.hasOwnProperty.call(timestamps[0], attribute);
   }
 
   public valueFromQuery(query:QueryResource):string[] {

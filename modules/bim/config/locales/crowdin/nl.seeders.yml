@@ -13,7 +13,7 @@ nl:
         item_2:
           name: Hoog
         item_3:
-          name: Critical
+          name: Kritiek
       statuses:
         item_0:
           name: Nieuw
@@ -42,7 +42,7 @@ nl:
         item_4:
           name: Remark
         item_5:
-          name: Request
+          name: Verzoeken
         item_6:
           name: Clash
       global_queries:
@@ -55,7 +55,7 @@ nl:
               group_name: Subdocumenten
       groups:
         item_0:
-          name: Architects
+          name: Architecten
         item_1:
           name: BIM Coordinators
         item_2:
@@ -228,7 +228,7 @@ nl:
                     *   Each need shall represent a task with its corresponding work packages
                     *   Derive the cost estimation and time frame
                 item_1:
-                  subject: Summarize the results
+                  subject: Vat de resultaten samen
                   description: |-
                     ## Goal
 
@@ -265,7 +265,7 @@ nl:
                     *   This overview informs all participants about the decisions made
                     *   ...
                 item_1:
-                  subject: Summarize results
+                  subject: Resultaten samenvatten
                   description: |-
                     ## Goal
 
@@ -376,7 +376,7 @@ nl:
                     *   Electrical installation
                     *   ...
                 item_5:
-                  subject: Final touches
+                  subject: Laatste details
                   description: |-
                     ## Goal
 
@@ -417,7 +417,7 @@ nl:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: Project abonnement
             item_1:
               name: Mijlpalen
             item_2:
@@ -468,7 +468,7 @@ nl:
 
                 The next step could be to check out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
-              subject: Project preparation
+              subject: Voorbereiding project
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
@@ -603,13 +603,13 @@ nl:
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_6:
               subject: Modelling & coordinating, second cycle
-              description: "## Goal\\r\n\\r\n*   ...\\r\n\\r\n## Description\\r\n\\r\n* \\  ..."
+              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
             item_7:
               subject: Modelling & coordinating, ... cycle
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_8:
               subject: Modelling & coordinating, (n-th minus 1) cycle
-              description: "## Goal\\r\n\\r\n*   ...\\r\n\\r\n## Description\\r\n\\r\n* \\  ..."
+              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
             item_9:
               subject: Modelling & coordinating n-th cycle
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
@@ -686,11 +686,11 @@ nl:
             item_1:
               name: Clashes
             item_2:
-              name: Requests
+              name: Verzoeken
             item_3:
               name: Remarks
             item_4:
-              name: Project plan
+              name: Project abonnement
             item_5:
               name: Mijlpalen
             item_6:

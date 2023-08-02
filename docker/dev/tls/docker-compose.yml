@@ -28,10 +28,6 @@ services:
     depends_on:
       step:
         condition: service_healthy
-    logging:
-      options:
-        max-size: "8m"
-        max-file: "10"
     networks:
       external:
         aliases:
@@ -49,10 +45,6 @@ services:
   step:
     image: smallstep/step-ca:latest
     restart: unless-stopped
-    logging:
-      options:
-        max-size: "8m"
-        max-file: "10"
     environment:
       - TZ=UTC
       - DOCKER_STEPCA_INIT_NAME=OpenProject Development

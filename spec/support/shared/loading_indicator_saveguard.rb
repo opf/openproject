@@ -34,5 +34,5 @@
 #
 
 def loading_indicator_saveguard
-  expect(page).not_to have_selector('.loading-indicator')
+  expect(page).not_to have_selector('.op-loading-indicator')
 end

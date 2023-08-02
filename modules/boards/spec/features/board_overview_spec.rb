@@ -29,26 +29,37 @@
 require 'spec_helper'
 require_relative './support/board_overview_page'
 
-RSpec.describe 'Work Package boards overview spec',
-               with_cuprite: true,
+RSpec.describe 'Work Package Boards Overview',
+               :with_cuprite,
                with_ee: %i[board_view],
                with_flag: { more_global_index_pages: true } do
+  # The identifier is important to test https://community.openproject.com/wp/29754
+  shared_let(:project) { create(:project, identifier: 'boards', enabled_module_names: %i[work_package_tracking board_view]) }
+  shared_let(:other_project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
+
+  shared_let(:management_permissions) do
+    %i[show_board_views manage_board_views add_work_packages view_work_packages manage_public_queries]
+  end
+  shared_let(:view_only_permissions) do
+    %i[show_board_views add_work_packages view_work_packages]
+  end
+
+  shared_let(:priority) { create(:default_priority) }
+  shared_let(:status) { create(:default_status) }
+
   let(:user) do
     create(:user,
            member_in_project: project,
            member_through_role: role)
   end
-  # The identifier is important to test https://community.openproject.com/wp/29754
-  let(:project) { create(:project, identifier: 'boards', enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:other_project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:permissions) { %i[show_board_views manage_board_views add_work_packages view_work_packages manage_public_queries] }
+  let(:permissions) { management_permissions }
   let(:role) { create(:role, permissions:) }
-  let!(:priority) { create(:default_priority) }
-  let!(:status) { create(:default_status) }
-  let(:board_overview) { Pages::BoardOverview.new }
+
   let(:board_view) { create(:board_grid_with_query, name: 'My board', project:) }
   let(:other_board_view) { create(:board_grid_with_query, name: 'My other board', project:) }
   let(:other_project_board_view) { create(:board_grid_with_query, name: 'Unseeable Board', project: other_project) }
+
+  let(:board_overview) { Pages::BoardOverview.new }
 
   before do
     login_as user
@@ -58,6 +69,26 @@ RSpec.describe 'Work Package boards overview spec',
     board_overview.visit!
 
     board_overview.expect_global_menu_item_selected
+  end
+
+  context 'as a user with board management permissions' do
+    let(:permissions) { management_permissions }
+
+    it 'shows a create button' do
+      board_overview.visit!
+
+      board_overview.expect_create_button
+    end
+  end
+
+  context 'as a user without board management permissions' do
+    let(:permissions) { view_only_permissions }
+
+    it 'does not show a create button' do
+      board_overview.visit!
+
+      board_overview.expect_no_create_button
+    end
   end
 
   context 'when no boards exist' do
@@ -80,7 +111,7 @@ RSpec.describe 'Work Package boards overview spec',
     end
   end
 
-  context 'when boards exists' do
+  context 'when boards exist' do
     before do
       board_view
       other_board_view
@@ -92,6 +123,14 @@ RSpec.describe 'Work Package boards overview spec',
 
       board_overview.expect_boards_listed(board_view, other_board_view)
       board_overview.expect_boards_not_listed(other_project_board_view)
+    end
+
+    it 'does not render delete links' do
+      board_overview.visit!
+
+      board_overview.expect_no_delete_button(board_view)
+      board_overview.expect_no_delete_button(other_board_view)
+      board_overview.expect_no_delete_button(other_project_board_view)
     end
 
     it 'paginates results', with_settings: { per_page_options: '1' } do

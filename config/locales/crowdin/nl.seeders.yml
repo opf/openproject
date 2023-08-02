@@ -205,7 +205,7 @@ nl:
                   name: Mijlpalen
           work_packages:
             item_0:
-              subject: Start of project
+              subject: Start van project
             item_1:
               subject: Open source conferentie organiseren
               children:
@@ -367,14 +367,14 @@ nl:
             item_1:
               subject: Password reset does not send email
             item_2:
-              subject: New website
+              subject: Nieuwe website
               children:
                 item_0:
                   subject: Newsletter registration form
                 item_1:
                   subject: Implement product tour
                 item_2:
-                  subject: New landing page
+                  subject: Nieuwe landingspagina
                   children:
                     item_0:
                       subject: Create wireframes for new landing page

@@ -3,11 +3,11 @@ lt:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        auth_source: 'LDAP jungtis'
+        ldap_auth_source: 'LDAP jungtis'
         sync_users: 'Sinchronizuoti naudotojus'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP filtras'
-        auth_source: 'LDAP jungtis'
+        ldap_auth_source: 'LDAP jungtis'
         group_name_attribute: "Grupės pavadinimo atributas"
         sync_users: 'Sinchronizuoti naudotojus'
         base_dn: "Paieškos pagrindo DN"

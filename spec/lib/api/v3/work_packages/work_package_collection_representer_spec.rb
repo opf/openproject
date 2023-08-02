@@ -33,7 +33,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   create_shared_association_defaults_for_work_package_factory
 
   let(:self_base_link) { '/api/v3/example' }
-  let(:work_packages) { WorkPackage.all }
+  let(:work_packages) do
+    created_work_packages
+    WorkPackage.all
+  end
+  let(:created_work_packages) { create_list(:work_package, total) }
   let(:first_wp) { work_packages.first }
   let(:user) { build_stubbed(:user) }
 
@@ -77,8 +81,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       .to receive(:allowed_to?) do |permission|
       permissions.nil? || permissions.include?(permission)
     end
-
-    create_list(:work_package, total)
   end
 
   subject(:collection) { representer.to_json }
@@ -557,15 +559,16 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
                project: first_wp.project,
                roles: create_list(:role, 1, permissions: [:view_work_packages]))
       end
-
-      before do
-        # Update the timestamp of the first work package to a different type forcing the inclusion of
+      let(:created_work_packages) do
+        # Let the work package behave as if it used to have a different type forcing the inclusion of
         # another schema and set the creation date to be before the baseline time.
-        first_wp = WorkPackage.first
-        first_wp.update(subject: 'Some new subject', author: current_user)
-        first_wp.update_columns(created_at: "2022-01-01T00:00:00Z")
-        first_wp.journals.first.update_columns(created_at: "2022-01-01T00:00:00Z", updated_at: "2022-01-01T00:00:00Z")
-        first_wp.journals.first.data.update_columns(type_id: other_type.id)
+        create_list(:work_package,
+                    1,
+                    subject: 'Some new subject',
+                    journals: {
+                      DateTime.parse("2022-01-01T00:00:00Z") => { type_id: other_type.id },
+                      1.day.ago => {}
+                    })
       end
 
       it 'embeds a schema collection', :aggregate_failures do
@@ -574,13 +577,13 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
                 .at_path('_embedded/schemas/_embedded/elements')
 
         expected_former_path = api_v3_paths.work_package_schema(first_wp.project.id,
-                                                                first_wp.type.id)
+                                                                other_type.id)
         expect(collection)
           .to be_json_eql(expected_former_path.to_json)
                 .at_path('_embedded/schemas/_embedded/elements/0/_links/self/href')
 
         expected_current_path = api_v3_paths.work_package_schema(first_wp.project.id,
-                                                                 other_type.id)
+                                                                 first_wp.type.id)
         expect(collection)
           .to be_json_eql(expected_current_path.to_json)
                 .at_path('_embedded/schemas/_embedded/elements/1/_links/self/href')
@@ -590,20 +593,18 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
   context 'when passing timestamps' do
     let(:work_package) do
-      new_work_package = create(:work_package, subject: "The current work package", project:)
-      new_work_package.update_columns created_at: baseline_time - 1.day
-      new_work_package
+      create(:work_package,
+             subject: "The current work package",
+             assigned_to: current_user,
+             project:,
+             journals: {
+               baseline_time - 1.day => { subject: "The original work package" },
+               1.day.ago => {}
+             })
     end
-    let(:original_journal) do
-      create_journal(journable: work_package, timestamp: baseline_time - 1.day,
-                     version: 1,
-                     attributes: { subject: "The original work package" })
-    end
-    let(:current_journal) do
-      create_journal(journable: work_package, timestamp: 1.day.ago,
-                     version: 2,
-                     attributes: { subject: "The current work package" })
-    end
+    let(:created_work_packages) { [work_package] }
+    let(:original_journal) { work_package.journals.first }
+    let(:current_journal) { work_package.journals.last }
     let(:baseline_time) { "2022-01-01".to_time }
     let(:project) { create(:project) }
     let(:current_user) do
@@ -612,24 +613,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
              lastname: '1',
              member_in_project: project,
              member_with_permissions: %i[view_work_packages])
-    end
-
-    def create_journal(journable:, version:, timestamp:, attributes: {})
-      work_package_attributes = work_package.attributes.except("id")
-      journal_attributes = work_package_attributes \
-          .extract!(*Journal::WorkPackageJournal.attribute_names) \
-          .symbolize_keys.merge(attributes)
-      create(:work_package_journal, version:,
-                                    journable:, created_at: timestamp, updated_at: timestamp,
-                                    data: build(:journal_work_package_journal, journal_attributes))
-    end
-
-    before do
-      WorkPackage.destroy_all
-      work_package
-      Journal.destroy_all
-      original_journal
-      current_journal
     end
 
     shared_examples_for 'includes the properties of the current work package' do

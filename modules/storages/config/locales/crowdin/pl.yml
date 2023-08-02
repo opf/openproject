@@ -9,8 +9,14 @@ pl:
   permission_delete_files: "Delete files"
   permission_share_files: "Share files"
   project_module_storages: "Magazyny plików"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Not authorized for external connection to storage."
+        not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
+      file_link: "File"
       storages/storage: "Magazyn"
     attributes:
       storages/storage:
@@ -33,6 +39,9 @@ pl:
                 wydaje się, że aplikacja "OpenProject integration" nie jest zainstalowana. Zainstaluj ją najpierw i spróbuj ponownie.
               authorization_header_missing: >
                 nie jest w pełni skonfigurowany. Instancja Nextcloud nie otrzymuje nagłówka "Autoryzacja", który jest niezbędny do autoryzacji żądań API na podstawie tokena Bearer. Sprawdź konfigurację serwera HTTP.
+            password:
+              invalid_password: "is not valid."
+              unknown_error: "could not be validated. Please check your storage connection and try again."
         storages/file_link:
           attributes:
             origin_id:
@@ -41,6 +50,7 @@ pl:
     errors:
       too_many_elements_created_at_once: "Zbyt wiele elementów utworzonych jednocześnie. Oczekiwano co najwyżej %{max} , otrzymano %{actual}."
   storages:
+    unknown_storage: "Unknown storage"
     buttons:
       done_continue_setup: "Gotowe. Kontynuuj konfigurację"
       done_complete_setup: "Done, complete setup"
@@ -60,6 +70,7 @@ pl:
         index: "Magazyny plików dostępne w tym projekcie"
         new: "Dodaj magazyn plików do tego projektu"
         edit: "Edit the file storage to this project"
+        delete: "Delete file storage"
     instructions:
       type: "Upewnij się, że masz uprawnienia administracyjne w swojej instancji Nextcloud oraz zainstalowaną następującą aplikację, przed wykonaniem konfiguracji:"
       type_link_text: "“Integration OpenProject”"
@@ -89,7 +100,11 @@ pl:
       storage: >
         Czy na pewno chcesz usunąć ten magazyn? Spowoduje to również jego usunięcie z wszystkich projektów, w których jest używany. Ponadto usunięte zostaną wszystkie linki z pakietów roboczych do plików, które są przechowywane w tym magazynie.
       project_storage: >
-        Czy na pewno chcesz usunąć ten plik z tego projektu? Spowoduje to również usunięcie wszystkich linków do plików przechowywanych w magazynie tego projektu.
+        Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:
+      project_storage_delete_result_1: "Remove all links from work packages of this project to files and folders of that storage."
+      project_storage_delete_result_2: "In case this storage has an automatically managed project folder, this and its files will be deleted forever."
+      input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
+      irreversible_notice: "Deleting a file storage is an irreversible action."
     label_active: "Active"
     label_inactive: "Inactive"
     label_creator: "Twórca"

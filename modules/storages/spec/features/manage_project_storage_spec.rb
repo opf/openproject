@@ -31,7 +31,11 @@ require_relative '../spec_helper'
 # Setup storages in Project -> Settings -> File Storages
 # This tests assumes that a Storage has already been setup
 # in the Admin section, tested by admin_storage_spec.rb.
-RSpec.describe 'Activation of storages in projects', js: true, webmock: true, with_flag: { storage_project_folders: true } do
+RSpec.describe(
+  'Activation of storages in projects',
+  js: true,
+  webmock: true
+) do
   let(:user) { create(:user) }
   # The first page is the Project -> Settings -> General page, so we need
   # to provide the user with the edit_project permission in the role.
@@ -42,9 +46,10 @@ RSpec.describe 'Activation of storages in projects', js: true, webmock: true, wi
                            edit_project])
   end
   let(:oauth_application) { create(:oauth_application) }
-  let(:storage) { create(:nextcloud_storage, oauth_application:) }
+  let(:storage) { create(:nextcloud_storage, :as_automatically_managed, oauth_application:) }
   let(:project) do
     create(:project,
+           name: "Project name without sequence",
            members: { user => role },
            enabled_module_names: %i[storages work_package_tracking])
   end
@@ -59,14 +64,19 @@ RSpec.describe 'Activation of storages in projects', js: true, webmock: true, wi
   let(:folder1_fileinfo_response) do
     {
       ocs: {
+        meta: {
+          status: 'ok'
+        },
         data: {
-          status: 'OK',
-          statuscode: 200,
-          id: 11,
-          name: 'Folder1',
-          path: 'files/Folder1',
-          mtime: 1682509719,
-          ctime: 0
+          '11': {
+            status: 'OK',
+            statuscode: 200,
+            id: 11,
+            name: 'Folder1',
+            path: 'files/Folder1',
+            mtime: 1682509719,
+            ctime: 0
+          }
         }
       }
     }
@@ -79,9 +89,13 @@ RSpec.describe 'Activation of storages in projects', js: true, webmock: true, wi
       .to_return(status: 207, body: root_xml_response, headers: {})
     stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/Folder1")
       .to_return(status: 207, body: folder1_xml_response, headers: {})
-    stub_request(:get, "#{storage.host}/ocs/v1.php/apps/integration_openproject/fileinfo/11")
+    stub_request(:post, "#{storage.host}/ocs/v1.php/apps/integration_openproject/filesinfo")
       .to_return(status: 200, body: folder1_fileinfo_response.to_json, headers: {})
-    stub_request(:get, "https://host1.example.com/ocs/v1.php/cloud/user").to_return(status: 200, body: "{}")
+    stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user").to_return(status: 200, body: "{}")
+    stub_request(
+      :delete,
+      "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project%20name%20without%20sequence%20(#{project.id})"
+    ).to_return(status: 200, body: "", headers: {})
 
     storage
     project
@@ -109,8 +123,12 @@ RSpec.describe 'Activation of storages in projects', js: true, webmock: true, wi
     page.find('.toolbar .button--icon.icon-add').click
     expect(page).to have_current_path new_project_settings_projects_storage_path(project_id: project)
     expect(page).to have_text('Add a file storage')
-    expect(page).to have_select('storages_project_storage_storage_id', options: ['Storage 1 (nextcloud)'])
+    expect(page).to have_select('storages_project_storage_storage_id',
+                                options: ["#{storage.name} (#{storage.short_provider_type})"])
     page.click_button('Continue')
+
+    # by default automatic have to be choosen if storage has automatic management enabled
+    expect(page).to have_checked_field("New folder with automatically managed permissions")
 
     page.find_by_id('storages_project_storage_project_folder_mode_manual').click
 
@@ -131,7 +149,7 @@ RSpec.describe 'Activation of storages in projects', js: true, webmock: true, wi
 
     # The list of enabled file storages should now contain Storage 1
     expect(page).to have_text('File storages available in this project')
-    expect(page).to have_text('Storage 1')
+    expect(page).to have_text(storage.name)
 
     # Press Edit icon to change the project folder mode to inactive
     page.find('.icon.icon-edit').click
@@ -139,7 +157,7 @@ RSpec.describe 'Activation of storages in projects', js: true, webmock: true, wi
                                                                                   id: Storages::ProjectStorage.last)
     expect(page).to have_text('Edit the file storage to this project')
     expect(page).not_to have_select('storages_project_storage_storage_id')
-    expect(page).to have_text('Storage 1')
+    expect(page).to have_text(storage.name)
     expect(page).to have_checked_field('storages_project_storage_project_folder_mode_manual')
     expect(page).to have_text('Folder1')
 
@@ -150,7 +168,7 @@ RSpec.describe 'Activation of storages in projects', js: true, webmock: true, wi
 
     # The list of enabled file storages should still contain Storage 1
     expect(page).to have_text('File storages available in this project')
-    expect(page).to have_text('Storage 1')
+    expect(page).to have_text(storage.name)
 
     # Click Edit icon again but cancel the edit
     page.find('.icon.icon-edit').click
@@ -162,9 +180,21 @@ RSpec.describe 'Activation of storages in projects', js: true, webmock: true, wi
 
     # Press Delete icon to remove the storage from the project
     page.find('.icon.icon-delete').click
-    alert_text = page.driver.browser.switch_to.alert.text
-    expect(alert_text).to have_text 'Are you sure'
-    page.driver.browser.switch_to.alert.accept
+
+    # Danger zone confirmation flow
+    expect(page).to have_selector('.form--section-title', text: "DELETE FILE STORAGE")
+    expect(page).to have_selector('.danger-zone--warning', text: "Deleting a file storage is an irreversible action.")
+    expect(page).to have_button('Delete', disabled: true)
+
+    # Cancel Confirmation
+    page.click_link('Cancel')
+    expect(page).to have_current_path project_settings_projects_storages_path(project)
+
+    page.find('.icon.icon-delete').click
+
+    # Approve Confirmation
+    page.fill_in 'delete_confirmation', with: storage.name
+    page.click_button('Delete')
 
     # List of ProjectStorages empty again
     expect(page).to have_current_path project_settings_projects_storages_path(project)

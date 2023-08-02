@@ -46,18 +46,7 @@ RSpec.describe ActivitiesController do
     end
 
     describe 'global' do
-      let(:work_package) { create(:work_package) }
-      let!(:journal) do
-        create(:work_package_journal,
-               journable_id: work_package.id,
-               created_at: 3.days.ago.to_date.to_fs(:db),
-               version: Journal.maximum(:version) + 1,
-               data: build(:journal_work_package_journal,
-                           subject: work_package.subject,
-                           status_id: work_package.status_id,
-                           type_id: work_package.type_id,
-                           project_id: work_package.project_id))
-      end
+      let!(:work_package) { create(:work_package, :created_in_past, created_at: 3.days.ago) }
 
       before { get 'index' }
 

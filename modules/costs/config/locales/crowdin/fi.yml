@@ -80,7 +80,7 @@ fi:
   label_costlog: "Kirjatut kustannukset"
   label_cost_plural: "Kustannukset"
   label_cost_type_plural: "Kustannusten tyypit"
-  label_cost_type_specific: "Cost type #%{id}: %{name}" #%{id}: %{name}"
+  label_cost_type_specific: "Cost type #%{id}: %{name}"
   label_costs_per_page: "Kustannuksia sivulla"
   label_currency: "Valuutta"
   label_currency_format: "Valuuttamuotoilu"

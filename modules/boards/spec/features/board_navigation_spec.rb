@@ -74,7 +74,7 @@ RSpec.describe 'Work Package boards spec', js: true, with_ee: %i[board_view] do
 
     # Click back goes back to the board
     find('.work-packages-back-button').click
-    expect(page).to have_current_path project_work_package_boards_path(project, board_view.id)
+    expect(page).to have_current_path project_work_package_board_path(project, board_view)
 
     # Open the details page with the info icon
     card = board_page.card_for(wp)
@@ -98,14 +98,14 @@ RSpec.describe 'Work Package boards spec', js: true, with_ee: %i[board_view] do
   end
 
   it 'navigates correctly the path from overview page to the boards page' do
-    visit "/projects/#{project.identifier}"
+    visit project_path(project)
 
     item = page.find('#menu-sidebar li[data-name="board_view"]', wait: 10)
     item.find('.toggler').click
 
     subitem = page.find('[data-qa-selector="op-sidemenu--item-action--Myboard"]', wait: 10)
     # Ends with boards due to lazy route
-    expect(subitem[:href]).to end_with "/projects/#{project.identifier}/boards"
+    expect(subitem[:href]).to end_with project_work_package_boards_path(project)
 
     subitem.click
 
@@ -128,6 +128,7 @@ RSpec.describe 'Work Package boards spec', js: true, with_ee: %i[board_view] do
     # Open the details page with the info icon
     card = board_page.card_for(wp)
     split_view = card.open_details_view
+    split_view.ensure_page_loaded
     split_view.expect_subject
     split_view.switch_to_tab tab: 'Relations'
 

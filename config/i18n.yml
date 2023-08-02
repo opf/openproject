@@ -1,0 +1,11 @@
+# This file controls ONLY the translation
+# for the frontend (i18n-js)
+embed_fallback_translations:
+  enabled: true
+translations:
+  - file: "frontend/src/locales/:locale.json"
+    patterns:
+      - '*.js'
+      - '*.number.*'
+      - '*.time.*'
+      - '*.date.*'

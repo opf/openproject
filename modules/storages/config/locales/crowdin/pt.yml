@@ -9,8 +9,14 @@ pt:
   permission_delete_files: "Excluir arquivos"
   permission_share_files: "Compartilhar arquivos"
   project_module_storages: "Armazenamento de arquivos"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Not authorized for external connection to storage."
+        not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
+      file_link: "File"
       storages/storage: "Armazenamento"
     attributes:
       storages/storage:
@@ -33,6 +39,9 @@ pt:
                 Parece não possui o aplicativo "OpenProject integration" instalado. Instale-o primeiro e depois tente novamente.
               authorization_header_missing: >
                 se não totalmente configurado. A instância Nextcloud não recebe o cabeçalho "Autorização", que é necessário para um token Bearer com base na autorização de solicitações de API. Verifique novamente suas configurações de servidor HTTP.
+            password:
+              invalid_password: "is not valid."
+              unknown_error: "could not be validated. Please check your storage connection and try again."
         storages/file_link:
           attributes:
             origin_id:
@@ -41,6 +50,7 @@ pt:
     errors:
       too_many_elements_created_at_once: "Muitos elementos criados ao mesmo tempo. Esperado %{max} no máximo, obteve %{actual}."
   storages:
+    unknown_storage: "Unknown storage"
     buttons:
       done_continue_setup: "Concluído. Continuar configuração"
       done_complete_setup: "Done, complete setup"
@@ -60,6 +70,7 @@ pt:
         index: "Armazenamento de arquivos disponíveis neste projeto"
         new: "Adicionar um armazenamento de arquivos a este projeto"
         edit: "Editar o armazenamento de arquivos para este projeto"
+        delete: "Delete file storage"
     instructions:
       type: "Certifique-se de ter privilégios de administração em sua instância Nextcloud e de ter o seguinte aplicativo instalado antes de realizar a configuração:"
       type_link_text: "“Integração OpenProject”"
@@ -89,7 +100,11 @@ pt:
       storage: >
         Tem certeza de que deseja excluir este armazenamento? Isso também excluirá o armazenamento de todos os projetos em que for usado. Além disso, também excluirá todos os vínculos de pacotes de trabalho para arquivos armazenados nesse armazenamento.
       project_storage: >
-        Tem certeza de que deseja remover este armazenamento de arquivos deste projeto? Isso também removerá todos os vínculos para arquivos armazenados neste armazenamento para este projeto.
+        Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:
+      project_storage_delete_result_1: "Remove all links from work packages of this project to files and folders of that storage."
+      project_storage_delete_result_2: "In case this storage has an automatically managed project folder, this and its files will be deleted forever."
+      input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
+      irreversible_notice: "Deleting a file storage is an irreversible action."
     label_active: "Active"
     label_inactive: "Inactive"
     label_creator: "Criador"

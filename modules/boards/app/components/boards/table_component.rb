@@ -30,7 +30,7 @@
 
 module Boards
   class TableComponent < ::TableComponent
-    columns :name, :project_id, :type, :created_at
+    options :current_project, :current_user
     sortable_columns :name, :project_id, :created_at
 
     def initial_sort
@@ -45,6 +45,15 @@ module Boards
       columns.map do |attr|
         [attr, { caption: Boards::Grid.human_attribute_name(attr) }]
       end
+    end
+
+    def columns
+      @columns ||= [
+        :name,
+        (:project_id if current_project.blank?),
+        :type,
+        :created_at
+      ].compact
     end
   end
 end

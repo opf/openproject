@@ -27,6 +27,8 @@
 #++
 
 class Storages::StorageError
+  extend ActiveModel::Naming
+
   attr_reader :code, :log_message, :data
 
   def initialize(code:, log_message: nil, data: nil)
@@ -35,10 +37,21 @@ class Storages::StorageError
     @data = data
   end
 
+  def to_active_model_errors
+    errors = ActiveModel::Errors.new(self)
+    errors.add(:storage_error, code, message: log_message)
+    errors
+  end
+
   def to_s
     output = code.to_s
     output << " | #{log_message}" unless log_message.nil?
     output << " | #{data}" unless data.nil?
     output
   end
+
+  def storage_error = "storage error"
+  def read_attribute_for_validation(attr) = send(attr)
+  def self.human_attribute_name(attr, _options = {}) = attr
+  def self.lookup_ancestors = [self]
 end

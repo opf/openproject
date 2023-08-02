@@ -295,6 +295,34 @@ sl:
           one: "Prvo merilo za razvrščanje"
           two: "Drugo merilo za razvrščanje"
           three: "Tretje merilo za razvrščanje"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "ne"
     general_text_yes: "da"
     general_text_No: "Ne"
@@ -313,21 +341,22 @@ sl:
           learn_about: "Preberite več o novostih"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to iCalendar"
+      title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
-      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
-      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Token name"
-      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
-      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
       copy_url_label: "Copy URL"
-      ical_generation_error_text: "An error occured while generating the iCal URL."
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Aktiviraj"
     label_assignee: 'Prevzemnik'
     label_add_column_after: "Dodaj stolpec za"
@@ -504,7 +533,7 @@ sl:
     label_remove_all_files: Izbriši vse datoteke
     label_add_description: "Dodaj opis za %{file}"
     label_upload_notification: "Nalaganje datotek... "
-    label_work_package_upload_notification: "Nalaganje datotek za opravilo #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Nalaganje datotek za opravilo #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} dodal %{author}"
     label_files_to_upload: "Te datoteke bodo naložene:"
     label_rejected_files: "Teh datotek ni mogoče naložiti:"
@@ -805,7 +834,8 @@ sl:
     autocompleter:
       placeholder: "Iskalni niz"
       notFoundText: "Ni najdenih elementov"
-      typeToSearchText: "Iskalni niz"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Izberite oznako'
       select_branch: 'Izberite vejo'
@@ -823,63 +853,6 @@ sl:
       activate_no: 'aktivirajte za odstranitev razvrščanja'
     text_work_packages_destroy_confirmation: "Ali ste prepričani, da želite izbrisati izbrane delovne pakete?"
     text_query_destroy_confirmation: "Ali ste prepričani, da želite izbrisati izbran pogled?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantogram'
-      labels:
-        title: 'Konfiguracija label'
-        bar: 'Bar labele'
-        left: 'Levo'
-        right: 'Desno'
-        farRight: 'Čisto desno'
-        showNone: '-- Brez labele --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Prikaži gantogram'
-      button_deactivate: 'Skrij gantogram'
-      cancel: Prekliči
-      change: "Spremembe v načrtovanju"
-      due_date: "Končni datum"
-      empty: "(prazno)"
-      error: "Prišlo je do napake."
-      errors:
-        not_implemented: "Časovnice ni bilo mogoče upodobiti, ker uporablja funkcijo, ki še ni izvedena."
-        report_comparison: "Časovnica ne more upodobiti konfigurirane primerjave. Prosimo preverite temu primerno sekcijo v konfiguraciji, ponastavitev lahko reši ta problem."
-        report_epicfail: "Časovnica se ni mogla naložiti zaradi nepričakovane napake."
-        report_timeout: "Časovnica se ne more naložiti v razumnem času."
-      filter:
-        grouping_other: "Drugo"
-        noneSelection: "(brez)"
-      name: "Ime"
-      outline: "Ponastavite oris"
-      outlines:
-        aggregation: "Prikaži samo agregacije"
-        level1: "Razširi prvo stopnjo"
-        level2: "Razširi drugo stopnjo"
-        level3: "Razširi tretjo stopnjo"
-        level4: "Razširi četrto stopnjo"
-        level5: "Razširi stopnjo 5"
-        all: "Prikaži vse"
-      project_status: "Status projekta"
-      really_close_dialog: "Ali res želite zapreti pogovor in zgubiti vse podatke? "
-      responsible: "Odgovoren"
-      save: Shrani
-      start_date: "Datum začetka"
-      tooManyProjects: "Več kot %{count} projektov. Prosimo uporabite boljši filter!"
-      selection_mode:
-        notification: 'Za ustvarjanje razmerja kliknite kateri koli poudarjen delovni paket. Če želite preklicati, pritisnite escape.'
-      zoom:
-        in: "Povečaj"
-        out: "Pomanjšaj"
-        auto: "Samodejna povečava"
-        days: "Dnevi"
-        weeks: "Tednov"
-        months: "Mesecev"
-        quarters: "Četrtletje"
-        years: "let"
-        slider: "Drsnik za povečevanje"
-        description: >
-          Izberite začetno stopnjo povečave, ki naj bo prikazana, ko samodejno povečanje ni na voljo.
     tl_toolbar:
       zooms: "Stopnja povečave"
       outlines: "Stopnja hierarhije"
@@ -944,10 +917,10 @@ sl:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filtriraj delovne pakete'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Za dodajanje novega delovnega paketa kliknite tukaj'
@@ -1109,7 +1082,7 @@ sl:
         save_as: "Shrani kot"
         export: "Izvozi"
         visibility_settings: "Nastavitve vidljivosti"
-        share_calendar: "Subscribe to iCalendar"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Preimenuj pogled"
         delete: "Izbriši"
       filter: "Filtriraj"
@@ -1306,6 +1279,7 @@ sl:
         between_two_specific_dates: 'between two specific dates'
       legends:
         changes_since: 'Changes since'
+        changes_between: 'Changes between'
         now_meets_filter_criteria: 'Now meets filter criteria'
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'
