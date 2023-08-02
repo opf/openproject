@@ -8,6 +8,7 @@
   <p>{{ text.notifyImmediately.description }}</p>
 
   <spot-selector-field
+    labelWeight="bold"
     class="op-notifications-settings--bold-label"
     [label]="text.mentioned.title">
       <input
@@ -19,6 +20,7 @@
   </spot-selector-field>
 
   <spot-selector-field
+    labelWeight="bold"
     [label]="text.watched"
     [control]="form.get('watched')">
     <input
@@ -30,6 +32,7 @@
   </spot-selector-field>
 
   <spot-selector-field
+    labelWeight="bold"
     [label]="text.assignee"
     [control]="form.get('assignee')"
   >
@@ -42,6 +45,7 @@
   </spot-selector-field>
 
   <spot-selector-field
+    labelWeight="bold"
     [label]="text.responsible"
     [control]="form.get('responsible')"
   >
@@ -163,6 +167,7 @@
   <p>{{ text.alsoNotifyFor.description }}</p>
 
   <spot-selector-field
+    labelWeight="bold"
     [label]="text.work_package_created"
     [control]="form.get('workPackageCreated')">
     <input
@@ -174,6 +179,7 @@
   </spot-selector-field>
 
   <spot-selector-field
+    labelWeight="bold"
     [label]="text.work_package_processed"
     [control]="form.get('workPackageProcessed')">
     <input
@@ -185,6 +191,7 @@
   </spot-selector-field>
 
   <spot-selector-field
+    labelWeight="bold"
     [label]="text.work_package_scheduled"
     [control]="form.get('workPackageScheduled')">
     <input
@@ -197,6 +204,7 @@
 
   <spot-selector-field
     [label]="text.work_package_prioritized"
+    labelWeight="bold"
     [control]="form.get('workPackagePrioritized')">
     <input
       slot="input"
@@ -207,6 +215,7 @@
   </spot-selector-field>
 
   <spot-selector-field
+    labelWeight="bold"
     [label]="text.work_package_commented"
     [control]="form.get('workPackageCommented')">
     <input

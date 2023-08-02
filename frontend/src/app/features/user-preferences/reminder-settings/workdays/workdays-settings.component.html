@@ -4,6 +4,7 @@
   </div>
 
   <spot-selector-field
+    labelWeight="bold"
     *ngFor="let workday of localeWorkdays; let i = index"
     formArrayName="workdays"
     [label]="workday"
