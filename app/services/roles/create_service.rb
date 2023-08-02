@@ -41,16 +41,6 @@ class Roles::CreateService < BaseServices::Create
     super_call
   end
 
-  def after_perform(call)
-    role = call.result
-    OpenProject::Notifications.send(
-      OpenProject::Events::ROLE_CREATED,
-      permissions: role.permissions
-    )
-
-    call
-  end
-
   def instance(params)
     if params.delete(:global_role)
       GlobalRole.new

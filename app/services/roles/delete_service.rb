@@ -26,40 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# See: ../storages/create_service.rb for comments on services
-module Storages::ProjectStorages
-  class CreateService < ::BaseServices::Create
-    protected
+class Roles::DeleteService < BaseServices::Delete
+  def persist(service_result)
+    # after destroy permissions can not be reached
+    @permissions = model.permissions
+    super(service_result)
+  end
 
-    def after_perform(service_call)
-      super(service_call)
+  protected
 
-      project_storage = service_call.result
-      project_folder_mode = project_storage.project_folder_mode.to_sym
-      add_historical_data(service_call) if project_folder_mode != :inactive
-      OpenProject::Notifications.send(
-        OpenProject::Events::PROJECT_STORAGE_CREATED,
-        project_folder_mode:
+  def after_perform(service_call)
+    super(service_call).tap do |_call|
+      ::OpenProject::Notifications.send(
+        ::OpenProject::Events::ROLE_DESTROYED,
+        permissions: @permissions
       )
-
-      service_call
-    end
-
-    private
-
-    def add_historical_data(service_call)
-      project_storage = service_call.result
-      last_project_folder_result =
-        Helper.create_last_project_folder(
-          user:,
-          projects_storage_id: project_storage.id,
-          origin_folder_id: project_storage.project_folder_id,
-          mode: project_storage.project_folder_mode
-        )
-
-      service_call.add_dependent!(last_project_folder_result)
-
-      service_call
     end
   end
 end

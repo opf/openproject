@@ -79,20 +79,16 @@ class RolesController < ApplicationController
   end
 
   def destroy
-    @role = Role.find(params[:id])
-    # after destroy permissions can not be reached
-    permissions = @role.permissions
-    @role.destroy
+    service_result = Roles::DeleteService.new(
+      model: Role.find(params[:id]),
+      user: current_user
+    ).call
 
-    flash[:notice] = I18n.t(:notice_successful_delete)
-    redirect_to action: 'index'
-
-    OpenProject::Notifications.send(
-      OpenProject::Events::ROLE_DESTROYED,
-      permissions:
-    )
-  rescue StandardError
-    flash[:error] = I18n.t(:error_can_not_remove_role)
+    if service_result.success?
+      flash[:notice] = I18n.t(:notice_successful_delete)
+    else
+      flash[:error] = I18n.t(:error_can_not_remove_role)
+    end
     redirect_to action: 'index'
   end
 

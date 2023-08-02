@@ -39,7 +39,7 @@ module Storages::ProjectStorages
       project_folder_mode = project_storage.project_folder_mode.to_sym
       add_historical_data(service_call) if project_folder_mode != :inactive
       OpenProject::Notifications.send(
-        OpenProject::Events::PROJECTS_STORAGE_UPDATED,
+        OpenProject::Events::PROJECT_STORAGE_UPDATED,
         project_folder_mode:
       )
 

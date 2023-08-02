@@ -32,13 +32,9 @@
 # gets loaded.
 module OpenProject::Storages
   class Engine < ::Rails::Engine
-    PERMISSIONS = %i[
-      read_files
-      write_files
-      create_files
-      delete_files
-      share_files
-    ].freeze
+    def self.permissions
+      @permissions ||= Storages::GroupFolderPropertiesSyncService::PERMISSIONS_MAP.keys
+    end
     # engine name is used as a default prefix for module tables when generating
     # tables with the rails command.
     # It may also be used in other places, please investigate.
@@ -74,31 +70,24 @@ module OpenProject::Storages
           end
         end
         OpenProject::Notifications.subscribe(
-          OpenProject::Events::ROLE_CREATED
-        ) do |payload|
-          if payload[:permissions].intersect?(PERMISSIONS)
-            ::Storages::ManageNextcloudIntegrationEventsJob.debounce
-          end
-        end
-        OpenProject::Notifications.subscribe(
           OpenProject::Events::ROLE_UPDATED
         ) do |payload|
-          if payload[:permissions_diff].intersect?(PERMISSIONS)
+          if payload[:permissions_diff]&.intersect?(OpenProject::Storages::Engine.permissions)
             ::Storages::ManageNextcloudIntegrationEventsJob.debounce
           end
         end
         OpenProject::Notifications.subscribe(
           OpenProject::Events::ROLE_DESTROYED
         ) do |payload|
-          if payload[:permissions].intersect?(PERMISSIONS)
+          if payload[:permissions]&.intersect?(OpenProject::Storages::Engine.permissions)
             ::Storages::ManageNextcloudIntegrationEventsJob.debounce
           end
         end
 
         [
-          OpenProject::Events::PROJECTS_STORAGE_CREATED,
-          OpenProject::Events::PROJECTS_STORAGE_UPDATED,
-          OpenProject::Events::PROJECTS_STORAGE_DESTROYED
+          OpenProject::Events::PROJECT_STORAGE_CREATED,
+          OpenProject::Events::PROJECT_STORAGE_UPDATED,
+          OpenProject::Events::PROJECT_STORAGE_DESTROYED
         ].each do |event|
           OpenProject::Notifications.subscribe(event) do |payload|
             if payload[:project_folder_mode] == :automatic
@@ -133,7 +122,7 @@ module OpenProject::Storages
                    { 'storages/admin/projects_storages': %i[index new edit update create destroy destroy_info set_permissions] },
                    dependencies: %i[]
 
-        PERMISSIONS.each do |p|
+        OpenProject::Storages::Engine.permissions.each do |p|
           permission(p, {}, dependencies: %i[])
         end
       end
