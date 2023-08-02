@@ -359,7 +359,15 @@ RSpec.describe MyController do
         expect(response.body).to have_selector("#storage-oauth-token-#{token.id}")
       end
 
-      it 'can remove the token'
+      it 'can remove the token' do
+        expect do
+          delete :delete_storage_token, params: { id: token.id }
+        end.to change(OAuthClientToken, :count).by(-1)
+
+        expect(flash[:info]).to be_present
+        expect(flash[:error]).not_to be_present
+        expect(response).to redirect_to(action: :access_token)
+      end
     end
   end
 end

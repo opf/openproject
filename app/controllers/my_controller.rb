@@ -93,7 +93,7 @@ class MyController < ApplicationController
 
     if token&.destroy
       # TODO i18n this
-      flash[:notice] = I18n.t('my.access_tokens.storages.removed')
+      flash[:info] = I18n.t('my.access_tokens.storages.removed')
     else
       flash[:error] = I18n.t('my.access_tokens.storages.failed')
     end
