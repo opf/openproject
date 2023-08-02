@@ -18,7 +18,7 @@ point to an external database.
 Example:
 
 ```bash
-docker run -d ... -e DATABASE_URL=postgres://user:pass@host:port/dbname openproject/community:12
+docker run -d ... -e DATABASE_URL=postgres://user:pass@host:port/dbname openproject/community:13
 ```
 
 Best practice is using the file `docker-compose.override.yml`. If you run the Compose based docker stack, you can simply override the `DATABASE_URL` environment variable, and remove the `db` service from the `docker-compose.yml` file, but because by pulling a new version `docker-compose.yml` might get replaced. Then you can restart the stack with:

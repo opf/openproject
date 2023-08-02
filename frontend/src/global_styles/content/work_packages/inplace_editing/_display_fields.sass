@@ -65,9 +65,13 @@
         max-width: 90%
         display: inline-block
         vertical-align: middle
-        line-height: 32px
+        // Inherit from Parent, e.g. strikethrough for baseline comparison
+        text-decoration: inherit
         &:first-of-type
           padding-right: 5px
+
+      .badge
+        height: 1rem
 
   &.split-time-field
     white-space: nowrap
@@ -110,7 +114,7 @@
     overflow: visible
 
 .wp-table--cell-container.startDate
-  padding-left: 24px
+  padding-left: $work-package--start-date-display-field-padding-left
 
   .icon-context
     position: relative
@@ -134,7 +138,6 @@
   border-style: solid
   border-radius: 2px
   border-width: 1px
-  line-height: normal
   overflow-wrap: anywhere
   word-break: normal
 

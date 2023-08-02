@@ -30,7 +30,7 @@ module Acts::Journalized
   class JournableDiffer
     class << self
       def changes(original, changed)
-        original_data = normalize_newlines(journaled_attributes(original))
+        original_data = original ? normalize_newlines(journaled_attributes(original)) : {}
 
         normalize_newlines(journaled_attributes(changed))
           .select { |attribute, new_value| no_nil_to_empty_strings?(original_data, attribute, new_value) }
@@ -38,17 +38,21 @@ module Acts::Journalized
           .with_indifferent_access
       end
 
+      def association_changes(original, changed, *)
+        get_association_changes(original, changed, *)
+      end
+
       private
 
       def normalize_newlines(data)
         data.each_with_object({}) do |e, h|
-          h[e[0]] = (e[1].is_a?(String) ? e[1].gsub(/\r\n/, "\n") : e[1])
+          h[e[0]] = (e[1].is_a?(String) ? e[1].gsub("\r\n", "\n") : e[1])
         end
       end
 
       def no_nil_to_empty_strings?(normalized_old_data, attribute, new_value)
         old_value = normalized_old_data[attribute]
-        new_value != old_value && (new_value.present? || old_value.present?)
+        new_value != old_value && ([new_value, old_value] - ['', nil]).present?
       end
 
       def journaled_attributes(object)
@@ -56,6 +60,71 @@ module Acts::Journalized
           object.journaled_attributes.stringify_keys
         else
           object.attributes.slice(*object.class.journal_class.journaled_attributes.map(&:to_s))
+        end
+      end
+
+      def get_association_changes(original, changed, association, association_name, key, value)
+        if original.nil?
+          changed.send(association).each_with_object({}) do |associated_journal, h|
+            changed_attribute = "#{association_name}_#{associated_journal.send(key)}"
+            new_value = associated_journal.send(value)
+            h[changed_attribute] = [nil, new_value]
+          end
+        else
+          new_journals = changed.send(association).map(&:attributes)
+          old_journals = original.send(association).map(&:attributes)
+
+          changes_on_association(new_journals, old_journals, association_name, key, value)
+        end
+      end
+
+      def changes_on_association(current, original, association_name, key, value)
+        merged_journals = merge_reference_journals_by_id(current, original, key.to_s, value.to_s)
+
+        changes = added_references(merged_journals)
+                    .merge(removed_references(merged_journals))
+                    .merge(changed_references(merged_journals))
+
+        to_changes_format(changes, association_name.to_s)
+      end
+
+      def added_references(merged_references)
+        merged_references
+          .select { |_, (old_value, new_value)| old_value.to_s.empty? && new_value.present? }
+      end
+
+      def removed_references(merged_references)
+        merged_references
+          .select { |_, (old_value, new_value)| old_value.present? && new_value.to_s.empty? }
+      end
+
+      def changed_references(merged_references)
+        merged_references
+          .select { |_, (old_value, new_value)| old_value.present? && new_value.present? && old_value.strip != new_value.strip }
+      end
+
+      def to_changes_format(references, key)
+        references.each_with_object({}) do |(id, (old_value, new_value)), result|
+          result["#{key}_#{id}"] = [old_value, new_value]
+        end
+      end
+
+      def merge_reference_journals_by_id(new_journals, old_journals, id_key, value)
+        all_associated_journal_ids = new_journals.pluck(id_key) | old_journals.pluck(id_key)
+
+        all_associated_journal_ids.index_with do |id|
+          [select_and_combine_journals(old_journals, id, id_key, value),
+           select_and_combine_journals(new_journals, id, id_key, value)]
+        end
+      end
+
+      def select_and_combine_journals(journals, id, key, value)
+        selected_journals = journals.select { |j| j[key] == id }.pluck(value)
+
+        if selected_journals.empty?
+          nil
+        else
+          selected_journals.sort.join(',')
         end
       end
     end

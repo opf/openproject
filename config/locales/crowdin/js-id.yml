@@ -296,6 +296,34 @@ id:
           one: "Kriteria penyortiran pertama"
           two: "Kriteria penyortiran kedua"
           three: "Kriteria penyortiran ketiga"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "no"
     general_text_yes: "yes"
     general_text_No: "No"
@@ -314,21 +342,22 @@ id:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to iCalendar"
+      title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
-      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
-      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Token name"
-      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
-      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
       copy_url_label: "Copy URL"
-      ical_generation_error_text: "An error occured while generating the iCal URL."
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Aktifkan"
     label_assignee: 'Pelimpahan'
     label_add_column_after: "Add column after"
@@ -505,7 +534,7 @@ id:
     label_remove_all_files: Hapus semua file
     label_add_description: "Tambahkan deskripsi untuk %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Upload file untuk Work package #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Upload file untuk Work package #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "Upload file berikut:"
     label_rejected_files: "File ini tidak bisa di-upload:"
@@ -822,63 +851,6 @@ id:
       activate_no: 'aktifkan untuk menghapus urutan'
     text_work_packages_destroy_confirmation: "Yakin akan menghapus?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Bagan Gantt'
-      labels:
-        title: 'Label configuration'
-        bar: 'Label batang'
-        left: 'Kiri'
-        right: 'Kanan'
-        farRight: 'Jauh sekali'
-        showNone: '-- Tidak ada label --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
-      cancel: Batal
-      change: "Perubahan dalam perencanaan"
-      due_date: "Tanggal selesai"
-      empty: "(kosong)"
-      error: "An error has occurred."
-      errors:
-        not_implemented: "Timeline tidak bisa dirender karena syarat fitur yang digunakan belum diimplementasikan."
-        report_comparison: "Timeline tidak bisa merender komparasi yang dikonfigurasikan. Periksa di bagian konfigurasi, cara resetting mungkin bisa memecahkan masalah ini."
-        report_epicfail: "Error : Timeline tidak dapat dibuka karena ada kesalahan."
-        report_timeout: "Timeline tidak dapat dibuka untuk sementara waktu."
-      filter:
-        grouping_other: "Lainnya"
-        noneSelection: "(kosong)"
-      name: "Nama"
-      outline: "Reset Outline"
-      outlines:
-        aggregation: "Hanya tampilkan agregasi"
-        level1: "Buka level 1"
-        level2: "Buka level 2"
-        level3: "Buka level 3"
-        level4: "Buka level 4"
-        level5: "Buka level 5"
-        all: "Tampilkan semua"
-      project_status: "Project status"
-      really_close_dialog: "Apakah Anda benar-benar ingin menutup dialog dan kehilangan data yang dimasukkan?"
-      responsible: "Penanggung jawab"
-      save: Simpan
-      start_date: "Tanggal start"
-      tooManyProjects: "Lebih dari %{count} proyek. Silakan gunakan filter lebih baik!"
-      selection_mode:
-        notification: 'Klik pada bagian terang paket kerja untuk membuat relasi. Tekan escape untuk membatalkan.'
-      zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Zoom otomatis"
-        days: "Hari"
-        weeks: "Minggu"
-        months: "Bulan"
-        quarters: "Kuartal"
-        years: "Tahun"
-        slider: "Zoom slider"
-        description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
     tl_toolbar:
       zooms: "Zoom level"
       outlines: "Hierarchy level"
@@ -943,10 +915,10 @@ id:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filter Paket-Penugasan'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Click here to add a new work package to this list'
@@ -1108,7 +1080,7 @@ id:
         save_as: "Simpan sebagai"
         export: "Ekspor"
         visibility_settings: "Seting penampakan"
-        share_calendar: "Subscribe to iCalendar"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Rename view"
         delete: "Hapus"
       filter: "Filter"
@@ -1299,6 +1271,7 @@ id:
         between_two_specific_dates: 'between two specific dates'
       legends:
         changes_since: 'Changes since'
+        changes_between: 'Changes between'
         now_meets_filter_criteria: 'Now meets filter criteria'
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'

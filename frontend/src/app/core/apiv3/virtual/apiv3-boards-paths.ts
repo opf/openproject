@@ -102,7 +102,7 @@ export class ApiV3BoardsPaths extends ApiV3Collection<Board, ApiV3BoardPath> {
    * @param projectIdentifier The current project identifier
    */
   public boardPath(projectIdentifier:string) {
-    return this.PathHelper.projectBoardsPath(projectIdentifier);
+    return this.PathHelper.boardsPath(projectIdentifier);
   }
 
   protected createCache():StateCacheService<Board> {

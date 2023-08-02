@@ -44,7 +44,7 @@ RSpec.describe 'Test mail notification', js: true, with_cuprite: true do
     click_link 'Send a test email'
 
     expected = "An error occurred while sending mail (#{error_message})"
-    expect(page).to have_selector('.flash.error', text: expected)
-    expect(page).not_to have_selector('.flash.error strong')
+    expect(page).to have_selector('.op-toast.-error', text: expected)
+    expect(page).not_to have_selector('.op-toast.-error strong')
   end
 end

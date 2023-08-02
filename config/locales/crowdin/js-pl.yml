@@ -296,6 +296,34 @@ pl:
           one: "Pierwsze kryterium sortowania"
           two: "Drugie kryterium sortowania"
           three: "Trzecie kryterium sortowania"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "nie"
     general_text_yes: "tak"
     general_text_No: "Nie"
@@ -314,21 +342,22 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Prześlij pliki z pakietów roboczych do magazynu plików Nextcloud i powiąż je.</li> <li>Monitoruj zmiany w projekcie poprzez śledzenie działań związanych z projektem.</li> <li>Dodaj popularne dni wolne od pracy (dni nierobocze).</li> <li>Archiwizuj projekty użytkowników innych niż administratorzy.</li> <li>Nowy domyślny filtr zaległych pakietów roboczych.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to iCalendar"
+      title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
-      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
-      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Token name"
-      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
-      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
       copy_url_label: "Copy URL"
-      ical_generation_error_text: "An error occured while generating the iCal URL."
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Aktywuj"
     label_assignee: 'Przypisana osoba'
     label_add_column_after: "Dodaj kolumnę po"
@@ -505,7 +534,7 @@ pl:
     label_remove_all_files: Usuń wszystkie pliki
     label_add_description: "Dodaj opis do %{file}"
     label_upload_notification: "Przesyłanie plików..."
-    label_work_package_upload_notification: "Wgrywanie plików dla Zestawu Zadań #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Wgrywanie plików dla Zestawu Zadań #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id}, dodane przez %{author}"
     label_files_to_upload: "Pliki te zostaną przesłane:"
     label_rejected_files: "Pliki nie mogą być przesłane:"
@@ -825,63 +854,6 @@ pl:
       activate_no: 'aktywuj, aby usunąć sortowanie'
     text_work_packages_destroy_confirmation: "Czy na pewno chcesz usunąć wybrane pakiety robocze?"
     text_query_destroy_confirmation: "Czy na pewno chcesz usunąć zaznaczony widok?"
-    timelines:
-      quarter_label: 'Kwartał%{quarter_number}'
-      gantt_chart: 'Wykres Gantta'
-      labels:
-        title: 'Konfiguracja etykiety'
-        bar: 'Pasek etykiety'
-        left: 'Lewa'
-        right: 'Prawa'
-        farRight: 'Po prawej'
-        showNone: '-- Brak etykiety --'
-        description: >
-          Wybierz atrybuty, które mają być zawsze wyświetlane w odpowiednich miejscach wykresu Gantta. Zauważ, że po najechaniu na element, zamiast tych atrybutów będą wyświetlane jego etykiety z datami.
-      button_activate: 'Pokaż wykres Gantta'
-      button_deactivate: 'Ukryj wykres Gantta'
-      cancel: Anuluj
-      change: "Zmiany w zakresie planowania"
-      due_date: "Data zakończenia"
-      empty: "(puste)"
-      error: "Wystapił błąd."
-      errors:
-        not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
-        report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
-        report_epicfail: "The timeline could not be loaded due to an unexpected error."
-        report_timeout: "The timeline could not be loaded in a reasonable amount of time."
-      filter:
-        grouping_other: "Inne"
-        noneSelection: "(brak)"
-      name: "Nazwa"
-      outline: "Reset Outline"
-      outlines:
-        aggregation: "Pokaż tylko podsumowania"
-        level1: "Rozwiń poziom 1"
-        level2: "Rozwiń poziom 2"
-        level3: "Rozwiń poziom 3"
-        level4: "Rozwiń poziom 4"
-        level5: "Rozwiń poziom 5"
-        all: "Pokaż wszystkie"
-      project_status: "Stan projektu"
-      really_close_dialog: "Czy naprawdę chcesz zamknąć okno dialogowe i utracić wprowadzone dane?"
-      responsible: "Odpowiedzialny"
-      save: Zapisz
-      start_date: "Data rozpoczęcia"
-      tooManyProjects: "Więcej niż %{count} projektów. Proszę użyj filtrowania!"
-      selection_mode:
-        notification: 'Kliknij na dowolny podświetlony pakiet roboczy by stworzyć relację. Wciśnij klawisz „Escape” żeby anulować.'
-      zoom:
-        in: "Powiększ"
-        out: "Pomniejsz"
-        auto: "Automatyczny zoom"
-        days: "Dni"
-        weeks: "Tygodnie"
-        months: "Miesiące"
-        quarters: "Kwartały"
-        years: "Lata"
-        slider: "Suwak powiększenia"
-        description: >
-          Wybierz początkowy poziom powiększenia, który ma być wyświetlany, gdy tryb autopowiększenia jest niedostępny.
     tl_toolbar:
       zooms: "Powiększenie"
       outlines: "Poziom hierarchii"
@@ -946,10 +918,10 @@ pl:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filtruj pakiety robocze'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Kliknij tutaj, aby dodać nowy pakiet prac do tej listy'
@@ -1111,7 +1083,7 @@ pl:
         save_as: "Zapisz jako"
         export: "Eksportuj"
         visibility_settings: "Ustawienia widoczności"
-        share_calendar: "Subscribe to iCalendar"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Zmień nazwę widoku"
         delete: "Usuń"
       filter: "Filtr"
@@ -1308,6 +1280,7 @@ pl:
         between_two_specific_dates: 'between two specific dates'
       legends:
         changes_since: 'Changes since'
+        changes_between: 'Changes between'
         now_meets_filter_criteria: 'Now meets filter criteria'
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'

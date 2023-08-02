@@ -383,7 +383,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
         body: propfind_request_body,
         headers: {
           'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
-          'Depth' => '0'
+          'Depth' => '1'
         }
       ).to_return(status: 207, body: propfind_response_body2, headers: {})
       request_stubs << stub_request(:post, "https://example.com/ocs/v1.php/cloud/users/Obi-Wan/groups")

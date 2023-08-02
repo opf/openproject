@@ -161,7 +161,7 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
           end
 
           expect(page)
-            .to have_selector('.flash.error',
+            .to have_selector('.op-toast.-error',
                               text: I18n.t(:'work_packages.bulk.none_could_be_saved',
                                            total: 1))
           child_wp.reload
@@ -182,7 +182,7 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
             click_on 'Move and follow'
           end
 
-          expect(page).to have_selector('.flash.notice')
+          expect(page).to have_selector('.op-toast.-success')
 
           child_wp.reload
           work_package.reload
@@ -226,17 +226,17 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
 
     it 'displays an error message explaining which work package could not be moved and why' do
       expect(page)
-        .to have_selector('.flash.error',
+        .to have_selector('.op-toast.-error',
                           text: I18n.t('work_packages.bulk.could_not_be_saved'))
 
       expect(page)
         .to have_selector(
-          '.flash.error',
+          '.op-toast.-error',
           text: "#{work_package2.id}: Project #{I18n.t('activerecord.errors.messages.error_readonly')}"
         )
 
       expect(page)
-        .to have_selector('.flash.error',
+        .to have_selector('.op-toast.-error',
                           text: I18n.t('work_packages.bulk.x_out_of_y_could_be_saved',
                                        failing: 1,
                                        total: 2,

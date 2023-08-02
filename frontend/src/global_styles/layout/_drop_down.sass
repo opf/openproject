@@ -38,7 +38,9 @@
 // ---------------------------- SHARED styles --------------------------------
 .dropdown,
 .drop-down .menu-drop-down-container
-  position: absolute
+  // primer styles for dropdown sets its position to relative
+  // we need to prioritize the absolute position here with !important
+  position: absolute !important
   z-index: 9999999
 
 .dropdown .dropdown-menu,
@@ -53,6 +55,11 @@
   overflow: visible
   padding: 3px 0
   margin: 0
+  position: relative
+  width: auto
+
+.dropdown-menu::before, .dropdown-menu::after
+  content: none
 
 .dropdown .dropdown-menu,
 .drop-down .menu-drop-down-container

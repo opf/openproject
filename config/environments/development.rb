@@ -34,9 +34,6 @@ OpenProject::Application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
-  # Automatically refresh translations with I18n middleware
-  config.middleware.use ::I18n::JS::Middleware
-
   # Do not eager load code on boot by default.
   config.eager_load = ENV['EAGER_LOAD'].present?
 

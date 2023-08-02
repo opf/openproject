@@ -285,11 +285,11 @@ RSpec.describe API::V3::Users::UserRepresenter do
       end
 
       describe '#json_cache_key' do
-        let(:auth_source) { build_stubbed(:auth_source) }
+        let(:auth_source) { build_stubbed(:ldap_auth_source) }
         let(:former_cache_key) { representer.json_cache_key }
 
         before do
-          user.auth_source = auth_source
+          user.ldap_auth_source = auth_source
 
           former_cache_key
         end
@@ -341,7 +341,7 @@ RSpec.describe API::V3::Users::UserRepresenter do
         end
 
         it 'changes when the user\'s auth_source is updated' do
-          user.auth_source.updated_at = Time.now + 20.seconds
+          user.ldap_auth_source.updated_at = 20.seconds.from_now
 
           expect(representer.json_cache_key)
             .not_to eql former_cache_key

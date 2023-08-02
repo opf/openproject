@@ -230,7 +230,7 @@ See COPYRIGHT and LICENSE files for more details.
     var computedStyle = getComputedStyle(document.documentElement);
 
     document
-      .querySelectorAlt('.design-color--variable-input')
+      .querySelectorAll('.design-color--variable-input')
       .forEach(function(el) {
       if (!el.value || el.value === '') {
         el.placeholder = computedStyle.getPropertyValue('--' + el.dataset.variableName).trim();

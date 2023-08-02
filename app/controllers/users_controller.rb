@@ -72,7 +72,7 @@ class UsersController < ApplicationController
 
     if can_show_user?
       @events = events
-      render layout: 'no_menu'
+      render layout: (can_manage_or_create_users? ? 'admin' : 'no_menu')
     else
       render_404
     end
@@ -96,7 +96,7 @@ class UsersController < ApplicationController
 
     if call.success?
       flash[:notice] = I18n.t(:notice_successful_create)
-      redirect_to(params[:continue] ? new_user_path : edit_user_path(@user))
+      redirect_to(params[:continue] ? new_user_path : helpers.allowed_management_user_profile_path(@user))
     else
       @errors = call.errors
       render action: 'new'
@@ -207,7 +207,7 @@ class UsersController < ApplicationController
       flash[:error] = I18n.t(:notice_internal_server_error, app_title: Setting.app_title)
     end
 
-    redirect_to edit_user_path(@user)
+    redirect_to helpers.allowed_management_user_profile_path(@user)
   end
 
   def destroy
@@ -232,11 +232,16 @@ class UsersController < ApplicationController
   private
 
   def can_show_user?
-    return true if current_user.allowed_to_globally?(:manage_user)
+    return true if can_manage_or_create_users?
     return true if @user == User.current
 
     (@user.active? || @user.registered?) \
     && (@memberships.present? || events.present?)
+  end
+
+  def can_manage_or_create_users?
+    current_user.allowed_to_globally?(:manage_user) ||
+    current_user.allowed_to_globally?(:create_user)
   end
 
   def events
@@ -303,7 +308,7 @@ class UsersController < ApplicationController
   end
 
   def show_local_breadcrumb
-    action_name != 'show'
+    can_manage_or_create_users?
   end
 
   def build_user_update_params

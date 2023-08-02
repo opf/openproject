@@ -42,14 +42,14 @@ See COPYRIGHT and LICENSE files for more details.
            data-controller="menus--expandable-sidemenu"
            data-application-target="dynamic">
 
-        <button class="op-sidemenu--title -spread"
+        <button class="op-sidemenu--title"
                 type="button"
                 data-action="click->menus--expandable-sidemenu#toggleContainer">
-          <%= t(:label_involvement) %>
           <span class="icon3 icon-small icon-arrow-up1"
                 aria-hidden="true"
                 data-menus--expandable-sidemenu-target="indicator">
           </span>
+          <%= t(:label_involvement) %>
         </button>
 
         <ul class="op-sidemenu--items"
@@ -77,4 +77,3 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   </div>
 </div>
-

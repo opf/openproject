@@ -31,17 +31,21 @@ require_module_spec_helper
 require 'services/base_services/behaves_like_delete_service'
 require_relative 'shared_synchronization_trigger_examples'
 
-RSpec.describe Storages::ProjectStorages::DeleteService, type: :model do
+RSpec.describe Storages::ProjectStorages::DeleteService, type: :model, webmock: true do
   context 'with records written to DB' do
     let(:user) { create(:user) }
     let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }
     let(:project) { create(:project, members: { user => role }) }
     let(:other_project) { create(:project) }
-    let(:project_storage) { create(:project_storage, project:) }
+    let(:storage) { create(:storage) }
+    let(:project_storage) { create(:project_storage, project:, storage:) }
     let(:work_package) { create(:work_package, project:) }
     let(:other_work_package) { create(:work_package, project: other_project) }
-    let(:file_link) { create(:file_link, container: work_package, storage: project_storage.storage) }
-    let(:other_file_link) { create(:file_link, container: other_work_package, storage: project_storage.storage) }
+    let(:file_link) { create(:file_link, container: work_package, storage:) }
+    let(:other_file_link) { create(:file_link, container: other_work_package, storage:) }
+    let(:delete_folder_url) do
+      "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.project_folder_path.chop}"
+    end
 
     it 'destroys the record' do
       project_storage
@@ -61,6 +65,36 @@ RSpec.describe Storages::ProjectStorages::DeleteService, type: :model do
         .not_to exist
       expect(Storages::FileLink.where(id: other_file_link.id))
         .to exist
+    end
+
+    context 'with Nextcloud storage' do
+      let(:storage) { create(:nextcloud_storage) }
+      let(:delete_folder_url) do
+        "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.project_folder_path.chop}"
+      end
+      let(:delete_folder_stub) do
+        stub_request(:delete, delete_folder_url).to_return(status: 204, body: nil, headers: {})
+      end
+
+      before do
+        delete_folder_stub
+      end
+
+      it 'tries to remove the project folder at the external nextcloud storage' do
+        expect(described_class.new(model: project_storage, user:).call).to be_success
+        expect(delete_folder_stub).to have_been_requested
+      end
+
+      context 'if project folder deletion request fails' do
+        let(:delete_folder_stub) do
+          stub_request(:delete, delete_folder_url).to_return(status: 404, body: nil, headers: {})
+        end
+
+        it 'tries to remove the project folder at the external nextcloud storage and still succeed with deletion' do
+          expect(described_class.new(model: project_storage, user:).call).to be_success
+          expect(delete_folder_stub).to have_been_requested
+        end
+      end
     end
   end
 

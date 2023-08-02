@@ -243,11 +243,14 @@ module OpenProject
               attribute_highlighting: {
                 href: 'https://www.openproject.org/docs/user-guide/work-packages/work-package-table-configuration/#attribute-highlighting-enterprise-add-on'
               },
+              boards: {
+                href: 'https://www.openproject.org/docs/user-guide/agile-boards/#action-boards-enterprise-add-on'
+              },
               custom_field_projects: {
                 href: 'https://www.openproject.org/docs/system-admin-guide/custom-fields/custom-fields-projects/'
               },
               custom_field_multiselect: {
-                href: 'https://www.openproject.org/docs/system-admin-guide/custom-fields/#create-a-multi-select-custom-field-enterprise-add-on'
+                href: 'https://www.openproject.org/docs/system-admin-guide/custom-fields/#create-a-multi-select-custom-field'
               },
               status_read_only: {
                 href: 'https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-status/#create-a-new-work-package-status'

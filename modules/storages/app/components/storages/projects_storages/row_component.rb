@@ -50,9 +50,7 @@ module Storages::ProjectsStorages
     end
 
     def button_links
-      [delete_link].tap do |links|
-        links.unshift edit_link if OpenProject::FeatureDecisions.storage_project_folders_active?
-      end
+      [edit_link, delete_link]
     end
 
     def edit_link
@@ -64,11 +62,10 @@ module Storages::ProjectsStorages
 
     def delete_link
       link_to '',
-              project_settings_projects_storage_path(project_id: project_storage.project, id: project_storage),
+              confirm_destroy_project_settings_projects_storage_path(project_id: project_storage.project, id: project_storage),
               class: 'icon icon-delete',
-              data: { confirm: I18n.t('storages.delete_warning.project_storage') },
               title: I18n.t(:button_delete),
-              method: :delete
+              method: :get
     end
   end
 end

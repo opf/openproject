@@ -186,7 +186,7 @@ export class HalResourceNotificationService {
       const attributeType = schema.type.toLowerCase();
       const i18nString = `js.hal.error.format.${attributeType}`;
 
-      if (this.I18n.lookup(i18nString) === undefined) {
+      if (this.I18n.t(i18nString, { default: '[not found]' }) === '[not found]') {
         return false;
       }
 

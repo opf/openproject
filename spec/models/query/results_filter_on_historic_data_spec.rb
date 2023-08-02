@@ -36,29 +36,23 @@ RSpec.describe Query::Results,
   let(:pre_historic_time) { historic_time - 1.day }
   let(:recent_time) { 1.hour.ago }
   let!(:work_package) do
-    new_work_package = create(:work_package,
-                              description: "This is the original description of the work package",
-                              project: project_with_member)
-    new_work_package.update_columns created_at: historic_time
-    new_work_package.journals.first.update_columns created_at: historic_time, updated_at: historic_time
-    new_work_package.reload
-    new_work_package.update description: "This is the current description of the work package", updated_at: recent_time
-    new_work_package.journals.last.update_columns created_at: recent_time, updated_at: recent_time
-    new_work_package.reload
-    new_work_package
+    create(:work_package,
+           description: "This is the current description of the work package",
+           project: project_with_member,
+           journals: {
+             historic_time => { description: "This is the original description of the work package" },
+             recent_time => { description: "This is the current description of the work package" }
+           })
   end
 
   let!(:work_package2) do
-    new_work_package = create(:work_package,
-                              description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-                              project: project_with_member)
-    new_work_package.update_columns created_at: historic_time
-    new_work_package.journals.first.update_columns created_at: historic_time, updated_at: historic_time
-    new_work_package.reload
-    new_work_package.update description: "Lorem ipsum", updated_at: recent_time
-    new_work_package.journals.last.update_columns created_at: recent_time, updated_at: recent_time
-    new_work_package.reload
-    new_work_package
+    create(:work_package,
+           description: "Lorem ipsum",
+           project: project_with_member,
+           journals: {
+             historic_time => { description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit" },
+             recent_time => { description: "Lorem ipsum" }
+           })
   end
 
   let(:project_with_member) { create(:project) }

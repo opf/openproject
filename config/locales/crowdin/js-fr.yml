@@ -296,6 +296,34 @@ fr:
           one: "Premier critère de tri"
           two: "Second critère de tri"
           three: "Troisième critère de tri"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "non"
     general_text_yes: "oui"
     general_text_No: "Non"
@@ -314,21 +342,22 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Téléversez et liez des fichiers depuis des lots de travaux vers votre espace de stockage Nextcloud.</li> <li>Suivez les modifications du projet avec le suivi des activités du projet.</li> <li>Ajoutez des jours fériés à l'échelle de l'instance (jours non travaillés)</li> <li>Projets d'archives par les non-administrateurs.</li> <li>Nouveau filtre par défaut pour les lots de travaux en retard.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to iCalendar"
+      title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
-      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
-      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Token name"
-      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
-      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
       copy_url_label: "Copier l'URL"
-      ical_generation_error_text: "An error occured while generating the iCal URL."
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Activer"
     label_assignee: 'Responsable'
     label_add_column_after: "Ajouter une colonne après"
@@ -505,7 +534,7 @@ fr:
     label_remove_all_files: Supprimer tous les fichiers
     label_add_description: "Ajouter une description pour %{file}"
     label_upload_notification: "Chargement des fichiers..."
-    label_work_package_upload_notification: "Transfert en cours des fichiers pour le lot de travaux #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Transfert en cours des fichiers pour le lot de travaux #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} ajouté par %{author}"
     label_files_to_upload: "Ces fichiers vont être transférés:"
     label_rejected_files: "Ces fichiers ne peuvent pas être transférés:"
@@ -823,63 +852,6 @@ fr:
       activate_no: 'activer pour supprimer le tri'
     text_work_packages_destroy_confirmation: "Êtes-vous sûr de vouloir supprimer le(s) lot(s) de travaux sélectionné(s) ?"
     text_query_destroy_confirmation: "Êtes-vous sûr de vouloir supprimer la vue sélectionnée ?"
-    timelines:
-      quarter_label: 'T%{quarter_number}'
-      gantt_chart: 'Diagramme de Gantt'
-      labels:
-        title: 'Configuration du label'
-        bar: 'Libellés des barres'
-        left: 'Gauche'
-        right: 'Droite'
-        farRight: 'Extrême droite'
-        showNone: '-- Aucune étiquette --'
-        description: >
-          Sélectionnez les attributs que vous voulez afficher à tout moment dans les positions respectives du diagramme de Gantt. Notez que, quand vous passez le curseur sur un élément, ses libellés de date seront affichés à la place de ces attributs.
-      button_activate: 'Afficher le diagramme de Gantt'
-      button_deactivate: 'Masquer le diagramme de Gantt'
-      cancel: Annuler
-      change: "Changement dans la planification"
-      due_date: "Date de fin"
-      empty: "(vide)"
-      error: "Une erreur s'est produite."
-      errors:
-        not_implemented: "La Chronologie ne peut être affiché parce qu’il utilise une fonctionnalité qui n'est pas encore implémentée."
-        report_comparison: "La vue Chronologique ne peut afficher les comparaisons configurées. Veuillez consulter la section appropriée dans la configuration, réinitialiser peut aider à résoudre ce problème."
-        report_epicfail: "La vue Chronologique ne peut pas être chargé à cause d'une erreur inattendue."
-        report_timeout: "La vue Chronologique ne peut être chargé dans un laps de temps raisonnable."
-      filter:
-        grouping_other: "Autre"
-        noneSelection: "(none)"
-      name: "Nom"
-      outline: "Réinitialiser l'aperçu"
-      outlines:
-        aggregation: "Ne montrer que les agrégations"
-        level1: "Étendre niveau 1"
-        level2: "Étendre niveau 2"
-        level3: "Étendre 3 niveaux"
-        level4: "Déplier 4 niveaux"
-        level5: "Déplier 5 niveaux"
-        all: "Afficher tout"
-      project_status: "État du projet"
-      really_close_dialog: "Voulez-vous vraiment fermer la boîte de dialogue et perdre les données saisies ?"
-      responsible: "Responsable"
-      save: Enregistrer
-      start_date: "Date de début"
-      tooManyProjects: "Plus de %{count} projets. Veuillez essayez un meilleur filtre !"
-      selection_mode:
-        notification: 'Cliquez sur n’importe quel lot de travaux mis en évidence afin de créer la relation. Appuyez sur Échap pour annuler.'
-      zoom:
-        in: "Zoomer"
-        out: "Dézoomer"
-        auto: "Zoom automatique"
-        days: "Jours"
-        weeks: "Semaines"
-        months: "Mois"
-        quarters: "Trimestres"
-        years: "Années"
-        slider: "Curseur de zoom"
-        description: >
-          Sélectionnez le niveau de zoom initial qui doit être indiqué lorsque le zoom automatique n’est pas disponible.
     tl_toolbar:
       zooms: "Niveau de zoom"
       outlines: "Niveau de hiérarchie"
@@ -944,10 +916,10 @@ fr:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filtrer les lots de travaux'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Cliquez ici pour ajouter un nouveau lot de travaux à cette liste'
@@ -1109,7 +1081,7 @@ fr:
         save_as: "Enregistrer sous"
         export: "Exporter"
         visibility_settings: "Paramètres de visibilité"
-        share_calendar: "Subscribe to iCalendar"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Renommer la vue"
         delete: "Supprimer"
       filter: "Filtrer"
@@ -1302,6 +1274,7 @@ fr:
         between_two_specific_dates: 'between two specific dates'
       legends:
         changes_since: 'Changes since'
+        changes_between: 'Changes between'
         now_meets_filter_criteria: 'Now meets filter criteria'
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'

@@ -250,43 +250,40 @@ RSpec.describe 'API v3 Work package resource',
       let(:baseline_time) { timestamps.first.to_time }
       let(:created_at) { baseline_time - 1.day }
 
-      let(:work_package) do
-        new_work_package = create(:work_package,
-                                  subject: "The current work package",
-                                  assigned_to: current_user,
-                                  project:)
-        new_work_package.update_columns(created_at:)
-        new_work_package
-      end
-      let(:original_journal) do
-        create_journal(journable: work_package, timestamp: created_at,
-                       version: 1,
-                       attributes: { subject: "The original work package",
-                                     assigned_to: current_user,
-                                     project: })
-      end
-      let(:current_journal) do
-        create_journal(journable: work_package, timestamp: 1.day.ago,
-                       version: 2,
-                       attributes: { subject: "The current work package",
-                                     assigned_to: current_user,
-                                     project: })
+      let!(:work_package) do
+        create(:work_package,
+               created_at:,
+               subject: "The current work package",
+               assigned_to: current_user,
+               project:,
+               journals: {
+                 created_at => { subject: "The original work package" },
+                 1.day.ago => {}
+               })
       end
 
-      def create_journal(journable:, version:, timestamp:, attributes: {})
-        work_package_attributes = work_package.attributes.except("id")
-        journal_attributes = work_package_attributes \
-            .extract!(*Journal::WorkPackageJournal.attribute_names) \
-            .symbolize_keys.merge(attributes)
-        create(:work_package_journal, version:,
-                                      journable:, created_at: timestamp, updated_at: timestamp,
-                                      data: build(:journal_work_package_journal, journal_attributes))
+      let(:custom_field) do
+        create(:string_wp_custom_field,
+               name: 'String CF',
+               types: project.types,
+               projects: [project])
       end
 
-      before do
-        work_package.journals.destroy_all
-        original_journal
-        current_journal
+      let(:custom_value) do
+        create(:custom_value,
+               custom_field:,
+               customized: work_package,
+               value: 'This the current value')
+      end
+
+      let(:original_journal) { work_package.journals.first }
+      let(:current_journal) { work_package.journals.last }
+
+      def create_customizable_journal(journal:, custom_field:, value:)
+        create(:journal_customizable_journal,
+               journal:,
+               custom_field:,
+               value:)
       end
 
       it 'succeeds' do
@@ -360,6 +357,157 @@ RSpec.describe 'API v3 Work package resource',
         expect(subject.body)
           .to be_json_eql('PT0S'.to_json)
           .at_path('_embedded/elements/0/_meta/timestamp')
+      end
+
+      context 'when a custom value changes' do
+        before do
+          custom_value
+          create_customizable_journal(journal: original_journal, custom_field:, value: 'Original value')
+          create_customizable_journal(journal: current_journal, custom_field:, value: custom_value.value)
+        end
+
+        it 'embeds the custom fields in the attributesByTimestamp' do
+          expect(subject.body)
+            .to be_json_eql('Original value'.to_json)
+                  .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/customField#{custom_field.id}")
+          expect(subject.body)
+            .to be_json_eql('This the current value'.to_json)
+                  .at_path("_embedded/elements/0/customField#{custom_field.id}")
+          expect(subject.body)
+            .to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1")
+          expect(subject.body)
+            .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1/customField#{custom_field.id}")
+        end
+
+        it 'includes a custom field description in the schema' do
+          expect(subject.body)
+            .to be_json_eql(custom_field.name.to_json)
+                  .at_path("_embedded/schemas/_embedded/elements/0/customField#{custom_field.id}/name")
+        end
+      end
+
+      context 'when a link type custom value changes' do
+        let(:original_user) { create(:user, member_in_project: project, member_through_role: role) }
+        let(:custom_field) do
+          create(:user_wp_custom_field,
+                 name: 'User CF',
+                 types: project.types,
+                 projects: [project])
+        end
+
+        let(:custom_value) do
+          create(:custom_value,
+                 custom_field:,
+                 customized: work_package,
+                 value: current_user.id)
+        end
+
+        before do
+          custom_value
+          create_customizable_journal(journal: original_journal, custom_field:, value: original_user.id)
+          create_customizable_journal(journal: current_journal, custom_field:, value: custom_value.value)
+        end
+
+        it 'embeds the custom fields in the attributesByTimestamp' do
+          expect(subject.body)
+            .to be_json_eql(original_user.name.to_json)
+                  .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/_links/customField#{custom_field.id}/title")
+          expect(subject.body)
+            .to be_json_eql(current_user.name.to_json)
+                  .at_path("_embedded/elements/0/_links/customField#{custom_field.id}/title")
+          expect(subject.body)
+            .to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1")
+          expect(subject.body)
+            .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1/_links/customField#{custom_field.id}")
+        end
+
+        it 'includes a custom field description in the schema' do
+          expect(subject.body)
+            .to be_json_eql(custom_field.name.to_json)
+                  .at_path("_embedded/schemas/_embedded/elements/0/customField#{custom_field.id}/name")
+        end
+      end
+
+      context 'when there is a custom value in the past but not in the now as the custom field has been destroyed' do
+        before do
+          create_customizable_journal(journal: original_journal, custom_field:, value: 'Original value')
+          custom_field.destroy
+        end
+
+        it 'does not embed the custom fields in the attributesByTimestamp' do
+          expect(subject.body)
+            .to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/0")
+          expect(subject.body)
+            .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/customField#{custom_field.id}")
+          expect(subject.body)
+            .to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1")
+          expect(subject.body)
+            .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1/customField#{custom_field.id}")
+        end
+      end
+
+      context 'when there is a custom value in the past but not in the now' \
+              'as the custom field has been disabled for the project' do
+        before do
+          create_customizable_journal(journal: original_journal, custom_field:, value: 'Original value')
+          project.update(work_package_custom_fields: [])
+        end
+
+        it 'does not embed the custom fields in the attributesByTimestamp' do
+          expect(subject.body)
+            .to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/0")
+          expect(subject.body)
+            .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/customField#{custom_field.id}")
+          expect(subject.body)
+            .to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1")
+          expect(subject.body)
+            .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1/customField#{custom_field.id}")
+        end
+      end
+
+      context 'when there is a custom value now but not in the past' do
+        before do
+          custom_value
+          create_customizable_journal(journal: current_journal, custom_field:, value: custom_value.value)
+        end
+
+        it 'has an empty value in the attributesByTimestamp of the past and no value in the now (since it is the current one)' do
+          expect(subject.body)
+            .to be_json_eql(nil.to_json)
+                  .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/customField#{custom_field.id}")
+          expect(subject.body)
+            .to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1")
+          expect(subject.body)
+            .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1/customField#{custom_field.id}")
+        end
+
+        it 'includes a custom field description in the schema' do
+          expect(subject.body)
+            .to be_json_eql(custom_field.name.to_json)
+                  .at_path("_embedded/schemas/_embedded/elements/0/customField#{custom_field.id}/name")
+        end
+      end
+
+      context 'when there is a custom value in the past but not now' do
+        before do
+          create_customizable_journal(journal: original_journal, custom_field:, value: 'Original value')
+        end
+
+        it 'embeds the custom fields in the attributesByTimestamp of the past but not in the now' do
+          expect(subject.body)
+            .to be_json_eql('Original value'.to_json)
+                  .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/customField#{custom_field.id}")
+          expect(subject.body)
+            .to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1")
+          expect(subject.body)
+            .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1/customField#{custom_field.id}")
+        end
+
+        it 'includes a custom field description in the schema' do
+          expect(subject.body)
+            .to be_json_eql(custom_field.name.to_json)
+                  .at_path("_embedded/schemas/_embedded/elements/0/customField#{custom_field.id}/name")
+        end
       end
 
       describe "when filtering such that the filters do not match at all timestamps" do
@@ -641,6 +789,33 @@ RSpec.describe 'API v3 Work package resource',
               .not_to have_json_path('_embedded/elements/0/_embedded/attributesByTimestamp/1/subject')
           end
 
+          context 'when the custom fields are not changed' do
+            before do
+              custom_field
+              custom_value
+              create_customizable_journal(journal: original_journal,
+                                          custom_field:,
+                                          value: custom_value.value)
+              create_customizable_journal(journal: current_journal,
+                                          custom_field:,
+                                          value: custom_value.value)
+            end
+
+            it 'has no attributes in the embedded objects because they are the same as in the main object' do
+              expect(subject.body)
+                .to have_json_path('_embedded/elements/0/_embedded/attributesByTimestamp/0')
+              expect(subject.body)
+                .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/customField#{custom_field.id}")
+              expect(subject.body)
+                .to have_json_path('_embedded/elements/0/_embedded/attributesByTimestamp/1')
+              expect(subject.body)
+                .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1/customField#{custom_field.id}")
+              expect(subject.body)
+                .to be_json_eql('This the current value'.to_json)
+                .at_path("_embedded/elements/0/customField#{custom_field.id}")
+            end
+          end
+
           describe "_meta" do
             describe "matchesFilters" do
               it 'marks the work package as matching the filters today' do
@@ -900,10 +1075,7 @@ RSpec.describe 'API v3 Work package resource',
 
       describe "for multiple work packages" do
         let!(:work_package2) do
-          new_work_package = create(:work_package, subject: "Other work package", project:)
-          new_work_package.update_columns(created_at:)
-          new_work_package.journals.update_all(created_at:)
-          new_work_package
+          create(:work_package, :created_in_past, created_at:, subject: "Other work package", project:)
         end
 
         it "succeeds" do
@@ -940,23 +1112,17 @@ RSpec.describe 'API v3 Work package resource',
         let(:original_date) { Date.current }
         let(:current_date) { Date.current + 1.day }
 
-        let(:work_package) do
-          new_work_package = create(:work_package, due_date: current_date, start_date: current_date, project:, type:)
-          new_work_package.update_columns(created_at:)
-          new_work_package
-        end
-
-        let(:original_journal) do
-          create_journal(journable: work_package,
-                         timestamp: created_at,
-                         version: 1,
-                         attributes: { due_date: original_date, start_date: original_date, duration: 1 })
-        end
-        let(:current_journal) do
-          create_journal(journable: work_package,
-                         timestamp: 1.day.ago,
-                         version: 2,
-                         attributes: { due_date: current_date, start_date: current_date, duration: 1 })
+        let!(:work_package) do
+          create(:work_package,
+                 due_date: current_date,
+                 start_date: current_date,
+                 duration: 1,
+                 project:,
+                 type:,
+                 journals: {
+                   created_at => { due_date: original_date, start_date: original_date },
+                   1.day.ago => {}
+                 })
         end
 
         it 'displays the original date in the attributesByTimestamp' do
@@ -1073,7 +1239,7 @@ RSpec.describe 'API v3 Work package resource',
       context "with caching" do
         context "with relative timestamps" do
           let(:timestamps) { [Timestamp.parse("P-2D"), Timestamp.now] }
-          let(:created_at) { '2015-01-01' }
+          let(:created_at) { Date.parse('2015-01-01') }
 
           describe "when the filter becomes outdated" do
             # The work package has been updated 1 day ago, which is after the baseline
@@ -1124,7 +1290,7 @@ RSpec.describe 'API v3 Work package resource',
 
         context "with relative date keyword timestamps" do
           let(:timestamps) { [Timestamp.parse('oneWeekAgo@12:00+00:00'), Timestamp.now] }
-          let(:created_at) { '2015-01-01' }
+          let(:created_at) { Date.parse('2015-01-01') }
 
           describe "when the filter becomes outdated" do
             # The work package has been updated 1 day ago, which is after the baseline

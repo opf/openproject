@@ -114,9 +114,6 @@ gem 'mail', '= 2.8.1'
 # provide compatible filesystem information for available storage
 gem 'sys-filesystem', '~> 1.4.0', require: false
 
-# Faster posix-compliant spawns for 8.0. conversions with pandoc
-gem 'posix-spawn', '~> 0.3.13', require: false
-
 gem 'bcrypt', '~> 3.1.6'
 
 gem 'multi_json', '~> 1.15.0'
@@ -170,7 +167,7 @@ group :production do
   gem 'dalli', '~> 3.2.0'
 end
 
-gem 'i18n-js', '~> 3.9.0'
+gem 'i18n-js', '~> 4.2.3'
 gem 'rails-i18n', '~> 7.0.0'
 
 gem 'sprockets', '~> 3.7.2' # lock sprockets below 4.0
@@ -236,6 +233,9 @@ group :test do
 
   # XML comparison tests
   gem 'compare-xml', '~> 0.66', require: false
+
+  # PDF Export tests
+  gem 'pdf-inspector', '~> 1.2'
 
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
@@ -355,3 +355,6 @@ gemfiles.each do |file|
   # don't use eval_gemfile(file) here as it will break dependabot!
   send(:eval_gemfile, file) if File.readable?(file)
 end
+
+gem "primer_view_components", git: 'https://github.com/opf/primer_view_components', ref: '18abe4d'
+gem "openproject-octicons", '~>19.6.3'

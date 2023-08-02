@@ -9,8 +9,14 @@ ru:
   permission_delete_files: "Удалить файлы"
   permission_share_files: "Поделиться файлами"
   project_module_storages: "Файловые хранилища"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Не авторизован для внешнего подключения к хранилищу."
+        not_found: "Запрошенный ресурс во внешнем файловом хранилище найти не удалось."
   activerecord:
     models:
+      file_link: "File"
       storages/storage: "Хранилище"
     attributes:
       storages/storage:
@@ -34,8 +40,8 @@ ru:
               authorization_header_missing: >
                 не полностью настроено. Экземпляр Nextcloud не получает заголовок "Authorization", который необходим для подтверждения запросов API на основе токена Bearer. Пожалуйста, проверьте конфигурацию HTTP сервера.
             password:
-              invalid_password: "is not valid."
-              unknown_error: "could not be validated. Please check your storage connection and try again."
+              invalid_password: "недействителен."
+              unknown_error: "не удалось пройти проверку. Пожалуйста, проверьте подключение к вашему хранилищу и повторите попытку."
         storages/file_link:
           attributes:
             origin_id:
@@ -44,6 +50,7 @@ ru:
     errors:
       too_many_elements_created_at_once: "Слишком много элементов, созданных сразу. Ожидалось %{max} максимум - получено %{actual}."
   storages:
+    unknown_storage: "Unknown storage"
     buttons:
       done_continue_setup: "Готово. Продолжить установку"
       done_complete_setup: "Готово, завершить установку"
@@ -63,6 +70,7 @@ ru:
         index: "Файловые хранилища, доступные в этом проекте"
         new: "Добавить хранилище файлов в этот проект"
         edit: "Редактировать хранилище файлов для этого проекта"
+        delete: "Удалить хранилище файлов"
     instructions:
       type: "Перед установкой убедитесь, что у вас есть права администрирования в вашем экземпляре Nextcloud и что перед установкой установлено следующее приложение:"
       type_link_text: "«Интеграционный OpenProject»"
@@ -92,7 +100,11 @@ ru:
       storage: >
         Вы уверены, что хотите удалить это хранилище? Это также удалит хранилище из всех проектов, где оно используется. Кроме того, будут удалены все ссылки из пакетов работ на файлы, хранящиеся в этом хранилище.
       project_storage: >
-        Вы уверены, что хотите удалить это хранилище файлов из проекта? Это также удалит все ссылки на файлы, хранящиеся в этом хранилище для этого проекта.
+        Вы уверены, что хотите удалить %{file_storage} из этого проекта? Для подтверждения этого действия, пожалуйста, введите имя хранилища в поле ниже, это позволит:
+      project_storage_delete_result_1: "Удалить все ссылки из пакетов работ этого проекта в файлы и папки этого хранилища."
+      project_storage_delete_result_2: "В случае, если хранилище имеет автоматически управляемую папку проекта, она и ее файлы будут удалены навсегда."
+      input_delete_confirmation: "Введите имя хранилища файлов %{file_storage} для подтверждения удаления."
+      irreversible_notice: "Удаление хранилища файлов является необратимым действием."
     label_active: "Активный"
     label_inactive: "Неактивный"
     label_creator: "Создатель"

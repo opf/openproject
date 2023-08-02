@@ -99,15 +99,14 @@ sv:
     edit: "Redigera hjälptext för %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: Det finns för närvarande inga autentiseringslägen.
-      no_results_content_text: Skapa ett nytt autentiseringsläge
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
       cancelled_due_to: "Jobbet avbröts på grund av fel: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Detta LDAP-formulär kräver teknisk kunskap om din LDAP / Active Directory-inställning.
       <br/>
@@ -169,10 +168,21 @@ sv:
     index:
       no_results_title_text: För närvarande finns det inga färger.
       no_results_content_text: Skapa en ny färg
-    label_no_color: 'Ingen färg'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "Ingen färg"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Åtgärder'
+      name: "Åtgärder"
       add: 'Lägg till åtgärd'
       assigned_to:
         executing_user_value: '(Tilldela till utförande användare)'
@@ -251,6 +261,8 @@ sv:
         no_results_title_text: Det finns för närvarande inga anpassade fält tillgängliga.
       types:
         no_results_title_text: Det finns för närvarande inga typer tillgängliga.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: Det finns för närvarande inga versioner av projektet.
         no_results_content_text: Skapa en ny version
@@ -267,7 +279,9 @@ sv:
       notice_reset_token: "En ny %{type}-token har skapats. Din åtkomst-token är:"
       token_value_warning: "Notera: Detta är den enda gång du kommer se denna token, var säker på att kopiera den nu."
       no_results_title_text: Det finns för närvarande inga tillgängliga åtkomstnycklar.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Det finns för närvarande inget att rapportera.
@@ -323,6 +337,12 @@ sv:
     index:
       no_results_title_text: Det finns för närvarande inga statusar för arbetspaket.
       no_results_content_text: Lägg till ny status
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Det finns för närvarande inga typer.
@@ -427,12 +447,12 @@ sv:
       attribute_help_text:
         attribute_name: 'Attributet'
         help_text: 'Hjälptext'
-      auth_source:
-        account: "Konto"
-        attr_firstname: "Förnamnsattribut"
-        attr_lastname: "Efternamnsattribut"
-        attr_login: "Attribut för användarnamn"
-        attr_mail: "E-postattribut"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
         base_dn: "Base DN"
         host: "Host"
         onthefly: "Automatic user creation"
@@ -535,7 +555,7 @@ sv:
         color: "Färg"
       user:
         admin: "Administratör"
-        auth_source: "Autentiseringsläge"
+        ldap_auth_source: "LDAP connection"
         current_password: "Nuvarande lösenord"
         force_password_change: "Tvinga lösenordsändring vid nästa inloggning"
         language: "Språk"
@@ -656,7 +676,7 @@ sv:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "har fel längd (måste vara %{count} tecken)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -878,8 +898,8 @@ sv:
                 description: "Lösenorden som anges i de två fälten måste matcha varandra."
             status:
               invalid_on_create: "är inte en giltig status för nya användare."
-            auth_source:
-              error_not_found: "hittades inte"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Välj minst en användare eller grupp."
           role_blank: "måste tilldelas."
@@ -1297,12 +1317,13 @@ sv:
   error_can_not_unarchive_project: "Det här projektet kan inte avarkiveras: %{errors}"
   error_check_user_and_role: "Välj en användare och en roll."
   error_code: "Fel %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'OpenProject cookie saknas. Vänligen kontrollera att cookies är aktiverade, eftersom detta program inte fungerar korrekt annars.'
   error_custom_option_not_found: "Alternativet finns inte."
   error_enterprise_activation_user_limit: "Ditt konto kunde inte aktiveras (begränsning för antal användare har uppnåtts). Kontakta administratören för att få tillgång."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Det gick inte ta bort denna post.'
-  error_in_dependent: "Fel vid försök att ändra beroende objekt: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Fel vid försök att ändra beroende objekt: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Ogiltigt valt värde."
   error_journal_attribute_not_present: "Loggbok innehåller inte attribut %{attribute}."
@@ -1321,6 +1342,7 @@ sv:
   error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Ett fel uppstod när du försökte komma åt versionsarkivet: %{value}"
   error_scm_not_found: "Den posten eller revision finns inte i versionsarkivet."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "Arbetspaketsstatusen kan inte raderas eftersom det används av minst ett arbetspaket."
   error_unable_delete_default_status: "Det går inte att radera standardvalet för arbetspaketsstatus. Var god väl en annan arbetspaketsstatus som standardval innan du raderar den befintliga."
   error_unable_to_connect: "Kan inte ansluta (%{value})"
@@ -1435,7 +1457,7 @@ sv:
   menus:
     admin:
       mail_notification: "E-postaviseringar"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
@@ -1450,6 +1472,26 @@ sv:
         action: "Åtgärd"
         expiration: "Upphör"
       indefinite_expiration: "Aldrig"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1518,9 +1560,9 @@ sv:
   label_attachment_plural: "Filer"
   label_attribute: "Attributet"
   label_attribute_plural: "Attribut"
-  label_auth_source: "Autentiseringsläge"
-  label_auth_source_new: "Nya autentiseringsläge"
-  label_auth_source_plural: "Autentiseringslägen"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentisering"
   label_available_project_work_package_categories: 'Tillgängliga arbetspaketkategorier'
   label_available_project_work_package_types: 'Tillgängliga typer för arbetspaket'
@@ -1579,6 +1621,7 @@ sv:
   label_confirmation: "Bekräftelse"
   label_contains: "innehåller"
   label_content: "Innehåll"
+  label_color_plural: "Colors"
   label_copied: "kopierad"
   label_copy_same_as_target: "Samma som mål"
   label_copy_source: "Källa"
@@ -1607,6 +1650,7 @@ sv:
   label_deleted: "raderad"
   label_deleted_custom_field: "(raderat anpassat fält)"
   label_deleted_custom_option: "(deleted option)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Fallande"
   label_details: "Detaljer"
@@ -1652,6 +1696,7 @@ sv:
   label_expanded_click_to_collapse: "Expanderat. Klicka för att dölja"
   label_f_hour: "%{value} timme"
   label_f_hour_plural: "%{value} timmar"
+  label_favoured: "Favoured"
   label_feed_plural: "Flöden"
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key skapad %{value} sen"
@@ -1683,7 +1728,7 @@ sv:
   label_hierarchy_leaf: "Hierarki-blad"
   label_home: "Hem"
   label_subject_or_id: "Ämne eller ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Villkor"
   label_in: "i"
   label_in_less_than: "i mindre än"
@@ -1847,7 +1892,8 @@ sv:
   label_project_new: "Nytt projekt"
   label_project_plural: "Projekt"
   label_project_settings: "Projektinställningar"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} projekt använder %{storage} lagringsutrymme"
   label_project_view_all: "Visa alla projekt"
   label_project_show_details: "Visa projektdetaljer"
@@ -1935,6 +1981,7 @@ sv:
   label_this_week: "denna vecka"
   label_this_year: "i år"
   label_time_entry_plural: "Förbrukad tid"
+  label_title: "Title"
   label_projects_menu: "Projekt"
   label_today: "idag"
   label_top_menu: "Huvudmeny"
@@ -2038,10 +2085,7 @@ sv:
   label_global_role: "Globalroll"
   label_not_changeable: "(kan inte ändras)"
   label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "Kan inte använda en abstrakt autentiseringskälla."
-    ldap_error: "LDAP-fel: %{error_message}"
-    ldap_auth_failed: "Kunde inte autentisera på LDAP-servern."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Fel under körning av makrot %{macro_name}"
   macro_unavailable: "Makrot %{macro_name} kan inte visas."
   macros:
@@ -2230,7 +2274,7 @@ sv:
   present_access_key_value: "Din %{key_name} är: %{value}"
   notice_automatic_set_of_standard_type: "Ange standard typ automatiskt."
   notice_logged_out: "Du har loggats ut."
-  notice_wont_delete_auth_source: Autentiseringsläget kan inte tas bort så länge det finns användare som använder det.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Du kan inte uppdatera projektets anpassade fält. Projektet är ogiltig: %{errors}"
   notice_attachment_migration_wiki_page: >
     Denna sida genererades automatiskt under uppdateringen av OpenProject. Den innehåller alla bilagor som tidigare associerats med %{container_type} "%{container_name}".
@@ -2264,7 +2308,8 @@ sv:
   permission_add_messages: "Publicera meddelanden"
   permission_add_project: "Skapa projekt"
   permission_archive_project: "Arkivera projekt"
-  permission_manage_user: "Create and edit users"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Skapa delprojekt"
   permission_add_work_package_watchers: "Lägg till bevakare"
@@ -2607,17 +2652,16 @@ sv:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     brute_force_prevention: "Automatiserad användarblockering"
-    language_name_being_default: '%{language_name} (default)'
     date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text_html: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
-    general: "Allmänt"
     experimental:
       save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Feature flags
+    general: "Allmänt"
     highlighting:
       mode_long:
         inline: "Markera attribut(en) inline"
@@ -2629,6 +2673,7 @@ sv:
       enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
@@ -2714,12 +2759,16 @@ sv:
   text_work_packages_destroy_confirmation: "Är du säker du vill ta bort det valda arbetspaket(paketen)?"
   text_work_packages_ref_in_commit_messages: "Referenser och fixande av arbetspaket i incheckningsmeddelanden"
   text_journal_added: "%{label} %{value} lades till"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} uppdaterades"
   text_journal_changed_with_diff: "%{label} ändrades (%{link})"
   text_journal_deleted: "%{label} raderad (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} raderad (%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} ange till %{value}"
   text_journal_set_with_diff: "%{label} anger (%{link})"
@@ -2765,6 +2814,11 @@ sv:
   text_zoom_in: "Zooma in"
   text_zoom_out: "Zooma ut"
   text_setup_mail_configuration: "Konfigurera din e-postleverantör"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "fm"
     formats:
@@ -2777,153 +2831,6 @@ sv:
     show: "Visa tidsram"
     end: "till"
     start: "från"
-  timelines:
-    admin_menu:
-      color: "Färg"
-      colors: "Färger"
-    associations: "Beroenden"
-    button_delete_all: "Ta bort alla"
-    change: "Ändra i planeringen"
-    children: "Underordnade element"
-    color_could_not_be_saved: "Färg kunde inte sparas"
-    current_planning: "Nuvarande planering"
-    dates: "Datum"
-    dates_are_calculated_based_on_sub_elements: "Datum beräknas baserat på delelement."
-    delete_all: "Ta bort alla"
-    delete_thing: "Ta bort"
-    duration: "Varaktighet"
-    duration_days:
-      one: "En dag"
-      other: "%{count} dagar"
-    edit_color: "Redigera färg"
-    edit_thing: "Redigera"
-    edit_timeline: "Redigera tidslinjerapport %{timeline}"
-    delete_timeline: "Ta bort tidslinjerapport %{timeline}"
-    empty: "(tom)"
-    enable_type_in_project: 'Aktivera typ "%{type}"'
-    end: "Slut"
-    errors:
-      not_implemented: "Tidslinjen kan inte skapas eftersom den använder en funktion som inte har implementerats ännu."
-      report_comparison: "Tidslinjen kunde inte återge de konfigurerade jämförelserna. Kontrollera vänligen lämpligt avsnitt i konfiguration. Att återställa konfigurationen kan lösa detta problem."
-      report_epicfail: "Tidslinjen kunde inte hämtas på grund av ett oväntat fel."
-      report_timeout: "Tidslinjen kunde inte laddas på en rimlig tid."
-    filter:
-      errors:
-        timeframe_start: "Tidsram start "
-        timeframe_end: "Tidsram slut "
-        compare_to_relative: "Värdet av relativa jämförelsen "
-        compare_to_absolute: "Värdet av den absoluta jämförelsen "
-        planning_element_time_relative_one: "Starten för arbetspaketen inom en viss tidsram "
-        planning_element_time_relative_two: "Slutet för arbetspaketen inom en viss tidsram  "
-        planning_element_time_absolute_one: "Starten för arbetspaket inom en viss tidsram  "
-        planning_element_time_absolute_two: "Slutet för arbetspaket inom en viss tidsram  "
-      sort:
-        sortation: "Sortera efter"
-        alphabet: "alfabetisk"
-        explicit_order: "explicit ordning"
-        project_sortation: "Sortera projekt efter"
-        date: "datum"
-        default: "standard"
-      column:
-        assigned_to: "Tilldelad till"
-        type: "Typ"
-        due_date: "Slutdatum"
-        name: "Namn"
-        status: "Status"
-        start_date: "Startdatum"
-      columns: "Kolumner"
-      comparisons: "Jämförelser"
-      comparison:
-        absolute: "Absolut"
-        none: "Ingen"
-        relative: "Relativ"
-        compare_relative_prefix: "Jämför nuvarande plan med"
-        compare_relative_suffix: " sedan"
-        compare_absolute: "Jämför nuvarande tidsplanering till %{date}"
-      time_relative:
-        days: "dagar"
-        weeks: "veckor"
-        months: "månader"
-      exclude_own_work_packages: "Dölja arbetspaket från detta projekt"
-      exclude_reporters: "Dölja andra projekt"
-      exclude_empty: "Dölja tomma projekt"
-      grouping: "Gruppering"
-      grouping_hide_group: "Dölj grupp \"%{group}\""
-      grouping_one: "Första grupperingsvillkor"
-      grouping_one_phrase: "Är ett delprojekt av"
-      grouping_other: "Andra"
-      hide_chart: "Dölj diagram"
-      noneElement: "(ingen)"
-      noneSelection: "(ingen)"
-      outline: "Ursprunglig översikt expansion"
-      parent: "Visa delprojekt för"
-      work_package_responsible: "Visa arbetspaket med huvudansvarig"
-      work_package_assignee: "Visa arbetspaket som tilldelats"
-      types: "Visa typer"
-      status: "Visa status"
-      project_time_filter: "Projekt med ett arbetspaket av en viss typ inom en viss tidsram"
-      project_time_filter_timeframe: "Tidsram"
-      project_time_filter_historical_from: "från"
-      project_time_filter_historical_to: "till"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} sen, %{end_label} %{endspan}%{endspanunit} från nu"
-      project_filters: "Filtrera projekt"
-      project_responsible: "Visa projekt med huvudansvarig"
-      project_status: "Visa projektstatus"
-      timeframe: "Visa tidsram"
-      timeframe_end: "till"
-      timeframe_start: "från"
-      timeline: "Allmänna inställningar"
-      zoom: "Zoom-faktor"
-    history: "Historik"
-    new_color: "Ny färg"
-    new_association: "Nytt beroende"
-    new_work_package: "Nytt arbetspaket"
-    new_reporting: "Ny rapportering"
-    new_timeline: "Ny tidslinjerapport"
-    no_projects_for_reporting_available: "Det finns inga projekt för att inrätta en rapportering till."
-    no_right_to_view_timeline: "Du har inte nödvändig behörighet för att visa den länkade tidslinjen."
-    no_timeline_for_id: "Det finns ingen tidslinje med ID %{id}."
-    notice_successful_deleted_all_elements: "Lyckades ta bort alla element"
-    outline: "Återställa disposition"
-    outlines:
-      aggregation: "Visa endast aggregeringar"
-      level1: "Expandera nivå 1"
-      level2: "Expandera nivå 2"
-      level3: "Expandera nivå 3"
-      level4: "Expandera nivå 4"
-      level5: "Expandera nivå 5"
-      all: "Visa alla"
-    reporting_for_project:
-      show: "Status rapporteras till projektet: %{title}"
-      edit_delete: "statusrapport för projektet: %{title}"
-      history: "Historia för status för projektet: %{title}"
-    reporting:
-      delete: "Ta bort status: %{comment}"
-      edit: "Redigera status: %{comment}"
-      show: "Status: %{comment}"
-    planning_element_update: "Uppdaterad: %{title}"
-    type_could_not_be_saved: "Typen kunde inte sparas"
-    reporting_could_not_be_saved: "Rapportering kunde inte sparas"
-    properties: "Egenskaper"
-    really_delete_color: >
-      Är du säker på att du vill ta bort följande färg? Typer med den här färgen kommer inte att raderas.
-    really_delete_reporting: >
-      Är du säker på att du vill ta bort följande rapportering? Tidigare statusrapportering tas också bort.
-    start: "Start"
-    timeline: "Tidslinjerapport"
-    timelines: "Tidslinjerapporter"
-    settings: "Tidslinjer"
-    vertical_work_package: "Vertikala arbetspaket"
-    you_are_viewing_the_selected_timeline: "Du visar markerad tidslinjerapport"
-    zoom:
-      in: "Zooma in"
-      out: "Zooma ut"
-      days: "Dagar"
-      weeks: "Veckor"
-      months: "Månader"
-      quarters: "Kvartal"
-      years: "År"
   title_remove_and_delete_user: Ta bort den inbjudna medlemmen från projektet och radera honom/henne.
   title_enterprise_upgrade: "Uppgradera för att låsa upp fler användare."
   tooltip_user_default_timezone: >

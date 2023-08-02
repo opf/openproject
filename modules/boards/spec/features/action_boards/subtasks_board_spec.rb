@@ -27,8 +27,8 @@
 #++
 
 require 'spec_helper'
-require_relative './../support//board_index_page'
-require_relative './../support/board_page'
+require_relative '../support//board_index_page'
+require_relative '../support/board_page'
 
 RSpec.describe 'Subtasks action board', js: true, with_ee: %i[board_view] do
   let(:type) { create(:type_standard) }
@@ -62,7 +62,7 @@ RSpec.describe 'Subtasks action board', js: true, with_ee: %i[board_view] do
       board_index.visit!
 
       # Create new board
-      board_page = board_index.create_board action: :Parent_child, expect_empty: true
+      board_page = board_index.create_board action: 'Parent-child', expect_empty: true
 
       # Expect we can add a work package column
       board_page.add_list option: 'Parent WP'
@@ -86,7 +86,9 @@ RSpec.describe 'Subtasks action board', js: true, with_ee: %i[board_view] do
       board_index.visit!
 
       # Create new board
-      board_page = board_index.create_board action: :Parent_child, expect_empty: true
+      board_page = board_index.create_board title: 'My Parent-child Board',
+                                            action: 'Parent-child',
+                                            expect_empty: true
 
       # Expect we can add a child 1
       board_page.add_list option: 'Parent WP'
@@ -99,7 +101,7 @@ RSpec.describe 'Subtasks action board', js: true, with_ee: %i[board_view] do
       board_page.expect_movable 'Parent WP', 'Child', movable: true
 
       board_page.board(reload: true) do |board|
-        expect(board.name).to eq 'Action board (parent-child)'
+        expect(board.name).to eq 'My Parent-child Board'
         queries = board.contained_queries
         expect(queries.count).to eq(1)
 
@@ -157,7 +159,7 @@ RSpec.describe 'Subtasks action board', js: true, with_ee: %i[board_view] do
 
     it 'prevents adding a work package to its own column' do
       board_index.visit!
-      board_page = board_index.create_board action: :Parent_child, expect_empty: true
+      board_page = board_index.create_board action: 'Parent-child', expect_empty: true
       board_page.add_list option: 'Parent WP'
       board_page.expect_list 'Parent WP'
       board_page.expect_card 'Parent WP', 'Child'

@@ -210,7 +210,7 @@ cs:
               subject: Organize open source conference
               children:
                 item_0:
-                  subject: Set date and location of conference
+                  subject: Nastavit datum a místo konference
                   children:
                     item_0:
                       subject: Poslat pozvánku řečníkům
@@ -392,12 +392,12 @@ cs:
             item_7:
               subject: Set-up Staging environment
             item_8:
-              subject: Choose a content management system
+              subject: Vyberte systém pro správu obsahu
             item_9:
-              subject: Website navigation structure
+              subject: Navigační struktura webových stránek
               children:
                 item_0:
-                  subject: Set up navigation concept for website.
+                  subject: Nastavte navigační koncept pro webové stránky.
             item_10:
               subject: Internal link structure
             item_11:
@@ -411,7 +411,7 @@ cs:
             item_15:
               subject: Develop v2.0
             item_16:
-              subject: Release v2.0
+              subject: Vydání v2.0
           wiki: |
             ### Sprint planning meeting
 

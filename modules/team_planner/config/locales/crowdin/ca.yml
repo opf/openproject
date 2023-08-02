@@ -5,15 +5,10 @@ ca:
   project_module_team_planner_view: "Planificadors d'equips"
   team_planner:
     label_team_planner: "Planificador d'equips"
-    label_new_team_planner: "New team planner"
+    label_new_team_planner: "Nou planificador d'equips"
     label_create_new_team_planner: "Crea un nou planificador d'equips"
     label_team_planner_plural: "Planificadors d'equips"
     label_assignees: "Usuaris assignats"
-    label_favoured: "Favoured"
-    help_text:
-      project: Team planners are always attached to a project. After creating a team planner you can add work packages from other projects to it.
-      public: Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
-      favoured: Mark this view as favourite and add to the saved views sidebar on the left.
     upsale:
       title: "Planificador d'equips"
       description: "Obté una visió general completa del teu planificador d'equips amb el Planificador d'Equips. Estira, escurça i arrossega paquets de treball per modificar dates, moure-les o canviar l'usuari assignat. "

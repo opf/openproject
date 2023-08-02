@@ -1,6 +1,8 @@
 #English strings go here
 pl:
+  label_calendar: "Kalendarz"
   label_calendar_plural: "Kalendarze"
+  label_new_calendar: "New calendar"
   permission_view_calendar: "Wyświetl kalendarze"
   permission_manage_calendars: "Zarządzaj kalendarzami"
   permission_share_calendars: "Subscribe to iCalendars"

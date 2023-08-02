@@ -383,7 +383,7 @@ OpenProject::Application.routes.draw do
       end
     end
 
-    resources :auth_sources, :ldap_auth_sources do
+    resources :ldap_auth_sources do
       member do
         get :test_connection
       end
@@ -569,7 +569,9 @@ OpenProject::Application.routes.draw do
     patch '/my/settings', action: 'update_settings'
 
     post '/my/generate_rss_key', action: 'generate_rss_key'
+    delete '/my/revoke_rss_key', action: 'revoke_rss_key'
     post '/my/generate_api_key', action: 'generate_api_key'
+    delete '/my/revoke_api_key', action: 'revoke_api_key'
     delete '/my/revoke_ical_token', action: 'revoke_ical_token'
     get '/my/access_token', action: 'access_token'
   end

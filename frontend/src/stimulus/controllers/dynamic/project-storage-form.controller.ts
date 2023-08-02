@@ -157,6 +157,8 @@ export default class ProjectStorageFormController extends Controller {
         this.projectFolderIdInputTarget.value = '';
     }
 
+    this.folderModeValue = mode;
+
     this.toggleFolderDisplay(mode);
   }
 

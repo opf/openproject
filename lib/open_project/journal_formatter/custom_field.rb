@@ -57,6 +57,8 @@ class OpenProject::JournalFormatter::CustomField < JournalFormatter::Base
       :find_list_value
     when 'user'
       :find_user_value
+    when 'version'
+      :find_version_value
     else
       :format_value
     end
@@ -82,13 +84,7 @@ class OpenProject::JournalFormatter::CustomField < JournalFormatter::Base
       .where(id: ids)
       .index_by(&:id)
 
-    ids.map do |id|
-      if user_lookup.key?(id)
-        user_lookup[id].name
-      else
-        I18n.t(:label_missing_or_hidden_custom_option)
-      end
-    end.join(', ')
+    ids_to_names(ids, user_lookup)
   end
 
   def find_list_value(value, custom_field)
@@ -102,6 +98,29 @@ class OpenProject::JournalFormatter::CustomField < JournalFormatter::Base
 
     ids.map do |id|
       id_value[id] || I18n.t(:label_deleted_custom_option)
+    end.join(', ')
+  end
+
+  def find_version_value(value, _custom_field)
+    ids = value.split(",").map(&:to_i)
+
+    # Lookup visible versions we can find
+    version_lookup =
+      Version
+      .visible(User.current)
+      .where(id: ids)
+      .index_by(&:id)
+
+    ids_to_names(ids, version_lookup)
+  end
+
+  def ids_to_names(ids, id_to_name_lookup)
+    ids.map do |id|
+      if id_to_name_lookup.key?(id)
+        id_to_name_lookup[id].name
+      else
+        I18n.t(:label_missing_or_hidden_custom_option)
+      end
     end.join(', ')
   end
 end

@@ -120,7 +120,8 @@ Redmine::MenuManager.map :account_menu do |menu|
             if: Proc.new {
               User.current.allowed_to_globally?(:create_backup) ||
                 User.current.allowed_to_globally?(:manage_placeholder_user) ||
-                User.current.allowed_to_globally?(:manage_user)
+                User.current.allowed_to_globally?(:manage_user) ||
+                User.current.allowed_to_globally?(:create_user)
             }
   menu.push :logout,
             :signout_path,
@@ -238,7 +239,10 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :users,
             { controller: '/users' },
-            if: Proc.new { !User.current.admin? && User.current.allowed_to_globally?(:manage_user) },
+            if: Proc.new {
+                  !User.current.admin? &&
+                  (User.current.allowed_to_globally?(:manage_user) || User.current.allowed_to_globally?(:create_user))
+                },
             caption: :label_user_plural,
             icon: 'group'
 
@@ -369,7 +373,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :icalendar,
             { controller: '/admin/settings/icalendar_settings', action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_icalendar,
+            caption: :label_calendar_subscriptions,
             parent: :calendars_and_dates
 
   menu.push :settings,
@@ -438,6 +442,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/ldap_auth_sources', action: 'index' },
             if: Proc.new { User.current.admin? && !OpenProject::Configuration.disable_password_login? },
             parent: :authentication,
+            caption: :label_ldap_auth_source_plural,
             html: { class: 'server_authentication' },
             last: true
 
@@ -484,7 +489,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :colors,
             { controller: '/colors', action: 'index' },
             if: Proc.new { User.current.admin? },
-            caption: :'timelines.admin_menu.colors',
+            caption: :label_color_plural,
             icon: 'status'
 
   menu.push :enterprise,

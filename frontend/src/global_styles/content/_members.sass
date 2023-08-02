@@ -50,7 +50,7 @@
     // Necessary so that button and select box have the same height
     line-height: 0.6rem
 
-@include breakpoint(680px down)
+@media screen and (max-width: $breakpoint-sm)
   #members_add_form .-flex
     align-items: flex-start
 
@@ -65,7 +65,7 @@
     .form--field
       margin-bottom: 1rem
 
-@media screen and (max-width: 87rem) and (min-width: 681px)
+@media screen and (max-width: $breakpoint-xl) and (min-width: $breakpoint-sm)
   #members_add_form .-flex.-with-button
     .form--field
       max-width: 60%

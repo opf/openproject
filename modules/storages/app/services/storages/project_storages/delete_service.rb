@@ -30,6 +30,12 @@ module Storages::ProjectStorages
   # Performs the deletion in the superclass. Associated FileLinks are deleted
   # by the model before_destroy hook.
   class DeleteService < ::BaseServices::Delete
+    def before_perform(*)
+      delete_project_folder if model.storage.is_a?(Storages::NextcloudStorage)
+
+      super
+    end
+
     # "persist" is a callback from BaseContracted.perform
     # that is supposed to do the actual work in a contract.
     # So in a DeleteService it performs the actual delete,
@@ -44,6 +50,13 @@ module Storages::ProjectStorages
     end
 
     private
+
+    def delete_project_folder
+      Storages::Peripherals::StorageRequests
+        .new(storage: model.storage)
+        .delete_folder_command
+        .call(location: model.project_folder_path)
+    end
 
     # Delete FileLinks with the same Storage as the ProjectStorage.
     # Also, they are attached to WorkPackages via the Project.

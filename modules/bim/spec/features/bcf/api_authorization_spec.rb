@@ -62,7 +62,7 @@ RSpec.describe 'authorization for BCF api',
     fill_in 'application_redirect_uri', with: "urn:ietf:wg:oauth:2.0:oob\nhttps://localhost/my/callback"
     click_on 'Create'
 
-    expect(page).to have_selector('.flash.notice', text: 'Successful creation.')
+    expect(page).to have_selector('.op-toast.-success', text: 'Successful creation.')
 
     expect(page).to have_selector('.attributes-key-value--key',
                                   text: 'Client ID')

@@ -9,8 +9,14 @@ fr:
   permission_delete_files: "Delete files"
   permission_share_files: "Share files"
   project_module_storages: "Stockages de fichiers"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Not authorized for external connection to storage."
+        not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
+      file_link: "File"
       storages/storage: "Stockage"
     attributes:
       storages/storage:
@@ -44,6 +50,7 @@ fr:
     errors:
       too_many_elements_created_at_once: "Trop d'éléments créés à la fois. %{max} attendu au maximum, obtenu %{actual}."
   storages:
+    unknown_storage: "Unknown storage"
     buttons:
       done_continue_setup: "Terminé. Poursuivre la configuration"
       done_complete_setup: "Done, complete setup"
@@ -63,6 +70,7 @@ fr:
         index: "Stockages de fichiers disponibles dans ce projet"
         new: "Ajouter un stockage de fichiers à ce projet"
         edit: "Edit the file storage to this project"
+        delete: "Delete file storage"
     instructions:
       type: "Veuillez vous assurer que vous avez les privilèges d'administration dans votre instance Nextcloud et que l'application suivante est installée avant de procéder à l'installation :"
       type_link_text: "« Intégration OpenProject »"
@@ -92,7 +100,11 @@ fr:
       storage: >
         Voulez-vous vraiment supprimer ce stockage ? Cela supprimera également le stockage de tous les projets où il est utilisé. De plus, il supprimera également tous les liens des lots de travaux vers les fichiers stockés dans ce stockage.
       project_storage: >
-        Voulez-vous vraiment supprimer ce stockage de fichier de ce projet ? Cela supprimera aussi tous les liens vers des fichiers stockés dans ce stockage pour ce projet.
+        Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:
+      project_storage_delete_result_1: "Remove all links from work packages of this project to files and folders of that storage."
+      project_storage_delete_result_2: "In case this storage has an automatically managed project folder, this and its files will be deleted forever."
+      input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
+      irreversible_notice: "Deleting a file storage is an irreversible action."
     label_active: "Active"
     label_inactive: "Inactive"
     label_creator: "Créateur"

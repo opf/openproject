@@ -310,66 +310,6 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       include_examples 'outbound is failing', 500, :error
     end
 
-    describe '#file_query' do
-      let(:file_id) { '819' }
-      let(:expected_response_body) do
-        <<~JSON
-          {
-            "ocs": {
-              "meta": {
-                "status": "ok",
-                "statuscode": 100,
-                "message": "OK",
-                "totalitems": "",
-                "itemsperpage": ""
-              },
-              "data": {
-                "status": "OK",
-                "statuscode": 200,
-                "id": 819,
-                "name": "[Sample] Project Name | Ehuuu(10)",
-                "mtime": 1684491252,
-                "ctime": 0,
-                "mimetype": "application\\/x-op-directory",
-                "size": 0,
-                "owner_name": "OpenProject",
-                "owner_id": "OpenProject",
-                "trashed": false,
-                "modifier_name": null,
-                "modifier_id": null,
-                "dav_permissions": "RMGDNVCK",
-                "path": "files\\/OpenProject\\/[Sample] Project Name | Ehuuu(10)"
-              }
-            }
-          }
-        JSON
-      end
-
-      before do
-        stub_request(:get, "https://example.com/ocs/v1.php/apps/integration_openproject/fileinfo/#{file_id}")
-          .with(headers: { 'Accept' => 'application/json',
-                           'Authorization' => 'Bearer xyz',
-                           'Content-Type' => 'application/json' })
-          .to_return(status: 200, body: expected_response_body, headers: {})
-      end
-
-      context 'with Nextcloud storage type selected' do
-        it 'must return a list of files when called' do
-          result = subject
-                     .file_query
-                     .call(user:, file_id:)
-          expect(result).to be_success
-          storage_file = result.result
-          expect(storage_file.id).to eq(819)
-          expect(storage_file.location).to eq("/OpenProject/%5BSample%5D%20Project%20Name%20%7C%20Ehuuu%2810%29")
-          expect(storage_file.mime_type).to eq("application/x-op-directory")
-          expect(storage_file.name).to eq("[Sample] Project Name | Ehuuu(10)")
-          expect(storage_file.permissions).to eq("RMGDNVCK")
-          expect(storage_file.size).to eq(0)
-        end
-      end
-    end
-
     describe '#upload_link_query' do
       let(:query_payload) { Struct.new(:parent).new(42) }
       let(:upload_token) { 'valid-token' }
@@ -857,7 +797,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
     end
   end
 
-  describe '#propfind_query' do
+  describe '#file_ids_query' do
     let(:nextcloud_subpath) { '' }
     let(:url) { "https://example.com#{nextcloud_subpath}" }
     let(:expected_request_body) do
@@ -955,11 +895,11 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       ).to_return(status: 200, body: expected_response_body, headers: {})
     end
 
-    shared_examples 'a propfind_query response' do
+    shared_examples 'a file_ids_query response' do
       it 'responds with a list of paths and attributes for each of them' do
         result = subject
-                   .propfind_query
-                   .call(depth: '1', path: 'OpenProject', props: %w[oc:fileid])
+                   .file_ids_query
+                   .call(path: 'OpenProject')
                    .result
         expect(result).to eq({ "OpenProject/" => { "fileid" => "349" },
                                "OpenProject/Project #2/" => { "fileid" => "381" },
@@ -971,12 +911,12 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       end
     end
 
-    it_behaves_like 'a propfind_query response'
+    it_behaves_like 'a file_ids_query response'
 
     context 'when NC is deployed under subpath' do
       let(:nexcloud_subpath) { '/subpath' }
 
-      it_behaves_like 'a propfind_query response'
+      it_behaves_like 'a file_ids_query response'
     end
   end
 
@@ -996,6 +936,23 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
         result = subject
                    .rename_file_command
                    .call(source: 'OpenProject/asd', target: 'OpenProject/qwe')
+        expect(result).to be_success
+      end
+    end
+  end
+
+  describe '#delete_folder_command' do
+    before do
+      stub_request(:delete, "https://example.com/remote.php/dav/files/OpenProject/OpenProject/Folder%201")
+        .with(headers: { 'Authorization' => 'Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA==' })
+        .to_return(status: 204, body: '', headers: {})
+    end
+
+    describe 'with Nextcloud storage type selected' do
+      it 'deletes the folder' do
+        result = subject
+                   .delete_folder_command
+                   .call(location: 'OpenProject/Folder 1')
         expect(result).to be_success
       end
     end

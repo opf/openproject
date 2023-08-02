@@ -35,11 +35,12 @@ RSpec.describe 'invitations', js: true, with_cuprite: true do
     allow(User).to receive(:current).and_return current_user
   end
 
-  shared_examples 'resending invitations' do
+  shared_examples 'resending invitations' do |redirect_to_edit_page: true|
     it 'resends the invitation' do
-      visit edit_user_path(user)
+      visit user_path(user)
       click_on I18n.t(:label_send_invitation)
       expect(page).to have_text 'An invitation has been sent to holly@openproject.com.'
+      expect(page).to have_current_path redirect_to_edit_page ? edit_user_path(user) : user_path(user)
 
       # Logout admin
       logout
@@ -58,13 +59,21 @@ RSpec.describe 'invitations', js: true, with_cuprite: true do
   context 'as admin' do
     shared_let(:admin) { create(:admin) }
     let(:current_user) { admin }
+
     include_examples 'resending invitations'
   end
 
-  context 'as global user' do
-    shared_let(:global_manage_user) { create(:user, global_permission: :manage_user) }
-    let(:current_user) { global_manage_user }
+  context 'as as user with global user_create permission' do
+    shared_let(:global_create_user) { create(:user, global_permission: :create_user) }
+    let(:current_user) { global_create_user }
 
-    include_examples 'resending invitations'
+    include_examples 'resending invitations', redirect_to_edit_page: false
+  end
+
+  context 'as as user with global user_create and manage_user permission' do
+    shared_let(:global_create_user) { create(:user, global_permission: %i[create_user manage_user]) }
+    let(:current_user) { global_create_user }
+
+    include_examples 'resending invitations', redirect_to_edit_page: true
   end
 end

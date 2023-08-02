@@ -58,12 +58,11 @@ class Storages::FileLinks::CreateContract < ModelContract
     end
   end
 
-  # Check that the current has the permission on the project.
-  # model variable is available because the concern is executed inside a contract.
   def validate_user_allowed_to_manage
-    return if model.container.nil? || user.allowed_to?(:manage_file_links, model.project)
-
-    errors.add(:base, :error_unauthorized)
+    container = model.container
+    if container.present? && !user.allowed_to?(:manage_file_links, container.project)
+      errors.add(:base, :error_unauthorized)
+    end
   end
 
   def validate_storage_presence

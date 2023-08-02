@@ -9,8 +9,14 @@ tr:
   permission_delete_files: "Delete files"
   permission_share_files: "Share files"
   project_module_storages: "Dosya depoları"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Not authorized for external connection to storage."
+        not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
+      file_link: "File"
       storages/storage: "Depolama"
     attributes:
       storages/storage:
@@ -44,6 +50,7 @@ tr:
     errors:
       too_many_elements_created_at_once: "Aynı anda çok fazla öğe oluşturuldu. En fazla %{max} bekleniyordu, %{actual} alındı."
   storages:
+    unknown_storage: "Unknown storage"
     buttons:
       done_continue_setup: "Tamamlandı. Kuruluma devam et"
       done_complete_setup: "Done, complete setup"
@@ -63,6 +70,7 @@ tr:
         index: "Bu projedeki mevcut dosya depoları"
         new: "Bu projeye bir dosya deposu ekle"
         edit: "Edit the file storage to this project"
+        delete: "Delete file storage"
     instructions:
       type: "Lütfen Nextcloud bulut sunucunuzda yönetici ayrıcalıklarına sahip olduğunuzdan ve kurulumu yapmadan önce aşağıdaki uygulamanın kurulu olduğundan emin olun:"
       type_link_text: "“Entegrasyon OpenProject”"
@@ -92,7 +100,11 @@ tr:
       storage: >
         Bu depolama alanını silmek istediğinizden emin misiniz? Bu, depolamayı kullanıldığı tüm projelerden de siler. Ayrıca, iş paketlerinden o depoda saklanan dosyalara olan tüm bağlantıları da siler.
       project_storage: >
-        Bu dosya deposunu bu projeden kaldırmak istediğinizden emin misiniz? Bu aynı zamanda bu proje için bu depoda saklanan dosyalara olan tüm bağlantıları da kaldıracaktır.
+        Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:
+      project_storage_delete_result_1: "Remove all links from work packages of this project to files and folders of that storage."
+      project_storage_delete_result_2: "In case this storage has an automatically managed project folder, this and its files will be deleted forever."
+      input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
+      irreversible_notice: "Deleting a file storage is an irreversible action."
     label_active: "Active"
     label_inactive: "Inactive"
     label_creator: "Oluşturan"

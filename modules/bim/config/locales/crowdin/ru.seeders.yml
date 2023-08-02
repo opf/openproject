@@ -88,8 +88,8 @@ ru:
       projects:
         demo-construction-project:
           name: "(Демо) Конструкторский проект"
-          status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo construction project.
+          status_explanation: Все задачи и подпроекты выполняются по графику. Вовлеченные люди знают свои задачи. Система полностью настроена.
+          description: Это краткое изложение целей этого демонстрационного строительного проекта.
           news:
             item_0:
               title: Добро пожаловать в демо-проект
@@ -212,97 +212,97 @@ ru:
                 The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
               subject: Базовая оценка
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Этот тип является иерархически родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
               children:
                 item_0:
                   subject: Сбор первичной информации о проекте
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   Define tasks based on the customer needs
-                    *   Time frame and cost estimation shall be defined
+                    * Определите задачи на основе потребностей клиента
+                    * Должны быть определены временные рамки и оценка затрат
 
-                    ## Description
+                    ## Описание
 
-                    *   Identify the customer needs by having a workshop with him/ her
-                    *   Each need shall represent a task with its corresponding work packages
-                    *   Derive the cost estimation and time frame
+                    * Определите потребности клиента, проведя с ним семинар
+                    * Каждая потребность должна представлять собой задачу с соответствующими пакетами работ
+                    * Определите оценку затрат и временные рамки
                 item_1:
                   subject: Подвести итоги
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    * Создать полезный обзор результатов
+                    * Проверить, что было сделано, и обобщить результаты
+                    * Сообщить все соответствующие результаты заказчику
+                    * Определить основные граничные условия проекта
 
-                    ## Description
+                    ## Описание
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
-                    *   ...
+                    * Каждая тема получает свой собственный обзор, который будет использоваться в качестве каталога результатов
+                    * Этот обзор информирует всех участников о принятых решениях
+                    * ...
                 item_2:
                   subject: Окончание базовой оценки
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Этот тип является иерархически родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_2:
               subject: Предварительное планирование
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
               children:
                 item_0:
                   subject: Разработка первого черновика
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    * Создать полезный обзор результатов
+                    * Проверить, что было сделано, и обобщить результаты
+                    * Сообщить обо всех достигнутых результатах заказчику
+                    * Определить основные граничные условия проекта
 
-                    ## Description
+                    ## Описание
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
-                    *   ...
+                    * Каждая тема получает свой собственный обзор, который будет использоваться в качестве каталога результатов
+                    * Этот обзор информирует всех участников о принятых решениях
+                    * ...
                 item_1:
                   subject: Суммировать результаты
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    * Создать полезный обзор результатов
+                    * Проверить, что было сделано, и обобщить результаты
+                    * Сообщить все соответствующие результаты заказчику
+                    * Определить основные граничные условия проекта
 
-                    ## Description
+                    ## Описание
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
-                    *   ...
+                    * Каждая тема получает свой собственный обзор, который будет использоваться в качестве каталога результатов
+                    * Этот обзор информирует всех участников о принятых решениях
+                    * ...
             item_3:
               subject: Прохождение предварительного планирования
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_4:
               subject: Планирование дизайна
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Этот тип является иерархически родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
               children:
                 item_0:
                   subject: Завершение дизайна
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   Design is done
-                    *   All parties are happy with the results of the design planning phase
+                    * Проектирование завершено
+                    * Все стороны довольны результатами этапа планирования проектирования
 
-                    ## Description
+                    ## Описание
 
-                    *   The design of the project will be finished
-                    *   All parties agree on the design
-                    *   The owner is happy with the results
-                    *   ...
+                    * Разработка проекта будет завершена
+                    * Все стороны согласны с дизайном
+                    * Владелец доволен результатами
+                    * ...
                 item_1:
                   subject: Заморозка дизайна
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Этот тип является иерархически родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_5:
               subject: Фаза конструирования
               children:
@@ -393,15 +393,15 @@ ru:
                 item_6:
                   subject: Вечеринка по случаю новоселья
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   Have a blast!
+                    * Повеселись!
 
-                    ## Description
+                    ## Описание
 
-                    *   Invite the construction team
-                    *   Invite your friends
-                    *   Bring some drinks, snacks and your smile
+                    * Пригласите строительную команду
+                    * Пригласите своих друзей
+                    * Принесите напитки, закуски и свою улыбку
         demo-bim-project:
           name: "(Demo) Проект BIM"
           status_explanation: Все задачи и подпроекты выполняются по графику. Вовлеченные люди знают свои задачи. Система полностью настроена.
@@ -462,69 +462,69 @@ ru:
                   name: Вехи
           work_packages:
             item_0:
-              subject: Project kick off creating BIM model
+              subject: Начало проекта по созданию BIM-модели
               description: |-
                 The project Kickoff initializes the start of the project in your company. The whole project team should be invited to the Kickoff for a first briefing.
 
                 The next step could be to check out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
               subject: Подготовка проекта
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Этот тип иерархически является родительским для типов "Столкновение" и "Запрос", таким образом, представляет собой общее примечание.
               children:
                 item_0:
-                  subject: Gathering the project specific data and information for the BIM model
+                  subject: Сбор специфичных для проекта данных и информации для BIM-модели
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   Identify the information strategy for the customer (e.g. by using plain language questions)
-                    *   If provided, analyze the customer information requirements for the BIM model
-                    *   Define an information delivery strategy according to the customers needs
+                    * Определите информационную стратегию для клиента (например, с помощью вопросов на простом языке)
+                    * Если предусмотрено, проанализируйте требования к информации клиента для BIM-модели
+                    * Определите стратегию предоставления информации в соответствии с потребностями клиентов
 
-                    ## Description
+                    ## Описание
 
-                    *   Analyzing the customers needs and goals for using the BIM methodology
-                    *   Results of this tasks should be:
-                    *   The requirements for the project
-                    *   A strategy for the delivery phase
-                    *   ...
+                    * Анализ потребностей и целей клиентов для использования методологии BIM
+                    * Результатами этих задач должны быть:
+                    * Требования к проекту
+                    * Стратегия для этапа доставки
+                    * ...
                 item_1:
                   subject: Создание плана выполнения BIM
                   description: |-
-                    # Goal
+                    # Цель
 
-                    *   A BIM execution plan will be defined according to the exchange requirements specifications (ERS)
-                    *   All team members and partners have a plan on how to reach each of the project goals
+                    * План выполнения BIM будет определен согласно спецификациям требований (ERS)
+                    * Все члены команды и партнеры имеют план достижения каждой из целей проекта
 
-                    # Description
+                    # Описание
 
-                    *   Depending on the identifies use cases, the individual Information Delivery Manuals will be defined
-                    *   To handle the technological interfaces, a software topology will be defined and analyzed and verified
-                    *   ...
+                    * В зависимости от вариантов использования, индивидуальные Руководства по доставке информации будут определены
+                    * Для обработки технологических интерфейсов, Программная топология будет определена и проанализирована и проверена
+                    * ...
                 item_2:
                   subject: Завершение выполнения плана выполнения БИМ
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_2:
               subject: Окончание подготовительного этапа
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_3:
               subject: Создание исходной BIM-модели
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Этот тип иерархически является родительским для типов "Столкновение" и "Запрос", таким образом, представляет собой общее примечание.
               children:
                 item_0:
                   subject: Моделирование исходной BIM-модели
                   description: |-
-                    # Goal
+                    # Цель
 
-                    *   Modelling the initial BIM model
-                    *   Creating a BIM model for the whole project team
+                    * Моделирование начальной модели BIM
+                    * Создание модели BIM для всей команды проекта
 
-                    # Description
+                    # Описание
 
-                    *   According to the gathered data from the customer, the initial model will be modelled
-                    *   The model shall be modelled according to the LOD Matrices and contain the information needed
-                    *   ...
+                    * По собранным данным от клиента, начальная модель будет смоделирована
+                    * Модель должна быть смоделирована в соответствии с матрицами LOD и содержать необходимую информацию
+                    * ...
                 item_1:
-                  subject: Initial, internal model check and revising
+                  subject: Первоначальная внутренняя проверка и пересмотр модели
                   description: |-
                     # Goal
 
@@ -536,10 +536,10 @@ ru:
                     *   ...
                 item_2:
                   subject: Отправка исходной BIM-модели
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Этот тип иерархически является родительским для типов "Столкновение" и "Запрос", таким образом, представляет собой общее примечание.
             item_4:
               subject: Моделирование, первый цикл
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
               children:
                 item_0:
                   subject: Ссылки на внешние BIM-модели
@@ -578,10 +578,10 @@ ru:
                     *   ...
                 item_3:
                   subject: Отправка BIM-модели
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Этот тип иерархически является родительским для типов "Столкновение" и "Запрос", таким образом, представляет собой общее примечание.
             item_5:
               subject: Координация, первый цикл
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
               children:
                 item_0:
                   subject: Координируйте различные BIM-модели
@@ -600,22 +600,22 @@ ru:
                   subject: Управление проблемами, первый цикл
                 item_2:
                   subject: Завершение координации, первый цикл
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_6:
               subject: Моделирование и координация, второй цикл
-              description: "## Goal\\r\n\\r\n*   ...\\r\n\\r\n## Description\\r\n\\r\n* \\  ..."
+              description: "## Цель\r\n\r\n*   ...\r\n\r\n## Описание\r\n\r\n* \\  ..."
             item_7:
               subject: Моделирование и координация, ... цикл
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_8:
               subject: Моделирование и координация, (n-й минус 1) цикл
-              description: "## Goal\\r\n\\r\n*   ...\\r\n\\r\n## Description\\r\n\\r\n* \\  ..."
+              description: "## Цель\r\n\r\n*   ...\r\n\r\n## Описание\r\n\r\n* \\  ..."
             item_9:
-              subject: Modelling & coordinating n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Моделирование и координация n-го цикла
+              description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_10:
-              subject: Finishing modelling & coordinating, n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Завершение моделирования и координации, n-й цикл
+              description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_11:
               subject: Использовать модель для этапа конструирования
               children:

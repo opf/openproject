@@ -122,7 +122,7 @@ RSpec.describe 'Projects index page',
       # Save the page
       scroll_to_and_click(find('.button', text: 'Save'))
 
-      expect(page).to have_selector('.flash.notice', text: 'Successful update.')
+      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.')
 
       RequestStore.clear!
       query = JSON.parse Setting.project_gantt_query

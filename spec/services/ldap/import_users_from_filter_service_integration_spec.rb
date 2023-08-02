@@ -4,7 +4,7 @@ RSpec.describe Ldap::ImportUsersFromFilterService do
   include_context 'with temporary LDAP'
 
   subject do
-    described_class.new(auth_source, filter).call
+    described_class.new(ldap_auth_source, filter).call
   end
 
   let(:filter) { Net::LDAP::Filter.from_rfc2254 '(uid=aa729)' }

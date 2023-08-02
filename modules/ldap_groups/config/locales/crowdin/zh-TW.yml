@@ -3,11 +3,11 @@ zh-TW:
     attributes:
       ldap_groups/synchronized_group:
         dn: '獨特名'
-        auth_source: 'LDAP 連線'
+        ldap_auth_source: 'LDAP 連線'
         sync_users: '同步使用者'
       ldap_groups/synchronized_filter:
         filter_string: '簡約登入目錄制約(LDAP)篩選'
-        auth_source: 'LDAP 連線'
+        ldap_auth_source: 'LDAP 連線'
         group_name_attribute: "群組名字屬性"
         sync_users: '同步使用者'
         base_dn: "搜尋基礎 DN"
@@ -49,7 +49,7 @@ zh-TW:
         title: '移除同步的群組 %{name}'
         confirmation: "如繼續，將移除同步的群組 %{name} 和所有透過該群組同步的全部 %{users_count} 個用戶。"
         info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
-        verification: "Enter the group's name %{name} to verify the deletion."
+        verification: "輸入專案的名稱 %{name} 來確認刪除"
       help_text_html: |
         This module allows you to set up a synchronization between LDAP and OpenProject groups.
         It depends on LDAP groups need to use the <em>groupOfNames / memberOf</em> attribute set to be working with OpenProject.

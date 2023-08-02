@@ -296,6 +296,34 @@ it:
           one: "Primo criterio di ordinamento"
           two: "Secondo criterio di ordinamento"
           three: "Terzo criterio di ordinamento"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "no"
     general_text_yes: "si"
     general_text_No: "No"
@@ -314,21 +342,22 @@ it:
           learn_about: "Scopri di più sulle nuove funzionalità"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                La versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Carica e collega i file dai pacchetti di lavoro al tuo archivio di file Nextcloud.</li> <li>Follow-up su modifiche al progetto con il monitoraggio delle attività del progetto.</li> <li>Aggiungi giorni festivi a livello di istanza (giorni non lavorativi).</li> <li>Archivia i progetti da non amministratori.</li> <li>Nuovo filtro predefinito per macro-attività scadute.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
     ical_sharing_modal:
-      title: "Iscriviti a iCalendar"
+      title: "Subscribe to calendar"
       inital_setup_error_message: "Si è verificato un errore recuperando i dati."
-      description: "Puoi utilizzare l'URL di iCalendar per importare o iscriverti a questo calendario su un client esterno e per visualizzare le informazioni sul pacchetto di lavoro aggiornate da lì."
-      warning: "Sei pregato di non condividerlo con utenti esterni. Chiunque abbia questo link potrà visualizzare i dettagli del pacchetto di lavoro senza un profilo o una password."
-      token_name_label: "Nome del token"
-      token_name_placeholder: "Digita un nome per questo token, es. \"Applicazione del mio calendario\""
-      token_name_description_text: "Questo nome sarà utilizzato per distinguerlo da altri token nell'<a href=\"my/access_token\", target=\"_blank\">elenco di token d'accesso</a>. Può essere utilizzato soltanto una volta per calendario."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
       copy_url_label: "Copia URL"
-      ical_generation_error_text: "Si è verificato un errore generando l'URL di iCal."
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Attiva"
     label_assignee: 'Assegnatario'
     label_add_column_after: "Aggiungi colonna dopo"
@@ -505,7 +534,7 @@ it:
     label_remove_all_files: Elimina tutti i file
     label_add_description: "Aggiunge una descrizione per %{file}"
     label_upload_notification: "Caricamento dei file..."
-    label_work_package_upload_notification: "Caricamento dei file per la macro-attività #%{id}: %{subject} in corso" #%{id}: %{subject} in corso"
+    label_work_package_upload_notification: "Caricamento dei file per la macro-attività #%{id}: %{subject} in corso"
     label_wp_id_added_by: "#%{id} aggiunto da%{author}"
     label_files_to_upload: "Verranno caricati questi files:"
     label_rejected_files: "Questi file non possono essere caricati:"
@@ -823,63 +852,6 @@ it:
       activate_no: 'attivalo per rimuovere l''ordinamento'
     text_work_packages_destroy_confirmation: "Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?"
     text_query_destroy_confirmation: "Sei sicuro di voler eliminare la vista selezionata?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Diagramma di Gantt'
-      labels:
-        title: 'Configurazione etichetta'
-        bar: 'Etichette di barra'
-        left: 'Sinistra'
-        right: 'Destra'
-        farRight: 'Estrema destra'
-        showNone: '-- Nessuna etichetta --'
-        description: >
-          Seleziona gli attributi che desideri mostrare nelle rispettive posizioni del diagramma di Gantt in ogni momento. Nota che al passaggio del mouse su un elemento, verranno visualizzate le etichette delle date anziché questi attributi.
-      button_activate: 'Mostra Diagramma di Gantt'
-      button_deactivate: 'Nascondi Diagramma di Gantt'
-      cancel: Annulla
-      change: "Cambiare nella pianificazione"
-      due_date: "Data di fine"
-      empty: "(vuoto)"
-      error: "Si è verificato un errore."
-      errors:
-        not_implemented: "Non è stato possibile renderizzare la cronologia perché utilizza una funzionalità che non è stata ancora implementata."
-        report_comparison: "La cronologia non può renderizzare i confronti configurati. Per favore controlla la sezione appropriata nella configurazione, un reset può aiutare a risolvere questo problema."
-        report_epicfail: "Non è stato possibile caricare la cronologia a causa di un errore inaspettato."
-        report_timeout: "Non è stato possibile caricare la cronologia in un lasso ti tempo ragionevole."
-      filter:
-        grouping_other: "Altro"
-        noneSelection: "(nessuno)"
-      name: "Nome"
-      outline: "Reimposta le scale"
-      outlines:
-        aggregation: "Visualizza solo le aggregazioni"
-        level1: "Espandi livello 1"
-        level2: "Espandi livello 2"
-        level3: "Espandi livello 3"
-        level4: "Espandi livello 4"
-        level5: "Espandi livello 5"
-        all: "Mostra tutti"
-      project_status: "Stato del progetto"
-      really_close_dialog: "Vuoi davvero chiudere la finestra di dialogo e perdere i dati inseriti?"
-      responsible: "Responsabile"
-      save: Salva
-      start_date: "Data di inizio"
-      tooManyProjects: "Più di %{count} Progetti. Si prega di utilizzare uno o più filtri!"
-      selection_mode:
-        notification: 'Clicca su qualsiasi macro-attività evidenziata per creare una relazione. Premi ESC per annullare.'
-      zoom:
-        in: "Zoom avanti"
-        out: "Zoom indietro"
-        auto: "Zoom automatico"
-        days: "Giorni"
-        weeks: "Settimane"
-        months: "Mesi"
-        quarters: "Trimestri"
-        years: "Anni"
-        slider: "cursore di zoom"
-        description: >
-          Seleziona il livello di zoom iniziale da mostrare quando lo zoom automatico non è disponibile.
     tl_toolbar:
       zooms: "Livello di zoom"
       outlines: "Livello della gerarchia"
@@ -944,10 +916,10 @@ it:
         addition_label: 'Aggiunto per la visualizzazione entro il periodo di confronto'
         removal_label: 'Rimosso dalla vista entro il periodo di confronto'
         modification_label: 'Modificato entro il periodo di confronto'
-        column_incompatible: 'Questo attributo non è compatibile con la base di riferimento e non mostrerà alcuna differenza.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filtra le macro-attività'
-        baseline_incompatible: 'Questo filtro è incompatibile con la base di riferimento e non sarà incluso nel confronto.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'La modalità di base di riferimento è attiva, ma alcuni dei tuoi filtri attivi non sono inclusi nel confronto.'
       inline_create:
         title: 'Clicca qui per aggiungere un nuovo work package a questa lista'
@@ -1109,7 +1081,7 @@ it:
         save_as: "Salva come"
         export: "Esporta"
         visibility_settings: "Impostazioni di visibilità"
-        share_calendar: "Iscriviti a iCalendar"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Rinomina vista"
         delete: "Cancella"
       filter: "Filtro"
@@ -1302,6 +1274,7 @@ it:
         between_two_specific_dates: 'tra due date specifiche'
       legends:
         changes_since: 'Modifiche dal'
+        changes_between: 'Changes between'
         now_meets_filter_criteria: 'Ora soddisfa i criteri del filtro'
         no_longer_meets_filter_criteria: 'Non soddisfa più i criteri del filtro'
         maintained_with_changes: 'Mantenuto con le modifiche'

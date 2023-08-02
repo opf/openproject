@@ -215,7 +215,7 @@ cs:
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Gathering first project information
+                  subject: Shromažďování informací o prvním projektu
                   description: |-
                     ## Goal
 
@@ -228,7 +228,7 @@ cs:
                     *   Each need shall represent a task with its corresponding work packages
                     *   Derive the cost estimation and time frame
                 item_1:
-                  subject: Summarize the results
+                  subject: Shrňte výsledky
                   description: |-
                     ## Goal
 
@@ -243,7 +243,7 @@ cs:
                     *   This overview informs all participants about the decisions made
                     *   ...
                 item_2:
-                  subject: End of basic evaluation
+                  subject: Konec základního hodnocení
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_2:
               subject: Preliminary planning
@@ -504,7 +504,7 @@ cs:
                   subject: Completion of the BIM execution plan
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_2:
-              subject: End of preparation phase
+              subject: Konec přípravné fáze
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_3:
               subject: Creating initial BIM model

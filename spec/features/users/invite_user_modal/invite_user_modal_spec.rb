@@ -76,7 +76,7 @@ RSpec.describe 'Invite user modal', js: true, with_cuprite: true do
 
       mail_invite_recipients.each_with_index do |recipient, index|
         expect(ActionMailer::Base.deliveries[index].to)
-          .to match_array [recipient.mail]
+          .to contain_exactly(recipient.mail)
 
         expect(ActionMailer::Base.deliveries[index].body.encoded)
           .to include "Welcome to OpenProject"
@@ -86,7 +86,7 @@ RSpec.describe 'Invite user modal', js: true, with_cuprite: true do
         overall_index = index + mail_invite_recipients.length
 
         expect(ActionMailer::Base.deliveries[overall_index].to)
-          .to match_array [recipient.mail]
+          .to contain_exactly(recipient.mail)
 
         expect(ActionMailer::Base.deliveries[overall_index].body.encoded)
           .to include OpenProject::TextFormatting::Renderer.format_text(invite_message)
@@ -167,7 +167,7 @@ RSpec.describe 'Invite user modal', js: true, with_cuprite: true do
 
         context 'when the current user has permissions to create a user' do
           let(:permissions) { %i[view_work_packages edit_work_packages manage_members work_package_assigned] }
-          let(:global_permissions) { %i[manage_user] }
+          let(:global_permissions) { %i[create_user] }
 
           it_behaves_like 'invites the principal to the project' do
             let(:added_principal) { User.find_by!(mail: principal.mail) }
@@ -189,7 +189,7 @@ RSpec.describe 'Invite user modal', js: true, with_cuprite: true do
 
         context 'when the current user does not have permissions to invite a user in this project' do
           let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
-          let(:global_permissions) { %i[manage_user] }
+          let(:global_permissions) { %i[create_user] }
 
           let(:project_no_permissions) { create(:project) }
           let(:role_no_permissions) do

@@ -61,6 +61,8 @@ import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
 import { DayElement } from 'flatpickr/dist/types/instance';
 
+const DEFAULT_SELECTED_TIME = '08:00';
+
 @Component({
   selector: 'op-baseline',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -190,10 +192,19 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
         }
       });
     }
+
+    this.wpTableBaseline
+      .pristine$()
+      .subscribe((timestamps) => {
+        if (_.isEqual(timestamps, [DEFAULT_TIMESTAMP])) {
+          this.resetSelection();
+          this.wpTableBaseline.disable();
+        }
+      });
   }
 
   public resetSelection():void {
-    this.selectedTimes = ['00:00', '00:00'];
+    this.selectedTimes = [DEFAULT_SELECTED_TIME, DEFAULT_SELECTED_TIME];
     this.selectedDates = ['', ''];
     this.selectedFilter = null;
     this.mappedSelectedDate = null;

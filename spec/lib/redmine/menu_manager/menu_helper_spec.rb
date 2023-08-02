@@ -111,12 +111,16 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
                 </span>
               </a>
               <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend">
-                <span class="spot-icon spot-icon_1 spot-icon_arrow-right3"></span>
+                <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-arrow-right">
+                  <path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l2.97-2.97H3.75a.75.75 0 0 1 0-1.5h7.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"></path>
+                </svg>
               </button>
             </div>
             <div class="main-menu--children-menu-header">
               <a title="Up" class="main-menu--arrow-left-to-project" data-action="menus--main#ascend">
-                <span class="spot-icon spot-icon_1_25 spot-icon_arrow-left1"></span>
+                <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-arrow-left">
+                  <path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z"></path>
+                </svg>
               </a>
               <a class="main-menu--parent-node ellipsis" href="/test">Parent node</a>
             </div>
@@ -202,13 +206,17 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
                 </span>
               </a>
               <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend">
-                <span class="spot-icon spot-icon_1 spot-icon_arrow-right3"></span>
+                <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-arrow-right">
+                  <path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l2.97-2.97H3.75a.75.75 0 0 1 0-1.5h7.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"></path>
+                </svg>
               </button>
             </div>
             <div class="main-menu--children-menu-header">
               <a title="Up" class="main-menu--arrow-left-to-project"
                  data-action="menus--main#ascend">
-                <span class="spot-icon spot-icon_1_25 spot-icon_arrow-left1"></span>
+                <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-arrow-left">
+                  <path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z"></path>
+                </svg>
               </a>
               <a class="main-menu--parent-node ellipsis" href="/test">Parent node</a></div>
             <ul class="main-menu--children unattached">
@@ -275,12 +283,16 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
                 </span>
               </a>
               <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend">
-                <span class="spot-icon spot-icon_1 spot-icon_arrow-right3"></span>
+                <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-arrow-right">
+                  <path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l2.97-2.97H3.75a.75.75 0 0 1 0-1.5h7.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"></path>
+                </svg>
               </button>
             </div>
             <div class="main-menu--children-menu-header">
               <a title="Up" class="main-menu--arrow-left-to-project" data-action="menus--main#ascend">
-                <span class="spot-icon spot-icon_1_25 spot-icon_arrow-left1"></span>
+                <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-arrow-left">
+                  <path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z"></path>
+                </svg>
               </a>
               <a class="main-menu--parent-node ellipsis" href="/test">Parent node</a></div>
             <ul class="main-menu--children">
@@ -295,12 +307,16 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
                     </span>
                   </a>
                   <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend">
-                    <span class="spot-icon spot-icon_1 spot-icon_arrow-right3"></span>
+                    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-arrow-right">
+                      <path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l2.97-2.97H3.75a.75.75 0 0 1 0-1.5h7.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"></path>
+                    </svg>
                   </button>
                 </div>
                 <div class="main-menu--children-menu-header">
                   <a title="Up" class="main-menu--arrow-left-to-project" data-action="menus--main#ascend">
-                    <span class="spot-icon spot-icon_1_25 spot-icon_arrow-left1"></span>
+                    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-arrow-left">
+                      <path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z"></path>
+                    </svg>
                   </a>
                   <a class="main-menu--parent-node ellipsis" href="/test">Child node</a>
                 </div>
@@ -317,7 +333,9 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
             <div class="main-menu--children-menu-header">
               <a title="Up" class="main-menu--arrow-left-to-project"
                  data-action="menus--main#ascend">
-                <span class="spot-icon spot-icon_1_25 spot-icon_arrow-left1"></span>
+                <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-arrow-left">
+                  <path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z"></path>
+                </svg>
               </a>
               <a class="main-menu--parent-node ellipsis" href="/test">Parent node</a>
             </div>

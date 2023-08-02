@@ -38,21 +38,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
   let(:embed_links) { false }
   let(:timestamps) { nil }
   let(:query) { nil }
-  let(:properties) do
-    %w[
-      subject
-      start_date
-      due_date
-      assignee
-      responsible
-      project
-      status
-      priority
-      type
-      version
-      parent
-    ]
-  end
 
   let(:due_date) { Date.current + 5.days }
   let(:start_date) { Date.current - 5.days }
@@ -70,6 +55,19 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
     end
   end
   let(:project) { build_stubbed(:project) }
+  let(:custom_field) do
+    build_stubbed(:string_wp_custom_field,
+                  name: 'String CF',
+                  types: project.types,
+                  projects: [project])
+  end
+
+  let(:available_custom_fields) { [custom_field] }
+  let(:custom_value) do
+    build_stubbed(:custom_value,
+                  custom_field:,
+                  value: 'This is a string value')
+  end
 
   let(:work_package) do
     build_stubbed(:work_package,
@@ -90,11 +88,17 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
         .to receive(:respond_to?)
               .with(:wrapped?)
               .and_return(true)
+      allow(wp)
+        .to receive(:available_custom_fields)
+        .and_return(available_custom_fields)
+      allow(wp)
+        .to receive(:custom_field_values)
+        .and_return([custom_value])
     end
   end
   let(:timestamp) { Timestamp.new(1.day.ago) }
 
-  let(:attributes_changed_to_baseline) { work_package.attributes.keys }
+  let(:attributes_changed_to_baseline) { work_package.attributes.keys + ["custom_field_#{custom_field.id}"] }
   let(:exists_at_timestamp) { true }
   let(:with_query) { true }
   let(:matches_filters_at_timestamp) { true }
@@ -136,6 +140,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
         'subject' => work_package.subject,
         'startDate' => work_package.start_date,
         'dueDate' => work_package.due_date,
+        "customField#{custom_field.id}" => 'This is a string value',
         '_meta' => {
           'matchesFilters' => true,
           'exists' => true,
