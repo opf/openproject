@@ -50,6 +50,8 @@ module Backups
 
     def after_perform(call)
       if call.success?
+        reset_status
+
         job = RestoreBackupJob.perform_later backup:, user:, preview: preview?
 
         backup.touch # so that the representer cache is invalidated
@@ -64,6 +66,14 @@ module Backups
       else
         call
       end
+    end
+
+    def reset_status
+      # There will still be a job status from when the backup was created.
+      # Delete it so we can create a new status for the restoration.
+      JobStatus::Status
+        .where(reference: backup)
+        .delete_all
     end
   end
 end
