@@ -308,7 +308,7 @@ class Attachment < ApplicationRecord
   end
 
   def internal_container?
-    container&.is_a?(Export)
+    [Export, Backup].any? { |type| container&.is_a?(type) }
   end
 
   def container_changed_more_than_once

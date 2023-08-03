@@ -144,6 +144,16 @@ class Admin::BackupsController < ApplicationController
 
   def upload; end
 
+  def perform_upload
+    backup = create_uploaded_backup
+
+    JobStatus::Status.create(reference: backup, message: "imported", status: :success)
+
+    flash[:info] = I18n.t("backup.notice_uploaded", comment: backup.comment)
+
+    redirect_to "/admin/backups"
+  end
+
   private
 
   def preview_if_active!
@@ -232,18 +242,8 @@ class Admin::BackupsController < ApplicationController
     end
   end
 
-  def perform_upload
-    backup = create_uploaded_backup
-
-    JobStatus::Status.create(reference: backup, message: "imported", status: :success)
-
-    flash[:info] = I18n.t("backup.notice_uploaded", comment: backup.comment)
-
-    redirect_to "/admin/backups"
-  end
-
   def create_uploaded_backup # rubocop:disable Metrics/AbcSize
-    Backup.new creator: current_user, comment: params[:comment]
+    backup = Backup.new creator: current_user, comment: params[:comment]
     backup.attachments.build file: params[:backup_file], author: current_user
     backup.save!
 
