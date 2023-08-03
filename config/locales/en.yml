@@ -1222,11 +1222,13 @@ en:
   button_login: "Sign in"
   button_move: "Move"
   button_move_and_follow: "Move and follow"
+  button_preview: "Preview"
   button_print: "Print"
   button_quote: "Quote"
   button_remove: Remove
   button_rename: "Rename"
   button_replace: "Replace"
+  button_restore: "Restore"
   button_revoke: "Revoke"
   button_reply: "Reply"
   button_reset: "Reset"

@@ -122,7 +122,7 @@ class Admin::BackupsController < ApplicationController
 
     flash[:info] = I18n.t("backup.notice_deleted")
 
-    redirect_to "/admin/backups/"
+    redirect_to action: :index
   end
 
   def reset_token
@@ -151,7 +151,7 @@ class Admin::BackupsController < ApplicationController
 
     flash[:info] = I18n.t("backup.notice_uploaded", comment: backup.comment)
 
-    redirect_to "/admin/backups"
+    redirect_to action: :index
   end
 
   private
@@ -199,7 +199,7 @@ class Admin::BackupsController < ApplicationController
 
     cookies.signed[:login_user_id] = get_schema_user_id schema
 
-    redirect_to "/admin/backups/"
+    redirect_to action: :index
   end
 
   def do_restore(backup_id:)

@@ -71,11 +71,11 @@ module Backups
     end
 
     def default_links
-      [helpers.link_to("Delete", admin_backup_path(backup.id), method: :delete, class: "icon icon-delete")]
+      [helpers.link_to(I18n.t(:button_delete), admin_backup_path(backup.id), method: :delete, class: "icon icon-delete")]
     end
 
     def ready_links
-      ready = [helpers.link_to("Download", "/attachments/#{backup.attachments.first.id}", class: "icon icon-download")]
+      ready = [helpers.link_to(I18n.t(:button_download), attachment_path(backup.attachments.first.id), class: "icon icon-download")]
 
       ready + restore_links
     end
@@ -84,8 +84,8 @@ module Backups
       return [] unless Setting.restore_backup_enabled?
 
       [
-        helpers.link_to("Preview", preview_admin_backup_path(backup.id), class: "icon icon-watched"),
-        helpers.link_to("Restore", restore_admin_backup_path(backup.id), class: "icon icon-import")
+        helpers.link_to(I18n.t(:button_preview), preview_admin_backup_path(backup.id), class: "icon icon-watched"),
+        helpers.link_to(I18n.t(:button_restore), restore_admin_backup_path(backup.id), class: "icon icon-import")
       ]
     end
   end

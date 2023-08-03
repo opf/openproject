@@ -537,8 +537,7 @@ OpenProject::Application.routes.draw do
         to: redirect("#{rails_relative_url_root}/attachments/%{id}")
 
     scope ':id' do
-      get '(/:filename)',
-          to: redirect("#{rails_relative_url_root}/api/v3/attachments/%{id}/content")
+      get '(/:filename)', as: :attachment, to: redirect("#{rails_relative_url_root}/api/v3/attachments/%{id}/content")
 
       delete '',
              to: redirect("#{rails_relative_url_root}/api/v3/attachments/%{id}")
