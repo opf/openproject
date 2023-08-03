@@ -75,7 +75,9 @@ module Backups
     end
 
     def ready_links
-      ready = [helpers.link_to(I18n.t(:button_download), attachment_path(backup.attachments.first.id), class: "icon icon-download")]
+      ready = [
+        helpers.link_to(I18n.t(:button_download), attachment_path(backup.attachments.first.id), class: "icon icon-download")
+      ]
 
       ready + restore_links
     end
