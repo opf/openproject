@@ -210,6 +210,10 @@ A (very rough) diagram can be found on [https://www.openproject.org/hosting/](ht
 
 No, currently we do not have an entity-relationship diagram for OpenProject.
 
+### Can I edit the Home page?
+
+Only the welcome block/text can be edited, the rest can't. However, you can change the theme and logo of your OpenProject instance [this way](../system-admin-guide/design) if you use Enterprise on-premises or Enterprise cloud.
+
 ## FAQ regarding OpenProject BIM edition
 
 ### How can I find out more about OpenProject BIM edition?
