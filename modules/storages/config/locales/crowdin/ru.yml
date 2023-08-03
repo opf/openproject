@@ -16,7 +16,7 @@ ru:
         not_found: "Запрошенный ресурс во внешнем файловом хранилище найти не удалось."
   activerecord:
     models:
-      file_link: "File"
+      file_link: "Файл"
       storages/storage: "Хранилище"
     attributes:
       storages/storage:
@@ -50,7 +50,7 @@ ru:
     errors:
       too_many_elements_created_at_once: "Слишком много элементов, созданных сразу. Ожидалось %{max} максимум - получено %{actual}."
   storages:
-    unknown_storage: "Unknown storage"
+    unknown_storage: "Неизвестное хранилище"
     buttons:
       done_continue_setup: "Готово. Продолжить установку"
       done_complete_setup: "Готово, завершить установку"
