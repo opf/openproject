@@ -121,15 +121,31 @@ Much like in the previous step, you will need to copy these two generated values
 
 Navigate back to your OpenProject tab and click on the **Done. Continue setup** button on the screen you previously left it at. You will now see a screen where you will be able to enter the Nextcloud values. 
 
-![OpenProject_NC_OAuth_values](3_3_01-OP_OAuth_application_details.png)
+![OpenProject_NC_OAuth_values](OpenProject - OAuth.png)
 
-Once you have entered the client ID and client secrets on this page, click on **Save and complete setup**. In the next screen, click on **Yes, I have copied these values**. At this point, your instance configuration is complete and you should see a green banner confirming this.
+Once you have entered the client ID and client secrets on this page, click on **Save and continue setup**.
 
-![Integration successfully completed on the OpenProject end](Nextcloud-set-up-in-OP.png)
+#### 5. Automatically managed folders
+
+As a last step, you will be asked if you want to use automatically managed folders. The automatically managed folders allows OpenProject creating folders per project automatically and manage its permissions. This is recommended as it ensures that every team member has always the correct access permissions.
+
+![OpenProject Automatically managed folders](OpenProject Project folders - Default.png)
+
+In case you want to use this functionality you will be requested to introduce a password. Switch back to Nextcloud and click on **Yes, I have copied these values**. This will open the last step of the process in Nextcloud where you can also select if you want to use automatically managed folders, click on **Setup OpenProject user, group and folder** to configure the folders and see the password. Once configured you can copy the password back to OpenProject.
+
+![Nextcloutd Automatically managed folders setup](Nextcloud Project folders - Active default.png)
+
+![Nextcloutd Automatically managed folders](Nextcloud Project folders - Application password.png)
+
+> **Important**: Install the “Group folders” app in Nextcloud is required to be able to use automatically managed folders. Each storage can only have one group folder with the same name.
+
+At this point, you can click on **Done, complete setup** in both applications and your instance configuration will be completed.
+
+![Integration successfully completed on the OpenProject end](OpenProject complete setup.png)
 
 The **OpenProject Integration** page on your Nextcloud tab should also indicate that the integration is complete with three green check marks.
 
-![Integration successfully set up on the Nextcloud end, three green checks visible](3_2_05-NC_Success.png)
+![Integration successfully set up on the Nextcloud end, three green checks visible](Nextcloud complete setup.png)
 
 The integration is now complete, and your OpenProject and Nextcloud instances are ready to share information. 
 
