@@ -55,7 +55,7 @@ The current month is automatically selected.
 2. The **today** button brings you back to the current date.
 3. You can use the month/week toggle on the top right corner to switch between either a month view or a week view. 
 
-When multiple work packages are scheduled or span a single day, they are displayed in a vertical stack.
+If multiple work packages are scheduled on the same day, they are displayed in a vertical stack.
 
 Click on a work package strip to view the work package in split screen mode.
 
