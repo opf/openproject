@@ -31,7 +31,7 @@
 class AddFileLinkJournalsToExistingContainers < ActiveRecord::Migration[7.0]
   def up
     system_user = SystemUser.first
-    containers = Storages::FileLink.includes(:container).map(&:container).uniq
+    containers = Storages::FileLink.includes(:container).map(&:container).uniq.compact
 
     containers.each do |container|
       next unless container.class.journaled?
