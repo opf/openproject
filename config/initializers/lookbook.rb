@@ -1,4 +1,4 @@
-OpenProject::Application.configure do
+Rails.application.config.after_initialize do
   next unless OpenProject::Configuration.lookbook_enabled?
 
   config.lookbook.project_name = "OpenProject Lookbook"
