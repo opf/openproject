@@ -44,20 +44,28 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
 
   private
 
-  def cause_type_translation(_type)
-    # currently only date changes have a cause, but in the future when other changes have a cause,
-    # those can be changed here.
-
-    I18n.t('journals.caused_changes.dates_changed')
+  def cause_type_translation(type)
+    case type
+    when 'system_update'
+      I18n.t("journals.caused_changes.system_update")
+    else
+      I18n.t("journals.caused_changes.dates_changed")
+    end
   end
 
   def cause_description(cause, html)
     case cause['type']
+    when 'system_update'
+      system_update_message(cause)
     when 'working_days_changed'
       working_days_changed_message(cause['changed_days'])
     else
       related_work_package_changed_message(cause, html)
     end
+  end
+
+  def system_update_message(cause)
+    I18n.t("journals.cause_descriptions.system_update.#{cause['feature']}")
   end
 
   def related_work_package_changed_message(cause, html)
