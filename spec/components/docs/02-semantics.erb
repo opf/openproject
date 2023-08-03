@@ -1,0 +1,29 @@
+---
+title: Semantics
+---
+
+When describing components, we use certain words in very particular ways:
+
+### Disabled
+
+_Disabled_ is when no interaction is possible. A disabled element can itself have multiple states: a checkbox can be checked and disabled, a switch can be ON and disabled, a dropdown might have a value but but disabled.
+
+The opposite of disabled is _enabled_. All elements are described in their enabled state unless explicitly mentioned.
+
+### Focused and active
+
+Focus simply refers to when an element has the current object in DOM that has the input focus. In OpenProject, elements that are focused generally have a blue outline. 
+
+The opposite of _in focus_ (or focused) is _not in focus_ (or focused).
+
+_Active_ is a similar state as focused, but not entirely the same. For example, in the date picker, the start date can be "active" (meaning that clicking on a date in the mini-calendar will change the start date) but not in focus (because the mouse has clicked outside of the field).
+
+The opposite of active is _inactive_.
+
+### Checked and on
+
+Checkboxes can be _checked_ (true) or _unchecked_ (false)
+
+Radio options can also be "checked" (as in, in a set of three options, only one can be checked) despite this not being the technically correct word. This isi to to distinguish it from "selected" (which refers to selecting an element or an area with the cursor).
+
+Switches can be _ON_ (true) or _OFF_ (false).

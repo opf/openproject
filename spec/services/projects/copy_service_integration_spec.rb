@@ -410,15 +410,15 @@ RSpec.describe(
         expect(member.principal).to eql(current_user)
         expect(member.roles).to contain_exactly(role, new_project_role)
 
-        expect(project_copy.projects_storages.count).to eq(2)
-        automatic_project_storage_copy = project_copy.projects_storages.find_by(storage: storage1)
+        expect(project_copy.project_storages.count).to eq(2)
+        automatic_project_storage_copy = project_copy.project_storages.find_by(storage: storage1)
         expect(automatic_project_storage_copy.id).not_to eq(source_automatic_project_storage.id)
         expect(automatic_project_storage_copy.project_id).to eq(project_copy.id)
         expect(automatic_project_storage_copy.creator_id).to eq(current_user.id)
         expect(automatic_project_storage_copy.project_folder_id).to eq("819")
         expect(automatic_project_storage_copy.project_folder_mode).to eq('automatic')
 
-        manual_project_storage_copy = project_copy.projects_storages.find_by(storage: storage2)
+        manual_project_storage_copy = project_copy.project_storages.find_by(storage: storage2)
         expect(manual_project_storage_copy.id).not_to eq(source_manual_project_storage.id)
         expect(manual_project_storage_copy.project_id).to eq(project_copy.id)
         expect(manual_project_storage_copy.creator_id).to eq(current_user.id)

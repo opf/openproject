@@ -37,7 +37,7 @@ export class SpotSelectorFieldComponent {
   /**
    * Whether the label should be in bold or regular font weight
    */
-  @Input() labelWeight:'bold'|'regular' = 'regular';
+  @Input() labelWeight:'bold'|'regular' = 'bold';
 
   /**
    * Whether this input is required

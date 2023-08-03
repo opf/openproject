@@ -69,14 +69,19 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     .requireAndStream()
     .subscribe((wp) => this.resource = wp);
 
-  constructor(public injector:Injector,
+  constructor(
+    public injector:Injector,
     public table:WorkPackageTable,
     public workPackageId:string,
-    public classIdentifier:string) {
+    public classIdentifier:string,
+  ) {
     super(injector);
   }
 
   destroy() {
+    _.each(this.activeFields, (field) => {
+      field.deactivate(false);
+    });
     this.resourceSubscription.unsubscribe();
   }
 

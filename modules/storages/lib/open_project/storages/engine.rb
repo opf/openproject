@@ -119,7 +119,7 @@ module OpenProject::Storages
                    dependencies: %i[view_file_links],
                    contract_actions: { file_links: %i[manage] }
         permission :manage_storages_in_project,
-                   { 'storages/admin/projects_storages': %i[index new edit update create destroy destroy_info set_permissions] },
+                   { 'storages/admin/project_storages': %i[index new edit update create destroy destroy_info set_permissions] },
                    dependencies: %i[]
 
         OpenProject::Storages::Engine.permissions.each do |p|
@@ -138,17 +138,17 @@ module OpenProject::Storages
            icon: 'hosting'
 
       menu :project_menu,
-           :settings_projects_storages,
-           { controller: '/storages/admin/projects_storages', action: 'index' },
+           :settings_project_storages,
+           { controller: '/storages/admin/project_storages', action: 'index' },
            caption: :project_module_storages,
            parent: :settings
 
       configure_menu :project_menu do |menu, project|
         if project.present? &&
-           User.current.logged? &&
-           User.current.member_of?(project) &&
-           User.current.allowed_to?(:view_file_links, project)
-          project.projects_storages.each do |project_storage|
+          User.current.logged? &&
+          User.current.member_of?(project) &&
+          User.current.allowed_to?(:view_file_links, project)
+          project.project_storages.each do |project_storage|
             storage = project_storage.storage
             href = if project_storage.project_folder_inactive?
                      storage.host

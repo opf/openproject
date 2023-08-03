@@ -16,7 +16,7 @@ lt:
         not_found: "Prašytas resursas nerastas išorinėje failų saugykloje."
   activerecord:
     models:
-      file_link: "File"
+      file_link: "Failas"
       storages/storage: "Saugykla"
     attributes:
       storages/storage:
@@ -50,7 +50,7 @@ lt:
     errors:
       too_many_elements_created_at_once: "Per daug elementu vienu metu. Tikėtasi daugiausia %{max}, gauta %{actual}."
   storages:
-    unknown_storage: "Unknown storage"
+    unknown_storage: "Nežinoma saugykla"
     buttons:
       done_continue_setup: "Atlikta. Tęsti nustatymą"
       done_complete_setup: "Atlikta, baigti nustatymą"

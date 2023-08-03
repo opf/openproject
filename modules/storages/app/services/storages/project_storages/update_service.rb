@@ -52,7 +52,7 @@ module Storages::ProjectStorages
       project_storage = service_call.result
       project_folder = ::Storages::LastProjectFolder
                          .find_by(
-                           projects_storage_id: project_storage.id,
+                           project_storage_id: project_storage.id,
                            mode: project_storage.project_folder_mode
                          )
 
@@ -60,7 +60,7 @@ module Storages::ProjectStorages
         if project_folder.nil?
           Helper.create_last_project_folder(
             user:,
-            projects_storage_id: project_storage.id,
+            project_storage_id: project_storage.id,
             origin_folder_id: project_storage.project_folder_id,
             mode: project_storage.project_folder_mode
           )

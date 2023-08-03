@@ -52,7 +52,7 @@ module Storages::ProjectStorages
       last_project_folder_result =
         Helper.create_last_project_folder(
           user:,
-          projects_storage_id: project_storage.id,
+          project_storage_id: project_storage.id,
           origin_folder_id: project_storage.project_folder_id,
           mode: project_storage.project_folder_mode
         )
