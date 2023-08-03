@@ -1074,7 +1074,7 @@ DEPENDENCIES
   letter_opener
   listen (~> 3.8.0)
   lograge (~> 0.12.0)
-  lookbook (~> 2.0.3)
+  lookbook (~> 2.0.5)
   mail (= 2.8.1)
   matrix (~> 0.4.2)
   md_to_pdf!
