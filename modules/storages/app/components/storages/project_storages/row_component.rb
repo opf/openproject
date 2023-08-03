@@ -28,7 +28,7 @@
 
 # Purpose: Defines how to format the components within a table row of ProjectStorages
 # associated with a project
-module Storages::ProjectsStorages
+module Storages::ProjectStorages
   class RowComponent < ::RowComponent
     def project_storage
       row
@@ -55,14 +55,14 @@ module Storages::ProjectsStorages
 
     def edit_link
       link_to '',
-              edit_project_settings_projects_storage_path(project_id: project_storage.project, id: project_storage),
+              edit_project_settings_project_storage_path(project_id: project_storage.project, id: project_storage),
               class: 'icon icon-edit',
               title: I18n.t(:button_edit)
     end
 
     def delete_link
       link_to '',
-              confirm_destroy_project_settings_projects_storage_path(project_id: project_storage.project, id: project_storage),
+              confirm_destroy_project_settings_project_storage_path(project_id: project_storage.project, id: project_storage),
               class: 'icon icon-delete',
               title: I18n.t(:button_delete),
               method: :get

@@ -85,8 +85,8 @@ class Project < ApplicationRecord
                           association_foreign_key: 'custom_field_id'
   has_many :budgets, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
-  has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
-  has_many :storages, through: :projects_storages
+  has_many :project_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
+  has_many :storages, through: :project_storages
 
   acts_as_customizable
   acts_as_searchable columns: %W(#{table_name}.name #{table_name}.identifier #{table_name}.description),

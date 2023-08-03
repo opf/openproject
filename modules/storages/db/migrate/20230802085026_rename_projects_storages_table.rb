@@ -26,32 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Storages::WorkPackages::Filter
-  class StorageUrlFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
-    include StoragesFilterMixin
-
-    def filter_model
-      ::Storages::Storage
-    end
-
-    def filter_column
-      'host'
-    end
-
-    def permission
-      :view_file_links
-    end
-
-    def where_values
-      unescape_hosts(values)
-    end
-
-    def joins
-      [{ file_links: :storage }, { project: :project_storages }]
-    end
-
-    def additional_where_condition
-      "AND #{::Storages::FileLink.table_name}.storage_id = #{::Storages::ProjectStorage.table_name}.storage_id"
-    end
+class RenameProjectsStoragesTable < ActiveRecord::Migration[7.0]
+  def change
+    rename_table :projects_storages, :project_storages
+    rename_column :last_project_folders, :projects_storage_id, :project_storage_id
   end
 end
