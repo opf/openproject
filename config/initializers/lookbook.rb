@@ -1,6 +1,8 @@
 OpenProject::Application.configure do
   next unless OpenProject::Configuration.lookbook_enabled?
 
+  # Re-define snapshot to avoid warnings
+  YARD::Tags::Library.define_tag("Snapshot preview (unused)", :snapshot)
   config.lookbook.project_name = "OpenProject Lookbook"
   config.lookbook.project_logo = Rails.root.join('app/assets/images/icon_logo_white.svg').read
   config.lookbook.ui_favicon = Rails.root.join('app/assets/images/icon_logo.svg').read
