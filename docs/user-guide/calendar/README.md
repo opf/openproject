@@ -9,7 +9,7 @@ keywords: calendar, ical, month, week, view
 
 # Calendar
 
-The calendar module gives you an overview of work packages scheduled in a particular month or week. This makes it easier to track and follow multiple parallel tasks and get a sense of how a project will evolve (or has evolved) over time.
+The Calendar module gives you an overview of work packages scheduled in a particular month or week. This makes it easier to track and follow multiple parallel tasks and get a sense of how a project will evolve (or has evolved) over time.
 
 You must first enable the Calendar module in your [project settings](../projects/project-settings/ "Link to documentation on project settings") to use it.
 
@@ -22,7 +22,7 @@ You must first enable the Calendar module in your [project settings](../projects
 
 ## Creating a new calendar
 
-Once enabled, clicking on the **Calendars** entry on the left sidebar takes you to the calendar module with a list of all existing calendars. Initially, it will be empty.
+Once enabled, clicking on the **Calendars** entry on the left sidebar takes you to the Calendar module with a list of all existing calendars. Initially, it will be empty.
 
 ![Calendar overview](calendar-overview.png)
 
@@ -51,11 +51,11 @@ The current month is automatically selected.
 
 ![Calendar time controls](Calendar-timeControls.png)
 
-1. You can use the previews/next arrow controls (←, →) in the top left corner to move forwards or backwards in time 
+1. You can use the previews/next arrow controls (←, →) in the top left corner to move forwards or backwards in time. 
 2. The **today** button brings you back to the current date.
-3. You can the month/week toggle on the top right corner to switch between either a month view or a week view, 
+3. You can use the month/week toggle on the top right corner to switch between either a month view or a week view. 
 
-When multiple work package are scheduled or span a single day, they are displayed in a vertical stack.
+When multiple work packages are scheduled or span a single day, they are displayed in a vertical stack.
 
 Click on a work package strip to view the work package in split screen mode.
 
@@ -89,11 +89,11 @@ Click the **Filter** button on the top right above the calendar to open the filt
 
 ![Calendar filters](calendarFilters.png)
 
-> **Note:** OpenProject also offers a module called Team planner that allows you to view modules in a calendar by assignee. [Learn more about Team planner](../team-planner "Documentation about Team planner").
+> **Note:** OpenProject also offers a module called **Team planner** that allows you to view modules in a calendar by assignee. [Learn more about Team planner](../team-planner "Documentation about Team planner").
 
 ### Including other projects
 
-Much like with work package tables, it is possible to display work packages from more other projects. Use the **Include projects** dialog, where you can select/unselect from a list of projects and sub-projects. To automatically include all sub-projects for each project you chose to select, check the **Include all sub-projects** box at the bottom of the dialog.
+Much like with work package tables, it is possible to display work packages from other projects. Use the **Include projects** dialog, where you can select/unselect from a list of projects and sub-projects. To automatically include all sub-projects for each project you chose to select, check the **Include all sub-projects** box at the bottom of the dialog.
 
 ### Embedding a calendar in the project overview
 
@@ -101,7 +101,7 @@ You can also display the calendar on the dashboard in the [project overview](../
 
 ### Zen mode
 
-You can display the calendar full screen mode by hiding the navigation bar  and sidebar to work free of distractions. Click the **Activate zen mode** button on the top of the calendar. Press the escape key (**Esc**) to exist Zen mode.
+You can display the calendar in full screen mode by hiding the navigation bar  and sidebar to work free of distractions. Click the **Activate zen mode** button on the top of the calendar. Press the escape key (**Esc**) to exist Zen mode.
 
 ## Subscribing to a calendar
 
@@ -122,4 +122,4 @@ To subscribe to a calendar:
 
 ![Subscribe to calendar modal](subscribeToCalendar-modal.png)
 
-> **Important: **Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password.
+> **Important:** Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password.
