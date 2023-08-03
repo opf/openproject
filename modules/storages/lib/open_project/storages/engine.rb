@@ -53,7 +53,6 @@ module OpenProject::Storages
           OpenProject::Events::MEMBER_CREATED,
           OpenProject::Events::MEMBER_UPDATED,
           OpenProject::Events::MEMBER_DESTROYED,
-          OpenProject::Events::PROJECT_CREATED,
           OpenProject::Events::PROJECT_UPDATED,
           OpenProject::Events::PROJECT_RENAMED
         ].each do |event|

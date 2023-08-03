@@ -71,7 +71,6 @@ RSpec.describe OpenProject::Events do
     MEMBER_CREATED
     MEMBER_UPDATED
     MEMBER_DESTROYED
-    PROJECT_CREATED
     PROJECT_UPDATED
     PROJECT_RENAMED
   ].each do |event|
