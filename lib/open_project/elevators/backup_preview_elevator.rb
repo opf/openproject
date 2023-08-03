@@ -41,7 +41,7 @@ module OpenProject
       end
 
       def skip?(env)
-        env["HTTP_COOKIE"].exclude?("backup_preview=")
+        String(env["HTTP_COOKIE"]).exclude?("backup_preview=")
       end
 
       def maintenance?(env)
