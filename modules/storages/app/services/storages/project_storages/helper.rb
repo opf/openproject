@@ -29,10 +29,10 @@
 module Storages::ProjectStorages::Helper
   module_function
 
-  def create_last_project_folder(user:, projects_storage_id:, origin_folder_id:, mode:)
+  def create_last_project_folder(user:, project_storage_id:, origin_folder_id:, mode:)
     ::Storages::LastProjectFolders::CreateService
       .new(user:)
-      .call(projects_storage_id:, origin_folder_id:, mode: mode.to_sym)
+      .call(project_storage_id:, origin_folder_id:, mode: mode.to_sym)
   end
 
   def update_last_project_folder(user:, project_folder:, origin_folder_id:)

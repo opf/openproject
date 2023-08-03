@@ -590,6 +590,12 @@ module Settings
       login_required: {
         default: false
       },
+      lookbook_enabled: {
+        description: 'Enable the Lookbook component documentation tool. Discouraged for production environments.',
+        default: -> { Rails.env.development? },
+        format: :boolean,
+        writable: false
+      },
       lost_password: {
         description: 'Activate or deactivate lost password form',
         default: true

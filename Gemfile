@@ -206,6 +206,8 @@ gem "store_attribute", "~> 1.0"
 gem "appsignal", "~> 3.0", require: false
 
 gem 'view_component'
+# Lookbook
+gem 'lookbook', '~> 2.0.5'
 
 gem 'turbo-rails', "~> 1.1"
 
@@ -274,10 +276,6 @@ group :development do
 
   gem 'spring'
   gem 'spring-commands-rspec'
-
-  # Gems for living styleguide
-  gem 'livingstyleguide', '~> 2.1.0'
-  gem 'sassc-rails'
 
   gem 'colored2'
 
@@ -357,4 +355,5 @@ gemfiles.each do |file|
 end
 
 gem "primer_view_components", git: 'https://github.com/opf/primer_view_components', ref: '18abe4d'
-gem "openproject-octicons", '~>19.6.3'
+gem "openproject-octicons", '~>19.6.7'
+gem "openproject-octicons_helper", '~>19.6.7'

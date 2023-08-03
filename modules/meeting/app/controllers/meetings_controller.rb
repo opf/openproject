@@ -32,8 +32,8 @@ class MeetingsController < ApplicationController
   before_action :build_meeting, only: %i[new create]
   before_action :find_meeting, except: %i[index new create]
   before_action :convert_params, only: %i[create update]
-  before_action :authorize, except: %i[index new]
-  before_action :authorize_global, only: %i[index new]
+  before_action :authorize, except: %i[index new create]
+  before_action :authorize_global, only: %i[index new create]
 
   helper :watchers
   helper :meeting_contents

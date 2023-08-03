@@ -33,6 +33,10 @@ module Pages::Meetings
   class New < Base
     include Components::Autocompleter::NgSelectAutocompleteHelpers
 
+    def expect_no_main_menu
+      expect(page).not_to have_selector '#main-menu'
+    end
+
     def click_create
       click_button 'Create'
 
@@ -49,8 +53,12 @@ module Pages::Meetings
       fill_in 'Title', with: text
     end
 
+    def expect_project_dropdown
+      find "[data-qa-selector='project_id']"
+    end
+
     def set_project(project)
-      select_autocomplete find("[data-qa-selector='project_id'"),
+      select_autocomplete find("[data-qa-selector='project_id']"),
                           query: project.name,
                           results_selector: 'body'
     end
