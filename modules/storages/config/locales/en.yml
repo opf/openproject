@@ -79,6 +79,10 @@ en:
         new: "Add a file storage to this project"
         edit: "Edit the file storage to this project"
         delete: "Delete file storage"
+        members_check: "Members check"
+      project_storage_members:
+        title: "Members check"
+        subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
     instructions:
       type: "Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:"
       type_link_text: "“Integration OpenProject”"
@@ -142,6 +146,7 @@ en:
     label_no_selected_folder: "No selected folder"
     label_storage: "Storage"
     label_storages: "Storages"
+    label_status: "Status"
     no_results: "No storages set up yet."
     provider_types:
       label: "Provider type"

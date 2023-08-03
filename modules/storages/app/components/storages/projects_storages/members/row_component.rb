@@ -28,54 +28,53 @@
 
 # Purpose: Defines how to format the components within a table row of ProjectStorages
 # associated with a project
-module Storages::ProjectsStorages
+module Storages::ProjectsStorages::Members
   class RowComponent < ::RowComponent
-    def project_storage
+    property :principal,
+             :created_at
+
+    def member
       row
     end
 
-    delegate :created_at, to: :project_storage
+    def row_css_id
+      "member-#{member.id}"
+    end
+
+    def row_css_class
+      "member #{principal_class_name}".strip
+    end
 
     def name
-      project_storage.storage.name
+      icon = helpers.avatar principal, size: :mini
+
+      icon + principal_link
     end
 
-    def provider_type
-      project_storage.storage.short_provider_type
+    def status
+      # FIXME: Status based on Nextcloud OAuth Client Token Presence
+      'Connected'
     end
 
-    def creator
-      icon = helpers.avatar project_storage.creator, size: :mini
-      icon + project_storage.creator.name
+    private
+
+    def principal_link
+      link_to principal.name, principal_show_path
     end
 
-    def button_links
-      [edit_link, delete_link].tap do |links|
-        links.unshift members_check_link if OpenProject::FeatureDecisions.storage_project_members_check_active?
+    def principal_class_name
+      principal.model_name.singular
+    end
+
+    def principal_show_path
+      case principal
+      when User
+        user_path(principal)
+      when Group
+        show_group_path(principal)
+      else
+        placeholder_user_path(principal)
       end
-    end
-
-    def members_check_link
-      link_to '',
-              project_settings_projects_storage_members_path(project_id: project_storage.project,
-                                                             projects_storage_id: project_storage),
-              class: 'icon icon-group',
-              title: I18n.t(:'storages.page_titles.project_settings.members_check')
-    end
-
-    def edit_link
-      link_to '',
-              edit_project_settings_projects_storage_path(project_id: project_storage.project, id: project_storage),
-              class: 'icon icon-edit',
-              title: I18n.t(:button_edit)
-    end
-
-    def delete_link
-      link_to '',
-              confirm_destroy_project_settings_projects_storage_path(project_id: project_storage.project, id: project_storage),
-              class: 'icon icon-delete',
-              title: I18n.t(:button_delete),
-              method: :get
     end
   end
 end
