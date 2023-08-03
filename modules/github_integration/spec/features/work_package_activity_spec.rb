@@ -19,32 +19,16 @@ RSpec.describe 'Work Package Activity Tab',
            github_user: pull_request_author)
   end
 
-  def upsert_pull_request_with_merge
+  def trigger_pull_request_action
     OpenProject::GithubIntegration::NotificationHandler::PullRequest.new
-                                                                    .process(closed_merged_payload)
+                                                                    .process(payload)
 
     pull_request.reload
   end
 
-  def upsert_pull_request_with_reference
-    OpenProject::GithubIntegration::NotificationHandler::PullRequest.new
-                                                                    .process(referenced_payload)
-
-    pull_request.reload
-  end
-
-  let(:closed_merged_payload) do
+  let(:payload) do
     {
-      'action' => 'closed',
-      'open_project_user_id' => github_system_user.id,
-      'pull_request' => pull_request_hash,
-      'sender' => sender_section_hash
-    }
-  end
-
-  let(:referenced_payload) do
-    {
-      'action' => 'referenced',
+      'action' => action,
       'open_project_user_id' => github_system_user.id,
       'pull_request' => pull_request_hash,
       'sender' => sender_section_hash
@@ -61,7 +45,7 @@ RSpec.describe 'Work Package Activity Tab',
       'updated_at' => Time.current.iso8601,
       'state' => state,
       'draft' => false,
-      'merged' => true,
+      'merged' => merged,
       'merged_by' => merged_by_section_hash,
       'merged_at' => merged_at,
       'comments' => pull_request.comments_count + 1,
@@ -95,12 +79,15 @@ RSpec.describe 'Work Package Activity Tab',
   let(:work_package_page) { Pages::SplitWorkPackage.new(work_package, project) }
 
   context 'when the pull request is merged' do
+    let(:action) { 'closed' }
+
     before do
-      upsert_pull_request_with_merge
+      trigger_pull_request_action
       login_as admin
     end
 
     context "and I visit the work package's activity tab" do
+      let(:merged) { true }
       let(:merged_by_section_hash) do
         {
           'id' => pull_request_merging_user.github_id,
@@ -133,12 +120,15 @@ RSpec.describe 'Work Package Activity Tab',
   end
 
   context 'when the Work Package is referenced in a Pull Request' do
+    let(:action) { 'referenced' }
+
+    let(:merged) { false }
     let(:merged_by_section_hash) { {} }
     let(:merged_at) { nil }
     let(:state) { 'open' }
 
     before do
-      upsert_pull_request_with_reference
+      trigger_pull_request_action
       login_as admin
     end
 
@@ -159,6 +149,40 @@ RSpec.describe 'Work Package Activity Tab',
         GITHUB_REFERENCED_COMMENT
 
         expect(page).to have_selector('.user-comment > .message', text: expected_referenced_comment)
+      end
+    end
+  end
+
+  context 'when any non-edge-case action is performed on a pull request' do
+    let(:action) { 'ready_for_review' }
+
+    let(:merged) { false }
+    let(:merged_by_section_hash) { {} }
+    let(:merged_at) { nil }
+    let(:state) { 'open' }
+
+    before do
+      trigger_pull_request_action
+      login_as admin
+    end
+
+    context "and I visit the work package's activity tab" do
+      before do
+        work_package_page.visit_tab! 'activity'
+        work_package_page.ensure_page_loaded
+      end
+
+      it 'renders a comment stating that said action was performed on the Pull Request' do
+        expected_action_comment = <<~GITHUB_READY_FOR_REVIEW_COMMENT.squish
+          Marked Ready For Review#{I18n.t('js.github_integration.pull_requests.message',
+                                          pr_number: pull_request.number,
+                                          pr_link: pull_request.title,
+                                          repository_link: pull_request.repository,
+                                          pr_state: 'marked ready for review',
+                                          github_user_link: pull_request_author.github_login)}
+        GITHUB_READY_FOR_REVIEW_COMMENT
+
+        expect(page).to have_selector('.user-comment > .message', text: expected_action_comment)
       end
     end
   end
