@@ -1388,7 +1388,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
             end
           end
 
-          describe 'attributesByTimestamp', with_ee: %i[baseline_comparison], with_flag: { show_changes: true } do
+          describe 'attributesByTimestamp', with_ee: %i[baseline_comparison] do
             it 'states whether the work package matches the query filters at the timestamp' do
               expect(subject)
                 .to be_json_eql(true.to_json)

@@ -141,10 +141,6 @@ export class WorkPackageViewBaselineService extends WorkPackageQueryStateService
   }
 
   public isActive():boolean {
-    if (!this.configurationService.activeFeatureFlags.includes('showChanges')) {
-      return false;
-    }
-
     return this.current.length >= 1 && this.current[0] !== DEFAULT_TIMESTAMP;
   }
 

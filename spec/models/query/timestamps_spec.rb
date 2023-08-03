@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe Query::Timestamps,
-               with_ee: %i[baseline_comparison], with_flag: { show_changes: true } do
+               with_ee: %i[baseline_comparison] do
   describe "#timestamps" do
     subject { query.timestamps }
 

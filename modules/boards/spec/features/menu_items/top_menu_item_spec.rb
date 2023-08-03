@@ -51,44 +51,30 @@ RSpec.describe 'Top menu item for boards', :js, :with_cuprite do
     end
   end
 
-  context 'with more global index pages', with_flag: { more_global_index_pages: true } do
-    context 'when in the project settings' do
-      let!(:project) { create(:project) }
+  context 'when in the project settings' do
+    let!(:project) { create(:project) }
 
-      before do
-        visit "/projects/#{project.identifier}/settings/general"
-      end
-
-      it_behaves_like 'the boards menu item'
+    before do
+      visit "/projects/#{project.identifier}/settings/general"
     end
 
-    context 'on the landing page' do
-      before do
-        visit root_path
-      end
-
-      it_behaves_like 'the boards menu item'
-
-      context 'with missing permissions' do
-        let(:user) { create(:user) }
-
-        it "does not display the menu item" do
-          within '#more-menu', visible: false do
-            expect(page).not_to have_link boards
-          end
-        end
-      end
-    end
+    it_behaves_like 'the boards menu item'
   end
 
-  context 'without more global index pages enabled' do
+  context 'on the landing page' do
     before do
       visit root_path
     end
 
-    it 'does not display the menu item' do
-      within '#more-menu', visible: false do
-        expect(page).not_to have_link boards
+    it_behaves_like 'the boards menu item'
+
+    context 'with missing permissions' do
+      let(:user) { create(:user) }
+
+      it "does not display the menu item" do
+        within '#more-menu', visible: false do
+          expect(page).not_to have_link boards
+        end
       end
     end
   end

@@ -49,7 +49,7 @@ RSpec.describe 'Team planner Menu Item', :js, :with_cuprite do
            ])
   end
 
-  context 'within the global menu', with_flag: { more_global_index_pages_active: true } do
+  context 'within the global menu' do
     before do
       login_as user_without_rights
 

@@ -97,7 +97,7 @@ RSpec.shared_examples_for 'GET individual query' do
     end
   end
 
-  describe 'timestamps', with_flag: { show_changes: true } do
+  describe 'timestamps' do
     let(:path) do
       params = CGI.escape(timestamps.join(","))
       "#{base_path}?timestamps=#{params}"
