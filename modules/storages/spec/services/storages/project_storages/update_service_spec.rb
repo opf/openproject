@@ -28,12 +28,12 @@
 
 require 'spec_helper'
 require 'services/base_services/behaves_like_update_service'
-require_relative 'shared_synchronization_trigger_examples'
+require_relative 'shared_event_gun_examples'
 
 RSpec.describe Storages::ProjectStorages::UpdateService, type: :model do
   it_behaves_like 'BaseServices update service' do
     let(:factory) { :project_storage }
 
-    it_behaves_like 'a nextcloud synchronization trigger'
+    it_behaves_like('an event gun', OpenProject::Events::PROJECT_STORAGE_UPDATED)
   end
 end

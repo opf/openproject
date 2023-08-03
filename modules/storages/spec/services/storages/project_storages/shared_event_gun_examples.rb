@@ -26,29 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_examples 'a nextcloud synchronization trigger' do
-  context 'when project_folder mode is automatic' do
-    it 'schedules appropriate background job' do
-      model_instance.project_folder_mode = 'automatic'
-      subject
-      expect(enqueued_jobs.count).to eq(1)
-      expect(enqueued_jobs[0][:job]).to eq(Storages::ManageNextcloudIntegrationEventsJob)
-    end
-  end
+RSpec.shared_examples 'an event gun' do |event|
+  %i[automatic manual inactive].each do |mode|
+    context "when project_folder mode is #{mode}" do
+      it 'fires an appropriate event' do
+        allow(OpenProject::Notifications).to(receive(:send))
+        model_instance.project_folder_mode = mode
 
-  context 'when project_folder mode is manual' do
-    it 'does not schedule a background job' do
-      model_instance.project_folder_mode = 'manual'
-      subject
-      expect(enqueued_jobs.count).to eq(0)
-    end
-  end
+        subject
 
-  context 'when project_folder mode is inactive' do
-    it 'does not schedule a background job' do
-      model_instance.project_folder_mode = 'inactive'
-      subject
-      expect(enqueued_jobs.count).to eq(0)
+        expect(OpenProject::Notifications).to(
+          have_received(:send).with(event, project_folder_mode: mode)
+        )
+      end
     end
   end
 end
