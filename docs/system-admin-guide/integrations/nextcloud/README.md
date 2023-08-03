@@ -127,17 +127,17 @@ Once you have entered the client ID and client secrets on this page, click on **
 
 #### 5. Automatically managed folders
 
-As a last step, you will be asked if you want to use automatically managed folders. The automatically managed folders allows OpenProject creating folders per project automatically and manage its permissions. This is recommended as it ensures that every team member has always the correct access permissions.
+As a last step, you will be asked if you want to use automatically managed folders. If you choose this option, OpenProject will automatically create project folders in Nextcloud and manage permissions such that all project members always have the necessary access privileges. Unless you already have a particular folder structure in place, we recommend choosing this option.
 
 ![OpenProject Automatically managed folders](OpenProject Project folders - Default.png)
 
-In case you want to use this functionality you will be requested to introduce a password. Switch back to Nextcloud and click on **Yes, I have copied these values**. This will open the last step of the process in Nextcloud where you can also select if you want to use automatically managed folders, click on **Setup OpenProject user, group and folder** to configure the folders and see the password. Once configured you can copy the password back to OpenProject.
+In case you want to use this functionality you will be requested to enter a password. Switch back to Nextcloud and click on **Yes, I have copied these values**. This will open the last step of the process in Nextcloud, where you can also select if you want to use automatically managed folders. Click on **Setup OpenProject user, group and folder** to configure the folders and see the password. Once configured, you can copy the password back to OpenProject.
 
 ![Nextcloutd Automatically managed folders setup](Nextcloud Project folders - Active default.png)
 
 ![Nextcloutd Automatically managed folders](Nextcloud Project folders - Application password.png)
 
-> **Important**: Install the “Group folders” app in Nextcloud is required to be able to use automatically managed folders. Each storage can only have one group folder with the same name.
+> **Important**: You will need to install the [Group folder](https://apps.nextcloud.com/apps/groupfolders) app in Nextcloudin order to have OpenProject automatically managed your Nextcloud folders. Each storage can only have one group folder with the same name.
 
 At this point, you can click on **Done, complete setup** in both applications and your instance configuration will be completed.
 
