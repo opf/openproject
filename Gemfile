@@ -207,7 +207,7 @@ gem "appsignal", "~> 3.0", require: false
 
 gem 'view_component'
 # Lookbook
-gem 'lookbook', '~> 2.0.3'
+gem 'lookbook', '~> 2.0.5'
 
 gem 'turbo-rails', "~> 1.1"
 
