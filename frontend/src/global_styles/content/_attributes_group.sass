@@ -81,11 +81,3 @@
 .attributes-group--attributes
   display: flex
   flex-direction: column
-
-  // We want a margin between items, but don't know if any one item is on the right,
-  // the left, or spanning both columns. The easy way to get a gutter is to give
-  // *all* elements margins on both sides, and then negating this margin on the parent.
-  // This also explains all of the + and - xrem calc() values below.
-  margin: 0 -1 * $spot-spacing-1_5
-  width: calc(100% + #{$spot-spacing-3})
-  
