@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: File storages
   priority: 150
-description: Mange the storages connected to the project and add a project folder.
+description: Manage the storages connected to the project and add a project folder.
 keywords: file storages, project folder, storages
 ---
 # File storages
@@ -17,7 +17,7 @@ keywords: file storages, project folder, storages
 
 
 ## Add your new Nextcloud file storage to a project
-Once you are certain that an administrator has set up a Nextcloud storage, navigate to any existing project in your OpenProject instance and click on  **Project settings** **→ Modules**. There, active the **File Storages** module by clicking on the checkbox next to it and then clicking on **Save**.
+Once you are certain that an administrator has set up a Nextcloud storage, navigate to any existing project in your OpenProject instance and click on  **Project settings** **→ Modules**. There, activate the **File Storages** module by clicking on the checkbox next to it and then clicking on **Save**.
 
 ![List of modules activated for a project](project-modules.png)
 
@@ -34,8 +34,8 @@ In the page that follows, you will be able to select one of the file storages se
 In the last step of the process, you will be able to choose which kind of project folder will be the default folder for file uploads for this project:
 
 1. **No specific folder**: By default, each user will start at their own home folder when they upload a file.
-2. **New folder with automatically managed permissions**: This will automatically create a root folder for this project and manage the access permissions for each project member. This option will only be available if the administrator has set up the storage with automatic managed folders.
-3. **Existing folder with manually managed permissions**: Once selected this option, you can designate an existing folder as the root folder for this project using the button **Select folder**. The permissions are however not automatically managed. The administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
+2. **New folder with automatically managed permissions**: This will automatically create a root folder for this project and manage the access permissions for each project member. This option will only be available if the administrator has set up the storage with automatically managed folders.
+3. **Existing folder with manually managed permissions**: Once you selected this option, you can designate an existing folder as the root folder for this project using the button **Select folder**. The permissions are however not automatically managed. The administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
 
 ![Select the project folder type](storage-add-project-folder.png)
 
@@ -59,6 +59,6 @@ For the moment, you will only be able to edit which project folder type is used 
 
 > **Note:** If the previous selected project folder type was **New folder with automatically managed permissions**, changing the project folder type will not delete the already created root folder and its permissions.
 
-To be able to delete a storage from a project you will be asked to confirm the action by introducing the name of the storage. This action is irreversible and will remove all links from work packages of this project to files and folders of that storage. Also, in case this storage has an automatically managed project folder, this and its files will be deleted forever.
+To be able to delete a storage from a project you will be asked to confirm the action by introducing the name of the storage. This action is irreversible and will remove all links from work packages of this project to files and folders of that storage. Also, in case this storage has an automatically managed project folder, it and its files will be deleted forever.
 
 ![Delete a storage from a project](storage-delete.png)
