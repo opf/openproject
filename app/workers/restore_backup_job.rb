@@ -191,7 +191,7 @@ class RestoreBackupJob < ApplicationJob
 
       raise "Could not find openproject.sql in backup" if !sql_file_entry
 
-      sql = sql_file_entry.get_input_stream.read
+      sql = sql_file_entry.get_input_stream.read.force_encoding("UTF-8")
       import_schema = get_current_schema_name sql
       import_sql = normalized_structure sql, schema_name: import_schema, new_schema_name: preview_schema_name
 
@@ -208,6 +208,22 @@ class RestoreBackupJob < ApplicationJob
     File.open(db_dump_file_name, "w") do |file|
       file.puts import_sql
     end
+  end
+
+  def restore_database!(sql_file_path)
+    run_command! restore_command(sql_file_path)
+  end
+
+  def run_command!(command)
+    _out, err, st = Open3.capture3 pg_env, command
+
+    raise err unless st.success?
+
+    st.success?
+  end
+
+  def restore_command(sql_file_path)
+    "psql -f '#{sql_file_path}'"
   end
 
   def restore_attachments!
@@ -274,22 +290,6 @@ class RestoreBackupJob < ApplicationJob
     @preview_schema_name ||= self.class.preview_schema_name backup_id: backup.id
   end
 
-  def restore_database!(sql_file_path)
-    run_command! restore_command(sql_file_path)
-  end
-
-  def run_command!(command)
-    _out, err, st = Open3.capture3 pg_env, command
-
-    raise err unless st.success?
-
-    st.success?
-  end
-
-  def restore_command(sql_file_path)
-    "psql -f '#{sql_file_path}'"
-  end
-
   def backup_file_path
     @backup_file_path ||= backup.attachments.first.file.local_file.path
   end
@@ -302,12 +302,12 @@ class RestoreBackupJob < ApplicationJob
       .then { |s| s.sub /^SELECT pg_catalog\.set_config\('search_path'.*$/, "" }
       .then { |s| s.gsub /^(COMMENT ON)/, '-- \1' }
       .then { |s| s.gsub /^(\s*)(AS integer)/, '\1-- \2' }
-      .then { |s| new_schema_name.nil? ? s : s.sub(/^(CREATE .*)$/, "\\1\n\nSET search_path = \"#{new_schema_name}\";") }
+      .then { |s| new_schema_name.nil? ? s : s.sub(/^(CREATE .*)$/, "\n\nSET search_path = \"#{new_schema_name}\";\n\n\\1") }
   end
 
   def after_restore
     if !success? && schema_exists?(preview_schema_name)
-      drop_schema! preview_schema_name
+      # drop_schema! preview_schema_name
     end
 
     remove_files! paths_to_clean

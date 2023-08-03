@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe RestoreBackupJob, type: :model do
-  shared_examples "it restores the backup" do |opts = {}|
+  shared_examples "a restore backup job" do |opts = {}|
     let(:job) { described_class.new }
 
     let(:backup) { create(:backup) }
@@ -61,15 +61,19 @@ RSpec.describe RestoreBackupJob, type: :model do
     let(:schema_name) { "backup_preview_#{backup.id}" }
 
     # attachments contained in spec/fixtures/files/openproject-backup-test.zip
-    let(:attachments) do
-      data = [
+    let(:attachments_data) do
+      [
         [1, "demo_project_teaser.png"],
         [2, "scrum_project_teaser.png"],
         [7, "ff-cactus.jpg"],
         [8, "Pop-Ich-klein_400x400.png"]
       ]
+    end
 
-      data.map do |id, file|
+    # We don't actually restore the schema during the test so we re-create some of the
+    # contained data here manually to test the file restoration in this case.
+    let(:attachments) do
+      attachments_data.map do |id, file|
         create(:attachment, id:, author: user, filesize: 0, digest: "").tap do |a|
           a.update_column :file, file
         end
@@ -113,15 +117,7 @@ RSpec.describe RestoreBackupJob, type: :model do
       end
     end
 
-    context "with a successfully restored database" do
-      before do
-        perform
-      end
-
-      it "completes successfully" do
-        expect(job_status.status).to eq "success"
-      end
-
+    shared_examples "it restores the database backup" do
       it 'creates a new schema' do
         expect(job).to have_received(:create_new_schema!).with(schema_name)
       end
@@ -136,6 +132,18 @@ RSpec.describe RestoreBackupJob, type: :model do
       it 'migrates the restored schema' do
         expect(Apartment::Migrator).to have_received(:migrate).with(schema_name)
       end
+    end
+
+    context "with a successfully restored database" do
+      before do
+        perform
+      end
+
+      it "completes successfully" do
+        expect(job_status.status).to eq "success"
+      end
+
+      it_behaves_like "it restores the database backup"
 
       it 'imports the attachments from the backup' do
         attachments.each do |a|
@@ -144,6 +152,26 @@ RSpec.describe RestoreBackupJob, type: :model do
           expect(exists).to be true
           expect(a.filesize).to be > 10000
           expect(a.digest).to be_present
+        end
+      end
+    end
+
+    context "with preview: true" do
+      let(:preview) { true }
+
+      before do
+        perform
+      end
+
+      it "completes successfully" do
+        expect(job_status.status).to eq "success"
+      end
+
+      it_behaves_like "it restores the database backup"
+
+      it 'does NOT import the attachments from the backup' do
+        attachments.each do |a|
+          expect(a.reload.diskfile).to be_nil
         end
       end
     end
@@ -163,6 +191,26 @@ RSpec.describe RestoreBackupJob, type: :model do
   end
 
   context "with an existing, valid backup" do
-    it_behaves_like "it restores the backup"
+    it_behaves_like "a restore backup job"
+  end
+
+  context "with a backup with umlauts" do
+    it_behaves_like "a restore backup job" do
+      let(:backup_attachment) do
+        create(
+          :attachment,
+          id: 42, # avoid conflict with attachment IDs from backup
+          file: Rack::Test::UploadedFile.new(Rails.root.join("spec/fixtures/files/openproject-backup-v12.5.7-with-umlauts.zip")),
+          container: backup
+        )
+      end
+
+      let(:attachments_data) do
+        [
+          [1, "demo_project_teaser.png"],
+          [2, "scrum_project_teaser.png"]
+        ]
+      end
+    end
   end
 end
