@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   ContentChild,
   HostBinding,
@@ -15,7 +14,6 @@ import {
 @Component({
   selector: 'spot-selector-field',
   templateUrl: './selector-field.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpotSelectorFieldComponent {
   @HostBinding('class.spot-form-field') className = true;
