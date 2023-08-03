@@ -49,7 +49,7 @@ en:
       github_actions: Actions
       pull_requests:
         message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
-        referenced_message: "%{github_user_link} referenced this work package in pull request #%{pr_number} %{pr_link} on %{repository_link}."
+        referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
         states:
           opened: 'opened'
           closed: 'closed'
