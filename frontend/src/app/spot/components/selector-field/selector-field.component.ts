@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ContentChild,
   HostBinding,
@@ -14,6 +15,7 @@ import {
 @Component({
   selector: 'spot-selector-field',
   templateUrl: './selector-field.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpotSelectorFieldComponent {
   @HostBinding('class.spot-form-field') className = true;
@@ -37,7 +39,7 @@ export class SpotSelectorFieldComponent {
   /**
    * Whether the label should be in bold or regular font weight
    */
-  @Input() labelWeight:'bold'|'regular' = 'regular';
+  @Input() labelWeight:'bold'|'regular' = 'bold';
 
   /**
    * Whether this input is required
