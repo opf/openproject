@@ -15,7 +15,7 @@ services:
       --entryPoints.websecure.address=:443
       --entryPoints.websecure.http.tls=true
       --entryPoints.websecure.http.tls.certresolver=step
-      --certificatesresolvers.step.acme.caserver=https://step:9000/acme/traefik/directory
+      --certificatesresolvers.step.acme.caserver=https://step:9000/acme/acme/directory
       --certificatesresolvers.step.acme.tlschallenge=true
       --certificatesresolvers.step.acme.email=root@localhost
       --certificatesresolvers.step.acme.keytype=RSA4096
@@ -53,6 +53,7 @@ services:
       - DOCKER_STEPCA_INIT_DNS_NAMES=step,localhost
       - DOCKER_STEPCA_INIT_PROVISIONER_NAME=openproject
       - DOCKER_STEPCA_INIT_PASSWORD=openproject
+      - DOCKER_STEPCA_INIT_ACME=true
     volumes:
       - step:/home/step
     networks:
