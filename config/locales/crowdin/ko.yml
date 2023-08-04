@@ -1415,6 +1415,7 @@ ko:
     changes_retracted: "변경 사항이 취소되었습니다."
     caused_changes:
       dates_changed: "Dates changed"
+      system_update: "OpenProject update"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1429,6 +1430,8 @@ ko:
         dates:
           working: "%{date}은(는) 이제 근무일입니다."
           non_working: "%{date}은(는) 이제 휴무일입니다."
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: '구성 가이드'
     get_in_touch: "질문이 있으신가요? 문의해 주세요."
@@ -1473,6 +1476,13 @@ ko:
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "이 작업에 대한 알림 보내기"
     work_packages:
