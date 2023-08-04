@@ -126,8 +126,14 @@ RSpec.describe 'Copy work packages through Rails view', js: true do
                  type:,
                  parent: work_package)
         end
+        let!(:relation) do
+          create(:relation,
+                 from: child,
+                 to: work_package,
+                 relation_type: Relation::TYPE_RELATES)
+        end
 
-        it 'moves parent and child wp to a new project with the hierarchy amended' do
+        it 'copies WPs with parent/child hierarchy and relations maintained' do
           click_on 'Copy and follow'
 
           wp_table_target.expect_current_path
@@ -142,8 +148,20 @@ RSpec.describe 'Copy work packages through Rails view', js: true do
           copied_wps = WorkPackage.last(3)
           expect(copied_wps.map(&:project_id).uniq).to eq([project2.id])
 
-          expect(project2.work_packages.find_by(subject: child.subject).parent)
-            .to eq project2.work_packages.find_by(subject: work_package.subject)
+          new_parent = project2.work_packages.find_by(subject: work_package.subject)
+          new_child = project2.work_packages.find_by(subject: child.subject)
+
+          expect(new_child.parent)
+            .to eq new_parent
+
+          expect(new_child.relations.count)
+            .to eq 1
+
+          expect(new_child.relations.first.relation_type)
+            .to eq relation.relation_type
+
+          expect(new_child.relations.first.to_id)
+            .to eq new_parent.id
         end
       end
 
