@@ -30,24 +30,14 @@
 # This is recommended as it ensures that every team member always has the correct access permissions.
 #
 class Storages::ProjectSettings::ProjectStorageMembersController < ApplicationController
-  # This is the resource handled in this controller.
-  # So the controller knows that the ID in params (URl) refer to instances of this model.
-  # This defines @object as the model instance.
-  model_object Storages::ProjectStorage
-
-  before_action :find_model_object, only: %i[index] # Fill @object with ProjectStorage
-  # No need to before_action :find_project_by_project_id as SettingsController already checks
-  # No need to check for before_action :authorize, as the SettingsController already checks this.
-
-  # This MenuController method defines the default menu item to be used (highlighted)
-  # when rendering the main menu in the left (part of the base layout).
-  # The menu item itself is registered in modules/storages/lib/open_project/storages/engine.rb
-  menu_item :settings_project_storages
-
   include PaginationHelper
 
-  # A list of project storage members showing their OAuth connection status.
-  # Called by: Project -> Settings -> File Storages -> Members
+  menu_item :settings_project_storages
+
+  before_action :find_model_object, only: %i[index]
+
+  model_object Storages::ProjectStorage
+
   def index
     @memberships = Member
       .where(project: @project)
@@ -61,16 +51,12 @@ class Storages::ProjectSettings::ProjectStorageMembersController < ApplicationCo
     t(:'storages.page_titles.project_settings.members_check')
   end
 
-  # See: default_breadcrum above
-  # Defines whether to show breadcrumbs on the page or not.
   def show_local_breadcrumb
     true
   end
 
   private
 
-  # Override default url param `:id` to `:storage` controller is a nested project_storage resource
-  # GET    /projects/:project_id/settings/project_storages/:project_storage_id/members
   def find_model_object(object_id = :project_storage_id)
     super(object_id)
     @project_storage = @object
