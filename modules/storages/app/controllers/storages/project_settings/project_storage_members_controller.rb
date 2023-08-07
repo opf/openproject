@@ -44,12 +44,15 @@ class Storages::ProjectSettings::ProjectStorageMembersController < ApplicationCo
   # The menu item itself is registered in modules/storages/lib/open_project/storages/engine.rb
   menu_item :settings_projects_storages
 
+  include PaginationHelper
+
   # A list of project storage members showing their OAuth connection status.
   # Called by: Project -> Settings -> File Storages -> Members
   def index
     @memberships = Member
       .where(project: @project)
       .includes(:principal, :oauth_client_tokens)
+      .paginate(page: page_param, per_page: per_page_param)
 
     render '/storages/project_settings/project_storage_members/index'
   end

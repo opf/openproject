@@ -36,6 +36,10 @@ module Storages::ProjectsStorages::Members
       %i[created_at asc]
     end
 
+    def paginated?
+      true
+    end
+
     def sortable?
       false
     end
