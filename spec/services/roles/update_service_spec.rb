@@ -26,18 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::ProjectStorages::Helper
-  module_function
+require 'spec_helper'
+require 'services/base_services/behaves_like_update_service'
 
-  def create_last_project_folder(user:, project_storage_id:, origin_folder_id:, mode:)
-    ::Storages::LastProjectFolders::CreateService
-      .new(user:)
-      .call(project_storage_id:, origin_folder_id:, mode: mode.to_sym)
-  end
+RSpec.describe Roles::UpdateService, type: :model do
+  it_behaves_like 'BaseServices update service'
 
-  def update_last_project_folder(user:, project_folder:, origin_folder_id:)
-    ::Storages::LastProjectFolders::UpdateService
-      .new(model: project_folder, user:)
-      .call(origin_folder_id:)
+  it 'sends an update notification' do
+    allow(OpenProject::Notifications).to receive(:send)
+
+    existing_permissions = %i[view_files view_work_packages view_calender]
+    added_permissions = %i[write_files view_wiki_pages]
+    role = create(:role, permissions: existing_permissions)
+
+    params = { permissions: existing_permissions + added_permissions }
+
+    described_class.new(user: create(:user), model: role).call(params)
+
+    expect(OpenProject::Notifications).to have_received(:send).with(
+      OpenProject::Events::ROLE_UPDATED,
+      permissions_diff: added_permissions
+    )
   end
 end

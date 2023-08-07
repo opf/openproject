@@ -26,18 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::ProjectStorages::Helper
-  module_function
-
-  def create_last_project_folder(user:, project_storage_id:, origin_folder_id:, mode:)
-    ::Storages::LastProjectFolders::CreateService
-      .new(user:)
-      .call(project_storage_id:, origin_folder_id:, mode: mode.to_sym)
-  end
-
-  def update_last_project_folder(user:, project_folder:, origin_folder_id:)
-    ::Storages::LastProjectFolders::UpdateService
-      .new(model: project_folder, user:)
-      .call(origin_folder_id:)
+module Roles
+  class DeleteContract < ::DeleteContract
+    delete_permission(:admin)
   end
 end

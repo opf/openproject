@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 require 'services/base_services/behaves_like_delete_service'
-require_relative 'shared_synchronization_trigger_examples'
+require_relative 'shared_event_gun_examples'
 
 RSpec.describe Storages::ProjectStorages::DeleteService, type: :model, webmock: true do
   context 'with records written to DB' do
@@ -51,8 +51,7 @@ RSpec.describe Storages::ProjectStorages::DeleteService, type: :model, webmock: 
       project_storage
       described_class.new(model: project_storage, user:).call
 
-      expect(Storages::ProjectStorage.where(id: project_storage.id))
-        .not_to exist
+      expect(Storages::ProjectStorage.where(id: project_storage.id)).not_to exist
     end
 
     it 'deletes all FileLinks that belong to containers of the related project' do
@@ -61,10 +60,8 @@ RSpec.describe Storages::ProjectStorages::DeleteService, type: :model, webmock: 
 
       described_class.new(model: project_storage, user:).call
 
-      expect(Storages::FileLink.where(id: file_link.id))
-        .not_to exist
-      expect(Storages::FileLink.where(id: other_file_link.id))
-        .to exist
+      expect(Storages::FileLink.where(id: file_link.id)).not_to exist
+      expect(Storages::FileLink.where(id: other_file_link.id)).to exist
     end
 
     context 'with Nextcloud storage' do
@@ -76,9 +73,7 @@ RSpec.describe Storages::ProjectStorages::DeleteService, type: :model, webmock: 
         stub_request(:delete, delete_folder_url).to_return(status: 204, body: nil, headers: {})
       end
 
-      before do
-        delete_folder_stub
-      end
+      before { delete_folder_stub }
 
       it 'tries to remove the project folder at the external nextcloud storage' do
         expect(described_class.new(model: project_storage, user:).call).to be_success
@@ -98,11 +93,9 @@ RSpec.describe Storages::ProjectStorages::DeleteService, type: :model, webmock: 
     end
   end
 
-  # Includes many specs that are common for every DeleteService that inherits from ::BaseServices::Delete.
-  # Collected tests on DeleteContracts from last 15 years.
   it_behaves_like 'BaseServices delete service' do
     let(:factory) { :project_storage }
 
-    it_behaves_like 'a nextcloud synchronization trigger'
+    it_behaves_like('an event gun', OpenProject::Events::PROJECT_STORAGE_DESTROYED)
   end
 end

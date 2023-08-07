@@ -28,6 +28,6 @@
 
 module Groups
   class DeleteContract < ::DeleteContract
-    delete_permission -> { user.active? && user.admin? }
+    delete_permission(:admin)
   end
 end

@@ -26,10 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Roles::NotifyMixin
-  private
+RSpec.shared_examples 'an event gun' do |event|
+  %i[automatic manual inactive].each do |mode|
+    context "when project_folder mode is #{mode}" do
+      it 'fires an appropriate event' do
+        allow(OpenProject::Notifications).to(receive(:send))
+        model_instance.project_folder_mode = mode
 
-  def notify_changed_roles(action, changed_role)
-    OpenProject::Notifications.send(:roles_changed, action:, role: changed_role)
+        subject
+
+        expect(OpenProject::Notifications).to(
+          have_received(:send).with(event, project_folder_mode: mode)
+        )
+      end
+    end
   end
 end
