@@ -58,8 +58,7 @@ class Storages::ProjectSettings::ProjectStorageMembersController < ApplicationCo
   end
 
   def default_breadcrumb
-    ActionController::Base.helpers
-      .link_to t(:project_module_storages), project_settings_project_storages_path(project_id: @project)
+    t(:'storages.page_titles.project_settings.members_check')
   end
 
   # See: default_breadcrum above

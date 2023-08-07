@@ -28,7 +28,6 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <!-- Standard Ruby view, please see the controller for comments -->
 <% html_title t(:label_administration), t("project_module_storages"), t(@storage.name) %>
-<% local_assigns[:additional_breadcrumb] = t(:'storages.page_titles.project_settings.members_check') %>
 <%= toolbar title: t("storages.page_titles.project_storage_members.title"),
             subtitle: t("storages.page_titles.project_storage_members.subtitle",
                         storage_name_link: link_to(@storage.name, admin_settings_storage_path(@storage))).html_safe
