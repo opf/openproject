@@ -117,17 +117,17 @@ Starting with OpenProject 12.2, users with certain roles are able to log and edi
 > - *Log time for other users* allows users with that role to log time on behalf of other users
 > - *Edit time logs* for other users allows users with that role to modify and adjust time logged for other users
 
-[Permissions to log and edit time for others](permissions-log-time-others.png)
+![Permissions to log and edit time for others](permissions-log-time-others.png)
 
 Once the permissions have been granted, you will notice subtle differences in the interface.
 
 The **Log time** modal now has a new field called "User", that allows you to select a user other than yourself:
 
-[Log time now has a user field](log-time-with-user-field.png)
+![Log time now has a user field](log-time-with-user-field.png)
 
 When accessing cost reports, you will see a new column titled "Logged by". The author of the logged time can be different from the user for whom the time is logged:
 
-[Logged by field](cost-report-logged-by.png)
+![Logged by field](cost-report-logged-by.png)
 
 A user with permissions to edit time logged by other users can edit each entry as they would their own. The "Logged by" field will always display the name of the user who made the last edit.
 
