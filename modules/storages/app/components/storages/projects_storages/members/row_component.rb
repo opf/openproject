@@ -52,15 +52,15 @@ module Storages::ProjectsStorages::Members
     end
 
     def status
-      status_result = status_identifier_for_member
+      connection_result = storage_connection_status
 
-      if status_result == :not_connected
+      if connection_result == :not_connected
         render(Primer::Beta::Octicon.new(:'alert-fill', size: :small, color: :severe)) +
           content_tag(:span,
-                      I18n.t("storages.member_connection_status.#{status_result}"),
+                      I18n.t("storages.member_connection_status.#{connection_result}"),
                       class: 'pl-2')
       else
-        I18n.t("storages.member_connection_status.#{status_result}")
+        I18n.t("storages.member_connection_status.#{connection_result}")
       end
     end
 
@@ -87,22 +87,22 @@ module Storages::ProjectsStorages::Members
       end
     end
 
-    def status_identifier_for_member
-      return :not_connected unless oauth_connection_connected?
+    def storage_connection_status
+      return :not_connected unless oauth_client_connected?
 
-      if has_read_file_permissions?
+      if can_read_files?
         :connected
       else
         :connected_no_permissions
       end
     end
 
-    def oauth_connection_connected?
+    def oauth_client_connected?
       storage.oauth_client.present? &&
         member.oauth_client_tokens.any? { |token| token.oauth_client_id == storage.oauth_client.id }
     end
 
-    def has_read_file_permissions?
+    def can_read_files?
       member.roles.any? { |role| role.has_permission?(:read_file) }
     end
   end
