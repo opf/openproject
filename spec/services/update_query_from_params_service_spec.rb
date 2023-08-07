@@ -191,7 +191,7 @@ RSpec.describe UpdateQueryFromParamsService,
       end
     end
 
-    context "when providing timestamps", with_flag: { show_changes: true } do
+    context "when providing timestamps" do
       let(:timestamps) do
         [
           Timestamp.parse("2022-10-29T23:01:23Z"),

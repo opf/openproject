@@ -463,6 +463,12 @@ components:
   examples:
     DateAlertNotification:
       $ref: './components/examples/date_alert_notification.yml'
+    GridSimpleCollectionResponse:
+      "$ref": "./components/examples/grid-simple-collection-response.yml"
+    GridSimplePatchModel:
+      "$ref": "./components/examples/grid-simple-patch-model.yml"
+    GridSimpleResponse:
+      "$ref": "./components/examples/grid-simple-response.yml"
     MentionedNotification:
       $ref: './components/examples/mentioned_notification.yml'
     NotificationCollection:
@@ -575,8 +581,14 @@ components:
       $ref: './components/schemas/file_link_write_model.yml'
     Formattable:
       "$ref": "./components/schemas/formattable.yml"
-    GridModel:
-      "$ref": "./components/schemas/grid_model.yml"
+    GridCollectionModel:
+      "$ref": "./components/schemas/grid_collection_model.yml"
+    GridReadModel:
+      "$ref": "./components/schemas/grid_read_model.yml"
+    GridWidgetModel:
+      "$ref": "./components/schemas/grid_widget_model.yml"
+    GridWriteModel:
+      "$ref": "./components/schemas/grid_write_model.yml"
     GroupCollectionModel:
       "$ref": "./components/schemas/group_collection_model.yml"
     GroupModel:
@@ -621,6 +633,8 @@ components:
       "$ref": "./components/schemas/oauth_client_credentials_read_model.yml"
     OAuthClientCredentialsWriteModel:
       "$ref": "./components/schemas/oauth_client_credentials_write_model.yml"
+    PaginatedCollectionModel:
+      "$ref": "./components/schemas/paginated_collection_model.yml"
     Plain_TextModel:
       "$ref": "./components/schemas/plain_text_model.yml"
     PostModel:

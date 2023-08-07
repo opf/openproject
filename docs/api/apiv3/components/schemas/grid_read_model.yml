@@ -1,0 +1,96 @@
+# Schema: GridReadModel
+---
+type: object
+required:
+  - _type
+  - id
+  - rowCount
+  - columnCount
+  - widgets
+  - _links
+properties:
+  _type:
+    type: string
+    enum:
+      - Grid
+  id:
+    type: integer
+    description: Grid's id
+    minimum: 1
+  rowCount:
+    type: integer
+    description: The number of rows the grid has
+    minimum: 1
+  columnCount:
+    type: integer
+    description: The number of columns the grid has
+    minimum: 1
+  widgets:
+    type: array
+    description: |-
+      The set of `GridWidget`s selected for the grid.
+
+      # Conditions
+
+      - The widgets must not overlap.
+    items:
+      $ref: './grid_widget_model.yml'
+  createdAt:
+    type: string
+    format: date-time
+    description: The time the grid was created.
+  updatedAt:
+    type: string
+    format: date-time
+    description: The time the grid was last updated.
+  _links:
+    type: object
+    required:
+      - self
+      - scope
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This grid.
+              
+              **Resource**: Grid
+      attachments:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The attachment collection of this grid.
+              
+              **Resource**: AttachmentCollection
+      addAttachment:
+        allOf:
+          - $ref: './link.yml'
+          - description: Link for adding an attachment to this grid.
+      scope:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The location where this grid is used, usually represented as a relative URL.
+      updateImmediately:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Directly perform edits on this grid.
+              
+              # Conditions
+              
+              **Permission**: depends on the page the grid is defined for
+      update:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Validate edits on the grid via a form resource before committing
+              
+              # Conditions
+              
+              **Permission**: depends on the page the grid is defined for
+      delete:
+        allOf:
+          - $ref: './link.yml'
+          - description: Deletes this grid resource.

@@ -54,6 +54,7 @@ COPY lib_static ./lib_static
 COPY frontend ./frontend
 COPY modules ./modules
 COPY vendor ./vendor
+COPY lookbook ./lookbook
 
 RUN --mount=type=cache,target=/app/frontend/.angular/cache,uid=1000,gid=1000 \
   SECRET_KEY_BASE=1 RAILS_ENV=production DATABASE_URL=nulldb://db \
@@ -141,6 +142,7 @@ ARG PLATFORM=on-prem
 ARG GITHUB_OAUTH_TOKEN
 ARG BIM_SUPPORT=true
 ARG GOSU_VERSION="1.16"
+ARG OPENPROJECT_ANGULAR_UGLIFY=true
 
 ENV OPENPROJECT_RAILS__CACHE__STORE=memcache
 ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject

@@ -31,8 +31,7 @@ require_relative './support/board_overview_page'
 
 RSpec.describe 'Work Package Boards Overview',
                :with_cuprite,
-               with_ee: %i[board_view],
-               with_flag: { more_global_index_pages: true } do
+               with_ee: %i[board_view] do
   # The identifier is important to test https://community.openproject.com/wp/29754
   shared_let(:project) { create(:project, identifier: 'boards', enabled_module_names: %i[work_package_tracking board_view]) }
   shared_let(:other_project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }

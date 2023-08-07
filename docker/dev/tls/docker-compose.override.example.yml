@@ -1,8 +1,5 @@
 services:
   traefik:
-    volumes:
-      # Linux: mount the certificate bundle
-      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
     networks:
       external:
         aliases:

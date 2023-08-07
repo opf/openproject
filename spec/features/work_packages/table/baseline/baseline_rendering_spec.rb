@@ -278,7 +278,7 @@ RSpec.describe 'baseline rendering',
 
   current_user { user }
 
-  describe 'with feature enabled', with_ee: %i[baseline_comparison], with_flag: { show_changes: true } do
+  describe 'with EE', with_ee: %i[baseline_comparison] do
     it 'does show changes' do
       wp_table.visit_query(query)
       wp_table.expect_work_package_listed wp_task, wp_task_changed, wp_task_was_bug, wp_bug_was_task,
@@ -424,17 +424,7 @@ RSpec.describe 'baseline rendering',
     end
   end
 
-  describe 'with feature disabled', with_flag: { show_changes: false } do
-    it 'does not show changes' do
-      wp_table.visit_query(query)
-      wp_table.expect_work_package_listed wp_task, wp_task_changed, wp_task_was_bug
-      wp_table.ensure_work_package_not_listed! wp_bug, wp_bug_was_task
-
-      baseline.expect_inactive
-    end
-  end
-
-  describe 'without EE', with_ee: false, with_flag: { show_changes: true } do
+  describe 'without EE', with_ee: false do
     it 'disabled options' do
       wp_table.visit_query(query)
       baseline_modal.expect_closed

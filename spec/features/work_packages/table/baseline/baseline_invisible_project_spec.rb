@@ -86,7 +86,7 @@ RSpec.describe 'baseline with a work package moved to an invisible project',
 
   current_user { user }
 
-  describe 'with feature enabled', with_ee: %i[baseline_comparison], with_flag: { show_changes: true } do
+  describe 'with EE active', with_ee: %i[baseline_comparison] do
     it 'shows the item with all values removed' do
       wp_table.visit_query(query)
 

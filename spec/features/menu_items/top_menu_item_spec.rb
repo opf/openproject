@@ -65,7 +65,7 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
     top_menu.click if open_menu
   end
 
-  describe 'Modules', with_flag: { more_global_index_pages_active: true } do
+  describe 'Modules' do
     let!(:top_menu) { find("[title=#{I18n.t('label_modules')}]") }
 
     shared_let(:menu_link_item) { Struct.new(:label, :path) }

@@ -259,51 +259,34 @@ chmod 0600 docker/dev/tls/acme.json
 # Create external docker network
 docker network create gateway
 
-# Start certificate authority
-docker compose --project-directory docker/dev/tls up -d step
+# Start certificate authority and reverse proxy
+docker compose --project-directory docker/dev/tls up -d
 
-# Add traefik as an ACME CA provisioner
-docker compose --project-directory docker/dev/tls exec step step ca provisioner add traefik \
-  --type ACME --ca-url https://step.local:9000
-
-# Update ca.json to increase certificate duration
-# Hint: if you do not have `jq`, please edit the `ca.json` manually
-docker compose --project-directory docker/dev/tls cp step:/home/step/config/ca.json ca_src.json
-jq '.authority |= . + {"claims":{"maxTLSCertDuration":"8760h","defaultTLSCertDuration":"8760h"}}' ca_src.json > ca.json
-docker compose --project-directory docker/dev/tls cp ca.json step:/home/step/config/ca.json
-rm ca_src.json ca.json
-```
-
-If you do not have `jq`, please edit the `ca.json` manually and merge the following json into the source.
-
-```json
-{
-  "authority": {
-    "claims": {
-      "maxTLSCertDuration": "8760h",
-      "defaultTLSCertDuration": "8760h"
-    }
-  }
-}
+# OPTIONAL: Change certificate duration to 1y - the values can be changed to any desired value
+# restart stack afterwards
+docker compose --project-directory docker/dev/tls exec step step ca provisioner \
+  update acme --x509-min-dur=24h --x509-max-dur=8760h --x509-default-dur=8760h
+docker compose --project-directory docker/dev/tls stop
+docker compose --project-directory docker/dev/tls up -d
 ```
 
 `step` will create the root CA, which is later stored in a persisted volume. You need to install this root CA on your
 machine and your browsers, so that any issued certificate is considered trusted. This process however is very dependent
 on your OS.
 
-### Install root CA
-
-In this section you can find the ways, of how to make the just generated root CA available to your machine, the docker
-container and your browser. Once you followed the steps for your OS-dependent setup, you need to amend your proxy stack
-accordingly. For that we provide a compose example file at `docker/dev/tls/docker-compose.override.example.yml`. In this
-file you find custom code, that provides the necessary configuration for each supported OS.
+When requesting TLS certificates `step` will make TLS challenges. For this reason we need to amend the `traefik` service
+and add aliases with the domain names of each service, that needs TLS-encrypted access. We prepared an example file
+at `docker/dev/tls/docker-compose.override.example.yml`.
 
 ```shell
-# Copy the override example and edit it for your OS
+# Copy the override example
 cp docker/dev/tls/docker-compose.override.example.yml docker/dev/tls/docker-compose.override.yml
 ```
 
-After copying, delete the volume mounts, which are not applicable for your OS.
+### Install root CA
+
+In this section you can find the ways, of how to make the just generated root CA available to your machine, the docker
+container and your browser.
 
 #### Browser
 
