@@ -31,6 +31,13 @@ module Storages::ProjectStorages
   class SetAttributesService < ::BaseServices::SetAttributes
     def set_default_attributes(_params)
       model.creator ||= user
+
+      model.project_folder_mode ||=
+        if model.storage.present? && model.storage.automatically_managed?
+          "automatic"
+        else
+          "inactive"
+        end
     end
   end
 end

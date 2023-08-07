@@ -99,11 +99,11 @@ class TypesController < ApplicationController
 
     if @type.update(permitted_params.type_move)
       flash[:notice] = I18n.t(:notice_successful_update)
+      redirect_to types_path
     else
-      flash.now[:error] = t('type_could_not_be_saved')
+      flash.now[:error] = I18n.t(:error_type_could_not_be_saved)
       render action: 'edit'
     end
-    redirect_to types_path
   end
 
   def destroy

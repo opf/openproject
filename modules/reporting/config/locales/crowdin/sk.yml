@@ -81,6 +81,9 @@ sk:
   units: "Jednotky"
   validation_failure_date: "nie je platný dátum"
   validation_failure_integer: "nie je platné celé číslo"
+  export:
+    cost_reports:
+      title: "Your Cost Reports XLS export"
   reporting:
     group_by:
       selected_columns: "Vybrané stĺpce"

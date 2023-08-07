@@ -65,7 +65,8 @@ uk:
     button_confirm: "Підтвердити"
     button_continue: "Продовжити"
     button_copy: "Копіювати"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Копіювати в буфер обміну"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Копіювати в інший проєкт"
     button_custom-fields: "Індивідуальні поля"
     button_delete: "Видалити"
@@ -295,6 +296,34 @@ uk:
           one: "Перший критерій впорядкування"
           two: "Другий критерій впорядкування"
           three: "Третій критерій впорядкування"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "ні"
     general_text_yes: "так"
     general_text_No: "Ні"
@@ -313,21 +342,22 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                Випуск містить нові й поліпшені функції. <br><ul class="%{list_styling_class}"> <li>Додавайте файли з пакетів робіт у файлове сховище Nextcloud і зв’язуйте їх.</li> <li> Реагуйте на зміни в проєкті, відстежуючи виконані в ньому дії.</li> <li>Додавайте офіційні свята (неробочі дні) для цілого екземпляра.</li> <li>Архівуйте проєкти без прав адміністратора.</li> <li>Використовуйте новий типовий фільтр для прострочених пакетів робіт.
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to iCalendar"
+      title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
-      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
-      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Token name"
-      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
-      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
       copy_url_label: "Copy URL"
-      ical_generation_error_text: "An error occured while generating the iCal URL."
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Активувати"
     label_assignee: 'Виконавець'
     label_add_column_after: "Додати стовпець після"
@@ -504,7 +534,7 @@ uk:
     label_remove_all_files: Видалити всі файли
     label_add_description: "Додати опис для %{file}"
     label_upload_notification: "Завантаження файлів ..."
-    label_work_package_upload_notification: "Завантаження файлів для пакета робіт #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Завантаження файлів для пакета робіт #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} додано користувачем %{author}"
     label_files_to_upload: "Ці файли будуть завантажені на сервер:"
     label_rejected_files: "Ці файли не можуть бути завантажені на сервер:"
@@ -739,6 +769,14 @@ uk:
     time_entry:
       work_package_required: 'Спочатку потрібно вибрати пакет робіт.'
       title: 'Час журналу'
+      tracking: 'Відстеження часу'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Двофакторна аутентифікація'
     watchers:
@@ -797,7 +835,8 @@ uk:
     autocompleter:
       placeholder: "Введіть для пошуку"
       notFoundText: "Елементів не знайдено"
-      typeToSearchText: "Введіть для пошуку"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Виберіть мітку'
       select_branch: 'Виберіть гілку'
@@ -815,63 +854,6 @@ uk:
       activate_no: 'активувати, щоб видалити сортування'
     text_work_packages_destroy_confirmation: "Ви впевнені у тому, що хочете видалити вибрані робочі пакети?"
     text_query_destroy_confirmation: "Ви дійсно бажаєте видалити вибраний вигляд?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Діаграма Ганта'
-      labels:
-        title: 'Конфігурація мітки'
-        bar: 'смуга міток'
-        left: 'Ліворуч'
-        right: 'Зправа'
-        farRight: 'Далі вправо'
-        showNone: '- Немає мітки -'
-        description: >
-          Оберіть атрибути, які потрібно постійно відображати у відповідних положеннях діаграми Ганта. Зверніть увагу, що під час наведення на елемент, замість цих атрибутів буде відображено його мітки.
-      button_activate: 'Показати діаграму Ганта'
-      button_deactivate: 'Сховати діаграму Ганта'
-      cancel: Скасувати
-      change: "Зміна планування"
-      due_date: "Дата закінчення"
-      empty: "(порожній)"
-      error: "Сталася помилка."
-      errors:
-        not_implemented: "Часова шкала не може бути відображена, оскільки вона використовує функцію, яка ще не реалізована."
-        report_comparison: "Часова шкала не може відобразити налаштовані порівняння. Будь ласка, перевірте відповідний розділ в конфігурації, скинувши його можна допомогти вирішити цю проблему."
-        report_epicfail: "Часова шкала не може бути завантажена через несподівану помилку."
-        report_timeout: "Часова шкала не може бути завантажена в розумний період часу."
-      filter:
-        grouping_other: "Інше"
-        noneSelection: "(нічого)"
-      name: "Ім’я"
-      outline: "Скинути виділення"
-      outlines:
-        aggregation: "Показати тільки агрегати"
-        level1: "Розширити рівень 1"
-        level2: "Розширити рівень 2"
-        level3: "Розширити рівень 3"
-        level4: "Розширити рівень 4"
-        level5: "Розширити рівень 5"
-        all: "Показати все"
-      project_status: "Статус Проекту"
-      really_close_dialog: "Ви дійсно хочете закрити діалог і втратити введені дані?"
-      responsible: "Надійний"
-      save: Зберегти
-      start_date: "Початок"
-      tooManyProjects: "Більше, ніж %{count} проект(-и,-ів). Будь ласка, використайте точніший фільтр!"
-      selection_mode:
-        notification: 'Натисніть будь-який виділений робочий пакет, щоб створити відношення. Натисніть клавішу Escape, щоб скасувати.'
-      zoom:
-        in: "Збільшити масштаб"
-        out: "Зменшити масштаб"
-        auto: "Автозбільшення"
-        days: "Днів"
-        weeks: "Тижня"
-        months: "Місяців"
-        quarters: "Приміщенням"
-        years: "Років"
-        slider: "Повзунок масштабування"
-        description: >
-          Виберіть початковий рівень масштабування, який має відображатися, коли функція автоматичного масштабування недоступна.
     tl_toolbar:
       zooms: "Рівень масштабування"
       outlines: "Рівень ієрархії"
@@ -936,10 +918,10 @@ uk:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Фільтрувати пакети робіт'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Клацніть тут, щоб додати до цього списку новий пакет робіт'
@@ -1101,7 +1083,7 @@ uk:
         save_as: "Зберегти як"
         export: "Експортувати"
         visibility_settings: "Налаштування видимості"
-        share_calendar: "Subscribe to iCalendar"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Перейменувати режим перегляду"
         delete: "Видалити"
       filter: "Фільтр"
@@ -1298,6 +1280,7 @@ uk:
         between_two_specific_dates: 'between two specific dates'
       legends:
         changes_since: 'Changes since'
+        changes_between: 'Changes between'
         now_meets_filter_criteria: 'Now meets filter criteria'
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'

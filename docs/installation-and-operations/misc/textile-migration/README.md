@@ -10,6 +10,7 @@ All instances that have run OpenProject prior to 8.0.0. must be converted in ord
 
 The migration will be performed automatically during your upgrade to 8.0. You will find additional information to prevent or postpone the migration down below.
 
+You need to run this migration on an OpenProject version < 13.0, as the conversion migration is no longer part of OpenProject starting that version.
 
 
 ## Dependencies

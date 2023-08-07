@@ -165,7 +165,13 @@ At the end of this step, you should have a copy of the Application client ID as 
 
 ### Step 2: Configure OpenProject
 
-Now, head over to OpenProject > Administration > OpenID providers. Click on "New OpenID provider", select the Azure type, enter the client ID and client Secret and then Save.
+Now, head over to OpenProject > Administration > OpenID providers. Click on "New OpenID provider", select the Azure type, enter the client ID and client Secret.
+
+By default, OpenProject will use the Microsoft Graph API endpoint to perform userinfo requests.
+For that, you will need to enter the correct tenant identifier for your Azure instance.
+To find the correct value for your instance, [please see this guide](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri).
+
+Once you filled out the form, hit save and the Azure provider has been created.
 
 You can now log out, and see that the login form displays a badge for authenticating with Azure. If you click on that badge, you will be redirected to Azure to enter your credentials and allow the App to access your Azure profile, and you should then be automatically logged in.
 

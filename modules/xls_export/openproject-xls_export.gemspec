@@ -4,8 +4,7 @@ Gem::Specification.new do |s|
   s.authors     = "OpenProject GmbH"
   s.email       = "info@openproject.com"
   s.summary     = 'OpenProject XLS Export'
-  s.description = 'Export issue lists as Excel spreadsheets (.xls). Support for exporting
-    cost entries and cost reports is not yet migrated to Rails 3 and disabled.'
+  s.description = 'Export issue lists as Excel spreadsheets (.xls)'
   s.license     = "GPLv3"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + %w(CHANGELOG.md README.md)

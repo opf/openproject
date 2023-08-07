@@ -1,0 +1,95 @@
+---
+title: Shadows
+---
+
+**Note:** These are still SPOT-defined shadows and need to be replaced by primer
+
+Shadows are important when certain components are displayed on top of other components. This is usually the case with contextual menus, drop-downs or dialogues that supplement or expand an existing view.
+
+Although it is best to avoid layering beyond two levels (a base screen + an overlay), it is sometimes necessary and indeed unavoidable.
+
+We use different shadows to communicate depth and allow the user to intuitively understand what is "on top".
+
+Our shadows definitions divided between Light and Hard and three levels of elevation. The shadow is always based on a black #000000 transparency level, a X and Y px value and a spread px value.
+
+<%
+cols = ['Low', 'Mid', 'High']
+rows = ['Light', 'Hard']
+tokens = JSON.parse File.read(Rails.root.join('frontend/src/app/spot/styles/tokens/dist/tokens.json'))
+tokens = tokens
+  .select { |k, v| k.start_with?('spot-shadow-') }
+  .sort_by { |k, | k.split('-')[2].gsub('_', '.').to_f }
+  .to_h
+ %>
+
+<table class="shadows">
+  <tbody>
+    <tr>
+      <td></td>
+      <% cols.each do |col| %>
+        <td><%= col %></td>
+      <% end %>
+    </tr>
+    <% rows.each do |row| %>
+    <tr>
+      <td><%= row %></td>
+      <% cols.each do |col| %>
+        <% key = "spot-shadow-#{row.downcase}-#{col.downcase}" %>
+        <td>
+          <div class="shadows--preview" style="box-shadow: <%= tokens[key] %>">
+            <div class="shadows--name"><%= key %></div>
+            <div class="shadows--value"><%= tokens[key] %></div>
+          </div>
+        </td>
+      <% end %>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+
+<style>
+.shadows {
+  margin-right: -1rem;
+}
+
+.shadows tr,
+.shadows td {
+  background: transparent !important;
+  border: 0 !important;
+}
+
+.shadows td {
+  padding: 2rem !important;
+  text-align: center;
+}
+
+.shadows--spacing {
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.shadows--spacing > * {
+  flex-basis: 30%;
+}
+
+.shadows--preview {
+  border-radius: 3px;
+  flex-shrink: 1;
+  flex-basis: 100%;
+  padding: 1rem;
+}
+
+.shadows--name {
+  font-weight: bold;
+  padding: 0.3rem;
+}
+
+.shadows--value {
+  padding: 0.3rem;
+  white-space: nowrap;
+}
+</style>

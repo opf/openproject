@@ -91,10 +91,7 @@ module API
         end
 
         link :logTime,
-             cache_if: -> do
-               current_user_allowed_to(:log_time, context: represented.project) ||
-                 current_user_allowed_to(:log_own_time, context: represented.project)
-             end do
+             cache_if: -> { log_time_allowed? } do
           next if represented.new_record?
 
           {
@@ -576,6 +573,12 @@ module API
           @view_time_entries_allowed ||=
             current_user_allowed_to(:view_time_entries, context: represented.project) ||
               current_user_allowed_to(:view_own_time_entries, context: represented.project)
+        end
+
+        def log_time_allowed?
+          @log_time_allowed ||=
+            current_user_allowed_to(:log_time, context: represented.project) ||
+              current_user_allowed_to(:log_own_time, context: represented.project)
         end
 
         def view_budgets_allowed?

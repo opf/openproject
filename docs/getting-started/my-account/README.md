@@ -57,6 +57,8 @@ To change the language in OpenProject, navigate to the **My account** and choose
 
 Here you can choose between multiple languages.
 
+![my account change language of user](my-account-change-language-of-user.png)
+
 OpenProject is translated to more than 30 languages, like German, Chinese, French, Italian, Korean, Latvian, Lithuanian, Polish, Portuguese, Russian, Spanish, Turkish and many more. If you do not see your preferred language in the My account settings, the language needs to be activated by your system administrator in the [system's settings](../../system-admin-guide/system-settings/display-settings).
 
 Pressing the blue **Save** button will save your changes.

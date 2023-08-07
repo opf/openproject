@@ -41,7 +41,7 @@ RSpec.describe 'API v3 storages resource', content_type: :json, webmock: true do
   end
 
   let(:oauth_application) { create(:oauth_application) }
-  let(:storage) { create(:storage, creator: current_user, oauth_application:) }
+  let(:storage) { create(:nextcloud_storage, creator: current_user, oauth_application:) }
   let(:project_storage) { create(:project_storage, project:, storage:) }
 
   let(:authorize_url) { 'https://example.com/authorize' }
@@ -94,6 +94,7 @@ RSpec.describe 'API v3 storages resource', content_type: :json, webmock: true do
     before do
       mock_server_capabilities_response(host)
       mock_server_config_check_response(host)
+      mock_nextcloud_application_credentials_validation(host)
     end
 
     subject(:last_response) do
@@ -109,6 +110,34 @@ RSpec.describe 'API v3 storages resource', content_type: :json, webmock: true do
         it_behaves_like 'successful response', 201
 
         it { is_expected.to have_json_path('_embedded/oauthApplication/clientSecret') }
+      end
+
+      context 'with applicationPassword' do
+        let(:params) do
+          super().merge(
+            applicationPassword: 'myappsecret'
+          )
+        end
+
+        subject { last_response.body }
+
+        it_behaves_like 'successful response', 201
+
+        it { is_expected.to be_json_eql('true').at_path('hasApplicationPassword') }
+      end
+
+      context 'with applicationPassword as null' do
+        let(:params) do
+          super().merge(
+            applicationPassword: nil
+          )
+        end
+
+        subject { last_response.body }
+
+        it_behaves_like 'successful response', 201
+
+        it { is_expected.to be_json_eql('false').at_path('hasApplicationPassword') }
       end
 
       context 'if missing a mandatory value' do
@@ -251,14 +280,72 @@ RSpec.describe 'API v3 storages resource', content_type: :json, webmock: true do
 
         it { is_expected.to be_json_eql(name.to_json).at_path('name') }
       end
+
+      context 'with applicationPassword' do
+        let(:params) do
+          super().merge(
+            applicationPassword: 'myappsecret'
+          )
+        end
+
+        before do
+          mock_nextcloud_application_credentials_validation(storage.host, password: 'myappsecret')
+        end
+
+        subject { last_response.body }
+
+        it_behaves_like 'successful response'
+
+        it { is_expected.to be_json_eql('true').at_path('hasApplicationPassword') }
+      end
+
+      context 'with applicationPassword as null' do
+        let(:params) do
+          super().merge(
+            applicationPassword: nil
+          )
+        end
+
+        subject { last_response.body }
+
+        it_behaves_like 'successful response'
+
+        it { is_expected.to be_json_eql('false').at_path('hasApplicationPassword') }
+      end
+
+      context 'with invalid applicationPassword' do
+        let(:params) do
+          super().merge(
+            applicationPassword: '123'
+          )
+        end
+
+        before do
+          mock_nextcloud_application_credentials_validation(storage.host, password: '123', response_code: 401)
+        end
+
+        subject { last_response.body }
+
+        it { is_expected.to be_json_eql('Password is not valid.'.to_json).at_path('message') }
+      end
     end
   end
 
   describe 'DELETE /api/v3/storages/:storage_id' do
     let(:path) { api_v3_paths.storage(storage.id) }
+    let(:delete_folder_url) do
+      "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.project_folder_path.chop}"
+    end
+    let(:deletion_request_stub) do
+      stub_request(:delete, delete_folder_url).to_return(status: 204, body: nil, headers: {})
+    end
 
     subject(:last_response) do
       delete path
+    end
+
+    before do
+      deletion_request_stub
     end
 
     context 'as admin' do
@@ -270,6 +357,10 @@ RSpec.describe 'API v3 storages resource', content_type: :json, webmock: true do
     context 'as non-admin' do
       context 'if user belongs to a project using the given storage' do
         it_behaves_like 'unauthorized access'
+
+        it 'does not request project folder deletion' do
+          expect(deletion_request_stub).not_to have_been_requested
+        end
       end
 
       context 'if user does not belong to a project using the given storage' do
@@ -278,6 +369,10 @@ RSpec.describe 'API v3 storages resource', content_type: :json, webmock: true do
         end
 
         it_behaves_like 'not found'
+
+        it 'does not request project folder deletion' do
+          expect(deletion_request_stub).not_to have_been_requested
+        end
       end
     end
   end

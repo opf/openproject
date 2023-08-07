@@ -28,7 +28,7 @@
 
 # A "contract" is an OpenProject pattern used to validate parameters
 # before actually creating, updating, or deleting a model.
-# Used by: projects_storages_controller.rb and in the API
+# Used by: project_storages_controller.rb and in the API
 module Storages::ProjectStorages
   class BaseContract < ::ModelContract
     # "Concern" just injects a permission checking routine.
@@ -50,10 +50,6 @@ module Storages::ProjectStorages
       if Storages::ProjectStorage.project_folder_modes.keys.exclude?(@model.project_folder_mode)
         errors.add :project_folder_mode, :invalid
       end
-    end
-
-    def assignable_storages
-      Storages::Storage.visible(user).where.not(id: @model.project.projects_storages.pluck(:storage_id))
     end
 
     private

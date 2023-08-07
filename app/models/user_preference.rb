@@ -94,6 +94,10 @@ class UserPreference < ApplicationRecord
     settings.fetch(:hide_mail, true)
   end
 
+  def can_expose_mail?
+    !hide_mail
+  end
+
   def auto_hide_popups=(value)
     settings[:auto_hide_popups] = to_boolean(value)
   end
@@ -117,6 +121,10 @@ class UserPreference < ApplicationRecord
 
   def comments_in_reverse_order=(value)
     settings[:comments_sorting] = to_boolean(value) ? 'desc' : 'asc'
+  end
+
+  def theme
+    super.presence || Setting.user_default_theme
   end
 
   def time_zone

@@ -43,6 +43,7 @@
 
 <%# Custom styles %>
 <%= render partial: "custom_styles/inline_css_logo" %>
+<%= render partial: 'custom_styles/primer_color_mapping' %>
 <% if apply_custom_styles? %>
   <% cache(CustomStyle.current) do %>
     <%= render partial: "custom_styles/inline_css" %>
@@ -54,4 +55,3 @@
     <% end %>
   <% end %>
 <% end %>
-<%= crowdin_in_context_translation %>

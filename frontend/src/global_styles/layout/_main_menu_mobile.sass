@@ -26,9 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-@include breakpoint(680px down)
+@media screen and (max-width: $breakpoint-sm)
   .main-menu
     @include spot-z-index("main-menu")
+    width: var(--breakpoint-sm)
     position: fixed
     border-bottom: 1px solid var(--main-menu-border-color)
     border: none

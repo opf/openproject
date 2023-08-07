@@ -1,7 +1,6 @@
-import { GlobalI18n } from 'core-app/core/i18n/i18n.service';
 import * as _ from 'lodash';
 
-export class I18nShim implements GlobalI18n {
+export class I18nShim {
   public defaultLocale = 'en';
 
   public firstDayOfWeek = 1;
@@ -11,8 +10,6 @@ export class I18nShim implements GlobalI18n {
   public translations = {
     en: {},
   };
-
-  public pluralization = {};
 
   t<T=string>(key:string):T {
     return `[missing "${key}" translation]` as unknown as T;

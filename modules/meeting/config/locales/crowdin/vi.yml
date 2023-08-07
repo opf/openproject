@@ -29,6 +29,7 @@ vi:
         participants: "Người tham gia"
         participants_attended: "Người dự khán"
         participants_invited: "Khách mời"
+        project: "Project"
         start_time: "Giờ"
         start_time_hour: "Giờ bắt đầu"
     errors:
@@ -61,6 +62,13 @@ vi:
   label_meeting_agenda_close: "Close the agenda to begin the Minutes"
   label_meeting_date_time: "Ngày/Giờ"
   label_meeting_diff: "Diff"
+  label_upcoming_meetings: "Upcoming meetings"
+  label_past_meetings: "Past meetings"
+  label_involvement: "Involvement"
+  label_upcoming_invitations: "Upcoming invitations"
+  label_past_invitations: "Past invitations"
+  label_attendee: "Attendee"
+  label_author: "Creator"
   label_notify: "Send for review"
   label_icalendar: "Gửi iCalendar"
   label_version: "0886055830 "
@@ -85,7 +93,7 @@ vi:
   text_duration_in_hours: "Thời lượng tính bằng giờ"
   text_in_hours: "bằng giờ"
   text_meeting_agenda_for_meeting: 'Các ý chính cho cuộc họp "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the agenda?"
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting agenda?"
   text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
   text_meeting_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
   text_review_meeting_agenda: "%{author} has put the %{link} up for review."

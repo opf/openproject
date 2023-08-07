@@ -43,7 +43,7 @@ $toolbar-height--mobile: 100px
   // Calculate table size by subtracting the space above
   max-height: calc(100vh - #{var(--header-height)} - #{$toolbar-height})
 
-  @media screen and (max-width: 679px)
+  @media screen and (max-width: $breakpoint-sm)
     max-height: calc(100vh - #{var(--header-height)} - #{$toolbar-height--mobile})
 
   .generic-table--results-container
@@ -51,7 +51,7 @@ $toolbar-height--mobile: 100px
 
   .generic-table--container
     display: contents
-    
+
   .generic-table
     position: relative
 
@@ -95,7 +95,7 @@ table.generic-table
   border-collapse: collapse
   width:  100%
   margin: 0
-  font-size: var(--generic-table--font-size)
+  font-size: 0.875rem
 
   col
     &:hover,
@@ -215,7 +215,7 @@ table.generic-table
           max-width: 500px
 
       // The avatar image is not taken into the width calculation of the table cell by the browser.
-         That is why we add the space manually.
+      // That is why we add the space manually.
       &.-contains-avatar
         text-overflow: clip
         .wp-table--cell-container
@@ -231,13 +231,38 @@ table.generic-table
         white-space: nowrap
 
       &.-no-highlighting
-        background-color: $body-background
+        background-color: var(--body-background)
+
+      // fixed column width helpers
+      &.-w-rel-20
+        width: 20%
+
+      &.-mw-abs-200
+        max-width: 200px //override the default max-width for appropriate text ellipsis
+        
+      &.-w-rel-40
+        width: 40%
+      
+      &.-mw-abs-400
+        max-width: 400px //override the default max-width for appropriate text ellipsis
+        
+      &.-w-rel-60
+        width: 60%
+      
+      &.-mw-abs-600
+        max-width: 600px //override the default max-width for appropriate text ellipsis
+      
+      &.-w-rel-80
+        width: 80%
+
+      &.-mw-abs-800
+        max-width: 800px //override the default max-width for appropriate text ellipsis
 
 // Enable sticky headers
 thead.-sticky th
   position: sticky
   top: 0
-  background: white
+  background: var(--body-background)
 
 
 .generic-table--footer-outer
@@ -304,7 +329,7 @@ thead.-sticky th
     padding-left: 15px
 
   #startDate
-    margin-left: 24px
+    margin-left: $work-package--start-date-display-field-padding-left
 
 .generic-table--sort-header-outer
   .dropdown-indicator
@@ -318,9 +343,9 @@ thead.-sticky th
     visibility: visible
 
 .generic-table--no-results-container
-  background:   $gray-light
-  border:       1px solid $gray
-  border-radius: $global-radius
+  background:   var(--gray-light)
+  border:       1px solid var(--gray)
+  border-radius: 4px
   padding:      14px 14px 14px 36px
   display:      block
 

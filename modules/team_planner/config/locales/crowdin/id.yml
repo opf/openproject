@@ -5,6 +5,7 @@ id:
   project_module_team_planner_view: "Rencana tim"
   team_planner:
     label_team_planner: "Rencana tim"
+    label_new_team_planner: "New team planner"
     label_create_new_team_planner: "Buat rencana tim baru"
     label_team_planner_plural: "Rencana tim"
     label_assignees: "Penerima tugas"

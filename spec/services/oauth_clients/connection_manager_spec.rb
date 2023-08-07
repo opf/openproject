@@ -161,7 +161,10 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
           .to_return(status: 200, body: response_body, headers: { "content-type" => "application/json; charset=utf-8" })
       end
 
-      it 'returns a valid ClientToken object' do
+      it 'returns a valid ClientToken object and issues an appropriate event' do
+        expect(OpenProject::Notifications)
+          .to(receive(:send))
+          .with(OpenProject::Events::OAUTH_CLIENT_TOKEN_CREATED, integration_type: "Storages::Storage")
         expect(subject.success).to be_truthy
         expect(subject.result).to be_a OAuthClientToken
       end
@@ -466,7 +469,7 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
             thread2.join
 
             expect([result1.access_token,
-                    result2.access_token]).to match_array([response_body1[:access_token], response_body2[:access_token]])
+                    result2.access_token]).to contain_exactly(response_body1[:access_token], response_body2[:access_token])
             expect(WebMock).to have_requested(:any, request_url).twice
           end
         end

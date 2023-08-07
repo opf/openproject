@@ -3,11 +3,11 @@ cs:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        auth_source: 'Připojení LDAP'
+        ldap_auth_source: 'Připojení LDAP'
         sync_users: 'Synchronizovat uživatele'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP filtr'
-        auth_source: 'Připojení LDAP'
+        ldap_auth_source: 'Připojení LDAP'
         group_name_attribute: "Atribut názvu skupiny"
         sync_users: 'Synchronizovat uživatele'
         base_dn: "Search base DN"

@@ -43,6 +43,16 @@ See COPYRIGHT and LICENSE files for more details.
       </h2>
     </div>
     <ul class="toolbar-items">
+      <% if User.current.allowed_to? :export_work_packages, @project, global: @project.nil? %>
+        <li class="toolbar-item">
+          <%= link_to(t(:export_to_excel),
+                      { controller: "cost_reports" ,
+                        action: :index,
+                        format: 'xls',
+                        project_id: @project },
+                      class: "button icon-export-xls-descr") %>
+        </li>
+      <% end %>
       <%= call_hook(:view_cost_report_toolbar) %>
     </ul>
   </div>
@@ -57,9 +67,3 @@ See COPYRIGHT and LICENSE files for more details.
   <%= t(:text_costs_are_rounded_note) %>
   <%= "<br />#{t(:information_restricted_depending_on_permission)}".html_safe unless User.current.admin?%>
 </p>
-
-<% if @project.blank? %>
-  <% content_for :sidebar do %>
-    <%= render :partial => "report_menu" %>
-  <% end -%>
-<% end %>

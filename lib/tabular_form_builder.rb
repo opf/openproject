@@ -112,6 +112,10 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       inputs['show-ignore-non-working-days'] = options[:show_ignore_non_working_days]
     end
 
+    if options[:required]
+      inputs[:required] = options[:required]
+    end
+
     label = label_for_field(field, label_options)
     input = angular_component_tag('op-basic-single-date-picker',
                                   class: options[:class],

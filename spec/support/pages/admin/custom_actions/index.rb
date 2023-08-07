@@ -37,6 +37,8 @@ module Pages
             click_link 'Custom action'
           end
 
+          wait_for_reload
+
           Pages::Admin::CustomActions::New.new
         end
 

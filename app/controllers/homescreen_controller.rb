@@ -29,7 +29,7 @@
 class HomescreenController < ApplicationController
   skip_before_action :check_if_login_required, only: [:robots]
 
-  layout 'no_menu'
+  layout 'global'
 
   def index
     @newest_projects = Project.visible.newest.take(3)
@@ -38,6 +38,10 @@ class HomescreenController < ApplicationController
     @announcement = Announcement.active_and_current
 
     @homescreen = OpenProject::Static::Homescreen
+  end
+
+  current_menu_item [:index] do
+    :home
   end
 
   def robots

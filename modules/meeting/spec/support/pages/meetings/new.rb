@@ -31,6 +31,12 @@ require_relative './show'
 
 module Pages::Meetings
   class New < Base
+    include Components::Autocompleter::NgSelectAutocompleteHelpers
+
+    def expect_no_main_menu
+      expect(page).not_to have_selector '#main-menu'
+    end
+
     def click_create
       click_button 'Create'
 
@@ -45,6 +51,16 @@ module Pages::Meetings
 
     def set_title(text)
       fill_in 'Title', with: text
+    end
+
+    def expect_project_dropdown
+      find "[data-qa-selector='project_id']"
+    end
+
+    def set_project(project)
+      select_autocomplete find("[data-qa-selector='project_id']"),
+                          query: project.name,
+                          results_selector: 'body'
     end
 
     def set_start_date(date)
@@ -66,7 +82,7 @@ module Pages::Meetings
     end
 
     def path
-      new_meeting_path(project)
+      polymorphic_path([:new, project, :meeting])
     end
   end
 end

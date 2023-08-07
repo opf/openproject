@@ -31,6 +31,7 @@ ro:
           Un fișier cu numele "%{fileName}" există deja în locația în care încercați să încărcați acest fișier. Ce ai vrea să faci?
         directory_not_writeable: "Nu aveţi permisiunea de a adăuga fişiere în acest folder."
         dragging_many_files: "Încărcarea către %{storageType} suportă doar un singur fișier simultan."
+        dragging_folder: "The upload to %{storageType} does not support folders."
         empty_folder: "Acest director este gol."
         empty_folder_location_hint: "Faceţi clic pe butonul de mai jos pentru a încărca fişierul în această locaţie."
         file_not_selectable_location: "Selectarea unui fișier nu este posibilă în procesul de alegere a unei locații."

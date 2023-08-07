@@ -75,27 +75,19 @@ module WorkPackage::PDFExport::Markdown
     end
 
     def handle_unknown_inline_html_tag(tag, node, opts)
-      result = []
-      case tag.name
-      when 'mention'
-        return [handle_mention_html_tag(tag, node, opts), opts]
-      when 'span'
-        text = tag.text
-        result.push(text_hash(text, opts)) if text.present?
-      else
-        result.push(text_hash(tag.to_s, opts))
-      end
+      result = if tag.name == 'mention'
+                 handle_mention_html_tag(tag, node, opts)
+               else
+                 # unknown/unsupported html tags eg. <foo>hi</foo> are ignored
+                 # but scanned for supported or text children
+                 data_inlinehtml_tag(tag, node, opts)
+               end
       [result, opts]
     end
 
-    def handle_unknown_html_tag(tag, node, opts)
-      case tag.name
-      when 'figure', 'div', 'p', 'figcaption'
-        # nop, but scan children [true, ...]
-      else
-        draw_formatted_text([text_hash(tag.to_s, opts)], opts, node)
-        return [false, opts]
-      end
+    def handle_unknown_html_tag(_tag, _node, opts)
+      # unknown/unsupported html tags eg. <foo>hi</foo> are ignored
+      # but scanned for supported or text children [true, ...]
       [true, opts]
     end
 
@@ -107,7 +99,7 @@ module WorkPackage::PDFExport::Markdown
   def write_markdown!(work_package, markdown)
     md2pdf = MD2PDF.new(styles.wp_markdown_styling_yml)
     md2pdf.draw_markdown(markdown, pdf, ->(src) {
-      with_attachments? ? attachment_image_filepath(work_package, src) : nil
+      with_images? ? attachment_image_filepath(work_package, src) : nil
     })
   end
 

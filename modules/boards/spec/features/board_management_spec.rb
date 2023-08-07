@@ -116,7 +116,7 @@ RSpec.describe 'Board management spec', js: true, with_ee: %i[board_view] do
       board_index.expect_board board_view.name
 
       # Create new board
-      board_page = board_index.create_board action: nil
+      board_page = board_index.create_board
       board_page.rename_board 'Board test'
 
       # Rename through toolbar
@@ -203,6 +203,19 @@ RSpec.describe 'Board management spec', js: true, with_ee: %i[board_view] do
       board_page.delete_board
       board_index.expect_board 'Board foo', present: false
     end
+
+    it 'allows creating a new project board form via the sidebar' do
+      board_index.visit!
+
+      board_page = board_index.create_board title: 'My Board created via the sidebar',
+                                            via_toolbar: false
+      board_page.board(reload: true) do |board|
+        expect(board.name).to eq 'My Board created via the sidebar'
+        queries = board.contained_queries
+        expect(queries.count).to eq(1)
+        expect(queries.first.name).to eq 'Unnamed list'
+      end
+    end
   end
 
   context 'with view boards + work package permission' do
@@ -248,14 +261,11 @@ RSpec.describe 'Board management spec', js: true, with_ee: %i[board_view] do
       board_page.expect_card('List 1', 'Task 1', present: false)
       board_page.expect_card('List 2', 'Task 1', present: true)
 
-      # There is no frontend visible semaphore to check for the change being saved
-      sleep(0.1)
-
       # Expect added to query
       queries = board_page.board(reload: true).contained_queries
       first = queries.find_by(name: 'List 1')
       second = queries.find_by(name: 'List 2')
-      expect(first.ordered_work_packages).to be_empty
+      wait_for(first.ordered_work_packages).to be_empty
       expect(second.ordered_work_packages.count).to eq(1)
 
       # Expect work package to be saved in query first

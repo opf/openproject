@@ -30,7 +30,6 @@
   margin-top: 1.6875rem
   position: relative
 
-
 .attributes-group--header
   @include grid-block
   margin: 0 0 0.5rem 0
@@ -71,10 +70,23 @@
 // HACK. TODO: Remove H3 element rules in various places.
 .attributes-group--header-text,
 #content h3.attributes-group--header-text
-  font-size: 1rem
+  font-size: var(--body-font-size)
   font-weight: bold
   text-transform: uppercase
   // properties to reset h3
   margin: 0
   padding: 0
   border: 0
+
+.attributes-group--attributes
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+
+  // We want a margin between items, but don't know if any one item is on the right,
+  // the left, or spanning both columns. The easy way to get a gutter is to give
+  // *all* elements margins on both sides, and then negating this margin on the parent.
+  // This also explains all of the + and - xrem calc() values below.
+  margin: 0 -1 * $spot-spacing-1_5
+  width: calc(100% + #{$spot-spacing-3})
+  

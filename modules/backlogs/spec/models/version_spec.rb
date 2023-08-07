@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'spec_helper'
 
 RSpec.describe Version do
   it { is_expected.to have_many :version_settings }
@@ -64,7 +64,7 @@ RSpec.describe Version do
 
     before do
       # We had problems while writing these specs, that some elements kept
-      # creaping around between tests. This should be fast enough to not harm
+      # creeping around between tests. This should be fast enough to not harm
       # anybody while adding an additional safety net to make sure, that
       # everything runs in isolation.
       WorkPackage.delete_all

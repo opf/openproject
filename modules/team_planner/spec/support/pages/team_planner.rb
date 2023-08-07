@@ -145,6 +145,71 @@ module Pages
       end
     end
 
+    def expect_no_views_rendered
+      expect(page).to have_text 'There is currently nothing to display.'
+    end
+
+    def expect_view_rendered(query)
+      expect(page).to have_selector 'td', text: query.name
+    end
+
+    def expect_delete_button_for(query)
+      expect(page).to have_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
+    end
+
+    def expect_no_delete_button_for(query)
+      expect(page).not_to have_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
+    end
+
+    def expect_view_not_rendered(query)
+      expect(page).not_to have_selector 'td', text: query.name
+    end
+
+    def expect_create_button
+      within '.toolbar-items' do
+        expect(page).to have_link text: 'Team planner'
+      end
+    end
+
+    def expect_no_create_button
+      within '.toolbar-items' do
+        expect(page).not_to have_link text: 'Team planner'
+      end
+    end
+
+    def click_on_create_button
+      within '.toolbar-items' do
+        click_link 'Team planner'
+      end
+    end
+
+    def click_on_cancel_button
+      click_on 'Cancel'
+    end
+
+    def set_title(title)
+      fill_in 'Title', with: title
+    end
+
+    def set_project(project)
+      select_autocomplete(find('[data-qa-selector="project_id"]'),
+                          query: project,
+                          results_selector: 'body',
+                          wait_for_fetched_options: false)
+    end
+
+    def set_public
+      check 'Public'
+    end
+
+    def set_favoured
+      check 'Favoured'
+    end
+
+    def click_on_submit
+      click_on 'Create'
+    end
+
     def add_assignee(name)
       click_add_user
       page.find('[data-qa-selector="tp-add-assignee"] input')

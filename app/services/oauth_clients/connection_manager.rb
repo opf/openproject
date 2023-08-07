@@ -118,6 +118,10 @@ module OAuthClients
             expires_in: rack_access_token.raw_attributes[:expires_in],
             scope: rack_access_token.scope
           )
+        OpenProject::Notifications.send(
+          OpenProject::Events::OAUTH_CLIENT_TOKEN_CREATED,
+          integration_type: @oauth_client.integration_type
+        )
       end
 
       ServiceResult.success(result: oauth_client_token)

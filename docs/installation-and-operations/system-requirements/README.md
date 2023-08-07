@@ -51,7 +51,7 @@ It's best to monitor your server and its resource usage. You can always allocate
 
 See [here](../operation/control/#scaling-the-number-of-web-workers) how to scale those up in a packaged installation. If you are using docker-compose you can [scale](https://docs.docker.com/compose/reference/scale/) the web and worker services too.
 
-> <sup>1</sup> When using [docker-compose](https://github.com/opf/openproject-deploy/tree/stable/12/compose) (with `USE_PUMA=true`) you can use fewer web workers which may use a bit more RAM, however. For instance for 200 users a single web worker would be enough.
+> <sup>1</sup> When using [docker-compose](https://github.com/opf/openproject-deploy/tree/stable/13/compose) (with `USE_PUMA=true`) you can use fewer web workers which may use a bit more RAM, however. For instance for 200 users a single web worker would be enough.
 
 **Scaling horizontally**
 
@@ -69,8 +69,10 @@ The [package-based installation](../installation/packaged) requires one of the f
 | ------------------------------- |
 | Ubuntu 22.04 Jammy              |
 | Ubuntu 20.04 Focal              |
+| Debian 12 Bookworm              |
 | Debian 11 Bullseye              |
 | Debian 10 Buster                |
+| CentOS/RHEL 9.x                 |
 | CentOS/RHEL 8.x                 |
 | CentOS/RHEL 7.x                 |
 | Suse Linux Enterprise Server 15 |

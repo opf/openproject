@@ -64,7 +64,8 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
 
   private loadingPromise:PromiseLike<any>;
 
-  constructor(readonly elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef,
     readonly opContextMenu:OPContextMenuService,
     readonly opModalService:OpModalService,
     readonly wpListService:WorkPackagesListService,
@@ -72,7 +73,8 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
     readonly states:States,
     readonly injector:Injector,
     readonly querySpace:IsolatedQuerySpace,
-    readonly I18n:I18nService) {
+    readonly I18n:I18nService,
+  ) {
     super(elementRef, opContextMenu);
   }
 
@@ -275,6 +277,20 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         },
       },
       {
+        // Calendar sharing modal
+        hidden: !this.showCalendarSharingOption,
+        disabled: this.authorisationService.cannot('query', 'icalUrl'),
+        linkText: this.I18n.t('js.toolbar.settings.share_calendar'),
+        icon: 'icon-link', // TODO: find sharing icons
+        onClick: () => {
+          if (this.authorisationService.can('query', 'icalUrl')) {
+            this.opModalService.show(QueryGetIcalUrlModalComponent, this.injector);
+          }
+
+          return true;
+        },
+      },
+      {
         // Export query
         disabled: this.authorisationService.cannot('work_packages', 'representations'),
         linkText: this.I18n.t('js.toolbar.settings.export'),
@@ -312,20 +328,6 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         linkText: this.query.results.customFields && this.query.results.customFields.name,
         icon: 'icon-custom-fields',
         onClick: () => false,
-      },
-      {
-        // Calendar sharing modal
-        hidden: !this.showCalendarSharingOption,
-        disabled: this.authorisationService.cannot('query', 'icalUrl'),
-        linkText: this.I18n.t('js.toolbar.settings.share_calendar'),
-        icon: 'icon-link', // TODO: find sharing icons
-        onClick: () => {
-          if (this.authorisationService.can('query', 'icalUrl')) {
-            this.opModalService.show(QueryGetIcalUrlModalComponent, this.injector);
-          }
-
-          return true;
-        },
       },
     ];
   }

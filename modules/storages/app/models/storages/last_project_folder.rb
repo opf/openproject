@@ -27,5 +27,7 @@
 #++
 
 class Storages::LastProjectFolder < ApplicationRecord
-  belongs_to :projects_storage, class_name: 'Storages::ProjectStorage'
+  belongs_to :project_storage, class_name: 'Storages::ProjectStorage'
+
+  enum mode: { inactive: 'inactive', manual: 'manual', automatic: 'automatic' }.freeze
 end

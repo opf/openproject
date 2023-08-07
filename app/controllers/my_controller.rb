@@ -78,7 +78,26 @@ class MyController < ApplicationController
   end
 
   # Administer access tokens
-  def access_token; end
+  def access_token
+    @storage_tokens = OAuthClientToken
+                        .preload(:oauth_client)
+                        .joins(:oauth_client)
+                        .where(user: @user, oauth_client: { integration_type: 'Storages::Storage' })
+  end
+
+  def delete_storage_token
+    token = OAuthClientToken
+      .preload(:oauth_client)
+      .joins(:oauth_client)
+      .where(user: @user, oauth_client: { integration_type: 'Storages::Storage' }).find_by(id: params[:id])
+
+    if token&.destroy
+      flash[:info] = I18n.t('my.access_tokens.storages.removed')
+    else
+      flash[:error] = I18n.t('my.access_tokens.storages.failed')
+    end
+    redirect_to action: :access_token
+  end
 
   # Configure user's in app notifications
   def notifications
@@ -101,9 +120,7 @@ class MyController < ApplicationController
   def generate_rss_key
     token = Token::RSS.create!(user: current_user)
     flash[:info] = [
-      # rubocop:disable Rails/OutputSafety
       t('my.access_token.notice_reset_token', type: 'RSS').html_safe,
-      # rubocop:enable Rails/OutputSafety
       content_tag(:strong, token.plain_value),
       t('my.access_token.token_value_warning')
     ]
@@ -114,18 +131,36 @@ class MyController < ApplicationController
     redirect_to action: 'access_token'
   end
 
+  def revoke_rss_key
+    current_user.rss_token.destroy
+    flash[:info] = t('my.access_token.notice_rss_token_revoked')
+  rescue StandardError => e
+    Rails.logger.error "Failed to revoke rss token ##{current_user.id}: #{e}"
+    flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
+  ensure
+    redirect_to action: 'access_token'
+  end
+
   # Create a new API key
   def generate_api_key
     token = Token::API.create!(user: current_user)
     flash[:info] = [
-      # rubocop:disable Rails/OutputSafety
       t('my.access_token.notice_reset_token', type: 'API').html_safe,
-      # rubocop:enable Rails/OutputSafety
       content_tag(:strong, token.plain_value),
       t('my.access_token.token_value_warning')
     ]
   rescue StandardError => e
     Rails.logger.error "Failed to reset user ##{current_user.id} API key: #{e}"
+    flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
+  ensure
+    redirect_to action: 'access_token'
+  end
+
+  def revoke_api_key
+    current_user.api_token.destroy
+    flash[:info] = t('my.access_token.notice_api_token_revoked')
+  rescue StandardError => e
+    Rails.logger.error "Failed to revoke api token ##{current_user.id}: #{e}"
     flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
   ensure
     redirect_to action: 'access_token'
@@ -217,7 +252,7 @@ class MyController < ApplicationController
 
   def ical_destroy_info_message
     t(
-      'my.access_token.notice_ical_tokens_reverted',
+      'my.access_token.notice_ical_token_revoked',
       token_name: @ical_token.ical_token_query_assignment.name,
       calendar_name: @ical_token.query.name,
       project_name: @ical_token.query.project.name

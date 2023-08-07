@@ -63,6 +63,7 @@ class RootSeeder < Seeder
       seed_demo_data
       seed_development_data if seed_development_data?
       seed_plugins_data
+      seed_env_data
     end
   end
 
@@ -138,6 +139,11 @@ class RootSeeder < Seeder
   def seed_demo_data
     print_status '*** Seeding demo data'
     DemoDataSeeder.new(seed_data).seed!
+  end
+
+  def seed_env_data
+    print_status '*** Seeding data from environment variables'
+    EnvDataSeeder.new(seed_data).seed!
   end
 
   def seed_development_data

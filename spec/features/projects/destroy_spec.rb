@@ -64,7 +64,7 @@ RSpec.describe 'Projects#destroy',
     expect(danger_zone).not_to be_disabled
     danger_zone.danger_button.click
 
-    expect(page).to have_selector '.flash.notice', text: I18n.t('projects.delete.scheduled')
+    expect(page).to have_selector '.op-toast.-success', text: I18n.t('projects.delete.scheduled')
 
     perform_enqueued_jobs
 

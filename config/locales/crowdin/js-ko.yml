@@ -65,7 +65,8 @@ ko:
     button_confirm: "확인"
     button_continue: "계속"
     button_copy: "복사"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "클립보드 복사"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "다른 프로젝트에 복사"
     button_custom-fields: "사용자 정의 필드"
     button_delete: "삭제"
@@ -295,6 +296,34 @@ ko:
           one: "첫 번째 정렬 기준"
           two: "두 번째 정렬 기준"
           three: "세 번째 정렬 기준"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "아니요"
     general_text_yes: "예"
     general_text_No: "아니요"
@@ -313,21 +342,22 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>작업 패키지의 파일을 Nextcloud 파일 저장소에 업로드하고 연결합니다.</li> <li>프로젝트 활동 추적을 통해 프로젝트 변경 사항을 추적합니다.</li> <li>인스턴스 전체 공휴일(휴무일)을 추가합니다.</li> <li>비관리자가 프로젝트를 보관합니다.</li> <li>기한이 지난 작업 패키지에 대한 새로운 기본 필터.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to iCalendar"
+      title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
-      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
-      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Token name"
-      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
-      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
       copy_url_label: "Copy URL"
-      ical_generation_error_text: "An error occured while generating the iCal URL."
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "활성화"
     label_assignee: '담당자'
     label_add_column_after: "다음 뒤에 열 추가"
@@ -504,7 +534,7 @@ ko:
     label_remove_all_files: 모든 파일을 삭제
     label_add_description: "%{file} 의 설명 추가"
     label_upload_notification: "파일 업로드 중..."
-    label_work_package_upload_notification: "작업 패키지 #%{id}: %{subject} 를 위한 파일 업로딩" #%{id}: %{subject} 를 위한 파일 업로딩"
+    label_work_package_upload_notification: "작업 패키지 #%{id}: %{subject} 를 위한 파일 업로딩"
     label_wp_id_added_by: "#%{id} - %{author}님이 추가함"
     label_files_to_upload: "이 파일들이 업로드 됩니다."
     label_rejected_files: "파일들이 업로드 할 수 없습니다."
@@ -736,6 +766,14 @@ ko:
     time_entry:
       work_package_required: '먼저 작업 패키지를 선택해야 합니다.'
       title: '작업시간 기록'
+      tracking: '시간 추적'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: '2단계 인증'
     watchers:
@@ -794,7 +832,8 @@ ko:
     autocompleter:
       placeholder: "검색할 유형"
       notFoundText: "항목 없음"
-      typeToSearchText: "검색할 유형"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: '태그 선택'
       select_branch: '브랜치 선택'
@@ -812,63 +851,6 @@ ko:
       activate_no: '정렬을 제거하기 위해 활성화합니다'
     text_work_packages_destroy_confirmation: "선택한 작업 패키지를 삭제하시겠습니까?"
     text_query_destroy_confirmation: "선택한 보기를 삭제하시겠습니까?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt 차트'
-      labels:
-        title: '레이블 구성'
-        bar: '막대 레이블'
-        left: '왼쪽'
-        right: '오른쪽'
-        farRight: '맨 오른쪽'
-        showNone: '-- 레이블 없음 --'
-        description: >
-          항상 Gantt 차트의 각 위치에 표시할 특성을 선택하세요. 요소를 가리키면 해당 특성 대신 날짜 레이블이 표시됩니다.
-      button_activate: 'Gantt 차트 표시'
-      button_deactivate: 'Gantt 차트 숨기기'
-      cancel: 취소
-      change: "계획에서 변경"
-      due_date: "완료 날짜"
-      empty: "(비어 있음)"
-      error: "오류가 발생했습니다."
-      errors:
-        not_implemented: "아직 구현되지 않은 기능을 사용하기 때문에 타임라인을 렌더링할 수 없습니다."
-        report_comparison: "타임라인은 구성된 비교를 렌더링할 수 없습니다. 구성에서 적절한 섹션을 확인하세요. 이를 재설정하면 이 문제가 해결될 수 있습니다."
-        report_epicfail: "예기치 않은 오류로 인해 타임라인을 로드할 수 없습니다."
-        report_timeout: "적절한 시간에 타임라인을 로드할 수 없습니다."
-      filter:
-        grouping_other: "기타"
-        noneSelection: "(없음)"
-      name: "이름"
-      outline: "윤곽 재설정"
-      outlines:
-        aggregation: "집계만 표시"
-        level1: "확장 수준 1"
-        level2: "확장 수준 2"
-        level3: "확장 수준 3"
-        level4: "확장 수준 4"
-        level5: "확장 수준 5"
-        all: "모두 표시"
-      project_status: "프로젝트 상태"
-      really_close_dialog: "입력된 자료를 저장하지 않고 대화상자를 닫으시겠습니까?"
-      responsible: "책임"
-      save: 저장
-      start_date: "시작 날짜"
-      tooManyProjects: "프로젝트 수가 %{count}개를 초과합니다. 검색 조건을 좁히시기 바랍니다."
-      selection_mode:
-        notification: '강조 표시된 작업 패키지를 클릭하여 관계를 만드세요. 취소하려면 ESC 키를 누르세요.'
-      zoom:
-        in: "확대"
-        out: "축소"
-        auto: "자동 확대/축소"
-        days: "일"
-        weeks: "주"
-        months: "개월"
-        quarters: "분기"
-        years: "년"
-        slider: "줌 슬라이더"
-        description: >
-          자동 확대/축소를 사용할 수 없는 경우 표시되어야 하는 초기 확대/축소 수준을 선택하세요.
     tl_toolbar:
       zooms: "확대 수준"
       outlines: "계층 수준"
@@ -933,10 +915,10 @@ ko:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: '작업 패키지 필터링'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: '이 목록에 새 작업 패키지를 추가하려면 여기를 클릭하세요.'
@@ -1098,7 +1080,7 @@ ko:
         save_as: "다른 이름으로 저장"
         export: "내보내기"
         visibility_settings: "표시 여부 설정"
-        share_calendar: "Subscribe to iCalendar"
+        share_calendar: "Subscribe to calendar"
         page_settings: "보기 이름 바꾸기"
         delete: "삭제"
       filter: "필터"
@@ -1289,6 +1271,7 @@ ko:
         between_two_specific_dates: 'between two specific dates'
       legends:
         changes_since: 'Changes since'
+        changes_between: 'Changes between'
         now_meets_filter_criteria: 'Now meets filter criteria'
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'

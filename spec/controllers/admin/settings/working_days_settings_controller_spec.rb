@@ -33,20 +33,7 @@ RSpec.describe Admin::Settings::WorkingDaysSettingsController do
 
   current_user { user }
 
-  describe 'show' do
-    describe 'permissions' do
-      let(:fetch) { get 'show' }
-
-      it_behaves_like 'a controller action with require_admin'
-    end
-
-    it 'contains check boxes for the working days' do
-      get 'show'
-
-      expect(response).to be_successful
-      expect(response).to render_template 'admin/settings/working_days_settings/show'
-    end
-  end
+  require_admin_and_render_template('working_days_settings')
 
   describe 'update' do
     let(:working_days) { [*'1'..'7'] }

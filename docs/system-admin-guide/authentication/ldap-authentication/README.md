@@ -6,15 +6,15 @@ description: Manage LDAP Authentication in OpenProject.
 keywords: ldap authentication
 ---
 
-# Manage LDAP Authentication
+# Manage LDAP connections
 
 > **Note**: In order to be able to access the administration panel and manage LDAP authentication you need to be a system admin.
 
-To see the list of all available LDAP (Lightweight Directory Access  Protocol) authentications navigate to - > *Administration* and select *-> Authentication* -> *LDAP Authentication* from the menu on the left. You will see the list of all available authentications already created.
+To see the list of all available LDAP (Lightweight Directory Access  Protocol) authentications navigate to - > *Administration* and select *-> Authentication* -> *LDAP connections* from the menu on the left. You will see the list of all available connections already created.
 
-## Add a new LDAP authentication
+## Add a new LDAP connection
 
-To create a new LDAP authentication click on the respective icon.
+To create a new LDAP connection, click on the respective icon.
 
 ![Sys-admin_ldap-authentication](Sys-admin_ldap-authentication.png)
 
@@ -113,6 +113,12 @@ OpenProject supports multiple LDAP connections to source users from. The user's 
 Duplicates in the unique attributes (login, email) are not allowed and a second user with the same attributes will not be able to login. Please ensure that amongst all LDAP connections, a unique attribute is used that does not result in conflicting logins.
 
 
+
+## LDAP connections through seeding / Environment variables
+
+OpenProject allows you to define an LDAP connection (and optionally, synchronized group filters for enterprise editions) through a configuration or environment variable.
+
+Please see the [advanced configuration guide](../../../installation-and-operations/configuration/) for more information.
 
 ## LDAP user synchronization
 

@@ -30,7 +30,7 @@ require_relative '../spec_helper'
 
 # Test if the deletion of a ProjectStorage actually deletes related FileLink
 # objects.
-RSpec.describe 'Delete ProjectStorage with FileLinks', js: true do
+RSpec.describe 'Delete ProjectStorage with FileLinks', js: true, webmock: true do
   let(:user) { create(:user) }
   let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }
   let(:project) do
@@ -40,13 +40,18 @@ RSpec.describe 'Delete ProjectStorage with FileLinks', js: true do
            members: { user => role },
            enabled_module_names: %i[storages work_package_tracking])
   end
-  let(:storage) { create(:storage, name: "Storage 1") }
+  let(:storage) { create(:nextcloud_storage, name: "Storage 1") }
   let(:work_package) { create(:work_package, project:) }
   let(:project_storage) { create(:project_storage, storage:, project:) }
   let(:file_link) { create(:file_link, storage:, container: work_package) }
   let(:second_file_link) { create(:file_link, container: work_package, storage:) }
+  let(:delete_folder_url) do
+    "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.project_folder_path.chop}"
+  end
 
   before do
+    stub_request(:delete, delete_folder_url).to_return(status: 204, body: nil, headers: {})
+
     # The objects defined by let(...) above are lazy instantiated, so we need
     # to "use" (just write their name) below to really create them.
     project_storage
@@ -58,7 +63,7 @@ RSpec.describe 'Delete ProjectStorage with FileLinks', js: true do
 
   it 'deletes ProjectStorage with dependent FileLinks' do
     # Go to Projects -> Settings -> File Storages
-    visit project_settings_projects_storages_path(project)
+    visit project_settings_project_storages_path(project)
 
     # The list of enabled file storages should now contain Storage 1
     expect(page).to have_text('File storages available in this project')
@@ -66,12 +71,24 @@ RSpec.describe 'Delete ProjectStorage with FileLinks', js: true do
 
     # Press Delete icon to remove the storage from the project
     page.find('.icon.icon-delete').click
-    alert_text = page.driver.browser.switch_to.alert.text
-    expect(alert_text).to have_text 'Are you sure'
-    page.driver.browser.switch_to.alert.accept
+
+    # Danger zone confirmation flow
+    expect(page).to have_selector('.form--section-title', text: "DELETE FILE STORAGE")
+    expect(page).to have_selector('.danger-zone--warning', text: "Deleting a file storage is an irreversible action.")
+    expect(page).to have_button('Delete', disabled: true)
+
+    # Cancel Confirmation
+    page.click_link('Cancel')
+    expect(page).to have_current_path project_settings_project_storages_path(project)
+
+    page.find('.icon.icon-delete').click
+
+    # Approve Confirmation
+    page.fill_in 'delete_confirmation', with: storage.name
+    page.click_button('Delete')
 
     # List of ProjectStorages empty again
-    expect(page).to have_current_path project_settings_projects_storages_path(project)
+    expect(page).to have_current_path project_settings_project_storages_path(project)
     expect(page).to have_text(I18n.t('storages.no_results'))
 
     # Also check in the database that ProjectStorage and dependent FileLinks are gone

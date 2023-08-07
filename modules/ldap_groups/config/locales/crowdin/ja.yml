@@ -3,11 +3,11 @@ ja:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        auth_source: 'LDAP 接続'
+        ldap_auth_source: 'LDAP connection'
         sync_users: 'ユーザーを同期'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAPフィルタ'
-        auth_source: 'LDAP 接続'
+        ldap_auth_source: 'LDAP connection'
         group_name_attribute: "グループ名属性"
         sync_users: 'ユーザーを同期'
         base_dn: "ベース DN を検索"
@@ -67,5 +67,5 @@ ja:
         dn_text: 'グループの完全な DN をLDAP に入力します。'
         group_text: 'LDAP グループのメンバーを同期する既存の OpenProject グループを選択'
       upsale:
-        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
+        description: '同期化された LDAP グループを活用して、ユーザの管理、権限の変更、グループ間のユーザ管理を容易にします。'
 

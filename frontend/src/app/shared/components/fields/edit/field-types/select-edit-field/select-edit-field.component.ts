@@ -33,7 +33,10 @@ import {
 } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SelectAutocompleterRegisterService } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-autocompleter-register.service';
-import { from, Observable } from 'rxjs';
+import {
+  from,
+  Observable,
+} from 'rxjs';
 import {
   map,
   tap,
@@ -46,6 +49,7 @@ import { CollectionResource } from 'core-app/features/hal/resources/collection-r
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
 import { EditFieldComponent } from '../../edit-field.component';
+import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 export interface ValueOption {
   name:string;
@@ -120,9 +124,10 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
         this.untilDestroyed(),
       )
       .subscribe(() => {
-        this.valuesLoadingPromise.then(() => {
-          this._autocompleterComponent.openDirectly = true;
-        });
+        void this.valuesLoadingPromise
+          .then(() => {
+            this._autocompleterComponent.openDirectly = true;
+          });
       });
 
     this._syncUrlParamsOnChangeIfNeeded(this.handler.fieldName, this.editFormComponent?.editMode);
@@ -134,7 +139,9 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       placeholder: this.I18n.t('js.placeholders.default'),
     };
 
-    this.valuesLoadingPromise = this.change.getForm().then(() => this.initialValueLoading());
+    this.valuesLoadingPromise = this.change.getForm()
+      .then(() => this.initialValueLoading())
+      .catch(() => console.error('Failed to load default form'));
   }
 
   protected initialValueLoading() {
@@ -193,7 +200,16 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   protected fetchAllowedValueQuery(query?:string):Promise<CollectionResource> {
-    return this.schema.allowedValues.$link.$fetch(this.allowedValuesFilter(query)) as Promise<CollectionResource>;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const link = this.schema.allowedValues?.$link as HalLink|undefined;
+
+    // Race condition: Field was under edit but is no longer editable / values not loadable
+    // which means the schema switched during the period it opened / updated after saved.
+    if (!link) {
+      return new Promise(() => {});
+    }
+
+    return link.$fetch(this.allowedValuesFilter(query)) as Promise<CollectionResource>;
   }
 
   private addValue(val:HalResource) {

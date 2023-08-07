@@ -31,7 +31,6 @@ require 'spec_helper'
 RSpec.describe 'random password generation', js: true, with_cuprite: true do
   shared_let(:admin) { create(:admin) }
 
-  let(:auth_source) { build(:dummy_auth_source) }
   let(:old_password) { 'old_Password!123' }
   let(:new_password) { 'new_Password!123' }
   let(:user) { create(:user, password: old_password, password_confirmation: old_password) }
@@ -61,7 +60,7 @@ RSpec.describe 'random password generation', js: true, with_cuprite: true do
 
       click_on 'Save'
 
-      expect(page).to have_selector('.flash', text: I18n.t(:notice_successful_update))
+      expect(page).to have_selector('.op-toast', text: I18n.t(:notice_successful_update))
       expect(password).to be_present
 
       # Logout
@@ -91,7 +90,7 @@ RSpec.describe 'random password generation', js: true, with_cuprite: true do
       expect(Sessions::UserSession.for_user(user.id).count).to be >= 1
 
       click_on 'Save'
-      expect(page).to have_selector('.flash.info', text: I18n.t(:notice_account_password_updated))
+      expect(page).to have_selector('.op-toast.-info', text: I18n.t(:notice_account_password_updated))
 
       # The old session is removed
       expect(Sessions::UserSession.find_by(session_id: 'other')).to be_nil
@@ -127,7 +126,7 @@ RSpec.describe 'random password generation', js: true, with_cuprite: true do
       find_by_id('settings_password_min_adhered_rules').set 3
 
       scroll_to_and_click(find('.button', text: 'Save'))
-      expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_update))
+      expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_successful_update))
 
       Setting.clear_cache
 
@@ -157,7 +156,7 @@ RSpec.describe 'random password generation', js: true, with_cuprite: true do
       fill_in 'user_password', with: 'adminADMIN!'
       fill_in 'user_password_confirmation', with: 'adminADMIN!'
       scroll_to_and_click(find('.button', text: 'Save'))
-      expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_update))
+      expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_successful_update))
     end
   end
 

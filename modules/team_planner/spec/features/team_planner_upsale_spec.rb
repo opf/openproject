@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-RSpec.describe 'Team planner index', js: true do
+RSpec.describe 'Team planner index', :js, :with_cuprite do
   include_context 'with team planner full access'
 
   let(:current_user) { user }
@@ -39,6 +39,10 @@ RSpec.describe 'Team planner index', js: true do
   end
 
   it 'redirects routes to upsale' do
+    visit team_planners_path
+
+    expect(page).to have_text 'Upgrade now'
+
     visit project_team_planners_path(project)
 
     expect(page).to have_text 'Upgrade now'

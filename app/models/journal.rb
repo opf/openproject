@@ -51,6 +51,7 @@ class Journal < ApplicationRecord
   register_journal_formatter :wiki_diff, OpenProject::JournalFormatter::WikiDiff
   register_journal_formatter :time_entry_named_association, OpenProject::JournalFormatter::TimeEntryNamedAssociation
   register_journal_formatter :cause, OpenProject::JournalFormatter::Cause
+  register_journal_formatter :file_link, OpenProject::JournalFormatter::FileLink
 
   # Attributes related to the cause are stored in a JSONB column so we can easily add new relations and related
   # attributes without a heavy database migration. Fields will be prefixed with `cause_` but are stored in the JSONB
@@ -62,6 +63,7 @@ class Journal < ApplicationRecord
     work_package_children_changed_times
     work_package_related_changed_times
     working_days_changed
+    system_update
   ].freeze
 
   # Make sure each journaled model instance only has unique version ids
@@ -74,6 +76,7 @@ class Journal < ApplicationRecord
 
   has_many :attachable_journals, class_name: 'Journal::AttachableJournal', dependent: :delete_all
   has_many :customizable_journals, class_name: 'Journal::CustomizableJournal', dependent: :delete_all
+  has_many :storable_journals, class_name: 'Journal::StorableJournal', dependent: :delete_all
 
   has_many :notifications, dependent: :destroy
 
@@ -148,6 +151,10 @@ class Journal < ApplicationRecord
   end
 
   private
+
+  def has_file_links?
+    journable.respond_to?(:file_links)
+  end
 
   def predecessor
     @predecessor ||= if initial?

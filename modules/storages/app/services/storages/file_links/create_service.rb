@@ -39,6 +39,19 @@ class Storages::FileLinks::CreateService < BaseServices::Create
 
   private
 
+  def after_perform(service_result)
+    # This only gets called if service_result is successful
+    container = service_result.result.container
+
+    # If the container isn't journaled, no need to proceed
+    return service_result unless container&.class&.journaled?
+
+    # If journal creation fails, we don't care for now
+    container.save_journals
+
+    service_result
+  end
+
   def find_existing(file_link)
     Storages::FileLink.find_by(
       origin_id: file_link.origin_id,

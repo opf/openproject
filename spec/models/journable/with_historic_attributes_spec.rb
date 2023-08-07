@@ -37,51 +37,28 @@ RSpec.describe Journable::WithHistoricAttributes,
 
   shared_let(:project) { create(:project) }
   shared_let(:work_package1) do
-    new_work_package = create(:work_package,
-                              subject: "The current work package 1",
-                              project:)
-    new_work_package.update_columns(created_at:)
-    new_work_package
+    create(:work_package,
+           subject: "The current work package 1",
+           project:,
+           journals: {
+             created_at => { subject: "The original work package 1" },
+             1.day.ago => {}
+           })
   end
-  shared_let(:original_journal_wp1) do
-    work_package1.journals.destroy_all
-    create_journal(journable: work_package1,
-                   timestamp: created_at,
-                   version: 1,
-                   attributes: { subject: "The original work package 1", project: })
-  end
-  shared_let(:current_journal_wp1) do
-    create_journal(journable: work_package1,
-                   timestamp: 1.day.ago,
-                   version: 2,
-                   attributes: { subject: "The current work package 1", project: })
-  end
-
   shared_let(:work_package2) do
-    new_work_package = create(:work_package,
-                              project:,
-                              subject: "The current work package 2",
-                              start_date: created_at - 3.days)
-    new_work_package.update_columns(created_at:)
-    new_work_package
+    create(:work_package,
+           subject: "The current work package 2",
+           project:,
+           start_date: created_at - 3.days,
+           journals: {
+             created_at => { subject: "The original work package 2", start_date: created_at - 5.days },
+             1.day.ago => {}
+           })
   end
-  shared_let(:original_journal_wp2) do
-    work_package2.journals.destroy_all
-    create_journal(journable: work_package2,
-                   timestamp: created_at,
-                   version: 1,
-                   attributes: { start_date: created_at - 5.days,
-                                 subject: "The original work package 2",
-                                 project: })
-  end
-  shared_let(:current_journal_wp2) do
-    create_journal(journable: work_package2,
-                   timestamp: 1.day.ago,
-                   version: 2,
-                   attributes: { start_date: created_at - 3.days,
-                                 subject: "The current work package 2",
-                                 project: })
-  end
+  shared_let(:original_journal_wp1) { work_package1.journals.first }
+  shared_let(:current_journal_wp1) { work_package1.last_journal }
+  shared_let(:original_journal_wp2) { work_package2.journals.first }
+  shared_let(:current_journal_wp2) { work_package2.last_journal }
 
   let(:user1) do
     create(:user,
@@ -102,17 +79,6 @@ RSpec.describe Journable::WithHistoricAttributes,
   let(:include_only_changed_attributes) { nil }
 
   current_user { user1 }
-
-  def create_journal(journable:, version:, timestamp:, attributes: {})
-    work_package_attributes = journable.attributes.except("id")
-    journal_attributes = work_package_attributes \
-        .extract!(*Journal::WorkPackageJournal.attribute_names) \
-        .symbolize_keys.merge(attributes)
-    create(:work_package_journal,
-           version:,
-           journable:, created_at: timestamp, updated_at: timestamp,
-           data: build(:journal_work_package_journal, journal_attributes))
-  end
 
   subject { described_class.wrap(work_packages, timestamps:, query:, include_only_changed_attributes:) }
 
@@ -635,10 +601,31 @@ RSpec.describe Journable::WithHistoricAttributes,
         expect(subject.changed_at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")))
           .to match_array ['subject']
       end
+
+      context 'when the work package includes custom field changes' do
+        let!(:custom_field) do
+          create(:string_wp_custom_field,
+                 name: 'String CF',
+                 types: project.types,
+                 projects: [project])
+        end
+
+        let!(:custom_value) do
+          create(:custom_value,
+                 custom_field:,
+                 customized: work_package1,
+                 value: 'This is a string value')
+        end
+
+        it 'returns the changed attributes including custom fields at the timestamp compared to the current attribute values' do
+          expect(subject.changed_at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")))
+            .to contain_exactly 'subject', "custom_field_#{custom_field.id}"
+        end
+      end
     end
 
     context 'for a timestamp where the work package did not exist' do
-      it 'returns the changed attributes at the timestamp compared to the current attribute values' do
+      it 'returns no changes' do
         expect(subject.changed_at_timestamp(Timestamp.parse("2021-01-01T00:00:00Z")))
           .to be_empty
       end

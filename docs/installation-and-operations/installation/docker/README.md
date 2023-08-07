@@ -20,10 +20,10 @@ OpenProject with Docker can be launched in two ways:
 
 ### Quick Start
 
-First, you must clone the [openproject-deploy](https://github.com/opf/openproject-deploy/tree/stable/12/compose) repository:
+First, you must clone the [openproject-deploy](https://github.com/opf/openproject-deploy/tree/stable/13/compose) repository:
 
 ```bash
-git clone https://github.com/opf/openproject-deploy --depth=1 --branch=stable/12 openproject
+git clone https://github.com/opf/openproject-deploy --depth=1 --branch=stable/13 openproject
 ```
 
 Then, change into the compose folder, this folder will be the location where you enter all following commands:
@@ -85,7 +85,8 @@ docker run -it -p 8080:80 \
   -e OPENPROJECT_SECRET_KEY_BASE=secret \
   -e OPENPROJECT_HOST__NAME=localhost:8080 \
   -e OPENPROJECT_HTTPS=false \
-  openproject/community:12
+  -e OPENPROJECT_DEFAULT__LANGUAGE=en \
+  openproject/community:13
 ```
 
 Explanation of the used configuration values:
@@ -94,6 +95,7 @@ Explanation of the used configuration values:
 - `OPENPROJECT_SECRET_KEY_BASE` sets the secret key base for Rails. Please use a pseudo-random value for this and treat it like a password.
 - `OPENPROJECT_HOST__NAME` sets the host name of the application. This value is used for generating forms and links in emails, and needs to match the external request host name (The value users are seeing in their browsers).
 - `OPENPROJECT_HTTPS=false` disables the on-by-default HTTPS mode of OpenProject so you can access the instance over HTTP-only. For all production systems we strongly advise not to set this to false, and instead set up a proper TLS/SSL termination on your outer web server.
+- `OPENPROJECT_DEFAULT__LANGUAGE` does two things. It controls for the very first installation, in which language basic data (such as types, status names, etc.) and demo data is being created in. It also sets the default fallback language for new users.
 
 This will take a bit of time the first time you launch it, but after a few
 minutes you should see a success message indicating the default administration
@@ -114,7 +116,7 @@ docker run -d -p 8080:80 \
   -e OPENPROJECT_SECRET_KEY_BASE=secret \
   -e OPENPROJECT_HOST__NAME=localhost:8080 \
   -e OPENPROJECT_HTTPS=false \
-  openproject/community:12
+  openproject/community:13
 ```
 
 **Note**: We've had reports of people being unable to start OpenProject this way
@@ -146,7 +148,7 @@ docker run -d -p 8080:80 --name openproject \
   -e OPENPROJECT_SECRET_KEY_BASE=secret \
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/assets:/var/openproject/assets \
-  openproject/community:12
+  openproject/community:13
 ```
 
 Please make sure you set the correct public facing hostname in `OPENPROJECT_HOST__NAME`. If you don't have a load-balancing or proxying web server in front of your docker container,
@@ -403,7 +405,7 @@ end
 **3. Create the `Dockerfile`** in the same folder. The contents have to look like this:
 
 ```
-FROM openproject/community:12
+FROM openproject/community:13
 
 # If installing a local plugin (using `path:` in the `Gemfile.plugins` above),
 # you will have to copy the plugin code into the container here and use the
@@ -435,7 +437,7 @@ The `-t` option is the tag for your image. You can choose what ever you want.
 **5. Run the image**
 
 You can run the image just like the normal OpenProject image (as shown earlier).
-You just have to use your chosen tag instead of `openproject/community:12`.
+You just have to use your chosen tag instead of `openproject/community:13`.
 To just give it a quick try you can run this:
 
 ```
@@ -454,7 +456,7 @@ The installation works the same as described above. The only difference is that 
 On a system that has access to the internet run the following.
 
 ```
-docker pull openproject/community:12 && docker save openproject/community:12 | gzip > openproject-12.tar.gz
+docker pull openproject/community:13 && docker save openproject/community:13 | gzip > openproject-12.tar.gz
 ```
 
 This creates a compressed archive containing the latest OpenProject docker image.
@@ -529,7 +531,7 @@ We will show both possibilities later in the configuration.
 
 ### 3) Create stack
 
-To create a stack you need a stack file. The easiest way is to just copy OpenProject's [docker-compose.yml](https://github.com/opf/openproject/blob/release/12.2/docker-compose.yml). Just download it and save it as, say, `openproject-stack.yml`.
+To create a stack you need a stack file. The easiest way is to just copy OpenProject's [docker-compose.yml](https://github.com/opf/openproject/blob/stable/12/docker-compose.yml). Just download it and save it as, say, `openproject-stack.yml`.
 
 #### Configuring storage
 
@@ -655,12 +657,12 @@ Once this has finished you should see something like this when running `docker s
 docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
 kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest           
-qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:12   
+qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:13   
 cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:13                
-uvtfnc9dnlbn        openproject_proxy    replicated          1/1                 openproject/community:12   *:8080->80/tcp
-g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:12   
-canb3m7ilkjn        openproject_web      replicated          1/1                 openproject/community:12   
-7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:12
+uvtfnc9dnlbn        openproject_proxy    replicated          1/1                 openproject/community:13   *:8080->80/tcp
+g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:13   
+canb3m7ilkjn        openproject_web      replicated          1/1                 openproject/community:13   
+7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:13
 ```
 
 You can now access OpenProject under `http://0.0.0.0:8080`.
@@ -698,12 +700,12 @@ This will take a moment to converge. Once done you should see something like the
 docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
 kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest           
-qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:12   
+qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:13   
 cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:10                
-uvtfnc9dnlbn        openproject_proxy    replicated          2/2                 openproject/community:12   *:8080->80/tcp
-g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:12   
-canb3m7ilkjn        openproject_web      replicated          6/6                 openproject/community:12   
-7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:12
+uvtfnc9dnlbn        openproject_proxy    replicated          2/2                 openproject/community:13   *:8080->80/tcp
+g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:13   
+canb3m7ilkjn        openproject_web      replicated          6/6                 openproject/community:13   
+7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:13
 ```
 
 Docker swarm handles the networking necessary to distribute the load among the nodes.

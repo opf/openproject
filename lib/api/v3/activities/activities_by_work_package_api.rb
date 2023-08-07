@@ -38,6 +38,7 @@ module API
             journals = @work_package.journals.includes(:data,
                                                        :customizable_journals,
                                                        :attachable_journals,
+                                                       :storable_journals,
                                                        :bcf_comment)
 
             Activities::ActivityCollectionRepresenter.new(journals,
@@ -53,16 +54,16 @@ module API
               raise ::API::Errors::NotFound.new
             end
 
-            result = AddWorkPackageNoteService
+            call = AddWorkPackageNoteService
                        .new(user: current_user,
                             work_package: @work_package)
                        .call(params[:comment][:raw],
                              send_notifications: !(params.has_key?(:notify) && params[:notify] == 'false'))
 
-            if result.success?
-              Activities::ActivityRepresenter.new(work_package.journals.last, current_user:)
+            if call.success?
+              Activities::ActivityRepresenter.new(call.result, current_user:)
             else
-              fail ::API::Errors::ErrorBase.create_and_merge_errors(result.errors)
+              fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
             end
           end
         end

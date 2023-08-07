@@ -74,7 +74,5 @@ module OpenProject::Documents
 
     # Add documents to allowed search params
     additional_permitted_attributes search: %i(documents)
-
-    patch_with_namespace :OpenProject, :TextFormatting, :Formats, :Markdown, :TextileConverter
   end
 end

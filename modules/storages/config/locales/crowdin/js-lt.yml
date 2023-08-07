@@ -31,6 +31,7 @@ lt:
           Failas pavadinimu „%{fileName}“ jau yra vietoje, į kurią bandote jį įkelti. Ką norėtumėte padaryti?
         directory_not_writeable: "Jūs neturite teisių pridėti failų į šį aplanką."
         dragging_many_files: "Įkėlimas į %{storageType} galimas tik po vieną failą vienu metu."
+        dragging_folder: "Įkėlimas į %{storageType} nepalaiko aplankų."
         empty_folder: "Šis aplankas yra tuščias."
         empty_folder_location_hint: "Spauskite mygtuką žemiau, jei norite įkelti failą į šią vietą."
         file_not_selectable_location: "Vietos pasirinkimo metu negalima parinkti failo."
@@ -45,7 +46,7 @@ lt:
         no_permission: "Jūs neturite teisės žiūrėti šį failą."
         open: "Atverti failą saugykloje"
         open_location: "Atverti failą vietoje"
-        remove: "Pašalinti nuorodą"
+        remove: "Pašalinti failo nuorodą"
         remove_confirmation: >
           Ar tikrai norite atsieti failą nuo šio darbo paketo? Atsiejimas neįtakoja originalaus failo, tik pašalina jungtį su dabartiniu darbo paketu.
         remove_short: "Pašalinti nuorodą"

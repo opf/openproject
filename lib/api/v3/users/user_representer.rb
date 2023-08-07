@@ -33,7 +33,7 @@ module API
         include AvatarHelper
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
 
-        cached_representer key_parts: %i(auth_source),
+        cached_representer key_parts: %i(ldap_auth_source),
                            dependencies: ->(*) {
                              [
                                # For the name rendering
@@ -97,11 +97,11 @@ module API
 
         link :auth_source,
              cache_if: -> { current_user_is_admin? } do
-          next unless represented.auth_source
+          next unless represented.ldap_auth_source
 
           {
-            href: "/api/v3/auth_sources/#{represented.auth_source_id}",
-            title: represented.auth_source.name
+            href: "/api/v3/auth_sources/#{represented.ldap_auth_source_id}",
+            title: represented.ldap_auth_source.name
           }
         end
 
@@ -143,7 +143,7 @@ module API
                  getter: ->(*) { represented.mail },
                  setter: ->(fragment:, represented:, **) { represented.mail = fragment },
                  exec_context: :decorator,
-                 cache_if: -> { !represented.pref.hide_mail || represented.new_record? || current_user_can_manage? }
+                 cache_if: -> { represented.pref.can_expose_mail? || represented.new_record? || current_user_can_manage? }
 
         property :avatar,
                  exec_context: :decorator,
@@ -182,17 +182,17 @@ module API
                  }
 
         ##
-        # Used while parsing JSON to initialize `auth_source_id` through the given link.
+        # Used while parsing JSON to initialize `ldap_auth_source_id` through the given link.
         def initialize_embedded_links!(data)
-          auth_source_id = parse_auth_source_id data, "auth_source"
+          ldap_auth_source_id = parse_auth_source_id data, "auth_source"
 
-          if auth_source_id
-            auth_source = AuthSource.find_by_unique auth_source_id
+          if ldap_auth_source_id
+            auth_source = LdapAuthSource.find_by_unique(ldap_auth_source_id) # rubocop:disable Rails/DynamicFindBy
             id = auth_source ? auth_source.id : 0
 
             # set id to 0 (as opposed to nil) to produce an auth source not found
             # error further down the line in the user's base contract
-            represented.auth_source_id = id
+            represented.ldap_auth_source_id = id
           end
         end
 
@@ -228,7 +228,11 @@ module API
         end
 
         def current_user_can_manage?
-          current_user && (current_user.allowed_to_globally?(:manage_user) || current_user_is_self?)
+          current_user && (
+            current_user.allowed_to_globally?(:manage_user) ||
+            current_user.allowed_to_globally?(:create_user) ||
+            current_user_is_self?
+          )
         end
 
         private

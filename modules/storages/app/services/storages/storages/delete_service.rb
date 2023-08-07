@@ -29,5 +29,18 @@
 # See also: create_service.rb for comments
 module Storages::Storages
   class DeleteService < ::BaseServices::Delete
+    def before_perform(*)
+      delete_project_storages
+
+      super
+    end
+
+    private
+
+    def delete_project_storages
+      model.project_storages.map do |project_storage|
+        Storages::ProjectStorages::DeleteService.new(user:, model: project_storage).call
+      end
+    end
   end
 end

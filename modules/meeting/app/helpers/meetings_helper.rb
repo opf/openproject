@@ -27,6 +27,104 @@
 #++
 
 module MeetingsHelper
+  def top_level_sidebar_menu_items
+    [
+      menu_upcoming_meetings_item,
+      menu_past_meetings_item
+    ]
+  end
+
+  def involvement_sidebar_menu_items
+    [
+      menu_upcoming_invitations_item,
+      menu_past_invitations_item,
+      menu_attendee_item,
+      menu_creator_item
+    ]
+  end
+
+  def menu_upcoming_meetings_item
+    path = project_or_global_meetings_path
+
+    menu_link_element path, t(:label_upcoming_meetings)
+  end
+
+  def menu_past_meetings_item
+    path = project_or_global_meetings_path(
+      filters: [{ time: { operator: '=', values: ['past'] } }],
+      sort: 'start_time:desc'
+    )
+
+    menu_link_element path, t(:label_past_meetings)
+  end
+
+  def menu_upcoming_invitations_item
+    path = project_or_global_meetings_path(
+      filters: [
+        { time: { operator: '=', values: ['future'] } },
+        { invited_user_id: { operator: '=', values: [User.current.id.to_s] } }
+      ],
+      sort: 'start_time'
+    )
+
+    menu_link_element path, t(:label_upcoming_invitations)
+  end
+
+  def menu_past_invitations_item
+    path = project_or_global_meetings_path(
+      filters: [
+        { time: { operator: '=', values: ['past'] } },
+        { invited_user_id: { operator: '=', values: [User.current.id.to_s] } }
+      ],
+      sort: 'start_time:desc'
+    )
+
+    menu_link_element path, t(:label_past_invitations)
+  end
+
+  def menu_attendee_item
+    path = project_or_global_meetings_path(
+      filters: [{ attended_user_id: { operator: '=', values: [User.current.id.to_s] } }]
+    )
+
+    menu_link_element path, t(:label_attendee)
+  end
+
+  def menu_creator_item
+    path = project_or_global_meetings_path(
+      filters: [{ author_id: { operator: '=', values: [User.current.id.to_s] } }]
+    )
+
+    menu_link_element path, t(:label_author)
+  end
+
+  def project_or_global_meetings_path(filters: nil, sort: nil)
+    return polymorphic_path([@project, :meetings]) if filters.blank? && sort.blank?
+
+    query_params = {}.tap do |query|
+      query[:filters] = filters.to_json if filters.present?
+      query[:sort] = sort if sort.present?
+    end
+
+    polymorphic_path([@project, :meetings], query_params)
+  end
+
+  def menu_link_element(path, label)
+    link_to path, class: menu_item_css_class(path), title: label do
+      content_tag(:span, class: 'op-sidemenu--item-title') do
+        label
+      end
+    end
+  end
+
+  def menu_item_css_class(path)
+    "op-sidemenu--item-action#{menu_item_selected(path) ? ' selected' : ''}"
+  end
+
+  def menu_item_selected(menu_item_path)
+    menu_item_path == request.fullpath
+  end
+
   def format_participant_list(participants)
     if participants.any?
       user_links = participants
@@ -71,5 +169,17 @@ module MeetingsHelper
     end
 
     content_tag('div', "#{header}#{details}".html_safe, id: "change-#{journal.id}", class: 'journal')
+  end
+
+  def global_meeting_create_context?
+    global_new_meeting_action? || global_create_meeting_action?
+  end
+
+  def global_new_meeting_action?
+    request.path == new_meeting_path
+  end
+
+  def global_create_meeting_action?
+    request.path == meetings_path && @project.nil?
   end
 end

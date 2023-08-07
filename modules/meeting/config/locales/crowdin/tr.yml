@@ -29,6 +29,7 @@ tr:
         participants: "Katılımcılar"
         participants_attended: "Katılımcılar"
         participants_invited: "Davetliler"
+        project: "Project"
         start_time: "Saat"
         start_time_hour: "Başlangıç saati"
     errors:
@@ -61,6 +62,13 @@ tr:
   label_meeting_agenda_close: "Başlamak için gündemi dakikalar sonra kapatın"
   label_meeting_date_time: "Tarih/Saat"
   label_meeting_diff: "Fark"
+  label_upcoming_meetings: "Upcoming meetings"
+  label_past_meetings: "Past meetings"
+  label_involvement: "Involvement"
+  label_upcoming_invitations: "Upcoming invitations"
+  label_past_invitations: "Past invitations"
+  label_attendee: "Attendee"
+  label_author: "Creator"
   label_notify: "Gözden geçirilmek üzere gönder"
   label_icalendar: "Takvime gönder"
   label_version: "Sürüm"
@@ -85,7 +93,7 @@ tr:
   text_duration_in_hours: "Saat süresi"
   text_in_hours: "saatlerde"
   text_meeting_agenda_for_meeting: 'toplantı gündemi "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the agenda?"
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting agenda?"
   text_meeting_agenda_open_are_you_sure: "Bu, dakikalardaki tüm değişikliklerin üzerine yazacaktır! Devam etmek istiyor musun?"
   text_meeting_minutes_for_meeting: 'toplantı için dakikalar "%{meeting}"'
   text_review_meeting_agenda: "%{author}, %{link} 'i incelemeye koydu."

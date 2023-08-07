@@ -65,7 +65,8 @@ fil:
     button_confirm: "Kumpirmahin"
     button_continue: "Magpatuloy"
     button_copy: "Kopyahin"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Kopyahin sa clipboard"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Mga pasadyang patlang"
     button_delete: "Burahin"
@@ -295,6 +296,34 @@ fil:
           one: "Ang unang pamantayang pagkasunod-sunod"
           two: "Ang pangalawang pamantayang pagkasunod-sunod"
           three: "Ang pangatlong pamantayang pagkasunod-sunod"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "hindi"
     general_text_yes: "oo"
     general_text_No: "Hindi"
@@ -313,21 +342,22 @@ fil:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to iCalendar"
+      title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
-      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
-      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Token name"
-      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
-      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
       copy_url_label: "Copy URL"
-      ical_generation_error_text: "An error occured while generating the iCal URL."
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Aktibo"
     label_assignee: 'Naitalaga'
     label_add_column_after: "Add column after"
@@ -504,7 +534,7 @@ fil:
     label_remove_all_files: Burahin ang lahat ang mga file
     label_add_description: "Magdagdag ng deskripsyon para sa %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Pag-upload ng mga file para sa Work package #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Pag-upload ng mga file para sa Work package #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "Itong mga file ay naka-upload:"
     label_rejected_files: "Itong mga fike ay hindi ma-upload:"
@@ -737,6 +767,14 @@ fil:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'Ang oras ng tala'
+      tracking: 'Time tracking'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Ang dalwang-Dahilan sa authentication'
     watchers:
@@ -795,7 +833,8 @@ fil:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Pumiling ng tag'
       select_branch: 'Pumili ng sangay'
@@ -813,63 +852,6 @@ fil:
       activate_no: 'aktibk upang alisin ang pagsaayos'
     text_work_packages_destroy_confirmation: "Sigurado ka ba na gusto mong burahin ang napiling work package?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt tsart'
-      labels:
-        title: 'Label configuration'
-        bar: 'Mga label ng bar'
-        left: 'Kaliwa'
-        right: 'Kanan'
-        farRight: 'Dulong kanan'
-        showNone: '-- Walang label --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
-      cancel: Kanselahin
-      change: "Baguhin ang pagpaplano"
-      due_date: "Finish date"
-      empty: "(walang laman)"
-      error: "Isang mali ang naganap."
-      errors:
-        not_implemented: "Ang timeline ay hindi dapat naka-render dahil ito ay gumagamit ng tampok na hindi pa naipapatupad."
-        report_comparison: "Ang timeline ay dapathindi naka-render ang nakaayos na paghahambing na ito. Mangyaring suriin ang nararapat na seksyon sa kumpigurasyo, pag-resetting ay maaring makatulog sa pag resolba ng problema."
-        report_epicfail: "Ang timeline ay hindi maipupuno sa kadahilanang may di inaasahang pagkakamali."
-        report_timeout: "Ang timeline ay hindi maipupuno dahil sa isang makatwirang halaga ng oras."
-      filter:
-        grouping_other: "Iba pa"
-        noneSelection: "(wala)"
-      name: "Pangalan"
-      outline: "I-reset ang balangkas"
-      outlines:
-        aggregation: "Ipakita lamang ang mga pinagsama-sama"
-        level1: "Palawakin ang ika-1 na antas"
-        level2: "Palawakin ang ika-2 antas"
-        level3: "Palawakin ang ika-3 na antas"
-        level4: "Palawakin ang ika-4 na antas"
-        level5: "Palawakin ang ika-5 na antas"
-        all: "Ipakita ang lahat"
-      project_status: "Estado ng proyekto"
-      really_close_dialog: "Sigurado ka na ba na gusto mong isara ang dialogo at mawala lahat ang ipanasok na data?"
-      responsible: "Responsable"
-      save: I-save
-      start_date: "Petsa ng pagsimula"
-      tooManyProjects: "Higit sa %{count} mga Proyekto. Mangyaring gumamit ng mas magandang filter!"
-      selection_mode:
-        notification: 'Pumindot sa kahit anong naka-highlight na work package upang lumikha ng kaugnayan. Pindutin ang escape upang kanselahin.'
-      zoom:
-        in: "Palakihin"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Mga araw"
-        weeks: "Mga linggo"
-        months: "Mga buwan"
-        quarters: "Mga quarter"
-        years: "Mga taon"
-        slider: "Zoom Slider"
-        description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
     tl_toolbar:
       zooms: "Zoom level"
       outlines: "Hierarchy level"
@@ -934,10 +916,10 @@ fil:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'I-filter ang mga package na gawain'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Pindutin dito upang magdagdag ng bagong work package sa listahan na ito'
@@ -1099,7 +1081,7 @@ fil:
         save_as: "I-save bilang"
         export: "I-export"
         visibility_settings: "Ang mga setting ng katanyagan"
-        share_calendar: "Subscribe to iCalendar"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Rename view"
         delete: "Burahin"
       filter: "Salain"
@@ -1292,6 +1274,7 @@ fil:
         between_two_specific_dates: 'between two specific dates'
       legends:
         changes_since: 'Changes since'
+        changes_between: 'Changes between'
         now_meets_filter_criteria: 'Now meets filter criteria'
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'

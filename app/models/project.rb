@@ -85,8 +85,8 @@ class Project < ApplicationRecord
                           association_foreign_key: 'custom_field_id'
   has_many :budgets, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
-  has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
-  has_many :storages, through: :projects_storages
+  has_many :project_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
+  has_many :storages, through: :project_storages
 
   acts_as_customizable
   acts_as_searchable columns: %W(#{table_name}.name #{table_name}.identifier #{table_name}.description),
@@ -157,6 +157,8 @@ class Project < ApplicationRecord
   scope :visible, ->(user = User.current) { where(id: Project.visible_by(user)) }
   scope :newest, -> { order(created_at: :desc) }
   scope :active, -> { where(active: true) }
+  scope :with_member, ->(user = User.current) { where(id: user.memberships.select(:project_id)) }
+  scope :without_member, ->(user = User.current) { where.not(id: user.memberships.select(:project_id)) }
 
   scopes :activated_time_activity,
          :visible_with_activated_time_activity
@@ -209,12 +211,6 @@ class Project < ApplicationRecord
   # +user+ has the given +permission+
   def self.allowed_to(user, permission)
     Authorization.projects(permission, user)
-  end
-
-  def reload(*args)
-    @all_work_package_custom_fields = nil
-
-    super
   end
 
   # Returns a :conditions SQL string that can be used to find the issues associated with this project.

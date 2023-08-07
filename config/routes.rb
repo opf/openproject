@@ -383,7 +383,7 @@ OpenProject::Application.routes.draw do
       end
     end
 
-    resources :auth_sources, :ldap_auth_sources do
+    resources :ldap_auth_sources do
       member do
         get :test_connection
       end
@@ -412,6 +412,7 @@ OpenProject::Application.routes.draw do
       resource :working_days, controller: '/admin/settings/working_days_settings', only: %i[show update]
       resource :users, controller: '/admin/settings/users_settings', only: %i[show update]
       resource :date_format, controller: '/admin/settings/date_format_settings', only: %i[show update]
+      resource :icalendar, controller: '/admin/settings/icalendar_settings', only: %i[show update]
 
       # Redirect /settings to general settings
       get '/', to: redirect('/admin/settings/general')
@@ -551,6 +552,7 @@ OpenProject::Application.routes.draw do
   scope 'my' do
     get '/deletion_info' => 'users#deletion_info', as: 'delete_my_account_info'
     post '/oauth/revoke_application/:application_id' => 'oauth/grants#revoke_application', as: 'revoke_my_oauth_application'
+    delete '/storage_token/:id' => 'my#delete_storage_token', as: 'storage_token_delete'
 
     resources :sessions, controller: 'my/sessions', as: 'my_sessions', only: %i[index show destroy]
   end
@@ -568,7 +570,9 @@ OpenProject::Application.routes.draw do
     patch '/my/settings', action: 'update_settings'
 
     post '/my/generate_rss_key', action: 'generate_rss_key'
+    delete '/my/revoke_rss_key', action: 'revoke_rss_key'
     post '/my/generate_api_key', action: 'generate_api_key'
+    delete '/my/revoke_api_key', action: 'revoke_api_key'
     delete '/my/revoke_ical_token', action: 'revoke_ical_token'
     get '/my/access_token', action: 'access_token'
   end
@@ -598,6 +602,7 @@ OpenProject::Application.routes.draw do
     get 'callback', controller: 'oauth_clients', action: :callback
   end
 
-  # Routes for design related documentation and examples pages
-  get '/design/styleguide' => redirect('/assets/styleguide.html')
+  if OpenProject::Configuration.lookbook_enabled?
+    mount Lookbook::Engine, at: "/lookbook"
+  end
 end

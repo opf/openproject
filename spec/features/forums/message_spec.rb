@@ -102,7 +102,7 @@ RSpec.describe 'messages', js: true do
       .to be 1
 
     expect(ActionMailer::Base.deliveries.last.to)
-      .to match_array [other_user.mail]
+      .to contain_exactly other_user.mail
 
     expect(ActionMailer::Base.deliveries.last.subject)
       .to include 'The message is'
@@ -136,7 +136,7 @@ RSpec.describe 'messages', js: true do
       .to be 2
 
     expect(ActionMailer::Base.deliveries.last.to)
-      .to match_array [user.mail]
+      .to contain_exactly user.mail
 
     expect(ActionMailer::Base.deliveries.last.subject)
       .to include 'RE: The message is'
@@ -158,10 +158,17 @@ RSpec.describe 'messages', js: true do
 
     expect(page).to have_selector('blockquote', text: 'But, but there should be one')
 
+    # Quoting the first message
+    show_page.quote(quoted_message: nil,
+                    subject: 'Also quoting the first message',
+                    content: "Should also work")
+
+    show_page.expect_num_replies(3)
+
     index_page.visit!
     click_link forum.name
     index_page.expect_listed(subject: 'The message is',
-                             replies: 2,
-                             last_message: 'And now to something completely different')
+                             replies: 3,
+                             last_message: 'Also quoting the first message')
   end
 end

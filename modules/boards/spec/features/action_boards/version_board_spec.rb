@@ -75,7 +75,8 @@ RSpec.describe 'Version action board', js: true, with_ee: %i[board_view] do
     board_index.visit!
 
     # Create new board
-    board_page = board_index.create_board action: :Version
+    board_page = board_index.create_board title: 'My Version Board',
+                                          action: 'Version'
 
     # expect lists of open versions
     board_page.expect_list 'Open version'
@@ -96,7 +97,7 @@ RSpec.describe 'Version action board', js: true, with_ee: %i[board_view] do
       login_as(user)
     end
 
-    it 'allows management of boards' do
+    fit 'allows management of boards' do
       board_page = create_new_version_board
 
       board_page.expect_card 'Open version', work_package.subject, present: true
@@ -105,7 +106,7 @@ RSpec.describe 'Version action board', js: true, with_ee: %i[board_view] do
       board_page.expect_list_option 'Closed version'
 
       board_page.board(reload: true) do |board|
-        expect(board.name).to eq 'Action board (version)'
+        expect(board.name).to eq 'My Version Board'
         queries = board.contained_queries
         expect(queries.count).to eq(2)
 

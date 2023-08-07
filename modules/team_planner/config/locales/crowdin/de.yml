@@ -5,6 +5,7 @@ de:
   project_module_team_planner_view: "Teamplaner"
   team_planner:
     label_team_planner: "Teamplaner"
+    label_new_team_planner: "Neuer Teamplaner"
     label_create_new_team_planner: "Neuen Teamplaner erstellen"
     label_team_planner_plural: "Teamplaner"
     label_assignees: "Zugewiesene Benutzer"

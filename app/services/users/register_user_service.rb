@@ -91,7 +91,7 @@ module Users
     # Try to register a user with an auth source connection
     # bypassing regular account registration restrictions
     def register_ldap_user
-      return if user.auth_source_id.blank?
+      return if user.ldap_auth_source_id.blank?
 
       user.activate
 

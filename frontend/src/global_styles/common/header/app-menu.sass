@@ -18,7 +18,6 @@
 
   &--item-title
     min-width: 0
-    line-height: 1
     white-space: nowrap
 
   &--item-action
@@ -36,7 +35,7 @@
     min-width: 0px
     padding: 0 15px
 
-    @include breakpoint(680px down)
+    @media screen and (max-width: $breakpoint-sm)
       padding: 0 8px
 
     .op-app-menu--item_dropdown-open &,
@@ -80,7 +79,7 @@
       left: 0
       right: auto
 
-    @include breakpoint(680px down)
+    @media screen and (max-width: $breakpoint-sm)
       position: fixed
       top: var(--header-height)
       left: 0

@@ -105,7 +105,7 @@ RSpec.describe 'Wysiwyg embedded work package tables',
         # Save wiki page
         click_on 'Save'
 
-        expect(page).to have_selector('.flash.notice')
+        expect(page).to have_selector('.op-toast.-success')
 
         embedded_table = Pages::EmbeddedWorkPackagesTable.new find('.wiki-content')
         embedded_table.expect_work_package_listed wp_task

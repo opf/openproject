@@ -27,8 +27,6 @@
 #++
 
 class Roles::CreateService < BaseServices::Create
-  include Roles::NotifyMixin
-
   private
 
   def perform(params)
@@ -38,8 +36,6 @@ class Roles::CreateService < BaseServices::Create
 
     if super_call.success?
       copy_workflows(copy_workflow_id, super_call.result)
-
-      notify_changed_roles(:added, super_call.result)
     end
 
     super_call

@@ -81,6 +81,9 @@ ja:
   units: "単位"
   validation_failure_date: "は有効な日付ではありません。"
   validation_failure_integer: "は有効な整数ではありません。"
+  export:
+    cost_reports:
+      title: "あなたのコストレポートXLSのエクスポート"
   reporting:
     group_by:
       selected_columns: "選択された列"

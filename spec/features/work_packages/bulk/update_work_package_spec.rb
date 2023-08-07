@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-RSpec.describe 'Bulk update work packages through Rails view', js: true do
+RSpec.describe 'Bulk update work packages through Rails view', js: true, with_cuprite: true do
   shared_let(:type) { create(:type, name: 'Bug') }
   shared_let(:project) { create(:project, name: 'Source', types: [type]) }
   shared_let(:status) { create(:status) }
@@ -111,19 +111,19 @@ RSpec.describe 'Bulk update work packages through Rails view', js: true do
 
         expect(page)
           .to have_selector(
-            '.flash.error',
+            '.op-toast.-error',
             text: I18n.t('work_packages.bulk.none_could_be_saved', total: 2)
           )
 
         expect(page)
           .to have_selector(
-            '.flash.error',
+            '.op-toast.-error',
             text: "#{work_package.id}: Parent #{I18n.t('activerecord.errors.messages.does_not_exist')}"
           )
 
         expect(page)
           .to have_selector(
-            '.flash.error',
+            '.op-toast.-error',
             text: <<~MSG.squish
               #{work_package2.id}:
               Parent #{I18n.t('activerecord.errors.messages.does_not_exist')}
@@ -152,13 +152,13 @@ RSpec.describe 'Bulk update work packages through Rails view', js: true do
 
           expect(page)
             .to have_selector(
-              '.flash.error',
+              '.op-toast.-error',
               text: I18n.t('work_packages.bulk.x_out_of_y_could_be_saved', total: 2, failing: 1, success: 1)
             )
 
           expect(page)
             .to have_selector(
-              '.flash.error',
+              '.op-toast.-error',
               text: <<~MSG.squish
                 #{work_package2.id}:
                 #{custom_field.name} #{I18n.t('activerecord.errors.messages.error_readonly')}
@@ -186,7 +186,7 @@ RSpec.describe 'Bulk update work packages through Rails view', js: true do
           fill_in custom_field.name, with: 'Custom field text'
           click_on 'Submit'
 
-          expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_update))
+          expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_successful_update))
 
           # Should update 2 work package custom fields
           work_package.reload

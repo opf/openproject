@@ -41,7 +41,6 @@ class AccountController < ApplicationController
   before_action :disable_api
   before_action :check_auth_source_sso_failure, only: :auth_source_sso_failed
   before_action :check_internal_login_enabled, only: :internal_login
-  after_action :remove_internal_login_flag, only: :login
 
   layout 'no_menu'
 
@@ -51,7 +50,7 @@ class AccountController < ApplicationController
 
     if user.logged?
       redirect_after_login(user)
-    elsif omniauth_direct_login? && !session[:internal_login]
+    elsif request.get? && omniauth_direct_login?
       direct_login(user)
     elsif request.post?
       authenticate_user
@@ -59,8 +58,7 @@ class AccountController < ApplicationController
   end
 
   def internal_login
-    session[:internal_login] = true
-    redirect_to action: :login
+    render 'account/login'
   end
 
   # Log out current user and redirect to welcome page
@@ -227,7 +225,7 @@ class AccountController < ApplicationController
     session[:invitation_token] = token.value
     user = token.user
 
-    if user.auth_source && user.auth_source.auth_method_name == 'LDAP'
+    if user.ldap_auth_source
       activate_through_ldap user
     else
       activate_user user
@@ -249,7 +247,7 @@ class AccountController < ApplicationController
   def activate_through_ldap(user)
     session[:auth_source_registration] = {
       login: user.login,
-      auth_source_id: user.auth_source_id
+      ldap_auth_source_id: user.ldap_auth_source_id
     }
 
     flash[:notice] = I18n.t('account.auth_source_login', login: user.login).html_safe
@@ -278,7 +276,7 @@ class AccountController < ApplicationController
     user = find_or_create_sso_user(login, save: false)
 
     if user.try(:new_record?)
-      return onthefly_creation_failed user, login: user.login, auth_source_id: user.auth_source_id
+      return onthefly_creation_failed user, login: user.login, ldap_auth_source_id: user.ldap_auth_source_id
     end
 
     show_sso_error_for user
@@ -362,7 +360,7 @@ class AccountController < ApplicationController
       user.attributes = permitted_params.user
       user.activate
       user.login = session[:auth_source_registration][:login]
-      user.auth_source_id = session[:auth_source_registration][:auth_source_id]
+      user.ldap_auth_source_id = session[:auth_source_registration][:ldap_auth_source_id]
 
       respond_for_registered_user(user)
     end
@@ -439,7 +437,7 @@ class AccountController < ApplicationController
         flash_and_log_invalid_credentials
       end
     elsif user.new_record?
-      onthefly_creation_failed(user, login: user.login, auth_source_id: user.auth_source_id)
+      onthefly_creation_failed(user, login: user.login, ldap_auth_source_id: user.ldap_auth_source_id)
     else
       # Valid user
       successful_authentication(user)
@@ -537,9 +535,5 @@ class AccountController < ApplicationController
 
   def check_internal_login_enabled
     render_404 unless omniauth_direct_login?
-  end
-
-  def remove_internal_login_flag
-    session.delete :internal_login
   end
 end

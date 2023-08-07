@@ -33,16 +33,18 @@ RSpec.describe User do
   let(:project) { create(:project_with_types) }
   let(:role) { create(:role, permissions: [:view_work_packages]) }
   let(:member) do
-    build(:member, project:,
-                   roles: [role],
-                   principal: user)
+    build(:member,
+          project:,
+          roles: [role],
+          principal: user)
   end
   let(:status) { create(:status) }
   let(:issue) do
-    build(:work_package, type: project.types.first,
-                         author: user,
-                         project:,
-                         status:)
+    build(:work_package,
+          type: project.types.first,
+          author: user,
+          project:,
+          status:)
   end
 
   describe 'with long but allowed attributes' do
@@ -319,7 +321,7 @@ RSpec.describe User do
 
     context 'for user without auth source' do
       before do
-        user.auth_source = nil
+        user.ldap_auth_source = nil
       end
 
       it 'is true' do
@@ -328,36 +330,20 @@ RSpec.describe User do
     end
 
     context 'for user with an auth source' do
-      let(:allowed_auth_source) { create(:auth_source) }
+      let(:auth_source) { create(:ldap_auth_source) }
 
-      context 'that allows password changes' do
-        before do
-          def allowed_auth_source.allow_password_changes?; true; end
-          user.auth_source = allowed_auth_source
-        end
-
-        it 'allows password changes' do
-          expect(user).to be_change_password_allowed
-        end
+      before do
+        user.ldap_auth_source = auth_source
       end
 
-      context 'that does not allow password changes' do
-        let(:denied_auth_source) { create(:auth_source) }
-
-        before do
-          def denied_auth_source.allow_password_changes?; false; end
-          user.auth_source = denied_auth_source
-        end
-
-        it 'does not allow password changes' do
-          expect(user).not_to be_change_password_allowed
-        end
+      it 'does not allow password changes' do
+        expect(user).not_to be_change_password_allowed
       end
     end
 
-    context 'for user without authsource and with external authentication' do
+    context 'for user without LdapAuthSource and with external authentication' do
       before do
-        user.auth_source = nil
+        user.ldap_auth_source = nil
         allow(user).to receive(:uses_external_authentication?).and_return(true)
       end
 
@@ -457,7 +443,7 @@ RSpec.describe User do
       user_double = double('User')
       allow(user_double).to receive(:check_password?).and_return(true)
       allow(user_double).to receive(:active?).and_return(true)
-      allow(user_double).to receive(:auth_source).and_return(nil)
+      allow(user_double).to receive(:ldap_auth_source).and_return(nil)
       allow(user_double).to receive(:force_password_change).and_return(false)
 
       # check for expired password should always happen
@@ -483,10 +469,10 @@ RSpec.describe User do
     end
 
     context 'with an external auth source' do
-      let(:auth_source) { build(:auth_source) }
+      let(:auth_source) { build(:ldap_auth_source) }
       let(:user_with_external_auth_source) do
         user = build(:user, login: 'user')
-        allow(user).to receive(:auth_source).and_return(auth_source)
+        allow(user).to receive(:ldap_auth_source).and_return(auth_source)
         user
       end
 
@@ -697,9 +683,7 @@ RSpec.describe User do
       ical_token
       another_ical_token
 
-      expect(user.ical_tokens).to contain_exactly(
-        ical_token, another_ical_token
-      )
+      expect(user.ical_tokens).to contain_exactly(ical_token, another_ical_token)
     end
 
     it 'are destroyed when the user is destroyed' do

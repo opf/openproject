@@ -17,9 +17,12 @@
       aria-hidden="true"
     ></span>
   </button>
-
-  <full-calendar
-    #ucCalendar
-    [options]="calendarOptions"
-  ></full-calendar>
+  <ng-container
+  *ngIf="(calendarOptions$ | async) as calendarOptions">
+    <full-calendar
+      #ucCalendar
+      *ngIf="calendarOptions"
+      [options]="calendarOptions"
+    ></full-calendar>
+  </ng-container>
 </div>

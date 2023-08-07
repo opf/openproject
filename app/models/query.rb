@@ -437,8 +437,7 @@ class Query < ApplicationRecord
   end
 
   def allowed_timestamps
-    return timestamps if EnterpriseToken.allows_to?(:baseline_comparison)
-    timestamps.select { |t| t.one_day_ago? || t.to_time >= Date.yesterday }
+    Timestamp.allowed(timestamps)
   end
 
   def valid_filter_subset!

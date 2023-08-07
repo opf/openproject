@@ -65,7 +65,8 @@ es:
     button_confirm: "Confirmar"
     button_continue: "Continuar"
     button_copy: "Copiar"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Copiar en el portapapeles"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copiar en otro proyecto"
     button_custom-fields: "Campos personalizados"
     button_delete: "Eliminar"
@@ -225,20 +226,20 @@ es:
           status_label: "Estado:"
           status_confirmed: "confirmado"
           status_waiting: "correo electrónico enviado - esperando confirmación"
-          test_ee: "Pruebe la edición Enterprise de forma gratuita durante 14 días"
-          quick_overview: "Obtenga un resumen rápido sobre la gestión de proyectos y la colaboración en equipo con OpenProject edición Enterprise."
+          test_ee: "Pruebe Enterprise de forma gratuita durante 14 días"
+          quick_overview: "Obtenga un resumen rápido sobre la gestión de proyectos y la colaboración en equipo con OpenProject Enterprise."
         upsale:
           become_hero: "¡Conviértete en un héroe!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} es una extensión de la Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
           upgrade_info: "Actualice a un plan de pago para activarla y empiece a usarla en su equipo."
           benefits:
-            description: "¿Cuáles son las ventajas de la edición Enterprise on-premises?"
+            description: "¿Cuáles son las ventajas de Enterprise On-Premises?"
             high_security: "Funciones de seguridad"
             high_security_text: "Inicio de sesión único (SAML, OpenID Connect, CAS), grupos LDAP."
             installation: "Ayuda en la instalación"
             installation_text: "Nuestros ingenieros de software especializados le guiarán en todo el proceso de instalación y configuración en su propia infraestructura."
-            premium_features: "Enterprise add-ons"
-            premium_features_text: "Paneles Agile, tema y logotipo personalizados, gráficos, flujos de trabajo inteligentes con acciones personalizadas, búsqueda de texto completo en archivos adjuntos de paquetes de trabajo y campos personalizados de selección múltiple."
+            premium_features: "Extensión Enterprise"
+            premium_features_text: "Tableros Agile, tema y logotipo personalizados, gráficos, flujos de trabajo inteligentes con acciones personalizadas, búsqueda de texto completo en archivos adjuntos de paquetes de trabajo y campos personalizados de selección múltiple."
             professional_support: "Soporte profesional"
             professional_support_text: "Obtenga ayuda rápida y de confianza de nuestros agentes de asistencia con conocimientos especializados sobre cómo ejecutar OpenProject en entornos empresariales críticos."
           button_start_trial: "Iniciar prueba gratuita"
@@ -250,9 +251,9 @@ es:
           link_quote: "Solicitar presupuesto"
           more_info: "Más información"
           text: >
-            La edición Enterprise de OpenProject esta basada en la edición Community. Incluye Enterprise add-ons y soporte profesional dirigida principalmente a organizaciones con más de 10 usuarios que gestionen proyectos empresariales críticos con OpenProject.
+            OpenProject Enterprise esta basada en Community. Incluye extensiones Enterprise y soporte profesional dirigida principalmente a organizaciones con más de 10 usuarios que gestionen proyectos empresariales críticos con OpenProject.
           unlimited: "Ilimitado"
-          you_contribute: "Los desarrolladores también tienen que pagar sus facturas. Al actualizar a edición Enterprise, apoyará el esfuerzo de la comunidad de código abierto y contribuirá a su desarrollo, mantenimiento y mejora continua."
+          you_contribute: "Los desarrolladores también tienen que pagar sus facturas. Al actualizar a Enterprise, apoyará el esfuerzo de la comunidad de código abierto y contribuirá a su desarrollo, mantenimiento y mejora continua."
       working_days:
         calendar:
           empty_state_header: "Días no laborables"
@@ -295,6 +296,34 @@ es:
           one: "Primer criterio de ordenación"
           two: "Segundo criterio de ordenación"
           three: "Tercer criterio de ordenación"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "no"
     general_text_yes: "sí"
     general_text_No: "No"
@@ -313,21 +342,22 @@ es:
           learn_about: "Más información sobre las nuevas funciones"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                La versión contiene varias nuevas funciones y mejoras: <br> <ul class="%{list_styling_class}"> <li>Sube y vincula archivos de paquetes de trabajo su almacenamiento de archivos en Nextcloud.</li> <li>Seguimiento de los cambios del proyecto con la actividad del proyecto.</li> <li>Añadir días festivos públicos para toda la instancia (días no laborables).</li> <li>Archivar proyectos a pesar de no ser administrador.</li> <li>Nuevo filtro por defecto para paquetes de trabajo atrasados.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to iCalendar"
+      title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
-      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
-      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Token name"
-      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
-      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
       copy_url_label: "Copy URL"
-      ical_generation_error_text: "An error occured while generating the iCal URL."
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Activar"
     label_assignee: 'Asignado a'
     label_add_column_after: "Añadir columna a la derecha"
@@ -504,7 +534,7 @@ es:
     label_remove_all_files: Borrar todos los archivos
     label_add_description: "Añadir una descripción para %{file}"
     label_upload_notification: "Cargando archivos…"
-    label_work_package_upload_notification: "Cargando archivos para el paquete de trabajo #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Cargando archivos para el paquete de trabajo #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} añadido por %{author}"
     label_files_to_upload: "Estos archivos se cargarán:"
     label_rejected_files: "Estos archivos no pueden ser cargados:"
@@ -532,14 +562,14 @@ es:
         backlogs:
           overview: "Administre su trabajo en la vista de <b>trabajos pendientes</b>."
           sprints: "A la derecha verá los trabajos pendientes de productos y errores de código, y a la izquierda se muestran los sprints correspondientes. Aquí puede crear <b>épicas, historias de usuario y errores de código</b>, asignar prioridades mediante funciones de arrastrar y colocar, y añadir elementos a un sprint."
-          task_board_arrow: 'Para ver el <b>panel de tareas</b>, abra el menú desplegable sprint…'
-          task_board_select: '… y seleccione la entrada del <b>panel de tareas</b>.'
-          task_board: "En el panel de tareas, se muestra el <b>progreso de este sprint</b>. Haga clic en el icono del signo más (+) junto a una historia de usuario para añadir nuevas tareas o impedimentos. <br> Puede actualizar el estado mediante las funciones de arrastrar y colocar."
+          task_board_arrow: 'Para ver el <b>tablero de tareas</b>, abra el menú desplegable sprint…'
+          task_board_select: '… y seleccione la entrada del <b>tablero de tareas</b>.'
+          task_board: "En el tablero de tareas, se muestra el <b>progreso de este sprint</b>. Haga clic en el icono del signo más (+) junto a una historia de usuario para añadir nuevas tareas o impedimentos. <br> Puede actualizar el estado mediante las funciones de arrastrar y colocar."
         boards:
-          overview: 'Seleccione los <b>paneles</b> para cambiar la vista y gestione su proyecto con la vista de paneles Agile.'
-          lists_kanban: 'Aquí puede crear varias listas (columnas) en el panel. Por ejemplo, esta función le permite crear un <b>panel Kanban</b>.'
-          lists_basic: 'Aquí puede crear varias listas (columnas) en el panel Agile.'
-          add: 'Haga clic en el icono del signo más (+) para <b>crear una tarjeta</b> o <b>añadir una tarjeta existente</b> a la lista en el panel.'
+          overview: 'Seleccione los <b>tableros</b> para cambiar la vista y gestione su proyecto con la vista de tableros Agile.'
+          lists_kanban: 'Aquí puede crear varias listas (columnas) en el tablero. Por ejemplo, esta función le permite crear un <b>tablero Kanban</b>.'
+          lists_basic: 'Aquí puede crear varias listas (columnas) en el tablero Agile.'
+          add: 'Haga clic en el icono del signo más (+) para <b>crear una tarjeta</b> o <b>añadir una tarjeta existente</b> a la lista en el tablero.'
           drag: 'Arrastre y coloque las tarjetas en una lista específica para cambiar el orden o moverlas a otra lista. <br> Para ver los detalles, haga clic en el icono de información (i) de la esquina superior derecha o haga doble clic en una tarjeta.'
         wp:
           toggler: "Ahora, veamos la sección <b>paquete de trabajo</b>, que ofrece una vista más detallada de su trabajo."
@@ -551,7 +581,7 @@ es:
           timeline: 'Aquí puede <b>editar su plan de proyecto</b>, crear nuevos paquetes de trabajo como tareas, hitos, fases y más, y <b>añadir dependencias</b>. Todos los miembros del equipo pueden ver y actualizar el plan más reciente en cualquier momento.'
         team_planner:
           overview: 'El planificador de equipo permite asignar de forma visual tareas a los miembros del equipo y obtener un resumen del trabajo de cada uno.'
-          calendar: 'En el panel de planificación semanal o bisemanal, se muestran todos los paquetes de trabajo asignados a los miembros del equipo.'
+          calendar: 'En el tablero de planificación semanal o bisemanal, se muestran todos los paquetes de trabajo asignados a los miembros del equipo.'
           add_assignee: 'Para empezar, añada usuarios asignados al planificador de equipo.'
           add_existing: 'Busque paquetes de trabajo existentes y arrástrelos hasta el planificador de equipo para asignarlos rápidamente a un miembro del equipo y defina las fechas de inicio y finalización.'
           card: 'Arrastre los paquetes de trabajo horizontalmente para hacerlos avanzar o retroceder en el tiempo, arrastre los bordes para cambiar las fechas de inicio y finalización, e incluso puede arrastrarlos verticalmente a otra fila para asignarlos a otro miembro.'
@@ -726,8 +756,8 @@ es:
         reset_title: "Restablecer la configuración del formulario"
         confirm_reset: >
           Advertencia: ¿Está seguro de que quiere restablecer la configuración del formulario? Se restablecerán los atributos al grupo predeterminado y se deshabilitarán TODOS los campos personalizados.
-        upgrade_to_ee: "Actualizar a edición Enterprise on-premises"
-        upgrade_to_ee_text: "¡Vaya! Si necesita está opción, entonces ¡es un usuario experto! ¿Le importaría apoyar a los desarrolladores de código abierto convirtiéndose en cliente de la edición Enterprise?"
+        upgrade_to_ee: "Actualizar a Enterprise On-Premises"
+        upgrade_to_ee_text: "¡Vaya! Si necesita está extensión, entonces ¡es un usuario experto! ¿Le importaría apoyar a los desarrolladores de código abierto convirtiéndose en cliente de Enterprise?"
         more_information: "Más información"
         nevermind: "No importa"
       edit:
@@ -737,6 +767,14 @@ es:
     time_entry:
       work_package_required: 'Es necesario seleccionar primero un paquete de trabajo.'
       title: 'Registro de tiempo'
+      tracking: 'Tiempo de seguimiento'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticación de dos factores'
     watchers:
@@ -795,7 +833,8 @@ es:
     autocompleter:
       placeholder: "Escriba para buscar"
       notFoundText: "No se encontraron elementos"
-      typeToSearchText: "Escriba para buscar"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Seleccionar etiqueta'
       select_branch: 'Seleccione rama'
@@ -813,68 +852,11 @@ es:
       activate_no: 'activar para deshabilitar ordenación'
     text_work_packages_destroy_confirmation: "¿Esta usted seguro que desea eliminar paquete(s) de trabajo seleccionado(s)?"
     text_query_destroy_confirmation: "¿Estás seguro de que quiere eliminar la vista seleccionada?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Diagrama de Gantt'
-      labels:
-        title: 'Configuración de etiquetas'
-        bar: 'Etiquetas de barras'
-        left: 'Izquierda'
-        right: 'Derecha'
-        farRight: 'Extremo derecho'
-        showNone: '-- Sin etiqueta --'
-        description: >
-          Seleccione los atributos que quiera que se muestren en las posiciones correspondientes del diagrama de Gantt en todo momento. Tenga en cuenta que, al mantener el ratón sobre un elemento, se mostrarán las etiquetas de fecha en lugar de estos atributos.
-      button_activate: 'Mostrar diagrama de Gantt'
-      button_deactivate: 'Ocultar diagrama de Gantt'
-      cancel: Cancelar
-      change: "Cambio en la planificación"
-      due_date: "Fecha de finalización"
-      empty: "(vacío)"
-      error: "Ha ocurrido un error."
-      errors:
-        not_implemented: "La línea temporal no puede procesarse porque utiliza una función que no se ha implementado todavía."
-        report_comparison: "La línea temporal no puede hacer las comparaciones configuradas. Consulte la sección pertinente en la configuración, reiniciarla puede ayudar a resolver este problema."
-        report_epicfail: "No se pudo cargar la línea temporal debido a un error inesperado."
-        report_timeout: "No se pudo cargar la línea temporal en una cantidad razonable de tiempo."
-      filter:
-        grouping_other: "Otros"
-        noneSelection: "(ninguno)"
-      name: "Nombre"
-      outline: "Restablecer Marco"
-      outlines:
-        aggregation: "Mostrar solo las agregaciones"
-        level1: "Ampliar nivel 1"
-        level2: "Ampliar nivel 2"
-        level3: "Ampliar nivel 3"
-        level4: "Ampliar nivel 4"
-        level5: "Ampliar el nivel 5"
-        all: "Mostrar todo"
-      project_status: "Estado del proyecto"
-      really_close_dialog: "¿Quieres realmente cerrar el cuadro de diálogo y perder los datos introducidos?"
-      responsible: "Responsable"
-      save: Guardar
-      start_date: "Fecha de inicio"
-      tooManyProjects: "Más de %{count} proyectos. ¡Por favor, use un mejor filtro!"
-      selection_mode:
-        notification: 'Haga clic en cualquier paquete de trabajo destacado para crear la relación. Pulse Esc para cancelar.'
-      zoom:
-        in: "Acercar"
-        out: "Alejar"
-        auto: "Zoom automático"
-        days: "Días"
-        weeks: "Semanas"
-        months: "Meses"
-        quarters: "Cuatrimestres"
-        years: "Años"
-        slider: "Deslizador del zoom"
-        description: >
-          Seleccione el nivel de zoom inicial que debe mostrarse cuando el zoom automático no esté disponible.
     tl_toolbar:
       zooms: "Nivel de zoom"
       outlines: "Nivel de jerarquía"
     upsale:
-      ee_only: 'Add-on de la edición Enterprise'
+      ee_only: 'Extensión Enterprise'
     wiki_formatting:
       strong: "Negrita"
       italic: "Cursiva"
@@ -934,10 +916,10 @@ es:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filtrar paquetes de trabajo'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Haga clic aquí para agregar un nuevo paquete de trabajo a esta lista'
@@ -1072,7 +1054,7 @@ es:
         upsale:
           attribute_highlighting: '¿Necesita que algunos paquetes de trabajo destaquen del resto?'
           relation_columns: '¿Necesita ver las relaciones en la lista de paquetes de trabajo?'
-          check_out_link: 'Echa un vistazo a la edición Enterprise.'
+          check_out_link: 'Echa un vistazo a Enterprise.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrar paquetes de trabajo por tipo de relación'
       tabs:
@@ -1099,7 +1081,7 @@ es:
         save_as: "Guardar como"
         export: "Exportar"
         visibility_settings: "Configuración de visibilidad"
-        share_calendar: "Subscribe to iCalendar"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Renombrar vista"
         delete: "Borrar"
       filter: "Filtro"
@@ -1217,9 +1199,9 @@ es:
           description: 'Permisos basados en el rol asignado en el proyecto seleccionado'
         placeholder:
           title: 'Usuario de marcador de posición'
-          title_no_ee: 'Usuario de marcador de posición (add-on solo para edición Enterprise)'
+          title_no_ee: 'Usuario de marcador de posición (extensión solo para Enterprise)'
           description: 'No tiene acceso al proyecto y no se enviarán correos electrónicos.'
-          description_no_ee: 'No tiene acceso al proyecto y no se enviarán correos electrónicos. <br>Consulte <a href="%{eeHref}" target="_blank">edición Enterprise</a>'
+          description_no_ee: 'No tiene acceso al proyecto y no se enviarán correos electrónicos. <br>Consulte <a href="%{eeHref}" target="_blank">Enterprise</a>'
       principal:
         label:
           name_or_email: 'Nombre o dirección de correo electrónico'
@@ -1292,6 +1274,7 @@ es:
         between_two_specific_dates: 'between two specific dates'
       legends:
         changes_since: 'Changes since'
+        changes_between: 'Changes between'
         now_meets_filter_criteria: 'Now meets filter criteria'
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'

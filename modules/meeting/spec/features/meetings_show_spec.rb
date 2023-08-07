@@ -27,6 +27,8 @@
 #++
 
 require 'spec_helper'
+require_relative '../support/pages/meetings/show'
+
 
 RSpec.describe 'Meetings', js: true do
   let(:project) { create(:project, enabled_module_names: %w[meetings]) }
@@ -38,6 +40,7 @@ RSpec.describe 'Meetings', js: true do
   end
 
   let!(:meeting) { create(:meeting, project:, title: 'Awesome meeting!') }
+  let(:show_page) { Pages::Meetings::Show.new(meeting) }
 
   current_user { user }
 
@@ -75,7 +78,6 @@ RSpec.describe 'Meetings', js: true do
         visit meeting_path(meeting)
 
         click_on 'History'
-        SeleniumHubWaiter.wait
 
         find_by_id('version-1').click
         expect(page).to have_selector('[data-qa-selector="op-meeting--meeting_agenda"]', text: 'foo')
@@ -95,6 +97,16 @@ RSpec.describe 'Meetings', js: true do
           find('.toolbar-item', text: 'Edit').click
 
           field.expect_value('foo')
+
+          field.set_value('My new meeting text')
+
+          field.submit_by_enter
+
+          show_page.expect_and_dismiss_toaster message: 'Successful update'
+
+          meeting.reload
+
+          expect(meeting.agenda.text).to eq 'My new meeting text'
         end
       end
 

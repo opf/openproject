@@ -29,25 +29,29 @@
 require 'spec_helper'
 require_module_spec_helper
 require 'services/base_services/behaves_like_delete_service'
+require_relative 'shared_event_gun_examples'
 
-RSpec.describe Storages::ProjectStorages::DeleteService, type: :model do
+RSpec.describe Storages::ProjectStorages::DeleteService, type: :model, webmock: true do
   context 'with records written to DB' do
     let(:user) { create(:user) }
     let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }
     let(:project) { create(:project, members: { user => role }) }
     let(:other_project) { create(:project) }
-    let(:project_storage) { create(:project_storage, project:) }
+    let(:storage) { create(:storage) }
+    let(:project_storage) { create(:project_storage, project:, storage:) }
     let(:work_package) { create(:work_package, project:) }
     let(:other_work_package) { create(:work_package, project: other_project) }
-    let(:file_link) { create(:file_link, container: work_package, storage: project_storage.storage) }
-    let(:other_file_link) { create(:file_link, container: other_work_package, storage: project_storage.storage) }
+    let(:file_link) { create(:file_link, container: work_package, storage:) }
+    let(:other_file_link) { create(:file_link, container: other_work_package, storage:) }
+    let(:delete_folder_url) do
+      "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.project_folder_path.chop}"
+    end
 
     it 'destroys the record' do
       project_storage
       described_class.new(model: project_storage, user:).call
 
-      expect(Storages::ProjectStorage.where(id: project_storage.id))
-        .not_to exist
+      expect(Storages::ProjectStorage.where(id: project_storage.id)).not_to exist
     end
 
     it 'deletes all FileLinks that belong to containers of the related project' do
@@ -56,16 +60,42 @@ RSpec.describe Storages::ProjectStorages::DeleteService, type: :model do
 
       described_class.new(model: project_storage, user:).call
 
-      expect(Storages::FileLink.where(id: file_link.id))
-        .not_to exist
-      expect(Storages::FileLink.where(id: other_file_link.id))
-        .to exist
+      expect(Storages::FileLink.where(id: file_link.id)).not_to exist
+      expect(Storages::FileLink.where(id: other_file_link.id)).to exist
+    end
+
+    context 'with Nextcloud storage' do
+      let(:storage) { create(:nextcloud_storage) }
+      let(:delete_folder_url) do
+        "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.project_folder_path.chop}"
+      end
+      let(:delete_folder_stub) do
+        stub_request(:delete, delete_folder_url).to_return(status: 204, body: nil, headers: {})
+      end
+
+      before { delete_folder_stub }
+
+      it 'tries to remove the project folder at the external nextcloud storage' do
+        expect(described_class.new(model: project_storage, user:).call).to be_success
+        expect(delete_folder_stub).to have_been_requested
+      end
+
+      context 'if project folder deletion request fails' do
+        let(:delete_folder_stub) do
+          stub_request(:delete, delete_folder_url).to_return(status: 404, body: nil, headers: {})
+        end
+
+        it 'tries to remove the project folder at the external nextcloud storage and still succeed with deletion' do
+          expect(described_class.new(model: project_storage, user:).call).to be_success
+          expect(delete_folder_stub).to have_been_requested
+        end
+      end
     end
   end
 
-  # Includes many specs that are common for every DeleteService that inherits from ::BaseServices::Delete.
-  # Collected tests on DeleteContracts from last 15 years.
   it_behaves_like 'BaseServices delete service' do
     let(:factory) { :project_storage }
+
+    it_behaves_like('an event gun', OpenProject::Events::PROJECT_STORAGE_DESTROYED)
   end
 end

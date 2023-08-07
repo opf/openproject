@@ -97,7 +97,7 @@ module Pages
       elsif type == :error
         expect(page).to have_selector(".errorExplanation", text: message)
       elsif type == :success
-        expect(page).to have_selector(".flash.notice", text: message)
+        expect(page).to have_selector(".op-toast.-success", text: message)
       else
         raise NotImplementedError
       end
@@ -110,11 +110,7 @@ module Pages
     end
 
     def dismiss_toaster!
-      if toast_type == :angular
-        page.find('.op-toast--close').click
-      else
-        page.find('.flash .icon-close').click
-      end
+      page.find('.op-toast--close').click
     end
 
     def expect_no_toaster(type: :success, message: nil)

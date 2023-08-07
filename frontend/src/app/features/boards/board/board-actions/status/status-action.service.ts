@@ -29,22 +29,6 @@ export class BoardStatusActionService extends CachedBoardActionService {
     return StatusBoardHeaderComponent;
   }
 
-  public addInitialColumnsForAction(board:Board):Promise<Board> {
-    return this
-      .loadValues()
-      .toPromise()
-      .then((results:StatusResource[]) => Promise.all<unknown>(
-        results.map((status:StatusResource) => {
-          if (status.isDefault) {
-            return this.addColumnWithActionAttribute(board, status);
-          }
-
-          return Promise.resolve(board);
-        }),
-      )
-        .then(() => board));
-  }
-
   public warningTextWhenNoOptionsAvailable():Promise<string> {
     return Promise.resolve(this.I18n.t('js.boards.add_list_modal.warning.status'));
   }

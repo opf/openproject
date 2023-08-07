@@ -35,6 +35,28 @@ See COPYRIGHT and LICENSE files for more details.
     <%= f.text_field :title, :required => true, :size => 60, container_class: '-wide' %>
   </div>
 
+  <% if global_meeting_create_context? %>
+    <div class="form--field -required">
+      <label class="form--label" for="project_id"><%= Meeting.human_attribute_name(:project) %>:</label>
+      <div class="form--field-container">
+        <%= angular_component_tag 'op-project-autocompleter',
+                                  inputs: {
+                                    apiFilters: [['user_action', '=', ['meetings/create']]],
+                                    name: 'project_id',
+                                    value: @project,
+                                    appendTo: 'body',
+                                    hiddenFieldAction: 'change->refresh-on-form-changes#triggerTurboStream',
+                                  },
+                                  id: 'project_id',
+                                  class: 'form--select-container -wide remote-field--input',
+                                  data: {
+                                    'qa-selector': 'project_id'
+                                  }
+        %>
+      </div>
+    </div>
+  <% end %>
+
   <div class="form--field">
     <%= f.text_field :location, :size => 60, container_class: '-wide' %>
   </div>
@@ -86,48 +108,8 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
   </div>
 
-  <div class="form--field">
-    <label class="form--label"><%=Meeting.human_attribute_name(:participants) %></label>
-    <div class="form--field-container">
-      <table class="form--matrix">
-        <thead>
-          <tr class="form--matrix-header-row">
-            <th class="form--matrix-header-cell"><%= Meeting.human_attribute_name(:name) %></th>
-            <th class="form--matrix-header-cell"><%= Meeting.human_attribute_name(:participants_invited) %></th>
-            <th class="form--matrix-header-cell"><%= Meeting.human_attribute_name(:participants_attended) %></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @meeting.all_changeable_participants.sort.each do |user| -%>
-          <%= hidden_field_tag "meeting[participants_attributes][][user_id]", user.id %>
-          <tr class="form--matrix-row">
-            <td class="form--matrix-cell"><%=h user %></td>
-            <% if @meeting.participants.present? && participant = @meeting.participants.detect{|p| p.user_id == user.id} -%>
-              <%= hidden_field_tag "meeting[participants_attributes][][id]", participant.id %>
-              <td class="form--matrix-checkbox-cell">
-                <%= label_tag "checkbox_invited_#{user.id}", user.name + " " + t(:description_invite), :class => "hidden-for-sighted" %>
-                <%= styled_check_box_tag "meeting[participants_attributes][][invited]", 1, participant.invited?, :id => "checkbox_invited_#{user.id}" %>
-              </td>
-              <td class="form--matrix-checkbox-cell">
-                <%= label_tag "checkbox_attended_#{user.id}", user.name + " " + t(:description_attended), :class => "hidden-for-sighted" %>
-                <%= styled_check_box_tag "meeting[participants_attributes][][attended]", 1, participant.attended?, :id => "checkbox_attended_#{user.id}" %>
-              </td>
-            <% else -%>
-              <td class="form--matrix-checkbox-cell">
-                <%= label_tag "checkbox_invited_#{user.id}", user.name + " " + t(:description_invite), :class => "hidden-for-sighted" %>
-                <%= styled_check_box_tag "meeting[participants_attributes][][invited]", value = "1", checked = false, :id => "checkbox_invited_#{user.id}" %>
-              </td>
-              <td class="form--matrix-checkbox-cell">
-                <%= label_tag "checkbox_attended_#{user.id}", user.name + " " + t(:description_attended), :class => "hidden-for-sighted" %>
-                <%= styled_check_box_tag "meeting[participants_attributes][][attended]", value = "1", checked = false, :id => "checkbox_attended_#{user.id}" %>
-              </td>
-            <% end -%>
-          </tr>
-          <% end -%>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  <%= render partial: 'meetings/participants_section' %>
+
   <%= hidden_field_tag "copied_from_meeting_id", params[:copied_from_meeting_id] if params[:copied_from_meeting_id].present? %>
   <%= hidden_field_tag "copied_meeting_agenda_text", params[:copied_meeting_agenda_text] if params[:copied_meeting_agenda_text].present? %>
 </section>

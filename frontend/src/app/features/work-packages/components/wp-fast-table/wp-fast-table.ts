@@ -114,8 +114,8 @@ export class WorkPackageTable {
 
     // Insert timeline body
     requestAnimationFrame(() => {
-      this.tbody.innerHTML = '';
-      this.timelineBody.innerHTML = '';
+      this.tbody.replaceChildren();
+      this.timelineBody.replaceChildren();
       this.tbody.appendChild(renderPass.tableBody);
       this.timelineBody.appendChild(renderPass.timeline.timelineBody);
 

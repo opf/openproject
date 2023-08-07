@@ -80,7 +80,7 @@ sv:
   label_costlog: "Loggade enhetskostnader"
   label_cost_plural: "Kostnader"
   label_cost_type_plural: "Kostnadstyper"
-  label_cost_type_specific: "Kostnadstyp #%{id}: %{name}" #%{id}: %{name}"
+  label_cost_type_specific: "Kostnadstyp #%{id}: %{name}"
   label_costs_per_page: "Kostnader per sida"
   label_currency: "Valuta"
   label_currency_format: "Formatet för valuta"

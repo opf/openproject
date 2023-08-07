@@ -91,7 +91,7 @@ gem 'escape_utils', '~> 1.3'
 # Syntax highlighting used in html-pipeline with rouge
 gem 'rouge', '~> 4.1.0'
 # HTML sanitization used for html-pipeline
-gem 'sanitize', '~> 6.0.1'
+gem 'sanitize', '~> 6.0.2'
 # HTML autolinking for mails and urls (replaces autolink)
 gem 'rinku', '~> 2.0.4'
 # Version parsing with semver
@@ -113,9 +113,6 @@ gem 'mail', '= 2.8.1'
 
 # provide compatible filesystem information for available storage
 gem 'sys-filesystem', '~> 1.4.0', require: false
-
-# Faster posix-compliant spawns for 8.0. conversions with pandoc
-gem 'posix-spawn', '~> 0.3.13', require: false
 
 gem 'bcrypt', '~> 3.1.6'
 
@@ -156,7 +153,7 @@ gem 'structured_warnings', '~> 0.4.0'
 gem 'airbrake', '~> 13.0.0', require: false
 
 gem 'prawn', '~> 2.2'
-gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', tag: 'v0.0.18'
+gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: '76945d45c14b841e2312f992422e2631a4524114'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
 
@@ -170,7 +167,7 @@ group :production do
   gem 'dalli', '~> 3.2.0'
 end
 
-gem 'i18n-js', '~> 3.9.0'
+gem 'i18n-js', '~> 4.2.3'
 gem 'rails-i18n', '~> 7.0.0'
 
 gem 'sprockets', '~> 3.7.2' # lock sprockets below 4.0
@@ -202,10 +199,15 @@ gem 'mini_magick', '~> 4.12.0', require: false
 
 gem 'validate_url'
 
+# ActiveRecord extension which adds typecasting to store accessors
+gem "store_attribute", "~> 1.0"
+
 # Appsignal integration
 gem "appsignal", "~> 3.0", require: false
 
 gem 'view_component'
+# Lookbook
+gem 'lookbook', '~> 2.0.5'
 
 gem 'turbo-rails', "~> 1.1"
 
@@ -233,6 +235,9 @@ group :test do
 
   # XML comparison tests
   gem 'compare-xml', '~> 0.66', require: false
+
+  # PDF Export tests
+  gem 'pdf-inspector', '~> 1.2'
 
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
@@ -271,10 +276,6 @@ group :development do
 
   gem 'spring'
   gem 'spring-commands-rspec'
-
-  # Gems for living styleguide
-  gem 'livingstyleguide', '~> 2.1.0'
-  gem 'sassc-rails'
 
   gem 'colored2'
 
@@ -352,3 +353,7 @@ gemfiles.each do |file|
   # don't use eval_gemfile(file) here as it will break dependabot!
   send(:eval_gemfile, file) if File.readable?(file)
 end
+
+gem "primer_view_components", git: 'https://github.com/opf/primer_view_components', ref: '18abe4d'
+gem "openproject-octicons", '~>19.6.7'
+gem "openproject-octicons_helper", '~>19.6.7'

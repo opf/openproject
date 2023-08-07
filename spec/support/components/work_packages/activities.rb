@@ -57,8 +57,9 @@ module Components
       def hover_action(journal_id, action)
         retry_block do
           # Focus type edit to expose buttons
-          activity = page.find("#activity-#{journal_id} .work-package-details-activities-activity-contents")
-          page.driver.browser.action.move_to(activity.native).perform
+          page
+            .find("#activity-#{journal_id} .work-package-details-activities-activity-contents")
+            .hover
 
           # Click the corresponding action button
           case action

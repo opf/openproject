@@ -47,7 +47,7 @@ module LdapGroups
     # Find groups by the filter string
     # and yield them one by one
     def each_group
-      ldap = filter.auth_source
+      ldap = filter.ldap_auth_source
       ldap.with_connection do |ldap_con|
         search(filter, ldap_con) do |entry|
           yield entry.dn, LdapAuthSource.get_attr(entry, filter.group_name_attribute)
@@ -74,7 +74,7 @@ module LdapGroups
         # Always set the filter and auth source, in case multiple filters match the same group
         # they are simply being re-assigned to the latest one
         sync.filter_id = filter.id
-        sync.auth_source_id = filter.auth_source_id
+        sync.ldap_auth_source_id = filter.ldap_auth_source_id
 
         # Tell the group to synchronize users if the filter has requested it to
         sync.sync_users = filter.sync_users

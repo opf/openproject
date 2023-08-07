@@ -7,12 +7,11 @@
     width: 100%
     display: block
     height: 30px
-    background: var(--header-home-link-bg)
+    background: no-repeat 20px 0
     text-indent: -9999em
     background-position: center
     background-size: contain
     background-repeat: no-repeat
 
-  @include breakpoint(850px down)
+  @media screen and (max-width: 850px)
     display: none
-

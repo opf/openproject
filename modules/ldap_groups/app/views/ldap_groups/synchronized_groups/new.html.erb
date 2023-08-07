@@ -13,7 +13,7 @@
     <legend class="form--fieldset-legend"><%= @group.class.human_attribute_name 'auth_source'  %></legend>
 
     <div class="form--field -required">
-      <%= f.select :auth_source_id,
+      <%= f.select :ldap_auth_source_id,
                    LdapAuthSource.pluck(:name, :id),
                    required: true,
                    include_blank: "--- #{t(:actionview_instancetag_blank_option)} ---",

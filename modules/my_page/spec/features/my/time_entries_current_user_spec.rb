@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-RSpec.describe 'My page time entries current user widget spec', js: true, with_mail: false do
+RSpec.describe 'My page time entries current user widget spec', js: true do
   let!(:type) { create(:type) }
   let!(:project) { create(:project, types: [type]) }
   let!(:activity) { create(:time_entry_activity) }
@@ -113,6 +113,7 @@ RSpec.describe 'My page time entries current user widget spec', js: true, with_m
   end
   let(:cf_field) { TextEditorField.new(page, custom_field.attribute_name(:camel_case)) }
   let(:time_logging_modal) { Components::TimeLoggingModal.new }
+  let!(:week_days) { week_with_saturday_and_sunday_as_weekend }
 
   before do
     login_as user
@@ -130,8 +131,16 @@ RSpec.describe 'My page time entries current user widget spec', js: true, with_m
 
     entries_area.expect_to_span(1, 1, 2, 2)
 
+    expect(page).not_to have_selector('.fc-day-mon.fc-non-working-day')
+    expect(page).not_to have_selector('.fc-day-tue.fc-non-working-day')
+    expect(page).not_to have_selector('.fc-day-wed.fc-non-working-day')
+    expect(page).not_to have_selector('.fc-day-thu.fc-non-working-day')
+    expect(page).not_to have_selector('.fc-day-fri.fc-non-working-day')
+    expect(page).to have_selector('.fc-day-sat.fc-non-working-day')
+    expect(page).to have_selector('.fc-day-sun.fc-non-working-day')
+
     expect(page)
-      .to have_content "Total: 6.00"
+      .to have_content "Total: 6 h"
 
     expect(page)
       .to have_content visible_time_entry.spent_on.strftime('%-m/%-d')
@@ -149,7 +158,7 @@ RSpec.describe 'My page time entries current user widget spec', js: true, with_m
     end
 
     expect(page)
-      .to have_content "Total: 8.00"
+      .to have_content "Total: 8 h"
 
     expect(page)
       .to have_content(last_week_visible_time_entry.spent_on.strftime('%-m/%-d'))
@@ -162,7 +171,7 @@ RSpec.describe 'My page time entries current user widget spec', js: true, with_m
     end
 
     expect(page)
-      .to have_content "Total: 6.00"
+      .to have_content "Total: 6 h"
 
     within entries_area.area do
       find(".te-calendar--time-entry", match: :first).hover
@@ -219,7 +228,7 @@ RSpec.describe 'My page time entries current user widget spec', js: true, with_m
     end
 
     expect(page)
-      .to have_content "Total: 10.00"
+      .to have_content "Total: 10 h"
 
     expect(TimeEntry.count)
       .to be 6
@@ -267,7 +276,7 @@ RSpec.describe 'My page time entries current user widget spec', js: true, with_m
       .to have_selector('.ui-tooltip', text: "Comment: Some comment")
 
     expect(page)
-      .to have_content "Total: 13.00"
+      .to have_content "Total: 13 h"
 
     ## Hiding weekdays
     entries_area.click_menu_item I18n.t('js.grid.configure')

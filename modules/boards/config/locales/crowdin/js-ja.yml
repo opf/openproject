@@ -2,7 +2,7 @@
 ja:
   js:
     boards:
-      create_new: 'Create new board'
+      create_new: '新しい掲示板を作成'
       label_unnamed_board: '無題のボード'
       label_unnamed_list: '無題のリスト'
       label_board_type: 'ボードの形式'

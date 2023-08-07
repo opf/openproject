@@ -44,10 +44,18 @@ class OpenProject::JournalFormatter::Attachment < JournalFormatter::Base
       value = format_html_attachment_detail(key.to_s.sub('attachments_', ''), value)
     end
 
-    render_binary_detail_text(label, value, old_value)
+    render_attachment_detail_text(label, value, old_value)
   end
 
   private
+
+  def render_attachment_detail_text(label, value, old_value)
+    if value.blank?
+      I18n.t(:text_journal_attachment_deleted, label:, old: old_value)
+    else
+      I18n.t(:text_journal_attachment_added, label:, value:)
+    end
+  end
 
   def label(_key)
     Attachment.model_name.human

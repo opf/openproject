@@ -124,16 +124,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     # The ancestors are simply derived objects from the parents location string. Until we have real information
     # from the nextcloud API about the path to the parent, we need to derive name, location and forge an ID.
     def forge_ancestor(location)
-      ::Storages::StorageFile.new(Digest::SHA256.hexdigest(location),
-                                  name(location),
-                                  nil,
-                                  nil,
-                                  nil,
-                                  nil,
-                                  nil,
-                                  nil,
-                                  location,
-                                  nil)
+      ::Storages::StorageFile.new(id: Digest::SHA256.hexdigest(location), name: name(location), location:)
     end
 
     def name(location)
@@ -144,16 +135,14 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       location = location(file_element)
 
       ::Storages::StorageFile.new(
-        id(file_element),
-        name(location),
-        size(file_element),
-        mime_type(file_element),
-        nil,
-        last_modified_at(file_element),
-        created_by(file_element),
-        nil,
-        location,
-        permissions(file_element)
+        id: id(file_element),
+        name: name(location),
+        size: size(file_element),
+        mime_type: mime_type(file_element),
+        last_modified_at: last_modified_at(file_element),
+        created_by_name: created_by(file_element),
+        location:,
+        permissions: permissions(file_element)
       )
     end
 

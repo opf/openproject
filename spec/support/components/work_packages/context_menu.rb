@@ -33,12 +33,22 @@ module Components
       include Capybara::RSpecMatchers
       include RSpec::Matchers
 
-      def open_for(work_package, card_view: false)
+      def open_for(work_package, card_view: nil)
         # Close
         find('body').send_keys :escape
-        sleep 0.5
+        sleep 0.5 unless using_cuprite?
 
-        if card_view || page.has_selector?('#wp-view-toggle-button', text: 'Cards')
+        if card_view.nil?
+          view_toggle_button = find_by_id('wp-view-toggle-button', wait: 0)
+          # DEBUG Remove me
+          if view_toggle_button.nil?
+            puts "DEBUG: #{self}#open_for called for a page without a view toggle button. " \
+                 "Example is #{RSpec.current_example.location} - #{RSpec.current_example.id}"
+          end
+          card_view = view_toggle_button&.text == 'Cards'
+        end
+
+        if card_view
           page.find(".op-wp-single-card-#{work_package.id}").right_click
         else
           page.find(".wp-row-#{work_package.id}-table").right_click

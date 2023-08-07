@@ -46,3 +46,29 @@
     <%= link_to(t("js.label_create"), new_admin_settings_storage_oauth_client_path(@object), class: 'button -with-icon icon-add') %>
   <% end %>
 <% end %>
+
+
+<%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
+  <% component.with_header(title: t("storages.page_titles.managed_project_folders.title")) %>
+
+  <% if @object.automatic_management_unspecified? %>
+    <%= link_to(t("storages.buttons.configure"), new_admin_settings_storage_automatically_managed_project_folders_path(@object), class: 'button -with-icon icon-add') %>
+  <% else %>
+    <% component.with_attribute(
+      key: t(:"storages.label_managed_project_folders.automatically_managed_folders"),
+      value: @object.automatically_managed? ? t(:"storages.label_active") : t(:"storages.label_inactive")
+    ) %>
+
+    <% if @object.automatically_managed? %>
+      <% component.with_attribute(
+        key: t(:"storages.label_managed_project_folders.application_password"),
+        value: "●●●●●●●●●●●●●●●●"
+      ) %>
+    <% end %>
+
+    <%= link_to(t("storages.buttons.edit_automatically_managed_project_folders"),
+                edit_admin_settings_storage_automatically_managed_project_folders_path(@object),
+                class: 'button -with-icon icon-edit') %>
+  <% end %>
+<% end %>
+

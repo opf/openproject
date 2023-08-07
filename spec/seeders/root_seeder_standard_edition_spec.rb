@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './root_seeder_shared_examples'
+require_relative 'root_seeder_shared_examples'
 
 RSpec.describe RootSeeder,
                'standard edition',
@@ -172,16 +172,18 @@ RSpec.describe RootSeeder,
     'OPENPROJECT_SEED_LOCALE',
     'OPENPROJECT_DEFAULT_LANGUAGE'
   ].each do |env_var_name|
-    describe "demo data with a non-English language set with #{env_var_name}", :settings_reset do
+    describe "demo data with a non-English language set with #{env_var_name}",
+             :settings_reset do
       shared_let(:root_seeder) { described_class.new }
 
       before_all do
-        with_edition('standard') do
-          stub_const('ENV', { env_var_name => 'de' })
-          reset(:default_language) # Settings are a pain to reset
-          root_seeder.seed_data!
-        ensure
-          reset(:default_language)
+        with_env(env_var_name => 'de') do
+          with_edition('standard') do
+            reset(:default_language) # Settings are a pain to reset
+            root_seeder.seed_data!
+          ensure
+            reset(:default_language)
+          end
         end
       end
 

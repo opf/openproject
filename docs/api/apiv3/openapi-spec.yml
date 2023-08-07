@@ -116,7 +116,7 @@ info:
     By default, the OpenProject API is _not_ responding with any CORS headers.
     If you want to allow cross-domain AJAX calls against your OpenProject instance, you need to enable CORS headers being returned.
 
-    Please see [our API settings documentation](https://www.openproject.org/docs/system-admin-guide/system-settings/api-settings/) on
+    Please see [our API settings documentation](https://www.openproject.org/docs/system-admin-guide/api-and-webhooks/) on
     how to selectively enable CORS.
 
     ## Allowed HTTP methods
@@ -463,6 +463,12 @@ components:
   examples:
     DateAlertNotification:
       $ref: './components/examples/date_alert_notification.yml'
+    GridSimpleCollectionResponse:
+      "$ref": "./components/examples/grid-simple-collection-response.yml"
+    GridSimplePatchModel:
+      "$ref": "./components/examples/grid-simple-patch-model.yml"
+    GridSimpleResponse:
+      "$ref": "./components/examples/grid-simple-response.yml"
     MentionedNotification:
       $ref: './components/examples/mentioned_notification.yml'
     NotificationCollection:
@@ -575,12 +581,24 @@ components:
       $ref: './components/schemas/file_link_write_model.yml'
     Formattable:
       "$ref": "./components/schemas/formattable.yml"
-    GridModel:
-      "$ref": "./components/schemas/grid_model.yml"
-    Help_textModel:
+    GridCollectionModel:
+      "$ref": "./components/schemas/grid_collection_model.yml"
+    GridReadModel:
+      "$ref": "./components/schemas/grid_read_model.yml"
+    GridWidgetModel:
+      "$ref": "./components/schemas/grid_widget_model.yml"
+    GridWriteModel:
+      "$ref": "./components/schemas/grid_write_model.yml"
+    GroupCollectionModel:
+      "$ref": "./components/schemas/group_collection_model.yml"
+    GroupModel:
+      "$ref": "./components/schemas/group_model.yml"
+    GroupWriteModel:
+      "$ref": "./components/schemas/group_write_model.yml"
+    HelpTextCollectionModel:
+      "$ref": "./components/schemas/help_text_collection_model.yml"
+    HelpTextModel:
       "$ref": "./components/schemas/help_text_model.yml"
-    Help_textsModel:
-      "$ref": "./components/schemas/help_texts_model.yml"
     Link:
       "$ref": "./components/schemas/link.yml"
     List_actionsModel:
@@ -589,8 +607,6 @@ components:
       "$ref": "./components/schemas/list_available_parent_project_candidates_model.yml"
     List_capabilitiesModel:
       "$ref": "./components/schemas/list_capabilities_model.yml"
-    List_groupsModel:
-      "$ref": "./components/schemas/list_groups_model.yml"
     List_membershipsModel:
       "$ref": "./components/schemas/list_memberships_model.yml"
     List_of_NewsModel:
@@ -617,6 +633,8 @@ components:
       "$ref": "./components/schemas/oauth_client_credentials_read_model.yml"
     OAuthClientCredentialsWriteModel:
       "$ref": "./components/schemas/oauth_client_credentials_write_model.yml"
+    PaginatedCollectionModel:
+      "$ref": "./components/schemas/paginated_collection_model.yml"
     Plain_TextModel:
       "$ref": "./components/schemas/plain_text_model.yml"
     PostModel:
@@ -737,8 +755,6 @@ components:
       "$ref": "./components/schemas/view_capabilities_model.yml"
     View_global_contextModel:
       "$ref": "./components/schemas/view_global_context_model.yml"
-    View_groupModel:
-      "$ref": "./components/schemas/view_group_model.yml"
     View_membershipModel:
       "$ref": "./components/schemas/view_membership_model.yml"
     View_membership_schemaModel:

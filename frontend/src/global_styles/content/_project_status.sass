@@ -1,3 +1,12 @@
+
+$project-status-gray: 204, 204, 204
+$project-status-red: #E73E3D
+$project-status-orange: #FFB030
+$project-status-green: #00D12D
+$project-status-deep-blue: #006E8F
+$project-status-light-blue: #84D6E5
+$project-status-deep-green: #007528
+
 // Project status widget
 .ng-select
   &.project-status
@@ -12,7 +21,6 @@
       line-height: 44px
       input
         font-weight: bold
-        font-size: 16px
         text-transform: uppercase
 
     .ng-clear-wrapper
@@ -30,26 +38,26 @@
   &.-not-set
     // Have to use uppercase functions to make sass ignore them :-/
     // https://github.com/sass/node-sass/issues/2251
-    border-color: RGB(var(--project-status-gray))
-    background-color: RGBA(var(--project-status-gray), 0.3)
+    border-color: RGB($project-status-gray)
+    background-color: RGBA($project-status-gray, 0.3)
   &.-off-track
-    border-color: var(--project-status-red)
-    background-color: RGBA(var(--project-status-gray), 0.3)
+    border-color: $project-status-red
+    background-color: RGBA($project-status-gray, 0.3)
   &.-at-risk
-    border-color: var(--project-status-orange)
-    background-color: RGBA(var(--project-status-gray), 0.3)
+    border-color: $project-status-orange
+    background-color: RGBA($project-status-gray, 0.3)
   &.-on-track
-    border-color: var(--project-status-green)
-    background-color: RGBA(var(--project-status-gray), 0.3)
+    border-color: $project-status-green
+    background-color: RGBA($project-status-gray, 0.3)
   &.-not-started
-    border-color: var(--project-status-light-blue)
-    background-color: RGBA(var(--project-status-gray), 0.3)
+    border-color: $project-status-light-blue
+    background-color: RGBA($project-status-gray, 0.3)
   &.-finished
-    border-color: var(--project-status-deep-green)
-    background-color: RGBA(var(--project-status-gray), 0.3)
+    border-color: $project-status-deep-green
+    background-color: RGBA($project-status-gray, 0.3)
   &.-discontinued
-    border-color: var(--project-status-deep-blue)
-    background-color: RGBA(var(--project-status-gray), 0.3)
+    border-color: $project-status-deep-blue
+    background-color: RGBA($project-status-gray, 0.3)
 
   &.-inline
     height: 24px
@@ -72,19 +80,19 @@
   font-weight: bold
 
   &.-not-set
-    color: var(--project-status-gray)
+    color: $project-status-gray
   &.-off-track
-    color: var(--project-status-red)
+    color: $project-status-red
   &.-at-risk
-    color: var(--project-status-orange)
+    color: $project-status-orange
   &.-on-track
-    color: var(--project-status-green)
+    color: $project-status-green
   &.-not-started
-    color: var(--project-status-light-blue)
+    color: $project-status-light-blue
   &.-finished
-    color: var(--project-status-deep-green)
+    color: $project-status-deep-green
   &.-discontinued
-    color: var(--project-status-deep-blue)
+    color: $project-status-deep-blue
 
 .project-status--pulldown-icon
   font-size: 10px

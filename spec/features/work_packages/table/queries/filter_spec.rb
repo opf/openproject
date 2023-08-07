@@ -501,7 +501,7 @@ RSpec.describe 'filter work packages', js: true do
     end
     shared_let(:wp_updated_3d_ago) do
       create(:work_package,
-             subject: 'Created today',
+             subject: 'Created 3d ago',
              project:,
              created_at: 3.days.ago,
              updated_at: 3.days.ago)
@@ -550,7 +550,8 @@ RSpec.describe 'filter work packages', js: true do
       wp_table.ensure_work_package_not_listed! wp_updated_3d_ago, wp_updated_5d_ago
     end
 
-    it 'filters between date by updated_at' do
+    it 'filters between date by updated_at', :with_cuprite do
+      skip("Flaky test disabled. Fix it in https://community.openproject.org/wp/49072")
       wp_table.visit!
       loading_indicator_saveguard
       wp_table.expect_work_package_listed wp_updated_today, wp_updated_3d_ago, wp_updated_5d_ago
@@ -562,6 +563,7 @@ RSpec.describe 'filter work packages', js: true do
                             [4.days.ago.to_date.iso8601, 2.days.ago.to_date.iso8601],
                             'updatedAt'
 
+      wait_for_reload
       loading_indicator_saveguard
 
       wp_table.expect_work_package_listed wp_updated_3d_ago
@@ -571,6 +573,7 @@ RSpec.describe 'filter work packages', js: true do
 
       filters.remove_filter 'updatedAt'
 
+      wait_for_reload
       loading_indicator_saveguard
       wp_table.expect_work_package_listed wp_updated_today, wp_updated_3d_ago, wp_updated_5d_ago
 

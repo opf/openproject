@@ -26,11 +26,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-$filters--background-color: $gray-light !default
-$filters--border-color: $gray !default
+$filters--border-color: var(--gray) !default
 
 %filters--container
-  background-color: $filters--background-color
   border: 1px solid $filters--border-color
 
   legend
@@ -95,7 +93,7 @@ $filters--border-color: $gray !default
     @include text-shortener
     margin: auto 0
 
-@include breakpoint(680px down)
+@media screen and (max-width: $breakpoint-sm)
   .simple-filters--filter:not(.-with-radio-buttons)
     .simple-filters--filter-value
       grid-column: 1 / -1

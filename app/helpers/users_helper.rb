@@ -118,11 +118,23 @@ module UsersHelper
     end
   end
 
+  def visible_user_information?(user)
+    user.pref.can_expose_mail? || user.visible_custom_field_values.any? { _1.value.present? }
+  end
+
   def user_name(user)
     user ? user.name : I18n.t('user.deleted')
   end
 
+  def allowed_management_user_profile_path(user)
+    if User.current.allowed_to_globally?(:manage_user)
+      edit_user_path(user)
+    else
+      user_path(user)
+    end
+  end
+
   def can_users_have_auth_source?
-    AuthSource.any? && !OpenProject::Configuration.disable_password_login?
+    LdapAuthSource.any? && !OpenProject::Configuration.disable_password_login?
   end
 end

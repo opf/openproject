@@ -41,6 +41,7 @@ RSpec.shared_examples_for 'storage contract', :storage_server_helpers, webmock: 
     if storage_host.present?
       mock_server_capabilities_response(storage_host)
       mock_server_config_check_response(storage_host)
+      mock_nextcloud_application_credentials_validation(storage_host)
     end
   end
 
@@ -222,6 +223,45 @@ RSpec.shared_examples_for 'storage contract', :storage_server_helpers, webmock: 
 
         include_examples 'contract is valid'
       end
+    end
+
+    context 'when automatically managed, no username or password' do
+      before { storage.automatically_managed = true }
+
+      it_behaves_like 'contract is invalid', password: :blank
+    end
+
+    context 'when automatically managed, with username and password' do
+      before do
+        storage.assign_attributes(automatically_managed: true, username: 'OpenProject', password: 'Password')
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'when not automatically managed, no username or password' do
+      before do
+        storage.provider_fields = {}
+        storage.assign_attributes(automatically_managed: false)
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'when not automatically managed, with username default and password' do
+      before do
+        storage.assign_attributes(automatically_managed: false, username: 'OpenProject', password: 'Password')
+      end
+
+      it_behaves_like 'contract is invalid', password: :present
+    end
+
+    context 'when not automatically managed, with user defined username and password' do
+      before do
+        storage.assign_attributes(automatically_managed: false, username: 'Username', password: 'Password')
+      end
+
+      it_behaves_like 'contract is invalid', username: :present, password: :present
     end
   end
 end

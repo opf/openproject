@@ -99,15 +99,14 @@ th:
     edit: "Edit help text for %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: There are currently no authentication modes.
-      no_results_content_text: Create a new authentication mode
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
       <br/>
@@ -169,10 +168,21 @@ th:
     index:
       no_results_title_text: ขณะนี้ยังไม่มีสีใดๆ
       no_results_content_text: สร้างสีใหม่
-    label_no_color: 'ไม่มีสี'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "ไม่มีสี"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Actions'
+      name: "Actions"
       add: 'เพิ่มการกระทำ'
       assigned_to:
         executing_user_value: '(Assign to executing user)'
@@ -198,8 +208,6 @@ th:
       no_results_content_text: Create a new custom field
   concatenation:
     single: 'or'
-  documentation:
-    see_more_link: สำหรับข้อมูลเพิ่มเติม, กรุณาเลือกตามรายการเอกสารนี้
   global_search:
     overwritten_tabs:
       wiki_pages: "วิกิ"
@@ -253,6 +261,8 @@ th:
         no_results_title_text: There are currently no custom fields available.
       types:
         no_results_title_text: There are currently no types available.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: สร้างรุ่นใหม่
@@ -269,7 +279,9 @@ th:
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: There are currently no access tokens available.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: There is currently no news to report.
@@ -326,6 +338,12 @@ th:
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: เพิ่มสถานะใหม่
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: There are currently no types.
@@ -429,16 +447,16 @@ th:
       attribute_help_text:
         attribute_name: 'คุณลักษณะ'
         help_text: 'Help text'
-      auth_source:
-        account: "บัญชี"
-        attr_firstname: "แอตทริบิวต์ของชื่อ"
-        attr_lastname: "คุณสมบัติของนามสกุล"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
         attr_login: "Username attribute"
-        attr_mail: "คุณสมบัติของอีเมล"
+        attr_mail: "Email attribute"
         base_dn: "Base DN"
-        host: "โฮสต์"
+        host: "Host"
         onthefly: "Automatic user creation"
-        port: "พอร์ต"
+        port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "ที่เก็บข้อมูล"
@@ -527,6 +545,7 @@ th:
         hours: "ชั่วโมง"
         spent_on: "วันที่"
         type: "ประเภท"
+        ongoing: "Ongoing"
       type:
         description: "Default text for description"
         attribute_groups: ''
@@ -536,7 +555,7 @@ th:
         color: "สี"
       user:
         admin: "ผู้ดูแลระบบ"
-        auth_source: "โหมดการระบุตัวตนผู้ใช้"
+        ldap_auth_source: "LDAP connection"
         current_password: "รหัสผ่านเดิม"
         force_password_change: "บังคับให้เปลี่ยนรหัสผ่านเมื่อมีการเข้าสู่ระบบครั้งถัดไป"
         language: "ภาษา"
@@ -657,7 +676,7 @@ th:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "is the wrong length (should be %{count} characters)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -878,7 +897,7 @@ th:
                 description: "'รหัสผ่าน' ควรตรงกับข้อมูลใน 'รหัสผ่านใหม่' ฟิลด์"
             status:
               invalid_on_create: "ไม่ใช่สถานะที่ถูกต้องสำหรับผู้ใช้ใหม่"
-            auth_source:
+            ldap_auth_source:
               error_not_found: "not found"
         member:
           principal_blank: "โปรดเลือกอย่างน้อยหนึ่งผู้ใช้หรือหนึ่งกลุ่ม"
@@ -1059,7 +1078,8 @@ th:
   button_configure: "กำหนดค่า"
   button_continue: "Continue"
   button_copy: "คัดลอก"
-  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_to_clipboard: "คัดลอกไปยังคลิปบอร์ด"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "คัดลอก และปฏิบัติตาม"
   button_create: "สร้าง"
   button_create_and_continue: "สร้าง และดำเนินการต่อ"
@@ -1279,12 +1299,13 @@ th:
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "โปรดเลือกผู้ใช้และบทบาท"
   error_code: "Error %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
   error_custom_option_not_found: "Option does not exist."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
@@ -1303,6 +1324,7 @@ th:
   error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "เกิดข้อผิดพลาดเมื่อพยายามเข้าถึงที่เก็บข้อมูล: %{value}"
   error_scm_not_found: "ไม่พบรายการการปรับปรุงในที่เก็บข้อมูล"
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "The work package status cannot be deleted since it is used by at least one work package."
   error_unable_delete_default_status: "Unable to delete the default work package status. Please select another default work package status before deleting the current one."
   error_unable_to_connect: "ไม่สามารถเชื่อมต่อ (%{value}) ได้"
@@ -1394,6 +1416,7 @@ th:
     changes_retracted: "The changes were retracted."
     caused_changes:
       dates_changed: "Dates changed"
+      system_update: "OpenProject update"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1408,6 +1431,8 @@ th:
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: 'Configuration guide'
     get_in_touch: "You have questions? Get in touch with us."
@@ -1417,7 +1442,7 @@ th:
   menus:
     admin:
       mail_notification: "อีเมล์แจ้งเตือน"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
@@ -1432,6 +1457,33 @@ th:
         action: "Action"
         expiration: "Expires"
       indefinite_expiration: "Never"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1474,6 +1526,7 @@ th:
   label_age: "ระยะเวลา"
   label_ago: "วันที่ผ่านมา"
   label_all: "ทั้งหมด"
+  label_all_projects: "All projects"
   label_all_time: "ตลอดเวลา"
   label_all_words: "ทุกคำ"
   label_all_open_wps: "All open"
@@ -1490,6 +1543,7 @@ th:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "ใช้สถานะ"
   label_archive_project: "Archive project"
+  label_archived_projects: "Archived projects"
   label_ascending: "จากน้อยไปมาก"
   label_assigned_to_me_work_packages: "ชุดภารกิจที่ฉันได้รับมอบหมาย"
   label_associated_revisions: "การปรับปรุงที่เกี่ยวข้อง"
@@ -1498,9 +1552,9 @@ th:
   label_attachment_plural: "ไฟล์"
   label_attribute: "คุณลักษณะ"
   label_attribute_plural: "คุณลักษณะ"
-  label_auth_source: "โหมดการระบุตัวตนผู้ใช้"
-  label_auth_source_new: "โหมดการระบุตัวตนผู้ใช้ใหม่"
-  label_auth_source_plural: "โหมดการระบุตัวตนผู้ใช้"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "การระบุตัวตนผู้ใช้"
   label_available_project_work_package_categories: 'Available work package categories'
   label_available_project_work_package_types: 'Available work package types'
@@ -1559,6 +1613,7 @@ th:
   label_confirmation: "ยืนยันรหัสผ่าน"
   label_contains: "ประกอบด้วย"
   label_content: "เนื้อหา"
+  label_color_plural: "Colors"
   label_copied: "คัดลอกแล้ว"
   label_copy_same_as_target: "เหมือนกับเป้าหมาย"
   label_copy_source: "แหล่งที่มา"
@@ -1576,7 +1631,7 @@ th:
   label_database_version: "PostgreSQL version"
   label_date: "วันที่"
   label_date_and_time: "Date and time"
-  label_date_format: "Date format"
+  label_date_format: "รูปแบบวันที่"
   label_date_from: "จาก"
   label_date_from_to: "ตั้งแต่ %{start} จนถึง %{end}"
   label_date_to: "ถึงวันที่"
@@ -1587,6 +1642,7 @@ th:
   label_deleted: "ถูกลบ"
   label_deleted_custom_field: "(ฟิลด์ที่กำหนดเองที่ถูกลบ)"
   label_deleted_custom_option: "(deleted option)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "มากไปน้อย"
   label_details: "รายละเอียด"
@@ -1626,11 +1682,13 @@ th:
   label_everywhere: "everywhere"
   label_example: "ตัวอย่าง"
   label_experimental: "Experimental"
+  label_i_am_member: "I am member"
   label_import: "Import"
   label_export_to: "ยังสามารถพบใน:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} ชั่วโมง"
   label_f_hour_plural: "%{value} ชั่วโมง"
+  label_favoured: "Favoured"
   label_feed_plural: "ตัวดึงข้อมูล"
   label_feeds_access_key: "คีย์การเข้าถึง RSS"
   label_feeds_access_key_created_on: "คีย์การเข้าถึง API ซึ่งสร้างเมื่อ %{value} ที่ผ่านมา"
@@ -1662,6 +1720,7 @@ th:
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "หน้าหลัก"
   label_subject_or_id: "Subject or ID"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Legal notice"
   label_in: "ใน"
   label_in_less_than: "ในไม่เกิน"
@@ -1825,7 +1884,8 @@ th:
   label_project_new: "โครงการใหม่"
   label_project_plural: "โครงการ"
   label_project_settings: "การตั้งค่าโครงการ"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: "ดูโครงการทั้งหมด"
   label_project_show_details: "Show project details"
@@ -1913,6 +1973,7 @@ th:
   label_this_week: "สัปดาห์นี้"
   label_this_year: "ปีนี้"
   label_time_entry_plural: "เวลาที่ใช้"
+  label_title: "Title"
   label_projects_menu: "โครงการ"
   label_today: "วันนี้"
   label_top_menu: "เมนูด้านบน"
@@ -2016,10 +2077,7 @@ th:
   label_global_role: "Global Role"
   label_not_changeable: "(not changeable)"
   label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "Can't use an abstract authentication source."
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "ข้อผิดพลาดในการรันมาโคร %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
   macros:
@@ -2207,7 +2265,7 @@ th:
   present_access_key_value: "Your %{key_name} is: %{value}"
   notice_automatic_set_of_standard_type: "ตั้งค่าชนิดมาตรฐานโดยอัตโนมัติ"
   notice_logged_out: "คุณได้ออกจากระบบแล้ว"
-  notice_wont_delete_auth_source: The authentication mode cannot be deleted as long as there are still users using it.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields. The project is invalid: %{errors}"
   notice_attachment_migration_wiki_page: >
     This page was generated automatically during the update of OpenProject. It contains all attachments previously associated with the %{container_type} "%{container_name}".
@@ -2240,7 +2298,8 @@ th:
   permission_add_messages: "โพสต์ข้อความ"
   permission_add_project: "สร้างโครงการ"
   permission_archive_project: "Archive project"
-  permission_manage_user: "Create and edit users"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "สร้าง แก้ไข และลบตัวยึดตำแหน่งผู้ใช้"
   permission_add_subprojects: "สร้างโครงการย่อย"
   permission_add_work_package_watchers: "เพิ่มผู้เฝ้าดู"
@@ -2331,7 +2390,7 @@ th:
       archived: "Archived"
   project_module_activity: "กิจกรรม"
   project_module_forums: "กระทู้"
-  project_module_work_package_tracking: "ติดตามผลชุดภารกิจ"
+  project_module_work_package_tracking: "ชุดภารกิจ"
   project_module_news: "ข่าวสาร"
   project_module_repository: "ที่เก็บข้อมูล"
   project_module_wiki: "วิกิ"
@@ -2505,7 +2564,7 @@ th:
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "อนุญาติให้มีความเกี่ยวข้องกันระหว่างชุดภารกิจในโครงการ"
   setting_first_week_of_year: "สัปดาห์แรกของปี ประกอบด้วย"
-  setting_date_format: "Date"
+  setting_date_format: "วันที่"
   setting_default_language: "ภาษาเริ่มต้น"
   setting_default_projects_modules: "ค่าเริ่มต้นของโมดูลที่เปิดใช้สำหรับโครงการใหม่"
   setting_default_projects_public: "โดยเริ่มแรก โครงการใหม่จะเป็นสาธารณะ"
@@ -2517,7 +2576,7 @@ th:
   setting_enabled_scm: "เปิดใช้ SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "เปิดใช้ Feeds"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "จำกัดเนื้อหาของ Feed"
   setting_file_max_size_displayed: "ความยาวสูงสุดของไฟล์ตัวอักษรแสดงในบรรทัด"
   setting_host_name: "ชื่อโฮสต์"
@@ -2581,34 +2640,20 @@ th:
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   setting_working_days: "Working days"
   settings:
-    general: "ทั่วไป"
-    other: "อื่น ๆ"
-    passwords: "รหัสผ่าน"
-    session: "เซสชั่น"
-    brute_force_prevention: "การบล็อกผู้ใช้อัตโนมัติ"
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
-    language_name_being_default: '%{language_name} (default)'
-    notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-    display:
+    brute_force_prevention: "การบล็อกผู้ใช้อัตโนมัติ"
+    date_format:
       first_date_of_week_and_year_set: >
-        หากมีการตั้งค่าตัวเลือก "%{day_of_week_setting_name}" หรือ "%{first_week_setting_name}" ไว้ จะต้องตั้งค่าตัวเลือกอื่นด้วยเพื่อหลีกเลี่ยงความไม่สอดคล้องกันในส่วนหน้า
-      first_week_of_year_text: >
-        เลือกวันที่ของเดือนมกราคมที่อยู่ในสัปดาห์แรกของปี ค่านี้ร่วมกับวันแรกของสัปดาห์จะกำหนดจำนวนสัปดาห์รวมในหนึ่งปี
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
     experimental:
       save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Feature flags
-    projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
-    user:
-      default_preferences: "Default preferences"
-      display_format: "Display format"
-      deletion: "Deletion"
+    general: "ทั่วไป"
     highlighting:
       mode_long:
         inline: "Highlight attribute(s) inline"
@@ -2616,6 +2661,24 @@ th:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
+    notifications:
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+    other: "อื่น ๆ"
+    passwords: "รหัสผ่าน"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
+    session: "เซสชั่น"
+    user:
+      default_preferences: "Default preferences"
+      display_format: "Display format"
+      deletion: "Deletion"
     working_days:
       section_work_week: "Work week"
       section_holidays_and_closures: "Holidays and closures"
@@ -2688,12 +2751,16 @@ th:
   text_work_packages_destroy_confirmation: "คุณแน่ใจหรือไม่ว่าจะลบชุดภารกิจที่เลือก ?"
   text_work_packages_ref_in_commit_messages: "อ้างอิงและแก้ไขชุดภารกิจในข้อความยืนยัน"
   text_journal_added: "%{label} %{value} ถูกเพิ่มแล้ว"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "มีการแก้ไข %{label} แล้ว"
   text_journal_changed_with_diff: "มีการเปลี่ยนแปลง %{label} (%{link})"
   text_journal_deleted: "%{label} ถูกลบแล้ว (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} ถูกลบแล้ว (%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "กำหนดค่า %{label} เป็น %{value}"
   text_journal_set_with_diff: "มีการกำหนดค่า %{label} (%{link})"
@@ -2739,6 +2806,11 @@ th:
   text_zoom_in: "ขยาย"
   text_zoom_out: "ซูมออก"
   text_setup_mail_configuration: "Configure your email provider"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "น."
     formats:
@@ -2751,152 +2823,6 @@ th:
     show: "แสดงกรอบเวลา"
     end: "ถึง"
     start: "จาก"
-  timelines:
-    admin_menu:
-      color: "สี"
-      colors: "สี"
-    associations: "ส่วนที่อ้างอิง"
-    button_delete_all: "ลบทั้งหมด"
-    change: "การเปลี่ยนแปลงในการวางแผน"
-    children: "องค์ประกอบย่อย"
-    color_could_not_be_saved: "ไม่สามารถบันทึกสีได้"
-    current_planning: "การวางแผนปัจจุบัน"
-    dates: "วันที่"
-    dates_are_calculated_based_on_sub_elements: "คำนวณวันตามองค์ประกอบย่อย"
-    delete_all: "ลบทั้งหมด"
-    delete_thing: "ลบ"
-    duration: "ระยะเวลา"
-    duration_days:
-      other: "%{count} วัน"
-    edit_color: "แก้ไขสี"
-    edit_thing: "แก้ไข"
-    edit_timeline: "Edit timeline report %{timeline}"
-    delete_timeline: "Delete timeline report %{timeline}"
-    empty: "(ว่าง)"
-    enable_type_in_project: 'เปิดใช้งานชนิด "%{type}"'
-    end: "สิ้นสุด"
-    errors:
-      not_implemented: "ไม่สามารถร่างแผนภูมิเวลา (timeline) ได้เนื่องจากใช้คุณลักษณะที่ยังไม่ได้มีการนำมาใช้ในระบบ"
-      report_comparison: "แผนภูมิเวลาไม่สามารถร่างการเปรียบเทียบที่กำหนดไว้ กรุณาตรวจสอบส่วนต่างๆ ในการตั้งค่าให้เหมาะสม หรือลองรีเซตค่าใหม่เพื่อแก้ไขปัญหา"
-      report_epicfail: "พบข้อผิดพลาด ไม่สามารถโหลดแผนภูมิเวลา ได้"
-      report_timeout: "ไม่สามารถโหลดแผนภูมิเวลาในระยะเวลาที่เหมาะสมได้"
-    filter:
-      errors:
-        timeframe_start: "เริ่มกรอบเวลา"
-        timeframe_end: "สิ้นสุดกรอบเวลา"
-        compare_to_relative: "ค่าของการเปรียบเทียบสัมพันธ์ "
-        compare_to_absolute: "ค่าของการเปรียบเทียบสัมบูรณ์ "
-        planning_element_time_relative_one: "การเริ่มต้นของชุดภารกิจในกรอบเวลาที่แน่นอน  "
-        planning_element_time_relative_two: "การสิ้นสุดของชุดภารกิจในกรอบเวลาที่แน่นอน  "
-        planning_element_time_absolute_one: "The start for work packages in a certain timeframe  "
-        planning_element_time_absolute_two: "The end for work packages in a certain timeframe  "
-      sort:
-        sortation: "เรียงลำดับโดย"
-        alphabet: "ตัวอักษร"
-        explicit_order: "ลำดับชัดเจน"
-        project_sortation: "เรียงลำดับโครงการตาม"
-        date: "วันที่"
-        default: "ค่าเริ่มต้น"
-      column:
-        assigned_to: "ผู้ได้รับมอบหมาย"
-        type: "ประเภท"
-        due_date: "วันสิ้นสุด"
-        name: "ชื่อ"
-        status: "สถานะ"
-        start_date: "วันเริ่มต้น"
-      columns: "คอลัมน์"
-      comparisons: "เปรียบเทียบ"
-      comparison:
-        absolute: "แน่นอน"
-        none: "ไม่มี"
-        relative: "ความสัมพันธ์"
-        compare_relative_prefix: "Compare current planning to"
-        compare_relative_suffix: "ago"
-        compare_absolute: "เปรียบเทียบการวางแผนปัจจุบัน กับ %{date}"
-      time_relative:
-        days: "วัน"
-        weeks: "สัปดาห์"
-        months: "เดือน"
-      exclude_own_work_packages: "ซ่อนชุดภารกิจจากโครงการนี้"
-      exclude_reporters: "ซ่อนโครงการอื่น ๆ"
-      exclude_empty: "ซ่อนโครงการว่าง"
-      grouping: "การจัดกลุ่ม"
-      grouping_hide_group: "ซ่อนกลุ่ม \"%{group}\""
-      grouping_one: "เงื่อนไขในการจัดกลุ่มแรก"
-      grouping_one_phrase: "เป็นโครงการย่อยของ"
-      grouping_other: "อื่น ๆ"
-      hide_chart: "ซ่อนแผนภูมิ"
-      noneElement: "(ไม่มี)"
-      noneSelection: "(ไม่มี)"
-      outline: "การขยายโครงร่างขั้นต้น"
-      parent: "แสดงโครงการย่อยของ"
-      work_package_responsible: "Show work packages with accountable"
-      work_package_assignee: "แสดงชุดภารกิจตามผู้ได้รับมอบหมาย"
-      types: "แสดงชนิด"
-      status: "แสดงสถานะ"
-      project_time_filter: "โครงการที่มีชุดภารกิจของประเภทที่แน่นอนในกรอบเวลาที่แน่นอน"
-      project_time_filter_timeframe: "Timeframe"
-      project_time_filter_historical_from: "จาก"
-      project_time_filter_historical_to: "ถึง"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ที่ผ่านมา, %{end_label} %{endspan}%{endspanunit} ตั้งแต่บัดนี้"
-      project_filters: "ตัวกรองโครงการ"
-      project_responsible: "Show projects with accountable"
-      project_status: "แสดงสถานะของโครงการ"
-      timeframe: "แสดงกรอบเวลา"
-      timeframe_end: "ถึง"
-      timeframe_start: "จาก"
-      timeline: "การตั้งค่าทั่วไป"
-      zoom: "ปัจจัยการขยาย"
-    history: "ประวัติย้อนหลัง"
-    new_color: "สีใหม่"
-    new_association: "การอ้างอิงใหม่"
-    new_work_package: "ชุดภารกิจใหม่"
-    new_reporting: "รายงานใหม่"
-    new_timeline: "รายงานแผนภูมิเวลาใหม่"
-    no_projects_for_reporting_available: "ไม่มีโครงการที่ความเกี่ยวข้องของรายงานสามารถสร้างได้"
-    no_right_to_view_timeline: "คุณไม่มีสิทธิ์เพียงพอในการดูแผนภูมิเวลาที่เชื่อมโยง"
-    no_timeline_for_id: "ไม่พบแผนภูมิเวลาจาก ID %{id}"
-    notice_successful_deleted_all_elements: "ลบองค์ประกอบทั้งหมดเรียบร้อย"
-    outline: "ตั้งค่าโครงร่างใหม่"
-    outlines:
-      aggregation: "แสดงรวมเท่านั้น"
-      level1: "ขยายระดับ 1"
-      level2: "ขยายระดับ 2"
-      level3: "ขยายระดับ 3"
-      level4: "ขยายระดับ 4"
-      level5: "ขยายระดับ 5"
-      all: "แสดงทั้งหมด"
-    reporting_for_project:
-      show: "มีการรายงานสถานะไปยังโครงการ: %{title}"
-      edit_delete: "รายงานสถานะสำหรับโครงการ: %{title}"
-      history: "ประวัติของสถานะสำหรับโครงการ: %{title}"
-    reporting:
-      delete: "ลบสถานะ: %{comment}"
-      edit: "แก้ไขสถานะ: %{comment}"
-      show: "สถานะ: %{comment}"
-    planning_element_update: "แก้ไข: %{title}"
-    type_could_not_be_saved: "ไม่สามารถบันทึกชนิดได้"
-    reporting_could_not_be_saved: "ไม่สามารถบันทึกรายงานได้"
-    properties: "คุณสมบัติ"
-    really_delete_color: >
-      คุณแน่ใจว่าจะลบสีดังต่อไปนี้หรือไม่? ประเภทที่ใช้สีเหล่านี้จะไม่ถูกลบไปด้วย
-    really_delete_reporting: >
-      คุณแน่ใจหรือว่าจะลบรายงานนี้? เนื่องจากสถานะของรายงานก่อนหน้านี้จะถูกลบไปด้วย
-    start: "เริ่มต้น"
-    timeline: "แผนภูมิเวลา"
-    timelines: "แผนภูมิเวลา"
-    settings: "เส้นเวลา"
-    vertical_work_package: "ชุดภารกิจแนวตั้ง"
-    you_are_viewing_the_selected_timeline: "คุณกำลังชมรายงานแผนภูมิเวลาที่เลือก"
-    zoom:
-      in: "ขยาย"
-      out: "ซูมออก"
-      days: "วัน"
-      weeks: "สัปดาห์"
-      months: "เดือน"
-      quarters: "ไตรมาส"
-      years: "ปี"
   title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
   title_enterprise_upgrade: "Upgrade to unlock more users."
   tooltip_user_default_timezone: >

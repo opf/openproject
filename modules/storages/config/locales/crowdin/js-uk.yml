@@ -31,6 +31,7 @@ uk:
           Файл із назвою «%{fileName}» уже існує в папці, у яку ви намагаєтеся вивантажити його. Що потрібно зробити?
         directory_not_writeable: "У вас немає дозволу на додання файлів у цю папку."
         dragging_many_files: "У сховище %{storageType} можна вивантажувати тільки один файл за раз."
+        dragging_folder: "The upload to %{storageType} does not support folders."
         empty_folder: "Ця папка пуста."
         empty_folder_location_hint: "Натисніть кнопку нижче, щоб вивантажити файл у цю папку."
         file_not_selectable_location: "Неможливо вибрати файл під час вибору папки."

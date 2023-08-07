@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-RSpec.describe 'Time entries widget on dashboard', js: true, with_mail: false do
+RSpec.describe 'Time entries widget on dashboard', js: true do
   let!(:type) { create(:type) }
   let!(:project) { create(:project, types: [type]) }
   let!(:other_project) { create(:project, types: [type]) }
@@ -103,7 +103,7 @@ RSpec.describe 'Time entries widget on dashboard', js: true, with_mail: false do
 
     within spent_time_widget.area do
       expect(page)
-        .to have_content "Total: 11.00"
+        .to have_content "Total: 11 h"
 
       expect(page)
         .to have_content Date.today.strftime('%m/%d/%Y')
