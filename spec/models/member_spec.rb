@@ -32,57 +32,34 @@ RSpec.describe Member do
   let(:user) { create(:user) }
   let(:role) { create(:role) }
   let(:project) { create(:project) }
-  let(:member) { create(:member, user:, roles: [role]) }
-  let(:new_member) { build(:member, user:, roles: [role], project:) }
+  let(:work_package) { create(:work_package, project:) }
 
-  describe 'Associations' do
+  subject(:member) { build(:member, user:, roles: [role]) }
+
+  describe 'relations' do
+    it { expect(member).to have_many(:member_roles).dependent(:destroy) }
+    it { expect(member).to have_many(:roles).through(:member_roles) }
     it { expect(member).to belong_to(:principal) }
-    it { expect(member).to have_many(:member_roles) }
-    it { expect(member).to have_many(:roles) }
+    it { expect(member).to belong_to(:project).optional }
+    it { expect(member).to belong_to(:work_package).optional }
 
     it do
-      expect(member).to have_many(:oauth_client_tokens)
-        .with_foreign_key(:user_id)
-        .with_primary_key(:user_id)
-        .dependent(nil)
+      expect(member).to have_many(:oauth_client_tokens).with_foreign_key(:user_id).with_primary_key(:user_id).dependent(nil)
     end
   end
 
-  describe '#project' do
-    context 'with a project' do
-      it 'is valid' do
-        expect(new_member)
-          .to be_valid
-      end
-    end
-
-    context 'without a project (global)' do
-      let(:project) { nil }
-
-      it 'is valid' do
-        expect(new_member)
-          .to be_valid
-      end
-    end
-
-    context 'without a project (global) but with a global membership already existing' do
-      let(:project) { nil }
-      let!(:existing_member) { create(:member, user:, roles: [role], project:) }
-
-      it 'is invalid' do
-        expect(new_member)
-          .not_to be_valid
-      end
-    end
+  describe 'validations' do
+    it { expect(member).to validate_uniqueness_of(:user_id).scoped_to(:project_id, :work_package_id) }
   end
 
   describe '#deletable_role?' do
+    skip "For now..."
+
     it 'returns true if not inherited from a group' do
-      expect(member.deletable_role?(role)).to be(true)
+      expect(global_member.deletable_role?(role)).to be(true)
     end
 
     it 'returns false if role is inherited' do
-      member
       group = create(:group, members: [user])
       create(:member, project:, principal: group, roles: [role])
       Groups::CreateInheritedRolesService

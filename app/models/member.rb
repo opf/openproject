@@ -30,18 +30,17 @@ class Member < ApplicationRecord
   include ::Scopes::Scoped
 
   extend DeprecatedAlias
-  belongs_to :principal, foreign_key: 'user_id'
   has_many :member_roles, dependent: :destroy, autosave: true, validate: false
   has_many :roles, -> { distinct }, through: :member_roles
   has_many :oauth_client_tokens, foreign_key: :user_id, primary_key: :user_id, dependent: nil # rubocop:disable Rails/InverseOf
 
-  belongs_to :project
+  belongs_to :principal, foreign_key: 'user_id', inverse_of: 'members'
+  belongs_to :project, optional: true
+  belongs_to :work_package, optional: true
 
-  validates :principal, presence: true
-  validates :user_id, uniqueness: { scope: :project_id }
+  validates :user_id, uniqueness: { scope: %i[project_id work_package_id] }
 
   validate :validate_presence_of_role
-  validate :validate_presence_of_principal
 
   scopes :assignable,
          :global,
@@ -103,10 +102,6 @@ class Member < ApplicationRecord
 
       errors.add :roles, :role_blank
     end
-  end
-
-  def validate_presence_of_principal
-    errors.add :base, :principal_blank if principal.blank?
   end
 
   private
