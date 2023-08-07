@@ -20,29 +20,115 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+
+
 @keyframes svg_ani-1
   0%
-    x: 150px
-    width: 0
-  36%
-    x: 0
-    width: 150px
-  72%
-    x: 0
-    width: 0
+    width: 70px
+  70%
+    width: 60px
+  90%
+    width: 60px
+  95%
+    width: 62px
   100%
-    x: 0
-    width: 0
+    width: 70px
 
 @keyframes svg_ani-2
   0%
-    x: 150px
-  36%
-    x: 0
-  72%
-    x: -100px
+    width: 50px
+  15%
+    width: 60px
+  20%
+    width: 60px
+  80%
+    width: 50px
   100%
-    x: -100px
+    width: 50px
+
+@keyframes svg_ani-3
+  0%
+    x: 65px
+    width: 36px
+  5%
+    x: 66px
+    width: 35px
+  10%
+    x: 73px
+    width: 31px
+  15%
+    x: 80px
+    width: 26px
+  20%
+    x: 83px
+    width: 24px
+  25%
+    x: 82px
+    width: 25px
+  30%
+    x: 80px
+    width: 26px
+  35%
+    x: 79px
+    width: 27px
+  40%
+    x: 78px
+    width: 28px
+  45%
+    x: 76px
+    width: 29px
+  50%
+    x: 75px
+    width: 29px
+  55%
+    x: 74px
+    width: 30px
+  60%
+    x: 72px
+    width: 32px
+  65%
+    x: 71px
+    width: 32px
+  70%
+    x: 70px
+    width: 33px
+  75%
+    x: 68px
+    width: 34px
+  80%
+    x: 67px
+    width: 34px
+  85%
+    x: 65px
+    width: 36px
+  100%
+    x: 65px
+    width: 36px
+
+
+@keyframes svg_ani-4
+  0%
+    x: 105px
+    transform: rotate(45deg)
+  10%
+    x: 105px
+    transform: rotate(45deg)
+  15%
+    x: 111px
+  20%
+    x: 115px
+  25%
+    transform: rotate(135deg)
+    x: 116px
+  25.01%
+    transform: rotate(45deg)
+    x: 115px
+  35%
+    x: 115px
+  90%
+    x: 105px
+  100%
+    x: 105px
 
 $loading-indicator-bg-color: var(--body-background)
 $loading-indicator-width: 150px
@@ -57,7 +143,6 @@ $loading-indicator-height: 70px
 .loading-indicator--location
   position: relative
 
-
 .op-loading-indicator
   margin: 0
   position: relative
@@ -69,32 +154,36 @@ $loading-indicator-height: 70px
 
   rect
     rx: 4px
-    x: 152px
+    x: 70px
     height: 10px
-    width: 150px
-    animation-duration: 2000ms
+    animation-duration: 600ms
     animation-iteration-count: infinite
     animation-timing-function: linear
-    animation-name: svg_ani-1
 
     &:nth-of-type(1)
-      fill: #f89a43
-      x: 140px
+      fill: #f58245
+      x: 60px
       y: 6px
+      width: 70px
+      animation-name: svg_ani-1
 
     &:nth-of-type(2)
-      fill: #f89a43
+      fill: #f1aa3c
+      x: 45px
       y: 26px
-      animation-delay: 660ms
+      width: 50px
+      animation-name: svg_ani-2
 
     &:nth-of-type(3)
-      fill: #346495
+      fill: #1d659e
+      x: 75px
       y: 46px
-      animation-name: svg_ani-1
-      animation-delay: 1330ms
+      width: 30px
+      animation-name: svg_ani-3
 
     &:nth-of-type(4)
-      fill: #36c434
+      fill: #38be3f
+      x: 110px
       y: 44px
       rx: 2px
       width: 14px
@@ -102,8 +191,7 @@ $loading-indicator-height: 70px
       transform-box: fill-box
       transform-origin: center
       transform: rotate(45deg)
-      animation-name: svg_ani-2
-      animation-delay: 2130ms
+      animation-name: svg_ani-4
 
   &_in-toast
     top: 0
