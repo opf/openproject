@@ -153,6 +153,7 @@ en:
       not_connected_incomplete_oauth_validation: "The user is not fully connected due to incomplete OAuth validation."
       not_connected: "Not connected"
     no_results: "No storages set up yet."
+    members_no_results: "No members to display."
     provider_types:
       label: "Provider type"
       nextcloud:

@@ -48,7 +48,7 @@ module Storages::ProjectsStorages::Members
     end
 
     def empty_row_message
-      I18n.t 'storages.no_results'
+      I18n.t 'storages.members_no_results'
     end
 
     def headers
