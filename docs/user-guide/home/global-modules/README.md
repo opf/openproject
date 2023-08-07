@@ -27,7 +27,7 @@ On the left you will have the following options:
 
 **All projects** is the default view and shows only active projects. If you do not have administrator rights, this view will be the same as **My projects**.
 
-**My projects** is will show projects of which you are a member and public projects. When this menu entry is selected, an **I am member** filter will be activated under Filters. You can then add various other filters to adjust the view.
+**My projects** will show projects of which you are a member and public projects. When this menu entry is selected, an **I am member** filter will be activated under Filters. You can then add various other filters to adjust the view.
 
 ![OpenProject global modules my projects](openproject_global_modules_myprojects_filter.png)
 
