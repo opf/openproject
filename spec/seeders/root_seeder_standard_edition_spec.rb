@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './root_seeder_shared_examples'
+require_relative 'root_seeder_shared_examples'
 
 RSpec.describe RootSeeder,
                'standard edition',
@@ -177,7 +177,7 @@ RSpec.describe RootSeeder,
       shared_let(:root_seeder) { described_class.new }
 
       before_all do
-        ClimateControl.modify({ env_var_name => 'de' }) do
+        with_env(env_var_name => 'de') do
           with_edition('standard') do
             reset(:default_language) # Settings are a pain to reset
             root_seeder.seed_data!

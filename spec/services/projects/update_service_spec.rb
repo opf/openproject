@@ -38,7 +38,7 @@ RSpec.describe Projects::UpdateService, type: :model do
     it 'sends an update notification' do
       expect(OpenProject::Notifications)
         .to(receive(:send))
-        .with('project_updated', project: model_instance)
+        .with(OpenProject::Events::PROJECT_UPDATED, project: model_instance)
 
       subject
     end
@@ -55,10 +55,10 @@ RSpec.describe Projects::UpdateService, type: :model do
       it 'sends the notification' do
         expect(OpenProject::Notifications)
           .to(receive(:send))
-          .with('project_updated', project: model_instance)
+          .with(OpenProject::Events::PROJECT_UPDATED, project: model_instance)
         expect(OpenProject::Notifications)
           .to(receive(:send))
-          .with('project_renamed', project: model_instance)
+          .with(OpenProject::Events::PROJECT_RENAMED, project: model_instance)
 
         subject
       end

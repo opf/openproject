@@ -120,6 +120,13 @@ module OpenProject
     config.paths.add Rails.root.join('lib').to_s, eager_load: true
     config.paths.add Rails.root.join('lib/constraints').to_s, eager_load: true
 
+    # Add lookbook preview paths when enabled
+    if OpenProject::Configuration.lookbook_enabled?
+      config.paths.add Primer::ViewComponents::Engine.root.join('app/components').to_s, eager_load: true
+      config.paths.add Rails.root.join("spec/components/previews").to_s, eager_load: true
+      config.paths.add Primer::ViewComponents::Engine.root.join('previews').to_s, eager_load: true
+    end
+
     # Constants in lib_static should only be loaded once and never be unloaded.
     # That directory contains configurations and patches to rails core functionality.
     config.autoload_once_paths << Rails.root.join('lib_static').to_s

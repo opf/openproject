@@ -42,7 +42,7 @@ class Storages::ProjectSettings::ProjectStorageMembersController < ApplicationCo
   # This MenuController method defines the default menu item to be used (highlighted)
   # when rendering the main menu in the left (part of the base layout).
   # The menu item itself is registered in modules/storages/lib/open_project/storages/engine.rb
-  menu_item :settings_projects_storages
+  menu_item :settings_project_storages
 
   include PaginationHelper
 
@@ -59,7 +59,7 @@ class Storages::ProjectSettings::ProjectStorageMembersController < ApplicationCo
 
   def default_breadcrumb
     ActionController::Base.helpers
-      .link_to t(:project_module_storages), project_settings_projects_storages_path(project_id: @project)
+      .link_to t(:project_module_storages), project_settings_project_storages_path(project_id: @project)
   end
 
   # See: default_breadcrum above
@@ -71,8 +71,8 @@ class Storages::ProjectSettings::ProjectStorageMembersController < ApplicationCo
   private
 
   # Override default url param `:id` to `:storage` controller is a nested project_storage resource
-  # GET    /projects/:project_id/settings/project_storages/:projects_storage_id/members
-  def find_model_object(object_id = :projects_storage_id)
+  # GET    /projects/:project_id/settings/project_storages/:project_storage_id/members
+  def find_model_object(object_id = :project_storage_id)
     super(object_id)
     @project_storage = @object
     @storage = @project_storage.storage

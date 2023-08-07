@@ -207,7 +207,7 @@ RSpec.describe 'Projects copy', :with_cuprite, js: true do
         .to eq ['wiki_page_attachment.pdf']
 
       # Expect ProjectStores and their FileLinks were copied
-      expect(copied_project.projects_storages.count).to eq(project.projects_storages.count)
+      expect(copied_project.project_storages.count).to eq(project.project_storages.count)
       expect(copied_project.work_packages[0].file_links.count).to eq(project.work_packages[0].file_links.count)
 
       # custom field is copied over where the author is the current user

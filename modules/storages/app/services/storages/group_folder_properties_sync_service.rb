@@ -58,7 +58,7 @@ class Storages::GroupFolderPropertiesSyncService
 
     set_group_folder_root_permissions
 
-    @storage.projects_storages
+    @storage.project_storages
             .automatic
             .includes(project: %i[users enabled_modules])
             .each do |project_storage|

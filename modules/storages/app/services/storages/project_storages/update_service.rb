@@ -36,8 +36,12 @@ module Storages::ProjectStorages
       super(service_call)
 
       project_storage = service_call.result
-      add_historical_data(service_call) if project_storage.project_folder_mode.to_sym != :inactive
-      Helper.trigger_nextcloud_synchronization(model.project_folder_mode)
+      project_folder_mode = project_storage.project_folder_mode.to_sym
+      add_historical_data(service_call) if project_folder_mode != :inactive
+      OpenProject::Notifications.send(
+        OpenProject::Events::PROJECT_STORAGE_UPDATED,
+        project_folder_mode:
+      )
 
       service_call
     end
@@ -48,7 +52,7 @@ module Storages::ProjectStorages
       project_storage = service_call.result
       project_folder = ::Storages::LastProjectFolder
                          .find_by(
-                           projects_storage_id: project_storage.id,
+                           project_storage_id: project_storage.id,
                            mode: project_storage.project_folder_mode
                          )
 
@@ -56,7 +60,7 @@ module Storages::ProjectStorages
         if project_folder.nil?
           Helper.create_last_project_folder(
             user:,
-            projects_storage_id: project_storage.id,
+            project_storage_id: project_storage.id,
             origin_folder_id: project_storage.project_folder_id,
             mode: project_storage.project_folder_mode
           )

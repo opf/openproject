@@ -109,19 +109,19 @@ RSpec.describe(
 
     # Check for an empty table in Project -> Settings -> File storages
     expect(page).to have_title('File storages')
-    expect(page).to have_current_path project_settings_projects_storages_path(project)
+    expect(page).to have_current_path project_settings_project_storages_path(project)
     expect(page).to have_text(I18n.t('storages.no_results'))
     page.find('.toolbar .button--icon.icon-add').click
 
     # Can cancel the creation of a new file storage
-    expect(page).to have_current_path new_project_settings_projects_storage_path(project_id: project)
+    expect(page).to have_current_path new_project_settings_project_storage_path(project_id: project)
     expect(page).to have_text('Add a file storage')
     page.click_link('Cancel')
-    expect(page).to have_current_path project_settings_projects_storages_path(project)
+    expect(page).to have_current_path project_settings_project_storages_path(project)
 
     # Enable one file storage together with a project folder mode
     page.find('.toolbar .button--icon.icon-add').click
-    expect(page).to have_current_path new_project_settings_projects_storage_path(project_id: project)
+    expect(page).to have_current_path new_project_settings_project_storage_path(project_id: project)
     expect(page).to have_text('Add a file storage')
     expect(page).to have_select('storages_project_storage_storage_id',
                                 options: ["#{storage.name} (#{storage.short_provider_type})"])
@@ -153,7 +153,7 @@ RSpec.describe(
 
     # Press Edit icon to change the project folder mode to inactive
     page.find('.icon.icon-edit').click
-    expect(page).to have_current_path edit_project_settings_projects_storage_path(project_id: project,
+    expect(page).to have_current_path edit_project_settings_project_storage_path(project_id: project,
                                                                                   id: Storages::ProjectStorage.last)
     expect(page).to have_text('Edit the file storage to this project')
     expect(page).not_to have_select('storages_project_storage_storage_id')
@@ -172,11 +172,11 @@ RSpec.describe(
 
     # Click Edit icon again but cancel the edit
     page.find('.icon.icon-edit').click
-    expect(page).to have_current_path edit_project_settings_projects_storage_path(project_id: project,
+    expect(page).to have_current_path edit_project_settings_project_storage_path(project_id: project,
                                                                                   id: Storages::ProjectStorage.last)
     expect(page).to have_text('Edit the file storage to this project')
     page.click_link('Cancel')
-    expect(page).to have_current_path project_settings_projects_storages_path(project)
+    expect(page).to have_current_path project_settings_project_storages_path(project)
 
     # Press Delete icon to remove the storage from the project
     page.find('.icon.icon-delete').click
@@ -188,7 +188,7 @@ RSpec.describe(
 
     # Cancel Confirmation
     page.click_link('Cancel')
-    expect(page).to have_current_path project_settings_projects_storages_path(project)
+    expect(page).to have_current_path project_settings_project_storages_path(project)
 
     page.find('.icon.icon-delete').click
 
@@ -197,7 +197,7 @@ RSpec.describe(
     page.click_button('Delete')
 
     # List of ProjectStorages empty again
-    expect(page).to have_current_path project_settings_projects_storages_path(project)
+    expect(page).to have_current_path project_settings_project_storages_path(project)
     expect(page).to have_text(I18n.t('storages.no_results'))
   end
 end

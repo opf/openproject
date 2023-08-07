@@ -54,6 +54,7 @@ COPY lib_static ./lib_static
 COPY frontend ./frontend
 COPY modules ./modules
 COPY vendor ./vendor
+COPY lookbook ./lookbook
 
 RUN --mount=type=cache,target=/app/frontend/.angular/cache,uid=1000,gid=1000 \
   SECRET_KEY_BASE=1 RAILS_ENV=production DATABASE_URL=nulldb://db \

@@ -32,6 +32,9 @@
 # gets loaded.
 module OpenProject::Storages
   class Engine < ::Rails::Engine
+    def self.permissions
+      @permissions ||= Storages::GroupFolderPropertiesSyncService::PERMISSIONS_MAP.keys
+    end
     # engine name is used as a default prefix for module tables when generating
     # tables with the rails command.
     # It may also be used in other places, please investigate.
@@ -51,12 +54,45 @@ module OpenProject::Storages
           OpenProject::Events::MEMBER_CREATED,
           OpenProject::Events::MEMBER_UPDATED,
           OpenProject::Events::MEMBER_DESTROYED,
-          OpenProject::Events::PROJECT_CREATED,
           OpenProject::Events::PROJECT_UPDATED,
           OpenProject::Events::PROJECT_RENAMED
         ].each do |event|
           OpenProject::Notifications.subscribe(event) do |_payload|
             ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+          end
+        end
+
+        OpenProject::Notifications.subscribe(
+          OpenProject::Events::OAUTH_CLIENT_TOKEN_CREATED
+        ) do |payload|
+          if payload[:integration_type] == 'Storages::Storage'
+            ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+          end
+        end
+        OpenProject::Notifications.subscribe(
+          OpenProject::Events::ROLE_UPDATED
+        ) do |payload|
+          if payload[:permissions_diff]&.intersect?(OpenProject::Storages::Engine.permissions)
+            ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+          end
+        end
+        OpenProject::Notifications.subscribe(
+          OpenProject::Events::ROLE_DESTROYED
+        ) do |payload|
+          if payload[:permissions]&.intersect?(OpenProject::Storages::Engine.permissions)
+            ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+          end
+        end
+
+        [
+          OpenProject::Events::PROJECT_STORAGE_CREATED,
+          OpenProject::Events::PROJECT_STORAGE_UPDATED,
+          OpenProject::Events::PROJECT_STORAGE_DESTROYED
+        ].each do |event|
+          OpenProject::Notifications.subscribe(event) do |payload|
+            if payload[:project_folder_mode] == :automatic
+              ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+            end
           end
         end
       end
@@ -83,26 +119,14 @@ module OpenProject::Storages
                    dependencies: %i[view_file_links],
                    contract_actions: { file_links: %i[manage] }
         permission :manage_storages_in_project,
-                   { 'storages/admin/projects_storages': %i[index members new edit update create destroy destroy_info
-                                                            set_permissions],
+                   { 'storages/admin/project_storages': %i[index members new edit update create destroy destroy_info
+                                                           set_permissions],
                      'storages/project_settings/project_storage_members': %i[index] },
                    dependencies: %i[]
 
-        permission :read_files,
-                   {},
-                   dependencies: %i[]
-        permission :write_files,
-                   {},
-                   dependencies: %i[]
-        permission :create_files,
-                   {},
-                   dependencies: %i[]
-        permission :delete_files,
-                   {},
-                   dependencies: %i[]
-        permission :share_files,
-                   {},
-                   dependencies: %i[]
+        OpenProject::Storages::Engine.permissions.each do |p|
+          permission(p, {}, dependencies: %i[])
+        end
       end
 
       # Menu extensions
@@ -116,8 +140,8 @@ module OpenProject::Storages
            icon: 'hosting'
 
       menu :project_menu,
-           :settings_projects_storages,
-           { controller: '/storages/admin/projects_storages', action: 'index' },
+           :settings_project_storages,
+           { controller: '/storages/admin/project_storages', action: 'index' },
            caption: :project_module_storages,
            parent: :settings
 
@@ -126,7 +150,7 @@ module OpenProject::Storages
           User.current.logged? &&
           User.current.member_of?(project) &&
           User.current.allowed_to?(:view_file_links, project)
-          project.projects_storages.each do |project_storage|
+          project.project_storages.each do |project_storage|
             storage = project_storage.storage
             href = if project_storage.project_folder_inactive?
                      storage.host

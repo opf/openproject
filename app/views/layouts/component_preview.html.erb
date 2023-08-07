@@ -30,9 +30,17 @@ See COPYRIGHT and LICENSE files for more details.
 <head>
   <%= include_frontend_assets %>
 </head>
-<body class="viewcomponent-preview">
+<%
+  styles = []
+  min_height = params[:lookbook][:display][:min_height]
+  styles << "min-height: #{min_height}" if min_height.present?
+%>
+
+<%= content_tag :body,
+                class: 'viewcomponent-preview',
+                style: styles.join(";") do %>
   <section class="viewcomponent-preview--content">
     <%= yield %>
   </section>
-</body>
+<% end %>
 </html>

@@ -51,7 +51,7 @@ Rails.application.config.after_initialize do
                      payload[:watcher_setter])
   end
 
-  OpenProject::Notifications.subscribe(OpenProject::Events::WATCHER_REMOVED) do |payload|
+  OpenProject::Notifications.subscribe(OpenProject::Events::WATCHER_DESTROYED) do |payload|
     Mails::WatcherRemovedJob
       .perform_later(payload[:watcher].attributes,
                      payload[:watcher_remover])

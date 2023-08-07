@@ -552,6 +552,7 @@ OpenProject::Application.routes.draw do
   scope 'my' do
     get '/deletion_info' => 'users#deletion_info', as: 'delete_my_account_info'
     post '/oauth/revoke_application/:application_id' => 'oauth/grants#revoke_application', as: 'revoke_my_oauth_application'
+    delete '/storage_token/:id' => 'my#delete_storage_token', as: 'storage_token_delete'
 
     resources :sessions, controller: 'my/sessions', as: 'my_sessions', only: %i[index show destroy]
   end

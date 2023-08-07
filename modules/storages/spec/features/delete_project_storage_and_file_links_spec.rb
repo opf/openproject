@@ -63,7 +63,7 @@ RSpec.describe 'Delete ProjectStorage with FileLinks', js: true, webmock: true d
 
   it 'deletes ProjectStorage with dependent FileLinks' do
     # Go to Projects -> Settings -> File Storages
-    visit project_settings_projects_storages_path(project)
+    visit project_settings_project_storages_path(project)
 
     # The list of enabled file storages should now contain Storage 1
     expect(page).to have_text('File storages available in this project')
@@ -79,7 +79,7 @@ RSpec.describe 'Delete ProjectStorage with FileLinks', js: true, webmock: true d
 
     # Cancel Confirmation
     page.click_link('Cancel')
-    expect(page).to have_current_path project_settings_projects_storages_path(project)
+    expect(page).to have_current_path project_settings_project_storages_path(project)
 
     page.find('.icon.icon-delete').click
 
@@ -88,7 +88,7 @@ RSpec.describe 'Delete ProjectStorage with FileLinks', js: true, webmock: true d
     page.click_button('Delete')
 
     # List of ProjectStorages empty again
-    expect(page).to have_current_path project_settings_projects_storages_path(project)
+    expect(page).to have_current_path project_settings_project_storages_path(project)
     expect(page).to have_text(I18n.t('storages.no_results'))
 
     # Also check in the database that ProjectStorage and dependent FileLinks are gone

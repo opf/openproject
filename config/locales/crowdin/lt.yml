@@ -1470,6 +1470,7 @@ lt:
     changes_retracted: "Pakeitimai buvo atšaukti."
     caused_changes:
       dates_changed: "Datos pasikeitė"
+      system_update: "OpenProject atnaujinimas"
     cause_descriptions:
       work_package_predecessor_changed_times: dėl pirmtako pakeitimų %{link}
       work_package_parent_changed_times: dėl tėvo pakeitimų %{link}
@@ -1484,6 +1485,8 @@ lt:
         dates:
           working: "%{date} dabar yra darbo"
           non_working: "%{date} dabar yra nedarbo"
+      system_update:
+        file_links_journal: 'Failų nuorodos pridėtos į veiksmus'
   links:
     configuration_guide: 'Konfigūravimo vadovas'
     get_in_touch: "Turite klausimų? Susisiekite su mumis."
@@ -1528,6 +1531,13 @@ lt:
         text_hint: "RSS žetonai leidžia naudotojams gauti informaciją apie paskutinius šio OpenProject egzemplioriaus pasikeitimus per išorinę RSS skaityklę."
         static_token_name: "RSS žetonas"
         disabled_text: "Administratorius neįjungė RSS žetonų. Prašome susisiekti su administratoriumi, kad galėtumėte naudoti šią savybę."
+      storages:
+        title: "Failų saugyklos"
+        text_hint: "Failų saugyklų žetonai jungia šį OpenProject egzempliorių su išorine failų saugykla."
+        empty_text_hint: "Su jūsų paskyra nėra susietos saugyklos prieigos."
+        revoke_token: "Ar tikrai norite išimti šį žetoną? Jums vėl reikės prisijungti prie %{storage}"
+        removed: "Failų saugykla sėkmingai pašalinta"
+        failed: "Įvyko klaida ir žetono išimti nepavyko. Prašome pabandyti dar kartą vėliau."
   notifications:
     send_notifications: "Siųsti pranešimus apie šį veiksmą"
     work_packages:
@@ -2797,16 +2807,16 @@ lt:
   text_work_packages_destroy_confirmation: "Ar tikrai norite ištrinti pasirinktus(-ą) darbų paketus(-ą)?"
   text_work_packages_ref_in_commit_messages: "Darbų paketų susiejimas ir taisymas pavedimų žinutėse"
   text_journal_added: "%{label} %{value} pridėtas"
-  text_journal_attachment_added: "%{label} %{value} added as attachment"
-  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
+  text_journal_attachment_added: "%{label} %{value} pridėtas kaip priedas"
+  text_journal_attachment_deleted: "%{label} %{old} išimtas kaip priedas"
   text_journal_changed_plain: "%{label} pakeista iš %{old} %{linebreak}į %{new}"
   text_journal_changed_no_detail: "%{label} atnaujintas"
   text_journal_changed_with_diff: "%{label} pasikeitė (%{link})"
   text_journal_deleted: "%{label} ištrintas (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} ištrintas (%{link})"
-  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
-  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
+  text_journal_file_link_added: "pridėta %{label} nuoroda į %{value} (%{storage})"
+  text_journal_file_link_deleted: "išimta %{label} nuoroda į %{old} (%{storage})"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} nustatytas į %{value}"
   text_journal_set_with_diff: "%{label} pasikeitė (%{link})"

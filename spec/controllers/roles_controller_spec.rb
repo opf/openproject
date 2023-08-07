@@ -361,7 +361,7 @@ RSpec.describe RolesController do
 
       it 'has the service call assigned' do
         expect(assigns[:calls])
-          .to match_array [service_call0, service_call1, service_call2, service_call3]
+          .to contain_exactly(service_call0, service_call1, service_call2, service_call3)
       end
 
       it 'has the roles assigned' do
@@ -371,55 +371,41 @@ RSpec.describe RolesController do
     end
   end
 
-  describe '#destroys' do
-    let(:role) do
-      build_stubbed(:role).tap do |d|
-        allow(Role)
-          .to receive(:find)
-                .with(d.id.to_s)
-                .and_return(d)
-
-        allow(d)
-          .to receive(:destroy)
-      end
-    end
+  describe '#destroy' do
+    let(:role) { create(:role) }
     let(:params) { { id: role.id } }
 
-    subject do
-      delete :destroy, params:
-    end
+    subject { delete(:destroy, params:) }
 
     context 'with the role not in use' do
-      before { subject }
+      it 'redirects and destroyes the role' do
+        allow_any_instance_of(Role).to receive(:permissions).and_return([:read_files])
+        role
+        expect(Role.count).to eq(1)
+        expect(enqueued_jobs.count).to eq(0)
 
-      it 'redirects' do
-        expect(response)
-          .to redirect_to roles_path
-      end
+        subject
 
-      it 'destroys the role' do
-        expect(role)
-          .to have_received(:destroy)
+        expect(enqueued_jobs.count).to eq(1)
+        expect(enqueued_jobs[0][:job]).to eq(Storages::ManageNextcloudIntegrationEventsJob)
+        expect(response).to redirect_to roles_path
+        expect(Role.count).to eq(0)
       end
     end
 
     context 'with the role in use' do
-      before do
-        allow(role)
-          .to receive(:destroy)
-                .and_throw(:an_error)
+      it 'redirects with a flash error' do
+        allow_any_instance_of(Role).to receive(:deletable?).and_return(false)
+        role
+        expect(Role.count).to eq(1)
+        expect(enqueued_jobs.count).to eq(0)
 
         subject
-      end
 
-      it 'redirects' do
-        expect(response)
-          .to redirect_to roles_path
-      end
-
-      it 'sets a flash error' do
-        expect(flash[:error])
-          .to eq I18n.t(:error_can_not_remove_role)
+        expect(enqueued_jobs.count).to eq(0)
+        expect(Role.count).to eq(1)
+        expect(response).to redirect_to roles_path
+        expect(flash[:error]).to eq I18n.t(:error_can_not_remove_role)
       end
     end
   end

@@ -36,7 +36,7 @@ import {
 } from '@angular/core';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
-import { IGithubPullRequest } from '../state/github-pull-request.model';
+import { IGithubPullRequest, IGithubUserResource } from '../state/github-pull-request.model';
 import { GithubPullRequestResourceService } from '../state/github-pull-request.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -85,7 +85,8 @@ export class PullRequestMacroComponent implements OnInit {
   }
 
   private buildText(pr:IGithubPullRequest):string {
-    const githubUserLink = this.htmlLink(pr._embedded.githubUser.htmlUrl, pr._embedded.githubUser.login);
+    const actor = this.deriveActor(pr) as IGithubUserResource;
+    const actorLink = this.htmlLink(actor.htmlUrl, actor.login);
     const repositoryLink = this.htmlLink(pr.repositoryHtmlUrl, pr.repository);
     const prLink = this.htmlLink(pr.htmlUrl, pr.title);
 
@@ -100,9 +101,18 @@ export class PullRequestMacroComponent implements OnInit {
           `js.github_integration.pull_requests.states.${this.pullRequestState}`,
           { defaultValue: this.pullRequestState || '(unknown state)' },
         ),
-        github_user_link: githubUserLink,
+        github_user_link: actorLink,
       },
     );
+  }
+
+
+  private deriveActor(pr:IGithubPullRequest) {
+    if (this.pullRequestState === 'merged') {
+      return pr._embedded.mergedBy;
+    } else {
+      return pr._embedded.githubUser;
+    }
   }
 
   private htmlLink(href:string, title:string):string {

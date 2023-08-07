@@ -43,7 +43,7 @@ OpenProject::Application.routes.draw do
 
   scope 'projects/:project_id', as: 'project' do
     namespace 'settings' do
-      resources :projects_storages, controller: '/storages/admin/projects_storages', except: %i[show] do
+      resources :project_storages, controller: '/storages/admin/project_storages', except: %i[show] do
         member do
           # Destroy uses a get request to prompt the user before the actual DELETE request
           get :destroy_info, as: 'confirm_destroy'
