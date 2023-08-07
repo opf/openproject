@@ -73,6 +73,8 @@ To link a Nextcloud file to the current work package, you can either:
 
 ![Link existing file in Nextcloud](link_existing_files.png)
 
+> **Info**: The default project that opens in the location picker is set by the project administrators in the [File storages settings](../projects/project-settings/file-storages).
+
 ![Select a file to be linked in Nextcloud](nc_select_file_to_link.png)
 
 #### Upload and link new files
@@ -85,9 +87,11 @@ You will then be prompted to select a file (or multiple files) on your computer 
 
 ![Pick a file from your computer](NC_12.5-selctFileToUpload.png)
 
-Alternatively, you can also simply drag a file or folder on your computer to this area (under the name of your Nextcloud file storage) and drop it in the drop zone that appears.
+Alternatively, you can also simply drag a file or folder from your computer to the drag zone that will appear under the name of your Nextcloud file storage.
 
-Once you have selected or dropped the files you would like to upload, you will need to select a folder on Nextcloud to which they should be stored. 
+Once you have selected or dropped the files you would like to upload, you will need to select a folder on Nextcloud to which they should be stored.
+
+> **Info**: The default project that opens in the location picker is defined by the project administrators in the [File storages settings](../projects/project-settings/file-storages).
 
 ![Select the destination folder on Nextcloud](NC_12.5-selectLocationToUploadTo.png)
 
