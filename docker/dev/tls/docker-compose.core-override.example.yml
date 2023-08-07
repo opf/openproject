@@ -16,8 +16,6 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.openproject.rule=Host(`${OPENPROJECT_DEV_HOST}`)"
       - "traefik.http.routers.openproject.entrypoints=websecure"
-      - "traefik.http.routers.openproject.tls=true"
-      - "traefik.http.routers.openproject.tls.certresolver=step"
 
 # You need to define the same external network
 # that is defined in the TLS proxy compose file
