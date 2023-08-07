@@ -7,7 +7,7 @@ keywords: file storages, project folder, storages
 ---
 # File storages
 
->**Info**: Before a storage service can be added to a project, an administrator must first set up [Nextcloud integration](../../../system-admin-guide/integrations/nextcloud/) with OpenProject.
+>**Info**: Before a storage service can be added to a project, an administrator must first set up [Nextcloud integration](../../../../system-admin-guide/integrations/nextcloud/) with OpenProject.
 
 | Topic                                                             | Description                         |
 |-------------------------------------------------------------------|:------------------------------------|
