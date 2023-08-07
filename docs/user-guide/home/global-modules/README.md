@@ -111,9 +111,9 @@ Read more about writing, editing and commenting on **News** in OpenProject [here
 
 ## Time and costs
 
-**Time and costs** global module will list ??? time and cost reports created by you and the ones set to be public. 
+**Time and costs** global module will list time and cost reports created by you and the ones set to be public in the left hand menu. The filters you see initially will be pre-filled based on the values you used for filtering during your last session. You can create new time and cost reports by adjusting filters, grouping criteria and units accordingly and clicking **Apply** button. Do not forget to **Save** your report. 
 
-The view you will see shows the last filters you have selected ???
+![openproject_user_guide_global_time_cost](C:\Users\Maya\Documents\GitHub\openproject\docs\user-guide\home\global-modules\openproject_global_modules_time_costs.png)
 
 Read more about creating and editing **Time and cost reports** [here](../../time-and-costs/reporting/).
 
@@ -125,7 +125,7 @@ Read more about creating and editing **Time and cost reports** [here](../../time
 
 You can also choose to see all **Past meetings** or apply one of the filters based on your **Involvement** in a meeting. 
 
-You can create a new meeting directly from within the global modules menu by clicking a green ***Meeting** button either in the top right corner at at the bottom of the sidebar. 
+You can create a new meeting directly from within the global modules menu by clicking a green ***Meeting** button either in the top right corner at the bottom of the sidebar. 
 
 ![openproject_user_guide_global_modules_add_new_meeting](C:\Users\Maya\Documents\GitHub\openproject\docs\user-guide\home\global-modules\openproject_global_modules_new_meeting.png)
 
