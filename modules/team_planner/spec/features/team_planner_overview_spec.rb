@@ -35,8 +35,7 @@ require_relative 'shared_context'
 RSpec.describe 'Team planner overview',
                :js,
                :with_cuprite,
-               with_ee: %i[team_planner_view],
-               with_flag: { more_global_index_pages_active: true } do
+               with_ee: %i[team_planner_view] do
   include_context 'with team planner full access'
 
   let(:current_user) { user }

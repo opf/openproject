@@ -35,8 +35,7 @@ require_relative 'shared_context'
 RSpec.describe 'Calendar',
                'Creating a view from a Global Context',
                :js,
-               :with_cuprite,
-               with_flag: { more_global_index_pages_active: true } do
+               :with_cuprite do
   include_context 'with calendar full access'
 
   let(:calendars_page) { Pages::Calendar.new nil }

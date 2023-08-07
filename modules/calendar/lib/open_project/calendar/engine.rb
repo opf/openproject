@@ -42,7 +42,6 @@ module OpenProject::Calendar
       end
 
       should_render = Proc.new do
-        OpenProject::FeatureDecisions.more_global_index_pages_active? &&
           (User.current.logged? || !Setting.login_required?) &&
           User.current.allowed_to_globally?(:view_calendar)
       end

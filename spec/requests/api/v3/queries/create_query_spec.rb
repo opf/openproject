@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe "POST /api/v3/queries",
-               with_ee: %i[baseline_comparison], with_flag: { show_changes: true } do
+               with_ee: %i[baseline_comparison] do
   shared_let(:user) { create(:admin) }
   shared_let(:status) { create(:status) }
   shared_let(:project) { create(:project) }

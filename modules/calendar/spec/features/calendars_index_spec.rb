@@ -66,7 +66,7 @@ RSpec.describe 'Calendars', 'index', :js, :with_cuprite do
 
   let(:current_user) { user }
 
-  context 'when navigating to the global index page', with_flag: { more_global_index_pages: true } do
+  context 'when navigating to the global index page' do
     shared_examples 'global index page is reachable' do
       it 'is reachable' do
         expect(page).to have_current_path(calendars_path)
@@ -104,7 +104,7 @@ RSpec.describe 'Calendars', 'index', :js, :with_cuprite do
     end
   end
 
-  context 'when visiting from a global context', with_flag: { more_global_index_pages: true } do
+  context 'when visiting from a global context' do
     let(:calendars_page) { Pages::Calendar.new(nil) }
     let(:queries) { [query, other_query] }
 

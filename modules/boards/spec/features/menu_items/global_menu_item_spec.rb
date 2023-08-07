@@ -39,28 +39,26 @@ RSpec.describe 'Global menu item for boards', :js, :with_cuprite do
     visit root_path
   end
 
-  context 'with more global index pages active', with_flag: { more_global_index_pages: true } do
-    context 'with permissions' do
-      let(:current_user) { create(:admin) }
+  context 'with permissions' do
+    let(:current_user) { create(:admin) }
 
-      it "sends the user to the boards overview when clicked" do
-        within '#main-menu' do
-          click_on boards_label
-        end
-
-        expect(page).to have_current_path(boards_all_path)
-        expect(page).to have_content(boards_label)
-        expect(page).to have_content(I18n.t(:no_results_title_text))
+    it "sends the user to the boards overview when clicked" do
+      within '#main-menu' do
+        click_on boards_label
       end
+
+      expect(page).to have_current_path(boards_all_path)
+      expect(page).to have_content(boards_label)
+      expect(page).to have_content(I18n.t(:no_results_title_text))
     end
+  end
 
-    context 'without permissions' do
-      let(:current_user) { create(:user) }
+  context 'without permissions' do
+    let(:current_user) { create(:user) }
 
-      it 'is not rendered' do
-        within '#main-menu' do
-          expect(page).not_to have_content(boards_label)
-        end
+    it 'is not rendered' do
+      within '#main-menu' do
+        expect(page).not_to have_content(boards_label)
       end
     end
   end

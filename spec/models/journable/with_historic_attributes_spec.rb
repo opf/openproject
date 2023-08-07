@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe Journable::WithHistoricAttributes,
-               with_ee: %i[baseline_comparison], with_flag: { show_changes: true } do
+               with_ee: %i[baseline_comparison] do
   create_shared_association_defaults_for_work_package_factory
 
   shared_let(:baseline_time) { "2022-01-01".to_time }
