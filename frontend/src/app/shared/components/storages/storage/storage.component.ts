@@ -158,6 +158,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
           },
         ),
       draggingManyFiles: (storageType:string):string => this.i18n.t('js.storages.files.dragging_many_files', { storageType }),
+      draggingFolder: (storageType:string):string => this.i18n.t('js.storages.files.dragging_folder', { storageType }),
       uploadingLabel: this.i18n.t('js.label_upload_notification'),
     },
     dropBox: {
@@ -519,11 +520,15 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     this.dragging = 0;
 
     const files = event.dataTransfer.files;
-    if (files.length !== 1) {
+    const draggingManyFiles = files.length !== 1;
+    const isDirectory = event.dataTransfer.items[0].webkitGetAsEntry()?.isDirectory;
+    if (draggingManyFiles || isDirectory) {
       this.storageType
         .pipe(first())
         .subscribe((storageType) => {
-          const toast = this.text.toast.draggingManyFiles(storageType);
+          const toast = draggingManyFiles
+            ? this.text.toast.draggingManyFiles(storageType)
+            : this.text.toast.draggingFolder(storageType);
           this.toastService.addError(toast);
         });
       return;

@@ -31,6 +31,7 @@ cs:
           A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
         directory_not_writeable: "Nemáte oprávnění přidávat soubory do této složky."
         dragging_many_files: "The upload to %{storageType} supports only one file at once."
+        dragging_folder: "The upload to %{storageType} does not support folders."
         empty_folder: "Tato složka je prázdná."
         empty_folder_location_hint: "Klikněte na tlačítko níže pro nahrání souboru do tohoto umístění."
         file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."

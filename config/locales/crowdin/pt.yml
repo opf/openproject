@@ -1434,6 +1434,7 @@ pt:
     changes_retracted: "As mudanças foram retraídas."
     caused_changes:
       dates_changed: "Data modificada"
+      system_update: "OpenProject update"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1448,6 +1449,8 @@ pt:
         dates:
           working: "%{date} agora está funcionando"
           non_working: "%{date} não está funcionando agora"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: 'Guia de configuração'
     get_in_touch: "Com dúvidas? Entre em contato conosco."
@@ -1492,6 +1495,13 @@ pt:
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "Enviar notificações para está ação "
     work_packages:

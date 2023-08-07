@@ -31,6 +31,7 @@ de:
           Eine Datei mit dem Namen „%{fileName}“ existiert bereits an dem Ort, an dem Sie versuchen, diese Datei hochzuladen. Was möchten Sie tun?
         directory_not_writeable: "Sie haben keine Berechtigung, Dateien zu diesem Ordner hinzuzufügen."
         dragging_many_files: "Das Hochladen auf %{storageType} unterstützt nur eine Datei auf einmal."
+        dragging_folder: "The upload to %{storageType} does not support folders."
         empty_folder: "Dieser Ordner ist leer."
         empty_folder_location_hint: "Klicken Sie auf die Schaltfläche unten, um die Datei an diesen Ort hochzuladen."
         file_not_selectable_location: "Die Auswahl einer Datei ist nicht möglich, wenn Sie einen Speicherort auswählen."

@@ -1,7 +1,7 @@
 <div>
   <form>
     <p [textContent]="text.highlighting_mode.description"></p>
-    
+
     <div class="form--field -full-width">
       <div class="form--field-container">
         <label class="option-label">
@@ -15,7 +15,7 @@
           <select (change)="updateMode($event.target.value)"
                   id="selected_attribute"
                   name="selected_attribute"
-                  class="form--select form--inline-select">
+                  class="form--select form--inline-select option-label--select">
             <option [textContent]="text.highlighting_mode.type"
                     [selected]="lastEntireCardAttribute === 'type'"
                     value="type"></option>
@@ -41,4 +41,3 @@
 
   </form>
 </div>
-

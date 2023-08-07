@@ -31,6 +31,7 @@ fr:
           Un fichier avec le nom « %{fileName} » existe déjà à l'emplacement où vous essayez de téléverser ce fichier. Que voulez-vous faire ?
         directory_not_writeable: "Vous n'avez pas la permission d'ajouter des fichiers à ce dossier."
         dragging_many_files: "Le téléversement vers %{storageType} ne supporte qu'un seul fichier à la fois."
+        dragging_folder: "The upload to %{storageType} does not support folders."
         empty_folder: "Ce dossier est vide."
         empty_folder_location_hint: "Cliquez sur le bouton ci-dessous pour téléverser le fichier à cet endroit."
         file_not_selectable_location: "La sélection d'un fichier est impossible pendant le processus de sélection d'un emplacement."
