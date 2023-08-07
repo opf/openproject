@@ -10,20 +10,19 @@ keywords: my account, account settings, change language
 
 Change your personal settings in My account. Here you can adapt, e.g. the language, edit notifications, or add an avatar. Moreover you can manage access tokens and sessions.
 
-| Topic                                                        | Content                                                      |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-|                                                              |                                                              |
-| [Open My account settings](#open-my-account-settings)        | How to open your personal settings in OpenProject            |
-| [Edit your user information](#edit-your-user-information)    | How to change the name or email address in OpenProject       |
+| Topic                                                                                         | Content                                                      |
+|-----------------------------------------------------------------------------------------------| ------------------------------------------------------------ |
+| [Open My account settings](#open-my-account-settings)                                         | How to open your personal settings in OpenProject            |
+| [Edit your user information](#edit-your-user-information)                                     | How to change the name or email address in OpenProject       |
 | [Profile settings: change your language, time zone or display of comments](#profile-settings) | How to change the language, time zone or display of comments in OpenProject |
-| [Change password](#change-password)                          | How to change my password                                    |
-| [Two-factor authentication](#two-factor-authentication)      | How to set up a two-factor authentication                    |
-| [Access tokens](#access-tokens)                              | How to set up access tokens in OpenProject                   |
-| [Session management](#session-management)                    | How to manage your OpenProject sessions                      |
-| [Notifications settings](#notifications-settings)            | How to change in-app notifications in OpenProject            |
-| [Email reminders](#email-reminders)                          | How to change email reminders sent by OpenProject            |
-| [Set an Avatar](#set-an-avatar)                              | How to set an avatar in OpenProject and change the profile picture |
-| [Delete account](#delete-account)                            | How to delete my own account                                 |
+| [Change password](#change-password)                                                           | How to change my password                                    |
+| [Two-factor authentication](#two-factor-authentication)                                       | How to set up a two-factor authentication                    |
+| [Access tokens](#access-tokens)                                                               | How to set up access tokens in OpenProject                   |
+| [Session management](#sessions-management)                                                    | How to manage your OpenProject sessions                      |
+| [Notifications settings](#notifications-settings)                                             | How to change in-app notifications in OpenProject            |
+| [Email reminders](#email-reminders)                                                           | How to change email reminders sent by OpenProject            |
+| [Set an Avatar](#set-an-avatar)                                                               | How to set an avatar in OpenProject and change the profile picture |
+| [Delete account](#delete-account)                                                             | How to delete my own account                                 |
 
 ## Open My account settings
 
@@ -59,7 +58,7 @@ Here you can choose between multiple languages.
 
 ![my account change language of user](my-account-change-language-of-user.png)
 
-OpenProject is translated to more than 30 languages, like German, Chinese, French, Italian, Korean, Latvian, Lithuanian, Polish, Portuguese, Russian, Spanish, Turkish and many more. If you do not see your preferred language in the My account settings, the language needs to be activated by your system administrator in the [system's settings](../../system-admin-guide/system-settings/display-settings).
+OpenProject is translated to more than 30 languages, like German, Chinese, French, Italian, Korean, Latvian, Lithuanian, Polish, Portuguese, Russian, Spanish, Turkish and many more. If you do not see your preferred language in the My account settings, the language needs to be activated by your system administrator in the [system's settings](../../system-admin-guide/system-settings/languages/).
 
 Pressing the blue **Save** button will save your changes.
 
