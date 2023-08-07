@@ -63,6 +63,7 @@ class Journal < ApplicationRecord
     work_package_children_changed_times
     work_package_related_changed_times
     working_days_changed
+    system_update
   ].freeze
 
   # Make sure each journaled model instance only has unique version ids
