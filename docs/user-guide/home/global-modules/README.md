@@ -7,45 +7,45 @@ keywords: global modules, project overarching modules, global index pages
 ---
 # Global modules
 
-Global modules present an overview of the projects that you are a member of or have permissions to see. Here you will find a summary of all the entries in the respective modules across your projects, such as **Activity, Work packages, Calendars, Boards**, etc.
+Global modules present an overview of the projects of which you are a member or have permissions to see. On this page, you will find a summary of all the sidebar menu entries for module across all your projects, such as **Activity, Work packages, Calendars, Boards**, etc.
 
-To find **Global modules** menu simply click on the logo in the header of the application, it will be displayed on the left side. 
+To access the **Global modules** menu side, simply click on the logo in the header.
 
 ![Navigating to global modules menu in OpenProject](open_project_user_guide_global_modules_menu.png)
 
-> It is possible that some of the global modules are not displayed for you. This will be the case if said module is not activated in the [Project settings](../../projects/project-settings/) in any of the active projects in you instance. If for example **News** module is not enabled for any of the active projects, you will not see it in the **Global modules** menu. 
+> It is possible that some of the global modules are not visible to you. This will be the case if said module is not activated in the [Project settings](../../projects/project-settings/) in any of the active projects in you instance. If, for example, the **News** module is not enabled in any of the active projects, you will not see it in the **Global modules** menu. 
 
 ## Projects
 
-**Projects** global module will display a list of the projects that exist in your OpenProject instance, which you are a member of and/or have the right to see (for example as an administrator) and public projects.
+The **Projects** global module will display all projects in your OpenProject instance of which you are a member and/or have the right to see (for example as an administrator), including public projects.
 
-You can create a new project here directly by using the  **+ Project** button at the bottom of the left side menu.
+You can create a new project here directly by using the  **+ Project** button.
 
 ![OpenProject projects overview in the global modules menu](openproject_global_modules_projects.png)
 
 On the left you will have the following options:
 
-**All projects** is the default view and shows only active projects. If you do not have administrator rights, this view will be the same as **My projects** for you.
+**All projects** is the default view and shows only active projects. If you do not have administrator rights, this view will be the same as **My projects**.
 
-**My projects** is the view that will show projects you are a member of and public projects. When this menu entry is selected, an **I am member** filter will be activated under Filters. You can then add various other filters to adjust the view.
+**My projects** is will show projects of which you are a member and public projects. When this menu entry is selected, an **I am member** filter will be activated under Filters. You can then add various other filters to adjust the view.
 
 ![OpenProject global modules my projects](openproject_global_modules_myprojects_filter.png)
 
 **Public projects** will list all projects that have been set to be public.
 
-**Archived projects**  will list all archived projects that you were a member of or have the right to see.
+**Archived projects**  will list all archived projects of which were a member or have the right to see.
 
->Note: you can also navigate to the **Projects** through [**Select a project** dropdown menu](https://www.openproject.org/docs/user-guide/projects/#projects-list ) and by clicking on **View all projects** button in the **Projects** block on the home page.
+>**Note:** You can also access the **Projects** global module by opening the [**Select a project** dropdown menu](https://www.openproject.org/docs/user-guide/projects/#projects-list ) and by clicking the **Projects list** button, or by clicking on the **Modules** button in the header next to the search bar and the selecting **Projects** in the menu that appears.
 
 ## Activity
 
-**Activity**  global module provide an overview of all project activities across the projects you are a member of, have the rights to see and public projects. 
+The **Activity** global module provides an overview of all project activities across all projects of which you are a member or have the rights to see (including public projects).
 
-![OpenProject_user_guide_global_module_activity](openproject_global_modules_activity.png)
+![The Activity global module](openproject_global_modules_activity.png)
 
 The timeframe for tracing and displaying activities starts with the current date. You can adjust how far back the activities should be traced by adjusting [System settings](../../../system-admin-guide/system-settings/general-settings/).
 
-You can adjust the view by selecting respective filters on the left and clicking the **Apply** button. 
+You can adjust the view by using the filters on the left menu and clicking the **Apply** button. 
 
 >Note: **Changesets** filter comes from repositories that are managed by OpenProject. For example, if you make a commit to a GIT or SVN repository, these changes will be displayed here. At the moment this filter is only relevant for self-hosted editions.
 
@@ -53,82 +53,80 @@ You can adjust the view by selecting respective filters on the left and clicking
 
 ## Work packages
 
-**Work packages** global module will show a list of all the work packages from the projects you are a member of and all public projects. You can select your **Favorite** and **Default** work package filters in the left side menu.
+The **Work packages** global module will show a list of all the work packages from the projects of which you are a member or have the right to view, including public projects. You can select your **Favorite** and **Default** work package filters in the left side menu.
 
-PUBLIC - ???
+![The Work packages global module](openproject_global_modules_work_packages.png)
 
-![openproject_user_guide_global_work_packages](C:\Users\Maya\Documents\GitHub\openproject\docs\user-guide\home\global-modules\openproject_global_modules_work_packages.png)
+If you double-click to open one of the work packages in full screen view, the work package will highlight which project it belongs to at the top of the page.
 
-If you double-click on any of the work packages from the work package table in the **Work packages** global module, the full view of the work package will include highlighted information on which project this particular work package belongs to. 
-
-![openproject_user_guide_global_work_packages_single_view](C:\Users\Maya\Documents\GitHub\openproject\docs\user-guide\home\global-modules\openproject_global_modules_work_packages_full_view.png)
+![The project containing the current work package is highligted when opening it from outside the project](openproject_global_modules_work_packages_full_view.png)
 
 ## Calendars
 
-**Calendars** global module displays all calendars that you have rights to see and all public calendars. 
+The **Calendars** global module displays all calendars to which you have access, across all projects.
 
-![openproject_user_guide_global_calendars](C:\Users\Maya\Documents\GitHub\openproject\docs\user-guide\home\global-modules\openproject_global_modules_calendars.png)
+![The Calendars global module](openproject_global_modules_calendars.png)
 
-You can also create a new calendar directly from the global modules menu by clicking the green **+Calendar** button. 
+You can also create a new calendar directly from the global modules menu by clicking the green **+ Calendar** button. 
 
-![openproject_user_guide](C:\Users\Maya\Documents\GitHub\openproject\docs\user-guide\home\global-modules\openproject_global_modules_add_calendar.png)
+![Creating a new calendar from the Calendars global module](openproject_global_modules_add_calendar.png)
 
-Here you can name the calendar, select a project to which a calendar should be assigned to and set to be public or favored. Find out more about editing calendars [here](../../calendar). 
+Here you can name the calendar, select a project to which the calendar should belong  and set it to be public or favored. Find out more about editing calendars [here](../../calendar). 
 
 ## Team planners
 
-**Team planners** global module will display all team planners from the projects you are a member of, have administrative privileges to see and the public ones. 
+The **Team planners** global module will display all team planners from the projects you are a member of, have administrative privileges to see and the public ones. 
 
-![openproject_user_guide_global_team_planners](C:\Users\Maya\Documents\GitHub\openproject\docs\user-guide\home\global-modules\openproject_global_modules_team_planner.png)
+![The Team planners global module](openproject_global_modules_team_planner.png)
 
-You can also create a new team planner directly from the global modules menu by clicking the green **+Team planner** button. 
+You can also create a new team planner directly from the global modules menu by clicking the green **+ Team planner** button:
 
-![openproject_user_guide_add_new_team_planner](C:\Users\Maya\Documents\GitHub\openproject\docs\user-guide\home\global-modules\openproject_global_modules_add_team_planner.png)
+![Creating a new team planner from the Team planners global module](openproject_global_modules_add_team_planner.png)
 
-Here you can name the team planner, select a project to which a team planner should be assigned to and set to be public or favored. Find out more about editing team planners [here](../../team-planner). 
+You can name the new team planner, select a project to which it should belong and set to be public or favored. Find out more about editing team planners [here](../../team-planner). 
 
 ## Boards
 
-**Boards** global module will list all boards that have been created in the projects you are a member of, have administrative privileges to see or public projects. 
+The **Boards** global module will list all boards to which you have access across all projects, including public projects. 
 
-![openproject_user_guide_global_boards](C:\Users\Maya\Documents\GitHub\openproject\docs\user-guide\home\global-modules\openproject_global_modules_boards.png)
+![The Boards global module](openproject_global_modules_boards.png)
 
-You can also create a board directly from the global modules menu by clicking the green **+Board** button. 
+You can also create a board directly from the global modules menu by clicking the green **+ Board** button:
 
-![openproject_user_guide_add_new_board](C:\Users\Maya\Documents\GitHub\openproject\docs\user-guide\home\global-modules\openproject_global_modules_add_board.png)
+![Creating a new board the Boards global module](openproject_global_modules_add_board.png)
 
-Here you can name the board, select a project to which a board should be assigned to and choose the board type. Find out more about editing boards [here](../../agile-boards). 
+You can name the board, select a project to which the new board should belong and choose the board type. Find out more about editing boards [here](../../agile-boards). 
 
 ## News
 
-**News** global module will display all news that have been published in projects you are a member of, have administrative privileges to see and public projects. 
+The **News** global module will display all news that have been published in projects of which you are a member, have the administrative privileges to view and public projects. 
 
-TIMEFRAME - ?
-
-![openproject_user_guide_global_news](C:\Users\Maya\Documents\GitHub\openproject\docs\user-guide\home\global-modules\openproject_global_modules_news.png)
+![The News global module](openproject_global_modules_news.png)
 
 Read more about writing, editing and commenting on **News** in OpenProject [here](../../news).
 
 ## Time and costs
 
-**Time and costs** global module will list time and cost reports created by you and the ones set to be public in the left hand menu. The filters you see initially will be pre-filled based on the values you used for filtering during your last session. You can create new time and cost reports by adjusting filters, grouping criteria and units accordingly and clicking **Apply** button. Do not forget to **Save** your report. 
+The **Time and costs** global module will list time and cost reports created by you and the ones set to be public in the left hand menu. The filters you see initially will be pre-filled based on the values you used for filtering during your last session, or the default ones if you have never used them.
 
-![openproject_user_guide_global_time_cost](C:\Users\Maya\Documents\GitHub\openproject\docs\user-guide\home\global-modules\openproject_global_modules_time_costs.png)
+You can create new time and cost reports by adjusting filters, grouping criteria and units accordingly and clicking the **Apply** button. Do not forget to **Save** your report. 
+
+![The Time and costs global module](openproject_global_modules_time_costs.png)
 
 Read more about creating and editing **Time and cost reports** [here](../../time-and-costs/reporting/).
 
 ## Meetings
 
-**Meetings** global module will provide a list of all upcoming an past meetings you have created, been invited to, attended or have administrative privileges to see. The default view will show the **Upcoming meetings**. The most current meetings are shown on top of the list. 
+**The Meetings** global module will provide a list of all upcoming and past meetings you have created, been invited to, attended or have administrative privileges to see. The default view will show the **Upcoming meetings**, in chronological order (earliest first).
 
-![openproject_user_guide_global_meetings](C:\Users\Maya\Documents\GitHub\openproject\docs\user-guide\home\global-modules\openproject_global_modules_meetings.png)
+![The Meetings global module](openproject_global_modules_meetings.png)
 
-You can also choose to see all **Past meetings** or apply one of the filters based on your **Involvement** in a meeting. 
+You can also choose to view all **Past meetings** or apply one of the filters based on your **Involvement** in a meeting. 
 
-You can create a new meeting directly from within the global modules menu by clicking a green ***Meeting** button either in the top right corner at the bottom of the sidebar. 
+You can create a new meeting directly from within the global modules menu by clicking a green **+ Meeting** button either in the top right corner at the bottom of the sidebar:
 
-![openproject_user_guide_global_modules_add_new_meeting](C:\Users\Maya\Documents\GitHub\openproject\docs\user-guide\home\global-modules\openproject_global_modules_new_meeting.png)
+![Creating a new meeting from the Meetings global module](openproject_global_modules_new_meeting.png)
 
-Here you can set the title and select participants, location, time and date of the meeting. Depending on the project you choose from the drop-down menu the list of project members will appear, allowing you to select appropriate participants to invite. Once you click **Create** button you will be able to edit the **Meeting agenda**.
+On this page, you can set the title and select the participants, location, time and the date of the meeting. Depending on the selected project, the page will show you a list of project members to invite as participants.. Once you click on the **Create** button, you will be able to edit the **Meeting agenda**.
 
 Read more about creating and editing **Meetings** [here](../../meetings).
