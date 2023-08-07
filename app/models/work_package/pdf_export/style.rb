@@ -201,6 +201,70 @@ module WorkPackage::PDFExport::Style
       resolve_markdown_styling(@styles.dig(:work_package, :markdown) || {})
     end
 
+    def cover_logo_header_spacing
+      20
+    end
+
+    def cover_header
+      { font: 'SpaceMono', size: 10, color: '064e80' }
+    end
+
+    def cover_header_offset
+      6.5
+    end
+
+    def cover_header_logo_height
+      25
+    end
+
+    def cover_footer
+      { size: 10, color: '414d5f' }
+    end
+
+    def cover_footer_offset
+      30
+    end
+
+    def cover_header_border
+      { color: 'd3dee3', height: 1, offset: 6 }
+    end
+
+    def cover_art_padding_top
+      120
+    end
+
+    def cover_art_padding_right
+      150
+    end
+
+    def cover_art_headline_max_height
+      30
+    end
+
+    def cover_art_subheading_max_height
+      30
+    end
+
+    def cover_art_headline_spacing
+      10
+    end
+
+    def cover_art_title_spacing
+      14
+    end
+
+    def cover_art_headline
+      { font: 'SpaceMono', color: '414d5f', size: 10 }
+    end
+
+    def cover_art_title
+      { color: '414d5f', styles: [:bold], size: 32, leading: -8 }
+    end
+
+    def cover_art_author
+      { color: '414d5f', styles: [:italic], size: 10 }
+    end
+
     private
 
     def resolve_pt(value, default)
