@@ -3,8 +3,11 @@ services:
     volumes:
       # Linux: mount the certificate bundle
       - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-
-  step:
-    # add any host here run in a docker service, that need a TLS certificate
-    extra_hosts:
-      - "openproject.local:host-gateway"
+    networks:
+      external:
+        aliases:
+          # Traefik is aliased to all the services that run behind it here.
+          # The reason to do this is that step-ca tries to validate the domains
+          # by connecting to them, and we'd like it to go through traefik, instead
+          # of calling the service containers directly.
+          - openproject.local

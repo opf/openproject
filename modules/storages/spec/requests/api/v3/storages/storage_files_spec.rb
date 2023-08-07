@@ -65,13 +65,43 @@ RSpec.describe 'API v3 storage files', content_type: :json, webmock: true do
     let(:response) do
       Storages::StorageFiles.new(
         [
-          Storages::StorageFile.new(1, 'new_younglings.md', 4096, 'text/markdown', DateTime.now, DateTime.now,
-                                    'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/', %i[readable]),
-          Storages::StorageFile.new(2, 'holocron_inventory.md', 4096, 'text/markdown', DateTime.now, DateTime.now,
-                                    'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/', %i[readable writeable])
+          Storages::StorageFile.new(
+            id: 1,
+            name: 'new_younglings.md',
+            size: 4096,
+            mime_type: 'text/markdown',
+            created_at: DateTime.now,
+            last_modified_at: DateTime.now,
+            created_by_name: 'Obi-Wan Kenobi',
+            last_modified_by_name: 'Obi-Wan Kenobi',
+            location: '/',
+            permissions: %i[readable]
+          ),
+          Storages::StorageFile.new(
+            id: 2,
+            name: 'holocron_inventory.md',
+            size: 4096,
+            mime_type: 'text/markdown',
+            created_at: DateTime.now,
+            last_modified_at: DateTime.now,
+            created_by_name: 'Obi-Wan Kenobi',
+            last_modified_by_name: 'Obi-Wan Kenobi',
+            location: '/',
+            permissions: %i[readable writeable]
+          )
         ],
-        Storages::StorageFile.new(32, '/', 4096 * 2, 'application/x-op-directory', DateTime.now, DateTime.now,
-                                  'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/', %i[readable writeable]),
+        Storages::StorageFile.new(
+          id: 32,
+          name: '/',
+          size: 4096 * 2,
+          mime_type: 'application/x-op-directory',
+          created_at: DateTime.now,
+          last_modified_at: DateTime.now,
+          created_by_name: 'Obi-Wan Kenobi',
+          last_modified_by_name: 'Obi-Wan Kenobi',
+          location: '/',
+          permissions: %i[readable writeable]
+        ),
         []
       )
     end

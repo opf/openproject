@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= styled_form_tag(project_settings_projects_storage_path(project_id: @project_storage_to_destroy.project, id: @project_storage_to_destroy),
+<%= styled_form_tag(project_settings_project_storage_path(project_id: @project_storage_to_destroy.project, id: @project_storage_to_destroy),
                     class: 'danger-zone',
                     method: :delete) do %>
   <section class="form--section">
@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
     <p>
       <%= t('storages.delete_warning.project_storage', file_storage: "<strong>#{h(@project_storage_to_destroy.storage.name)}</strong>").html_safe %>
     </p>
-    <ul>
+    <ul class="mb-3">
       <li> <%= t('storages.delete_warning.project_storage_delete_result_1') %>
       <li> <%= t('storages.delete_warning.project_storage_delete_result_2') %>
     </ul>
@@ -53,7 +53,7 @@ See COPYRIGHT and LICENSE files for more details.
            concat content_tag :i, '', class: 'button--icon icon-delete'
            concat content_tag :span, t(:button_delete), class: 'button--text'
            end %>
-      <%= link_to project_settings_projects_storages_path(@project_storage_to_destroy.project),
+      <%= link_to project_settings_project_storages_path(@project_storage_to_destroy.project),
           title: t(:button_cancel),
           class: 'button -with-icon icon-cancel' do %>
             <%= t(:button_cancel) %>

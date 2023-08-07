@@ -43,7 +43,7 @@ module Queries::Storages::WorkPackages::Filter
     end
 
     def joins
-      [:file_links, { project: :projects_storages }]
+      [:file_links, { project: :project_storages }]
     end
 
     def additional_where_condition

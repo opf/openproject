@@ -30,8 +30,8 @@ module Storages::LastProjectFolders
   class BaseContract < ::ModelContract
     include ActiveModel::Validations
 
-    attribute :projects_storage
-    validates_presence_of :projects_storage
+    attribute :project_storage
+    validates_presence_of :project_storage
     attribute :mode
     validates :mode, presence: true, inclusion: { in: %w[manual automatic] }
     attribute :origin_folder_id

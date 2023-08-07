@@ -17,6 +17,7 @@ User settings are accessible by administrators from the OpenProject **Administra
 | Topic                                       | Content                    |
 | ------------------------------------------- | -------------------------- |
 | [Default preferences](#default-preferences) | User default preferences.  |
+| [Display format](#display-format)           | Users name format.         |
 | [User deletion](#user-deletion)             | Who can delete users.      |
 | [User consent](#user-consent)               | User privacy and security. |
 
@@ -33,6 +34,12 @@ The default language is displayed for users when they first sign into OpenProjec
 You can also choose if success notifications (e.g. on the work package page) should be hidden automatically.
 
 These settings can be changed by users in their **My Account** page later on.
+
+## Display format
+
+![Users display format](openproject_system_guide_user_display_format.png)
+
+The **Display format** section covers how users name format should be displayed.
 
 ## User deletion
 

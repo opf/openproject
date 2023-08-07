@@ -118,7 +118,7 @@ RSpec.describe 'Storages module', js: true do
     context 'when showing project storages settings page' do
       context 'with storages module is enabled' do
         before do
-          visit project_settings_projects_storages_path(project)
+          visit project_settings_project_storages_path(project)
         end
 
         it 'must show the page' do
@@ -130,7 +130,7 @@ RSpec.describe 'Storages module', js: true do
         let(:project) { create(:project, enabled_module_names: %i[work_package_tracking]) }
 
         before do
-          visit project_settings_projects_storages_path(project)
+          visit project_settings_project_storages_path(project)
         end
 
         it 'mustn\'t show the page' do

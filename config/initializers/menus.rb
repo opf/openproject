@@ -373,7 +373,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :icalendar,
             { controller: '/admin/settings/icalendar_settings', action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_icalendar,
+            caption: :label_calendar_subscriptions,
             parent: :calendars_and_dates
 
   menu.push :settings,

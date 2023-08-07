@@ -99,15 +99,14 @@ de:
     edit: "Hilfe-Text für %{attribute_caption} bearbeiten"
     enterprise:
       description: 'Geben Sie zusätzliche Informationen für Attribute (inkl. benutzerdefinierter Felder) von Arbeitspaketen und Projekten an. Hilfetexte werden angezeigt, wenn Benutzer in Projekten und Arbeitspaketen auf das Fragezeichensymbol neben Eingabefeldern klicken.'
-  auth_sources:
-    index:
-      no_results_content_title: Derzeit gibt es keine Authentifizierungsmodi.
-      no_results_content_text: Erstellen Sie einen neuen Authentifizierungsmodus
   background_jobs:
     status:
       error_requeue: "Der Job ist mit einem Fehler fehlgeschlagen, wird aber erneut eingestellt. Der Fehler war: %{message}"
       cancelled_due_to: "Job wurde aufgrund eines Fehlers abgebrochen: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Dieses LDAP-Formular erfordert technische Kenntnisse ihres LDAP-/Active Directory Setups.
       <br/>
@@ -166,18 +165,18 @@ de:
     index:
       no_results_title_text: Derzeit gibt es keine Farben.
       no_results_content_text: Neue Farbe anlegen
-      label_new_color: "New color"
+      label_new_color: "Neue Farbe"
     new:
-      label_new_color: "New Color"
+      label_new_color: "Neue Farbe"
     edit:
-      label_edit_color: "Edit Color"
+      label_edit_color: "Farbe bearbeiten"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Neue Farbe"
+      label_edit_color: "Farbe bearbeiten"
     label_no_color: "Keine Farbe"
-    label_properties: "Properties"
+    label_properties: "Eigenschaften"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Möchten Sie die folgende Farbe wirklich löschen? Typen, die diese Farbe verwenden, bleiben erhalten.
   custom_actions:
     actions:
       name: "Aktionen"
@@ -260,7 +259,7 @@ de:
       types:
         no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'Typ "%{type}" aktivieren'
       versions:
         no_results_title_text: Derzeit gibt es keine Versionen für das Projekt.
         no_results_content_text: Neue Version erstellen
@@ -277,9 +276,9 @@ de:
       notice_reset_token: "Ein neuer %{type} Token wurde generiert. Der Zutrittstoken lautet:"
       token_value_warning: "Hinweis: Dieser Token ist nur einmal sichtbar, der Token kann jetzt kopiert werden."
       no_results_title_text: Zur Zeit stehen keine Zugangs-Tokens zur Verfügung.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
-      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
-      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "Der API-Token wurde gelöscht. Um ein neues Token zu erstellen, benutzen Sie bitte den Link im API-Bereich."
+      notice_rss_token_revoked: "Der RSS-Token wurde gelöscht. Um ein neues Token zu erstellen, benutzen Sie bitte den Link im RSS-Bereich."
+      notice_ical_token_revoked: "iCalendar-Token „%{token_name}“ für Kalender „%{calendar_name}“ des Projekts „%{project_name}“ wurde widerrufen. Die iCal-URL mit diesem Token ist jetzt ungültig."
   news:
     index:
       no_results_title_text: Es gibt aktuell keine Neuigkeiten.
@@ -335,11 +334,11 @@ de:
       no_results_title_text: Derzeit gibt es keine Arbeitspaket-Status.
       no_results_content_text: Neuen Status hinzufügen
   themes:
-    light: "Light"
-    light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
+    light: "Hell"
+    light_high_contrast: "Hell (hoher Kontrast)"
+    dark: "Dunkel"
+    dark_dimmed: "Dunkel gedimmt"
+    dark_high_contrast: "Dunkel (hoher Kontrast)"
   types:
     index:
       no_results_title_text: Derzeit gibt es keine Typen.
@@ -444,17 +443,17 @@ de:
       attribute_help_text:
         attribute_name: 'Attribut'
         help_text: 'Hilfe-Text'
-      auth_source:
-        account: "Konto"
-        attr_firstname: "Vorname-Attribut"
-        attr_lastname: "Nachname-Attribut"
-        attr_login: "Benutzername"
-        attr_mail: "E-Mail-Attribut"
-        base_dn: "BASE-DN"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
+        base_dn: "Base DN"
         host: "Host"
-        onthefly: "Benutzer automatisch erzeugen"
+        onthefly: "Automatic user creation"
         port: "Port"
-        tls_certificate_string: "LDAP-Server SSL-Zertifikat"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Projektarchiv"
       comment:
@@ -552,7 +551,7 @@ de:
         color: "Farbe"
       user:
         admin: "Administrator"
-        auth_source: "Authentifizierungs-Modus"
+        ldap_auth_source: "LDAP connection"
         current_password: "Aktuelles Passwort"
         force_password_change: "Erzwinge Passwortwechsel beim nächsten Login"
         language: "Sprache"
@@ -673,10 +672,10 @@ de:
           stellt keinen "Secure Context" zur Verfügung: Benutzen Sie entweder HTTPS oder eine Loopback-Adresse, wie z.B. localhost.
         wrong_length: "hat die falsche Länge (muss genau %{count} Zeichen haben)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "Das angegebene SSL-Zertifikat ist ungültig: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -895,8 +894,8 @@ de:
                 description: "\"Kennwortbestätigung\" sollte mit \"Neues Kennwort\" übereinstimmen."
             status:
               invalid_on_create: "ist kein gültiger Status für neue Benutzer."
-            auth_source:
-              error_not_found: "nicht gefunden"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Bitte wählen Sie mindestens einen Benutzer oder eine Gruppe."
           role_blank: "muss zugeordnet werden."
@@ -1314,7 +1313,7 @@ de:
   error_can_not_unarchive_project: "Dieses Projekt kann nicht ent-archiviert werden: %{errors}"
   error_check_user_and_role: "Bitte wählen Sie einen Nutzer und eine Rolle."
   error_code: "Fehler %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "Farbe konnte nicht gespeichert werden"
   error_cookie_missing: 'Das OpenProject Cookie fehlt. Bitte stellen Sie sicher, dass Cookies aktiviert sind, da diese Applikation ohne aktivierte Cookies nicht korrekt funktioniert.'
   error_custom_option_not_found: "Option ist nicht vorhanden."
   error_enterprise_activation_user_limit: "Ihr Konto konnte nicht aktiviert werden (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff zu erhalten."
@@ -1339,7 +1338,7 @@ de:
   error_password_change_failed: 'Beim Ändern des Passworts ist ein Fehler aufgetreten.'
   error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler aufgetreten: %{value}"
   error_scm_not_found: "Eintrag und/oder Revision existiert nicht im Projektarchiv."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "Typ konnte nicht gespeichert werden."
   error_unable_delete_status: "Der Arbeitspaket-Status kann nicht gelöscht werden, da er von mindestens einem Arbeitspaket genutzt wird."
   error_unable_delete_default_status: "Der Standardstatus für neue Arbeitspakete kann nicht gelöscht werden. Bitte wählen Sie einen anderen Standardstatus, bevor Sie diesen Status löschen."
   error_unable_to_connect: "Fehler beim Verbinden (%{value})"
@@ -1431,6 +1430,7 @@ de:
     changes_retracted: "Die Änderungen wurden zurückgezogen."
     caused_changes:
       dates_changed: "Datum geändert"
+      system_update: "OpenProject update"
     cause_descriptions:
       work_package_predecessor_changed_times: durch Änderungen am Vorgänger %{link}
       work_package_parent_changed_times: durch Änderungen am übergeordneten Arbeitspaket %{link}
@@ -1445,6 +1445,8 @@ de:
         dates:
           working: "%{date} ist jetzt ein Arbeitstag"
           non_working: "%{date} ist jetzt ein arbeitsfreier Tag"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: 'Konfigurationsanleitung'
     get_in_touch: "Sie haben Fragen? Nehmen Sie Kontakt mit uns auf."
@@ -1454,7 +1456,7 @@ de:
   menus:
     admin:
       mail_notification: "Mailbenachrichtigung"
-      mails_and_notifications: "Emails and notifications"
+      mails_and_notifications: "E-Mails und Benachrichtigungen"
       aggregation: 'Zusammenfassungen'
       api_and_webhooks: "API und Webhooks"
     quick_add:
@@ -1469,26 +1471,33 @@ de:
         action: "Aktion"
         expiration: "Läuft aus"
       indefinite_expiration: "Nie"
-      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      simple_revoke_confirmation: "Sind Sie sicher, dass Sie dieses Token widerrufen möchten?"
       api:
-        title: "API"
-        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
-        static_token_name: "API token"
-        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+        title: "Schnittstelle (API)"
+        text_hint: "API-Token erlauben es Drittanbieter-Anwendungen, mit dieser OpenProject-Instanz über REST-APIs zu kommunizieren."
+        static_token_name: "API-Token"
+        disabled_text: "API-Token sind vom Administrator nicht aktiviert. Bitte kontaktieren Sie Ihren Administrator, um diese Funktion zu nutzen."
       ical:
         title: "iCalendar"
-        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
-        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
-        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+        text_hint: "iCalendar Token erlauben es Benutzern <a href=\"%{path}\" target=\"_blank\">OpenProject Kalender</a> zu abonnieren und aktuelle Arbeitspaket-Informationen auf externen Clients anzuzeigen."
+        disabled_text: "iCalendar Abonnements sind vom Administrator nicht aktiviert. Bitte kontaktieren Sie Ihren Administrator, um diese Funktion zu nutzen."
+        empty_text_hint: "Um einen iCalendar Token hinzuzufügen, abonnieren Sie einen neuen oder bestehenden Kalender innerhalb des Kalender-Moduls eines Projekts. Sie müssen über die erforderlichen Berechtigungen verfügen."
       oauth:
         title: "OAuth"
-        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
-        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+        text_hint: "OAuth Tokens erlauben es Drittanbieter-Anwendungen, sich mit dieser OpenProject Instanz zu verbinden."
+        empty_text_hint: "Für Sie ist kein Zugriff auf die Anwendung von Drittanbietern konfiguriert. Bitte kontaktieren Sie Ihren Administrator, um diese Funktion zu aktivieren."
       rss:
         title: "RSS"
-        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
-        static_token_name: "RSS token"
-        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+        text_hint: "RSS-Token erlauben es Benutzern über einen externen RSS-Reader auf dem Laufenden zu bleiben."
+        static_token_name: "RSS-Token"
+        disabled_text: "RSS-Token sind vom Administrator nicht aktiviert. Bitte kontaktieren Sie Ihren Administrator, um diese Funktion zu nutzen."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "Sende Benachrichtigungen für diese Aktion"
     work_packages:
@@ -1557,9 +1566,9 @@ de:
   label_attachment_plural: "Dateien"
   label_attribute: "Attribut"
   label_attribute_plural: "Attribute"
-  label_auth_source: "Authentifizierungs-Modus"
-  label_auth_source_new: "Neuer Authentifizierungs-Modus"
-  label_auth_source_plural: "Authentifizierungs-Arten"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Authentifizierung"
   label_available_project_work_package_categories: 'Verfügbare Arbeitspaket-Kategorien'
   label_available_project_work_package_types: 'Verfügbare Arbeitspaket-Typen'
@@ -1618,7 +1627,7 @@ de:
   label_confirmation: "Bestätigung"
   label_contains: "enthält"
   label_content: "Inhalt"
-  label_color_plural: "Colors"
+  label_color_plural: "Farben"
   label_copied: "kopiert"
   label_copy_same_as_target: "So wie das Ziel"
   label_copy_source: "Quelle"
@@ -1693,7 +1702,7 @@ de:
   label_expanded_click_to_collapse: "Erweitert. Klicken Sie zum Ausblenden"
   label_f_hour: "%{value} Stunde"
   label_f_hour_plural: "%{value} Stunden"
-  label_favoured: "Favoured"
+  label_favoured: "Favorisiert"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS-Zugriffsschlüssel"
   label_feeds_access_key_created_on: "Atom-Zugriffsschlüssel vor %{value} erstellt"
@@ -1725,7 +1734,7 @@ de:
   label_hierarchy_leaf: "Hierarchie-Blatt"
   label_home: "Hauptseite"
   label_subject_or_id: "Titel oder ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Kalenderabonnements"
   label_impressum: "Impressum"
   label_in: "an"
   label_in_less_than: "in weniger als"
@@ -1889,8 +1898,8 @@ de:
   label_project_new: "Neues Projekt"
   label_project_plural: "Projekte"
   label_project_settings: "Projektkonfiguration"
-  label_project_storage_plural: "File Storages"
-  label_project_storage_project_folder: "File Storages: Project folders"
+  label_project_storage_plural: "Dateispeicher"
+  label_project_storage_project_folder: "Dateispeicher: Projektordner"
   label_projects_storage_information: "%{count} Projekte verbrauchen insgesamt %{storage} Speicherplatz"
   label_project_view_all: "Alle Projekte anzeigen"
   label_project_show_details: "Projektdetails anzeigen"
@@ -1978,7 +1987,7 @@ de:
   label_this_week: "aktuelle Woche"
   label_this_year: "aktuelles Jahr"
   label_time_entry_plural: "Aufgewendete Zeit"
-  label_title: "Title"
+  label_title: "Titel"
   label_projects_menu: "Projekte"
   label_today: "heute"
   label_top_menu: "Hauptmenü"
@@ -2082,10 +2091,7 @@ de:
   label_global_role: "Globale Rolle"
   label_not_changeable: "(nicht veränderbar)"
   label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "Abstrakte Authentifizierungsquellen können nicht verwendet werden."
-    ldap_error: "LDAP-Fehler: %{error_message}"
-    ldap_auth_failed: "Auf dem LDAP-Server konnte nicht authentifiziert werden."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Fehler beim Ausführen des Makros %{macro_name}"
   macro_unavailable: "Das Makro %{macro_name} kann nicht angezeigt werden."
   macros:
@@ -2274,7 +2280,7 @@ de:
   present_access_key_value: "Ihr %{key_name} ist: %{value}"
   notice_automatic_set_of_standard_type: "Der Standard-Typ wurde automatisch gesetzt."
   notice_logged_out: "Sie wurden ausgeloggt."
-  notice_wont_delete_auth_source: Die Authentifizierungsmethode kann nicht gelöscht werden, solange es noch Benutzer gibt, die diese verwenden.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Sie können die benutzerdefinierten Felder dieses Projekts nicht aktualisieren. Das Projekt ist ungültig: %{errors}"
   notice_attachment_migration_wiki_page: >
     Diese Seite wurde automatisch während der Aktualisierung von OpenProject generiert. Es enthält alle Anhänge, die zuvor innerhalb %{container_type} "%{container_name}" zugeordnet waren.
@@ -2308,8 +2314,8 @@ de:
   permission_add_messages: "Forenbeiträge hinzufügen"
   permission_add_project: "Projekt erstellen"
   permission_archive_project: "Projekt archivieren"
-  permission_create_user: "Create users"
-  permission_manage_user: "Edit users"
+  permission_create_user: "Benutzer erstellen"
+  permission_manage_user: "Benutzer bearbeiten"
   permission_manage_placeholder_user: "Platzhalter Benutzer erstellen, bearbeiten und löschen"
   permission_add_subprojects: "Unterprojekte erstellen"
   permission_add_work_package_watchers: "Beobachter hinzufügen"
@@ -2761,12 +2767,16 @@ de:
   text_work_packages_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete löschen möchten?"
   text_work_packages_ref_in_commit_messages: "Arbeitspaket-Beziehungen und -Status in Commit-Log-Meldungen"
   text_journal_added: "%{label} %{value} wurde hinzugefügt"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label} geändert von %{old} %{linebreak}zu %{new}"
   text_journal_changed_no_detail: "%{label} aktualisiert"
   text_journal_changed_with_diff: "%{label} geändert (%{link})"
   text_journal_deleted: "%{label} %{old} wurde gelöscht"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} wurde gelöscht (%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} wurde auf %{value} gesetzt"
   text_journal_set_with_diff: "%{label} gesetzt (%{link})"
@@ -2814,9 +2824,9 @@ de:
   text_setup_mail_configuration: "Konfigurieren Sie Ihren E-Mail-Provider"
   help_texts:
     views:
-      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
-      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
-      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
+      project: "%{plural} sind immer einem Projekt zugeordnet. Nach dem Erstellen eines %{singular} können Sie Arbeitspakete von anderen Projekten hinzufügen."
+      public: "Veröffentlichen Sie diese Ansicht und erlauben Sie anderen Benutzern, auf sie zuzugreifen. Benutzer mit der Berechtigung \"Öffentliche Ansichten verwalten\" können öffentliche Abfragen ändern oder entfernen. Dies hat keinen Einfluss auf die Sichtbarkeit von Arbeitspaketen in dieser Ansicht und je nach Berechtigung, können Benutzer unterschiedliche Ergebnisse sehen."
+      favoured: "Markiert diese Ansicht als Favorit und fügt sie der linken Seitenleiste hinzu."
   time:
     am: "vormittags"
     formats:

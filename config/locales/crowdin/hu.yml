@@ -99,15 +99,14 @@ hu:
     edit: "Súgószöveg \"%{attribute_caption}\" szerkesztése"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: Jelenleg nincs autentikációs mód.
-      no_results_content_text: Új autentikációs mód létrehozása
   background_jobs:
     status:
       error_requeue: "A művelet hibát észlelt, de újra próbálkozik. A hiba a következő volt: %{message}\n"
       cancelled_due_to: "A műveletet hiba miatt törölték: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Ehhez az LDAP űrlaphoz az Ön LDAP / Acitive Directory beállításainak ismerete szükséges.
       <br/>
@@ -446,16 +445,16 @@ hu:
       attribute_help_text:
         attribute_name: 'Attribútum'
         help_text: 'Súgószöveg'
-      auth_source:
-        account: "Felhasználói fiók"
-        attr_firstname: "Keresztnév attribútum"
-        attr_lastname: "Vezetéknév attribútum"
-        attr_login: "Felhasználónév attribútum"
-        attr_mail: "Email attribútum"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "Automatikus felhasználó készítés"
-        port: "Port szám"
+        onthefly: "Automatic user creation"
+        port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Csomagtároló"
@@ -554,7 +553,7 @@ hu:
         color: "Szín"
       user:
         admin: "Adminisztrátor"
-        auth_source: "Hitelesítési mód"
+        ldap_auth_source: "LDAP connection"
         current_password: "Jelenlegi jelszó"
         force_password_change: "Kötelező jelszóváltás a következő bejelentkezéskor"
         language: "Nyelv"
@@ -675,7 +674,7 @@ hu:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "nem megfelelő hosszúságú (%{count} karakter szükséges)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -897,8 +896,8 @@ hu:
                 description: "A \"'Jelszó megerősítés\"-nek meg kell egyeznie az \"Új jelszó\" mezővel."
             status:
               invalid_on_create: "ez nem egy érvényes állapot, az új felhasználó számára."
-            auth_source:
-              error_not_found: "nem található"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Kérem, válasszon legalább egy felhasználót vagy csoportot."
           role_blank: "Hozzá kell rendelve lennie"
@@ -1433,6 +1432,7 @@ hu:
     changes_retracted: "A módosítások visszavonásra kerültek."
     caused_changes:
       dates_changed: "Dates changed"
+      system_update: "OpenProject update"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1447,6 +1447,8 @@ hu:
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: 'Konfigurációs útmutató'
     get_in_touch: "Kérdése van? Lépjen kapcsolatba velünk"
@@ -1491,6 +1493,13 @@ hu:
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "Értesítések küldése ehhez a művelethez\n"
     work_packages:
@@ -1559,9 +1568,9 @@ hu:
   label_attachment_plural: "Fájlok"
   label_attribute: "Attribútum"
   label_attribute_plural: "Attribútumok"
-  label_auth_source: "Hitelesítési mód"
-  label_auth_source_new: "Új hitelesítési mód"
-  label_auth_source_plural: "Hitelesítési mód"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Hitelesítés"
   label_available_project_work_package_categories: 'Rendelkezésre álló munkacsomag kategóriák'
   label_available_project_work_package_types: 'Rendelkezésre álló munkacsomag típusok'
@@ -1727,7 +1736,7 @@ hu:
   label_hierarchy_leaf: "Hierarchia szint"
   label_home: "Home"
   label_subject_or_id: "Tárgy, vagy azonosító"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Jogi nyilatkozat"
   label_in: "in"
   label_in_less_than: "kevesebb, mint"
@@ -2084,10 +2093,7 @@ hu:
   label_global_role: "Globális szerep"
   label_not_changeable: "(nem módosítható)"
   label_global: "Globális"
-  auth_source:
-    using_abstract_auth_source: "Nem használható egy absztrakt hitelesítési forrás."
-    ldap_error: "LDAP-hiba: %{error_message}"
-    ldap_auth_failed: "A hitelesítés meghiúsult az LDAP-kiszolgálón."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Hiba a makro %{macro_name} végrehajtásában"
   macro_unavailable: "A %{macro_name} makró nem jeleníthető meg."
   macros:
@@ -2275,7 +2281,7 @@ hu:
   present_access_key_value: "A Te %{key_name} is: %{value}"
   notice_automatic_set_of_standard_type: "Automatikusan beállítja alap típust ."
   notice_logged_out: "Kijelentkeztél."
-  notice_wont_delete_auth_source: Az autentikációs mód nem törölhető, amíg valamelyik felhasználó azt használja.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Nem tudod firssíteni a projekt egyedi mezőit. A projekt érvénytelen: %{errors}"
   notice_attachment_migration_wiki_page: >
     Ez az oldal automatikusan jött létre az OpenProject frissítésekor. Tartalmazza az összes mellékletet az alábbiakhoz: %{container_type} %{container_name}.
@@ -2762,12 +2768,16 @@ hu:
   text_work_packages_destroy_confirmation: "Biztosan törli a kijelölt feladatcsoportot?"
   text_work_packages_ref_in_commit_messages: "Viszonyítandó és elintézendő feladatcsoportok a véglegesítési üzenetekben"
   text_journal_added: "%{label} %{value} hozzáadva"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label} megváltozott %{old} %{linebreak}-tól %{new} -ig"
   text_journal_changed_no_detail: "%{label} frissítve"
   text_journal_changed_with_diff: "%{label} megváltozott (%{link})"
   text_journal_deleted: "%{label} törölve (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} törölt (%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} beállított %{value}"
   text_journal_set_with_diff: "%{label} beállított (%{link})"

@@ -72,6 +72,7 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
         'Category',
         'CustomOption'])
       .addFieldType(ResourcesDisplayField, 'resources', ['[]CustomOption'])
+      .addFieldType(ResourcesDisplayField, 'resources', ['[]Version'])
       .addFieldType(MultipleUserFieldModule, 'users', ['[]User'])
       .addFieldType(FormattableDisplayField, 'formattable', ['Formattable'])
       .addFieldType(DaysDurationDisplayField, 'duration', ['duration'])

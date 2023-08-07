@@ -428,13 +428,15 @@ module Journals
           storages_file_links_journals (
             journal_id,
             file_link_id,
-            link_name
+            link_name,
+            storage_name
           )
         SELECT
           #{id_from_inserted_journal_sql},
           file_links.id,
-          file_links.origin_name
-        FROM file_links
+          file_links.origin_name,
+          storages.name
+        FROM file_links left join storages ON file_links.storage_id = storages.id
         WHERE
           #{only_if_created_sql}
           AND file_links.container_id = :journable_id

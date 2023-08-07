@@ -79,14 +79,6 @@ module OpenProject
               options
     end
 
-    def link_to_file_link(file_link, options = {})
-      text = options.delete(:text) || file_link.origin_name
-
-      link_to text,
-              url_to_file_link(file_link, only_path: options.delete(:only_path) { true }),
-              options
-    end
-
     # Generates a link to a SCM revision
     # Options:
     # * :text - Link text (default to the formatted revision)

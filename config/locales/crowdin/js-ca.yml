@@ -342,21 +342,22 @@ ca:
           learn_about: "Més informació sobre les noves funcions"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                Aquesta versió inclou noves funcionalitats i millores: <br><ul class="%{list_styling_class}"><li>Càrrega i enllaç de fitxers des dels paquets de treball al teu emmagatzematge de fitxers Nextcloud.</li> <li>Segueix els canvis en projectes en el seguiment d'activitat de projecte.</li> <li>Afegeix dies no laborables per a tothom a la teva instància.</li> <li>Arxiva projectes encara que no siguis un administrador.</li> <li>Nou filtre per defecte per a paquets de treball vençuts.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
     ical_sharing_modal:
-      title: "Subscripció via iCalendar"
+      title: "Subscribe to calendar"
       inital_setup_error_message: "S'ha produït un error en carregar les dades."
-      description: "Pots utilitzar l'URL d'iCalendar per importar o subscriure't a aquest calendari en un client extern i veure les informacions dels paquets de treball en temps real des d'allà."
-      warning: "Si us plau, no comparteixis aquesta URL amb usuaris externs. Qualsevol persona amb aquest enllaç tindrà accés als detalls dels paquets de treball sense necessitat de tenir un compte o contrasenya."
-      token_name_label: "Nom del token"
-      token_name_placeholder: "Introdueix un nom per aquest token, ex. \"La meva aplicació de calendari\""
-      token_name_description_text: "Aquest nom s'utilitzarà per distingir-lo d'altres tokens en <a href=\"my/access_token\", target=\"_blank\">la llista de tokens d'accés</a>. Només es pot utilitzar un cop per calendari."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
       copy_url_label: "Copia l'URL"
-      ical_generation_error_text: "S'ha produït un error en generar l'URL del iCal."
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Activar"
     label_assignee: 'Assignat a'
     label_add_column_after: "Afegir una columna després"
@@ -1080,7 +1081,7 @@ ca:
         save_as: "Desa com a"
         export: "Exporta"
         visibility_settings: "Configuració de visibilitat"
-        share_calendar: "Subscripció via iCalendar"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Reanomena la vista"
         delete: "Elimina"
       filter: "Filtre"
@@ -1273,6 +1274,7 @@ ca:
         between_two_specific_dates: 'entre dues dates específiques'
       legends:
         changes_since: 'Canvis des de'
+        changes_between: 'Changes between'
         now_meets_filter_criteria: 'Ara compleix els criteris del filtre'
         no_longer_meets_filter_criteria: 'Ja no compleix els criteris del filtre'
         maintained_with_changes: 'Mantingut amb canvis'

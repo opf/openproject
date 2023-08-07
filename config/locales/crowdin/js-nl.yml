@@ -300,28 +300,28 @@ nl:
       label: 'Gantt chart'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
+        title: 'Labelconfiguratie'
         bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        left: 'Links'
+        right: 'Rechts'
+        farRight: 'Uiterst rechts'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(geen)"
       selection_mode:
         notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Inzoomen"
+        out: "Uitzoomen"
+        auto: "Automatisch inzoomen"
+        days: "Dagen"
+        weeks: "Weken"
+        months: "Maanden"
+        quarters: "Kwartalen"
+        years: "Jaren"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "Nee"
@@ -342,21 +342,22 @@ nl:
           learn_about: "Meer informatie over de nieuwe functies"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to iCalendar"
+      title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
-      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
-      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Token name"
-      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
-      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
       copy_url_label: "URL kopiëren"
-      ical_generation_error_text: "An error occured while generating the iCal URL."
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Activeren"
     label_assignee: 'Toegewezene'
     label_add_column_after: "Kolom toevoegen"
@@ -600,7 +601,7 @@ nl:
         dateAlert: 'Date alert'
       date_alerts:
         milestone_date: 'Milestone date'
-        overdue: 'Overdue'
+        overdue: 'Te laat'
         overdue_since: 'since %{difference_in_days}'
         property_today: 'is vandaag'
         property_is: 'is in %{difference_in_days}'
@@ -672,15 +673,15 @@ nl:
           work_package_scheduled: 'Alle datum wijzigingen '
         global:
           immediately:
-            title: 'Participating'
+            title: 'Deelnemend'
             description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
-            title: 'Non-participating'
+            title: 'Niet-deelnemend'
             description: 'Additional notifications for activities in all projects.'
           date_alerts:
             title: 'Date alerts'
             description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
-            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+            teaser_text: 'Met datummeldingen wordt u op de hoogte gebracht van de start- of einddatum, zodat u nooit een belangrijke deadline mist of vergeet.'
           overdue: When overdue
         project_specific:
           title: 'Project-specifieke meldingsinstellingen'
@@ -889,7 +890,7 @@ nl:
         start_date_limited_by_relations: "Available start and finish dates are limited by relations."
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
-        show_relations: 'Show relations'
+        show_relations: 'Relaties tonen'
         ignore_non_working_days:
           title: 'Alleen werkdagen'
       description_filter: "Filter"
@@ -1068,7 +1069,7 @@ nl:
         months: "maanden"
     toolbar:
       settings:
-        configure_view: "Configure view"
+        configure_view: "Weergave configureren"
         columns: "Kolommen"
         sort_by: "Sorteer op"
         group_by: "Groeperen op"
@@ -1080,7 +1081,7 @@ nl:
         save_as: "Opslaan als"
         export: "Exporteren"
         visibility_settings: "Zichtbaarheidsinstellingen"
-        share_calendar: "Subscribe to iCalendar"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Hernoem weergave"
         delete: "Verwijderen"
       filter: "Filter"
@@ -1099,8 +1100,8 @@ nl:
         text: 'Weet u zeker dat u deze actie wilt uitvoeren?'
       destroy_work_package:
         title: "Bevestig verwijdering van %{label}"
-        single_text: "Are you sure you want to delete the work package"
-        bulk_text: "Are you sure you want to delete the following %{label}?"
+        single_text: "Weet u zeker dat u het werkpakket wilt verwijderen"
+        bulk_text: "Weet u zeker dat u de volgende %{label} wilt verwijderen?"
         has_children: "Het werkpakket heeft %{childUnits}:"
         confirm_deletion_children: "Ik erken dat alle onderliggende werkpakketten van de weergegeven werkpakketten verwijderd worden."
         deletes_children: "Alle onderliggende werkpakketten en hun nakomelingen ook worden verwijderd."
@@ -1160,7 +1161,7 @@ nl:
       close_search: "Sluit zoekopdracht"
       current_project_and_all_descendants: "In dit project + subprojecten"
       current_project: "In dit project"
-      recently_viewed: "Recently viewed"
+      recently_viewed: "Recent bekeken"
       search: "Zoeken"
       title:
         all_projects: "alle projecten"
@@ -1259,20 +1260,21 @@ nl:
       show_changes_since: 'Toon wijzigingen sinds'
       baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
-      time_description: 'In your local time: %{datetime}'
+      time_description: 'In uw lokale tijd: %{datetime}'
       time: 'Tijd'
       from: 'Van'
       to: 'Aan'
       drop_down:
         none: '-'
         yesterday: 'gisteren'
-        last_working_day: 'last working day'
+        last_working_day: 'laatste werkdag'
         last_week: 'Vorige week'
         last_month: 'vorige maand'
-        a_specific_date: 'a specific date'
-        between_two_specific_dates: 'between two specific dates'
+        a_specific_date: 'een specifieke datum'
+        between_two_specific_dates: 'tussen twee specifieke datums'
       legends:
-        changes_since: 'Changes since'
+        changes_since: 'Veranderingen sinds'
+        changes_between: 'Changes between'
         now_meets_filter_criteria: 'Now meets filter criteria'
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'

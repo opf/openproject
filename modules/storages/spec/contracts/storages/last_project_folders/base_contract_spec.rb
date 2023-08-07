@@ -37,7 +37,7 @@ RSpec.describe Storages::LastProjectFolders::BaseContract do
 
   context 'if no project storage is given' do
     before do
-      last_project_folder.projects_storage = nil
+      last_project_folder.project_storage = nil
     end
 
     it_behaves_like 'contract is invalid'

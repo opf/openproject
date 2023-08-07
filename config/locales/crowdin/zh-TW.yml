@@ -99,15 +99,14 @@ zh-TW:
     edit: "編輯 %{attribute_caption} 的說明文字"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: 目前沒有身份驗證模式
-      no_results_content_text: 建立新身分驗證模式
   background_jobs:
     status:
       error_requeue: "作業出現錯誤但重試中.錯誤訊息%{message}"
       cancelled_due_to: "作業因錯誤取消: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
       <br/>
@@ -448,16 +447,16 @@ zh-TW:
       attribute_help_text:
         attribute_name: '属性'
         help_text: '說明文字'
-      auth_source:
-        account: "帳號"
-        attr_firstname: "名"
-        attr_lastname: "姓"
-        attr_login: "使用者名稱屬性。"
-        attr_mail: "Email"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
         base_dn: "Base DN"
-        host: "主機"
-        onthefly: "自動新增用戶"
-        port: "埠"
+        host: "Host"
+        onthefly: "Automatic user creation"
+        port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repository"
@@ -556,7 +555,7 @@ zh-TW:
         color: "顏色"
       user:
         admin: "管理員"
-        auth_source: "身份驗證模式"
+        ldap_auth_source: "LDAP connection"
         current_password: "目前的密碼"
         force_password_change: "強制在下次登入時更改密碼"
         language: "語言"
@@ -677,7 +676,7 @@ zh-TW:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "長度錯誤 (應該要有 %{count} 個字元)"
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -898,8 +897,8 @@ zh-TW:
                 description: "‘確認密碼’ 應該要符合 '新密碼'"
             status:
               invalid_on_create: "不是新用戶的有效狀態"
-            auth_source:
-              error_not_found: "未找到"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "請至少選擇一個使用者或群組。"
           role_blank: "需要被指定"
@@ -1417,6 +1416,7 @@ zh-TW:
     changes_retracted: "更改已被撤銷"
     caused_changes:
       dates_changed: "Dates changed"
+      system_update: "OpenProject update"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1431,6 +1431,8 @@ zh-TW:
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: '設定指南'
     get_in_touch: "如有任何問題，歡迎聯繫我們"
@@ -1475,6 +1477,13 @@ zh-TW:
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "發送此操作的通知"
     work_packages:
@@ -1543,9 +1552,9 @@ zh-TW:
   label_attachment_plural: "檔案"
   label_attribute: "属性"
   label_attribute_plural: "属性"
-  label_auth_source: "身份驗證模式"
-  label_auth_source_new: "新的身份驗證模式"
-  label_auth_source_plural: "身份驗證模式"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "身份驗證"
   label_available_project_work_package_categories: '可用的工作項目類別'
   label_available_project_work_package_types: '可用的工作包類型'
@@ -1711,7 +1720,7 @@ zh-TW:
   label_hierarchy_leaf: "頁面結構頁"
   label_home: "Home"
   label_subject_or_id: "主旨或 id"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "法律聲明"
   label_in: "在"
   label_in_less_than: "少於"
@@ -2068,10 +2077,7 @@ zh-TW:
   label_global_role: "全域角色"
   label_not_changeable: "(不可更改)"
   label_global: "全域設定"
-  auth_source:
-    using_abstract_auth_source: "不能使用抽象的認證來源"
-    ldap_error: "LDAP 錯誤: %{error_message}"
-    ldap_auth_failed: "無法在 LDAP 伺服器上驗證"
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "執行巨集 (%{macro_name}) 錯誤"
   macro_unavailable: "巨集 \"%{macro_name}\" 無法顯示"
   macros:
@@ -2258,7 +2264,7 @@ zh-TW:
   present_access_key_value: "您的 %{key_name} 是 %{value}"
   notice_automatic_set_of_standard_type: "自動設定標準類型"
   notice_logged_out: "您已登出"
-  notice_wont_delete_auth_source: 身份驗證模式無法在仍有使用者的情況下被刪除
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "無法更新專案的可用自訂欄位。專案無效：%{errors}"
   notice_attachment_migration_wiki_page: >
     此頁面是因為更新 OpenProject 而自動產生的。他包含了所有之前與 %{container_type} "%{container_name}" 有關聯的附加檔案。
@@ -2744,12 +2750,16 @@ zh-TW:
   text_work_packages_destroy_confirmation: "你確定要刪除選定的工作項目嗎？"
   text_work_packages_ref_in_commit_messages: "在提交訊息中引用和修復工作項目"
   text_journal_added: "%{label} %{value} 已增加"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label} 從 %{old} %{linebreak} 改為 %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
   text_journal_changed_with_diff: "%{label} 已改變 (%{link})"
   text_journal_deleted: "%{label}已刪除 (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label}已刪除 (%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} 設定為 %{value}"
   text_journal_set_with_diff: "%{label} 設定 (%{link})"

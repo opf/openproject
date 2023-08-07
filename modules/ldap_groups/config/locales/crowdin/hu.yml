@@ -3,11 +3,11 @@ hu:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        auth_source: 'LDAP csatlakozás'
+        ldap_auth_source: 'LDAP connection'
         sync_users: 'Felhasználók szinkronizálása'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP szűrő'
-        auth_source: 'LDAP csatlakozás'
+        ldap_auth_source: 'LDAP connection'
         group_name_attribute: "Csoport név attribútum"
         sync_users: 'Felhasználók szinkronizálása'
         base_dn: "Keresési alap DN"

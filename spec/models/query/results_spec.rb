@@ -180,10 +180,8 @@ RSpec.describe Query::Results do
         create(:list_wp_custom_field,
                is_for_all: true,
                is_filter: true,
-               multi_value: true).tap do |cf|
-          work_package1.type.custom_fields << cf
-          work_package2.type.custom_fields << cf
-        end
+               multi_value: true,
+               types: [work_package1.type, work_package2.type])
       end
       let(:first_value) do
         custom_field.custom_options.first
@@ -218,16 +216,17 @@ RSpec.describe Query::Results do
 
     context 'when grouping by int custom field' do
       let!(:custom_field) do
-        create(:int_wp_custom_field, is_for_all: true, is_filter: true)
+        create(:int_wp_custom_field,
+               is_for_all: true,
+               is_filter: true,
+               projects: [project1],
+               types: [wp_p1[0].type])
       end
 
       let(:group_by) { custom_field.column_name }
 
       before do
         login_as(user1)
-
-        wp_p1[0].type.custom_fields << custom_field
-        project1.work_package_custom_fields << custom_field
 
         wp_p1[0].update_attribute(custom_field.attribute_name, 42)
         wp_p1[0].save
@@ -261,16 +260,17 @@ RSpec.describe Query::Results do
 
     context 'when grouping by bool custom field' do
       let!(:custom_field) do
-        create(:bool_wp_custom_field, is_for_all: true, is_filter: true)
+        create(:bool_wp_custom_field,
+               is_for_all: true,
+               is_filter: true,
+               projects: [project1],
+               types: [wp_p1[0].type])
       end
 
       let(:group_by) { custom_field.column_name }
 
       before do
         login_as(user1)
-
-        wp_p1[0].type.custom_fields << custom_field
-        project1.work_package_custom_fields << custom_field
 
         wp_p1[0].update_attribute(custom_field.attribute_name, true)
         wp_p1[0].save
@@ -285,16 +285,17 @@ RSpec.describe Query::Results do
 
     context 'when grouping by date custom field' do
       let!(:custom_field) do
-        create(:date_wp_custom_field, is_for_all: true, is_filter: true)
+        create(:date_wp_custom_field,
+               is_for_all: true,
+               is_filter: true,
+               projects: [project1],
+               types: [wp_p1[0].type])
       end
 
       let(:group_by) { custom_field.column_name }
 
       before do
         login_as(user1)
-
-        wp_p1[0].type.custom_fields << custom_field
-        project1.work_package_custom_fields << custom_field
 
         wp_p1[0].update_attribute(custom_field.attribute_name, Time.zone.today)
         wp_p1[0].save
@@ -483,7 +484,12 @@ RSpec.describe Query::Results do
                     column_names: columns)
     end
 
-    let(:bool_cf) { create(:bool_wp_custom_field, is_filter: true) }
+    let(:bool_cf) do
+      create(:bool_wp_custom_field,
+             is_filter: true,
+             projects: [work_package1.project],
+             types: [work_package1.type])
+    end
     let(:custom_value) do
       create(:custom_value,
              custom_field: bool_cf,
@@ -492,13 +498,6 @@ RSpec.describe Query::Results do
     end
     let(:value) { 't' }
     let(:filter_value) { 't' }
-    let(:activate_cf) do
-      work_package1.project.work_package_custom_fields << bool_cf
-      work_package1.type.custom_fields << bool_cf
-
-      work_package1.reload
-      project1.reload
-    end
     let(:work_package1) { create(:work_package, project: project1) }
     let(:work_package2) { create(:work_package, project: project1, id: 2) }
     let(:work_package3) { create(:work_package, project: project1, id: 3) }
@@ -510,8 +509,6 @@ RSpec.describe Query::Results do
       allow(User).to receive(:current).and_return(user1)
 
       custom_value
-
-      activate_cf
 
       query.add_filter(bool_cf.column_name.to_sym, '=', [filter_value])
     end
@@ -577,12 +574,10 @@ RSpec.describe Query::Results do
              and the cf not being active for the type' do
       let(:custom_value) { nil }
       let(:filter_value) { 'f' }
-
-      let(:activate_cf) do
-        work_package1.type.custom_fields << bool_cf
-
-        work_package1.reload
-        project1.reload
+      let(:bool_cf) do
+        create(:bool_wp_custom_field,
+               is_filter: true,
+               types: [work_package1.type])
       end
 
       it_behaves_like 'is empty'
@@ -597,14 +592,8 @@ RSpec.describe Query::Results do
       let(:bool_cf) do
         create(:bool_wp_custom_field,
                is_filter: true,
-               is_for_all: true)
-      end
-
-      let(:activate_cf) do
-        work_package1.project.work_package_custom_fields << bool_cf
-
-        work_package1.reload
-        project1.reload
+               is_for_all: true,
+               projects: [work_package1.project])
       end
 
       it_behaves_like 'is empty'

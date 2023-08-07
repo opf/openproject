@@ -99,15 +99,14 @@ pl:
     edit: "Edytuj tekst pomocy dla %{attribute_caption}"
     enterprise:
       description: 'Zapewnić dodatkowe informacje dla atrybutów (w tym pól własnych) pakietów roboczych i projektów. Teksty pomocy są wyświetlane, gdy użytkownicy klikną na symbol znaku zapytania obok pól wejściowych w projektach i pakietach roboczych.'
-  auth_sources:
-    index:
-      no_results_content_title: Nie ma jeszcze żadnych trybów autoryzacji.
-      no_results_content_text: Utwórz nowy tryb autoryzacji
   background_jobs:
     status:
       error_requeue: "Zadanie napotkało błąd, ale próbuje ponownie. Błąd: %{message}"
       cancelled_due_to: "Zadanie zostało anulowane z powodu błędu: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Ten formularz LDAP wymaga wiedzy technicznej na temat konfiguracji usługi LDAP / Active Directory.
       <br/>
@@ -448,17 +447,17 @@ pl:
       attribute_help_text:
         attribute_name: 'Atrybut'
         help_text: 'Tekst pomocy'
-      auth_source:
-        account: "Konto"
-        attr_firstname: "Atrybut imię"
-        attr_lastname: "Atrybut nazwiska"
-        attr_login: "Atrybut nazwy użytkownika"
-        attr_mail: "Atrybut adresu e-mail"
-        base_dn: "Bazowa nazwa wyróżniająca"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
+        base_dn: "Base DN"
         host: "Host"
-        onthefly: "Automatyczne tworzenie użytkowników"
+        onthefly: "Automatic user creation"
         port: "Port"
-        tls_certificate_string: "Certyfikat SSL serwera LDAP"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozytorium"
       comment:
@@ -556,7 +555,7 @@ pl:
         color: "Kolor"
       user:
         admin: "Administrator"
-        auth_source: "Tryb uwierzytelniania"
+        ldap_auth_source: "LDAP connection"
         current_password: "Aktualne hasło"
         force_password_change: "Wymusza zmianę hasła przy następnym logowaniu"
         language: "Język"
@@ -677,10 +676,10 @@ pl:
           nie zapewnia „bezpiecznego kontekstu”. Użyj protokołu HTTPS albo adresu pętli zwrotnej, takiej jak localhost.
         wrong_length: "ma nieprawidłową długość (powinno mieć %{count} znaków)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "Podany certyfikat SSL jest nieprawidłowy: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -901,8 +900,8 @@ pl:
                 description: "\"Potwierdzenie hasła\" powinno być zgodne z wartością w polu 'Nowe hasło'."
             status:
               invalid_on_create: "nie jest prawidłowym statusem dla nowych użytkowników."
-            auth_source:
-              error_not_found: "nie znaleziono"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Wybierz co najmniej jeden użytkownik lub Grupa."
           role_blank: "musi być przypisany."
@@ -1471,6 +1470,7 @@ pl:
     changes_retracted: "Zmiany zostały wycofane."
     caused_changes:
       dates_changed: "Dates changed"
+      system_update: "OpenProject update"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1485,6 +1485,8 @@ pl:
         dates:
           working: "%{date} is now working"
           non_working: "%{date} jest teraz wolnym od pracy"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: 'Przewodnik po konfiguracji'
     get_in_touch: "Masz pytania? Skontaktuj się z nami."
@@ -1529,6 +1531,13 @@ pl:
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "Wyślij powiadomienia dla tej czynności"
     work_packages:
@@ -1597,9 +1606,9 @@ pl:
   label_attachment_plural: "Pliki"
   label_attribute: "Atrybut"
   label_attribute_plural: "Atrybuty"
-  label_auth_source: "Tryb uwierzytelniania"
-  label_auth_source_new: "Nowy tryb uwierzytelniania"
-  label_auth_source_plural: "Tryb uwierzytelniania"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Uwierzytelnianie"
   label_available_project_work_package_categories: 'Dostępne kategorie Zadań'
   label_available_project_work_package_types: 'Dostępne typy pakietów roboczych'
@@ -1765,7 +1774,7 @@ pl:
   label_hierarchy_leaf: "Liść hierarchii"
   label_home: "Strona główna"
   label_subject_or_id: "Temat lub identyfikator"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Informacje prawne"
   label_in: "w"
   label_in_less_than: "w mniej niż"
@@ -2122,10 +2131,7 @@ pl:
   label_global_role: "Globalna rola"
   label_not_changeable: "(niezmienialne)"
   label_global: "Globalna"
-  auth_source:
-    using_abstract_auth_source: "Nie można użyć fikcyjnego źródła uwierzytelniania."
-    ldap_error: "Błąd LDAP: %{error_message}"
-    ldap_auth_failed: "Nie można uwierzytelnić na serwerze LDAP."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Błąd podczas wykonywania makra %{macro_name}"
   macro_unavailable: "Makro %{macro_name} nie może zostać wyświetlone."
   macros:
@@ -2315,7 +2321,7 @@ pl:
   present_access_key_value: "Twój %{key_name} jest: %{value}"
   notice_automatic_set_of_standard_type: "Set standard type automatically."
   notice_logged_out: "Zostałeś wylogowany."
-  notice_wont_delete_auth_source: Tryb uwierzytelniania nie może być usunięty, tak długo, jak korzystają z niego użytkownicy.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Nie można zaktualizować dostępnych niestandardowych pól projektu. Projekt jest nieprawidłowy: %{errors}"
   notice_attachment_migration_wiki_page: >
     Strona wygenerowana automatycznie podczas aktualizacji OpenProject. Zawiera on wszystkie załączniki poprzednio skojarzone z %{container_type} "%{container_name}".
@@ -2802,12 +2808,16 @@ pl:
   text_work_packages_destroy_confirmation: "Czy na pewno chcesz usunąć wybrane pakiety robocze?"
   text_work_packages_ref_in_commit_messages: "Odwołania i poprawki do pakietów roboczych w wiadomościach o zmianach"
   text_journal_added: "%{label} %{value} added"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label} zmieniono z %{old} %{linebreak}na %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} set to %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"

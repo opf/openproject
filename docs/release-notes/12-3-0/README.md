@@ -14,7 +14,7 @@ We have now released [OpenProject 12.3.0](https://community.openproject.com/vers
 
 This release **improves the scheduling of work packages significantly** and will consequently save you a lot of time and make your scheduling more accurate.
 
-With OpenProject 12.3, administrators can define the [global work week](../../system-admin-guide/working-days/#working-days). That means which days of the week are working days and which are non-working days. The default setting for the work week is Monday-Friday. But you can set it according to your needs and define work week and weekends as needed.
+With OpenProject 12.3, administrators can define the [global work week](../../system-admin-guide/calendars-and-dates/#working-days). That means which days of the week are working days and which are non-working days. The default setting for the work week is Monday-Friday. But you can set it according to your needs and define work week and weekends as needed.
 
 OpenProject 12.3 also adds [duration](../../user-guide/work-packages/set-change-dates/#duration) to work packages. Thereby, the duration is bound to the start and the finish date.
 
@@ -32,7 +32,7 @@ This helps you to create more accurate project schedules and avoid having start 
 
 ![work-week-administration](work-week-administration.png)
 
-You can find out [how to set working and non-working days](../../system-admin-guide/working-days/#working-days) and [how to schedule your work packages within and without working and non-working days](../../user-guide/work-packages/set-change-dates/#working-days) in our documentation.
+You can find out [how to set working and non-working days](../../system-admin-guide/calendars-and-dates/#working-days) and [how to schedule your work packages within and without working and non-working days](../../user-guide/work-packages/set-change-dates/#working-days) in our documentation.
 
 ## Duration of work packages
 

@@ -78,8 +78,10 @@ FactoryBot.define do
       custom_values = evaluator.custom_values || {}
 
       if custom_values.is_a? Hash
-        custom_values.each_pair do |custom_field_id, value|
-          work_package.custom_values.build custom_field_id:, value:
+        custom_values.each_pair do |custom_field_id, values|
+          Array(values).each do |value|
+            work_package.custom_values.build custom_field_id:, value:
+          end
         end
       else
         custom_values.each { |cv| work_package.custom_values << cv }

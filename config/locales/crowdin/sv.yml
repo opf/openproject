@@ -99,15 +99,14 @@ sv:
     edit: "Redigera hjälptext för %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: Det finns för närvarande inga autentiseringslägen.
-      no_results_content_text: Skapa ett nytt autentiseringsläge
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
       cancelled_due_to: "Jobbet avbröts på grund av fel: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Detta LDAP-formulär kräver teknisk kunskap om din LDAP / Active Directory-inställning.
       <br/>
@@ -448,12 +447,12 @@ sv:
       attribute_help_text:
         attribute_name: 'Attributet'
         help_text: 'Hjälptext'
-      auth_source:
-        account: "Konto"
-        attr_firstname: "Förnamnsattribut"
-        attr_lastname: "Efternamnsattribut"
-        attr_login: "Attribut för användarnamn"
-        attr_mail: "E-postattribut"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
         base_dn: "Base DN"
         host: "Host"
         onthefly: "Automatic user creation"
@@ -556,7 +555,7 @@ sv:
         color: "Färg"
       user:
         admin: "Administratör"
-        auth_source: "Autentiseringsläge"
+        ldap_auth_source: "LDAP connection"
         current_password: "Nuvarande lösenord"
         force_password_change: "Tvinga lösenordsändring vid nästa inloggning"
         language: "Språk"
@@ -677,7 +676,7 @@ sv:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "har fel längd (måste vara %{count} tecken)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -899,8 +898,8 @@ sv:
                 description: "Lösenorden som anges i de två fälten måste matcha varandra."
             status:
               invalid_on_create: "är inte en giltig status för nya användare."
-            auth_source:
-              error_not_found: "hittades inte"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Välj minst en användare eller grupp."
           role_blank: "måste tilldelas."
@@ -1435,6 +1434,7 @@ sv:
     changes_retracted: "Förändringarna drogs tillbaka."
     caused_changes:
       dates_changed: "Dates changed"
+      system_update: "OpenProject update"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1449,6 +1449,8 @@ sv:
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: 'Konfigurationsguide'
     get_in_touch: "Har du frågor? Ta kontakt med oss."
@@ -1493,6 +1495,13 @@ sv:
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1561,9 +1570,9 @@ sv:
   label_attachment_plural: "Filer"
   label_attribute: "Attributet"
   label_attribute_plural: "Attribut"
-  label_auth_source: "Autentiseringsläge"
-  label_auth_source_new: "Nya autentiseringsläge"
-  label_auth_source_plural: "Autentiseringslägen"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentisering"
   label_available_project_work_package_categories: 'Tillgängliga arbetspaketkategorier'
   label_available_project_work_package_types: 'Tillgängliga typer för arbetspaket'
@@ -1729,7 +1738,7 @@ sv:
   label_hierarchy_leaf: "Hierarki-blad"
   label_home: "Hem"
   label_subject_or_id: "Ämne eller ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Villkor"
   label_in: "i"
   label_in_less_than: "i mindre än"
@@ -2086,10 +2095,7 @@ sv:
   label_global_role: "Globalroll"
   label_not_changeable: "(kan inte ändras)"
   label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "Kan inte använda en abstrakt autentiseringskälla."
-    ldap_error: "LDAP-fel: %{error_message}"
-    ldap_auth_failed: "Kunde inte autentisera på LDAP-servern."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Fel under körning av makrot %{macro_name}"
   macro_unavailable: "Makrot %{macro_name} kan inte visas."
   macros:
@@ -2278,7 +2284,7 @@ sv:
   present_access_key_value: "Din %{key_name} är: %{value}"
   notice_automatic_set_of_standard_type: "Ange standard typ automatiskt."
   notice_logged_out: "Du har loggats ut."
-  notice_wont_delete_auth_source: Autentiseringsläget kan inte tas bort så länge det finns användare som använder det.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Du kan inte uppdatera projektets anpassade fält. Projektet är ogiltig: %{errors}"
   notice_attachment_migration_wiki_page: >
     Denna sida genererades automatiskt under uppdateringen av OpenProject. Den innehåller alla bilagor som tidigare associerats med %{container_type} "%{container_name}".
@@ -2763,12 +2769,16 @@ sv:
   text_work_packages_destroy_confirmation: "Är du säker du vill ta bort det valda arbetspaket(paketen)?"
   text_work_packages_ref_in_commit_messages: "Referenser och fixande av arbetspaket i incheckningsmeddelanden"
   text_journal_added: "%{label} %{value} lades till"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} uppdaterades"
   text_journal_changed_with_diff: "%{label} ändrades (%{link})"
   text_journal_deleted: "%{label} raderad (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} raderad (%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} ange till %{value}"
   text_journal_set_with_diff: "%{label} anger (%{link})"

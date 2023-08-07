@@ -342,21 +342,22 @@ lt:
           learn_about: "Sužinokite daugiau apie naujas galimybes"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                Šioje laidoje yra įvairios naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Įkelkite ir susiekite failus iš darbo paketų į jūsų Nextcloud failų saugyklą.</li> <li>Nepraleiskite projekto pokyčių naudodami aktyvumo sekimą.</li> <li>Pridėkite bendras atostogas (nedarbo dienas).</li> <li>Projektus archyvuoti gali ir ne administratoriai.</li> <li>Naujas numatytasis filtras pavėluotiems darbo paketams.</li> </ul>
+                Laidoje yra naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Bazinės linijos lyginimas lengvesniam pokyčių sekimui.</li> <li>Darbo plano PDF eksportas ataskaitoms.</li> <li>Projekto kalendorių prenumerata per URL (iCalendar).</li> <li>Projekto aplankai su dokumentų šablonais Nextcloud integracijai.</li> <li>Lokalizuotas visų duomenų siuntimas.</li> <li>Globalūs moduliai rodomi naujuose turinio puslapiuose.</li> </ul>
     ical_sharing_modal:
-      title: "Prenumeruokite iCalendar"
+      title: "Prenumeruoti kalendorių"
       inital_setup_error_message: "Gaunant duomenis įvyko klaida."
-      description: "Jūs galite naudoti iCalendar URL, kad importuotumėte ar prenumeruotumėte šį kalendorių išoriniame kliente ir matytumėte ten aktualią darbo paketo informaciją."
-      warning: "Prašome nesidalinti šiuo URL su išoriniais naudotojais. Bet kas su šia nuoroda galės peržiūrėti darbo paketo detales be paskyros ar slaptažodžio."
-      token_name_label: "Žetono pavadinimas"
-      token_name_placeholder: "Įrašykite šio žetono pavadinimą, pvz. „Mano kalendoriaus aplikacija“"
-      token_name_description_text: "Šis pavadinimas bus naudojamas atskirti jį nuo kitų žetonų, esančių <a href=\"my/access_token\", target=\"_blank\">prieigos žetonų sąraše</a>. Jį galima panaudoti tik vieną kartą kalendoriuje."
+      description: "Jūs galite naudoti URL (iCalendar), kad prenumeruotumėte šį kalendorių išoriniame kliente ir žiūrėti naujausią darbo paketų informaciją."
+      warning: "Prašome nesidalinti šiuo URL su kitais naudotojais. Bet kas su šia nuoroda galės peržiūrėti darbo paketo detales be paskyros ar slaptažodžio."
+      token_name_label: "Kur jūs tai naudosite?"
+      token_name_placeholder: "Įrašykite pavadinimą, pvz. „Telefonas“"
+      token_name_description_text: "Jei prenumeruojate kalendorių iš kelių įrenginių, šis pavadinimas padės atskirti juos jūsų <a href=\"my/access_token\", target=\"_blank\">prieigos žetonų</a> sąraše."
       copy_url_label: "Kopijuoti URL"
-      ical_generation_error_text: "Kuriant iCal URL įvyko klaida."
+      ical_generation_error_text: "Kuriant kalendoriaus URL įvyko klaida."
+      success_message: "URL „%{name}“ buvo sėkmingai nukopijuotas į jūsų iškarpinę. Įkelkite jį į jūsų kalendoriaus klientą, kad baigtumėte prenumeratą."
     label_activate: "Aktyvuoti"
     label_assignee: 'Paskirtas'
     label_add_column_after: "Pridėti stulpelį po"
@@ -1082,7 +1083,7 @@ lt:
         save_as: "Įrašyti kaip"
         export: "Eksportuoti"
         visibility_settings: "Matomumo nustatymai"
-        share_calendar: "Prenumeruokite iCalendar"
+        share_calendar: "Prenumeruoti kalendorių"
         page_settings: "Pervardinti vaizdą"
         delete: "Trinti"
       filter: "Filtras"
@@ -1279,6 +1280,7 @@ lt:
         between_two_specific_dates: 'tarp dviejų konkrečių datų'
       legends:
         changes_since: 'Pakeitimai nuo'
+        changes_between: 'Pakeitimai tarp'
         now_meets_filter_criteria: 'Dabar atitinka filtro kriterijų'
         no_longer_meets_filter_criteria: 'Nebeatitinka filtro kriterijaus'
         maintained_with_changes: 'Palaikoma su pakeitimais'

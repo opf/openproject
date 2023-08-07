@@ -50,9 +50,9 @@ class Storages::Storage < ApplicationRecord
   # Basically every OpenProject object has a creator
   belongs_to :creator, class_name: 'User'
   # A project manager can enable/disable Storages per project.
-  has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
+  has_many :project_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
   # We can get the list of projects with this Storage enabled.
-  has_many :projects, through: :projects_storages
+  has_many :projects, through: :project_storages
   # The OAuth client credentials that OpenProject will use to obtain user specific
   # access tokens from the storage server, i.e a Nextcloud serer.
   has_one :oauth_client, as: :integration, dependent: :destroy
@@ -73,7 +73,7 @@ class Storages::Storage < ApplicationRecord
       all
     else
       where(
-        projects_storages: ::Storages::ProjectStorage.where(
+        project_storages: ::Storages::ProjectStorage.where(
           project: Project.allowed_to(user, :view_file_links)
         )
       )
@@ -81,7 +81,7 @@ class Storages::Storage < ApplicationRecord
   end
 
   scope :not_enabled_for_project, ->(project) do
-    where.not(id: project.projects_storages.pluck(:storage_id))
+    where.not(id: project.project_storages.pluck(:storage_id))
   end
 
   def self.shorten_provider_type(provider_type)

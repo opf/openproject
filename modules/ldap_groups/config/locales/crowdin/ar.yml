@@ -3,11 +3,11 @@ ar:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        auth_source: 'اتصال LDAP'
+        ldap_auth_source: 'LDAP connection'
         sync_users: 'مزامنة المستخدمين'
       ldap_groups/synchronized_filter:
         filter_string: 'مرشّح LDAP'
-        auth_source: 'اتصال LDAP'
+        ldap_auth_source: 'LDAP connection'
         group_name_attribute: "Group name attribute"
         sync_users: 'مزامنة المستخدمين'
         base_dn: "Search base DN"

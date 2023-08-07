@@ -28,6 +28,8 @@
 
 # Purpose: CRUD the global admin page of Storages (=Nextcloud servers)
 class Storages::Admin::StoragesController < ApplicationController
+  using Storages::Peripherals::ServiceResultRefinements
+
   # See https://guides.rubyonrails.org/layouts_and_rendering.html for reference on layout
   layout 'admin'
 
@@ -114,17 +116,17 @@ class Storages::Admin::StoragesController < ApplicationController
     end
   end
 
-  # Purpose: Destroy a specific Storage
-  # Called by: Global app/config/routes.rb to serve Web page
   def destroy
     Storages::Storages::DeleteService
       .new(user: User.current, model: @object)
       .call
+      .match(
+        # rubocop:disable Rails/ActionControllerFlashBeforeRender
+        on_success: ->(*) { flash[:notice] = I18n.t(:notice_successful_delete) },
+        on_failure: ->(error) { flash[:error] = error.full_messages }
+        # rubocop:enable Rails/ActionControllerFlashBeforeRender
+      )
 
-    # Displays a message box on the next page
-    flash[:notice] = I18n.t(:notice_successful_delete)
-
-    # Redirect to the index page
     redirect_to admin_settings_storages_path
   end
 

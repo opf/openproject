@@ -264,9 +264,9 @@ module Pages
 
     def visit!
       if board.project
-        visit project_work_package_boards_path(project_id: board.project.id, state: board.id)
+        visit project_work_package_board_path(board.project, board)
       else
-        visit work_package_boards_path(state: board.id)
+        visit work_package_board_path(board)
       end
     end
 

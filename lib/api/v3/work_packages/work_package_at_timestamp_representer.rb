@@ -78,7 +78,7 @@ module API
         end
 
         def compile_links_for(configs, *args)
-          super(configs.select { |config| rendered_properties.include?(config.first[:rel]) },
+          super(configs.select { |config| rendered_properties_for_links.include?(config.first[:rel]) },
                 *args)
         end
 
@@ -90,6 +90,21 @@ module API
               properties + STATIC_LINK_PROPERTIES
             else
               properties
+            end
+          end
+        end
+
+        # This separate property list is a workaround and ideally it is not required.
+        # The reason is that names in the representable_map are underscored "custom_fields_1",
+        # the :rel names in the config from the compile_links_for method are lower camel-cased "customField1".
+        # The rendered_properties method contains the underscored names and the rendered_properties_for_links
+        # contains the lower camel-cased names.
+        def rendered_properties_for_links
+          @rendered_properties_for_links ||= rendered_properties.map do |property|
+            if property.starts_with?("custom_field_")
+              API::Utilities::PropertyNameConverter.from_ar_name(property)
+            else
+              property
             end
           end
         end

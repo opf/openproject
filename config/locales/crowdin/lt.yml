@@ -99,15 +99,14 @@ lt:
     edit: "Redaguoti pagalbos tekstą atributui: %{attribute_caption}"
     enterprise:
       description: 'Teikia papildomą informaciją apie darbo paketų ir projektų atributus (įskaitant savus laukus).'
-  auth_sources:
-    index:
-      no_results_content_title: Šiuo metu nėra jokių autentifikacijos būdų.
-      no_results_content_text: Sukurti naują autentifikacijos būdą
   background_jobs:
     status:
       error_requeue: "Vykdant užduotį buvo rasta klaida, tačiau bandoma dar kartą. Klaida buvo: %{message}"
       cancelled_due_to: "Užduotis buvo nutraukta dėl klaidos: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Klaida: %{error_message}"
+    ldap_auth_failed: "LDAP serveryje autentifikacija nepavyko."
+    back_to_index: 'Spauskite čia, kad gryžtumėte į jungčių sąrašą.'
     technical_warning_html: |
       Ši LDAP forma reikalauja jūsų LDAP / Active Directory tvarkos žinojimo.
       <br/>
@@ -337,11 +336,11 @@ lt:
       no_results_title_text: Nėra jokių darbų paketo būsenų.
       no_results_content_text: Pridėti naują būseną
   themes:
-    light: "Light"
-    light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
+    light: "Šviesi"
+    light_high_contrast: "Šviesi kontrastinga"
+    dark: "Tamsi"
+    dark_dimmed: "Tamsi pritemdyta"
+    dark_high_contrast: "Tamsi kontrastinga"
   types:
     index:
       no_results_title_text: Nėra jokių rūšių.
@@ -448,16 +447,16 @@ lt:
       attribute_help_text:
         attribute_name: 'Atributas'
         help_text: 'Pagalbos tekstas'
-      auth_source:
+      ldap_auth_source:
         account: "Paskyra"
         attr_firstname: "Vardo atributas"
         attr_lastname: "Pavardės atributas"
         attr_login: "Naudotojo atributas"
         attr_mail: "El. paštos atributas"
         base_dn: "Bazinis DN"
-        host: "Hostas"
+        host: "Serveris"
         onthefly: "Automatinis naudotojų kūrimas"
-        port: "Jungtis"
+        port: "Prievadas"
         tls_certificate_string: "LDAP serverio SSL sertifikatas"
       changeset:
         repository: "Repozitorija"
@@ -556,7 +555,7 @@ lt:
         color: "Spalva"
       user:
         admin: "Administratorius"
-        auth_source: "Autentikacijos būdas"
+        ldap_auth_source: "LDAP jungtis"
         current_password: "Dabartinis slaptažodis"
         force_password_change: "Versti pasikeisti slaptažodį kitą kartą prisijungus"
         language: "Kalba"
@@ -677,7 +676,7 @@ lt:
           neteikia „Saugaus konteksto“. Arba naudokite HTTPS, arba atgalinį adresą, tokį kaip localhost.
         wrong_length: "yra neteisingo ilgio (turi būti %{count} simbolių)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "Pateiktas SSL sertifikatas netinkamas: %{additional_message}"
@@ -901,7 +900,7 @@ lt:
                 description: "„Slaptažodžio patvirtinimas“ turi sutapti su įvestu į laukelį „Naujas slaptažodis“."
             status:
               invalid_on_create: "yra netinkama naujų naudotojų būsena."
-            auth_source:
+            ldap_auth_source:
               error_not_found: "nerasta"
         member:
           principal_blank: "Prašome pasirinkti bent vieną naudotoją ar grupę."
@@ -1471,6 +1470,7 @@ lt:
     changes_retracted: "Pakeitimai buvo atšaukti."
     caused_changes:
       dates_changed: "Datos pasikeitė"
+      system_update: "OpenProject atnaujinimas"
     cause_descriptions:
       work_package_predecessor_changed_times: dėl pirmtako pakeitimų %{link}
       work_package_parent_changed_times: dėl tėvo pakeitimų %{link}
@@ -1485,6 +1485,8 @@ lt:
         dates:
           working: "%{date} dabar yra darbo"
           non_working: "%{date} dabar yra nedarbo"
+      system_update:
+        file_links_journal: 'Failų nuorodos pridėtos į veiksmus'
   links:
     configuration_guide: 'Konfigūravimo vadovas'
     get_in_touch: "Turite klausimų? Susisiekite su mumis."
@@ -1494,7 +1496,7 @@ lt:
   menus:
     admin:
       mail_notification: "El. pašto priminimai"
-      mails_and_notifications: "Emails and notifications"
+      mails_and_notifications: "Laiškai ir pranešimai"
       aggregation: 'Agregacija'
       api_and_webhooks: "API ir tinklo jungtys"
     quick_add:
@@ -1529,6 +1531,13 @@ lt:
         text_hint: "RSS žetonai leidžia naudotojams gauti informaciją apie paskutinius šio OpenProject egzemplioriaus pasikeitimus per išorinę RSS skaityklę."
         static_token_name: "RSS žetonas"
         disabled_text: "Administratorius neįjungė RSS žetonų. Prašome susisiekti su administratoriumi, kad galėtumėte naudoti šią savybę."
+      storages:
+        title: "Failų saugyklos"
+        text_hint: "Failų saugyklų žetonai jungia šį OpenProject egzempliorių su išorine failų saugykla."
+        empty_text_hint: "Su jūsų paskyra nėra susietos saugyklos prieigos."
+        revoke_token: "Ar tikrai norite išimti šį žetoną? Jums vėl reikės prisijungti prie %{storage}"
+        removed: "Failų saugykla sėkmingai pašalinta"
+        failed: "Įvyko klaida ir žetono išimti nepavyko. Prašome pabandyti dar kartą vėliau."
   notifications:
     send_notifications: "Siųsti pranešimus apie šį veiksmą"
     work_packages:
@@ -1597,9 +1606,9 @@ lt:
   label_attachment_plural: "Failai"
   label_attribute: "Atributas"
   label_attribute_plural: "Atributai"
-  label_auth_source: "Autentifikacijos būdas"
-  label_auth_source_new: "Naujas autentifikacijos būdas"
-  label_auth_source_plural: "Autentifikacijos būdai"
+  label_ldap_auth_source_new: "Nauja LDAP jungtis"
+  label_ldap_auth_source: "LDAP jungtis"
+  label_ldap_auth_source_plural: "LDAP jungtis"
   label_authentication: "Autentifikacija"
   label_available_project_work_package_categories: 'Galimos darbų paketo kategorijos'
   label_available_project_work_package_types: 'Galimi darbo paketų tipai'
@@ -1765,7 +1774,7 @@ lt:
   label_hierarchy_leaf: "Hierarchijos lapas"
   label_home: "Namai"
   label_subject_or_id: "Tema arba ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Kalendoriaus prenumeratos"
   label_impressum: "Teisinė informacija"
   label_in: " "
   label_in_less_than: "mažiau nei"
@@ -2122,10 +2131,7 @@ lt:
   label_global_role: "Globalus vaidmuo"
   label_not_changeable: "(negalima pakeisti)"
   label_global: "Globali"
-  auth_source:
-    using_abstract_auth_source: "Negalima naudoti abstraktaus autentifikavimo šaltinio."
-    ldap_error: "LDAP-Klaida: %{error_message}"
-    ldap_auth_failed: "LDAP serveryje autentifikacija nepavyko."
+  label_seeded_from_env_warning: Šis įrašas buvo nustatytas per nustatymą / aplinkos kintamąjį. Jo negalima keisti per UI.
   macro_execution_error: "Klaida vykdant makrokomandą %{macro_name}"
   macro_unavailable: "Makrokomanda %{macro_name} negali būti rodoma."
   macros:
@@ -2314,7 +2320,7 @@ lt:
   present_access_key_value: "Jūsų %{key_name} yra: %{value}"
   notice_automatic_set_of_standard_type: "Automatiškai nustatyti standartinį tipą."
   notice_logged_out: "Jūs sėkmingai atsijungėte."
-  notice_wont_delete_auth_source: Autentifikacijos būdas negali būti ištrintas ligi tol, kol yra jį naudojančių vartotojų.
+  notice_wont_delete_auth_source: Negalima ištrinti LDAP jungties, kol naudotojai ją naudoja.
   notice_project_cannot_update_custom_fields: "Jūs negalite atnaujinti projekto pasirinktinų laukų. Projektas yra netinkamas: %{errors}"
   notice_attachment_migration_wiki_page: >
     Šis puslapis buvo sugeneruotas automatiškai, kai buvo naujinama OpenProject. Jame yra visi prisegti failai, kurie buvo susieti su %{container_type} „%{container_name}“.
@@ -2801,12 +2807,16 @@ lt:
   text_work_packages_destroy_confirmation: "Ar tikrai norite ištrinti pasirinktus(-ą) darbų paketus(-ą)?"
   text_work_packages_ref_in_commit_messages: "Darbų paketų susiejimas ir taisymas pavedimų žinutėse"
   text_journal_added: "%{label} %{value} pridėtas"
+  text_journal_attachment_added: "%{label} %{value} pridėtas kaip priedas"
+  text_journal_attachment_deleted: "%{label} %{old} išimtas kaip priedas"
   text_journal_changed_plain: "%{label} pakeista iš %{old} %{linebreak}į %{new}"
   text_journal_changed_no_detail: "%{label} atnaujintas"
   text_journal_changed_with_diff: "%{label} pasikeitė (%{link})"
   text_journal_deleted: "%{label} ištrintas (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} ištrintas (%{link})"
+  text_journal_file_link_added: "pridėta %{label} nuoroda į %{value} (%{storage})"
+  text_journal_file_link_deleted: "išimta %{label} nuoroda į %{old} (%{storage})"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} nustatytas į %{value}"
   text_journal_set_with_diff: "%{label} pasikeitė (%{link})"

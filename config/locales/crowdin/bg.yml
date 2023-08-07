@@ -99,15 +99,14 @@ bg:
     edit: "Edit help text for %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: В момента има няма режими на удостоверяване.
-      no_results_content_text: Създаване на нов режим на удостоверяване
   background_jobs:
     status:
       error_requeue: "Заданието има грешка, но се опитва отново Грешката беше: %{message}"
       cancelled_due_to: "Заданието е отменено поради грешка: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Този LDAP формуляр изисква технически познания за настройката на LDAP / Active Directory.
       <br/>
@@ -449,16 +448,16 @@ bg:
       attribute_help_text:
         attribute_name: 'Атрибут'
         help_text: 'Help text'
-      auth_source:
-        account: "Акаунт"
-        attr_firstname: "Лично име атрибут"
-        attr_lastname: "Фамилно име атрибут"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
         attr_login: "Username attribute"
-        attr_mail: "Имейл атрибут"
-        base_dn: "Базов DN"
-        host: "Хост"
+        attr_mail: "Email attribute"
+        base_dn: "Base DN"
+        host: "Host"
         onthefly: "Automatic user creation"
-        port: "Порт"
+        port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Хранилище"
@@ -557,7 +556,7 @@ bg:
         color: "Цвят"
       user:
         admin: "Администратор"
-        auth_source: "Режим на удостоверяване"
+        ldap_auth_source: "LDAP connection"
         current_password: "Текуща парола"
         force_password_change: "Смяна на паролата при следващото влизане"
         language: "Език"
@@ -678,7 +677,7 @@ bg:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "е грешна дължина (трябва да бъде %{count} знаци)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -900,7 +899,7 @@ bg:
                 description: "\"Потвърждаване на паролата\" трябва да съответства на въведеното в поле \"нова парола\"."
             status:
               invalid_on_create: "is not a valid status for new users."
-            auth_source:
+            ldap_auth_source:
               error_not_found: "not found"
         member:
           principal_blank: "Моля изберете поне един потребител или група."
@@ -1436,6 +1435,7 @@ bg:
     changes_retracted: "The changes were retracted."
     caused_changes:
       dates_changed: "Dates changed"
+      system_update: "OpenProject update"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1450,6 +1450,8 @@ bg:
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: 'Configuration guide'
     get_in_touch: "You have questions? Get in touch with us."
@@ -1494,6 +1496,13 @@ bg:
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1562,9 +1571,9 @@ bg:
   label_attachment_plural: "Файлове"
   label_attribute: "Атрибут"
   label_attribute_plural: "Атрибути"
-  label_auth_source: "Режим на удостоверяване"
-  label_auth_source_new: "Нов начин на оторизация"
-  label_auth_source_plural: "Начини на оторизация"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Оторизация"
   label_available_project_work_package_categories: 'Налични категории работни пакети'
   label_available_project_work_package_types: 'Available work package types'
@@ -1730,7 +1739,7 @@ bg:
   label_hierarchy_leaf: "Йерархично листо"
   label_home: "Начална страница"
   label_subject_or_id: "Тема или №"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Legal notice"
   label_in: "в"
   label_in_less_than: "в по-малко от"
@@ -2087,10 +2096,7 @@ bg:
   label_global_role: "Global Role"
   label_not_changeable: "(не може да се променя)"
   label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "Can't use an abstract authentication source."
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
   macros:
@@ -2279,7 +2285,7 @@ bg:
   present_access_key_value: "Your %{key_name} is: %{value}"
   notice_automatic_set_of_standard_type: "Задаване на стандартен тип автоматично."
   notice_logged_out: "Вие излязохте."
-  notice_wont_delete_auth_source: Режим на удостоверяване не може да бъде изтрит, докато все още има потребители, които го използват.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Не можете да актуализирате наличните потребителски полета на проекта. Проектът е невалиден: %{errors}"
   notice_attachment_migration_wiki_page: >
     This page was generated automatically during the update of OpenProject. It contains all attachments previously associated with the %{container_type} "%{container_name}".
@@ -2766,12 +2772,16 @@ bg:
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
   text_journal_added: "%{label} %{value} added"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} set to %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"

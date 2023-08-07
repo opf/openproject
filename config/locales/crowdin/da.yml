@@ -99,15 +99,14 @@ da:
     edit: "Redigér hjælpetekst til %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: Der er i øjeblikket ingen godkendelse.
-      no_results_content_text: Opret en ny godkendelse
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Denne LDAP-formular kræver teknisk viden om din LDAP/Active Directory opsætning.
       <br/>
@@ -447,14 +446,14 @@ da:
       attribute_help_text:
         attribute_name: 'Egenskab'
         help_text: 'Help text'
-      auth_source:
-        account: "Konto"
-        attr_firstname: "Fornavn"
-        attr_lastname: "Efternavn"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
         attr_login: "Username attribute"
-        attr_mail: "E-mail"
-        base_dn: "DN base"
-        host: "Vært"
+        attr_mail: "Email attribute"
+        base_dn: "Base DN"
+        host: "Host"
         onthefly: "Automatic user creation"
         port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
@@ -555,7 +554,7 @@ da:
         color: "Farve"
       user:
         admin: "Administrator"
-        auth_source: "Godkendelsestilstand"
+        ldap_auth_source: "LDAP connection"
         current_password: "Nuværende adgangskode"
         force_password_change: "Ændring af adgangskode virksom ved næste login"
         language: "Sprog"
@@ -676,7 +675,7 @@ da:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "har forkert længde (burde være %{count} tegn)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -898,7 +897,7 @@ da:
                 description: "'Adgangskodebekræftelse' skal matche input fra feltet 'Ny adgangskode'."
             status:
               invalid_on_create: "is not a valid status for new users."
-            auth_source:
+            ldap_auth_source:
               error_not_found: "not found"
         member:
           principal_blank: "Vælg venligst mindst én bruger eller gruppe."
@@ -1434,6 +1433,7 @@ da:
     changes_retracted: "Ændringerne blev trukket tilbage."
     caused_changes:
       dates_changed: "Dates changed"
+      system_update: "OpenProject update"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1448,6 +1448,8 @@ da:
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: 'Configuration guide'
     get_in_touch: "Har du spørgsmål? Kom i kontakt med os."
@@ -1492,6 +1494,13 @@ da:
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1560,9 +1569,9 @@ da:
   label_attachment_plural: "Filer"
   label_attribute: "Egenskab"
   label_attribute_plural: "Egenskaber"
-  label_auth_source: "Godkendelsestilstand"
-  label_auth_source_new: "Ny godkendelsestilstand"
-  label_auth_source_plural: "Godkendelsestilstande"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Godkendelse"
   label_available_project_work_package_categories: 'Tilgængelige arbejdspakkekategorier'
   label_available_project_work_package_types: 'Available work package types'
@@ -1728,7 +1737,7 @@ da:
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Hjem"
   label_subject_or_id: "Subject or ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Legal notice"
   label_in: "i"
   label_in_less_than: "på mindre end"
@@ -2085,10 +2094,7 @@ da:
   label_global_role: "Global Role"
   label_not_changeable: "(not changeable)"
   label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "Kan ikke anvende en abstrakt godkendelseskilde."
-    ldap_error: "LDAP-fejl: %{error_message}"
-    ldap_auth_failed: "Kunne ikke godkendes på LDAP-serveren."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Fejl ved udførelse af makroen %{macro_name}"
   macro_unavailable: "Makro %{macro_name} kan ikke vises."
   macros:
@@ -2277,7 +2283,7 @@ da:
   present_access_key_value: "Din %{key_name} er: %{value}"
   notice_automatic_set_of_standard_type: "Fastsæt typen automatisk."
   notice_logged_out: "Du er blevet logget ud."
-  notice_wont_delete_auth_source: Godkendelsestilstanden kan ikke slettes, så længe den er stadig benyttes af brugere.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields. The project is invalid: %{errors}"
   notice_attachment_migration_wiki_page: >
     This page was generated automatically during the update of OpenProject. It contains all attachments previously associated with the %{container_type} "%{container_name}".
@@ -2762,12 +2768,16 @@ da:
   text_work_packages_destroy_confirmation: "Er du sikker på, du vil slette de/den valgte arbejdspakke(r)?"
   text_work_packages_ref_in_commit_messages: "Arbejdspakker håndteres i tilknyttede meddelelser"
   text_journal_added: "%{label} %{value} tilføjet"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} opdateret"
   text_journal_changed_with_diff: "%{label} ændret (%{link})"
   text_journal_deleted: "%{label} slettet (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} slettet (%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} sat til %{value}"
   text_journal_set_with_diff: "%{label} sat (%{link})"

@@ -23,6 +23,9 @@ set -e
 set -o pipefail
 ARCHITECTURE=$(get_architecture)
 
+apt-get update -qq
+apt-get install -y git wget curl gnupg2 apt-transport-https unzip build-essential libpq-dev
+
 # install node + npm
 curl -s https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCHITECTURE}.tar.gz | tar xzf - -C /usr/local --strip-components=1
 
@@ -37,8 +40,6 @@ fi
 
 apt-get update -qq
 apt-get install -y \
-	apt-transport-https \
-	pandoc \
 	poppler-utils \
 	unrtf \
 	tesseract-ocr \
@@ -86,4 +87,4 @@ fi
 
 gem install bundler --version "$BUNDLER_VERSION" --no-document
 
-useradd -d /home/$APP_USER -m $APP_USER
+id $APP_USER || useradd -d /home/$APP_USER -m $APP_USER

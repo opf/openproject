@@ -166,7 +166,7 @@ module Calendar
         replace_newlines: false
       )
 
-      "\n#{WorkPackage.human_attribute_name(:description)}:\n #{stripped_text}"
+      "\n#{WorkPackage.human_attribute_name(:description)}:\n#{stripped_text}"
     end
   end
 end

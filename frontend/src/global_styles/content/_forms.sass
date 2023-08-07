@@ -26,8 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-@import "../openproject/variables"
-
 $form--field-types: (text-field, text-area, select, check-box, radio-button, range-field, search, file, date-picker)
 $base-line-height: 1.5
 $form-label-color: var(--body-font-color)
@@ -35,7 +33,7 @@ $form-label-color: var(--body-font-color)
 %input-style
   border: var(--content-form-input-border)
   border-radius: 2px
-  font-size: 0.9rem
+  font-size: var(--body-font-size)
 
   &:hover, &:focus
     border: var(--content-form-input-hover-border)
@@ -229,7 +227,7 @@ hr
 
 %form--fieldset-legend-or-section-title
   color: #4d4d4d
-  font-size: 1rem
+  font-size: var(--body-font-size)
   font-weight: bold
   line-height: 1.8
   text-transform: uppercase
@@ -273,7 +271,7 @@ fieldset.form--fieldset
   float: right
   text-align: right
   color: #4d4d4d
-  font-size: 1rem
+  font-size: var(--body-font-size)
   font-style: italic
   line-height: 1.8
   margin-top: -1.8rem
@@ -321,6 +319,9 @@ fieldset.form--fieldset
   // to the container because it's duplicated there.
   &.-visible-overflow .form--field-container
     overflow: visible
+
+  &.-align-start
+    align-items: start
 
   &.-vertical,
   .form.-vertical &
@@ -429,6 +430,9 @@ fieldset.form--fieldset
   flex-grow: 2
   align-items: stretch
 
+  .option-label .option-label--select
+    margin-left: $spot-spacing-1
+
   &.-wrap-around
     display: flex
     flex-wrap: wrap
@@ -449,6 +453,10 @@ fieldset.form--fieldset
 
       > *:last-child
         margin-right: auto
+
+  &.-enterprise-restricted
+    flex-direction: column
+    align-items: start
 
   .form--field.-visible-overflow &
     overflow: visible
@@ -595,7 +603,7 @@ fieldset.form--fieldset
 select
   line-height: 100%
   margin-bottom: 0
-  font-size: 0.9rem
+  font-size: var(--body-font-size)
 
   &:hover, &:focus, &:active
     border-color: #999

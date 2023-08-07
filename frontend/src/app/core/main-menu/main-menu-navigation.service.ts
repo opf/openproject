@@ -1,6 +1,7 @@
 import { BehaviorSubject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
+import { arrowLeftIconData, toDOMString } from '@openproject/octicons-angular';
 
 @Injectable({ providedIn: 'root' })
 export class MainMenuNavigationService {
@@ -20,7 +21,8 @@ export class MainMenuNavigationService {
     // rejigger the main-menu sub-menu functionality.
     jQuery('#main-menu .toggler').remove(); // remove the togglers so they're inserted properly later.
 
-    const toggler = jQuery('<a class="toggler" href="#"><i class="icon6 icon-toggler icon-arrow-right3" aria-hidden="true"></i><span class="hidden-for-sighted"></span></a>')
+    const icon = toDOMString(arrowLeftIconData, 'small', { 'aria-hidden': 'true', class: 'icon-toggler' });
+    const toggler = jQuery(`<a class="toggler" href="#">${icon}<span class="hidden-for-sighted"></span></a>`)
       .on('click', function () {
         const target = jQuery(this);
         if (target.hasClass('toggler')) {
@@ -107,7 +109,8 @@ export class MainMenuNavigationService {
       const title = jQuery(child).parents('li').find('.main-item-wrapper .op-menu--item-title').contents()[0].textContent;
       const parentURL = jQuery(child).parents('li').find('.main-item-wrapper > a').attr('href');
       const header = jQuery('<div class="main-menu--children-menu-header"></div>');
-      const upLink = jQuery('<a class="main-menu--arrow-left-to-project" href="#"><i class="icon-arrow-left1" aria-hidden="true"></i></a>');
+      const icon = toDOMString(arrowLeftIconData, 'small', { 'aria-hidden': 'true' });
+      const upLink = jQuery(`<a class="main-menu--arrow-left-to-project" href="#">${icon}</a>`);
       const parentLink = jQuery(`<a href="${parentURL}" class="main-menu--parent-node ellipsis">${title}</a>`);
       upLink.attr('title', I18n.t('js.label_up'));
       upLink.on('click', navigateUp);

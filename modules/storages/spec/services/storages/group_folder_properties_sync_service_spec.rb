@@ -322,14 +322,14 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
              host: 'https://example.com',
              password: '12345678')
     end
-    let(:projects_storage1) do
+    let(:project_storage1) do
       create(:project_storage,
              project_folder_mode: 'automatic',
              project: project1,
              storage:)
     end
 
-    let(:projects_storage2) do
+    let(:project_storage2) do
       create(:project_storage,
              project_folder_mode: 'automatic',
              project: project2,
@@ -383,7 +383,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
         body: propfind_request_body,
         headers: {
           'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
-          'Depth' => '0'
+          'Depth' => '1'
         }
       ).to_return(status: 207, body: propfind_response_body2, headers: {})
       request_stubs << stub_request(:post, "https://example.com/ocs/v1.php/cloud/users/Obi-Wan/groups")
@@ -447,16 +447,16 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
     end
 
     it 'sets project folders properties' do
-      expect(projects_storage1.project_folder_id).to be_nil
-      expect(projects_storage2.project_folder_id).to eq('123')
+      expect(project_storage1.project_folder_id).to be_nil
+      expect(project_storage2.project_folder_id).to eq('123')
 
       described_class.new(storage).call
 
       expect(request_stubs).to all have_been_requested
-      projects_storage1.reload
-      projects_storage2.reload
-      expect(projects_storage1.project_folder_id).to eq('819')
-      expect(projects_storage2.project_folder_id).to eq('123')
+      project_storage1.reload
+      project_storage2.reload
+      expect(project_storage1.project_folder_id).to eq('819')
+      expect(project_storage2.project_folder_id).to eq('123')
     end
 
     context 'when remove_user_from_group_command fails unexpectedly' do
@@ -475,18 +475,18 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
       end
 
       it 'sets project folders properties, but does not remove inactive user from group' do
-        expect(projects_storage1.project_folder_id).to be_nil
-        expect(projects_storage2.project_folder_id).to eq('123')
+        expect(project_storage1.project_folder_id).to be_nil
+        expect(project_storage2.project_folder_id).to eq('123')
 
         expect do
           described_class.new(storage).call
         end.to raise_error(RuntimeError, /remove_user_from_group_command was called with/)
 
         expect(request_stubs).to all have_been_requested
-        projects_storage1.reload
-        projects_storage2.reload
-        expect(projects_storage1.project_folder_id).to eq('819')
-        expect(projects_storage2.project_folder_id).to eq('123')
+        project_storage1.reload
+        project_storage2.reload
+        expect(project_storage1.project_folder_id).to eq('819')
+        expect(project_storage2.project_folder_id).to eq('123')
       end
     end
   end

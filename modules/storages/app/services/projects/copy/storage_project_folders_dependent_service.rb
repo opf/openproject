@@ -45,10 +45,16 @@ module Projects::Copy
       return unless state.copied_project_storages
 
       state.copied_project_storages.each do |copied_project_storage|
-        if copied_project_storage[:source].project_folder_automatic?
-          copy_project_folder(copied_project_storage[:source], copied_project_storage[:target])
-
-          update_project_folder_id(copied_project_storage[:target])
+        source = copied_project_storage[:source]
+        target = copied_project_storage[:target]
+        if source.project_folder_automatic?
+          copy_project_folder(source, target)
+          update_project_folder_id(target)
+        elsif source.project_folder_manual?
+          target.update!(
+            project_folder_id: source.project_folder_id,
+            project_folder_mode: 'manual'
+          )
         end
       end
     end
@@ -69,22 +75,18 @@ module Projects::Copy
     def update_project_folder_id(project_storage)
       destination_folder_name = project_storage.project_folder_path
 
-      query_params = {
-        depth: '0',
-        path: destination_folder_name,
-        props: %w[oc:fileid]
-      }
-
       Storages::Peripherals::StorageRequests
         .new(storage: project_storage.storage)
-        .propfind_query
-        .call(**query_params)
+        .file_ids_query
+        .call(path: destination_folder_name)
         .match(
-          on_success: ->(r) do
-            file_id = r[destination_folder_name]["fileid"]
-            project_storage.update!(project_folder_id: file_id)
+          on_success: ->(file_ids) do
+            project_storage.update!(
+              project_folder_id: file_ids.values.first['fileid'],
+              project_folder_mode: 'automatic'
+            )
           end,
-          on_failure: ->(r) { add_error!(destination_folder_name, r.to_active_model_errors) }
+          on_failure: ->(error) { add_error!(destination_folder_name, error.to_active_model_errors) }
         )
     end
   end

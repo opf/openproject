@@ -22,14 +22,18 @@ jobs:
     strategy:
       matrix:
         include:
-          - base_prefix:
-            platform: linux/amd64
-          - base_prefix: ppc64le/
-            platform: linux/ppc64le
+          - platform: linux/amd64
+            target: slim
+          - platform: linux/arm64/v8
+            target: slim
+          - platform: linux/amd64
+            target: all-in-one
+          - platform: linux/ppc64le
             bim_support: false
-          - base_prefix: arm64v8/
-            platform: linux/arm64/v8
+            target: all-in-one
+          - platform: linux/arm64/v8
             bim_support: false
+            target: all-in-one
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -57,8 +61,8 @@ jobs:
         with:
           context: .
           platforms: ${{ matrix.platform }}
+          target: ${{ matrix.target }}
           build-args: |
-            BASE_PREFIX=${{ matrix.base_prefix }}
             BIM_SUPPORT=${{ matrix.bim_support }}
           pull: true
           load: true
@@ -67,7 +71,7 @@ jobs:
       - name: Test
         # We only test the native container. If that fails the builds for the others
         # will be cancelled as well.
-        if: matrix.platform == 'linux/amd64'
+        if: matrix.platform == 'linux/amd64' && matrix.target == 'all-in-one'
         run: |
           docker run \
             --name openproject \
@@ -86,8 +90,8 @@ jobs:
         with:
           context: .
           platforms: ${{ matrix.platform }}
+          target: ${{ matrix.target }}
           build-args: |
-            BASE_PREFIX=${{ matrix.base_prefix }}
             BIM_SUPPORT=${{ matrix.bim_support }}
           labels: ${{ steps.meta.outputs.labels }}
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
@@ -99,20 +103,29 @@ jobs:
       - name: Upload digest
         uses: actions/upload-artifact@v3
         with:
-          name: digests
+          name: digests-${{ matrix.target }}
           path: /tmp/digests/*
           if-no-files-found: error
           retention-days: 1
   merge:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [slim, all-in-one]
     needs:
       - build
     steps:
       - name: Download digests
         uses: actions/download-artifact@v3
         with:
-          name: digests
+          name: digests-${{ matrix.target }}
           path: /tmp/digests
+      - name: Set suffix
+        id: set_suffix
+        run: |
+          suffix="-${{ matrix.target }}"
+          if [ "$suffix" = "-all-in-one" ]; then suffix="" ; fi
+          echo "suffix=$suffix" >> "$GITHUB_OUTPUT"
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Docker meta
@@ -122,11 +135,12 @@ jobs:
           images: ${{ env.REGISTRY_IMAGE }}
           flavor: |
             latest=false
+            suffix=${{ steps.set_suffix.outputs.suffix }}
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-            type=raw,value=dev,enable={{is_default_branch}}
+            type=raw,value=dev,priority=200,enable={{is_default_branch}}
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:

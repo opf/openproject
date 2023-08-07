@@ -99,15 +99,14 @@ ko:
     edit: "%{attribute_caption}에 대한 도움말 텍스트 편집"
     enterprise:
       description: '작업 패키지 및 프로젝트의 특성(사용자 지정 필드 포함)에 대한 추가 정보를 제공합니다. 사용자가 프로젝트 및 작업 패키지의 입력 필드 옆에 있는 물음표 기호를 클릭하면 도움말 텍스트가 표시됩니다.'
-  auth_sources:
-    index:
-      no_results_content_title: 사용인증 모드가 없습니다.
-      no_results_content_text: 새 사용인증 모드 생성
   background_jobs:
     status:
       error_requeue: "작업 중에 오류가 발생했지만 다시 시도 중입니다. 오류 메시지: %{message}"
       cancelled_due_to: "오류로 인해 작업이 취소되었습니다: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       이 LDAP 양식을 사용하려면 LDAP / Active Directory 설정에 대한 기술 지식이 필요합니다.
       <br/>
@@ -447,17 +446,17 @@ ko:
       attribute_help_text:
         attribute_name: '특성'
         help_text: '도움말 텍스트'
-      auth_source:
-        account: "계정"
-        attr_firstname: "성 속성"
-        attr_lastname: "이름 속성"
-        attr_login: "사용자 이름 특성"
-        attr_mail: "이메일 속성"
-        base_dn: "기본 DN"
-        host: "호스트"
-        onthefly: "자동 사용자 생성"
-        port: "포트"
-        tls_certificate_string: "LDAP 서버 SSL 인증서"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatic user creation"
+        port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "리포지토리"
       comment:
@@ -555,7 +554,7 @@ ko:
         color: "색상"
       user:
         admin: "관리자"
-        auth_source: "인증모드"
+        ldap_auth_source: "LDAP connection"
         current_password: "기존 비밀번호"
         force_password_change: "다음 로그인 암호 변경 적용"
         language: "언어"
@@ -676,10 +675,10 @@ ko:
           "보안 컨텍스트"를 제공하지 않습니다. HTTPS 또는 localhost 같은 루프백 주소를 사용하세요.
         wrong_length: "너무 짧습니다 (최소 %{count} 자 이상이어야 합니다)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "제공된 SSL 인증서가 유효하지 않습니다: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -897,8 +896,8 @@ ko:
                 description: "비밀번호와 비밀번호 확인 필드가 일치하지 해야 합니다."
             status:
               invalid_on_create: "은(는) 새 사용자에 대해 유효한 상태가 아닙니다."
-            auth_source:
-              error_not_found: "찾을 수 없음"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "하나 이상의 사용자 또는 그룹을 선택 하십시오."
           role_blank: "할당해야 합니다."
@@ -1416,6 +1415,7 @@ ko:
     changes_retracted: "변경 사항이 취소되었습니다."
     caused_changes:
       dates_changed: "Dates changed"
+      system_update: "OpenProject update"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1430,6 +1430,8 @@ ko:
         dates:
           working: "%{date}은(는) 이제 근무일입니다."
           non_working: "%{date}은(는) 이제 휴무일입니다."
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: '구성 가이드'
     get_in_touch: "질문이 있으신가요? 문의해 주세요."
@@ -1474,6 +1476,13 @@ ko:
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "이 작업에 대한 알림 보내기"
     work_packages:
@@ -1542,9 +1551,9 @@ ko:
   label_attachment_plural: "파일"
   label_attribute: "특성"
   label_attribute_plural: "특성"
-  label_auth_source: "인증모드"
-  label_auth_source_new: "새 인증 모드"
-  label_auth_source_plural: "인증 모드"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "인증"
   label_available_project_work_package_categories: '사용 가능한 작업 패키지 카테고리'
   label_available_project_work_package_types: '사용 가능한 작업 패키지 유형'
@@ -1710,7 +1719,7 @@ ko:
   label_hierarchy_leaf: "계층 구조 리프"
   label_home: "홈"
   label_subject_or_id: "제목 또는 ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "법적 고지"
   label_in: "-"
   label_in_less_than: "보다 작음"
@@ -2067,10 +2076,7 @@ ko:
   label_global_role: "글로벌 역할"
   label_not_changeable: "(변경할 수 없음)"
   label_global: "글로벌"
-  auth_source:
-    using_abstract_auth_source: "추상 인증 소스를 사용할 수 없습니다."
-    ldap_error: "LDAP 오류: %{error_message}"
-    ldap_auth_failed: "LDAP 서버에서 인증할 수 없습니다."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "매크로 %{macro_name} 실행 중에 오류 발생"
   macro_unavailable: "매크로 %{macro_name}은(는) 표시할 수 없습니다."
   macros:
@@ -2257,7 +2263,7 @@ ko:
   present_access_key_value: "당신의 %{key_name} : %{value}"
   notice_automatic_set_of_standard_type: "자동으로 표준 유형을 설정합니다."
   notice_logged_out: "로그아웃했습니다."
-  notice_wont_delete_auth_source: 사용자가 사용 중인 인증 모드는 삭제할 수 없습니다.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "프로젝트의 사용 가능한 사용자 지정 필드를 업데이트할 수 없습니다. 프로젝트가 유효하지 않습니다: %{errors}"
   notice_attachment_migration_wiki_page: >
     이 페이지는 OpenProject 업데이트 중에 자동으로 생성되었습니다. 이 페이지에는 %{container_type} "%{container_name}"과(와) 이전에 연결된 모든 첨부 파일이 포함되어 있습니다.
@@ -2741,12 +2747,16 @@ ko:
   text_work_packages_destroy_confirmation: "선택한 작업 패키지를 삭제하시겠습니까?"
   text_work_packages_ref_in_commit_messages: "커밋 메시지의 작업 패키지 참조 또는 수정"
   text_journal_added: "%{label} %{value} 추가됨"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label}이(가) %{old}에서 %{linebreak}%{new}(으)로 변경되었습니다."
   text_journal_changed_no_detail: "%{label} 업데이트됨"
   text_journal_changed_with_diff: "%{label} 변경됨(%{link})"
   text_journal_deleted: "%{label} 삭제됨(%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} 삭제됨(%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label}이(가) %{value}(으)로 설정됨"
   text_journal_set_with_diff: "%{label} 설정됨(%{link})"

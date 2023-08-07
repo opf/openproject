@@ -89,7 +89,7 @@ ru:
         demo-construction-project:
           name: "(Демо) Конструкторский проект"
           status_explanation: Все задачи и подпроекты выполняются по графику. Вовлеченные люди знают свои задачи. Система полностью настроена.
-          description: This is a short summary of the goals of this demo construction project.
+          description: Это краткое изложение целей этого демонстрационного строительного проекта.
           news:
             item_0:
               title: Добро пожаловать в демо-проект
@@ -217,31 +217,31 @@ ru:
                 item_0:
                   subject: Сбор первичной информации о проекте
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   Define tasks based on the customer needs
-                    *   Time frame and cost estimation shall be defined
+                    * Определите задачи на основе потребностей клиента
+                    * Должны быть определены временные рамки и оценка затрат
 
-                    ## Description
+                    ## Описание
 
-                    *   Identify the customer needs by having a workshop with him/ her
-                    *   Each need shall represent a task with its corresponding work packages
-                    *   Derive the cost estimation and time frame
+                    * Определите потребности клиента, проведя с ним семинар
+                    * Каждая потребность должна представлять собой задачу с соответствующими пакетами работ
+                    * Определите оценку затрат и временные рамки
                 item_1:
                   subject: Подвести итоги
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    * Создать полезный обзор результатов
+                    * Проверить, что было сделано, и обобщить результаты
+                    * Сообщить все соответствующие результаты заказчику
+                    * Определить основные граничные условия проекта
 
-                    ## Description
+                    ## Описание
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
-                    *   ...
+                    * Каждая тема получает свой собственный обзор, который будет использоваться в качестве каталога результатов
+                    * Этот обзор информирует всех участников о принятых решениях
+                    * ...
                 item_2:
                   subject: Окончание базовой оценки
                   description: Этот тип является иерархически родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
@@ -267,18 +267,18 @@ ru:
                 item_1:
                   subject: Суммировать результаты
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    * Создать полезный обзор результатов
+                    * Проверить, что было сделано, и обобщить результаты
+                    * Сообщить все соответствующие результаты заказчику
+                    * Определить основные граничные условия проекта
 
-                    ## Description
+                    ## Описание
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
-                    *   ...
+                    * Каждая тема получает свой собственный обзор, который будет использоваться в качестве каталога результатов
+                    * Этот обзор информирует всех участников о принятых решениях
+                    * ...
             item_3:
               subject: Прохождение предварительного планирования
               description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
@@ -289,17 +289,17 @@ ru:
                 item_0:
                   subject: Завершение дизайна
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   Design is done
-                    *   All parties are happy with the results of the design planning phase
+                    * Проектирование завершено
+                    * Все стороны довольны результатами этапа планирования проектирования
 
-                    ## Description
+                    ## Описание
 
-                    *   The design of the project will be finished
-                    *   All parties agree on the design
-                    *   The owner is happy with the results
-                    *   ...
+                    * Разработка проекта будет завершена
+                    * Все стороны согласны с дизайном
+                    * Владелец доволен результатами
+                    * ...
                 item_1:
                   subject: Заморозка дизайна
                   description: Этот тип является иерархически родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
@@ -393,15 +393,15 @@ ru:
                 item_6:
                   subject: Вечеринка по случаю новоселья
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   Have a blast!
+                    * Повеселись!
 
-                    ## Description
+                    ## Описание
 
-                    *   Invite the construction team
-                    *   Invite your friends
-                    *   Bring some drinks, snacks and your smile
+                    * Пригласите строительную команду
+                    * Пригласите своих друзей
+                    * Принесите напитки, закуски и свою улыбку
         demo-bim-project:
           name: "(Demo) Проект BIM"
           status_explanation: Все задачи и подпроекты выполняются по графику. Вовлеченные люди знают свои задачи. Система полностью настроена.
@@ -474,32 +474,32 @@ ru:
                 item_0:
                   subject: Сбор специфичных для проекта данных и информации для BIM-модели
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   Identify the information strategy for the customer (e.g. by using plain language questions)
-                    *   If provided, analyze the customer information requirements for the BIM model
-                    *   Define an information delivery strategy according to the customers needs
+                    * Определите информационную стратегию для клиента (например, с помощью вопросов на простом языке)
+                    * Если предусмотрено, проанализируйте требования к информации клиента для BIM-модели
+                    * Определите стратегию предоставления информации в соответствии с потребностями клиентов
 
-                    ## Description
+                    ## Описание
 
-                    *   Analyzing the customers needs and goals for using the BIM methodology
-                    *   Results of this tasks should be:
-                    *   The requirements for the project
-                    *   A strategy for the delivery phase
-                    *   ...
+                    * Анализ потребностей и целей клиентов для использования методологии BIM
+                    * Результатами этих задач должны быть:
+                    * Требования к проекту
+                    * Стратегия для этапа доставки
+                    * ...
                 item_1:
                   subject: Создание плана выполнения BIM
                   description: |-
-                    # Goal
+                    # Цель
 
-                    *   A BIM execution plan will be defined according to the exchange requirements specifications (ERS)
-                    *   All team members and partners have a plan on how to reach each of the project goals
+                    * План выполнения BIM будет определен согласно спецификациям требований (ERS)
+                    * Все члены команды и партнеры имеют план достижения каждой из целей проекта
 
-                    # Description
+                    # Описание
 
-                    *   Depending on the identifies use cases, the individual Information Delivery Manuals will be defined
-                    *   To handle the technological interfaces, a software topology will be defined and analyzed and verified
-                    *   ...
+                    * В зависимости от вариантов использования, индивидуальные Руководства по доставке информации будут определены
+                    * Для обработки технологических интерфейсов, Программная топология будет определена и проанализирована и проверена
+                    * ...
                 item_2:
                   subject: Завершение выполнения плана выполнения БИМ
                   description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
@@ -513,16 +513,16 @@ ru:
                 item_0:
                   subject: Моделирование исходной BIM-модели
                   description: |-
-                    # Goal
+                    # Цель
 
-                    *   Modelling the initial BIM model
-                    *   Creating a BIM model for the whole project team
+                    * Моделирование начальной модели BIM
+                    * Создание модели BIM для всей команды проекта
 
-                    # Description
+                    # Описание
 
-                    *   According to the gathered data from the customer, the initial model will be modelled
-                    *   The model shall be modelled according to the LOD Matrices and contain the information needed
-                    *   ...
+                    * По собранным данным от клиента, начальная модель будет смоделирована
+                    * Модель должна быть смоделирована в соответствии с матрицами LOD и содержать необходимую информацию
+                    * ...
                 item_1:
                   subject: Первоначальная внутренняя проверка и пересмотр модели
                   description: |-

@@ -69,8 +69,6 @@ export const attachmentsSelector = 'op-attachments';
 export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @HostBinding('attr.data-qa-selector') public qaSelector = 'op-attachments';
 
-  @HostBinding('id.attachments_fields') public hostId = true;
-
   @HostBinding('class.op-file-section') public className = true;
 
   @Input() public resource:HalResource;

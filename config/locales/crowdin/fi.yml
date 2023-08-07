@@ -99,15 +99,14 @@ fi:
     edit: "Muokkaa aputeksiä ominaisuudelle %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: Tällä hetkellä ei ole todennustiloja.
-      no_results_content_text: Luo uusi todennustila
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
       <br/>
@@ -449,16 +448,16 @@ fi:
       attribute_help_text:
         attribute_name: 'Määre'
         help_text: 'Help text'
-      auth_source:
-        account: "Käyttäjätili"
-        attr_firstname: "Etunimi-tietue"
-        attr_lastname: "Sukunimi-tietue"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
         attr_login: "Username attribute"
-        attr_mail: "Sähköposti-tietue"
+        attr_mail: "Email attribute"
         base_dn: "Base DN"
-        host: "Isäntä"
+        host: "Host"
         onthefly: "Automatic user creation"
-        port: "Portti"
+        port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Tietovarasto"
@@ -557,7 +556,7 @@ fi:
         color: "Väri"
       user:
         admin: "Järjestelmänvalvoja"
-        auth_source: "Todennustila"
+        ldap_auth_source: "LDAP connection"
         current_password: "Nykyinen salasana"
         force_password_change: "Pakota salasanan vaihto seuraavan kirjautumisen yhteydessä"
         language: "Kieli"
@@ -678,7 +677,7 @@ fi:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -900,8 +899,8 @@ fi:
                 description: "\"Salasanan vahvistus\" -kentän arvon tulee olla identtinen \"Uusi salasana\" -kentän arvon kanssa."
             status:
               invalid_on_create: "ei ole kelvollinen tila uusille käyttäjille."
-            auth_source:
-              error_not_found: "ei löydetty"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Valitse vähintään yksi käyttäjä tai ryhmä."
           role_blank: "need to be assigned."
@@ -1436,6 +1435,7 @@ fi:
     changes_retracted: "The changes were retracted."
     caused_changes:
       dates_changed: "Dates changed"
+      system_update: "OpenProject update"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1450,6 +1450,8 @@ fi:
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: 'Configuration guide'
     get_in_touch: "You have questions? Get in touch with us."
@@ -1494,6 +1496,13 @@ fi:
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1562,9 +1571,9 @@ fi:
   label_attachment_plural: "Tiedostot"
   label_attribute: "Määre"
   label_attribute_plural: "Määreet"
-  label_auth_source: "Todennustila"
-  label_auth_source_new: "Uusi kirjautumistapa"
-  label_auth_source_plural: "Kirjautumistavat"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Kirjautuminen"
   label_available_project_work_package_categories: 'Olemassa olevat tehtäväluokat'
   label_available_project_work_package_types: 'Olemassa olevat tehtävätyypit'
@@ -1730,7 +1739,7 @@ fi:
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Koti"
   label_subject_or_id: "Aihe tai ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Legal notice"
   label_in: "tässä"
   label_in_less_than: "pienempi kuin"
@@ -2087,10 +2096,7 @@ fi:
   label_global_role: "Yleinen rooli"
   label_not_changeable: "(ei vaihdettavissa)"
   label_global: "Yleinen"
-  auth_source:
-    using_abstract_auth_source: "Voi käyttää abstrakti autentikointi lähde."
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
   macros:
@@ -2279,7 +2285,7 @@ fi:
   present_access_key_value: "Your %{key_name} is: %{value}"
   notice_automatic_set_of_standard_type: "Set standard type automatically."
   notice_logged_out: "You have been logged out."
-  notice_wont_delete_auth_source: Todennustilaa ei voi poistaa koska sillä on vielä käyttäjiä.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Et voi päivittää projektin käytettävissä olevia mukautettuja kenttiä. Projekti on virheellinen: %{errors}"
   notice_attachment_migration_wiki_page: >
     This page was generated automatically during the update of OpenProject. It contains all attachments previously associated with the %{container_type} "%{container_name}".
@@ -2766,12 +2772,16 @@ fi:
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Vertailemalla ja korjaus toimia paketit sitoutua viestejä"
   text_journal_added: "%{label} %{value} lisätty"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} päivitetty"
   text_journal_changed_with_diff: "%{label} muutettu (%{link})"
   text_journal_deleted: "%{label} poistettu (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} muutettu %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"

@@ -99,15 +99,14 @@ fil:
     edit: "I-edit na tulong na teksto para sa %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: Sa kasalukuyan ay walang mga authentication mode.
-      no_results_content_text: Gumawa ng bagong authentication mode
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
       <br/>
@@ -449,13 +448,13 @@ fil:
       attribute_help_text:
         attribute_name: 'Katangian'
         help_text: 'Tekstong tulong'
-      auth_source:
-        account: "Akawnt"
-        attr_firstname: "Ang katangian ng unang pangalan"
-        attr_lastname: "Ang huling katangian ng apelyido"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
         attr_login: "Username attribute"
-        attr_mail: "Ang katangian ng Email"
-        base_dn: "Ang Base DN"
+        attr_mail: "Email attribute"
+        base_dn: "Base DN"
         host: "Host"
         onthefly: "Automatic user creation"
         port: "Port"
@@ -557,7 +556,7 @@ fil:
         color: "Kulay"
       user:
         admin: "Tagapangasiwa"
-        auth_source: "Mode ng pagpapatunay"
+        ldap_auth_source: "LDAP connection"
         current_password: "Kasulukuyang password"
         force_password_change: "Ipatupad ang password na ibahin sa susunod na login"
         language: "Linggwahe"
@@ -678,7 +677,7 @@ fil:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "ay ang maling haba (dapat ay %{count} ang mga karakter)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -900,8 +899,8 @@ fil:
                 description: "'Kompirmasyon ng password' ay dapat tugma sa input ng 'Bagong password' na patlang."
             status:
               invalid_on_create: "ay hindi isang balidong estado para sa mga bagong gumagamit."
-            auth_source:
-              error_not_found: "hindi nakita"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Mangayring pumili na kahit isang gumagamit o grupo."
           role_blank: "need to be assigned."
@@ -1436,6 +1435,7 @@ fil:
     changes_retracted: "The changes were retracted."
     caused_changes:
       dates_changed: "Dates changed"
+      system_update: "OpenProject update"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1450,6 +1450,8 @@ fil:
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: 'Gabay ng kumpigurasyon'
     get_in_touch: "You have questions? Get in touch with us."
@@ -1494,6 +1496,13 @@ fil:
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1562,9 +1571,9 @@ fil:
   label_attachment_plural: "Mga file"
   label_attribute: "Katangian"
   label_attribute_plural: "Mga katangian"
-  label_auth_source: "Mode ng pagpapatunay"
-  label_auth_source_new: "Bagong authentication mode"
-  label_auth_source_plural: "Ang mga mode ng pagpapatunay"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Pagpapatunay"
   label_available_project_work_package_categories: 'Ang mga kategorya ng magagamit na work package'
   label_available_project_work_package_types: 'Available work package types'
@@ -1730,7 +1739,7 @@ fil:
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Tahanan"
   label_subject_or_id: "Subject or ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Legal notice"
   label_in: "sa"
   label_in_less_than: "mas mababa kaysa"
@@ -2087,10 +2096,7 @@ fil:
   label_global_role: "Global Role"
   label_not_changeable: "(not changeable)"
   label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "Hindi magamit ang isang abstrak na pagpapatunay ng pinagmulan."
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Hindi maarig mapatunayan sa LDAP-Server."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "May mali habang isinasagawa ang macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} hindi naka-display."
   macros:
@@ -2279,7 +2285,7 @@ fil:
   present_access_key_value: "Ang iyong %{key_name} ay: %{value}"
   notice_automatic_set_of_standard_type: "Magtakda ng automatikong pamantayang uri."
   notice_logged_out: "Ikaw ay naka-log out na."
-  notice_wont_delete_auth_source: Ang authentication mode ay hindi pwedeng burahin hanggang meron pang user ang gumagamit nito.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Hindi mo pwedeng i-update ang mga patlang ng project's available custom. Ang proyekto ay hindi balido: %{errors}"
   notice_attachment_migration_wiki_page: >
     Ang pahinang ito ay awtomatikong binuo sa panahon ng pag-update sa OpenProject. Ito ay naglalaman ng lahat na mga nakakalakip sa nakaraang nauugnay sa %{container_type} "%{container_name}".
@@ -2764,12 +2770,16 @@ fil:
   text_work_packages_destroy_confirmation: "Sigurado ka ba na gusto mong burahin ang napiling work package?"
   text_work_packages_ref_in_commit_messages: "Pagsangguni at pagsaayos ng work package sa mga isinagawang mensahe"
   text_journal_added: "%{label}%{value} idinagdag"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} ay naka-update"
   text_journal_changed_with_diff: "%{label} binagko (%{link})"
   text_journal_deleted: "%{label} binura (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} binura (%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} itinakda sa %{value}"
   text_journal_set_with_diff: "%{label} itinakda (%{link})"

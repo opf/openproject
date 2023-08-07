@@ -99,15 +99,14 @@ tr:
     edit: "%{attribute_caption} için Yardım metni Düzenle"
     enterprise:
       description: 'İş paketlerinin ve projelerin öznitelikleri (özel alanlar dahil) için ek bilgiler sağlayın. Projelerde ve iş paketlerinde giriş alanlarının yanındaki soru işareti sembolüne tıklandığında yardım metinleri görüntülenir.'
-  auth_sources:
-    index:
-      no_results_content_title: Şu anda bir doğrulama modu bulunmamakta.
-      no_results_content_text: Yeni bir doğrulama modu oluştur
   background_jobs:
     status:
       error_requeue: "İş bir hatayla karşılaştı ancak yeniden deniyor. Hata: %{message}"
       cancelled_due_to: "İş, hata nedeniyle iptal edildi: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Bu LDAP formu, LDAP / Active Directory kurulumunuz hakkında teknik bilgi gerektirir.
       <br/>
@@ -448,17 +447,17 @@ tr:
       attribute_help_text:
         attribute_name: 'Özellik'
         help_text: 'Yardım metni'
-      auth_source:
-        account: "Hesap"
-        attr_firstname: "Ad özniteliği"
-        attr_lastname: "Soyad özniteliği"
-        attr_login: "Kullanıcı adı özelliği"
-        attr_mail: "E-posta özniteliği"
-        base_dn: "Temel DN"
-        host: "Sunucu"
-        onthefly: "Otomatik kullanıcı oluşturma"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatic user creation"
         port: "Port"
-        tls_certificate_string: "LDAP sunucusu SSL sertifikası"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Depo"
       comment:
@@ -556,7 +555,7 @@ tr:
         color: "Renk"
       user:
         admin: "Yönetici"
-        auth_source: "Kimlik doğrulama modu"
+        ldap_auth_source: "LDAP connection"
         current_password: "Mevcut parola"
         force_password_change: "Sonraki oturum açma işleminde parola değişikliğine zorla"
         language: "Dil"
@@ -677,10 +676,10 @@ tr:
           bir "Güvenli Bağlam" sağlamıyor. HTTPS veya localhost gibi bir geri döngü adresi kullanın.
         wrong_length: "uzunluğu yanlıştır (%{count} karakter olmalıdır)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "Sağlanan SSL sertifikası geçersiz: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -899,8 +898,8 @@ tr:
                 description: "\"Parola onayı\" 'yeni parola' alanı girişi aynı olmalıdır."
             status:
               invalid_on_create: "yeni kullanıcılar için geçerli bir durum değil."
-            auth_source:
-              error_not_found: "bulunamadı"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Lütfen en az bir kullanıcı veya grup seçin."
           role_blank: "atanması gerek."
@@ -1435,6 +1434,7 @@ tr:
     changes_retracted: "Değişiklikler geri çekildi."
     caused_changes:
       dates_changed: "Dates changed"
+      system_update: "OpenProject update"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1449,6 +1449,8 @@ tr:
         dates:
           working: "%{date} is now working"
           non_working: "%{date} artık çalışılmayan tarih"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: 'Yapılandırma rehberi'
     get_in_touch: "Senin soruların var? Bizimle temasa geçin."
@@ -1493,6 +1495,13 @@ tr:
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "Bu işlem için bildirim gönder"
     work_packages:
@@ -1561,9 +1570,9 @@ tr:
   label_attachment_plural: "Dosyalar"
   label_attribute: "Özellik"
   label_attribute_plural: "Özellikler"
-  label_auth_source: "Kimlik doğrulama modu"
-  label_auth_source_new: "Yeni kimlik doğrulama modu"
-  label_auth_source_plural: "Kimlik doğrulama modları"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Kimlik Doğrulaması"
   label_available_project_work_package_categories: 'Uygun iş paketi kategorileri'
   label_available_project_work_package_types: 'Uygun iş paketi tipleri'
@@ -1729,7 +1738,7 @@ tr:
   label_hierarchy_leaf: "Hiyerarşi ağacı"
   label_home: "Ana sayfa"
   label_subject_or_id: "Konu ya da ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Yasal uyarı"
   label_in: "şurada"
   label_in_less_than: "daha azdır"
@@ -2086,10 +2095,7 @@ tr:
   label_global_role: "Küresel rolü"
   label_not_changeable: "(değiştirilemez)"
   label_global: "Küresel"
-  auth_source:
-    using_abstract_auth_source: "Özet kimlik doğrulama kaynağı kullanılamıyor."
-    ldap_error: "LDAP-Hatası: %{error_message}"
-    ldap_auth_failed: "LDAP sunucusunda kimlik doğrulaması yapılamadı."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Makroyu çalıştırırken hata oluştu %{macro_name}"
   macro_unavailable: "Makro %{macro_name} görüntülenemiyor."
   macros:
@@ -2275,7 +2281,7 @@ tr:
   present_access_key_value: "% {Key_name}, şu:% {value} %{key_name} %{value}"
   notice_automatic_set_of_standard_type: "Standart türün otomatik olarak ayarlanması."
   notice_logged_out: "Oturumunuz kapatıldı."
-  notice_wont_delete_auth_source: Kimlik doğrulama modunu kullanan kullanıcılar olduğu sürece silinemez.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Projenin kullanılabilir özel alanları güncelleştirilemiyor. Proje geçersiz: %{errors}"
   notice_attachment_migration_wiki_page: >
     Bu sayfa OpenProject güncelleme sırasında otomatik olarak yaratılır. Daha önce %{container_type} "%{container_name}" ile ilişkili tüm ekleri içerir.
@@ -2762,12 +2768,16 @@ tr:
   text_work_packages_destroy_confirmation: "Seçilen çalışma paket(ler) ini silmek istediğinizden emin misiniz?"
   text_work_packages_ref_in_commit_messages: "İş paketlerini taahhüt mesajlarında referans ve sabitleme"
   text_journal_added: "%{value} %{label} eklendi"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label}, %{old} %{linebreak} iken %{new} olarak değiştirildi"
   text_journal_changed_no_detail: "%{label} güncellendi"
   text_journal_changed_with_diff: "%{label} değişti ( %{link})"
   text_journal_deleted: "%{label}, ( %{old}) silindi"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label}, ( %{link}) silindi"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{value} %{label} eklendi"
   text_journal_set_to: "%{label} %{value} yapıldı"
   text_journal_set_with_diff: "%{label} ayarla ( %{link})"

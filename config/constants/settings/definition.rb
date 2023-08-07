@@ -590,6 +590,12 @@ module Settings
       login_required: {
         default: false
       },
+      lookbook_enabled: {
+        description: 'Enable the Lookbook component documentation tool. Discouraged for production environments.',
+        default: -> { Rails.env.development? },
+        format: :boolean,
+        writable: false
+      },
       lost_password: {
         description: 'Activate or deactivate lost password form',
         default: true
@@ -822,6 +828,12 @@ module Settings
         description: 'Whether to force a password reset for the initially created admin user.',
         default: true,
         writable: false
+      },
+      seed_ldap: {
+        description: 'Provide an LDAP connection and sync settings through ENV',
+        writable: false,
+        default: nil,
+        format: :hash
       },
       self_registration: {
         default: 2

@@ -31,6 +31,7 @@ it:
           Un file con il nome "%{fileName}" esiste già nella posizione in cui stai tentando di caricare questo file. Cosa ti piacerebbe fare?
         directory_not_writeable: "Non hai l'autorizzazione ad aggiungere file a questa cartella."
         dragging_many_files: "Il caricamento su %{storageType} supporta soltanto un file per volta."
+        dragging_folder: "The upload to %{storageType} does not support folders."
         empty_folder: "Questa cartella è vuota."
         empty_folder_location_hint: "Clicca sul pulsante in basso per caricare il file in questa posizione."
         file_not_selectable_location: "Impossibile selezionare un file durante la scelta di una posizione."

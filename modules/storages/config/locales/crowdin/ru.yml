@@ -12,11 +12,11 @@ ru:
   errors:
     attributes:
       storage_error:
-        not_authorized: "Not authorized for external connection to storage."
-        not_found: "The requested resource could not be found at the external file storage."
+        not_authorized: "Не авторизован для внешнего подключения к хранилищу."
+        not_found: "Запрошенный ресурс во внешнем файловом хранилище найти не удалось."
   activerecord:
     models:
-      file_link: "Ссылка на файл"
+      file_link: "Файл"
       storages/storage: "Хранилище"
     attributes:
       storages/storage:
@@ -50,6 +50,7 @@ ru:
     errors:
       too_many_elements_created_at_once: "Слишком много элементов, созданных сразу. Ожидалось %{max} максимум - получено %{actual}."
   storages:
+    unknown_storage: "Неизвестное хранилище"
     buttons:
       done_continue_setup: "Готово. Продолжить установку"
       done_complete_setup: "Готово, завершить установку"
@@ -69,7 +70,7 @@ ru:
         index: "Файловые хранилища, доступные в этом проекте"
         new: "Добавить хранилище файлов в этот проект"
         edit: "Редактировать хранилище файлов для этого проекта"
-        delete: "Delete file storage"
+        delete: "Удалить хранилище файлов"
     instructions:
       type: "Перед установкой убедитесь, что у вас есть права администрирования в вашем экземпляре Nextcloud и что перед установкой установлено следующее приложение:"
       type_link_text: "«Интеграционный OpenProject»"
@@ -99,11 +100,11 @@ ru:
       storage: >
         Вы уверены, что хотите удалить это хранилище? Это также удалит хранилище из всех проектов, где оно используется. Кроме того, будут удалены все ссылки из пакетов работ на файлы, хранящиеся в этом хранилище.
       project_storage: >
-        Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:
-      project_storage_delete_result_1: "Remove all links from work packages of this project to files and folders of that storage."
-      project_storage_delete_result_2: "In case this storage has an automatically managed project folder, this and its files will be deleted forever."
-      input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
-      irreversible_notice: "Deleting a file storage is an irreversible action."
+        Вы уверены, что хотите удалить %{file_storage} из этого проекта? Для подтверждения этого действия, пожалуйста, введите имя хранилища в поле ниже, это позволит:
+      project_storage_delete_result_1: "Удалить все ссылки из пакетов работ этого проекта в файлы и папки этого хранилища."
+      project_storage_delete_result_2: "В случае, если хранилище имеет автоматически управляемую папку проекта, она и ее файлы будут удалены навсегда."
+      input_delete_confirmation: "Введите имя хранилища файлов %{file_storage} для подтверждения удаления."
+      irreversible_notice: "Удаление хранилища файлов является необратимым действием."
     label_active: "Активный"
     label_inactive: "Неактивный"
     label_creator: "Создатель"

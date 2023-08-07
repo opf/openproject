@@ -282,4 +282,31 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       end
     end
   end
+
+  context 'when the change was caused by a system update' do
+    let(:cause) do
+      {
+        "type" => 'system_update',
+        "feature" => 'file_links_journal'
+      }
+    end
+
+    context 'when rendering HTML variant' do
+      let(:html) { true }
+
+      it do
+        expect(subject).to eq "<strong>#{I18n.t('journals.caused_changes.system_update')}</strong> " \
+                              "#{I18n.t('journals.cause_descriptions.system_update.file_links_journal')}"
+      end
+    end
+
+    context 'when rendering raw variant' do
+      let(:html) { false }
+
+      it do
+        expect(subject).to eq "#{I18n.t('journals.caused_changes.system_update')} " \
+                              "#{I18n.t('journals.cause_descriptions.system_update.file_links_journal')}"
+      end
+    end
+  end
 end

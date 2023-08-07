@@ -99,15 +99,14 @@ es:
     edit: "Editar texto de ayuda para %{attribute_caption}"
     enterprise:
       description: 'Proporcione información adicional para atributos (incl. campos personalizados) de los paquetes de trabajo y proyectos. Los textos de ayuda se muestran cuando los usuarios hacen clic en el símbolo de signo de interrogación junto a los campos correspondientes en proyectos y paquetes de trabajo.'
-  auth_sources:
-    index:
-      no_results_content_title: Actualmente no hay modos de autenticación.
-      no_results_content_text: Crear un nuevo modo de autenticación
   background_jobs:
     status:
       error_requeue: "El trabajo experimentó un error pero se está reintentando. El error fue: %{message}"
       cancelled_due_to: "El trabajo ha sido cancelado debido al error: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Este formulario LDAP requiere conocimientos técnicos para la configuración de su  LDAP / Directorio Activo <br/>
       <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/"> Visite nuestra documentación para obtener instrucciones detalladas.
@@ -446,17 +445,17 @@ es:
       attribute_help_text:
         attribute_name: 'Atributo'
         help_text: 'Texto de ayuda'
-      auth_source:
-        account: "Cuenta"
-        attr_firstname: "Atributo Nombre"
-        attr_lastname: "Atributo Apellido"
-        attr_login: "Atributo de nombre de usuario"
-        attr_mail: "Atributo Correo electrónico"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "Creación automática de usuarios"
-        port: "Puerto"
-        tls_certificate_string: "Certificado SSL del servidor LDAP"
+        onthefly: "Automatic user creation"
+        port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repositorio"
       comment:
@@ -554,7 +553,7 @@ es:
         color: "Color"
       user:
         admin: "Administrador"
-        auth_source: "Modos de autentificación"
+        ldap_auth_source: "LDAP connection"
         current_password: "Contraseña actual"
         force_password_change: "Aplicar el cambio de contraseña en el proximo inicio de sesión"
         language: "Idioma"
@@ -675,10 +674,10 @@ es:
           no está proveyendo un "Contexto Seguro". Utiliza HTTPS o una dirección loopack, como un localhost.
         wrong_length: "la longitud es incorrecta (debe ser %{count} caracteres)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "El certificado SSL proporcionado no es válido: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -897,8 +896,8 @@ es:
                 description: "'La confirmación de la contraseña' debe coincidir con la ingresada en el campo 'Nueva contraseña'."
             status:
               invalid_on_create: "no es un estado válido para nuevos usuarios."
-            auth_source:
-              error_not_found: "no encontrado"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Por favor seleccione al menos un usuario o grupo."
           role_blank: "necesita ser asignado."
@@ -1433,6 +1432,7 @@ es:
     changes_retracted: "Se deshicieron los cambios."
     caused_changes:
       dates_changed: "Dates changed"
+      system_update: "OpenProject update"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1447,6 +1447,8 @@ es:
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: 'Guía de configuración'
     get_in_touch: "¿Tiene alguna pregunta? Póngase en contacto con nosotros."
@@ -1491,6 +1493,13 @@ es:
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "Enviar notificaciones para esta acción"
     work_packages:
@@ -1559,9 +1568,9 @@ es:
   label_attachment_plural: "Archivos"
   label_attribute: "Atributo"
   label_attribute_plural: "Atributos"
-  label_auth_source: "Modo de autentificación"
-  label_auth_source_new: "Nuevo modo de autenticaficación"
-  label_auth_source_plural: "Modos de autentificación"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentificación"
   label_available_project_work_package_categories: 'Categorias de paquetes de trabjo disponibles'
   label_available_project_work_package_types: 'Tipos de paquete de trabajo disponibles'
@@ -1727,7 +1736,7 @@ es:
   label_hierarchy_leaf: "Hoja de jerarquía"
   label_home: "Inicio"
   label_subject_or_id: "Asunto o ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Aviso legal"
   label_in: "en"
   label_in_less_than: "en menos de"
@@ -2084,10 +2093,7 @@ es:
   label_global_role: "Rol global"
   label_not_changeable: "(no modificable)"
   label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "No puede utilizar una fuente de autenticación abstracta."
-    ldap_error: "Error de LDAP: %{error_message}"
-    ldap_auth_failed: "No puede autenticarse en el servidor LDAP."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Error ejecutando el macro %{macro_name}"
   macro_unavailable: "Macro  %{macro_name} no puede ser mostrado."
   macros:
@@ -2275,7 +2281,7 @@ es:
   present_access_key_value: "Su %{key_name} es: %{value}"
   notice_automatic_set_of_standard_type: "Establecer tipo estándar automáticamente."
   notice_logged_out: "Has cerrado la sesion."
-  notice_wont_delete_auth_source: El modo de autenticación no puede ser borrado mientras haya usuarios utilizándolo.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "No se pueden actualizar campos personalizados disponibles del proyecto. El proyecto es inválido: %{errors}"
   notice_attachment_migration_wiki_page: >
     Esta página se generó automáticamente al actualizar OpenProject. Contiene todos los datos adjuntos que estaban asociados anteriormente al %{container_type} "%{container_name}".
@@ -2762,12 +2768,16 @@ es:
   text_work_packages_destroy_confirmation: "¿Esta usted seguro que desea eliminar paquete(s) de trabajo seleccionado(s)?"
   text_work_packages_ref_in_commit_messages: "Referenciando y reparando paquetes de trabajo en mensajes de commit"
   text_journal_added: "%{label} %{value} añadido"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label} se cambió de %{old} %{linebreak}a %{new}"
   text_journal_changed_no_detail: "%{label} actualizado"
   text_journal_changed_with_diff: "%{label} modificado (%{link})"
   text_journal_deleted: "%{label} eliminado (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} eliminado (%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} establecido al %{value}"
   text_journal_set_with_diff: "%{label} fijado (%{link})"

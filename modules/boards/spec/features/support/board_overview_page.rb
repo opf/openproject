@@ -27,10 +27,10 @@
 #++
 
 require 'support/pages/page'
-require_relative './board_page'
+require_relative 'board_list_page'
 
 module Pages
-  class BoardOverview < Page
+  class BoardOverview < BoardListPage
     def visit!
       navigate_to_modules_menu_item("Boards")
     end
@@ -38,38 +38,6 @@ module Pages
     def expect_global_menu_item_selected
       within '#main-menu' do
         expect(page).to have_selector('.selected', text: 'Boards')
-      end
-    end
-
-    def expect_no_boards_listed
-      within '#content-wrapper' do
-        expect(page).to have_content I18n.t(:no_results_title_text)
-      end
-    end
-
-    def expect_boards_listed(*boards)
-      within '#content-wrapper' do
-        boards.each do |board|
-          expect(page).to have_selector("td.name", text: board.name)
-        end
-      end
-    end
-
-    def expect_to_be_on_page(number)
-      expect(page).to have_selector('.op-pagination--item_current', text: number)
-    end
-
-    def to_page(number)
-      within '.op-pagination--pages' do
-        click_link number.to_s
-      end
-    end
-
-    def expect_boards_not_listed(*boards)
-      within '#content-wrapper' do
-        boards.each do |board|
-          expect(page).not_to have_selector("td.title", text: board.name)
-        end
       end
     end
   end

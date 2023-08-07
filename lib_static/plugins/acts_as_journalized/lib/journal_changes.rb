@@ -63,13 +63,9 @@ module JournalChanges
 
     if has_file_links?
       @changes.merge!(
-        ::Acts::Journalized::JournableDiffer.association_changes(
+        ::Acts::Journalized::FileLinkJournalDiffer.get_changes_to_file_links(
           predecessor,
-          self,
-          'storable_journals',
-          'file_links',
-          :file_link_id,
-          :link_name
+          storable_journals
         )
       )
     end

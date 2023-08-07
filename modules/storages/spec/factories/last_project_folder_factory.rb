@@ -28,6 +28,6 @@
 
 FactoryBot.define do
   factory :last_project_folder, class: '::Storages::LastProjectFolder' do
-    projects_storage factory: :project_storage
+    project_storage factory: :project_storage
   end
 end

@@ -114,9 +114,6 @@ gem 'mail', '= 2.8.1'
 # provide compatible filesystem information for available storage
 gem 'sys-filesystem', '~> 1.4.0', require: false
 
-# Faster posix-compliant spawns for 8.0. conversions with pandoc
-gem 'posix-spawn', '~> 0.3.13', require: false
-
 gem 'bcrypt', '~> 3.1.6'
 
 gem 'multi_json', '~> 1.15.0'
@@ -209,6 +206,8 @@ gem "store_attribute", "~> 1.0"
 gem "appsignal", "~> 3.0", require: false
 
 gem 'view_component'
+# Lookbook
+gem 'lookbook', '~> 2.0.5'
 
 gem 'turbo-rails', "~> 1.1"
 
@@ -236,6 +235,9 @@ group :test do
 
   # XML comparison tests
   gem 'compare-xml', '~> 0.66', require: false
+
+  # PDF Export tests
+  gem 'pdf-inspector', '~> 1.2'
 
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
@@ -274,10 +276,6 @@ group :development do
 
   gem 'spring'
   gem 'spring-commands-rspec'
-
-  # Gems for living styleguide
-  gem 'livingstyleguide', '~> 2.1.0'
-  gem 'sassc-rails'
 
   gem 'colored2'
 
@@ -357,3 +355,5 @@ gemfiles.each do |file|
 end
 
 gem "primer_view_components", git: 'https://github.com/opf/primer_view_components', ref: '18abe4d'
+gem "openproject-octicons", '~>19.6.7'
+gem "openproject-octicons_helper", '~>19.6.7'

@@ -99,15 +99,14 @@ si:
     edit: "%{attribute_caption}සඳහා උපකාරක පෙළ සංස්කරණය කරන්න"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: දැනට සත්යාපන මාතයන් නොමැත.
-      no_results_content_text: නව සත්යාපන මාදිලිය සාදන්න
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       මෙම LDAP ආකෘතියට ඔබගේ LDAP/Active Directory සැකසුම පිළිබඳ තාක්ෂණික දැනුම අවශ්ය වේ.
       <br/>
@@ -449,16 +448,16 @@ si:
       attribute_help_text:
         attribute_name: 'ගුණාංගය'
         help_text: 'උපකාරක පෙළ'
-      auth_source:
-        account: "ගිණුම"
-        attr_firstname: "පළමු නාමය ලක්ෂණය"
-        attr_lastname: "අවසාන නාමය ලක්ෂණය"
-        attr_login: "පරිශීලක නාමය ගුණාංග"
-        attr_mail: "ඊ-තැපැල් ගුණාංග"
-        base_dn: "ඩී. එන් මූලික"
-        host: "සත්කාරක"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
+        base_dn: "Base DN"
+        host: "Host"
         onthefly: "Automatic user creation"
-        port: "කෙවෙනිය"
+        port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "ගබඩාව"
@@ -557,7 +556,7 @@ si:
         color: "වර්ණ"
       user:
         admin: "පරිපාලක"
-        auth_source: "සත්යාපන මාදිලිය"
+        ldap_auth_source: "LDAP connection"
         current_password: "වත්මන් මුරපදය"
         force_password_change: "ඊළඟ පිවිසුම මත මුරපදය වෙනස් කිරීම බලාත්මක කරන්න"
         language: " "
@@ -678,7 +677,7 @@ si:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "වැරදි දිග (අක්ෂර %{count} විය යුතුය)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -900,8 +899,8 @@ si:
                 description: "'මුරපදය තහවුරු කිරීම' 'නව මුරපදය' ක්ෂේත්රයේ ආදානයට ගැලපේ."
             status:
               invalid_on_create: "නව පරිශීලකයින් සඳහා වලංගු තත්වයක් නොවේ."
-            auth_source:
-              error_not_found: "සොයාගත නොහැකි විය"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "කරුණාකර අවම වශයෙන් එක් පරිශීලකයෙකු හෝ කණ්ඩායමක් තෝරන්න."
           role_blank: "පැවරිය යුතුය."
@@ -1436,6 +1435,7 @@ si:
     changes_retracted: "The changes were retracted."
     caused_changes:
       dates_changed: "Dates changed"
+      system_update: "OpenProject update"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1450,6 +1450,8 @@ si:
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: 'වින්යාස මාර්ගෝපදේශය'
     get_in_touch: "You have questions? Get in touch with us."
@@ -1494,6 +1496,13 @@ si:
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1562,9 +1571,9 @@ si:
   label_attachment_plural: "ගොනු"
   label_attribute: "ගුණාංගය"
   label_attribute_plural: "ගුණාංග"
-  label_auth_source: "සත්යාපන මාදිලිය"
-  label_auth_source_new: "නව සත්යාපන මාදිලිය"
-  label_auth_source_plural: "සත්යාපන මාතයන්"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "සත්යාපන"
   label_available_project_work_package_categories: 'ලබාගත හැකි වැඩ පැකේජ කාණ්ඩ'
   label_available_project_work_package_types: 'ලබා ගත හැකි වැඩ පැකේජය වර්ග'
@@ -1730,7 +1739,7 @@ si:
   label_hierarchy_leaf: "ධූරාවලිය කොළ"
   label_home: "නිවස"
   label_subject_or_id: "විෂය හෝ හැඳුනුම්පත"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "නීතිමය දැනුම්දීම"
   label_in: "තුළ"
   label_in_less_than: "වඩා අඩු"
@@ -2087,10 +2096,7 @@ si:
   label_global_role: "Global Role"
   label_not_changeable: "(not changeable)"
   label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "වියුක්ත සත්යාපන ප්රභවයක් භාවිතා කළ නොහැක."
-    ldap_error: "LDAP-දෝෂය: %{error_message}"
-    ldap_auth_failed: "LDAP-සේවාදායකයේ සත්යාපනය කළ නොහැකි විය."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "සාර්ව ක්රියාත්මක කිරීමේ දෝෂය %{macro_name}"
   macro_unavailable: "සාර්ව %{macro_name} පෙන්විය නොහැක."
   macros:
@@ -2279,7 +2285,7 @@ si:
   present_access_key_value: "ඔබගේ %{key_name} වේ: %{value}"
   notice_automatic_set_of_standard_type: "සම්මත වර්ගය ස්වයංක්රීයව සකසන්න."
   notice_logged_out: "ඔබ ලොගින් වී ඇත."
-  notice_wont_delete_auth_source: එය භාවිතා කරන පරිශීලකයින් තවමත් සිටින තාක් කල් සත්යාපන මාදිලිය මකා දැමිය නොහැක.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "ඔබට ව්යාපෘතියේ පවතින අභිරුචි ක්ෂේත්ර යාවත්කාලීන කළ නොහැක. ව්යාපෘතිය අවලංගුයි: %{errors}"
   notice_attachment_migration_wiki_page: >
     OpenProject යාවත්කාලීන කිරීමේදී මෙම පිටුව ස්වයංක්රීයව ජනනය කරන ලදී. %{container_type} "%{container_name}” සමඟ කලින් සම්බන්ධ වූ සියලුම ඇමුණුම් එහි අඩංගු වේ.
@@ -2766,12 +2772,16 @@ si:
   text_work_packages_destroy_confirmation: "ඔබ තෝරාගත් වැඩ පැකේජය (න්) මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?"
   text_work_packages_ref_in_commit_messages: "කැපවීමේ පණිවුඩවල වැඩ පැකේජ යොමු කිරීම සහ සවි කිරීම"
   text_journal_added: "%{label} %{value} එකතු"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} යාවත්කාලීන"
   text_journal_changed_with_diff: "%{label} වෙනස් (%{link})"
   text_journal_deleted: "%{label} මකාදැමුවා (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} මකාදැමුවා (%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} %{value}කිරීමට කට්ටලයක්"
   text_journal_set_with_diff: "%{label} කට්ටලයක් (%{link})"

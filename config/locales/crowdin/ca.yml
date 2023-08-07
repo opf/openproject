@@ -99,15 +99,14 @@ ca:
     edit: "Edita el text d'ajuda per a %{attribute_caption}"
     enterprise:
       description: 'Proveeix informació addicional pels atributs (inclosos camps personalitzats) dels paquets de treball o projectes. Els texts d''ajuda es mostren quan l''usuari fa clic al signe d''interrogació al costat dels valors de camp en projectes i paquets de treball.'
-  auth_sources:
-    index:
-      no_results_content_title: Actualment no hi ha cap mode d'autenticació.
-      no_results_content_text: Crea un nou mode d'autenticació
   background_jobs:
     status:
       error_requeue: "La tasca ha produït un error, però s'està reintentant. L'error era: %{message}"
       cancelled_due_to: "La feina s'ha cancel·lat a causa d'un error: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Aquest formulari LDAP requereix coneixement tècnic sobre la teva configuració LDAP / Directori actiu.
       <br/>
@@ -445,17 +444,17 @@ ca:
       attribute_help_text:
         attribute_name: 'Atribut'
         help_text: 'Text d''ajuda'
-      auth_source:
-        account: "Compte"
-        attr_firstname: "Atribut Nom"
-        attr_lastname: "Atribut Cognom"
-        attr_login: "Atribut Nom d'usuari"
-        attr_mail: "Atribut de Correu electrònic"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
         base_dn: "Base DN"
-        host: "Servidor"
-        onthefly: "Creació d'usuari automàtica"
+        host: "Host"
+        onthefly: "Automatic user creation"
         port: "Port"
-        tls_certificate_string: "Servidor LDAP del certificat SSL"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repositori"
       comment:
@@ -553,7 +552,7 @@ ca:
         color: "Color"
       user:
         admin: "Administrador"
-        auth_source: "Mode d'autenticació"
+        ldap_auth_source: "LDAP connection"
         current_password: "Contrassenya actual"
         force_password_change: "Forçar el canvi de contrasenya en el proper inici de sessió"
         language: "Idioma"
@@ -674,10 +673,10 @@ ca:
           no està proveint un "Context Segur". Utilitza HTTPS o bé una adreça de retroalimentació, com un host local.
         wrong_length: "la longitud és incorrecta (haurien de ser %{count} caràcters)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "El certificat SSL proporcionat és invàlid: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -896,8 +895,8 @@ ca:
                 description: "'Confirmació de la contrasenya' ha de coincidir amb la introduïda al camp 'Nova contrasenya'."
             status:
               invalid_on_create: "no és un valor vàlid per a nous usuaris."
-            auth_source:
-              error_not_found: "no trobat"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Trieu com a mínim un usuari o grup."
           role_blank: "s'ha d'assignar."
@@ -1432,6 +1431,7 @@ ca:
     changes_retracted: "S'han retractat els canvis."
     caused_changes:
       dates_changed: "Les dates han canviat"
+      system_update: "OpenProject update"
     cause_descriptions:
       work_package_predecessor_changed_times: per canvis en el predecessor %{link}
       work_package_parent_changed_times: per canvis en el pare %{link}
@@ -1446,6 +1446,8 @@ ca:
         dates:
           working: "%{date} és ara laboral"
           non_working: "%{date} és ara no laboral"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: 'Guia de configuració'
     get_in_touch: "Tens preguntes? Posa't en contacte amb nosaltres."
@@ -1490,6 +1492,13 @@ ca:
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "Envia una notificació per aquesta acció"
     work_packages:
@@ -1558,9 +1567,9 @@ ca:
   label_attachment_plural: "Arxius"
   label_attribute: "Atribut"
   label_attribute_plural: "Atributs"
-  label_auth_source: "Mode d'autenticació"
-  label_auth_source_new: "Nou mode d'autenticació"
-  label_auth_source_plural: "Modes d'autenticació"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autenticació"
   label_available_project_work_package_categories: 'Categories de paquet de treball disponibles'
   label_available_project_work_package_types: 'Classes de paquet de treball disponibles'
@@ -1726,7 +1735,7 @@ ca:
   label_hierarchy_leaf: "Branca de jerarquia"
   label_home: "Inici"
   label_subject_or_id: "Subjecte o ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Avís legal"
   label_in: "en"
   label_in_less_than: "en menys de"
@@ -2083,10 +2092,7 @@ ca:
   label_global_role: "Rol global"
   label_not_changeable: "(no variable)"
   label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "No podeu utilitzar una font d'autenticació abstracte."
-    ldap_error: "Error LDAP: %{error_message}"
-    ldap_auth_failed: "No s'ha pogut autenticar en el servidor de LDAP."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Error en l'execució de la macro %{macro_name}"
   macro_unavailable: "No es pot mostrar la macro %{macro_name}."
   macros:
@@ -2270,7 +2276,7 @@ ca:
   present_access_key_value: "El teu %{key_name} és: %{value}"
   notice_automatic_set_of_standard_type: "Establir tipus estàndard automàticament."
   notice_logged_out: "S'ha tancat la sessió."
-  notice_wont_delete_auth_source: El mode d'autenticació no es pot suprimir mentre encara hi ha usuaris utilitzant-lo.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "No pots actualitzar els camps personalitzats disponibles del projecte. El projecte no és vàlid: %{errors}"
   notice_attachment_migration_wiki_page: >
     Aquesta pàgina s'ha generat automàticament durant l'actualització d'OpenProject. Compte tots els fitxers adjunts que anteriorment estaven associats amb el %{container_type} "%{container_name}".
@@ -2755,12 +2761,16 @@ ca:
   text_work_packages_destroy_confirmation: "¿Estàs segur que vols eliminar el(s) paquet(s) de treball seleccionat(s)?"
   text_work_packages_ref_in_commit_messages: "Referència i arregla els paquets de treball en els missatges dels commits"
   text_journal_added: "S'ha afegit %{label} %{value}"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label} ha canviat de %{old} %{linebreak}a %{new}"
   text_journal_changed_no_detail: "S'ha actualitzat %{label}"
   text_journal_changed_with_diff: "%{label} canviat (%{link})"
   text_journal_deleted: "%{label} s'ha suprimit (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} suprimit (%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} s'ha establert a %{value}"
   text_journal_set_with_diff: "%{label} canviat (%{link})"

@@ -82,7 +82,7 @@ RSpec.describe 'Subproject action board', js: true, with_ee: %i[board_view] do
       board_index.visit!
 
       # Create new board
-      board_page = board_index.create_board action: :Subproject, expect_empty: true
+      board_page = board_index.create_board action: 'Subproject', expect_empty: true
 
       # Expect we can add a child 1
       board_page.add_list option: 'Child 1'
@@ -111,7 +111,9 @@ RSpec.describe 'Subproject action board', js: true, with_ee: %i[board_view] do
       board_index.visit!
 
       # Create new board
-      board_page = board_index.create_board action: :Subproject, expect_empty: true
+      board_page = board_index.create_board title: 'My Subproject Board',
+                                            action: 'Subproject',
+                                            expect_empty: true
 
       # Expect we can add a child 1
       board_page.add_list option: 'Child 1'
@@ -124,7 +126,7 @@ RSpec.describe 'Subproject action board', js: true, with_ee: %i[board_view] do
       board_page.expect_movable 'Child 1', 'Foo', movable: true
 
       board_page.board(reload: true) do |board|
-        expect(board.name).to eq 'Action board (subproject)'
+        expect(board.name).to eq 'My Subproject Board'
         queries = board.contained_queries
         expect(queries.count).to eq(1)
 

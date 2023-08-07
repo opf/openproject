@@ -30,30 +30,11 @@ module Storages::ProjectStorages
   # Performs the deletion in the superclass. Associated FileLinks are deleted
   # by the model before_destroy hook.
   class DeleteService < ::BaseServices::Delete
-    using Storages::Peripherals::ServiceResultRefinements
+    def before_perform(*)
+      delete_project_folder if model.storage.is_a?(Storages::NextcloudStorage)
 
-    # rubocop:disable Metrics/AbcSize
-    def before_perform(params, service_result)
-      before_result = super(params, service_result)
-      return before_result if before_result.failure? || !model.storage.is_a?(Storages::NextcloudStorage)
-
-      Storages::Peripherals::StorageRequests
-        .new(storage: model.storage)
-        .delete_folder_command
-        .call(location: model.project_folder_path)
-        .match(
-          on_success: ->(*) { ServiceResult.success(result: model) },
-          on_failure: ->(error) do
-            if error.code == :not_found
-              ServiceResult.success(result: model)
-            else
-              ServiceResult.failure(errors: error.to_active_model_errors)
-            end
-          end
-        )
+      super
     end
-
-    # rubocop:enable Metrics/AbcSize
 
     # "persist" is a callback from BaseContracted.perform
     # that is supposed to do the actual work in a contract.
@@ -63,12 +44,24 @@ module Storages::ProjectStorages
     def persist(service_result)
       # Perform the @object.destroy etc. in the super-class
       super(service_result).tap do |deletion_result|
-        delete_associated_file_links if deletion_result.success?
-        Helper.trigger_nextcloud_synchronization(model.project_folder_mode)
+        if deletion_result.success?
+          delete_associated_file_links
+          OpenProject::Notifications.send(
+            OpenProject::Events::PROJECT_STORAGE_DESTROYED,
+            project_folder_mode: deletion_result.result.project_folder_mode.to_sym
+          )
+        end
       end
     end
 
     private
+
+    def delete_project_folder
+      Storages::Peripherals::StorageRequests
+        .new(storage: model.storage)
+        .delete_folder_command
+        .call(location: model.project_folder_path)
+    end
 
     # Delete FileLinks with the same Storage as the ProjectStorage.
     # Also, they are attached to WorkPackages via the Project.

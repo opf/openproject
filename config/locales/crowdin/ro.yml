@@ -99,15 +99,14 @@ ro:
     edit: "Editați textul de ajutor pentru %{attribute_caption}"
     enterprise:
       description: 'Oferă informații suplimentare pentru atribute (inclusiv câmpuri personalizate) ale pachetelor de lucru și ale proiectelor. Textele de ajutor sunt afișate atunci când utilizatorii fac clic pe simbolul semnului de întrebare de lângă câmpurile de introducere din proiecte și pachete de lucru.'
-  auth_sources:
-    index:
-      no_results_content_title: În acest moment nu există moduri de autentificare.
-      no_results_content_text: Creare mod de autentificare nou
   background_jobs:
     status:
       error_requeue: "Lucrarea a avut o eroare, dar încearcă din nou. Eroarea a fost: %{message}"
       cancelled_due_to: "Lucrarea a fost anulată din cauza unei erori: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Acest formular LDAP necesită cunoștințe tehnice privind configurația LDAP / Active Directory.
       <br/>
@@ -450,17 +449,17 @@ ro:
       attribute_help_text:
         attribute_name: 'Atribut'
         help_text: 'Text de ajutor'
-      auth_source:
-        account: "Cont"
-        attr_firstname: "Câmp prenume"
-        attr_lastname: "Câmp nume"
-        attr_login: "Atributul nume de utilizator"
-        attr_mail: "Atribut e-mail"
-        base_dn: "Nume domeniu de bază"
-        host: "Server gazdă"
-        onthefly: "Crearea automată a utilizatorilor"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatic user creation"
         port: "Port"
-        tls_certificate_string: "Certificat SSL pentru serverul LDAP"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repo"
       comment:
@@ -558,7 +557,7 @@ ro:
         color: "Culoare"
       user:
         admin: "Administrator"
-        auth_source: "Mod de autentificare"
+        ldap_auth_source: "LDAP connection"
         current_password: "Parola curentă"
         force_password_change: "Impune schimbarea parolei la următoarea autentificare"
         language: "Limbă"
@@ -679,10 +678,10 @@ ro:
           nu oferă un "Context securizat". Folosiţi fie HTTPS sau o adresă de tip buclă, cum ar fi localhost.
         wrong_length: "nu are lungimea corectă (ar trebui să fie de %{count} characters)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "Certificatul SSL furnizat nu este valid: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -902,8 +901,8 @@ ro:
                 description: "Valoarea din 'Confirmare parolă' ar trebui să fie identică cu cea introdusă în 'Parolă nouă'."
             status:
               invalid_on_create: "nu este un statut valabil pentru utilizatorii noi."
-            auth_source:
-              error_not_found: "%s nu a fost găsit"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Trebuie să alegeţi cel puţin un utilizator sau grup."
           role_blank: "trebuie să fie atribuite."
@@ -1455,6 +1454,7 @@ ro:
     changes_retracted: "Modificările au fost retrase."
     caused_changes:
       dates_changed: "Dates changed"
+      system_update: "OpenProject update"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1469,6 +1469,8 @@ ro:
         dates:
           working: "%{date} este acum în funcțiune"
           non_working: "%{date} este acum nefuncțională"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: 'Ghid de configurare'
     get_in_touch: "Aveți întrebări? Luați legătura cu noi."
@@ -1513,6 +1515,13 @@ ro:
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "Trimite notificări pentru această acțiune"
     work_packages:
@@ -1581,9 +1590,9 @@ ro:
   label_attachment_plural: "Fişiere"
   label_attribute: "Atribut"
   label_attribute_plural: "Atribute"
-  label_auth_source: "Mod de autentificare"
-  label_auth_source_new: "Mod de autentificare nou"
-  label_auth_source_plural: "Moduri de autentificare"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autentificare"
   label_available_project_work_package_categories: 'Categorii de pachete de lucru disponibile'
   label_available_project_work_package_types: 'Tipuri de pachete de lucru disponibile'
@@ -1749,7 +1758,7 @@ ro:
   label_hierarchy_leaf: "Frunză de ierarhie"
   label_home: "Pagina de start"
   label_subject_or_id: "Subiect sau ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Notificare legala"
   label_in: "în"
   label_in_less_than: "în mai puțin de"
@@ -2106,10 +2115,7 @@ ro:
   label_global_role: "Rolul global"
   label_not_changeable: "(nu se poate modifica)"
   label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "Nu poate fi folosită o sursă de autentificare abstractă."
-    ldap_error: "Eroare LDAP: %{error_message}"
-    ldap_auth_failed: "Nu a putut fi realizată autentificarea pe serverul LDAP."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Eroare la execuția macro-ului %{macro_name}"
   macro_unavailable: "Macro-ul %{macro_name} nu poate fi afișat."
   macros:
@@ -2298,7 +2304,7 @@ ro:
   present_access_key_value: "%{key_name} tău/ta este: %{value}"
   notice_automatic_set_of_standard_type: "Setare automată a tipului standard."
   notice_logged_out: "Ați fost deconectat."
-  notice_wont_delete_auth_source: Modul de autentificare nu poate fi șters atâta timp cât există utilizatori care încă îl folosesc.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Nu puteți actualiza câmpurile particularizate disponibile ale proiectului. Proiectul este invalid: %{errors}"
   notice_attachment_migration_wiki_page: >
     Această pagină a fost generată automat în timpul actualizării OpenProject. Aceasta conține toate atașamentele asociate anterior cu %{container_type} "%{container_name}".
@@ -2786,12 +2792,16 @@ ro:
   text_work_packages_destroy_confirmation: "Sunteți sigur că doriți ștergerea pachetelor de lucru selectate?"
   text_work_packages_ref_in_commit_messages: "Referențiere și rezolvare a pachetelor de lucru în mesajele de încărcare"
   text_journal_added: "%{label} %{value} adăugat"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label} schimbat din %{old} %{linebreak}la %{new}"
   text_journal_changed_no_detail: "%{label} actualizat"
   text_journal_changed_with_diff: "%{label} modificat (%{link})"
   text_journal_deleted: "%{label} șters (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} șters (%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} setat la %{value}"
   text_journal_set_with_diff: "%{label} setat (%{link})"

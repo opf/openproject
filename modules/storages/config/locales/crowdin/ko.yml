@@ -16,7 +16,7 @@ ko:
         not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
-      file_link: "File link"
+      file_link: "File"
       storages/storage: "저장소"
     attributes:
       storages/storage:
@@ -50,6 +50,7 @@ ko:
     errors:
       too_many_elements_created_at_once: "한 번에 너무 많은 요소가 생성되었습니다. 최대 개수는 %{max}개이지만 %{actual}개가 있습니다."
   storages:
+    unknown_storage: "Unknown storage"
     buttons:
       done_continue_setup: "완료. 설정을 계속하세요."
       done_complete_setup: "Done, complete setup"

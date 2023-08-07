@@ -53,6 +53,7 @@ module Projects
 
       delete_all_members
       destroy_all_work_packages
+      destroy_all_storages
 
       super
     end
@@ -73,6 +74,12 @@ module Projects
         wp.destroy
       rescue ActiveRecord::RecordNotFound
         # Everything fine, we wanted to delete it anyway
+      end
+    end
+
+    def destroy_all_storages
+      model.project_storages.map do |project_storage|
+        Storages::ProjectStorages::DeleteService.new(user:, model: project_storage).call
       end
     end
 

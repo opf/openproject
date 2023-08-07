@@ -31,7 +31,7 @@
 //nm - toaster messages
 //pb - progress bar
 
-$nm-font-size: rem-calc(13px)
+$nm-font-size: var(--body-font-size)
 $nm-border-radius: rem-calc(2px)
 $nm-box-padding: rem-calc(10px 35px 10px 35px)
 $nm-toaster-width: rem-calc(550)
@@ -129,11 +129,14 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-error,
   &.-success,
   &.-warning,
-  &.-info
+  &.-info,
+  &.-loading
     padding: $nm-box-padding
 
   &.-ee-upsale
     z-index: 1
+    padding: 1rem
+    margin-top: 1rem
 
   &.-left-margin
     margin-left: 20px
@@ -165,6 +168,9 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     &::before
       @include messages-icon
       @extend %nm-icon-info
+
+  &.-loading
+    @extend %info-placeholder
 
   &.-ee-upsale
     @extend %info-placeholder
@@ -262,9 +268,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
         border-radius: $nm-pb-border-radius
 
 .op-toast.-loading
-  width: 150px
-  margin: 0 auto
-
+  width: 400px
   .op-toast--content
     display: flex
     align-items: center

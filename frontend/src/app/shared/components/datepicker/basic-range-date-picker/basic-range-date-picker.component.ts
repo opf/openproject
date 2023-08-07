@@ -89,9 +89,14 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
 
   private _value:string[] = [];
 
-  @Input() set value(newValue:string[]) {
-    this._value = newValue;
-    this.stringValue = this.resolveDateArrayToString(newValue);
+  @Input() set value(newValue:string|string[]) {
+    if (typeof newValue === 'string') {
+      this._value = newValue.split(/\s-\s/);
+    } else {
+      this._value = newValue;
+    }
+
+    this.stringValue = this.resolveDateArrayToString(this._value);
   }
 
   get value() {

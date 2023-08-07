@@ -99,15 +99,14 @@ ru:
     edit: "Редактировать текст справки для %{attribute_caption}"
     enterprise:
       description: 'Предоставьте дополнительную информацию для атрибутов (включая пользовательские поля) пакетов работ и проектов. Текст справки отображается, когда пользователи нажимают на знак вопроса рядом с полями ввода в проектах и пакетах работ.'
-  auth_sources:
-    index:
-      no_results_content_title: На данный момент способы аутентификации отсутствуют.
-      no_results_content_text: Создать новый способ аутентификации
   background_jobs:
     status:
       error_requeue: "Осуществляется повторный запуск задания, т.к. предыдущий завершился с ошибкой: %{message}"
       cancelled_due_to: "Задание было отменено из-за ошибки: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-ошибка: %{error_message}"
+    ldap_auth_failed: "Не удалось авторизоваться на LDAP-сервере."
+    back_to_index: 'Нажмите здесь, чтобы вернуться к списку подключений.'
     technical_warning_html: |
       Эта LDAP форма требует технических знаний по LDAP / Active Directory.
       <br/>
@@ -339,11 +338,11 @@ ru:
       no_results_title_text: В данный момент статусы пакетов работ отсутствуют.
       no_results_content_text: Добавить новый статус
   themes:
-    light: "Light"
-    light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
+    light: "Светлая"
+    light_high_contrast: "Светлый высокий контраст"
+    dark: "Тёмная"
+    dark_dimmed: "Тёмная затемненная"
+    dark_high_contrast: "Темный высокий контраст"
   types:
     index:
       no_results_title_text: В данный момент типы отсутствуют.
@@ -450,13 +449,13 @@ ru:
       attribute_help_text:
         attribute_name: 'Атрибут'
         help_text: 'Текст справки'
-      auth_source:
-        account: "Учетная запись"
+      ldap_auth_source:
+        account: "Аккаунт"
         attr_firstname: "Атрибут имени"
-        attr_lastname: "Атрибут фамилии"
-        attr_login: "Атрибут имени пользователя"
-        attr_mail: "Атрибуты e-mail"
-        base_dn: "Корневой элемент(Base DN)"
+        attr_lastname: "Атрибут Фамилия"
+        attr_login: "Имя пользователя"
+        attr_mail: "Атрибут Email"
+        base_dn: "Базовый DN"
         host: "Хост"
         onthefly: "Автоматическое создание пользователя"
         port: "Порт"
@@ -558,7 +557,7 @@ ru:
         color: "Цвет"
       user:
         admin: "Администратор"
-        auth_source: "Способ аутентификации"
+        ldap_auth_source: "Подключение к LDAP"
         current_password: "Текущий пароль"
         force_password_change: "Принудительное изменение пароля при следующем входе"
         language: "Язык"
@@ -679,7 +678,7 @@ ru:
           не предоставляет "Secure Context". Используйте HTTPS или обратный адрес, например localhost.
         wrong_length: "неправильная длина (должно быть %{count} знаков)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "Указанный сертификат SSL недействителен: %{additional_message}"
@@ -903,7 +902,7 @@ ru:
                 description: "«Подтвержденный пароль» должен совпадать с введенным «новым паролем»."
             status:
               invalid_on_create: "не является допустимым статусом для новых пользователей."
-            auth_source:
+            ldap_auth_source:
               error_not_found: "не найдено"
         member:
           principal_blank: "Пожалуйста, выберите по крайней мере одного пользователя или группу."
@@ -1473,6 +1472,7 @@ ru:
     changes_retracted: "Изменения отменены."
     caused_changes:
       dates_changed: "Даты изменены"
+      system_update: "OpenProject update"
     cause_descriptions:
       work_package_predecessor_changed_times: внесением изменений в предшественника %{link}
       work_package_parent_changed_times: внесением изменений в родительский %{link}
@@ -1487,6 +1487,8 @@ ru:
         dates:
           working: "%{date} сейчас рабочий"
           non_working: "%{day} теперь нерабочий"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: 'Руководство по конфигурации'
     get_in_touch: "У вас есть вопросы? Свяжитесь с нами."
@@ -1496,7 +1498,7 @@ ru:
   menus:
     admin:
       mail_notification: "Уведомления по электронной почте"
-      mails_and_notifications: "Emails and notifications"
+      mails_and_notifications: "Письма и уведомления"
       aggregation: 'Агрегация'
       api_and_webhooks: "API и вебхуки"
     quick_add:
@@ -1531,6 +1533,13 @@ ru:
         text_hint: "Токены RSS позволяют пользователям следить за последними изменениями в этом экземпляре OpenProject через внешний RSS-трекер."
         static_token_name: "Токен RSS"
         disabled_text: "Токены RSS не включены администратором. Пожалуйста, обратитесь к администратору, чтобы использовать эту функцию."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "Отправить уведомления для этого действия"
     work_packages:
@@ -1599,9 +1608,9 @@ ru:
   label_attachment_plural: "Файлы"
   label_attribute: "Атрибут"
   label_attribute_plural: "Атрибуты"
-  label_auth_source: "Способ аутентификации"
-  label_auth_source_new: "Новый режим аутентификации"
-  label_auth_source_plural: "Режимы аутентификации"
+  label_ldap_auth_source_new: "Новое LDAP соединение"
+  label_ldap_auth_source: "Подключение к LDAP"
+  label_ldap_auth_source_plural: "Соединения LDAP"
   label_authentication: "Аутентификация"
   label_available_project_work_package_categories: 'Доступные категории рабочих пакетов'
   label_available_project_work_package_types: 'Доступные типы пакетов работ'
@@ -1767,7 +1776,7 @@ ru:
   label_hierarchy_leaf: "Уровень иерархии"
   label_home: "Главная"
   label_subject_or_id: "Тема или ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Подписки на календарь"
   label_impressum: "Правовое уведомление"
   label_in: "в"
   label_in_less_than: "менее чем"
@@ -2124,10 +2133,7 @@ ru:
   label_global_role: "Глобальная роль"
   label_not_changeable: "(неизменяемая)"
   label_global: "Глобальная"
-  auth_source:
-    using_abstract_auth_source: "Нельзя использовать абстрактную аутентификацию."
-    ldap_error: "LDAP-ошибка: %{error_message}"
-    ldap_auth_failed: "Не удалось проверить подлинность через LDAP-сервер."
+  label_seeded_from_env_warning: Эта запись была создана с помощью параметра / переменной среды. Она не может редактироваться через пользовательский интерфейс.
   macro_execution_error: "Ошибка при выполнении макроса %{macro_name}"
   macro_unavailable: "Макрос %{macro_name} не может быть отображен."
   macros:
@@ -2317,7 +2323,7 @@ ru:
   present_access_key_value: "Ваш ключ %{key_name}: %{value}"
   notice_automatic_set_of_standard_type: "Установить стандартный тип автоматически."
   notice_logged_out: "Вы вышли из системы."
-  notice_wont_delete_auth_source: Способ проверки подлинности нельзя удалить, пока есть пользователи его использующие.
+  notice_wont_delete_auth_source: Соединение LDAP не может быть удалено, пока есть пользователи, использующие его.
   notice_project_cannot_update_custom_fields: "Не удается обновить имеющиеся настраиваемые поля проекта. Этот проект является недопустимым: %{errors}"
   notice_attachment_migration_wiki_page: >
     Эта страница была автоматически создана во время обновления OpenProject. Она содержит все вложения, ранее связанные с %{container_type} «%{container_name}».
@@ -2804,12 +2810,16 @@ ru:
   text_work_packages_destroy_confirmation: "Вы уверены, что хотите удалить выбранные пакет(-ы) работ?"
   text_work_packages_ref_in_commit_messages: "Привязка и фиксация пакетов работ в сообщениях коммитов"
   text_journal_added: "%{label} %{value} добавлено"
+  text_journal_attachment_added: "%{label} %{value} добавлено как вложение"
+  text_journal_attachment_deleted: "%{label} %{old} удален как вложение"
   text_journal_changed_plain: "%{label} изменено с %{old} %{linebreak}на %{new}"
   text_journal_changed_no_detail: "%{label} обновлено"
   text_journal_changed_with_diff: "%{label} изменена (%{link})"
   text_journal_deleted: "%{label} удалена (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} удалена (%{link})"
+  text_journal_file_link_added: "%{label} ссылка на %{value} (%{storage}) добавлена"
+  text_journal_file_link_deleted: "%{label} ссылка на %{old} (%{storage}) удалена"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} присвоено значение %{value}"
   text_journal_set_with_diff: "%{label} установлена (%{link})"

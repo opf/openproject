@@ -99,15 +99,14 @@ ar:
     edit: "Edit help text for %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: لا يوجد حالياً أنماط تحقيق.
-      no_results_content_text: أنشئ نمط تحقيق جديد
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
       <br/>
@@ -453,16 +452,16 @@ ar:
       attribute_help_text:
         attribute_name: 'الواصفة'
         help_text: 'Help text'
-      auth_source:
-        account: "الحساب"
-        attr_firstname: "سمة الاسم الأول"
-        attr_lastname: "سمة الاسم الأخير"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
         attr_login: "Username attribute"
-        attr_mail: "سمة البريد الإلكتروني"
-        base_dn: "قاعدة DN"
-        host: "المضيف"
+        attr_mail: "Email attribute"
+        base_dn: "Base DN"
+        host: "Host"
         onthefly: "Automatic user creation"
-        port: "منفذ"
+        port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "مستودع البيانات"
@@ -561,7 +560,7 @@ ar:
         color: "اللون"
       user:
         admin: "مدير النظام"
-        auth_source: "نمط المصادقة"
+        ldap_auth_source: "LDAP connection"
         current_password: "كلمة السر الحالية"
         force_password_change: "تنفيذ تغيير كلمة المرور في تسجيل الدخول التالي"
         language: "اللغة"
@@ -682,7 +681,7 @@ ar:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "هو طول خاطئ (يجب أن تكون الأحرف %{count})."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -908,8 +907,8 @@ ar:
                 description: "'تأكيد كلمة المرور' يجب أن يطابق الإدخال في حقل 'كلمة المرور الجديدة'."
             status:
               invalid_on_create: "ليس حالة صحيحة للمستخدمين الجدد."
-            auth_source:
-              error_not_found: "لم يتم العثور"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "يرجى اختيار مستخدم واحد على الأقل أو مجموعة."
           role_blank: "need to be assigned."
@@ -1511,6 +1510,7 @@ ar:
     changes_retracted: "The changes were retracted."
     caused_changes:
       dates_changed: "Dates changed"
+      system_update: "OpenProject update"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1525,6 +1525,8 @@ ar:
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: 'Configuration guide'
     get_in_touch: "You have questions? Get in touch with us."
@@ -1569,6 +1571,13 @@ ar:
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1637,9 +1646,9 @@ ar:
   label_attachment_plural: "الملفّات"
   label_attribute: "الواصفة"
   label_attribute_plural: "الواصفات"
-  label_auth_source: "نمط المصادقة"
-  label_auth_source_new: "وضع مصادقة جديد"
-  label_auth_source_plural: "أوضاع المصادقة"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "المصادقة"
   label_available_project_work_package_categories: 'فئات مجموعة العمل المتاحة'
   label_available_project_work_package_types: 'Available work package types'
@@ -1805,7 +1814,7 @@ ar:
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "الصفحة الرئيسية"
   label_subject_or_id: "Subject or ID"
-  label_icalendar: "iCalendar"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Legal notice"
   label_in: "في"
   label_in_less_than: "في أقل من"
@@ -2158,10 +2167,7 @@ ar:
   label_global_role: "الدور العالمي"
   label_not_changeable: "(غير قابل للتغيير)"
   label_global: "عالمي"
-  auth_source:
-    using_abstract_auth_source: "لا يمكن استخدام مصدر مصادقة الملخص."
-    ldap_error: "خطأ LDAP: %{error_message}"
-    ldap_auth_failed: "لا يمكن مصادقة على ملقم LDAP."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "خطأ في تنفيذ %{macro_name} الماكرو"
   macro_unavailable: "لا يمكن عرض الماكرو %{macro_name}."
   macros:
@@ -2354,7 +2360,7 @@ ar:
   present_access_key_value: "%{key_name} الخاص بك: %{value}"
   notice_automatic_set_of_standard_type: "تعيين النوع القياسي تلقائياً."
   notice_logged_out: "لقد قمت بتسجيل الخروج."
-  notice_wont_delete_auth_source: لا يمكن حذف وضع المصادقة طالما لا يزال هناك مستخدمين يقومون باستخدامه.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "لا يمكنك تحديث الحقول المخصصة المتوفرة للمشروع. المشروع غير صالح: %{errors}"
   notice_attachment_migration_wiki_page: >
     This page was generated automatically during the update of OpenProject. It contains all attachments previously associated with the %{container_type} "%{container_name}".
@@ -2843,12 +2849,16 @@ ar:
   text_work_packages_destroy_confirmation: "هل أنت متأكد من أنك تريد حذف العناصر المحددة؟"
   text_work_packages_ref_in_commit_messages: "تحديد المراجع وتثبيت مجموعات العمل في رسائل commit"
   text_journal_added: "%{value} %{label} أضيف"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} تم تحديثه"
   text_journal_changed_with_diff: "%{label} تغير (%{link})"
   text_journal_deleted: "%{label} تم حذفه (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} تم حذفه (%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} تعيين إلى %{value}"
   text_journal_set_with_diff: "%{label} تم تعيينه إلى (%{link})"
