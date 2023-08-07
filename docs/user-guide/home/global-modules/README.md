@@ -9,11 +9,18 @@ keywords: global modules, project overarching modules, global index pages
 
 Global modules present an overview of the projects of which you are a member or have permissions to see. On this page, you will find a summary of all the sidebar menu entries for module across all your projects, such as **Activity, Work packages, Calendars, Boards**, etc.
 
-To access the **Global modules** side menu, simply click on the logo in the header.
+To access the **Global modules** side menu, simply click on the logo in the header. You can also use the grid icon in the top right corner to access it.
 
 ![Navigating to global modules menu in OpenProject](open_project_user_guide_global_modules_menu.png)
 
+You can also use the grid icon in the top right corner to access the **Global modules** side menu.
+
+![Navigating to global modules menu in OpenProject via grid icon](C:\Users\Maya\Documents\GitHub\openproject\docs\user-guide\home\global-modules\open_project_user_guide_global_modules_menu_grid_icon.png)
+
 > It is possible that some of the global modules are not visible to you. This will be the case if said module is not activated in the [Project settings](../../projects/project-settings/) in any of the active projects in you instance. If, for example, the **News** module is not enabled in any of the active projects, you will not see it in the **Global modules** menu. 
+
+You can also use the grid icon in the top right corner to access the **Global modules** side menu.
+
 
 ## Projects
 
@@ -27,7 +34,7 @@ On the left you will have the following options:
 
 **All projects** is the default view and shows only active projects. If you do not have administrator rights, this view will be the same as **My projects**.
 
-**My projects** will show projects of which you are a member and public projects. When this menu entry is selected, an **I am member** filter will be activated under Filters. You can then add various other filters to adjust the view.
+**My projects** will show projects of which you are a member. When this menu entry is selected, an **I am member** filter will be activated under Filters. You can then add various other filters to adjust the view.
 
 ![OpenProject global modules my projects](openproject_global_modules_myprojects_filter.png)
 
@@ -53,7 +60,7 @@ You can adjust the view by using the filters on the left menu and clicking the *
 
 ## Work packages
 
-The **Work packages** global module will show a list of all the work packages from the projects of which you are a member or have the right to view, including public projects. You can select your **Favorite** and **Default** work package filters in the left side menu.
+The **Work packages** global module will show a work packages table from the projects of which you are a member or have the right to view, including public projects. You can select your **Favorite** and **Default** work package filters in the left side menu. Please note that if a view is marked as favorite it will be shown in the **Favourite** section, whether it is also saved as public or private or not.
 
 ![The Work packages global module](openproject_global_modules_work_packages.png)
 
