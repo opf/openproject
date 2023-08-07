@@ -15,7 +15,7 @@ To access the **Global modules** side menu, simply click on the logo in the head
 
 You can also use the grid icon in the top right corner to access the **Global modules** side menu.
 
-![Navigating to global modules menu in OpenProject via grid icon](C:\Users\Maya\Documents\GitHub\openproject\docs\user-guide\home\global-modules\open_project_user_guide_global_modules_menu_grid_icon.png)
+![Navigating to global modules menu in OpenProject via grid icon](open_project_user_guide_global_modules_menu_grid_icon.png)
 
 > It is possible that some of the global modules are not visible to you. This will be the case if said module is not activated in the [Project settings](../../projects/project-settings/) in any of the active projects in you instance. If, for example, the **News** module is not enabled in any of the active projects, you will not see it in the **Global modules** menu. 
 
