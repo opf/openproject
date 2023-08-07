@@ -52,12 +52,15 @@ module Storages::ProjectsStorages::Members
     end
 
     def status
-      return I18n.t('storages.member_connection_status.not_connected') unless oauth_connection_connected?
+      status_result = status_identifier_for_member
 
-      if has_read_file_permissions?
-        I18n.t('storages.member_connection_status.connected')
+      if status_result == :not_connected
+        render(Primer::Beta::Octicon.new(:'alert-fill', size: :small, color: :severe)) +
+          content_tag(:span,
+                      I18n.t("storages.member_connection_status.#{status_result}"),
+                      class: 'pl-2')
       else
-        I18n.t('storages.member_connection_status.connected_no_permissions')
+        I18n.t("storages.member_connection_status.#{status_result}")
       end
     end
 
@@ -81,6 +84,16 @@ module Storages::ProjectsStorages::Members
         show_group_path(principal)
       else
         placeholder_user_path(principal)
+      end
+    end
+
+    def status_identifier_for_member
+      return :not_connected unless oauth_connection_connected?
+
+      if has_read_file_permissions?
+        :connected
+      else
+        :connected_no_permissions
       end
     end
 
