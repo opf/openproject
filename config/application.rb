@@ -123,7 +123,7 @@ module OpenProject
     # Add lookbook preview paths when enabled
     if OpenProject::Configuration.lookbook_enabled?
       config.paths.add Primer::ViewComponents::Engine.root.join('app/components').to_s, eager_load: true
-      config.paths.add Rails.root.join("spec/components/previews").to_s, eager_load: true
+      config.paths.add Rails.root.join("lookbook/previews").to_s, eager_load: true
       config.paths.add Primer::ViewComponents::Engine.root.join('previews').to_s, eager_load: true
     end
 
