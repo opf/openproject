@@ -51,7 +51,7 @@ class Storages::ProjectSettings::ProjectStorageMembersController < ApplicationCo
   def index
     @memberships = Member
       .where(project: @project)
-      .includes(:principal, :oauth_client_tokens)
+      .includes(:principal, :oauth_client_tokens, roles: :role_permissions)
       .paginate(page: page_param, per_page: per_page_param)
 
     render '/storages/project_settings/project_storage_members/index'

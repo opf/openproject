@@ -30,7 +30,10 @@
 
 module Storages::ProjectsStorages::Members
   class TableComponent < ::TableComponent
-    columns :name, :status
+    columns :name,
+            :status
+
+    options :storage
 
     def initial_sort
       %i[created_at asc]

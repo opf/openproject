@@ -33,4 +33,4 @@ See COPYRIGHT and LICENSE files for more details.
                         storage_name_link: link_to(@storage.name, admin_settings_storage_path(@storage))).html_safe
 %>
 
-<%= render(::Storages::ProjectsStorages::Members::TableComponent.new(rows: @memberships)) %>
+<%= render(::Storages::ProjectsStorages::Members::TableComponent.new(rows: @memberships, storage: @storage)) %>

@@ -52,11 +52,18 @@ module Storages::ProjectsStorages::Members
     end
 
     def status
-      # FIXME: Status based on Nextcloud OAuth Client Token Presence
-      'Connected'
+      return I18n.t('storages.member_connection_status.not_connected') unless oauth_connection_connected?
+
+      if has_read_file_permissions?
+        I18n.t('storages.member_connection_status.connected')
+      else
+        I18n.t('storages.member_connection_status.connected_no_permissions')
+      end
     end
 
     private
+
+    delegate :storage, to: :table
 
     def principal_link
       link_to principal.name, principal_show_path
@@ -75,6 +82,15 @@ module Storages::ProjectsStorages::Members
       else
         placeholder_user_path(principal)
       end
+    end
+
+    def oauth_connection_connected?
+      storage.oauth_client.present? &&
+        member.oauth_client_tokens.any? { |token| token.oauth_client_id == storage.oauth_client.id }
+    end
+
+    def has_read_file_permissions?
+      member.roles.any? { |role| role.has_permission?(:read_file) }
     end
   end
 end
