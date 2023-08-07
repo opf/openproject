@@ -65,7 +65,7 @@ namespace :assets do
       cmd =
         if ENV['CI']
           'npm run build:ci'
-        elsif ENV['OPENPROJECT_ANGULAR_OPTIMIZATION'] == 'false'
+        elsif ENV['OPENPROJECT_ANGULAR_UGLIFY'] == 'false'
           'npm run build:fast'
         else
           'npm run build'
