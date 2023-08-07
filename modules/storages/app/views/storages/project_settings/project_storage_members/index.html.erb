@@ -33,10 +33,4 @@ See COPYRIGHT and LICENSE files for more details.
                         storage_name_link: link_to(@storage.name, admin_settings_storage_path(@storage))).html_safe
 %>
 
-<% if @memberships %>
-  <%= render(::Storages::ProjectsStorages::Members::TableComponent.new(rows: @memberships)) %>
-<% else %>
-  <%# FIXME: Update template %>
-  <%= render partial: '/storages/project_settings/toast_no_storage_set_up' %>
-<% end %>
-
+<%= render(::Storages::ProjectsStorages::Members::TableComponent.new(rows: @memberships)) %>
