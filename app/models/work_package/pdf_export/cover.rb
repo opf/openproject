@@ -95,7 +95,8 @@ module WorkPackage::PDFExport::Cover
     pdf.formatted_text_box(
       [text_style.merge({ text: User.current.name, size: nil, leading: nil })],
       size: text_style[:size], leading: text_style[:leading],
-      at: [0, top], width:, height: styles.cover_art_subheading_max_height, overflow: :shrink_to_fit)
+      at: [0, top], width:, height: styles.cover_art_subheading_max_height, overflow: :shrink_to_fit
+    )
   end
 
   def write_cover_footer

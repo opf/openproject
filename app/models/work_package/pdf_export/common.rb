@@ -91,7 +91,7 @@ module WorkPackage::PDFExport::Common
   def get_column_value_cell(work_package, column_name)
     value = get_column_value(work_package, column_name)
     return get_id_column_cell(work_package, value) if column_name == :id
-    return get_subject_column_cell(work_package, value) if is_report? && column_name == :subject
+    return get_subject_column_cell(work_package, value) if wants_report? && column_name == :subject
 
     escape_tags(value)
   end
@@ -273,7 +273,7 @@ module WorkPackage::PDFExport::Common
     @group_sums[group] || {}
   end
 
-  def is_report?
+  def wants_report?
     options[:show_report]
   end
 

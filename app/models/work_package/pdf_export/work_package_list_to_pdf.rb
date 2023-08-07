@@ -81,7 +81,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   def setup_page!
     self.pdf = get_pdf(current_language)
 
-    configure_page_size!(is_report? ? :portrait : :landscape)
+    configure_page_size!(wants_report? ? :portrait : :landscape)
   end
 
   def render_work_packages(work_packages, filename: "pdf_export")
@@ -101,15 +101,15 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def with_cover?
-    is_report?
+    wants_report?
   end
 
   def render_work_packages_pdfs(work_packages, filename)
     write_cover_page! if with_cover?
     write_title!
-    write_work_packages_toc! work_packages, @id_wp_meta_map if is_report?
-    write_work_packages_overview! work_packages, @id_wp_meta_map unless is_report?
-    write_work_packages_sums! work_packages if with_sums_table? && is_report?
+    write_work_packages_toc! work_packages, @id_wp_meta_map if wants_report?
+    write_work_packages_overview! work_packages, @id_wp_meta_map unless wants_report?
+    write_work_packages_sums! work_packages if with_sums_table? && wants_report?
     if should_be_batched?(work_packages)
       render_batched(work_packages, filename)
     else
@@ -157,7 +157,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def render_pdf(work_packages, filename)
-    write_work_packages_details!(work_packages, @id_wp_meta_map) if is_report?
+    write_work_packages_details!(work_packages, @id_wp_meta_map) if wants_report?
     write_after_pages!
     file = Tempfile.new(filename)
     pdf.render_file(file.path)
@@ -222,7 +222,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def should_be_batched?(work_packages)
-    batch_supported? && is_report? && with_images? && (work_packages.length > @work_packages_per_batch)
+    batch_supported? && wants_report? && with_images? && (work_packages.length > @work_packages_per_batch)
   end
 
   def project
