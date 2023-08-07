@@ -40,6 +40,6 @@ The title and the description of a work package can also be found by [filtering 
 Aside from full-text search, you can [search work packages based on their attached file name or even within the content of an attachment](../work-packages/work-package-table-configuration/#filter-for-attachment-file-name-and-content).
 
 ## Recently viewed work packages
-Since [13.0 Release](https://www.openproject.org/docs/release-notes/13-0-0/) clicking the search bar without entering a search word will display five work packages that you most recently viewed. 
+Since [version 13.0](https://www.openproject.org/docs/release-notes/13-0-0/), clicking on the search bar will immediately show your most recently viewed work packages, before you even start typing.
 
 ![OpenProject recent work packages](openproject_search_recently_viewed.png)
