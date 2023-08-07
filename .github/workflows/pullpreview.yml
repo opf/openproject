@@ -47,10 +47,10 @@ jobs:
       with:
         admins: crohr,HDinger,machisuji,oliverguenther,ulferts,wielinde,b12f,cbliard
         compose_files: docker-compose.pullpreview.yml
-        instance_type: large
+        instance_type: xlarge
         ports: 80,443,8080
         default_port: 443
-        ttl: 10d
+        ttl: 5d
       env:
         AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
         AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
