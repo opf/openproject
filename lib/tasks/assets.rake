@@ -62,6 +62,9 @@ namespace :assets do
 
     puts "Building angular frontend"
     Dir.chdir Rails.root.join('frontend') do
+      warn ENV.keys.inspect
+      warn "WAT? #{ENV['OPENPROJECT_ANGULAR_UGLIFY']}"
+
       cmd =
         if ENV['CI']
           'npm run build:ci'
