@@ -9,14 +9,13 @@ keywords: file storages, project folder, storages
 
 >**Info**: Before a storage service can be added to a project, an administrator must first set up [Nextcloud integration](../../../system-admin-guide/integrations/nextcloud/) with OpenProject.
 
-
-| Topic                                             | Description                         |
-| ------------------------------------------------- | :---------------------------------- |
-| [Add storage](#add-new-storage)                   | Add your new storage to a project   |
-| [Edit and delete a storage](#edit-delete-storage) | Edit and delete an existing storage |
-
+| Topic                                                             | Description                         |
+|-------------------------------------------------------------------|:------------------------------------|
+| [Add storage](#add-your-new-nextcloud-file-storage-to-a-project)  | Add your new storage to a project   |
+| [Edit and delete a storage](#edit-and-delete-an-existing-storage) | Edit and delete an existing storage |
 
 ## Add your new Nextcloud file storage to a project
+
 Once you are certain that an administrator has set up a Nextcloud storage, navigate to any existing project in your OpenProject instance and click on  **Project settings** **→ Modules**. There, activate the **File Storages** module by clicking on the checkbox next to it and then clicking on **Save**.
 
 ![List of modules activated for a project](project-modules.png)

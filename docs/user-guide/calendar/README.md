@@ -30,11 +30,11 @@ Once enabled, clicking on the **Calendars** entry on the left sidebar takes you 
   
 - Click on an existing (saved) calendar to view it.
   
-- You can change the visibility settings of any calendar by clicking on **[⋮] (more)** -> **Visibility settings.**
+- You can change the visibility settings of any calendar by clicking on **[⋮] (more)** -> **Visibility settings.**
   
     - Any calendar that has the **Favored** option checked will be displayed under the **Favorite** heading in the sidebar to the left.
       
-    - Any calendar that has the **Public** option checked will be visible to all members of the current project and listed under the **Public** heading in the sidebar to the left.
+    - Any calendar that has the **Public** option checked will be visible to all members of the current project and listed under the **Public** heading in the sidebar to the left.
       
     - Any calendar that has the **Public** option unchecked will be considered **Private** and displayed under the **Private Views** heading in the menu bar to the left.
       
@@ -83,7 +83,7 @@ You can make basic date modifications simply by manipulating the work package st
 
 ### Filtering
 
-You can filter the work packages displayed in a calendar by adding any number of [filters](../work-packages/work-package-table-configuration/#filter-work-packages "Learn more about work package filters"), e.g. *Author*, *Due Date*, *Priority*, *Assignee*, etc. This allows you to create a custom calendar showing only relevant work packages, either for yourself (as a private calendar) or for your team (as a public calendar visible to all project members).
+You can filter the work packages displayed in a calendar by adding any number of [filters](../work-packages/work-package-table-configuration/#filter-work-packages "Learn more about work package filters"), e.g. *Author*, *Due Date*, *Priority*, *Assignee*, etc. This allows you to create a custom calendar showing only relevant work packages, either for yourself (as a private calendar) or for your team (as a public calendar visible to all project members).
 
 Click the **Filter** button on the top right above the calendar to open the filter details.To add another filter criteria, select the drop down next to **+ Add filter** and choose a filter criteria.The number of different filter criteria is displayed on the filter button.
 
@@ -101,7 +101,7 @@ You can also display the calendar on the dashboard in the [project overview](../
 
 ### Zen mode
 
-You can display the calendar in full screen mode by hiding the navigation bar  and sidebar to work free of distractions. Click the **Activate zen mode** button on the top of the calendar. Press the escape key (**Esc**) to exist Zen mode.
+You can display the calendar in full screen mode by hiding the navigation bar  and sidebar to work free of distractions. Click the **Activate zen mode** button on the top of the calendar. Press the escape key (**Esc**) to exist Zen mode.
 
 ## Subscribing to a calendar
 
@@ -115,9 +115,9 @@ This makes it possible for you to keep an eye on your project schedule from any 
 
 To subscribe to a calendar:
 
-1.  Click on the **[⋮]** **(more) button** on the toolbar and select **Subscribe to calendar**.
+1.  Click on the **[⋮]** **(more) button** on the toolbar and select **Subscribe to calendar**.
 2.  In the modal that appears, give this calendar a unique name (you can only use it once). We recommend naming it based on where you will be subscribing to this calendar from ("personal phone" or "work tablet" for example).  
-3.  Click on **Copy URL**. This creates the a [calendar token](../../getting-started/my-account/#access-tokens) and copies the calendar URL to your clipboard.
+3.  Click on **Copy URL**. This creates the a [calendar token](../../getting-started/my-account/#access-tokens) and copies the calendar URL to your clipboard.
 4.  Paste this URL in your desired calendar client to subscribe.
 
 ![Subscribe to calendar modal](subscribeToCalendar-modal.png)
