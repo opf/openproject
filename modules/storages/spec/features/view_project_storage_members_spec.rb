@@ -50,10 +50,11 @@ RSpec.describe(
     create_oauth_client_tokens_for_users(oauth_client:,
                                          users: [connected_user, admin_user,
                                                  connected_no_permissions_user])
-    login_as user
   end
 
   it 'lists project members connection statuses' do
+    login_as user
+
     # Go to Projects -> Settings -> File Storages
     visit project_settings_project_storages_path(project)
 
@@ -75,6 +76,26 @@ RSpec.describe(
       expect(page).to have_selector("#member-#{principal.id} .name", text: principal.name)
       expect(page).to have_selector("#member-#{principal.id} .status", text: status)
     end
+  end
+
+  it 'lists no results when there are no project members' do
+    login_as admin_user
+    project_no_members = create(:project, enabled_module_names: %i[storages])
+    project_storage_no_members = create(:project_storage, project: project_no_members, storage:)
+
+    # Go to Projects -> Settings -> File Storages
+    visit project_settings_project_storages_path(project_no_members)
+
+    expect(page).to have_title('File storages')
+    expect(page).to have_text(storage.name)
+    page.find('.icon.icon-group').click
+
+    # Members check page
+    expected_current_path = project_settings_project_storage_members_path(project_id: project_no_members,
+                                                                          project_storage_id: project_storage_no_members)
+    expect(page).to have_current_path(expected_current_path)
+
+    expect(page).to have_text('No members to display.')
   end
 
   def create_project_with_storage_and_members
