@@ -28,9 +28,6 @@
 
 require_relative '../spec_helper'
 
-# Setup storages in Project -> Settings -> File Storages
-# This tests assumes that a Storage has already been setup
-# in the Admin section, tested by admin_storage_spec.rb.
 RSpec.describe(
   'Project storage members connection status view',
   with_flag: { storage_project_members_check: true }

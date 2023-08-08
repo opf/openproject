@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Purpose: Defines how to format the components within a table row of ProjectStorages
-# associated with a project
 module Storages::ProjectStorages::Members
   class RowComponent < ::RowComponent
     property :principal,
