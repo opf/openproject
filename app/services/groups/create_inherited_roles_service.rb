@@ -54,7 +54,7 @@ module Groups
 
     def add_to_user_and_projects_cte(project_ids: nil)
       project_limit = if project_ids
-                        "project_id IN (:project_ids)"
+                        "entity_type = 'Project' AND entity_id IN (:project_ids)"
                       else
                         "1=1"
                       end
@@ -69,14 +69,14 @@ module Groups
         ),
         -- select existing memberships of the group
         group_memberships AS (
-          SELECT project_id, work_package_id, user_id
+          SELECT entity_type, entity_id, user_id
           FROM #{Member.table_name}
           WHERE user_id = :group_id AND #{project_limit}
         ),
         -- select existing member_roles of the group
         group_roles AS (
-          SELECT members.project_id AS project_id,
-                 members.work_package_id AS work_package_id,
+          SELECT members.entity_type AS entity_type,
+                 members.entity_id AS entity_id,
                  members.user_id AS user_id,
                  members.id AS member_id,
                  member_roles.role_id AS role_id,
@@ -87,28 +87,28 @@ module Groups
         ),
         -- find members that already exist
         existing_members AS (
-          SELECT members.id, found_users.user_id, members.project_id, members.work_package_id
+          SELECT members.id, found_users.user_id, members.entity_type, members.entity_id
           FROM members, found_users, group_memberships
           WHERE members.user_id = found_users.user_id
-          AND members.project_id IS NOT DISTINCT FROM group_memberships.project_id
-          AND members.work_package_id IS NOT DISTINCT FROM group_memberships.work_package_id
+          AND members.entity_type = group_memberships.entity_type
+          AND members.entity_id = group_memberships.entity_id
           AND members.id IS NOT NULL
         ),
         -- insert the group user into members
         new_members AS (
-          INSERT INTO #{Member.table_name} (project_id, work_package_id, user_id, updated_at, created_at)
-          SELECT group_memberships.project_id, group_memberships.work_package_id, found_users.user_id,
+          INSERT INTO #{Member.table_name} (entity_type, entity_id, user_id, updated_at, created_at)
+          SELECT group_memberships.entity_type, group_memberships.entity_id, found_users.user_id,
             (SELECT time from timestamp), (SELECT time from timestamp)
           FROM found_users, group_memberships
           WHERE NOT EXISTS (
             SELECT 1 FROM existing_members
             WHERE
               existing_members.user_id = found_users.user_id AND
-              existing_members.project_id IS NOT DISTINCT FROM group_memberships.project_id AND
-              existing_members.work_package_id IS NOT DISTINCT FROM group_memberships.work_package_id
+              existing_members.entity_type = group_memberships.entity_type AND
+              existing_members.entity_id = group_memberships.entity_id
           )
-          ON CONFLICT(project_id, user_id, work_package_id) DO NOTHING
-          RETURNING id, user_id, project_id, work_package_id
+          ON CONFLICT(user_id, entity_type, entity_id) DO NOTHING
+          RETURNING id, user_id, entity_type, entity_id
         ),
         -- copy the member roles of the group
         add_roles AS (
@@ -118,8 +118,8 @@ module Groups
           JOIN
             (SELECT * FROM new_members UNION SELECT * from existing_members) members
             ON
-              group_roles.project_id IS NOT DISTINCT FROM members.project_id AND
-              group_roles.work_package_id IS NOT DISTINCT FROM members.work_package_id
+              group_roles.entity_type = members.entity_type AND
+              group_roles.entity_id = members.entity_id
           -- Ignore if the role was already inserted by us
           ON CONFLICT DO NOTHING
           RETURNING id, member_id, role_id

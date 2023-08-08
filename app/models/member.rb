@@ -41,7 +41,14 @@ class Member < ApplicationRecord
   has_many :oauth_client_tokens, foreign_key: :user_id, primary_key: :user_id, dependent: nil # rubocop:disable Rails/InverseOf
 
   belongs_to :principal, foreign_key: 'user_id', inverse_of: 'members', optional: false
+
   belongs_to :entity, polymorphic: true, optional: true
+
+  # Helpers to easily join the associated models
+  belongs_to :project,
+             -> { where(members: { entity_type: 'Project' }) },
+             foreign_key: :entity_id,
+             inverse_of: :members
 
   validates :user_id, uniqueness: { scope: %i[entity_type entity_id] }
   validates :entity_type, inclusion: { in: ALLOWED_MEMBERSHIP_ENTITIES, allow_blank: true }
@@ -62,14 +69,6 @@ class Member < ApplicationRecord
 
   deprecated_alias :user, :principal
   deprecated_alias :user=, :principal=
-
-  # TODO: Remove when everything is updated
-  def project
-    entity.is_a?(Project) ? entity : nil
-  end
-
-  deprecated_alias :project=, :entity=
-  deprecated_alias :work_package=, :entity=
 
   def <=>(other)
     a = roles.min
@@ -101,7 +100,7 @@ class Member < ApplicationRecord
   # and haven't been activated yet. Only applies if the member is actually a user
   # as opposed to a group.
   def disposable?
-    user? && principal&.invited? && principal.memberships.none? { |m| m.project_id != project_id }
+    user? && principal&.invited? && principal.memberships.none? { |m| m.entity != entity }
   end
 
   protected
