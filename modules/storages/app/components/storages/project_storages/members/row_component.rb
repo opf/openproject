@@ -38,7 +38,7 @@ module Storages::ProjectStorages::Members
     end
 
     def row_css_id
-      "member-#{member.id}"
+      "member-#{member.principal.id}"
     end
 
     def row_css_class

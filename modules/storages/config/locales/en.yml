@@ -150,7 +150,6 @@ en:
     member_connection_status:
       connected: "Connected"
       connected_no_permissions: "User role has no storages permissions"
-      not_connected_incomplete_oauth_validation: "The user is not fully connected due to incomplete OAuth validation."
       not_connected: "Not connected"
     no_results: "No storages set up yet."
     members_no_results: "No members to display."
