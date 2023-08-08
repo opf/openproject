@@ -1,10 +1,10 @@
 RSpec.shared_examples 'notification settings workflow' do
   describe 'with another project the user can see', with_ee: %i[date_alerts] do
-    let!(:project) { create(:project) }
-    let!(:project_alt) { create(:project) }
-    let!(:role) { create(:role, permissions: %i[view_project]) }
-    let!(:member) { create(:member, user:, project:, roles: [role]) }
-    let!(:member_two) { create(:member, user:, project: project_alt, roles: [role]) }
+    shared_let(:project) { create(:project) }
+    shared_let(:project_alt) { create(:project) }
+    shared_let(:role) { create(:role, permissions: %i[view_project]) }
+    shared_let(:member) { create(:member, user:, project:, roles: [role]) }
+    shared_let(:member_two) { create(:member, user:, project: project_alt, roles: [role]) }
 
     it 'allows to control notification settings' do
       # Expect default settings
@@ -113,6 +113,26 @@ RSpec.shared_examples 'notification settings workflow' do
       settings_page.search_autocomplete container, query: project.name, results_selector: 'body'
       expect(page).to have_text 'This project is already selected'
       expect(page).to have_selector('.ng-option-disabled', text: project.name)
+    end
+
+    context 'when overdue alerts are disabled for one project, enabled for another' do
+      let!(:setting) { build(:notification_setting, user:, project:) }
+      let!(:setting_alt) { build(:notification_setting, user:, project: project_alt) }
+      let(:mail_settings_page) { Pages::My::Reminders.new(user) }
+
+      it 'allows to save with a partially disabled overdue alert' do
+        setting.start_date = nil
+        setting.due_date = nil
+        setting.save!
+
+        setting_alt.start_date = 1
+        setting_alt.due_date = 1
+        setting_alt.save!
+
+        mail_settings_page.visit!
+        mail_settings_page.save
+        mail_settings_page.expect_and_dismiss_toaster(message: 'Successful update')
+      end
     end
 
     context 'without enterprise', with_ee: false do
