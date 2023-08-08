@@ -166,7 +166,7 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
     end
   end
 
-  context 'when visiting from a global context', with_flag: { more_global_index_pages: true } do
+  context 'when visiting from a global context' do
     let(:meetings_page) { Pages::Meetings::Index.new(project: nil) }
 
     it 'lists all upcoming meetings for all projects the user has access to' do

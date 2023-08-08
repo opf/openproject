@@ -34,7 +34,7 @@ RSpec.describe Queries::BaseContract do
   include_context 'ModelContract shared context'
   include_context 'with queries contract'
 
-  describe 'timestamps', with_flag: { show_changes: true } do
+  describe 'timestamps' do
     let(:query) { build_stubbed(:query, timestamps:) }
 
     context 'with EE', with_ee: %i[baseline_comparison] do

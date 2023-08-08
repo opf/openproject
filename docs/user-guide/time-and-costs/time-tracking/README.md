@@ -13,19 +13,19 @@ Users can book their time or units spent on an activity within a project directl
 > **Note**: To use the time tracking functionality, the **Time and costs module** needs to be activated in the [project settings](../../projects/project-settings/modules/).
 
 
-| Topic                                                        | Content                                                      |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Log time in the work package view](#logging-time-in-the-work-package-view) | How to log time to a work package.                           |
-| [Log time via the time tracking button](#logging-time-via-time-tracking-button) | How to track time in real time using the start/stop time tracking button |
-| [Log time via commit message](#logging-time-via-commit-message) | How to log time via a commit message to a work package.      |
-| [Log time via My page](#logging-time-via-my-page)            | How to easily track and display spent time in the spent time widget on the MyPage. |
-| [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package.                   |
-| [Delete time entries](#delete-time-entries)                  | How to delete time entries logged to a work package.         |
-| [Logging and editing time for other users](#logging-and-editing-time-for-other-users) | How to log time to work packages.                            |
-| [Define hourly rate for labor costs](#define-hourly-rate-for-labor-costs) | How to easily track labor costs per user.                    |
-| [Toggl integration](./toggl-integration)                     | How to track spent time with Toggl.                          |
-| [TimeCamp integration](./timecamp-integration)               | How to track spent time using TimeCamp.                      |
-| [Time Tracker integration](./time-tracker-integration)       | How to record and log spent time using Time Tracker.         |
+| Topic                                                                           | Content                                                                            |
+|---------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
+| [Log time in the work package view](#log-time-in-the-work-package-view)         | How to log time to a work package.                                                 |
+| [Log time via the time tracking button](#log-time-via-the-time-tracking-button) | How to track time in real time using the start/stop time tracking button           |
+| [Log time via commit message](#log-time-via-commit-message)                     | How to log time via a commit message to a work package.                            |
+| [Log time via My page](#log-time-via-my-page)                                   | How to easily track and display spent time in the spent time widget on the MyPage. |
+| [Edit logged time](#edit-logged-time)                                           | How to edit logged time on a work package.                                         |
+| [Delete time entries](#delete-time-entries)                                     | How to delete time entries logged to a work package.                               |
+| [Logging and editing time for other users](#log-and-edit-time-for-other-users)  | How to log time to work packages.                                                  |
+| [Define hourly rate for labor costs](#define-hourly-rate-for-labor-costs)       | How to easily track labor costs per user.                                          |
+| [Toggl integration](./toggl-integration)                                        | How to track spent time with Toggl.                                                |
+| [TimeCamp integration](./timecamp-integration)                                  | How to track spent time using TimeCamp.                                            |
+| [Time Tracker integration](./time-tracker-integration)                          | How to record and log spent time using Time Tracker.                               |
 
 
 ## Log time in the work package view
@@ -117,17 +117,17 @@ Starting with OpenProject 12.2, users with certain roles are able to log and edi
 > - *Log time for other users* allows users with that role to log time on behalf of other users
 > - *Edit time logs* for other users allows users with that role to modify and adjust time logged for other users
 
-[Permissions to log and edit time for others](permissions-log-time-others.png)
+![Permissions to log and edit time for others](permissions-log-time-others.png)
 
 Once the permissions have been granted, you will notice subtle differences in the interface.
 
 The **Log time** modal now has a new field called "User", that allows you to select a user other than yourself:
 
-[Log time now has a user field](log-time-with-user-field.png)
+![Log time now has a user field](log-time-with-user-field.png)
 
 When accessing cost reports, you will see a new column titled "Logged by". The author of the logged time can be different from the user for whom the time is logged:
 
-[Logged by field](cost-report-logged-by.png)
+![Logged by field](cost-report-logged-by.png)
 
 A user with permissions to edit time logged by other users can edit each entry as they would their own. The "Logged by" field will always display the name of the user who made the last edit.
 

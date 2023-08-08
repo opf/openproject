@@ -460,14 +460,16 @@ class WorkPackage < ApplicationRecord
 
   def self.preload_available_custom_fields(work_packages)
     custom_fields = available_custom_fields_from_db(work_packages)
-                    .select('projects.id project_id',
-                            'types.id type_id',
+                    .select('array_agg(projects.id) available_project_ids',
+                            'array_agg(types.id) available_type_ids',
                             'custom_fields.*')
+                    .group('custom_fields.id')
 
     work_packages.each do |work_package|
       RequestStore.store[available_custom_field_key(work_package)] = custom_fields
                                                                        .select do |cf|
-        ((cf.project_id == work_package.project_id) || cf.is_for_all?) && cf.type_id == work_package.type_id
+        (cf.available_project_ids.include?(work_package.project_id) || cf.is_for_all?) &&
+        cf.available_type_ids.include?(work_package.type_id)
       end
     end
   end
@@ -482,6 +484,7 @@ class WorkPackage < ApplicationRecord
             .references(:projects, :types)
             .where(is_for_all: true)
             .where(types: { id: work_packages.map(&:type_id).uniq }))
+      .distinct
   end
   private_class_method :available_custom_fields_from_db
 

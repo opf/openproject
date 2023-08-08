@@ -13,6 +13,8 @@ volumes:
 x-defaults: &defaults
   build:
     context: .
+    args:
+      OPENPROJECT_ANGULAR_UGLIFY: "false"
   restart: unless-stopped
   env_file:
     - .env.pullpreview

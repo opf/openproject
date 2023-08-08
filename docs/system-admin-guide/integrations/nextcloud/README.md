@@ -121,7 +121,7 @@ Much like in the previous step, you will need to copy these two generated values
 
 Navigate back to your OpenProject tab and click on the **Done. Continue setup** button on the screen you previously left it at. You will now see a screen where you will be able to enter the Nextcloud values. 
 
-![OpenProject_NC_OAuth_values](OpenProject - OAuth.png)
+![OpenProject_NC_OAuth_values](openproject-oauth.png)
 
 Once you have entered the client ID and client secrets on this page, click on **Save and continue setup**.
 
@@ -129,23 +129,23 @@ Once you have entered the client ID and client secrets on this page, click on **
 
 As a last step, you will be asked if you want to use automatically managed folders. If you choose this option, OpenProject will automatically create project folders in Nextcloud and manage permissions such that all project members always have the necessary access privileges. Unless you already have a particular folder structure in place, we recommend choosing this option.
 
-![OpenProject Automatically managed folders](OpenProject Project folders - Default.png)
+![OpenProject Automatically managed folders](openproject-project_folders-default.png)
 
 In case you want to use this functionality you will be requested to enter a password. Switch back to Nextcloud and click on **Yes, I have copied these values**. This will open the last step of the process in Nextcloud, where you can also select if you want to use automatically managed folders. Click on **Setup OpenProject user, group and folder** to configure the folders and see the password. Once configured, you can copy the password back to OpenProject.
 
-![Nextcloutd Automatically managed folders setup](Nextcloud Project folders - Active default.png)
+![Nextcloutd Automatically managed folders setup](nc-project_folders-active_default.png)
 
-![Nextcloutd Automatically managed folders](Nextcloud Project folders - Application password.png)
+![Nextcloutd Automatically managed folders](nc-project_folders-application_password.png)
 
 > **Important**: You will need to install the [Group folder](https://apps.nextcloud.com/apps/groupfolders) app in Nextcloudin order to have OpenProject automatically managed your Nextcloud folders. Each storage can only have one group folder with the same name.
 
 At this point, you can click on **Done, complete setup** in both applications and your instance configuration will be completed.
 
-![Integration successfully completed on the OpenProject end](OpenProject complete setup.png)
+![Integration successfully completed on the OpenProject end](openproject-complete_setup.png)
 
 The **OpenProject Integration** page on your Nextcloud tab should also indicate that the integration is complete with three green check marks.
 
-![Integration successfully set up on the Nextcloud end, three green checks visible](Nextcloud complete setup.png)
+![Integration successfully set up on the Nextcloud end, three green checks visible](nc-complete_setup.png)
 
 The integration is now complete, and your OpenProject and Nextcloud instances are ready to share information. 
 
@@ -157,7 +157,7 @@ Additional settings on this page also allow you, as an administrator, to define 
 - **Enable unified search for tickets** allows users to search for OpenProject work packages via the universal search bar in Nextcloud 
 
 
-#### 5. Add your new Nextcloud file storage to a project
+#### 6. Add your new Nextcloud file storage to a project
 
 Now that the integration is set up, the next step is to make the Nextcloud file storage you just created available to individual projects.
 

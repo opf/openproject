@@ -108,7 +108,7 @@ RSpec.describe Query,
     end
   end
 
-  describe 'timestamps', with_flag: { show_changes: true } do
+  describe 'timestamps' do
     subject { build(:query, timestamps:) }
 
     context 'with EE', with_ee: %i[baseline_comparison] do
@@ -755,7 +755,7 @@ RSpec.describe Query,
       end
     end
 
-    context 'with timestamps', with_flag: { show_changes: true } do
+    context 'with timestamps' do
       let(:timestamps) do
         [3.weeks.ago.iso8601, 'oneWeekAgo@12:00+00:00', 'oneDayAgo@12:00+00:00', 'PT0S']
       end

@@ -1,0 +1,43 @@
+# Schema: GridWidgetModel
+---
+type: object
+required:
+  - _type
+  - id
+  - identifier
+  - startRow
+  - endRow
+  - startColumn
+  - endColumn
+properties:
+  _type:
+    type: string
+    enum:
+      - GridWidget
+  id:
+    type:
+      - integer
+      - "null"
+    description: The grid widget's unique identifier. Can be null, if a new widget is created within a grid.
+    minimum: 1
+  identifier:
+    type: string
+    description: An alternative, human legible, and unique identifier.
+  startRow:
+    type: integer
+    description: The index of the starting row of the widget. The row is inclusive.
+    minimum: 1
+  endRow:
+    type: integer
+    description: The index of the ending row of the widget. The row is exclusive.
+    minimum: 1
+  startColumn:
+    type: integer
+    description: The index of the starting column of the widget. The column is inclusive.
+    minimum: 1
+  endColumn:
+    type: integer
+    description: The index of the ending column of the widget. The column is exclusive.
+    minimum: 1
+  options:
+    type: object

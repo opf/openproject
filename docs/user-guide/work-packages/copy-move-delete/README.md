@@ -8,15 +8,17 @@ keywords: copy work package, delete work package, move work package
 
 # Copy, change project or delete a work package
 
-If you click with the right mouse button in the line of the work package, a list with different editing options for the selected work package opens. Here you can copy the work package, delete it and move it to another project. You can access these features from the work package table or from within a work package.
+If you right-click in a work package table, editing options will be displayed. Here, you can change project, copy the work package, or copy its URL to the clipboard, delete it or move it to another project. 
 
-You can also dit a work package using the three dots at the far right of a row to access the menu.
+![change copy delete work package](openproject_user_guide_copy_move_delete_wptableview.png)
 
-![change copy delete work package](change-copy-delete-work-package.png)
+You can also access these features by using the three dots at the far right of a row to access the menu.
 
-Alternatively, open the work packages details view, click on **More functions** (the three dots at the top right of the work package details) and select the respective menu item.
+![OpenProject copy move delete work package](openproject_user_guide_copy_move_delete_threedotsmenu.png)
 
-![User guide copy change project delete](User-guide-copy-change-project-delete-4071022.png)
+Alternatively, open the work packages details view by double clicking the respective row, click on **More functions** (the three dots at the top right of the work package details) and select the respective menu item.
+
+![User guide copy change project delete](openproject_user_guide_copy_move_delete_detailed_view.png)
 
 To copy, move or delete multiple work packages at once please refer to the documentation for [bulk edit](../edit-work-package/#bulk-edit-work-packages). 
 
@@ -24,7 +26,11 @@ To copy, move or delete multiple work packages at once please refer to the docum
 
 When copying a work package, a work package form with the pre-set values of the original work package is shown.
 
-Copying a work package allows to easily create and adjust new work packages based on existing one’s.
+Copying a work package allows to easily create and adjust new work packages based on existing one’s. 
+
+## Copy link to clipboard
+
+This option copies a short link to the work package to your clipboard  so you can quickly paste it elsewhere. It can also be useful when you  want to quickly copy links to multiple work packages without having to  open the detailed view of each one.
 
 ## Move a work package to a different project.
 

@@ -54,6 +54,10 @@ Click the green **Save** button.
 
 
 
+Starting with OpenProject 13.0 you can add emojis to all text editors, including the work package description. Type a colon and a letter, e.g. **:a** into the text editor and get a suggested list of emojis you can use.
+
+![openproject_user_guide_wp_description_emojis](openproject_user_guide_wp_description_emojis.png)
+
 To find out **how to create a child Work package** please click [here](../work-package-relations-hierarchies/#adding-a-child-work-package).
 
 

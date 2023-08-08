@@ -63,10 +63,10 @@ class AddValidityPeriodToJournals < ActiveRecord::Migration[7.0]
     updated = select_rows <<~SQL.squish
       UPDATE journals
       SET
-        created_at = LEAST(journals.created_at, values.created_at - interval '1  ms'),
+        created_at = LEAST(journals.created_at, successors.created_at - interval '1  ms'),
         updated_at = CASE
                        WHEN journals.created_at = journals.updated_at
-                       THEN LEAST(journals.created_at, values.created_at - interval '1  ms')
+                       THEN LEAST(journals.created_at, successors.created_at - interval '1  ms')
                        ELSE journals.updated_at
                      END
 
@@ -77,18 +77,19 @@ class AddValidityPeriodToJournals < ActiveRecord::Migration[7.0]
         FROM
           journals predecessors
         LEFT JOIN LATERAL (SELECT DISTINCT ON (journable_type, journable_id) *
-                           FROM "journals"
-                           WHERE "journals"."version" > predecessors.version
-                             AND "journals"."journable_id" = predecessors.journable_id
-                             AND "journals"."journable_type" = predecessors.journable_type
-                           ORDER BY "journals"."journable_type" ASC,
-                                    "journals"."journable_id" ASC,
-                                    "journals"."version" ASC) successors
+                           FROM journals successors
+                           WHERE successors.version > predecessors.version
+                             AND successors.journable_id = predecessors.journable_id
+                             AND successors.journable_type = predecessors.journable_type
+                             AND successors.created_at <= predecessors.created_at
+                           ORDER BY successors.journable_type ASC,
+                                    successors.journable_id ASC,
+                                    successors.version ASC) successors
         ON successors.journable_id = predecessors.journable_id
         AND successors.journable_type = predecessors.journable_type
-      ) values
-      WHERE values.id = journals.id
-      AND values.created_at <= journals.created_at
+      ) successors
+      WHERE successors.id = journals.id
+      AND successors.created_at <= journals.created_at
       #{limit_condition}
       RETURNING journals.journable_id
     SQL
@@ -107,12 +108,12 @@ class AddValidityPeriodToJournals < ActiveRecord::Migration[7.0]
         FROM
           journals predecessors
         LEFT JOIN LATERAL (SELECT DISTINCT ON (journable_type, journable_id) *
-                           FROM "journals"
-                           WHERE "journals"."version" > predecessors.version
-                             AND "journals"."journable_id" = predecessors.journable_id
-                           ORDER BY "journals"."journable_type" ASC,
-                                    "journals"."journable_id" ASC,
-                                    "journals"."version" ASC) successors
+                           FROM journals successors
+                           WHERE successors.version > predecessors.version
+                             AND successors.journable_id = predecessors.journable_id
+                           ORDER BY successors.journable_type ASC,
+                                    successors.journable_id ASC,
+                                    successors.version ASC) successors
         ON successors.journable_id = predecessors.journable_id
         AND successors.journable_type = predecessors.journable_type
       ) values

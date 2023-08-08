@@ -52,7 +52,7 @@ OpenProject 12.2 gives an administrator the possibility to grant permissions to 
 
 ![log time for other users](image-20220811130616209.png)
 
-Find out more about [logging time for other users](../../user-guide/time-and-costs/time-tracking/#logging-and-editing-time-for-other-users) in our documentation.
+Find out more about [logging time for other users](../../user-guide/time-and-costs/time-tracking/#log-and-edit-time-for-other-users) in our documentation.
 
 ## Improved navigation bar
 

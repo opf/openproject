@@ -30,8 +30,7 @@ require 'spec_helper'
 
 RSpec.describe Query::Results,
                'Filter on historic data',
-               with_ee: %i[baseline_comparison],
-               with_flag: { show_changes: true } do
+               with_ee: %i[baseline_comparison] do
   let(:historic_time) { "2022-08-01".to_datetime }
   let(:pre_historic_time) { historic_time - 1.day }
   let(:recent_time) { 1.hour.ago }

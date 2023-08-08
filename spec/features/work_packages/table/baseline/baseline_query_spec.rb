@@ -55,7 +55,7 @@ RSpec.describe 'baseline query saving',
            member_with_permissions: %i[view_work_packages save_queries manage_public_queries])
   end
 
-  it 'shows a warning when an incompatible filter is used', with_flag: { show_changes: true } do
+  it 'shows a warning when an incompatible filter is used' do
     login_as berlin_user
     wp_table.visit!
 
@@ -86,7 +86,7 @@ RSpec.describe 'baseline query saving',
     end
   end
 
-  it 'can configure and save baseline queries', with_flag: { show_changes: true } do
+  it 'can configure and save baseline queries' do
     login_as berlin_user
     wp_table.visit!
 

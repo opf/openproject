@@ -54,7 +54,6 @@ module OpenProject::Boards
            caption: :'boards.label_boards'
 
       should_render_global_menu_item = Proc.new do
-        OpenProject::FeatureDecisions.more_global_index_pages_active? &&
           (User.current.logged? || !Setting.login_required?) &&
           User.current.allowed_to_globally?(:show_board_views)
       end
