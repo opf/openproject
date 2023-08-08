@@ -30,17 +30,21 @@ class Member < ApplicationRecord
   include ::Scopes::Scoped
 
   extend DeprecatedAlias
+
+  ALLOWED_MEMBERSHIP_ENTITIES = [
+    "Project",
+    "WorkPackage"
+  ].freeze
+
   has_many :member_roles, dependent: :destroy, autosave: true, validate: false
   has_many :roles, -> { distinct }, through: :member_roles
   has_many :oauth_client_tokens, foreign_key: :user_id, primary_key: :user_id, dependent: nil # rubocop:disable Rails/InverseOf
 
   belongs_to :principal, foreign_key: 'user_id', inverse_of: 'members', optional: false
-  belongs_to :project, optional: true
-  belongs_to :work_package, optional: true
+  belongs_to :entity, polymorphic: true, optional: true
 
-  validates :user_id, uniqueness: { scope: %i[project_id work_package_id] }
-  validates :project_id, absence: true, if: ->(member) { member.work_package.present? }
-  validates :work_package_id, absence: true, if: ->(member) { member.project.present? }
+  validates :user_id, uniqueness: { scope: %i[entity_type entity_id] }
+  validates :entity_type, inclusion: { in: ALLOWED_MEMBERSHIP_ENTITIES, allow_blank: true }
 
   validate :validate_presence_of_role
 
@@ -58,6 +62,14 @@ class Member < ApplicationRecord
 
   deprecated_alias :user, :principal
   deprecated_alias :user=, :principal=
+
+  # TODO: Remove when everything is updated
+  def project
+    entity.is_a?(Project) ? entity : nil
+  end
+
+  deprecated_alias :project=, :entity=
+  deprecated_alias :work_package=, :entity=
 
   def <=>(other)
     a = roles.min

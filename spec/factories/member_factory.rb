@@ -32,11 +32,11 @@
 #   user    = create(:user)
 #   role    = create(:role, permissions: [:view_wiki_pages, :edit_wiki_pages])
 #
-#   member = create(:member, user: user, project: project, roles: [role])
+#   member = create(:member, user: user, entity: project, roles: [role])
 
 FactoryBot.define do
   factory :member do
-    project
+    entity factory: %i[project]
 
     transient do
       user { nil }
@@ -52,6 +52,6 @@ FactoryBot.define do
   end
 
   factory :global_member, parent: :member do
-    project { nil }
+    entity { nil }
   end
 end

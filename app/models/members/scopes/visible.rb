@@ -48,7 +48,7 @@ module Members::Scopes
 
         project_scope = view_members.or(manage_members)
 
-        Member.where(project_id: project_scope.select(:id))
+        Member.where(entity_type: 'Project,', entity_id: project_scope.select(:id))
       end
 
       def visible_for_admins

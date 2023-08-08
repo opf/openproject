@@ -33,7 +33,7 @@ module Members::Scopes
     class_methods do
       # Find all members of a project
       def of(project)
-        where(project_id: project)
+        where(entity: project)
       end
     end
   end

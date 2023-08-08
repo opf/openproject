@@ -35,14 +35,13 @@ RSpec.describe Member do
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
 
-  subject(:member) { build(:member, user:, roles: [global_role]) }
+  subject(:member) { build(:global_member, user:, roles: [global_role]) }
 
   describe 'relations' do
     it { expect(member).to have_many(:member_roles).dependent(:destroy) }
     it { expect(member).to have_many(:roles).through(:member_roles) }
     it { expect(member).to belong_to(:principal).required }
-    it { expect(member).to belong_to(:project).optional }
-    it { expect(member).to belong_to(:work_package).optional }
+    it { expect(member).to belong_to(:entity).optional }
 
     it do
       expect(member).to have_many(:oauth_client_tokens).with_foreign_key(:user_id).with_primary_key(:user_id).dependent(nil)
@@ -50,19 +49,8 @@ RSpec.describe Member do
   end
 
   describe 'validations' do
-    it { expect(member).to validate_uniqueness_of(:user_id).scoped_to(:project_id, :work_package_id) }
-
-    context 'with a project set' do
-      before { member.project = project }
-
-      it { expect(member).to validate_absence_of(:work_package_id) }
-    end
-
-    context 'with a work packgage set' do
-      before { member.work_package = work_package }
-
-      it { expect(member).to validate_absence_of(:project_id) }
-    end
+    it { expect(member).to validate_uniqueness_of(:user_id).scoped_to(%i[entity_type entity_id]) }
+    it { expect(member).to validate_inclusion_of(:entity_type).in_array(["Project", "WorkPackage"]).allow_blank }
   end
 
   describe '#deletable?' do
@@ -84,7 +72,7 @@ RSpec.describe Member do
 
       # user gets a group that will be assigned the project_role
       group = create(:group, members: [user])
-      create(:member, project:, principal: group, roles: [project_role])
+      create(:member, entity: project, principal: group, roles: [project_role])
 
       # run the service to normalize the users permissions
       expect do
