@@ -133,6 +133,10 @@ module WorkPackage::PDFExport::Style
       resolve_pt(@styles.dig(:overview, :table, :subject_indent), 0)
     end
 
+    def toc_max_depth
+      @styles.dig(:toc, :max_depth) || 4
+    end
+
     def toc_margins
       resolve_margin(@styles[:toc])
     end
