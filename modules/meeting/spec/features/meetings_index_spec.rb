@@ -31,8 +31,8 @@ require 'spec_helper'
 require_relative '../support/pages/meetings/index'
 
 RSpec.describe 'Meetings', 'Index', :with_cuprite do
-  shared_let(:project) { create(:project, enabled_module_names: %w[meetings]) }
-  shared_let(:other_project) { create(:project, enabled_module_names: %w[meetings]) }
+  shared_let(:project) { create(:project, name: 'Project 1', enabled_module_names: %w[meetings]) }
+  shared_let(:other_project) { create(:project, name: 'Project 2', enabled_module_names: %w[meetings]) }
   let(:role) { create(:role, permissions:) }
   let(:permissions) { %i(view_meetings) }
   let(:user) do
@@ -47,7 +47,7 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
   end
 
   let(:meeting) do
-    create(:meeting, project:, title: 'Awesome meeting today!', start_time: Time.current)
+    create(:meeting, project:, title: 'Awesome meeting today!', start_time: Time.current, location: 'a.com')
   end
   let(:tomorrows_meeting) do
     create(:meeting, project:, title: 'Awesome meeting tomorrow!', start_time: 1.day.from_now)
@@ -57,7 +57,12 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
   end
 
   shared_let(:other_project_meeting) do
-    create(:meeting, project: other_project, title: 'Awesome other project meeting!', start_time: 2.days.from_now)
+    create(:meeting,
+           project: other_project,
+           title: 'Awesome other project meeting!',
+           start_time: 2.days.from_now,
+           duration: 2.0,
+           location: 'b.com')
   end
 
   def setup_meeting_involvement
@@ -195,6 +200,84 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
         meetings_page.navigate_by_modules_menu
 
         meetings_page.expect_no_create_new_buttons
+      end
+    end
+
+    describe 'sorting' do
+      before do
+        meeting
+        visit meetings_path
+        # Start Time ASC is the default sort order for Upcoming meetings
+        # We can assert the initial sort by expecting the order is
+        # 1. `meeting`
+        # 2. `other_project_meeting`
+        # upon page load
+        meetings_page.expect_meetings_listed_in_order(meeting, other_project_meeting)
+      end
+
+      it 'allows sorting by every column' do
+        aggregate_failures 'Sorting by Title' do
+          meetings_page.click_to_sort_by('Title')
+          meetings_page.expect_meetings_listed_in_order(meeting,
+                                                        other_project_meeting)
+          meetings_page.click_to_sort_by('Title')
+          meetings_page.expect_meetings_listed_in_order(other_project_meeting,
+                                                        meeting)
+        end
+
+        aggregate_failures 'Sorting by Project' do
+          meetings_page.click_to_sort_by('Project')
+          meetings_page.expect_meetings_listed_in_order(meeting,
+                                                        other_project_meeting)
+          meetings_page.click_to_sort_by('Project')
+          meetings_page.expect_meetings_listed_in_order(other_project_meeting,
+                                                        meeting)
+        end
+
+        aggregate_failures 'Sorting by Time' do
+          meetings_page.click_to_sort_by('Time')
+          meetings_page.expect_meetings_listed_in_order(meeting,
+                                                        other_project_meeting)
+          meetings_page.click_to_sort_by('Time')
+          meetings_page.expect_meetings_listed_in_order(other_project_meeting,
+                                                        meeting)
+        end
+
+        aggregate_failures 'Sorting by Time' do
+          meetings_page.click_to_sort_by('Time')
+          meetings_page.expect_meetings_listed_in_order(meeting,
+                                                        other_project_meeting)
+          meetings_page.click_to_sort_by('Time')
+          meetings_page.expect_meetings_listed_in_order(other_project_meeting,
+                                                        meeting)
+        end
+
+        aggregate_failures 'Sorting by Duration' do
+          meetings_page.click_to_sort_by('Duration')
+          meetings_page.expect_meetings_listed_in_order(meeting,
+                                                        other_project_meeting)
+          meetings_page.click_to_sort_by('Duration')
+          meetings_page.expect_meetings_listed_in_order(other_project_meeting,
+                                                        meeting)
+        end
+
+        aggregate_failures 'Sorting by Duration' do
+          meetings_page.click_to_sort_by('Duration')
+          meetings_page.expect_meetings_listed_in_order(meeting,
+                                                        other_project_meeting)
+          meetings_page.click_to_sort_by('Duration')
+          meetings_page.expect_meetings_listed_in_order(other_project_meeting,
+                                                        meeting)
+        end
+
+        aggregate_failures 'Sorting by Location' do
+          meetings_page.click_to_sort_by('Location')
+          meetings_page.expect_meetings_listed_in_order(meeting,
+                                                        other_project_meeting)
+          meetings_page.click_to_sort_by('Location')
+          meetings_page.expect_meetings_listed_in_order(other_project_meeting,
+                                                        meeting)
+        end
       end
     end
 
