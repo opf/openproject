@@ -140,7 +140,6 @@ export class TimeEntryCalendarComponent {
     editable: false,
     locale: this.i18n.locale,
     fixedWeekCount: false,
-    timeZone: this.configuration.isTimezoneSet() ? this.configuration.timezone() : 'local',
     headerToolbar: {
       right: '',
       center: 'title',
