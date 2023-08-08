@@ -26,33 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-## TODO move constants into style
-
 module WorkPackage::PDFExport::Cover
   def write_cover_page!
     top = pdf.bounds.top
     logo_width = write_cover_logo(top)
     write_cover_header(top, logo_width + styles.cover_logo_header_spacing)
     write_cover_hr
-    write_cover_artwork
+    write_cover_hero
     write_cover_footer
     pdf.start_new_page
   end
 
-  def write_cover_artwork
-    max_width = pdf.bounds.width - styles.cover_art_padding_right
+  def write_cover_hero
+    max_width = pdf.bounds.width - styles.cover_hero_padding[:right_padding]
     float_top = write_background_image
-    float_top -= write_artwork_headline(float_top, max_width) if project
-    float_top -= write_artwork_title(float_top, max_width)
-    write_artwork_subheading(float_top, max_width) unless User.current.nil?
+    float_top -= write_hero_title(float_top, max_width) if project
+    float_top -= write_hero_heading(float_top, max_width)
+    write_hero_subheading(float_top, max_width) unless User.current.nil?
   end
 
   def available_title_height(current_y)
     current_y -
-      styles.cover_art_headline_max_height -
-      styles.cover_art_subheading_max_height -
-      styles.cover_art_headline_spacing -
-      styles.cover_art_title_spacing
+      styles.cover_hero_title_max_height -
+      styles.cover_hero_title_spacing -
+      styles.cover_hero_heading_spacing -
+      styles.cover_hero_subheading_max_height
   end
 
   def write_cover_hr
@@ -71,31 +69,31 @@ module WorkPackage::PDFExport::Cover
     )
   end
 
-  def write_artwork_headline(top, width)
-    text_style = styles.cover_art_headline
+  def write_hero_title(top, width)
+    text_style = styles.cover_hero_title
     formatted_text_box_measured(
       [text_style.merge({ text: project.name, size: nil, leading: nil })],
       size: text_style[:size], leading: text_style[:leading],
-      at: [0, top], width:, height: styles.cover_art_headline_max_height, overflow: :shrink_to_fit
-    ) + styles.cover_art_headline_spacing
+      at: [0, top], width:, height: styles.cover_hero_title_max_height, overflow: :shrink_to_fit
+    ) + styles.cover_hero_title_spacing
   end
 
-  def write_artwork_title(top, width)
+  def write_hero_heading(top, width)
     max_title_height = available_title_height(top)
-    text_style = styles.cover_art_title
+    text_style = styles.cover_hero_heading
     formatted_text_box_measured(
       [text_style.merge({ text: heading, size: nil, leading: nil })],
       size: text_style[:size], leading: text_style[:leading],
       at: [0, top], width:, height: max_title_height, overflow: :shrink_to_fit
-    ) + styles.cover_art_title_spacing
+    ) + styles.cover_hero_heading_spacing
   end
 
-  def write_artwork_subheading(top, width)
-    text_style = styles.cover_art_author
+  def write_hero_subheading(top, width)
+    text_style = styles.cover_hero_subheading
     pdf.formatted_text_box(
       [text_style.merge({ text: User.current.name, size: nil, leading: nil })],
       size: text_style[:size], leading: text_style[:leading],
-      at: [0, top], width:, height: styles.cover_art_subheading_max_height, overflow: :shrink_to_fit
+      at: [0, top], width:, height: styles.cover_hero_subheading_max_height, overflow: :shrink_to_fit
     )
   end
 
@@ -132,6 +130,6 @@ module WorkPackage::PDFExport::Cover
       image_obj, image_info, image_opts, height = cover_background_image
       pdf.embed_image image_obj, image_info, image_opts
     end
-    height - styles.cover_art_padding_top
+    height - styles.cover_hero_padding[:top_padding]
   end
 end

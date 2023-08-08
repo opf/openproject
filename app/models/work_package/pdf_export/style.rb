@@ -202,67 +202,65 @@ module WorkPackage::PDFExport::Style
     end
 
     def cover_logo_header_spacing
-      20
+      resolve_pt(@styles.dig(:cover, :header, :spacing), 20)
     end
 
     def cover_header
-      { font: 'SpaceMono', size: 10, color: '064e80' }
+      resolve_font(@styles.dig(:cover, :header))
     end
 
     def cover_header_offset
-      6.5
+      resolve_pt(@styles.dig(:cover, :header, :offset), 6.5)
     end
 
     def cover_header_logo_height
-      25
-    end
-
-    def cover_footer
-      { size: 10, color: '414d5f' }
-    end
-
-    def cover_footer_offset
-      30
+      resolve_pt(@styles.dig(:cover, :header, :logo_height), 25)
     end
 
     def cover_header_border
-      { color: 'd3dee3', height: 1, offset: 6 }
+      { color: @styles.dig(:cover, :header, :border, :color),
+        height: resolve_pt(@styles.dig(:cover, :header, :border, :height), 1),
+        offset: resolve_pt(@styles.dig(:cover, :header, :border, :offset), 0)}
     end
 
-    def cover_art_padding_top
-      120
+    def cover_footer
+      resolve_font(@styles.dig(:cover, :footer))
     end
 
-    def cover_art_padding_right
-      150
+    def cover_footer_offset
+      resolve_pt(@styles.dig(:cover, :footer, :offset), 0)
     end
 
-    def cover_art_headline_max_height
-      30
+    def cover_hero_padding
+      resolve_padding(@styles.dig(:cover, :hero))
     end
 
-    def cover_art_subheading_max_height
-      30
+    def cover_hero_title
+      resolve_font(@styles.dig(:cover, :hero, :title))
     end
 
-    def cover_art_headline_spacing
-      10
+    def cover_hero_title_spacing
+      resolve_pt(@styles.dig(:cover, :hero, :title, :spacing), 0)
     end
 
-    def cover_art_title_spacing
-      14
+    def cover_hero_title_max_height
+      resolve_pt(@styles.dig(:cover, :hero, :title, :max_height), 30)
     end
 
-    def cover_art_headline
-      { font: 'SpaceMono', color: '414d5f', size: 10 }
+    def cover_hero_heading
+      resolve_font(@styles.dig(:cover, :hero, :heading))
     end
 
-    def cover_art_title
-      { color: '414d5f', styles: [:bold], size: 32, leading: -8 }
+    def cover_hero_heading_spacing
+      resolve_pt(@styles.dig(:cover, :hero, :heading, :spacing), 0)
     end
 
-    def cover_art_author
-      { color: '414d5f', styles: [:italic], size: 10 }
+    def cover_hero_subheading
+      resolve_font(@styles.dig(:cover, :hero, :subheading))
+     end
+
+    def cover_hero_subheading_max_height
+      resolve_pt(@styles.dig(:cover, :hero, :subheading, :max_height), 30)
     end
 
     private
@@ -294,6 +292,10 @@ module WorkPackage::PDFExport::Style
 
     def resolve_margin(style)
       opts_margin(style || {})
+    end
+
+    def resolve_padding(style)
+      opts_padding(style || {})
     end
   end
 
