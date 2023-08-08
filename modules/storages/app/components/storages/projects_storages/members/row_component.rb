@@ -103,7 +103,7 @@ module Storages::ProjectsStorages::Members
     end
 
     def can_read_files?
-      member.roles.any? { |role| role.has_permission?(:read_file) }
+      member.principal.admin? || member.roles.any? { |role| role.has_permission?(:read_files) }
     end
   end
 end
