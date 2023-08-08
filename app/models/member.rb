@@ -39,6 +39,8 @@ class Member < ApplicationRecord
   belongs_to :work_package, optional: true
 
   validates :user_id, uniqueness: { scope: %i[project_id work_package_id] }
+  validates :project_id, absence: true, if: ->(member) { member.work_package.present? }
+  validates :work_package_id, absence: true, if: ->(member) { member.project.present? }
 
   validate :validate_presence_of_role
 
