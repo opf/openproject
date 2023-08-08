@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::ProjectsStorages::Members
+module Storages::ProjectStorages::Members
   class TableComponent < ::TableComponent
     columns :name,
             :status

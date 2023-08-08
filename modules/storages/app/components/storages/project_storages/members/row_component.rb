@@ -28,7 +28,7 @@
 
 # Purpose: Defines how to format the components within a table row of ProjectStorages
 # associated with a project
-module Storages::ProjectsStorages::Members
+module Storages::ProjectStorages::Members
   class RowComponent < ::RowComponent
     property :principal,
              :created_at
