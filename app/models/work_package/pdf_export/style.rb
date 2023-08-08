@@ -220,7 +220,7 @@ module WorkPackage::PDFExport::Style
     def cover_header_border
       { color: @styles.dig(:cover, :header, :border, :color),
         height: resolve_pt(@styles.dig(:cover, :header, :border, :height), 1),
-        offset: resolve_pt(@styles.dig(:cover, :header, :border, :offset), 0)}
+        offset: resolve_pt(@styles.dig(:cover, :header, :border, :offset), 0) }
     end
 
     def cover_footer
@@ -257,7 +257,7 @@ module WorkPackage::PDFExport::Style
 
     def cover_hero_subheading
       resolve_font(@styles.dig(:cover, :hero, :subheading))
-     end
+    end
 
     def cover_hero_subheading_max_height
       resolve_pt(@styles.dig(:cover, :hero, :subheading, :max_height), 30)
