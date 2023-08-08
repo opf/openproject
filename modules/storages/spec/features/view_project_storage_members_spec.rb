@@ -63,15 +63,17 @@ RSpec.describe(
     expect(page).to have_current_path project_settings_project_storage_members_path(project_id: project,
                                                                                     project_storage_id: project_storage)
 
-    [
-      [user, 'Not connected'],
-      [admin_user, 'Connected'],
-      [connected_user, 'Connected'],
-      [connected_no_permissions_user, 'User role has no storages permissions'],
-      [disconnected_user, 'Not connected']
-    ].each do |(principal, status)|
-      expect(page).to have_selector("#member-#{principal.id} .name", text: principal.name)
-      expect(page).to have_selector("#member-#{principal.id} .status", text: status)
+    aggregate_failures 'Verifying Connection Statuses' do
+      [
+        [user, 'Not connected'],
+        [admin_user, 'Connected'],
+        [connected_user, 'Connected'],
+        [connected_no_permissions_user, 'User role has no storages permissions'],
+        [disconnected_user, 'Not connected']
+      ].each do |(principal, status)|
+        expect(page).to have_selector("#member-#{principal.id} .name", text: principal.name)
+        expect(page).to have_selector("#member-#{principal.id} .status", text: status)
+      end
     end
   end
 
