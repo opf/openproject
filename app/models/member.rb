@@ -34,7 +34,7 @@ class Member < ApplicationRecord
   has_many :roles, -> { distinct }, through: :member_roles
   has_many :oauth_client_tokens, foreign_key: :user_id, primary_key: :user_id, dependent: nil # rubocop:disable Rails/InverseOf
 
-  belongs_to :principal, foreign_key: 'user_id', inverse_of: 'members'
+  belongs_to :principal, foreign_key: 'user_id', inverse_of: 'members', optional: false
   belongs_to :project, optional: true
   belongs_to :work_package, optional: true
 
