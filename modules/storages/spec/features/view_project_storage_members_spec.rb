@@ -33,7 +33,6 @@ require_relative '../spec_helper'
 # in the Admin section, tested by admin_storage_spec.rb.
 RSpec.describe(
   'Project storage members connection status view',
-  js: true,
   with_flag: { storage_project_members_check: true }
 ) do
   let(:user) { create(:user) }
