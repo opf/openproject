@@ -41,33 +41,15 @@ RSpec.describe(
   let(:connected_no_permissions_user) { create(:user) }
   let(:disconnected_user) { create(:user) }
 
-  let(:role_can_read_files) { create(:role, permissions: %i[manage_storages_in_project read_files]) }
-  let(:role_cannot_read_files) { create(:role, permissions: %i[manage_storages_in_project]) }
-
-  let(:oauth_application) { create(:oauth_application) }
-  let(:storage) { create(:nextcloud_storage, :as_automatically_managed, oauth_application:) }
-  let(:project) do
-    create(:project,
-           members: { user => role_can_read_files,
-                      admin_user => role_cannot_read_files,
-                      connected_user => role_can_read_files,
-                      connected_no_permissions_user => role_cannot_read_files,
-                      disconnected_user => role_can_read_files },
-           enabled_module_names: %i[storages])
-  end
+  let!(:storage) { create_nextcloud_storage_with_oauth_application }
+  let!(:project) { create_project_with_storage_and_members }
   let!(:project_storage) { create(:project_storage, project:, storage:) }
-
   let(:oauth_client) { create(:oauth_client, integration: storage) }
-  let(:oauth_client_token_connected_user) { create(:oauth_client_token, oauth_client:, user: connected_user) }
-  let(:oauth_client_token_admin_user) { create(:oauth_client_token, oauth_client:, user: admin_user) }
-  let(:oauth_client_token_no_permissions) { create(:oauth_client_token, oauth_client:, user: connected_no_permissions_user) }
 
   before do
-    storage
-    project
-    oauth_client_token_connected_user
-    oauth_client_token_admin_user
-    oauth_client_token_no_permissions
+    create_oauth_client_tokens_for_users(oauth_client:,
+                                         users: [connected_user, admin_user,
+                                                 connected_no_permissions_user])
     login_as user
   end
 
@@ -92,6 +74,30 @@ RSpec.describe(
     ].each do |(principal, status)|
       expect(page).to have_selector("#member-#{principal.id} .name", text: principal.name)
       expect(page).to have_selector("#member-#{principal.id} .status", text: status)
+    end
+  end
+
+  def create_project_with_storage_and_members
+    role_can_read_files = create(:role, permissions: %i[manage_storages_in_project read_files])
+    role_cannot_read_files = create(:role, permissions: %i[manage_storages_in_project])
+
+    create(:project,
+           members: { user => role_can_read_files,
+                      admin_user => role_cannot_read_files,
+                      connected_user => role_can_read_files,
+                      connected_no_permissions_user => role_cannot_read_files,
+                      disconnected_user => role_can_read_files },
+           enabled_module_names: %i[storages])
+  end
+
+  def create_nextcloud_storage_with_oauth_application
+    oauth_application = create(:oauth_application)
+    create(:nextcloud_storage, :as_automatically_managed, oauth_application:)
+  end
+
+  def create_oauth_client_tokens_for_users(oauth_client:, users:)
+    users.each do |user|
+      create(:oauth_client_token, oauth_client:, user:)
     end
   end
 end
