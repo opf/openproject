@@ -119,7 +119,7 @@ RSpec.describe 'Subprojects widget on dashboard', js: true do
         expect(page)
           .not_to have_link(grandchild_project.name)
         expect(page)
-          .to have_link(invisible_child_project.name) # admins can see projects they are not member of
+          .to have_link(invisible_child_project.name) # admins can see projects they are not a member of
         expect(page)
           .not_to have_link(parent_project.name)
         expect(page)
