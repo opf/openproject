@@ -63,7 +63,7 @@ RSpec.describe 'Managing file links in work package', js: true, webmock: true do
       .with(
         headers: {
           'Authorization' => 'Bearer 1234567890-1',
-          'Host' => 'host1.example.com',
+          'Host' => storage.host,
           'Ocs-Apirequest' => 'true',
           'Accept' => "application/json"
         }
