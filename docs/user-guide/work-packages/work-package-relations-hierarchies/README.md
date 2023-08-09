@@ -17,7 +17,7 @@ Relations indicate any functional or timely relation (e.g. follows or proceeds, 
 | [Work packages relations](#work-package-relations)           | How can I set a relation between two work packages and which relations can I set? |
 | [Display relations in work package table](#display-relations-in-a-work-package-table-enterprise-add-on) | How can I display the relations between two work packages in the work package table? |
 | [Work package hierarchies](#work-package-hierarchies)        | What are work package hierarchies? Learn about parent and children work packages. |
-| [Adding a child work package](#adding-a-child-work-package)  | What are the possibilities to add children work packages?    |
+| [Add a child work package](#add-a-child-work-package)        | What are the possibilities to add children work packages?    |
 | [Change the parent work package](#change-the-parent-work-package) | How can I change a work package's parent?                    |
 | [Display work package hierarchies](#display-work-package-hierarchies) | Where can I find out about a work package's children and parent? |
 
@@ -71,7 +71,7 @@ You can click on the number to display the work packages which have the relation
 
 Work packages can be structured hierarchically, e.g. in order to break down a large work package into several smaller tasks. This means that there's a parent work package that has at least one child work package.
 
-## Adding a child work package
+## Add a child work package
 
 There are **three ways to add or create a child work package**:
 
@@ -79,7 +79,7 @@ There are **three ways to add or create a child work package**:
 2. Right-clicking on a work package in the work package table and select "Create new child"
 3. Right-clicking on a work package in the work package table and select "Indent hierarchy" to add it as the child of the work package above it.
 
-### Adding a child in the *Relations* tab in a work package's details view
+### Add a child in the *Relations* tab in a work package's details view
 
 Open a work package and select the tab *Relations*. Click on *+ Create new child* to create a child work package. Alternatively, you can assign an existing child work package with *+ Add existing child*.
 

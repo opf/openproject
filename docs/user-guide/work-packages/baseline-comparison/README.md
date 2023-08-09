@@ -1,10 +1,20 @@
+---
+sidebar_navigation:
+  title: Baseline comparison
+  priority: 965
+description: How to track changes in work packages over time.
+keywords: baseline comparison, work package changes
+---
+
 # Baseline comparison
 
-Baseline is a powerful feature that allows you to view changes to work package table within a given period. This can be a saved view or a new filter query. Project managers can use baseline to get a quick overview of what has changed over time, making it easier to report on project progress and status.
+Baseline is a powerful feature that allows you to view changes to work package tables within a given period. This can be a saved view or a new filter query. Project managers can use baseline to get a quick overview of what has changed over time, making it easier to report on project progress and status.
+
+>**Note:** Baseline comparison with yesterday is included in the Community version. Other comparison dates are Enterprise add-ons that are available with Enterprise cloud or Enterprise on-premises. An upgrade from the free Community edition is easily possible.
 
 ![Work package table list with Baseline enabled](13-0_Baseline_overview.png)
 
-## Enabling Baseline
+## Enable Baseline
 
 Baseline comparison can be enabled on any work package table view:
 
@@ -16,13 +26,19 @@ Baseline comparison can be enabled on any work package table view:
 
 ![Clicking on the Baseline icon displays a dropdown that lets you pick a comparison point](13-0_Baseline_dropmodal.png)
 
-### Preset periods
+## Show changes since yesterday (Community edition)
 
->**Note:** Baseline comparison with yesterday is included in the community version. Other comparison points are Enterprise add-ons that are available with Enterprise cloud or Enterprise on-premises. An upgrade from the free Community edition is easily possible.
+In the free of charge Community edition you will always be able to compare changes to work packages since yesterday.
+
+SCREENSHOT UPDATE (From a community edition)
+
+## Show changes for a preset period, a specific date or custom date range (Enterprise edition)
+
+### Preset periods
 
 Baseline offers these preset time ranges:
 
-- _Yesterday_: Compare work packages to the previous day.
+- _Yesterday_: Compare work packages to the previous day (also available in Community edition).
 
 - _Last working day_: Compare work packages to the most recent working day.
 
@@ -34,6 +50,7 @@ By default, Baseline will compare to 8 AM local time of the relevant day. You ca
 
 >**Note:** These are relative comparison points, which means that _Yesterday_ will always refer to the day before the current day, and not a specific date. You can use these to set up "running" baselines that show you all changes within the past day or week.
 
+
 ### A specific date
 
 ![You can compare the present state to a specific date in the past](13-0_Baseline_specificDate.png)
@@ -42,7 +59,7 @@ If you want to compare between now and a specific date in the past, you can sele
 
 >**Note:** You can use this to "freeze" the baseline comparison point so that the view always shows changes in comparison to that specific date, regardless of when you access it.
 
-### A custom date range
+### Between two specific dates
 
 ![You can see changes between two dates](13-0_Baseline_dateRange.png)
 
@@ -104,10 +121,9 @@ Each attribute that has changed will have a grey background, with the old value 
 
 This allows you to have a complete view of what has changed in the comparison period.
 
->**Note**: Some attributes like _Spent time_ and _Progress_ are not tracked by Baseline are not able to show the old values in the work package table. If any of the columns in your work package table are not tracked, a small warning in the column header will warn you of this.
+>**Note**: Some attributes like _Spent time_ and _Progress_ are not tracked by Baseline and do not show the old values in the work package table. If any of the columns in your work package table are not tracked, a small warning icon in the column header will indicate this.
 >
 > ![Unsupported columns have a warning icon next to them](13_0_Baseline_unsupportedColumn.png)
-
 
 ## Relation to active filters
 
@@ -118,6 +134,3 @@ It is not possible to compare between two different filter queries.
 >**Note**: Some filter attributes are not tracked by Baseline and changes to them will not be taken into consideration. These include _Watcher_, _Attachment content_, _Attachment file name_ and _Comment_. These attributes are marked with a small warning icon next to them in the filter panel.
 >
 > ![An icon and a message warning that certain filter criteria are not taken into account by Baseline](13-0_Baseline_activeFilters.png)
-
-
-

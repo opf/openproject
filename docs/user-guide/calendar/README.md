@@ -13,14 +13,14 @@ The Calendar module gives you an overview of work packages scheduled in a partic
 
 You must first enable the Calendar module in your [project settings](../projects/project-settings/ "Link to documentation on project settings") to use it.
 
-| Topic                                                        | Content                                               |
-| ------------------------------------------------------------ | ----------------------------------------------------- |
-| [Creating a new calendar](#creating-a-new-calendar)          | How to create a new calendar and manage visibility settings. |
-| [Using the calendar](#using-the-calendar)                    | How to view, modify, create and filter work packages in the calendar. |
-| [Subscribing to a calendar](#subscribing-to-a-calendar)      | How to subscribe to and access a calendar from an external client.      |
+| Topic                                               | Content                                                      |
+| --------------------------------------------------- | ------------------------------------------------------------ |
+| [Create a new calendar](#create-a-new-calendar)     | How to create a new calendar and manage visibility settings. |
+| [Use the calendar](#use-the-calendar)               | How to view, modify, create and filter work packages in the calendar. |
+| [Subscribe to a calendar](#subscribe-to-a-calendar) | How to subscribe to and access a calendar from an external client. |
 
 
-## Creating a new calendar
+## Create a new calendar
 
 Once enabled, clicking on the **Calendars** entry on the left sidebar takes you to the Calendar module with a list of all existing calendars. Initially, it will be empty.
 
@@ -39,9 +39,9 @@ Once enabled, clicking on the **Calendars** entry on the left sidebar takes you 
     - Any calendar that has the **Public** option unchecked will be considered **Private** and displayed under the **Private Views** heading in the menu bar to the left.
       
 
-## Using the calendar
+## Use the calendar
 
-### Viewing work packages
+### View work packages
 
 ![Calendar module month view](calendar-month.png)
 
@@ -61,13 +61,13 @@ Click on a work package strip to view the work package in split screen mode.
 
 ![Work package details in split screen view](calendar-splitScreen.png)
 
-### Creating work packages
+### Create work packages
 
 You can create new work packages directly on the calendar. To do so, either click on a single date or click and drag across a date range. A new work package form will open in a split screen with the selected date(s) pre-filled.
 
 ![Click and drag across a date range to create a new work package](calendar-newWorkPackage.png)
 
-### Modifying work packages
+### Modify work packages
 
 You can make basic date modifications simply by manipulating the work package strips:
 
@@ -81,7 +81,7 @@ You can make basic date modifications simply by manipulating the work package st
 >
 > Work packages can also expand and retract in width depending on how many non-working days are spanned (for example, a 3-day task starting on Thursday and ending on Monday will spread across 5 calendar days; dragging that same work package so that it starts on a Tuesday and ends on a Thursday means that it will spread across 3 calendar days. In both cases, the duration remains 3 days.
 
-### Filtering
+### Filters
 
 You can filter the work packages displayed in a calendar by adding any number of [filters](../work-packages/work-package-table-configuration/#filter-work-packages "Learn more about work package filters"), e.g. *Author*, *Due Date*, *Priority*, *Assignee*, etc. This allows you to create a custom calendar showing only relevant work packages, either for yourself (as a private calendar) or for your team (as a public calendar visible to all project members).
 
@@ -91,11 +91,11 @@ Click the **Filter** button on the top right above the calendar to open the filt
 
 > **Note:** OpenProject also offers a module called **Team planner** that allows you to view modules in a calendar by assignee. [Learn more about Team planner](../team-planner "Documentation about Team planner").
 
-### Including other projects
+### Include other projects
 
 Much like with work package tables, it is possible to display work packages from other projects. Use the **Include projects** dialog, where you can select/unselect from a list of projects and sub-projects. To automatically include all sub-projects for each project you chose to select, check the **Include all sub-projects** box at the bottom of the dialog.
 
-### Embedding a calendar in the project overview
+### Embed a calendar in the project overview
 
 You can also display the calendar on the dashboard in the [project overview](../project-overview/#calendar-widget).
 
@@ -103,7 +103,7 @@ You can also display the calendar on the dashboard in the [project overview](../
 
 You can display the calendar in full screen mode by hiding the navigation bar  and sidebar to work free of distractions. Click the **Activate zen mode** button on the top of the calendar. Press the escape key (**Esc**) to exist Zen mode.
 
-## Subscribing to a calendar
+## Subscribe to a calendar
 
 OpenProject allows you to subscribe to and access any of your calendars using an external client that supports the iCalendar format (such as Thunderbird, Open-Xchange, Apple Calendar or Google Calendar).
 

@@ -24,7 +24,7 @@ Within a project, navigate to the **Project settings > Modules** page. Make sure
 
 ![Enable the Activity module](enable-activity-module.png)
 
-### Viewing project activity
+### View project activity
 
 Click on the **Activity** option that is now visible in the sidebar of a project. This will show you recent activity in the project, with the most recent changes at the top. 
 
@@ -47,7 +47,7 @@ Starting with version 12.5, the Activity module also lists changes to project at
 
 ![Work package activity updates](project-activity-project-attributes.png)
 
-### Filtering project activity
+### Filter project activity
 
 To filter the project activity list, use the filters on the sidebar. You may filter to show only one or a combination of changes concerning:
 
