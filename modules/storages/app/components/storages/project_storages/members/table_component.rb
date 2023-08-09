@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,31 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
-  namespace :admin do
-    namespace :settings do
-      resources :storages, controller: '/storages/admin/storages' do
-        resource :oauth_client, controller: '/storages/admin/oauth_clients', only: %i[new create]
-        resource :automatically_managed_project_folders, controller: '/storages/admin/automatically_managed_project_folders',
-                                                         only: %i[new edit update]
+module Storages::ProjectStorages::Members
+  class TableComponent < ::TableComponent
+    columns :name,
+            :status
 
-        member do
-          delete '/replace_oauth_application' => '/storages/admin/storages#replace_oauth_application'
-        end
-      end
+    options :storage
+
+    def initial_sort
+      %i[created_at asc]
     end
-  end
 
-  scope 'projects/:project_id', as: 'project' do
-    namespace 'settings' do
-      resources :project_storages, controller: '/storages/admin/project_storages', except: %i[show] do
-        member do
-          # Destroy uses a get request to prompt the user before the actual DELETE request
-          get :destroy_info, as: 'confirm_destroy'
-        end
+    def paginated?
+      true
+    end
 
-        resources :members, controller: '/storages/project_settings/project_storage_members', only: %i[index]
-      end
+    def sortable?
+      false
+    end
+
+    def empty_row_message
+      I18n.t 'storages.members_no_results'
+    end
+
+    def headers
+      [
+        ['name', { caption: I18n.t('storages.label_name') }],
+        ['status', { caption: I18n.t('storages.label_status') }]
+      ]
     end
   end
 end

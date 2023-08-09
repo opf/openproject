@@ -26,31 +26,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
-  namespace :admin do
-    namespace :settings do
-      resources :storages, controller: '/storages/admin/storages' do
-        resource :oauth_client, controller: '/storages/admin/oauth_clients', only: %i[new create]
-        resource :automatically_managed_project_folders, controller: '/storages/admin/automatically_managed_project_folders',
-                                                         only: %i[new edit update]
+# Purpose: Let OpenProject create folders per project automatically.
+# This is recommended as it ensures that every team member always has the correct access permissions.
+#
+class Storages::ProjectSettings::ProjectStorageMembersController < ApplicationController
+  include PaginationHelper
 
-        member do
-          delete '/replace_oauth_application' => '/storages/admin/storages#replace_oauth_application'
-        end
-      end
-    end
+  menu_item :settings_project_storages
+
+  before_action :find_model_object, only: %i[index]
+
+  model_object Storages::ProjectStorage
+
+  def index
+    @memberships = Member
+      .where(project: @project)
+      .includes(:principal, :oauth_client_tokens, roles: :role_permissions)
+      .paginate(page: page_param, per_page: per_page_param)
+
+    render '/storages/project_settings/project_storage_members/index'
   end
 
-  scope 'projects/:project_id', as: 'project' do
-    namespace 'settings' do
-      resources :project_storages, controller: '/storages/admin/project_storages', except: %i[show] do
-        member do
-          # Destroy uses a get request to prompt the user before the actual DELETE request
-          get :destroy_info, as: 'confirm_destroy'
-        end
+  def default_breadcrumb
+    t(:'storages.page_titles.project_settings.members_check')
+  end
 
-        resources :members, controller: '/storages/project_settings/project_storage_members', only: %i[index]
-      end
-    end
+  def show_local_breadcrumb
+    true
+  end
+
+  private
+
+  def find_model_object(object_id = :project_storage_id)
+    super(object_id)
+    @project_storage = @object
+    @storage = @project_storage.storage
+    @project = @project_storage.project
   end
 end

@@ -33,6 +33,8 @@ class Member < ApplicationRecord
   belongs_to :principal, foreign_key: 'user_id'
   has_many :member_roles, dependent: :destroy, autosave: true, validate: false
   has_many :roles, -> { distinct }, through: :member_roles
+  has_many :oauth_client_tokens, foreign_key: :user_id, primary_key: :user_id, dependent: nil # rubocop:disable Rails/InverseOf
+
   belongs_to :project
 
   validates :principal, presence: true

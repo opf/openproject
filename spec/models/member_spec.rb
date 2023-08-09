@@ -35,6 +35,19 @@ RSpec.describe Member do
   let(:member) { create(:member, user:, roles: [role]) }
   let(:new_member) { build(:member, user:, roles: [role], project:) }
 
+  describe 'Associations' do
+    it { expect(member).to belong_to(:principal) }
+    it { expect(member).to have_many(:member_roles) }
+    it { expect(member).to have_many(:roles) }
+
+    it do
+      expect(member).to have_many(:oauth_client_tokens)
+        .with_foreign_key(:user_id)
+        .with_primary_key(:user_id)
+        .dependent(nil)
+    end
+  end
+
   describe '#project' do
     context 'with a project' do
       it 'is valid' do
@@ -58,7 +71,7 @@ RSpec.describe Member do
 
       it 'is invalid' do
         expect(new_member)
-          .to be_invalid
+          .not_to be_valid
       end
     end
   end
@@ -76,7 +89,7 @@ RSpec.describe Member do
         .new(group, current_user: User.system, contract_class: EmptyContract)
         .call(user_ids: [user.id])
 
-      expect(user.reload.memberships.map { _1.deletable_role?(role) }).to match_array([true, false])
+      expect(user.reload.memberships.map { _1.deletable_role?(role) }).to contain_exactly(true, false)
     end
   end
 end
