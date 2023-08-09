@@ -189,7 +189,7 @@ RSpec.describe Project do
       project_work_package
       other_project_work_package
 
-      expect(project.types_used_by_work_packages).to match_array [project_work_package.type]
+      expect(project.types_used_by_work_packages).to contain_exactly(project_work_package.type)
     end
   end
 
@@ -209,10 +209,10 @@ RSpec.describe Project do
   describe '#members' do
     let(:role) { create(:role) }
     let(:active_user) { create(:user) }
-    let!(:active_member) { create(:member, project:, user: active_user, roles: [role]) }
+    let!(:active_member) { create(:member, entity: project, principal: active_user, roles: [role]) }
 
     let(:inactive_user) { create(:user, status: Principal.statuses[:locked]) }
-    let!(:inactive_member) { create(:member, project:, user: inactive_user, roles: [role]) }
+    let!(:inactive_member) { create(:member, entity: project, principal: inactive_user, roles: [role]) }
 
     it 'only includes active members' do
       expect(project.members)
@@ -227,10 +227,10 @@ RSpec.describe Project do
   describe '#users' do
     let(:role) { create(:role) }
     let(:active_user) { create(:user) }
-    let!(:active_member) { create(:member, project:, user: active_user, roles: [role]) }
+    let!(:active_member) { create(:member, entity: project, principal: active_user, roles: [role]) }
 
     let(:inactive_user) { create(:user, status: Principal.statuses[:locked]) }
-    let!(:inactive_member) { create(:member, project:, user: inactive_user, roles: [role]) }
+    let!(:inactive_member) { create(:member, entity: project, principal: inactive_user, roles: [role]) }
 
     it 'only includes active users' do
       expect(project.users)

@@ -185,8 +185,8 @@ RSpec.describe 'inline create work package', js: true do
       end
       let!(:membership) do
         create(:member,
-               user:,
-               project: project2,
+               principal: user,
+               entity: project2,
                roles: [role2])
       end
 

@@ -36,10 +36,7 @@ RSpec.describe 'Wysiwyg work package mentions',
   let!(:group) { create(:group, firstname: 'Foogroup', lastname: 'Foogroup') }
   let!(:group_role) { create(:role) }
   let!(:group_member) do
-    create(:member,
-           principal: group,
-           project:,
-           roles: [group_role])
+    create(:member, principal: group, project:, roles: [group_role])
   end
   let(:project) { create(:project, enabled_module_names: %w[work_package_tracking]) }
   let!(:work_package) do

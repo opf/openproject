@@ -36,10 +36,7 @@ RSpec.describe WorkPackages::ReportsController do
            permissions: [:view_work_packages])
   end
   let(:member) do
-    create(:member,
-           project:,
-           principal: user,
-           roles: [role])
+    create(:member, entity: project, principal: user, roles: [role])
   end
   let(:work_package_1) do
     create(:work_package,

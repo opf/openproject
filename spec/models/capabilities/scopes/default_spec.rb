@@ -51,10 +51,7 @@ RSpec.describe Capabilities::Scopes::Default do
            roles: [global_role])
   end
   let(:member) do
-    create(:member,
-           principal: user,
-           roles: [role],
-           project:)
+    create(:member, principal: user, roles: [role], entity: project)
   end
   let(:non_member_role) do
     create(:non_member,
@@ -400,10 +397,7 @@ RSpec.describe Capabilities::Scopes::Default do
       let(:global_permissions) { %i[manage_user] }
       let(:own_role) { create(:role, permissions: []) }
       let(:own_member) do
-        create(:member,
-               principal: current_user,
-               roles: [own_role],
-               project:)
+        create(:member, principal: current_user, roles: [own_role], entity: project)
       end
       let(:members) { [own_member, member, global_member] }
 

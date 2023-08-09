@@ -117,8 +117,8 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
   end
 
   describe '#create' do
-    let!(:source_member) { create(:member, user: current_user, project:, roles: [role]) }
-    let!(:target_member) { create(:member, user: current_user, project: target_project, roles: [role]) }
+    let!(:source_member) { create(:member, principal: current_user, entity: project, roles: [role]) }
+    let!(:target_member) { create(:member, principal: current_user, entity: target_project, roles: [role]) }
     let(:target_project) { create(:project, public: false) }
     let(:work_package_2) do
       create(:work_package,
@@ -361,14 +361,9 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
           let(:target_status) { create(:status, workflow_for_type: target_type) }
 
           let(:target_user) do
-            user = create(:user)
-
-            create(:member,
-                   user:,
-                   project: target_project,
-                   roles: [role])
-
-            user
+            create(:user).tap do |user|
+              create(:member, princial: user, entity: target_project, roles: [role])
+            end
           end
 
           before do
@@ -521,10 +516,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
                    types: [type])
           end
           let!(:member) do
-            create(:member,
-                   user: current_user,
-                   roles: [role],
-                   project: to_project)
+            create(:member, principal: current_user, roles: [role], entity: to_project)
           end
           let!(:child_wp) do
             create(:work_package,

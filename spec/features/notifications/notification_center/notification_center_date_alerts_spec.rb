@@ -28,7 +28,7 @@ RSpec.describe "Notification center date alerts",
   end
   shared_let(:project) { create(:project_with_types) }
   shared_let(:role) { create(:role, permissions: %i[view_work_packages edit_work_packages work_package_assigned]) }
-  shared_let(:membership) { create(:member, principal: user, project:, roles: [role]) }
+  shared_let(:membership) { create(:member, principal: user, entity: project, roles: [role]) }
   shared_let(:milestone_type) { create(:type_milestone) }
 
   def create_alertable(**attributes)

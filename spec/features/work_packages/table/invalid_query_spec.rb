@@ -9,10 +9,7 @@ RSpec.describe 'Invalid query spec', js: true do
   let(:group_by) { Components::WorkPackages::GroupBy.new }
 
   let(:member) do
-    create(:member,
-           user:,
-           project:,
-           roles: [create(:role)])
+    create(:member, principal: user, entity: project, roles: [create(:role)])
   end
   let(:status) do
     create(:status)

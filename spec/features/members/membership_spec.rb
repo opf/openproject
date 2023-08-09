@@ -65,9 +65,9 @@ RSpec.describe 'Administrating memberships via the project settings', js: true d
 
   let!(:manager)   { create(:role, name: 'Manager', permissions: [:manage_members]) }
   let!(:developer) { create(:role, name: 'Developer') }
-  let(:member1) { create(:member, principal: peter, project:, roles: [manager]) }
-  let(:member2) { create(:member, principal: hannibal, project:, roles: [developer]) }
-  let(:member3) { create(:member, principal: group, project:, roles: [manager]) }
+  let(:member1) { create(:member, principal: peter, entity: project, roles: [manager]) }
+  let(:member2) { create(:member, principal: hannibal, entity: project, roles: [developer]) }
+  let(:member3) { create(:member, principal: group, entity: project, roles: [manager]) }
 
   let!(:existing_members) { [] }
 

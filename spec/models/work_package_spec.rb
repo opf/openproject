@@ -159,10 +159,7 @@ RSpec.describe WorkPackage do
   describe 'responsible' do
     let(:group) { create(:group) }
     let!(:member) do
-      create(:member,
-             principal: group,
-             project: work_package.project,
-             roles: [create(:role)])
+      create(:member, principal: group, entity: work_package.project, roles: [create(:role)])
     end
 
     shared_context 'assign group as responsible' do
@@ -253,7 +250,7 @@ RSpec.describe WorkPackage do
 
     it 'returns all open versions of the project' do
       expect(work_package.assignable_versions)
-        .to match_array [version_current, version_open]
+        .to contain_exactly(version_current, version_open)
     end
   end
 
@@ -613,7 +610,7 @@ RSpec.describe WorkPackage do
     context 'when having the move_work_packages permission' do
       it 'returns the project' do
         expect(described_class.allowed_target_projects_on_move(user))
-          .to match_array [project]
+          .to contain_exactly(project)
       end
     end
 
@@ -637,7 +634,7 @@ RSpec.describe WorkPackage do
     context 'when having the add_work_packages permission' do
       it 'returns the project' do
         expect(described_class.allowed_target_projects_on_create(user))
-          .to match_array [project]
+          .to contain_exactly(project)
       end
     end
 
@@ -679,7 +676,7 @@ RSpec.describe WorkPackage do
     describe 'null' do
       subject { described_class.changed_since(nil) }
 
-      it { expect(subject).to match_array([work_package]) }
+      it { expect(subject).to contain_exactly(work_package) }
     end
 
     describe 'now' do
@@ -691,7 +688,7 @@ RSpec.describe WorkPackage do
     describe 'work package update' do
       subject { described_class.changed_since(work_package.reload.updated_at) }
 
-      it { expect(subject).to match_array([work_package]) }
+      it { expect(subject).to contain_exactly(work_package) }
     end
   end
 

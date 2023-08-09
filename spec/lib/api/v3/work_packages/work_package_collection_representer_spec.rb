@@ -555,8 +555,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       let(:timestamps) { [Timestamp.parse("2023-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
       let!(:member) do
         create(:member,
-               user: current_user,
-               project: first_wp.project,
+               principal: current_user,
+               entity: first_wp.project,
                roles: create_list(:role, 1, permissions: [:view_work_packages]))
       end
       let(:created_work_packages) do

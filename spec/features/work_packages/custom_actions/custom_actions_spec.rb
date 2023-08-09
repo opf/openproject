@@ -38,20 +38,10 @@ RSpec.describe 'Custom actions',
   let(:role) { create(:role, permissions:) }
   let!(:other_role) { create(:role, permissions:) }
   let(:user) do
-    user = create(:user,
-                  firstname: 'A',
-                  lastname: 'User')
-
-    create(:member,
-           project:,
-           roles: [role],
-           user:)
-
-    create(:member,
-           project: other_project,
-           roles: [role],
-           user:)
-    user
+    create(:user, firstname: 'A', lastname: 'User').tap do |user|
+      create(:member, entity: project, roles: [role], principal: user)
+      create(:member, entity: other_project, roles: [role], principal: user)
+    end
   end
   let!(:other_member_user) do
     create(:user,

@@ -3,8 +3,8 @@ RSpec.shared_examples 'notification settings workflow' do
     shared_let(:project) { create(:project) }
     shared_let(:project_alt) { create(:project) }
     shared_let(:role) { create(:role, permissions: %i[view_project]) }
-    shared_let(:member) { create(:member, user:, project:, roles: [role]) }
-    shared_let(:member_two) { create(:member, user:, project: project_alt, roles: [role]) }
+    shared_let(:member) { create(:member, principal: user, entity: project, roles: [role]) }
+    shared_let(:member_two) { create(:member, principal: user, entity: project_alt, roles: [role]) }
 
     it 'allows to control notification settings' do
       # Expect default settings

@@ -198,10 +198,7 @@ RSpec.describe 'Invite user modal', js: true, with_cuprite: true do
           end
 
           let!(:membership_no_permission) do
-            create(:member,
-                   user: current_user,
-                   project: project_no_permissions,
-                   roles: [role_no_permissions])
+            create(:member, principal: current_user, entity: project_no_permissions, roles: [role_no_permissions])
           end
 
           it 'disables projects for which you do not have rights', with_cuprite: false do

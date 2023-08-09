@@ -32,7 +32,7 @@
 #   user    = create(:user)
 #   role    = create(:role, permissions: [:view_wiki_pages, :edit_wiki_pages])
 #
-#   member = create(:member, user: user, entity: project, roles: [role])
+#   member = create(:member, principal: user, entity: project, roles: [role])
 
 FactoryBot.define do
   factory :member do

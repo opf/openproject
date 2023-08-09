@@ -46,7 +46,7 @@ RSpec.describe 'group memberships through project members page',
   let(:project_member) { {} }
 
   before do
-    create(:member, user: bob, project:, roles: [alpha])
+    create(:member, principal: bob, entity: project, roles: [alpha])
   end
 
   context 'given a group with members' do

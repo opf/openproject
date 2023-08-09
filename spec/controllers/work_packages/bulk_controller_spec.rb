@@ -62,22 +62,13 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
                            work_package_assigned])
   end
   let(:member1_p1) do
-    create(:member,
-           project: project1,
-           principal: user,
-           roles: [role])
+    create(:member, entity: project1, principal: user, roles: [role])
   end
   let(:member2_p1) do
-    create(:member,
-           project: project1,
-           principal: user2,
-           roles: [role])
+    create(:member, entity: project1, principal: user2, roles: [role])
   end
   let(:member1_p2) do
-    create(:member,
-           project: project2,
-           principal: user,
-           roles: [role])
+    create(:member, entity: project2, principal: user, roles: [role])
   end
   let(:work_package1) do
     create(:work_package,
@@ -340,16 +331,13 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
 
           context 'allowed' do
             let!(:member_group_p1) do
-              create(:member,
-                     project: project1,
-                     principal: group,
-                     roles: [role])
+              create(:member, entity: project1, principal: group, roles: [role])
             end
 
             include_context 'update_request'
             it 'does succeed' do
               expect(flash[:error]).to be_nil
-              expect(subject).to match_array [group.id]
+              expect(subject).to contain_exactly(group.id)
             end
           end
 
@@ -362,7 +350,7 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
               expect(flash[:error])
                 .to include(I18n.t(:'work_packages.bulk.none_could_be_saved',
                                    total: 2))
-              expect(subject).to match_array [user.id]
+              expect(subject).to contain_exactly(user.id)
             end
           end
         end
@@ -374,7 +362,7 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
 
           subject { work_packages.map(&:responsible_id).uniq }
 
-          it { is_expected.to match_array [responsible_id] }
+          it { is_expected.to contain_exactly(responsible_id) }
         end
 
         describe '#status' do
@@ -399,7 +387,7 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
 
           subject { work_packages.map(&:status_id).uniq }
 
-          it { is_expected.to match_array [closed_status.id] }
+          it { is_expected.to contain_exactly(closed_status.id) }
         end
 
         describe '#parent' do
@@ -419,7 +407,7 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
 
           subject { work_packages.map(&:parent_id).uniq }
 
-          it { is_expected.to match_array [parent.id] }
+          it { is_expected.to contain_exactly(parent.id) }
         end
 
         describe '#custom_fields' do
@@ -440,7 +428,7 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
                          .uniq
           end
 
-          it { is_expected.to match_array [result] }
+          it { is_expected.to contain_exactly(result) }
         end
 
         describe '#unassign' do
@@ -454,7 +442,7 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
 
           subject { work_packages.map(&:assigned_to_id).uniq }
 
-          it { is_expected.to match_array [nil] }
+          it { is_expected.to contain_exactly(nil) }
         end
 
         describe '#delete_responsible' do
@@ -468,7 +456,7 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
 
           subject { work_packages.map(&:responsible_id).uniq }
 
-          it { is_expected.to match_array [nil] }
+          it { is_expected.to contain_exactly(nil) }
         end
 
         describe '#version' do
@@ -501,13 +489,13 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
               describe '#version' do
                 subject { work_packages.map(&:version_id).uniq }
 
-                it { is_expected.to match_array [version.id] }
+                it { is_expected.to contain_exactly(version.id) }
               end
 
               describe '#project' do
                 subject { work_packages.map(&:project_id).uniq }
 
-                it { is_expected.not_to match_array [subproject.id] }
+                it { is_expected.not_to contain_exactly(subproject.id) }
               end
             end
           end

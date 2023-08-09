@@ -67,10 +67,7 @@ FactoryBot.define do
                                                         view_work_packages edit_work_packages
                                                       ])
         projects.compact.each do |project|
-          create(:member,
-                 project:,
-                 principal:,
-                 roles: Array(role))
+          create(:member, entity: project, principal:, roles: Array(role))
         end
       end
     end

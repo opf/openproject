@@ -117,16 +117,16 @@ RSpec.describe Activities::WorkPackageActivityProvider do
       let(:user) do
         create(:user).tap do |u|
           create(:member,
-                 user: u,
-                 project:,
+                 principal: u,
+                 entity: project,
                  roles: [create(:role, permissions: [:view_work_packages])])
           create(:member,
-                 user: u,
-                 project: child_project1,
+                 principal: u,
+                 entity: child_project1,
                  roles: [create(:role, permissions: [:view_work_packages])])
           create(:member,
-                 user: u,
-                 project: child_project2,
+                 principal: u,
+                 entity: child_project2,
                  roles: [create(:role, permissions: [])])
 
           create(:non_member, permissions: [:view_work_packages])

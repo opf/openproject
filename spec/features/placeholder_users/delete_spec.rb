@@ -77,10 +77,7 @@ RSpec.describe 'delete placeholder user', js: true do
 
     let!(:project) { create(:project) }
     let!(:member) do
-      create(:member,
-             principal: placeholder_user,
-             project:,
-             roles: [create(:role)])
+      create(:member, principal: placeholder_user, entity: project, roles: [create(:role)])
     end
 
     it 'returns an error when trying to delete and disables the button' do

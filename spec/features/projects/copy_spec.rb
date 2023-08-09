@@ -46,13 +46,9 @@ RSpec.describe 'Projects copy', :with_cuprite, js: true do
     end
 
     let!(:parent_project) do
-      project = create(:project)
-
-      create(:member,
-             project:,
-             user:,
-             roles: [role])
-      project
+      create(:project).tap do |project|
+        create(:member, entity: project, principal: user, roles: [role])
+      end
     end
     let!(:project_custom_field) do
       create(:text_project_custom_field, is_required: true)
@@ -86,13 +82,9 @@ RSpec.describe 'Projects copy', :with_cuprite, js: true do
          work_package_assigned)
     end
     let(:wp_user) do
-      user = create(:user)
-
-      create(:member,
-             project:,
-             user:,
-             roles: [role])
-      user
+      create(:user).tap do |user|
+        create(:member, entity: project, principal: user, roles: [role])
+      end
     end
     let(:category) do
       create(:category, project:)

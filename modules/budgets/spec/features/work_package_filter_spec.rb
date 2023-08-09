@@ -36,7 +36,7 @@ RSpec.describe 'Filter by budget', js: true do
   let(:filters) { Components::WorkPackages::Filters.new }
 
   let(:member) do
-    create(:member, principal: user, entitiy: project, roles: [create(:role)])
+    create(:member, principal: user, entity: project, roles: [create(:role)])
   end
   let(:status) do
     create(:status)

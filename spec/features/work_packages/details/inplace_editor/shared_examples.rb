@@ -129,10 +129,7 @@ RSpec.shared_examples 'a principal autocomplete field' do
   end
   let!(:mentioned_group) do
     create(:group, lastname: 'Laudators').tap do |group|
-      create(:member,
-             principal: group,
-             project:,
-             roles: [role])
+      create(:member, principal: group, entity: project, roles: [role])
     end
   end
 
@@ -193,10 +190,7 @@ RSpec.shared_examples 'not a principal autocomplete field' do
   end
   let!(:mentioned_group) do
     create(:group, lastname: 'Laudators').tap do |group|
-      create(:member,
-             principal: group,
-             project:,
-             roles: [role])
+      create(:member, principal: group, entity: project, roles: [role])
     end
   end
 
