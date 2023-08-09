@@ -1,10 +1,12 @@
-# Baseline comparison
+# Baseline comparison (Enterprise add-on)
 
-Baseline is a powerful feature that allows you to view changes to work package table within a given period. This can be a saved view or a new filter query. Project managers can use baseline to get a quick overview of what has changed over time, making it easier to report on project progress and status.
+Baseline is a powerful feature that allows you to view changes to work package tables within a given period. This can be a saved view or a new filter query. Project managers can use baseline to get a quick overview of what has changed over time, making it easier to report on project progress and status.
+
+>**Note:** Baseline comparison with yesterday is included in the Community version. Other comparison points are Enterprise add-ons that are available with Enterprise cloud or Enterprise on-premises. An upgrade from the free Community edition is easily possible.
 
 ![Work package table list with Baseline enabled](13-0_Baseline_overview.png)
 
-## Enabling Baseline
+## Enable Baseline
 
 Baseline comparison can be enabled on any work package table view:
 
@@ -18,11 +20,9 @@ Baseline comparison can be enabled on any work package table view:
 
 ### Preset periods
 
->**Note:** Baseline comparison with yesterday is included in the community version. Other comparison points are Enterprise add-ons that are available with Enterprise cloud or Enterprise on-premises. An upgrade from the free Community edition is easily possible.
-
 Baseline offers these preset time ranges:
 
-- _Yesterday_: Compare work packages to the previous day.
+- _Yesterday_: Compare work packages to the previous day (available in Community edition).
 
 - _Last working day_: Compare work packages to the most recent working day.
 
@@ -104,7 +104,7 @@ Each attribute that has changed will have a grey background, with the old value 
 
 This allows you to have a complete view of what has changed in the comparison period.
 
->**Note**: Some attributes like _Spent time_ and _Progress_ are not tracked by Baseline are not able to show the old values in the work package table. If any of the columns in your work package table are not tracked, a small warning in the column header will warn you of this.
+>**Note**: Some attributes like _Spent time_ and _Progress_ are not tracked by Baseline and do not show the old values in the work package table. If any of the columns in your work package table are not tracked, a small warning icon in the column header will indicate this.
 >
 > ![Unsupported columns have a warning icon next to them](13_0_Baseline_unsupportedColumn.png)
 
