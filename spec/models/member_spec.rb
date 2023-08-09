@@ -82,11 +82,13 @@ RSpec.describe Member do
         user.reload
       end.to change(user.memberships, :count).by(1)
 
-      # first membership of the user is the global roles they got assigned directly
-      expect(user.memberships.first).to be_deletable_role(global_role)
+      # membership of the user is the global roles they got assigned directly
+      global_membership = user.memberships.find_by(entity: nil)
+      expect(global_membership).to be_deletable_role(global_role)
 
-      # second membership of the user is the project role they got by being a group member
-      expect(user.memberships.last).not_to be_deletable_role(project_role)
+      # membership of the user is the project role they got by being a group member
+      project_membership = user.memberships.find_by(entity: project)
+      expect(project_membership).not_to be_deletable_role(project_role)
     end
   end
 end
