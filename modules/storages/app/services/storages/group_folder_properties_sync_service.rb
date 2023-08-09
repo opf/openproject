@@ -60,7 +60,7 @@ class Storages::GroupFolderPropertiesSyncService
 
     @storage.project_storages
             .automatic
-            .includes(project: %i[enabled_modules])
+            .includes(project: :enabled_modules)
             .where(projects: { active: true })
             .each do |project_storage|
       project = project_storage.project
