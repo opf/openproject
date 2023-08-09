@@ -40,8 +40,8 @@ lt:
         empty: 'Dar nėra susietų įtraukimo užklausų (PR). Susiekite esamą PR naudojant kodą <code>OP#%{wp_id}</code> PR aprašyme arba sukurkite naują PR.'
       github_actions: Veiksmai
       pull_requests:
-        message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}."
-        referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
+        message: "Pakeitimo užklausa #%{pr_number} %{pr_link} skirta %{repository_link} autoriaus %{github_user_link} buvo %{pr_state}."
+        referenced_message: "Pakeitimo užklausa #%{pr_number} %{pr_link} skirta %{repository_link} autoriaus %{github_user_link} turi nuorodą į šį paketą."
         states:
           opened: 'atidarė'
           closed: 'uždarė'

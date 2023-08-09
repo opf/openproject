@@ -43,8 +43,8 @@ ko:
         message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}."
         referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
         states:
-          opened: 'opened'
+          opened: '열림'
           closed: '닫음'
-          draft: 'drafted'
-          merged: 'merged'
-          ready_for_review: 'marked ready for review'
+          draft: '드래프트'
+          merged: '합병됨'
+          ready_for_review: '검토 준비 표시됨'

@@ -328,10 +328,10 @@
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Merk dette alternativet for å merke arbeidspakker med denne statusen som skrivebeskyttet.
+        Ingen attributter kan endres med unntak av status.
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>Merknad</strong>: Arvede verdier (for eksempel fra barn eller relasjoner) vil fortsatt gjelde.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -967,7 +967,7 @@
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
-        updated: "changed from %{old_value} to %{value}"
+        updated: "endret fra %{old_value} til %{value}"
         logged_for: "Logged for"
     filter:
       changeset: "Changesets"
@@ -1696,7 +1696,7 @@
   label_enterprise_edition: "Enterprise edition"
   label_enterprise_support: "Enterprise support"
   label_environment: "Miljø"
-  label_estimates_and_time: "Estimates and time"
+  label_estimates_and_time: "Estimater og tid"
   label_equals: "er"
   label_everywhere: "overalt"
   label_example: "Eksempel"
@@ -2774,7 +2774,7 @@
   text_journal_added: "%{label} %{value} lagt til"
   text_journal_attachment_added: "%{label} %{value} added as attachment"
   text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
-  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
+  text_journal_changed_plain: "%{label} endret fra %{old} %{linebreak}til %{new}"
   text_journal_changed_no_detail: "%{label} oppdatert"
   text_journal_changed_with_diff: "%{label} endret (%{link})"
   text_journal_deleted: "%{label} slettet (%{old})"

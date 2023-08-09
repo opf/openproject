@@ -6,8 +6,8 @@ ko:
   boards:
     label_board: "게시판"
     label_boards: "보드"
-    label_create_new_board: "Create new board"
-    label_board_type: "Board type"
+    label_create_new_board: "새 보드 만들기"
+    label_board_type: "보드 유형"
     board_types:
       free: 기본
       action: "작업 보드(%{attribute})"
@@ -20,7 +20,7 @@ ko:
       basic: 기본
     board_type_descriptions:
       basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
+        빈 보드로 처음부터 시작하세요. 이 보드에 카드와 열을 직접 추가하세요.
       status: >
         Basic kanban style board with columns for status such as To Do, In Progress, Done.
       assignee: >
