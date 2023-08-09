@@ -31,7 +31,7 @@ require 'spec_helper'
 RSpec.describe Storages::ManageNextcloudIntegrationEventsJob, type: :job do
   describe '.priority' do
     it 'has a maximum priority' do
-      expect(described_class.priority).to eq(0)
+      expect(described_class.priority).to eq(7)
     end
   end
 
