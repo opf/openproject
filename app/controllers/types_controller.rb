@@ -191,7 +191,7 @@ class TypesController < ApplicationController
   end
 
   def belonging_wps_url(type_id)
-    work_packages_path query_props: "{\"f\":[{\"n\":\"type\",\"o\":\"=\",\"v\":[#{type_id}]}]}"
+    work_packages_path query_props: { f: [{ n: "type", o: "=", v: [type_id] }] }.to_json
   end
 
   def archived_projects
