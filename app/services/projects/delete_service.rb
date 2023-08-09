@@ -62,10 +62,10 @@ module Projects
     def delete_all_members
       MemberRole
         .includes(:member)
-        .where(members: { project_id: model.id })
+        .where(members: { entity: model })
         .delete_all
 
-      Member.where(project_id: model.id).destroy_all
+      Member.where(entity: model).destroy_all
     end
 
     def destroy_all_work_packages

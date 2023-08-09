@@ -48,12 +48,17 @@ class Project < ApplicationRecord
     includes(:principal, :roles)
       .merge(Principal.not_locked.user)
       .references(:principal, :roles)
-  }
+  },
+           as: :entity
 
-  has_many :memberships, class_name: 'Member'
+  has_many :memberships,
+           class_name: 'Member',
+           as: :entity
+
   has_many :member_principals,
            -> { not_locked },
-           class_name: 'Member'
+           class_name: 'Member',
+           as: :entity
   has_many :users, through: :members, source: :principal
   has_many :principals, through: :member_principals, source: :principal
 
@@ -158,8 +163,12 @@ class Project < ApplicationRecord
   scope :newest, -> { order(created_at: :desc) }
   scope :active, -> { where(active: true) }
   scope :archived, -> { where(active: false) }
-  scope :with_member, ->(user = User.current) { where(id: user.memberships.select(:project_id)) }
-  scope :without_member, ->(user = User.current) { where.not(id: user.memberships.select(:project_id)) }
+  scope :with_member, ->(user = User.current) do
+    where(id: user.memberships.where(entity_type: 'Project').select(:entity_id))
+  end
+  scope :without_member, ->(user = User.current) do
+    where.not(id: user.memberships.where(entity_type: 'Project').select(:entity_id))
+  end
 
   scopes :activated_time_activity,
          :visible_with_activated_time_activity

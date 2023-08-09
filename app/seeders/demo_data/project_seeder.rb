@@ -82,7 +82,7 @@ module DemoData
       role = seed_data.find_reference(:default_role_project_admin)
 
       Member.create!(
-        project:,
+        entity: project,
         principal: admin_user,
         roles: [role]
       )

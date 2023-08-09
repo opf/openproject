@@ -49,7 +49,7 @@ class Members::CreateService < BaseServices::Create
 
     Groups::CreateInheritedRolesService
       .new(member.principal, current_user: user, contract_class: EmptyContract)
-      .call(user_ids: member.principal.user_ids, send_notifications: false, project_ids: [member.project_id])
+      .call(user_ids: member.principal.user_ids, send_notifications: false, project_ids: [member.entity_id])
   end
 
   def event_type

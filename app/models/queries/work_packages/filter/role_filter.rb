@@ -104,7 +104,7 @@ class Queries::WorkPackages::Filter::RoleFilter < Queries::WorkPackages::Filter:
   def user_ids_for_filter_project_scope
     user_ids_for_filtering_scope
       .where(id: values)
-      .where(members: { project_id: project.id })
+      .where(members: { entity: project })
   end
 
   def user_ids_for_filter_non_project_scope

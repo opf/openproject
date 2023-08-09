@@ -65,7 +65,8 @@ class Authorization::UserAllowedQuery < Authorization::AbstractUserQuery
 
   transformations.register users_members_join,
                            :project_id_limit do |statement, _, project|
-    statement.and(members_table[:project_id].eq(project.id))
+    statement.and(members_table[:entity_id].eq(project.id))
+    statement.and(members_table[:entity_type].eq('Project'))
   end
 
   transformations.register :all,

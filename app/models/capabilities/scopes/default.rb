@@ -67,7 +67,7 @@ module Capabilities::Scopes
           JOIN (#{Principal.visible.not_builtin.not_locked.to_sql}) users
             ON "users".id = members.user_id
           LEFT OUTER JOIN "projects"
-            ON "projects".id = members.project_id
+            ON "projects".id = members.entity_id AND members.entity_type = 'Project'
           LEFT OUTER JOIN enabled_modules
              ON enabled_modules.project_id = projects.id
              AND actions.module = enabled_modules.name
@@ -110,7 +110,8 @@ module Capabilities::Scopes
             ON "projects".active = true
             AND ("projects".public = true OR EXISTS (SELECT 1
                                                      FROM members
-                                                     WHERE members.project_id = projects.id
+                                                     WHERE members.entity_id = projects.id
+                                                     AND members.entity_type = 'Project'
                                                      AND members.user_id = users.id
                                                      LIMIT 1))
           LEFT OUTER JOIN enabled_modules

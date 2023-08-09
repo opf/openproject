@@ -71,7 +71,7 @@ module DevelopmentData
         principal = User.find_by!(login: id)
         role = seed_data.find_reference(:"default_role_#{id}")
 
-        projects.each { |p| Member.create! project: p, principal:, roles: [role] }
+        projects.each { |p| Member.create! entity: p, principal:, roles: [role] }
       end
     end
 

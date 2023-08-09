@@ -54,7 +54,7 @@ module Projects::Copy
       return if role_ids.empty?
 
       attributes = member
-                     .attributes.dup.except('id', 'project_id', 'created_at', 'updated_at')
+                     .attributes.dup.except('id', 'entity_type', 'entity_id', 'created_at', 'updated_at')
                      .merge(role_ids:,
                             project: target,
                             # This is magic for now. The settings has been set before in the Projects::CopyService

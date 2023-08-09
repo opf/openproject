@@ -477,7 +477,7 @@ class User < Principal
     if admin?
       Project.count
     else
-      Project.public_projects.count + memberships.size
+      Project.public_projects.count + memberships.where(entity_type: 'Project').size
     end
   end
 

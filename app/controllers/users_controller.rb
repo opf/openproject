@@ -67,7 +67,7 @@ class UsersController < ApplicationController
   def show
     # show projects based on current user visibility
     @memberships = @user.memberships
-                        .where.not(project_id: nil)
+                        .where.not(entity: nil)
                         .visible(current_user)
 
     if can_show_user?

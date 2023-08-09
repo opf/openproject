@@ -31,8 +31,9 @@ class Authorization::ProjectQuery < Authorization::AbstractQuery
 
   def self.projects_members_join(user)
     projects_table[:id]
-      .eq(members_table[:project_id])
+      .eq(members_table[:entity_id])
       .and(members_table[:user_id].eq(user.id))
+      .and(members_table[:entity_type].eq('Project'))
       .and(project_active_condition)
   end
 
