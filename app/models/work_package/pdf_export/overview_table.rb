@@ -27,24 +27,24 @@
 #++
 
 module WorkPackage::PDFExport::OverviewTable
-  def write_work_packages_overview!(work_packages, id_wp_meta_map)
+  def write_work_packages_overview!(work_packages)
     if query.grouped?
-      write_grouped!(work_packages, id_wp_meta_map)
+      write_grouped!(work_packages)
     else
       with_margin(styles.overview_table_margins) do
-        write_table!(work_packages, id_wp_meta_map, get_total_sums)
+        write_table!(work_packages, get_total_sums)
       end
     end
   end
 
   private
 
-  def write_grouped!(work_packages, id_wp_meta_map)
+  def write_grouped!(work_packages)
     groups = work_packages.group_by do |work_package|
       query.group_by_column.value(work_package)
     end
     groups.each do |group, grouped_work_packages|
-      write_group!(group, grouped_work_packages, id_wp_meta_map, get_group_sums(group))
+      write_group!(group, grouped_work_packages, get_group_sums(group))
     end
   end
 
@@ -66,19 +66,19 @@ module WorkPackage::PDFExport::OverviewTable
     widths.map { |w| w * ratio }
   end
 
-  def write_group!(group, work_packages, id_wp_meta_map, sums)
+  def write_group!(group, work_packages, sums)
     write_optional_page_break
     with_margin(styles.overview_table_margins) do
       label = make_group_label(group)
       with_margin(styles.overview_group_header_margins) do
         pdf.formatted_text([styles.overview_group_header.merge({ text: label })])
       end
-      write_table!(work_packages, id_wp_meta_map, sums)
+      write_table!(work_packages, sums)
     end
   end
 
-  def write_table!(work_packages, id_wp_meta_map, sums)
-    rows = build_table_rows(work_packages, id_wp_meta_map, sums)
+  def write_table!(work_packages, sums)
+    rows = build_table_rows(work_packages, sums)
     pdf_table_auto_widths(rows, table_column_widths, overview_table_options)
   end
 
@@ -86,34 +86,30 @@ module WorkPackage::PDFExport::OverviewTable
     { header: true, cell_style: styles.overview_table_cell.merge({ inline_format: true }) }
   end
 
-  def build_table_rows(work_packages, id_wp_meta_map, sums)
+  def build_table_rows(work_packages, sums)
     rows = work_packages.map do |work_package|
-      build_table_row(work_package, id_wp_meta_map)
+      build_table_row(work_package)
     end
     rows.unshift build_header_row
     rows.push build_overview_sum_row(sums) if query.display_sums?
     rows
   end
 
-  def build_table_row(work_package, id_wp_meta_map)
+  def build_table_row(work_package)
     cell_style = styles.overview_table_cell
     overview_columns_objects.map do |col|
       content = get_column_value_cell work_package, col.name
       if col.name == :subject
-        build_subject_cell(content, work_package, id_wp_meta_map)
+        build_subject_cell(content)
       else
         pdf.make_cell(content, cell_style)
       end
     end
   end
 
-  def build_subject_cell(content, work_package, id_wp_meta_map)
+  def build_subject_cell(content)
     cell_style = styles.overview_table_cell
     padding_left = cell_style.fetch(:padding_left, 0)
-    if query.show_hierarchies
-      level = id_wp_meta_map[work_package.id][:level_path].length
-      padding_left = (styles.overview_table_subject_indent * level) if level > 1
-    end
     pdf.make_cell(content, cell_style.merge({ padding_left: }))
   end
 
