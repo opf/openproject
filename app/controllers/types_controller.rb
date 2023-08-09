@@ -178,11 +178,11 @@ class TypesController < ApplicationController
         )
       ]
 
-      archived_projects = @type.projects.filter(&:archived?)
-      if !archived_projects.empty?
-        error_message.push(
+      if archived_projects.any?
+        error_message << ApplicationController.helpers.sanitize(
           t(:'error_can_not_delete_type.archived_projects',
-            archived_projects: archived_projects.map(&:name).join(', '))
+            archived_projects_urls: helpers.archived_projects_urls_for(archived_projects)),
+          attributes: %w(href target)
         )
       end
 
@@ -192,5 +192,9 @@ class TypesController < ApplicationController
 
   def belonging_wps_url(type_id)
     work_packages_path query_props: "{\"f\":[{\"n\":\"type\",\"o\":\"=\",\"v\":[#{type_id}]}]}"
+  end
+
+  def archived_projects
+    @archived_projects ||= @type.projects.archived
   end
 end
