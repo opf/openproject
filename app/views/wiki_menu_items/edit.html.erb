@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= error_messages_for "wiki_menu_item", object: @wiki_menu_item %>
+<%= error_messages_for "wiki_menu_item" %>
 
 <% breadcrumb_paths(*@page.ancestors.reverse.collect {|parent| link_to h(parent.title), {id: parent.title, project_id: parent.project}}.push(@page_title)) %>
 <%= toolbar title: t(:wiki_menu_item_for, title: @page_title) %>
