@@ -33,11 +33,11 @@ module OpenProject::Backlogs::Patches::WorkPackages::UpdateAncestors::LoaderPatc
     private
 
     def selected_descendants_attributes
-      super + %i(remaining_hours derived_remaining_hours)
+      super + %i(remaining_hours)
     end
 
     def selected_leaves_attributes
-      super + [:remaining_hours]
+      super + %i[remaining_hours derived_remaining_hours]
     end
   end
 end

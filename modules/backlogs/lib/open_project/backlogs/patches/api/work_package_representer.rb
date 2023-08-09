@@ -37,13 +37,15 @@ module OpenProject::Backlogs
           ->(*) do
             property :position,
                      render_nil: true,
-                     skip_render: ->(*) { !(backlogs_enabled? && type && type.passes_attribute_constraint?(:position)) }
+                     skip_render: ->(*) do
+                       !(backlogs_enabled? && type && type.passes_attribute_constraint?(:position))
+                     end
 
             property :story_points,
                      render_nil: true,
-                     skip_render: ->(*) {
-                                    !(backlogs_enabled? && type && type.passes_attribute_constraint?(:story_points))
-                                  }
+                     skip_render: ->(*) do
+                       !(backlogs_enabled? && type && type.passes_attribute_constraint?(:story_points))
+                     end
 
             property :remaining_time,
                      exec_context: :decorator,
@@ -64,7 +66,7 @@ module OpenProject::Backlogs
             # cannot use def here as it wouldn't define the method on the representer
             define_method :remaining_time= do |value|
               represented.remaining_hours = datetime_formatter
-                                                      .parse_duration_to_hours(value, 'remainingTime', allow_nil: true)
+                                              .parse_duration_to_hours(value, 'remainingTime', allow_nil: true)
             end
 
             define_method :derived_remaining_time= do |value|
