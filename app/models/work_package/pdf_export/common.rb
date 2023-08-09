@@ -131,6 +131,8 @@ module WorkPackage::PDFExport::Common
   end
 
   def pdf_table_auto_widths(data, column_widths, options, &)
+    return if data.empty?
+
     pdf.table(data, options.merge({ width: pdf.bounds.width }), &)
   rescue Prawn::Errors::CannotFit
     pdf.table(data, options.merge({ column_widths: }), &)
