@@ -29,16 +29,17 @@
 require 'spec_helper'
 
 RSpec.describe 'common/_validation_error' do
-  let(:error_message) { ['Something went completely wrong!'] }
+  let(:error_messages) { ['Something went completely wrong!'] }
 
   before do
     view.content_for(:error_details, 'Clear this!')
 
     render partial: 'common/validation_error',
-           locals: { error_messages: error_message,
-                     classes: 'Foo',
+           locals: { error_messages:,
+                     classes: 'custom-class-name',
                      object_name: 'Test' }
   end
 
-  it { expect(view.content_for(:error_details)).not_to include('Clear this!') }
+  it { expect(rendered).not_to include('Clear this!') }
+  it { expect(rendered).to match(/class=.+custom-class-name/) }
 end
