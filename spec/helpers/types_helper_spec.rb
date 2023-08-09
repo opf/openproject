@@ -78,4 +78,31 @@ RSpec.describe TypesHelper do
       end
     end
   end
+
+  describe '#archived_projects_urls_for' do
+    subject { helper.archived_projects_urls_for([archived_project, other_archived_project]) }
+
+    shared_let(:archived_project) { create(:project, :archived) }
+    shared_let(:other_archived_project) { create(:project, :archived) }
+    shared_let(:archived_project_filters) do
+      "[{\"active\":{\"operator\":\"=\",\"values\":[\"f\"]}}," \
+        "{\"name_and_identifier\":{\"operator\":\"=\",\"values\":[\"#{archived_project.name}\"]}}]"
+    end
+    shared_let(:other_archived_project_filters) do
+      "[{\"active\":{\"operator\":\"=\",\"values\":[\"f\"]}}," \
+        "{\"name_and_identifier\":{\"operator\":\"=\",\"values\":[\"#{other_archived_project.name}\"]}}]"
+    end
+
+    it 'returns a comma-separated list of anchor tags for each archived project' do
+      expect(subject)
+        .to eq(
+          "<a target=\"_blank\" rel=\"noopener\" href=\"#{projects_path(filters: archived_project_filters)}\">" \
+          "#{archived_project.name}" \
+          "</a>, " \
+          "<a target=\"_blank\" rel=\"noopener\" href=\"#{projects_path(filters: other_archived_project_filters)}\">" \
+          "#{other_archived_project.name}" \
+          "</a>"
+        )
+    end
+  end
 end

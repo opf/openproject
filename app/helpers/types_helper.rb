@@ -113,6 +113,17 @@ module ::TypesHelper
     ::API::V3::Queries::QueryParamsRepresenter.new(query).to_json
   end
 
+  def archived_projects_urls_for(projects)
+    urls = projects.map do |project|
+      link_to project.name,
+              projects_path(filters: archived_project_filters_for(project)),
+              target: '_blank',
+              rel: 'noopener'
+    end
+
+    safe_join(urls, ', ')
+  end
+
   private
 
   ##
@@ -139,5 +150,12 @@ module ::TypesHelper
       is_required: represented[:required] && !represented[:has_default],
       translation: Type.translated_attribute_name(key, represented)
     }
+  end
+
+  def archived_project_filters_for(project)
+    [
+      { active: { operator: '=', values: ['f'] } },
+      { name_and_identifier: { operator: '=', values: [html_escape(project.name)] } }
+    ].to_json
   end
 end

@@ -367,9 +367,9 @@ RSpec.describe TypesController do
       end
 
       describe 'destroy type in use should fail' do
-        let(:project2) do
+        let(:archived_project) do
           create(:project,
-                 active: false,
+                 :archived,
                  work_package_custom_fields: [custom_field_2],
                  types: [type2])
         end
@@ -377,9 +377,19 @@ RSpec.describe TypesController do
           create(:work_package,
                  author: current_user,
                  type: type2,
-                 project: project2)
+                 project: archived_project)
         end
         let(:params) { { 'id' => type2.id } }
+
+        let(:error_message) do
+          archived_projects_urls = described_class
+                                     .helpers
+                                     .archived_projects_urls_for([archived_project])
+          [
+            I18n.t(:'error_can_not_delete_type.explanation'),
+            I18n.t(:'error_can_not_delete_type.archived_projects', archived_projects_urls:)
+          ]
+        end
 
         before do
           delete :destroy, params:
@@ -389,10 +399,6 @@ RSpec.describe TypesController do
         it { expect(response).to redirect_to(types_path) }
 
         it 'shows an error message' do
-          error_message = [I18n.t(:'error_can_not_delete_type.explanation')]
-          error_message.push(I18n.t(:'error_can_not_delete_type.archived_projects',
-                                    archived_projects: project2.name))
-
           expect(sanitize_string(flash[:error])).to eq(sanitize_string(error_message))
         end
 
