@@ -75,10 +75,7 @@ RSpec.describe TimeEntry do
   end
 
   def is_member(project, user, permissions)
-    create(:member,
-           project:,
-           user:,
-           roles: [create(:role, permissions:)])
+    create(:member, entity: project, principal: user, roles: [create(:role, permissions:)])
   end
 
   describe '#hours' do

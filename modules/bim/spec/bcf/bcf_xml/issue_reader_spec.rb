@@ -50,10 +50,7 @@ RSpec.describe OpenProject::Bim::BcfXml::IssueReader do
   end
   let(:priority) { create(:default_priority) }
   let(:bcf_manager_member) do
-    create(:member,
-           project:,
-           user: bcf_manager,
-           roles: [manage_bcf_role])
+    create(:member, entity: project, principal: bcf_manager, roles: [manage_bcf_role])
   end
   let(:markup) do
     <<-MARKUP

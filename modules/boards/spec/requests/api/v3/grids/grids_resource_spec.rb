@@ -41,9 +41,9 @@ RSpec.describe 'API v3 Grids resource for Board Grids', content_type: :json do
   shared_let(:other_role) { create(:role, permissions: []) }
   shared_let(:current_user) do
     create(:user).tap do |user|
-      create(:member, user:, project: manage_board_views_project, roles: [manage_board_views_role])
-      create(:member, user:, project: show_board_views_project, roles: [show_board_views_role])
-      create(:member, user:, project: other_project, roles: [other_role])
+      create(:member, principal: user, entity: manage_board_views_project, roles: [manage_board_views_role])
+      create(:member, principal: user, entity: show_board_views_project, roles: [show_board_views_role])
+      create(:member, principal: user, entity: other_project, roles: [other_role])
     end
   end
 
@@ -259,8 +259,7 @@ RSpec.describe 'API v3 Grids resource for Board Grids', content_type: :json do
         expect(subject.status).to eq 422
 
         expect(JSON.parse(subject.body)['_embedded']['errors'].map { |e| e['message'] })
-          .to match_array ["Widgets is outside of the grid.",
-                           "Number of rows must be greater than 0."]
+          .to contain_exactly("Widgets is outside of the grid.", "Number of rows must be greater than 0.")
       end
 
       it 'does not persist the changes to widgets' do
@@ -391,9 +390,8 @@ RSpec.describe 'API v3 Grids resource for Board Grids', content_type: :json do
           .at_path('_type')
 
         expect(JSON.parse(subject.body)['_embedded']['errors'].map { |e| e['message'] })
-          .to match_array ["Widgets is outside of the grid.",
-                           "Number of rows must be greater than 0.",
-                           "Number of columns must be greater than 0."]
+          .to contain_exactly("Widgets is outside of the grid.", "Number of rows must be greater than 0.",
+                              "Number of columns must be greater than 0.")
       end
     end
 

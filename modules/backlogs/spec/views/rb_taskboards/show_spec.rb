@@ -38,19 +38,17 @@ RSpec.describe 'rb_taskboards/show' do
   let(:role_forbidden) { create(:role) }
   # We need to create these as some view helpers access the database
   let(:statuses) do
-    [create(:status),
-     create(:status),
-     create(:status)]
+    create_list(:status, 3)
   end
 
   let(:type_task) { create(:type_task) }
   let(:type_feature) { create(:type_feature) }
   let(:issue_priority) { create(:priority) }
   let(:project) do
-    project = create(:project, types: [type_feature, type_task])
-    project.members = [create(:member, principal: user1, project:, roles: [role_allowed]),
-                       create(:member, principal: user2, project:, roles: [role_forbidden])]
-    project
+    create(:project, types: [type_feature, type_task]).tap do |project|
+      create(:member, principal: user1, entity: project, roles: [role_allowed])
+      create(:member, principal: user2, entity: project, roles: [role_forbidden])
+    end
   end
 
   let(:story_a) do

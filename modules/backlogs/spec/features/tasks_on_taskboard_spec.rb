@@ -123,10 +123,7 @@ RSpec.describe 'Tasks on taskboard',
   end
   let!(:other_project) do
     create(:project).tap do |p|
-      create(:member,
-             principal: current_user,
-             project: p,
-             roles: [role])
+      create(:member, principal: current_user, entity: p, roles: [role])
     end
   end
   let!(:story_in_other_project) do

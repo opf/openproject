@@ -37,8 +37,8 @@ RSpec.describe Grids::Query, type: :model do
   shared_let(:other_role) { create(:role, permissions: []) }
   shared_let(:current_user) do
     create(:user).tap do |user|
-      create(:member, user:, project:, roles: [show_board_views_role])
-      create(:member, user:, project: other_project, roles: [other_role])
+      create(:member, principal: user, entity: project, roles: [show_board_views_role])
+      create(:member, principal: user, entity: other_project, roles: [other_role])
     end
   end
   let!(:board_grid) do
@@ -56,7 +56,7 @@ RSpec.describe Grids::Query, type: :model do
   context 'without a filter' do
     describe '#results' do
       it 'is the same as getting all the boards visible to the user' do
-        expect(instance.results).to match_array [board_grid]
+        expect(instance.results).to contain_exactly(board_grid)
       end
     end
   end
@@ -69,7 +69,7 @@ RSpec.describe Grids::Query, type: :model do
 
       describe '#results' do
         it 'yields boards assigned to the project' do
-          expect(instance.results).to match_array [board_grid]
+          expect(instance.results).to contain_exactly(board_grid)
         end
       end
 

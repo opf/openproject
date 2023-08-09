@@ -50,10 +50,7 @@ RSpec.describe 'Filter by backlog type', js: true do
   let(:filters) { Components::WorkPackages::Filters.new }
 
   let(:member) do
-    create(:member,
-           user:,
-           project:,
-           roles: [create(:role)])
+    create(:member, principal: user, entity: project, roles: [create(:role)])
   end
 
   let(:work_package_with_story_type) do

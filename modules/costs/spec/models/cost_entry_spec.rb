@@ -89,9 +89,7 @@ RSpec.describe CostEntry do
                       rate: 1000.0)
   end
   let(:member) do
-    create(:member, project:,
-                    roles: [role],
-                    principal: user)
+    create(:member, entity: project, roles: [role], principal: user)
   end
   let(:role) { create(:role, permissions: []) }
   let(:units) { 5.0 }
@@ -108,7 +106,7 @@ RSpec.describe CostEntry do
           cost_entry.save!
         end
 
-        it { expect(CostEntry.visible(user2, project)).to match_array([cost_entry]) }
+        it { expect(CostEntry.visible(user2, project)).to contain_exactly(cost_entry) }
       end
 
       describe "WHEN not having the view_cost_entries permission
@@ -120,7 +118,7 @@ RSpec.describe CostEntry do
           cost_entry.save!
         end
 
-        it { expect(CostEntry.visible(user2, project)).to match_array([]) }
+        it { expect(CostEntry.visible(user2, project)).to be_empty }
       end
 
       describe "WHEN having the view_own_cost_entries permission
@@ -132,7 +130,7 @@ RSpec.describe CostEntry do
           cost_entry.save!
         end
 
-        it { expect(CostEntry.visible(user2, project)).to match_array([]) }
+        it { expect(CostEntry.visible(user2, project)).to be_empty }
       end
 
       describe "WHEN having the view_own_cost_entries permission
@@ -144,7 +142,7 @@ RSpec.describe CostEntry do
           cost_entry2.save!
         end
 
-        it { expect(CostEntry.visible(cost_entry2.user, project)).to match_array([cost_entry2]) }
+        it { expect(CostEntry.visible(cost_entry2.user, project)).to contain_exactly(cost_entry2) }
       end
     end
   end

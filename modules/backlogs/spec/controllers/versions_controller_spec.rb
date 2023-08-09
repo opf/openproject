@@ -36,10 +36,7 @@ RSpec.describe VersionsController do
 
   let(:other_project) do
     create(:project).tap do |p|
-      create(:member,
-             user: current_user,
-             roles: [create(:role, permissions: [:manage_versions])],
-             project: p)
+      create(:member, principal: current_user, roles: [create(:role, permissions: [:manage_versions])], entity: p)
     end
   end
 
@@ -58,9 +55,6 @@ RSpec.describe VersionsController do
     @params = {}
     @params[:id] = version.id
     @params[:version] = { name: @newVersionName }
-  end
-
-  before do
     login_as current_user
   end
 

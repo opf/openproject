@@ -31,13 +31,9 @@ require 'spec_helper'
 RSpec.describe Stories::CreateService, type: :model do
   let(:priority) { create(:priority) }
   let(:project) do
-    project = create(:project, types: [type_feature])
-
-    create(:member,
-           principal: user,
-           project:,
-           roles: [role])
-    project
+    create(:project, types: [type_feature]).tap do |project|
+      create(:member, principal: user, entity: project, roles: [role])
+    end
   end
   let(:role) { create(:role, permissions:) }
   let(:permissions) { %i(add_work_packages manage_subtasks assign_versions) }

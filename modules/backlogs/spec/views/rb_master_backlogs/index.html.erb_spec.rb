@@ -43,9 +43,9 @@ RSpec.describe 'rb_master_backlogs/index' do
   let(:type_feature) { create(:type_feature) }
   let(:issue_priority) { create(:priority) }
   let(:project) do
-    project = create(:project, types: [type_feature, type_task])
-    project.members = [create(:member, principal: user, project:, roles: [role_allowed])]
-    project
+    create(:project, types: [type_feature, type_task]).tap do |project|
+      create(:member, principal: user, entity: project, roles: [role_allowed])
+    end
   end
   let(:story_a) do
     create(:story, status: statuses[0],

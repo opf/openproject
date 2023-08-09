@@ -27,8 +27,8 @@
 #++
 
 require 'spec_helper'
-require_relative './../support/board_index_page'
-require_relative './../support/board_page'
+require_relative '../support/board_index_page'
+require_relative '../support/board_page'
 
 RSpec.describe 'Assignee action board',
                js: true,
@@ -68,10 +68,7 @@ RSpec.describe 'Assignee action board',
 
   let!(:group) do
     create(:group, name: 'Grouped').tap do |group|
-      create(:member,
-             principal: group,
-             project:,
-             roles: [role])
+      create(:member, principal: group, entity: project, roles: [role])
     end
   end
 

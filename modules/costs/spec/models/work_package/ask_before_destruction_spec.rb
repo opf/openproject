@@ -45,13 +45,10 @@ RSpec.describe WorkPackage do
   let(:role) { create(:role) }
   let(:role2) { create(:role) }
   let(:member) do
-    create(:member, principal: user,
-                    roles: [role])
+    create(:member, principal: user, roles: [role])
   end
   let(:member2) do
-    create(:member, principal: user,
-                    roles: [role2],
-                    project: work_package2.project)
+    create(:member, principal: user, roles: [role2], entity: work_package2.project)
   end
   let(:status) { create(:status) }
   let(:priority) { create(:priority) }

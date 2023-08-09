@@ -45,16 +45,10 @@ RSpec.describe Bim::Bcf::IssuesController do
     create(:project, enabled_module_names: %w[bim], identifier: 'bim_project')
   end
   let(:member) do
-    create(:member,
-           project:,
-           user: collaborator,
-           roles: [collaborator_role])
+    create(:member, entity: project, principal: collaborator, roles: [collaborator_role])
   end
   let(:bcf_manager_member) do
-    create(:member,
-           project:,
-           user: bcf_manager,
-           roles: [manage_bcf_role])
+    create(:member, entity: project, principal: bcf_manager, roles: [manage_bcf_role])
   end
 
   before do
@@ -105,7 +99,7 @@ RSpec.describe Bim::Bcf::IssuesController do
       let(:filename) { 'MaximumInformation.bcf' }
       let(:file) do
         Rack::Test::UploadedFile.new(
-          File.join(Rails.root, "modules/bim/spec/fixtures/files/#{filename}"),
+          Rails.root.join("modules/bim/spec/fixtures/files/#{filename}").to_s,
           'application/zip'
         )
       end
@@ -137,7 +131,7 @@ RSpec.describe Bim::Bcf::IssuesController do
       let(:filename) { 'MaximumInformation.bcf' }
       let(:file) do
         Rack::Test::UploadedFile.new(
-          File.join(Rails.root, "modules/bim/spec/fixtures/files/#{filename}"),
+          Rails.root.join("modules/bim/spec/fixtures/files/#{filename}").to_s,
           'application/octet-stream'
         )
       end
@@ -165,7 +159,7 @@ RSpec.describe Bim::Bcf::IssuesController do
       let(:filename) { 'MaximumInformation.bcf' }
       let(:file) do
         Rack::Test::UploadedFile.new(
-          File.join(Rails.root, "modules/bim/spec/fixtures/files/#{filename}"),
+          Rails.root.join("modules/bim/spec/fixtures/files/#{filename}").to_s,
           'application/octet-stream'
         )
       end

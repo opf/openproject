@@ -43,10 +43,7 @@ RSpec.describe LaborBudgetItem do
   let(:project2) { create(:valid_project) }
 
   def is_member(project, user, permissions)
-    create(:member,
-           project:,
-           user:,
-           roles: [create(:role, permissions:)])
+    create(:member, entity: project, principal: user, roles: [create(:role, permissions:)])
   end
 
   describe '#calculated_costs' do

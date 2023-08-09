@@ -36,15 +36,8 @@ RSpec.describe Projects::Scopes::VisibleWithActivatedTimeActivity do
   let(:other_project_permissions) { [:view_time_entries] }
   let(:current_user) do
     create(:user).tap do |u|
-      create(:member,
-             project:,
-             principal: u,
-             roles: [create(:role, permissions: project_permissions)])
-
-      create(:member,
-             project: other_project,
-             principal: u,
-             roles: [create(:role, permissions: other_project_permissions)])
+      create(:member, entity: project, principal: u, roles: [create(:role, permissions: project_permissions)])
+      create(:member, entity: other_project, principal: u, roles: [create(:role, permissions: other_project_permissions)])
     end
   end
 
@@ -59,7 +52,7 @@ RSpec.describe Projects::Scopes::VisibleWithActivatedTimeActivity do
       context 'and being active' do
         it 'returns all projects' do
           expect(subject)
-            .to match_array [project, other_project]
+            .to contain_exactly(project, other_project)
         end
       end
 
@@ -80,7 +73,7 @@ RSpec.describe Projects::Scopes::VisibleWithActivatedTimeActivity do
 
         it 'returns all projects' do
           expect(subject)
-            .to match_array [project, other_project]
+            .to contain_exactly(project, other_project)
         end
       end
 
@@ -104,7 +97,7 @@ RSpec.describe Projects::Scopes::VisibleWithActivatedTimeActivity do
       context 'and being active' do
         it 'returns the project the activity is activated in' do
           expect(subject)
-            .to match_array [project]
+            .to contain_exactly(project)
         end
       end
 
@@ -115,7 +108,7 @@ RSpec.describe Projects::Scopes::VisibleWithActivatedTimeActivity do
 
         it 'returns only the projects the activity is activated in' do
           expect(subject)
-            .to match_array [project]
+            .to contain_exactly(project)
         end
       end
     end

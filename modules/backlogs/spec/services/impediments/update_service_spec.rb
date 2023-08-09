@@ -53,13 +53,9 @@ RSpec.describe Impediments::UpdateService, type: :model do
   let(:version) { create(:version, project:) }
 
   let(:project) do
-    project = create(:project, types: [type_feature, type_task])
-
-    create(:member, principal: user,
-                    project:,
-                    roles: [role])
-
-    project
+    create(:project, types: [type_feature, type_task]).tap do |project|
+      create(:member, principal: user, entity: project, roles: [role])
+    end
   end
 
   let(:status1) { create(:status, name: 'status 1', is_default: true) }

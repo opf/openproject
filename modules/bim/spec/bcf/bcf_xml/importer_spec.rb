@@ -32,7 +32,7 @@ RSpec.describe OpenProject::Bim::BcfXml::Importer do
   let(:filename) { 'MaximumInformation.bcf' }
   let(:file) do
     Rack::Test::UploadedFile.new(
-      File.join(Rails.root, "modules/bim/spec/fixtures/files/#{filename}"),
+      Rails.root.join("modules/bim/spec/fixtures/files/#{filename}").to_s,
       'application/octet-stream'
     )
   end
@@ -61,10 +61,7 @@ RSpec.describe OpenProject::Bim::BcfXml::Importer do
   end
   let(:priority) { create(:default_priority) }
   let(:bcf_manager_member) do
-    create(:member,
-           project:,
-           user: bcf_manager,
-           roles: [manage_bcf_role, member_role])
+    create(:member, entity: project, principal: bcf_manager, roles: [manage_bcf_role, member_role])
   end
 
   subject { described_class.new file, project, current_user: bcf_manager }

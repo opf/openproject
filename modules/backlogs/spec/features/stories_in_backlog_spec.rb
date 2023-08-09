@@ -117,10 +117,7 @@ RSpec.describe 'Stories in backlog',
   end
   let!(:other_project) do
     create(:project).tap do |p|
-      create(:member,
-             principal: current_user,
-             project: p,
-             roles: [role])
+      create(:member, principal: current_user, entity: p, roles: [role])
     end
   end
   let!(:sprint_story_in_other_project) do
@@ -192,7 +189,7 @@ RSpec.describe 'Stories in backlog',
 
     # All positions will be unique in the sprint
     expect(Story.where(version: sprint, type: story, project:).pluck(:position))
-      .to match_array([1, 2, 3])
+      .to contain_exactly(1, 2, 3)
 
     backlogs_page
       .expect_stories_in_order(sprint, new_story, sprint_story1, sprint_story2)
@@ -230,7 +227,7 @@ RSpec.describe 'Stories in backlog',
       .expect_stories_in_order(sprint, sprint_story1, new_story, sprint_story2)
 
     expect(Story.where(version: sprint, type: story, project:).pluck(:position))
-      .to match_array([1, 2, 3])
+      .to contain_exactly(1, 2, 3)
 
     # Moving a story to bottom
     backlogs_page
@@ -242,7 +239,7 @@ RSpec.describe 'Stories in backlog',
       .expect_stories_in_order(sprint, new_story, sprint_story2, sprint_story1)
 
     expect(Story.where(version: sprint, type: story, project:).pluck(:position))
-      .to match_array([1, 2, 3])
+      .to contain_exactly(1, 2, 3)
 
     # Moving a story to from the backlog to the sprint (3rd position)
 
@@ -256,7 +253,7 @@ RSpec.describe 'Stories in backlog',
       .expect_stories_in_order(sprint, new_story, sprint_story2, backlog_story1, sprint_story1)
 
     expect(Story.where(version: sprint, type: story, project:).pluck(:position))
-      .to match_array([1, 2, 3, 4])
+      .to contain_exactly(1, 2, 3, 4)
 
     # Available statuses when editing
 

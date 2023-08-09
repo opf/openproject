@@ -48,7 +48,7 @@ RSpec.describe Task do
   describe 'having custom journables', with_settings: { journal_aggregation_time_minutes: 0 } do
     let(:user) { create(:user) }
     let(:role) { create(:role, permissions: %i[add_work_packages manage_subtasks manage_work_packages view_work_packages]) }
-    let(:member) { create(:member, principal: user, project:, roles: [role]) }
+    let(:member) { create(:member, principal: user, entity: project, roles: [role]) }
 
     before do
       project.members << member
