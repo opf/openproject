@@ -184,11 +184,6 @@ work_package:
 
 cover:
   header:
-    spacing: 20
-    offset: 6.5
-    font: 'SpaceMono'
-    size: 10
-    color: '064e80'
     logo_height: 25
     border:
       color: 'd3dee3'
@@ -199,7 +194,7 @@ cover:
     color: '414d5f'
     offset: 30
   hero:
-    padding_right: 150
+    padding_right: 144
     padding_top: 120
     title:
       max_height: 30
@@ -212,8 +207,7 @@ cover:
       color: '414d5f'
       styles:
         - bold
-      size: 32
-      leading: -8
+      size: 16
     subheading:
       max_height: 30
       color: '414d5f'

@@ -28,9 +28,7 @@
 
 module WorkPackage::PDFExport::Cover
   def write_cover_page!
-    top = pdf.bounds.top
-    logo_width = write_cover_logo(top)
-    write_cover_header(top, logo_width + styles.cover_logo_header_spacing)
+    write_cover_logo
     write_cover_hr
     write_cover_hero
     write_cover_footer
@@ -59,13 +57,6 @@ module WorkPackage::PDFExport::Cover
       pdf.bounds.height - hr_style[:offset],
       pdf.bounds.left, pdf.bounds.right,
       hr_style[:height], hr_style[:color]
-    )
-  end
-
-  def write_cover_header(top, max_left)
-    draw_text_multiline_right(
-      text: heading.upcase, max_left:,
-      text_style: styles.cover_header, top: top + styles.cover_header_offset, max_lines: 1
     )
   end
 
@@ -107,11 +98,11 @@ module WorkPackage::PDFExport::Cover
     )
   end
 
-  def write_cover_logo(top)
+  def write_cover_logo
     image_obj, image_info = logo_image
     height = styles.cover_header_logo_height
     scale = [height / image_info.height.to_f, 1].min
-    pdf.embed_image image_obj, image_info, { at: [0, top + height], scale: }
+    pdf.embed_image image_obj, image_info, { at: [0, pdf.bounds.top + height], scale: }
     image_info.width.to_f * scale
   end
 

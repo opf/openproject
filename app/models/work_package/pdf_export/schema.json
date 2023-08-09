@@ -68,11 +68,6 @@
       "description" : "Styling for the cover page header of the PDF report export",
       "x-example" : {
         "header" : {
-          "spacing" : 20,
-          "offset" : 6.5,
-          "font" : "SpaceMono",
-          "size" : 10,
-          "color" : "064e80",
           "logo_height" : 25,
           "border" : {}
         }

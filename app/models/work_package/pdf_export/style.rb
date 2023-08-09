@@ -205,16 +205,8 @@ module WorkPackage::PDFExport::Style
       resolve_markdown_styling(@styles.dig(:work_package, :markdown) || {})
     end
 
-    def cover_logo_header_spacing
-      resolve_pt(@styles.dig(:cover, :header, :spacing), 20)
-    end
-
     def cover_header
       resolve_font(@styles.dig(:cover, :header))
-    end
-
-    def cover_header_offset
-      resolve_pt(@styles.dig(:cover, :header, :offset), 6.5)
     end
 
     def cover_header_logo_height

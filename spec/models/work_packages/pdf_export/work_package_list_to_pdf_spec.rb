@@ -99,7 +99,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   end
 
   def cover_page_content
-    [query.name.upcase, project.name, query.name, user.name, export_time_formatted]
+    [project.name, query.name, user.name, export_time_formatted]
   end
 
   subject(:pdf) do
