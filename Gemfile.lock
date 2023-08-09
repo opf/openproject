@@ -50,17 +50,6 @@ GIT
     omniauth-openid_connect-providers (0.2.0)
       omniauth-openid-connect (>= 0.2.1)
 
-GIT
-  remote: https://github.com/opf/primer_view_components
-  revision: 18abe4d3c8059bc915443767c033543c2e6e8beb
-  ref: 18abe4d
-  specs:
-    primer_view_components (0.4.0)
-      actionview (>= 5.0.0)
-      activesupport (>= 5.0.0)
-      octicons (>= 18.0.0)
-      view_component (>= 3.1, < 4.0)
-
 PATH
   remote: modules/auth_plugins
   specs:
@@ -653,7 +642,6 @@ GEM
     nokogiri (1.15.3)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    octicons (19.4.0)
     oj (3.15.1)
     okcomputer (1.18.4)
     omniauth-saml (1.10.3)
@@ -678,6 +666,11 @@ GEM
       actionview
       openproject-octicons (= 19.6.7)
       railties
+    openproject-primer_view_components (0.6.3)
+      actionview (>= 5.0.0)
+      activesupport (>= 5.0.0)
+      openproject-octicons (>= 19.6.7)
+      view_component (>= 3.1, < 4.0)
     openproject-token (3.0.1)
       activemodel
     os (1.1.4)
@@ -1105,6 +1098,7 @@ DEPENDENCIES
   openproject-octicons (~> 19.6.7)
   openproject-octicons_helper (~> 19.6.7)
   openproject-openid_connect!
+  openproject-primer_view_components (~> 0.6.3)
   openproject-recaptcha!
   openproject-reporting!
   openproject-storages!
@@ -1121,7 +1115,6 @@ DEPENDENCIES
   pg (~> 1.5.0)
   plaintext (~> 0.3.2)
   prawn (~> 2.2)
-  primer_view_components!
   pry-byebug (~> 3.10.0)
   pry-rails (~> 0.3.6)
   pry-rescue (~> 1.5.2)
