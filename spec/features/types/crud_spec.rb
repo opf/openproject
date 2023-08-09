@@ -31,9 +31,10 @@ require 'spec_helper'
 RSpec.describe 'Types', js: true, with_cuprite: true do
   shared_let(:admin) { create(:admin) }
 
-  let!(:existing_role) { create(:role) }
-  let!(:existing_workflow) { create(:workflow_with_default_status, role: existing_role, type: existing_type) }
-  let!(:existing_type) { create(:type) }
+  shared_let(:existing_role) { create(:role) }
+  shared_let(:existing_type) { create(:type) }
+  shared_let(:existing_workflow) { create(:workflow_with_default_status, role: existing_role, type: existing_type) }
+
   let(:index_page) { Pages::Types::Index.new }
 
   before do
@@ -102,5 +103,30 @@ RSpec.describe 'Types', js: true, with_cuprite: true do
     index_page.delete 'Renamed type'
 
     index_page.expect_listed(existing_type)
+  end
+
+  context 'when a work package of a given type is part of an archived project' do
+    shared_let(:project) do
+      create(:project, :archived).tap do |p|
+        p.types << existing_type
+        p.save!
+      end
+    end
+
+    shared_let(:work_package) { create(:work_package, type: existing_type, project:) }
+
+    context 'and I attempt to delete the type' do
+      before do
+        index_page.visit!
+        index_page.delete existing_type.name
+        wait_for_network_idle
+      end
+
+      it 'renders an error message with links to the archived project in the projects list' do
+        within '.op-toast.-error' do
+          expect(page).to have_link(project.name)
+        end
+      end
+    end
   end
 end
