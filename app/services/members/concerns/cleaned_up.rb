@@ -41,8 +41,8 @@ module Members::Concerns::CleanedUp
 
       member = service_call.result
 
-      Members::CleanupService
-        .new(member.principal, member.project_id)
+      Members::CleanupService # TODO: Check if we need to pass the entire entity in the future
+        .new(member.principal, member.entity_id)
         .call
     end
   end

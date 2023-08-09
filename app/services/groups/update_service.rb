@@ -32,6 +32,7 @@ class Groups::UpdateService < BaseServices::Update
   def persist(call)
     removed_users = groups_removed_users(call.result)
     member_roles = member_roles_to_prune(removed_users)
+    # TODO: Here we need to fetch all entities and pass them to the cleanup services
     project_ids = member_roles.pluck(:project_id)
     member_role_ids = member_roles.pluck(:id)
 

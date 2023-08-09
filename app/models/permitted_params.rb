@@ -479,6 +479,7 @@ class PermittedParams
         group: [
           :lastname
         ],
+        # TODO: See how we do the polymorphic assignment here, potentially: GlobalID
         membership: [
           :project_id,
           { role_ids: [] }

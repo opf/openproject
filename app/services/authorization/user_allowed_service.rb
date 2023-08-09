@@ -62,6 +62,8 @@ class Authorization::UserAllowedService
   def allowed_to?(action, context, global: false)
     action = normalize_action(action)
 
+    # TODO: Work Package check goes here ...
+
     if context.nil? && global
       allowed_to_globally?(action)
     elsif context.is_a? Project
