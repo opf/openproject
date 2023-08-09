@@ -36,10 +36,8 @@ RSpec.describe 'common/_validation_error' do
 
     render partial: 'common/validation_error',
            locals: { error_messages:,
-                     classes: 'custom-class-name',
                      object_name: 'Test' }
   end
 
   it { expect(rendered).not_to include('Clear this!') }
-  it { expect(rendered).to match(/class=.+custom-class-name/) }
 end

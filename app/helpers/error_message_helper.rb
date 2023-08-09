@@ -48,12 +48,11 @@ module ErrorMessageHelper
     render_error_messages_partial(error_messages, object:)
   end
 
-  def render_error_messages_partial(messages, options)
+  def render_error_messages_partial(messages, object:)
     unless messages.empty?
       render partial: 'common/validation_error',
              locals: { error_messages: messages,
-                       classes: options[:classes],
-                       object_name: options[:object].class.model_name.human }
+                       object_name: object.class.model_name.human }
     end
   end
 end
