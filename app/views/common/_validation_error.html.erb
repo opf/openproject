@@ -38,7 +38,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render partial: "common/error_base",
            locals: {
-             error_message: t("activerecord.errors.template.header", model: object_name, count: error_messages.count),
-             classes:
+             error_message: t("activerecord.errors.template.header", model: object_name, count: error_messages.count)
            }
 %>
