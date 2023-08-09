@@ -49,16 +49,22 @@ class Project < ApplicationRecord
       .merge(Principal.not_locked.user)
       .references(:principal, :roles)
   },
-           as: :entity
+           as: :entity,
+           inverse_of: :entity,
+           dependent: nil
 
   has_many :memberships,
            class_name: 'Member',
-           as: :entity
+           as: :entity,
+           dependent: nil
 
   has_many :member_principals,
            -> { not_locked },
            class_name: 'Member',
-           as: :entity
+           as: :entity,
+           inverse_of: :entity,
+           dependent: nil
+
   has_many :users, through: :members, source: :principal
   has_many :principals, through: :member_principals, source: :principal
 
