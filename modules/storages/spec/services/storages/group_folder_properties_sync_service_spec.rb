@@ -141,6 +141,15 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
               <d:status>HTTP/1.1 200 OK</d:status>
             </d:propstat>
           </d:response>
+          <d:response>
+            <d:href>/remote.php/dav/files/OpenProject/OpenProject/NOT%20ACTIVE%20PROJECT/</d:href>
+            <d:propstat>
+              <d:prop>
+                <oc:fileid>778</oc:fileid>
+              </d:prop>
+              <d:status>HTTP/1.1 200 OK</d:status>
+            </d:propstat>
+          </d:response>
         </d:multistatus>
       XML
     end
@@ -310,10 +319,56 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
         </d:multistatus>
       XML
     end
+    let(:set_permissions_request_body5) do
+      <<~XML
+        <?xml version="1.0"?>
+        <d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
+          <d:set>
+            <d:prop>
+              <nc:acl-list>
+                <nc:acl>
+                  <nc:acl-mapping-type>group</nc:acl-mapping-type>
+                  <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
+                  <nc:acl-mask>31</nc:acl-mask>
+                  <nc:acl-permissions>0</nc:acl-permissions>
+                </nc:acl>
+                <nc:acl>
+                  <nc:acl-mapping-type>user</nc:acl-mapping-type>
+                  <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
+                  <nc:acl-mask>31</nc:acl-mask>
+                  <nc:acl-permissions>31</nc:acl-permissions>
+                </nc:acl>
+              </nc:acl-list>
+            </d:prop>
+          </d:set>
+        </d:propertyupdate>
+      XML
+    end
+    let(:set_permissions_response_body5) do
+      <<~XML
+        <?xml version="1.0"?>
+        <d:multistatus
+          xmlns:d="DAV:"
+          xmlns:s="http://sabredav.org/ns"
+          xmlns:oc="http://owncloud.org/ns"
+          xmlns:nc="http://nextcloud.org/ns">
+          <d:response>
+            <d:href>/remote.php/dav/files/OpenProject/OpenProject/NOT%20ACTIVE%20PROJECT</d:href>
+            <d:propstat>
+              <d:prop>
+                <nc:acl-list/>
+              </d:prop>
+              <d:status>HTTP/1.1 200 OK</d:status>
+            </d:propstat>
+          </d:response>
+        </d:multistatus>
+      XML
+    end
     let(:request_stubs) { [] }
 
     let(:project1) { create(:project, name: '[Sample] Project Name / Ehuu', members: { user => role }) }
     let(:project2) { create(:project, name: 'Jedi Project Folder ///', members: { user => role }) }
+    let(:project3) { create(:project, name: 'NOT ACTIVE PROJECT', active: false, members: { user => role }) }
     let(:user) { create(:user) }
     let(:role) { create(:role, permissions: %w[read_files write_files]) }
     let(:storage) do
@@ -322,19 +377,26 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
              host: 'https://example.com',
              password: '12345678')
     end
-    let(:project_storage1) do
+    let!(:project_storage1) do
       create(:project_storage,
              project_folder_mode: 'automatic',
              project: project1,
              storage:)
     end
 
-    let(:project_storage2) do
+    let!(:project_storage2) do
       create(:project_storage,
              project_folder_mode: 'automatic',
              project: project2,
              storage:,
              project_folder_id: '123')
+    end
+    let!(:project_storage3) do
+      create(:project_storage,
+             project_folder_mode: 'automatic',
+             project: project3,
+             storage:,
+             project_folder_id: '778')
     end
 
     let(:oauth_client) { create(:oauth_client, integration: storage) }
@@ -425,6 +487,16 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
           'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
         }
       ).to_return(status: 207, body: set_permissions_response_body4, headers: {})
+      request_stubs << stub_request(
+        :proppatch,
+        "https://example.com/remote.php/dav/files/OpenProject/OpenProject/" \
+        "NOT%20ACTIVE%20PROJECT"
+      ).with(
+        body: set_permissions_request_body5,
+        headers: {
+          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
+        }
+      ).to_return(status: 207, body: set_permissions_response_body5, headers: {})
       request_stubs << stub_request(
         :delete,
         "https://example.com/ocs/v1.php/cloud/users/Darth%20Maul/groups?groupid=OpenProject"
