@@ -45,7 +45,7 @@ module WorkPackage::PDFExport::TableOfContents
 
   def build_toc_data_list_entry(work_package, id_wp_meta_map)
     level_path = id_wp_meta_map[work_package.id][:level_path]
-    level = level_path.length
+    level = [level_path.length, styles.toc_max_depth].min
     level_style = styles.toc_item(level)
     level_string = "#{level_path.join('.')}. "
     page_nr_string = (id_wp_meta_map[work_package.id][:page_number] || '000').to_s
