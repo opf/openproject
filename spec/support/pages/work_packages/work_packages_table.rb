@@ -183,7 +183,7 @@ module Pages
     end
 
     def open_full_screen_by_link(work_package)
-      row(work_package).click_link(work_package.id)
+      row(work_package).click_link(work_package.id.to_s)
 
       FullWorkPackage.new(work_package)
     end
