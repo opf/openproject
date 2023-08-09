@@ -38,6 +38,9 @@ RSpec.describe 'Subprojects widget on dashboard', js: true do
   let!(:child_project) do
     create(:project, parent: project)
   end
+  let!(:archived_child_project) do
+    create(:project, :archived, parent: project)
+  end
   let!(:invisible_child_project) do
     create(:project, parent: project)
   end
@@ -61,6 +64,7 @@ RSpec.describe 'Subprojects widget on dashboard', js: true do
     create(:user).tap do |u|
       create(:member, project:, roles: [role], user: u)
       create(:member, project: child_project, roles: [role], user: u)
+      create(:member, project: archived_child_project, roles: [role], user: u)
       create(:member, project: grandchild_project, roles: [role], user: u)
       create(:member, project: parent_project, roles: [role], user: u)
     end
@@ -69,33 +73,58 @@ RSpec.describe 'Subprojects widget on dashboard', js: true do
     Pages::Dashboard.new(project)
   end
 
-  before do
-    login_as user
+  context 'as a user' do
+    current_user { user }
 
-    dashboard_page.visit!
-  end
+    it 'can add the widget listing active subprojects the user is member of', :aggregate_failures do
+      dashboard_page.visit!
+      dashboard_page.add_widget(1, 1, :within, "Subprojects")
 
-  it 'can add the widget and see the description in it' do
-    dashboard_page.add_widget(1, 1, :within, "Subprojects")
+      subprojects_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
 
-    sleep(0.1)
-
-    subprojects_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
-
-    expect(page)
-      .to have_link(child_project.name, wait: 10)
-
-    within(subprojects_widget.area) do
       expect(page)
         .to have_link(child_project.name)
-      expect(page)
-        .not_to have_link(grandchild_project.name)
-      expect(page)
-        .not_to have_link(invisible_child_project.name)
-      expect(page)
-        .not_to have_link(parent_project.name)
-      expect(page)
-        .not_to have_link(project.name)
+
+      within(subprojects_widget.area) do
+        expect(page)
+          .to have_link(child_project.name)
+        expect(page)
+          .not_to have_link(archived_child_project.name)
+        expect(page)
+          .not_to have_link(grandchild_project.name)
+        expect(page)
+          .not_to have_link(invisible_child_project.name)
+        expect(page)
+          .not_to have_link(parent_project.name)
+        expect(page)
+          .not_to have_link(project.name)
+      end
+    end
+  end
+
+  context 'as an admin' do
+    current_user { create(:admin) }
+
+    it 'can add the widget listing all active subprojects', :aggregate_failures do
+      dashboard_page.visit!
+      dashboard_page.add_widget(1, 2, :within, "Subprojects")
+
+      subprojects_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
+
+      within(subprojects_widget.area) do
+        expect(page)
+          .to have_link(child_project.name)
+        expect(page)
+          .not_to have_link(archived_child_project.name)
+        expect(page)
+          .not_to have_link(grandchild_project.name)
+        expect(page)
+          .to have_link(invisible_child_project.name) # admins can see projects they are not a member of
+        expect(page)
+          .not_to have_link(parent_project.name)
+        expect(page)
+          .not_to have_link(project.name)
+      end
     end
   end
 end

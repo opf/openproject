@@ -108,7 +108,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
     write_cover_page! if with_cover?
     write_title!
     write_work_packages_toc! work_packages, @id_wp_meta_map if wants_report?
-    write_work_packages_overview! work_packages, @id_wp_meta_map unless wants_report?
+    write_work_packages_overview! work_packages unless wants_report?
     write_work_packages_sums! work_packages if with_sums_table? && wants_report?
     if should_be_batched?(work_packages)
       render_batched(work_packages, filename)

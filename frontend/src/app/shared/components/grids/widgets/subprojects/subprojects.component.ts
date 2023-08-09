@@ -23,14 +23,16 @@ export class WidgetSubprojectsComponent extends AbstractWidgetComponent implemen
 
   public projects:ProjectResource[];
 
-  constructor(readonly halResource:HalResourceService,
+  constructor(
+    readonly halResource:HalResourceService,
     readonly pathHelper:PathHelperService,
     readonly i18n:I18nService,
     protected readonly injector:Injector,
     readonly timezone:TimezoneService,
     readonly apiV3Service:ApiV3Service,
     readonly currentProject:CurrentProjectService,
-    readonly cdr:ChangeDetectorRef) {
+    readonly cdr:ChangeDetectorRef,
+  ) {
     super(i18n, injector);
   }
 
@@ -65,7 +67,7 @@ export class WidgetSubprojectsComponent extends AbstractWidgetComponent implemen
   private get projectListParams():ApiV3ListParameters {
     return {
       sortBy: [['name', 'asc']],
-      filters: [['parent_id', '=', [this.currentProject.id!]]],
+      filters: [['parent_id', '=', [this.currentProject.id!]], ['active', '=', ['t']]],
       pageSize: MAGIC_PAGE_NUMBER,
     };
   }

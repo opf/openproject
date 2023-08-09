@@ -140,7 +140,6 @@ export class TimeEntryCalendarComponent {
     editable: false,
     locale: this.i18n.locale,
     fixedWeekCount: false,
-    timeZone: this.configuration.isTimezoneSet() ? this.configuration.timezone() : 'local',
     headerToolbar: {
       right: '',
       center: 'title',
@@ -149,6 +148,7 @@ export class TimeEntryCalendarComponent {
     buttonText: { today: this.text.today },
     initialView: 'timeGridWeek',
     firstDay: this.configuration.startOfWeek(),
+    timeZone: this.configuration.isTimezoneSet() ? this.configuration.timezone() : 'local',
     hiddenDays: [],
     // This is a magic number that is derived by trial and error
     contentHeight: 550,
@@ -308,7 +308,7 @@ export class TimeEntryCalendarComponent {
 
     const calendarEntries:EventInput[] = [];
 
-    for (let m = moment(fetchInfo.start); m.diff(fetchInfo.end, 'days') <= 0; m.add(1, 'days')) {
+    for (let m = moment(this.timezone.formattedISODate(fetchInfo.start)); m.diff(fetchInfo.end, 'days') <= 0; m.add(1, 'days')) {
       const duration = dateSums[m.format('YYYY-MM-DD')] || 0;
 
       calendarEntries.push(this.sumEntry(m, duration));
