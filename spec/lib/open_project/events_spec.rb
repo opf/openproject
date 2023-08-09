@@ -73,6 +73,8 @@ RSpec.describe OpenProject::Events do
     MEMBER_DESTROYED
     PROJECT_UPDATED
     PROJECT_RENAMED
+    PROJECT_ARCHIVED
+    PROJECT_UNARCHIVED
   ].each do |event|
     describe(event) do
       subject { fire_event(event) }
