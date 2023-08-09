@@ -9,7 +9,7 @@
         identifier: Identifikator
         secret: Hemmelig
         scope: Omfang
-        limit_self_registration: Limit self registration
+        limit_self_registration: Begrens egenregistrering
   openid_connect:
     menu_title: OpenID leverandører
     providers:
@@ -20,4 +20,4 @@
       singular: OpenID-leverandør
     setting_instructions:
       limit_self_registration: >
-        If enabled users can only register using this provider if the self registration setting allows for it.
+        Hvis aktivert kan brukere bare registrere seg ved hjelp av denne leverandøren hvis selvregistreringsinnstillingen tillater det.

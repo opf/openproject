@@ -24,12 +24,12 @@
   permission_show_github_content: "Show GitHub content"
   github_integration:
     pull_request_opened_comment: >
-      **PR Opened:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) has been opened by [%{github_user}](%{github_user_url}).
+      **PR Åpnet:** %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) har blitt åpnet av [%{github_user}](%{github_user_url}).
     pull_request_closed_comment: >
-      **PR Closed:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) has been closed by [%{github_user}](%{github_user_url}).
+      **PR Lukket:** %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) har blitt lukket av [%{github_user}](%{github_user_url}).
     pull_request_merged_comment: >
-      **PR Merged:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) has been merged by [%{github_user}](%{github_user_url}).
+      **PR Merged:** %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) har blitt slått sammen av [%{github_user}](%{github_user_url}).
     pull_request_referenced_comment: >
-      **Referenced in PR:** [%{github_user}](%{github_user_url}) referenced this work package in Pull request %{pr_number} [%{pr_title}](%{pr_url}) on [%{repository}](%{repository_url}).
+      **Referert i PR:** [%{github_user}](%{github_user_url}) refererer til denne arbeidspakken i Pull request %{pr_number} [%{pr_title}](%{pr_url}) på [%{repository}](%{repository_url}).
     pull_request_ready_for_review_comment: >
-      **PR Ready for Review:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) was marked as ready for review by [%{github_user}](%{github_user_url}).
+      **PR Klar for gjennomgang:** %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) var merket som klar for vurdering av [%{github_user}](%{github_user_url}).

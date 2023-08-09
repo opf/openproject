@@ -224,19 +224,19 @@
           status_label: "Status:"
           status_confirmed: "bekreftet"
           status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
+          test_ee: "Test Enterprise-utgaven 14 dager gratis"
+          quick_overview: "Få en rask oversikt over prosjektledelse og teamsamarbeid med OpenProject Enterprise-utgaven."
         upsale:
           become_hero: "Bli en helt!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} er et Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> -tillegg."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
-            description: "What are the benefits of the Enterprise on-premises edition?"
+            description: "Hva er fordelene ved Enterprise on-premises-utgaven?"
             high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
+            high_security_text: "Engangs pålogging (SAML, OpenID Connect, CAS), LDAP-grupper."
             installation: "Installation support"
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Enterprise add-ons"
+            premium_features: "Enterprise tillegg"
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "Profesjonell hjelp"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
@@ -247,11 +247,11 @@
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Get a quote"
-          more_info: "More information"
+          more_info: "Mer informasjon"
           text: >
-            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            OpenProject Enterprise edition bygger på toppen av fellesskapets utgave. Det inkluderer Enterprise tillegg og profesjonell støtte som hovedsakelig retter seg mot organisasjoner med mer enn 10 brukere som håndterer forretningskritiske prosjekter med OpenProject.
           unlimited: "Unlimited"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+          you_contribute: "Utviklere må også betale regningene sine. Ved å oppgradere til Enterprise Edition, støtter du fellesskapets innsats med åpen kildekode og bidrar til dens utvikling, vedlikehold og kontinuerlig forbedring."
       working_days:
         calendar:
           empty_state_header: "Non-working days"
@@ -316,7 +316,7 @@
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                Denne versjonen inneholder ulike nye funksjoner og forbedringer: <br> <ul class="%{list_styling_class}"> <li>Last opp og koble filer fra arbeidspakker til din Nextcloud fillagring.</li> <li>Oppfølging av prosjektet endres med sporing av prosjektaktivitet.</li> <li>Legg til høytidsdager som ikke er virkende.</li> <li>Arkiver prosjekter av ikke-administratorer.</li> <li>Nytt standardfilter for forfalte arbeidspakker.</li> </ul>
     label_activate: "Aktiver"
     label_assignee: 'Deltaker'
     label_add_column_after: "Add column after"
@@ -388,7 +388,7 @@
     label_in_more_than: "i mer enn"
     label_incoming_emails: "Inkommende e-post"
     label_information_plural: "Informasjon"
-    label_invalid: "Invalid"
+    label_invalid: "Ugyldig"
     label_import: "Importer"
     label_latest_activity: "Siste aktivitet"
     label_last_updated_on: "Sist oppdatert"
@@ -511,7 +511,7 @@
         next: 'Neste'
         got_it: 'Got it'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'Hjelpemenyen (?) gir <b>ytterligere hjelpemidler</b>. Her kan du finne en brukerveiledning, hjelpevideoer og mer. <br> Nyt ditt arbeid med OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
@@ -552,11 +552,11 @@
         watched: 'watcher'
         assigned: 'assignee'
         responsible: 'accountable'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
+        created: 'opprettet'
+        scheduled: 'planlagt'
+        commented: 'kommentert'
+        processed: 'behandlet'
+        prioritized: 'prioritert'
         dateAlert: 'Date alert'
       date_alerts:
         milestone_date: 'Milestone date'
@@ -587,9 +587,9 @@
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you are all caught up."
-          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification: "Ser ut som du er helt oppdatert."
+          no_notification_with_current_project_filter: "Ser ut som du er helt oppdatert med det valgte prosjektet."
+          no_notification_with_current_filter: "Ser ut som du er helt oppdatert med filteret %{filter}."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -633,18 +633,18 @@
         global:
           immediately:
             title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
+            description: 'Varsler for alle aktiviteter i arbeidspakker du er involvert i (oppdragstaker, ansvarlig eller overvåker).'
           delayed:
             title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects.'
+            description: 'Melding om ytterligere aktiviteter i alle prosjekter.'
           date_alerts:
             title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
+            description: 'Automatiske varsler når viktige datoer nærmer seg for åpne arbeidspakker du er med i (oppdragstaker, ansvarlig eller overvåker).'
             teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
           overdue: When overdue
         project_specific:
           title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above.'
+          description: 'Disse prosjektspesifikke innstillingene overstyrer standardinnstillingene ovenfor.'
           add: 'Add setting for project'
           already_selected: 'This project is already selected'
           remove: 'Remove project settings'
@@ -715,8 +715,8 @@
         reset_title: "Reset form configuration"
         confirm_reset: >
           Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
-        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        upgrade_to_ee: "Oppgradere til Enterprise on-premises-utgave"
+        upgrade_to_ee_text: "Wow! Hvis du trenger dette tillegget er en superpro! Vil du støtte oss OpenSource-utviklere ved å bli en Enterpris-utgave-kunde?"
         more_information: "Mer informasjon"
         nevermind: "Nevermind"
       edit:
@@ -784,14 +784,14 @@
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      typeToSearchText: "Skriv for å søke"
     repositories:
       select_tag: 'Select tag'
       select_branch: 'Select branch'
     field_value_enter_prompt: "Angi en verdi for '%{field}'"
     project_menu_details: "Detaljer"
     scheduling:
-      manual: 'Manual scheduling'
+      manual: 'Manuell planlegging'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -806,16 +806,16 @@
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Gantt diagram'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
-        showNone: '-- No label --'
+        title: 'Etikettkonfigurasjon'
+        bar: 'Linjeetiketter'
+        left: 'Venstre'
+        right: 'Høyre'
+        farRight: 'Langt til høyre'
+        showNone: '-- Ingen etikett --'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+          Velg attributtene du vil bli vist i de respektive posisjonene i Gantt-diagrammet til enhver tid. Merk at når man peker på et element, vil datomerkene vises i stedet for disse attributtene.
+      button_activate: 'Vis Gantt-diagram'
+      button_deactivate: 'Skjul Gantt-diagram'
       cancel: Avbryt
       change: "Endre i planlegging"
       due_date: "Sluttdato"
@@ -846,11 +846,11 @@
       start_date: "Startdato"
       tooManyProjects: "Mer enn %{count} prosjekter. Bruk et bedre filter!"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Klikk på eventuelle uthevede arbeidspakker for å opprette relasjonen. Trykk escape for å avbryte.'
       zoom:
         in: "Zoom inn"
         out: "Zoom ut"
-        auto: "Auto zoom"
+        auto: "Automatisk zoom"
         days: "Dager"
         weeks: "Uker"
         months: "Måneder"
@@ -858,7 +858,7 @@
         years: "År"
         slider: "Zoom-bryter"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Velg standard zoom-nivå som skal vises når autozoom ikke er tilgjengelig.
     tl_toolbar:
       zooms: "Zoom-nivå"
       outlines: "Nivå"
@@ -1054,7 +1054,7 @@
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'
-          check_out_link: 'Check out the Enterprise edition.'
+          check_out_link: 'Sjekk ut Enterprise-utgaven.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
@@ -1197,9 +1197,9 @@
           description: 'Permissions based on the assigned role in the selected project'
         placeholder:
           title: 'Placeholder user'
-          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
+          title_no_ee: 'Midlertidig bruker (kun tillegg for Enterprise-utgave)'
           description: 'Has no access to the project and no emails are sent out.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
+          description_no_ee: 'Har ikke tilgang til prosjektet og ingen e-poster har blitt sendt ut. <br>Sjekk ut <a href="%{eeHref}" target="_blank">Enterprise-utgaven</a>'
       principal:
         label:
           name_or_email: 'Name or email address'
