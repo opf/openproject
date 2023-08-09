@@ -50,8 +50,8 @@ RSpec.describe 'Documents widget on dashboard', js: true do
   end
   let(:user) do
     create(:user).tap do |u|
-      create(:member, project:, roles: [role], user: u)
-      create(:member, project: other_project, roles: [role], user: u)
+      create(:member, entity: project, roles: [role], principal: u)
+      create(:member, entity: other_project, roles: [role], principal: u)
     end
   end
   let(:dashboard) do
@@ -79,7 +79,7 @@ RSpec.describe 'Documents widget on dashboard', js: true do
         .to have_content visible_document.created_at.strftime('%m/%d/%Y')
 
       expect(page)
-        .to have_no_content invisible_document.title
+        .not_to have_content invisible_document.title
     end
   end
 end

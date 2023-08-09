@@ -195,14 +195,9 @@ RSpec.describe API::V3::TimeEntries::UpdateFormAPI, content_type: :json do
 
       context 'with the time_entry being of the user' do
         let(:user) do
-          user = time_entry.user
-
-          create(:member,
-                 project: time_entry.project,
-                 roles: [create(:role, permissions:)],
-                 principal: user)
-
-          user
+          time_entry.user.tap do |user|
+            create(:member, entity: time_entry.project, roles: [create(:role, permissions:)], principal: user)
+          end
         end
 
         it 'returns 200 OK' do

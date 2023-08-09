@@ -114,9 +114,7 @@ RSpec.describe GroupsController do
       render_views
 
       let!(:member_group) do
-        create(:global_member,
-               principal: group,
-               roles: [create(:global_role)])
+        create(:global_member, principal: group, roles: [create(:global_role)])
       end
 
       it 'displays edit memberships' do
@@ -142,10 +140,7 @@ RSpec.describe GroupsController do
 
       context 'with an existing membership' do
         let!(:member_group) do
-          create(:member,
-                 project:,
-                 principal: group,
-                 roles: [role1])
+          create(:member, entity: project, principal: group, roles: [role1])
         end
 
         it 'edits a membership' do

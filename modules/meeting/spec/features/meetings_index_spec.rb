@@ -38,10 +38,7 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
   let(:user) do
     create(:user) do |user|
       [project, other_project].each do |p|
-        create(:member,
-               project: p,
-               principal: user,
-               roles: [role])
+        create(:member, entity: p, principal: user, roles: [role])
       end
     end
   end

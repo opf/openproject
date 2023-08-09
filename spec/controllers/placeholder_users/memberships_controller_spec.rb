@@ -134,7 +134,7 @@ RSpec.describe PlaceholderUsers::MembershipsController do
 
     context 'with a membership in another project that is invisible' do
       shared_let(:project2) { create(:project) }
-      shared_let(:membership) { create(:member, principal: placeholder_user, project: project2, roles: [role]) }
+      shared_let(:membership) { create(:member, principal: placeholder_user, entity: project2, roles: [role]) }
 
       describe 'PUT update' do
         it 'returns an error' do

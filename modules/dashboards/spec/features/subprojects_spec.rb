@@ -62,11 +62,11 @@ RSpec.describe 'Subprojects widget on dashboard', js: true do
 
   let(:user) do
     create(:user).tap do |u|
-      create(:member, project:, roles: [role], user: u)
-      create(:member, project: child_project, roles: [role], user: u)
-      create(:member, project: archived_child_project, roles: [role], user: u)
-      create(:member, project: grandchild_project, roles: [role], user: u)
-      create(:member, project: parent_project, roles: [role], user: u)
+      create(:member, entity: project, roles: [role], principal: u)
+      create(:member, entity: child_project, roles: [role], principal: u)
+      create(:member, entity: archived_child_project, roles: [role], principal: u)
+      create(:member, entity: grandchild_project, roles: [role], principal: u)
+      create(:member, entity: parent_project, roles: [role], principal: u)
     end
   end
   let(:dashboard_page) do

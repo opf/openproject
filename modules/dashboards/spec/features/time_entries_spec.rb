@@ -78,8 +78,8 @@ RSpec.describe 'Time entries widget on dashboard', js: true do
   end
   let(:user) do
     create(:user).tap do |u|
-      create(:member, project:, roles: [role], user: u)
-      create(:member, project: other_project, roles: [role], user: u)
+      create(:member, entity: project, roles: [role], principal: u)
+      create(:member, entity: other_project, roles: [role], principal: u)
     end
   end
 

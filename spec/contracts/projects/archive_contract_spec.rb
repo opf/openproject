@@ -58,7 +58,7 @@ RSpec.describe Projects::ArchiveContract do
 
       context 'when user has archive_project permission on some subprojects but not all' do
         before do
-          create(:member, user: current_user, project: subproject1, roles: [archivist_role])
+          create(:member, principal: current_user, entity: subproject1, roles: [archivist_role])
         end
 
         include_examples 'contract is invalid', base: :archive_permission_missing_on_subprojects
@@ -66,8 +66,8 @@ RSpec.describe Projects::ArchiveContract do
 
       context 'when user has archive_project permission on all subprojects' do
         before do
-          create(:member, user: current_user, project: subproject1, roles: [archivist_role])
-          create(:member, user: current_user, project: subproject2, roles: [archivist_role])
+          create(:member, principal: current_user, entity: subproject1, roles: [archivist_role])
+          create(:member, principal: current_user, entity: subproject2, roles: [archivist_role])
         end
 
         include_examples 'contract is valid'
@@ -76,7 +76,7 @@ RSpec.describe Projects::ArchiveContract do
       context 'when some of subprojects are archived but not all' do
         before do
           subproject1.update_column(:active, false)
-          create(:member, user: current_user, project: subproject2, roles: [archivist_role])
+          create(:member, principal: current_user, entity: subproject2, roles: [archivist_role])
         end
 
         include_examples 'contract is valid'

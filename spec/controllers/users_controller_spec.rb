@@ -523,7 +523,7 @@ RSpec.describe UsersController do
 
     it 'assigns users' do
       expect(assigns(:users))
-        .to match_array([user, admin])
+        .to contain_exactly(user, admin)
     end
 
     context 'with a name filter' do
@@ -531,7 +531,7 @@ RSpec.describe UsersController do
 
       it 'assigns users' do
         expect(assigns(:users))
-          .to match_array([user])
+          .to contain_exactly(user)
       end
     end
 
@@ -544,7 +544,7 @@ RSpec.describe UsersController do
 
       it 'assigns users' do
         expect(assigns(:users))
-          .to match_array([user])
+          .to contain_exactly(user)
       end
     end
   end
@@ -716,7 +716,7 @@ RSpec.describe UsersController do
           mail = ActionMailer::Base.deliveries.last
 
           expect(mail.to)
-            .to match_array [user.mail]
+            .to contain_exactly(user.mail)
 
           expect(mail.body.encoded)
             .to include('newpassPASS!')
@@ -893,10 +893,9 @@ RSpec.describe UsersController do
       end
       let!(:member) do
         create(:member,
-               project: work_package.project,
+               entity: work_package.project,
                principal: user,
-               roles: [create(:role,
-                              permissions: [:view_work_packages])])
+               roles: [create(:role, permissions: [:view_work_packages])])
       end
       let!(:journal_1) do
         create(:work_package_journal,
@@ -973,7 +972,7 @@ RSpec.describe UsersController do
       mail = ActionMailer::Base.deliveries.last
 
       expect(mail.to)
-        .to match_array [params[:user][:mail]]
+        .to contain_exactly(params[:user][:mail])
 
       activation_link = Regexp.new(
         "http://#{Setting.host_name}/account/activate\\?token=[a-f0-9]+",

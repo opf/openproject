@@ -33,10 +33,7 @@ RSpec.describe MessagesController, with_settings: { journal_aggregation_time_min
   let(:project) { create(:project) }
   let(:role) { create(:role) }
   let!(:member) do
-    create(:member,
-           project:,
-           principal: user,
-           roles: [role])
+    create(:member, entity: project, principal: user, roles: [role])
   end
   let!(:forum) do
     create(:forum,
@@ -44,7 +41,7 @@ RSpec.describe MessagesController, with_settings: { journal_aggregation_time_min
   end
 
   let(:filename) { 'testfile.txt' }
-  let(:file) { File.open(Rails.root.join('spec/fixtures/files', filename)) }
+  let(:file) { Rails.root.join('spec/fixtures/files', filename).open }
 
   before { allow(User).to receive(:current).and_return user }
 

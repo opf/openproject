@@ -34,9 +34,7 @@ RSpec.describe MembersController do
   let(:project) { create(:project, identifier: 'pet_project') }
   let(:role) { create(:role) }
   let(:member) do
-    create(:member, project:,
-                    user:,
-                    roles: [role])
+    create(:member, entity: project, principal: user, roles: [role])
   end
 
   before do

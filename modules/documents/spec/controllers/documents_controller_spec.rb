@@ -110,7 +110,7 @@ RSpec.describe DocumentsController do
 
       before do
         notify_project = project
-        create(:member, project: notify_project, user:, roles: [role])
+        create(:member, entity: notify_project, principal: user, roles: [role])
 
         post :create,
              params: {

@@ -36,10 +36,7 @@ RSpec.describe CategoriesController do
            permissions: [:manage_categories])
   end
   let(:member) do
-    create(:member,
-           project:,
-           principal: user,
-           roles: [role])
+    create(:member, entity: project, principal: user, roles: [role])
   end
 
   before do

@@ -58,7 +58,7 @@ RSpec.describe 'Read only mode when user lacks edit permission on dashboard', js
 
   let(:user) do
     create(:user).tap do |u|
-      create(:member, project:, user: u, roles: [role])
+      create(:member, entity: project, principal: u, roles: [role])
     end
   end
   let(:dashboard_page) do

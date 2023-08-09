@@ -32,14 +32,10 @@ RSpec.describe WorkPackages::AutoCompletesController do
   let(:user) { create(:user) }
   let(:project) { create(:project) }
   let(:role) do
-    create(:role,
-           permissions: [:view_work_packages])
+    create(:role, permissions: [:view_work_packages])
   end
   let(:member) do
-    create(:member,
-           project:,
-           principal: user,
-           roles: [role])
+    create(:member, entity: project, principal: user, roles: [role])
   end
   let(:work_package_1) do
     create(:work_package,
@@ -202,10 +198,7 @@ RSpec.describe WorkPackages::AutoCompletesController do
       end
       let(:expected_values) { work_package_4 }
       let(:member_2) do
-        create(:member,
-               project: project_2,
-               principal: user,
-               roles: [role])
+        create(:member, entity: project_2, principal: user, roles: [role])
       end
       let(:work_package_4) do
         create(:work_package,

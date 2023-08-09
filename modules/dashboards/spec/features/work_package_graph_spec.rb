@@ -79,8 +79,8 @@ RSpec.describe 'Arbitrary WorkPackage query graph widget dashboard',
 
   let(:user) do
     create(:user).tap do |u|
-      create(:member, project:, user: u, roles: [role])
-      create(:member, project: other_project, user: u, roles: [role])
+      create(:member, entity: project, principal: u, roles: [role])
+      create(:member, entity: other_project, principal: u, roles: [role])
     end
   end
   let(:dashboard_page) do

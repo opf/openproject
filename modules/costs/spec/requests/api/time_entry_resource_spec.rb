@@ -220,10 +220,7 @@ RSpec.describe 'API v3 time_entry resource' do
       end
 
       before do
-        create(:member,
-               roles: [role],
-               project: other_project,
-               user: current_user)
+        create(:member, roles: [role], entity: other_project, principal: current_user)
 
         time_entry
         other_time_entry
@@ -284,10 +281,7 @@ RSpec.describe 'API v3 time_entry resource' do
       end
 
       before do
-        create(:member,
-               roles: [role],
-               project: other_project,
-               user: current_user)
+        create(:member, roles: [role], entity: other_project, principal: current_user)
         get path
       end
 

@@ -68,7 +68,7 @@ RSpec.describe 'Work package overview graph widget on dashboard',
 
   let(:user) do
     create(:user).tap do |u|
-      create(:member, project:, user: u, roles: [role])
+      create(:member, entity: project, principal: u, roles: [role])
     end
   end
 

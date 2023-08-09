@@ -41,42 +41,27 @@ RSpec.describe 'API v3 time entries available projects resource' do
   end
   let(:project_with_log_permission) do
     create(:project).tap do |p|
-      create(:member,
-             roles: [create(:role, permissions: [:log_own_time])],
-             project: p,
-             user: current_user)
+      create(:member, roles: [create(:role, permissions: [:log_own_time])], entity: p, principal: current_user)
     end
   end
   let(:project_with_edit_permission) do
     create(:project).tap do |p|
-      create(:member,
-             roles: [create(:role, permissions: [:edit_time_entries])],
-             project: p,
-             user: current_user)
+      create(:member, roles: [create(:role, permissions: [:edit_time_entries])], entity: p, principal: current_user)
     end
   end
   let(:project_with_edit_own_permission) do
     create(:project).tap do |p|
-      create(:member,
-             roles: [create(:role, permissions: [:edit_own_time_entries])],
-             project: p,
-             user: current_user)
+      create(:member, roles: [create(:role, permissions: [:edit_own_time_entries])], entity: p, principal: current_user)
     end
   end
   let(:project_with_view_permission) do
     create(:project).tap do |p|
-      create(:member,
-             roles: [create(:role, permissions: [:view_time_entries])],
-             project: p,
-             user: current_user)
+      create(:member, roles: [create(:role, permissions: [:view_time_entries])], entity: p, principal: current_user)
     end
   end
   let(:project_without_permission) do
     create(:project).tap do |p|
-      create(:member,
-             roles: [create(:role, permissions: [])],
-             project: p,
-             user: current_user)
+      create(:member, roles: [create(:role, permissions: [])], entity: p, principal: current_user)
     end
   end
   let(:project_without_membership) do
