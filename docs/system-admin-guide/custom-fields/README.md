@@ -73,7 +73,7 @@ For work package custom fields of type **List** and **User** you may also select
 
 To create a multi-select custom field follow the same steps as you would when [creating a standard custom field](#add-a-new-custom-field). Select format *List* or *User* and check the option *Allow multi-select*.
 
-![Sys-admin-multi-select-custom-field](C:\Users\Maya\Documents\GitHub\openproject\docs\system-admin-guide\custom-fields\system-admin-allow-multi-select.png)
+![Sys-admin-multi-select-custom-field](system-admin-allow-multi-select.png)
 
 When using multi-select custom fields, you can add as many options as required. The cross icon next to an option will remove it from the selection. The check mark will save your changes.
 

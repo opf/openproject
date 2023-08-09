@@ -26,11 +26,11 @@ Before adding users we recommend to check and configure the following topics:
 | [General settings](../system-settings/general-settings/)         | Set host name, protocol and welcome text                          |
 | [Authentication](../authentication/)                             | Set up authentication methods for users                           |
 | [Announcements](../announcement/)                                | Set an announcement to be shown to users on login                 |
-| [Start page](../../user-guide/start-page)                        | Set up the home page, shown after login                           |
+| [Start page](../../user-guide/home/)                             | Set up the home page, shown after login                           |
 
 If required, especially for on-premises versions, it might make sense to have a look at these sections, too:
 
-| Topic                                                        | What to set up                                               |
-| ------------------------------------------------------------ | :----------------------------------------------------------- |
-| [Configure outbound emails](../../installation-and-operations/configuration/outbound-emails/) | Set up SMTP on the server to send email                      |
-| [Configure incoming emails](../../installation-and-operations/configuration/incoming-emails/) | Receiving email by the server                                |
+| Topic                                                                                         | What to set up                          |
+|-----------------------------------------------------------------------------------------------|:----------------------------------------|
+| [Configure outbound emails](../../installation-and-operations/configuration/outbound-emails/) | Set up SMTP on the server to send email |
+| [Configure incoming emails](../../installation-and-operations/configuration/incoming-emails/) | Receiving email by the server           |

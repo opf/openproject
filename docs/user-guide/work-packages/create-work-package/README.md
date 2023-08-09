@@ -58,7 +58,7 @@ Starting with OpenProject 13.0 you can add emojis to all text editors, including
 
 ![openproject_user_guide_wp_description_emojis](openproject_user_guide_wp_description_emojis.png)
 
-To find out **how to create a child Work package** please click [here](../work-package-relations-hierarchies/#adding-a-child-work-package).
+To find out **how to create a child Work package** please click [here](../work-package-relations-hierarchies/#add-a-child-work-package).
 
 
 
