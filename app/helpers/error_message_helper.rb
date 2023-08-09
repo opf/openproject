@@ -27,12 +27,12 @@
 #++
 
 module ErrorMessageHelper
-  def error_messages_for(*params)
-    objects, options = extract_objects_from_params(params)
+  def error_messages_for(object)
+    object = instance_variable_get("@#{object}") unless object.respond_to?(:to_model)
+    object = convert_to_model(object)
+    return unless object
 
-    error_messages = objects.map { |o| o.errors.full_messages }.flatten
-
-    render_error_messages_partial(error_messages, options)
+    render_error_messages_partial(object.errors.full_messages, object:)
   end
 
   # Will take a contract to display the errors in a rails form.
@@ -46,20 +46,6 @@ module ErrorMessageHelper
     object.errors.merge!(errors)
 
     render_error_messages_partial(error_messages, object:)
-  end
-
-  def extract_objects_from_params(params)
-    options = params.extract_options!.symbolize_keys
-
-    objects = Array.wrap(options.delete(:object) || params).map do |object|
-      object = instance_variable_get("@#{object}") unless object.respond_to?(:to_model)
-      object = convert_to_model(object)
-      options[:object] ||= object
-
-      object
-    end
-
-    [objects.compact, options]
   end
 
   def render_error_messages_partial(messages, options)
