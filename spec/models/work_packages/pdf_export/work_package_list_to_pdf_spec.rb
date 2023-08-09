@@ -98,6 +98,10 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
      label_title(:description), work_package.description]
   end
 
+  def cover_page_content
+    [project.name, query.name, user.name, export_time_formatted]
+  end
+
   subject(:pdf) do
     PDF::Inspector::Text.analyze(File.read(export_pdf.content.path))
   end
@@ -155,6 +159,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     it 'contains correct data' do
       expect(pdf.strings).to eq([
+                                  *cover_page_content,
                                   query.name,
                                   '1.', '2', work_package_parent.subject,
                                   '2.', '2', work_package_child.subject,
@@ -172,6 +177,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     it 'contains correct data' do
       expect(pdf.strings).to eq([
+                                  *cover_page_content,
                                   query.name,
                                   '1.', '2', work_package_parent.subject,
                                   '1.1.', '2', work_package_child.subject,
@@ -189,6 +195,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     it 'contains correct data' do
       expect(pdf.strings).to eq([
+                                  *cover_page_content,
                                   query.name,
                                   '1.', '2', work_package_parent.subject,
                                   '2.', '2', work_package_child.subject,
@@ -209,6 +216,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     it 'contains correct data' do
       expect(pdf.strings).to eq([
+                                  *cover_page_content,
                                   query.name,
                                   '1.', '2', work_package_parent.subject,
                                   '2.', '2', work_package_child.subject,

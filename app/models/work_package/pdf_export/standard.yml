@@ -181,3 +181,36 @@ work_package:
         size: 8
         border_width: 0.25
         padding: 5
+
+cover:
+  header:
+    logo_height: 25
+    border:
+      color: 'd3dee3'
+      height: 1
+      offset: 6
+  footer:
+    size: 10
+    color: '414d5f'
+    offset: 30
+  hero:
+    padding_right: 144
+    padding_top: 120
+    title:
+      max_height: 30
+      spacing: 10
+      font: 'SpaceMono'
+      color: '414d5f'
+      size: 10
+    heading:
+      spacing: 14
+      color: '414d5f'
+      styles:
+        - bold
+      size: 16
+    subheading:
+      max_height: 30
+      color: '414d5f'
+      styles:
+        - italic
+      size: 10
