@@ -152,8 +152,8 @@ gem 'structured_warnings', '~> 0.4.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 13.0.0', require: false
 
-gem 'prawn', '~> 2.2'
-gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: '76945d45c14b841e2312f992422e2631a4524114'
+gem 'prawn', '~> 2.4'
+gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: 'cc286655dfa2ea2b30bf2a149063f42f7081aa3d'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
 
@@ -354,6 +354,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "primer_view_components", git: 'https://github.com/opf/primer_view_components', ref: '18abe4d'
+gem "openproject-primer_view_components", '~>0.6.3'
 gem "openproject-octicons", '~>19.6.7'
 gem "openproject-octicons_helper", '~>19.6.7'

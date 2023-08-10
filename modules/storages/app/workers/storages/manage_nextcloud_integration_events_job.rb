@@ -29,6 +29,8 @@
 class Storages::ManageNextcloudIntegrationEventsJob < ApplicationJob
   DEBOUNCE_TIME = 5.seconds.freeze
 
+  queue_with_priority :above_normal
+
   def self.debounce
     count = Delayed::Job
               .where("handler LIKE ?", "%job_class: #{self}%")

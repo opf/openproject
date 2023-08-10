@@ -32,7 +32,7 @@ Copying a work package allows to easily create and adjust new work packages base
 
 This option copies a short link to the work package to your clipboard  so you can quickly paste it elsewhere. It can also be useful when you  want to quickly copy links to multiple work packages without having to  open the detailed view of each one.
 
-## Move a work package to a different project.
+## Move a work package to a different project
 
 The *change project* option moves a work package to another project or subproject. Select the project into which the work package is to be moved, check whether further adjustments are necessary and confirm by clicking on *Move*.
 

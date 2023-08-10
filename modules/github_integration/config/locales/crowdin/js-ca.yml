@@ -40,8 +40,8 @@ ca:
         empty: 'No hi ha cap pull request vinculat encara. Vincula una PR existent utilitzant el codi <code>OP#%{wp_id}</code> en la descripció de la PR o crea una PR nova.'
       github_actions: Accions
       pull_requests:
-        message: "El \"pull request\" #%{pr_number} %{pr_link} en el %{repository_link} ha estàt %{pr_state} per %{github_user_link}."
-        referenced_message: "%{github_user_link} ha referenciat aquest paquet de treball en el \"pull request\" #%{pr_number} %{pr_link} en %{repository_link}."
+        message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}."
+        referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
         states:
           opened: 'obert'
           closed: 'tancat'

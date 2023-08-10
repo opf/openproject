@@ -91,7 +91,7 @@ module WorkPackage::PDFExport::Common
   def get_column_value_cell(work_package, column_name)
     value = get_column_value(work_package, column_name)
     return get_id_column_cell(work_package, value) if column_name == :id
-    return get_subject_column_cell(work_package, value) if with_descriptions? && column_name == :subject
+    return get_subject_column_cell(work_package, value) if wants_report? && column_name == :subject
 
     escape_tags(value)
   end
@@ -131,6 +131,8 @@ module WorkPackage::PDFExport::Common
   end
 
   def pdf_table_auto_widths(data, column_widths, options, &)
+    return if data.empty?
+
     pdf.table(data, options.merge({ width: pdf.bounds.width }), &)
   rescue Prawn::Errors::CannotFit
     pdf.table(data, options.merge({ column_widths: }), &)
@@ -154,15 +156,39 @@ module WorkPackage::PDFExport::Common
     end
   end
 
+  def formatted_text_box_measured(formatted_text_array, options)
+    features_box = ::Prawn::Text::Formatted::Box.new(formatted_text_array, options.merge({ document: pdf }))
+    features_box.render
+    features_box.height
+  end
+
+  def draw_horizontal_line(top, left, right, height, color)
+    pdf.stroke do
+      pdf.stroke_color = color
+      pdf.line_width = height
+      pdf.horizontal_line left, right, at: top
+    end
+  end
+
+  def draw_styled_text(text, opts)
+    color_before = pdf.fill_color
+    @pdf.save_font do
+      @pdf.font(opts[:font], opts) if opts[:font]
+      @pdf.fill_color = opts[:color] if opts[:color]
+      @pdf.draw_text(text, opts)
+    end
+    pdf.fill_color = color_before
+  end
+
   def draw_text_centered(text, text_style, top)
     text_width = measure_text_width(text, text_style)
     text_x = (pdf.bounds.width - text_width) / 2
-    pdf.draw_text text, text_style.merge({ at: [text_x, top] })
+    draw_styled_text text, text_style.merge({ at: [text_x, top] })
     [text_x, text_width]
   end
 
   def draw_text_multiline_part(line, text_style, x_position, y_position)
-    pdf.draw_text line, text_style.merge({ at: [x_position, y_position] })
+    draw_styled_text line, text_style.merge({ at: [x_position, y_position] })
     measure_text_height(line, text_style)
   end
 
@@ -197,7 +223,7 @@ module WorkPackage::PDFExport::Common
       lines = split_wrapped_lines(text, available_width, text_style)
       if lines.length > max_lines
         lines[max_lines - 1] = truncate_ellipsis(lines[max_lines - 1], available_width, text_style)
-        lines = lines.first(3)
+        lines = lines.first(max_lines)
       end
       lines
     end
@@ -249,8 +275,12 @@ module WorkPackage::PDFExport::Common
     @group_sums[group] || {}
   end
 
-  def with_descriptions?
+  def wants_report?
     options[:show_report]
+  end
+
+  def with_cover?
+    false
   end
 
   def with_sums_table?
@@ -271,6 +301,6 @@ module WorkPackage::PDFExport::Common
   end
 
   def current_page_nr
-    pdf.page_number + @page_count
+    pdf.page_number + @page_count - (with_cover? ? 1 : 0)
   end
 end

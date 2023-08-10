@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: File storages
-  priority: 150
+  priority: 110
 description: Manage the storages connected to the project and add a project folder.
 keywords: file storages, project folder, storages
 ---

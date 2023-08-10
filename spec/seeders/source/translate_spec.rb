@@ -36,21 +36,19 @@ RSpec.describe Source::Translate do
   let(:title_fr) { 'Bienvenue sur OpenProject' }
   let(:text_fr) { 'Apprenez à planifier des projets efficacement.' }
   let(:locale) { 'fr' }
-  let(:seed_name) { 'special_edition' }
 
-  # a class including the Translate module needs to provide seed_name and locale
+  # a class including the Translate module needs to provide locale
   subject(:translator) do
     described_module = described_class
     Class.new do
       include described_module
 
-      attr_reader :seed_name, :locale
+      attr_reader :locale
 
-      def initialize(seed_name:, locale:)
-        @seed_name = seed_name
+      def initialize(locale:)
         @locale = locale
       end
-    end.new(seed_name:, locale:)
+    end.new(locale:)
   end
 
   def mock_translations(locale, translations_map)
@@ -68,8 +66,8 @@ RSpec.describe Source::Translate do
     it 'translates keys with a "t_" prefix' do
       mock_translations(
         locale,
-        "#{Source::Translate::I18N_PREFIX}.#{seed_name}.welcome.title" => title_fr,
-        "#{Source::Translate::I18N_PREFIX}.#{seed_name}.welcome.text" => text_fr
+        "i18n_key_prefix.welcome.title" => title_fr,
+        "i18n_key_prefix.welcome.text" => text_fr
       )
       hash = {
         'welcome' => {
@@ -79,7 +77,7 @@ RSpec.describe Source::Translate do
         }
       }
 
-      translated = translator.translate(hash)
+      translated = translator.translate(hash, 'i18n_key_prefix')
       expect(translated.dig('welcome', 'title')).to eq(title_fr)
       expect(translated.dig('welcome', 'text')).to eq(text_fr)
       expect(translated.dig('welcome', 'icon')).to eq(':smile:')
@@ -88,8 +86,8 @@ RSpec.describe Source::Translate do
     it 'translates nothing if prefix "t_" is absent' do
       mock_translations(
         locale,
-        "#{Source::Translate::I18N_PREFIX}.#{seed_name}.welcome.title" => title_fr,
-        "#{Source::Translate::I18N_PREFIX}.#{seed_name}.welcome.text" => text_fr
+        "i18n_key_prefix.welcome.title" => title_fr,
+        "i18n_key_prefix.welcome.text" => text_fr
       )
       hash = {
         'welcome' => {
@@ -98,7 +96,7 @@ RSpec.describe Source::Translate do
         }
       }
 
-      translated = translator.translate(hash)
+      translated = translator.translate(hash, 'i18n_key_prefix')
       expect(I18n).not_to have_received(:t)
       expect(translated.dig('welcome', 'title')).to eq(title_en)
       expect(translated.dig('welcome', 'text')).to eq(text_en)
@@ -112,7 +110,7 @@ RSpec.describe Source::Translate do
         }
       }
 
-      translated = translator.translate(hash)
+      translated = translator.translate(hash, 'i18n_key_prefix')
 
       expect(I18n).to have_received(:t).at_least(:twice)
       expect(translated.dig('welcome', 'title')).to eq(title_en)
@@ -127,7 +125,7 @@ RSpec.describe Source::Translate do
         }
       }
 
-      translated = translator.translate(hash)
+      translated = translator.translate(hash, 'i18n_key_prefix')
       expect(translated['welcome']).to eq(
         'title' => title_en,
         'text' => text_en
@@ -140,8 +138,8 @@ RSpec.describe Source::Translate do
       it 'translates each values using indices' do
         mock_translations(
           locale,
-          "#{Source::Translate::I18N_PREFIX}.#{seed_name}.categories.item_0" => 'Erste Kategorie',
-          "#{Source::Translate::I18N_PREFIX}.#{seed_name}.categories.item_1" => 'Zweite Kategorie'
+          "i18n_key_prefix.categories.item_0" => 'Erste Kategorie',
+          "i18n_key_prefix.categories.item_1" => 'Zweite Kategorie'
         )
         hash = {
           't_categories' => [
@@ -151,7 +149,7 @@ RSpec.describe Source::Translate do
           ]
         }
 
-        translated = translator.translate(hash)
+        translated = translator.translate(hash, 'i18n_key_prefix')
         expect(translated['categories'])
           .to eq(['Erste Kategorie', 'Zweite Kategorie', 'Missing translations are kept as-is'])
       end
@@ -161,16 +159,19 @@ RSpec.describe Source::Translate do
       it 'translates keys in the nested values if they have translatable keys' do
         mock_translations(
           locale,
-          "#{Source::Translate::I18N_PREFIX}.#{seed_name}.queries.item_0.name" => 'Plan projet',
-          "#{Source::Translate::I18N_PREFIX}.#{seed_name}.queries.item_1.name" => 'Tâches'
+          "i18n_key_prefix.queries.item_0.name" => 'Plan projet',
+          "i18n_key_prefix.queries.item_1.name" => 'Tâches'
         )
 
         translated = translator.translate(
-          'queries' => [
-            { 't_name' => 'Project plan', 'open' => true },
-            { 't_name' => 'Tasks', 'open' => true },
-            { 't_name' => 'Missing translations are kept as-is', 'open' => true }
-          ]
+          {
+            'queries' => [
+              { 't_name' => 'Project plan', 'open' => true },
+              { 't_name' => 'Tasks', 'open' => true },
+              { 't_name' => 'Missing translations are kept as-is', 'open' => true }
+            ]
+          },
+          'i18n_key_prefix'
         )
         expect(translated['queries']).to eq(
           [

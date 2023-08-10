@@ -190,6 +190,9 @@ RSpec.describe RootSeeder,
       it 'seeds with the specified language' do
         willkommen = I18n.t("#{Source::Translate::I18N_PREFIX}.standard.welcome.title", locale: 'de')
         expect(Setting.welcome_title).to eq(willkommen)
+        expect(Status.where(name: 'Neu')).to exist
+        expect(Type.where(name: 'Meilenstein')).to exist
+        expect(Color.where(name: 'Gelb')).to exist
       end
 
       it 'sets Setting.default_language to the given language' do

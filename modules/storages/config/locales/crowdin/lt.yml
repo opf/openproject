@@ -71,6 +71,10 @@ lt:
         new: "Pridėti failų saugyklą šiam projektui"
         edit: "Keisti šio projekto failų saugyklą"
         delete: "Trinti failų saugyklą"
+        members_check: "Members check"
+      project_storage_members:
+        title: "Members check"
+        subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
     instructions:
       type: "Prašome įsitikinti, kad turite administratoriaus teises jūsų Nextcloud egzemplioriuje bei kad įdiegtos šios aplikacijos, prieš tęsiant nustatymą:"
       type_link_text: "„Integration OpenProject“"
@@ -130,7 +134,13 @@ lt:
     label_no_selected_folder: "Nėra prinkto aplanko"
     label_storage: "Saugykla"
     label_storages: "Saugyklos"
+    label_status: "Status"
+    member_connection_status:
+      connected: "Connected"
+      connected_no_permissions: "User role has no storages permissions"
+      not_connected: "Not connected"
     no_results: "Dar nenustatyta jokia saugykla."
+    members_no_results: "No members to display."
     provider_types:
       label: "Tiekėjo tipas"
       nextcloud:

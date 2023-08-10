@@ -25,6 +25,7 @@
         <%= styled_label_tag "with-subprojects", t(:label_subproject_plural) %>
 
         <div class="form--field-container">
+          <%= hidden_field_tag 'with_subprojects', 0 %>
           <%= styled_check_box_tag 'with_subprojects', 1, @with_subprojects, id: 'with-subprojects' %>
         </div>
       </div>

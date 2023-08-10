@@ -41,7 +41,7 @@ module Meetings
     def initialize_sorted_model
       helpers.sort_clear
       helpers.sort_init *initial_sort.map(&:to_s)
-      helpers.sort_update sortable_columns.map(&:to_s)
+      helpers.sort_update disambiguated_sortable_columns
       @model = paginate_collection apply_sort(model)
     end
 
@@ -61,6 +61,13 @@ module Meetings
 
     def columns
       @columns ||= headers.map(&:first)
+    end
+
+    private
+
+    def disambiguated_sortable_columns
+      sortable_columns.to_h { [_1.to_s, _1.to_s] }
+                      .merge('project_id' => 'meetings.project_id')
     end
   end
 end

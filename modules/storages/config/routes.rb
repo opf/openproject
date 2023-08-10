@@ -48,6 +48,8 @@ OpenProject::Application.routes.draw do
           # Destroy uses a get request to prompt the user before the actual DELETE request
           get :destroy_info, as: 'confirm_destroy'
         end
+
+        resources :members, controller: '/storages/project_settings/project_storage_members', only: %i[index]
       end
     end
   end

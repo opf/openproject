@@ -75,6 +75,8 @@ module WorkPackage::PDFExport::WorkPackageDetail
 
   def write_attributes_table!(work_package)
     rows = attribute_table_rows(work_package)
+    return if rows.empty?
+
     with_margin(styles.wp_attributes_table_margins) do
       pdf.table(
         rows,

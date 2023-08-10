@@ -71,6 +71,10 @@ ru:
         new: "Добавить хранилище файлов в этот проект"
         edit: "Редактировать хранилище файлов для этого проекта"
         delete: "Удалить хранилище файлов"
+        members_check: "Members check"
+      project_storage_members:
+        title: "Members check"
+        subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
     instructions:
       type: "Перед установкой убедитесь, что у вас есть права администрирования в вашем экземпляре Nextcloud и что перед установкой установлено следующее приложение:"
       type_link_text: "«Интеграционный OpenProject»"
@@ -130,7 +134,13 @@ ru:
     label_no_selected_folder: "Папка не выбрана"
     label_storage: "Хранилище"
     label_storages: "Хранилища"
+    label_status: "Status"
+    member_connection_status:
+      connected: "Connected"
+      connected_no_permissions: "User role has no storages permissions"
+      not_connected: "Not connected"
     no_results: "Хранилища еще не настроены."
+    members_no_results: "No members to display."
     provider_types:
       label: "Тип поставщика"
       nextcloud:

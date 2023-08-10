@@ -189,10 +189,10 @@ RSpec.describe RootSeeder,
       end
     end
 
-    # Check that the tests are running with German as default language during seeding
     it 'seeds with the specified language' do
       expect(Status.where(name: 'Neu')).to exist
-      expect(Type.where(name: 'Arbeitspaket')).to exist
+      expect(Type.where(name: 'Meilenstein')).to exist
+      expect(Color.where(name: 'Gelb')).to exist
     end
 
     include_examples 'creates BIM demo data'

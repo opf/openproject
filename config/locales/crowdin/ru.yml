@@ -1346,7 +1346,7 @@ ru:
   error_can_not_delete_custom_field: "Не удается удалить настраиваемое поле"
   error_can_not_delete_type:
     explanation: 'Этот тип содержит пакеты работ и не может быть удален. Вы можете увидеть все затрагиваемые пакеты работ в <a target="_blank" href="%{url}">этом представлении</a>.'
-    archived_projects: 'Также существуют пакеты работ в архивных проектах. Вам нужно сначала активировать следующие проекты, прежде чем вы сможете изменить тип соответствующих пакетов работ: %{archived_projects}'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Стандартные типы не могут быть удалены."
   error_can_not_invite_user: "Не удалось отправить приглашение пользователю."
   error_can_not_remove_role: "Эта роль используется и не может быть удалена."
@@ -1472,7 +1472,7 @@ ru:
     changes_retracted: "Изменения отменены."
     caused_changes:
       dates_changed: "Даты изменены"
-      system_update: "OpenProject update"
+      system_update: "Обновление OpenProject"
     cause_descriptions:
       work_package_predecessor_changed_times: внесением изменений в предшественника %{link}
       work_package_parent_changed_times: внесением изменений в родительский %{link}
@@ -1488,7 +1488,7 @@ ru:
           working: "%{date} сейчас рабочий"
           non_working: "%{day} теперь нерабочий"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: 'добавлены ссылки на файлы для действий'
   links:
     configuration_guide: 'Руководство по конфигурации'
     get_in_touch: "У вас есть вопросы? Свяжитесь с нами."
@@ -1534,12 +1534,12 @@ ru:
         static_token_name: "Токен RSS"
         disabled_text: "Токены RSS не включены администратором. Пожалуйста, обратитесь к администратору, чтобы использовать эту функцию."
       storages:
-        title: "File Storages"
-        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
-        empty_text_hint: "There is no storage access linked to your account."
-        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
-        removed: "File Storage token successfully removed"
-        failed: "An error occurred and the token couldn't be removed. Please try again later."
+        title: "Файловые хранилища"
+        text_hint: "Токены хранения файлов подключают этот экземпляр OpenProject к внешнему хранилищу файлов."
+        empty_text_hint: "Нет доступа к хранилищу, связанному с вашей учетной записью."
+        revoke_token: "Вы действительно хотите удалить этот токен?  Вам нужно будет снова войти в систему на %{storage}"
+        removed: "Токен хранилища файлов успешно удален"
+        failed: "Произошла ошибка, и токен не удалось удалить.  Пожалуйста, повторите попытку позже."
   notifications:
     send_notifications: "Отправить уведомления для этого действия"
     work_packages:

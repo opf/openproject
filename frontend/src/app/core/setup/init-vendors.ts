@@ -63,7 +63,7 @@ require('fuse.js');
 
 require('moment-timezone/builds/moment-timezone-with-data.min.js');
 // eslint-disable-next-line import/extensions,import/no-extraneous-dependencies
-require('@primer/view-components/app/assets/javascripts/primer_view_components.js');
+require('@openproject/primer-view-components/app/assets/javascripts/primer_view_components.js');
 
 require('expose-loader?URI!urijs');
 require('urijs/src/URITemplate');

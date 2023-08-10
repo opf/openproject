@@ -7,6 +7,10 @@ updates:
     target-branch: "dev"
     open-pull-requests-limit: 3
     versioning-strategy: lockfile-only
+    groups:
+      angular:
+        patterns:
+          - '@angular'
   - package-ecosystem: "bundler"
     directory: "/"
     schedule:

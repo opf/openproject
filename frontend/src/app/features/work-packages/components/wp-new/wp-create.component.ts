@@ -52,10 +52,11 @@ import * as URI from 'urijs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { HalSource } from 'core-app/features/hal/resources/hal-resource';
+import { HalResource, HalSource } from 'core-app/features/hal/resources/hal-resource';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
 import { WorkPackageCreateService } from './wp-create.service';
 import { HalError } from 'core-app/features/hal/services/hal-error';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Directive()
 export class WorkPackageCreateComponent extends UntilDestroyedMixin implements OnInit {
@@ -83,7 +84,8 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
   /** Explicitly remember destroy state in this abstract base */
   protected destroyed = false;
 
-  constructor(public readonly injector:Injector,
+  constructor(
+    public readonly injector:Injector,
     protected readonly $transition:Transition,
     protected readonly $state:StateService,
     protected readonly I18n:I18nService,
@@ -110,7 +112,8 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
   }
 
   public switchToFullscreen() {
-    this.$state.go('work-packages.new', this.$state.params);
+    const type = idFromLink(this.change.value<HalResource>('type')?.href);
+    void this.$state.go('work-packages.new', { ...this.$state.params, type });
   }
 
   public onSaved(params:{ savedResource:WorkPackageResource, isInitial:boolean }) {

@@ -12,6 +12,7 @@ This document describes the style settings format for the [PDF Export styling fi
 | `page_heading` | **Page heading**<br/>The main page title heading<br/>See [Page heading](#page-heading) | object |
 | `work_package` | **Work package**<br/>Styling for the Work package section<br/>See [Work package](#work-package) | object |
 | `toc` | **Table of content**<br/>Styling for the table of content of the PDF report export<br/>See [Table of content](#table-of-content) | object |
+| `cover` | **Cover page**<br/>Styling for the cover page of the PDF report export<br/>See [Cover page](#cover-page) | object |
 | `overview` | **Overview**<br/>Styling for the PDF table export<br/>See [Overview](#overview) | object |
 
 ## Border Properties
@@ -49,6 +50,112 @@ border_width_right: 0.5mm
 | `no_border_top` | **Disable border top**<br/>Turn off border on the top sides | boolean |
 | `no_border_right` | **Disable border right**<br/>Turn off border on the right sides | boolean |
 | `no_border_bottom` | **Disable border bottom**<br/>Turn off border on the bottom sides | boolean |
+
+## Cover page
+
+Styling for the cover page of the PDF report export
+
+Key: `cover`
+
+Example:
+```yml
+cover:
+  header: {}
+  footer: {}
+  hero: {}
+```
+
+| Key | Description | Data type |
+| - | - | - |
+| `header` | **Cover page header**<br/>Styling for the cover page header<br/>See [Cover page header](#cover-page-header) | object |
+| `footer` | **Cover page footer**<br/>Styling for the cover page footer<br/>See [Cover page footer](#cover-page-footer) | object |
+| `hero` | **Cover page hero**<br/>Styling for the hero banner at the bottom at the cover page<br/>See [Cover page hero](#cover-page-hero) | object |
+
+## Cover page footer
+
+Styling for the cover page footer of the PDF report export
+
+Key: `cover_footer`
+
+Example:
+```yml
+footer:
+  offset: 20
+  size: 10
+  color: 064e80
+```
+
+| Key | Description | Data type |
+| - | - | - |
+| `offset` | **Offset position from page bottom**<br/>A number >= 0 and an optional unit<br/>Example: `30` | number or string<br/>See [Units](#units) |
+| … | See [Font properties](#font-properties) |  |
+
+## Cover page header
+
+Styling for the cover page header of the PDF report export
+
+Key: `cover_header`
+
+Example:
+```yml
+header:
+  logo_height: 25
+  border: {}
+```
+
+| Key | Description | Data type |
+| - | - | - |
+| `spacing` | **Minimum spacing between logo and page header text**<br/>A number >= 0 and an optional unit<br/>Example: `20` | number or string<br/>See [Units](#units) |
+| `offset` | **Offset position from page top**<br/>A number >= 0 and an optional unit<br/>Example: `6.5` | number or string<br/>See [Units](#units) |
+| `logo_height` | **Height of the logo in the page header**<br/>A number >= 0 and an optional unit<br/>Example: `25` | number or string<br/>See [Units](#units) |
+| `border` | **Cover page header**<br/>Styling for the cover page header<br/>See [Cover page header border](#cover-page-header-border) | object |
+| … | See [Font properties](#font-properties) |  |
+
+## Cover page header border
+
+Styling for the cover page header border of the PDF report export
+
+Key: `cover_header_border`
+
+Example:
+```yml
+border:
+  color: d3dee3
+  height: 1
+  offset: 6
+```
+
+| Key | Description | Data type |
+| - | - | - |
+| `spacing` | **Minimum spacing between logo and page header text**<br/>A number >= 0 and an optional unit<br/>Example: `20` | number or string<br/>See [Units](#units) |
+| `offset` | **Offset position from page top**<br/>A number >= 0 and an optional unit<br/>Example: `6` | number or string<br/>See [Units](#units) |
+| `height` | **Line height of the border**<br/>A number >= 0 and an optional unit<br/>Example: `25` | number or string<br/>See [Units](#units) |
+| `color` | **Line color of the border**<br/>A color in RRGGBB format<br/>Example: `F0F0F0` | string |
+| … | See [Font properties](#font-properties) |  |
+
+## Cover page hero
+
+Styling for the hero banner at the bottom at the cover page
+
+Key: `cover_hero`
+
+Example:
+```yml
+header:
+  padding_right: 150
+  padding_top: 120
+  title: {}
+  heading: {}
+  subheading: {}
+```
+
+| Key | Description | Data type |
+| - | - | - |
+| `padding_right` | **Padding right**<br/>Padding only on the right side of the hero banner<br/>Examples: `10mm`, `10` | number or string<br/>See [Units](#units) |
+| `padding_top` | **Padding top**<br/>Padding only on the top side of the hero banner<br/>Examples: `10mm`, `10` | number or string<br/>See [Units](#units) |
+| `title` | **The first block in the hero**<br/>See [The first block in the hero](#the-first-block-in-the-hero) | object |
+| `heading` | **The main block in the hero**<br/>See [The main block in the hero](#the-main-block-in-the-hero) | object |
+| `subheading` | **The last block in the hero**<br/>See [The last block in the hero](#the-last-block-in-the-hero) | object |
 
 ## Font properties
 
@@ -769,6 +876,64 @@ Key: `item_level_x`
 | - | - | - |
 | … | See [Font properties](#font-properties) |  |
 | … | See [Margin properties](#margin-properties) |  |
+
+## The first block in the hero
+
+Key: `title`
+
+Example:
+```yml
+title:
+  max_height: 30
+  spacing: 10
+  font: SpaceMono
+  size: 10
+  color: 414d5f
+```
+
+| Key | Description | Data type |
+| - | - | - |
+| `spacing` | **Minimum spacing between title and heading**<br/>A number >= 0 and an optional unit<br/>Example: `10` | number or string<br/>See [Units](#units) |
+| `max_height` | **Maximum height of the block**<br/>A number >= 0 and an optional unit<br/>Example: `30` | number or string<br/>See [Units](#units) |
+| … | See [Font properties](#font-properties) |  |
+
+## The last block in the hero
+
+Key: `subheading`
+
+Example:
+```yml
+subheading:
+  max_height: 30
+  size: 10
+  color: 414d5f
+  styles:
+    - italic
+```
+
+| Key | Description | Data type |
+| - | - | - |
+| `max_height` | **Maximum height of the block**<br/>A number >= 0 and an optional unit<br/>Example: `30` | number or string<br/>See [Units](#units) |
+| … | See [Font properties](#font-properties) |  |
+
+## The main block in the hero
+
+Key: `heading`
+
+Example:
+```yml
+heading:
+  spacing: 10
+  size: 32
+  color: 414d5f
+  styles:
+    - bold
+```
+
+| Key | Description | Data type |
+| - | - | - |
+| `spacing` | **Minimum spacing between heading and subheading**<br/>A number >= 0 and an optional unit<br/>Example: `10` | number or string<br/>See [Units](#units) |
+| … | See [Font properties](#font-properties) |  |
 
 ## Work package
 

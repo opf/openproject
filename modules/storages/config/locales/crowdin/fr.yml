@@ -71,6 +71,10 @@ fr:
         new: "Ajouter un stockage de fichiers à ce projet"
         edit: "Edit the file storage to this project"
         delete: "Delete file storage"
+        members_check: "Members check"
+      project_storage_members:
+        title: "Members check"
+        subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
     instructions:
       type: "Veuillez vous assurer que vous avez les privilèges d'administration dans votre instance Nextcloud et que l'application suivante est installée avant de procéder à l'installation :"
       type_link_text: "« Intégration OpenProject »"
@@ -130,7 +134,13 @@ fr:
     label_no_selected_folder: "No selected folder"
     label_storage: "Stockage"
     label_storages: "Stockages"
+    label_status: "Status"
+    member_connection_status:
+      connected: "Connected"
+      connected_no_permissions: "User role has no storages permissions"
+      not_connected: "Not connected"
     no_results: "Aucun stockage configuré pour le moment."
+    members_no_results: "No members to display."
     provider_types:
       label: "Type de fournisseur"
       nextcloud:

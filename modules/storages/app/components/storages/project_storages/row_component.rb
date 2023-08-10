@@ -50,7 +50,17 @@ module Storages::ProjectStorages
     end
 
     def button_links
-      [edit_link, delete_link]
+      [edit_link, delete_link].tap do |links|
+        links.unshift members_check_link if OpenProject::FeatureDecisions.storage_project_members_check_active?
+      end
+    end
+
+    def members_check_link
+      link_to '',
+              project_settings_project_storage_members_path(project_id: project_storage.project,
+                                                            project_storage_id: project_storage),
+              class: 'icon icon-group',
+              title: I18n.t(:'storages.page_titles.project_settings.members_check')
     end
 
     def edit_link

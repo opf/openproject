@@ -40,8 +40,8 @@ sl:
         empty: 'Zaenkrat še ni povezanih pull zahtev. Poveži obstoječ PR z uporabo kode <code>OP#%{wp_id}</code> v PR opisu ali pa kreiraj nov PR.'
       github_actions: Akcije
       pull_requests:
-        message: "Zahteva za prenos #%{pr_number} %{pr_link} za %{repository_link} je bila %{pr_state} s strani uporabnika %{github_user_link}."
-        referenced_message: "%{github_user_link} se je v zahtevi za prenos skliceval na delovni paket #%{pr_number} %{pr_link} na %{repository_link}."
+        message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}."
+        referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
         states:
           opened: 'Odprto'
           closed: 'zaprto'

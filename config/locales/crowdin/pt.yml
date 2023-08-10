@@ -1308,7 +1308,7 @@ pt:
   error_can_not_delete_custom_field: "Não é possível excluir o campo personalizado"
   error_can_not_delete_type:
     explanation: 'Este tipo contém pacotes de trabalho e não pode ser excluído. Você pode ver todos os pacotes de trabalho afetados em <a target="_blank" href="%{url}">esta visão</a>.'
-    archived_projects: 'Também há pacotes de trabalho em projetos arquivados. Você precisa seguir primeiros projetos, antes de poder alterar o tipo dos respectivos pacotes de trabalho: %{archived_projects}'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Tipos padrão não podem ser excluídos."
   error_can_not_invite_user: "Falhou ao enviar convite ao usuário."
   error_can_not_remove_role: "Este papel está em uso e não pode ser excluído."

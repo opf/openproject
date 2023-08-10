@@ -551,7 +551,6 @@ RSpec.describe 'filter work packages', js: true do
     end
 
     it 'filters between date by updated_at', :with_cuprite do
-      skip("Flaky test disabled. Fix it in https://community.openproject.org/wp/49072")
       wp_table.visit!
       loading_indicator_saveguard
       wp_table.expect_work_package_listed wp_updated_today, wp_updated_3d_ago, wp_updated_5d_ago

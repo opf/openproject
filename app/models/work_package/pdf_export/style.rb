@@ -133,6 +133,10 @@ module WorkPackage::PDFExport::Style
       resolve_pt(@styles.dig(:overview, :table, :subject_indent), 0)
     end
 
+    def toc_max_depth
+      @styles.dig(:toc, :max_depth) || 4
+    end
+
     def toc_margins
       resolve_margin(@styles[:toc])
     end
@@ -201,6 +205,60 @@ module WorkPackage::PDFExport::Style
       resolve_markdown_styling(@styles.dig(:work_package, :markdown) || {})
     end
 
+    def cover_header
+      resolve_font(@styles.dig(:cover, :header))
+    end
+
+    def cover_header_logo_height
+      resolve_pt(@styles.dig(:cover, :header, :logo_height), 25)
+    end
+
+    def cover_header_border
+      { color: @styles.dig(:cover, :header, :border, :color),
+        height: resolve_pt(@styles.dig(:cover, :header, :border, :height), 1),
+        offset: resolve_pt(@styles.dig(:cover, :header, :border, :offset), 0) }
+    end
+
+    def cover_footer
+      resolve_font(@styles.dig(:cover, :footer))
+    end
+
+    def cover_footer_offset
+      resolve_pt(@styles.dig(:cover, :footer, :offset), 0)
+    end
+
+    def cover_hero_padding
+      resolve_padding(@styles.dig(:cover, :hero))
+    end
+
+    def cover_hero_title
+      resolve_font(@styles.dig(:cover, :hero, :title))
+    end
+
+    def cover_hero_title_spacing
+      resolve_pt(@styles.dig(:cover, :hero, :title, :spacing), 0)
+    end
+
+    def cover_hero_title_max_height
+      resolve_pt(@styles.dig(:cover, :hero, :title, :max_height), 30)
+    end
+
+    def cover_hero_heading
+      resolve_font(@styles.dig(:cover, :hero, :heading))
+    end
+
+    def cover_hero_heading_spacing
+      resolve_pt(@styles.dig(:cover, :hero, :heading, :spacing), 0)
+    end
+
+    def cover_hero_subheading
+      resolve_font(@styles.dig(:cover, :hero, :subheading))
+    end
+
+    def cover_hero_subheading_max_height
+      resolve_pt(@styles.dig(:cover, :hero, :subheading, :max_height), 30)
+    end
+
     private
 
     def resolve_pt(value, default)
@@ -230,6 +288,10 @@ module WorkPackage::PDFExport::Style
 
     def resolve_margin(style)
       opts_margin(style || {})
+    end
+
+    def resolve_padding(style)
+      opts_padding(style || {})
     end
   end
 

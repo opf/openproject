@@ -71,6 +71,10 @@ de:
         new: "Einen Datei-Speicher zum Projekt hinzufügen"
         edit: "Dateispeicher in diesem Projekt bearbeiten"
         delete: "Delete file storage"
+        members_check: "Members check"
+      project_storage_members:
+        title: "Members check"
+        subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
     instructions:
       type: "Bitte stellen Sie sicher, dass Sie Administrationsrechte in Ihrer Nextcloud-Instanz haben und die folgende Anwendung vor dem Setup installiert wurde:"
       type_link_text: "„OpenProject Integration“"
@@ -130,7 +134,13 @@ de:
     label_no_selected_folder: "Kein ausgewählter Ordner"
     label_storage: "Speicher"
     label_storages: "Speicher"
+    label_status: "Status"
+    member_connection_status:
+      connected: "Connected"
+      connected_no_permissions: "User role has no storages permissions"
+      not_connected: "Not connected"
     no_results: "Noch keine Speicher eingerichtet."
+    members_no_results: "No members to display."
     provider_types:
       label: "Anbieter-Typ"
       nextcloud:

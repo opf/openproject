@@ -42,7 +42,7 @@ module WorkPackage::PDFExport::Page
     image_obj, image_info, scale = logo_pdf_image
     top = logo_pdf_top
     left = logo_pdf_left(image_info.width.to_f * scale)
-    pdf.repeat :all do
+    pdf.repeat lambda { |pg| header_footer_filter_pages.exclude?(pg) } do
       pdf.embed_image image_obj, image_info, { at: [left, top], scale: }
     end
   end
@@ -63,11 +63,16 @@ module WorkPackage::PDFExport::Page
   end
 
   def logo_pdf_image
+    image_obj, image_info = logo_image
+    scale = [styles.page_logo_height / image_info.height.to_f, 1].min
+    [image_obj, image_info, scale]
+  end
+
+  def logo_image
     image_file = custom_logo_image
     image_file = Rails.root.join("app/assets/images/logo_openproject.png") if image_file.nil?
     image_obj, image_info = pdf.build_image_object(image_file)
-    scale = [styles.page_logo_height / image_info.height.to_f, 1].min
-    [image_obj, image_info, scale]
+    [image_obj, image_info]
   end
 
   def custom_logo_image
@@ -92,8 +97,12 @@ module WorkPackage::PDFExport::Page
     write_logo!
   end
 
+  def header_footer_filter_pages
+    with_cover? ? [1] : []
+  end
+
   def write_footers!
-    pdf.repeat :all, dynamic: true do
+    pdf.repeat lambda { |pg| header_footer_filter_pages.exclude?(pg) }, dynamic: true do
       draw_footer_on_page
     end
   end
@@ -122,6 +131,10 @@ module WorkPackage::PDFExport::Page
   end
 
   def total_page_nr_text
-    @total_page_nr ? "/#{@total_page_nr}" : ''
+    if @total_page_nr
+      "/#{@total_page_nr - (with_cover? ? 1 : 0)}"
+    else
+      ''
+    end
   end
 end

@@ -71,6 +71,10 @@ ro:
         new: "Adaugă un fișier de stocare în acest proiect"
         edit: "Edit the file storage to this project"
         delete: "Delete file storage"
+        members_check: "Members check"
+      project_storage_members:
+        title: "Members check"
+        subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
     instructions:
       type: "Asigurați-vă că aveți drepturi de administrare în instanța Nextcloud și că aveți următoarea aplicație instalată înainte de a face configurarea:"
       type_link_text: "Integrare OpenProject”"
@@ -130,7 +134,13 @@ ro:
     label_no_selected_folder: "No selected folder"
     label_storage: "Depozitare"
     label_storages: "Depozite"
+    label_status: "Status"
+    member_connection_status:
+      connected: "Connected"
+      connected_no_permissions: "User role has no storages permissions"
+      not_connected: "Not connected"
     no_results: "Nu sunt încă setate stocări."
+    members_no_results: "No members to display."
     provider_types:
       label: "Tip furnizor"
       nextcloud:
