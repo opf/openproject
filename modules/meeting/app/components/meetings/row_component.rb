@@ -47,7 +47,12 @@ module Meetings
     end
 
     def location
-      h(model.location)
+      if model.location.present?
+        link_to h(model.location),
+                model.location,
+                target: '_blank',
+                rel: 'noopener'
+      end
     end
   end
 end
