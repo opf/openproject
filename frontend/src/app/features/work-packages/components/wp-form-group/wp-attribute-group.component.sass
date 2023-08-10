@@ -1,17 +1,9 @@
 @import "src/assets/sass/helpers"
 
-// Requirements for the attribute sections in the WP view
-//   * Number of columns: min 1, max 2
-//   * Min-width: 400px, max-width: not wider than the parent
-//   * When two-columns are shown, each column has 50% width of the parent
-
 .wp-attribute-group
   display: grid
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr))
   grid-column-gap: $spot-spacing-1_5
-
-  @media screen and (min-width: $breakpoint-md)
-    grid-template-columns: 1fr
 
   &--attribute
     margin: 0
