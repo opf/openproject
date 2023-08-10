@@ -105,10 +105,7 @@ RSpec.describe 'API v3 Query resource',
         global_query
         other_query
 
-        create(:member,
-               roles: [role],
-               project: other_query.project,
-               user: current_user)
+        create(:member, roles: [role], entity: other_query.project, principal: current_user)
       end
 
       it 'includes only queries from the specified project' do
@@ -136,10 +133,7 @@ RSpec.describe 'API v3 Query resource',
         global_query
         other_query
 
-        create(:member,
-               roles: [role],
-               project: other_query.project,
-               user: current_user)
+        create(:member, roles: [role], entity: other_query.project, principal: current_user)
       end
 
       it 'includes only queries not belonging to a project' do

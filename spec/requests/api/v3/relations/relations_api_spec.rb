@@ -376,14 +376,8 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
 
     let(:current_user) do
       create(:user).tap do |user|
-        create(:member,
-               project: to.project,
-               user:,
-               roles: [role])
-        create(:member,
-               project: from.project,
-               user:,
-               roles: [role])
+        create(:member, entity: to.project, principal: user, roles: [role])
+        create(:member, entity: from.project, principal: user, roles: [role])
       end
     end
 
@@ -485,14 +479,8 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
 
     let(:current_user) do
       create(:user).tap do |user|
-        create(:member,
-               project: to.project,
-               user:,
-               roles: [role])
-        create(:member,
-               project: from.project,
-               user:,
-               roles: [role])
+        create(:member, entity: to.project, principal: user, roles: [role])
+        create(:member, entity: from.project, principal: user, roles: [role])
       end
     end
 

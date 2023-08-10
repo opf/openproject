@@ -61,10 +61,7 @@ RSpec.describe Groups::CreateInheritedRolesService, 'integration' do
       end
 
       group_projects.each do |gp|
-        create(:member,
-               principal: g,
-               roles: group_roles,
-               project: gp)
+        create(:member, principal: g, roles: group_roles, entity: gp)
       end
     end
   end
@@ -133,12 +130,7 @@ RSpec.describe Groups::CreateInheritedRolesService, 'integration' do
 
   context 'when the user was already a member in a project with the same role' do
     let(:previous_project) { group_projects.first }
-    let!(:user_member) do
-      create(:member,
-             project: previous_project,
-             roles: group_roles,
-             principal: user1)
-    end
+    let!(:user_member) { create(:member, entity: previous_project, roles: group_roles, principal: user1) }
 
     it_behaves_like 'inherits the roles of the group to the users'
 
@@ -162,12 +154,7 @@ RSpec.describe Groups::CreateInheritedRolesService, 'integration' do
 
   context 'when the user was already a member in a project with only one role the group adds' do
     let(:group_roles) { create_list(:role, 2) }
-    let!(:user_member) do
-      create(:member,
-             project: group_projects.first,
-             roles: [group_roles.first],
-             principal: user1)
-    end
+    let!(:user_member) { create(:member, entity: group_projects.first, roles: [group_roles.first], principal: user1) }
 
     it_behaves_like 'inherits the roles of the group to the users'
 
@@ -186,11 +173,7 @@ RSpec.describe Groups::CreateInheritedRolesService, 'integration' do
   context 'when a user was already a member in a project with a different role' do
     let(:other_role) { create(:role) }
     let(:previous_project) { group_projects.first }
-    let!(:user_member) do
-      create(:member,
-             project: previous_project,
-             roles: [other_role],
-             principal: user1)
+    let!(:user_member) { create(:member, entity: previous_project, roles: [other_role], principal: user1) }
     end
 
     it 'inherits the roles of the group to the users' do

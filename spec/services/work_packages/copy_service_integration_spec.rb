@@ -105,7 +105,7 @@ RSpec.describe WorkPackages::CopyService, 'integration', type: :model do
 
         it 'copies the watcher and does not add the copying user as a watcher' do
           expect(copy.watcher_users)
-            .to match_array([watcher_user])
+            .to contain_exactly(watcher_user)
         end
       end
     end
@@ -113,16 +113,9 @@ RSpec.describe WorkPackages::CopyService, 'integration', type: :model do
     describe 'to a different project' do
       let(:target_type) { create(:type, custom_fields: target_custom_fields) }
       let(:target_project) do
-        p = create(:project,
-                   types: [target_type],
-                   work_package_custom_fields: target_custom_fields)
-
-        create(:member,
-               project: p,
-               roles: [target_role],
-               user:)
-
-        p
+        create(:project, types: [target_type], work_package_custom_fields: target_custom_fields).tap do |project|
+          create(:member, entity: project, roles: [target_role], principal: user)
+        end
       end
       let(:target_custom_fields) { [] }
       let(:target_role) { create(:role, permissions: target_permissions) }
@@ -177,10 +170,8 @@ RSpec.describe WorkPackages::CopyService, 'integration', type: :model do
         context 'assigned_to' do
           let(:target_user) { create(:user) }
           let(:target_project_member) do
-            create(:member,
-                   project: target_project,
-                   principal: target_user,
-                   roles: [create(:role, permissions: [:work_package_assigned])])
+            create(:member, entity: target_project, principal: target_user,
+                            roles: [create(:role, permissions: [:work_package_assigned])])
           end
           let(:attributes) { { project: target_project, assigned_to_id: target_user.id } }
 

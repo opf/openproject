@@ -48,9 +48,7 @@ RSpec.describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI do
     let(:type) { create(:type) }
     let(:type_id) { type.id }
     let(:project_with_type) { create(:project, types: [type]) }
-    let(:member) do
-      create(:member, principal: current_user, project: project_with_type, roles: [add_role])
-    end
+    let(:member) { create(:member, principal: current_user, entity: project_with_type, roles: [add_role]) }
 
     before do
       project

@@ -60,14 +60,9 @@ RSpec.describe "API v3 version's projects resource" do
         current_user
 
         # this is to be included
-        create(:member, user: current_user,
-                        project: project2,
-                        roles: [role])
-        # this is to be included as the user is a member of the project, the
-        # lack of permissions is irrelevant.
-        create(:member, user: current_user,
-                        project: project3,
-                        roles: [role_without_permissions])
+        create(:member, principal: current_user, entity: project2, roles: [role])
+        # this is to be included as the user is a member of the project, the lack of permissions is irrelevant.
+        create(:member, principal: current_user, entity: project3, roles: [role_without_permissions])
         # project4 should NOT be included
         project4
 
@@ -79,7 +74,7 @@ RSpec.describe "API v3 version's projects resource" do
       it 'includes only the projects which the user can see' do
         id_in_response = JSON.parse(response.body)['_embedded']['elements'].map { |p| p['id'] }
 
-        expect(id_in_response).to match_array [project.id, project2.id, project3.id]
+        expect(id_in_response).to contain_exactly(project.id, project2.id, project3.id)
       end
     end
 

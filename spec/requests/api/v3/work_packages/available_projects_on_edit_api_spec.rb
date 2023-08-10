@@ -44,13 +44,8 @@ RSpec.describe 'API::V3::WorkPackages::AvailableProjectsOnEditAPI' do
   let(:work_package) { create(:work_package, project:) }
 
   current_user do
-    create(:user,
-           member_in_project: project,
-           member_through_role: edit_role).tap do |user|
-      create(:member,
-             user:,
-             project: target_project,
-             roles: [move_role])
+    create(:user, member_in_project: project, member_through_role: edit_role).tap do |user|
+      create(:member, principal: user, entity: target_project, roles: [move_role])
     end
   end
 

@@ -212,10 +212,7 @@ RSpec.describe CopyProjectJob, type: :model do
       let(:params) { { name: 'Copy', identifier: 'copy' } }
       let(:subproject) do
         create(:project, parent: project).tap do |p|
-          create(:member,
-                 principal: user,
-                 roles: [role],
-                 project: p)
+          create(:member, principal: user, roles: [role], entity: p)
         end
       end
 
@@ -269,10 +266,7 @@ RSpec.describe CopyProjectJob, type: :model do
       describe 'user with add_subprojects permission in parent' do
         let(:role_add_subproject) { create(:role, permissions: [:add_subprojects]) }
         let(:member_add_subproject) do
-          create(:member,
-                 user:,
-                 project:,
-                 roles: [role_add_subproject])
+          create(:member, principal: user, entity: project, roles: [role_add_subproject])
         end
 
         before do

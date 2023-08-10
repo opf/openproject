@@ -49,11 +49,8 @@ RSpec.describe API::V3::Projects::UpdateFormAPI, content_type: :json do
     create(:list_project_custom_field)
   end
   let(:viable_parent_project) do
-    create(:project).tap do |p|
-      create(:member,
-             project: p,
-             principal: current_user,
-             roles: [parent_project_role])
+    create(:project).tap do |project|
+      create(:member, entity: project, principal: current_user, roles: [parent_project_role])
     end
   end
   let(:parent_project_role) do

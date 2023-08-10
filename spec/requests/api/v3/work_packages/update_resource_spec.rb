@@ -403,7 +403,7 @@ RSpec.describe 'API v3 Work package resource',
         before do
           create(:member,
                  user: current_user,
-                 project: target_project,
+                 entity: target_project,
                  roles: [create(:role, permissions: member_permissions)])
 
           allow(User).to receive(:current).and_return current_user
@@ -468,12 +468,7 @@ RSpec.describe 'API v3 Work package resource',
         shared_context 'setup group membership' do
           let(:group) { create(:group) }
           let(:group_role) { create(:role, permissions: %i[work_package_assigned]) }
-          let!(:group_member) do
-            create(:member,
-                   principal: group,
-                   project:,
-                   roles: [group_role])
-          end
+          let!(:group_member) { create(:member, principal: group, entity: project, roles: [group_role]) }
         end
 
         shared_examples_for 'handling people' do |property|

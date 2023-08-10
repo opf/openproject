@@ -40,10 +40,7 @@ RSpec.describe Principals::DeleteJob, type: :model do
     create(:user)
   end
   let(:member) do
-    create(:member,
-           principal:,
-           project:,
-           roles: [role])
+    create(:member, principal:, entity: project, roles: [role])
   end
 
   shared_let(:role) do
@@ -113,10 +110,7 @@ RSpec.describe Principals::DeleteJob, type: :model do
       end
 
       before do
-        create(:member,
-               project: work_package.project,
-               user: principal,
-               roles: [build(:role)])
+        create(:member, entity: work_package.project, principal:, roles: [build(:role)])
         entry
 
         job

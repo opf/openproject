@@ -463,12 +463,7 @@ RSpec.describe 'API v3 Work package form resource' do
                     let(:user_link) { api_v3_paths.group group.id }
                     let(:group) { create(:group) }
                     let(:role) { create(:role, permissions: %i[work_package_assigned]) }
-                    let(:group_member) do
-                      create(:member,
-                             principal: group,
-                             project:,
-                             roles: [role])
-                    end
+                    let(:group_member) { create(:member, principal: group, entity: project, roles: [role]) }
 
                     before do
                       group_member.save!

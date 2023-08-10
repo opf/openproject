@@ -55,10 +55,7 @@ RSpec.describe Members::CleanupService, 'integration', type: :model do
 
     context 'with the user having a membership with an assignable role' do
       before do
-        create(:member,
-               principal: user,
-               project:,
-               roles: [create(:role, permissions: %i[work_package_assigned])])
+        create(:member, principal: user, entity: project, roles: [create(:role, permissions: %i[work_package_assigned])])
       end
 
       it 'keeps assigned_to to the user' do
@@ -73,7 +70,7 @@ RSpec.describe Members::CleanupService, 'integration', type: :model do
       before do
         create(:member,
                principal: user,
-               project:,
+               entity: project,
                # Lacking work_package_assigned
                roles: [create(:role, permissions: [])])
       end
@@ -109,10 +106,7 @@ RSpec.describe Members::CleanupService, 'integration', type: :model do
 
     context 'with the user having a membership granting the right to view the watchable' do
       before do
-        create(:member,
-               principal: user,
-               project:,
-               roles: [create(:role, permissions: [:view_work_packages])])
+        create(:member, principal: user, entity: project, roles: [create(:role, permissions: [:view_work_packages])])
       end
 
       it 'keeps the watcher' do
@@ -125,10 +119,7 @@ RSpec.describe Members::CleanupService, 'integration', type: :model do
 
     context 'with the user having a membership not granting the right to view the watchable' do
       before do
-        create(:member,
-               principal: user,
-               project:,
-               roles: [create(:role, permissions: [])])
+        create(:member, principal: user, entity: project, roles: [create(:role, permissions: [])])
       end
 
       it 'keeps the watcher' do

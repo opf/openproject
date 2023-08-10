@@ -37,41 +37,20 @@ RSpec.describe 'API v3 members available projects resource' do
     create(:user)
   end
   let(:own_member) do
-    create(:member,
-           roles: [create(:role, permissions:)],
-           project:,
-           user: current_user)
+    create(:member, roles: [create(:role, permissions:)], entity: project, principal: current_user)
   end
   let(:permissions) { %i[view_versions manage_versions] }
   let(:manage_project) do
-    create(:project).tap do |p|
-      create(:member,
-             roles: [create(:role, permissions:)],
-             project: p,
-             user: current_user)
+    create(:project).tap do |project|
+      create(:member, roles: [create(:role, permissions:)], entity: project, principal: current_user)
     end
   end
   let(:view_project) do
-    create(:project).tap do |p|
-      create(:member,
-             roles: [create(:role, permissions: [:view_versions])],
-             project: p,
-             user: current_user)
+    create(:project).tap do |project|
+      create(:member, roles: [create(:role, permissions: [:view_versions])], entity: project, principal: current_user)
     end
   end
-  # let(:membered_project) do
-  #  create(:project).tap do |p|
-  #    create(:member,
-  #                      roles: [create(:role, permissions: permissions)],
-  #                      project: p,
-  #                      user: current_user)
 
-  #    create(:member,
-  #                      roles: [create(:role, permissions: permissions)],
-  #                      project: p,
-  #                      user: other_user)
-  #  end
-  # end
   let(:unauthorized_project) do
     create(:public_project)
   end

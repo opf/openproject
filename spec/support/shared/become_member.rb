@@ -44,7 +44,7 @@ module BecomeMember
 
     def add_user_to_project!(user:, project:, role: nil, permissions: nil)
       role ||= create(:existing_role, permissions: Array(permissions))
-      create(:member, principal: user, project:, roles: [role])
+      create(:member, principal: user, entity: project, roles: [role])
     end
   end
 end
