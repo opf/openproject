@@ -5,7 +5,7 @@
 >
   <ng-template [ngIf]="!shouldHideField(descriptor)">
     <div
-      class="attributes-key-value--key"
+      class="wp-attribute-group--attribute-key attributes-key-value--key"
       *ngIf="!descriptor.multiple && descriptor.field"
     >
       <wp-replacement-label [fieldName]="descriptor.name">
@@ -19,7 +19,7 @@
     </div>
     <div
       *ngIf="!descriptor.multiple && descriptor.field"
-      class="attributes-key-value--value-container"
+      class="wp-attribute-group--attribute-value-container attributes-key-value--value-container"
     >
       <op-editable-attribute-field
         [ngClass]="{'wp-edit-formattable-field': descriptor.field!.isFormattable }"
