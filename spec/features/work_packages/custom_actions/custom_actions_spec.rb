@@ -499,4 +499,31 @@ RSpec.describe 'Custom actions',
     find('[data-field-name="estimatedTime"]').click
     expect(page).to have_selector("#wp-#{work_package.id}-inline-edit--field-estimatedTime[disabled]")
   end
+
+  context 'with baseline enabled' do
+    let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+    let(:query) do
+      create(:query,
+             name: 'Timestamps Query',
+             project:,
+             user:,
+             timestamps: ["P-1d", "PT0S"])
+    end
+
+    before do
+      create(:custom_action,
+             actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
+             name: 'Unassign')
+    end
+
+    it 'executes the custom action (Regression#49588)' do
+      login_as(user)
+      wp_table.visit_query(query)
+      wp_page = wp_table.open_full_screen_by_link(work_package)
+
+      wp_page.ensure_page_loaded
+
+      wp_page.click_custom_action('Unassign', expect_success: true)
+    end
+  end
 end
