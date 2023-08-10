@@ -29,19 +29,23 @@
 class Member < ApplicationRecord
   include ::Scopes::Scoped
 
+  ALLOWED_ENTITIES = [
+    "WorkPackage"
+  ].freeze
+
   extend DeprecatedAlias
-  belongs_to :principal, foreign_key: 'user_id'
+  belongs_to :principal, foreign_key: 'user_id', inverse_of: 'members', optional: false
+  belongs_to :entity, polymorphic: true, optional: true
+  belongs_to :project, optional: true
+
   has_many :member_roles, dependent: :destroy, autosave: true, validate: false
   has_many :roles, -> { distinct }, through: :member_roles
   has_many :oauth_client_tokens, foreign_key: :user_id, primary_key: :user_id, dependent: nil # rubocop:disable Rails/InverseOf
 
-  belongs_to :project
-
-  validates :principal, presence: true
-  validates :user_id, uniqueness: { scope: :project_id }
+  validates :user_id, uniqueness: { scope: %i[project_id entity_type entity_id] }
+  validates :entity_type, inclusion: { in: ALLOWED_ENTITIES, allow_blank: true }
 
   validate :validate_presence_of_role
-  validate :validate_presence_of_principal
 
   scopes :assignable,
          :global,
@@ -103,10 +107,6 @@ class Member < ApplicationRecord
 
       errors.add :roles, :role_blank
     end
-  end
-
-  def validate_presence_of_principal
-    errors.add :base, :principal_blank if principal.blank?
   end
 
   private
