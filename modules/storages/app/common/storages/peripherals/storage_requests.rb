@@ -28,28 +28,10 @@
 
 module Storages::Peripherals
   class StorageRequests
-    def initialize(storage:)
-      @storage = storage
-    end
 
-    # def self.call(storage:, operation:, **)
-    #   Registry.resolve("queries.#{storage.short_provider_type}.#{operation}").call(storage:, **)
-    # end
-
-    private
-
-    def method_missing(name, *args)
-      resource_type = name.to_s.split('_').last.pluralize
-      Registry.resolve("#{resource_type}.#{@storage.short_provider_type}.#{name}")
-    rescue Dry::Container::KeyError
-      super
-    end
-
-    def respond_to_missing?(name)
-      resource_type = name.to_s.split('_').last.pluralize
-      !!Registry.resolve("#{resource_type}.#{@storage.short_provider_type}.#{name}")
-    rescue Dry::Container::KeyError
-      super
+    def self.call(storage:, operation:, **)
+      resource_type = operation.to_s.ends_with?('query') ? 'queries' : 'commands'
+      Registry.resolve("#{resource_type}.#{storage.short_provider_type}.#{operation}").call(storage:, **)
     end
   end
 end

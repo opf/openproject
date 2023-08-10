@@ -36,7 +36,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
   let(:origin_user_id) { 'admin' }
   let(:storage) { build(:nextcloud_storage, :as_automatically_managed, host: url, password: 'OpenProjectSecurePassword') }
 
-  subject { described_class.new(storage:) }
+  subject { described_class }
 
   context 'when requests depend on OAuth token' do
     let(:token) do
@@ -84,9 +84,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
       describe 'with Nextcloud storage type selected' do
         it 'must return a download link URL' do
-          result = subject
-                     .download_link_query
-                     .call(storage:, user:, file_link:)
+          result = subject.call(operation: :download_link_query, storage:, user:, file_link:)
           expect(result).to be_success
           expect(result.result).to be_eql(uri)
         end
@@ -95,9 +93,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           let(:url) { 'https://example.com/html' }
 
           it 'must return a download link URL' do
-            result = subject
-                       .download_link_query
-                       .call(storage:, user:, file_link:)
+            result = subject.call(operation: :download_link_query, storage:, user:, file_link:)
             expect(result).to be_success
             expect(result.result).to be_eql(uri)
           end
@@ -110,7 +106,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
         end
 
         it 'must raise ArgumentError' do
-          expect { subject.download_link_query }.to raise_error(ArgumentError)
+          expect { subject.call(storage:, operation: :download_link_query) }.to raise_error(ArgumentError)
         end
       end
 
@@ -122,9 +118,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
         end
 
         it 'must return ":not_authorized" ServiceResult' do
-          result = subject
-                     .download_link_query
-                     .call(storage:, user:, file_link:)
+          result = subject.call(operation: :download_link_query, storage:, user:, file_link:)
           expect(result).to be_failure
           expect(result.errors.code).to be(:not_authorized)
         end
@@ -136,9 +130,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
         end
 
         it 'must return :not_authorized ServiceResult' do
-          result = subject
-                     .download_link_query
-                     .call(user:, file_link:, storage:)
+          result = subject.call(operation: :download_link_query, user:, file_link:, storage:)
           expect(result).to be_failure
           expect(result.errors.code).to be(:not_authorized)
         end
@@ -151,9 +143,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           end
 
           it "must return :#{symbol} ServiceResult" do
-            result = subject
-                       .download_link_query
-                       .call(user:, file_link:, storage:)
+            result = subject.call(operation: :download_link_query, user:, file_link:, storage:)
             expect(result).to be_failure
             expect(result.errors.code).to be(symbol)
           end
@@ -187,7 +177,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
         describe 'with Nextcloud storage type selected' do
           it 'returns a list files directories with names and permissions' do
-            result = subject.files_query.call(folder: nil, user:, storage:)
+            result = subject.call(storage:, operation: :files_query, folder: nil, user:)
             expect(result).to be_success
 
             query_result = result.result
@@ -213,9 +203,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
             let(:xml) { create(:webdav_data, origin_user_id:) }
 
             it do
-              result = subject
-                         .files_query
-                         .call(folder: parent, user:, storage:)
+              result = subject.call(operation: :files_query, folder: parent, user:, storage:)
               expect(result.result.files[0].location).to eq('/Folder1')
 
               assert_requested(:propfind, request_url)
@@ -226,9 +214,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
             let(:parent) { '/Photos/Birds' }
 
             it do
-              result = subject
-                         .files_query
-                         .call(folder: parent, user:, storage:)
+              result = subject.call(operation: :files_query, folder: parent, user:, storage:)
               expect(result.result.files[2].location).to eq('/Photos/Birds/README.md')
               expect(result.result.ancestors[0].location).to eq('/')
               expect(result.result.ancestors[1].location).to eq('/Photos')
@@ -241,9 +227,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
             let(:root_path) { '/storage' }
 
             it do
-              result = subject
-                         .files_query
-                         .call(folder: nil, user:, storage:)
+              result = subject.call(operation: :files_query, folder: nil, user:, storage:)
               expect(result.result.files[2].location).to eq('/README.md')
               assert_requested(:propfind, request_url)
             end
@@ -254,9 +238,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
             let(:parent) { '/Photos/Birds' }
 
             it do
-              result = subject
-                         .files_query
-                         .call(folder: parent, user:, storage:)
+              result = subject.call(operation: :files_query, folder: parent, user:, storage:)
 
               expect(result.result.files[2].location).to eq('/Photos/Birds/README.md')
               assert_requested(:propfind, request_url)
@@ -270,7 +252,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           end
 
           it 'must raise ArgumentError' do
-            expect { subject.files_query }.to raise_error(ArgumentError)
+            expect { subject.call(storage:, operation: :files_query) }.to raise_error(ArgumentError)
           end
         end
 
@@ -282,9 +264,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           end
 
           it 'must return ":not_authorized" ServiceResult' do
-            result = subject
-                       .files_query
-                       .call(folder: parent, user:, storage:)
+            result = subject.call(operation: :files_query, folder: parent, user:, storage:)
             expect(result).to be_failure
             expect(result.errors.code).to be(:not_authorized)
           end
@@ -298,9 +278,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           end
 
           it "must return :#{symbol} ServiceResult" do
-            result = subject
-                       .files_query
-                       .call(folder: parent, user:, storage:)
+            result = subject.call(operation: :files_query, folder: parent, user:, storage:)
             expect(result).to be_failure
             expect(result.errors.code).to be(symbol)
           end
@@ -330,9 +308,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
       describe 'with Nextcloud storage type selected' do
         it 'must return an upload link URL' do
-          link = subject
-                   .upload_link_query
-                   .call(storage:, user:, data: query_payload)
+          link = subject.call(operation: :upload_link_query, storage:, user:, data: query_payload)
                    .result
           expect(link.destination.path).to be_eql("/index.php/apps/integration_openproject/direct-upload/#{upload_token}")
           expect(link.destination.host).to be_eql(URI(url).host)
@@ -349,7 +325,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
         end
 
         it 'must raise ArgumentError' do
-          expect { subject.upload_link_query.call(storage:, user:, path:) }.to raise_error(ArgumentError)
+          expect { subject.call(operation: :upload_link_query, storage:, user:) }.to raise_error(ArgumentError)
         end
       end
 
@@ -361,9 +337,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
         end
 
         it 'must return ":not_authorized" ServiceResult' do
-          result = subject
-                     .upload_link_query
-                     .call(storage:, user:, data: query_payload)
+          result = subject.call(operation: :upload_link_query, storage:, user:, data: query_payload)
           expect(result).to be_failure
           expect(result.errors.code).to be(:not_authorized)
         end
@@ -376,9 +350,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           end
 
           it "must return :#{symbol} ServiceResult" do
-            result = subject
-                       .upload_link_query
-                       .call(storage:, user:, data: query_payload)
+            result = subject.call(operation: :upload_link_query, storage:, user:, data: query_payload)
             expect(result).to be_failure
             expect(result.errors.code).to be(symbol)
           end
@@ -436,9 +408,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
     end
 
     it 'responds with a strings array with group users' do
-      result = subject
-                 .group_users_query
-                 .call(storage:)
+      result = subject.call(operation: :group_users_query, storage:)
       expect(result).to be_success
       expect(result.result).to eq(["admin", "OpenProject", "reader", "TestUser", "TestUser34"])
     end
@@ -480,9 +450,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
     end
 
     it 'adds user to the group' do
-      result = subject
-                 .add_user_to_group_command
-                 .call(storage:, user: origin_user_id)
+      result = subject.call(operation: :add_user_to_group_command, storage:, user: origin_user_id)
       expect(result).to be_success
       expect(result.message).to eq("User has been added successfully")
     end
@@ -524,9 +492,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
     end
 
     it 'removes user from the group' do
-      result = subject
-                 .remove_user_from_group_command
-                 .call(storage:, user: origin_user_id)
+      result = subject.call(operation: :remove_user_from_group_command, storage:, user: origin_user_id)
       expect(result).to be_success
       expect(result.message).to eq("User has been removed from group")
     end
@@ -584,9 +550,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       end
 
       it 'creates a folder and responds with a success' do
-        result = subject
-                   .create_folder_command
-                   .call(storage:, folder_path:)
+        result = subject.call(operation: :create_folder_command, storage:, folder_path:)
         expect(result).to be_success
         expect(result.message).to eq("Folder was successfully created.")
       end
@@ -611,9 +575,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       end
 
       it 'does not create a folder and responds with a success' do
-        result = subject
-                   .create_folder_command
-                   .call(storage:, folder_path:)
+        result = subject.call(operation: :create_folder_command, storage:, folder_path:)
         expect(result).to be_success
         expect(result.message).to eq("Folder already exists.")
       end
@@ -638,9 +600,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       end
 
       it 'does not create a folder and responds with a failure' do
-        result = subject
-                   .create_folder_command
-                   .call(storage:, folder_path:)
+        result = subject.call(operation: :create_folder_command, storage:, folder_path:)
         expect(result).to be_failure
         expect(result.result).to eq(:conflict)
         expect(result.errors.log_message).to eq('Parent node does not exist')
@@ -744,9 +704,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           end
 
           it 'returns success when permissions can be set' do
-            result = subject
-                       .set_permissions_command
-                       .call(storage:, path:, permissions:)
+            result = subject.call(operation: :set_permissions_command, storage:, path:, permissions:)
             expect(result).to be_success
           end
         end
@@ -772,9 +730,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           end
 
           it 'returns failure' do
-            result = subject
-                       .set_permissions_command
-                       .call(storage:, path:, permissions:)
+            result = subject.call(operation: :set_permissions_command, storage:, path:, permissions:)
             expect(result).to be_failure
           end
         end
@@ -800,9 +756,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           end
 
           it 'returns failure' do
-            result = subject
-                       .set_permissions_command
-                       .call(storage:, path:, permissions:)
+            result = subject.call(operation: :set_permissions_command, storage:, path:, permissions:)
             expect(result).to be_failure
           end
         end
@@ -811,17 +765,13 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       context 'when forbidden values are given as folder' do
         it 'raises an ArgumentError on nil' do
           expect do
-            subject
-              .set_permissions_command
-              .call(storage:, path: nil, permissions:)
+            subject.call(operation: :set_permissions_command, storage:, path: nil, permissions:)
           end.to raise_error(ArgumentError)
         end
 
         it 'raises an ArgumentError on empty string' do
           expect do
-            subject
-              .set_permissions_command
-              .call(path: '', permissions:)
+            subject.call(operation: :set_permissions_command, path: '', permissions:)
           end.to raise_error(ArgumentError)
         end
       end
@@ -928,9 +878,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
     shared_examples 'a file_ids_query response' do
       it 'responds with a list of paths and attributes for each of them' do
-        result = subject
-                   .file_ids_query
-                   .call(storage:, path: 'OpenProject')
+        result = subject.call(operation: :file_ids_query, storage:, path: 'OpenProject')
                    .result
         expect(result).to eq({ "OpenProject/" => { "fileid" => "349" },
                                "OpenProject/Project #2/" => { "fileid" => "381" },
@@ -964,9 +912,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
     describe 'with Nextcloud storage type selected' do
       it 'moves the file' do
-        result = subject
-                   .rename_file_command
-                   .call(storage:, source: 'OpenProject/asd', target: 'OpenProject/qwe')
+        result = subject.call(operation: :rename_file_command, storage:, source: 'OpenProject/asd', target: 'OpenProject/qwe')
         expect(result).to be_success
       end
     end
@@ -981,9 +927,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
     describe 'with Nextcloud storage type selected' do
       it 'deletes the folder' do
-        result = subject
-                   .delete_folder_command
-                   .call(storage:, location: 'OpenProject/Folder 1')
+        result = subject.call(operation: :delete_folder_command, storage:, location: 'OpenProject/Folder 1')
         expect(result).to be_success
       end
     end
