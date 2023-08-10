@@ -332,7 +332,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
         it 'must return an upload link URL' do
           link = subject
                    .upload_link_query
-                   .call(user:, data: query_payload)
+                   .call(storage:, user:, data: query_payload)
                    .result
           expect(link.destination.path).to be_eql("/index.php/apps/integration_openproject/direct-upload/#{upload_token}")
           expect(link.destination.host).to be_eql(URI(url).host)
@@ -349,7 +349,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
         end
 
         it 'must raise ArgumentError' do
-          expect { subject.upload_link_query }.to raise_error(ArgumentError)
+          expect { subject.upload_link_query.call(storage:, user:, path:) }.to raise_error(ArgumentError)
         end
       end
 
@@ -363,7 +363,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
         it 'must return ":not_authorized" ServiceResult' do
           result = subject
                      .upload_link_query
-                     .call(user:, data: query_payload)
+                     .call(storage:, user:, data: query_payload)
           expect(result).to be_failure
           expect(result.errors.code).to be(:not_authorized)
         end
@@ -378,7 +378,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           it "must return :#{symbol} ServiceResult" do
             result = subject
                        .upload_link_query
-                       .call(user:, data: query_payload)
+                       .call(storage:, user:, data: query_payload)
             expect(result).to be_failure
             expect(result.errors.code).to be(symbol)
           end
@@ -930,7 +930,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       it 'responds with a list of paths and attributes for each of them' do
         result = subject
                    .file_ids_query
-                   .call(path: 'OpenProject')
+                   .call(storage:, path: 'OpenProject')
                    .result
         expect(result).to eq({ "OpenProject/" => { "fileid" => "349" },
                                "OpenProject/Project #2/" => { "fileid" => "381" },

@@ -38,13 +38,6 @@ module Storages::Peripherals
       copy_template_folder_command
     ].freeze
 
-    QUERIES = %i[
-      file_ids_query
-      files_info_query
-      folder_files_file_ids_deep_query
-      upload_link_query
-    ].freeze
-
     def initialize(storage:)
       @storage = storage
     end
@@ -53,7 +46,7 @@ module Storages::Peripherals
     #   Registry.resolve("queries.#{storage.short_provider_type}.#{operation}").call(storage:, **)
     # end
 
-    (COMMANDS + QUERIES).each do |request|
+    COMMANDS.each do |request|
       define_method(request) do
         clazz = "::Storages::Peripherals::StorageInteraction::" \
                 "#{@storage.short_provider_type.capitalize}::#{request.to_s.classify}".constantize

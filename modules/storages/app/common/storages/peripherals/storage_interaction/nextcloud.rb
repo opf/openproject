@@ -35,10 +35,13 @@ module Storages
         Queries = Dry::Container::Namespace.new('queries') do
           namespace('nextcloud') do
             register(:download_link_query, DownloadLinkQuery)
+            register(:file_ids_query, FileIdsQuery)
+            register(:file_info_query, FilesInfoQuery)
             register(:files_query, FilesQuery)
-            register(:upload_link_query, UploadLinkQuery)
-            register(:group_users_query, GroupUsersQuery)
+            register(:folder_files_file_ids_deep_query, FolderFilesFileIdsDeepQuery)
             register(:propfind_query, Internal::PropfindQuery)
+            register(:group_users_query, GroupUsersQuery)
+            register(:upload_link_query, UploadLinkQuery)
           end
         end
       end
