@@ -1,15 +1,29 @@
 @import "src/assets/sass/helpers"
 
 .wp-attribute-group
-  display: grid
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr))
-  grid-column-gap: $spot-spacing-1_5
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
 
+  // We want a margin between items, but don't know if any one item is on the right,
+  // the left, or spanning both columns. The easy way to get a gutter is to give
+  // *all* elements margins on both sides, and then negating this margin on the parent.
+  // This also explains all of the + and - xrem calc() values below.
+  margin: 0 -1 * $spot-spacing-1_5
+  width: calc(100% + #{$spot-spacing-3})
+  
   &--attribute
-    margin: 0
+    flex-basis: 400px
+    flex-grow: 1
+    flex-shrink: 1
+    min-width: calc(50% - 3rem)
+    max-width: calc(100% - 3rem)
+    margin: 0 1.5rem
 
     &_span-all
-      grid-column: 1/-1
+      flex-basis: calc(100% - #{$spot-spacing-3})
+      flex-shrink: 0
+      flex-wrap: wrap
 
     &-key
       flex-basis: 140px
@@ -22,3 +36,13 @@
 
     &-value-container
       flex-basis: 260px
+
+    &_span-all &-value-container
+      flex-shrink: 0
+      // This is a magic number that was obtained by trial and error
+      // The goal is to have span-all containers move to label-on-top
+      // right as the layout goes from 2-column to 1-column.
+      // There problably is some calculation by which you can derive this,
+      // but I'm currently too lazy to figure it out
+      flex-basis: 708px
+      max-width: 100%
