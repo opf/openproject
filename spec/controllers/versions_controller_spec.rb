@@ -143,31 +143,78 @@ RSpec.describe VersionsController do
       end
     end
 
-    context 'with showing subprojects versions' do
-      let(:sub_project) { create(:public_project, parent_id: project.id) }
-      let(:version4) { create(:version, project: sub_project) }
+    describe 'Sub Project Versions' do
+      let!(:sub_project) { create(:public_project, parent_id: project.id) }
+      let!(:sub_project_version) { create(:version, project: sub_project) }
+
+      current_user { user }
 
       before do
-        login_as(user)
-        version4
-        get :index, params: { project_id: project, with_subprojects: '1' }
+        get :index, params:
       end
-
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template('index') }
 
       subject { assigns(:versions) }
 
-      it 'shows Version with no date set' do
-        expect(subject.include?(version1)).to be_truthy
+      shared_examples 'is successful' do
+        it { expect(response).to be_successful }
+        it { expect(response).to render_template('index') }
       end
 
-      it 'shows Version with date set' do
-        expect(subject.include?(version2)).to be_truthy
+      shared_examples 'shows versions with and without a date set' do
+        it do
+          expect(subject).to include(version1, version2)
+        end
       end
 
-      it 'shows Version from sub project' do
-        expect(subject.include?(version4)).to be_truthy
+      shared_examples "shows sub project's' version" do
+        it 'sets @with_subprojects to true' do
+          expect(assigns(:with_subprojects)).to be_truthy
+        end
+
+        it "shows sub project's version" do
+          expect(subject).to include(sub_project_version)
+        end
+      end
+
+      shared_examples "does not show sub project's versions" do
+        it 'sets @with_subprojects to false' do
+          expect(assigns(:with_subprojects)).to be_falsey
+        end
+
+        it "does not show sub project's version" do
+          expect(subject).not_to include(sub_project_version)
+        end
+      end
+
+      context 'when with_subprojects param is set to 1' do
+        let(:params) { { project_id: project.id, with_subprojects: 1 } }
+
+        include_examples 'is successful'
+        include_examples "shows sub project's' version"
+      end
+
+      context 'when with_subprojects param is set to 0' do
+        let(:params) { { project_id: project.id, with_subprojects: 0 } }
+
+        include_examples 'is successful'
+        include_examples "does not show sub project's versions"
+      end
+
+      context 'with sub projects included by default',
+              with_settings: { display_subprojects_work_packages: true } do
+        context 'and with_subprojects is not a param' do
+          let(:params) { { project_id: project.id } }
+
+          include_examples 'is successful'
+          include_examples "shows sub project's' version"
+        end
+
+        context 'and with_subprojects is set to 0' do
+          let(:params) { { project_id: project.id, with_subprojects: 0 } }
+
+          include_examples 'is successful'
+          include_examples "does not show sub project's versions"
+        end
       end
     end
   end
