@@ -36,6 +36,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       @password = storage.password
     end
 
+    def self.call(storage:, path:, permissions:)
+      new(storage).call(path:, permissions:)
+    end
+
     # rubocop:disable Metrics/AbcSize
     def call(path:, permissions:)
       raise ArgumentError if path.blank?

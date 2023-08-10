@@ -28,42 +28,26 @@
 
 module Storages::Peripherals
   class StorageRequests
-    COMMANDS = %i[
-      set_permissions_command
-      create_folder_command
-      add_user_to_group_command
-      delete_folder_command
-      remove_user_from_group_command
-      rename_file_command
-      copy_template_folder_command
-    ].freeze
-
     def initialize(storage:)
       @storage = storage
     end
-    #
+
     # def self.call(storage:, operation:, **)
     #   Registry.resolve("queries.#{storage.short_provider_type}.#{operation}").call(storage:, **)
     # end
 
-    COMMANDS.each do |request|
-      define_method(request) do
-        clazz = "::Storages::Peripherals::StorageInteraction::" \
-                "#{@storage.short_provider_type.capitalize}::#{request.to_s.classify}".constantize
-        clazz.new(@storage).method(:call).to_proc
-      end
-    end
-
     private
 
     def method_missing(name, *args)
-      Registry.resolve("queries.#{@storage.short_provider_type}.#{name}")
+      resource_type = name.to_s.split('_').last.pluralize
+      Registry.resolve("#{resource_type}.#{@storage.short_provider_type}.#{name}")
     rescue Dry::Container::KeyError
       super
     end
 
     def respond_to_missing?(name)
-      !!Registry.resolve("queries.#{@storage.short_provider_type}.#{name}")
+      resource_type = name.to_s.split('_').last.pluralize
+      !!Registry.resolve("#{resource_type}.#{@storage.short_provider_type}.#{name}")
     rescue Dry::Container::KeyError
       super
     end

@@ -482,7 +482,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
     it 'adds user to the group' do
       result = subject
                  .add_user_to_group_command
-                 .call(user: origin_user_id)
+                 .call(storage:, user: origin_user_id)
       expect(result).to be_success
       expect(result.message).to eq("User has been added successfully")
     end
@@ -526,7 +526,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
     it 'removes user from the group' do
       result = subject
                  .remove_user_from_group_command
-                 .call(user: origin_user_id)
+                 .call(storage:, user: origin_user_id)
       expect(result).to be_success
       expect(result.message).to eq("User has been removed from group")
     end
@@ -586,7 +586,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       it 'creates a folder and responds with a success' do
         result = subject
                    .create_folder_command
-                   .call(folder_path:)
+                   .call(storage:, folder_path:)
         expect(result).to be_success
         expect(result.message).to eq("Folder was successfully created.")
       end
@@ -613,7 +613,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       it 'does not create a folder and responds with a success' do
         result = subject
                    .create_folder_command
-                   .call(folder_path:)
+                   .call(storage:, folder_path:)
         expect(result).to be_success
         expect(result.message).to eq("Folder already exists.")
       end
@@ -640,7 +640,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       it 'does not create a folder and responds with a failure' do
         result = subject
                    .create_folder_command
-                   .call(folder_path:)
+                   .call(storage:, folder_path:)
         expect(result).to be_failure
         expect(result.result).to eq(:conflict)
         expect(result.errors.log_message).to eq('Parent node does not exist')
@@ -746,7 +746,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           it 'returns success when permissions can be set' do
             result = subject
                        .set_permissions_command
-                       .call(path:, permissions:)
+                       .call(storage:, path:, permissions:)
             expect(result).to be_success
           end
         end
@@ -774,7 +774,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           it 'returns failure' do
             result = subject
                        .set_permissions_command
-                       .call(path:, permissions:)
+                       .call(storage:, path:, permissions:)
             expect(result).to be_failure
           end
         end
@@ -802,7 +802,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           it 'returns failure' do
             result = subject
                        .set_permissions_command
-                       .call(path:, permissions:)
+                       .call(storage:, path:, permissions:)
             expect(result).to be_failure
           end
         end
@@ -813,7 +813,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           expect do
             subject
               .set_permissions_command
-              .call(path: nil, permissions:)
+              .call(storage:, path: nil, permissions:)
           end.to raise_error(ArgumentError)
         end
 
@@ -966,7 +966,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       it 'moves the file' do
         result = subject
                    .rename_file_command
-                   .call(source: 'OpenProject/asd', target: 'OpenProject/qwe')
+                   .call(storage:, source: 'OpenProject/asd', target: 'OpenProject/qwe')
         expect(result).to be_success
       end
     end
@@ -983,7 +983,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       it 'deletes the folder' do
         result = subject
                    .delete_folder_command
-                   .call(location: 'OpenProject/Folder 1')
+                   .call(storage:, location: 'OpenProject/Folder 1')
         expect(result).to be_success
       end
     end

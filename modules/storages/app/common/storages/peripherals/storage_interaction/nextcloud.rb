@@ -44,6 +44,19 @@ module Storages
             register(:upload_link_query, UploadLinkQuery)
           end
         end
+
+        Commands = Dry::Container::Namespace.new('commands') do
+          namespace('nextcloud') do
+            register(:delete_entity_command, Internal::DeleteEntityCommand)
+            register(:add_user_to_group_command, AddUserToGroupCommand)
+            register(:copy_template_folder_command, CopyTemplateFolderCommand)
+            register(:create_folder_command, CreateFolderCommand)
+            register(:delete_folder_command, DeleteFolderCommand)
+            register(:set_permissions_command, SetPermissionsCommand)
+            register(:remove_user_from_group_command, RemoveUserFromGroupCommand)
+            register(:rename_file_command, RenameFileCommand)
+          end
+        end
       end
     end
   end
