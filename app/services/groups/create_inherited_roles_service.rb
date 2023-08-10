@@ -90,8 +90,8 @@ module Groups
           FROM members, found_users, group_memberships
           WHERE members.user_id = found_users.user_id
           AND members.project_id IS NOT DISTINCT FROM group_memberships.project_id
-          AND members.entity_type = group_memberships.entity_type
-          AND members.entity_id = group_memberships.entity_id
+          AND members.entity_type IS NOT DISTINCT FROM group_memberships.entity_type
+          AND members.entity_id IS NOT DISTINCT FROM group_memberships.entity_id
           AND members.id IS NOT NULL
         ),
         -- insert the group user into members
@@ -104,8 +104,8 @@ module Groups
             FROM existing_members
             WHERE existing_members.user_id = found_users.user_id
             AND existing_members.project_id IS NOT DISTINCT FROM group_memberships.project_id
-            AND existing_members.entity_type = group_memberships.entity_type
-            AND existing_members.entity_id = group_memberships.entity_id
+            AND existing_members.entity_type IS NOT DISTINCT FROM group_memberships.entity_type
+            AND existing_members.entity_id IS NOT DISTINCT FROM group_memberships.entity_id
           )
           ON CONFLICT DO NOTHING
           RETURNING id, user_id, project_id, entity_type, entity_id
@@ -117,8 +117,8 @@ module Groups
           FROM group_roles
           JOIN (SELECT * FROM new_members UNION SELECT * from existing_members) members
             ON group_roles.project_id IS NOT DISTINCT FROM members.project_id
-            AND group_roles.entity_type = members.entity_type
-            AND group_roles.entity_id = members.entity_id
+            AND group_roles.entity_type IS NOT DISTINCT FROM members.entity_type
+            AND group_roles.entity_id IS NOT DISTINCT FROM members.entity_id
           -- Ignore if the role was already inserted by us
           ON CONFLICT DO NOTHING
           RETURNING id, member_id, role_id
