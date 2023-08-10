@@ -217,6 +217,8 @@ import { RecentItemsService } from 'core-app/core/recent-items.service';
     EditFieldControlsModule,
     OpenprojectTabsModule,
     OpenprojectStoragesModule,
+
+    WorkPackageIsolatedQuerySpaceDirective,
   ],
   providers: [
     // Notification service
@@ -263,10 +265,6 @@ import { RecentItemsService } from 'core-app/core/recent-items.service';
     // WP list side
     WorkPackageListViewComponent,
     WorkPackageSettingsButtonComponent,
-
-    // Query injector isolation
-    WorkPackageIsolatedQuerySpaceDirective,
-    WorkPackageIsolatedGraphQuerySpaceDirective,
 
     // WP New
     WorkPackageNewFullViewComponent,
@@ -439,8 +437,6 @@ import { RecentItemsService } from 'core-app/core/recent-items.service';
     WorkPackageSingleCardComponent,
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,
-    WorkPackageIsolatedQuerySpaceDirective,
-    WorkPackageIsolatedGraphQuerySpaceDirective,
     QueryFiltersComponent,
 
     WpResizerDirective,
