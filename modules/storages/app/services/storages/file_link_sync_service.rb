@@ -51,10 +51,11 @@ class Storages::FileLinkSyncService
 
   def sync_nextcloud(storage_id, file_links)
     ::Storages::Peripherals::StorageRequests
-      .new(storage: ::Storages::Storage.find(storage_id))
-      .files_info_query
-      .call(user: @user, file_ids: file_links.map(&:origin_id))
-      .map { |file_infos| to_hash(file_infos) }
+      .call(
+        storage: ::Storages::Storage.find(storage_id),
+        operation: :files_info_query,
+        user: @user, file_ids: file_links.map(&:origin_id)
+      ).map { |file_infos| to_hash(file_infos) }
       .match(
         on_success: set_file_link_permissions(file_links),
         on_failure: ->(_) {
