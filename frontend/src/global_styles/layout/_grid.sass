@@ -262,6 +262,15 @@ $block-grid-max-size: 6 !default
     &, .grid-content
       overflow: visible
 
+  &_double-column
+    flex-wrap: wrap
+
+    > .grid-content
+      min-width: 300px
+      flex-basis: 50%
+      flex-shrink: 0
+      flex-grow: 1
+
 .grid-content
   @extend %child-core
   @include grid-content
