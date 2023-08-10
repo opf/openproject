@@ -44,6 +44,11 @@ module Projects
       service_call
     end
 
+    def after_perform(service_call)
+      OpenProject::Notifications.send(OpenProject::Events::PROJECT_UNARCHIVED, project: model)
+      service_call
+    end
+
     def activate_project(project)
       # We do not care for validations but want the timestamps to be updated
       project.update_attribute(:active, true)

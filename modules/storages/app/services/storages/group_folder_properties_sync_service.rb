@@ -60,7 +60,8 @@ class Storages::GroupFolderPropertiesSyncService
 
     @storage.project_storages
             .automatic
-            .includes(project: %i[users enabled_modules])
+            .includes(project: :enabled_modules)
+            .where(projects: { active: true })
             .each do |project_storage|
       project = project_storage.project
       project_folder_path = project_storage.project_folder_path

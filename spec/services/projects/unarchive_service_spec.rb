@@ -26,34 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  class ArchiveService < ::BaseServices::BaseContracted
-    include Contracted
-    include Projects::Concerns::UpdateDemoData
+require 'spec_helper'
 
-    def initialize(user:, model:, contract_class: Projects::ArchiveContract)
-      super(user:, contract_class:)
-      self.model = model
-    end
+RSpec.describe Projects::UnarchiveService do
+  let(:project) { create(:project, active: false) }
+  let(:user) { create(:admin) }
+  let(:instance) { described_class.new(user:, model: project) }
 
-    private
+  it 'unarchives and sends the notification' do
+    allow(OpenProject::Notifications).to receive(:send)
+    expect(project.active).to be(false)
 
-    def persist(service_call)
-      archive_project(model) and model.active_subprojects.each do |subproject|
-        archive_project(subproject)
-      end
+    expect(instance.call).to be_truthy
 
-      service_call
-    end
-
-    def after_perform(service_call)
-      OpenProject::Notifications.send(OpenProject::Events::PROJECT_ARCHIVED, project: model)
-      service_call
-    end
-
-    def archive_project(project)
-      # We do not care for validations but want the timestamps to be updated
-      project.update_attribute(:active, false)
-    end
+    expect(project.active).to be(true)
+    expect(OpenProject::Notifications)
+      .to(have_received(:send)
+            .with(OpenProject::Events::PROJECT_UNARCHIVED, project:))
+    expect(OpenProject::Notifications)
+      .to(have_received(:send)
+            .with(OpenProject::Events::PROJECT_UNARCHIVED, project:))
   end
 end
