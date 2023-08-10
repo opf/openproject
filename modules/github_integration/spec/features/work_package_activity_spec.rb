@@ -106,7 +106,7 @@ RSpec.describe 'Work Package Activity Tab',
 
       it 'renders a comment stating the Pull Request was merged by the merge actor' do
         expected_merge_comment = <<~GITHUB_MERGE_COMMENT.squish
-          Merged#{I18n.t('js.github_integration.pull_requests.message',
+          Merged#{I18n.t('js.github_integration.pull_requests.merged_message',
                          pr_number: pull_request.number,
                          pr_link: pull_request.title,
                          repository_link: pull_request.repository,
