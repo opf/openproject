@@ -96,7 +96,7 @@ module Groups
           SELECT group_memberships.project_id, found_users.user_id, (SELECT time from timestamp), (SELECT time from timestamp)
           FROM found_users, group_memberships
           WHERE NOT EXISTS (SELECT 1 FROM existing_members WHERE existing_members.user_id = found_users.user_id AND existing_members.project_id IS NOT DISTINCT FROM group_memberships.project_id)
-          ON CONFLICT(project_id, user_id) DO NOTHING
+          ON CONFLICT DO NOTHING
           RETURNING id, user_id, project_id
         ),
         -- copy the member roles of the group
