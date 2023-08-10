@@ -1037,7 +1037,7 @@ module Settings
         default: 10
       },
       work_package_list_default_highlighted_attributes: {
-        default: [],
+        default: ["status", "priority", "due_date"],
         allowed: -> {
           Query.available_columns(nil).select(&:highlightable).map(&:name).map(&:to_s)
         }
