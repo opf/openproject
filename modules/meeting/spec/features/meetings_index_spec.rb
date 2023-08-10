@@ -183,6 +183,15 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
       meetings_page.expect_meetings_not_listed(yesterdays_meeting)
     end
 
+    it "renders a link to each meeting's location if present" do
+      meeting
+      tomorrows_meeting
+
+      meetings_page.visit!
+      meetings_page.expect_link_to_meeting_location(meeting)
+      meetings_page.expect_no_link_to_meeting_location(tomorrows_meeting)
+    end
+
     context 'and the user is allowed to create meetings' do
       let(:permissions) { %i(view_meetings create_meetings) }
 
@@ -340,6 +349,15 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
       meetings_page.expect_meetings_listed(tomorrows_meeting)
       meetings_page.expect_meetings_not_listed(yesterdays_meeting, # Past meetings not displayed
                                                meeting)
+    end
+
+    it "renders a link to each meeting's location if present" do
+      meeting
+      tomorrows_meeting
+
+      meetings_page.visit!
+      meetings_page.expect_link_to_meeting_location(meeting)
+      meetings_page.expect_no_link_to_meeting_location(tomorrows_meeting)
     end
   end
 end

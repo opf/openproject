@@ -127,6 +127,26 @@ module Pages::Meetings
       end
     end
 
+    def expect_link_to_meeting_location(meeting)
+      within '#content-wrapper' do
+        meeting_row = find('td.title', text: meeting.title).ancestor('tr')
+
+        within meeting_row do
+          expect(page).to have_link meeting.location
+        end
+      end
+    end
+
+    def expect_no_link_to_meeting_location(meeting)
+      within '#content-wrapper' do
+        meeting_row = find('td.title', text: meeting.title).ancestor('tr')
+
+        within meeting_row do
+          expect(page).to have_selector('td.location', text: '')
+        end
+      end
+    end
+
     def expect_to_be_on_page(number)
       expect(page)
         .to have_selector('.op-pagination--item_current',
