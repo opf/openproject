@@ -46,9 +46,11 @@ module API::V3::StorageFiles
       route_param :file_id, type: String, desc: 'Storage file id' do
         get do
           service_result = Storages::Peripherals::StorageRequests
-                             .new(storage: @storage)
-                             .files_info_query
-                             .call(user: current_user, file_ids: [params[:file_id]]).map(&:first)
+                             .call(
+                               storage: @storage,
+                               operation: :files_info_query,
+                               user: current_user, file_ids: [params[:file_id]]
+                             ).map(&:first)
 
           if service_result.success? && service_result.result.status_code == 403
             storage_error = Storages::StorageError.new(code: :forbidden, log_message: 'no access to file', data: nil)

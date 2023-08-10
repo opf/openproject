@@ -58,9 +58,7 @@ module Storages::ProjectStorages
 
     def delete_project_folder
       Storages::Peripherals::StorageRequests
-        .new(storage: model.storage)
-        .delete_folder_command
-        .call(location: model.project_folder_path)
+        .call(storage: model.storage, operation: :delete_folder_command, location: model.project_folder_path)
     end
 
     # Delete FileLinks with the same Storage as the ProjectStorage.

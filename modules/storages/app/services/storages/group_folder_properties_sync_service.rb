@@ -45,7 +45,6 @@ class Storages::GroupFolderPropertiesSyncService
     @nextcloud_system_user = storage.username
     @group = storage.group
     @group_folder = storage.group_folder
-    @requests = Storages::Peripherals::StorageRequests.new(storage:)
   end
 
   # rubocop:disable Metrics/AbcSize
@@ -92,9 +91,8 @@ class Storages::GroupFolderPropertiesSyncService
         groups: { @group.to_sym => PERMISSIONS_MAP[:read_files] }
       }
     }
-    @requests
-      .set_permissions_command
-      .call(**command_params)
+    Storages::Peripherals::StorageRequests
+      .call(storage: @storage, operation: :set_permissions_command, **command_params)
       .on_failure(&failure_handler('set_permissions_command', command_params))
   end
 
@@ -122,22 +120,20 @@ class Storages::GroupFolderPropertiesSyncService
 
   def folders_properties
     @folders_properties ||=
-      @requests
-        .file_ids_query
-        .call(path: @group_folder)
+      Storages::Peripherals::StorageRequests
+        .call(storage: @storage, operation: :file_ids_query, path: @group_folder)
         .on_failure(&failure_handler('file_ids_query', { path: @group_folder }))
         .result
   end
 
   def rename_folder(source:, target:)
-    @requests
-      .rename_file_command
-      .call(source:, target:)
+    Storages::Peripherals::StorageRequests
+      .call(storage: @storage, operation: :rename_file_command, source:, target:)
       .on_failure(&failure_handler('rename_file_command', { source:, target: }))
   end
 
   def create_folder(path:, project_storage:)
-    @requests.create_folder_command.call(folder_path: path)
+    Storages::Peripherals::StorageRequests.call(storage: @storage, operation: :create_folder_command, folder_path: path)
              .match(
                on_success: ->(_) { ServiceResult.success(result: [project_storage, path]) },
                on_failure: failure_handler('create_folder_command', { folder_path: path })
@@ -152,9 +148,8 @@ class Storages::GroupFolderPropertiesSyncService
 
   def obtain_file_id
     ->((project_storage, path)) do
-      @requests
-        .file_ids_query
-        .call(path:)
+      Storages::Peripherals::StorageRequests
+        .call(storage: @storage, operation: :file_ids_query, path:)
         .match(
           on_success: ->(file_ids) { ServiceResult.success(result: [project_storage, file_ids.dig(path, 'fileid')]) },
           on_failure: failure_handler('file_id_query', { path: })
@@ -183,18 +178,16 @@ class Storages::GroupFolderPropertiesSyncService
       path:,
       permissions: project_folder_permissions(project:)
     }
-    @requests
-      .set_permissions_command
-      .call(**command_params)
+    Storages::Peripherals::StorageRequests
+      .call(storage: @storage, operation: :set_permissions_command, **command_params)
       .on_failure(&failure_handler('set_permissions_command', command_params))
   end
 
   def group_users
     @group_users ||= begin
       query_params = { group: @group }
-      @requests
-       .group_users_query
-       .call(**query_params)
+      Storages::Peripherals::StorageRequests
+       .call(storage: @storage, operation: :group_users_query, **query_params)
        .on_failure(&failure_handler('group_users_query', query_params))
        .result
     end
@@ -236,9 +229,8 @@ class Storages::GroupFolderPropertiesSyncService
     @nextcloud_usernames_used_in_openproject.each do |nextcloud_username|
       if group_users.exclude?(nextcloud_username)
         query_params = { user: nextcloud_username }
-        @requests
-          .add_user_to_group_command
-          .call(**query_params)
+        Storages::Peripherals::StorageRequests
+          .call(storage: @storage, operation: :add_user_to_group_command, **query_params)
           .on_failure(&failure_handler('add_user_to_group_command', query_params))
       end
     end
@@ -251,9 +243,8 @@ class Storages::GroupFolderPropertiesSyncService
   end
 
   def remove_user_from_group(user)
-    @requests
-      .remove_user_from_group_command
-      .call(user:)
+    Storages::Peripherals::StorageRequests
+      .call(storage: @storage, operation: :remove_user_from_group_command, user:)
       .on_failure do |service_result|
       ::OpenProject.logger.warn(
         "Nextcloud user #{user} has not been removed from Nextcloud group #{@group}: '#{service_result.errors.log_message}'"
@@ -279,9 +270,8 @@ class Storages::GroupFolderPropertiesSyncService
         groups: { "#{@group}": NO_PERMISSIONS }
       }
     }
-    @requests
-      .set_permissions_command
-      .call(**command_params)
+    Storages::Peripherals::StorageRequests
+      .call(storage: @storage, operation: :set_permissions_command, **command_params)
       .on_failure(&failure_handler('set_permissions_command', command_params))
   end
 

@@ -28,10 +28,13 @@
 
 require 'spec_helper'
 require_module_spec_helper
+require 'dry/container/stub'
 
 RSpec.describe 'API v3 storage files', content_type: :json, webmock: true do
   include API::V3::Utilities::PathHelper
   include StorageServerHelpers
+
+  Storages::Peripherals::Registry.enable_stubs!
 
   let(:permissions) { %i(view_work_packages view_file_links) }
   let(:project) { create(:project) }
@@ -57,6 +60,8 @@ RSpec.describe 'API v3 storage files', content_type: :json, webmock: true do
     project_storage
     login_as current_user
   end
+
+  after { Storages::Peripherals::Registry.unstub }
 
   describe 'GET /api/v3/storages/:storage_id/files' do
     let(:path) { api_v3_paths.storage_files(storage.id) }
@@ -107,12 +112,10 @@ RSpec.describe 'API v3 storage files', content_type: :json, webmock: true do
 
     context 'with successful response' do
       before do
-        storage_requests = instance_double(Storages::Peripherals::StorageRequests)
-        files_query = Proc.new do
-          ServiceResult.success(result: response)
-        end
-        allow(storage_requests).to receive(:files_query).and_return(files_query)
-        allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(storage_requests)
+        Storages::Peripherals::Registry.stub(
+          'queries.nextcloud.files_query',
+          ->(_) { ServiceResult.success(result: response) }
+        )
       end
 
       subject { last_response.body }
@@ -132,11 +135,9 @@ RSpec.describe 'API v3 storage files', content_type: :json, webmock: true do
 
     context 'with query failed' do
       before do
-        clazz = Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery
-        instance = instance_double(clazz)
-        allow(clazz).to receive(:new).and_return(instance)
-        allow(instance).to receive(:call).and_return(
-          ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error))
+        Storages::Peripherals::Registry.stub(
+          'queries.nextcloud.files_query',
+          ->(_) { ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error)) }
         )
       end
 
@@ -312,11 +313,9 @@ RSpec.describe 'API v3 storage files', content_type: :json, webmock: true do
 
     context 'with query failed' do
       before do
-        clazz = Storages::Peripherals::StorageInteraction::Nextcloud::UploadLinkQuery
-        instance = instance_double(clazz)
-        allow(clazz).to receive(:new).and_return(instance)
-        allow(instance).to receive(:call).and_return(
-          ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error))
+        Storages::Peripherals::Registry.stub(
+          'queries.nextcloud.upload_link_query',
+          ->(_) { ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error)) }
         )
       end
 
