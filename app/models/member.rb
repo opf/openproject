@@ -46,6 +46,7 @@ class Member < ApplicationRecord
   validates :entity_type, inclusion: { in: ALLOWED_ENTITIES, allow_blank: true }
 
   validate :validate_presence_of_role
+  validate :validate_presence_of_principal
 
   scopes :assignable,
          :global,
@@ -107,6 +108,10 @@ class Member < ApplicationRecord
 
       errors.add :roles, :role_blank
     end
+  end
+
+  def validate_presence_of_principal
+    errors.add :base, :principal_blank if principal.blank?
   end
 
   private
