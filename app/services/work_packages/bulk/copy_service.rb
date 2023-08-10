@@ -30,6 +30,7 @@ module WorkPackages
   module Bulk
     class CopyService < BulkedService
       def initialize(user:, work_packages:)
+        # binding.pry
         super
 
         self.work_packages = remove_hierarchy_duplicates(work_packages)
@@ -37,10 +38,12 @@ module WorkPackages
 
       private
 
-      def alter_work_package(work_package, attributes)
+      def alter_work_package(work_package, attributes) # addition of descendants is handled manually here
+        # binding.pry
         ancestors = {}
         result = copy_with_updated_parent_id(work_package, attributes, ancestors)
 
+        # binding.pry
         work_package
           .descendants
           .order_by_ancestors('asc')
@@ -49,6 +52,16 @@ module WorkPackages
 
           result.add_dependent!(copied)
         end
+
+        binding.pry
+
+        # work_package
+        #   .relations
+        #   .each do |wp|
+        #   copied = copy_with_updated_parent_id(wp, attributes, ancestors) # needs something like this perhaps?
+
+        #   result.add_dependent!(copied)
+        # end
 
         result
       end
