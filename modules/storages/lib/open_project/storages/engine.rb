@@ -55,7 +55,9 @@ module OpenProject::Storages
           OpenProject::Events::MEMBER_UPDATED,
           OpenProject::Events::MEMBER_DESTROYED,
           OpenProject::Events::PROJECT_UPDATED,
-          OpenProject::Events::PROJECT_RENAMED
+          OpenProject::Events::PROJECT_RENAMED,
+          OpenProject::Events::PROJECT_ARCHIVED,
+          OpenProject::Events::PROJECT_UNARCHIVED
         ].each do |event|
           OpenProject::Notifications.subscribe(event) do |_payload|
             ::Storages::ManageNextcloudIntegrationEventsJob.debounce

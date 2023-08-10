@@ -59,6 +59,8 @@ module OpenProject
     PROJECT_CREATED = "project_created".freeze
     PROJECT_UPDATED = "project_updated".freeze
     PROJECT_RENAMED = "project_renamed".freeze
+    PROJECT_ARCHIVED = "project_archived".freeze
+    PROJECT_UNARCHIVED = "project_unarchived".freeze
 
     PROJECT_STORAGE_CREATED = "project_storage_created".freeze
     PROJECT_STORAGE_UPDATED = "project_storage_updated".freeze

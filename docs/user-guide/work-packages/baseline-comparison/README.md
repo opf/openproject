@@ -30,7 +30,7 @@ Baseline comparison can be enabled on any work package table view:
 
 In the free of charge Community edition you will always be able to compare changes to work packages since yesterday.
 
-![Compare changes in work packages since yesterday](C:\Users\Maya\Documents\GitHub\openproject\docs\user-guide\work-packages\baseline-comparison\13-0_Baseline_community_edition.png)
+![Compare changes in work packages since yesterday](13-0_Baseline_community_edition.png)
 
 ## Show changes for a preset period, a specific date or custom date range (Enterprise edition)
 
