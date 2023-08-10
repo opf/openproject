@@ -29,6 +29,12 @@
 require 'spec_helper'
 
 RSpec.describe Storages::ManageNextcloudIntegrationEventsJob, type: :job do
+  describe '.priority' do
+    it 'has a maximum priority' do
+      expect(described_class.priority).to eq(7)
+    end
+  end
+
   describe '.debounce' do
     it 'debounces job with 1 minute timeframe' do
       ActiveJob::Base.disable_test_adapter
