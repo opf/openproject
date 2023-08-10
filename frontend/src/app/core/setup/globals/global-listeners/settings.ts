@@ -106,13 +106,6 @@ export function listenToSettingChanges() {
     jQuery('.settings--highlighted-attributes').toggle(highlightingMode === 'inline');
   });
 
-  /** Initialize highlighted attributes checkboxes. If none is selected, it means we want them all. So let's
-   * show them all as selected.
-   * On submitting the form, we remove all checkboxes before sending to communicate, we actually want all and not
-   * only the selected. */
-  if (jQuery(".settings--highlighted-attributes input[type='checkbox']:checked").length === 0) {
-    jQuery(".settings--highlighted-attributes input[type='checkbox']").prop('checked', true);
-  }
   jQuery('#tab-content-work_packages form').submit(() => {
     const availableAttributes = jQuery(".settings--highlighted-attributes input[type='checkbox']");
     const selectedAttributes = jQuery(".settings--highlighted-attributes input[type='checkbox']:checked");
