@@ -1305,7 +1305,7 @@ ca:
   error_can_not_delete_custom_field: "No s'ha pogut suprimir el camp personalitat"
   error_can_not_delete_type:
     explanation: 'Aquest tipus conté paquets de treball i no es pot eliminar. Pots veure tots els paquets de treball afectats a <a target="_blank" href="%{url}">aquesta vista</a>.'
-    archived_projects: 'També hi ha paquets de treball en projectes arxivats. Primer has de reactivar els següents projectes, abans de que pugui canviar-se el tipus dels respectius paquets de treball: %{archived_projects}'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "No es poden suprimir els tipus estàndard."
   error_can_not_invite_user: "Error en enviar la invitació a l'usuari."
   error_can_not_remove_role: "Aquest rol s'està utilitzant i no es pot suprimir."

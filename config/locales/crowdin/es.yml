@@ -1306,7 +1306,7 @@ es:
   error_can_not_delete_custom_field: "Imposible eliminar el campo seleccionado"
   error_can_not_delete_type:
     explanation: 'Este tipo contiene paquetes de trabajo y no se puede eliminar. Puede ver todos los paquetes de trabajo afectados en <a target="_blank" href="%{url}">esta vista</a>.'
-    archived_projects: 'Hay paquetes de trabajo en los proyectos archivados. Necesita reactivar los proyectos siguientes para cambiar el tipo de los paquetes de trabajo correspondientes: %{archived_projects}'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Tipos estándar no se pueden borrar."
   error_can_not_invite_user: "Error al enviar la invitación al usuario."
   error_can_not_remove_role: "Este rol esta en uso y no puede ser eliminado"

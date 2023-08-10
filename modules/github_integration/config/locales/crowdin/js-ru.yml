@@ -40,8 +40,8 @@ ru:
         empty: 'Запросов на слияние пока нет. Привяжите существующее PR с помощью кода <code>OP#%{wp_id}</code> в описании PR или создайте новый PR.'
       github_actions: Действия
       pull_requests:
-        message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}."
-        referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
+        message: "Запрос на извлечение #%{pr_number} %{pr_link} для %{repository_link} автором %{github_user_link} был %{pr_state}."
+        referenced_message: "Запрос на извлечение #%{pr_number} %{pr_link} для %{repository_link} автором %{github_user_link} ссылается на этот пакет работ."
         states:
           opened: 'открыт'
           closed: 'закрыт'

@@ -71,6 +71,10 @@ ko:
         new: "이 프로젝트에 파일 저장소 추가"
         edit: "Edit the file storage to this project"
         delete: "Delete file storage"
+        members_check: "Members check"
+      project_storage_members:
+        title: "Members check"
+        subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
     instructions:
       type: "설정을 수행하기 전에 Nextcloud 인스턴스에서 관리 권한이 있고 다음 애플리케이션이 설치되어 있는지 확인하세요."
       type_link_text: "“Integration OpenProject”"
@@ -130,7 +134,13 @@ ko:
     label_no_selected_folder: "No selected folder"
     label_storage: "저장소"
     label_storages: "저장소"
+    label_status: "Status"
+    member_connection_status:
+      connected: "Connected"
+      connected_no_permissions: "User role has no storages permissions"
+      not_connected: "Not connected"
     no_results: "아직 저장소가 설정되지 않았습니다."
+    members_no_results: "No members to display."
     provider_types:
       label: "공급자 유형"
       nextcloud:

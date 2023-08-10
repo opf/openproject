@@ -1283,7 +1283,7 @@ id:
   error_can_not_delete_custom_field: "Tidak dapat menghapus isian kustom"
   error_can_not_delete_type:
     explanation: 'Jenis ini berisi paket pekerjaan dan tidak dapat dihapus. Anda dapat melihat semua paket pekerjaan yang terpengaruh di <a target="_blank" href="%{url}">tampilan ini</a>.'
-    archived_projects: 'Ada juga paket pekerjaan dalam proyek yang diarsipkan. Anda perlu mengaktifkan kembali proyek-proyek berikut terlebih dahulu, sebelum Anda dapat mengubah jenis paket pekerjaan masing-masing: %{archived_projects}'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Tipe standar tidak dapat dihapus."
   error_can_not_invite_user: "Gagal untuk mengirimkan undangan kepada pengguna."
   error_can_not_remove_role: "Role ini sedang dipakai dan tidak dapat dihapus."

@@ -1306,7 +1306,7 @@ it:
   error_can_not_delete_custom_field: "Impossibile eliminare il campo personalizzato"
   error_can_not_delete_type:
     explanation: 'Questo tipo contiene macro-attività e non può essere eliminato. Puoi vedere tutte le macro-attività interessate in <a target="_blank" href="%{url}">questa vista</a>.'
-    archived_projects: 'Ci sono macro-attività anche nei progetti archiviati. Devi prima riattivare i seguenti progetti, prima di poter modificare il tipo delle rispettive macro-attività: %{archived_projects}'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Tipi standard non possono essere eliminati."
   error_can_not_invite_user: "Impossibile inviare l'invito all'utente."
   error_can_not_remove_role: "Questo ruolo è in uso e non può essere eliminato."

@@ -1289,7 +1289,7 @@ ko:
   error_can_not_delete_custom_field: "사용자 지정 필드를 삭제할 수 없습니다."
   error_can_not_delete_type:
     explanation: '이 유형에는 작업 패키지가 포함되어 있으며 삭제할 수 없습니다. 영향을 받는 모든 작업 패키지는 <a target="_blank" href="%{url}">이 보기</a>에서 볼 수 있습니다.'
-    archived_projects: '보관된 프로젝트에 작업 패키지도 있습니다. 해당 작업 패키지의 유형을 변경하려면 먼저 다음 프로젝트를 다시 활성화해야 합니다: %{archived_projects}'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "표준 유형은 삭제할 수 없습니다."
   error_can_not_invite_user: "사용자에게 초대장을 보내지 못했습니다."
   error_can_not_remove_role: "이 역할은 현재 사용 중이며 삭제할 수 없습니다."

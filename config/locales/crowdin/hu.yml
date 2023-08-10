@@ -1306,7 +1306,7 @@ hu:
   error_can_not_delete_custom_field: "Nem törölhető az egyéni mező"
   error_can_not_delete_type:
     explanation: 'Ez a típus munkacsomagokat tartalmaz és nem törölhető. Az érintett munkacsomagok <a target="_blank" href="%{url}">ebben a nézetben</a> megtekinthetők.'
-    archived_projects: 'Az archivált projektek szintén tartalmaznak munkacsomagokat. A következő projektek újra aktiválása szükséges, mielőtt a vonatkozó munkacsomagok típusát meg lehet változtatni: %{archived_projects}'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Alap típusokat nem lehet törölni."
   error_can_not_invite_user: "A meghívó küldése sikertelen a felhasználó részére."
   error_can_not_remove_role: "Ez a szerepkör használatban van, nem lehet törölni"

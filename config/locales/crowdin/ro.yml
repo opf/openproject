@@ -1328,7 +1328,7 @@ ro:
   error_can_not_delete_custom_field: "Câmpul personalizat nu poate fi șters"
   error_can_not_delete_type:
     explanation: 'Acest tip conține pachete de lucru și nu poate fi șters. Puteți vedea toate pachetele de lucru afectate în <a target="_blank" href="%{url}">această vizualizare</a>.'
-    archived_projects: 'Există, de asemenea, pachete de lucru în proiecte arhivate. Trebuie să reactivați mai întâi următoarele proiecte, înainte de a putea schimba tipul pachetelor de lucru respective: %{archived_projects}'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Tipurile standard nu pot fi șterse."
   error_can_not_invite_user: "Nu s-a reușit trimiterea invitației către utilizator."
   error_can_not_remove_role: "Acest rol este utilizat și nu poate fi șters."

@@ -1306,7 +1306,7 @@ nl:
   error_can_not_delete_custom_field: "Aangepast veld kan niet verwijderd worden"
   error_can_not_delete_type:
     explanation: 'Dit type bevat werkpakketten en kan niet worden verwijderd. Je kunt alle betrokken werkpakketten zien in <a target="_blank" href="%{url}">deze weergave</a>.'
-    archived_projects: 'Er zijn ook werkpakketten in gearchiveerde projecten. U moet eerst de volgende projecten opnieuw activeren voordat u het type van de respectieve werkpakketten kunt wijzigen: %{archived_projects}'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Standaard types kunnen niet worden verwijderd."
   error_can_not_invite_user: "Het versturen van de uitnodiging naar de gebruiker is mislukt."
   error_can_not_remove_role: "Deze rol is in gebruik en kan niet worden verwijderd."

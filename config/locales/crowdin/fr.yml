@@ -1309,7 +1309,7 @@ fr:
   error_can_not_delete_custom_field: "Impossible de supprimer le champ personnalisé"
   error_can_not_delete_type:
     explanation: 'Ce type contient des lots de travaux et ne peut pas être supprimé. Vous pouvez voir tous les lots de travaux concernés dans <a target="_blank" href="%{url}">cette vue</a>.'
-    archived_projects: 'Il y a aussi des lots de travaux dans les projets archivés. Vous devez d''abord réactiver les projets suivants avant de pouvoir modifier le type des lots de travaux respectifs : %{archived_projects}'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Les types standards ne peuvent pas être supprimés."
   error_can_not_invite_user: "Échec de l'envoi de l'invitation à l'utilisateur."
   error_can_not_remove_role: "Ce rôle est utilisé et ne peut être supprimé."

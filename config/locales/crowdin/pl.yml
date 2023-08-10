@@ -1344,7 +1344,7 @@ pl:
   error_can_not_delete_custom_field: "Nie można usunąć pola niestandardowego"
   error_can_not_delete_type:
     explanation: 'Ten typ zawiera pakiety robocze i nie może być usunięty. Wszystkie włączone pakiety robocze można zobaczyć w <a target="_blank" href="%{url}">tym widoku</a>.'
-    archived_projects: 'Pakiety robocze istnieją również w zarchiwizowanych projektach. Musisz najpierw reaktywować następujące projekty, zanim będzie można zmienić typ odpowiednich pakietów roboczych: %{archived_projects}'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Nie można usunąć standardowych typów."
   error_can_not_invite_user: "Nie można wysłać zaproszenia do użytkownika."
   error_can_not_remove_role: "Ta Rola jest używana i nie można jej usunąć."
