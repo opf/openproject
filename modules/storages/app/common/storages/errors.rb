@@ -29,23 +29,7 @@
 #++
 
 module Storages
-  module Peripherals
-    class Registry
-      extend Dry::Container::Mixin
-
-      class Resolver < Dry::Container::Resolver
-        def call(container, key)
-          super
-        rescue Dry::Container::KeyError
-          _, storage, operation = key.split('.')
-          raise ::Storages::Errors::OperationNotSupported, "Operation #{operation} not support by provider: #{storage}"
-        end
-      end
-
-      config.resolver = Resolver.new
-    end
-
-    Registry.import StorageInteraction::Nextcloud::Queries
-    Registry.import StorageInteraction::Nextcloud::Commands
+  module Errors
+    class OperationNotSupported < StandardError; end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -50,12 +52,11 @@ class Storages::FileLinkSyncService
   private
 
   def sync_nextcloud(storage_id, file_links)
-    ::Storages::Peripherals::StorageRequests
-      .call(
-        storage: ::Storages::Storage.find(storage_id),
-        operation: :files_info_query,
-        user: @user, file_ids: file_links.map(&:origin_id)
-      ).map { |file_infos| to_hash(file_infos) }
+    storage = ::Storages::Storage.find(storage_id)
+    ::Storages::Peripherals::Registry
+      .resolve("queries.#{storage.short_provider_type}.files_info")
+      .call(storage:, user: @user, file_ids: file_links.map(&:origin_id))
+      .map { |file_infos| to_hash(file_infos) }
       .match(
         on_success: set_file_link_permissions(file_links),
         on_failure: ->(_) {

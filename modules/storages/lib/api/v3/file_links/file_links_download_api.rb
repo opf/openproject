@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -32,12 +34,10 @@ class API::V3::FileLinks::FileLinksDownloadAPI < API::OpenProjectAPI
 
   resources :download do
     get do
-      Storages::Peripherals::StorageRequests
-        .call(
-          storage: @file_link.storage,
-          operation: :download_link_query,
-          user: User.current, file_link: @file_link
-        ).match(
+      Storages::Peripherals::Registry
+        .resolve("queries.#{@file_link.storage.short_provider_type}.download_link")
+        .call(storage: @file_link.storage, user: User.current, file_link: @file_link)
+        .match(
           on_success: ->(url) do
             redirect(url, body: "The requested resource can be downloaded from #{url}")
             status(303)

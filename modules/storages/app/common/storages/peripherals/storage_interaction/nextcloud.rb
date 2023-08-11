@@ -34,27 +34,27 @@ module Storages
       module Nextcloud
         Queries = Dry::Container::Namespace.new('queries') do
           namespace('nextcloud') do
-            register(:download_link_query, DownloadLinkQuery)
-            register(:file_ids_query, FileIdsQuery)
-            register(:files_info_query, FilesInfoQuery)
-            register(:files_query, FilesQuery)
+            register(:download_link, DownloadLinkQuery)
+            register(:file_ids, FileIdsQuery)
+            register(:files_info, FilesInfoQuery)
+            register(:files, FilesQuery)
             register(:folder_files_file_ids_deep_query, FolderFilesFileIdsDeepQuery)
-            register(:propfind_query, Internal::PropfindQuery)
-            register(:group_users_query, GroupUsersQuery)
-            register(:upload_link_query, UploadLinkQuery)
+            register(:propfind, Internal::PropfindQuery)
+            register(:group_users, GroupUsersQuery)
+            register(:upload_link, UploadLinkQuery)
           end
         end
 
         Commands = Dry::Container::Namespace.new('commands') do
           namespace('nextcloud') do
-            register(:delete_entity_command, Internal::DeleteEntityCommand)
-            register(:add_user_to_group_command, AddUserToGroupCommand)
-            register(:copy_template_folder_command, CopyTemplateFolderCommand)
-            register(:create_folder_command, CreateFolderCommand)
-            register(:delete_folder_command, DeleteFolderCommand)
-            register(:set_permissions_command, SetPermissionsCommand)
-            register(:remove_user_from_group_command, RemoveUserFromGroupCommand)
-            register(:rename_file_command, RenameFileCommand)
+            register(:add_user_to_group, AddUserToGroupCommand)
+            register(:copy_template_folder, CopyTemplateFolderCommand)
+            register(:create_folder, CreateFolderCommand)
+            register(:delete_entity, Internal::DeleteEntityCommand)
+            register(:delete_folder, DeleteFolderCommand)
+            register(:remove_user_from_group, RemoveUserFromGroupCommand)
+            register(:rename_file, RenameFileCommand)
+            register(:set_permissions, SetPermissionsCommand)
           end
         end
       end

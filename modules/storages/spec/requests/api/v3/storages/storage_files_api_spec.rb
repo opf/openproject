@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -108,7 +110,7 @@ RSpec.describe 'API v3 storage files', content_type: :json, webmock: true do
     context 'with successful response' do
       before do
         Storages::Peripherals::Registry.stub(
-          'queries.nextcloud.files_query',
+          'queries.nextcloud.files',
           ->(_) { ServiceResult.success(result: response) }
         )
       end
@@ -131,7 +133,7 @@ RSpec.describe 'API v3 storage files', content_type: :json, webmock: true do
     context 'with query failed' do
       before do
         Storages::Peripherals::Registry.stub(
-          'queries.nextcloud.files_query',
+          'queries.nextcloud.files',
           ->(_) { ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error)) }
         )
       end
@@ -288,7 +290,7 @@ RSpec.describe 'API v3 storage files', content_type: :json, webmock: true do
     describe 'with successful response' do
       before do
         Storages::Peripherals::Registry.stub(
-          'queries.nextcloud.upload_link_query',
+          'queries.nextcloud.upload_link',
           ->(_) { ServiceResult.success(result: upload_link) }
         )
       end
@@ -309,7 +311,7 @@ RSpec.describe 'API v3 storage files', content_type: :json, webmock: true do
     context 'with query failed' do
       before do
         Storages::Peripherals::Registry.stub(
-          'queries.nextcloud.upload_link_query',
+          'queries.nextcloud.upload_link',
           ->(_) { ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error)) }
         )
       end
