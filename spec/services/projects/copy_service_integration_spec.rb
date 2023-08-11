@@ -302,6 +302,12 @@ RSpec.describe(
                   </d:prop>
                   <d:status>HTTP/1.1 200 OK</d:status>
                 </d:propstat>
+                <d:propstat>
+                  <d:prop>
+                    <nc:acl-list/>
+                  </d:prop>
+                  <d:status>HTTP/1.1 404 Not Found</d:status>
+                </d:propstat>
               </d:response>
               <d:response>
                 <d:href>/remote.php/dav/files/OpenProject/OpenProject/Target%20Project%20Name%20(#{project_id})/#{file_inside_automatic_project_folder_link.origin_name}</d:href>
@@ -310,6 +316,12 @@ RSpec.describe(
                     <oc:fileid>430</oc:fileid>
                   </d:prop>
                   <d:status>HTTP/1.1 200 OK</d:status>
+                </d:propstat>
+                <d:propstat>
+                  <d:prop>
+                    <nc:acl-list/>
+                  </d:prop>
+                  <d:status>HTTP/1.1 404 Not Found</d:status>
                 </d:propstat>
               </d:response>
             </d:multistatus>
