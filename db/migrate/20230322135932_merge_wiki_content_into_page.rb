@@ -26,6 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require_relative './migration_utils/utils'
+
 class MergeWikiContentIntoPage < ActiveRecord::Migration[7.0]
   include ::Migration::Utils
 
