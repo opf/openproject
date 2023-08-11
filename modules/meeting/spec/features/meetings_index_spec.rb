@@ -31,8 +31,11 @@ require 'spec_helper'
 require_relative '../support/pages/meetings/index'
 
 RSpec.describe 'Meetings', 'Index', :with_cuprite do
-  shared_let(:project) { create(:project, name: 'Project 1', enabled_module_names: %w[meetings]) }
-  shared_let(:other_project) { create(:project, name: 'Project 2', enabled_module_names: %w[meetings]) }
+  # The order the Projects are created in is important. By naming `project` alphanumerically
+  # after `other_project`, we can ensure that subsequent specs that assert sorting is
+  # correct for the right reasons (sorting by Project name and not id)
+  shared_let(:project) { create(:project, name: 'Project 2', enabled_module_names: %w[meetings]) }
+  shared_let(:other_project) { create(:project, name: 'Project 1', enabled_module_names: %w[meetings]) }
   let(:role) { create(:role, permissions:) }
   let(:permissions) { %i(view_meetings) }
   let(:user) do
@@ -252,11 +255,11 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
 
         aggregate_failures 'Sorting by Project' do
           meetings_page.click_to_sort_by('Project')
-          meetings_page.expect_meetings_listed_in_order(meeting,
-                                                        other_project_meeting)
-          meetings_page.click_to_sort_by('Project')
           meetings_page.expect_meetings_listed_in_order(other_project_meeting,
                                                         meeting)
+          meetings_page.click_to_sort_by('Project')
+          meetings_page.expect_meetings_listed_in_order(meeting,
+                                                        other_project_meeting)
         end
 
         aggregate_failures 'Sorting by Time' do
