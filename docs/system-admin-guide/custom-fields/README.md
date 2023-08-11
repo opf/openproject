@@ -71,7 +71,7 @@ To **delete** a custom field, click on the delete icon next to the respective cu
 
 For work package custom fields of type **List** and **User** you may also select **multi-select custom fields** to select more than one value at once.
 
-To create a multi-select custom field follow the same steps as you would when [creating a standard custom field](#add-a-new-custom-field). Select format *List* or *User* and check the option *Allow multi-select*.
+To create a multi-select custom field follow the same steps as you would when [creating a standard custom field](#add-a-new-custom-field). Select format **List, User or Version** and check the option *Allow multi-select*.
 
 ![Sys-admin-multi-select-custom-field](system-admin-allow-multi-select.png)
 
