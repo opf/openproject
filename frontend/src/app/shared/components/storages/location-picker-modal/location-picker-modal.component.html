@@ -10,14 +10,14 @@
 
   <div class="spot-modal--body spot-container op-file-picker--modal-body">
     <div
-      *ngIf="noAccessWarning | async"
+      *ngIf="(showAlert | async) !== 'none'"
       class="op-toast -warning"
     >
       <div class="op-toast--content">
-        <p>{{text.warningNoAccess}}</p>
+        <p>{{alertText | async}}</p>
         <button
           class="spot-link op-toast--close"
-          (click)="closeWarning()"
+          (click)="closeAlert()"
         >
           <span class="spot-icon spot-icon_close"></span>
         </button>

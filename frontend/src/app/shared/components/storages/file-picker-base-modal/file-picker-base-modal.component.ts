@@ -60,6 +60,12 @@ import {
   getIconForStorageType,
   makeFilesCollectionLink,
 } from 'core-app/shared/components/storages/functions/storages.functions';
+import {
+  IHalErrorBase,
+  v3ErrorIdentifierOutboundRequestForbidden,
+} from 'core-app/features/hal/resources/error-resource';
+
+type Alert = 'none'|'noAccess'|'managedFolderNoAccess'|'managedFolderNotFound';
 
 @Directive()
 export abstract class FilePickerBaseModalComponent extends OpModalComponent implements OnInit, OnDestroy {
@@ -79,7 +85,7 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
     navigate: () => {},
   }]);
 
-  public noAccessWarning = new BehaviorSubject(false);
+  public showAlert:BehaviorSubject<Alert> = new BehaviorSubject('none');
 
   public listItems$:Observable<StorageFileListItem[]> = this.storageFiles$
     .pipe(
@@ -128,8 +134,8 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
     this.storageFilesResourceService.reset();
   }
 
-  public closeWarning():void {
-    this.noAccessWarning.next(false);
+  public closeAlert():void {
+    this.showAlert.next('none');
   }
 
   protected abstract storageFileToListItem(file:IStorageFile, index:number):StorageFileListItem;
@@ -163,7 +169,12 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
   }
 
   private entryLocation():Observable<string> {
-    if (this.locals.projectFolderHref === null) {
+    if (this.locals.projectFolderMode === 'inactive') {
+      return of('/');
+    }
+
+    if (this.locals.projectFolderMode === 'automatic' && this.locals.projectFolderHref === null) {
+      this.showAlert.next('managedFolderNotFound');
       return of('/');
     }
 
@@ -171,12 +182,19 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
       .file(this.locals.projectFolderHref as string)
       .pipe(
         map((file) => file.location),
-        catchError((error:HttpErrorResponse) => {
-          if (error.status !== 403) {
-            throw new Error(error.message);
+        catchError((response:HttpErrorResponse) => {
+          const isForbiddenOnStorage = response.status === 500
+            && (response.error as IHalErrorBase).errorIdentifier === v3ErrorIdentifierOutboundRequestForbidden;
+
+          if (!isForbiddenOnStorage) {
+            throw new Error(response.message);
           }
 
-          this.noAccessWarning.next(true);
+          if (this.locals.projectFolderMode === 'automatic') {
+            this.showAlert.next('managedFolderNoAccess');
+          } else {
+            this.showAlert.next('noAccess');
+          }
           return of('/');
         }),
       );

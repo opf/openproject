@@ -48,6 +48,8 @@ import {
 import {
   FilePickerBaseModalComponent,
 } from 'core-app/shared/components/storages/file-picker-base-modal/file-picker-base-modal.component';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   templateUrl: 'location-picker-modal.component.html',
@@ -58,7 +60,9 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
 
   public readonly text = {
     header: this.i18n.t('js.storages.select_location'),
-    warningNoAccess: this.i18n.t('js.storages.files.project_folder_no_access'),
+    alertNoAccess: this.i18n.t('js.storages.files.project_folder_no_access'),
+    alertNoManagedProjectFolder: this.i18n.t('js.storages.files.managed_project_folder_not_available'),
+    alertNoAccessToManagedProjectFolder: this.i18n.t('js.storages.files.managed_project_folder_no_access'),
     content: {
       empty: this.i18n.t('js.storages.files.empty_folder'),
       emptyHint: this.i18n.t('js.storages.files.empty_folder_location_hint'),
@@ -95,6 +99,26 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
     }
 
     return this.currentDirectory.permissions.some((value) => value === 'writeable');
+  }
+
+  public get alertText():Observable<string> {
+    return this.showAlert
+      .pipe(
+        map((alert) => {
+          switch (alert) {
+            case 'noAccess':
+              return this.text.alertNoAccess;
+            case 'managedFolderNoAccess':
+              return this.text.alertNoAccessToManagedProjectFolder;
+            case 'managedFolderNotFound':
+              return this.text.alertNoManagedProjectFolder;
+            case 'none':
+              return '';
+            default:
+              throw new Error('unknown alert type');
+          }
+        }),
+      );
   }
 
   constructor(
