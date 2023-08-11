@@ -134,7 +134,7 @@ API tokens allow third-party applications to communicate with this OpenProject i
 You can enable an API token under [*Administration -> API and webhooks*](../../system-admin-guide/api-and-webhooks/). Please not that you can only create a single API token.
 ### iCalendar
 iCalendar tokens allow users to subscribe to OpenProject calendars and view up-to-date work package information from external clients. 
-This list will be empty if you have not yet subscribed to any calendars. Once you [subscribe to a calendar](../../user-guide/calendar/#subscribe-to-a-calendar), a list of all the calendars that you have subscribed to will appear here. The name of the calendar is clickable and will lead you directly to the respective calendar in OpenProject. 
+This list will be empty if you have no calendar subscriptions yet. Once you [subscribe to a calendar](../../user-guide/calendar/#subscribe-to-a-calendar), a list of all the calendars that you have subscribed to will appear here. The name of the calendar is clickable and will lead you directly to the respective calendar in OpenProject. 
 
 ![OpenProject calendar list under my account](openproject_my_account_access_tokens_calendar_list.png)
 
