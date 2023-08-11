@@ -90,7 +90,7 @@ export class PullRequestMacroComponent implements OnInit {
     const repositoryLink = this.htmlLink(pr.repositoryHtmlUrl, pr.repository);
     const prLink = this.htmlLink(pr.htmlUrl, pr.title);
 
-    const message = this.pullRequestState === 'referenced' ? 'referenced_message' : 'message';
+    const message = this.deriveMessage();
     return this.I18n.t(
       `js.github_integration.pull_requests.${message}`,
       {
@@ -113,6 +113,16 @@ export class PullRequestMacroComponent implements OnInit {
     } else {
       return pr._embedded.githubUser;
     }
+  }
+
+  private deriveMessage() {
+    if (this.pullRequestState === 'referenced') {
+      return 'referenced_message';
+    } else if (this.pullRequestState === 'merged') {
+      return 'merged_message';
+    }
+
+    return 'message';
   }
 
   private htmlLink(href:string, title:string):string {
