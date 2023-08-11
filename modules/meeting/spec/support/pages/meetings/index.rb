@@ -135,7 +135,16 @@ module Pages::Meetings
       end
     end
 
-    def expect_no_link_to_meeting_location(meeting)
+    def expect_plaintext_meeting_location(meeting)
+      within '#content-wrapper' do
+        within row_for(meeting) do
+          expect(page).to have_selector('td.location', text: meeting.location)
+          expect(page).not_to have_link meeting.location
+        end
+      end
+    end
+
+    def expect_no_meeting_location(meeting)
       within '#content-wrapper' do
         within row_for(meeting) do
           expect(page).to have_selector('td.location', text: '')
