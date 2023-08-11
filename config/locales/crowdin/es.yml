@@ -104,9 +104,9 @@ es:
       error_requeue: "El trabajo experimentó un error pero se está reintentando. El error fue: %{message}"
       cancelled_due_to: "El trabajo ha sido cancelado debido al error: %{message}"
   ldap_auth_sources:
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
-    back_to_index: 'Click here to go back to the list of connection.'
+    ldap_error: "Error de LDAP: %{error_message}"
+    ldap_auth_failed: "No puede autenticarse en el servidor LDAP."
+    back_to_index: 'Haga clic aquí para volver a la lista de conexión.'
     technical_warning_html: |
       Este formulario LDAP requiere conocimientos técnicos para la configuración de su  LDAP / Directorio Activo <br/>
       <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/"> Visite nuestra documentación para obtener instrucciones detalladas.
@@ -165,18 +165,18 @@ es:
     index:
       no_results_title_text: No existen colores por el momento.
       no_results_content_text: Crear un nuevo color
-      label_new_color: "New color"
+      label_new_color: "Nuevo color"
     new:
-      label_new_color: "New Color"
+      label_new_color: "Nuevo color"
     edit:
-      label_edit_color: "Edit Color"
+      label_edit_color: "Editar color"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Nuevo color"
+      label_edit_color: "Editar color"
     label_no_color: "Sin color"
-    label_properties: "Properties"
+    label_properties: "Propiedades"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      ¿Seguro que desea eliminar el siguiente color? Los tipos que usan este color no se eliminarán.
   custom_actions:
     actions:
       name: "Acciones"
@@ -259,7 +259,7 @@ es:
       types:
         no_results_title_text: Actualmente no hay tipos disponibles.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'Habilitar tipo «%{type}»'
       versions:
         no_results_title_text: Actualmente no hay versiones para este proyecto.
         no_results_content_text: Crear un nueva versión
@@ -286,12 +286,12 @@ es:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
-      browser: 'Browser'
+      browser: 'Navegador'
       device: 'Device / OS'
-      unknown_browser: 'unknown browser'
-      unknown_os: 'unknown operating system'
-      current: 'Current session'
-      title: 'Session management'
+      unknown_browser: 'navegador desconocido'
+      unknown_os: 'sistema operativo desconocido'
+      current: 'Sesión actual'
+      title: 'Administración de sesiones'
       instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
       may_not_delete_current: 'You cannot delete your current session.'
     groups:
@@ -336,10 +336,10 @@ es:
       no_results_title_text: Actualmente no hay estados de paquetes de trabajo.
       no_results_content_text: Añadir un nuevo estado
   themes:
-    light: "Light"
+    light: "Claro"
     light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
+    dark: "Oscuro"
+    dark_dimmed: "Oscuro atenuado"
     dark_high_contrast: "Dark high contrast"
   types:
     index:
@@ -446,16 +446,16 @@ es:
         attribute_name: 'Atributo'
         help_text: 'Texto de ayuda'
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
-        attr_login: "Username attribute"
-        attr_mail: "Email attribute"
+        account: "Cuenta"
+        attr_firstname: "Atributo Nombre"
+        attr_lastname: "Atributo Apellido"
+        attr_login: "Atributo Nombre de usuario"
+        attr_mail: "Atributo Correo electrónico"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "Automatic user creation"
-        port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
+        onthefly: "Creación automática de usuarios"
+        port: "Puerto"
+        tls_certificate_string: "Certificado SSL del servidor LDAP"
       changeset:
         repository: "Repositorio"
       comment:
@@ -543,7 +543,7 @@ es:
         hours: "Horas"
         spent_on: "Fecha"
         type: "Tipo"
-        ongoing: "Ongoing"
+        ongoing: "En curso"
       type:
         description: "Texto predeterminado para descripción"
         attribute_groups: ''
@@ -553,7 +553,7 @@ es:
         color: "Color"
       user:
         admin: "Administrador"
-        ldap_auth_source: "LDAP connection"
+        ldap_auth_source: "Conexión LDAP"
         current_password: "Contraseña actual"
         force_password_change: "Aplicar el cambio de contraseña en el proximo inicio de sesión"
         language: "Idioma"
@@ -677,7 +677,7 @@ es:
         ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "El certificado SSL proporcionado no es válido: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -897,7 +897,7 @@ es:
             status:
               invalid_on_create: "no es un estado válido para nuevos usuarios."
             ldap_auth_source:
-              error_not_found: "not found"
+              error_not_found: "no encontrado"
         member:
           principal_blank: "Por favor seleccione al menos un usuario o grupo."
           role_blank: "necesita ser asignado."
@@ -1477,7 +1477,7 @@ es:
       api:
         title: "API"
         text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
-        static_token_name: "API token"
+        static_token_name: "Token API"
         disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
       ical:
         title: "iCalendar"
@@ -1491,10 +1491,10 @@ es:
       rss:
         title: "RSS"
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
-        static_token_name: "RSS token"
+        static_token_name: "Token RSS"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
       storages:
-        title: "File Storages"
+        title: "Almacenamiento de archivos"
         text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
         empty_text_hint: "There is no storage access linked to your account."
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"

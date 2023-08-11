@@ -6,8 +6,8 @@ es:
   boards:
     label_board: "Tablero"
     label_boards: "Tableros"
-    label_create_new_board: "Create new board"
-    label_board_type: "Board type"
+    label_create_new_board: "Crear tablero"
+    label_board_type: "Tipo de tablero"
     board_types:
       free: Básico
       action: "Tablero de acciones (%{attribute})"
@@ -20,13 +20,13 @@ es:
       basic: Básico
     board_type_descriptions:
       basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
+        Empiece desde cero con un tablero en blanco. Añada de forma manual tarjetas y columnas a este tablero.
       status: >
-        Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        Tablero básico estilo kanban con columnas para indicar el estado, como «Tarea pendiente», «En curso» y «Listo».
       assignee: >
-        Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        Tablero con columnas automáticas basadas en los usuarios asignados. Ideal para enviar paquetes de trabajo.
       version: >
-        Board with automated columns based on the version attribute. Ideal for planning product development.
+        Tablero con columnas automatizadas basadas en el atributo de la versión. Ideal para planificar el desarrollo de productos.
       subproject: >
         Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
       subtasks: >

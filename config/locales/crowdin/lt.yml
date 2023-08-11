@@ -1344,7 +1344,7 @@ lt:
   error_can_not_delete_custom_field: "Neįmanoma ištrinti kliento laukelio"
   error_can_not_delete_type:
     explanation: 'Yra darbo paketų su tokiu tipu, todėl jis negali būti ištrintas. Visus susijusius darbo paketus galite matyti <a target="_blank" href="%{url}">šiame vaizde</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
+    archived_projects: 'Taip pat yra darbo paketų archyvuotuose projektuose. Jums iš pradžių reikia iš naujo aktyvuoti šiuos projektus, kad galėtumėte pakeisti atitinkamų darbo paketų tipą: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Standartiniai vaidmenys negali būti ištrinti."
   error_can_not_invite_user: "Nepavyko išsiųsti pakvietimo vartotojui."
   error_can_not_remove_role: "Šis vaidmuo naudojamas, todėl negali būti ištrintas."
