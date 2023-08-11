@@ -52,6 +52,7 @@ class Notifications::ScheduleDateAlertsNotificationsJob::Service
       .assignable_time_zones
       .select { |time_zone| executing_at_1am_for_timezone?(time_zone) }
       .map { |time_zone| time_zone.tzinfo.canonical_zone.name }
+      .uniq
   end
 
   def executing_at_1am_for_timezone?(time_zone)

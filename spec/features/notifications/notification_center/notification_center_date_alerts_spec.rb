@@ -18,7 +18,7 @@ RSpec.describe "Notification center date alerts",
 
   shared_let(:time_zone) { find_compatible_local_time_zone }
   shared_let(:user) do
-    create(:user, preferences: { time_zone: time_zone.tzinfo.name }).tap do |user|
+    create(:user, preferences: { time_zone: time_zone.tzinfo.canonical_zone.name }).tap do |user|
       user.notification_settings.first.update(
         start_date: 7,
         due_date: 3,
