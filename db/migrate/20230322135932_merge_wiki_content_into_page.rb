@@ -26,12 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require_relative './migration_utils/utils'
+
 class MergeWikiContentIntoPage < ActiveRecord::Migration[7.0]
+  include ::Migration::Utils
+
   def change
     add_contents_columns_to_pages
 
     reversible do |dir|
       dir.up do
+        change_null_values_on_contents
         update_wiki_pages_from_contents
         update_journals_to_pages
       end
@@ -76,11 +81,27 @@ class MergeWikiContentIntoPage < ActiveRecord::Migration[7.0]
     end
   end
 
+  def change_null_values_on_contents
+    execute_sql(
+      "
+        UPDATE wiki_contents SET author_id = :deleted_user_id
+        WHERE author_id NOT IN (SELECT id from users)
+      ",
+      deleted_user_id:
+    )
+  end
+
   def change_null_values_on_pages
     change_column_null :wiki_pages, :lock_version, false
 
-    WikiPage.where(author_id: nil).update_all(author_id: DeletedUser.first.id)
+    execute_sql("UPDATE wiki_pages SET author_id = :deleted_user_id WHERE author_id IS NULL", deleted_user_id:)
+
     change_column_null :wiki_pages, :author_id, false
+  end
+
+  def deleted_user_id
+    # We use the model to make sure one is created in case it doesn't exist yet
+    @deleted_user_id ||= DeletedUser.first.id
   end
 
   def rename_and_adapt_journal_data
