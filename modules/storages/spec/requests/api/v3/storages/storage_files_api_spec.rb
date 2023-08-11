@@ -28,13 +28,10 @@
 
 require 'spec_helper'
 require_module_spec_helper
-require 'dry/container/stub'
 
 RSpec.describe 'API v3 storage files', content_type: :json, webmock: true do
   include API::V3::Utilities::PathHelper
   include StorageServerHelpers
-
-  Storages::Peripherals::Registry.enable_stubs!
 
   let(:permissions) { %i(view_work_packages view_file_links) }
   let(:project) { create(:project) }
@@ -60,8 +57,6 @@ RSpec.describe 'API v3 storage files', content_type: :json, webmock: true do
     project_storage
     login_as current_user
   end
-
-  after { Storages::Peripherals::Registry.unstub }
 
   describe 'GET /api/v3/storages/:storage_id/files' do
     let(:path) { api_v3_paths.storage_files(storage.id) }
@@ -292,10 +287,10 @@ RSpec.describe 'API v3 storage files', content_type: :json, webmock: true do
 
     describe 'with successful response' do
       before do
-        clazz = Storages::Peripherals::StorageInteraction::Nextcloud::UploadLinkQuery
-        instance = instance_double(clazz)
-        allow(clazz).to receive(:new).and_return(instance)
-        allow(instance).to receive(:call).and_return(ServiceResult.success(result: upload_link))
+        Storages::Peripherals::Registry.stub(
+          'queries.nextcloud.upload_link_query',
+          ->(_) { ServiceResult.success(result: upload_link) }
+        )
       end
 
       subject { last_response.body }

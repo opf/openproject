@@ -29,7 +29,6 @@
 #++
 
 require 'spec_helper'
-require 'dry/container/stub'
 
 RSpec.describe Storages::FileLinkSyncService, type: :model do
   let(:user) { create(:user) }
@@ -46,9 +45,6 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
   let(:file_links) { [file_link_one] }
 
   subject(:service) { described_class.new(user:).call(file_links) }
-
-  before { Storages::Peripherals::Registry.enable_stubs! }
-  after { Storages::Peripherals::Registry.unstub }
 
   describe '#call' do
     context 'with one file link' do

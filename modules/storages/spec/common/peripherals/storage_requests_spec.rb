@@ -86,7 +86,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
         it 'must return a download link URL' do
           result = subject.call(operation: :download_link_query, storage:, user:, file_link:)
           expect(result).to be_success
-          expect(result.result).to be_eql(uri)
+          expect(result.result).to eql(uri)
         end
 
         context 'if Nextcloud is running on a sub path' do
@@ -95,7 +95,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           it 'must return a download link URL' do
             result = subject.call(operation: :download_link_query, storage:, user:, file_link:)
             expect(result).to be_success
-            expect(result.result).to be_eql(uri)
+            expect(result.result).to eql(uri)
           end
         end
       end
@@ -145,7 +145,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           it "must return :#{symbol} ServiceResult" do
             result = subject.call(operation: :download_link_query, user:, file_link:, storage:)
             expect(result).to be_failure
-            expect(result.errors.code).to be(symbol)
+            expect(result.errors.code).to eq(symbol)
           end
         end
       end
@@ -310,9 +310,9 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
         it 'must return an upload link URL' do
           link = subject.call(operation: :upload_link_query, storage:, user:, data: query_payload)
                    .result
-          expect(link.destination.path).to be_eql("/index.php/apps/integration_openproject/direct-upload/#{upload_token}")
-          expect(link.destination.host).to be_eql(URI(url).host)
-          expect(link.destination.scheme).to be_eql(URI(url).scheme)
+          expect(link.destination.path).to eql("/index.php/apps/integration_openproject/direct-upload/#{upload_token}")
+          expect(link.destination.host).to eql(URI(url).host)
+          expect(link.destination.scheme).to eql(URI(url).scheme)
           expect(link.destination.user).to be_nil
           expect(link.destination.password).to be_nil
           expect(link.method).to eq(:post)

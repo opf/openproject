@@ -33,10 +33,11 @@ class API::V3::FileLinks::FileLinksDownloadAPI < API::OpenProjectAPI
   resources :download do
     get do
       Storages::Peripherals::StorageRequests
-        .new(storage: @file_link.storage)
-        .download_link_query
-        .call(user: User.current, file_link: @file_link)
-        .match(
+        .call(
+          storage: @file_link.storage,
+          operation: :download_link_query,
+          user: User.current, file_link: @file_link
+        ).match(
           on_success: ->(url) do
             redirect(url, body: "The requested resource can be downloaded from #{url}")
             status(303)

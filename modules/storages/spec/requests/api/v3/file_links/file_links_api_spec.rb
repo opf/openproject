@@ -558,10 +558,10 @@ RSpec.describe 'API v3 file links resource' do
 
     describe 'with successful response' do
       before do
-        clazz = Storages::Peripherals::StorageInteraction::Nextcloud::DownloadLinkQuery
-        instance = instance_double(clazz)
-        allow(clazz).to receive(:new).and_return(instance)
-        allow(instance).to receive(:call).and_return(ServiceResult.success(result: url))
+        Storages::Peripherals::Registry.stub(
+          'queries.nextcloud.download_link_query',
+          ->(_) { ServiceResult.success(result: url) }
+        )
       end
 
       it 'responds successfully' do
@@ -574,11 +574,9 @@ RSpec.describe 'API v3 file links resource' do
 
     describe 'with query failed' do
       before do
-        clazz = Storages::Peripherals::StorageInteraction::Nextcloud::DownloadLinkQuery
-        instance = instance_double(clazz)
-        allow(clazz).to receive(:new).and_return(instance)
-        allow(instance).to receive(:call).and_return(
-          ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error))
+        Storages::Peripherals::Registry.stub(
+          'queries.nextcloud.download_link_query',
+          ->(_) { ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error)) }
         )
 
         get path

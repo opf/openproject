@@ -33,5 +33,11 @@
 # This will include any support file from OpenProject core
 require 'spec_helper'
 require 'dry/container/stub'
+
 # Loads files from relative support/ directory
 Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }
+
+RSpec.configure do |config|
+  config.before(:suite) { Storages::Peripherals::Registry.enable_stubs! }
+  config.append_after { Storages::Peripherals::Registry.unstub }
+end
