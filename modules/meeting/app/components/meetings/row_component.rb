@@ -47,12 +47,24 @@ module Meetings
     end
 
     def location
-      if model.location.present?
+      if valid_meeting_location_link?
         link_to h(model.location),
                 model.location,
                 target: '_blank',
                 rel: 'noopener'
+      else
+        h(model.location)
       end
+    end
+
+    private
+
+    def valid_meeting_location_link?
+      URI.parse(model.location)
+         .host
+         .present?
+    rescue URI::InvalidURIError
+      false
     end
   end
 end
