@@ -27,32 +27,50 @@
 #++
 
 module ErrorMessageHelper
+  include ActionView::Helpers::OutputSafetyHelper
+
   def error_messages_for(object)
     object = instance_variable_get("@#{object}") unless object.respond_to?(:to_model)
     object = convert_to_model(object)
     return unless object
 
-    render_error_messages_partial(object.errors.full_messages, object:)
+    render_error_messages_partial(object.errors, object)
   end
 
   # Will take a contract to display the errors in a rails form.
-  # In order to have faulty field highlighted, the method sets
-  # all errors in the contract on the object as well.
   def error_messages_for_contract(object, errors)
     return unless errors
 
-    error_messages = errors.full_messages
-
+    # In order to have faulty field highlighted, the method sets
+    # all errors in the contract on the object as well.
     object.errors.merge!(errors)
 
-    render_error_messages_partial(error_messages, object:)
+    render_error_messages_partial(errors, object)
   end
 
-  def render_error_messages_partial(messages, object:)
-    unless messages.empty?
-      render partial: 'common/validation_error',
-             locals: { error_messages: messages,
-                       object_name: object.class.model_name.human }
-    end
+  def render_error_messages_partial(errors, object)
+    return '' if errors.empty?
+
+    base_error_messages = errors.full_messages_for(:base)
+    fields_error_messages = errors.full_messages - base_error_messages
+
+    render partial: 'common/validation_error',
+           locals: { base_error_messages:,
+                     fields_error_messages:,
+                     object_name: object.class.model_name.human }
+  end
+
+  def text_header_invalid_fields(base_error_messages, fields_error_messages)
+    return if fields_error_messages.blank?
+
+    i18n_key = base_error_messages.present? ? 'errors.header_additional_invalid_fields' : 'errors.header_invalid_fields'
+    t(i18n_key, count: fields_error_messages.count)
+  end
+
+  def list_of_messages(messages)
+    return if messages.blank?
+
+    messages = messages.map { |message| tag.li message }
+    tag.ul { safe_join(messages, "\n") }
   end
 end
