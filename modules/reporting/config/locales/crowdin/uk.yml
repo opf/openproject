@@ -83,7 +83,7 @@ uk:
   validation_failure_integer: "не є дійсним цілим числом"
   export:
     cost_reports:
-      title: "Your Cost Reports XLS export"
+      title: "Експорт звітів про витрати у форматі XLS"
   reporting:
     group_by:
       selected_columns: "Вибрані стовпці"

@@ -2073,7 +2073,7 @@ es:
       more_to_see:
         one: 'Hay un paquete de trabajo más con notificaciones.'
         other: 'Hay %{count} paquetes de trabajo más con notificaciones.'
-      open_in_browser: 'Open in browser'
+      open_in_browser: 'Abrir en el navegador'
       reason:
         watched: 'Supervisado'
         assigned: 'Asignado'
