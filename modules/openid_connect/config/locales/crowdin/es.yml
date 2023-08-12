@@ -9,7 +9,7 @@ es:
         identifier: Identificador
         secret: Secreto
         scope: Ámbito
-        limit_self_registration: Limitar auto-registro
+        limit_self_registration: Limitar autorregistro
   openid_connect:
     menu_title: Proveedores de OpenID
     providers:
@@ -20,8 +20,8 @@ es:
       singular: Proveedor de OpenID
     setting_instructions:
       azure_graph_api: >
-        Use the graph.microsoft.com userinfo endpoint to request userdata. This should be the default unless you have an older azure application.
+        Utilice el terminal graph.microsoft.com userinfo para solicitar los datos de usuario. Este debería ser el predeterminado a menos que tenga una aplicación azure más antigua.
       azure_tenant_html: >
-        Set the tenant of your Azure endpoint. This will control who gets access to the OpenProject instance. For more information, please see <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">our user guide on Azure OpenID connect</a>.
+        Establezca el inquilino de su terminal Azure. Esto controlará quién obtiene acceso a la instancia de OpenProject. Para más información, consulte <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">nuestra guía de usuario sobre Azure OpenID connect</a>.
       limit_self_registration: >
-        Si está habilitado, los usuarios sólo pueden registrarse usando este proveedor si la configuración de auto registro lo permite.
+        Si está habilitado, los usuarios solo pueden registrarse usando este proveedor si la configuración de autorregistro lo permite.

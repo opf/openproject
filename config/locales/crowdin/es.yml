@@ -276,24 +276,24 @@ es:
       notice_reset_token: "Se generó un nuevo token de acceso del tipo %{type}. Su token de acceso es:"
       token_value_warning: "Nota: Esta es la única vez que le mostraremos este token, asegúrese de copiarlo ahora."
       no_results_title_text: Actualmente no hay tokens de acceso disponibles.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
-      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
-      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "Se ha eliminado el token de la API. Para crear un nuevo token, utilice el enlace de la sección API."
+      notice_rss_token_revoked: "Se ha eliminado el token RSS. Para crear un nuevo token, utilice el enlace de la sección RSS."
+      notice_ical_token_revoked: "Se ha revocado el token de iCalendar «%{token_name}» para el calendario «%{calendar_name}» del proyecto «%{project_name}». La URL de iCalendar con este token ya no es válida."
   news:
     index:
       no_results_title_text: No hay noticias sobre las que informar por el momento.
       no_results_content_text: Añadir un elemento de noticias
   users:
     sessions:
-      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      session_name: "%{browser_name} %{browser_version} en %{os_name}"
       browser: 'Navegador'
-      device: 'Device / OS'
+      device: 'Dispositivo / SO'
       unknown_browser: 'navegador desconocido'
       unknown_os: 'sistema operativo desconocido'
       current: 'Sesión actual'
       title: 'Administración de sesiones'
-      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
-      may_not_delete_current: 'You cannot delete your current session.'
+      instructions: 'Esta es una lista de los dispositivos que han iniciado sesión en su cuenta. Revoque las sesiones que no reconozca o a las que ya no tenga acceso.'
+      may_not_delete_current: 'No puede eliminar su sesión actual.'
     groups:
       member_in_these_groups: 'Este usuario es miembro actualmente de los grupos siguientes:'
       no_results_title_text: Este usuario no es miembro actualmente de ningún grupo.
@@ -337,10 +337,10 @@ es:
       no_results_content_text: Añadir un nuevo estado
   themes:
     light: "Claro"
-    light_high_contrast: "Light high contrast"
+    light_high_contrast: "Contraste alto claro"
     dark: "Oscuro"
     dark_dimmed: "Oscuro atenuado"
-    dark_high_contrast: "Dark high contrast"
+    dark_high_contrast: "Contraste alto oscuro"
   types:
     index:
       no_results_title_text: Actualmente no existen tipos.
@@ -515,11 +515,11 @@ es:
         status_explanation: 'Descripción del estado del proyecto'
         status_codes:
           not_started: 'No iniciado'
-          on_track: 'En curso'
+          on_track: 'Según lo previsto'
           at_risk: 'En riesgo'
           off_track: 'Fuera de lo previsto'
           finished: 'Terminado'
-          discontinued: 'Descontinuado'
+          discontinued: 'Interrumpido'
         templated: "Plantilla del proyecto"
         templated_value:
           true: "marcar como plantilla"
@@ -721,8 +721,8 @@ es:
         ical_token_query_assignment:
           attributes:
             name:
-              blank: "is mandatory. Please select a name."
-              not_unique: "is already in use. Please select another name."
+              blank: "es obligatorio. Por favor, seleccione un nombre."
+              not_unique: "ya está en uso. Por favor, seleccione otro nombre."
         notifications:
           at_least_one_channel: 'Debe especificarse al menos un canal para enviar notificaciones.'
           attributes:
@@ -830,6 +830,7 @@ es:
               not_allowed_to_view: "no tiene permiso para ver este recurso."
               locked: "está bloqueado."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "no se puede deducir a partir del título «%{title}»."
@@ -945,27 +946,32 @@ es:
       work_package: "Paquete de trabajo"
       'doorkeeper/application': "Aplicación OAuth"
   errors:
-    header_invalid_fields: "Hubo problemas con los siguientes campos:"
+    header_invalid_fields:
+      one: "There was a problem with the following field:"
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      one: "Additionally, there was a problem with the following field:"
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "Este campo es inválido: %{full_errors} por favor, ingrese un valor válido."
   activity:
     item:
       created_by_on: "creado por %{user} el %{datetime}"
-      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
+      created_by_on_time_entry: "hora registrada por %{user} el %{datetime}"
       created_on: "creado el %{datetime}"
       updated_by_on: "actualizado por %{user} el %{datetime}"
-      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "hora registrada actualizada por %{user} el %{datetime}"
       updated_on: "actualizado el %{datetime}"
       parent_without_of: "Subproyecto"
       parent_no_longer: "Ya no es subproyecto de"
       time_entry:
         hour:
-          one: "%{count} hour"
+          one: "%{count} hora"
           other: "%{count} horas"
         hour_html:
-          one: "<i>%{count} hour</i>"
-          other: "<i>%{count} hours</i>"
-        updated: "changed from %{old_value} to %{value}"
-        logged_for: "Logged for"
+          one: "<i>%{count} hora</i>"
+          other: "<i>%{count} horas</i>"
+        updated: "cambiado de %{old_value} a %{value}"
+        logged_for: "Registrado para"
     filter:
       changeset: "Conjuntos de cambios"
       message: "Foros"
@@ -1083,7 +1089,7 @@ es:
   button_continue: "Continuar"
   button_copy: "Copiar"
   button_copy_to_clipboard: "Copiar en el portapapeles"
-  button_copy_link_to_clipboard: "Copy link to clipboard"
+  button_copy_link_to_clipboard: "Copiar enlace al portapapeles"
   button_copy_and_follow: "Copiar y seguir"
   button_create: "Crear"
   button_create_and_continue: "Crear y continuar"
@@ -1306,7 +1312,7 @@ es:
   error_can_not_delete_custom_field: "Imposible eliminar el campo seleccionado"
   error_can_not_delete_type:
     explanation: 'Este tipo contiene paquetes de trabajo y no se puede eliminar. Puede ver todos los paquetes de trabajo afectados en <a target="_blank" href="%{url}">esta vista</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
+    archived_projects: 'Hay paquetes de trabajo en los proyectos archivados. Necesita reactivar los proyectos siguientes para cambiar el tipo de los paquetes de trabajo correspondientes: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Tipos estándar no se pueden borrar."
   error_can_not_invite_user: "Error al enviar la invitación al usuario."
   error_can_not_remove_role: "Este rol esta en uso y no puede ser eliminado"
@@ -1315,7 +1321,7 @@ es:
   error_can_not_unarchive_project: "Este proyecto no se puede recuperar: %{errors}"
   error_check_user_and_role: "Por favor elige un usuario y un rol."
   error_code: "Error %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "No se pudo guardar el color"
   error_cookie_missing: 'No se encuentra la cookie de OpenProject. Por favor asegúrese de que las cookies están habilitadas, ya que sin ellas esta aplicación no funcionará correctamente.'
   error_custom_option_not_found: "Esta opción no existe."
   error_enterprise_activation_user_limit: "Su cuenta no puede ser activada (se alcanzó el límite del usuario). Por favor, contacte su administrador para obtener acceso."
@@ -1340,7 +1346,7 @@ es:
   error_password_change_failed: 'Se produjo un error al intentar cambiar la contraseña.'
   error_scm_command_failed: "Se produjo un error al intentar acceder al repositorio: %{value}"
   error_scm_not_found: "La entrada o la revisión no se encontró en el repositorio."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "No se pudo guardar el tipo"
   error_unable_delete_status: "El estado del paquete de trabajo no se puede eliminar ya que esta siendo utilizado por al menos un paquete de trabajo."
   error_unable_delete_default_status: "No se puede eliminar el estado del paquete trabajo por defecto. Por favor, seleccione otro estado de trabajo predeterminado antes de eliminar el actual."
   error_unable_to_connect: "No se puede conectar (%{value})"
@@ -1377,9 +1383,9 @@ es:
       atom: "Atomo"
       csv: "CSV"
       pdf: "PDF"
-      pdf_overview_table: "PDF Table"
-      pdf_report_with_images: "PDF Report with images"
-      pdf_report: "PDF Report"
+      pdf_overview_table: "Tabla PDF"
+      pdf_report_with_images: "Informe PDF con imágenes"
+      pdf_report: "Informe PDF"
     image:
       omitted: "Imagen no exportada."
     units:
@@ -1431,24 +1437,24 @@ es:
   journals:
     changes_retracted: "Se deshicieron los cambios."
     caused_changes:
-      dates_changed: "Dates changed"
-      system_update: "OpenProject update"
+      dates_changed: "Cambio de fechas"
+      system_update: "Actualizar OpenProject"
     cause_descriptions:
-      work_package_predecessor_changed_times: by changes to predecessor %{link}
-      work_package_parent_changed_times: by changes to parent %{link}
-      work_package_children_changed_times: by changes to child %{link}
-      work_package_related_changed_times: by changes to related %{link}
-      unaccessable_work_package_changed: by changes to a related work package
+      work_package_predecessor_changed_times: por cambios al %{link} predecesor
+      work_package_parent_changed_times: por cambios al %{link} principal
+      work_package_children_changed_times: por cambios en el secundario %{link}
+      work_package_related_changed_times: por cambios en los %{link} relacionados
+      unaccessable_work_package_changed: por cambios en un paquete de trabajo relacionado
       working_days_changed:
-        changed: "by changes to working days (%{changes})"
+        changed: "por cambios en días laborables (%{changes})"
         days:
           working: "%{day} es ahora laboral"
           non_working: "%{day} es ahora no laboral"
         dates:
-          working: "%{date} is now working"
-          non_working: "%{date} is now non-working"
+          working: "%{date} es ahora laboral"
+          non_working: "%{date} es ahora no laboral"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: 'añadido Enlaces de archivos a Actividades'
   links:
     configuration_guide: 'Guía de configuración'
     get_in_touch: "¿Tiene alguna pregunta? Póngase en contacto con nosotros."
@@ -1458,7 +1464,7 @@ es:
   menus:
     admin:
       mail_notification: "Notificaciones de correo electrónico"
-      mails_and_notifications: "Emails and notifications"
+      mails_and_notifications: "Correos electrónicos y notificaciones"
       aggregation: 'Agregación'
       api_and_webhooks: "API y webhooks"
     quick_add:
@@ -1473,33 +1479,33 @@ es:
         action: "Acción"
         expiration: "Expira"
       indefinite_expiration: "Nunca"
-      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      simple_revoke_confirmation: "¿Seguro que desea revocar este token?"
       api:
         title: "API"
-        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        text_hint: "Los tokens API permiten a las aplicaciones de terceros comunicarse con esta instancia de OpenProject a través de las API REST."
         static_token_name: "Token API"
-        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+        disabled_text: "Los tokens API no están habilitados por el administrador. Póngase en contacto con su administrador para utilizar esta función."
       ical:
         title: "iCalendar"
-        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
-        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
-        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+        text_hint: "Los tokens iCalendar permiten a los usuarios <a href=\"%{path}\" target=\"_blank\">suscribirse a los calendarios de OpenProject</a> y ver la información actualizada de los paquetes de trabajo de clientes externos."
+        disabled_text: "Las suscripciones a iCalendar no están habilitadas por el administrador. Póngase en contacto con su administrador para utilizar esta función."
+        empty_text_hint: "Para añadir un token de iCalendar, suscríbase a un calendario nuevo o existente desde el módulo Calendario de un proyecto. Debe disponer de los permisos necesarios."
       oauth:
         title: "OAuth"
-        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
-        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+        text_hint: "Los tokens OAuth permiten a las aplicaciones de terceros conectarse con esta instancia de OpenProject."
+        empty_text_hint: "No hay ningún acceso a aplicaciones de terceros configurado y activo para usted. Póngase en contacto con su administrador para activar esta función."
       rss:
         title: "RSS"
-        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        text_hint: "Los tokens RSS permiten a los usuarios mantenerse al día de los últimos cambios en esta instancia de OpenProject a través de un lector RSS externo."
         static_token_name: "Token RSS"
-        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+        disabled_text: "Los tokens RSS no están habilitados por el administrador. Póngase en contacto con su administrador para utilizar esta función."
       storages:
         title: "Almacenamiento de archivos"
-        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
-        empty_text_hint: "There is no storage access linked to your account."
-        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
-        removed: "File Storage token successfully removed"
-        failed: "An error occurred and the token couldn't be removed. Please try again later."
+        text_hint: "Los tokens de Almacenamiento de Archivos conectan esta instancia de OpenProject con un Almacenamiento de Archivos externo."
+        empty_text_hint: "No hay acceso de almacenamiento vinculado a su cuenta."
+        revoke_token: "¿Realmente desea eliminar este token? Tendrá que volver a iniciar sesión en %{storage}"
+        removed: "Ficha de almacenamiento de archivos eliminada con éxito"
+        failed: "Se ha producido un error y no se ha podido eliminar el token. Por favor, inténtelo de nuevo más tarde."
   notifications:
     send_notifications: "Enviar notificaciones para esta acción"
     work_packages:
@@ -1542,7 +1548,7 @@ es:
   label_age: "Edad"
   label_ago: "días antes"
   label_all: "todos"
-  label_all_projects: "All projects"
+  label_all_projects: "Todos los proyectos"
   label_all_time: "todo el tiempo"
   label_all_words: "Todas las palabras"
   label_all_open_wps: "Todo abierto"
@@ -1552,14 +1558,14 @@ es:
   label_api_access_key_created_on: "Código de acceso API creado  hace %{value}"
   label_api_access_key_type: "API"
   label_ical_access_key_type: "iCalendar"
-  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_description: "Token de iCalendar \"%{token_name}\" para \"%{calendar_name}\" en \"%{project_name}\""
   label_ical_access_key_not_present: "iCalendar token(s) not present."
-  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
-  label_ical_access_key_latest: "latest"
+  label_ical_access_key_generation_hint: "Se genera automáticamente al suscribirse a un calendario."
+  label_ical_access_key_latest: "último"
   label_ical_access_key_revoke: "Revocar"
   label_applied_status: "Estado aplicado"
   label_archive_project: "Archivar proyecto"
-  label_archived_projects: "Archived projects"
+  label_archived_projects: "Proyectos archivados"
   label_ascending: "Ascendente"
   label_assigned_to_me_work_packages: "Paquetes de trabajo asignados a mí"
   label_associated_revisions: "Revisiones asociadas"
@@ -1568,9 +1574,9 @@ es:
   label_attachment_plural: "Archivos"
   label_attribute: "Atributo"
   label_attribute_plural: "Atributos"
-  label_ldap_auth_source_new: "New LDAP connection"
-  label_ldap_auth_source: "LDAP connection"
-  label_ldap_auth_source_plural: "LDAP connections"
+  label_ldap_auth_source_new: "Nueva conexión LDAP"
+  label_ldap_auth_source: "Conexión LDAP"
+  label_ldap_auth_source_plural: "Conexiones LDAP"
   label_authentication: "Autentificación"
   label_available_project_work_package_categories: 'Categorias de paquetes de trabjo disponibles'
   label_available_project_work_package_types: 'Tipos de paquete de trabajo disponibles'
@@ -1593,7 +1599,7 @@ es:
   label_bulk_edit_selected_work_packages: "Edición masiva de paquetes de trabajo"
   label_bundled: '(Agrupado)'
   label_calendar: "Calendario"
-  label_calendars_and_dates: "Calendars and dates"
+  label_calendars_and_dates: "Calendarios y fechas"
   label_calendar_show: "Mostrar Calendario"
   label_category: "Categoría"
   label_consent_settings: "Consentimiento del usuario"
@@ -1629,7 +1635,7 @@ es:
   label_confirmation: "Confirmación"
   label_contains: "contiene"
   label_content: "Contenido"
-  label_color_plural: "Colors"
+  label_color_plural: "Colores"
   label_copied: "copiado"
   label_copy_same_as_target: "Igual al destino"
   label_copy_source: "Fuente"
@@ -1658,7 +1664,7 @@ es:
   label_deleted: "borrado"
   label_deleted_custom_field: "(campo personalizado borrado)"
   label_deleted_custom_option: "(opción eliminada)"
-  label_empty_element: "(empty)"
+  label_empty_element: "(vacío)"
   label_missing_or_hidden_custom_option: "(faltan valores o permisos de acceso)"
   label_descending: "Descendente"
   label_details: "Detalles"
@@ -1698,13 +1704,13 @@ es:
   label_everywhere: "todo"
   label_example: "Ejemplo"
   label_experimental: "Experimental"
-  label_i_am_member: "I am member"
+  label_i_am_member: "Soy miembro"
   label_import: "Importar"
   label_export_to: "También disponible en:"
   label_expanded_click_to_collapse: "Expandido. Haga clic para contraer"
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} horas"
-  label_favoured: "Favoured"
+  label_favoured: "Favorecido"
   label_feed_plural: "Flujos"
   label_feeds_access_key: "Código de acceso RSS"
   label_feeds_access_key_created_on: "Código de acceso RSS creado hace %{value}"
@@ -1736,7 +1742,7 @@ es:
   label_hierarchy_leaf: "Hoja de jerarquía"
   label_home: "Inicio"
   label_subject_or_id: "Asunto o ID"
-  label_calendar_subscriptions: "Calendar subscriptions"
+  label_calendar_subscriptions: "Suscripciones al calendario"
   label_impressum: "Aviso legal"
   label_in: "en"
   label_in_less_than: "en menos de"
@@ -1758,7 +1764,7 @@ es:
   label_journal: "Diario"
   label_journal_diff: "Comparación de la descripción"
   label_language: "Idioma"
-  label_languages: "Languages"
+  label_languages: "Idiomas"
   label_jump_to_a_project: "Saltar a un proyecto..."
   label_keyword_plural: 'Palabras clave'
   label_language_based: "Basado en el idioma del usuario"
@@ -1780,7 +1786,7 @@ es:
   label_logged_as: "Sesión iniciada como"
   label_login: "Ingresar"
   label_custom_logo: "Logotipo personalizado"
-  label_custom_export_logo: "Custom export logo"
+  label_custom_export_logo: "Logotipo de exportación personalizado"
   label_custom_favicon: "Icono de página personalizado"
   label_custom_touch_icon: "Icono táctil personalizado"
   label_logout: "Cerrar sesión"
@@ -1817,7 +1823,7 @@ es:
   label_more_than_ago: "más días atrás"
   label_move_work_package: "Mover el paquete de trabajo"
   label_my_account: "Mi cuenta"
-  label_my_activity: "My activity"
+  label_my_activity: "Mi actividad"
   label_my_account_data: "Mis datos de cuenta"
   label_my_projects: "Mis proyectos"
   label_my_queries: "Mis consultas personalizadas"
@@ -1900,8 +1906,8 @@ es:
   label_project_new: "Nuevo proyecto"
   label_project_plural: "Proyectos"
   label_project_settings: "Configuración del proyecto"
-  label_project_storage_plural: "File Storages"
-  label_project_storage_project_folder: "File Storages: Project folders"
+  label_project_storage_plural: "Almacenes de archivos"
+  label_project_storage_project_folder: "Almacenes de archivos: Carpetas de proyectos"
   label_projects_storage_information: "%{count} proyectos utilizando %{storage} de almacenamiento en disco"
   label_project_view_all: "Ver todos los proyectos"
   label_project_show_details: "Mostrar los detalles del proyecto"
@@ -1952,7 +1958,7 @@ es:
   label_role_search: "Asignar rol a nuevos miembros"
   label_scm: "SCM"
   label_search: "Buscar"
-  label_send_information: "Send new credentials to the user"
+  label_send_information: "Enviar nuevas credenciales al usuario"
   label_send_test_email: "Enviar un correo electrónico de prueba"
   label_setting_plural: "Configuración"
   label_system_settings: "Ajustes de sistema"
@@ -1989,7 +1995,7 @@ es:
   label_this_week: "esta semana"
   label_this_year: "este año"
   label_time_entry_plural: "Tiempo invertido"
-  label_title: "Title"
+  label_title: "Título"
   label_projects_menu: "Proyectos"
   label_today: "hoy"
   label_top_menu: "Menú superior"
@@ -2021,7 +2027,7 @@ es:
   label_user_plural: "Usuarios"
   label_user_search: "Búsqueda de usuario"
   label_user_settings: "Configuración de usuario"
-  label_users_settings: "Users settings"
+  label_users_settings: "Ajustes de usuario"
   label_version_new: "Nueva versión"
   label_version_plural: "Versiones"
   label_version_sharing_descendants: "Con subproyectos"
@@ -2093,7 +2099,7 @@ es:
   label_global_role: "Rol global"
   label_not_changeable: "(no modificable)"
   label_global: "Global"
-  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
+  label_seeded_from_env_warning: Este registro se ha creado a través de un ajuste / variable de entorno. No es editable a través de la interfaz de usuario.
   macro_execution_error: "Error ejecutando el macro %{macro_name}"
   macro_unavailable: "Macro  %{macro_name} no puede ser mostrado."
   macros:
@@ -2137,7 +2143,7 @@ es:
       more_to_see:
         one: 'Hay un paquete de trabajo más con notificaciones.'
         other: 'Hay %{count} paquetes de trabajo más con notificaciones.'
-      open_in_browser: 'Open in browser'
+      open_in_browser: 'Abrir en el navegador'
       reason:
         watched: 'Supervisado'
         assigned: 'Asignado'
@@ -2281,7 +2287,7 @@ es:
   present_access_key_value: "Su %{key_name} es: %{value}"
   notice_automatic_set_of_standard_type: "Establecer tipo estándar automáticamente."
   notice_logged_out: "Has cerrado la sesion."
-  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
+  notice_wont_delete_auth_source: La conexión LDAP no puede borrarse mientras siga habiendo usuarios que la utilicen.
   notice_project_cannot_update_custom_fields: "No se pueden actualizar campos personalizados disponibles del proyecto. El proyecto es inválido: %{errors}"
   notice_attachment_migration_wiki_page: >
     Esta página se generó automáticamente al actualizar OpenProject. Contiene todos los datos adjuntos que estaban asociados anteriormente al %{container_type} "%{container_name}".
@@ -2315,8 +2321,8 @@ es:
   permission_add_messages: "Publicar mensajes"
   permission_add_project: "Crear proyecto"
   permission_archive_project: "Archivar proyecto"
-  permission_create_user: "Create users"
-  permission_manage_user: "Edit users"
+  permission_create_user: "Crear usuarios"
+  permission_manage_user: "Editar usuarios"
   permission_manage_placeholder_user: "Crear, editar y eliminar usuarios de marcador de posición"
   permission_add_subprojects: "Crear subproyectos"
   permission_add_work_package_watchers: "Agregar observadores"
@@ -2593,7 +2599,7 @@ es:
   setting_enabled_scm: "SCM activado"
   setting_enabled_projects_columns: "Visible en la lista de proyectos"
   setting_feeds_enabled: "Activar Feeds"
-  setting_ical_enabled: "Enable iCalendar subscriptions"
+  setting_ical_enabled: "Activar las suscripciones a iCalendar"
   setting_feeds_limit: "Limite de contenido de feed"
   setting_file_max_size_displayed: "Tamaño máximo de archivos de texto mostrado en linea"
   setting_host_name: "Nombre de host"
@@ -2644,9 +2650,9 @@ es:
   setting_start_of_week: "La semana empieza el"
   setting_sys_api_enabled: "Habilitar el servicio web de administración de repositorios"
   setting_sys_api_description: "El servicio web de administración de repositorios proporciona integración y autorización de usuario para acceder a los repositorios."
-  setting_time_format: "Tiempo"
+  setting_time_format: "Hora"
   setting_accessibility_mode_for_anonymous: "Activar el modo de accesibilidad para usuarios anónimos"
-  setting_user_format: "Users name format"
+  setting_user_format: "Formato de nombre de usuarios"
   setting_user_default_timezone: "Zona horaria por defecto de los usuarios"
   setting_users_deletable_by_admins: "Cuentas de usuario eliminables por administradores"
   setting_users_deletable_by_self: "Permitir a los usuarios eliminar sus propias cuentas"
@@ -2663,13 +2669,13 @@ es:
     brute_force_prevention: "Bloqueo automático de usuarios"
     date_format:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Si se establece una de las opciones «%{day_of_week_setting_name}» o «%{first_week_setting_name}», también debe establecerse la otra para evitar incoherencias en el front-end.
       first_week_of_year_text_html: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+        Seleccione la fecha de enero contenida en la primera semana del año. Este valor, junto con el primer día de la semana, determina el número total de semanas de un año. Para más información, consulte nuestra <a href="%{link}" target="_blank">documentación</a> sobre este tema.
     experimental:
-      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
-      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
-      feature_flags: Feature flags
+      save_confirmation: '¡Precaución! ¡Riesgo de pérdida de datos! Active las funciones experimentales sólo si no le importa romper su instalación de OpenProject y perder todos sus datos.'
+      warning_toast: Las banderas de características son ajustes que activan características que aún están en desarrollo. Sólo se utilizarán con fines de prueba. Nunca deberán activarse en instalaciones de OpenProject que contengan datos importantes. Es muy probable que estas características corrompan sus datos. Utilícelas bajo su propia responsabilidad.
+      feature_flags: Banderas de características
     general: "General"
     highlighting:
       mode_long:
@@ -2679,10 +2685,10 @@ es:
         type: "Toda la fila por tipo"
         priority: "Toda la fila por prioridad"
     icalendar:
-      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+      enable_subscriptions_text_html: Permite a los usuarios con los permisos necesarios suscribirse a los calendarios de OpenProject y acceder a la información de los paquetes de trabajo a través de un cliente de calendario externo.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
-    language_name_being_default: '%{language_name} (default)'
+    language_name_being_default: '%{language_name} (por defecto)'
     notifications:
       events_explanation: 'Controla para qué evento se envía un correo electrónico. Los paquetes de trabajo se excluyen de esta lista, ya que las notificaciones para estos se pueden configurar específicamente por usuario.'
       delay_minutes_explanation: "El envío de correos electrónicos se puede retrasar para permitir que los usuarios que reciban notificaciones en la aplicación puedan confirmarlas desde la aplicación antes de que se envíe un correo. Los usuarios que lean notificaciones en la aplicación no recibirán correos electrónicos de las notificaciones ya leídas."
@@ -2694,11 +2700,11 @@ es:
     session: "Sesión"
     user:
       default_preferences: "Preferencias predeterminadas"
-      display_format: "Display format"
+      display_format: "Formato de presentación"
       deletion: "Eliminación"
     working_days:
       section_work_week: "Semana de trabajo"
-      section_holidays_and_closures: "Holidays and closures"
+      section_holidays_and_closures: "Vacaciones y cierres"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Texto sin formato'
@@ -2738,11 +2744,11 @@ es:
   text_custom_logo_instructions: >
     Se recomienda usar un logotipo blanco sobre un fondo transparente. Para obtener los mejores resultados, tanto en pantallas convencionales como en las del tipo Retina, asegúrese de que las dimensiones de la imagen sean de 460 × 60 px.
   text_custom_export_logo_instructions: >
-    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+    Este es el logotipo que aparece en sus exportaciones PDF. Tiene que ser un archivo de imagen PNG o JPEG. Se recomienda un logotipo negro o de color sobre fondo transparente o blanco.
   text_custom_favicon_instructions: >
-    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+    Es el icono diminuto que aparece en la ventana o pestaña del navegador, junto al título de la página. Tiene que ser una imagen PNG cuadrada de 32 × 32 píxeles con un fondo transparente.
   text_custom_touch_icon_instructions: >
-    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
+    Es el icono que aparece en un móvil o tableta al colocar un marcador en la pantalla de inicio. Debe ser un archivo de imagen PNG cuadrado de 180 × 180 píxeles. Asegúrese de que el fondo de la imagen no sea transparente, ya que tendrá una apariencia poco adecuada en iOS.
   text_database_allows_tsv: "La Base de datos permite TSVector (opcional)"
   text_default_administrator_account_changed: "Se ha cambiado la cuenta de administrador por defecto"
   text_default_encoding: "Por defecto: UTF-8"
@@ -2768,16 +2774,16 @@ es:
   text_work_packages_destroy_confirmation: "¿Esta usted seguro que desea eliminar paquete(s) de trabajo seleccionado(s)?"
   text_work_packages_ref_in_commit_messages: "Referenciando y reparando paquetes de trabajo en mensajes de commit"
   text_journal_added: "%{label} %{value} añadido"
-  text_journal_attachment_added: "%{label} %{value} added as attachment"
-  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
+  text_journal_attachment_added: "%{label} %{value} añadido como adjunto"
+  text_journal_attachment_deleted: "%{label} %{old} eliminado como archivo adjunto"
   text_journal_changed_plain: "%{label} se cambió de %{old} %{linebreak}a %{new}"
   text_journal_changed_no_detail: "%{label} actualizado"
   text_journal_changed_with_diff: "%{label} modificado (%{link})"
   text_journal_deleted: "%{label} eliminado (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} eliminado (%{link})"
-  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
-  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
+  text_journal_file_link_added: "%{label} enlace a %{value} (%{storage}) añadido"
+  text_journal_file_link_deleted: "Enlace %{label} a %{old} (%{storage}) eliminado"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} establecido al %{value}"
   text_journal_set_with_diff: "%{label} fijado (%{link})"
@@ -2825,9 +2831,9 @@ es:
   text_setup_mail_configuration: "Configurar su proveedor de correo electrónico"
   help_texts:
     views:
-      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
-      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
-      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
+      project: "Los %{plural} siempre se adjuntan a un proyecto. Tras crear un %{singular} puede añadirle paquetes de trabajo de otros proyectos."
+      public: "Publique esta vista para que otros usuarios puedan acceder a esta. Los usuarios con el permiso «Administrar vistas públicas» puede modificar o quitar vistas públicas. Esto no afecta a la visibilidad de los resultados de paquetes de trabajo en esa vista y, según sus permisos, los usuarios pueden ver resultados distintos."
+      favoured: "Marque esta vista como favorita y agréguela a la barra lateral de vistas guardadas de la izquierda."
   time:
     am: "AM"
     formats:
@@ -2928,9 +2934,9 @@ es:
       title: "Eliminar el pauqete de trabajo"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Los días no seleccionados se omiten al programar los paquetes de trabajo (y no se incluyen en el recuento de días). Esto puede anularse a nivel de paquete de trabajo.
     instance_wide_info: >
-      Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Las fechas añadidas a la lista siguiente se consideran no laborables y se omiten al programar los paquetes de trabajo.
     change_button: "Cambiar los días laborables"
     warning: >
       Cambiar qué días de la semana se consideran días laborables o no laborables puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia. <br/> Tenga en cuenta que los cambios solo se aplican después de hacer clic en el botón aplicar cambios.

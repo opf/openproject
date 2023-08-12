@@ -829,6 +829,7 @@ ca:
               not_allowed_to_view: "no està permès veure aquest recurs."
               locked: "està bloquejat."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "no pot ser deduït del títol \"%{title}\"."
@@ -944,7 +945,12 @@ ca:
       work_package: "Paquet de treball"
       'doorkeeper/application': "Aplicació OAuth"
   errors:
-    header_invalid_fields: "S'han detectat problemes en els camps següents:"
+    header_invalid_fields:
+      one: "There was a problem with the following field:"
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      one: "Additionally, there was a problem with the following field:"
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "Aquest camp no és vàlid: %{full_errors} si us plau, introduïu un valor correcte."
   activity:
     item:

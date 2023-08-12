@@ -830,6 +830,7 @@ it:
               not_allowed_to_view: "non può visualizzare questa risorsa."
               locked: "è bloccato."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "impossibile dedurre dal titolo '%{title}'."
@@ -945,7 +946,12 @@ it:
       work_package: "Macro-attività"
       'doorkeeper/application': "Applicazione OAuth"
   errors:
-    header_invalid_fields: "Ci sono stati dei problemi con i seguenti campi:"
+    header_invalid_fields:
+      one: "There was a problem with the following field:"
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      one: "Additionally, there was a problem with the following field:"
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "Questo campo non è valido: %{full_errors} Prego, inserisci un valore valido."
   activity:
     item:

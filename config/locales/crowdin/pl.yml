@@ -832,6 +832,7 @@ pl:
               not_allowed_to_view: "nie ma uprawnień do wyświetlania tego zasobu."
               locked: "jest zablokowane."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "nie można odjąć od tytułu „%{title}”."
@@ -955,7 +956,16 @@ pl:
       work_package: "Pakiet roboczy"
       'doorkeeper/application': "Aplikacje OAuth"
   errors:
-    header_invalid_fields: "Wystąpił problem z następującymi polami:"
+    header_invalid_fields:
+      one: "There was a problem with the following field:"
+      few: "There were problems with the following fields:"
+      many: "There were problems with the following fields:"
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      one: "Additionally, there was a problem with the following field:"
+      few: "Additionally, there were problems with the following fields:"
+      many: "Additionally, there were problems with the following fields:"
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "To pole jest nieprawidłowe: %{full_errors} proszę podać prawidłową wartość."
   activity:
     item:

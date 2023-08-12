@@ -832,6 +832,7 @@ zh-TW:
               not_allowed_to_view: "is not allowed to view this resource."
               locked: "is locked."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "cannot be deduced from the title '%{title}'."
@@ -943,7 +944,10 @@ zh-TW:
       work_package: "工作項目"
       'doorkeeper/application': "Oauth 應用程式"
   errors:
-    header_invalid_fields: "以下的欄位有問題:"
+    header_invalid_fields:
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "此欄位不正確: %{full_errors}\n請輸入一個有效的值！"
   activity:
     item:

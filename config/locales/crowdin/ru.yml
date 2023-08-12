@@ -834,6 +834,7 @@ ru:
               not_allowed_to_view: "у Вас нет разрешений для просматра этого ресурса."
               locked: "заблокирован."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "не может быть вычтено из заголовка '%{title}'."
@@ -957,7 +958,16 @@ ru:
       work_package: "Пакет работ"
       'doorkeeper/application': "Приложение OAuth"
   errors:
-    header_invalid_fields: "Были проблемы со следующими полями:"
+    header_invalid_fields:
+      one: "There was a problem with the following field:"
+      few: "There were problems with the following fields:"
+      many: "There were problems with the following fields:"
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      one: "Additionally, there was a problem with the following field:"
+      few: "Additionally, there were problems with the following fields:"
+      many: "Additionally, there were problems with the following fields:"
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "Значение этого поля неверно: %{full_errors}. Пожалуйста, введите верное значение."
   activity:
     item:

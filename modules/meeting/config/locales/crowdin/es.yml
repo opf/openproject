@@ -65,8 +65,8 @@ es:
   label_upcoming_meetings: "Próximas reuniones"
   label_past_meetings: "Reuniones anteriores"
   label_involvement: "Implicación"
-  label_upcoming_invitations: "Upcoming invitations"
-  label_past_invitations: "Past invitations"
+  label_upcoming_invitations: "Próximas invitaciones"
+  label_past_invitations: "Invitaciones pasadas"
   label_attendee: "Asistente"
   label_author: "Autor"
   label_notify: "Enviar para revisión"
@@ -93,7 +93,7 @@ es:
   text_duration_in_hours: "Duración en horas"
   text_in_hours: "en horas"
   text_meeting_agenda_for_meeting: 'agenda para la reunión "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting agenda?"
+  text_meeting_closing_are_you_sure: "¿Seguro que quiere cerrar el orden del día de la reunión?"
   text_meeting_agenda_open_are_you_sure: "Se sobrescribirán todos los cambios en las minutas. ¿Quiere continuar?"
   text_meeting_minutes_for_meeting: 'minutas para la reunión "%{meeting}"'
   text_review_meeting_agenda: "%{author} ha puesto el %{link} para revisión."

@@ -825,6 +825,7 @@ id:
               not_allowed_to_view: "is not allowed to view this resource."
               locked: "is locked."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "cannot be deduced from the title '%{title}'."
@@ -936,7 +937,10 @@ id:
       work_package: "Paket-Penugasan"
       'doorkeeper/application': "aplikasi OAuth"
   errors:
-    header_invalid_fields: "Eror pada isian berikut :"
+    header_invalid_fields:
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "Bidang ini tidak valid: %{full_errors} masukkan nilai yang berlaku."
   activity:
     item:

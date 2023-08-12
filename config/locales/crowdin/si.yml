@@ -833,6 +833,7 @@ si:
               not_allowed_to_view: "is not allowed to view this resource."
               locked: "is locked."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "cannot be deduced from the title '%{title}'."
@@ -948,7 +949,12 @@ si:
       work_package: "වැඩ පැකේජය"
       'doorkeeper/application': "OAUTH අයදුම්"
   errors:
-    header_invalid_fields: "පහත සඳහන් ක්ෂේත්ර සමඟ ගැටලු ඇති විය:"
+    header_invalid_fields:
+      one: "There was a problem with the following field:"
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      one: "Additionally, there was a problem with the following field:"
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "මෙම ක්ෂේත්රය වලංගු නොවේ: %{full_errors}\nකරුණාකර වලංගු අගයක් ඇතුළත් කරන්න."
   activity:
     item:

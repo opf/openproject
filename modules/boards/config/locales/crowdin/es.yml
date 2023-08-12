@@ -16,7 +16,7 @@ es:
       status: Estado
       version: Versión
       subproject: Subproyecto
-      subtasks: Padre-hijo
+      subtasks: Principal-secundario
       basic: Básico
     board_type_descriptions:
       basic: >
@@ -28,9 +28,9 @@ es:
       version: >
         Tablero con columnas automatizadas basadas en el atributo de la versión. Ideal para planificar el desarrollo de productos.
       subproject: >
-        Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        Tablero con columnas automáticas para subproyectos. Al arrastrar paquetes de trabajo a otras listas, se actualizan los (sub)proyectos en consecuencia.
       subtasks: >
-        Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        Tablero con columnas automáticas para subelementos. Al arrastrar paquetes de trabajo a otras listas, se actualizan los elementos principales en consecuencia.
     upsale:
-      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-      upgrade: 'Upgrade now'
+      teaser_text: '¿Quieres automatizar tus flujos de trabajo con tableros? Los tableros avanzados son una extensión de Enterprise. Mejores su plan a uno de pago.'
+      upgrade: 'Mejorar ahora'

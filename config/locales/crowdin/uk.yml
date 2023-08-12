@@ -80,7 +80,7 @@ uk:
       buttons:
         upgrade: "Оновити зараз"
         contact: "Зв’яжіться з нами, щоб отримати демоверсію"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "– доповнення версії Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
       upgrade_info: "Перейдіть на платний план, щоб активувати його та почати використовувати його у своїй команді."
     journal_aggregation:
       explanation:
@@ -104,9 +104,9 @@ uk:
       error_requeue: "Виконується повторний запуск завдання, оскільки попередня спроба завершилася такою помилкою: %{message}"
       cancelled_due_to: "Завдання скасовано через помилку: %{message}"
   ldap_auth_sources:
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
-    back_to_index: 'Click here to go back to the list of connection.'
+    ldap_error: "LDAP-Помилка: %{error_message}"
+    ldap_auth_failed: "Не вдалося перевірити автентичність через LDAP-сервер."
+    back_to_index: 'Натисніть тут, щоб повернутися до списку підключень.'
     technical_warning_html: |
       Ця форма LDAP вимагає технічних знань про налаштування LDAP / Active Directory.<br/><a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Щоб отримати докладні вказівки, ознайомтеся з нашою документацією</a>.
     attribute_texts:
@@ -163,18 +163,18 @@ uk:
     index:
       no_results_title_text: Наразі немає кольорів.
       no_results_content_text: Створіть новий колір
-      label_new_color: "New color"
+      label_new_color: "Новий колір"
     new:
-      label_new_color: "New Color"
+      label_new_color: "Новий колір"
     edit:
-      label_edit_color: "Edit Color"
+      label_edit_color: "Редагувати колір"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Новий колір"
+      label_edit_color: "Редагувати колір"
     label_no_color: "Без кольору"
-    label_properties: "Properties"
+    label_properties: "Властивості"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Справді видалити цей колір? Типи, що використовують його, не буде видалено.
   custom_actions:
     actions:
       name: "Дії"
@@ -257,7 +257,7 @@ uk:
       types:
         no_results_title_text: Наразі немає доступних типів.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'Дозволити тип «%{type}»?'
       versions:
         no_results_title_text: Наразі не існує версій для проекту.
         no_results_content_text: Створіть нову версію
@@ -274,24 +274,24 @@ uk:
       notice_reset_token: "Нове %{type} генерований маркер. Ваш маркер доступу:"
       token_value_warning: "Примітка. Це єдиний раз, коли ви побачите цей маркер, переконайтеся, що його зараз скопіюйте."
       no_results_title_text: Наразі немає доступних маркерів доступу.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
-      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
-      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "Маркер API видалено. Щоб створити новий, скористайтеся посиланням у розділі API."
+      notice_rss_token_revoked: "Маркер RSS видалено. Щоб створити новий, скористайтеся посиланням у розділі RSS."
+      notice_ical_token_revoked: "Маркер iCalendar «%{token_name}» для календаря «%{calendar_name}» проєкту «%{project_name}» відкликано. URL-адреса календаря iCalendar із цим маркером зараз недійсна."
   news:
     index:
       no_results_title_text: Наразі немає жодної новини.
       no_results_content_text: Додати новину
   users:
     sessions:
-      session_name: "%{browser_name} %{browser_version} on %{os_name}"
-      browser: 'Browser'
-      device: 'Device / OS'
-      unknown_browser: 'unknown browser'
-      unknown_os: 'unknown operating system'
-      current: 'Current session'
-      title: 'Session management'
-      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
-      may_not_delete_current: 'You cannot delete your current session.'
+      session_name: "%{browser_name} %{browser_version} у %{os_name}"
+      browser: 'Браузер'
+      device: 'Пристрій / ОС'
+      unknown_browser: 'невідомий браузер'
+      unknown_os: 'невідома операційна система'
+      current: 'Поточний сеанс'
+      title: 'Керування сеансами'
+      instructions: 'Це список пристроїв, з яких було отримано доступ до вашого облікового запису. Завершіть будь-які підозрілі сеанси або ті, до яких ви не маєте доступу.'
+      may_not_delete_current: 'Ви не можете видалити поточний сеанс.'
     groups:
       member_in_these_groups: 'Зараз цей користувач — учасник таких груп:'
       no_results_title_text: Цей користувач зараз не належить до жодної групи.
@@ -334,11 +334,11 @@ uk:
       no_results_title_text: Наразі немає статусів робочих пакетів.
       no_results_content_text: Додати новий статус
   themes:
-    light: "Light"
-    light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
+    light: "Світла"
+    light_high_contrast: "Світла, високий контраст"
+    dark: "Темна"
+    dark_dimmed: "Темна затінена"
+    dark_high_contrast: "Темна, високий контраст"
   types:
     index:
       no_results_title_text: Наразі немає типів.
@@ -446,16 +446,16 @@ uk:
         attribute_name: 'Атрибут'
         help_text: 'Довідковий текст'
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
-        attr_login: "Username attribute"
-        attr_mail: "Email attribute"
-        base_dn: "Base DN"
-        host: "Host"
-        onthefly: "Automatic user creation"
-        port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
+        account: "Обліковий запис"
+        attr_firstname: "Атрибут «Ім’я»"
+        attr_lastname: "Атрибут «Прізвище»"
+        attr_login: "Атрибут «Ім’я користувача»"
+        attr_mail: "Атрибут «Електронна адреса»"
+        base_dn: "Базове ім’я DN"
+        host: "Хост"
+        onthefly: "Автоматичне створення користувачів"
+        port: "Порт"
+        tls_certificate_string: "Сертифікат SSL сервера LDAP"
       changeset:
         repository: "Репозиторій"
       comment:
@@ -512,7 +512,7 @@ uk:
           false: "приватний"
         queries: "Запити"
         status_code: 'Статус Проекту'
-        status_explanation: 'Project status description'
+        status_explanation: 'Опис стану проєкту'
         status_codes:
           not_started: 'Не почато'
           on_track: 'За графіком'
@@ -543,7 +543,7 @@ uk:
         hours: "Години"
         spent_on: "Дата"
         type: "Тип"
-        ongoing: "Ongoing"
+        ongoing: "Триває"
       type:
         description: "Текст за умовчанням для опису"
         attribute_groups: ''
@@ -553,7 +553,7 @@ uk:
         color: "Колір"
       user:
         admin: "Адміністратор"
-        ldap_auth_source: "LDAP connection"
+        ldap_auth_source: "LDAP-підключення"
         current_password: "Поточний пароль"
         force_password_change: "Примусово змінити пароль на наступному вході в систему"
         language: "Мова"
@@ -677,7 +677,7 @@ uk:
         ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "Наданий сертифікат SSL неприпустимий: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -721,8 +721,8 @@ uk:
         ical_token_query_assignment:
           attributes:
             name:
-              blank: "is mandatory. Please select a name."
-              not_unique: "is already in use. Please select another name."
+              blank: "обов’язковий атрибут. Виберіть ім’я."
+              not_unique: "уже використовується. Виберіть інше ім’я."
         notifications:
           at_least_one_channel: 'Необхідно вказати принаймні один канал для надсилання сповіщень.'
           attributes:
@@ -772,8 +772,8 @@ uk:
               invalid: "Неможливо сортувати за стовпцями: %{value}"
               format: "%{message}"
             timestamps:
-              invalid: "Timestamps contain invalid values: %{values}"
-              forbidden: "Timestamps contain forbidden values: %{values}"
+              invalid: "Мітки часу містять неприпустимі значення: %{values}"
+              forbidden: "Мітки часу містять заборонені значення: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "є взаємовиключним з групою %{group_by} Ви не можете активувати обидва."
           filters:
@@ -830,6 +830,7 @@ uk:
               not_allowed_to_view: "не може переглядати цей ресурс."
               locked: "заблоковано."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "– не можна вирахувати із заголовка «%{title}»."
@@ -953,7 +954,16 @@ uk:
       work_package: "Пакет робіт"
       'doorkeeper/application': "Програма OAuth"
   errors:
-    header_invalid_fields: "Були проблеми з наступними полями:"
+    header_invalid_fields:
+      one: "There was a problem with the following field:"
+      few: "There were problems with the following fields:"
+      many: "There were problems with the following fields:"
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      one: "Additionally, there was a problem with the following field:"
+      few: "Additionally, there were problems with the following fields:"
+      many: "Additionally, there were problems with the following fields:"
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "Це поле недійсне: %{full_errors}\nВведіть дійсне значення."
   activity:
     item:

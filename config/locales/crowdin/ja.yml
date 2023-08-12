@@ -828,6 +828,7 @@ ja:
               not_allowed_to_view: "is not allowed to view this resource."
               locked: "is locked."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "タイトル '%{title}' から推測することができません。"
@@ -939,7 +940,10 @@ ja:
       work_package: "ワーク パッケージ"
       'doorkeeper/application': "OAuthアプリケーション"
   errors:
-    header_invalid_fields: "次のフィールドに問題がありました："
+    header_invalid_fields:
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "このフィールドが間違っています: %{full_errors}\n正しい値を入力してください。"
   activity:
     item:

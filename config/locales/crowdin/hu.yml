@@ -830,6 +830,7 @@ hu:
               not_allowed_to_view: "is not allowed to view this resource."
               locked: "is locked."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "nem lehet következtetni a \"%{title}\" címből.\n"
@@ -945,7 +946,12 @@ hu:
       work_package: "Feladatcsoport"
       'doorkeeper/application': "OAuth alkalmazás"
   errors:
-    header_invalid_fields: "Problémák merültek fel az alábbi mezőkkel:"
+    header_invalid_fields:
+      one: "There was a problem with the following field:"
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      one: "Additionally, there was a problem with the following field:"
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "Ez a mező érvénytelen: %{full_errors} kérjük, adjon meg egy érvényes értéket."
   activity:
     item:
