@@ -830,7 +830,7 @@ uk:
               not_allowed_to_view: "не може переглядати цей ресурс."
               locked: "заблоковано."
         wiki_page:
-          error_conflict: "The wiki page has been updated by someone else while you were editing it."
+          error_conflict: "Хтось змінив вікі-сторінку, поки ви її редагували."
           attributes:
             slug:
               undeducible: "– не можна вирахувати із заголовка «%{title}»."
@@ -900,7 +900,7 @@ uk:
             status:
               invalid_on_create: "не є дійсним статусом для нових користувачів."
             ldap_auth_source:
-              error_not_found: "not found"
+              error_not_found: "не знайдено"
         member:
           principal_blank: "Виберіть принаймні одного користувача або групу."
           role_blank: "повинні бути призначені."
@@ -955,15 +955,15 @@ uk:
       'doorkeeper/application': "Програма OAuth"
   errors:
     header_invalid_fields:
-      one: "There was a problem with the following field:"
-      few: "There were problems with the following fields:"
-      many: "There were problems with the following fields:"
-      other: "There were problems with the following fields:"
+      one: "Виникла проблема з таким полем:"
+      few: "Виникли проблеми з такими полями:"
+      many: "Виникли проблеми з такими полями:"
+      other: "Виникли проблеми з такими полями:"
     header_additional_invalid_fields:
-      one: "Additionally, there was a problem with the following field:"
-      few: "Additionally, there were problems with the following fields:"
-      many: "Additionally, there were problems with the following fields:"
-      other: "Additionally, there were problems with the following fields:"
+      one: "Крім того, виникла проблема з таким полем:"
+      few: "Крім того, виникли проблеми з такими полями:"
+      many: "Крім того, виникли проблеми з такими полями:"
+      other: "Крім того, виникли проблеми з такими полями:"
     field_erroneous_label: "Це поле недійсне: %{full_errors}\nВведіть дійсне значення."
   activity:
     item:
@@ -982,11 +982,11 @@ uk:
           many: "%{count} години"
           other: "%{count} години"
         hour_html:
-          one: "<i>%{count} hour</i>"
-          few: "<i>%{count} hours</i>"
-          many: "<i>%{count} hours</i>"
-          other: "<i>%{count} hours</i>"
-        updated: "changed from %{old_value} to %{value}"
+          one: "<i>%{count} година</i>"
+          few: "<i>%{count} години</i>"
+          many: "<i>%{count} годин</i>"
+          other: "<i>%{count} години</i>"
+        updated: "змінено з %{old_value} на %{value}"
         logged_for: "Logged for"
     filter:
       changeset: "Набори змін"
@@ -1105,7 +1105,7 @@ uk:
   button_continue: "Продовжити"
   button_copy: "Копіювати"
   button_copy_to_clipboard: "Копіювати в буфер обміну"
-  button_copy_link_to_clipboard: "Copy link to clipboard"
+  button_copy_link_to_clipboard: "Копіювати посилання в буфер обміну"
   button_copy_and_follow: "Скопіювати та продовжити"
   button_create: "Створити"
   button_create_and_continue: "Створити та продовжити"
@@ -1352,7 +1352,7 @@ uk:
   error_can_not_delete_custom_field: "Неможливо видалити спеціальне поле"
   error_can_not_delete_type:
     explanation: 'Цей тип містить пакети робіт, і його не можна видалити. Переглянути всі пошкоджені пакети робіт можна в <a target="_blank" href="%{url}">цьому поданні</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
+    archived_projects: 'В архівованих проєктах є також пакети робіт. Спочатку потрібно повторно активувати наведені нижче проєкти, а потім – змінити типи відповідних пакетів робіт: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Стандартні типи неможливо видалити."
   error_can_not_invite_user: "Не вдалося надіслати запрошення користувачеві."
   error_can_not_remove_role: "Ця роль використовується і не може бути видалений."
@@ -1361,7 +1361,7 @@ uk:
   error_can_not_unarchive_project: "Цей проєкт не можна розархівувати: %{errors}"
   error_check_user_and_role: "Будь ласка виберіть користувача і роль."
   error_code: "Помилка %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "Не вдалося зберегти колір"
   error_cookie_missing: 'Файл cookie OpenProject відсутній. Переконайтеся, що файли cookie увімкнено, оскільки ця програма не буде функціонувати належним чином.'
   error_custom_option_not_found: "Варіант не існує."
   error_enterprise_activation_user_limit: "Ваш обліковий запис не можна активувати (досягнуто обмеження користувача). Щоб отримати доступ, зверніться до свого адміністратора."
@@ -1386,7 +1386,7 @@ uk:
   error_password_change_failed: 'Під час спроби змінити пароль сталася помилка.'
   error_scm_command_failed: "Помилка доступу до сховища: %{value}"
   error_scm_not_found: "Запис або ревізію (версію) не знайдено у репозиторії."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "Не вдалося зберегти тип"
   error_unable_delete_status: "Робота статус пакет не може бути видалено оскільки він використовується щонайменше один пакет робіт."
   error_unable_delete_default_status: "Неможливо видалити статус пакета за замовчуванням. Будь ласка виберіть інший робочий статус пакета за замовчуванням перед видаленням поточної."
   error_unable_to_connect: "Неможливо підключитись (%{value})"
@@ -1423,14 +1423,14 @@ uk:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_overview_table: "PDF Table"
-      pdf_report_with_images: "PDF Report with images"
-      pdf_report: "PDF Report"
+      pdf_overview_table: "Таблиця PDF"
+      pdf_report_with_images: "Звіт PDF із зображеннями"
+      pdf_report: "Звіт PDF"
     image:
       omitted: "Зображення не експортовано."
     units:
-      hours: h
-      days: d
+      hours: г
+      days: д
   extraction:
     available:
       pdftotext: "Доступний текст PDF (необов'язково)"
@@ -1477,8 +1477,8 @@ uk:
   journals:
     changes_retracted: "Зміни було відхилено."
     caused_changes:
-      dates_changed: "Dates changed"
-      system_update: "OpenProject update"
+      dates_changed: "Дати змінено"
+      system_update: "Оновлення OpenProject"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1491,8 +1491,8 @@ uk:
           working: "%{day} зараз робочий"
           non_working: "%{day} зараз неробочий"
         dates:
-          working: "%{date} is now working"
-          non_working: "%{date} is now non-working"
+          working: "%{day} зараз робочий день"
+          non_working: "%{day} зараз неробочий день"
       system_update:
         file_links_journal: 'added File links to Activities'
   links:
@@ -1504,7 +1504,7 @@ uk:
   menus:
     admin:
       mail_notification: "Email сповіщення"
-      mails_and_notifications: "Emails and notifications"
+      mails_and_notifications: "Електронні листи й сповіщення"
       aggregation: 'Агрегація'
       api_and_webhooks: "API та вебгуки"
     quick_add:
@@ -1519,33 +1519,33 @@ uk:
         action: "Дія"
         expiration: "Закінчується"
       indefinite_expiration: "Ніколи"
-      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      simple_revoke_confirmation: "Справі відкликати цей маркер?"
       api:
         title: "API"
-        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
-        static_token_name: "API token"
-        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+        text_hint: "Маркери API дають змогу стороннім додаткам обмінюватися даними із цим екземпляром OpenProject через інтерфейси REST API."
+        static_token_name: "Маркер API"
+        disabled_text: "Маркери API не дозволено адміністратором. Щоб використовувати цю функцію, зверніться до свого адміністратора."
       ical:
         title: "iCalendar"
-        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
-        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
-        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+        text_hint: "Маркери iCalendar дають змогу користувачам <a href=\"%{path}\" target=\"_blank\">підписуватися на календарі OpenProject</a> і переглядати інформацію про робочі пакети із зовнішніх клієнтів."
+        disabled_text: "Підписки на iCalendar не дозволено адміністратором. Щоб використовувати цю функцію, зверніться до свого адміністратора."
+        empty_text_hint: "Щоб додати маркер iCalendar, підпишіться на новий або наявний календар у модулі календаря проєкту. У вас мають бути необхідні дозволи."
       oauth:
         title: "OAuth"
-        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
-        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+        text_hint: "Маркери OAuth дають змогу стороннім додаткам обмінюватися даними із цим екземпляром OpenProject."
+        empty_text_hint: "Для вас не налаштовано й не ввімкнено доступ до сторонніх додатків. Щоб активувати цю функцію, зверніться до адміністратора."
       rss:
         title: "RSS"
-        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
-        static_token_name: "RSS token"
-        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+        text_hint: "Маркери RSS дають змогу користувачам зберігати останні зміни в цьому екземплярі OpenProject через зовнішній RSS-агрегатор."
+        static_token_name: "Маркер RSS"
+        disabled_text: "Маркери API не дозволено адміністратором. Щоб використовувати цю функцію, зверніться до свого адміністратора."
       storages:
-        title: "File Storages"
-        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
-        empty_text_hint: "There is no storage access linked to your account."
-        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
-        removed: "File Storage token successfully removed"
-        failed: "An error occurred and the token couldn't be removed. Please try again later."
+        title: "Файлові сховища"
+        text_hint: "Маркери файлових сховищ підключають цей екземпляр OpenProject до зовнішнього файлового сховища."
+        empty_text_hint: "Немає доступу до сховища, пов’язаного з вашим обліковим записом."
+        revoke_token: "Справді вилучити цей маркер? Вам знадобиться знову ввійти в %{storage}"
+        removed: "Маркер файлового сховища вилучено"
+        failed: "Сталася помилка, і не вдалося вилучити маркет. Повторіть спробу пізніше."
   notifications:
     send_notifications: "Надсилати сповіщення щодо цієї дії"
     work_packages:
@@ -1588,7 +1588,7 @@ uk:
   label_age: "Вік"
   label_ago: "днів тому"
   label_all: "всі"
-  label_all_projects: "All projects"
+  label_all_projects: "Усі проєкти"
   label_all_time: "весь час"
   label_all_words: "Всі слова"
   label_all_open_wps: "Всі відкрити"
@@ -1598,14 +1598,14 @@ uk:
   label_api_access_key_created_on: "Ключ доступу до API створено %{value} тому"
   label_api_access_key_type: "API"
   label_ical_access_key_type: "iCalendar"
-  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
-  label_ical_access_key_not_present: "iCalendar token(s) not present."
-  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
-  label_ical_access_key_latest: "latest"
+  label_ical_access_key_description: "Маркер iCalendar «%{token_name}» для календаря «%{calendar_name}» у проєкті «%{project_name}»"
+  label_ical_access_key_not_present: "Немає маркерів iCalendar"
+  label_ical_access_key_generation_hint: "Автоматично створено під час оформлення підписки на календар."
+  label_ical_access_key_latest: "останні"
   label_ical_access_key_revoke: "Скасувати"
   label_applied_status: "Застосовний статус"
   label_archive_project: "Архівний проект"
-  label_archived_projects: "Archived projects"
+  label_archived_projects: "Заархівовані проєкти"
   label_ascending: "За зростанням"
   label_assigned_to_me_work_packages: "Робочі пакети призначені мені"
   label_associated_revisions: "Пов'язані редакції"
@@ -1614,9 +1614,9 @@ uk:
   label_attachment_plural: "Файли"
   label_attribute: "Атрибут"
   label_attribute_plural: "Атрибути"
-  label_ldap_auth_source_new: "New LDAP connection"
-  label_ldap_auth_source: "LDAP connection"
-  label_ldap_auth_source_plural: "LDAP connections"
+  label_ldap_auth_source_new: "Нове LDAP-підключення"
+  label_ldap_auth_source: "LDAP-підключення"
+  label_ldap_auth_source_plural: "LDAP-підключення"
   label_authentication: "Автентифікація"
   label_available_project_work_package_categories: 'Доступні категорії робочих пакетів'
   label_available_project_work_package_types: 'Доступні типи пакетів робіт'
@@ -1639,7 +1639,7 @@ uk:
   label_bulk_edit_selected_work_packages: "Масове редагування вибраних робочих пакетів"
   label_bundled: '(В комплекті)'
   label_calendar: "Календар"
-  label_calendars_and_dates: "Calendars and dates"
+  label_calendars_and_dates: "Календарі й дати"
   label_calendar_show: "Показати календар"
   label_category: "Категорія"
   label_consent_settings: "Згода користувача"
@@ -1675,7 +1675,7 @@ uk:
   label_confirmation: "Підтвердження"
   label_contains: "містить"
   label_content: "Контент"
-  label_color_plural: "Colors"
+  label_color_plural: "Кольори"
   label_copied: "скопійовано"
   label_copy_same_as_target: "Те ж, що і для цілі"
   label_copy_source: "Джерело"
@@ -1704,7 +1704,7 @@ uk:
   label_deleted: "вилучено "
   label_deleted_custom_field: "(видалено спеціальне поле)"
   label_deleted_custom_option: "(параметр видалення)"
-  label_empty_element: "(empty)"
+  label_empty_element: "(пусто)"
   label_missing_or_hidden_custom_option: "(відсутнє значення або бракує дозволів для доступу)"
   label_descending: "За спаданням"
   label_details: "Детальніше"
@@ -1737,20 +1737,20 @@ uk:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} зареєстровано активних користувачів"
   label_enterprise_edition: "Версія Enterprise"
-  label_enterprise_support: "Enterprise support"
+  label_enterprise_support: "Корпоративна підтримка"
   label_environment: "Навколишнє середовище"
   label_estimates_and_time: "Оцінки та час"
   label_equals: "є"
   label_everywhere: "скрізь"
   label_example: "Приклад"
   label_experimental: "Експериментальне"
-  label_i_am_member: "I am member"
+  label_i_am_member: "Я учасник"
   label_import: "Імпортувати"
   label_export_to: "Також вам доступні:"
   label_expanded_click_to_collapse: "Розширено. Натисніть, щоб згорнути"
   label_f_hour: "%{value} година"
   label_f_hour_plural: "%{value} годин(и)"
-  label_favoured: "Favoured"
+  label_favoured: "Улюблене"
   label_feed_plural: "Канали"
   label_feeds_access_key: "Клавіша доступу RSS"
   label_feeds_access_key_created_on: "Створено ключ доступу RSS %{value} тому"
@@ -1782,7 +1782,7 @@ uk:
   label_hierarchy_leaf: "Ієрархічний лист"
   label_home: "Додому"
   label_subject_or_id: "Тема або ідентифікатор"
-  label_calendar_subscriptions: "Calendar subscriptions"
+  label_calendar_subscriptions: "Підписки на календарі"
   label_impressum: "Правове повідомлення"
   label_in: "в"
   label_in_less_than: "менш ніж"
@@ -1804,7 +1804,7 @@ uk:
   label_journal: "Журнал"
   label_journal_diff: "Опис Порівняння"
   label_language: "Мова"
-  label_languages: "Languages"
+  label_languages: "Мови"
   label_jump_to_a_project: "Перейти до проекту..."
   label_keyword_plural: 'Ключові слова'
   label_language_based: "На основі мови користувача"
@@ -1826,7 +1826,7 @@ uk:
   label_logged_as: "Ви увійшли як"
   label_login: "Увійти"
   label_custom_logo: "Спеціальний логотип"
-  label_custom_export_logo: "Custom export logo"
+  label_custom_export_logo: "Експорт користувацького логотипу"
   label_custom_favicon: "призначені для користувача іконки"
   label_custom_touch_icon: "Призначений для користувача значок логотипу"
   label_logout: "Вийти"
@@ -1863,7 +1863,7 @@ uk:
   label_more_than_ago: "більш ніж днів(я) назад"
   label_move_work_package: "Перемістити робочий пакет"
   label_my_account: "Мій обліковий запис"
-  label_my_activity: "My activity"
+  label_my_activity: "Мої дії"
   label_my_account_data: "Мої дані облікового запису"
   label_my_projects: "Мої проекти"
   label_my_queries: "Мої збережені запити"
@@ -1946,8 +1946,8 @@ uk:
   label_project_new: "Новий проект"
   label_project_plural: "Проекти"
   label_project_settings: "Налаштування проекту"
-  label_project_storage_plural: "File Storages"
-  label_project_storage_project_folder: "File Storages: Project folders"
+  label_project_storage_plural: "Файлові сховища"
+  label_project_storage_project_folder: "Файлові сховища: папки проєкту"
   label_projects_storage_information: "%{count} використання проектів %{storage} дискового сховища"
   label_project_view_all: "Переглянути всi проекти"
   label_project_show_details: "Показати деталі проекту"
@@ -1998,7 +1998,7 @@ uk:
   label_role_search: "Призначити роль для нових членів"
   label_scm: "Тип сховища"
   label_search: "Пошук"
-  label_send_information: "Send new credentials to the user"
+  label_send_information: "Надіслати нові облікові дані користувачу"
   label_send_test_email: "Послати email для перевірки"
   label_setting_plural: "Налаштування"
   label_system_settings: "Параметри системи"
@@ -2035,7 +2035,7 @@ uk:
   label_this_week: "цього тижня"
   label_this_year: "цей рік"
   label_time_entry_plural: "Трудовитрати"
-  label_title: "Title"
+  label_title: "Назва"
   label_projects_menu: "Проекти"
   label_today: "сьогодні"
   label_top_menu: "Верхнє меню"
@@ -2067,7 +2067,7 @@ uk:
   label_user_plural: "Користувачі"
   label_user_search: "Знайти користувача:"
   label_user_settings: "Налаштування користувача"
-  label_users_settings: "Users settings"
+  label_users_settings: "Налаштування користувачів"
   label_version_new: "Нова версія"
   label_version_plural: "Версії"
   label_version_sharing_descendants: "З підпроектами"
@@ -2139,7 +2139,7 @@ uk:
   label_global_role: "Глобальна роль"
   label_not_changeable: "(не змінюється)"
   label_global: "Глобальний"
-  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
+  label_seeded_from_env_warning: Цей запис створено за допомогою параметра /змінної середовища. Його не можна змінити в інтерфейсі користувача.
   macro_execution_error: "Помилка виконання макросу %{macro_name}"
   macro_unavailable: "Макрос %{macro_name} не може бути відображений."
   macros:
@@ -2327,7 +2327,7 @@ uk:
   present_access_key_value: "Ваш ключ %{key_name}: %{value}"
   notice_automatic_set_of_standard_type: "Встановіть стандартний тип автоматично."
   notice_logged_out: "Ви вийшли з системи."
-  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
+  notice_wont_delete_auth_source: LDAP-підключення не можна видалити, поки воно використовується.
   notice_project_cannot_update_custom_fields: "Неможливо оновити доступні користувальницькі поля проекту. Проект недійсний: %{errors}"
   notice_attachment_migration_wiki_page: >
     Ця сторінка була створена автоматично під час оновлення OpenProject. Він містить усі вкладення, раніше пов'язані з %{container_type} %{container_name}.
@@ -2363,8 +2363,8 @@ uk:
   permission_add_messages: "Відправка повідомлень"
   permission_add_project: "Створити проект"
   permission_archive_project: "Архівувати проєкт"
-  permission_create_user: "Create users"
-  permission_manage_user: "Edit users"
+  permission_create_user: "Створення користувачів"
+  permission_manage_user: "Редагування користувачів"
   permission_manage_placeholder_user: "Створення, редагування та видалення прототипів користувачів"
   permission_add_subprojects: "Створення підпроектів"
   permission_add_work_package_watchers: "Додати спостерігачів"
@@ -2641,7 +2641,7 @@ uk:
   setting_enabled_scm: "Увімкнені SCM"
   setting_enabled_projects_columns: "Видимий у списку проєктів"
   setting_feeds_enabled: "Увімкнути канали"
-  setting_ical_enabled: "Enable iCalendar subscriptions"
+  setting_ical_enabled: "Дозволити підписки на iCalendar"
   setting_feeds_limit: "Обмеження вмісту каналу"
   setting_file_max_size_displayed: "Максимальний розмір текстового файлу для відображення"
   setting_host_name: "Ім'я хоста"
@@ -2694,7 +2694,7 @@ uk:
   setting_sys_api_description: "Веб-сервіс управління сховищем забезпечує інтеграцію та авторизацію користувача для доступу до сховищ."
   setting_time_format: "Час"
   setting_accessibility_mode_for_anonymous: "Увімкніть режим доступності для анонімних користувачів"
-  setting_user_format: "Users name format"
+  setting_user_format: "Формат імені користувача"
   setting_user_default_timezone: "Часовий пояс користувача за замовчуванням"
   setting_users_deletable_by_admins: "Облікові записи користувачів можуть бути видалені адміністраторами"
   setting_users_deletable_by_self: "Користувачі можуть видаляти свої акаунти"
@@ -2711,12 +2711,12 @@ uk:
     brute_force_prevention: "Автоматизоване блокування користувачів"
     date_format:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Якщо вибрано один із варіантів «%{day_of_week_setting_name}» і «%{first_week_setting_name}», інший із цих варіантів потрібно також вибрати, щоб уникнути розбіжностей на зовнішньому сервері.
       first_week_of_year_text_html: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+        Виберіть дату в січні, що припадає на перший тиждень року. Це значення разом із першим днем тижня визначає загальну кількість днів року. Щоб дізнатися більше, ознайомтеся з нашою <a href="%{link}" target="_blank"><a href="%{link}" target="_blank"><a href="%{link}" target="_blank">документацією</a> на цю тему.
     experimental:
-      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
-      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      save_confirmation: Увага! Існує ризик втрати даних! Активуйте експериментальні функції, лише якщо ви готові перервати встановлення екземплара OpenProject і втратити всі його дані.
+      warning_toast: Прапори функцій – це параметри, що активують функції, які ще розробляються. Використовуйте їх лише під час тестування. Не вмикайте їх в екземплярах OpenProject, що містять важливі дані. Використання цих функцій майже напевно призведе до пошкодження ваших даних. Ви берете на себе відповідальність за наслідки.
       feature_flags: Feature flags
     general: "Загальні"
     highlighting:
@@ -2742,11 +2742,11 @@ uk:
     session: "Сесія"
     user:
       default_preferences: "Параметри за умовчанням"
-      display_format: "Display format"
+      display_format: "Формат відображення"
       deletion: "Видалення"
     working_days:
       section_work_week: "Робочий тиждень"
-      section_holidays_and_closures: "Holidays and closures"
+      section_holidays_and_closures: "Свята й вихідні"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Простий текст'
@@ -2786,11 +2786,11 @@ uk:
   text_custom_logo_instructions: >
     Рекомендується використовувати білий логотип з прозорим фоном. Для оптимального відображення на звичайних і retina-дисплеях розмір картинки повинен бути 460 на 110 пікселів.
   text_custom_export_logo_instructions: >
-    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+    Це логотип з’являється, що відображається у ваших експортах PDF. Він має бути у форматі файлу зображення PNG або JPEG. Рекомендується чорний або кольоровий логотип на прозорому чи білому фоні.
   text_custom_favicon_instructions: >
-    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+    Це крихітний значок, який з’являється у вікні / на вкладці вашого браузера біля назви сторінки. Це має бути квадратний файл зображення 32 на 32 пікселі з прозорим фоном у форматі PNG.
   text_custom_touch_icon_instructions: >
-    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
+    Це значок, який відображається на вашому мобільному пристрої або планшеті, коли ви створюєте закладку на робочому столі. Це має бути квадратний файл зображення 180 на 180 пікселів у форматі PNG. Переконайтеся, що фон зображення не прозорий, інакше воно буде матиме поганий вигляд на iOS.
   text_database_allows_tsv: "База даних дозволяє TSVector (необов'язково)"
   text_default_administrator_account_changed: "Обліковий запис адміністратора за замовчуванням змінений"
   text_default_encoding: "По замовчуванню: UTF-8"
@@ -2816,16 +2816,16 @@ uk:
   text_work_packages_destroy_confirmation: "Ви впевнені у тому, що хочете видалити вибрані робочі пакети?"
   text_work_packages_ref_in_commit_messages: "Посилання та фіксація робочих пакетів у повідомленнях комітів"
   text_journal_added: "%{label} %{value} доданий"
-  text_journal_attachment_added: "%{label} %{value} added as attachment"
-  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
+  text_journal_attachment_added: "%{label} %{value} додано як вкладення"
+  text_journal_attachment_deleted: "%{label} %{old} вилучено як вкладення"
   text_journal_changed_plain: "%{label} змінено з %{old} %{linebreak}на %{new}"
   text_journal_changed_no_detail: "%{label} оновлено"
   text_journal_changed_with_diff: "%{label} змінено (%{link})"
   text_journal_deleted: "%{label} видалено (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} видалено (%{link})"
-  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
-  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
+  text_journal_file_link_added: "Додано посилання %{label} на значення %{value} (%{storage})"
+  text_journal_file_link_deleted: "Вилучено посилання %{label} на значення %{old} (%{storage})"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "Параметр %{label} змінився на %{value}"
   text_journal_set_with_diff: "%{label} встановлено (%{link})"
@@ -2873,9 +2873,9 @@ uk:
   text_setup_mail_configuration: "Налаштуйте постачальника послуг електронної пошти"
   help_texts:
     views:
-      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
-      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
-      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
+      project: "%{plural} завжди прикріплюються до проєкту. Створивши %{singular}, ви зможете додавати до нього пакети робіт з інших проєктів."
+      public: "Опублікуйте це подання, надавши доступ до нього. Користувачі з дозволом «Керування загальнодоступними поданнями» можуть змінювати або вилучати загальнодоступні запити. Це не впливає на видимість результатів пакетів робіт у цьому поданні, і залежно від дозволів користувачі можуть бачити різні результати."
+      favoured: "Позначте це подання як улюблене й додайте на бічну панель збережених подань ліворуч."
   time:
     am: "до полудня"
     formats:
@@ -2978,9 +2978,9 @@ uk:
       title: "Видаліть робочий пакет"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Під час планування пакетів робіт невибрані дні пропускаються й не включаються в кількість днів. Це налаштування можна змінити на рівні пакета робіт.
     instance_wide_info: >
-      Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Під час планування пакетів робіт дати, додані в список нижче, вважаються неробочим днями й пропускаються.
     change_button: "Змінити робочі дні"
     warning: >
       Змінення днів тижня, які вважаються робочими або неробочими, може вплинути на дати початку й закінчення всіх пакетів робіт в усіх проєктах цього екземпляра. <br/> Зверніть увагу: зміни застосовуються лише після натискання кнопки «Застосувати зміни».
@@ -3006,7 +3006,7 @@ uk:
       code_409: "Не вдалося оновити ресурс через конфліктуючі зміни."
       code_429: "Забагато запитів. Повторіть спробу пізніше."
       code_500: "Сталася внутрішня помилка."
-      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_500_outbound_request_failure: "Вихідний запит до іншого ресурсу завершився помилкою з кодом стану: %{status_code}."
       not_found:
         work_package: "Пакет робіт, який ви шукаєте, не можна знайти або його видалено."
       expected:

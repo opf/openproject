@@ -88,57 +88,57 @@ uk:
       projects:
         demo-construction-project:
           name: "(Demo) Construction project"
-          status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo construction project.
+          status_explanation: Усі завдання й підпроєкти заплановано. Виконавців повідомлено про їхні завдання. Систему повністю налаштовано.
+          description: Це коротке зведення цілей цього будівельного демонстраційного проєкту.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Вітаємо у вашому демопроєкті
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Ми раді, що ви приєдналися.
+                У цьому модулі ви можете повідомляти новини проєкту учасникам своєї команди.
+              description: Це останні новини
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Категорія 1 (змінити в налаштуваннях проєкту)
           queries:
             item_0:
-              name: Project plan
+              name: План проєкту
             item_1:
-              name: Milestones
+              name: Віхи
             item_2:
-              name: Tasks
+              name: Завдання
             item_3:
               name: Командний планувальник
           boards:
             bcf:
-              name: Simple drag'n drop workflow
+              name: Просте керування перетягуванням
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Ласкаво просимо
               item_1:
                 options:
                   name: Починаємо
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Ми раді, що ви приєдналися! Пропонуємо вам дещо підготувати перед початком роботи в OpenProject.
 
-                    But before you jump right into it, you should know that this exemplary project is split up into two different projects:
+                    Але перш ніж ви почнете, ми повинні повідомити вас, що цей зразок проєкту складається з двох різних проєктів:
 
-                    1.  [Construction project]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Here you will find the classical roles, some workflows and work packages for your construction project.
-                    2.  [Creating BIM Model]({{opSetting:base_url}}/projects/demo-bim-project): This project also offers roles, workflows and work packages but especially in the BIM context.
+                    1.  [Проєкт із конструювання]({{opSetting:base_url}}/projects/demo-planning-constructing-project): тут ви знайдете класичні ролі, деякі робочі процеси й пакети робіт для свого проєкту з конструювання.
+                    2.  [Створення моделі BIM]({{opSetting:base_url}}/projects/demo-bim-project): цей проєкт також включає ролі, робочі процеси й пакети робіт, але вони стосуються моделі BIM.
 
-                    _Try the following steps:_
+                    _Виконайте такі дії:_
 
-                    1.  _Invite new members to your project_: → Go to [Members]({{opSetting:base_url}}/projects/demo-construction-project/members) in the project navigation.
-                    2.  _View the work in your projects_: → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    3.  _Create a new work package_: → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart_: → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Activate further modules_: → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
-                    6.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    7.  _Agile working? Check out our brand new boards:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-construction-project/boards)
+                    1.  _Запросіть учасників у свій проєкт_: → виберіть [Учасники]({{opSetting:base_url}}/projects/demo-construction-project/members) на панелі навігації проєктом.
+                    2.  _Перегляньте пакети робіт у своєму проєкті_: → виберіть [Пакети робіт]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) на панелі навігації проєктом.
+                    3.  _Створіть новий пакет робіт_: → виберіть [Пакети робіт → Створити]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    4.  _Створіть і оновіть діаграму Ґанта_: → виберіть [Діаграма Ґанта]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) на панелі навігації проєктом.
+                    5.  _Активуйте додаткові модулі_: → виберіть [Налаштування проєкту → Модулі]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
+                    6.  _Перейдіть до подання плиток, щоб переглянути проблеми BCF:_ → виберіть [Пакети робіт]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                    7.  _Працюєте в Agile? Ознайомтеся з нашими новими дошками:_ → виберіть [Дошки]({{opSetting:base_url}}/projects/demo-construction-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Тут ви знайдете наші [Посібники користувача](https://www.openproject.org/docs/user-guide/).
+                    Якщо маєте запитання або потребуєте допомоги, зв’яжіться з нами: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Учасники
@@ -147,53 +147,53 @@ uk:
                   name: Пакети робіт
               item_6:
                 options:
-                  name: Milestones
+                  name: Віхи
         demo-planning-constructing-project:
-          name: "(Demo) Planning & constructing"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo planning and constructing project.
+          name: "Планування й конструювання (демонстрація)"
+          status_explanation: Усі завдання заплановано. Виконавців повідомлено про їхні завдання. Систему повністю налаштовано.
+          description: Це коротке зведення цілей цього демопроєкту з планування й конструювання.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Вітаємо у вашому демопроєкті
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Ми раді, що ви приєдналися.
+                У цьому модулі ви можете повідомляти новини проєкту учасникам своєї команди.
+              description: Це останні новини
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Категорія 1 (змінити в налаштуваннях проєкту)
           queries:
             item_0:
-              name: Project plan
+              name: План проєкту
             item_1:
-              name: Milestones
+              name: Віхи
             item_2:
-              name: Tasks
+              name: Завдання
             item_3:
               name: Командний планувальник
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Ласкаво просимо
               item_1:
                 options:
                   name: Починаємо
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Ми раді, що ви приєдналися! Пропонуємо вам дещо підготувати перед початком роботи в OpenProject.
 
-                    Here you will find the classical roles, some workflows and work packages for your construction project.
+                    Тут ви знайдете класичні ролі, деякі робочі процеси й пакети робіт для свого проєкту з конструювання.
 
-                    _Try the following steps:_
+                    _Виконайте такі дії:_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) in the project navigation.
-                    2.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    3.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
-                    6.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
+                    1.  _Запросіть учасників у свій проєкт_: → виберіть [Учасники]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) на панелі навігації проєктом.
+                    2.  _Перегляньте пакети робіт у своєму проєкті_: → виберіть [Пакети робіт]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) на панелі навігації проєктом.
+                    3.  _Створіть новий пакет робіт_: → виберіть [Пакети робіт → Створити]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    4.  _Створіть і оновіть діаграму Ґанта_: → виберіть [Діаграма Ґанта]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) на панелі навігації проєктом.
+                    5.  _Активуйте додаткові модулі_: → виберіть [Налаштування проєкту → Модулі]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
+                    6. _Працюєте в Agile? Ознайомтеся з нашими новими дошками:_ → виберіть [Дошки]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Тут ви знайдете наші [Посібники користувача](https://www.openproject.org/docs/user-guide/).
+                    Якщо маєте запитання або потребуєте допомоги, зв’яжіться з нами: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Учасники
@@ -202,107 +202,107 @@ uk:
                   name: Пакети робіт
               item_6:
                 options:
-                  name: Milestones
+                  name: Віхи
           work_packages:
             item_0:
               subject: Project kick off construction project
               description: |-
-                The project kick off initializes the start of the project in your company. Everybody being part of this project should be invited to the kick off for a first briefing.
+                Початок проєкту ініціалізує запуск проєкту у вашій компанії. Усі учасники цього проєкту мають отримати запрошення в цей пакет робіт для першого обговорення.
 
-                The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                На наступному етапі потрібно ознайомитися з розкладом і налаштувати призначення відповідно до [діаграми Ґанта]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
               subject: Basic evaluation
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Цей тип належить до батьківського компонента ієрархії типів &quot;Clash&quot; і &quot;Request&quot;, а отже, представляє загальну нотатку.
               children:
                 item_0:
-                  subject: Gathering first project information
+                  subject: Збирання початкової інформації для проєкту
                   description: |-
-                    ## Goal
+                    ## Ціль
 
-                    *   Define tasks based on the customer needs
-                    *   Time frame and cost estimation shall be defined
+                    *   Визначити завдання на основі потреб клієнта
+                    *   Визначити часові межі й бюджет
 
-                    ## Description
+                    ## Опис
 
-                    *   Identify the customer needs by having a workshop with him/ her
-                    *   Each need shall represent a task with its corresponding work packages
-                    *   Derive the cost estimation and time frame
+                    *   Визначте потреби клієнта під час зустрічі з ним або нею
+                    *   Кожну потребу потрібно представити у вигляді завдання з відповідними пакетами робіт
+                    *   Визначте приблизну суму витрат і часові межі
                 item_1:
-                  subject: Summarize the results
+                  subject: Підсумувати результати
                   description: |-
-                    ## Goal
+                    ## Ціль
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    *   Створити корисний огляд результатів
+                    *   Перевірити поточні результати й підсумувати їх
+                    *   Передати всі корисні результати клієнту
+                    *   Визначити фундаментальні граничні умови для проєкту
 
-                    ## Description
+                    ## Опис
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
+                    *   Кожен розділ міститиме власний огляд, що використовуватиметься для каталогізації результатів
+                    *   З цього огляду всі учасники дізнаються про ухвалені рішення
                     *   ...
                 item_2:
                   subject: End of basic evaluation
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Цей тип належить до батьківського компонента ієрархії типів &quot;Clash&quot; і &quot;Request&quot;, а отже, представляє загальну нотатку.
             item_2:
-              subject: Preliminary planning
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Попереднє планування
+              description: Цей тип належить до батьківського компонента ієрархії типів &quot;Clash&quot; і &quot;Request&quot;, а отже, представляє загальну нотатку.
               children:
                 item_0:
-                  subject: Developing first draft
+                  subject: Розробка першої чернетки
                   description: |-
-                    ## Goal
+                    ## Ціль
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    *   Створити корисний огляд результатів
+                    *   Перевірити поточні результати й підсумувати їх
+                    *   Передати всі корисні результати клієнту
+                    *   Визначити фундаментальні граничні умови для проєкту
 
-                    ## Description
+                    ## Опис
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
+                    *   Кожен розділ міститиме власний огляд, що використовуватиметься для каталогізації результатів
+                    *   З цього огляду всі учасники дізнаються про ухвалені рішення
                     *   ...
                 item_1:
                   subject: Summarize results
                   description: |-
-                    ## Goal
+                    ## Ціль
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    *   Створити корисний огляд результатів
+                    *   Перевірити поточні результати й підсумувати їх
+                    *   Передати всі корисні результати клієнту
+                    *   Визначити фундаментальні граничні умови для проєкту
 
-                    ## Description
+                    ## Опис
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
+                    *   Кожен розділ міститиме власний огляд, що використовуватиметься для каталогізації результатів
+                    *   З цього огляду всі учасники дізнаються про ухвалені рішення
                     *   ...
             item_3:
               subject: Passing of preliminary planning
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Цей тип належить до батьківського компонента ієрархії типів &quot;Clash&quot; і &quot;Request&quot;, а отже, представляє загальну нотатку.
             item_4:
               subject: Design planning
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Цей тип належить до батьківського компонента ієрархії типів &quot;Clash&quot; і &quot;Request&quot;, а отже, представляє загальну нотатку.
               children:
                 item_0:
                   subject: Finishing design
                   description: |-
-                    ## Goal
+                    ## Ціль
 
-                    *   Design is done
-                    *   All parties are happy with the results of the design planning phase
+                    *   Дизайн завершено
+                    *   Усі сторони задоволені результатами етапу планування
 
-                    ## Description
+                    ## Опис
 
-                    *   The design of the project will be finished
-                    *   All parties agree on the design
-                    *   The owner is happy with the results
+                    *   Дизайн проєкту буде завершено
+                    *   Усі сторони погоджують дизайн
+                    *   Власник задоволений результатами
                     *   ...
                 item_1:
                   subject: Design freeze
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Цей тип належить до батьківського компонента ієрархії типів &quot;Clash&quot; і &quot;Request&quot;, а отже, представляє загальну нотатку.
             item_5:
               subject: Construction phase
               children:
@@ -513,45 +513,45 @@ uk:
                 item_0:
                   subject: Modelling initial BIM model
                   description: |-
-                    # Goal
+                    # Ціль
 
-                    *   Modelling the initial BIM model
-                    *   Creating a BIM model for the whole project team
+                    *   Моделювання початкової моделі BIM
+                    *   Створення моделі BIM для цілої команди проєкту
 
-                    # Description
+                    # Опис
 
-                    *   According to the gathered data from the customer, the initial model will be modelled
-                    *   The model shall be modelled according to the LOD Matrices and contain the information needed
+                    *   На основі даних, отриманих від клієнта, буде змодельовано початкову модель
+                    *   Модель буде створено відповідно до матриць LOD Matrices і міститиме необхідну інформацію
                     *   ...
                 item_1:
                   subject: Initial, internal model check and revising
                   description: |-
-                    # Goal
+                    # Ціль
 
-                    *   Submitting a BIM model according to the defined standards
+                    *   Надсилання моделі BIM відповідно до визначених стандартів
 
-                    # Description
+                    # Опис
 
-                    *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised
+                    *   Модель буде перевірено відповідно до визначених стандартів (процедури, LOD, ...) і переглянуто
                     *   ...
                 item_2:
-                  subject: Submitting initial BIM model
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Надсилання початкової моделі BIM
+                  description: Цей тип належить до батьківського компонента ієрархії типів &quot;Clash&quot; і &quot;Request&quot;, а отже, представляє загальну нотатку.
             item_4:
-              subject: Modelling, first cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Моделювання, перший цикл
+              description: Цей тип належить до батьківського компонента ієрархії типів &quot;Clash&quot; і &quot;Request&quot;, а отже, представляє загальну нотатку.
               children:
                 item_0:
                   subject: Referencing external BIM models
                   description: |-
-                    # Goal
+                    # Ціль
 
-                    *   Having a foundation for developing the internal model/ offering answers
-                    *   Using the external model to develop the internal model
+                    *   Наявність основи для розробки початкової моделі / відповіді на запитання
+                    *   Використання зовнішньої моделі для розробки початкової моделі
 
-                    # Description
+                    # Опис
 
-                    *   The external model will be referenced in the BIM platform, thus used for modelling the internal model
+                    *   Зовнішня модель згадуватиметься на платформі BIM, а отже, використовуватиметься для створення початкової моделі
                     *   ...
                 item_1:
                   subject: Modelling the BIM model

@@ -403,15 +403,15 @@ pt:
             item_11:
               subject: Desenvolvimento v1.0
             item_12:
-              subject: Liberar v1.0
+              subject: Versão v1.0
             item_13:
               subject: Desenvolvimento v1.1
             item_14:
-              subject: Liberar v1.1
+              subject: Versão v1.1
             item_15:
               subject: Desenvolvimento v2.0
             item_16:
-              subject: Liberar v2.0
+              subject: Versão v2.0
           wiki: |
             ### Sprint planning meeting
 

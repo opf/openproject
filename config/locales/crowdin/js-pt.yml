@@ -66,7 +66,7 @@ pt:
     button_continue: "Continuar"
     button_copy: "Copiar"
     button_copy_to_clipboard: "Copiar para a área de transferência"
-    button_copy_link_to_clipboard: "Copiar link para a área de transferência"
+    button_copy_link_to_clipboard: "Copiar link para área de transferência"
     button_copy_to_other_project: "Copiar para outro projeto"
     button_custom-fields: "Campos personalizados"
     button_delete: "Excluir"
@@ -296,18 +296,18 @@ pt:
           two: "Segundo critério de ordenação"
           three: "Terceiro critério de ordenação"
     gantt_chart:
-      label: 'Gráfico de Gantt'
+      label: 'Diagrama de Gantt'
       quarter_label: 'Q%{quarter_number}'
       labels:
         title: 'Configuração de rótulos'
-        bar: 'Barra de rótulos'
+        bar: 'Rótulos de barra'
         left: 'Esquerda'
         right: 'Direita'
         farRight: 'Extrema direita'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Exibir gráfico de Gantt'
-      button_deactivate: 'Ocultar gráfico de Gantt'
+      button_activate: 'Exibir diagrama de Gantt'
+      button_deactivate: 'Ocultar diagrama de Gantt'
       filter:
         noneSelection: "(nenhum)"
       selection_mode:
@@ -347,12 +347,12 @@ pt:
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
     ical_sharing_modal:
-      title: "Inscrever-se no calendário"
+      title: "Assinar calendário"
       inital_setup_error_message: "Ocorreu um erro ao buscar dados."
       description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
       warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Onde você vai usar isto?"
-      token_name_placeholder: "Digite um nome, por exemplo, \"Telefone\""
+      token_name_label: "Onde você usará isto?"
+      token_name_placeholder: "Digite um nome, por ex.: \"Telefone\""
       token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
       copy_url_label: "Copiar URL"
       ical_generation_error_text: "An error occured while generating the calendar URL."
@@ -772,8 +772,8 @@ pt:
       start_new_timer: 'Iniciar novo temporizador'
       timer_already_running: 'To start a new timer, you must first stop the current timer:'
       timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
-      tracking_time: 'Rastrear tempo'
-      button_stop: 'Cancelar temporizador atual'
+      tracking_time: 'Monitorando tempo'
+      button_stop: 'Interromper temporizador atual'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticação de dois fatores'
     watchers:
@@ -1269,11 +1269,11 @@ pt:
         last_working_day: 'last working day'
         last_week: 'última semana'
         last_month: 'último mês'
-        a_specific_date: 'uma data específica'
+        a_specific_date: 'uma data específica '
         between_two_specific_dates: 'between two specific dates'
       legends:
-        changes_since: 'Mudanças desde'
-        changes_between: 'Mudanças entre'
+        changes_since: 'Alterações desde'
+        changes_between: 'Alterações entre'
         now_meets_filter_criteria: 'Now meets filter criteria'
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'

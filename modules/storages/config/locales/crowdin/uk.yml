@@ -3,20 +3,20 @@ uk:
   permission_view_file_links: "Перегляд посилань на файл"
   permission_manage_file_links: "Керування посиланнями на файл"
   permission_manage_storages_in_project: "Керування файловими сховищами в проєкті"
-  permission_read_files: "Read files"
-  permission_write_files: "Write files"
-  permission_create_files: "Create files"
-  permission_delete_files: "Delete files"
-  permission_share_files: "Share files"
+  permission_read_files: "Перегляд файлів"
+  permission_write_files: "Редагування файлів"
+  permission_create_files: "Створення файлів"
+  permission_delete_files: "Видалення файлів"
+  permission_share_files: "Надсилання файлів"
   project_module_storages: "Файлові сховища"
   errors:
     attributes:
       storage_error:
-        not_authorized: "Not authorized for external connection to storage."
-        not_found: "The requested resource could not be found at the external file storage."
+        not_authorized: "Немає дозволу на зовнішнє підключення до сховища."
+        not_found: "Не вдалося знайти потрібний ресурс у зовнішньому файловому сховищі."
   activerecord:
     models:
-      file_link: "File"
+      file_link: "Файл"
       storages/storage: "Сховище"
     attributes:
       storages/storage:
@@ -50,28 +50,28 @@ uk:
     errors:
       too_many_elements_created_at_once: "Забагато елементів, створених за раз. Очікувалося щонайбільше %{max}; отримано %{actual}."
   storages:
-    unknown_storage: "Unknown storage"
+    unknown_storage: "Невідоме сховище"
     buttons:
       done_continue_setup: "Готово – продовжити налаштування"
-      done_complete_setup: "Done, complete setup"
-      edit_automatically_managed_project_folders: "Edit automatically managed project folders"
+      done_complete_setup: "Готово – завершити налаштування"
+      edit_automatically_managed_project_folders: "Редагувати папки проєкту з автоматичним керуванням"
       replace_openproject_oauth: "Замінити OpenProject OAuth"
       replace_provider_type_oauth: "Замінити %{provider_type} OAuth"
       save_and_continue_setup: "Зберегти й продовжити налаштування"
       save_and_complete_setup: "Зберегти й завершити налаштування"
-      select_folder: "Select folder"
-      configure: "Configure"
+      select_folder: "Вибрати папку"
+      configure: "Налаштувати"
     page_titles:
       managed_project_folders:
-        title: "Automatically managed project folders"
+        title: "Папки проєкту з автоматичним керуванням"
         subtitle: >
-          Let OpenProject create folders per project automatically. This is recommended as it ensures that every team member always has the correct access permissions.
+          Дозвольте OpenProject автоматично створювати папки для проєкту. Радимо зробити це, адже в такому разі кожен учасник команди завжди матиме належні дозволи на доступ.
       project_settings:
         index: "Файлові сховища доступні в цьому проєкті"
         new: "Додайте сховище файлів до цього проєкту"
         edit: "Edit the file storage to this project"
         delete: "Delete file storage"
-        members_check: "Members check"
+        members_check: "Перевірка учасників"
       project_storage_members:
         title: "Members check"
         subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
@@ -81,14 +81,14 @@ uk:
       name: "Назвіть своє сховище, щоб користувачі могли відрізняти його від інших сховищ."
       host: "Додайте адресу хосту для свого сховища, включно з https://. Її довжина не може перевищувати 255 символів."
       managed_project_folders_application_password: >
-        Copy this value from:
+        Копіювати це значення з:
       no_storage_set_up: "Файлові сховища поки не створено."
-      no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
-      automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
-      empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
-      not_logged_into_storage: "To select a project folder, please first login"
+      no_specific_folder: "За замовчуванням кожен користувач, який передасть файл, починатиме роботу у власній головній папці."
+      automatic_folder: "Буде автоматично створено кореневу папку для цього проєкту й налаштовано дозволи на доступ для кожного учасника проєкту."
+      empty_project_folder_validation: "Щоб продовжити, потрібно вибрати папку."
+      not_logged_into_storage: "Шоб вибрати папку проєкту, спочатку ввійдіть"
       existing_manual_folder: >
-        You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
+        Ви можете призначити наявну папку як кореневу папку для цього проєкту. Однак дозволи автоматично не налаштовуються, і адміністратор має вручну надати користувачам відповідні дозволи на доступ. Вибрану папку зможуть використовувати кілька проєктів.
       setting_up_additional_storages: "Щоб створити додаткові файлові сховища, перейдіть у"
       setting_up_additional_storages_non_admin: "Адміністратори можуть створювати додаткові файлові сховища в розділі «Адміністрування» / «Файлові сховища»."
       setting_up_storages: "Щоб створити файлові сховища, перейдіть у"
@@ -99,16 +99,16 @@ uk:
         integration: "Адміністрування Nextcloud / OpenProject"
     help_texts:
       project_folder: >
-        The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
+        Папка проєкту – це папка за замовчуванням для файлів, які передаються в цей проєкт. Однак користувачі можуть передавати файли в інші розташування.
     delete_warning:
       storage: >
         Справді видалити це сховище? Це сховище буде також видалено з усіх проєктів, де воно використовувалося. Крім того, буде видалено всі посилання в пакетах робіт на файли, які зберігалися в цьому сховищі.
       project_storage: >
-        Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:
-      project_storage_delete_result_1: "Remove all links from work packages of this project to files and folders of that storage."
-      project_storage_delete_result_2: "In case this storage has an automatically managed project folder, this and its files will be deleted forever."
-      input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
-      irreversible_notice: "Deleting a file storage is an irreversible action."
+        Справді видалити %{file_storage} з цього проєкту? Щоб підтвердити цю дію, введіть ім’я сховище в поле нижче, щоб:
+      project_storage_delete_result_1: "Вилучіть усі посилання на файли й папки в цьому сховизі з пакетів робіт поточного проєкту."
+      project_storage_delete_result_2: "Якщо це сховище містить папку проєкту з автоматичним керуванням, цю папку та всі її файли буде остаточно видалено."
+      input_delete_confirmation: "Введіть ім’я файлового сховища %{file_storage}, щоб підтвердити видалення."
+      irreversible_notice: "Видалення файлового сховища не можна скасувати."
     label_active: "Active"
     label_inactive: "Inactive"
     label_creator: "Автор"
@@ -117,30 +117,30 @@ uk:
     label_name: "Назва"
     label_host: "URL-адреса хосту"
     label_managed_project_folders:
-      automatically_managed_folders: "Automatically managed folders"
-      application_password: "Application password"
-    label_managed_project_folders_breadcrumb: "Automatically managed project folders"
+      automatically_managed_folders: "Папки з автоматичним керуванням"
+      application_password: "Пароль додатка"
+    label_managed_project_folders_breadcrumb: "Папки проєкту з автоматичним керуванням"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
     label_oauth_application_details: "Докладні відомості про додаток OAuth"
     label_oauth_client_details: "Докладні відомості про клієнт OAuth"
     label_provider_type: "Тип постачальника"
-    label_project_folder: "Project folder"
+    label_project_folder: "Папка проєкту"
     label_new_storage: "Нове сховище"
-    label_existing_manual_folder: "Existing folder with manually managed permissions"
-    label_no_specific_folder: "No specific folder"
-    label_automatic_folder: "New folder with automatically managed permissions"
-    label_no_selected_folder: "No selected folder"
+    label_existing_manual_folder: "Наявна папка з ручним керуванням дозволами"
+    label_no_specific_folder: "Немає конкретної папки"
+    label_automatic_folder: "Нова папка з автоматичним керуванням дозволами"
+    label_no_selected_folder: "Папку не вибрано"
     label_storage: "Сховище"
     label_storages: "Сховища"
-    label_status: "Status"
+    label_status: "Стан"
     member_connection_status:
-      connected: "Connected"
-      connected_no_permissions: "User role has no storages permissions"
-      not_connected: "Not connected"
+      connected: "Підключено"
+      connected_no_permissions: "Ролі користувача не надано дозволи на доступ до сховища"
+      not_connected: "Не підключено"
     no_results: "Сховища поки не створено."
-    members_no_results: "No members to display."
+    members_no_results: "Немає учасників."
     provider_types:
       label: "Тип постачальника"
       nextcloud:
@@ -150,5 +150,5 @@ uk:
     confirm_replace_oauth_application: "Ви впевнені? Усім користувачам знадобиться знову авторизуватися в OpenProject."
     confirm_replace_oauth_client: "Ви впевнені? Усім користувачам знадобиться знову авторизуватися в сховищі."
     oauth_client_details_missing: "Щоб завершити налаштування, додайте облікові дані клієнта OAuth зі свого сховища."
-    automatically_managed_project_folder_missing: "To complete the setup, please configure automatically managed project folders for your storage."
+    automatically_managed_project_folder_missing: "Щоб завершити підготовку, налаштуйте папки проєкту з автоматичним керуванням для свого сховища."
     notice_oauth_application_replaced: "Додаток OpenProject OAuth замінено."

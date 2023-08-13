@@ -66,7 +66,7 @@ pl:
     button_continue: "Kontynuuj"
     button_copy: "Kopiuj"
     button_copy_to_clipboard: "Skopiuj do schowka"
-    button_copy_link_to_clipboard: "Copy link to clipboard"
+    button_copy_link_to_clipboard: "Kopiuj link do schowka"
     button_copy_to_other_project: "Kopiuj do innego projektu"
     button_custom-fields: "Pola niestandardowe"
     button_delete: "Usuń"

@@ -3,11 +3,11 @@ ko:
   permission_view_file_links: "파일 링크 보기"
   permission_manage_file_links: "파일 링크 관리"
   permission_manage_storages_in_project: "프로젝트의 파일 저장소 관리"
-  permission_read_files: "Read files"
-  permission_write_files: "Write files"
-  permission_create_files: "Create files"
-  permission_delete_files: "Delete files"
-  permission_share_files: "Share files"
+  permission_read_files: "파일 읽기"
+  permission_write_files: "파일 쓰기"
+  permission_create_files: "파일 만들기"
+  permission_delete_files: "파일 삭제"
+  permission_share_files: "파일 공유"
   project_module_storages: "파일 저장소"
   errors:
     attributes:

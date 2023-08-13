@@ -832,7 +832,7 @@ lt:
               not_allowed_to_view: "negali žiūrėti šio resurso."
               locked: "yra užrakintas."
         wiki_page:
-          error_conflict: "The wiki page has been updated by someone else while you were editing it."
+          error_conflict: "Kol jūs redagavote wiki puslapį, jį pakeitė kažkas kitas."
           attributes:
             slug:
               undeducible: "negali būti nustatytas iš pavadinimo '%{title}'."
@@ -959,13 +959,13 @@ lt:
     header_invalid_fields:
       one: "There was a problem with the following field:"
       few: "There were problems with the following fields:"
-      many: "There were problems with the following fields:"
-      other: "There were problems with the following fields:"
+      many: "Buvo problema su šiais laukais:"
+      other: "Buvo problema su šiais laukais:"
     header_additional_invalid_fields:
-      one: "Additionally, there was a problem with the following field:"
-      few: "Additionally, there were problems with the following fields:"
-      many: "Additionally, there were problems with the following fields:"
-      other: "Additionally, there were problems with the following fields:"
+      one: "Papildomai buvo problema su šiuo lauku:"
+      few: "Papildomai buvo problema su šiais laukais:"
+      many: "Papildomai buvo problema su šiais laukais:"
+      other: "Papildomai buvo problema su šiais laukais:"
     field_erroneous_label: "Šis laukelis netinkamas: %{full_errors}\nPrašome įvesti tinkamą reikšmę."
   activity:
     item:

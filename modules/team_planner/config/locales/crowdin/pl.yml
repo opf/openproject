@@ -5,7 +5,7 @@ pl:
   project_module_team_planner_view: "Planiści zespołu"
   team_planner:
     label_team_planner: "Planista zespołu"
-    label_new_team_planner: "New team planner"
+    label_new_team_planner: "Nowy planista zespołu"
     label_create_new_team_planner: "Utwórz nowego planistę zespołu"
     label_team_planner_plural: "Planiści zespołu"
     label_assignees: "Przypisane osoby"

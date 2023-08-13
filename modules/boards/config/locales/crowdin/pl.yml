@@ -6,8 +6,8 @@ pl:
   boards:
     label_board: "Tablica"
     label_boards: "Tablice"
-    label_create_new_board: "Create new board"
-    label_board_type: "Board type"
+    label_create_new_board: "Utwórz nową tablicę"
+    label_board_type: "Typ tablicy"
     board_types:
       free: Podstawowe
       action: "Tablica działania (%{attribute})"
@@ -20,17 +20,17 @@ pl:
       basic: Podstawowe
     board_type_descriptions:
       basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
+        Zacznij od zera z pustą tablicą. Ręcznie dodaj karty i kolumny do tej tablicy.
       status: >
-        Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        Podstawowa tablica w stylu kanban z kolumnami statusu, takimi jak Do wykonania, W toku, Gotowe.
       assignee: >
-        Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        Tablica z zautomatyzowanymi kolumnami odpowiadającymi przypisanym użytkownikom. Idealna do rozsyłania pakietów roboczych.
       version: >
-        Board with automated columns based on the version attribute. Ideal for planning product development.
+        Tablica z automatycznymi kolumnami na podstawie atrybutu wersji. Idealna do planowania rozwoju produktu.
       subproject: >
-        Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        Tablica z zautomatyzowanymi kolumnami projektów składowych. Przeciąganie pakietów roboczych na inne listy odpowiednio aktualizuje (pod)projekt.
       subtasks: >
-        Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        Tablica z zautomatyzowanymi kolumnami elementów składowych. Przeciąganie pakietów roboczych na inne listy odpowiednio aktualizuje elementy nadrzędne.
     upsale:
-      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-      upgrade: 'Upgrade now'
+      teaser_text: 'Czy chcesz zautomatyzować swoje przepływy pracy za pomocą tablic? Zaawansowane tablice to funkcja dodatku Enterprise. Przejdź na płatny plan.'
+      upgrade: 'Uaktualnij teraz'

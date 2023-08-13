@@ -215,7 +215,7 @@ pt:
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Coletando informações do primeiro projeto
+                  subject: Obtendo informações do primeiro projeto
                   description: |-
                     ## Goal
 
@@ -228,7 +228,7 @@ pt:
                     *   Each need shall represent a task with its corresponding work packages
                     *   Derive the cost estimation and time frame
                 item_1:
-                  subject: Resuma os resultados
+                  subject: Resumir resultados
                   description: |-
                     ## Goal
 
@@ -243,14 +243,14 @@ pt:
                     *   This overview informs all participants about the decisions made
                     *   ...
                 item_2:
-                  subject: Fim da avaliação básica
+                  subject: Final da avaliação básica
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_2:
               subject: Planejamento preliminar
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Desenvolvendo o primeiro rascunho
+                  subject: Primeiro rascunho em desenvolvimento
                   description: |-
                     ## Goal
 
@@ -287,7 +287,7 @@ pt:
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Design final
+                  subject: Finalizando design
                   description: |-
                     ## Goal
 
@@ -307,7 +307,7 @@ pt:
               subject: Fase de construção
               children:
                 item_0:
-                  subject: Começar a construir
+                  subject: Iniciar construção
                   description: |-
                     ## Goal
 
@@ -321,7 +321,7 @@ pt:
                     *   Get the team together
                     *   ...
                 item_1:
-                  subject: Fundação
+                  subject: Base
                   description: |-
                     ## Goal
 
@@ -349,7 +349,7 @@ pt:
                     *   Finishing the roof structure
                     *   ...
                 item_3:
-                  subject: Concluindo a fachada
+                  subject: Concluindo fachada
                   description: |-
                     ## Goal
 
@@ -468,7 +468,7 @@ pt:
 
                 The next step could be to check out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
-              subject: Preparação do Projeto
+              subject: Preparação do projeto
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
@@ -677,16 +677,16 @@ pt:
             item_1:
               name: Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)
             item_2:
-              name: Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)
+              name: Hospital - Mecânico (cc-by-sa-3.0 Autodesk Inc.)
           categories:
             item_0: Categoria 1 (a ser alterada nas configurações do projeto)
           queries:
             item_0:
               name: Problemas
             item_1:
-              name: Confronto
+              name: Clashes
             item_2:
-              name: Requisições
+              name: Solicitações
             item_3:
               name: Observações
             item_4:
@@ -699,7 +699,7 @@ pt:
               name: Planejador de equipe
           boards:
             bcf:
-              name: Problemas BCF
+              name: Problemas de BCF
           project-overview:
             widgets:
               item_0:
