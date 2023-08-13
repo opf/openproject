@@ -9,7 +9,7 @@ ko:
         identifier: 식별자
         secret: 비밀번호
         scope: 범위
-        limit_self_registration: Limit self registration
+        limit_self_registration: 자체 등록 제한
   openid_connect:
     menu_title: OpenID 공급자
     providers:
@@ -20,4 +20,4 @@ ko:
       singular: OpenID 공급자
     setting_instructions:
       limit_self_registration: >
-        If enabled users can only register using this provider if the self registration setting allows for it.
+        활성화되면, 사용자는 자체 등록 설정에서 허용하는 경우에만 이 공급자를 사용하여 등록할 수 있습니다.
