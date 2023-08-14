@@ -47,10 +47,20 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
   end
 
   let(:meeting) do
-    create(:meeting, project:, title: 'Awesome meeting today!', start_time: Time.current, location: 'a.com')
+    create(:meeting, project:, title: 'Awesome meeting today!', start_time: Time.current)
   end
   let(:tomorrows_meeting) do
-    create(:meeting, project:, title: 'Awesome meeting tomorrow!', start_time: 1.day.from_now)
+    create(:meeting, project:, title: 'Awesome meeting tomorrow!', start_time: 1.day.from_now, location: 'no-protocol.com')
+  end
+  let(:meeting_with_no_location) do
+    create(:meeting, project:, title: 'Boring meeting without a location!', start_time: 1.day.from_now, location: '')
+  end
+  let(:meeting_with_malicious_location) do
+    create(:meeting,
+           project:,
+           title: 'Sneaky meeting!',
+           start_time: 1.day.from_now,
+           location: "<script>alert('Description');</script>")
   end
   let(:yesterdays_meeting) do
     create(:meeting, project:, title: 'Awesome meeting yesterday!', start_time: 1.day.ago)
@@ -62,7 +72,7 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
            title: 'Awesome other project meeting!',
            start_time: 2.days.from_now,
            duration: 2.0,
-           location: 'b.com')
+           location: 'not-a-url')
   end
 
   def setup_meeting_involvement
@@ -181,6 +191,21 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
       meetings_page.navigate_by_modules_menu
       meetings_page.expect_meetings_listed(meeting, other_project_meeting)
       meetings_page.expect_meetings_not_listed(yesterdays_meeting)
+    end
+
+    it "renders a link to each meeting's location if present and a valid URL" do
+      meeting
+      meeting_with_no_location
+      meeting_with_malicious_location
+      tomorrows_meeting
+
+      meetings_page.visit!
+
+      meetings_page.expect_link_to_meeting_location(meeting)
+      meetings_page.expect_plaintext_meeting_location(tomorrows_meeting)
+      meetings_page.expect_plaintext_meeting_location(other_project_meeting)
+      meetings_page.expect_plaintext_meeting_location(meeting_with_malicious_location)
+      meetings_page.expect_no_meeting_location(meeting_with_no_location)
     end
 
     context 'and the user is allowed to create meetings' do
@@ -340,6 +365,19 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
       meetings_page.expect_meetings_listed(tomorrows_meeting)
       meetings_page.expect_meetings_not_listed(yesterdays_meeting, # Past meetings not displayed
                                                meeting)
+    end
+
+    it "renders a link to each meeting's location if present and a valid URL" do
+      meeting
+      meeting_with_no_location
+      meeting_with_malicious_location
+      tomorrows_meeting
+
+      meetings_page.visit!
+      meetings_page.expect_link_to_meeting_location(meeting)
+      meetings_page.expect_plaintext_meeting_location(tomorrows_meeting)
+      meetings_page.expect_plaintext_meeting_location(meeting_with_malicious_location)
+      meetings_page.expect_no_meeting_location(meeting_with_no_location)
     end
   end
 end

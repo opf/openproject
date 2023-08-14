@@ -35,8 +35,7 @@ module OpenProject::TextFormatting
       include ActionView::Helpers::UrlHelper
 
       def call
-        escaped = CGI::escapeHTML(text)
-        linked = Rinku.auto_link(escaped, :all)
+        linked = auto_link(text, :all)
         simple_format(linked)
       end
     end
