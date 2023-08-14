@@ -43,8 +43,6 @@ class User < Principal
   include ::Users::Avatars
   extend DeprecatedAlias
 
-  has_many :categories, foreign_key: 'assigned_to_id',
-                        dependent: :nullify
   has_many :watches, class_name: 'Watcher',
                      dependent: :delete_all
   has_many :changesets, dependent: :nullify
