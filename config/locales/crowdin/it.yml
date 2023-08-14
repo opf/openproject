@@ -104,9 +104,9 @@ it:
       error_requeue: "Si è verificato un errore col lavoro ma si sta riprovando. Errore: %{message}"
       cancelled_due_to: "Il lavoro è stato annullato a causa di un errore: %{message}"
   ldap_auth_sources:
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
-    back_to_index: 'Click here to go back to the list of connection.'
+    ldap_error: "Errore LDAP: %{error_message}"
+    ldap_auth_failed: "Non è possibile autenticare attraverso il Server LDAP."
+    back_to_index: 'Clicca qui per tornare all''elenco delle connessioni.'
     technical_warning_html: |
       Questo form LDAP richiede una conoscenza tecnica dell'attuale setup LDAP / Active Directory. <br/>
       <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Per favore visita la nostra documentazione per istruzioni dettagliate</a>.
@@ -165,18 +165,18 @@ it:
     index:
       no_results_title_text: Al momento non vi sono colori.
       no_results_content_text: Crea un nuovo colore
-      label_new_color: "New color"
+      label_new_color: "Nuovo colore"
     new:
-      label_new_color: "New Color"
+      label_new_color: "Nuovo colore"
     edit:
-      label_edit_color: "Edit Color"
+      label_edit_color: "Modifica colore"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Nuovo colore"
+      label_edit_color: "Modifica colore"
     label_no_color: "Nessun colore"
-    label_properties: "Properties"
+    label_properties: "Proprietà"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Vuoi davvero eliminare il seguente colore? I tipi che utilizzano questo colore non verranno eliminati.
   custom_actions:
     actions:
       name: "Azioni"
@@ -259,7 +259,7 @@ it:
       types:
         no_results_title_text: Al momento non sono disponibili tipi.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'Abilita il tipo "%{type}"'
       versions:
         no_results_title_text: Al momento non esistono versioni per il progetto.
         no_results_content_text: Crea una nuova versione
@@ -276,24 +276,24 @@ it:
       notice_reset_token: "È stato generato un nuovo token %{type}. Il tuo token di accesso è:"
       token_value_warning: "Nota: Questa è l'unica volta in cui vedrai questo token, assicurati di copiarlo subito."
       no_results_title_text: Al momento non sono disponibili token di accesso.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
-      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
-      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "Il token API è stato eliminato. Per creare un nuovo token utilizza il link nella sezione API."
+      notice_rss_token_revoked: "Il token RSS è stato eliminato. Per creare un nuovo token utilizza il link nella sezione RSS."
+      notice_ical_token_revoked: "Il token di iCalendar \"%{token_name}\" per il calendario \"%{calendar_name}\" del progetto \"%{project_name}\" è stato revocato. L'URL di iCalendar con questo token non è ora valido."
   news:
     index:
       no_results_title_text: Al momento non c'è nessuna notizia da segnalare.
       no_results_content_text: Aggiungi una notizia
   users:
     sessions:
-      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      session_name: "%{browser_name} %{browser_version} su %{os_name}"
       browser: 'Browser'
-      device: 'Device / OS'
-      unknown_browser: 'unknown browser'
-      unknown_os: 'unknown operating system'
-      current: 'Current session'
-      title: 'Session management'
-      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
-      may_not_delete_current: 'You cannot delete your current session.'
+      device: 'Dispositivo / SO'
+      unknown_browser: 'browser sconosciuto'
+      unknown_os: 'sistema operativo sconosciuto'
+      current: 'Sessione attuale'
+      title: 'Gestione sessione'
+      instructions: 'Questa è la lista di dispositivi collegata al tuo account. Rimuovi tutte le sessioni che non riconosci o a cui non hai più accesso.'
+      may_not_delete_current: 'Non è possibile eliminare la sessione attuale.'
     groups:
       member_in_these_groups: 'Questo utente è attualmente membro dei seguenti gruppi:'
       no_results_title_text: Questo utente al momento non è un membro di alcun gruppo.
@@ -336,11 +336,11 @@ it:
       no_results_title_text: Al momento non vi sono relazioni sullo stato delle macro-attività.
       no_results_content_text: Aggiungi un nuovo stato
   themes:
-    light: "Light"
-    light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
+    light: "Chiaro"
+    light_high_contrast: "Chiaro ad alto contrasto"
+    dark: "Scuro"
+    dark_dimmed: "Scuro oscurato"
+    dark_high_contrast: "Scuro ad alto contrasto"
   types:
     index:
       no_results_title_text: Al momento non esistono tipi.
@@ -447,15 +447,15 @@ it:
         help_text: 'Testo guida'
       ldap_auth_source:
         account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
-        attr_login: "Username attribute"
-        attr_mail: "Email attribute"
-        base_dn: "Base DN"
+        attr_firstname: "Attributo nome"
+        attr_lastname: "Attributo cognome"
+        attr_login: "Attributo nome utente"
+        attr_mail: "Attributo email"
+        base_dn: "Nome Dominio (DN) base"
         host: "Host"
-        onthefly: "Automatic user creation"
-        port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
+        onthefly: "Creazione automatica degli utenti"
+        port: "Porta"
+        tls_certificate_string: "Certificato SSL del server LDAP"
       changeset:
         repository: "Archivio"
       comment:
@@ -543,7 +543,7 @@ it:
         hours: "Ore"
         spent_on: "Data"
         type: "Tipo"
-        ongoing: "Ongoing"
+        ongoing: "In Corso"
       type:
         description: "Testo predefinito per la descrizione"
         attribute_groups: ''
@@ -553,7 +553,7 @@ it:
         color: "Colore"
       user:
         admin: "Amministratore"
-        ldap_auth_source: "LDAP connection"
+        ldap_auth_source: "Connessione LDAP"
         current_password: "Password corrente"
         force_password_change: "Richiedi la modifica della password al prossimo login"
         language: "Linguaggio"
@@ -677,7 +677,7 @@ it:
         ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "Il certificato SSL fornito non è valido: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -830,7 +830,7 @@ it:
               not_allowed_to_view: "non può visualizzare questa risorsa."
               locked: "è bloccato."
         wiki_page:
-          error_conflict: "The wiki page has been updated by someone else while you were editing it."
+          error_conflict: "La pagina wiki è stata aggiornata da qualcun altro mentre la stavi modificando."
           attributes:
             slug:
               undeducible: "impossibile dedurre dal titolo '%{title}'."
@@ -898,7 +898,7 @@ it:
             status:
               invalid_on_create: "non è uno stato valido per i nuovi utenti."
             ldap_auth_source:
-              error_not_found: "not found"
+              error_not_found: "non trovato"
         member:
           principal_blank: "Si prega di scegliere almeno un utente o un gruppo."
           role_blank: "deve essere assegnato."
@@ -947,11 +947,11 @@ it:
       'doorkeeper/application': "Applicazione OAuth"
   errors:
     header_invalid_fields:
-      one: "There was a problem with the following field:"
-      other: "There were problems with the following fields:"
+      one: "Si è verificato un problema con il seguente campo:"
+      other: "Si sono verificati problemi con i seguenti campi:"
     header_additional_invalid_fields:
-      one: "Additionally, there was a problem with the following field:"
-      other: "Additionally, there were problems with the following fields:"
+      one: "Inoltre, si è verificato un problema con il seguente campo:"
+      other: "Inoltre, si sono verificati problemi con i seguenti campi:"
     field_erroneous_label: "Questo campo non è valido: %{full_errors} Prego, inserisci un valore valido."
   activity:
     item:
@@ -1089,7 +1089,7 @@ it:
   button_continue: "Continua"
   button_copy: "Copia"
   button_copy_to_clipboard: "Copia negli appunti"
-  button_copy_link_to_clipboard: "Copy link to clipboard"
+  button_copy_link_to_clipboard: "Copia link negli appunti"
   button_copy_and_follow: "Copia e segui"
   button_create: "Crea"
   button_create_and_continue: "Crea e continua"
@@ -1312,7 +1312,7 @@ it:
   error_can_not_delete_custom_field: "Impossibile eliminare il campo personalizzato"
   error_can_not_delete_type:
     explanation: 'Questo tipo contiene macro-attività e non può essere eliminato. Puoi vedere tutte le macro-attività interessate in <a target="_blank" href="%{url}">questa vista</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
+    archived_projects: 'Ci sono macro-attività anche nei progetti archiviati. Devi prima riattivare i seguenti progetti, prima di poter modificare il tipo delle rispettive macro-attività: %%{archived_projects_urls}'
   error_can_not_delete_standard_type: "Tipi standard non possono essere eliminati."
   error_can_not_invite_user: "Impossibile inviare l'invito all'utente."
   error_can_not_remove_role: "Questo ruolo è in uso e non può essere eliminato."
@@ -1321,7 +1321,7 @@ it:
   error_can_not_unarchive_project: "Questo progetto non può essere estratto: %{errors}"
   error_check_user_and_role: "Si prega di scegliere un utente e un ruolo."
   error_code: "Errore %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "Il colore non può essere salvato"
   error_cookie_missing: 'Il cookie di OpenProject è mancante. Prego, verifica che i cookie siano attivati, questa applicazione non funziona correttamente senza.'
   error_custom_option_not_found: "L'opzione non esiste."
   error_enterprise_activation_user_limit: "Il tuo account potrebbe non essere attivo (raggiunto il limite utente). Si prega di contattare l'amministratore per ottenere l'accesso."
@@ -1346,7 +1346,7 @@ it:
   error_password_change_failed: 'Si è verificato un errore durante il tentativo di modifica della password.'
   error_scm_command_failed: "Si è verificato un errore durante il tentativo di accesso all'archivio: %{value}"
   error_scm_not_found: "La voce o la revisione non è stata trovata nell'archivio."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "Il tipo non può essere salvato"
   error_unable_delete_status: "Lo stato della macro-attività non può essere eliminato poiché è utilizzato da almeno una macro-attività."
   error_unable_delete_default_status: "Impossibile eliminare lo stato predefinito della macro-attività. Si prega di selezionare un altro stato predefinito della macro-attività prima di eliminare quello corrente."
   error_unable_to_connect: "Impossibile connettersi (%{value})"
@@ -1389,8 +1389,8 @@ it:
     image:
       omitted: "Immagine non esportata."
     units:
-      hours: h
-      days: d
+      hours: o
+      days: g
   extraction:
     available:
       pdftotext: "Pdfatesto disponibile (opzionale)"
@@ -1437,16 +1437,16 @@ it:
   journals:
     changes_retracted: "Le modifiche sono state annullate."
     caused_changes:
-      dates_changed: "Dates changed"
-      system_update: "OpenProject update"
+      dates_changed: "Date cambiate"
+      system_update: "Aggiornamento OpenProject"
     cause_descriptions:
-      work_package_predecessor_changed_times: by changes to predecessor %{link}
-      work_package_parent_changed_times: by changes to parent %{link}
-      work_package_children_changed_times: by changes to child %{link}
-      work_package_related_changed_times: by changes to related %{link}
-      unaccessable_work_package_changed: by changes to a related work package
+      work_package_predecessor_changed_times: da modifiche al predecessore %{link}
+      work_package_parent_changed_times: da modifiche al genitore %{link}
+      work_package_children_changed_times: da modifiche al figlio %{link}
+      work_package_related_changed_times: da modifiche a elemento correlato %{link}
+      unaccessable_work_package_changed: da modifiche a macro-attività correlata
       working_days_changed:
-        changed: "by changes to working days (%{changes})"
+        changed: "da modifiche ai giorni lavorativi (%{changes})"
         days:
           working: "%{day} ora è lavorativo"
           non_working: "%{day} ora non è lavorativo"
@@ -1454,7 +1454,7 @@ it:
           working: "%{date} è ora lavorativo"
           non_working: "%{date} è ora non lavorativo"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: 'aggiunti link ai file alle attività'
   links:
     configuration_guide: 'Guida di configurazione'
     get_in_touch: "Hai dei dubbi? Mettiti in contatto con noi."
@@ -1464,7 +1464,7 @@ it:
   menus:
     admin:
       mail_notification: "Notifiche email"
-      mails_and_notifications: "Emails and notifications"
+      mails_and_notifications: "Email e notifiche"
       aggregation: 'Aggregazione'
       api_and_webhooks: "API e webhooks"
     quick_add:
@@ -1479,33 +1479,33 @@ it:
         action: "Azione"
         expiration: "Scade"
       indefinite_expiration: "Mai"
-      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      simple_revoke_confirmation: "Revocare il token?"
       api:
         title: "API"
-        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
-        static_token_name: "API token"
-        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+        text_hint: "I token API consentono alle applicazioni di terze parti di comunicare con questa istanza OpenProject tramite le API REST."
+        static_token_name: "Token API"
+        disabled_text: "I token API non sono abilitati dall'amministratore. Contatta il tuo amministratore per utilizzare questa funzione."
       ical:
         title: "iCalendar"
-        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
-        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
-        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+        text_hint: "I token iCalendar consentono agli utenti di <a href=\"%{path}\" target=\"_blank\">iscriversi ai calendari di OpenProject</a> e visualizzare informazioni aggiornate sulle macro-attività da client esterni."
+        disabled_text: "Le iscrizioni iCalendar non sono abilitate dall'amministratore. Contatta il tuo amministratore per utilizzare questa funzione."
+        empty_text_hint: "Per aggiungere un token iCalendar, iscriviti a un calendario nuovo o esistente dall'interno del modulo Calendario di un progetto. È necessario disporre delle autorizzazioni necessarie."
       oauth:
         title: "OAuth"
-        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
-        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+        text_hint: "I token OAuth consentono alle applicazioni di terze parti di connettersi con questa istanza OpenProject."
+        empty_text_hint: "Nessun accesso ad applicazioni di terze parti è configurato e attivo per te. Contatta il tuo amministratore per attivare questa funzione."
       rss:
         title: "RSS"
-        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
-        static_token_name: "RSS token"
-        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+        text_hint: "I token RSS consentono agli utenti di tenere il passo con le ultime modifiche in questa istanza di OpenProject tramite un lettore RSS esterno."
+        static_token_name: "Token RSS"
+        disabled_text: "I token RSS non sono abilitati dall'amministratore. Contatta il tuo amministratore per utilizzare questa funzione."
       storages:
-        title: "File Storages"
-        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
-        empty_text_hint: "There is no storage access linked to your account."
-        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
-        removed: "File Storage token successfully removed"
-        failed: "An error occurred and the token couldn't be removed. Please try again later."
+        title: "Archiviazione dei file"
+        text_hint: "I token di archiviazione dei file connettono questa istanza OpenProject con un sistema di archiviazione file esterno."
+        empty_text_hint: "Non esiste alcun accesso allo spazio di archiviazione collegato al tuo account."
+        revoke_token: "Vuoi davvero rimuovere questo token? Dovrai effettuare nuovamente l'accesso su %{storage}"
+        removed: "Token di archiviazione file rimosso correttamente"
+        failed: "Si è verificato un errore e non è stato possibile rimuovere il token. Riprova più tardi."
   notifications:
     send_notifications: "Invia notifiche per questa azione"
     work_packages:
@@ -1548,7 +1548,7 @@ it:
   label_age: "Età"
   label_ago: "giorni fa"
   label_all: "tutti"
-  label_all_projects: "All projects"
+  label_all_projects: "Tutti i progetti"
   label_all_time: "tutto il tempo"
   label_all_words: "Tutte le parole"
   label_all_open_wps: "Apri tutto"
@@ -1565,7 +1565,7 @@ it:
   label_ical_access_key_revoke: "Revoca"
   label_applied_status: "Stato applicato"
   label_archive_project: "Archivia progetto"
-  label_archived_projects: "Archived projects"
+  label_archived_projects: "Progetti archiviati"
   label_ascending: "Crescente"
   label_assigned_to_me_work_packages: "Macro-attività assegnate a me"
   label_associated_revisions: "Revisioni associate"
@@ -1574,9 +1574,9 @@ it:
   label_attachment_plural: "File"
   label_attribute: "Attributo"
   label_attribute_plural: "Attributi"
-  label_ldap_auth_source_new: "New LDAP connection"
-  label_ldap_auth_source: "LDAP connection"
-  label_ldap_auth_source_plural: "LDAP connections"
+  label_ldap_auth_source_new: "Nuova connessione LDAP"
+  label_ldap_auth_source: "Connessione LDAP"
+  label_ldap_auth_source_plural: "Connessioni LDAP"
   label_authentication: "Autenticazione"
   label_available_project_work_package_categories: 'Categorie di macro-attività disponibili'
   label_available_project_work_package_types: 'Tipi di pacchetti di lavoro disponibili'
@@ -1599,7 +1599,7 @@ it:
   label_bulk_edit_selected_work_packages: "Modifica in blocco le macro-attività selezionate"
   label_bundled: '(Raccolto)'
   label_calendar: "Calendario"
-  label_calendars_and_dates: "Calendars and dates"
+  label_calendars_and_dates: "Calendari e date"
   label_calendar_show: "Mostra Calendario"
   label_category: "Categoria"
   label_consent_settings: "Consenso dell'utente"
@@ -1635,7 +1635,7 @@ it:
   label_confirmation: "Conferma"
   label_contains: "contiene"
   label_content: "Contenuto"
-  label_color_plural: "Colors"
+  label_color_plural: "Colori"
   label_copied: "copiato"
   label_copy_same_as_target: "Lo stesso della destinazione"
   label_copy_source: "Sorgente"
@@ -1664,7 +1664,7 @@ it:
   label_deleted: "cancellato"
   label_deleted_custom_field: "(campo personalizzato eliminato)"
   label_deleted_custom_option: "(opzione eliminata)"
-  label_empty_element: "(empty)"
+  label_empty_element: "(vuoto)"
   label_missing_or_hidden_custom_option: "(valore mancante o assenza di permessi di accesso)"
   label_descending: "Decrescente"
   label_details: "Dettagli"
@@ -1704,13 +1704,13 @@ it:
   label_everywhere: "ovunque"
   label_example: "Esempio"
   label_experimental: "Sperimentale"
-  label_i_am_member: "I am member"
+  label_i_am_member: "Sono membro"
   label_import: "Importazione"
   label_export_to: "Disponibile anche in:"
   label_expanded_click_to_collapse: "Espanso. Clicca per comprimere"
   label_f_hour: "%{value} ora"
   label_f_hour_plural: "%{value} ore"
-  label_favoured: "Favoured"
+  label_favoured: "Preferito"
   label_feed_plural: "Feed"
   label_feeds_access_key: "Chiave di accesso RSS"
   label_feeds_access_key_created_on: "Chiave di accesso RSS creato %{value} fa"
@@ -1742,7 +1742,7 @@ it:
   label_hierarchy_leaf: "Foglia della gerarchia"
   label_home: "Radice (home)"
   label_subject_or_id: "Oggetto o ID"
-  label_calendar_subscriptions: "Calendar subscriptions"
+  label_calendar_subscriptions: "Iscrizioni calendario"
   label_impressum: "Note legali"
   label_in: "in"
   label_in_less_than: "in meno di"
@@ -1786,7 +1786,7 @@ it:
   label_logged_as: "Accesso eseguito come"
   label_login: "Accedi"
   label_custom_logo: "Logo personalizzato"
-  label_custom_export_logo: "Custom export logo"
+  label_custom_export_logo: "Esportazione personalizzata logo"
   label_custom_favicon: "Favicon personalizzata"
   label_custom_touch_icon: "Icona del touch personalizzata"
   label_logout: "Disconnetti"
@@ -1823,7 +1823,7 @@ it:
   label_more_than_ago: "più di qualche giorno fa"
   label_move_work_package: "Sposta la macro-attività"
   label_my_account: "Il mio account"
-  label_my_activity: "My activity"
+  label_my_activity: "La mia attività"
   label_my_account_data: "I miei dati dell'account"
   label_my_projects: "I miei progetti"
   label_my_queries: "Le mie query personalizzate"
@@ -1906,8 +1906,8 @@ it:
   label_project_new: "Nuovo progetto"
   label_project_plural: "Progetti"
   label_project_settings: "Impostazioni progetto"
-  label_project_storage_plural: "File Storages"
-  label_project_storage_project_folder: "File Storages: Project folders"
+  label_project_storage_plural: "Archiviazione dei file"
+  label_project_storage_project_folder: "Archiviazione dei file: cartelle di progetto"
   label_projects_storage_information: "%{count} progetti per %{storage} di spazio di archiviazione su disco"
   label_project_view_all: "Vedi tutti i progetti"
   label_project_show_details: "Mostra dettagli progetto"
@@ -1995,7 +1995,7 @@ it:
   label_this_week: "questa settimana"
   label_this_year: "questo anno"
   label_time_entry_plural: "Tempo speso"
-  label_title: "Title"
+  label_title: "Titolo"
   label_projects_menu: "Progetti"
   label_today: "oggi"
   label_top_menu: "Top Menu"
@@ -2099,7 +2099,7 @@ it:
   label_global_role: "Ruolo globale"
   label_not_changeable: "(non modificabile)"
   label_global: "Globale"
-  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
+  label_seeded_from_env_warning: Questo record è stato creato tramite un'impostazione/variabile d'ambiente. Non è modificabile tramite l'interfaccia utente.
   macro_execution_error: "Errore nell'esecuzione della macro %{macro_name}"
   macro_unavailable: "Non può essere visualizzata la macro %{macro_name}."
   macros:
@@ -2143,7 +2143,7 @@ it:
       more_to_see:
         one: 'C''è un altro pacchetto di lavoro con le notifiche.'
         other: 'Ci sono altri %{count} pacchetti di lavoro con notifiche.'
-      open_in_browser: 'Open in browser'
+      open_in_browser: 'Apri nel browser'
       reason:
         watched: 'Visto'
         assigned: 'Assegnato'
@@ -2288,7 +2288,7 @@ it:
   present_access_key_value: "Il tuo %{key_name} è: %{value}"
   notice_automatic_set_of_standard_type: "Impostare automaticamente il tipo predefinito."
   notice_logged_out: "Ti sei appena disconnesso."
-  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
+  notice_wont_delete_auth_source: La connessione LDAP non può essere eliminata finché ci sono ancora utenti che la utilizzano.
   notice_project_cannot_update_custom_fields: "Non è possibile aggiornare i campi personalizzati del progetto disponibili. Il progetto non è valido: %{errors}"
   notice_attachment_migration_wiki_page: >
     Questa pagina è stata generata automaticamente durante l'aggiornamento di OpenProject. Contiene tutti gli allegati precedentemente connessi con il %{container_type} "%{container_name}".
@@ -2322,8 +2322,8 @@ it:
   permission_add_messages: "Postare messaggi"
   permission_add_project: "Creare un progetto"
   permission_archive_project: "Archivia progetto"
-  permission_create_user: "Create users"
-  permission_manage_user: "Edit users"
+  permission_create_user: "Crea utenti"
+  permission_manage_user: "Modifica gli utenti"
   permission_manage_placeholder_user: "Crea, modifica ed elimina utenti del segnaposto"
   permission_add_subprojects: "Creare sotto-progetti"
   permission_add_work_package_watchers: "Aggiungere osservatori"
@@ -2600,7 +2600,7 @@ it:
   setting_enabled_scm: "SCM Abilitato"
   setting_enabled_projects_columns: "Visibile nell'elenco dei progetti"
   setting_feeds_enabled: "Abilita Feed"
-  setting_ical_enabled: "Enable iCalendar subscriptions"
+  setting_ical_enabled: "Abilita iscrizioni di iCalendar"
   setting_feeds_limit: "Limite al contenuto del contributo"
   setting_file_max_size_displayed: "Dimensione massima dei file di testo visualizzati inline"
   setting_host_name: "Nome dell'Host"
@@ -2670,13 +2670,13 @@ it:
     brute_force_prevention: "Blocco automatico degli utenti"
     date_format:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Se le opzioni "%{day_of_week_setting_name}" o "%{first_week_setting_name}" sono impostate, dev'esser impostata anche l'altra per evitare incoerenze visibili.
       first_week_of_year_text_html: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+        Seleziona la data di gennaio che è contenuta nella prima settimana dell'anno. Questo valore insieme al primo giorno della settimana determina il numero totale di settimane in un anno. Per ulteriori informazioni, consulta la nostra <a href="%{link}" target="_blank">documentazione</a> su questo argomento.
     experimental:
-      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
-      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
-      feature_flags: Feature flags
+      save_confirmation: Attenzione! Rischio di perdita di dati! Attiva le funzionalità sperimentali solo se non è importante danneggiare l'installazione di OpenProject e perdere tutti i dati.
+      warning_toast: I flag di funzionalità sono impostazioni che attivano funzionalità ancora in fase di sviluppo. Devono essere utilizzati solo a scopo di test. Non devono mai essere attivati ​​su installazioni OpenProject contenenti dati importanti. Queste funzionalità molto probabilmente danneggeranno i tuoi dati. Usali a tuo rischio e pericolo.
+      feature_flags: Flag di funzionalità
     general: "Generale"
     highlighting:
       mode_long:
@@ -2686,10 +2686,10 @@ it:
         type: "Tutta la riga per Tipo"
         priority: "Tutta la riga per Priorità"
     icalendar:
-      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+      enable_subscriptions_text_html: Consente agli utenti con le autorizzazioni necessarie di iscriversi ai calendari OpenProject e accedere alle informazioni sulle macro-attività tramite un client di calendario esterno.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
-    language_name_being_default: '%{language_name} (default)'
+    language_name_being_default: '%{language_name} (predefinito)'
     notifications:
       events_explanation: 'Determina per quale evento viene inviata un''e-mail. Le macro-attività sono escluse da questo elenco in quanto le notifiche per essi possono essere configurate in modo specifico per ogni utente.'
       delay_minutes_explanation: "L'invio di e-mail può essere ritardato per consentire agli utenti con la notifica in-app configurata di confermare la notifica all'interno dell'applicazione prima che la mail venga inviata. Gli utenti che leggono una notifica all'interno dell'applicazione non riceveranno un'email per la notifica già letta."
@@ -2705,7 +2705,7 @@ it:
       deletion: "Eliminazione"
     working_days:
       section_work_week: "Settimana lavorativa"
-      section_holidays_and_closures: "Holidays and closures"
+      section_holidays_and_closures: "Festività e chiusure"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Testo semplice'
@@ -2745,11 +2745,11 @@ it:
   text_custom_logo_instructions: >
     Un logo bianco su sfondo trasparente è preferibile. Per ottenere i migliori risultati, sia su schermi convenzionali che ad alta risoluzione, assicurati che le dimensioni dell'immagine siano di 460x60 pixels.
   text_custom_export_logo_instructions: >
-    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+    Questo è il logo che appare nelle tue esportazioni PDF. Deve essere un file immagine PNG o JPEG. Si consiglia un logo nero o colorato su sfondo trasparente o bianco.
   text_custom_favicon_instructions: >
-    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+    Questa è l'icona che appare nella scheda del tuo browser vicino al titolo della pagina. È necessario che questa sia un'immagine quadrata di dimensioni 32x32, in formato PNG e con sfondo trasparente.
   text_custom_touch_icon_instructions: >
-    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
+    Questa è l'icona che appare nel tuo cellulare o tablet quando posizioni un segnalibro sulla pagina principale. Deve essere un'immagine quadrata di 180 per 180 pixel nel formato PNG. Assicurati che il fondo dell'immagine non sia trasparente, altrimenti non sarà esteticamente appetibile su iOS.
   text_database_allows_tsv: "Il database permette TSVector (opzionale)"
   text_default_administrator_account_changed: "Account amministratore predefinito cambiato"
   text_default_encoding: "Predefinito: UTF-8"
@@ -2775,16 +2775,16 @@ it:
   text_work_packages_destroy_confirmation: "Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?"
   text_work_packages_ref_in_commit_messages: "Macro-attivita che sono correlate e/o modificate nei messaggi di conferma"
   text_journal_added: "%{label} %{value} aggiunto"
-  text_journal_attachment_added: "%{label} %{value} added as attachment"
-  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
+  text_journal_attachment_added: "%{label} %{value} aggiunto come allegato"
+  text_journal_attachment_deleted: "%{label} %{old} rimosso come allegato"
   text_journal_changed_plain: "%{label} modificato da %{old} %{linebreak}a %{new}"
   text_journal_changed_no_detail: "%{label} aggiornata"
   text_journal_changed_with_diff: "%{label} cambiato (%{link})"
   text_journal_deleted: "%{label} cancellato (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} cancellato (%{link})"
-  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
-  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
+  text_journal_file_link_added: "Link %{label} a %{value} (%{storage}) aggiunto"
+  text_journal_file_link_deleted: "Link %{label} a %{old} (%{storage}) rimosso"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} impostato su %{value}"
   text_journal_set_with_diff: "insieme di %{label} (%{link})"
@@ -2832,9 +2832,9 @@ it:
   text_setup_mail_configuration: "Configura il tuo provider di posta elettronica"
   help_texts:
     views:
-      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
-      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
-      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
+      project: "%{plural} sono sempre collegati a un progetto. Dopo aver creato un %{singular} puoi aggiungervi macro-attività da altri progetti."
+      public: "Pubblica questa vista, consentendo ad altri utenti di accedere alla tua vista. Gli utenti con il permesso \"Gestisci viste pubbliche\" possono modificare o rimuovere la query pubblica. Questo non influisce sulla visibilità dei risultati della macro-attività in quella vista e gli utenti possono vedere risultati diversi a seconda dei loro permessi."
+      favoured: "Segna questa vista come preferita e aggiungila alla barra laterale delle viste salvate a sinistra."
   time:
     am: "AM"
     formats:
@@ -2936,9 +2936,9 @@ it:
       title: "Eliminare la macro-attività"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      I giorni non selezionati vengono saltati durante la pianificazione delle macro-attività (e non inclusi nel conteggio dei giorni). Questi possono essere sovrascritti a livello di macro-attività.
     instance_wide_info: >
-      Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Le date aggiunte all'elenco seguente sono considerate non lavorative e saltate durante la pianificazione delle macro-attività.
     change_button: "Cambia giorni lavorativi"
     warning: >
       La modifica dei giorni della settimana da considerare lavorativi o non lavorativi può influire sui giorni di inizio e di fine di tutte le macro-attività in tutti i progetti in questa istanza. <br/> Tieni presente che le modifiche vengono applicate solo dopo aver fatto clic sul pulsante Applica modifiche.

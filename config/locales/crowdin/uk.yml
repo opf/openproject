@@ -235,7 +235,7 @@ uk:
       failed_text: "Запит видалення проекту %{name} не вдало. Проект залишився в архіві."
       completed: "Видалення проекту %{name} завершено."
       completed_text: "Запит видалення проекту '%{name}' завершено."
-      completed_text_children: "Additionally, the following subprojects have been deleted:"
+      completed_text_children: "Крім того, видалено такі підпроєкти:"
     index:
       open_as_gantt: 'Відкрити в поданні Ґанта'
       open_as_gantt_title: "Натисніть цю кнопку, щоб створити подання Ґанта, у якому фільтруються пакети робіт для проєктів, видимих на цій сторінці."
@@ -968,26 +968,26 @@ uk:
   activity:
     item:
       created_by_on: "створено %{datetime} користувачем %{user}"
-      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
+      created_by_on_time_entry: "час зареєстровано о %{datetime} користувачем %{user}"
       created_on: "створено %{datetime}"
       updated_by_on: "оновлено %{date} користувачем %{user}"
-      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "зареєстрований час оновлено о %{datetime} користувачем %{user}"
       updated_on: "оновлено %{datetime}"
       parent_without_of: "Підпроєкт"
       parent_no_longer: "Більше не входить у проєкт"
       time_entry:
         hour:
-          one: "%{count} hour"
-          few: "%{count} години"
-          many: "%{count} години"
-          other: "%{count} години"
+          one: "%{count} год"
+          few: "%{count} год"
+          many: "%{count} год"
+          other: "%{count} год"
         hour_html:
           one: "<i>%{count} година</i>"
           few: "<i>%{count} години</i>"
           many: "<i>%{count} годин</i>"
           other: "<i>%{count} години</i>"
         updated: "змінено з %{old_value} на %{value}"
-        logged_for: "Logged for"
+        logged_for: "Зареєстровано для"
     filter:
       changeset: "Набори змін"
       message: "Форуми"
@@ -1480,13 +1480,13 @@ uk:
       dates_changed: "Дати змінено"
       system_update: "Оновлення OpenProject"
     cause_descriptions:
-      work_package_predecessor_changed_times: by changes to predecessor %{link}
-      work_package_parent_changed_times: by changes to parent %{link}
-      work_package_children_changed_times: by changes to child %{link}
-      work_package_related_changed_times: by changes to related %{link}
-      unaccessable_work_package_changed: by changes to a related work package
+      work_package_predecessor_changed_times: внесенням змін у попередній елемент %{link}
+      work_package_parent_changed_times: внесенням змін у батькіський елемент %{link}
+      work_package_children_changed_times: внесенням змін у дочірній елемент %{link}
+      work_package_related_changed_times: внесенням змін у пов’язаний елемент %{link}
+      unaccessable_work_package_changed: внесенням змін у пов’язаний пакет робіт
       working_days_changed:
-        changed: "by changes to working days (%{changes})"
+        changed: "внесенням змін у робочі дні (%{changes})"
         days:
           working: "%{day} зараз робочий"
           non_working: "%{day} зараз неробочий"
@@ -1494,7 +1494,7 @@ uk:
           working: "%{day} зараз робочий день"
           non_working: "%{day} зараз неробочий день"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: 'додано файлові посилання на дії'
   links:
     configuration_guide: 'Посібник з налаштування'
     get_in_touch: "У вас виникли запитання? Зв'яжіться з нами."
@@ -2185,7 +2185,7 @@ uk:
         few: 'Є ще %{count} пакети робіт зі сповіщеннями.'
         many: 'Є ще %{count} пакетів робіт зі сповіщеннями.'
         other: 'Є ще %{count} пакета робіт зі сповіщеннями.'
-      open_in_browser: 'Open in browser'
+      open_in_browser: 'Відкрити в браузері'
       reason:
         watched: 'Відстежено'
         assigned: 'Призначено'
@@ -2717,7 +2717,7 @@ uk:
     experimental:
       save_confirmation: Увага! Існує ризик втрати даних! Активуйте експериментальні функції, лише якщо ви готові перервати встановлення екземплара OpenProject і втратити всі його дані.
       warning_toast: Прапори функцій – це параметри, що активують функції, які ще розробляються. Використовуйте їх лише під час тестування. Не вмикайте їх в екземплярах OpenProject, що містять важливі дані. Використання цих функцій майже напевно призведе до пошкодження ваших даних. Ви берете на себе відповідальність за наслідки.
-      feature_flags: Feature flags
+      feature_flags: Прапори функцій
     general: "Загальні"
     highlighting:
       mode_long:
@@ -2727,10 +2727,10 @@ uk:
         type: "Весь рядок за Типом"
         priority: "Весь рядок за Пріоритетом"
     icalendar:
-      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+      enable_subscriptions_text_html: Користувачі з необхідними дозволами зможуть підписуватися на календарі OpenProject і отримувати доступ до даних пакета робіт через зовнішній клієнт календаря.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
-    language_name_being_default: '%{language_name} (default)'
+    language_name_being_default: '%{language_name} (за замовчуванням)'
     notifications:
       events_explanation: 'Визначає події, для яких надсилається електронний лист. Пакети робіт виключаються зі списку, оскільки сповіщення для них можна налаштувати окремо для кожного користувача.'
       delay_minutes_explanation: "Надсилання електронного листа можна відкласти, щоб користувачі з налаштованими сповіщеннями в додатку могли підтверджувати сповіщення в додатку до надсилання листа. Користувачі, які прочитали сповіщення в додатку, не отримуватимуть електронні листи про вже прочитані сповіщення."

@@ -40,8 +40,8 @@ uk:
               authorization_header_missing: >
                 налаштовано не повністю. Екземпляр Nextcloud не отримує заголовка «Authorization», який необхідний для авторизації запитів API на основі маркерів власника. Перевірте свою конфігурацію сервера HTTP.
             password:
-              invalid_password: "is not valid."
-              unknown_error: "could not be validated. Please check your storage connection and try again."
+              invalid_password: "недійсний."
+              unknown_error: "не вдалося перевірити. Перевірте підключення до сховища й повторіть спробу."
         storages/file_link:
           attributes:
             origin_id:
@@ -69,12 +69,12 @@ uk:
       project_settings:
         index: "Файлові сховища доступні в цьому проєкті"
         new: "Додайте сховище файлів до цього проєкту"
-        edit: "Edit the file storage to this project"
-        delete: "Delete file storage"
+        edit: "Редагувати файлове сховище для цього проєкту"
+        delete: "Видалити файлове сховище"
         members_check: "Перевірка учасників"
       project_storage_members:
-        title: "Members check"
-        subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
+        title: "Перевірка учасників"
+        subtitle: "Перевірте стан підключення до сховища %{storage_name_link} для всіх учасників проєкту."
     instructions:
       type: "Перш ніж виконувати налаштування, переконайтеся, що маєте права адміністратора у своєму екземплярі Nextcloud і що встановлено цей додаток:"
       type_link_text: "«Інтеграція OpenProject»"
@@ -109,8 +109,8 @@ uk:
       project_storage_delete_result_2: "Якщо це сховище містить папку проєкту з автоматичним керуванням, цю папку та всі її файли буде остаточно видалено."
       input_delete_confirmation: "Введіть ім’я файлового сховища %{file_storage}, щоб підтвердити видалення."
       irreversible_notice: "Видалення файлового сховища не можна скасувати."
-    label_active: "Active"
-    label_inactive: "Inactive"
+    label_active: "Активні"
+    label_inactive: "Неактивні"
     label_creator: "Автор"
     label_file_link: "Посилання на файл"
     label_file_links: "Посилання на файл"

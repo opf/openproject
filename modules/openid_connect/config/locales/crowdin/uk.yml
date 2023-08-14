@@ -9,7 +9,7 @@ uk:
         identifier: Ідентифікатор
         secret: Таємний код
         scope: Область використання
-        limit_self_registration: Limit self registration
+        limit_self_registration: Обмеження самостійної реєстрації
   openid_connect:
     menu_title: Постачальники OpenID
     providers:
@@ -24,4 +24,4 @@ uk:
       azure_tenant_html: >
         Задайте клієнта для своєї кінцевої точки Azure, який матиме доступ до вашого екземпляра OpenProject. Щоб дізнатися більше, ознайомтеся з <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">нашим посібником користування щодо підключення через Azure OpenID</a>.
       limit_self_registration: >
-        If enabled users can only register using this provider if the self registration setting allows for it.
+        Якщо ввімкнено, користувачі можуть зареєструватися лише через цього постачальника послуг, якщо це дозволено параметром самостійної реєстрації.

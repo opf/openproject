@@ -301,10 +301,10 @@ uk:
       quarter_label: 'Q%{quarter_number}'
       labels:
         title: 'Конфігурація мітки'
-        bar: 'Bar labels'
+        bar: 'Панель міток'
         left: 'Зліва'
         right: 'Справа'
-        farRight: 'Far right'
+        farRight: 'У правому кінці'
         description: >
           Виберіть атрибути, які потрібно постійно відображати у відповідних положеннях діаграми Ганта. Зверніть увагу, що під час наведення вказівника на елемент, замість цих атрибутів з’являтиметься його мітка.
       button_activate: 'Показати діаграму Ганта'
@@ -348,7 +348,7 @@ uk:
               new_features_html: >
                 Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"> <li>Порівняння базових значень для зручного відстеження змін.</li> <li>Експорт звітів про плани робіт у форматі PDF.</li> <li>Підписки на календарі проєкту за URL-адресою (iCalendar).</li> <li>Папки проєкту із шаблонами для інтеграції Nextcloud.</li> <li>Локалізовані дані для заповнення бази даних.</li> <li>Список глобальних модулів на нових сторінках індексу.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to calendar"
+      title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."
       description: "За допомогою URL-адреси (iCalendar) ви можете підписатися на цей календар у зовнішньому клієнті й переглядати  звідти актуальну інформацію про пакети робіт."
       warning: "Не передавайте нікому цю URL-адресу. Будь-хто із цим посиланням зможе переглядати інформацію про пакети робіт без облікового запису або пароля."
@@ -369,7 +369,7 @@ uk:
     label_add_row_before: "Додати рядок перед"
     label_add_selected_columns: "Додати вибрані стовпці"
     label_added_by: "додав(-ла)"
-    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
+    label_added_time_by: "Додано користувачем <a href=\"%{authorLink}\">%{author}</a> о%{age}"
     label_ago: "днів тому"
     label_all: "всі"
     label_all_work_packages: "всі пакети в роботі"
@@ -1258,14 +1258,14 @@ uk:
         does_not_match_search: 'Проєкт не відповідає критеріям пошуку.'
       no_results: 'Жоден проєкт не відповідає вашим критеріям пошуку.'
     baseline:
-      toggle_title: 'Baseline'
+      toggle_title: 'Вихідний рівень'
       clear: 'Очистити'
       apply: 'Застосувати'
       header_description: 'Виділяйте зміни, внесені в цей список із будь-якого моменту часу в минулому.'
       enterprise_header_description: 'Виділяйте зміни, внесені в цей список із будь-якого моменту часу в минулому за допомогою версії Enterprise Edition.'
       show_changes_since: 'Показувати зміни з'
-      baseline_comparison: 'Baseline comparison'
-      help_description: 'Reference time zone for the baseline.'
+      baseline_comparison: 'Порівняння з вихідним рівнем'
+      help_description: 'Контрольний часовий пояс для вихідного рівня.'
       time_description: 'За вашим місцевим часом: %{datetime}'
       time: 'Час'
       from: 'Від'
@@ -1281,14 +1281,14 @@ uk:
       legends:
         changes_since: 'Зміни з'
         changes_between: 'Зміни в період'
-        now_meets_filter_criteria: 'Now meets filter criteria'
-        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
-        maintained_with_changes: 'Maintained with changes'
-        in_your_timezone: 'In your local timezone:'
+        now_meets_filter_criteria: 'Тепер відповідає критеріям фільтра'
+        no_longer_meets_filter_criteria: 'Більше не відповідає критеріям фільтра'
+        maintained_with_changes: 'Збережено зі змінами'
+        in_your_timezone: 'У вашому місцевому часовому поясі:'
       icon_tooltip:
         added: 'Added to view within the comparison time period'
         removed: 'Removed from view within the comparison time period'
-        changed: 'Maintained with modifications'
+        changed: 'Збережено зі змінами'
     forms:
       submit_success_message: 'Форму надіслано'
       load_error_message: 'Сталася помилка під час завантаження форми'

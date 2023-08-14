@@ -83,7 +83,7 @@ it:
   validation_failure_integer: "non è un numero intero valido"
   export:
     cost_reports:
-      title: "Your Cost Reports XLS export"
+      title: "Esportazione XLS dei report sui costi"
   reporting:
     group_by:
       selected_columns: "Colonne selezionate"

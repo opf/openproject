@@ -2,7 +2,7 @@
 it:
   label_calendar: "Calendario"
   label_calendar_plural: "Calendari"
-  label_new_calendar: "New calendar"
+  label_new_calendar: "Nuovo calendario"
   permission_view_calendar: "Visualizza calendari"
   permission_manage_calendars: "Gestisci calendari"
   permission_share_calendars: "Iscriviti a iCalendars"

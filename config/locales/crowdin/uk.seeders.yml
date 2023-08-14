@@ -318,143 +318,140 @@ uk:
               name: Завдання
           boards:
             kanban:
-              name: Kanban board
+              name: Дошка Kanban
             basic:
               name: Дошка завдань
               lists:
                 item_0:
-                  name: Wish list
+                  name: Список бажань
                 item_1:
-                  name: Short list
+                  name: Короткий список
                 item_2:
-                  name: Priority list for today
+                  name: Список пріоритетів на сьогодні
                 item_3:
                   name: Ніколи
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Ласкаво просимо
               item_1:
                 options:
                   name: Починаємо
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Ми раді, що ви приєдналися! Пропонуємо вам дещо підготувати перед початком роботи в OpenProject.
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
+                    Дізнайтеся про найважливіші функції в нашому [Покроковому посібнику]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
 
-                    _Try the following steps:_
+                    _Виконайте такі дії:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
-                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Запросіть учасників у свій проєкт*: &rightarrow; виберіть [Учасники]({{opSetting:base_url}}/projects/your-scrum-project/members) на панелі навігації проєктом.
+                    2. *Перегляньте невиконані завдання для свого продукту й спринту*: &rightarrow; виберіть [Невиконані завдання]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) на панелі навігації проєктом.
+                    3. *Перегляньте свою дошку завдань*: &rightarrow; виберіть [Невиконані завдання]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; натисніть стрілку вправо для спринту &rightarrow; виберіть [Дошка завдань](##sprint:scrum_project__version__sprint_1).
+                    4. *Створіть новий пакет робіт*: &rightarrow; виберіть [Пакети робіт &rightarrow; Створити]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    5. *Створіть і оновіть план проєкту*: &rightarrow; виберіть [План проєкту](##query:scrum_project__query__project_plan) на панелі навігації проєктом.
+                    6. *Створіть вікі-сторінку спринту*: &rightarrow; виберіть [Невиконані завдання]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) і відкрийте вікі-сторінку спринту з розкривного меню праворуч у вікні спринту. Ви можете відредагувати [шаблон вікі-сторінки]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) залежно від своїх потреб.
+                    7. *Активуйте додаткові модулі*: &rightarrow; виберіть [Налаштування проєкту &rightarrow; Модулі]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Тут ви знайдете наші [Посібники користувача](https://www.openproject.org/docs/user-guide/).
+                    кщо маєте запитання або потребуєте допомоги, зв’яжіться з нами: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Пакети робіт
               item_6:
                 options:
-                  name: Project plan
+                  name: План проєкту
           work_packages:
             item_0:
-              subject: New login screen
+              subject: Новий екран входу
             item_1:
-              subject: Password reset does not send email
+              subject: У разі скидання пароля електронний лист не надсилається
             item_2:
-              subject: New website
+              subject: Новий веб-сайт
               children:
                 item_0:
-                  subject: Newsletter registration form
+                  subject: Форма реєстрації на розсилку
                 item_1:
-                  subject: Implement product tour
+                  subject: Упровадження огляду продукту
                 item_2:
-                  subject: New landing page
+                  subject: Нова цільова сторінка
                   children:
                     item_0:
-                      subject: Create wireframes for new landing page
+                      subject: Створення каркасу нової цільової сторінки
             item_3:
-              subject: Contact form
+              subject: Форма для зв’язку
             item_4:
-              subject: Feature carousel
+              subject: Карусель функцій
               children:
                 item_0:
-                  subject: Make screenshots for feature tour
+                  subject: Створення знімків екрана для огляду функції
             item_5:
-              subject: Wrong hover color
+              subject: Неправильний колір наведення
             item_6:
-              subject: SSL certificate
+              subject: SSL-сертифікат
             item_7:
-              subject: Set-up Staging environment
+              subject: Налаштування середовища розгортання
             item_8:
-              subject: Choose a content management system
+              subject: Вибір системи керування контентом
             item_9:
-              subject: Website navigation structure
+              subject: Структура навігації вебсайтом
               children:
                 item_0:
-                  subject: Set up navigation concept for website.
+                  subject: Розробка концепції навігації вебсайтом.
             item_10:
-              subject: Internal link structure
+              subject: Внутрішня структура посилань
             item_11:
-              subject: Develop v1.0
+              subject: Розробка 1.0
             item_12:
-              subject: Release v1.0
+              subject: Випуск 1.0
             item_13:
-              subject: Develop v1.1
+              subject: Розробка 1.1
             item_14:
-              subject: Release v1.1
+              subject: Випуск 1.1
             item_15:
-              subject: Develop v2.0
+              subject: Розробка 2.0
             item_16:
-              subject: Release v2.0
+              subject: Випуск 2.0
           wiki: |
-            ### Sprint planning meeting
+            ### Зустріч із планування спринту
 
-            _Please document here topics to the Sprint planning meeting_
+             _Запишіть тут теми зустрічі з планування спринту_
 
-            * Time boxed (8 h)
-            * Input: Product Backlog
-            * Output: Sprint Backlog
+            * Відведений час (8 год)
+            * Вхідні дані: невиконані завдання для продукту
+            * Вихідні дані: невиконані завдання для спринту
 
-            * Divided into two additional time boxes of 4 h:
+            * Складається з двох додаткових вікон тривалістю 4 год кожне:
 
-                * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
+                * Власник продукту представляє команді [Невиконані завдання для продукту]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) і пріоритети та пояснює ціль спринту, з якою команда має погодитися. Разом вони визначають пріоритетні невиконані завдання для продукту, які команда має виконати в наступному спринті. Команда зобов’язується забезпечити потрібні результати.
+                * Команда автономно (без власника продукту) розробляє детальний план і розбиває його на обговорені завдання, які потрібно включити в [Невиконані завдання для спринту]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
+            ### Щоденна зустріч щодо Scrum
 
-            ### Daily Scrum meeting
+            _Запишіть тут теми щоденної зустрічі щодо Scrum_
 
-            _Please document here topics to the Daily Scrum meeting_
+            * Коротке щоденне обговорення роботи команди.
+            * Відведений час (макс. 15 хв).
+            * Коротка зустріч для обговорення тем із дошки завдань.
+                * Що я планую зробити до наступної щоденної зустрічі щодо Scrum?
+                * Що завадило мені виконати завдання (перешкоди)?
+            * Scrum-майстер модерує і фіксує перешкоди спринту.
+            * Власник продукту може приєднатися до зустрічі, щоб бути в курсі справ.
 
-            * Short, daily status meeting of the team.
-            * Time boxed (max. 15 min).
-            * Stand-up meeting to discuss the following topics from the Task board.
-                * What do I plan to do until the next Daily Scrum?
-                * What has blocked my work (Impediments)?
-            * Scrum Master moderates and notes down Sprint Impediments.
-            * Product Owner may participate may participate in order to stay informed.
+            ### Зустріч з огляду принту
 
-            ### Sprint Review meeting
+            _Запишіть тут теми зустрічі з огляду спринту_
 
-            _Please document here topics to the Sprint Review meeting_
+            * Відведений час (4 год). * Щонайбільше 1 год підготовки на особу.
+            * Команда представляє власнику продукту й іншим зацікавленим особам свої результати цього спринту.
+            * Важливо: без зайвих слів і презентацій PowerPoint! Потрібно демонструвати лише функції готового продукту (досягнення).
+            * Вітаються відгуки від власника продукту, зацікавлених осіб та інших. Їх буде враховано під час подальшої роботи.
+            * На основі продемонстрованих функцій власник продукту вирішує втілити це досягнення або продовжити роботу над ним. Така можливість швидко забезпечує рентабельність інвестицій.
 
-            * Time boxed (4 h).
-            * A maximum of one hour of preparation time per person.
-            * The team shows the product owner and other interested persons what has been achieved in this sprint.
-            * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-            * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-            * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+            ### Висновки спринту
 
+            Запишіть тут теми зустрічі для підбиття висновків спринту_
 
-            ### Sprint Retrospective
-
-            _Please document here topics to the Sprint Retrospective meeting_
-
-            * Time boxed (3 h).
-            * After Sprint Review, will be moderated by Scrum Master.
-            * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+            * Відведений час (3 год).
+            * Після зустрічі з огляду спринту Scrum-майстер починає модерацію процесу.
+            * Команда обговорює спринт: що вдалося, а де потрібно підвищити продуктивність, щоб отримати кращі результати або навіть більше задоволення від роботи.

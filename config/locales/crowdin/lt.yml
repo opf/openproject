@@ -957,8 +957,8 @@ lt:
       'doorkeeper/application': "OAuth aplikacija"
   errors:
     header_invalid_fields:
-      one: "There was a problem with the following field:"
-      few: "There were problems with the following fields:"
+      one: "Buvo problema su šiuo lauku:"
+      few: "Buvo problema su šiais laukais:"
       many: "Buvo problema su šiais laukais:"
       other: "Buvo problema su šiais laukais:"
     header_additional_invalid_fields:
