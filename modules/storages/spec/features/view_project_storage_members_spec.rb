@@ -65,11 +65,11 @@ RSpec.describe(
 
     aggregate_failures 'Verifying Connection Statuses' do
       [
-        [user, 'Not connected'],
+        [user, 'Not connected. The user should login to the storage via the Files tab of a work package to connect.'],
         [admin_user, 'Connected'],
         [connected_user, 'Connected'],
         [connected_no_permissions_user, 'User role has no storages permissions'],
-        [disconnected_user, 'Not connected']
+        [disconnected_user, 'Not connected. The user should login to the storage via the Files tab of a work package to connect.']
       ].each do |(principal, status)|
         expect(page).to have_selector("#member-#{principal.id} .name", text: principal.name)
         expect(page).to have_selector("#member-#{principal.id} .status", text: status)

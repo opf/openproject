@@ -150,7 +150,7 @@ en:
     member_connection_status:
       connected: "Connected"
       connected_no_permissions: "User role has no storages permissions"
-      not_connected: "Not connected"
+      not_connected: "Not connected. The user should login to the storage via the Files tab of a work package to connect."
     no_results: "No storages set up yet."
     members_no_results: "No members to display."
     provider_types:
