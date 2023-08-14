@@ -174,5 +174,19 @@ module Pages
     def expect_view_not_visible(query)
       expect(page).not_to have_selector 'td', text: query.name
     end
+
+    def click_to_sort_by(header_name)
+      within '.generic-table thead' do
+        click_link header_name
+      end
+    end
+
+    def expect_views_listed_in_order(*queries)
+      within '.generic-table tbody' do
+        listed_view_names = all('tr td.name').map(&:text)
+
+        expect(listed_view_names).to eq(queries.map(&:name))
+      end
+    end
   end
 end

@@ -30,12 +30,15 @@ require 'spec_helper'
 require_relative '../support/pages/calendar'
 
 RSpec.describe 'Calendars', 'index', :js, :with_cuprite do
+  # The order the Projects are created in is important. By naming `project` alphanumerically
+  # after `other_project`, we can ensure that subsequent specs that assert sorting is
+  # correct for the right reasons (sorting by Project name and not id)
   shared_let(:project) do
-    create(:project, enabled_module_names: %w[work_package_tracking calendar_view])
+    create(:project, name: 'Project 2', enabled_module_names: %w[work_package_tracking calendar_view])
   end
 
   shared_let(:other_project) do
-    create(:project, enabled_module_names: %w[work_package_tracking calendar_view])
+    create(:project, name: 'Project 1', enabled_module_names: %w[work_package_tracking calendar_view])
   end
 
   shared_let(:user) do
@@ -133,6 +136,43 @@ RSpec.describe 'Calendars', 'index', :js, :with_cuprite do
         queries.each do |q|
           calendars_page.expect_view_visible(q)
           calendars_page.expect_no_delete_button(q)
+        end
+      end
+
+      describe 'sorting' do
+        before do
+          # Name ASC is the default sort order for Calendars
+          # We can assert the initial sort by expecting the order is
+          # 1. `query`
+          # 2. `other_query`
+          # upon page load
+          calendars_page.expect_views_listed_in_order(query, other_query)
+        end
+
+        it 'allows sorting by "Name", "Project" and "Created On"' do
+          aggregate_failures 'Sorting by Name' do
+            calendars_page.click_to_sort_by('Name')
+            calendars_page.expect_views_listed_in_order(other_query,
+                                                        query)
+          end
+
+          aggregate_failures 'Sorting by Project' do
+            calendars_page.click_to_sort_by('Project')
+            calendars_page.expect_views_listed_in_order(other_query,
+                                                        query)
+            calendars_page.click_to_sort_by('Project')
+            calendars_page.expect_views_listed_in_order(query,
+                                                        other_query)
+          end
+
+          aggregate_failures 'Sorting by Created On' do
+            calendars_page.click_to_sort_by('Created on')
+            calendars_page.expect_views_listed_in_order(query,
+                                                        other_query)
+            calendars_page.click_to_sort_by('Created on')
+            calendars_page.expect_views_listed_in_order(other_query,
+                                                        query)
+          end
         end
       end
     end
