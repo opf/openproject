@@ -9,7 +9,7 @@ uk:
         identifier: Ідентифікатор
         secret: Таємний код
         scope: Область використання
-        limit_self_registration: Limit self registration
+        limit_self_registration: Обмеження самостійної реєстрації
   openid_connect:
     menu_title: Постачальники OpenID
     providers:
@@ -20,4 +20,4 @@ uk:
       singular: OpenID постачальник
     setting_instructions:
       limit_self_registration: >
-        If enabled users can only register using this provider if the self registration setting allows for it.
+        Якщо ввімкнено, користувачі можуть зареєструватися лише через цього постачальника послуг, якщо це дозволено параметром самостійної реєстрації.

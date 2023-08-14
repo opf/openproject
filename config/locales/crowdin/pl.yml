@@ -229,7 +229,7 @@ pl:
       failed_text: "Żądanie usunięcia projektu %{name} nie powiodło się. Projekt pozostał zarchiwizowany."
       completed: "Usunięcie projektu %{name} zostało wykonane"
       completed_text: "Żądanie usunięcia projektu „%{name}” zostało wykonane."
-      completed_text_children: "Additionally, the following subprojects have been deleted:"
+      completed_text_children: "Ponadto usunięto następujące podprojekty:"
     index:
       open_as_gantt: 'Otwórz jako widok wykresu Gantta'
       open_as_gantt_title: "Użyj tego przycisku, aby wygenerować widok wykresu Gantta, który filtruje pakiety robocze projektów widocznych na tej stronie."
@@ -2109,7 +2109,7 @@ pl:
         few: 'Istnieją jeszcze %{count} pakiety robocze z powiadomieniami.'
         many: 'Istnieje jeszcze %{count} pakietów roboczych z powiadomieniami.'
         other: 'Istnieją jeszcze %{count} pakietów roboczych z powiadomieniami.'
-      open_in_browser: 'Open in browser'
+      open_in_browser: 'Otwórz w przeglądarce'
       reason:
         watched: 'Obserwowane'
         assigned: 'Przypisane'
