@@ -47,9 +47,9 @@ module Meetings
     end
 
     def location
-      ::Rinku.auto_link(h(model.location),
-                        :all,
-                        'target="_blank"').html_safe
+      helpers.auto_link(model.location,
+                        link: :all,
+                        html: { target: '_blank' })
     end
   end
 end
