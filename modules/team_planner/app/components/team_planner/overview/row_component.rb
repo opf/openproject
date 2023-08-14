@@ -39,7 +39,7 @@ module TeamPlanner
         link_to query.name, project_team_planner_path(project, query.id)
       end
 
-      def project_id
+      def project_name
         helpers.link_to_project model.project, {}, {}, false
       end
 

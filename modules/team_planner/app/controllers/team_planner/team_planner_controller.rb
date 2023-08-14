@@ -94,6 +94,7 @@ module ::TeamPlanner
         .visible(current_user)
         .includes(:project)
         .joins(:views)
+        .references(:projects)
         .where('views.type' => 'team_planner')
         .order('queries.name ASC')
 
