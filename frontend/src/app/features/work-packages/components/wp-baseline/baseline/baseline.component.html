@@ -107,6 +107,13 @@
         (input)="dateChange([$event.target.value, selectedDates[1] || ''])"
         type="text"
         class="op-baseline--date-input"/>
+      <button
+        slot="action"
+        type="button"
+        class="spot-link"
+        (click)="setToday('from')"
+        [textContent]="text.today">
+      </button>
     </spot-form-field>
 
     <spot-form-field
@@ -120,6 +127,13 @@
         (input)="dateChange([selectedDates[0] || '', $event.target.value])"
         type="text"
         class="op-baseline--date-input"/>
+      <button
+        slot="action"
+        type="button"
+        class="spot-link"
+        (click)="setToday('to')"
+        [textContent]="text.today">
+      </button>
     </spot-form-field>
 
     <spot-form-field
