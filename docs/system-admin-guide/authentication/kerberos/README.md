@@ -17,7 +17,7 @@ This guide will also apply for Docker-based installation, if you have an outer p
 
 
 
-## Step 1: Creating Kerberos service and keytab for OpenProject
+## Step 1: Create Kerberos service and keytab for OpenProject
 
 Assuming you have Kerberos set up with a realm, you need to create a Kerberos service Principal for the OpenProject HTTP service. In the course of this guide, we're going to assume your realm is `EXAMPLE.COM` and your OpenProject installation is running at `openproject.example.com`.
 
@@ -47,7 +47,7 @@ sudo chmod 400 /etc/apache2/openproject.keytab
 
 
 
-## Step 2: Configuration of Apache web server
+## Step 2: Configure Apache web server
 
 First, ensure that you install the `mod_auth_kerb` apache module. The command will vary depending on your installation. On Debian/Ubuntu based systems, use the following command to install:
 
@@ -102,7 +102,7 @@ We are going to create a new file `/etc/openproject/addons/apache2/custom/vhost/
 
 
 
-## Step 3: Configuration of OpenProject to use Apache header
+## Step 3: Configure OpenProject to use Apache header
 
 As the last step, you need to tell OpenProject to look for the `X-Authenticated-User` header and the `MyPassword` secret value. The easiest way to do that is using ENV variables
 
@@ -125,13 +125,13 @@ Please note the differences between single underscores (`_`) and double undersco
 
 
 
-## Step 4: Restarting the server
+## Step 4: Restart the server
 
 Once the configuration is completed, restart your OpenProject and Apache2 server with `service openproject restart` and  `service apache2 restart` . Again these commands might differ depending on your Linux distribution.
 
 
 
-## Step 5: Logging in
+## Step 5: Log in
 
 From there on, you will be forced to the Kerberos login flow whenever accessing OpenProject. For existing users that will be found by their login attribute provided in the `X-Authenticated-User`, they will be automatically logged in.
 

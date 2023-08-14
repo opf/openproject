@@ -30,7 +30,7 @@ For any other OpenProject Domains you need to exactly add the **Fully Qualified 
 
 
 
-## Tracking time from OpenProject to Toggl Track
+## Track time from OpenProject to Toggl Track
 
 If this add-in is installed and the **Integration URL** is configured, a **Start/Stop Timer button** is displayed on the work package details view, which can be used to record times from OpenProject into Toggl:
 
@@ -38,7 +38,7 @@ If this add-in is installed and the **Integration URL** is configured, a **Start
 
 
 
-## Copying time entries from Toggl Track to OpenProject
+## Copy time entries from Toggl Track to OpenProject
 
 If you would like to use the times tracked in Toggl Track inside of OpenProject, and you are a programmer, you are able to transfer the recorded times back to OpenProject via the API if needed.
 Details can be found in our [API documentation](../../../../api/).

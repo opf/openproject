@@ -30,7 +30,7 @@ In order to use integrate OpenProject as a service provider (SP) using SAML, you
   - **first name** and **last name** of the user.
 - provides the public certificate or certificate fingerprint (SHA1) in use for communicating with the idP.
 
-### 1: Configuring the SAML integration
+### 1: Configure the SAML integration
 
 The configuration can be provided in one of two ways:
 
@@ -293,7 +293,7 @@ default:
 
 
 
-#### 2.3 Optional: Setting the attribute format
+#### 2.3 Optional: Set the attribute format
 
 By default, the attributes above will be requested with the format `urn:oasis:names:tc:SAML:2.0:attrname-format:basic`.
 That means the response should contain attribute names 'mail', etc. as configured above.
@@ -392,7 +392,7 @@ default:
 
 
 
-### 3: Restarting the server
+### 3: Restart the server
 
 Once the configuration is completed, restart your OpenProject server with `service openproject restart`.  If you configured SAML through settings, this step can be ignored.
 
@@ -401,13 +401,13 @@ Once the configuration is completed, restart your OpenProject server with `servi
 The configuration will enable the SAML XML metadata endpoint at `https://<your openproject host>/auth/saml/metadata`
 for service discovery use with your identity provider.
 
-### 4: Logging in
+### 4: Log in
 
 From there on, you will see a button dedicated to logging in via SAML, e.g named "My SSO" (depending on the name you chose in the configuration), when logging in. Clicking it will redirect to your SSO provider and return with your attribute data to set up the account, or to log in.
 
 ![my-sso](my-sso.png)
 
-### 5: Returning from the authentication provider
+### 5: Return from the authentication provider
 
 When you return from the authentication provider, you might be shown one of these return paths:
 
@@ -462,7 +462,7 @@ Add the following Claim rules:
 
 
 
-#### Exporting the ADFS public certificate
+#### Export the ADFS public certificate
 
 OpenProject needs the certificate or fingerprint of the ADFS to validate the signature of incoming tokens. Here are the steps on how to do that:
 
@@ -475,7 +475,7 @@ OpenProject needs the certificate or fingerprint of the ADFS to validate the sig
 
 
 
-#### Setting up OpenProject for ADFS integration
+#### Set up OpenProject for ADFS integration
 
 
 
@@ -530,13 +530,13 @@ Go the "Mappers" tab and create the following mappers. Note that the "User attri
 
 
 
-#### Exporting the Keycloak public certificate
+#### Export the Keycloak public certificate
 
 To view the certificate in Base64 encoding, go to the menu "Realm settings" and click on "Endpoints -> SAML 2.0 Identity Provider Metadata". This will open an XML file, and the certificate is stored in the `ds:X509Certificate `node under the signing key. Copy the content of the certificate (`MII.....`)
 
 
 
-#### Setting up OpenProject for Keycloak integration
+#### Set up OpenProject for Keycloak integration
 
 In OpenProject, these are the variables you will need to set. Please refer to the above documentation for the different ways you can configure these variables  OpenProject
 
