@@ -35,22 +35,17 @@ class AddDerivedRemainingHoursToWorkPackages < ActiveRecord::Migration[7.0]
 
     reversible do |change|
       change.up do
-        WorkPackage.transaction do
-          migrate_to_derived_remaining_hours!
-        end
+        migrate_to_derived_remaining_hours!
       end
 
       change.down do
-        WorkPackage.transaction do
-          rollback_from_derived_remaining_hours!
-        end
+        rollback_from_derived_remaining_hours!
       end
     end
   end
 
   def work_packages_to_update
-    leaf_node_ids = WorkPackage.leaves.pluck(:id)
-    WorkPackage.where.not(id: leaf_node_ids)
+    WorkPackage.where.not(id: WorkPackage.leaves)
   end
 
   def migrate_to_derived_remaining_hours!
