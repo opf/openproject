@@ -21,8 +21,8 @@ This way you will reduce wrong entries for attributes. This is especially releva
 
 | Topic                                                        | Content                                                    |
 | ------------------------------------------------------------ | :--------------------------------------------------------- |
-| [Adding Attribute help texts](#adding-attribute-help-texts)  | How to add and configure an Attribute help text.           |
-| [Editing or deleting Attribute help texts](#editing-or-deleting-attribute-help-texts) | How to edit and how to delete an Attribute help text.      |
+| [Add Attribute help texts](#add-attribute-help-texts)        | How to add and configure an Attribute help text.           |
+| [Edit or delete Attribute help texts](#editing-or-deleting-attribute-help-texts) | How to edit and how to delete an Attribute help text.      |
 | [Work packages](#work-packages)                              | Where will Attribute help texts for work packages be used? |
 | [Projects](#projects)                                        | Where will Attribute help texts for projects be used?      |
 | [WYSIWYG editor](#wysiwyg-editor)                            | Where can Attribute help texts be displayed?               |
@@ -33,7 +33,7 @@ Navigate to -> *Administration* -> *Attribute help texts* to set up help texts f
 
 
 
-## Adding Attribute help texts
+## Add Attribute help texts
 
 To add an Attribute help texts for custom fields click on the green **+ Attribute help text** button. 
 
@@ -56,7 +56,7 @@ When the users click on it, they see the description for this attribute.
 
 
 
-## Editing or deleting Attribute help texts
+## Edit or delete Attribute help texts
 
 Navigate to -> *Administration* -> *Work packages* -> *Attribute help texts* in order to edit or remove an attribute help text.
 

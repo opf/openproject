@@ -13,9 +13,9 @@ keywords: Nextcloud file storage integration
 | Topic                      | Description                                                  |
 | ----------------------------------- | :----------------------------------------------------------- |
 | [Minimum requirements](#minimum-requirements)            | Minimum version requirements to enable the integration       |
-| [Setting up the integration](#setting-up-the-integration)      | Connect your Nextcloud and OpenProject instances as an administrator |
-| [Resetting OAuth values](#resetting-oauth-values)             | Create and manage work package types.                        |
-| [Deleting a Nextcloud file storage](#deleting-a-nextcloud-file-storage) | Create and manage work package status.                       |
+| [Set up the integration](#set-up-the-integration)      | Connect your Nextcloud and OpenProject instances as an administrator |
+| [Reset OAuth values](#reset-oauth-values)             | Create and manage work package types.                        |
+| [Delete a Nextcloud file storage](#delete-a-nextcloud-file-storage) | Create and manage work package status.                       |
 | [Using the integration](#using-the-integration) | Create and manage workflows for work packages in OpenProject. |
 
 OpenProject offers close integration with Nextcloud to allow users to:
@@ -35,7 +35,7 @@ Please note these minimum version requirements for the integration to work:
 - Nextcloud version 22 (or above)
 - The [OpenProject Integration](https://apps.nextcloud.com/apps/integration_openproject) app, version 2.0.0 (or above)
 
-## Setting up the integration
+## Set up the integration
 
 > **Important**: You need to have administrator privileges in both your Nextcloud and OpenProject instances to set up this integration.
 
@@ -165,7 +165,7 @@ To do so, navigate to any existing project in your OpenProject instance and clic
 
 > **Note:** For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../user-guide/nextcloud-integration/).
 
-## Resetting OAuth values
+## Reset OAuth values
 
 If you wish to reset OAuth values for any reason, you can do so on either side by clicking on the **Reset OAuth values** button (in Nextcloud settings) or the **Replace OAuth values** button (in OpenProject admin settings).
 
@@ -176,7 +176,7 @@ If you wish to reset OAuth values for any reason, you can do so on either side b
 ![A dialogue asking the user to confirm they want to replace OpenProject OAuth values](3_4_03-OP_Replace_Alert.png)
 
 
-## Deleting a Nextcloud file storage
+## Delete a Nextcloud file storage
 
 You can delete a Nextcloud file storage either at a project level or at an instance-level. 
 
@@ -194,7 +194,7 @@ Deleting a file storage at an instance level deletes the Nextcloud integration c
 
 ## Using the integration
 
-Once the file storage is added and enabled for projects, your users are able to take full advantage of the integration between Nextcloud and OpenProject. For more information on how to link Nextcloud files to work packages in OpenProject and access linked work packages in Nextcloud, please refer to [Using the Nextcloud integration](../../../user-guide/nextcloud-integration/).
+Once the file storage is added and enabled for projects, your users are able to take full advantage of the integration between Nextcloud and OpenProject. For more information on how to link Nextcloud files to work packages in OpenProject and access linked work packages in Nextcloud, please refer to the [Nextcloud integration guide](../../../user-guide/nextcloud-integration/).
 
 
 
