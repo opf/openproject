@@ -47,7 +47,7 @@ class Users::ProjectRoleCache
     # Return all roles if user is admin
     return all_givable_roles if user.admin?
 
-    ::Authorization.roles(user, project).eager_load(:role_permissions)
+    ::Authorization.roles(user, project:).eager_load(:role_permissions)
   end
 
   def cache
