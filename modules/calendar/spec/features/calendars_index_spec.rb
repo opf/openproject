@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../support/pages/calendar'
 
-RSpec.describe 'Calendars', 'index', :js, :with_cuprite do
+RSpec.describe 'Calendars', 'index', :with_cuprite do
   # The order the Projects are created in is important. By naming `project` alphanumerically
   # after `other_project`, we can ensure that subsequent specs that assert sorting is
   # correct for the right reasons (sorting by Project name and not id)
@@ -69,7 +69,7 @@ RSpec.describe 'Calendars', 'index', :js, :with_cuprite do
 
   let(:current_user) { user }
 
-  context 'when navigating to the global index page' do
+  context 'when navigating to the global index page', :js do
     shared_examples 'global index page is reachable' do
       it 'is reachable' do
         expect(page).to have_current_path(calendars_path)
