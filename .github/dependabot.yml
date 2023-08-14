@@ -8,6 +8,9 @@ updates:
     open-pull-requests-limit: 3
     versioning-strategy: lockfile-only
     groups:
+      storybook:
+        patterns:
+          - 'storybook'
       angular:
         patterns:
           - '@angular'
