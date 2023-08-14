@@ -30,14 +30,14 @@ module WorkPackages::Relations
   included do
     # All relations of the work package in both directions.
     # Mostly used to have the relations destroyed upon destruction of the work package.
-    # rubocop:disable Rails:InverseOf
+    # rubocop:disable Rails/InverseOf
     has_many :relations,
              ->(work_package) {
                unscope(:where)
                  .of_work_package(work_package)
              },
              dependent: :destroy
-    # rubocop:enable Rails:InverseOf
+    # rubocop:enable Rails/InverseOf
 
     # Relations where the current work package follows another one.
     # In this case,
