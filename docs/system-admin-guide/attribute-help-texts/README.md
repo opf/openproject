@@ -19,13 +19,13 @@ This way you will reduce wrong entries for attributes. This is especially releva
 
 ## Overview
 
-| Topic                                                        | Content                                                    |
-| ------------------------------------------------------------ | :--------------------------------------------------------- |
-| [Add Attribute help texts](#add-attribute-help-texts)        | How to add and configure an Attribute help text.           |
-| [Edit or delete Attribute help texts](#editing-or-deleting-attribute-help-texts) | How to edit and how to delete an Attribute help text.      |
-| [Work packages](#work-packages)                              | Where will Attribute help texts for work packages be used? |
-| [Projects](#projects)                                        | Where will Attribute help texts for projects be used?      |
-| [WYSIWYG editor](#wysiwyg-editor)                            | Where can Attribute help texts be displayed?               |
+| Topic                                                                       | Content                                                    |
+|-----------------------------------------------------------------------------|:-----------------------------------------------------------|
+| [Add Attribute help texts](#add-attribute-help-texts)                       | How to add and configure an Attribute help text.           |
+| [Edit or delete Attribute help texts](#edit-or-delete-attribute-help-texts) | How to edit and how to delete an Attribute help text.      |
+| [Work packages](#work-packages)                                             | Where will Attribute help texts for work packages be used? |
+| [Projects](#projects)                                                       | Where will Attribute help texts for projects be used?      |
+| [WYSIWYG editor](#wysiwyg-editor)                                           | Where can Attribute help texts be displayed?               |
 
 Navigate to -> *Administration* -> *Attribute help texts* to set up help texts for attributes and custom fields in work packages and projects. Here you can add, edit and delete Attribute help texts.
 
