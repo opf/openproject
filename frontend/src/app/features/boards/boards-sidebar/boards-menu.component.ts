@@ -79,7 +79,7 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
     // When activating the boards submenu,
     // either initially or through click on the toggle, load the results
     this.mainMenuService
-      .onActivate('board_view')
+      .onActivate('boards')
       .subscribe(() => {
         this.focusBackArrow();
         void this.boardService.loadAllBoards();
@@ -91,7 +91,7 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   private focusBackArrow():void {
-    const buttonArrowLeft = jQuery('*[data-name="board_view"] .main-menu--arrow-left-to-project');
+    const buttonArrowLeft = jQuery('*[data-name="boards"] .main-menu--arrow-left-to-project');
     buttonArrowLeft.focus();
   }
 }

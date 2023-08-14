@@ -280,9 +280,10 @@ RSpec.describe 'Board management spec', js: true, with_ee: %i[board_view] do
 
   context 'with view permission only' do
     let(:permissions) { %i[show_board_views] }
+    let(:board_view) { create(:board_grid_with_queries, project:) }
 
     it 'does not allow viewing of boards' do
-      board_index.visit!
+      visit project_work_package_board_path(project, board_view)
       expect(page).to have_selector('#errorExplanation', text: I18n.t(:notice_not_authorized))
 
       board_index.expect_editable false

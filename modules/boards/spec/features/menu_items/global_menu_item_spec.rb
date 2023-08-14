@@ -47,7 +47,7 @@ RSpec.describe 'Global menu item for boards', :js, :with_cuprite do
         click_on boards_label
       end
 
-      expect(page).to have_current_path(boards_all_path)
+      expect(page).to have_current_path(work_package_boards_path)
       expect(page).to have_content(boards_label)
       expect(page).to have_content(I18n.t(:no_results_title_text))
     end
