@@ -33,6 +33,8 @@ class Authorization::ProjectQuery < Authorization::AbstractQuery
     projects_table[:id]
       .eq(members_table[:project_id])
       .and(members_table[:user_id].eq(user.id))
+      .and(members_table[:entity_type].eq(nil))
+      .and(members_table[:entity_id].eq(nil))
       .and(project_active_condition)
   end
 
