@@ -46,7 +46,7 @@ if (db_config = ActiveRecord::Base.configurations.configs_for(env_name: env)[0])
     ==============================================
   ERROR
 
-  # rubocop:disable Rails:Exit
+  # rubocop:disable Rails/Exit
   Kernel.exit 1
-  # rubocop:enable Rails:Exit
+  # rubocop:enable Rails/Exit
 end

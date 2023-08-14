@@ -220,6 +220,10 @@ RSpec/DescribeMethod:
 RSpec/FilePath:
   SpecSuffixOnly: true
 
+# Prevent  "fit" or similar to be committed
+RSpec/Focus:
+  Enabled: true
+
 # We use let!() to ensure dependencies are created
 # instead of let() and referencing them explicitly
 RSpec/LetSetup:
