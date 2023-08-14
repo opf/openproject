@@ -20,33 +20,51 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-@keyframes svg_ani-1
+@keyframes rotate-milestone
   0%
-    x: 150px
-    width: 0
-  36%
-    x: 0
-    width: 150px
-  72%
-    x: 0
-    width: 0
-  100%
-    x: 0
-    width: 0
+    rotate: 45deg
+    transform: scale(100%)
 
-@keyframes svg_ani-2
-  0%
-    x: 150px
-  36%
-    x: 0
-  72%
-    x: -100px
+  50%
+    transform: scale(130%)
+
+  60%
+    rotate: 1080deg
+    transform: scale(110%)
+
   100%
-    x: -100px
+    rotate: 945deg
+
+@keyframes rotate-linestone
+  0%
+    rotate: 45deg
+    transform: scale(50%)
+
+  35%
+    transform: scale(50%)
+    border: solid 4px #a3eea8
+    top: 21px
+    left: 56px
+    border-radius: 10px
+
+  60%
+    rotate: 1080deg
+    transform: scale(180%)
+    border: solid 0px #a3eea8
+    top: 23px
+    left: 58px
+    border-radius: 10px
+
+  100%
+    rotate: 945deg
+    border: solid 0px #a3eea8
+    top: 24px
+    left: 59px
+    border-radius: 10px
 
 $loading-indicator-bg-color: var(--body-background)
 $loading-indicator-width: 150px
-$loading-indicator-height: 70px
+$loading-indicator-height: 80px
 
 .loading-indicator--background
   @include overlay-background
@@ -57,54 +75,34 @@ $loading-indicator-height: 70px
 .loading-indicator--location
   position: relative
 
-
 .op-loading-indicator
-  margin: 0
-  position: relative
-  left: calc(50% - ($loading-indicator-width / 2))
-  top: 33%
+  background-color: transparent
   width: $loading-indicator-width
   height: $loading-indicator-height
-  view-box: 0 0 $loading-indicator-width $loading-indicator-height
+  overflow: hidden
+  position: relative
+  margin: 0
+  left: calc(50% - ($loading-indicator-width / 2))
+  top: 33%
 
-  rect
-    rx: 4px
-    x: 152px
-    height: 10px
-    width: 150px
-    animation-duration: 2000ms
-    animation-iteration-count: infinite
-    animation-timing-function: linear
-    animation-name: svg_ani-1
-
+  div
     &:nth-of-type(1)
-      fill: #f89a43
-      x: 140px
-      y: 6px
+      border: solid 4px #a3eea8
+      background-color: transparent
+      width: 32px
+      height: 32px
+      border-radius: 5px
+      position: absolute
+      top: 20px
+      left: 55px
+      animation: rotate-linestone 4s ease-in-out infinite
 
     &:nth-of-type(2)
-      fill: #f89a43
-      y: 26px
-      animation-delay: 660ms
-
-    &:nth-of-type(3)
-      fill: #346495
-      y: 46px
-      animation-name: svg_ani-1
-      animation-delay: 1330ms
-
-    &:nth-of-type(4)
-      fill: #36c434
-      y: 44px
-      rx: 2px
-      width: 14px
-      height: 14px
-      transform-box: fill-box
-      transform-origin: center
-      transform: rotate(45deg)
-      animation-name: svg_ani-2
-      animation-delay: 2130ms
-
-  &_in-toast
-    top: 0
-    left: 50px
+      background-color: #35C53F
+      width: 32px
+      height: 32px
+      border-radius: 5px
+      position: absolute
+      top: 24px
+      left: 59px
+      animation: rotate-milestone 4s ease-in-out infinite
