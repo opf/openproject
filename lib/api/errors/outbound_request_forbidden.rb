@@ -26,20 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals
-  module StorageErrorHelper
-    def raise_error(error)
-      Rails.logger.error(error)
+module API
+  module Errors
+    class OutboundRequestForbidden < ErrorBase
+      identifier 'OutboundRequest:Forbidden'.freeze
+      code 500
 
-      case error.code
-      when :not_found
-        raise API::Errors::OutboundRequestNotFound.new
-      when :bad_request
-        raise API::Errors::BadRequest.new(error.log_message)
-      when :forbidden
-        raise API::Errors::OutboundRequestForbidden.new
-      else
-        raise API::Errors::InternalError.new
+      def initialize
+        super I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code: 403)
       end
     end
   end
