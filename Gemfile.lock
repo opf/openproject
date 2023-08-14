@@ -939,7 +939,7 @@ GEM
     test-prof (1.2.2)
     text-hyphen (1.5.0)
     thor (1.2.2)
-    timecop (0.9.6)
+    timecop (0.9.7)
     timeout (0.4.0)
     trailblazer-option (0.1.2)
     ttfunk (1.7.0)
