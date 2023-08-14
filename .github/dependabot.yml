@@ -11,6 +11,7 @@ updates:
       storybook:
         patterns:
           - 'storybook'
+          - '@storybook'
       angular:
         patterns:
           - '@angular'
