@@ -93,7 +93,7 @@ module ::Calendar
     def visible_views
       base_query = Query
                      .visible(current_user)
-                     .joins(:views)
+                     .joins(:views, :project)
                      .where('views.type' => 'work_packages_calendar')
 
       if @project
