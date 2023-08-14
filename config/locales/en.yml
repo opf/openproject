@@ -1122,6 +1122,7 @@ en:
       in_process: "Backup in progress"
       success: "Backup complete"
       failure: "Backup failed"
+      imported: "Backup imported"
     label_comment: "Comment"
     label_create: "Create backup"
     label_upload: "Upload backup"

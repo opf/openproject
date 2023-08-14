@@ -26,46 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Backups
-  class CreateContract < ::ModelContract
-    include RequiresGlobalPermissionsGuard
-    include RequiresNoPendingBackupsGuard
-    include RequiresBackupTokenGuard
+module RequiresBackupTokenGuard
+  extend ActiveSupport::Concern
 
-    attribute :comment
-    attribute :creator
+  included do
+    validate :validate_backup_token
+  end
 
-    validates :creator, presence: true
+  private
 
-    validate :backup_token_not_on_cooldown
-    validate :backup_limit
+  def find_backup_token
+    Token::Backup.find_by_plaintext_value options[:backup_token].to_s # rubocop:disable Rails/DynamicFindBy
+  end
 
-    private
+  def validate_backup_token
+    token = find_backup_token
 
-    def required_global_permissions
-      [Backup.create_permission]
-    end
-
-    def backup_token_not_on_cooldown
-      token = find_backup_token
-
-      check_waiting_period token if token.present?
-    end
-
-    def check_waiting_period(token)
-      if token.waiting?
-        valid_at = token.created_at + OpenProject::Configuration.backup_initial_waiting_period
-        hours = ((valid_at - Time.zone.now) / 60.0 / 60.0).round
-
-        errors.add :base, :token_cooldown, message: I18n.t("backup.error.token_cooldown", hours:)
-      end
-    end
-
-    def backup_limit
-      limit = OpenProject::Configuration.backup_daily_limit
-      if Backup.where("created_at >= ?", Time.zone.today).count > limit
-        errors.add :base, :limit_reached, message: I18n.t("backup.error.limit_reached", limit:)
-      end
+    if token.blank? || token.user_id != user.id
+      errors.add :base, :invalid_token, message: I18n.t("backup.error.invalid_token")
     end
   end
 end

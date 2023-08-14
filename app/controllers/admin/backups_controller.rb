@@ -145,16 +145,24 @@ class Admin::BackupsController < ApplicationController
   def upload; end
 
   def perform_upload
-    backup = create_uploaded_backup
+    call = upload_backup
 
-    JobStatus::Status.create(reference: backup, message: "imported", status: :success)
-
-    flash[:info] = I18n.t("backup.notice_uploaded", comment: backup.comment)
+    if call.success?
+      flash[:success] = I18n.t("backup.notice_uploaded", comment: call.result.comment)
+    else
+      flash[:error] = call.message
+    end
 
     redirect_to action: :index
   end
 
   private
+
+  def upload_backup
+    ::Backups::UploadService
+      .new(user: current_user)
+      .call(comment: params[:comment], backup_file: params[:backup_file])
+  end
 
   def preview_if_active!
     if preview_active?
@@ -240,17 +248,6 @@ class Admin::BackupsController < ApplicationController
 
       redirect_to admin_backups_path
     end
-  end
-
-  def create_uploaded_backup # rubocop:disable Metrics/AbcSize
-    backup = Backup.new creator: current_user, comment: params[:comment]
-    backup.attachments.build file: params[:backup_file], author: current_user
-    backup.save!
-
-    backup.size_in_mb = (backup.attachments.first.filesize / 1024.0 / 1024.0).round(2)
-    backup.save!
-
-    backup
   end
 
   def delete_token

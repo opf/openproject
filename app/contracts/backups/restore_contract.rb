@@ -28,44 +28,22 @@
 
 module Backups
   class RestoreContract < ::ParamsContract
+    include RequiresGlobalPermissionsGuard
+    include RequiresNoPendingBackupsGuard
+    include RequiresBackupTokenGuard
+
     validate :backup_exists
-    validate :user_allowed_to_restore_backup
-    validate :backup_token
-    validate :no_pending_backups
 
     private
+
+    def required_global_permissions
+      [Backup.restore_permission]
+    end
 
     def backup_exists
       if !Backup.exists?(id: params[:backup_id])
         errors.add :base, :not_found, message: I18n.t("label_not_found")
       end
-    end
-
-    def backup_token
-      token = Token::Backup.find_by_plaintext_value options[:backup_token].to_s # rubocop:disable Rails/DynamicFindBy
-
-      if token.blank? || token.user_id != user.id
-        errors.add :base, :invalid_token, message: I18n.t("backup.error.invalid_token")
-      end
-    end
-
-    def no_pending_backups
-      current_backup = Backup.last
-      if pending_statuses.include? current_backup&.job_status&.status
-        errors.add :base, :backup_pending, message: I18n.t("backup.error.backup_pending")
-      end
-    end
-
-    def user_allowed_to_restore_backup
-      errors.add :base, :error_unauthorized unless user_allowed_to_restore_backup?
-    end
-
-    def user_allowed_to_restore_backup?
-      user.allowed_to_globally? Backup.restore_permission
-    end
-
-    def pending_statuses
-      ::JobStatus::Status.statuses.slice(:in_queue, :in_process).values
     end
   end
 end
