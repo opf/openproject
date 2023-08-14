@@ -59,7 +59,7 @@ RSpec.describe(
     expect(page).to have_text(storage.name)
     page.find('.icon.icon-group').click
 
-    # Members check page
+    # Members connection status page
     expect(page).to have_current_path project_settings_project_storage_members_path(project_id: project,
                                                                                     project_storage_id: project_storage)
 
@@ -89,7 +89,7 @@ RSpec.describe(
     expect(page).to have_text(storage.name)
     page.find('.icon.icon-group').click
 
-    # Members check page
+    # Members connection status page
     expected_current_path = project_settings_project_storage_members_path(project_id: project_no_members,
                                                                           project_storage_id: project_storage_no_members)
     expect(page).to have_current_path(expected_current_path)

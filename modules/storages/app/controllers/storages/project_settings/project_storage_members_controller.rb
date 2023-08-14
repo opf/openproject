@@ -48,7 +48,7 @@ class Storages::ProjectSettings::ProjectStorageMembersController < ApplicationCo
   end
 
   def default_breadcrumb
-    t(:'storages.page_titles.project_settings.members_check')
+    t(:'storages.page_titles.project_settings.members_connection_status')
   end
 
   def show_local_breadcrumb
