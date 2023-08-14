@@ -41,6 +41,9 @@ class Authorization::UserAllowedService
   # Context can be:
   # * a project : returns true if user is allowed to do the specified action on this project
   # * a group of projects : returns true if user is allowed on every project
+  # * an entity that a user can become a member of specifically (listed in Member::ALLOWED_ENTITIES) :
+  #   * returns true if user is allowed to do the specified action on the given item or
+  #   * returns ture if user is allowed to do the specified action on the project the entity belongs to
   # * nil with +global+ set to +true+ : check if user has at least one role allowed for this action,
   #   or falls back to Non Member / Anonymous permissions depending if the user is logged
   def call(action, context, global: false)
@@ -66,11 +69,18 @@ class Authorization::UserAllowedService
       allowed_to_globally?(action)
     elsif context.is_a? Project
       allowed_to_in_project?(action, context)
+    elsif supported_entity?(context)
+      allowed_to_in_entity?(action, context)
     elsif context.respond_to?(:to_a)
       allowed_to_in_all_projects?(action, context)
     else
       false
     end
+  end
+
+  def allowed_to_in_entity?(action, entity)
+    # TODO: Check in entity
+    entity.respond_to?(:project) && allowed_to_in_project?(action, entity.project)
   end
 
   def allowed_to_in_project?(action, project)
@@ -146,6 +156,11 @@ class Authorization::UserAllowedService
   def supported_context?(context, global:)
     (context.nil? && global) ||
       context.is_a?(Project) ||
+      supported_entity?(context) ||
       (!context.nil? && context.respond_to?(:to_a))
+  end
+
+  def supported_entity?(entity)
+    Member::ALLOWED_ENTITIES.include?(entity.class.to_s)
   end
 end
