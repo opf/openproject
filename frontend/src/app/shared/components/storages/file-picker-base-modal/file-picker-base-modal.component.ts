@@ -169,7 +169,7 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
   }
 
   private entryLocation():Observable<string> {
-    if (this.locals.projectFolderMode === 'inactive') {
+    if (this.locals.projectFolderMode === 'inactive' || this.locals.projectFolderMode === undefined) {
       return of('/');
     }
 
