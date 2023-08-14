@@ -51,7 +51,9 @@ module Storages::ProjectStorages
 
     def button_links
       [edit_link, delete_link].tap do |links|
-        links.unshift members_check_link if OpenProject::FeatureDecisions.storage_project_members_check_active?
+        if OpenProject::FeatureDecisions.storage_project_members_check_active? && project_storage.project_folder_automatic?
+          links.unshift members_check_link
+        end
       end
     end
 
