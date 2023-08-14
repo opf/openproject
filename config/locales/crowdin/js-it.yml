@@ -66,7 +66,7 @@ it:
     button_continue: "Continua"
     button_copy: "Copia"
     button_copy_to_clipboard: "Copia negli appunti"
-    button_copy_link_to_clipboard: "Copy link to clipboard"
+    button_copy_link_to_clipboard: "Copia link negli appunti"
     button_copy_to_other_project: "Copia su altro progetto"
     button_custom-fields: "Campo personalizzato"
     button_delete: "Cancella"
@@ -107,7 +107,7 @@ it:
       remove_from_list: 'Rimuovi la carta dall''elenco'
     caption_rate_history: "Cronologia tariffe"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
+      browser_error: "Il tuo browser non supporta la copia negli appunti. Copia manualmente: %{content}"
       copied_successful: "Copia negli appunti completata con successo!"
     chart:
       type: 'Tipo di grafico'
@@ -297,33 +297,33 @@ it:
           two: "Secondo criterio di ordinamento"
           three: "Terzo criterio di ordinamento"
     gantt_chart:
-      label: 'Gantt chart'
-      quarter_label: 'Q%{quarter_number}'
+      label: 'Diagramma di Gantt'
+      quarter_label: 'T%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'Configurazione etichetta'
+        bar: 'Etichette di barra'
+        left: 'Sinistra'
+        right: 'Destra'
+        farRight: 'Estrema destra'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+          Seleziona gli attributi che desideri mostrare nelle rispettive posizioni del diagramma di Gantt in ogni momento. Nota che al passaggio del mouse su un elemento, verranno visualizzate le etichette delle date anziché questi attributi.
+      button_activate: 'Mostra diagramma di Gantt'
+      button_deactivate: 'Nascondi diagramma di Gantt'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(nessuno)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Clicca su qualsiasi macro-attività evidenziata per creare una relazione. Premi ESC per annullare.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Zoom avanti"
+        out: "Zoom indietro"
+        auto: "Zoom automatico"
+        days: "Giorni"
+        weeks: "Settimane"
+        months: "Mesi"
+        quarters: "Trimestri"
+        years: "Anni"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Seleziona il livello di zoom iniziale da mostrare quando lo zoom automatico non è disponibile.
     general_text_no: "no"
     general_text_yes: "si"
     general_text_No: "No"
@@ -346,18 +346,18 @@ it:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Confronto di base per un facile monitoraggio delle modifiche.</li> <li>Esportazione PDF per report sui piani di lavoro.< /li> <li>Iscrizioni ai calendari di progetto tramite URL (iCalendar).</li> <li>Cartelle di progetto con modelli di documenti per l'integrazione Nextcloud.</li> <li>Seeding localizzato di tutti i dati iniziali.</li> <li>I moduli globali sono elencati nelle nuove pagine indice.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to calendar"
+      title: "Iscriviti al calendario"
       inital_setup_error_message: "Si è verificato un errore recuperando i dati."
-      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
-      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Where will you be using this?"
-      token_name_placeholder: "Type a name, e.g. \"Phone\""
-      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      description: "Puoi utilizzare l'URL (iCalendar) per iscriverti a questo calendario su un client esterno e per visualizzare le informazioni sul pacchetto di lavoro aggiornate da lì."
+      warning: "Sei pregato di non condividerlo con altri utenti. Chiunque abbia questo link potrà visualizzare i dettagli del pacchetto di lavoro senza un profilo o una password."
+      token_name_label: "Dove lo userai?"
+      token_name_placeholder: "Digita un nome, ad esempio \"Telefono\""
+      token_name_description_text: "Se ti iscrivi a questo calendario da più dispositivi, questo nome ti aiuterà a distinguerli nel tuo elenco di <a href=\"my/access_token\", target=\"_blank\">token di accesso</a>."
       copy_url_label: "Copia URL"
-      ical_generation_error_text: "An error occured while generating the calendar URL."
-      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
+      ical_generation_error_text: "Si è verificato un errore nella creazione dell'URL del calendario."
+      success_message: "L'URL \"%{name}\" è stato copiato con successo negli appunti. Incollalo nel tuo client di calendario per completare l'iscrizione."
     label_activate: "Attiva"
     label_assignee: 'Assegnatario'
     label_add_column_after: "Aggiungi colonna dopo"
@@ -708,7 +708,7 @@ it:
         Scegli un progetto per creare una macro-attività e vederne tutti gli attributi. Puoi selezionare solo progetti che hanno il tipo sopra indicato attivato.
       details_activity: 'Attività dei dettagli del progetto'
       context: 'Contesto del progetto'
-      click_to_switch_to_project: 'Project: %{projectname}'
+      click_to_switch_to_project: 'Progetto: %{projectname}'
       confirm_template_load: 'Cambiare il modello ricaricherà la pagina e perderai tutti gli input in questo modulo. Continuare?'
       use_template: "Utilizza modello"
       no_template_selected: "(Nessuno)"
@@ -768,13 +768,13 @@ it:
       work_package_required: 'Richiede prima di selezionare una macro-attività.'
       title: 'Registra l''orario effettuato'
       tracking: 'Monitoraggio tempi'
-      stop: 'Stop'
+      stop: 'Interrompi'
     timer:
-      start_new_timer: 'Start new timer'
-      timer_already_running: 'To start a new timer, you must first stop the current timer:'
-      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
-      tracking_time: 'Tracking time'
-      button_stop: 'Stop current timer'
+      start_new_timer: 'Avvia nuovo timer'
+      timer_already_running: 'Per avviare un nuovo timer, devi prima interrompere il timer corrente:'
+      timer_already_stopped: 'Nessun timer attivo per questa macro-attività, lo hai interrotto in un''altra finestra?'
+      tracking_time: 'Monitoraggio tempo'
+      button_stop: 'Interrompi il timer corrente'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticazione due fattori'
     watchers:
@@ -834,7 +834,7 @@ it:
       placeholder: "Digita per cercare"
       notFoundText: "Nessun elemento trovato"
       project:
-        placeholder: "Select project"
+        placeholder: "Seleziona progetto"
     repositories:
       select_tag: 'Selezionare tag'
       select_branch: 'Selezionare ramo'
@@ -916,10 +916,10 @@ it:
         addition_label: 'Aggiunto per la visualizzazione entro il periodo di confronto'
         removal_label: 'Rimosso dalla vista entro il periodo di confronto'
         modification_label: 'Modificato entro il periodo di confronto'
-        column_incompatible: 'This column does not show changes in Baseline mode.'
+        column_incompatible: 'Questa colonna non mostra le modifiche nella modalità Base di riferimento.'
       filters:
         title: 'Filtra le macro-attività'
-        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
+        baseline_incompatible: 'Questo attributo del filtro non viene preso in considerazione nella modalità Base di riferimento.'
         baseline_warning: 'La modalità di base di riferimento è attiva, ma alcuni dei tuoi filtri attivi non sono inclusi nel confronto.'
       inline_create:
         title: 'Clicca qui per aggiungere un nuovo work package a questa lista'
@@ -1081,7 +1081,7 @@ it:
         save_as: "Salva come"
         export: "Esporta"
         visibility_settings: "Impostazioni di visibilità"
-        share_calendar: "Subscribe to calendar"
+        share_calendar: "Iscriviti al calendario"
         page_settings: "Rinomina vista"
         delete: "Cancella"
       filter: "Filtro"
@@ -1161,7 +1161,7 @@ it:
       close_search: "Chiudi ricerca"
       current_project_and_all_descendants: "In questo progetto + sottoprogetti"
       current_project: "In questo progetto"
-      recently_viewed: "Recently viewed"
+      recently_viewed: "Visualizzati di recente"
       search: "Cerca"
       title:
         all_projects: "tutti i progetti"
@@ -1274,7 +1274,7 @@ it:
         between_two_specific_dates: 'tra due date specifiche'
       legends:
         changes_since: 'Modifiche dal'
-        changes_between: 'Changes between'
+        changes_between: 'Modifiche tra'
         now_meets_filter_criteria: 'Ora soddisfa i criteri del filtro'
         no_longer_meets_filter_criteria: 'Non soddisfa più i criteri del filtro'
         maintained_with_changes: 'Mantenuto con le modifiche'

@@ -26,11 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ContentForHelper
-  # Thanks to http://blog.plataformatec.com.br/2012/07/flushing-content-blocks-with-rails-4/
-  # TODO: This method becomes obsolete with Rails 4 and the 'flush' parameter
-  def single_content_for(name, content = nil, &)
-    @view_flow.set(name, ActiveSupport::SafeBuffer.new)
-    content_for(name, content, &)
+module API
+  module Errors
+    class OutboundRequestForbidden < ErrorBase
+      identifier 'OutboundRequest:Forbidden'.freeze
+      code 500
+
+      def initialize
+        super I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code: 403)
+      end
+    end
   end
 end

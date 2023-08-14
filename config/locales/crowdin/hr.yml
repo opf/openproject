@@ -834,6 +834,7 @@ hr:
               not_allowed_to_view: "is not allowed to view this resource."
               locked: "is locked."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "cannot be deduced from the title '%{title}'."
@@ -953,7 +954,14 @@ hr:
       work_package: "Radni paket"
       'doorkeeper/application': "OAuth application"
   errors:
-    header_invalid_fields: "Došlo je do problema s sljedećim poljima:"
+    header_invalid_fields:
+      one: "There was a problem with the following field:"
+      few: "There were problems with the following fields:"
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      one: "Additionally, there was a problem with the following field:"
+      few: "Additionally, there were problems with the following fields:"
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "Ovo polje nije valjano: %{full_errors} Molimo unesite valjanu vrijednost."
   activity:
     item:

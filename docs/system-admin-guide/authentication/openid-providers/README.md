@@ -111,7 +111,7 @@ After pressing **CREATE** you will get a pop-up window like the following
 
 ## Azure Active Directory
 
-### Step 1: Registering an App in Azure Active Directory
+### Step 1: Register an App in Azure Active Directory
 
 If your organization currently has an Azure Active Directory to manage users, and you want to use that to log in to OpenProject, you will need to register a new *App*.
 

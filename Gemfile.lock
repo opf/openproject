@@ -640,7 +640,7 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.5.9)
-    nokogiri (1.15.3)
+    nokogiri (1.15.4)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     oj (3.15.1)
@@ -939,7 +939,7 @@ GEM
     test-prof (1.2.2)
     text-hyphen (1.5.0)
     thor (1.2.2)
-    timecop (0.9.6)
+    timecop (0.9.7)
     timeout (0.4.0)
     trailblazer-option (0.1.2)
     ttfunk (1.7.0)

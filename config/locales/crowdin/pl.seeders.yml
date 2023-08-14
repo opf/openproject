@@ -122,339 +122,339 @@ pl:
         item_6:
           name: Błąd
       welcome:
-        title: Welcome to OpenProject!
+        title: Witamy w OpenProject!
         text: |
-          Select one of the demo projects to get started with some demo data we have prepared for you.
+          Wybierz jeden z projektów demo, aby rozpocząć z pewnymi danymi demonstracyjnymi, które przygotowaliśmy dla Ciebie.
 
-          * [Demo project]({{opSetting:base_url}}/projects/demo-project): to get an overview about classical project management.
-          * [Scrum project]({{opSetting:base_url}}/projects/your-scrum-project): to learn about Agile and Scrum project management.
+          * [Projekt Demo]({{opSetting:base_url}}/projects/demo-project): ogólne ifnormacje o klasycznym zarządzaniu projektami.
+          * [Projekt Scrum]({{opSetting:base_url}}/projects/your-scrum-project): ogólne ifnormacje o zarządzaniu projektami Agile i Scrum.
 
-          Also, you can create a blank [new project]({{opSetting:base_url}}/projects/new).
+          Możesz również utworzyć pusty [nowy projekt] ({{opSetting:base_url}}/projects/new).
 
-          Never stop collaborating. With open source and open mind.
+          Nigdy nie przestanie współpracować. Z otwartym oprogramowaniem open source.
 
-          You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          Możesz zmienić ten tekst powitalny [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
-          name: Demo project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo project.
+          name: Projekt demo
+          status_explanation: Wszystkie zadania są zaplanowane. Odpowiedni ludzie znają swoje zadania. System jest całkowicie skonfigurowany.
+          description: Jest to krótkie podsumowanie celów tego projektu demonstracyjnego.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Witaj w projekcie demo
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Cieszymy się, że dołączasz.
+                W tym module możesz przekazywać aktualności dotyczące projektu członkom swojego zespołu.
+              description: Aktualności
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategoria 1 (do zmiany w ustawieniach projektu)
           queries:
             item_0:
-              name: Project plan
+              name: Plan projektu
             item_1:
-              name: Milestones
+              name: Kamienie milowe
             item_2:
-              name: Tasks
+              name: Zadania
             item_3:
               name: Planista zespołu
           boards:
             kanban:
-              name: Kanban board
+              name: Tablica Kanban
             basic:
               name: Tablica podstawowa
               lists:
                 item_0:
-                  name: Wish list
+                  name: Lista życzeń
                 item_1:
-                  name: Short list
+                  name: Krótka lista
                 item_2:
-                  name: Priority list for today
+                  name: Lista priorytetów na dziś
                 item_3:
                   name: Nigdy
             parent_child:
-              name: Work breakdown structure
+              name: Struktura podziału pracy
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Witaj
               item_1:
                 options:
                   name: Pierwsze kroki
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Cieszymy się, że dołączasz! Sugerujemy na początek spróbować kilku rzeczy w OpenProject.
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
+                    Odkryj najważniejsze funkcje za pomocą naszej [Wycieczki z przewodnikiem]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
 
-                    _Try the following steps:_
+                    _Wypróbuj następujące kroki:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/demo-project/members) in the project navigation.
-                    2. *View the work in your project*: &rightarrow; Go to [Work packages]({{opSetting:base_url}}/projects/demo-project/work_packages) in the project navigation.
-                    3. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
-                    4. *Create and update a project plan*: &rightarrow; Go to [Project plan]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) in the project navigation.
-                    5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/demo-project/settings/modules).
-                    6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
+                    1. *Zaproś nowych członków do swojego projektu*: &rightarrow; Przejdź do strony [Members]({{opSetting:base_url}}/projects/demo-project/members) w nawigacji projektu.
+                    2. *Sprawdź prace w swoim projekcie*: &rightarrow; Przejdź do strony [Pakiety robocze]({{opSetting:base_url}}/projects/demo-project/work_packages) w nawigacji projektu.
+                    3. *Utwórz nowy pakiet roboczy*: &rightarrow; Przejdź do strony [Pakiety robocze &rightarrow; Utwórz]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
+                    4. *Utwórz i zaktualizuj plan projektu*: &rightarrow; Przejdź do strony [Plan projektu]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) w nawigacji projektu.
+                    5. *Aktywuj dalsze moduły*: &rightarrow; Przejdź do strony [Ustawienia projektu &rightarrow; Moduły]({{opSetting:base_url}}/projects/demo-project/settings/modules).
+                    6. *Ukończ swoje zadania w projekcie*: &rightarrow; Przejdź do strony [Pakiety robocze &rightarrow; Zadania]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Tutaj znajdziesz nasze [przewodniki](https://www.openproject.org/docs/user-guide/).
+                    Daj nam znać, jeśli masz pytania lub potrzebujesz pomocy. Skontaktuj się z nami: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Pakiety robocze
               item_6:
                 options:
-                  name: Milestones
+                  name: Kamienie milowe
           work_packages:
             item_0:
-              subject: Start of project
+              subject: Rozpoczęcie projektu
             item_1:
-              subject: Organize open source conference
+              subject: Zorganizuj konferencję open source
               children:
                 item_0:
-                  subject: Set date and location of conference
+                  subject: Ustaw datę i lokalizację konferencji
                   children:
                     item_0:
-                      subject: Send invitation to speakers
+                      subject: Wyślij zaproszenie do prelegentów
                     item_1:
-                      subject: Contact sponsoring partners
+                      subject: Skontaktuj się ze sponsorującymi partnerami
                     item_2:
-                      subject: Create sponsorship brochure and hand-outs
+                      subject: Utwórz broszurę i ulotki dotyczące sponsorowania
                 item_1:
-                  subject: Invite attendees to conference
+                  subject: Zaproś uczestników konferencji
                 item_2:
-                  subject: Setup conference website
+                  subject: Skonfiguruj witrynę internetową konferencji
             item_2:
-              subject: Conference
+              subject: Konferencja
             item_3:
-              subject: Follow-up tasks
+              subject: Zadania następcze
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: Prześlij prezentacje do witryny internetowej
                 item_1:
-                  subject: Party for conference supporters :-)
+                  subject: Przyjęcie dla osób wspierających konferencję :-)
                   description: |-
-                    *   [ ] Beer
-                    *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    * [ ] Piwo
+                    * [ ] Przekąski
+                    * [ ] Muzyka
+                    * [ ] Jeszcze więcej piwa
             item_4:
-              subject: End of project
+              subject: Zakończenie projektu
         scrum-project:
-          name: Scrum project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo Scrum project.
+          name: Projekt Scrum
+          status_explanation: Wszystkie zadania są zaplanowane. Odpowiedni ludzie znają swoje zadania. System jest całkowicie skonfigurowany.
+          description: Jest to krótkie podsumowanie celów tego projektu Scrum.
           news:
             item_0:
-              title: Welcome to your Scrum demo project
+              title: Witaj w projekcie demo Scrum
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                Cieszymy się, że dołączasz.
+                W tym module możesz przekazywać aktualności dotyczące projektu członkom swojego zespołu.
           versions:
             item_0:
-              name: Bug Backlog
+              name: Backlog błędów
             item_1:
-              name: Product Backlog
+              name: Backlog produktu
             item_2:
               name: Sprint 1
               wiki:
                 title: Sprint 1
                 content: |
-                  ### Sprint planning meeting
+                  ### Spotkanie dotyczące planowania sprintu
 
-                  _Please document here topics to the Sprint planning meeting_
+                  _Udokumentuj tutaj tematy na spotkanie dotyczące planowania sprintu_
 
-                  * Time boxed (8 h)
-                  * Input: Product Backlog
-                  * Output: Sprint Backlog
+                  * Czas w przedziałach (8 h)
+                  * Dane wejściowe: backlog produktu
+                  * Dane wyjściowe: backlog sprintu
 
-                  * Divided into two additional time boxes of 4 h:
+                  * Podzielony na dwa dodatkowe przedziały czasowe po 4 godziny:
 
-                      * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                      * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-                  ### Daily Scrum meeting
-
-                  _Please document here topics to the Daily Scrum meeting_
-
-                  * Short, daily status meeting of the team.
-                  * Time boxed (max. 15 min).
-                  * Stand-up meeting to discuss the following topics from the [Task board](##sprint:scrum_project__version__sprint_1).
-                      * What do I plan to do until the next Daily Scrum?
-                      * What has blocked my work (Impediments)?
-                  * Scrum Master moderates and notes down [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
-                  * Product Owner may participate may participate in order to stay informed.
-
-                  ### Sprint Review meeting
-
-                  _Please document here topics to the Sprint Review meeting_
-
-                  * Time boxed (4 h).
-                  * A maximum of one hour of preparation time per person.
-                  * The team shows the product owner and other interested persons what has been achieved in this sprint.
-                  * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-                  * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-                  * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+                      * Właściciel Produktu przedstawia [backlog produktu]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) i priorytety zespołowi oraz wyjaśnia cel sprintu, na który zespół musi się zgodzić. Wspólnie ustalają priorytety tematów z backlogu produktu, którymi zespół zajmie się w następnym sprincie. Zespół zobowiązuje się do omówionej dostawy.
+                      * Zespół planuje samodzielnie (bez właściciela produktu) szczegóły i dzieli zadania z omówionych wymagań, aby skonsolidować [backlog sprintu] ({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
-                  ### Sprint Retrospective
+                  ### Codzienne spotkanie Scrum
 
-                  _Please document here topics to the Sprint Retrospective meeting_
+                  _Udokumentuj tutaj tematy na codzienne spotkanie Scrum_.
 
-                  * Time boxed (3 h).
-                  * After Sprint Review, will be moderated by Scrum Master.
-                  * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+                  * Krótkie, codzienne spotkanie zespołu dotyczące statusu.
+                  * Czas w przedziałach (maks. 15 min).
+                  * Spotkanie na stojąco w celu omówienia następujących tematów z [panelu zadań](##sprint:scrum_project__version__sprint_1).
+                      * Co planuję zrobić do następnego codziennego Scrum?
+                      * Co zablokowało moją pracę (przeszkody)?
+                  * Mistrz Scrum moderuje i notuje [przeszkody sprintu].(##sprint:scrum_project__version__sprint_1).
+                  * Właściciel produktu może uczestniczyć, aby być na bieżąco.
+
+                  ### Spotkanie przeglądowe dotyczące sprintu
+
+                  _Udokumentować tutaj tematy na spotkanie przeglądowe dotyczące sprintu_.
+
+                  * Czas w przedziałach (4 h).
+                  * Maksymalnie jedna godzina czasu przygotowania na osobę.
+                  * Zespół pokazuje właścicielowi produktu i innym zainteresowanym osobom, co zostało osiągnięte w tym sprincie.
+                  * Ważne: żadnych fikcyjnych danych i PowerPointa! Zademonstruj tylko funkcjonalność gotowego produktu (przyrosty).
+                  * Informacje zwrotne od właściciela produktu, interesariuszy i innych osób są pożądane i zostaną uwzględnione w dalszych pracach.
+                  * Na podstawie zademonstrowanych funkcjonalności właściciel produktu decyduje o uruchomieniu tego przyrostu lub dalszym jego rozwoju. Ta możliwość pozwala na wczesny zwrot z inwestycji.
+
+
+                  ### Retrospektywa sprintu
+
+                  _Udokumentuj tutaj tematy na spotkanie w sprawie retrospektywy sprintu_.
+
+                  * Czas w przedziałach (3 h).
+                  * Po przeglądzie sprintu będzie moderowane przez mistrza Scrum.
+                  * Zespół omawia sprint: co poszło dobrze, co należy poprawić, aby być produktywniejszym w następnym sprincie, a nawet dobrze się bawić.
             item_3:
               name: Sprint 2
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategoria 1 (do zmiany w ustawieniach projektu)
           queries:
             item_0:
-              name: Project plan
+              name: Plan projektu
             item_1:
               name: Backlog produktu
             item_2:
               name: Sprint 1
             item_3:
-              name: Tasks
+              name: Zadania
           boards:
             kanban:
-              name: Kanban board
+              name: Tablica Kanban
             basic:
               name: Panel zadań
               lists:
                 item_0:
-                  name: Wish list
+                  name: Lista życzeń
                 item_1:
-                  name: Short list
+                  name: Krótka lista
                 item_2:
-                  name: Priority list for today
+                  name: Lista priorytetów na dziś
                 item_3:
                   name: Nigdy
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Witaj
               item_1:
                 options:
                   name: Pierwsze kroki
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Cieszymy się, że dołączasz! Sugerujemy na początek spróbować kilku rzeczy w OpenProject.
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
+                    Odkryj najważniejsze funkcje dzięki naszej [Wycieczce z przewodnikiem]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
 
-                    _Try the following steps:_
+                    _Wypróbuj następujące kroki:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
-                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Zaproś nowych członków do swojego projektu*: &rightarrow; Przejdź do strony [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) w nawigacji projektu.
+                    2. *Sprawdź backlogi produktów i backlogi sprintów*: &rightarrow; Przejdź do [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) w nawigacji projektu.
+                    3. *Zobacz swoją tablicę zadań*: &rightarrow; Przejdź do strony [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Kliknij strzałkę w prawo w obszarze Sprint &rightarrow; Wybierz [Panel zadań](##sprint:scrum_project__version__sprint_1).
+                    4. *Utwórz nowy pakiet roboczy*: &rightarrow; Przejdź do strony [Pakiety robocze &rightarrow; Utwórz]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    5. *Utwórz i zaktualizuj plan projektu*: &rightarrow; Przejdź do strony [Plan projektu](##query:scrum_project__query__project_plan) w nawigacji projektu.
+                    6. *Utwórz wiki sprintu*: &rightarrow; Przejdź do strony [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) i otwórz wiki sprintu z prawego menu rozwijanego. Możesz edytować [szablon wiki]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) zgodnie z potrzebami.
+                    7. *Aktywuj dalsze moduły*: &rightarrow; Przejdź do strony [Ustawienia projektu &rightarrow; Moduły]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Tutaj znajdziesz nasze [przewodniki](https://www.openproject.org/docs/user-guide/).
+                    Daj nam znać, jeśli masz pytania lub potrzebujesz pomocy. Skontaktuj się z nami: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Pakiety robocze
               item_6:
                 options:
-                  name: Project plan
+                  name: Plan projektu
           work_packages:
             item_0:
-              subject: New login screen
+              subject: Nowy ekran logowania
             item_1:
-              subject: Password reset does not send email
+              subject: Resetowanie hasła nie powoduje wysłania wiadomości e-mail
             item_2:
-              subject: New website
+              subject: Nowa witryna internetowa
               children:
                 item_0:
-                  subject: Newsletter registration form
+                  subject: Formularz rejestracyjny biuletynu
                 item_1:
-                  subject: Implement product tour
+                  subject: Wycieczka po implementacji produktu
                 item_2:
-                  subject: New landing page
+                  subject: Nowa strona docelowa
                   children:
                     item_0:
-                      subject: Create wireframes for new landing page
+                      subject: Utwórz makiety nowej strony docelowej
             item_3:
-              subject: Contact form
+              subject: Formularz kontaktowy
             item_4:
-              subject: Feature carousel
+              subject: Karuzela funkcji
               children:
                 item_0:
-                  subject: Make screenshots for feature tour
+                  subject: Wykonaj zrzuty ekranu do wycieczki po funkcjach
             item_5:
-              subject: Wrong hover color
+              subject: Nieprawidłowy kolor po najechaniu
             item_6:
-              subject: SSL certificate
+              subject: Certyfikat SSL
             item_7:
-              subject: Set-up Staging environment
+              subject: Skonfiguruj środowisko przejściowe
             item_8:
-              subject: Choose a content management system
+              subject: Wybierz system zarządzania treścią
             item_9:
-              subject: Website navigation structure
+              subject: Struktura nawigacyjna witryny internetowej
               children:
                 item_0:
-                  subject: Set up navigation concept for website.
+                  subject: Skonfiguruj koncepcję nawigacji dla witryny internetowej.
             item_10:
-              subject: Internal link structure
+              subject: Wewnętrzna struktura linków
             item_11:
-              subject: Develop v1.0
+              subject: Opracowanie v1.0
             item_12:
-              subject: Release v1.0
+              subject: Wersja v1.0
             item_13:
-              subject: Develop v1.1
+              subject: Opracowanie v1.1
             item_14:
-              subject: Release v1.1
+              subject: Wersja v1.1
             item_15:
-              subject: Develop v2.0
+              subject: Opracowanie v2.0
             item_16:
-              subject: Release v2.0
+              subject: Wersja v2.0
           wiki: |
-            ### Sprint planning meeting
+            ### Spotkanie dotyczące planowania sprintu
 
-            _Please document here topics to the Sprint planning meeting_
+            _Udokumentuj tutaj tematy na spotkanie dotyczące planowania sprintu_
 
-            * Time boxed (8 h)
-            * Input: Product Backlog
-            * Output: Sprint Backlog
+            * Czas w przedziałach (8 h)
+            * Dane wejściowe: backlog produktu
+            * Dane wyjściowe: backlog sprintu
 
-            * Divided into two additional time boxes of 4 h:
+            * Podzielony na dwa dodatkowe przedziały czasowe po 4 godziny:
 
-                * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-            ### Daily Scrum meeting
-
-            _Please document here topics to the Daily Scrum meeting_
-
-            * Short, daily status meeting of the team.
-            * Time boxed (max. 15 min).
-            * Stand-up meeting to discuss the following topics from the Task board.
-                * What do I plan to do until the next Daily Scrum?
-                * What has blocked my work (Impediments)?
-            * Scrum Master moderates and notes down Sprint Impediments.
-            * Product Owner may participate may participate in order to stay informed.
-
-            ### Sprint Review meeting
-
-            _Please document here topics to the Sprint Review meeting_
-
-            * Time boxed (4 h).
-            * A maximum of one hour of preparation time per person.
-            * The team shows the product owner and other interested persons what has been achieved in this sprint.
-            * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-            * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-            * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+                * Właściciel Produktu przedstawia [backlog produktu]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) i priorytety zespołowi oraz wyjaśnia cel sprintu, na który zespół musi się zgodzić. Wspólnie ustalają priorytety tematów z backlogu produktu, którymi zespół zajmie się w następnym sprincie. Zespół zobowiązuje się do omówionej dostawy.
+                * Zespół planuje samodzielnie (bez właściciela produktu) szczegóły i dzieli zadania z omówionych wymagań, aby skonsolidować [backlog sprintu]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
-            ### Sprint Retrospective
+            ### Codzienne spotkanie Scrum
 
-            _Please document here topics to the Sprint Retrospective meeting_
+            _Udokumentuj tutaj tematy na codzienne spotkanie Scrum_
 
-            * Time boxed (3 h).
-            * After Sprint Review, will be moderated by Scrum Master.
-            * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+            * Krótkie, codzienne spotkanie zespołu dotyczące statusu.
+            * Czas w przedziałach (maks. 15 min).
+            * Spotkanie na stojąco w celu omówienia następujących tematów z [panelu zadań]
+              * Co planuję zrobić do następnego codziennego Scrum?
+              * Co zablokowało moją pracę (przeszkody)?
+            * Mistrz Scrum moderuje i notuje [przeszkody sprintu].
+            * Właściciel Produktu może uczestniczyć, aby być na bieżąco.
+
+            ### Spotkanie przeglądowe dotyczące sprintu
+
+             _Udokumentować tutaj tematy na spotkanie przeglądowe dotyczące sprintu_.
+
+            * Czas w przedziałach (4 h).
+            * Maksymalnie jedna godzina czasu przygotowania na osobę.
+            * Zespół pokazuje właścicielowi produktu i innym zainteresowanym osobom, co zostało osiągnięte w tym sprincie.
+            * Ważne: żadnych fikcyjnych danych i PowerPointa! Należy zademonstrować jedynie ukończoną funkcjonalność produktu (przyrosty).
+            * Informacje zwrotne od właściciela produktu, interesariuszy i innych osób są pożądane i zostaną uwzględnione w dalszych pracach.
+            * Na podstawie zademonstrowanych funkcjonalności właściciel produktu decyduje o uruchomieniu tego przyrostu lub dalszym jego rozwoju. Ta możliwość pozwala na wczesny zwrot z inwestycji.
+
+
+            ### Retrospektywa sprintu
+
+            _Udokumentuj tutaj tematy na spotkanie w sprawie retrospektywy sprintu_
+
+            * Czas w przedziałach (3 h).
+            * Po przeglądzie sprintu będzie moderowane przez mistrza Scrum.
+            * Zespół omawia sprint: co poszło dobrze, co należy poprawić, aby być produktywniejszym w następnym sprincie, a nawet dobrze się bawić.

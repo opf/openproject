@@ -66,7 +66,7 @@ es:
     button_continue: "Continuar"
     button_copy: "Copiar"
     button_copy_to_clipboard: "Copiar en el portapapeles"
-    button_copy_link_to_clipboard: "Copy link to clipboard"
+    button_copy_link_to_clipboard: "Copiar enlace al portapapeles"
     button_copy_to_other_project: "Copiar en otro proyecto"
     button_custom-fields: "Campos personalizados"
     button_delete: "Eliminar"
@@ -107,7 +107,7 @@ es:
       remove_from_list: 'Eliminar tarjeta de la lista'
     caption_rate_history: "Historial de tasas"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
+      browser_error: "Su navegador no permite copiar al portapapeles. Por favor, cópielo manualmente: %{content}"
       copied_successful: "Copiado correctamente en el portapapeles"
     chart:
       type: 'Tipo de gráfico'
@@ -297,33 +297,33 @@ es:
           two: "Segundo criterio de ordenación"
           three: "Tercer criterio de ordenación"
     gantt_chart:
-      label: 'Gantt chart'
-      quarter_label: 'Q%{quarter_number}'
+      label: 'Diagrama de Gantt'
+      quarter_label: 'T%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'Configuración de etiquetas'
+        bar: 'Etiquetas de barras'
+        left: 'Izquierda'
+        right: 'Derecha'
+        farRight: 'Extremo derecho'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+          Seleccione los atributos que quiera que se muestren en las posiciones correspondientes del diagrama de Gantt en todo momento. Tenga en cuenta que, al mantener el ratón sobre un elemento, se mostrarán las etiquetas de fecha en lugar de estos atributos.
+      button_activate: 'Mostrar diagrama de Gantt'
+      button_deactivate: 'Ocultar diagrama de Gantt'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(ninguno)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Haga clic en cualquier paquete de trabajo destacado para crear la relación. Pulse Esc para cancelar.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Acercar"
+        out: "Alejar"
+        auto: "Zoom automático"
+        days: "Días"
+        weeks: "Semanas"
+        months: "Meses"
+        quarters: "Cuartos"
+        years: "Años"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Seleccione el nivel de zoom inicial que debe mostrarse cuando el zoom automático no esté disponible.
     general_text_no: "no"
     general_text_yes: "sí"
     general_text_No: "No"
@@ -348,16 +348,16 @@ es:
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to calendar"
-      inital_setup_error_message: "An error occured while fetching data."
-      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
-      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Where will you be using this?"
-      token_name_placeholder: "Type a name, e.g. \"Phone\""
-      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
-      copy_url_label: "Copy URL"
-      ical_generation_error_text: "An error occured while generating the calendar URL."
-      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
+      title: "Suscribirse al calendario"
+      inital_setup_error_message: "Se ha producido un error al obtener los datos."
+      description: "Puede utilizar la URL (iCalendar) para suscribirse a este calendario en un cliente externo y ver desde allí la información actualizada de los paquetes de trabajo."
+      warning: "Por favor, no comparta esta URL con otros usuarios. Cualquiera que tenga este enlace podrá ver los detalles del paquete de trabajo sin necesidad de una cuenta o contraseña."
+      token_name_label: "¿Dónde lo utilizará?"
+      token_name_placeholder: "Escriba un nombre, por ejemplo \"Teléfono\"."
+      token_name_description_text: "Si se suscribe a este calendario desde varios dispositivos, este nombre le ayudará a distinguirlos en su lista de <a href=\"my/access_token\", target=\"_blank\">tokens de acceso</a>."
+      copy_url_label: "Copiar URL"
+      ical_generation_error_text: "Se ha producido un error al generar la URL del calendario."
+      success_message: "La URL \"%{name}\" se ha copiado correctamente en su portapapeles. Péguela en su cliente de calendario para completar la suscripción."
     label_activate: "Activar"
     label_assignee: 'Asignado a'
     label_add_column_after: "Añadir columna a la derecha"
@@ -369,7 +369,7 @@ es:
     label_add_row_before: "Añadir fila encima"
     label_add_selected_columns: "Agregar columnas seleccionadas"
     label_added_by: "agregado por"
-    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
+    label_added_time_by: "Agregado por <a href=\"%{authorLink}\">%{author}</a> a las %{age}"
     label_ago: "días antes"
     label_all: "todos"
     label_all_work_packages: "todos los paquetes de trabajo"
@@ -708,7 +708,7 @@ es:
         Seleccione el proyecto donde quiere crear el paquete de trabajo para ver todos los atributos. Solo puede seleccionar proyectos que tengan activado el tipo de paquete utilizado.
       details_activity: 'Actividad de detalles del proyecto'
       context: 'Contexto del proyecto'
-      click_to_switch_to_project: 'Project: %{projectname}'
+      click_to_switch_to_project: 'Proyecto: %{projectname}'
       confirm_template_load: 'Al cambiar la plantilla, se actualizará la página y perderá todos los datos introducidos en el formulario. ¿Quiere continuar?'
       use_template: "Usar plantilla"
       no_template_selected: "(Ninguna)"
@@ -767,14 +767,14 @@ es:
     time_entry:
       work_package_required: 'Es necesario seleccionar primero un paquete de trabajo.'
       title: 'Registro de tiempo'
-      tracking: 'Tiempo de seguimiento'
+      tracking: 'Control de tiempo'
       stop: 'Stop'
     timer:
-      start_new_timer: 'Start new timer'
-      timer_already_running: 'To start a new timer, you must first stop the current timer:'
-      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
-      tracking_time: 'Tracking time'
-      button_stop: 'Stop current timer'
+      start_new_timer: 'Iniciar nuevo temporizador'
+      timer_already_running: 'Para iniciar un nuevo temporizador, primero debe detener el temporizador actual:'
+      timer_already_stopped: 'No hay temporizador activo para este paquete de trabajo, ¿lo ha detenido en otra ventana?'
+      tracking_time: 'Tiempo de seguimiento'
+      button_stop: 'Detener el temporizador actual'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticación de dos factores'
     watchers:
@@ -834,7 +834,7 @@ es:
       placeholder: "Escriba para buscar"
       notFoundText: "No se encontraron elementos"
       project:
-        placeholder: "Select project"
+        placeholder: "Seleccionar proyecto"
     repositories:
       select_tag: 'Seleccionar etiqueta'
       select_branch: 'Seleccione rama'
@@ -913,14 +913,14 @@ es:
       message_work_package_status_blocked: "El estado del paquete de trabajo no permite la escritura porque están asignados como estado y versión cerrada."
       placeholder_filter_by_text: "Asunto, descripción, comentarios, ..."
       baseline:
-        addition_label: 'Added to view within the comparison time period'
-        removal_label: 'Removed from view within the comparison time period'
-        modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This column does not show changes in Baseline mode.'
+        addition_label: 'Añadido a la vista dentro del periodo de comparación'
+        removal_label: 'Eliminado de la vista dentro del periodo de tiempo de comparación'
+        modification_label: 'Modificado dentro del periodo de comparación'
+        column_incompatible: 'Esta columna no muestra los cambios en el modo de línea de base.'
       filters:
         title: 'Filtrar paquetes de trabajo'
-        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
-        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
+        baseline_incompatible: 'Este atributo del filtro no se tiene en cuenta en el modo de línea de base.'
+        baseline_warning: 'El modo de línea de base está activado pero algunos de sus filtros activos no se incluyen en la comparación.'
       inline_create:
         title: 'Haga clic aquí para agregar un nuevo paquete de trabajo a esta lista'
       create:
@@ -1081,7 +1081,7 @@ es:
         save_as: "Guardar como"
         export: "Exportar"
         visibility_settings: "Configuración de visibilidad"
-        share_calendar: "Subscribe to calendar"
+        share_calendar: "Suscribirse al calendario"
         page_settings: "Renombrar vista"
         delete: "Borrar"
       filter: "Filtro"
@@ -1161,7 +1161,7 @@ es:
       close_search: "Cerrar búsqueda"
       current_project_and_all_descendants: "En este proyecto + subproyectos"
       current_project: "En este proyecto"
-      recently_viewed: "Recently viewed"
+      recently_viewed: "Vistos recientemente"
       search: "Buscar"
       title:
         all_projects: "todos los proyectos"
@@ -1252,37 +1252,37 @@ es:
         does_not_match_search: 'El proyecto no coincide con los criterios de búsqueda.'
       no_results: 'Ningún producto coincide con tu criterio de búsqueda'
     baseline:
-      toggle_title: 'Baseline'
-      clear: 'Eliminar'
+      toggle_title: 'Línea de base'
+      clear: 'Despejar'
       apply: 'Aplicar'
-      header_description: 'Highlight changes made to this list since any point in the past.'
-      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
-      show_changes_since: 'Show changes since'
-      baseline_comparison: 'Baseline comparison'
-      help_description: 'Reference time zone for the baseline.'
-      time_description: 'In your local time: %{datetime}'
+      header_description: 'Resalte los cambios realizados en esta lista desde cualquier momento en el pasado.'
+      enterprise_header_description: 'Resalte los cambios realizados en esta lista desde cualquier momento en el pasado con la edición Enterprise.'
+      show_changes_since: 'Mostrar cambios desde'
+      baseline_comparison: 'Comparación de referencia'
+      help_description: 'Zona horaria de referencia para la línea de base.'
+      time_description: 'En tu hora local: %{datetime}'
       time: 'Tiempo'
-      from: 'De'
-      to: 'Para'
+      from: 'Desde'
+      to: 'Hasta'
       drop_down:
         none: '-'
         yesterday: 'ayer'
-        last_working_day: 'last working day'
-        last_week: 'Semana anterior'
+        last_working_day: 'último día laborable'
+        last_week: 'La semana pasada'
         last_month: 'El mes pasado'
-        a_specific_date: 'a specific date'
-        between_two_specific_dates: 'between two specific dates'
+        a_specific_date: 'una fecha específica'
+        between_two_specific_dates: 'entre dos fechas específicas'
       legends:
-        changes_since: 'Changes since'
-        changes_between: 'Changes between'
-        now_meets_filter_criteria: 'Now meets filter criteria'
-        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
-        maintained_with_changes: 'Maintained with changes'
-        in_your_timezone: 'In your local timezone:'
+        changes_since: 'Cambios desde'
+        changes_between: 'Cambios entre'
+        now_meets_filter_criteria: 'Ahora cumple con los criterios de filtro'
+        no_longer_meets_filter_criteria: 'Ya no cumple con los criterios de filtro'
+        maintained_with_changes: 'Se mantiene con los cambios'
+        in_your_timezone: 'En su zona horaria local:'
       icon_tooltip:
-        added: 'Added to view within the comparison time period'
-        removed: 'Removed from view within the comparison time period'
-        changed: 'Maintained with modifications'
+        added: 'Añadido a la vista dentro del periodo de comparación'
+        removed: 'Eliminado de la vista dentro del periodo de tiempo de comparación'
+        changed: 'Mantenida con modificaciones'
     forms:
       submit_success_message: 'El formulario se envió correctamente'
       load_error_message: 'Se produjo un error al cargar el formulario'

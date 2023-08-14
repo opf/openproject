@@ -66,7 +66,7 @@ uk:
     button_continue: "Продовжити"
     button_copy: "Копіювати"
     button_copy_to_clipboard: "Копіювати в буфер обміну"
-    button_copy_link_to_clipboard: "Copy link to clipboard"
+    button_copy_link_to_clipboard: "Копіювати посилання в буфер обміну"
     button_copy_to_other_project: "Копіювати в інший проєкт"
     button_custom-fields: "Індивідуальні поля"
     button_delete: "Видалити"
@@ -107,7 +107,7 @@ uk:
       remove_from_list: 'Вилучити зі списку'
     caption_rate_history: "Історія рейтингу"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
+      browser_error: "Ваш браузер не підтримує копіювання в буфер обміну. Скопіюйте вручну: %{content}"
       copied_successful: "Скопійовано в буфер обміну!"
     chart:
       type: 'Тип графіка'
@@ -230,7 +230,7 @@ uk:
           quick_overview: "Отримайте стислий огляд управління проєктами й командної роботи у версії OpenProject Enterprise."
         upsale:
           become_hero: "Стань героєм!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} – це доповнення версії Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
           upgrade_info: "Перейдіть на платний план, щоб активувати його та почати використовувати його у своїй команді."
           benefits:
             description: "Які переваги локальної версії Enterprise?"
@@ -297,33 +297,33 @@ uk:
           two: "Другий критерій впорядкування"
           three: "Третій критерій впорядкування"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Діаграма Ганта'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'Конфігурація мітки'
+        bar: 'Панель міток'
+        left: 'Зліва'
+        right: 'Справа'
+        farRight: 'У правому кінці'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+          Виберіть атрибути, які потрібно постійно відображати у відповідних положеннях діаграми Ганта. Зверніть увагу, що під час наведення вказівника на елемент, замість цих атрибутів з’являтиметься його мітка.
+      button_activate: 'Показати діаграму Ганта'
+      button_deactivate: 'Сховати діаграму Ганта'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(немає)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Натисніть будь-який виділений пакет робіт, щоб створити зв’язок. Натисніть клавішу Escape, щоб скасувати.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Збільшити масштаб"
+        out: "Зменшити масштаб"
+        auto: "Автомасштабування"
+        days: "Днів"
+        weeks: "Тижнів"
+        months: "Місяців"
+        quarters: "Кварталів"
+        years: "Років"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Виберіть початкове значення масштабу, який має показуватися, коли функція автомасштабування недоступна.
     general_text_no: "ні"
     general_text_yes: "так"
     general_text_No: "Ні"
@@ -346,18 +346,18 @@ uk:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+                Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"> <li>Порівняння базових значень для зручного відстеження змін.</li> <li>Експорт звітів про плани робіт у форматі PDF.</li> <li>Підписки на календарі проєкту за URL-адресою (iCalendar).</li> <li>Папки проєкту із шаблонами для інтеграції Nextcloud.</li> <li>Локалізовані дані для заповнення бази даних.</li> <li>Список глобальних модулів на нових сторінках індексу.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to calendar"
-      inital_setup_error_message: "An error occured while fetching data."
-      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
-      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Where will you be using this?"
-      token_name_placeholder: "Type a name, e.g. \"Phone\""
-      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
-      copy_url_label: "Copy URL"
-      ical_generation_error_text: "An error occured while generating the calendar URL."
-      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
+      title: "Підписатися на календар"
+      inital_setup_error_message: "Під час отримання даних сталася помилка."
+      description: "За допомогою URL-адреси (iCalendar) ви можете підписатися на цей календар у зовнішньому клієнті й переглядати  звідти актуальну інформацію про пакети робіт."
+      warning: "Не передавайте нікому цю URL-адресу. Будь-хто із цим посиланням зможе переглядати інформацію про пакети робіт без облікового запису або пароля."
+      token_name_label: "Де ви використовуватимете його?"
+      token_name_placeholder: "Введіть ім’я, наприклад «Телефон»"
+      token_name_description_text: "Якщо ви підписані на цей календар із кількох пристроїв, це ім’я допоможе вам розрізняти їх у своєму списку <a href=\"my/access_token\", target=\"_blank\">маркерів доступу</a>."
+      copy_url_label: "Копіювати URL"
+      ical_generation_error_text: "Під час створення URL-адреси календаря сталася помилка."
+      success_message: "URL-адресу «%{name}« скопійовано в буфер обміну. Вставте її в клієнт свого календаря, що завершити створення підписки."
     label_activate: "Активувати"
     label_assignee: 'Виконавець'
     label_add_column_after: "Додати стовпець після"
@@ -369,7 +369,7 @@ uk:
     label_add_row_before: "Додати рядок перед"
     label_add_selected_columns: "Додати вибрані стовпці"
     label_added_by: "додав(-ла)"
-    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
+    label_added_time_by: "Додано користувачем <a href=\"%{authorLink}\">%{author}</a> о%{age}"
     label_ago: "днів тому"
     label_all: "всі"
     label_all_work_packages: "всі пакети в роботі"
@@ -710,7 +710,7 @@ uk:
         Виберіть проект, щоб створити робочий пакет, щоб побачити всі атрибути. Ви можете вибирати лише проекти, які мають вказаний вище тип активації.
       details_activity: 'Докладно про дії в проєкті'
       context: 'Контекст проекту'
-      click_to_switch_to_project: 'Project: %{projectname}'
+      click_to_switch_to_project: 'Проєкт: %{projectname}'
       confirm_template_load: 'Перемикання шаблону перезавантажить сторінку, і ви втратите всі дані, введені в цю форму. Продовжити?'
       use_template: "Використовувати шаблон"
       no_template_selected: "(Немає)"
@@ -772,11 +772,11 @@ uk:
       tracking: 'Відстеження часу'
       stop: 'Stop'
     timer:
-      start_new_timer: 'Start new timer'
-      timer_already_running: 'To start a new timer, you must first stop the current timer:'
-      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
-      tracking_time: 'Tracking time'
-      button_stop: 'Stop current timer'
+      start_new_timer: 'Запустити новий таймер'
+      timer_already_running: 'Щоб запустити новий таймер, спочатку зупиніть таймер:'
+      timer_already_stopped: 'Для цього пакета робіт немає активного таймера. Ви зупинили його в іншому вікні?'
+      tracking_time: 'Відстеження часу'
+      button_stop: 'Зупинити поточний таймер'
     two_factor_authentication:
       label_two_factor_authentication: 'Двофакторна аутентифікація'
     watchers:
@@ -836,7 +836,7 @@ uk:
       placeholder: "Введіть для пошуку"
       notFoundText: "Елементів не знайдено"
       project:
-        placeholder: "Select project"
+        placeholder: "Виберіть проєкт"
     repositories:
       select_tag: 'Виберіть мітку'
       select_branch: 'Виберіть гілку'
@@ -918,11 +918,11 @@ uk:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This column does not show changes in Baseline mode.'
+        column_incompatible: 'Цей стовпець не відображає зміни в режимі перегляду базових значень.'
       filters:
         title: 'Фільтрувати пакети робіт'
-        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
-        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
+        baseline_incompatible: 'Цей атрибут фільтра не враховується в режимі перегляду базових значень.'
+        baseline_warning: 'Режим перегляду базових значень увімкнено, але деякі з активних фільтрів не включено в порівняння.'
       inline_create:
         title: 'Клацніть тут, щоб додати до цього списку новий пакет робіт'
       create:
@@ -1083,7 +1083,7 @@ uk:
         save_as: "Зберегти як"
         export: "Експортувати"
         visibility_settings: "Налаштування видимості"
-        share_calendar: "Subscribe to calendar"
+        share_calendar: "Підписатися на календар"
         page_settings: "Перейменувати режим перегляду"
         delete: "Видалити"
       filter: "Фільтр"
@@ -1167,7 +1167,7 @@ uk:
       close_search: "Закрити пошук"
       current_project_and_all_descendants: "У цьому проекті + підпроекти"
       current_project: "У цьому проекті"
-      recently_viewed: "Recently viewed"
+      recently_viewed: "Нещодавно переглянуті"
       search: "Пошук"
       title:
         all_projects: "всі проекти"
@@ -1258,37 +1258,37 @@ uk:
         does_not_match_search: 'Проєкт не відповідає критеріям пошуку.'
       no_results: 'Жоден проєкт не відповідає вашим критеріям пошуку.'
     baseline:
-      toggle_title: 'Baseline'
+      toggle_title: 'Вихідний рівень'
       clear: 'Очистити'
       apply: 'Застосувати'
-      header_description: 'Highlight changes made to this list since any point in the past.'
-      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
-      show_changes_since: 'Show changes since'
-      baseline_comparison: 'Baseline comparison'
-      help_description: 'Reference time zone for the baseline.'
-      time_description: 'In your local time: %{datetime}'
+      header_description: 'Виділяйте зміни, внесені в цей список із будь-якого моменту часу в минулому.'
+      enterprise_header_description: 'Виділяйте зміни, внесені в цей список із будь-якого моменту часу в минулому за допомогою версії Enterprise Edition.'
+      show_changes_since: 'Показувати зміни з'
+      baseline_comparison: 'Порівняння з вихідним рівнем'
+      help_description: 'Контрольний часовий пояс для вихідного рівня.'
+      time_description: 'За вашим місцевим часом: %{datetime}'
       time: 'Час'
       from: 'Від'
       to: 'Кому:'
       drop_down:
         none: '-'
         yesterday: 'вчора'
-        last_working_day: 'last working day'
+        last_working_day: 'останній робочий день'
         last_week: 'ост. тиждень'
         last_month: 'останній місяць'
-        a_specific_date: 'a specific date'
-        between_two_specific_dates: 'between two specific dates'
+        a_specific_date: 'конкретна дата'
+        between_two_specific_dates: 'у період між двома конкретними датами'
       legends:
-        changes_since: 'Changes since'
-        changes_between: 'Changes between'
-        now_meets_filter_criteria: 'Now meets filter criteria'
-        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
-        maintained_with_changes: 'Maintained with changes'
-        in_your_timezone: 'In your local timezone:'
+        changes_since: 'Зміни з'
+        changes_between: 'Зміни в період'
+        now_meets_filter_criteria: 'Тепер відповідає критеріям фільтра'
+        no_longer_meets_filter_criteria: 'Більше не відповідає критеріям фільтра'
+        maintained_with_changes: 'Збережено зі змінами'
+        in_your_timezone: 'У вашому місцевому часовому поясі:'
       icon_tooltip:
         added: 'Added to view within the comparison time period'
         removed: 'Removed from view within the comparison time period'
-        changed: 'Maintained with modifications'
+        changed: 'Збережено зі змінами'
     forms:
       submit_success_message: 'Форму надіслано'
       load_error_message: 'Сталася помилка під час завантаження форми'

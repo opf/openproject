@@ -832,6 +832,7 @@ tr:
               not_allowed_to_view: "bu kaynağı görüntülemesine izin verilmiyor."
               locked: "kilitli."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "başlıktan çıkarılamaz %{title}"
@@ -947,7 +948,12 @@ tr:
       work_package: "İş paketi"
       'doorkeeper/application': "OAuth uygulaması"
   errors:
-    header_invalid_fields: "Aşağıdaki alanları ile ilgili sorunlar oluştu:"
+    header_invalid_fields:
+      one: "There was a problem with the following field:"
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      one: "Additionally, there was a problem with the following field:"
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "Bu alan geçersiz:% {full_errors}\nLütfen geçerli bir değer girin. %{full_errors}."
   activity:
     item:

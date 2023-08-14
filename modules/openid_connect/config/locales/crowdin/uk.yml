@@ -9,7 +9,7 @@ uk:
         identifier: Ідентифікатор
         secret: Таємний код
         scope: Область використання
-        limit_self_registration: Limit self registration
+        limit_self_registration: Обмеження самостійної реєстрації
   openid_connect:
     menu_title: Постачальники OpenID
     providers:
@@ -20,8 +20,8 @@ uk:
       singular: OpenID постачальник
     setting_instructions:
       azure_graph_api: >
-        Use the graph.microsoft.com userinfo endpoint to request userdata. This should be the default unless you have an older azure application.
+        Надсилайте запити на дані користувачів за допомогою кінцевої точки graph.microsoft.com. Це налаштування має бути ввімкнено за замовчуванням в усіх версія Azure, крім старіших.
       azure_tenant_html: >
-        Set the tenant of your Azure endpoint. This will control who gets access to the OpenProject instance. For more information, please see <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">our user guide on Azure OpenID connect</a>.
+        Задайте клієнта для своєї кінцевої точки Azure, який матиме доступ до вашого екземпляра OpenProject. Щоб дізнатися більше, ознайомтеся з <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">нашим посібником користування щодо підключення через Azure OpenID</a>.
       limit_self_registration: >
-        If enabled users can only register using this provider if the self registration setting allows for it.
+        Якщо ввімкнено, користувачі можуть зареєструватися лише через цього постачальника послуг, якщо це дозволено параметром самостійної реєстрації.

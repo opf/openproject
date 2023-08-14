@@ -834,6 +834,7 @@ ro:
               not_allowed_to_view: "nu este permisă vizualizarea acestei resurse."
               locked: "este blocat."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "nu poate fi dedusă din titlul \"%{title}\"."
@@ -953,7 +954,14 @@ ro:
       work_package: "Pachet de lucru"
       'doorkeeper/application': "Aplicație OAuth"
   errors:
-    header_invalid_fields: "Există probleme cu următoarele câmpuri:"
+    header_invalid_fields:
+      one: "There was a problem with the following field:"
+      few: "There were problems with the following fields:"
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      one: "Additionally, there was a problem with the following field:"
+      few: "Additionally, there were problems with the following fields:"
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "Acest câmp este invalid: %{full_errors}\nTrebuie introdusă o valoare validă."
   activity:
     item:

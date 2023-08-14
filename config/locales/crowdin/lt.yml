@@ -832,6 +832,7 @@ lt:
               not_allowed_to_view: "negali žiūrėti šio resurso."
               locked: "yra užrakintas."
         wiki_page:
+          error_conflict: "Kol jūs redagavote wiki puslapį, jį pakeitė kažkas kitas."
           attributes:
             slug:
               undeducible: "negali būti nustatytas iš pavadinimo '%{title}'."
@@ -955,7 +956,16 @@ lt:
       work_package: "Darbų paketas"
       'doorkeeper/application': "OAuth aplikacija"
   errors:
-    header_invalid_fields: "Buvo problemų su šiais laukeliais:"
+    header_invalid_fields:
+      one: "Buvo problema su šiuo lauku:"
+      few: "Buvo problema su šiais laukais:"
+      many: "Buvo problema su šiais laukais:"
+      other: "Buvo problema su šiais laukais:"
+    header_additional_invalid_fields:
+      one: "Papildomai buvo problema su šiuo lauku:"
+      few: "Papildomai buvo problema su šiais laukais:"
+      many: "Papildomai buvo problema su šiais laukais:"
+      other: "Papildomai buvo problema su šiais laukais:"
     field_erroneous_label: "Šis laukelis netinkamas: %{full_errors}\nPrašome įvesti tinkamą reikšmę."
   activity:
     item:

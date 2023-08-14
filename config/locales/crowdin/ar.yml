@@ -837,6 +837,7 @@ ar:
               not_allowed_to_view: "is not allowed to view this resource."
               locked: "is locked."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "cannot be deduced from the title '%{title}'."
@@ -968,7 +969,20 @@ ar:
       work_package: "مجموعة العمل"
       'doorkeeper/application': "OAuth application"
   errors:
-    header_invalid_fields: "كان هناك مشاكل في المجالات التالية:"
+    header_invalid_fields:
+      zero: "There were problems with the following fields:"
+      one: "There was a problem with the following field:"
+      two: "There were problems with the following fields:"
+      few: "There were problems with the following fields:"
+      many: "There were problems with the following fields:"
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      zero: "Additionally, there were problems with the following fields:"
+      one: "Additionally, there was a problem with the following field:"
+      two: "Additionally, there were problems with the following fields:"
+      few: "Additionally, there were problems with the following fields:"
+      many: "Additionally, there were problems with the following fields:"
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "هذا الحقل غير صالح: %{full_errors} الرجاء إدخال قيمة صحيحة."
   activity:
     item:

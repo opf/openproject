@@ -835,6 +835,7 @@ sk:
               not_allowed_to_view: "is not allowed to view this resource."
               locked: "is locked."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "cannot be deduced from the title '%{title}'."
@@ -958,7 +959,16 @@ sk:
       work_package: "Pracovný balíček"
       'doorkeeper/application': "OAuth aplikácia"
   errors:
-    header_invalid_fields: "Nastali problémy s nasledujúcimi poliami:"
+    header_invalid_fields:
+      one: "There was a problem with the following field:"
+      few: "There were problems with the following fields:"
+      many: "There were problems with the following fields:"
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      one: "Additionally, there was a problem with the following field:"
+      few: "Additionally, there were problems with the following fields:"
+      many: "Additionally, there were problems with the following fields:"
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "Toto pole je neplatné: %{full_errors}. Prosím zadajte platnú hodnotu."
   activity:
     item:

@@ -1,13 +1,13 @@
 "no":
   grids:
-    label_widget_in_grid: "Widget contained in Grid %{grid_name}"
+    label_widget_in_grid: "Widget i tabell %{grid_name}"
   activerecord:
     attributes:
       grids/grid:
-        page: "Page"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
-        widgets: "Widgets"
+        page: "Side"
+        row_count: "Antall rader"
+        column_count: "Antall kolonner"
+        widgets: "Widgeter"
     errors:
       models:
         grids/grid:

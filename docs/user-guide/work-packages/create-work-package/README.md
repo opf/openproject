@@ -8,12 +8,12 @@ keywords: create work packages
 
 # Create Work packages
 
-| Topic                                                                  | Content                                        |
-|------------------------------------------------------------------------|------------------------------------------------|
-| [Create Work packages](#how-to-create-work-packages)                   | How to create a new Work package in a project. |
+| Topic                                                        | Content                                        |
+| ------------------------------------------------------------ | ---------------------------------------------- |
+| [Create Work packages](#create-work-packages)                | How to create a new Work package in a project. |
 | [Add attachments to a Work package](#add-attachments-to-work-packages) | How to add attachments to a Work package.      |
 
-## How to create Work packages
+## Create Work packages
 
 There are two ways to create new Work packages:
 
@@ -74,4 +74,4 @@ Also, at the bottom of the Work package form you can add files via drag and drop
 
 Find out how to [edit existing Work packages](../edit-work-package).
 
-> Note: you can also use [Nextcloud integration](../../nextcloud-integration/) to upload files to Nextcloud or link already existing file to a work package under the tab **Files**.
+> Note: you can also use [Nextcloud integration](../../nextcloud-integration/#link-files-and-folders-to-work-packages) to upload files to Nextcloud or link already existing files or folders to a work package under the tab **Files**.

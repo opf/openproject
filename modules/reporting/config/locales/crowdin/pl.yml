@@ -83,7 +83,7 @@ pl:
   validation_failure_integer: "nie jest prawidłową liczbą całkowitą"
   export:
     cost_reports:
-      title: "Your Cost Reports XLS export"
+      title: "Twój eksport raportów kosztów w formacie XLS"
   reporting:
     group_by:
       selected_columns: "Wybrane kolumny"

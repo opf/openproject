@@ -28,7 +28,6 @@
 
 require 'spec_helper'
 
-# rubocop:disable RSpec:MultipleMemoizedHelpers
 RSpec.describe 'Projects copy', :with_cuprite, js: true do
   describe 'with a full copy example' do
     let!(:project) do
@@ -232,12 +231,15 @@ RSpec.describe 'Projects copy', :with_cuprite, js: true do
 
       expect(ActionMailer::Base.deliveries.count).to eql(1)
       expect(ActionMailer::Base.deliveries.last.subject).to eql("Created project Copied project")
-      expect(ActionMailer::Base.deliveries.last.to).to match_array([user.mail])
+      expect(ActionMailer::Base.deliveries.last.to).to contain_exactly(user.mail)
     end
   end
 
   describe 'copying a set of ordered work packages' do
     let(:user) { create(:admin) }
+    let(:wp_table) { Pages::WorkPackagesTable.new project }
+    let(:copied_project) { Project.find_by(name: 'Copied project') }
+    let(:copy_wp_table) { Pages::WorkPackagesTable.new copied_project }
     let(:project) { create(:project, types: [type]) }
     let(:type) { create(:type) }
     let(:status) { create(:status) }
@@ -272,11 +274,6 @@ RSpec.describe 'Projects copy', :with_cuprite, js: true do
       login_as user
     end
 
-    let(:wp_table) { Pages::WorkPackagesTable.new project }
-
-    let(:copied_project) { Project.find_by(name: 'Copied project') }
-    let(:copy_wp_table) { Pages::WorkPackagesTable.new copied_project }
-
     it 'copies them in the same order' do
       wp_table.visit!
       wp_table.expect_work_package_listed *order
@@ -304,4 +301,3 @@ RSpec.describe 'Projects copy', :with_cuprite, js: true do
     end
   end
 end
-# rubocop:enable RSpec:MultipleMemoizedHelpers

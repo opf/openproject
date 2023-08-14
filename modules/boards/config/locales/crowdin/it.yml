@@ -6,8 +6,8 @@ it:
   boards:
     label_board: "Tabellone"
     label_boards: "Tabelloni"
-    label_create_new_board: "Create new board"
-    label_board_type: "Board type"
+    label_create_new_board: "Creare nuova bacheca"
+    label_board_type: "Tipo bacheca"
     board_types:
       free: Base
       action: "Scheda d'azione (%{attribute})"
@@ -20,17 +20,17 @@ it:
       basic: Base
     board_type_descriptions:
       basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
+        Inizia da zero con una bacheca vuota. Aggiungi manualmente schede e colonne a questa bacheca.
       status: >
-        Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        Bacheca in stile kanban di base con colonne per stato come Da fare, In Corso, Fatto.
       assignee: >
-        Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        Bacheca con colonne automatizzate in base agli utenti assegnati. Ideale per l'assegnazione di macro-attività.
       version: >
-        Board with automated columns based on the version attribute. Ideal for planning product development.
+        Bacheca con colonne automatizzate in base all'attributo versione. Ideale per la pianificazione dei rilasci di software.
       subproject: >
-        Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        Bacheca con colonne automatizzate per sotto-progetti. Trascinando le macro-attività su altre liste aggiornerà di conseguenza il (sotto)progetto.
       subtasks: >
-        Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        Bacheca con colonne automatizzate per sotto-elementi. Trascinando le macro-attività su altre liste aggiornerà di conseguenza il genitore.
     upsale:
-      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-      upgrade: 'Upgrade now'
+      teaser_text: 'Vorresti automatizzare i tuoi flussi di lavoro con le bacheche? Le schede avanzate sono un''aggiunta di Enterprise. Passa a un piano a pagamento.'
+      upgrade: 'Effettua l''upgrade ora'

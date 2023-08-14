@@ -831,6 +831,7 @@ da:
               not_allowed_to_view: "is not allowed to view this resource."
               locked: "is locked."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "kan ikke udledes af titlen '%{title}'."
@@ -946,7 +947,12 @@ da:
       work_package: "Arbejdspakke"
       'doorkeeper/application': "OAuth application"
   errors:
-    header_invalid_fields: "Der var problemer med disse felter:"
+    header_invalid_fields:
+      one: "There was a problem with the following field:"
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      one: "Additionally, there was a problem with the following field:"
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "This field is invalid: %{full_errors}\nPlease enter a valid value."
   activity:
     item:

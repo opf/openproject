@@ -66,7 +66,7 @@ pt:
     button_continue: "Continuar"
     button_copy: "Copiar"
     button_copy_to_clipboard: "Copiar para a área de transferência"
-    button_copy_link_to_clipboard: "Copy link to clipboard"
+    button_copy_link_to_clipboard: "Copiar link para área de transferência"
     button_copy_to_other_project: "Copiar para outro projeto"
     button_custom-fields: "Campos personalizados"
     button_delete: "Excluir"
@@ -296,31 +296,31 @@ pt:
           two: "Segundo critério de ordenação"
           three: "Terceiro critério de ordenação"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Diagrama de Gantt'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'Configuração de rótulos'
+        bar: 'Rótulos de barra'
+        left: 'Esquerda'
+        right: 'Direita'
+        farRight: 'Extrema direita'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: 'Exibir diagrama de Gantt'
+      button_deactivate: 'Ocultar diagrama de Gantt'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(nenhum)"
       selection_mode:
         notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Aumentar zoom"
+        out: "Diminuir zoom"
+        auto: "Zoom automático"
+        days: "Dias"
+        weeks: "Semanas"
+        months: "Meses"
+        quarters: "Trimestres"
+        years: "Anos"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "não"
@@ -347,14 +347,14 @@ pt:
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to calendar"
-      inital_setup_error_message: "An error occured while fetching data."
+      title: "Assinar calendário"
+      inital_setup_error_message: "Ocorreu um erro ao buscar dados."
       description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
       warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Where will you be using this?"
-      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_label: "Onde você usará isto?"
+      token_name_placeholder: "Digite um nome, por ex.: \"Telefone\""
       token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
-      copy_url_label: "Copy URL"
+      copy_url_label: "Copiar URL"
       ical_generation_error_text: "An error occured while generating the calendar URL."
       success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Ativar"
@@ -707,7 +707,7 @@ pt:
         Por favor, escolha o projeto onde vai criar o pacote de trabalho para visualizar todos os atributos. Você pode selecionar somente projetos que possuam o tipo acima ativado.
       details_activity: 'Atividade de detalhes do projeto'
       context: 'Contexto do projeto'
-      click_to_switch_to_project: 'Project: %{projectname}'
+      click_to_switch_to_project: 'Projeto: %{projectname}'
       confirm_template_load: 'Mudar o modelo irá recarregar a página e todos os dados inseridos nesse formulário serão perdidos. Continuar?'
       use_template: "Usar modelo"
       no_template_selected: "(Nenhum)"
@@ -767,13 +767,13 @@ pt:
       work_package_required: 'É necessário selecionar primeiro um pacote de trabalho.'
       title: 'Registro de tempo'
       tracking: 'Controle de tempo'
-      stop: 'Stop'
+      stop: 'Parar'
     timer:
-      start_new_timer: 'Start new timer'
+      start_new_timer: 'Iniciar novo temporizador'
       timer_already_running: 'To start a new timer, you must first stop the current timer:'
       timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
-      tracking_time: 'Tracking time'
-      button_stop: 'Stop current timer'
+      tracking_time: 'Monitorando tempo'
+      button_stop: 'Interromper temporizador atual'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticação de dois fatores'
     watchers:
@@ -833,7 +833,7 @@ pt:
       placeholder: "Escreva para pesquisar"
       notFoundText: "Nenhum item encontrado"
       project:
-        placeholder: "Select project"
+        placeholder: "Selecionar projeto"
     repositories:
       select_tag: 'Selecionar marca'
       select_branch: 'Selecionar ramificação'
@@ -1269,11 +1269,11 @@ pt:
         last_working_day: 'last working day'
         last_week: 'última semana'
         last_month: 'último mês'
-        a_specific_date: 'a specific date'
+        a_specific_date: 'uma data específica '
         between_two_specific_dates: 'between two specific dates'
       legends:
-        changes_since: 'Changes since'
-        changes_between: 'Changes between'
+        changes_since: 'Alterações desde'
+        changes_between: 'Alterações entre'
         now_meets_filter_criteria: 'Now meets filter criteria'
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'

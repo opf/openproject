@@ -217,7 +217,7 @@ pt:
                     item_1:
                       subject: Entrar em contato com parceiros patrocinadores
                     item_2:
-                      subject: Criar brochuras de patrocínio e folhetos
+                      subject: Criar brochuras e folhetos de patrocínio
                 item_1:
                   subject: Convidar os participantes para a conferência
                 item_2:
@@ -388,7 +388,7 @@ pt:
             item_5:
               subject: Wrong hover color
             item_6:
-              subject: SSL certificate
+              subject: Certificado SSL
             item_7:
               subject: Set-up Staging environment
             item_8:
@@ -401,17 +401,17 @@ pt:
             item_10:
               subject: Internal link structure
             item_11:
-              subject: Develop v1.0
+              subject: Desenvolvimento v1.0
             item_12:
-              subject: Release v1.0
+              subject: Versão v1.0
             item_13:
-              subject: Develop v1.1
+              subject: Desenvolvimento v1.1
             item_14:
-              subject: Release v1.1
+              subject: Versão v1.1
             item_15:
-              subject: Develop v2.0
+              subject: Desenvolvimento v2.0
             item_16:
-              subject: Release v2.0
+              subject: Versão v2.0
           wiki: |
             ### Sprint planning meeting
 

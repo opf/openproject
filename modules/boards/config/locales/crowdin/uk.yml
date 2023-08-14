@@ -6,8 +6,8 @@ uk:
   boards:
     label_board: "Дошка"
     label_boards: "Дошки"
-    label_create_new_board: "Create new board"
-    label_board_type: "Board type"
+    label_create_new_board: "Створити нову дошку"
+    label_board_type: "Тип дошки"
     board_types:
       free: Базова
       action: "Дошка дій (%{attribute})"
@@ -20,17 +20,17 @@ uk:
       basic: Базова
     board_type_descriptions:
       basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
+        Почніть із нуля на пустій дошці. Додайте картки й стовпці на цю дошку вручну.
       status: >
-        Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        Базова дошка в стилі «Канбан» зі стовпцями для статусу, наприклад «Виконати», «Виконується», «Завершено».
       assignee: >
-        Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        Дошка з автоматизованими стовпцями, створеними на основі призначених користувачів. Ідеальне рішення для перетягування пакетів робіт.
       version: >
-        Board with automated columns based on the version attribute. Ideal for planning product development.
+        Дошка з автоматизованими стовпцями, створеними на основі атрибутів версії. Ідеальне рішення для планування розробки продукту.
       subproject: >
-        Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        Дошка з автоматизованими стовпцями для підпроєктів. Перетягування пакетів робіт в інші списки відповідно оновлює (під-)проєкти.
       subtasks: >
-        Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        Дошка з автоматизованими стовпцями для піделементів. Перетягування пакетів робіт в інші списки відповідно оновлює батьківський проєкт.
     upsale:
-      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-      upgrade: 'Upgrade now'
+      teaser_text: 'Хочете автоматизувати робочі процеси за допомогою дощок? Поліпшені дошки – це доповнення версії Enterprise. Перейдіть на платний план.'
+      upgrade: 'Оновити'

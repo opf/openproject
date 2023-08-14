@@ -45,17 +45,23 @@ module API::V3::StorageFiles
 
       route_param :file_id, type: String, desc: 'Storage file id' do
         get do
-          Storages::Peripherals::StorageRequests
-            .new(storage: @storage)
-            .files_info_query
-            .call(user: current_user, file_ids: [params[:file_id]]).map(&:first)
-            .map { |file_info| to_storage_file(file_info) }
-            .match(
-              on_success: ->(storage_file) {
-                API::V3::StorageFiles::StorageFileRepresenter.new(storage_file, @storage, current_user:)
-              },
-              on_failure: ->(error) { raise_error(error) }
-            )
+          service_result = Storages::Peripherals::StorageRequests
+                             .new(storage: @storage)
+                             .files_info_query
+                             .call(user: current_user, file_ids: [params[:file_id]]).map(&:first)
+
+          if service_result.success? && service_result.result.status_code == 403
+            storage_error = Storages::StorageError.new(code: :forbidden, log_message: 'no access to file', data: nil)
+            service_result = ServiceResult.failure(result: :forbidden, errors: storage_error)
+          end
+
+          service_result.map { |file_info| to_storage_file(file_info) }
+                        .match(
+                          on_success: ->(storage_file) {
+                            API::V3::StorageFiles::StorageFileRepresenter.new(storage_file, @storage, current_user:)
+                          },
+                          on_failure: ->(error) { raise_error(error) }
+                        )
         end
       end
 

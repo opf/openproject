@@ -37,7 +37,7 @@ module Storages::Peripherals
       when :bad_request
         raise API::Errors::BadRequest.new(error.log_message)
       when :forbidden
-        raise API::Errors::Unauthorized.new
+        raise API::Errors::OutboundRequestForbidden.new
       else
         raise API::Errors::InternalError.new
       end
