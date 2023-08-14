@@ -10,11 +10,11 @@ updates:
     groups:
       storybook:
         patterns:
-          - 'storybook'
-          - '@storybook'
+          - 'storybook*'
+          - '@storybook/*'
       angular:
         patterns:
-          - '@angular'
+          - '@angular*'
   - package-ecosystem: "bundler"
     directory: "/"
     schedule:
