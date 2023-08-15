@@ -24,14 +24,11 @@
   0%
     rotate: 45deg
     transform: scale(100%)
-
   50%
     transform: scale(130%)
-
   60%
     rotate: 1080deg
     transform: scale(110%)
-
   100%
     rotate: 945deg
 
@@ -39,28 +36,19 @@
   0%
     rotate: 45deg
     transform: scale(50%)
-
   35%
     transform: scale(50%)
-    border: solid 4px #a3eea8
-    top: 21px
-    left: 56px
+    border-width: 4px
     border-radius: 10px
-
   60%
     rotate: 1080deg
     transform: scale(180%)
-    border: solid 0px #a3eea8
-    top: 23px
-    left: 58px
-    border-radius: 10px
-
+    border-width: 0
   100%
     rotate: 945deg
-    border: solid 0px #a3eea8
-    top: 24px
-    left: 59px
+    border-width: 0
     border-radius: 10px
+
 
 $loading-indicator-bg-color: var(--body-background)
 $loading-indicator-width: 150px
@@ -93,8 +81,8 @@ $loading-indicator-height: 80px
       height: 32px
       border-radius: 5px
       position: absolute
-      top: 20px
-      left: 55px
+      top: 24px
+      left: 60px
       animation: rotate-linestone 4s ease-in-out infinite
 
     &:nth-of-type(2)
@@ -104,5 +92,5 @@ $loading-indicator-height: 80px
       border-radius: 5px
       position: absolute
       top: 24px
-      left: 59px
+      left: 60px
       animation: rotate-milestone 4s ease-in-out infinite
