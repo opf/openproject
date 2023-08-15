@@ -112,6 +112,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     to: this.I18n.t('js.baseline.to'),
     date: this.I18n.t('js.label_date'),
     time: this.I18n.t('js.baseline.time'),
+    today: this.I18n.t('js.label_today'),
     moreInfoLink: enterpriseDocsUrl.website,
     more_info_text: this.I18n.t('js.admin.enterprise.upsale.more_info'),
     help_description: this.I18n.t('js.baseline.help_description'),
@@ -209,6 +210,17 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     this.selectedFilter = null;
     this.mappedSelectedDate = null;
     this.selectedOffsets = [this.userOffset, this.userOffset];
+  }
+
+  public setToday(key:string):void {
+    const today = moment().format('YYYY-MM-DD');
+    // When setting the "from" date to today, the "to" date must also be set to today,
+    // because we do not allow future dates, meaning "to" cannot be anything else but today.
+    if (key === 'from') {
+      this.selectedDates[0] = today;
+    }
+
+    this.selectedDates[1] = today;
   }
 
   public onSubmit(e:Event):void {

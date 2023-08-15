@@ -29,7 +29,9 @@
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject,
 } from '@angular/core';
-import { take } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -49,7 +51,6 @@ import {
 import {
   FilePickerBaseModalComponent,
 } from 'core-app/shared/components/storages/file-picker-base-modal/file-picker-base-modal.component';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   templateUrl: 'file-picker-modal.component.html',
@@ -58,7 +59,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class FilePickerModalComponent extends FilePickerBaseModalComponent {
   public readonly text = {
     header: this.i18n.t('js.storages.file_links.select'),
-    warningNoAccess: this.i18n.t('js.storages.files.project_folder_no_access'),
+    alertNoAccess: this.i18n.t('js.storages.files.project_folder_no_access'),
+    alertNoManagedProjectFolder: this.i18n.t('js.storages.files.managed_project_folder_not_available'),
+    alertNoAccessToManagedProjectFolder: this.i18n.t('js.storages.files.managed_project_folder_no_access'),
     content: {
       empty: this.i18n.t('js.storages.files.empty_folder'),
       emptyHint: this.i18n.t('js.storages.files.empty_folder_location_hint'),
@@ -85,6 +88,26 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
 
   public get storageType():string {
     return this.i18n.t(storageLocaleString(this.storage._links.type.href));
+  }
+
+  public get alertText():Observable<string> {
+    return this.showAlert
+      .pipe(
+        map((alert) => {
+          switch (alert) {
+            case 'noAccess':
+              return this.text.alertNoAccess;
+            case 'managedFolderNoAccess':
+              return this.text.alertNoAccessToManagedProjectFolder;
+            case 'managedFolderNotFound':
+              return this.text.alertNoManagedProjectFolder;
+            case 'none':
+              return '';
+            default:
+              throw new Error('unknown alert type');
+          }
+        }),
+      );
   }
 
   public showSelectAll = false;

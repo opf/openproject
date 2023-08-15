@@ -178,18 +178,6 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     return (this.resource.$links as unknown&{ addFileLink:IHalResourceLink }).addFileLink.href;
   }
 
-  private get projectFolderHref():string|null {
-    if (this.projectStorage.projectFolderMode === 'inactive') {
-      return null;
-    }
-
-    if (!this.projectStorage._links.projectFolder) {
-      throw new Error(`Project folder id 'null' not allowed for project folder mode '${this.projectStorage.projectFolderMode}'.`);
-    }
-
-    return this.projectStorage._links.projectFolder.href;
-  }
-
   private onGlobalDragLeave:(_event:DragEvent) => void = (_event) => {
     this.dragging = Math.max(this.dragging - 1, 0);
     this.cdRef.detectChanges();
@@ -294,7 +282,8 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       .subscribe(([storage, fileLinks, collectionKey]) => {
         const locals = {
           addFileLinksHref: this.addFileLinksHref,
-          projectFolderHref: this.projectFolderHref,
+          projectFolderHref: this.projectStorage._links.projectFolder?.href || null,
+          projectFolderMode: this.projectStorage.projectFolderMode,
           storage,
           collectionKey,
           fileLinks,
@@ -329,7 +318,8 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
 
   private selectUploadLocation(storage:IStorage):Observable<LocationData> {
     const locals = {
-      projectFolderHref: this.projectFolderHref,
+      projectFolderHref: this.projectStorage._links.projectFolder?.href,
+      projectFolderMode: this.projectStorage.projectFolderMode,
       storage,
     };
 

@@ -74,11 +74,11 @@ es:
         item_3:
           name: Confirmado
         item_4:
-          name: Por ser programado
+          name: A programar
         item_5:
           name: Programado
         item_6:
-          name: En progreso
+          name: En curso
         item_7:
           name: Desarrollado
         item_8:
@@ -86,7 +86,7 @@ es:
         item_9:
           name: Probado
         item_10:
-          name: Prueba Fallida
+          name: Prueba fallida
         item_11:
           name: Cerrado
         item_12:
@@ -101,7 +101,7 @@ es:
         item_2:
           name: Desarrollo
         item_3:
-          name: Probando
+          name: Pruebas
         item_4:
           name: Soporte
         item_5:
@@ -110,13 +110,13 @@ es:
         item_0:
           name: Tarea
         item_1:
-          name: Avance
+          name: Hito
         item_2:
           name: Fase
         item_3:
           name: Función
         item_4:
-          name: Epico
+          name: Épico
         item_5:
           name: Historia de usuario
         item_6:
@@ -386,32 +386,32 @@ es:
                 item_0:
                   subject: Realice capturas de pantalla para el recorrido de características
             item_5:
-              subject: Color hover incorrecto
+              subject: Color de hover incorrecto
             item_6:
               subject: Certificado SSL
             item_7:
               subject: Creación de un entorno de ensayo
             item_8:
-              subject: Elija un sistema de gestión de contenidos
+              subject: Elegir un sistema de gestión de contenido
             item_9:
               subject: Estructura de navegación del sitio web
               children:
                 item_0:
-                  subject: Establezca el concepto de navegación para el sitio web.
+                  subject: Establecer el concepto de navegación para el sitio web.
             item_10:
-              subject: Establezca el concepto de navegación para el sitio web.
+              subject: Establecer el concepto de navegación para el sitio web.
             item_11:
-              subject: Desarrollar v1.0
+              subject: Develop v1.0
             item_12:
-              subject: Lanzamiento v1.0
+              subject: Release v1.0
             item_13:
-              subject: Desarrollar v1.1
+              subject: Develop v1.1
             item_14:
-              subject: Lanzamiento v1.1
+              subject: Release v1.1
             item_15:
-              subject: Desarrollar v2.0
+              subject: Develop v2.0
             item_16:
-              subject: Versión v2.0
+              subject: Release v2.0
           wiki: |
             ### Reunión de planificación del Sprint
 

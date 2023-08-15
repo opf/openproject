@@ -83,7 +83,7 @@ fr:
   validation_failure_integer: "n'est pas un nombre entier valide"
   export:
     cost_reports:
-      title: "Your Cost Reports XLS export"
+      title: "Exportation XLS de vos rapports de coûts"
   reporting:
     group_by:
       selected_columns: "Colonnes sélectionnées"

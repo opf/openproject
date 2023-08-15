@@ -13,12 +13,12 @@ es:
         item_2:
           name: Alta
         item_3:
-          name: Crítico
+          name: Crítica
       statuses:
         item_0:
           name: Nuevo
         item_1:
-          name: En progreso
+          name: En curso
         item_2:
           name: Resuelto
         item_3:
@@ -34,7 +34,7 @@ es:
         item_0:
           name: Tarea
         item_1:
-          name: Avance
+          name: Hito
         item_2:
           name: Fase
         item_3:

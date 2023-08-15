@@ -127,6 +127,31 @@ module Pages::Meetings
       end
     end
 
+    def expect_link_to_meeting_location(meeting)
+      within '#content-wrapper' do
+        within row_for(meeting) do
+          expect(page).to have_link meeting.location
+        end
+      end
+    end
+
+    def expect_plaintext_meeting_location(meeting)
+      within '#content-wrapper' do
+        within row_for(meeting) do
+          expect(page).to have_selector('td.location', text: meeting.location)
+          expect(page).not_to have_link meeting.location
+        end
+      end
+    end
+
+    def expect_no_meeting_location(meeting)
+      within '#content-wrapper' do
+        within row_for(meeting) do
+          expect(page).to have_selector('td.location', text: '')
+        end
+      end
+    end
+
     def expect_to_be_on_page(number)
       expect(page)
         .to have_selector('.op-pagination--item_current',
@@ -159,6 +184,12 @@ module Pages::Meetings
 
     def path
       polymorphic_path([project, :meetings])
+    end
+
+    private
+
+    def row_for(meeting)
+      find('td.title', text: meeting.title).ancestor('tr')
     end
   end
 end

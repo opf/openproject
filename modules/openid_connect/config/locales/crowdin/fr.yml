@@ -20,8 +20,8 @@ fr:
       singular: Fournisseur OpenID
     setting_instructions:
       azure_graph_api: >
-        Use the graph.microsoft.com userinfo endpoint to request userdata. This should be the default unless you have an older azure application.
+        Utilisez le point de terminaison graph.microsoft.com userinfo pour demander des données d'utilisateur. Cela devrait être la valeur par défaut, sauf si vous avez une application Azure plus ancienne.
       azure_tenant_html: >
-        Set the tenant of your Azure endpoint. This will control who gets access to the OpenProject instance. For more information, please see <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">our user guide on Azure OpenID connect</a>.
+        Définissez le locataire de votre point de terminaison Azure. Cela permettra de contrôler qui obtient l'accès à l'instance OpenProject. Pour en savoir plus, consultez <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">notre guide de l'utilisateur sur la connexion d'Azure OpenID</a>.
       limit_self_registration: >
         If enabled users can only register using this provider if the self registration setting allows for it.

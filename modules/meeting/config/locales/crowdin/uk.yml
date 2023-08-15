@@ -62,9 +62,9 @@ uk:
   label_meeting_agenda_close: "Закрийте порядок денний, щоб розпочати протоколи"
   label_meeting_date_time: "Дата, час"
   label_meeting_diff: "Відмінність"
-  label_upcoming_meetings: "Майбутні зустрічі"
-  label_past_meetings: "Минулі зустрічі"
-  label_involvement: "Залучення"
+  label_upcoming_meetings: "Майбутні заходи"
+  label_past_meetings: "Минулі заходи"
+  label_involvement: "Участь"
   label_upcoming_invitations: "Майбутні запрошення"
   label_past_invitations: "Минулі запрошення"
   label_attendee: "Учасник"
@@ -93,7 +93,7 @@ uk:
   text_duration_in_hours: "Тривалість у годинах"
   text_in_hours: "у годинах"
   text_meeting_agenda_for_meeting: 'порядку денного засідання %{meeting}'
-  text_meeting_closing_are_you_sure: "Справді закрити порядок денний зустрічі?"
+  text_meeting_closing_are_you_sure: "Справді закрити порядок денний заходу?"
   text_meeting_agenda_open_are_you_sure: "Це вмить призведе до виправлення усіх змін! Бажаєте продовжити?"
   text_meeting_minutes_for_meeting: 'протокол засідання %{meeting}'
   text_review_meeting_agenda: "%{author} поставив %{link} на розгляд."

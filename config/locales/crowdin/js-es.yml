@@ -107,7 +107,7 @@ es:
       remove_from_list: 'Eliminar tarjeta de la lista'
     caption_rate_history: "Historial de tasas"
     clipboard:
-      browser_error: "Su navegador no permite copiar al portapapeles. Por favor, cópielo manualmente: %{content}"
+      browser_error: "Su navegador no permite copiar al portapapeles. Cópielo manualmente: %{content}"
       copied_successful: "Copiado correctamente en el portapapeles"
     chart:
       type: 'Tipo de gráfico'
@@ -320,7 +320,7 @@ es:
         days: "Días"
         weeks: "Semanas"
         months: "Meses"
-        quarters: "Cuartos"
+        quarters: "Trimestres"
         years: "Años"
         description: >
           Seleccione el nivel de zoom inicial que debe mostrarse cuando el zoom automático no esté disponible.
@@ -346,18 +346,18 @@ es:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+                La versión contiene varias características nuevas y mejoras: <br> <ul class="%{list_styling_class}"> <li>Comparación de referencia para facilitar el seguimiento de los cambios.</li> <li>Exportación de PDF para informes sobre planes de trabajo.</li> <li>Suscripción a calendarios de proyectos a través de URL (iCalendar).</li> <li>Carpetas de proyectos con plantillas de documentos para la integración de Nextcloud.</li> <li>Sembrado localizado de todos los datos de semillas.</li> <li>Los módulos globales se enumeran en nuevas páginas de índice.</li> </ul>
     ical_sharing_modal:
       title: "Suscribirse al calendario"
       inital_setup_error_message: "Se ha producido un error al obtener los datos."
       description: "Puede utilizar la URL (iCalendar) para suscribirse a este calendario en un cliente externo y ver desde allí la información actualizada de los paquetes de trabajo."
-      warning: "Por favor, no comparta esta URL con otros usuarios. Cualquiera que tenga este enlace podrá ver los detalles del paquete de trabajo sin necesidad de una cuenta o contraseña."
+      warning: "No comparta esta URL con otros usuarios. Cualquiera que tenga este enlace podrá ver los detalles del paquete de trabajo sin necesidad de una cuenta o contraseña."
       token_name_label: "¿Dónde lo utilizará?"
-      token_name_placeholder: "Escriba un nombre, por ejemplo \"Teléfono\"."
+      token_name_placeholder: "Escriba un nombre, por ejemplo «Teléfono»."
       token_name_description_text: "Si se suscribe a este calendario desde varios dispositivos, este nombre le ayudará a distinguirlos en su lista de <a href=\"my/access_token\", target=\"_blank\">tokens de acceso</a>."
       copy_url_label: "Copiar URL"
       ical_generation_error_text: "Se ha producido un error al generar la URL del calendario."
-      success_message: "La URL \"%{name}\" se ha copiado correctamente en su portapapeles. Péguela en su cliente de calendario para completar la suscripción."
+      success_message: "La URL «%{name}» se ha copiado correctamente en su portapapeles. Péguela en su cliente de calendario para completar la suscripción."
     label_activate: "Activar"
     label_assignee: 'Asignado a'
     label_add_column_after: "Añadir columna a la derecha"
@@ -768,7 +768,7 @@ es:
       work_package_required: 'Es necesario seleccionar primero un paquete de trabajo.'
       title: 'Registro de tiempo'
       tracking: 'Control de tiempo'
-      stop: 'Stop'
+      stop: 'Detener'
     timer:
       start_new_timer: 'Iniciar nuevo temporizador'
       timer_already_running: 'Para iniciar un nuevo temporizador, primero debe detener el temporizador actual:'
@@ -916,11 +916,11 @@ es:
         addition_label: 'Añadido a la vista dentro del periodo de comparación'
         removal_label: 'Eliminado de la vista dentro del periodo de tiempo de comparación'
         modification_label: 'Modificado dentro del periodo de comparación'
-        column_incompatible: 'Esta columna no muestra los cambios en el modo de línea de base.'
+        column_incompatible: 'Esta columna no muestra los cambios en el modo de Referencia.'
       filters:
         title: 'Filtrar paquetes de trabajo'
-        baseline_incompatible: 'Este atributo del filtro no se tiene en cuenta en el modo de línea de base.'
-        baseline_warning: 'El modo de línea de base está activado pero algunos de sus filtros activos no se incluyen en la comparación.'
+        baseline_incompatible: 'Este atributo del filtro no se tiene en cuenta en el modo de Referencia.'
+        baseline_warning: 'El modo de Referencia está activado, pero algunos de sus filtros activos no se incluyen en la comparación.'
       inline_create:
         title: 'Haga clic aquí para agregar un nuevo paquete de trabajo a esta lista'
       create:
@@ -1252,14 +1252,14 @@ es:
         does_not_match_search: 'El proyecto no coincide con los criterios de búsqueda.'
       no_results: 'Ningún producto coincide con tu criterio de búsqueda'
     baseline:
-      toggle_title: 'Línea de base'
+      toggle_title: 'Referencia'
       clear: 'Despejar'
       apply: 'Aplicar'
       header_description: 'Resalte los cambios realizados en esta lista desde cualquier momento en el pasado.'
       enterprise_header_description: 'Resalte los cambios realizados en esta lista desde cualquier momento en el pasado con la edición Enterprise.'
       show_changes_since: 'Mostrar cambios desde'
       baseline_comparison: 'Comparación de referencia'
-      help_description: 'Zona horaria de referencia para la línea de base.'
+      help_description: 'Zona horaria de referencia para la referencia.'
       time_description: 'En tu hora local: %{datetime}'
       time: 'Tiempo'
       from: 'Desde'
@@ -1277,12 +1277,12 @@ es:
         changes_between: 'Cambios entre'
         now_meets_filter_criteria: 'Ahora cumple con los criterios de filtro'
         no_longer_meets_filter_criteria: 'Ya no cumple con los criterios de filtro'
-        maintained_with_changes: 'Se mantiene con los cambios'
+        maintained_with_changes: 'Mantenido con cambios'
         in_your_timezone: 'En su zona horaria local:'
       icon_tooltip:
         added: 'Añadido a la vista dentro del periodo de comparación'
         removed: 'Eliminado de la vista dentro del periodo de tiempo de comparación'
-        changed: 'Mantenida con modificaciones'
+        changed: 'Mantenido con modificaciones'
     forms:
       submit_success_message: 'El formulario se envió correctamente'
       load_error_message: 'Se produjo un error al cargar el formulario'

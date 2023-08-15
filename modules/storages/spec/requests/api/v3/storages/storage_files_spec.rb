@@ -52,8 +52,7 @@ RSpec.describe 'API v3 storage files', content_type: :json, webmock: true do
   end
 
   before do
-    allow(connection_manager).to receive(:get_authorization_uri).and_return(authorize_url)
-    allow(connection_manager).to receive(:authorization_state).and_return(:connected)
+    allow(connection_manager).to receive_messages(get_authorization_uri: authorize_url, authorization_state: :connected)
     allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
     project_storage
     login_as current_user
@@ -145,6 +144,119 @@ RSpec.describe 'API v3 storage files', content_type: :json, webmock: true do
         let(:error) { :not_authorized }
 
         it { expect(last_response.status).to be(500) }
+      end
+
+      context 'with internal error' do
+        let(:error) { :error }
+
+        it { expect(last_response.status).to be(500) }
+      end
+
+      context 'with not found' do
+        let(:error) { :not_found }
+
+        it 'fails with outbound request failure' do
+          expect(last_response.status).to be(500)
+
+          body = JSON.parse(last_response.body)
+          expect(body['message']).to eq(I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code: 404))
+          expect(body['errorIdentifier']).to eq('urn:openproject-org:api:v3:errors:OutboundRequest:NotFound')
+        end
+      end
+    end
+  end
+
+  describe 'GET /api/v3/storages/:storage_id/files/:file_id' do
+    let(:file_id) { '42' }
+    let(:path) { api_v3_paths.storage_file(storage.id, file_id) }
+
+    context 'with successful response' do
+      let(:response) do
+        [
+          Storages::StorageFileInfo.new(
+            status: 'OK',
+            status_code: 200,
+            id: file_id,
+            name: "Documents",
+            last_modified_at: DateTime.now,
+            created_at: DateTime.now,
+            mime_type: 'application/x-op-directory',
+            size: 1108864,
+            owner_name: 'Darth Vader',
+            owner_id: 'darthvader',
+            trashed: false,
+            last_modified_by_name: 'Darth Sidious',
+            last_modified_by_id: 'palpatine',
+            permissions: 'RGDNVCK',
+            location: '/Documents'
+          )
+        ]
+      end
+
+      before do
+        storage_requests = instance_double(Storages::Peripherals::StorageRequests)
+        files_info_query = Proc.new do
+          ServiceResult.success(result: response)
+        end
+        allow(storage_requests).to receive(:files_info_query).and_return(files_info_query)
+        allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(storage_requests)
+      end
+
+      subject { last_response.body }
+
+      it 'responds with appropriate JSON' do
+        expect(subject).to be_json_eql('StorageFile'.to_json).at_path('_type')
+        expect(subject).to be_json_eql(response[0].id.to_json).at_path('id')
+        expect(subject).to be_json_eql(response[0].name.to_json).at_path('name')
+        expect(subject).to be_json_eql(response[0].size.to_json).at_path('size')
+        expect(subject).to be_json_eql(response[0].mime_type.to_json).at_path('mimeType')
+        expect(subject).to be_json_eql(response[0].owner_name.to_json).at_path('createdByName')
+        expect(subject).to be_json_eql(response[0].last_modified_by_name.to_json).at_path('lastModifiedByName')
+        expect(subject).to be_json_eql(response[0].location.to_json).at_path('location')
+        expect(subject).to be_json_eql(response[0].permissions.to_json).at_path('permissions')
+      end
+
+      context 'and storage file access is forbidden' do
+        let(:response) do
+          [
+            Storages::StorageFileInfo.new(
+              id: file_id,
+              status: 'Forbidden',
+              status_code: 403
+            )
+          ]
+        end
+
+        it 'fails with outbound request failure' do
+          expect(last_response.status).to be(500)
+
+          body = JSON.parse(last_response.body)
+          expect(body['message']).to eq(I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code: 403))
+          expect(body['errorIdentifier']).to eq('urn:openproject-org:api:v3:errors:OutboundRequest:Forbidden')
+        end
+      end
+    end
+
+    context 'with query failed' do
+      before do
+        clazz = Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQuery
+        instance = instance_double(clazz)
+        allow(clazz).to receive(:new).and_return(instance)
+        allow(instance).to receive(:call).and_return(
+          ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error))
+        )
+      end
+
+      context 'with authorization failure' do
+        let(:error) { :forbidden }
+
+        it 'fails with outbound request failure' do
+          expect(last_response.status).to be(500)
+
+          body = JSON.parse(last_response.body)
+          expect(body['message']).to eq(I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code: 403))
+          expect(body['errorIdentifier']).to eq('urn:openproject-org:api:v3:errors:OutboundRequest:Forbidden')
+        end
       end
 
       context 'with internal error' do
