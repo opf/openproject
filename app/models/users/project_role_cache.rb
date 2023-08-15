@@ -34,40 +34,24 @@ class Users::ProjectRoleCache
   end
 
   def fetch(project: nil, entity: nil)
-    if project
-      project_cache[project] ||= roles(project:)
-    elsif entity
-      entity_cache[entity] ||= roles(entity:)
-    else
-      []
-    end
+    cache[entity || project] ||= roles(project:, entity:)
   end
 
   private
 
   def roles(project: nil, entity: nil)
-    if project
-      # Project is nil if checking global role
-      # No roles on archived projects, unless the active state is being changed
-      return [] if archived?(project)
-      # Return all roles if user is admin
-      return all_givable_roles if user.admin?
+    # Return all roles if user is admin
+    return all_givable_roles if user.admin?
 
-      ::Authorization.roles(user, project:).eager_load(:role_permissions)
-    elsif entity
-      # Return all roles if user is admin
-      return all_givable_roles if user.admin?
+    # Project is nil if checking global role
+    # No roles on archived projects, unless the active state is being changed
+    return [] if project && archived?(project)
 
-      ::Authorization.roles(user, entity:).eager_load(:role_permissions)
-    end
+    ::Authorization.roles(user, project:, entity:).eager_load(:role_permissions)
   end
 
-  def project_cache
-    @project_cache ||= {}
-  end
-
-  def entity_cache
-    @entity_cache ||= {}
+  def cache
+    @cache ||= {}
   end
 
   def all_givable_roles
