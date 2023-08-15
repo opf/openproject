@@ -231,7 +231,7 @@ pt:
       failed_text: "A solicitação para excluir o projeto %{name} falhou. O projeto foi arquivado."
       completed: "Exclusão do projeto %{name} concluída"
       completed_text: "Foi concluída a solicitação para exclusão do projeto '%{name}'."
-      completed_text_children: "Additionally, the following subprojects have been deleted:"
+      completed_text_children: "Além disso, os seguintes subprojetos foram excluídos:"
     index:
       open_as_gantt: 'Abrir como visualização Gantt'
       open_as_gantt_title: "Use este botão para gerar uma exibição Gantt que filtra pacotes de trabalho para projetos visíveis nesta página."
@@ -2075,7 +2075,7 @@ pt:
       more_to_see:
         one: 'Há mais 1 pacote de trabalho com notificações.'
         other: 'Há mais %{count} pacotes de trabalho com notificações.'
-      open_in_browser: 'Open in browser'
+      open_in_browser: 'Abrir no navegador'
       reason:
         watched: 'Assistido'
         assigned: 'Atribuído'
