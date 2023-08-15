@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 export interface IOpSidemenuItem {
   title:string;
@@ -50,6 +51,7 @@ export class OpSidemenuComponent {
     readonly I18n:I18nService,
     readonly Banner:BannersService,
   ) {
+    populateInputsFromDataset(this);
   }
 
   toggleCollapsed():void {
