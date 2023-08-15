@@ -7,27 +7,23 @@ keywords: permissions, roles, RBAC
 
 # Development concept: Permissions
 
-OpenProject is very flexible when it comes to authorization and granting permissions to users. The OpenProject application uses a Role-based access control (RBAC) approach to grant individual users permissions to projects.
+OpenProject is very flexible when it comes to authorization and granting permissions to users. The OpenProject application uses a Role-based access control (RBAC) approach to grant individual users permissions to projects or individual resources.
 
-With RBAC, the application defines a set of roles that users and groups can be individually assigned to within the scope of a project or globally. In OpenProject, the roles and permissions contained within are freely configurable. There can be an arbitrary number of roles defined.
-
-
+With RBAC, the application defines a set of roles that users and groups can be individually assigned to within the scope of a project, resource or globally. In OpenProject, the roles and permissions contained within are freely configurable. There can be an arbitrary number of roles defined.
 
 ## Key takeaways
 
 *Permissions in OpenProject...*
 
 - use the Role-based access control (RBAC) approach to allow fine-grained access to authorized resources
-- are assigned to users and groups through roles on a per-project or global level
+- are assigned to users and groups through roles on a per-project, per-resource or global level
 - are often communicated to the frontend through the presence of action links in HAL resources
-
-
 
 ## Definition of roles
 
-Roles in OpenProject can be defined in the global administration. If you would read about roles from a user experience, please see the [Roles & Permissions guide](../../../system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions)
+Roles in OpenProject can be defined in the global administration. If you want to read about roles from a user experience, please see the [Roles & Permissions guide](../../../system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions)
 
-In the backend, roles are a Rails model  [`Role`](https://github.com/opf/openproject/tree/dev/app/models/role.rb) that holds a set of permissions associated in a `RolePermission` lookup table.
+In the backend, roles are a Rails model [`Role`](https://github.com/opf/openproject/tree/dev/app/models/role.rb) that holds a set of permissions associated in a `RolePermission` lookup table.
 
 There are multiple types of roles:
 
@@ -42,13 +38,9 @@ In the following screenshot, you can see the builtin, non-deletable roles *Non m
 
 ![Overview of some of the roles](roles-administration.png)
 
-
-
 Scrolling through the list of available permissions, you will begin to see the flexibility (and complexity) of the potential user permissions that are available:
 
 ![Overview of available permissions in a regular role](roles-permissions-overview.gif)
-
-
 
 ## Definition of Permissions
 
@@ -57,9 +49,7 @@ The permissions are defined in two places:
 1. The core [`config/initializers/permissions.rb`](https://github.com/opf/openproject/tree/dev/config/initializers/permissions.rb) initializer file. It defines the available project modules and its associated permissions
 2. Module permissions defined in the `engine.rb` of modules under `module/` folder. For example, the definitions for budgets are defined in[`modules/budgets/lib/budgets/engine.rb`](https://github.com/opf/openproject/tree/dev/modules/budgets/lib/budgets/engine.rb).
 
-These definitions determine the name of the permission and the Rails controller actions that are this permission unlocks. In some cases, the permissions do not define a controller action and then is only used for authorization checks in contracts. 
-
-
+These definitions determine the name of the permission and the Rails controller actions that are this permission unlocks. In some cases, the permissions do not define a controller action and then is only used for authorization checks in contracts.
 
 ## Checking of permissions in Backend
 
@@ -96,7 +86,7 @@ after_validation do
 end
 ```
 
-However, for most end points, this does not need to be and should not be done on the controller level. Endpoints that are contract backed, which is true for most of the create, update and delete end points, the permissions, including access to a resource is checked within the contracts. The index end points are mostly protected by their queries relying on a `visible` scope which factors the permissions into the SQL fetching the records. That way, an empty collection is returned if the user lacks permission. If an explicit 403 needs to be returned, though, the explicit permission check in the endpoint is required for now. The show endpoints need to be protected akin to how the index actions. The `visible` scope is applied (e.g. `WorkPackage.visible.find(5)`). This will lead to a `RecordNotFound` exception being thrown when the permission is lacking. That exception is then handled transparently by returning a 404. We return 404 instead of 403 to not reveal the existence of a record.   
+However, for most end points, this does not need to be and should not be done on the controller level. Endpoints that are contract backed, which is true for most of the create, update and delete end points, the permissions, including access to a resource is checked within the contracts. The index end points are mostly protected by their queries relying on a `visible` scope which factors the permissions into the SQL fetching the records. That way, an empty collection is returned if the user lacks permission. If an explicit 403 needs to be returned, though, the explicit permission check in the endpoint is required for now. The show endpoints need to be protected akin to how the index actions. The `visible` scope is applied (e.g. `WorkPackage.visible.find(5)`). This will lead to a `RecordNotFound` exception being thrown when the permission is lacking. That exception is then handled transparently by returning a 404. We return 404 instead of 403 to not reveal the existence of a record.
 
 ### Scopes
 
@@ -105,8 +95,10 @@ When a set of records is to be returned, e.g. for an index action, it is best to
 | Schenario | Scope | Example |
 |---------- | ------| ------ |
 | All projects a user is allowed a permission in | `Authorization.projects(permission, user)` | `Authorization.projects(:view_work_packages, User.current)` |
-| All users granted a permission in a project | `Authorization.users(permission, project)` | `Authorization.users(:view_work_packages, project)` |
-| All roles a user has in a project or globally | `Authorization.roles(user, project = nil)` | `Authorization.roles(User.current, project)`, `Authorization.roles(User.current)` |
+| All users granted a permission in a project | `Authorization.users(permission, project: project)` | `Authorization.users(:view_work_packages, project: project)` |
+| All roles a user has in a project | `Authorization.roles(user, project:)` | `Authorization.roles(User.current, project: project)` |
+| All roles a user has for a specific resource | `Authorization.roles(user, entity:)` | `Authorization.roles(User.current, entity: work_package)` |
+| All roles a user has globally | `Authorization.roles(user)` | `Authorization.roles(User.current)` |
 
 Most of the time, a developer will not witness those queries as they are the embedded deeply within the existing scopes. E.g. the `visible` scopes defined for most AR models, under the hood rely on `Authorization.projects(permission, user)` by checking that the `project_id` attribute of the record is within that set of projects.
 
@@ -116,9 +108,12 @@ If you have a user and a project, you can explicitly ask for a permission like s
 
 ```ruby
 project = Project.find_by(name: 'My project')
+work_package = project.work_packages.find_by(subject: 'My task')
 user = User.find_by(login: 'foobar')
 
 user.allowed_to?(:view_members, project) # true or false
+# or
+user.allowed_to?(:view_work_package, work_package) # true or false
 ```
 
 The same is true for permissions outside a project using `user.allowed_to_globally?(permission)`. This will either test a global permission such as `:add_project` or return `true` whenever the user has such a permission in any project.
