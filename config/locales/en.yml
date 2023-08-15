@@ -415,7 +415,7 @@ en:
 
   versions:
     overview:
-      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are coutned, but will not appear in the linked views."
+      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
       no_results_title_text: There are currently no work packages assigned to this version.
 
   wiki:
