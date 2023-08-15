@@ -36,9 +36,11 @@ See COPYRIGHT and LICENSE files for more details.
     )
 %>
 
-<%= toolbar title: t("storages.page_titles.project_storage_members.title"),
-            subtitle: t("storages.page_titles.project_storage_members.subtitle",
-                        storage_name_link: link_to(@storage.name, admin_settings_storage_path(@storage))).html_safe
-%>
+<%= toolbar title: t("storages.page_titles.project_storage_members.title") %>
+
+<%= content_tag(:p,
+  t("storages.page_titles.project_storage_members.subtitle",
+    storage_name_link: link_to(@storage.name, admin_settings_storage_path(@storage))).html_safe
+) %>
 
 <%= render(::Storages::ProjectStorages::Members::TableComponent.new(rows: @memberships, storage: @storage)) %>
