@@ -46,9 +46,11 @@ module Pages
       end
     end
 
-    def expect_delete_button(board)
+    def expect_delete_buttons(*boards)
       within '#content-wrapper' do
-        expect(page).to have_selector "[data-qa-selector='board-remove-#{board.id}']"
+        boards.each do |board|
+          expect(page).to have_selector "[data-qa-selector='board-remove-#{board.id}']"
+        end
       end
     end
 
