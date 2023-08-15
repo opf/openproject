@@ -61,7 +61,7 @@ RSpec.describe Redmine::MenuManager do
                       :ifc_models,
                       :calendar_view,
                       :team_planner_view,
-                      :board_view,
+                      :boards,
                       :dashboards,
                       :backlogs,
                       :news,

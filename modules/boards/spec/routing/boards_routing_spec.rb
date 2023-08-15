@@ -31,20 +31,8 @@ require 'spec_helper'
 RSpec.describe 'Boards routing' do
   it do
     expect(subject)
-      .to route(:get, '/boards/all')
-            .to(controller: 'boards/boards', action: 'overview')
-  end
-
-  it do
-    expect(subject)
       .to route(:get, '/boards')
             .to(controller: 'boards/boards', action: 'index')
-  end
-
-  it do
-    expect(subject)
-      .to route(:get, '/boards/1')
-            .to(controller: 'boards/boards', action: 'show', id: 1)
   end
 
   it do

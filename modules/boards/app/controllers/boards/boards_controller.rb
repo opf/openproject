@@ -1,37 +1,25 @@
 module ::Boards
   class BoardsController < BaseController
+    include Layout
+
     before_action :find_optional_project
+
+    before_action :authorize_global, if: -> { @project.nil? }
+    before_action :authorize, if: -> { @project.present? }
+
+    # The boards permission alone does not suffice
+    # to view work packages
+    before_action :authorize_work_package_permission, only: %i[show]
+
     before_action :build_board_grid, only: %i[new]
-
-    with_options only: %i[index show] do
-      # The boards permission alone does not suffice
-      # to view work packages
-      before_action :authorize
-      before_action :authorize_work_package_permission
-    end
-
-    before_action :authorize_global, only: %i[overview new create destroy]
+    before_action :load_query, only: %i[index]
     before_action :find_board_grid, only: %i[destroy]
     before_action :ensure_board_type_not_restricted, only: %i[create]
 
-    menu_item :board_view
+    menu_item :boards
 
     def index
-      @board_grids = Boards::Grid.includes(:project).where(project: @project)
-    end
-
-    def overview
-      projects = Project.allowed_to(User.current, :show_board_views)
-      @board_grids = Boards::Grid.includes(:project).where(project: projects)
-      render layout: 'global'
-    end
-
-    current_menu_item :index do
-      :board_view
-    end
-
-    current_menu_item :overview do
-      :boards
+      render 'index', locals: { menu_name: project_or_global_menu }
     end
 
     def show
@@ -70,6 +58,15 @@ module ::Boards
     end
 
     private
+
+    def load_query
+      if @project
+        @board_grids = Boards::Grid.includes(:project).where(project: @project)
+      else
+        projects = Project.allowed_to(User.current, :show_board_views)
+        @board_grids = Boards::Grid.includes(:project).where(project: projects)
+      end
+    end
 
     def find_board_grid
       @board_grid = Boards::Grid.find(params[:id])

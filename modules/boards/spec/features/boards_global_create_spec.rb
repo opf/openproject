@@ -29,7 +29,7 @@ RSpec.describe 'Boards',
 
   context 'within the global index page' do
     before do
-      visit boards_all_path
+      visit work_package_boards_path
     end
 
     context 'when clicking on the create button' do
@@ -210,7 +210,7 @@ RSpec.describe 'Boards',
         end
 
         it 'navigates back to the global index page' do
-          expect(page).to have_current_path(boards_all_path)
+          expect(page).to have_current_path(work_package_boards_path)
         end
       end
     end

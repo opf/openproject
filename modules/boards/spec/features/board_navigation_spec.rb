@@ -100,7 +100,7 @@ RSpec.describe 'Work Package boards spec', js: true, with_ee: %i[board_view] do
   it 'navigates correctly the path from overview page to the boards page' do
     visit project_path(project)
 
-    item = page.find('#menu-sidebar li[data-name="board_view"]', wait: 10)
+    item = page.find('#menu-sidebar li[data-name="boards"]', wait: 10)
     item.find('.toggler').click
 
     subitem = page.find('[data-qa-selector="op-sidemenu--item-action--Myboard"]', wait: 10)
@@ -142,6 +142,29 @@ RSpec.describe 'Work Package boards spec', js: true, with_ee: %i[board_view] do
 
     expect(page).to have_current_path /details\/#{wp.id}\/relations/
     split_view.expect_tab 'Relations'
+  end
+
+  it 'navigates to the details view and reloads (see #49678)' do
+    board_index.visit!
+
+    # Add a new WP on the board
+    board_page = board_index.open_board board_view
+    board_page.expect_query 'List 1', editable: true
+    board_page.add_card 'List 1', 'Task 1'
+    board_page.expect_toast message: I18n.t(:notice_successful_create)
+
+    wp = WorkPackage.last
+    expect(wp.subject).to eq 'Task 1'
+    # Open the details page with the info icon
+    card = board_page.card_for(wp)
+    split_view = card.open_details_view
+    split_view.ensure_page_loaded
+    split_view.expect_subject
+
+    page.driver.refresh
+
+    split_view.ensure_page_loaded
+    split_view.expect_subject
   end
 
   it 'navigates to boards after deleting WP(see #33756)' do
