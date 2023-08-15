@@ -180,7 +180,7 @@ class TypesController < ApplicationController
 
       if archived_projects.any?
         error_message << ApplicationController.helpers.sanitize(
-          t(:'error_can_not_delete_type.archived_projects',
+          t(:error_can_not_delete_in_use_archived_work_packages,
             archived_projects_urls: helpers.archived_projects_urls_for(archived_projects)),
           attributes: %w(href target)
         )

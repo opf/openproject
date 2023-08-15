@@ -55,10 +55,10 @@ class VersionsController < ApplicationController
 
   def show
     @issues = @version
-              .work_packages
-              .visible
-              .includes(:status, :type, :priority)
-              .order("#{::Type.table_name}.position, #{WorkPackage.table_name}.id")
+      .work_packages
+      .visible
+      .includes(:status, :type, :priority)
+      .order("#{::Type.table_name}.position, #{WorkPackage.table_name}.id")
   end
 
   def new
@@ -69,24 +69,24 @@ class VersionsController < ApplicationController
 
   def create
     attributes = permitted_params
-                 .version
-                 .merge(project_id: @project.id)
+      .version
+      .merge(project_id: @project.id)
 
     call = Versions::CreateService
-           .new(user: current_user)
-           .call(attributes)
+      .new(user: current_user)
+      .call(attributes)
 
     render_cu(call, :notice_successful_create, 'new')
   end
 
   def update
     attributes = permitted_params
-                 .version
+      .version
 
     call = Versions::UpdateService
-           .new(user: current_user,
-                model: @version)
-           .call(attributes)
+      .new(user: current_user,
+           model: @version)
+      .call(attributes)
 
     render_cu(call, :notice_successful_update, 'edit')
   end
@@ -100,18 +100,35 @@ class VersionsController < ApplicationController
 
   def destroy
     call = Versions::DeleteService
-           .new(user: current_user,
-                model: @version)
-           .call
+      .new(user: current_user,
+           model: @version)
+      .call
 
     unless call.success?
       flash[:error] = call.errors.full_messages
+      flash[:error] << archived_project_mesage if archived_projects.any?
     end
 
     redirect_to project_settings_versions_path(@project)
   end
 
   private
+
+  def archived_project_mesage
+    if current_user.admin?
+      ApplicationController.helpers.sanitize(
+        t(:error_can_not_delete_in_use_archived_work_packages,
+          archived_projects_urls: helpers.archived_projects_urls_for(archived_projects)),
+        attributes: %w(href target)
+      )
+    else
+      t(:error_can_not_delete_in_use_archived_undisclosed)
+    end
+  end
+
+  def archived_projects
+    @archived_projects ||= @version.projects.archived
+  end
 
   def redirect_back_or_version_settings
     redirect_back_or_default(project_settings_versions_path(@project))
