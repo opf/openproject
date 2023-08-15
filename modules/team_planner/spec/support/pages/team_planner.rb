@@ -149,16 +149,20 @@ module Pages
       expect(page).to have_text 'There is currently nothing to display.'
     end
 
-    def expect_view_rendered(query)
-      expect(page).to have_selector 'td', text: query.name
+    def expect_views_rendered(*queries)
+      rendered_query_names = all('td.name').map(&:text)
+
+      expect(rendered_query_names).to match_array(queries.map(&:name))
     end
 
     def expect_delete_button_for(query)
       expect(page).to have_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
     end
 
-    def expect_no_delete_button_for(query)
-      expect(page).not_to have_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
+    def expect_no_delete_buttons_for(*queries)
+      queries.each do |query|
+        expect(page).not_to have_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
+      end
     end
 
     def expect_view_not_rendered(query)
