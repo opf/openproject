@@ -285,16 +285,6 @@ a.main-menu--parent-node
     li a
       padding: 0
 
-.menu-wiki-pages-tree
-  height: 100%
-  overflow: auto
-  border-top: var(--main-menu-border-width) solid var(--main-menu-border-color)
-  padding-top: 7px
-  padding-left: 7px
-  padding-right: 7px
-
-  @include styled-scroll-bar
-
 .main-menu--segment-header
   color: var(--main-menu-fieldset-header-color)
   text-transform: uppercase
@@ -304,8 +294,6 @@ a.main-menu--parent-node
 #main-menu ul ul.main-menu--children ul.pages-hierarchy
   .tree-menu--hierarchy-indicator
     color: var(--main-menu-font-color)
-  .tree-menu--hierarchy-span + a, a
-    padding-left: 0
   .tree-menu--item
     &.-selected
       background: var(--main-menu-bg-selected-background)
