@@ -387,7 +387,7 @@ RSpec.describe TypesController do
                                      .archived_projects_urls_for([archived_project])
           [
             I18n.t(:'error_can_not_delete_type.explanation'),
-            I18n.t(:'error_can_not_delete_type.archived_projects', archived_projects_urls:)
+            I18n.t(:error_can_not_delete_in_use_archived_work_packages, archived_projects_urls:)
           ]
         end
 
