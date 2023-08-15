@@ -26,7 +26,7 @@ Community support is covered to the best of our ability by the active internatio
 
 | Service hours | Support channels                                             | Support services                                       |
 | ------------- | ------------------------------------------------------------ | ------------------------------------------------------ |
-| Best effort   | - [Community ticket](https://community.openproject.org/projects/openproject/work_packages)<br />- [Community forums](https://community.openproject.org/projects/openproject/forums) | - Documentation and user guides<br />- Tutorial videos |
+| Best effort   | - [Bug reports or Feature requests](https://community.openproject.org/projects/openproject/work_packages)<br />- [Community forums](https://community.openproject.org/projects/openproject/forums) | - Documentation and user guides<br />- Tutorial videos |
 
 ### Basic support (cloud and on-premises)
 
