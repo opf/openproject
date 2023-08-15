@@ -9,7 +9,7 @@ keywords: global modules, project overarching modules, global index pages
 
 Global modules present an overview of the projects of which you are a member or have permissions to see. On this page, you will find a summary of all the sidebar menu entries for module across all your projects, such as **Activity, Work packages, Calendars, Boards**, etc.
 
-To access the **Global modules** side menu, simply click on the logo in the header. You can also use the grid icon in the top right corner to access it.
+To access the **Global modules** side menu, simply click on the logo in the header. 
 
 ![Navigating to global modules menu in OpenProject](open_project_user_guide_global_modules_menu.png)
 
