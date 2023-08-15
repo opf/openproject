@@ -120,8 +120,8 @@ RSpec.describe 'Work Package Project Boards Index Page',
       it 'does not render delete links' do
         board_index.visit!
 
-        board_index.expect_no_delete_button(board_view)
-        board_index.expect_no_delete_button(other_board_view)
+        board_index.expect_no_delete_buttons(board_view)
+        board_index.expect_no_delete_buttons(other_board_view)
       end
     end
 

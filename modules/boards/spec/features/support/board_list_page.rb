@@ -52,9 +52,11 @@ module Pages
       end
     end
 
-    def expect_no_delete_button(board)
+    def expect_no_delete_buttons(*boards)
       within '#content-wrapper' do
-        expect(page).not_to have_selector "[data-qa-selector='board-remove-#{board.id}']"
+        boards.each do |board|
+          expect(page).not_to have_selector "[data-qa-selector='board-remove-#{board.id}']"
+        end
       end
     end
 
