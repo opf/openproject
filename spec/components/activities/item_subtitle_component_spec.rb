@@ -82,6 +82,6 @@ RSpec.describe Activities::ItemSubtitleComponent, type: :component do
     let(:user) { build_stubbed(:user) }
     let(:journable_type) { 'TimeEntry' }
 
-    it { is_expected.to have_text("time logged updated by  #{user.name} on #{format_time(datetime)}") }
+    it { is_expected.to have_text("logged time updated by  #{user.name} on #{format_time(datetime)}") }
   end
 end
