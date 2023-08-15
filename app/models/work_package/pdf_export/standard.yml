@@ -66,10 +66,9 @@ toc:
     size: 10
 
 work_package:
-  margin_bottom: 20
+  margin_bottom: 14
   subject:
     size: 10
-    styles: [ "bold" ]
     margin_bottom: 10
   subject_level_1:
     size: 14
@@ -83,8 +82,20 @@ work_package:
   subject_level_4:
     size: 11
     styles: [ "bold" ]
+  subject_level_5:
+    styles: [ "bold" ]
+  subject_level_6:
+    styles: [ "bold" ]
+  subject_level_7:
+    styles: [ "bold" ]
+  subject_level_8:
+    styles: [ "bold" ]
+  subject_level_9:
+    styles: [ "bold" ]
+  subject_level_10:
+    styles: [ "bold" ]
   attributes_table:
-    margin_bottom: 10
+    margin_bottom: 16
     cell:
       size: 9
       color: "000000"
@@ -99,7 +110,7 @@ work_package:
   markdown_label:
     size: 12
     styles: [ "bold" ]
-    margin_top: 2
+    margin_top: 0
     margin_bottom: 4
   markdown_margin:
     margin_bottom: 16
