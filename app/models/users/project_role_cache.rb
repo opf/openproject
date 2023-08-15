@@ -46,16 +46,18 @@ class Users::ProjectRoleCache
   private
 
   def roles(project: nil, entity: nil)
-    # Return all roles if user is admin
-    return all_givable_roles if user.admin?
-
     if project
       # Project is nil if checking global role
       # No roles on archived projects, unless the active state is being changed
       return [] if archived?(project)
+      # Return all roles if user is admin
+      return all_givable_roles if user.admin?
 
       ::Authorization.roles(user, project:).eager_load(:role_permissions)
     elsif entity
+      # Return all roles if user is admin
+      return all_givable_roles if user.admin?
+
       ::Authorization.roles(user, entity:).eager_load(:role_permissions)
     end
   end
