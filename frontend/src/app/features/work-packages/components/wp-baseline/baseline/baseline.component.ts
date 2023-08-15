@@ -214,13 +214,11 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public setToday(key:string):void {
     const today = moment().format('YYYY-MM-DD');
+    const from = key === 'from' ? today : this.selectedDates[0];
     // When setting the "from" date to today, the "to" date must also be set to today,
     // because we do not allow future dates, meaning "to" cannot be anything else but today.
-    if (key === 'from') {
-      this.selectedDates[0] = today;
-    }
-
-    this.selectedDates[1] = today;
+    const to = today;
+    this.dateChange([from, to]);
   }
 
   public onSubmit(e:Event):void {
