@@ -261,8 +261,7 @@ module OpenProject
               }
             },
             ical_docs: {
-              # href needs to be added in once there are docs for this
-              href: ''
+              href: 'https://www.openproject.org/docs/user-guide/calendar/#subscribe-to-a-calendar'
             }
           }
         end
