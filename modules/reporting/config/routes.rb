@@ -46,7 +46,6 @@ OpenProject::Application.routes.draw do
       post :save_as, action: :create
       get :drill_down
       match :available_values, via: %i[get post]
-      get :display_report_list
     end
 
     member do

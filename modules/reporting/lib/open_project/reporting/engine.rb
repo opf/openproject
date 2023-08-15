@@ -37,7 +37,7 @@ module OpenProject::Reporting
     register 'openproject-reporting',
              author_url: 'https://www.openproject.org',
              bundled: true do
-      view_actions = %i[index show drill_down available_values display_report_list]
+      view_actions = %i[index show drill_down available_values]
       edit_actions = %i[create update rename destroy]
 
       # register reporting_module including permissions
