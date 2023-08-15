@@ -30,7 +30,7 @@ class CostQuery::ExportJob < Exports::ExportJob
   def xls_report_result
     params = { query:, project:, cost_types: }
     content = ::OpenProject::Reporting::CostEntryXlsTable.generate(params).xls
-    time = Time.zone.now.strftime('%Y-%m-%d-T-%H-%M-%S')
+    time = Time.current.strftime('%Y-%m-%d-T-%H-%M-%S')
     export_title = "cost-report-#{time}.xls"
 
     ::Exports::Result.new(format: :xls,
