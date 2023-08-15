@@ -36,23 +36,11 @@ RSpec.describe User, 'allowed_to?' do
   let(:role) { build(:role) }
   let(:role2) { build(:role) }
   let(:anonymous_role) { build(:anonymous_role) }
-  let(:member) do
-    build(:member, project:,
-                   roles: [role],
-                   principal: user)
-  end
-  let(:member2) do
-    build(:member, project: project2,
-                   roles: [role2],
-                   principal: user)
-  end
-  let(:global_permission) { OpenProject::AccessControl.permissions.find { |p| p.global? } }
+  let(:member) { build(:member, project:, roles: [role], principal: user) }
+  let(:member2) { build(:member, project: project2, roles: [role2], principal: user) }
+  let(:global_permission) { OpenProject::AccessControl.permissions.find(&:global?) }
   let(:global_role) { build(:global_role, permissions: [global_permission.name]) }
-  let(:global_member) do
-    build(:global_member,
-          principal: user,
-          roles: [global_role])
-  end
+  let(:global_member) { build(:global_member, principal: user, roles: [global_role]) }
 
   before do
     anonymous_role.save!
@@ -60,7 +48,7 @@ RSpec.describe User, 'allowed_to?' do
     user.save!
   end
 
-  shared_examples_for 'w/ inquiring for project' do
+  shared_examples_for 'when inquiring for project' do
     let(:permission) { :add_work_packages }
     let(:final_setup_step) {}
 
@@ -480,7 +468,7 @@ RSpec.describe User, 'allowed_to?' do
     end
   end
 
-  shared_examples_for 'w/ inquiring globally' do
+  shared_examples_for 'when inquiring globally' do
     let(:permission) { :add_work_packages }
     let(:final_setup_step) {}
 
@@ -662,13 +650,13 @@ RSpec.describe User, 'allowed_to?' do
     end
   end
 
-  context 'w/o preloaded permissions' do
-    it_behaves_like 'w/ inquiring for project'
-    it_behaves_like 'w/ inquiring globally'
+  context 'without preloaded permissions' do
+    it_behaves_like 'when inquiring for project'
+    it_behaves_like 'when inquiring globally'
   end
 
-  context 'w/ preloaded permissions' do
-    it_behaves_like 'w/ inquiring for project' do
+  context 'with preloaded permissions' do
+    it_behaves_like 'when inquiring for project' do
       let(:final_setup_step) do
         user.preload_projects_allowed_to(permission)
       end

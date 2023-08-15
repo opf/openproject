@@ -69,8 +69,6 @@ class Authorization::UserAllowedService
       allowed_to_globally?(action)
     elsif context.is_a? Project
       allowed_to_in_project?(action, context)
-    elsif supported_entity?(context)
-      allowed_to_in_entity?(action, context)
     elsif context.respond_to?(:to_a)
       allowed_to_in_all_projects?(action, context)
     else
@@ -79,12 +77,13 @@ class Authorization::UserAllowedService
   end
 
   def allowed_to_in_entity?(action, entity)
-    # Short circuit: When the user is already allowed to execute the action on the project,
-    # there's no need to do a check on the entity
-    return true if entity.respond_to?(:project) && allowed_to_in_project?(action, entity.project)
-
     # Inactive users are never authorized
     return false unless authorizable_user?
+
+    # Short circuit: When the user is already allowed to execute the action baed
+    # on the project, there's no need to do a check on the entity
+    return true if entity.respond_to?(:project) && allowed_to_in_project?(action, entity.project)
+
     # Admin users are authorized for anything else
     # unless the permission is explicitly flagged not to be granted to admins.
     return true if granted_to_admin?(action)
@@ -165,7 +164,6 @@ class Authorization::UserAllowedService
   def supported_context?(context, global:)
     (context.nil? && global) ||
       context.is_a?(Project) ||
-      supported_entity?(context) ||
       (!context.nil? && context.respond_to?(:to_a))
   end
 
