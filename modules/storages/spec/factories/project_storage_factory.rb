@@ -34,5 +34,9 @@ FactoryBot.define do
     project factory: :project
     project_folder_id { nil }
     project_folder_mode { 'inactive' }
+
+    trait :as_automatically_managed do
+      project_folder_mode { 'automatic' }
+    end
   end
 end
