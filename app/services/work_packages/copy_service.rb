@@ -36,6 +36,7 @@ class WorkPackages::CopyService
                 :contract_class
 
   def initialize(user:, work_package:, contract_class: WorkPackages::CreateContract)
+    binding.pry
     self.user = user
     self.work_package = work_package
     self.contract_class = contract_class
@@ -49,7 +50,8 @@ class WorkPackages::CopyService
 
   protected
 
-  def copy(attribute_override, copy_attachments, send_notifications)
+  def copy(attribute_override, copy_attachments, send_notifications) # this works and copies relations for single copy
+    binding.pry
     copied = create(work_package,
                     attribute_override,
                     send_notifications)

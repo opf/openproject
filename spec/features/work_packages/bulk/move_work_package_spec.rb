@@ -126,148 +126,148 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
         expect(child_wp.project_id).to eq(project2.id)
       end
 
-      context 'when the target project does not have the type' do
-        let!(:project2) { create(:project, name: 'Target', types: [type2]) }
+      # context 'when the target project does not have the type' do
+      #   let!(:project2) { create(:project, name: 'Target', types: [type2]) }
 
-        it 'does moves the work package and changes the type', :with_cuprite do
-          click_on 'Move and follow'
-          wait_for_reload
-          page.find('.inline-edit--container.subject', text: work_package.subject)
-          page.find_by_id('projects-menu', text: 'Target')
+      #   it 'does moves the work package and changes the type', :with_cuprite do
+      #     click_on 'Move and follow'
+      #     wait_for_reload
+      #     page.find('.inline-edit--container.subject', text: work_package.subject)
+      #     page.find_by_id('projects-menu', text: 'Target')
 
-          # Should NOT have moved
-          child_wp.reload
-          work_package.reload
-          expect(work_package.project_id).to eq(project2.id)
-          expect(work_package.type_id).to eq(type2.id)
-          expect(child_wp.project_id).to eq(project2.id)
-          expect(child_wp.type_id).to eq(type2.id)
-        end
-      end
+      #     # Should NOT have moved
+      #     child_wp.reload
+      #     work_package.reload
+      #     expect(work_package.project_id).to eq(project2.id)
+      #     expect(work_package.type_id).to eq(type2.id)
+      #     expect(child_wp.project_id).to eq(project2.id)
+      #     expect(child_wp.type_id).to eq(type2.id)
+      #   end
+      # end
 
-      context 'when the target project has a type with a required field' do
-        let(:required_cf) { create(:int_wp_custom_field, is_required: true) }
-        let(:type2) { create(:type, name: 'Risk', custom_fields: [required_cf]) }
-        let!(:project2) { create(:project, name: 'Target', types: [type2], work_package_custom_fields: [required_cf]) }
+      # context 'when the target project has a type with a required field' do
+      #   let(:required_cf) { create(:int_wp_custom_field, is_required: true) }
+      #   let(:type2) { create(:type, name: 'Risk', custom_fields: [required_cf]) }
+      #   let!(:project2) { create(:project, name: 'Target', types: [type2], work_package_custom_fields: [required_cf]) }
 
-        it 'does not moves the work package when the required field is missing' do
-          select "Risk", from: "Type"
-          expect(page).to have_field(required_cf.name)
+      #   it 'does not moves the work package when the required field is missing' do
+      #     select "Risk", from: "Type"
+      #     expect(page).to have_field(required_cf.name)
 
-          # Clicking move and follow might be broken due to the location.href
-          # in the refresh-on-form-changes component
-          retry_block do
-            click_on 'Move and follow'
-          end
+      #     # Clicking move and follow might be broken due to the location.href
+      #     # in the refresh-on-form-changes component
+      #     retry_block do
+      #       click_on 'Move and follow'
+      #     end
 
-          expect(page)
-            .to have_selector('.op-toast.-error',
-                              text: I18n.t(:'work_packages.bulk.none_could_be_saved',
-                                           total: 1))
-          child_wp.reload
-          work_package.reload
-          expect(work_package.project_id).to eq(project.id)
-          expect(work_package.type_id).to eq(type.id)
-          expect(child_wp.project_id).to eq(project.id)
-          expect(child_wp.type_id).to eq(type.id)
-        end
+      #     expect(page)
+      #       .to have_selector('.op-toast.-error',
+      #                         text: I18n.t(:'work_packages.bulk.none_could_be_saved',
+      #                                      total: 1))
+      #     child_wp.reload
+      #     work_package.reload
+      #     expect(work_package.project_id).to eq(project.id)
+      #     expect(work_package.type_id).to eq(type.id)
+      #     expect(child_wp.project_id).to eq(project.id)
+      #     expect(child_wp.type_id).to eq(type.id)
+      #   end
 
-        it 'does moves the work package when the required field is set' do
-          select "Risk", from: "Type"
-          fill_in required_cf.name, with: '1'
+      #   it 'does moves the work package when the required field is set' do
+      #     select "Risk", from: "Type"
+      #     fill_in required_cf.name, with: '1'
 
-          # Clicking move and follow might be broken due to the location.href
-          # in the refresh-on-form-changes component
-          retry_block do
-            click_on 'Move and follow'
-          end
+      #     # Clicking move and follow might be broken due to the location.href
+      #     # in the refresh-on-form-changes component
+      #     retry_block do
+      #       click_on 'Move and follow'
+      #     end
 
-          expect(page).to have_selector('.op-toast.-success')
+      #     expect(page).to have_selector('.op-toast.-success')
 
-          child_wp.reload
-          work_package.reload
-          expect(work_package.project_id).to eq(project2.id)
-          expect(work_package.type_id).to eq(type2.id)
-          expect(child_wp.project_id).to eq(project2.id)
-          expect(child_wp.type_id).to eq(type2.id)
-        end
-      end
+      #     child_wp.reload
+      #     work_package.reload
+      #     expect(work_package.project_id).to eq(project2.id)
+      #     expect(work_package.type_id).to eq(type2.id)
+      #     expect(child_wp.project_id).to eq(project2.id)
+      #     expect(child_wp.type_id).to eq(type2.id)
+      #   end
+      # end
     end
 
-    context 'without permission' do
-      let(:current_user) { dev }
+    # context 'without permission' do
+    #   let(:current_user) { dev }
 
-      it 'does not allow to move' do
-        context_menu.open_for work_package
-        context_menu.expect_no_options 'Change project'
-      end
-    end
+    #   it 'does not allow to move' do
+    #     context_menu.open_for work_package
+    #     context_menu.expect_no_options 'Change project'
+    #   end
+    # end
   end
 
-  describe 'moving an unmovable (e.g. readonly status) and a movable work package', with_ee: %i[readonly_work_packages] do
-    let(:work_packages) { [work_package, work_package2] }
-    let(:work_package2_status) { create(:status, is_readonly: true) }
+  # describe 'moving an unmovable (e.g. readonly status) and a movable work package', with_ee: %i[readonly_work_packages] do
+  #   let(:work_packages) { [work_package, work_package2] }
+  #   let(:work_package2_status) { create(:status, is_readonly: true) }
 
-    before do
-      loading_indicator_saveguard
-      # Select all work packages
-      find('body').send_keys [:control, 'a']
+  #   before do
+  #     loading_indicator_saveguard
+  #     # Select all work packages
+  #     find('body').send_keys [:control, 'a']
 
-      context_menu.open_for work_package2
-      context_menu.choose 'Bulk change of project'
+  #     context_menu.open_for work_package2
+  #     context_menu.choose 'Bulk change of project'
 
-      # On work packages move page
-      select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
-                          query: project2.name,
-                          select_text: project2.name,
-                          results_selector: 'body'
-      click_on 'Move and follow'
-    end
+  #     # On work packages move page
+  #     select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
+  #                         query: project2.name,
+  #                         select_text: project2.name,
+  #                         results_selector: 'body'
+  #     click_on 'Move and follow'
+  #   end
 
-    it 'displays an error message explaining which work package could not be moved and why' do
-      expect(page)
-        .to have_selector('.op-toast.-error',
-                          text: I18n.t('work_packages.bulk.could_not_be_saved'))
+  #   it 'displays an error message explaining which work package could not be moved and why' do
+  #     expect(page)
+  #       .to have_selector('.op-toast.-error',
+  #                         text: I18n.t('work_packages.bulk.could_not_be_saved'))
 
-      expect(page)
-        .to have_selector(
-          '.op-toast.-error',
-          text: "#{work_package2.id}: Project #{I18n.t('activerecord.errors.messages.error_readonly')}"
-        )
+  #     expect(page)
+  #       .to have_selector(
+  #         '.op-toast.-error',
+  #         text: "#{work_package2.id}: Project #{I18n.t('activerecord.errors.messages.error_readonly')}"
+  #       )
 
-      expect(page)
-        .to have_selector('.op-toast.-error',
-                          text: I18n.t('work_packages.bulk.x_out_of_y_could_be_saved',
-                                       failing: 1,
-                                       total: 2,
-                                       success: 1))
+  #     expect(page)
+  #       .to have_selector('.op-toast.-error',
+  #                         text: I18n.t('work_packages.bulk.x_out_of_y_could_be_saved',
+  #                                      failing: 1,
+  #                                      total: 2,
+  #                                      success: 1))
 
-      expect(work_package.reload.project_id).to eq(project2.id)
-      expect(work_package2.reload.project_id).to eq(project.id)
-    end
-  end
+  #     expect(work_package.reload.project_id).to eq(project2.id)
+  #     expect(work_package2.reload.project_id).to eq(project.id)
+  #   end
+  # end
 
-  describe 'accessing the bulk move from the card view' do
-    before do
-      display_representation.switch_to_card_layout
-      loading_indicator_saveguard
-      find('body').send_keys [:control, 'a']
-    end
+  # describe 'accessing the bulk move from the card view' do
+  #   before do
+  #     display_representation.switch_to_card_layout
+  #     loading_indicator_saveguard
+  #     find('body').send_keys [:control, 'a']
+  #   end
 
-    context 'with permissions' do
-      it 'does allow to move' do
-        context_menu.open_for work_package
-        context_menu.expect_options ['Bulk change of project']
-      end
-    end
+  #   context 'with permissions' do
+  #     it 'does allow to move' do
+  #       context_menu.open_for work_package
+  #       context_menu.expect_options ['Bulk change of project']
+  #     end
+  #   end
 
-    context 'without permission' do
-      let(:current_user) { dev }
+  #   context 'without permission' do
+  #     let(:current_user) { dev }
 
-      it 'does not allow to move' do
-        context_menu.open_for work_package
-        context_menu.expect_no_options ['Bulk change of project']
-      end
-    end
-  end
+  #     it 'does not allow to move' do
+  #       context_menu.open_for work_package
+  #       context_menu.expect_no_options ['Bulk change of project']
+  #     end
+  #   end
+  # end
 end

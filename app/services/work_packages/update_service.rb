@@ -39,7 +39,7 @@ class WorkPackages::UpdateService < BaseServices::Update
 
   private
 
-  def after_perform(service_call)
+  def after_perform(service_call) # add something like this to copy_service#copy
     update_related_work_packages(service_call)
     cleanup(service_call.result)
 
