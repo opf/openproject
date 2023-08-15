@@ -155,8 +155,10 @@ module Pages
       expect(rendered_query_names).to match_array(queries.map(&:name))
     end
 
-    def expect_delete_button_for(query)
-      expect(page).to have_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
+    def expect_delete_buttons_for(*queries)
+      queries.each do |query|
+        expect(page).to have_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
+      end
     end
 
     def expect_no_delete_buttons_for(*queries)
@@ -178,6 +180,20 @@ module Pages
     def expect_no_create_button
       within '.toolbar-items' do
         expect(page).not_to have_link text: 'Team planner'
+      end
+    end
+
+    def click_to_sort_by(header_name)
+      within '.generic-table thead' do
+        click_link header_name
+      end
+    end
+
+    def expect_views_listed_in_order(*queries)
+      within '.generic-table tbody' do
+        listed_view_names = all('tr td.name').map(&:text)
+
+        expect(listed_view_names).to eq(queries.map(&:name))
       end
     end
 

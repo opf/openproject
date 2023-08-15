@@ -35,8 +35,11 @@ require_relative 'shared_context'
 RSpec.describe 'Team planner overview',
                :with_cuprite,
                with_ee: %i[team_planner_view] do
-  shared_let(:project) { create(:project) }
-  shared_let(:other_project) { create(:project) }
+  # The order the Projects are created in is important. By naming `project` alphanumerically
+  # after `other_project`, we can ensure that subsequent specs that assert sorting is
+  # correct for the right reasons (sorting by Project name and not id)
+  shared_let(:project) { create(:project, name: 'Project 2') }
+  shared_let(:other_project) { create(:project, name: 'Project 1') }
 
   shared_let(:admin) { create(:admin) }
   shared_let(:user_with_full_permissions) do
@@ -148,6 +151,42 @@ RSpec.describe 'Team planner overview',
 
       it 'shows views in projects the user is a member of' do
         team_planner.expect_views_rendered(query, other_query)
+      end
+    end
+
+    describe 'sorting' do
+      let(:current_user) { admin }
+
+      it 'allows sorting by all columns' do
+        # Initial sort is Name ASC
+        # We can assert this by expecting the order to be
+        # 1. query
+        # 2. other_query
+        # 3. other_project_query
+        aggregate_failures 'Sorting by Name' do
+          team_planner.expect_views_listed_in_order(query, other_query, other_project_query)
+          team_planner.click_to_sort_by('Name')
+          team_planner.expect_views_listed_in_order(other_project_query, other_query, query)
+        end
+
+        aggregate_failures 'Sorting by Project' do
+          team_planner.click_to_sort_by('Project')
+          # TODO: for Aaron
+          #   This is the current behavior. Sorting seems to stack with the previous sort
+          #   even though to the user, one can only sort by a single column at a time.
+          #   It seems unintuitive to someone who would not know about this. Ask about
+          #   it in tomorrow's daily.
+          team_planner.expect_views_listed_in_order(other_project_query, other_query, query)
+          team_planner.click_to_sort_by('Project')
+          team_planner.expect_views_listed_in_order(other_query, query, other_project_query)
+        end
+
+        aggregate_failures 'Sorting by Created on' do
+          team_planner.click_to_sort_by('Created on')
+          team_planner.expect_views_listed_in_order(query, other_query, other_project_query)
+          team_planner.click_to_sort_by('Created on')
+          team_planner.expect_views_listed_in_order(other_project_query, other_query, query)
+        end
       end
     end
   end
