@@ -239,7 +239,7 @@ pt:
       failed_text: "A solicitação para excluir o projeto %{name} falhou. O projeto foi arquivado."
       completed: "Exclusão do projeto %{name} concluída"
       completed_text: "Foi concluída a solicitação para exclusão do projeto '%{name}'."
-      completed_text_children: "Additionally, the following subprojects have been deleted:"
+      completed_text_children: "Além disso, os seguintes subprojetos foram excluídos:"
     index:
       open_as_gantt: 'Abrir como visualização Gantt'
       open_as_gantt_title: "Use este botão para gerar uma exibição Gantt que filtra pacotes de trabalho para projetos visíveis nesta página."
@@ -290,12 +290,12 @@ pt:
       session_name: "%{browser_name} %{browser_version} em %{os_name}"
       browser: 'Navegador'
       device: 'Dispositivo / OS'
-      unknown_browser: 'Navegador Desconhecido'
-      unknown_os: 'Sistema Operacional desconhecido'
+      unknown_browser: 'Navegador desconhecido'
+      unknown_os: 'Sistema operacional desconhecido'
       current: 'Sessão atual'
       title: 'Gerenciamento de sessão'
       instructions: 'Esta é uma lista de dispositivos com os quais você realizou login em sua conta. Revogue qualquer sessão que você não reconheça ou que não possui mais acesso.'
-      may_not_delete_current: 'Você não pode deletar a sessão atual.'
+      may_not_delete_current: 'Você não pode excluir a sessão atual.'
     groups:
       member_in_these_groups: 'No momento, este usuário é um membro dos seguintes grupos: '
       no_results_title_text: No momento, este usuário não é membro de nenhum grupo.
@@ -513,7 +513,7 @@ pt:
           true: "público"
           false: "privado"
         queries: "Consultas"
-        status_code: 'Situação do projeto'
+        status_code: 'Status do projeto'
         status_explanation: 'Descrição do status do projeto'
         status_codes:
           not_started: 'Não iniciado'
@@ -723,8 +723,8 @@ pt:
         ical_token_query_assignment:
           attributes:
             name:
-              blank: "é obrigatório. Por favor, selecione um nome."
-              not_unique: "já está em uso. Por favor, selecione outro nome."
+              blank: "é obrigatório. Selecione um nome."
+              not_unique: "já está em uso. Selecione outro nome."
         notifications:
           at_least_one_channel: 'É necessário especificar pelo menos um canal para o envio de notificações.'
           attributes:
@@ -2145,7 +2145,7 @@ pt:
       more_to_see:
         one: 'Há mais 1 pacote de trabalho com notificações.'
         other: 'Há mais %{count} pacotes de trabalho com notificações.'
-      open_in_browser: 'Open in browser'
+      open_in_browser: 'Abrir no navegador'
       reason:
         watched: 'Assistido'
         assigned: 'Atribuído'
@@ -2963,7 +2963,7 @@ pt:
       code_409: "Não foi possível atualizar o recurso devido a modificações conflitantes."
       code_429: "Muitas requisições. Tente novamente mais tarde."
       code_500: "Ocorreu um erro interno."
-      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_500_outbound_request_failure: "Uma solicitação de saída para outro recurso falhou com o código de status %{status_code}."
       not_found:
         work_package: "O pacote de trabalho que você está procurando não pode ser encontrado ou foi excluído."
       expected:

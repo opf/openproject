@@ -50,17 +50,17 @@ pt:
     errors:
       too_many_elements_created_at_once: "Muitos elementos criados ao mesmo tempo. Esperado %{max} no máximo, obteve %{actual}."
   storages:
-    unknown_storage: "Unknown storage"
+    unknown_storage: "Armazenamento desconhecido"
     buttons:
       done_continue_setup: "Concluído. Continuar configuração"
-      done_complete_setup: "Done, complete setup"
+      done_complete_setup: "Pronto, concluir a configuração"
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Substituir OAuth OpenProject"
       replace_provider_type_oauth: "Substituir OAuth %{provider_type}"
       save_and_continue_setup: "Salvar e continuar configuração"
       save_and_complete_setup: "Salvar e concluir configuração"
-      select_folder: "Select folder"
-      configure: "Configure"
+      select_folder: "Selecionar pasta"
+      configure: "Configurar"
     page_titles:
       managed_project_folders:
         title: "Automatically managed project folders"

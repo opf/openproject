@@ -37,6 +37,10 @@ uk:
         file_not_selectable_location: "Неможливо вибрати файл під час вибору папки."
         project_folder_no_access: >
           У вас немає доступу до папки проєкту. Зверніться до свого адміністратора або передайте файл в інше розташування.
+        managed_project_folder_not_available: >
+          The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
+        managed_project_folder_no_access: >
+          You have no access yet to the managed project folder. Please wait a bit and try again.
         upload_keep_both: "Зберегти обидва"
         upload_replace: "Замінити"
       file_links:
@@ -65,7 +69,7 @@ uk:
           other: "Створено посилання на %{count} файлу"
         upload_error:
           default: >
-            Неможливо передати ваш файл (%{fileName}). Переконайтеся, що у вас установлено останню версію додатка Nextcloud OpenProject Integration і зверніться до свого адміністратора, щоб дізнатися більше.
+            Неможливо передати ваш файл (%{fileName}). Переконайтеся, що у вас установлено останню версію додатка Nextcloud OpenProject Integration, і зверніться до свого адміністратора, щоб дізнатися більше.
           403: >
             Ваш файл (%{fileName}) не можна вивантажити через системні обмеження. Щоб дізнатися більше, зверніться до адміністратора.
           413: >

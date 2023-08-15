@@ -37,6 +37,10 @@ ca:
         file_not_selectable_location: "Seleccionar un fitxer, no és possible en el procés de tria d'ubicació."
         project_folder_no_access: >
           No tens accés a la capeta de projecte. Si us plau, contacta amb el teu administrador per obtenir accés o puja el fitxer en una altra ubicació.
+        managed_project_folder_not_available: >
+          The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
+        managed_project_folder_no_access: >
+          You have no access yet to the managed project folder. Please wait a bit and try again.
         upload_keep_both: "Conserva els dos"
         upload_replace: "Substitueix"
       file_links:

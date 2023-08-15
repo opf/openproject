@@ -323,7 +323,7 @@ uk:
         quarters: "Кварталів"
         years: "Років"
         description: >
-          Виберіть початкове значення масштабу, який має показуватися, коли функція автомасштабування недоступна.
+          Виберіть початкове значення масштабу, коли функція автомасштабування недоступна.
     general_text_no: "ні"
     general_text_yes: "так"
     general_text_No: "Ні"
@@ -350,14 +350,14 @@ uk:
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."
-      description: "За допомогою URL-адреси (iCalendar) ви можете підписатися на цей календар у зовнішньому клієнті й переглядати  звідти актуальну інформацію про пакети робіт."
-      warning: "Не передавайте нікому цю URL-адресу. Будь-хто із цим посиланням зможе переглядати інформацію про пакети робіт без облікового запису або пароля."
+      description: "За допомогою URL-адреси (iCalendar) ви можете підписатися на цей календар у зовнішньому клієнті й переглядати звідти актуальну інформацію про пакети робіт."
+      warning: "Не передавайте нікому цю URL-адресу. Будь-хто із цим посиланням зможе переглянути інформацію про пакети робіт без облікового запису або пароля."
       token_name_label: "Де ви використовуватимете його?"
       token_name_placeholder: "Введіть ім’я, наприклад «Телефон»"
       token_name_description_text: "Якщо ви підписані на цей календар із кількох пристроїв, це ім’я допоможе вам розрізняти їх у своєму списку <a href=\"my/access_token\", target=\"_blank\">маркерів доступу</a>."
       copy_url_label: "Копіювати URL"
       ical_generation_error_text: "Під час створення URL-адреси календаря сталася помилка."
-      success_message: "URL-адресу «%{name}« скопійовано в буфер обміну. Вставте її в клієнт свого календаря, що завершити створення підписки."
+      success_message: "URL-адресу «%{name}» скопійовано в буфер обміну. Вставте її в клієнт свого календаря, що завершити створення підписки."
     label_activate: "Активувати"
     label_assignee: 'Виконавець'
     label_add_column_after: "Додати стовпець після"
@@ -369,7 +369,7 @@ uk:
     label_add_row_before: "Додати рядок перед"
     label_add_selected_columns: "Додати вибрані стовпці"
     label_added_by: "додав(-ла)"
-    label_added_time_by: "Додано користувачем <a href=\"%{authorLink}\">%{author}</a> о%{age}"
+    label_added_time_by: "Додано користувачем <a href=\"%{authorLink}\">%{author}</a> о %{age}"
     label_ago: "днів тому"
     label_all: "всі"
     label_all_work_packages: "всі пакети в роботі"
@@ -770,10 +770,10 @@ uk:
       work_package_required: 'Спочатку потрібно вибрати пакет робіт.'
       title: 'Час журналу'
       tracking: 'Відстеження часу'
-      stop: 'Stop'
+      stop: 'Зупинити'
     timer:
       start_new_timer: 'Запустити новий таймер'
-      timer_already_running: 'Щоб запустити новий таймер, спочатку зупиніть таймер:'
+      timer_already_running: 'Щоб запустити новий таймер, спочатку зупиніть поточний:'
       timer_already_stopped: 'Для цього пакета робіт немає активного таймера. Ви зупинили його в іншому вікні?'
       tracking_time: 'Відстеження часу'
       button_stop: 'Зупинити поточний таймер'
@@ -915,14 +915,14 @@ uk:
       message_work_package_status_blocked: "Пакет робіт недоступний для запису, оскільки призначено закритий статус або закриту версію."
       placeholder_filter_by_text: "Тема, опис, коментарі, ..."
       baseline:
-        addition_label: 'Added to view within the comparison time period'
-        removal_label: 'Removed from view within the comparison time period'
-        modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'Цей стовпець не відображає зміни в режимі перегляду базових значень.'
+        addition_label: 'Додано до подання з періодом для порівняння'
+        removal_label: 'Вилучено з подання з періодом для порівняння'
+        modification_label: 'Змінено в межах періоду для порівняння'
+        column_incompatible: 'Цей стовпець не відображає зміни в режимі перегляду вихідного рівня.'
       filters:
         title: 'Фільтрувати пакети робіт'
-        baseline_incompatible: 'Цей атрибут фільтра не враховується в режимі перегляду базових значень.'
-        baseline_warning: 'Режим перегляду базових значень увімкнено, але деякі з активних фільтрів не включено в порівняння.'
+        baseline_incompatible: 'Цей атрибут фільтра не враховується в режимі перегляду вихідного рівня.'
+        baseline_warning: 'Режим перегляду вихідного рівня ввімкнено, але деякі з активних фільтрів не включено в порівняння.'
       inline_create:
         title: 'Клацніть тут, щоб додати до цього списку новий пакет робіт'
       create:
@@ -1277,17 +1277,17 @@ uk:
         last_week: 'ост. тиждень'
         last_month: 'останній місяць'
         a_specific_date: 'конкретна дата'
-        between_two_specific_dates: 'у період між двома конкретними датами'
+        between_two_specific_dates: 'період між двома конкретними датами'
       legends:
         changes_since: 'Зміни з'
         changes_between: 'Зміни в період'
         now_meets_filter_criteria: 'Тепер відповідає критеріям фільтра'
         no_longer_meets_filter_criteria: 'Більше не відповідає критеріям фільтра'
         maintained_with_changes: 'Збережено зі змінами'
-        in_your_timezone: 'У вашому місцевому часовому поясі:'
+        in_your_timezone: 'За вашим місцевим часовим поясом:'
       icon_tooltip:
-        added: 'Added to view within the comparison time period'
-        removed: 'Removed from view within the comparison time period'
+        added: 'Додано до подання з періодом для порівняння'
+        removed: 'Вилучено з подання з періодом для порівняння'
         changed: 'Збережено зі змінами'
     forms:
       submit_success_message: 'Форму надіслано'

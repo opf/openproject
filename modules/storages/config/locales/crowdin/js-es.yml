@@ -36,7 +36,11 @@ es:
         empty_folder_location_hint: "Haga clic en el botón de abajo para subir el archivo a esta ubicación."
         file_not_selectable_location: "No es posible seleccionar un archivo en el proceso de seleccionar una ubicación."
         project_folder_no_access: >
-          No tiene acceso a la carpeta del proyecto. Por favor, póngase en contacto con su administrador para obtener acceso o cargue el archivo en otra ubicación.
+          No tiene acceso a la carpeta del proyecto. Póngase en contacto con su administrador para obtener acceso o cargue el archivo en otra ubicación.
+        managed_project_folder_not_available: >
+          The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
+        managed_project_folder_no_access: >
+          You have no access yet to the managed project folder. Please wait a bit and try again.
         upload_keep_both: "Mantener ambos"
         upload_replace: "Sustituir"
       file_links:

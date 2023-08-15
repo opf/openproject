@@ -6,8 +6,8 @@ fr:
   boards:
     label_board: "Tableau"
     label_boards: "Tableaux"
-    label_create_new_board: "Create new board"
-    label_board_type: "Board type"
+    label_create_new_board: "Créer un nouveau tableau"
+    label_board_type: "Type de tableau"
     board_types:
       free: Basic
       action: "Tableau d'action (%{attribute})"
@@ -20,17 +20,17 @@ fr:
       basic: Basic
     board_type_descriptions:
       basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
+        Commencez à partir de zéro avec un tableau vide. Ajoutez manuellement des cartes et des colonnes à ce tableau.
       status: >
-        Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        Tableau de style de kanban de base avec des colonnes pour des statuts tels que À faire, En cours, Terminé.
       assignee: >
-        Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        Tableau avec colonnes automatisées basées sur des utilisateurs assignés. Idéal pour envoyer des lots de travaux.
       version: >
-        Board with automated columns based on the version attribute. Ideal for planning product development.
+        Tableau avec des colonnes automatisées basées sur l'attribut de version. Idéal pour planifier le développement d'un produit.
       subproject: >
-        Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        Tableau avec colonnes automatiques pour les sous-projets. Le déplacement des lots de travaux vers d'autres listes met à jour le (sous-)projet en conséquence.
       subtasks: >
-        Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        Tableau avec colonnes automatiques pour les sous-éléments. Le déplacement des lots de travaux vers d'autres listes met à jour le parent en conséquence.
     upsale:
-      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-      upgrade: 'Upgrade now'
+      teaser_text: 'Voulez-vous automatiser vos flux de travail avec des tableaux ? Les tableaux avancés sont un module de la version Enterprise. Veuillez passer à un abonnement payant.'
+      upgrade: 'Mettre à niveau maintenant'
