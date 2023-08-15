@@ -39,7 +39,6 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
 import * as moment from 'moment-timezone';
 import { Moment } from 'moment';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
@@ -55,7 +54,7 @@ export const BASELINE_INCOMPATIBLE_FILTERS = [
 export const BASELINE_INCOMPATIBLE_COLUMNS = [
   'category',
   'updatedAt',
-  'estimatedHours',
+  'estimatedTime',
   'remainingTime',
   'spentTime',
   'percentageDone',
@@ -100,6 +99,7 @@ export class WorkPackageViewBaselineService extends WorkPackageQueryStateService
   public yesterdayDate():string {
     return moment().subtract(1, 'days').format('YYYY-MM-DD');
   }
+
   public lastMonthDate():string {
     return moment().subtract(1, 'month').format('YYYY-MM-DD');
   }

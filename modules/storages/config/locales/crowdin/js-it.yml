@@ -37,6 +37,10 @@ it:
         file_not_selectable_location: "Impossibile selezionare un file durante la scelta di una posizione."
         project_folder_no_access: >
           Non hai accesso alla cartella del progetto. Sei pregato di contattare il tuo amministratore per ottenere l'accesso o caricare il file in un'altra posizione.
+        managed_project_folder_not_available: >
+          The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
+        managed_project_folder_no_access: >
+          You have no access yet to the managed project folder. Please wait a bit and try again.
         upload_keep_both: "Mantieni entrambi"
         upload_replace: "Sostituisci"
       file_links:

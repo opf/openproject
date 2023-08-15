@@ -80,7 +80,7 @@ fr:
       buttons:
         upgrade: "Passer au plan supérieur"
         contact: "Contactez-nous pour une démo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "est un module de la version <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>Enterprise."
       upgrade_info: "Veuillez passer à un plan payant pour l'activer et commencer à l'utiliser dans votre équipe."
     journal_aggregation:
       explanation:
@@ -104,9 +104,9 @@ fr:
       error_requeue: "La tâche a rencontré une erreur mais réessaie. L'erreur était : %{message}"
       cancelled_due_to: "La tâche a été annulée en raison d'une erreur : %{message}"
   ldap_auth_sources:
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
-    back_to_index: 'Click here to go back to the list of connection.'
+    ldap_error: "Erreur LDAP : %{error_message}"
+    ldap_auth_failed: "Authentification impossible sur le serveur LDAP."
+    back_to_index: 'Cliquez ici pour revenir à la liste des connexions.'
     technical_warning_html: |
       Ce formulaire LDAP nécessite une connaissance technique de votre configuration LDAP / Active Directory.
       <br/>
@@ -168,18 +168,18 @@ fr:
     index:
       no_results_title_text: Aucune couleur pour le moment.
       no_results_content_text: Créer une nouvelle couleur
-      label_new_color: "New color"
+      label_new_color: "Nouvelle couleur"
     new:
-      label_new_color: "New Color"
+      label_new_color: "Nouvelle couleur"
     edit:
-      label_edit_color: "Edit Color"
+      label_edit_color: "Modifier la couleur"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Nouvelle couleur"
+      label_edit_color: "Modifier la couleur"
     label_no_color: "Aucune couleur"
-    label_properties: "Properties"
+    label_properties: "Propriétés"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Voulez-vous vraiment supprimer la couleur suivante ? Les types utilisant cette couleur ne seront pas supprimés.
   custom_actions:
     actions:
       name: "Actions"
@@ -262,7 +262,7 @@ fr:
       types:
         no_results_title_text: Il n'y a actuellement aucun type disponible.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'Autorise le type « %{type} »'
       versions:
         no_results_title_text: Aucune version du projet pour le moment.
         no_results_content_text: Créer une nouvelle version
@@ -279,24 +279,24 @@ fr:
       notice_reset_token: "Un nouveau jeton de %{type} a été généré. Votre jeton d’accès est :"
       token_value_warning: "Note : Ceci est la seule fois où vous verrez ce jeton, veuillez le copier maintenant."
       no_results_title_text: Aucun jeton d'accès disponible pour le moment.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
-      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
-      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_api_token_revoked: "Le jeton d'API a été supprimé. Pour créer un nouveau jeton, veuillez utiliser le lien dans la section API."
+      notice_rss_token_revoked: "Le jeton d'API a été supprimé. Pour créer un nouveau jeton, veuillez utiliser le lien dans la section RSS."
+      notice_ical_token_revoked: "Le jeton iCalendar « %{token_name} » pour le calendrier « %{calendar_name} » du projet « %{project_name} » a été révoqué. L'URL iCalendar liée à ce jeton est maintenant invalide."
   news:
     index:
       no_results_title_text: Il n'y a actuellement aucune actualité à publier.
       no_results_content_text: Ajouter une actualité
   users:
     sessions:
-      session_name: "%{browser_name} %{browser_version} on %{os_name}"
-      browser: 'Browser'
-      device: 'Device / OS'
-      unknown_browser: 'unknown browser'
-      unknown_os: 'unknown operating system'
-      current: 'Current session'
-      title: 'Session management'
-      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
-      may_not_delete_current: 'You cannot delete your current session.'
+      session_name: "%{browser_name} %{browser_version} sur %{os_name}"
+      browser: 'Navigateur'
+      device: 'Dispositif/système d''exploitation'
+      unknown_browser: 'navigateur inconnu'
+      unknown_os: 'système d''exploitation inconnu'
+      current: 'Session en cours'
+      title: 'Gestion de session'
+      instructions: 'Cette liste répertorie tous les appareils qui se sont connectés à votre compte. Révoquez toutes les sessions que vous ne reconnaissez pas ou auxquelles vous n''avez plus accès.'
+      may_not_delete_current: 'Vous ne pouvez pas supprimer votre session actuelle.'
     groups:
       member_in_these_groups: 'Cet utilisateur est actuellement membre des groupes suivants :'
       no_results_title_text: Cet utilisateur n'est actuellement membre d'aucun groupe.
@@ -339,11 +339,11 @@ fr:
       no_results_title_text: Aucun statut de lots de travaux pour le moment.
       no_results_content_text: Ajouter un nouveau statut
   themes:
-    light: "Light"
-    light_high_contrast: "Light high contrast"
-    dark: "Dark"
-    dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
+    light: "Clair"
+    light_high_contrast: "Clair avec contraste élevé"
+    dark: "Sombre"
+    dark_dimmed: "Sombre atténué"
+    dark_high_contrast: "Sombre avec contraste élevé"
   types:
     index:
       no_results_title_text: Il n'y a actuellement aucun type.
@@ -449,16 +449,16 @@ fr:
         attribute_name: 'Attribut'
         help_text: 'Texte d’aide'
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
-        attr_login: "Username attribute"
-        attr_mail: "Email attribute"
-        base_dn: "Base DN"
-        host: "Host"
-        onthefly: "Automatic user creation"
+        account: "Compte"
+        attr_firstname: "Attribut Prénom"
+        attr_lastname: "Attribut Nom"
+        attr_login: "Attribut Nom d'utilisateur"
+        attr_mail: "Attribut Adresse électronique"
+        base_dn: "DN de base"
+        host: "Hôte"
+        onthefly: "Création automatique des utilisateurs"
         port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
+        tls_certificate_string: "Certificat SSL du serveur LDAP"
       changeset:
         repository: "Référentiel"
       comment:
@@ -515,7 +515,7 @@ fr:
           false: "privé"
         queries: "Requêtes"
         status_code: 'État du projet'
-        status_explanation: 'Project status description'
+        status_explanation: 'Description du statut du projet'
         status_codes:
           not_started: 'Non démarré'
           on_track: 'Sur la bonne voie'
@@ -546,7 +546,7 @@ fr:
         hours: "Heures"
         spent_on: "date"
         type: "Type"
-        ongoing: "Ongoing"
+        ongoing: "En cours"
       type:
         description: "Texte par défaut pour la description"
         attribute_groups: ''
@@ -556,7 +556,7 @@ fr:
         color: "Couleur"
       user:
         admin: "Administrateur"
-        ldap_auth_source: "LDAP connection"
+        ldap_auth_source: "Connexion LDAP"
         current_password: "Mot de passe actuel"
         force_password_change: "Obliger l'utilisateur à changer de mot de passe à la prochaine connexion"
         language: "Langue"
@@ -680,7 +680,7 @@ fr:
         ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "Le certificat SSL fourni est invalide : %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -724,8 +724,8 @@ fr:
         ical_token_query_assignment:
           attributes:
             name:
-              blank: "is mandatory. Please select a name."
-              not_unique: "is already in use. Please select another name."
+              blank: "est obligatoire. Veuillez sélectionner un nom."
+              not_unique: "est déjà utilisé. Veuillez choisir un autre nom."
         notifications:
           at_least_one_channel: 'Au moins un canal pour envoyer des notifications doit être spécifié.'
           attributes:
@@ -775,8 +775,8 @@ fr:
               invalid: "Impossible de trier par colonne : %{value}"
               format: "%{message}"
             timestamps:
-              invalid: "Timestamps contain invalid values: %{values}"
-              forbidden: "Timestamps contain forbidden values: %{values}"
+              invalid: "Les horodatages contiennent des valeurs non valides : %{values}"
+              forbidden: "Les horodatages contiennent des valeurs interdites : %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "est mutuellement exclusif avec grouper par '%{group_by}'. Vous ne pouvez pas activer les deux."
           filters:
@@ -833,7 +833,7 @@ fr:
               not_allowed_to_view: "n'est pas autorisé à consulter cette ressource."
               locked: "est verrouillé."
         wiki_page:
-          error_conflict: "The wiki page has been updated by someone else while you were editing it."
+          error_conflict: "La page du wiki a été mise à jour par quelqu'un d'autre pendant que vous y apportiez des modifications."
           attributes:
             slug:
               undeducible: "ne peut être retiré du titre '%{title}'."
@@ -901,7 +901,7 @@ fr:
             status:
               invalid_on_create: "n’est pas un statut valide pour les nouveaux utilisateurs."
             ldap_auth_source:
-              error_not_found: "not found"
+              error_not_found: "introuvable"
         member:
           principal_blank: "Veuillez choisir au moins un utilisateur ou un groupe."
           role_blank: "doit être assigné."
@@ -950,8 +950,8 @@ fr:
       'doorkeeper/application': "Application OAuth"
   errors:
     header_invalid_fields:
-      one: "There was a problem with the following field:"
-      other: "There were problems with the following fields:"
+      one: "Une erreur s'est produite avec le champ suivant :"
+      other: "Des erreurs se sont produites avec les champs suivants :"
     header_additional_invalid_fields:
       one: "Additionally, there was a problem with the following field:"
       other: "Additionally, there were problems with the following fields:"

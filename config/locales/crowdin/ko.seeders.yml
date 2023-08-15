@@ -260,7 +260,7 @@ ko:
                 content: |
                   ### 스프린트 계획 미팅
 
-                  _스프린트 계획 미팅에 대한 주제를 여기에 문서화하세요_
+                  _여기에서 스프린트 계획 미팅에 대한 주제를 문서화하세요_
 
                   * 타임 박스(8시간)
                   * 입력: 제품 백로그
@@ -268,17 +268,17 @@ ko:
 
                   * 4시간의 두 가지 추가 타임 박스로 나뉩니다.
 
-                      * 제품 소유자는 팀에 [제품 백로그]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) 및 우선 순위를 제시하고 팀이 동의해야 하는 스프린트 목표를 설명합니다. 이들은 함께 팀이 다음 스프린트에서 처리할 제품 백로그의 주제에 우선 순위를 둡니다. 팀은 논의된 납품을 위해 노력합니다.
+                      * 제품 소유자는 팀에 [제품 백로그]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) 및 우선 순위를 제시하고 팀이 동의해야 하는 스프린트 목표를 설명합니다. 이들은 함께 팀이 다음 스프린트에서 다룰 제품 백로그의 주제에 우선 순위를 둡니다. 팀은 논의된 납품을 위해 노력합니다.
                       * 팀은 (제품 소유자 없이) 자율적으로 세부적으로 계획하고 [스프린트 백로그]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)를 통합하기 위해 논의된 요구 사항의 작업을 세분화합니다.
 
 
                   ### 일일 스크럼 미팅
 
-                  _일일 스크럼 미팅에 대한 주제를 여기에 문서화하세요_
+                  _여기에서 일일 스크럼 미팅에 대한 주제를 문서화하세요_
 
                   * 팀의 간단한 일일 현황 미팅.
                   * 타임 박스(최대 15분).
-                  * [작업 보드](##sprint:scrum_project__version__sprint_1)의 다음 주제를 논의하기 위한 스탠드업 미팅.
+                  * [작업 보드](##sprint:scrum_project__version__sprint_1)의 다음과 같은 주제를 논의하기 위한 스탠드업 미팅.
                       * 다음 일일 스크럼까지 무엇을 할 계획인가요?
                       * 내 작업에 방해가 된 것은 무엇인가요(방해물)?
                   * 스크럼 마스터가 [스프린트 방해물](##sprint:scrum_project__version__sprint_1)을 알맞게 조정하고 기록합니다.
@@ -286,7 +286,7 @@ ko:
 
                   ### 스프린트 검토 미팅
 
-                  _스프린트 검토 미팅에 대한 주제를 여기에 문서화하세요_
+                  _여기에서 스프린트 검토 미팅에 대한 주제를 문서화하세요_
 
                   * 타임 박스(4시간).
                   * 1인별 준비 시간은 최대 1시간입니다.
@@ -298,7 +298,7 @@ ko:
 
                   ### 스프린트 회고
 
-                  _스프린트 회고 미팅에 대한 주제를 여기에 문서화하세요_
+                  _여기에서 스프린트 회고 미팅에 대한 주제를 문서화하세요_
 
                   * 타임 박스(3시간).
                   * 스프린트 검토 후, 스크럼 마스터가 알맞게 조정합니다.
@@ -339,22 +339,22 @@ ko:
                 options:
                   name: 시작하기
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    가입해주셔서 감사합니다! OpenProject에서 시작하려면 몇 가지를 시도해보시기 바랍니다.
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
+                    [가이드 투어]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true)로 가장 중요한 기능을 알아볼 수 있습니다.
 
-                    _Try the following steps:_
+                    _다음 단계를 시도해 보세요._
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
-                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *프로젝트에 새 멤버 초대*: &rightarrow; 프로젝트 탐색에서 [멤버]({{opSetting:base_url}}/projects/your-scrum-project/members)로 이동합니다.
+                    2. *제품 백로그 및 스프린트 백로그 보기*: &rightarrow; 프로젝트 탐색에서 [백로그]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)로 이동합니다.
+                    3. *작업 보드 보기*: &rightarrow; [백로그]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)로 이동합니다. &rightarrow; 스프린트에서 오른쪽 화살표를 클릭합니다. &rightarrow; [작업 보드](##sprint:scrum_project__version__sprint_1)를 선택합니다.
+                    4. *새 작업 패키지 만들기*: &rightarrow; [작업 패키지 &rightarrow; 만들기]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new)로 이동합니다.
+                    5. *프로젝트 계획 만들기 및 업데이트*: &rightarrow; 프로젝트 탐색에서 [프로젝트 계획](##query:scrum_project__query__project_plan)으로 이동합니다.
+                    6. *스프린트 위키 만들기*: &rightarrow; [백로그]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)로 이동하고 스프린트의 오른쪽 드롭다운 메뉴에서 스프린트 위키를 엽니다. 필요에 따라 [위키 템플릿]({{opSetting:base_url}}/projects/your-scrum-project/wiki/)을 편집할 수 있습니다.
+                    7. *추가 모듈 활성화*: &rightarrow; [프로젝트 설정 &rightarrow; 모듈]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules)로 이동합니다.
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    여기에서 [사용자 가이드](https://www.openproject.org/docs/user-guide/)를 확인할 수 있습니다.
+                    질문이 있거나 지원이 필요하면 알려주세요. 연락처: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: 작업 패키지
@@ -365,96 +365,96 @@ ko:
             item_0:
               subject: 새로운 로그인 화면
             item_1:
-              subject: Password reset does not send email
+              subject: 암호 재설정은 이메일을 보내지 않습니다
             item_2:
               subject: 새로운 웹사이트
               children:
                 item_0:
-                  subject: Newsletter registration form
+                  subject: 뉴스레터 등록 양식
                 item_1:
-                  subject: 제품 둘러보기 구현
+                  subject: 제품 투어 구현
                 item_2:
                   subject: 새로운 랜딩 페이지
                   children:
                     item_0:
-                      subject: Create wireframes for new landing page
+                      subject: 새로운 랜딩 페이지에 대한 와이어프레임 만들기
             item_3:
               subject: 문의 양식
             item_4:
-              subject: Feature carousel
+              subject: 기능 캐러셀
               children:
                 item_0:
-                  subject: Make screenshots for feature tour
+                  subject: 기능 투어를 위한 스크린샷 만들기
             item_5:
-              subject: Wrong hover color
+              subject: 잘못된 호버 색상
             item_6:
               subject: SSL 인증서
             item_7:
-              subject: Set-up Staging environment
+              subject: 스테이징 환경 설정
             item_8:
-              subject: Choose a content management system
+              subject: 콘텐츠 관리 시스템 선택
             item_9:
-              subject: Website navigation structure
+              subject: 웹사이트 탐색 구조
               children:
                 item_0:
-                  subject: Set up navigation concept for website.
+                  subject: 웹사이트에 대한 탐색 개념을 설정합니다.
             item_10:
-              subject: Internal link structure
+              subject: 내부 링크 구조
             item_11:
-              subject: Develop v1.0
+              subject: 개발 v1.0
             item_12:
-              subject: Release v1.0
+              subject: 릴리스 v1.0
             item_13:
-              subject: Develop v1.1
+              subject: 개발 v1.1
             item_14:
-              subject: Release v1.1
+              subject: 릴리스 v1.1
             item_15:
-              subject: Develop v2.0
+              subject: 개발 v2.0
             item_16:
-              subject: Release v2.0
+              subject: 릴리스 v2.0
           wiki: |
-            ### Sprint planning meeting
+            ### 스프린트 계획 미팅
 
-            _Please document here topics to the Sprint planning meeting_
+            _여기에서 스프린트 계획 미팅에 대한 주제를 문서화하세요_
 
-            * Time boxed (8 h)
-            * Input: Product Backlog
-            * Output: Sprint Backlog
+            * 타임 박스(8시간)
+            * 입력: 제품 백로그
+            * 출력: 스프린트 백로그
 
-            * Divided into two additional time boxes of 4 h:
+            * 4시간의 두 가지 추가 타임 박스로 나뉩니다.
 
-                * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-            ### Daily Scrum meeting
-
-            _Please document here topics to the Daily Scrum meeting_
-
-            * Short, daily status meeting of the team.
-            * Time boxed (max. 15 min).
-            * Stand-up meeting to discuss the following topics from the Task board.
-                * What do I plan to do until the next Daily Scrum?
-                * What has blocked my work (Impediments)?
-            * Scrum Master moderates and notes down Sprint Impediments.
-            * Product Owner may participate may participate in order to stay informed.
-
-            ### Sprint Review meeting
-
-            _Please document here topics to the Sprint Review meeting_
-
-            * Time boxed (4 h).
-            * A maximum of one hour of preparation time per person.
-            * The team shows the product owner and other interested persons what has been achieved in this sprint.
-            * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-            * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-            * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+                * 제품 소유자는 팀에 [제품 백로그]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) 및 우선 순위를 제시하고 팀이 동의해야 하는 스프린트 목표를 설명합니다. 이들은 함께 팀이 다음 스프린트에서 다룰 제품 백로그의 주제에 우선 순위를 둡니다. 팀은 논의된 납품을 위해 노력합니다.
+                * [Sprint Backlog]팀은 (제품 소유자 없이) 자율적으로 세부적으로 계획하고 [스프린트 백로그]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)를 통합하기 위해 논의된 요구 사항의 작업을 세분화합니다.
 
 
-            ### Sprint Retrospective
+            ### 일일 스크럼 미팅
 
-            _Please document here topics to the Sprint Retrospective meeting_
+            _여기에서 일일 스크럼 미팅에 대한 주제를 문서화하세요_
 
-            * Time boxed (3 h).
-            * After Sprint Review, will be moderated by Scrum Master.
-            * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+            * 팀의 간단한 일일 현황 미팅.
+            * 타임 박스(최대 15분).
+            * 작업 보드의 다음과 같은 주제를 논의하기 위한 스탠드업 미팅.
+                * 다음 일일 스크럼까지 무엇을 할 계획인가요?
+                * 내 작업에 방해가 된 것은 무엇인가요(방해물)?
+            * 스크럼 마스터가 스프린트 방해물을 알맞게 조정하고 기록합니다.
+            * 제품 소유자가 최신 정보를 얻기 위해 참여할 수 있습니다.
+
+            ### 스프린트 검토 미팅
+
+            _여기에서 스프린트 검토 미팅에 대한 주제를 문서화하세요_
+
+            * 타임 박스(4시간).
+            * 1인별 준비 시간은 최대 1시간입니다.
+            * 팀은 이 스프린트에서 달성한 내용을 제품 소유자 및 기타 이해관계인에게 보여줍니다.
+            * 중요: 더미 및 PowerPoint가 없습니다! 방금 완성된 제품 기능(증분)을 시연해야 합니다.
+            * 제품 소유자, 이해관계자 및 기타 사람들의 피드백이 필요하며 향후 작업에 이 피드백이 포함될 것입니다.
+            * 시연된 기능을 기반으로 제품 소유자는 이 증분을 적용하거나 추가로 개발할지 결정합니다. 이 가능성을 통해 조기 ROI 확보가 가능합니다.
+
+
+            ### 스프린트 회고
+
+            _여기에서 스프린트 회고 미팅에 대한 주제를 문서화하세요_
+
+            * 타임 박스(3시간).
+            * 스프린트 검토 후, 스크럼 마스터가 알맞게 조정합니다.
+            * 무엇이 잘 되었는지, 다음 스프린트를 위해 생산성을 높이거나, 더 재미있게 하기 위해 개선해야 할 사항은 무엇인지 등 스프린트에 대해 팀이 논의합니다.

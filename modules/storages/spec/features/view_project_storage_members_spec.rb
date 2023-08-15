@@ -40,7 +40,7 @@ RSpec.describe(
 
   let!(:storage) { create_nextcloud_storage_with_oauth_application }
   let!(:project) { create_project_with_storage_and_members }
-  let!(:project_storage) { create(:project_storage, project:, storage:) }
+  let!(:project_storage) { create(:project_storage, :as_automatically_managed, project:, storage:) }
   let(:oauth_client) { create(:oauth_client, integration: storage) }
 
   before do
@@ -80,7 +80,7 @@ RSpec.describe(
   it 'lists no results when there are no project members' do
     login_as admin_user
     project_no_members = create(:project, enabled_module_names: %i[storages])
-    project_storage_no_members = create(:project_storage, project: project_no_members, storage:)
+    project_storage_no_members = create(:project_storage, :as_automatically_managed, project: project_no_members, storage:)
 
     # Go to Projects -> Settings -> File Storages
     visit project_settings_project_storages_path(project_no_members)

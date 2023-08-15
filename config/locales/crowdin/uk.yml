@@ -80,7 +80,7 @@ uk:
       buttons:
         upgrade: "Оновити зараз"
         contact: "Зв’яжіться з нами, щоб отримати демоверсію"
-      enterprise_info_html: "– доповнення версії Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
+      enterprise_info_html: "– це доповнення версії Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
       upgrade_info: "Перейдіть на платний план, щоб активувати його та почати використовувати його у своїй команді."
     journal_aggregation:
       explanation:
@@ -104,7 +104,7 @@ uk:
       error_requeue: "Виконується повторний запуск завдання, оскільки попередня спроба завершилася такою помилкою: %{message}"
       cancelled_due_to: "Завдання скасовано через помилку: %{message}"
   ldap_auth_sources:
-    ldap_error: "LDAP-Помилка: %{error_message}"
+    ldap_error: "LDAP-помилка: %{error_message}"
     ldap_auth_failed: "Не вдалося перевірити автентичність через LDAP-сервер."
     back_to_index: 'Натисніть тут, щоб повернутися до списку підключень.'
     technical_warning_html: |
@@ -276,7 +276,7 @@ uk:
       no_results_title_text: Наразі немає доступних маркерів доступу.
       notice_api_token_revoked: "Маркер API видалено. Щоб створити новий, скористайтеся посиланням у розділі API."
       notice_rss_token_revoked: "Маркер RSS видалено. Щоб створити новий, скористайтеся посиланням у розділі RSS."
-      notice_ical_token_revoked: "Маркер iCalendar «%{token_name}» для календаря «%{calendar_name}» проєкту «%{project_name}» відкликано. URL-адреса календаря iCalendar із цим маркером зараз недійсна."
+      notice_ical_token_revoked: "Маркер iCalendar «%{token_name}» для календаря «%{calendar_name}» проєкту «%{project_name}» відкликано. URL-адреса iCalendar із цим маркером зараз недійсна."
   news:
     index:
       no_results_title_text: Наразі немає жодної новини.
@@ -721,7 +721,7 @@ uk:
         ical_token_query_assignment:
           attributes:
             name:
-              blank: "обов’язковий атрибут. Виберіть ім’я."
+              blank: "– обов’язковий атрибут. Виберіть ім’я."
               not_unique: "уже використовується. Виберіть інше ім’я."
         notifications:
           at_least_one_channel: 'Необхідно вказати принаймні один канал для надсилання сповіщень.'
@@ -982,10 +982,10 @@ uk:
           many: "%{count} год"
           other: "%{count} год"
         hour_html:
-          one: "<i>%{count} година</i>"
-          few: "<i>%{count} години</i>"
-          many: "<i>%{count} годин</i>"
-          other: "<i>%{count} години</i>"
+          one: "<i>%{count} год</i>"
+          few: "<i>%{count} год</i>"
+          many: "<i>%{count} год</i>"
+          other: "<i>%{count} год</i>"
         updated: "змінено з %{old_value} на %{value}"
         logged_for: "Зареєстровано для"
     filter:
@@ -1352,7 +1352,7 @@ uk:
   error_can_not_delete_custom_field: "Неможливо видалити спеціальне поле"
   error_can_not_delete_type:
     explanation: 'Цей тип містить пакети робіт, і його не можна видалити. Переглянути всі пошкоджені пакети робіт можна в <a target="_blank" href="%{url}">цьому поданні</a>.'
-    archived_projects: 'В архівованих проєктах є також пакети робіт. Спочатку потрібно повторно активувати наведені нижче проєкти, а потім – змінити типи відповідних пакетів робіт: %{archived_projects_urls}'
+    archived_projects: 'В архівованих проєктах є також пакети робіт. Спочатку потрібно повторно активувати ці проєкти, а потім – змінити типи відповідних пакетів робіт: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Стандартні типи неможливо видалити."
   error_can_not_invite_user: "Не вдалося надіслати запрошення користувачеві."
   error_can_not_remove_role: "Ця роль використовується і не може бути видалений."
@@ -1491,8 +1491,8 @@ uk:
           working: "%{day} зараз робочий"
           non_working: "%{day} зараз неробочий"
         dates:
-          working: "%{day} зараз робочий день"
-          non_working: "%{day} зараз неробочий день"
+          working: "%{day} – зараз робочий день"
+          non_working: "%{day} – зараз неробочий день"
       system_update:
         file_links_journal: 'додано файлові посилання на дії'
   links:
@@ -1524,11 +1524,11 @@ uk:
         title: "API"
         text_hint: "Маркери API дають змогу стороннім додаткам обмінюватися даними із цим екземпляром OpenProject через інтерфейси REST API."
         static_token_name: "Маркер API"
-        disabled_text: "Маркери API не дозволено адміністратором. Щоб використовувати цю функцію, зверніться до свого адміністратора."
+        disabled_text: "Маркери API не дозволено адміністратором. Зверніться до нього, якщо вам потрібна ця функція."
       ical:
         title: "iCalendar"
-        text_hint: "Маркери iCalendar дають змогу користувачам <a href=\"%{path}\" target=\"_blank\">підписуватися на календарі OpenProject</a> і переглядати інформацію про робочі пакети із зовнішніх клієнтів."
-        disabled_text: "Підписки на iCalendar не дозволено адміністратором. Щоб використовувати цю функцію, зверніться до свого адміністратора."
+        text_hint: "Маркери iCalendar дають змогу користувачам <a href=\"%{path}\" target=\"_blank\">підписуватися на календарі OpenProject</a> і переглядати інформацію про пакети робіт із зовнішніх клієнтів."
+        disabled_text: "Підписки на iCalendar не дозволено адміністратором. Зверніться до нього, якщо вам потрібна ця функція."
         empty_text_hint: "Щоб додати маркер iCalendar, підпишіться на новий або наявний календар у модулі календаря проєкту. У вас мають бути необхідні дозволи."
       oauth:
         title: "OAuth"
@@ -1538,7 +1538,7 @@ uk:
         title: "RSS"
         text_hint: "Маркери RSS дають змогу користувачам зберігати останні зміни в цьому екземплярі OpenProject через зовнішній RSS-агрегатор."
         static_token_name: "Маркер RSS"
-        disabled_text: "Маркери API не дозволено адміністратором. Щоб використовувати цю функцію, зверніться до свого адміністратора."
+        disabled_text: "Маркери API не дозволено адміністратором. Зверніться до нього, якщо вам потрібна ця функція."
       storages:
         title: "Файлові сховища"
         text_hint: "Маркери файлових сховищ підключають цей екземпляр OpenProject до зовнішнього файлового сховища."
@@ -1599,7 +1599,7 @@ uk:
   label_api_access_key_type: "API"
   label_ical_access_key_type: "iCalendar"
   label_ical_access_key_description: "Маркер iCalendar «%{token_name}» для календаря «%{calendar_name}» у проєкті «%{project_name}»"
-  label_ical_access_key_not_present: "Немає маркерів iCalendar"
+  label_ical_access_key_not_present: "Немає маркерів iCalendar."
   label_ical_access_key_generation_hint: "Автоматично створено під час оформлення підписки на календар."
   label_ical_access_key_latest: "останні"
   label_ical_access_key_revoke: "Скасувати"
@@ -1826,7 +1826,7 @@ uk:
   label_logged_as: "Ви увійшли як"
   label_login: "Увійти"
   label_custom_logo: "Спеціальний логотип"
-  label_custom_export_logo: "Експорт користувацького логотипу"
+  label_custom_export_logo: "Користувацький логотип експорту"
   label_custom_favicon: "призначені для користувача іконки"
   label_custom_touch_icon: "Призначений для користувача значок логотипу"
   label_logout: "Вийти"

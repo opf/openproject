@@ -41,7 +41,7 @@ es:
                 no está completamente configurado. La instancia de Nextcloud no recibe la cabecera "Autorización", que es necesaria para la autorización basada en token Bearer de solicitudes API. Por favor, compruebe la configuración de tu servidor HTTP.
             password:
               invalid_password: "no es válido."
-              unknown_error: "no ha podido ser validado. Por favor, compruebe su conexión de almacenamiento e inténtelo de nuevo."
+              unknown_error: "no se ha podido validar. Compruebe su conexión de almacenamiento e inténtelo de nuevo."
         storages/file_link:
           attributes:
             origin_id:
@@ -104,11 +104,11 @@ es:
       storage: >
         ¿Seguro que quiere eliminar este almacén? También se eliminará de todos los proyectos donde se use. Además, se quitarán todos los enlaces de los paquetes de trabajo a los archivos guardados en ese almacén.
       project_storage: >
-        ¿Está seguro de que desea eliminar %{archivo_almacenamiento} de este proyecto? Para confirmar esta acción introduzca el nombre del almacenamiento en el campo inferior, esto hará:
-      project_storage_delete_result_1: "Elimine todos los enlaces de los paquetes de trabajo de este proyecto a los archivos y carpetas de ese almacén."
-      project_storage_delete_result_2: "En caso de que este almacenamiento tenga una carpeta de proyecto gestionada automáticamente, ésta y sus archivos se eliminarán para siempre."
-      input_delete_confirmation: "Introduzca el nombre de almacenamiento de archivos %{almacenamiento_archivos} para confirmar la eliminación."
-      irreversible_notice: "Borrar un archivo almacenado es una acción irreversible."
+        ¿Seguro que desea eliminar %{file_storage} de este proyecto? Para confirmar esta acción introduzca el nombre del almacenamiento en el campo inferior, esto hará lo siguiente:
+      project_storage_delete_result_1: "Eliminar todos los enlaces de los paquetes de trabajo de este proyecto a los archivos y carpetas de ese almacén."
+      project_storage_delete_result_2: "En caso de que este almacenamiento tenga una carpeta de proyecto gestionada automáticamente, esta y sus archivos se eliminarán para siempre."
+      input_delete_confirmation: "Introduzca el nombre de almacenamiento de archivos %{file_storage} para confirmar la eliminación."
+      irreversible_notice: "Eliminar un archivo almacenado es una acción irreversible."
     label_active: "Activo"
     label_inactive: "Inactivo"
     label_creator: "Autor"
@@ -118,7 +118,7 @@ es:
     label_host: "URL del host"
     label_managed_project_folders:
       automatically_managed_folders: "Carpetas gestionadas automáticamente"
-      application_password: "Contraseña de la solicitud"
+      application_password: "Contraseña de aplicación"
     label_managed_project_folders_breadcrumb: "Carpetas de proyecto gestionadas automáticamente"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"

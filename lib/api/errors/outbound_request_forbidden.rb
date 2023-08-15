@@ -26,17 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Required parameters: project and storage
-FactoryBot.define do
-  factory :project_storage, class: '::Storages::ProjectStorage' do
-    creator factory: :user
-    storage factory: :storage
-    project factory: :project
-    project_folder_id { nil }
-    project_folder_mode { 'inactive' }
+module API
+  module Errors
+    class OutboundRequestForbidden < ErrorBase
+      identifier 'OutboundRequest:Forbidden'.freeze
+      code 500
 
-    trait :as_automatically_managed do
-      project_folder_mode { 'automatic' }
+      def initialize
+        super I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code: 403)
+      end
     end
   end
 end
