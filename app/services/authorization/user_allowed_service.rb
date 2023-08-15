@@ -79,8 +79,17 @@ class Authorization::UserAllowedService
   end
 
   def allowed_to_in_entity?(action, entity)
-    # TODO: Check in entity
-    entity.respond_to?(:project) && allowed_to_in_project?(action, entity.project)
+    # Short circuit: When the user is already allowed to execute the action on the project,
+    # there's no need to do a check on the entity
+    return true if entity.respond_to?(:project) && allowed_to_in_project?(action, entity.project)
+
+    # Inactive users are never authorized
+    return false unless authorizable_user?
+    # Admin users are authorized for anything else
+    # unless the permission is explicitly flagged not to be granted to admins.
+    return true if granted_to_admin?(action)
+
+    has_authorized_role?(action, entity:)
   end
 
   def allowed_to_in_project?(action, project)
@@ -98,7 +107,7 @@ class Authorization::UserAllowedService
     # unless the permission is explicitly flagged not to be granted to admins.
     return true if granted_to_admin?(action)
 
-    has_authorized_role?(action, project)
+    has_authorized_role?(action, project:)
   end
 
   # Authorize if user is authorized on every element of the array
@@ -132,9 +141,9 @@ class Authorization::UserAllowedService
     user.admin? && OpenProject::AccessControl.grant_to_admin?(action)
   end
 
-  def has_authorized_role?(action, project = nil)
+  def has_authorized_role?(action, project: nil, entity: nil)
     project_role_cache
-      .fetch(project)
+      .fetch(project:, entity:)
       .any? do |role|
       role.allowed_to?(action)
     end
