@@ -25,7 +25,6 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'rails_rinku'
 
 module OpenProject::TextFormatting
   module Filters

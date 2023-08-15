@@ -93,7 +93,7 @@ gem 'rouge', '~> 4.1.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 6.0.2'
 # HTML autolinking for mails and urls (replaces autolink)
-gem 'rinku', '~> 2.0.4'
+gem 'rinku', '~> 2.0.4', require: %w[rinku rails_rinku]
 # Version parsing with semver
 gem 'semantic', '~> 1.6.1'
 

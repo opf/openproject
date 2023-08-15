@@ -57,6 +57,28 @@ RSpec.describe 'Meetings', js: true do
                                     text: 'There is currently nothing to display')
     end
 
+    context 'with a location' do
+      context 'as a valid url' do
+        it 'renders a link to the meeting location' do
+          show_page.visit!
+
+          show_page.expect_link_to_location(meeting.location)
+        end
+      end
+
+      context 'as an invalid url' do
+        before do
+          meeting.update!(location: 'badurl')
+        end
+
+        it 'renders the meeting location as plaintext' do
+          show_page.visit!
+
+          show_page.expect_plaintext_location(meeting.location)
+        end
+      end
+    end
+
     context 'with an open agenda' do
       let!(:agenda) { create(:meeting_agenda, meeting:, text: 'foo') }
       let(:agenda_update) { create(:meeting_agenda, meeting:, text: 'bla') }
