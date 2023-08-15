@@ -164,6 +164,55 @@ RSpec.describe 'Work Package Boards Overview',
                                               other_project_board_view)
     end
 
+    describe 'sorting' do
+      it 'allows sorting by "Name", "Project" and "Created on"' do
+        # Initial sort is Name ASC
+        # We can assert this behavior by expected the order to be
+        # 1. board_view
+        # 2. other_board_view
+        # 3. other_project_board_view
+        # upon page load
+        aggregate_failures 'Sorting by Name' do
+          board_overview.expect_boards_listed_in_order(board_view,
+                                                       other_board_view,
+                                                       other_project_board_view)
+
+          board_overview.click_to_sort_by('Name')
+          board_overview.expect_boards_listed_in_order(other_project_board_view,
+                                                       other_board_view,
+                                                       board_view)
+        end
+
+        aggregate_failures 'Sorting by Project' do
+          board_overview.click_to_sort_by('Project')
+          # TODO: for Aaron
+          #   This is the current behavior. Sorting seems to stack with the previous sort
+          #   even though to the user, one can only sort by a single column at a time.
+          #   It seems unintuitive to someone who would not know about this. Ask about
+          #   it in tomorrow's daily.
+          board_overview.expect_boards_listed_in_order(other_project_board_view,
+                                                       other_board_view,
+                                                       board_view)
+          board_overview.click_to_sort_by('Project')
+          board_overview.expect_boards_listed_in_order(other_board_view,
+                                                       board_view,
+                                                       other_project_board_view)
+        end
+
+        aggregate_failures 'Sorting by Created on' do
+          board_overview.click_to_sort_by('Created on')
+          board_overview.expect_boards_listed_in_order(board_view,
+                                                       other_board_view,
+                                                       other_project_board_view)
+
+          board_overview.click_to_sort_by('Created on')
+          board_overview.expect_boards_listed_in_order(other_project_board_view,
+                                                       other_board_view,
+                                                       board_view)
+        end
+      end
+    end
+
     it 'paginates results', with_settings: { per_page_options: '1' } do
       # First page displays the historically last meeting
       board_overview.expect_boards_listed(board_view)
