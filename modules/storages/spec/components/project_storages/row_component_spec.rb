@@ -21,7 +21,7 @@ RSpec.describe Storages::ProjectStorages::RowComponent,
     end
 
     context 'with automatic project storage' do
-      it 'renders members check, edit and delete buttons' do
+      it 'renders members connection status, edit and delete buttons' do
         project_storage = build_stubbed(:project_storage, :as_automatically_managed)
         expect(project_storage).to be_project_folder_automatic
 
