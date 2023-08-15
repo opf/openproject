@@ -33,7 +33,7 @@
 module OpenProject::Storages
   class Engine < ::Rails::Engine
     def self.permissions
-      @permissions ||= Storages::GroupFolderPropertiesSyncService::PERMISSIONS_MAP.keys
+      @permissions ||= Storages::GroupFolderPropertiesSyncService::PERMISSIONS_KEYS
     end
     # engine name is used as a default prefix for module tables when generating
     # tables with the rails command.
