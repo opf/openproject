@@ -33,8 +33,11 @@ RSpec.describe User, 'allowed_to?' do
   let(:anonymous) { build(:anonymous) }
   let(:project) { build(:project, public: false) }
   let(:project2) { build(:project, public: false) }
+  let(:work_package) { build(:work_package, project:) }
   let(:role) { build(:role) }
   let(:role2) { build(:role) }
+  let(:wp_role) { build(:role) }
+  let(:wp_member) { build(:member, project:, entity: work_package, roles: [wp_role], principal: user) }
   let(:anonymous_role) { build(:anonymous_role) }
   let(:member) { build(:member, project:, roles: [role], principal: user) }
   let(:member2) { build(:member, project: project2, roles: [role2], principal: user) }
@@ -48,7 +51,7 @@ RSpec.describe User, 'allowed_to?' do
     user.save!
   end
 
-  shared_examples_for 'when inquiring for project' do
+  shared_examples_for 'w/ inquiring for project' do
     let(:permission) { :add_work_packages }
     let(:final_setup_step) {}
 
@@ -468,7 +471,7 @@ RSpec.describe User, 'allowed_to?' do
     end
   end
 
-  shared_examples_for 'when inquiring globally' do
+  shared_examples_for 'w/ inquiring globally' do
     let(:permission) { :add_work_packages }
     let(:final_setup_step) {}
 
@@ -650,13 +653,13 @@ RSpec.describe User, 'allowed_to?' do
     end
   end
 
-  context 'without preloaded permissions' do
-    it_behaves_like 'when inquiring for project'
-    it_behaves_like 'when inquiring globally'
+  context 'w/o preloaded permissions' do
+    it_behaves_like 'w/ inquiring for project'
+    it_behaves_like 'w/ inquiring globally'
   end
 
-  context 'with preloaded permissions' do
-    it_behaves_like 'when inquiring for project' do
+  context 'w/ preloaded permissions' do
+    it_behaves_like 'w/ inquiring for project' do
       let(:final_setup_step) do
         user.preload_projects_allowed_to(permission)
       end
