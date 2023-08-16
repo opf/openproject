@@ -232,7 +232,7 @@ fr:
       failed_text: "La demande de suppression du projet %{name} a échoué. Le projet a été archivé."
       completed: "Suppression du projet %{name} terminée"
       completed_text: "La demande de suppression du projet '%{name}' a été terminée."
-      completed_text_children: "Additionally, the following subprojects have been deleted:"
+      completed_text_children: "De plus, les sous-projets suivants ont été supprimés :"
     index:
       open_as_gantt: 'Ouvrir comme vue Gantt'
       open_as_gantt_title: "Utilisez ce bouton pour générer une vue Gantt qui filtre les lots de travaux des projets visibles sur cette page."
@@ -1839,7 +1839,7 @@ fr:
   label_project_new: "Nouveau projet"
   label_project_plural: "Projets"
   label_project_settings: "Paramètres du projet"
-  label_project_storage_plural: "Stockages"
+  label_project_storage_plural: "Espaces de stockage"
   label_projects_storage_information: "%{count} projets utilisant %{storage} d'espace disque"
   label_project_view_all: "Afficher tous les projets"
   label_project_show_details: "Afficher les détails du projet"
@@ -2076,7 +2076,7 @@ fr:
       more_to_see:
         one: 'Il y a encore 1 lot de travaux avec des notifications.'
         other: 'Il y a encore %{count} lots de travaux avec des notifications.'
-      open_in_browser: 'Open in browser'
+      open_in_browser: 'Ouvrir dans le navigateur'
       reason:
         watched: 'Surveillé'
         assigned: 'Assigné'
@@ -2449,8 +2449,8 @@ fr:
       update_timeout: "Garder les dernières informations de l'espace disque requis pour un dépôt pendant N minutes.\nEtant donné que l'opération de comptabilisation de l'espace disque requis pour un dépôt peut être coûteuse, augmentez cette valeur pour réduire l'impact sur les performances."
       oauth_application_details: "La valeur secrète du client ne sera plus accessible après la fermeture de cette fenêtre. Veuillez copier ces valeurs dans les paramètres d'intégration Nextcloud OpenProject :"
       oauth_application_details_link_text: "Aller à la page des paramètres"
-      setup_documentation_details: "Si vous avez besoin d'aide pour configurer un nouveau stockage de fichiers, veuillez vérifier la documentation : "
-      setup_documentation_details_link_text: "Configuration du stockage des fichiers"
+      setup_documentation_details: "Si vous avez besoin d'aide pour configurer un nouvel espace de stockage des fichiers, veuillez consulter la documentation : "
+      setup_documentation_details_link_text: "Configuration de l'espace de stockage des fichiers"
       show_warning_details: "Pour utiliser ce stockage de fichiers, n'oubliez pas d'activer le module et le stockage spécifique dans les paramètres du projet de chaque projet souhaité."
     subversion:
       existing_title: "Dépôt Subversion existant"

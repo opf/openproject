@@ -9,7 +9,7 @@ fr:
         identifier: Identifiant
         secret: Secret
         scope: Portée
-        limit_self_registration: Limit self registration
+        limit_self_registration: Limiter l'inscription automatique
   openid_connect:
     menu_title: Fournisseurs OpenID
     providers:
@@ -20,4 +20,4 @@ fr:
       singular: Fournisseur OpenID
     setting_instructions:
       limit_self_registration: >
-        If enabled users can only register using this provider if the self registration setting allows for it.
+        Si cette option est activée, les utilisateurs ne peuvent s'inscrire en utilisant ce fournisseur que si le paramètre d'inscription automatique le permet.
