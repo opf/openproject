@@ -209,6 +209,7 @@ RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
         "id" => hashed_work_package.id,
         "ignore_non_working_days" => false,
         "parent_id" => hashed_work_package.parent_id,
+        "remaining_hours" => nil,
         "schedule_manually" => false }
     end
 
@@ -257,6 +258,7 @@ RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
         "id" => hashed_work_package.id,
         "ignore_non_working_days" => false,
         "parent_id" => hashed_work_package.parent_id,
+        "remaining_hours" => nil,
         "schedule_manually" => false }
     end
 
