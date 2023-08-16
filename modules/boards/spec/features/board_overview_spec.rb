@@ -185,11 +185,16 @@ RSpec.describe 'Work Package Boards Overview',
 
         aggregate_failures 'Sorting by Project' do
           board_overview.click_to_sort_by('Project')
-          # TODO: for Aaron
-          #   This is the current behavior. Sorting seems to stack with the previous sort
-          #   even though to the user, one can only sort by a single column at a time.
-          #   It seems unintuitive to someone who would not know about this. Ask about
-          #   it in tomorrow's daily.
+          # Sorting is performed on multiple columns at a time, taking into account
+          # previous sorting criteria and using the latest clicked column as
+          # the first column in the +ORDER BY+ clause and previously sorted by columns after.
+          #
+          # This is unintuitive to a user who is visually being informed by arrows in table headers
+          # that only one column is taken into account for sorting.
+          # TODO:
+          #   Fix sorting behavior to un-toggle previous columns sorted by or provide
+          #   visual feedback of all columns currently being taken into account for
+          #   sorting.
           board_overview.expect_boards_listed_in_order(other_project_board_view,
                                                        other_board_view,
                                                        board_view)
