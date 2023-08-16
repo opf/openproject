@@ -1,4 +1,6 @@
-#-- copyright
+# frozen_string_literal: true
+
+#--copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
 #
@@ -26,34 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Backlogs::Patches::UpdateAncestorsServicePatch
-  def self.included(base)
-    base.prepend InstanceMethods
+class AddDerivedRemainingHoursToWorkPackages < ActiveRecord::Migration[7.0]
+  def change
+    add_column :work_packages, :derived_remaining_hours, :float
+    add_column :work_package_journals, :derived_remaining_hours, :float
+
+    reversible do |change|
+      change.up do
+        migrate_to_derived_remaining_hours!
+      end
+
+      change.down do
+        rollback_from_derived_remaining_hours!
+      end
+    end
   end
 
-  module InstanceMethods
-    private
+  def work_packages_to_update
+    WorkPackage.where.not(id: WorkPackage.leaves)
+  end
 
-    ##
-    # Overrides method in original UpdateAncestorsService.
-    def inherit_attributes(ancestor, loader, attributes)
-      super
+  def migrate_to_derived_remaining_hours!
+    scope = work_packages_to_update
+              .where.not(remaining_hours: nil)
+    scope.update_all("derived_remaining_hours = remaining_hours, remaining_hours = NULL")
+  end
 
-      derive_remaining_hours(ancestor, loader) if inherit?(attributes, :remaining_hours)
-    end
+  def journal_user = SystemUser.first
 
-    def derive_remaining_hours(work_package, loader)
-      descendants = loader.descendants_of(work_package)
-
-      work_package.derived_remaining_hours = not_zero(all_remaining_hours(descendants).sum.to_f)
-    end
-
-    def all_remaining_hours(work_packages)
-      work_packages.map(&:remaining_hours).reject { |hours| hours.to_f.zero? }
-    end
-
-    def attributes_justify_inheritance?(attributes)
-      super || attributes.include?(:remaining_hours)
-    end
+  def rollback_from_derived_remaining_hours!
+    scope = work_packages_to_update
+              .where.not(derived_remaining_hours: nil)
+    scope.update_all("remaining_hours = derived_remaining_hours")
   end
 end
