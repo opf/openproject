@@ -113,6 +113,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%= avatar(message.author) %>
           <%= link_to h(message.subject), topic_path(@topic,
                                                      r: message,
+                                                     page: params[:page] || 1,
                                                      anchor: "message-#{message.id}") %>
           -
           <%= authoring message.created_at, message.author %>
