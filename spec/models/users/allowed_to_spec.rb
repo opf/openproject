@@ -51,7 +51,7 @@ RSpec.describe User, 'allowed_to?' do
     user.save!
   end
 
-  shared_examples_for 'w/ inquiring for project' do
+  shared_examples_for 'when inquiring for project' do
     let(:permission) { :add_work_packages }
     let(:final_setup_step) {}
 
@@ -392,33 +392,20 @@ RSpec.describe User, 'allowed_to?' do
     end
   end
 
-  shared_examples_for 'w/ inquiring globally' do
+  shared_examples_for 'when inquiring globally' do
     let(:permission) { :add_work_packages }
-    let(:final_setup_step) {}
 
-    context 'w/ the user being admin' do
-      before do
-        user.admin = true
-        user.save!
+    context 'when the user is an admin' do
+      before { user.update(admin: true) }
 
-        final_setup_step
-      end
-
-      it 'is true' do
-        expect(user).to be_allowed_to(permission, nil, global: true)
-      end
+      it { expect(user).to be_allowed_to(permission, nil, global: true) }
     end
 
-    context 'w/ the user being a member in a project
-             w/o the role having the necessary permission' do
-      before do
-        member.save!
+    context 'when the user is member of a project' do
+      before { member.save }
 
-        final_setup_step
-      end
-
-      it 'is false' do
-        expect(user).not_to be_allowed_to(permission, nil, global: true)
+      context 'and a project permission is requested globally' do
+        it { expect(user).not_to be_allowed_to(permission, nil, global: true) }
       end
     end
 
@@ -574,13 +561,13 @@ RSpec.describe User, 'allowed_to?' do
     end
   end
 
-  context 'w/o preloaded permissions' do
-    it_behaves_like 'w/ inquiring for project'
-    it_behaves_like 'w/ inquiring globally'
+  context 'without preloaded permissions' do
+    it_behaves_like 'when inquiring for project'
+    it_behaves_like 'when inquiring globally'
   end
 
-  context 'w/ preloaded permissions' do
-    it_behaves_like 'w/ inquiring for project' do
+  context 'with preloaded permissions' do
+    it_behaves_like 'when inquiring for project' do
       let(:final_setup_step) do
         user.preload_projects_allowed_to(permission)
       end
