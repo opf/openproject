@@ -135,6 +135,34 @@ RSpec.describe 'Work Package Project Boards Index Page',
       end
     end
 
+    describe 'sorting' do
+      it 'allows sorting by "Name" and "Created on"' do
+        # Initial sort is Name ASC
+        # We can assert this behavior by expected the order to be
+        # 1. board_view
+        # 2. other_board_view
+        # upon page load
+        aggregate_failures 'Sorting by Name' do
+          board_index.expect_boards_listed_in_order(board_view,
+                                                    other_board_view)
+
+          board_index.click_to_sort_by('Name')
+          board_index.expect_boards_listed_in_order(other_board_view,
+                                                    board_view)
+        end
+
+        aggregate_failures 'Sorting by Created on' do
+          board_index.click_to_sort_by('Created on')
+          board_index.expect_boards_listed_in_order(board_view,
+                                                    other_board_view)
+
+          board_index.click_to_sort_by('Created on')
+          board_index.expect_boards_listed_in_order(other_board_view,
+                                                    board_view)
+        end
+      end
+    end
+
     it 'paginates results', with_settings: { per_page_options: '1' } do
       # First page displays the historically last meeting
       board_index.expect_boards_listed(board_view)
