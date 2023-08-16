@@ -360,6 +360,7 @@ hu:
         A kiválasztott szín a Gantt diagramban vagy munkacsomag táblákban az eltérő típusokat különbözteti meg egymástól. Ezért javasolt az élénk színek használata.
   versions:
     overview:
+      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
       no_results_title_text: Jelenleg nincsenek ehhez a verzióhoz hozzárendelt feladatcsoportok.
   wiki:
     page_not_editable_index: "A kért oldal (még) nem létezik. Átirányítottuk az összes wiki -oldal indexébe.\n"
@@ -908,6 +909,7 @@ hu:
             principal:
               unassignable: "nem lehet hozzárendelni a projekthez"
         version:
+          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "Nem lehet a verziót törölni amíg hozzá van rendelve munkacsomagokhoz."
         status:
           readonly_default_exlusive: "nem aktiválható az alapértelmezettként megjelölt állapotokhoz."
@@ -958,9 +960,11 @@ hu:
       created_by_on: "created by %{user} on %{datetime}"
       created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "created on %{datetime}"
+      created_on_time_entry: "time logged on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
-      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
+      updated_on_time_entry: "logged time updated on %{datetime}"
       parent_without_of: "Alprojekt"
       parent_no_longer: "No longer subproject of"
       time_entry:
@@ -1310,9 +1314,10 @@ hu:
   error_can_not_archive_project: "Ezt a projektet nem lehet archiválni: %{errors}"
   error_can_not_delete_entry: "Bejegyzését nem lehet törölni"
   error_can_not_delete_custom_field: "Nem törölhető az egyéni mező"
+  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
+  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Ez a típus munkacsomagokat tartalmaz és nem törölhető. Az érintett munkacsomagok <a target="_blank" href="%{url}">ebben a nézetben</a> megtekinthetők.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Alap típusokat nem lehet törölni."
   error_can_not_invite_user: "A meghívó küldése sikertelen a felhasználó részére."
   error_can_not_remove_role: "Ez a szerepkör használatban van, nem lehet törölni"

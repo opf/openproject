@@ -124,51 +124,51 @@ fr:
       welcome:
         title: Bienvenue sur OpenProject !
         text: |
-          Select one of the demo projects to get started with some demo data we have prepared for you.
+          Sélectionnez l'un des projets de démonstration pour commencer avec des données de démonstration que nous avons préparées pour vous.
 
-          * [Demo project]({{opSetting:base_url}}/projects/demo-project): to get an overview about classical project management.
-          * [Scrum project]({{opSetting:base_url}}/projects/your-scrum-project): to learn about Agile and Scrum project management.
+          * [Projet de démonstration]({{opSetting:base_url}}/projects/demo-project) : pour avoir un aperçu de la gestion de projet classique.
+          * [Projet Scrum]({{opSetting:base_url}}/projects/votre-scrum-project) : pour en apprendre davantage sur la gestion de projet Agile et Scrum.
 
-          Also, you can create a blank [new project]({{opSetting:base_url}}/projects/new).
+          De plus, vous pouvez créer un [nouveau projet] vide ({{opSetting:base_url}}/projects/new).
 
-          Never stop collaborating. With open source and open mind.
+          Collaborez en permanence. Avec une solution open source et l'esprit ouvert.
 
-          You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          Vous pouvez changer ce texte de bienvenue [ici]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
-          name: Demo project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo project.
+          name: Projet de démonstration
+          status_explanation: Toutes les tâches sont en cours. Les personnes concernées connaissent leurs tâches. Le système est entièrement configuré.
+          description: Voici un bref résumé des objectifs de ce projet de démonstration.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Bienvenue dans votre projet de démonstration
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Nous sommes heureux que vous nous ayez rejoints.
+                Dans ce module, vous pouvez communiquer les actualités du projet aux membres de votre équipe.
+              description: Les actualités réelles
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Catégorie 1 (à modifier dans les paramètres du projet)
           queries:
             item_0:
               name: Plan de projet
             item_1:
-              name: Milestones
+              name: Étapes
             item_2:
-              name: Tasks
+              name: Tâches
             item_3:
               name: Planificateur d'équipe
           boards:
             kanban:
-              name: Kanban board
+              name: Tableau Kanban
             basic:
               name: Tableau de base
               lists:
                 item_0:
-                  name: Wish list
+                  name: Liste de souhaits
                 item_1:
-                  name: Short list
+                  name: Liste courte
                 item_2:
-                  name: Priority list for today
+                  name: Liste des priorités pour aujourd'hui
                 item_3:
                   name: Jamais
             parent_child:
@@ -177,82 +177,82 @@ fr:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Bienvenue
               item_1:
                 options:
                   name: Pour commencer
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Nous sommes heureux que vous nous ayez rejoints ! Nous vous suggérons d'effectuer quelques essais pour vous familiariser avec OpenProject.
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
+                    Découvrez les fonctionnalités les plus importantes grâce à notre [Visite guidée]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
 
-                    _Try the following steps:_
+                    _Essayez les étapes suivantes :_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/demo-project/members) in the project navigation.
-                    2. *View the work in your project*: &rightarrow; Go to [Work packages]({{opSetting:base_url}}/projects/demo-project/work_packages) in the project navigation.
-                    3. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
-                    4. *Create and update a project plan*: &rightarrow; Go to [Project plan]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) in the project navigation.
-                    5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/demo-project/settings/modules).
-                    6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
+                    1. *Invitez de nouveaux membres à rejoindre votre projet* : &rightarrow; Accédez à [Membres]({{opSetting:base_url}}/projects/demo-project/members) dans la navigation du projet.
+                    2. *Affichez le travail dans votre projet* : &rightarrow; Accédez à [Lots de travaux]({{opSetting:base_url}}/projects/demo-project/work_packages) dans la navigation du projet.
+                    3. *Créez un nouveau lot de travaux* : &rightarrow; Accédez à [Lots de travaux &rightarrow; Créer]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
+                    4. *Créez et mettez à jour un plan de projet* : &rightarrow; Accédez à [Plan de projet]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=#query.id:demo_project___query__project_plan) dans la navigation du projet.
+                    5. *Activez d'autres modules* : &rightarrow; Accédez à [Paramètres du projet &rightarrow; Modules]({{opSetting:base_url}}/projects/demo-project/settings/modules).
+                    6. *Complétez vos tâches dans le projet* : &rightarrow; Accédez à [Lots de travaux &rightarrow; Tâches]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Vous trouverez ici nos [Guides de l'utilisateur] (https://www.openproject.org/docs/user-guide/).
+                    Si vous avez des questions ou si avez besoin d'aide, n'hésitez pas à nous contacter : [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Lots de Travaux
               item_6:
                 options:
-                  name: Milestones
+                  name: Étapes
           work_packages:
             item_0:
-              subject: Start of project
+              subject: Début du projet
             item_1:
-              subject: Organize open source conference
+              subject: Organiser une conférence open source
               children:
                 item_0:
-                  subject: Set date and location of conference
+                  subject: Définir la date et l'emplacement de la conférence
                   children:
                     item_0:
-                      subject: Send invitation to speakers
+                      subject: Envoyer une invitation aux orateurs
                     item_1:
-                      subject: Contact sponsoring partners
+                      subject: Contacter les partenaires de parrainage
                     item_2:
-                      subject: Create sponsorship brochure and hand-outs
+                      subject: Créer une brochure et des documents de parrainage
                 item_1:
-                  subject: Invite attendees to conference
+                  subject: Inviter des participants à la conférence
                 item_2:
-                  subject: Setup conference website
+                  subject: Configurer le site Web de la conférence
             item_2:
-              subject: Conference
+              subject: Conférence
             item_3:
-              subject: Follow-up tasks
+              subject: Tâches de suivi
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: Téléverser les présentations sur le site Web
                 item_1:
-                  subject: Party for conference supporters :-)
+                  subject: Fête pour les supporters de la conférence :-)
                   description: |-
-                    *   [ ] Beer
-                    *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    * [ ] Bière
+                    * [ ] En-cas
+                    * [ ] Musique
+                    * [ ] Encore plus de bière
             item_4:
-              subject: End of project
+              subject: Fin du projet
         scrum-project:
-          name: Scrum project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo Scrum project.
+          name: Projet Scrum
+          status_explanation: Toutes les tâches sont en cours. Les personnes concernées connaissent leurs tâches. Le système est entièrement configuré.
+          description: Voici un bref résumé des objectifs de ce projet de démonstration Scrum.
           news:
             item_0:
-              title: Welcome to your Scrum demo project
+              title: Bienvenue dans votre projet de démonstration Scrum
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                Nous sommes heureux que vous nous ayez rejoints.
+                Dans ce module, vous pouvez communiquer les actualités du projet aux membres de votre équipe.
           versions:
             item_0:
-              name: Bug Backlog
+              name: Backlog des bugs
             item_1:
-              name: Product Backlog
+              name: Backlog des produits
             item_2:
               name: Sprint 1
               wiki:
@@ -306,7 +306,7 @@ fr:
             item_3:
               name: Sprint 2
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Catégorie 1 (à modifier dans les paramètres du projet)
           queries:
             item_0:
               name: Plan de projet
@@ -315,26 +315,26 @@ fr:
             item_2:
               name: Sprint 1
             item_3:
-              name: Tasks
+              name: Tâches
           boards:
             kanban:
-              name: Kanban board
+              name: Tableau Kanban
             basic:
               name: Tableau des tâches
               lists:
                 item_0:
-                  name: Wish list
+                  name: Liste de souhaits
                 item_1:
-                  name: Short list
+                  name: Liste courte
                 item_2:
-                  name: Priority list for today
+                  name: Liste des priorités pour aujourd'hui
                 item_3:
                   name: Jamais
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Bienvenue
               item_1:
                 options:
                   name: Pour commencer
@@ -363,55 +363,55 @@ fr:
                   name: Plan de projet
           work_packages:
             item_0:
-              subject: New login screen
+              subject: Nouvel écran de connexion
             item_1:
-              subject: Password reset does not send email
+              subject: La réinitialisation du mot de passe n'envoie pas d'e-mail
             item_2:
-              subject: New website
+              subject: Nouveau site Web
               children:
                 item_0:
-                  subject: Newsletter registration form
+                  subject: Formulaire d'inscription à la newsletter
                 item_1:
-                  subject: Implement product tour
+                  subject: Implémenter la visite des produits
                 item_2:
-                  subject: New landing page
+                  subject: Nouvelle page de destination
                   children:
                     item_0:
-                      subject: Create wireframes for new landing page
+                      subject: Créer des wireframes pour une nouvelle page de destination
             item_3:
-              subject: Contact form
+              subject: Formulaire de contact
             item_4:
-              subject: Feature carousel
+              subject: Carrousel des fonctionnalités
               children:
                 item_0:
-                  subject: Make screenshots for feature tour
+                  subject: Faire des captures d'écran pour la visite des fonctionnalités
             item_5:
-              subject: Wrong hover color
+              subject: Couleur de survol incorrecte
             item_6:
-              subject: SSL certificate
+              subject: Certificat SSL
             item_7:
-              subject: Set-up Staging environment
+              subject: Configuration de l'environnement de préparation
             item_8:
-              subject: Choose a content management system
+              subject: Choisir un système de gestion de contenu
             item_9:
-              subject: Website navigation structure
+              subject: Structure de navigation du site Web
               children:
                 item_0:
-                  subject: Set up navigation concept for website.
+                  subject: Configurez le concept de navigation pour le site Web.
             item_10:
-              subject: Internal link structure
+              subject: Structure de lien interne
             item_11:
-              subject: Develop v1.0
+              subject: Développement v1.0
             item_12:
-              subject: Release v1.0
+              subject: Version 1.0
             item_13:
-              subject: Develop v1.1
+              subject: Développement v1.1
             item_14:
-              subject: Release v1.1
+              subject: Version 1.1
             item_15:
-              subject: Develop v2.0
+              subject: Développement v2.0
             item_16:
-              subject: Release v2.0
+              subject: Version 2.0
           wiki: |
             ### Sprint planning meeting
 

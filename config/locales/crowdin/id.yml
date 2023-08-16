@@ -356,6 +356,7 @@ id:
         Warna yang dipilih membedakan Jenis yang berbeda dalam bagan Gantt atau tabel paket kerja. Oleh karena itu disarankan untuk menggunakan warna yang kuat.
   versions:
     overview:
+      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
       no_results_title_text: There are currently no work packages assigned to this version.
   wiki:
     page_not_editable_index: Halaman yang diminta tidak (belum) ada.  anda telah dialihkan ke indeks semua halaman Wiki.
@@ -902,6 +903,7 @@ id:
             principal:
               unassignable: "cannot be assigned to a project."
         version:
+          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
         status:
           readonly_default_exlusive: "can not be activated for statuses that are marked default."
@@ -947,9 +949,11 @@ id:
       created_by_on: "dibuat oleh %{user} pada %{datetime}"
       created_by_on_time_entry: "waktu dicatat oleh %{user} pada %{datetime}"
       created_on: "dibuat pada %{datetime}"
+      created_on_time_entry: "time logged on %{datetime}"
       updated_by_on: "diperbarui oleh %{user} pada %{datetime}"
-      updated_by_on_time_entry: "waktu dicatat diperbarui oleh %{user} pada %{datetime}"
+      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "diperbarui pada %{datetime}"
+      updated_on_time_entry: "logged time updated on %{datetime}"
       parent_without_of: "Sub-Project"
       parent_no_longer: "Tidak lagi menjadi subproyek dari"
       time_entry:
@@ -1285,9 +1289,10 @@ id:
   error_can_not_archive_project: "Proyek ini tidak dapat diarsipkan: %{errors}"
   error_can_not_delete_entry: "Tidak dapat menghapus isian"
   error_can_not_delete_custom_field: "Tidak dapat menghapus isian kustom"
+  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
+  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Jenis ini berisi paket pekerjaan dan tidak dapat dihapus. Anda dapat melihat semua paket pekerjaan yang terpengaruh di <a target="_blank" href="%{url}">tampilan ini</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Tipe standar tidak dapat dihapus."
   error_can_not_invite_user: "Gagal untuk mengirimkan undangan kepada pengguna."
   error_can_not_remove_role: "Role ini sedang dipakai dan tidak dapat dihapus."

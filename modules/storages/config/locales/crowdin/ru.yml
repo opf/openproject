@@ -71,9 +71,9 @@ ru:
         new: "Добавить хранилище файлов в этот проект"
         edit: "Редактировать хранилище файлов для этого проекта"
         delete: "Удалить хранилище файлов"
-        members_check: "Members check"
+        members_connection_status: "Members connection status"
       project_storage_members:
-        title: "Members check"
+        title: "Members connection status"
         subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
     instructions:
       type: "Перед установкой убедитесь, что у вас есть права администрирования в вашем экземпляре Nextcloud и что перед установкой установлено следующее приложение:"
@@ -135,10 +135,11 @@ ru:
     label_storage: "Хранилище"
     label_storages: "Хранилища"
     label_status: "Status"
+    label_files: "Files"
     member_connection_status:
       connected: "Connected"
       connected_no_permissions: "User role has no storages permissions"
-      not_connected: "Not connected"
+      not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
     no_results: "Хранилища еще не настроены."
     members_no_results: "No members to display."
     provider_types:

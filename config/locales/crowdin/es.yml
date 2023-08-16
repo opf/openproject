@@ -360,6 +360,7 @@ es:
         en los diagramas de Gantt o en las tablas de paquetes de trabajo. Por lo tanto, se recomienda usar un color intenso.
   versions:
     overview:
+      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
       no_results_title_text: Actualmente no hay paquetes de trabajo asignados a esta versión.
   wiki:
     page_not_editable_index: La página solicitada no existe (todavía). Has sido redirigido al inicio las páginas de la wiki.
@@ -830,7 +831,7 @@ es:
               not_allowed_to_view: "no tiene permiso para ver este recurso."
               locked: "está bloqueado."
         wiki_page:
-          error_conflict: "The wiki page has been updated by someone else while you were editing it."
+          error_conflict: "La página wiki ha sido actualizada por otra persona mientras la editaba."
           attributes:
             slug:
               undeducible: "no se puede deducir a partir del título «%{title}»."
@@ -908,6 +909,7 @@ es:
             principal:
               unassignable: "no puede ser asignado a un proyecto."
         version:
+          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "La versión no puede borrarse cuando tiene paquetes de trabajos adjuntos."
         status:
           readonly_default_exlusive: "no se puede activar para los estados marcados como predeterminados."
@@ -947,20 +949,22 @@ es:
       'doorkeeper/application': "Aplicación OAuth"
   errors:
     header_invalid_fields:
-      one: "There was a problem with the following field:"
-      other: "There were problems with the following fields:"
+      one: "Se encontró un problema con el siguiente campo:"
+      other: "Se encontraron problemas con los siguientes campos:"
     header_additional_invalid_fields:
-      one: "Additionally, there was a problem with the following field:"
-      other: "Additionally, there were problems with the following fields:"
+      one: "Además, hubo un problema con el siguiente campo:"
+      other: "Además, hubo problemas con los siguientes campos:"
     field_erroneous_label: "Este campo es inválido: %{full_errors} por favor, ingrese un valor válido."
   activity:
     item:
       created_by_on: "creado por %{user} el %{datetime}"
       created_by_on_time_entry: "hora registrada por %{user} el %{datetime}"
       created_on: "creado el %{datetime}"
+      created_on_time_entry: "time logged on %{datetime}"
       updated_by_on: "actualizado por %{user} el %{datetime}"
-      updated_by_on_time_entry: "hora registrada actualizada por %{user} el %{datetime}"
+      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "actualizado el %{datetime}"
+      updated_on_time_entry: "logged time updated on %{datetime}"
       parent_without_of: "Subproyecto"
       parent_no_longer: "Ya no es subproyecto de"
       time_entry:
@@ -1310,9 +1314,10 @@ es:
   error_can_not_archive_project: "Este proyecto no se puede archivar: %{errors}"
   error_can_not_delete_entry: "No se puede eliminar la entrada"
   error_can_not_delete_custom_field: "Imposible eliminar el campo seleccionado"
+  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
+  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Este tipo contiene paquetes de trabajo y no se puede eliminar. Puede ver todos los paquetes de trabajo afectados en <a target="_blank" href="%{url}">esta vista</a>.'
-    archived_projects: 'Hay paquetes de trabajo en los proyectos archivados. Necesita reactivar los proyectos siguientes para cambiar el tipo de los paquetes de trabajo correspondientes: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Tipos estándar no se pueden borrar."
   error_can_not_invite_user: "Error al enviar la invitación al usuario."
   error_can_not_remove_role: "Este rol esta en uso y no puede ser eliminado"

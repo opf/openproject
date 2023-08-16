@@ -71,9 +71,9 @@ de:
         new: "Einen Datei-Speicher zum Projekt hinzufügen"
         edit: "Dateispeicher in diesem Projekt bearbeiten"
         delete: "Delete file storage"
-        members_check: "Members check"
+        members_connection_status: "Members connection status"
       project_storage_members:
-        title: "Members check"
+        title: "Members connection status"
         subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
     instructions:
       type: "Bitte stellen Sie sicher, dass Sie Administrationsrechte in Ihrer Nextcloud-Instanz haben und die folgende Anwendung vor dem Setup installiert wurde:"
@@ -135,10 +135,11 @@ de:
     label_storage: "Speicher"
     label_storages: "Speicher"
     label_status: "Status"
+    label_files: "Files"
     member_connection_status:
       connected: "Connected"
       connected_no_permissions: "User role has no storages permissions"
-      not_connected: "Not connected"
+      not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
     no_results: "Noch keine Speicher eingerichtet."
     members_no_results: "No members to display."
     provider_types:

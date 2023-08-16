@@ -363,6 +363,7 @@ ro:
         în graficele Gantt sau tabelele pachetelor de lucru. Prin urmare, este recomandat să folosiți o culoare puternică.
   versions:
     overview:
+      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
       no_results_title_text: În acest moment nu există pachete de lucru alocate acestei versiuni.
   wiki:
     page_not_editable_index: Pagina solicitată nu există (încă). Ați fost redirecționat către indexul tuturor paginilor wiki.
@@ -913,6 +914,7 @@ ro:
             principal:
               unassignable: "nu poate fi atribuit unui proiect."
         version:
+          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "Versiunea nu poate fi ștearsă, deoarece are atașate pachete de lucru."
         status:
           readonly_default_exlusive: "nu poate fi activată pentru statusurile care sunt marcate ca fiind implicite."
@@ -968,9 +970,11 @@ ro:
       created_by_on: "creat de %{user} la %{datetime}"
       created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "creat pe %{datetime}"
+      created_on_time_entry: "time logged on %{datetime}"
       updated_by_on: "actualizat de %{user} la %{datetime}"
-      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "actualizat la %{datetime}"
+      updated_on_time_entry: "logged time updated on %{datetime}"
       parent_without_of: "Subproiect"
       parent_no_longer: "Nu mai sunt subproiecte ale"
       time_entry:
@@ -1334,9 +1338,10 @@ ro:
   error_can_not_archive_project: "Acest proiect nu poate fi arhivat: %{errors}"
   error_can_not_delete_entry: "Nu se poate șterge intrarea"
   error_can_not_delete_custom_field: "Câmpul personalizat nu poate fi șters"
+  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
+  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Acest tip conține pachete de lucru și nu poate fi șters. Puteți vedea toate pachetele de lucru afectate în <a target="_blank" href="%{url}">această vizualizare</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Tipurile standard nu pot fi șterse."
   error_can_not_invite_user: "Nu s-a reușit trimiterea invitației către utilizator."
   error_can_not_remove_role: "Acest rol este utilizat și nu poate fi șters."

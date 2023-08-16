@@ -71,9 +71,9 @@ lt:
         new: "Pridėti failų saugyklą šiam projektui"
         edit: "Keisti šio projekto failų saugyklą"
         delete: "Trinti failų saugyklą"
-        members_check: "Narių tikrinimas"
+        members_connection_status: "Members connection status"
       project_storage_members:
-        title: "Narių tikrinimas"
+        title: "Members connection status"
         subtitle: "Patikrinkite saugyklos %{storage_name_link} jungties būseną visiems projekto nariams."
     instructions:
       type: "Prašome įsitikinti, kad turite administratoriaus teises jūsų Nextcloud egzemplioriuje bei kad įdiegtos šios aplikacijos, prieš tęsiant nustatymą:"
@@ -135,10 +135,11 @@ lt:
     label_storage: "Saugykla"
     label_storages: "Saugyklos"
     label_status: "Būsena"
+    label_files: "Files"
     member_connection_status:
       connected: "Prisijungta"
       connected_no_permissions: "Naudotojo vaidmuo neturi saugyklos teisių"
-      not_connected: "Neprisijungta"
+      not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
     no_results: "Dar nenustatyta jokia saugykla."
     members_no_results: "Nėra narių rodymui."
     provider_types:

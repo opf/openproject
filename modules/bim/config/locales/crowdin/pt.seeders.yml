@@ -47,7 +47,7 @@ pt:
           name: Conflito
       global_queries:
         item_0:
-          name: 'Embedded table: Children'
+          name: 'Tabela incorporada: Secundários'
       type_configuration:
         item_0:
           form_configuration:
@@ -55,23 +55,23 @@ pt:
               group_name: Filhos
       groups:
         item_0:
-          name: Architects
+          name: Arquitetos
         item_1:
-          name: BIM Coordinators
+          name: Coordenadores BIM
         item_2:
-          name: BIM Managers
+          name: Gerentes BIM
         item_3:
-          name: BIM Modellers
+          name: Modelos BIM
         item_4:
-          name: Lead BIM Coordinators
+          name: Coordenadores BIM Líderes
         item_5:
-          name: MEP Engineers
+          name: Engenheiros MEP
         item_6:
-          name: Planners
+          name: Planejadores
         item_7:
-          name: Structural Engineers
+          name: Engenheiros estruturais
       welcome:
-        title: Welcome to OpenProject BIM edition!
+        title: Boas-vindas à edição BIM do OpenProject!
         text: |
           Checkout the demo projects to get started with some examples.
 
@@ -87,9 +87,9 @@ pt:
           You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-construction-project:
-          name: "(Demo) Construction project"
-          status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo construction project.
+          name: "(Demonstração) Projeto de construção"
+          status_explanation: Todas as tarefas e os subprojetos estão dentro do prazo. As pessoas envolvidas conhecem suas tarefas. O sistema está completamente configurado.
+          description: Este é um breve resumo dos objetivos deste projeto de demonstração da construção.
           news:
             item_0:
               title: Bem-vindo ao seu projeto de demonstração
@@ -110,7 +110,7 @@ pt:
               name: Planejador de equipe
           boards:
             bcf:
-              name: Simple drag'n drop workflow
+              name: Fluxo de trabalho simples de soltar arrastar
           project-overview:
             widgets:
               item_0:
@@ -149,9 +149,9 @@ pt:
                 options:
                   name: Etapas
         demo-planning-constructing-project:
-          name: "(Demo) Planning & constructing"
+          name: "(Demonstração) Planejamento e construção"
           status_explanation: Todas as tarefas estão dentro do cronograma. As pessoas envolvidas conhecem suas tarefas. O sistema está completamente configurado.
-          description: This is a short summary of the goals of this demo planning and constructing project.
+          description: Este é um breve resumo dos objetivos deste projeto de demonstração de planejamento e construção.
           news:
             item_0:
               title: Bem-vindo ao seu projeto de demonstração
@@ -205,7 +205,7 @@ pt:
                   name: Etapas
           work_packages:
             item_0:
-              subject: Project kick off construction project
+              subject: Projeto de construção de início do projeto
               description: |-
                 The project kick off initializes the start of the project in your company. Everybody being part of this project should be invited to the kick off for a first briefing.
 

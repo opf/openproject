@@ -360,6 +360,7 @@ lt:
         Gantt diagramoje ar darbo paketų lentelėse. Todėl rekomenduojama naudoti ryškią spalvą.
   versions:
     overview:
+      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
       no_results_title_text: Šiuo metu nėra šiai versijai priskirtų darbų paketų.
   wiki:
     page_not_editable_index: Prašomas puslapis (dar) neegzistuoja. Vietoje to jus nukreipėme į visų wiki puslapių sąrašą.
@@ -912,6 +913,7 @@ lt:
             principal:
               unassignable: "negalima priskirti projektui."
         version:
+          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "Versija negali būti pašalinta, nes prie jos yra prijungtų darbo paketų."
         status:
           readonly_default_exlusive: "negali būti aktyvuotas būsenoms, kurios yra pažymėtos kaip numatytosios."
@@ -972,9 +974,11 @@ lt:
       created_by_on: "%{datetime} sukūrė %{user}"
       created_by_on_time_entry: "%{datetime} laiką registravo %{user}"
       created_on: "sukurta %{datetime}"
+      created_on_time_entry: "time logged on %{datetime}"
       updated_by_on: "%{datetime} pakeitė %{user}"
-      updated_by_on_time_entry: "%{datetime} laiką registravo %{user}"
+      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "pakeitė %{datetime}"
+      updated_on_time_entry: "logged time updated on %{datetime}"
       parent_without_of: "Sub-projektas"
       parent_no_longer: "Nebėra dalis"
       time_entry:
@@ -1352,9 +1356,10 @@ lt:
   error_can_not_archive_project: "Projekto negalima suarchyvuoti: %{errors}"
   error_can_not_delete_entry: "Nepavyko ištrinti įrašo"
   error_can_not_delete_custom_field: "Neįmanoma ištrinti kliento laukelio"
+  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
+  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Yra darbo paketų su tokiu tipu, todėl jis negali būti ištrintas. Visus susijusius darbo paketus galite matyti <a target="_blank" href="%{url}">šiame vaizde</a>.'
-    archived_projects: 'Taip pat yra darbo paketų archyvuotuose projektuose. Jums iš pradžių reikia iš naujo aktyvuoti šiuos projektus, kad galėtumėte pakeisti atitinkamų darbo paketų tipą: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Standartiniai vaidmenys negali būti ištrinti."
   error_can_not_invite_user: "Nepavyko išsiųsti pakvietimo vartotojui."
   error_can_not_remove_role: "Šis vaidmuo naudojamas, todėl negali būti ištrintas."

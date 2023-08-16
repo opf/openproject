@@ -358,6 +358,7 @@ uk:
         у Gantt графіках чи робочих блоках. Отож рекомендуємо використовувати насичений колір.
   versions:
     overview:
+      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
       no_results_title_text: Наразі для цієї версії не призначено робочих пакетів.
   wiki:
     page_not_editable_index: Запитувана сторінка не існує (поки що). Вас було переспрямовано до індексу всіх вікі-сторінок.
@@ -910,6 +911,7 @@ uk:
             principal:
               unassignable: "не можна призначити проекту."
         version:
+          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "Версію не можна видалити, оскільки до неї приєднані робочі пакети."
         status:
           readonly_default_exlusive: "– не можна активувати для статусів, позначених як стандартні."
@@ -970,9 +972,11 @@ uk:
       created_by_on: "створено %{datetime} користувачем %{user}"
       created_by_on_time_entry: "час зареєстровано о %{datetime} користувачем %{user}"
       created_on: "створено %{datetime}"
+      created_on_time_entry: "time logged on %{datetime}"
       updated_by_on: "оновлено %{date} користувачем %{user}"
-      updated_by_on_time_entry: "зареєстрований час оновлено о %{datetime} користувачем %{user}"
+      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "оновлено %{datetime}"
+      updated_on_time_entry: "logged time updated on %{datetime}"
       parent_without_of: "Підпроєкт"
       parent_no_longer: "Більше не входить у проєкт"
       time_entry:
@@ -1350,9 +1354,10 @@ uk:
   error_can_not_archive_project: "Цей проєкт не можна архівувати: %{errors}"
   error_can_not_delete_entry: "Неможливо видалити запис"
   error_can_not_delete_custom_field: "Неможливо видалити спеціальне поле"
+  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
+  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Цей тип містить пакети робіт, і його не можна видалити. Переглянути всі пошкоджені пакети робіт можна в <a target="_blank" href="%{url}">цьому поданні</a>.'
-    archived_projects: 'В архівованих проєктах є також пакети робіт. Спочатку потрібно повторно активувати ці проєкти, а потім – змінити типи відповідних пакетів робіт: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Стандартні типи неможливо видалити."
   error_can_not_invite_user: "Не вдалося надіслати запрошення користувачеві."
   error_can_not_remove_role: "Ця роль використовується і не може бути видалений."
