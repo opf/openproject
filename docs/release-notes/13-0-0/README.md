@@ -10,11 +10,69 @@ release_date: 2023-08-16
 
 Release date: 2023-08-16
 
-We released [OpenProject 13.0.0](https://community.openproject.com/versions/1656).
-The release contains several bug fixes and we recommend updating to the newest version.
+We have released [OpenProject 13.0.0](https://community.openproject.com/versions/1656). This version comes with a number of new features, collaboration enhancements, and bug fixes. Among the highly anticipated project management features is the introduction of Baseline. This empowers you to easily compare baselines for your projects, enabling straightforward tracking of project advancements and changes. Furthermore, through our integration with Nextcloud, project folders will now have automatically managed permissions. This ensures that all project members gain access and allows creation of folder structures including project template documents.
 
-<!--more-->
-#### Bug fixes and changes
+Moreover, OpenProject 13.0 introduces the ability to subscribe to your OpenProject calendar in iCalendar format. This integration allows you to conveniently view all essential project dates within your personal calendar. The new PDF export enables generation of up to date project management plans and other project artifacts.
+
+Finally, as part of our commitment to the Community, we are pleased to announce that multi-select custom fields are now accessible in the free-of-charge Community version of OpenProject, as well, starting from version 13.0.
+
+The release also contains several bug fixes and we recommend updating to the newest version.
+
+## Baseline comparison: Track changes and updates for your project (Enterprise add-on)
+
+With the new Baseline feature you will be able to get a quick  overview of what has changed in your project over a defined period of time, which will help with reporting on project progress and status.  Activating the Baseline for a work package table will display all changes for this view compared to a  certain timeframe. This view makes it very transparent which work  packages were changed over time (and how), were closed or added.
+
+The functionality **Show changes since Yesterday** is part of the free of charge Community version. **Comparing changes to a certain period, a specific date, or between two specific dates**, is an Enterprise add-on and only available for the Enterprise cloud or on-premises versions.
+
+![OpenProject baseline example](openproject-baseline.gif)
+
+## Multi-select custom fields for the Community
+
+We have released the multi-select custom fields for the free-of-charge  Community version. Community version users will now also be able to  configure multi-select fields for work packages or projects and add  them to the work packages forms.
+
+![OpenProject custom fields](openproject-multi-select-custom-fields.png)
+
+## Nextcloud project folders with automatically managed subscriptions
+
+With OpenProject 13.0 project files and permissions were improved. Project folders allow creating automatically managed  folders (named according to the name of an OpenProject project) in Nextcloud that  will grant access to all project members. These project  folders also allow setting up project templates with a pre-defined  folder structure, including document templates. Links to files in work packages  will then be copied accordingly.
+
+![OpenProject Nextcloud integration](openproject-nextcloud-integration.png)
+
+## PDF Export to create up-to-date and accurately formatted work plans
+
+PDF export was updated to significantly improve the quality of project reports that can be generated in OpenProject. With 13.0 you will be able to generate clearly structured and nicely designed project reports based on your work  packages. The report will stem from a work package table, which you can adjust to your project needs, and include all a header table with work package attributes (defined by the work package table filters) and their detailed description. The reports will also include a cover page and a table of contents with links back to the work packages in OpenProject. 
+
+![OpenProject pdf export of a project report ](openproject-pdf-export-work-plans.png)
+
+## Subscribe to calendars via URL (iCalendar format)
+
+You can now have all your OpenProject calendars with all important work  packages and milestones integrated in your personal calendar. Subscribe  to a calendar via URL and include this information in your personal  calendar supporting the iCalendar format, such as such as Thunderbird,  Open-Xchange, Apple calendar or Google calendar.
+
+![OpenProject calendar subscription](openproject-subscribe-calendar.png)
+
+## Global modules are listed on new index pages
+
+We have added a new global menu to access all global modules for your  projects. This provides a useful and intuitive overview of project modules (e.g. for work packages, boards, team planners  or meetings) on a project-overarching level. You can create new elements for these respective modules directly from these global  pages and assign them to a project. Access these global modules from OpenProject home page (click OpenProject logo in the header navigation) or by clicking on the global modules icon in the  top right header navigation.
+
+![Openproject global modules overview](openproject-global-modules.png)
+
+## Time tracking button 
+One of the topics that emerged during our Passion time is a new time tracking button. We added a button that allows you to easily record the time of a work package. Just press the button to start the timer. Your avatar in the header navigation will show the active time tracking. Clicking the button again will stop the time tracking and you can log the time spent on the work package.
+
+![OpenProject time tracking button](openproject-time-tracking-button.png)
+
+## Further improvements, changes, and bug fixes
+
+- Allow localized seeding of all seed data
+- Show recently viewed work packages in the global search
+- Add shortcut to “My activity” link in the account menu
+- Enable “Copy link to clipboard” for work packages
+- Enlarge the scroll handle for the work package sidebar
+- Enable double click on notifications to open details view
+- Add Emoji picker to the text editor
+- Introduce Primer Design System
+
+### List of all bug fixes and changes
 
 - Epic: Share project calendars using the iCalendar format \[[#15339](https://community.openproject.com/wp/15339)\]
 - Epic: Baseline: show changes in the work packages table \[[#26448](https://community.openproject.com/wp/26448)\]
@@ -153,9 +211,13 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Sums table only shows total sum \[[#49690](https://community.openproject.com/wp/49690)\]
 - Fixed: Pictures are not exported \[[#49692](https://community.openproject.com/wp/49692)\]
 
-#### Contributions
-A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
+### Credits and contributions
 
-Special thanks for reporting and finding bugs go to
+A very special thank you goes to the following sponsors for features and improvements of this release:
+- **The City of Cologne** for sponsoring the integration for Nextcloud project folders.
+- **The Federal Ministry of the Interior and Community (BMI)**, who, as part of the **openDesk project** (known as **Sovereign Workplace**) sponsored iCalendar subscription, PDF export of work plans, localized seeding of all seed data.
 
-Tobias Nöbauer, K T, Various Interactive, Thyago Sanabio, Piotr F, Sven Kunze, Gerrit Bonn, Aidas Kasparas, Christina Vechkanova, Rince wind, James Neale, Daniel Wilke, Philipp Schulz, Heather Burns, M S
+
+A big thanks to community members for reporting bugs and helping us identifying and providing fixes:
+
+Tobias Nöbauer, K T, Various Interactive, Thyago Sanabio, Piotr F, Sven Kunze, Gerrit Bonn, Aidas Kasparas, Christina Vechkanova, Rince wind, James Neale, Daniel Wilke, Philipp Schulz, Heather Burns, M S.
