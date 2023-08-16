@@ -72,12 +72,6 @@ module Pages
       end
     end
 
-    def click_to_sort_by(header_name)
-      within '.generic-table thead' do
-        click_link header_name
-      end
-    end
-
     def expect_boards_listed_in_order(*boards)
       within '#content-wrapper' do
         listed_board_names = all("td.name").map(&:text)
