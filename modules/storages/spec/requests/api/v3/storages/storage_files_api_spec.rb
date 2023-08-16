@@ -192,12 +192,8 @@ RSpec.describe 'API v3 storage files', content_type: :json, webmock: true do
       end
 
       before do
-        storage_requests = instance_double(Storages::Peripherals::StorageRequests)
-        files_info_query = Proc.new do
-          ServiceResult.success(result: response)
-        end
-        allow(storage_requests).to receive(:files_info_query).and_return(files_info_query)
-        allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(storage_requests)
+        files_info_query = ->(_) { ServiceResult.success(result: response) }
+        Storages::Peripherals::Registry.stub('queries.nextcloud.files_info', files_info_query)
       end
 
       subject { last_response.body }
