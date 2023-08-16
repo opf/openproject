@@ -55,62 +55,52 @@ RSpec.describe User, 'allowed_to?' do
     let(:permission) { :add_work_packages }
     let(:final_setup_step) {}
 
-    context 'w/ the user being admin' do
-      before do
-        user.update(admin: true)
+    context 'with the user being admin' do
+      before { user.update(admin: true) }
 
-        project.save
+      context 'with the project being persisted and active' do
+        before do
+          project.save
 
-        final_setup_step
+          final_setup_step
+        end
+
+        it { expect(user).to be_allowed_to(permission, project) }
       end
 
-      it 'is true' do
-        expect(user).to be_allowed_to(permission, project)
-      end
-    end
+      context 'with the project being archived' do
+        before do
+          project.update(active: false)
 
-    context 'w/ the user being admin
-             w/ the project being archived' do
-      before do
-        user.update(admin: true)
-        project.update(active: false)
+          final_setup_step
+        end
 
-        final_setup_step
+        it { expect(user).not_to be_allowed_to(permission, project) }
       end
 
-      it 'is false' do
-        expect(user).not_to be_allowed_to(permission, project)
-      end
-    end
+      context 'with the required module being inactive' do
+        let(:permission) { :create_meetings } # pick a permission from a module
 
-    context 'w/ the user being admin
-             w/ the project module the permission belongs to being inactive' do
-      before do
-        user.update(admin: true)
-        project.enabled_module_names = []
+        before do
+          project.save
+          project.enabled_module_names -= ['meetings']
 
-        final_setup_step
-      end
+          final_setup_step
+        end
 
-      it 'is false' do
-        expect(user).not_to be_allowed_to(permission, project)
-      end
-    end
-
-    context 'w/ the user being admin
-             w/ the permission not automatically granted to admins' do
-      let(:permission) { :work_package_assigned }
-
-      before do
-        user.update(admin: true)
-
-        project.save
-
-        final_setup_step
+        it { expect(user).not_to be_allowed_to(permission, project) }
       end
 
-      it 'is false' do
-        expect(user).not_to be_allowed_to(permission, project)
+      context 'with the permission not being automatically granted to admins' do
+        let(:permission) { :work_package_assigned } # permission that is not automatically granted to admins
+
+        before do
+          project.save
+
+          final_setup_step
+        end
+
+        it { expect(user).not_to be_allowed_to(permission, project) }
       end
     end
 
