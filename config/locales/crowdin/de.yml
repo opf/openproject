@@ -358,6 +358,7 @@ de:
         in Gantt-Diagrammen oder Arbeitspakettabellen. Es wird daher empfohlen, eine kontrastreiche Farbe zu verwenden.
   versions:
     overview:
+      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
       no_results_title_text: Derzeit sind keine Arbeitspakete dieser Version zugewiesen.
   wiki:
     page_not_editable_index: Die angeforderte Seite existiert (noch) nicht. Sie wurden auf die Übersichtseite der Wiki-Seiten weitergeleitet.
@@ -906,6 +907,7 @@ de:
             principal:
               unassignable: "kann keinem Projekt zugeordnet werden."
         version:
+          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "Die Version kann nicht gelöscht werden, da sie Arbeitspakete enthält, die an sie angeschlossen sind."
         status:
           readonly_default_exlusive: "kann nicht für einen Status aktiviert werden, der als Standard markiert ist."
@@ -956,9 +958,11 @@ de:
       created_by_on: "erstellt von %{user} am %{datetime}"
       created_by_on_time_entry: "gebucht von %{user} am %{datetime}"
       created_on: "erstellt am %{datetime}"
+      created_on_time_entry: "time logged on %{datetime}"
       updated_by_on: "aktualisiert von %{user} am %{datetime}"
-      updated_by_on_time_entry: "Zeitbuchung aktualisiert durch %{user} am %{datetime}"
+      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "aktualisiert am %{datetime}"
+      updated_on_time_entry: "logged time updated on %{datetime}"
       parent_without_of: "Unterprojekt"
       parent_no_longer: "Nicht mehr Unterprojekt von"
       time_entry:
@@ -1308,9 +1312,10 @@ de:
   error_can_not_archive_project: "Dieses Projekt kann nicht archiviert werden: %{errors}"
   error_can_not_delete_entry: "Eintrag kann nicht gelöscht werden"
   error_can_not_delete_custom_field: "Benutzerdefiniertes Feld kann nicht gelöscht werden."
+  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
+  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Dieser Typ enthält Arbeitspakete und kann nicht gelöscht werden. Sie können alle betroffenen Arbeitspakete <a target="_blank" href="%{url}">in dieser Ansicht sehen</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Standardtypen können nicht gelöscht werden."
   error_can_not_invite_user: "Versand der Einland an Nutzer ist fehlgeschlagen."
   error_can_not_remove_role: "Diese Rolle wird verwendet und kann nicht gelöscht werden."

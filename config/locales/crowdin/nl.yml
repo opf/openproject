@@ -360,6 +360,7 @@ nl:
         in Gantt grafieken of werkpakketten tabellen. Het wordt daarom aangeraden om een sterke kleur te gebruiken.
   versions:
     overview:
+      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
       no_results_title_text: Er zijn momenteel geen werkpakketten toegewezen aan deze versie.
   wiki:
     page_not_editable_index: De opgevraagde pagina bestaat (nog) niet. Je bent doorverwezen naar de index van alle wiki-pagina's.
@@ -908,6 +909,7 @@ nl:
             principal:
               unassignable: "kan niet worden toegewezen aan een project."
         version:
+          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "De versie kan niet worden verwijderd omdat er werkpakketten aan zijn gekoppeld."
         status:
           readonly_default_exlusive: "kan niet worden geactiveerd voor statussen die standaard zijn gemarkeerd."
@@ -958,9 +960,11 @@ nl:
       created_by_on: "aangemaakt door %{user} op %{datetime}"
       created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "aangemaakt op %{datetime}"
+      created_on_time_entry: "time logged on %{datetime}"
       updated_by_on: "bijgewerkt door %{user} op %{datetime}"
-      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "bijgewerkt op %{datetime}"
+      updated_on_time_entry: "logged time updated on %{datetime}"
       parent_without_of: "Subproject"
       parent_no_longer: "Niet langer subproject van"
       time_entry:
@@ -1310,9 +1314,10 @@ nl:
   error_can_not_archive_project: "Dit project kan niet worden gearchiveerd: %{errors}"
   error_can_not_delete_entry: "Niet in staat om ingave te verwijderen"
   error_can_not_delete_custom_field: "Aangepast veld kan niet verwijderd worden"
+  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
+  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Dit type bevat werkpakketten en kan niet worden verwijderd. Je kunt alle betrokken werkpakketten zien in <a target="_blank" href="%{url}">deze weergave</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Standaard types kunnen niet worden verwijderd."
   error_can_not_invite_user: "Het versturen van de uitnodiging naar de gebruiker is mislukt."
   error_can_not_remove_role: "Deze rol is in gebruik en kan niet worden verwijderd."

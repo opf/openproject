@@ -38,9 +38,9 @@ lt:
         project_folder_no_access: >
           Jūs neturite prieigos prie projekto aplanko. Prašome susisiekti su jūsų administratoriumi ir gauti prieigą ar įkelti failą į kitą vietą.
         managed_project_folder_not_available: >
-          The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
+          Automatiškai tvarkomas projekto aplankas dar nerastas. Prašome truputį palaukti, iš naujo įkelti puslapį, kad atsisiųstumėte naujausius duomenis, ir pabandyti dar kartą.
         managed_project_folder_no_access: >
-          You have no access yet to the managed project folder. Please wait a bit and try again.
+          Jūs dar neturite prieigos prie tvarkomo projekto aplanko. Prašome truputį palaukti ir bandyti dar kartą.
         upload_keep_both: "Pasilikti abu"
         upload_replace: "Pakeisti"
       file_links:

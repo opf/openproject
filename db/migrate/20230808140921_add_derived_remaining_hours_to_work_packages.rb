@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# -- copyright
+#--copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,40 +26,39 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-#
+#++
 
-require 'spec_helper'
+class AddDerivedRemainingHoursToWorkPackages < ActiveRecord::Migration[7.0]
+  def change
+    add_column :work_packages, :derived_remaining_hours, :float
+    add_column :work_package_journals, :derived_remaining_hours, :float
 
-RSpec.describe 'Global menu item for boards', :js, :with_cuprite do
-  let(:boards_label) { I18n.t('boards.label_boards') }
-
-  before do
-    login_as current_user
-    visit root_path
-  end
-
-  context 'with permissions' do
-    let(:current_user) { create(:admin) }
-
-    it "sends the user to the boards overview when clicked" do
-      within '#main-menu' do
-        click_on boards_label
+    reversible do |change|
+      change.up do
+        migrate_to_derived_remaining_hours!
       end
 
-      expect(page).to have_current_path(work_package_boards_path)
-      expect(page).to have_content(boards_label)
-      expect(page).to have_content(I18n.t(:no_results_title_text))
+      change.down do
+        rollback_from_derived_remaining_hours!
+      end
     end
   end
 
-  context 'without permissions' do
-    let(:current_user) { create(:user) }
+  def work_packages_to_update
+    WorkPackage.where.not(id: WorkPackage.leaves)
+  end
 
-    it 'is not rendered' do
-      within '#main-menu' do
-        expect(page).not_to have_content(boards_label)
-      end
-    end
+  def migrate_to_derived_remaining_hours!
+    scope = work_packages_to_update
+              .where.not(remaining_hours: nil)
+    scope.update_all("derived_remaining_hours = remaining_hours, remaining_hours = NULL")
+  end
+
+  def journal_user = SystemUser.first
+
+  def rollback_from_derived_remaining_hours!
+    scope = work_packages_to_update
+              .where.not(derived_remaining_hours: nil)
+    scope.update_all("remaining_hours = derived_remaining_hours")
   end
 end

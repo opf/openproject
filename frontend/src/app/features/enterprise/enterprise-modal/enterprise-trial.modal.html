@@ -38,7 +38,7 @@
       <div *ngIf="!context.status || context.cancelled; else mailSubmitted"
            class="spot-action-bar--right">
         <button
-          class="button button_no-margin spot-action-bar--action"
+          class="button button_no-margin spot-action-bar--action spot-modal--cancel-button"
           data-qa-selector="confirmation-modal--cancel"
           (click)="closeModal($event)"
           [textContent]="text.button_cancel"

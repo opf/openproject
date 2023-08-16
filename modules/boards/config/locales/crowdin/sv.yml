@@ -6,8 +6,8 @@ sv:
   boards:
     label_board: "Tavla"
     label_boards: "Tavlor"
-    label_create_new_board: "Create new board"
-    label_board_type: "Board type"
+    label_create_new_board: "Skapa ny bräda"
+    label_board_type: "Brädstyp"
     board_types:
       free: Enkel
       action: "Åtgärdstavla (%{attribute})"
@@ -16,7 +16,7 @@ sv:
       status: Status
       version: Version
       subproject: Delprojekt
-      subtasks: Parent-child
+      subtasks: Förälder-barn
       basic: Enkel
     board_type_descriptions:
       basic: >
@@ -33,4 +33,4 @@ sv:
         Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
     upsale:
       teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-      upgrade: 'Upgrade now'
+      upgrade: 'Uppgradera nu'

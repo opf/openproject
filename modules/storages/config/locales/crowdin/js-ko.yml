@@ -38,9 +38,9 @@ ko:
         project_folder_no_access: >
           프로젝트 폴더에 대한 액세스 권한이 없습니다. 관리자에게 문의하여 액세스 권한을 얻거나 다른 위치에 파일을 업로드하세요.
         managed_project_folder_not_available: >
-          The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
+          자동으로 관리되는 프로젝트 폴더를 아직 찾지 못했습니다. 잠시 기다렸다가 페이지를 다시 로드하고 최신 데이터를 가져온 후에 다시 시도하세요.
         managed_project_folder_no_access: >
-          You have no access yet to the managed project folder. Please wait a bit and try again.
+          관리되는 프로젝트 폴더에 대한 액세스 권한이 아직 없습니다. 잠시 후 다시 시도하세요.
         upload_keep_both: "모두 유지"
         upload_replace: "바꾸기"
       file_links:

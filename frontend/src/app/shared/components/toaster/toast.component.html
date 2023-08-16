@@ -2,15 +2,12 @@
   <div class="op-toast--content" role="alert" aria-atomic="true">
     <ng-container *ngIf="type === 'loading'">
       <p [textContent]="toast.message"></p>
-      <svg
+      <div
         *ngIf="(loading$ | async)"
-        class="op-loading-indicator op-loading-indicator_in-toast"
+        class="op-loading-indicator op-loading-indicator_embedded"
       >
-        <rect rx="4px"/>
-        <rect rx="4px"/>
-        <rect rx="4px"/>
-        <rect rx="2px"/>
-      </svg>
+        <div></div><div></div>
+      </div>
     </ng-container>
     <p *ngIf="type !== 'loading'">
       <span [textContent]="toast.message"></span>

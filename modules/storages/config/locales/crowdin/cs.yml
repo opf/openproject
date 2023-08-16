@@ -71,9 +71,9 @@ cs:
         new: "Přidat úložiště souborů k tomuto projektu"
         edit: "Upravit úložiště souborů pro tento projekt"
         delete: "Odstranit úložiště souborů"
-        members_check: "Members check"
+        members_connection_status: "Members connection status"
       project_storage_members:
-        title: "Members check"
+        title: "Members connection status"
         subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
     instructions:
       type: "Ujistěte se prosím, že máte oprávnění administrace v Nextcloud instanci a máte nainstalovanou následující aplikaci:"
@@ -135,10 +135,11 @@ cs:
     label_storage: "Úložiště"
     label_storages: "Úložiště"
     label_status: "Status"
+    label_files: "Files"
     member_connection_status:
       connected: "Connected"
       connected_no_permissions: "User role has no storages permissions"
-      not_connected: "Not connected"
+      not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
     no_results: "Zatím nejsou nastaveny žádné úložiště."
     members_no_results: "No members to display."
     provider_types:

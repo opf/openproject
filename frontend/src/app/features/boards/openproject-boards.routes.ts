@@ -33,7 +33,7 @@ import { BoardListContainerComponent } from 'core-app/features/boards/board/boar
 import { makeSplitViewRoutes } from 'core-app/features/work-packages/routing/split-view-routes.template';
 import { WorkPackageSplitViewComponent } from 'core-app/features/work-packages/routing/wp-split-view/wp-split-view.component';
 
-export const menuItemClass = 'board-view-menu-item';
+export const menuItemClass = 'boards-menu-item';
 
 export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   {

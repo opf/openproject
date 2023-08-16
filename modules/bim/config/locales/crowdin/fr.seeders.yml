@@ -13,7 +13,7 @@ fr:
         item_2:
           name: Haut
         item_3:
-          name: Critical
+          name: Critique
       statuses:
         item_0:
           name: nouveau
@@ -40,14 +40,14 @@ fr:
         item_3:
           name: Ticket
         item_4:
-          name: Remark
+          name: Remarque
         item_5:
-          name: Request
+          name: Requête
         item_6:
-          name: Clash
+          name: Conflit
       global_queries:
         item_0:
-          name: 'Embedded table: Children'
+          name: 'Tableau intégré : Enfants'
       type_configuration:
         item_0:
           form_configuration:
@@ -55,23 +55,23 @@ fr:
               group_name: Enfants
       groups:
         item_0:
-          name: Architects
+          name: Architectes
         item_1:
-          name: BIM Coordinators
+          name: Coordonnateurs BIM
         item_2:
-          name: BIM Managers
+          name: Gestionnaires BIM
         item_3:
-          name: BIM Modellers
+          name: Modélisateurs BIM
         item_4:
-          name: Lead BIM Coordinators
+          name: Coordonnateurs principaux BIM
         item_5:
-          name: MEP Engineers
+          name: Ingénieurs MEP
         item_6:
-          name: Planners
+          name: Planificateurs
         item_7:
-          name: Structural Engineers
+          name: Ingénieurs structurels
       welcome:
-        title: Welcome to OpenProject BIM edition!
+        title: Bienvenue dans l'édition d'OpenProject BIM !
         text: |
           Checkout the demo projects to get started with some examples.
 
@@ -87,35 +87,35 @@ fr:
           You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-construction-project:
-          name: "(Demo) Construction project"
-          status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo construction project.
+          name: "(Démonstration) Projet de construction"
+          status_explanation: Toutes les tâches et les sous-projets sont en cours. Les personnes concernées connaissent leurs tâches. Le système est entièrement configuré.
+          description: Voici un bref résumé des objectifs de ce projet de construction de démonstration.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Bienvenue dans votre projet de démonstration
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Nous sommes heureux que vous nous ayez rejoints.
+                Dans ce module, vous pouvez communiquer les actualités du projet aux membres de votre équipe.
+              description: Les actualités réelles
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Catégorie 1 (à modifier dans les paramètres du projet)
           queries:
             item_0:
               name: Plan de projet
             item_1:
-              name: Milestones
+              name: Étapes
             item_2:
-              name: Tasks
+              name: Tâches
             item_3:
               name: Planificateur d'équipe
           boards:
             bcf:
-              name: Simple drag'n drop workflow
+              name: Glissez-déposez simplement le flux de travail
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Bienvenue
               item_1:
                 options:
                   name: Pour commencer
@@ -147,34 +147,34 @@ fr:
                   name: Lots de Travaux
               item_6:
                 options:
-                  name: Milestones
+                  name: Étapes
         demo-planning-constructing-project:
-          name: "(Demo) Planning & constructing"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo planning and constructing project.
+          name: "(Démonstration) Planification et construction"
+          status_explanation: Toutes les tâches sont en cours. Les personnes concernées connaissent leurs tâches. Le système est entièrement configuré.
+          description: Voici un bref résumé des objectifs de ce projet de démonstration de planification et de construction.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Bienvenue dans votre projet de démonstration
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Nous sommes heureux que vous nous ayez rejoints.
+                Dans ce module, vous pouvez communiquer les actualités du projet aux membres de votre équipe.
+              description: Les actualités réelles
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Catégorie 1 (à modifier dans les paramètres du projet)
           queries:
             item_0:
               name: Plan de projet
             item_1:
-              name: Milestones
+              name: Étapes
             item_2:
-              name: Tasks
+              name: Tâches
             item_3:
               name: Planificateur d'équipe
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Bienvenue
               item_1:
                 options:
                   name: Pour commencer
@@ -202,33 +202,33 @@ fr:
                   name: Lots de Travaux
               item_6:
                 options:
-                  name: Milestones
+                  name: Étapes
           work_packages:
             item_0:
-              subject: Project kick off construction project
+              subject: Démarrage du projet de construction
               description: |-
-                The project kick off initializes the start of the project in your company. Everybody being part of this project should be invited to the kick off for a first briefing.
+                Le lancement du projet initialise le démarrage du projet dans votre entreprise. Tous ceux qui participent à ce projet devraient être invités au lancement pour participer à une première séance d'information.
 
-                The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                La prochaine étape pourrait être de vérifier le calendrier et d'ajuster les rendez-vous, en consultant le [diagramme de Gantt]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
-              subject: Basic evaluation
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Évaluation de base
+              description: Ce type est hiérarchiquement un parent des types &quot;Conflit&quot; et &quot;Requête&quot;, et représente donc une note générale.
               children:
                 item_0:
-                  subject: Gathering first project information
+                  subject: Collecte des informations du premier projet
                   description: |-
-                    ## Goal
+                    ## Objectif
 
-                    *   Define tasks based on the customer needs
-                    *   Time frame and cost estimation shall be defined
+                    *   Définir les tâches en fonction des besoins du client
+                    *   Définir le délai et l'estimation des coûts
 
                     ## Description
 
-                    *   Identify the customer needs by having a workshop with him/ her
-                    *   Each need shall represent a task with its corresponding work packages
-                    *   Derive the cost estimation and time frame
+                    *   Identifier les besoins du client en organisant un atelier avec lui
+                    *   Chaque besoin doit représenter une tâche avec ses lots de travaux correspondants
+                    *   Calculer l'estimation des coûts et le calendrier
                 item_1:
-                  subject: Summarize the results
+                  subject: Résumer les résultats
                   description: |-
                     ## Goal
 
@@ -243,7 +243,7 @@ fr:
                     *   This overview informs all participants about the decisions made
                     *   ...
                 item_2:
-                  subject: End of basic evaluation
+                  subject: Fin de l'évaluation de base
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_2:
               subject: Preliminary planning
@@ -464,15 +464,15 @@ fr:
             item_0:
               subject: Project kick off creating BIM model
               description: |-
-                The project Kickoff initializes the start of the project in your company. The whole project team should be invited to the Kickoff for a first briefing.
+                Le lancement du projet initialise le démarrage du projet dans votre entreprise. Toute l'équipe du projet devrait être invitée au lancement pour participer à une première séance d'information.
 
-                The next step could be to check out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                La prochaine étape pourrait être de vérifier le calendrier et d'ajuster les rendez-vous, en consultant le [diagramme de Gantt]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
-              subject: Project preparation
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Préparation du projet
+              description: Ce type est hiérarchiquement un parent des types &quot;Conflit&quot; et &quot;Requête&quot;, et représente donc une note générale.
               children:
                 item_0:
-                  subject: Gathering the project specific data and information for the BIM model
+                  subject: Collecte des données et des informations spécifiques au projet pour le modèle BIM
                   description: |-
                     ## Goal
 
@@ -488,7 +488,7 @@ fr:
                     *   A strategy for the delivery phase
                     *   ...
                 item_1:
-                  subject: Creating the BIM execution plan
+                  subject: Création du plan d'exécution BIM
                   description: |-
                     # Goal
 
@@ -501,17 +501,17 @@ fr:
                     *   To handle the technological interfaces, a software topology will be defined and analyzed and verified
                     *   ...
                 item_2:
-                  subject: Completion of the BIM execution plan
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Achèvement du plan d'exécution BIM
+                  description: Ce type est hiérarchiquement un parent des types &quot;Conflit&quot; et &quot;Requête&quot;, et représente donc une note générale.
             item_2:
-              subject: End of preparation phase
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Fin de la phase de préparation
+              description: Ce type est hiérarchiquement un parent des types &quot;Conflit&quot; et &quot;Requête&quot;, et représente donc une note générale.
             item_3:
-              subject: Creating initial BIM model
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Création du modèle BIM initial
+              description: Ce type est hiérarchiquement un parent des types &quot;Conflit&quot; et &quot;Requête&quot;, et représente donc une note générale.
               children:
                 item_0:
-                  subject: Modelling initial BIM model
+                  subject: Modélisation du modèle BIM initial
                   description: |-
                     # Goal
 
@@ -524,7 +524,7 @@ fr:
                     *   The model shall be modelled according to the LOD Matrices and contain the information needed
                     *   ...
                 item_1:
-                  subject: Initial, internal model check and revising
+                  subject: Initial, contrôle et révision du modèle interne
                   description: |-
                     # Goal
 
@@ -611,7 +611,7 @@ fr:
               subject: Modelling & coordinating, (n-th minus 1) cycle
               description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
             item_9:
-              subject: Modelling & coordinating n-th cycle
+              subject: Modélisation et coordination du n-ième cycle
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_10:
               subject: Finishing modelling & coordinating, n-th cycle
@@ -647,64 +647,64 @@ fr:
                     *   The BCF files will be used to assign, track and correct issues
                     *   ...
                 item_2:
-                  subject: Finish construction
+                  subject: Terminer la construction
             item_12:
-              subject: Issue management, construction phase
+              subject: Gestion des problèmes, phase de construction
             item_13:
-              subject: Handover for Facility Management
+              subject: Remise pour la gestion des installations
               description: |-
-                ## Goal
+                ## Objectif
 
-                *   The BIM model will be used for the Facility Management
-                *   The model provides all the relevant information for commissioning and operating the building
+                *   Le modèle BIM sera utilisé pour la gestion des installations
+                *   Le modèle fournit toutes les informations pertinentes pour la mise en service et l'exploitation du bâtiment
                 *   ...
 
                 ## Description
 
-                *   The model contains the relevant information for the facility manager
-                *   The model can be used for the operating system of the building
+                *   Le modèle contient les informations pertinentes pour le responsable des installations
+                *   Le modèle peut être utilisé pour le système d'exploitation du bâtiment
                 *   ...
             item_14:
-              subject: Asset Management
-              description: Enjoy your building :)
+              subject: Gestion des actifs
+              description: Profitez de votre bâtiment :)
         demo-bcf-management-project:
-          name: "(Demo) BCF management"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo BCF management project.
+          name: "(Démonstration) Gestion BCF"
+          status_explanation: Toutes les tâches sont en cours. Les personnes concernées connaissent leurs tâches. Le système est entièrement configuré.
+          description: Voici un bref résumé des objectifs de ce projet de démonstration de gestion BCF.
           ifc_models:
             item_0:
-              name: Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)
+              name: Hôpital - Architecture (cc-by-sa-3.0 Autodesk Inc.)
             item_1:
-              name: Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)
+              name: Hôpital - Structurel (cc-by-sa-3.0 Autodesk Inc.)
             item_2:
-              name: Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)
+              name: Hôpital - Mécanique (cc-by-sa-3.0 Autodesk Inc.)
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Catégorie 1 (à modifier dans les paramètres du projet)
           queries:
             item_0:
               name: Problèmes
             item_1:
-              name: Clashes
+              name: Conflits
             item_2:
-              name: Requests
+              name: Requêtes
             item_3:
-              name: Remarks
+              name: Remarques
             item_4:
               name: Plan de projet
             item_5:
-              name: Milestones
+              name: Étapes
             item_6:
-              name: Tasks
+              name: Tâches
             item_7:
               name: Planificateur d'équipe
           boards:
             bcf:
-              name: BCF issues
+              name: Problèmes BCF
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Bienvenue
               item_1:
                 options:
                   name: Pour commencer

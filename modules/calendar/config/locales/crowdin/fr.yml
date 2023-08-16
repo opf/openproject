@@ -2,8 +2,8 @@
 fr:
   label_calendar: "Calendrier"
   label_calendar_plural: "Calendriers"
-  label_new_calendar: "New calendar"
+  label_new_calendar: "Nouveau calendrier"
   permission_view_calendar: "Voir les calendriers"
   permission_manage_calendars: "Gérer les calendriers"
-  permission_share_calendars: "Subscribe to iCalendars"
+  permission_share_calendars: "S'abonner à iCalendars"
   project_module_calendar_view: "Calendriers"

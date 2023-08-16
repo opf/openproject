@@ -362,6 +362,7 @@ ru:
         в диаграммах Ганта или таблицах пакетов работ. Поэтому рекомендуется использовать насыщенный цвет.
   versions:
     overview:
+      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
       no_results_title_text: В настоящее время пакетов работ для этой версии нет.
   wiki:
     page_not_editable_index: Запрошенная страница (пока) не существует. Вы были перенаправлены на индекс всех вики-страниц.
@@ -834,7 +835,7 @@ ru:
               not_allowed_to_view: "у Вас нет разрешений для просматра этого ресурса."
               locked: "заблокирован."
         wiki_page:
-          error_conflict: "The wiki page has been updated by someone else while you were editing it."
+          error_conflict: "Когда вы редактировали wiki-страницу, кто-то обновил её."
           attributes:
             slug:
               undeducible: "не может быть вычтено из заголовка '%{title}'."
@@ -914,6 +915,7 @@ ru:
             principal:
               unassignable: "не может быть присвоен проекту."
         version:
+          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "Версия не может быть удалена, так как имеет пакеты работ, прикрепленные к ней."
         status:
           readonly_default_exlusive: "не может быть активирован для статусов, отмеченных по умолчанию."
@@ -959,24 +961,26 @@ ru:
       'doorkeeper/application': "Приложение OAuth"
   errors:
     header_invalid_fields:
-      one: "There was a problem with the following field:"
-      few: "There were problems with the following fields:"
-      many: "There were problems with the following fields:"
-      other: "There were problems with the following fields:"
+      one: "Возникла проблема со следующим полем:"
+      few: "Возникли проблемы со следующими полями:"
+      many: "Проблемы возникли со следующими полями:"
+      other: "Проблемы со следующими полями:"
     header_additional_invalid_fields:
-      one: "Additionally, there was a problem with the following field:"
-      few: "Additionally, there were problems with the following fields:"
-      many: "Additionally, there were problems with the following fields:"
-      other: "Additionally, there were problems with the following fields:"
+      one: "Кроме того, возникла проблема со следующим полем:"
+      few: "Кроме того, были проблемы со следующими полями:"
+      many: "Кроме того, были проблемы со следующими полями:"
+      other: "Кроме того, были проблемы с полями:"
     field_erroneous_label: "Значение этого поля неверно: %{full_errors}. Пожалуйста, введите верное значение."
   activity:
     item:
       created_by_on: "создано %{user} %{datetime}"
       created_by_on_time_entry: "время зарегистрировано %{user} %{datetime}"
       created_on: "создано %{datetime}"
+      created_on_time_entry: "time logged on %{datetime}"
       updated_by_on: "обновлено %{user} %{datetime}"
-      updated_by_on_time_entry: "время регистрации обновлено %{user} %{datetime}"
+      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "обновлено %{datetime}"
+      updated_on_time_entry: "logged time updated on %{datetime}"
       parent_without_of: "Подпроект"
       parent_no_longer: "Больше не подпроект"
       time_entry:
@@ -1354,9 +1358,10 @@ ru:
   error_can_not_archive_project: "Этот проект невозможно заархивировать: %{errors}"
   error_can_not_delete_entry: "Не удается удалить содержимое"
   error_can_not_delete_custom_field: "Не удается удалить настраиваемое поле"
+  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
+  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Этот тип содержит пакеты работ и не может быть удален. Вы можете увидеть все затрагиваемые пакеты работ в <a target="_blank" href="%{url}">этом представлении</a>.'
-    archived_projects: 'Также существуют пакеты работ в архивных проектах. Вам необходимо сначала активировать следующие проекты, прежде чем вы сможете изменить тип соответствующих пакетов работ: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Стандартные типы не могут быть удалены."
   error_can_not_invite_user: "Не удалось отправить приглашение пользователю."
   error_can_not_remove_role: "Эта роль используется и не может быть удалена."

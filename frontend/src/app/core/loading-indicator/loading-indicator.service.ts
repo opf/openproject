@@ -64,12 +64,9 @@ export function withDelayedLoadingIndicator<T>(indicator:() => LoadingIndicator)
 export class LoadingIndicator {
   private indicatorTemplate =
     `<div class="loading-indicator--background">
-        <svg class="op-loading-indicator">
-          <rect rx="4px"/>
-          <rect rx="4px"/>
-          <rect rx="4px"/>
-          <rect rx="2px"/>
-        </svg>
+        <div class="op-loading-indicator">
+           <div></div><div></div>
+        </div>
       </div>
    `;
 

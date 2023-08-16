@@ -213,6 +213,17 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
 
     ######### Begin Edit Automatically managed project folders #########
     page.find('.button--icon.icon-edit').click
+
+    # Confirm update of host URL with subpath renders correctly Nextcloud/Administration link
+    mock_server_capabilities_response("https://example.com/with/subpath")
+    mock_server_config_check_response("https://example.com/with/subpath")
+    page.find_by_id('storages_storage_host').set("https://example.com/with/subpath")
+    page.click_button('Save')
+
+    # Check for updated host URL
+    expect(page).to have_text("https://example.com/with/subpath")
+
+    page.find('.button--icon.icon-edit').click
     page.find('a', text: 'Edit automatically managed project folders').click
 
     expect(page).to have_title("Automatically managed project folders")
@@ -221,6 +232,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
     expect(automatically_managed_switch).to be_checked
     expect(application_password_input.value).to be_empty
     expect(application_password_input['placeholder']).to eq("●●●●●●●●●●●●●●●●")
+    expect(page).to have_link(text: 'Nextcloud Administration / OpenProject', href: 'https://example.com/with/subpath/settings/admin/openproject')
 
     # Clicking submit without inputing new application password should show an error
     page.click_button('Save')

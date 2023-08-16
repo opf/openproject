@@ -363,6 +363,7 @@ cs:
         v Ganttových grafech nebo tabulkách pracovních balíčků. Proto se doporučuje použít kontrastní barvu.
   versions:
     overview:
+      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
       no_results_title_text: Momentálně zde nejsou žádné pracovní balíčky přiřazené k této verzi.
   wiki:
     page_not_editable_index: Požadovaná stránka ještě neexistuje. Byli jste přesměrováni na index všech wiki stránek.
@@ -915,6 +916,7 @@ cs:
             principal:
               unassignable: "nelze přiřadit k projektu."
         version:
+          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "Verze nemůže být odstraněna, protože jsou k ní připojeny pracovní balíčky."
         status:
           readonly_default_exlusive: "nelze aktivovat pro stavy, které jsou označeny jako výchozí."
@@ -975,9 +977,11 @@ cs:
       created_by_on: "vytvořil %{user} dne %{datetime}"
       created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "vytvořeno dne %{datetime}"
+      created_on_time_entry: "time logged on %{datetime}"
       updated_by_on: "Aktualizováno uživatelem {{user}} dne {{date}}"
-      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "aktualizováno dne %{datetime}"
+      updated_on_time_entry: "logged time updated on %{datetime}"
       parent_without_of: "Podprojekt"
       parent_no_longer: "Již není podprojekt projektu"
       time_entry:
@@ -1355,9 +1359,10 @@ cs:
   error_can_not_archive_project: "Tento projekt nelze archivovat: %{errors}"
   error_can_not_delete_entry: "Nelze odstranit položku"
   error_can_not_delete_custom_field: "Nelze odstranit vlastní pole"
+  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
+  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Tento typ obsahuje pracovní balíčky a nelze je odstranit. Všechny dotčené pracovní balíčky můžete vidět v <a target="_blank" href="%{url}">tomto zobrazení</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Standartní typy se nedají odstranit."
   error_can_not_invite_user: "Nepodařilo se odeslat pozvání uživateli."
   error_can_not_remove_role: "Tato role je používána a nelze ji odstranit."

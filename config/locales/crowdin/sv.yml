@@ -105,7 +105,7 @@ sv:
       cancelled_due_to: "Jobbet avbröts på grund av fel: %{message}"
   ldap_auth_sources:
     ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    ldap_auth_failed: "Kunde inte autentisera vid LDAP-servern."
     back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Detta LDAP-formulär kräver teknisk kunskap om din LDAP / Active Directory-inställning.
@@ -289,14 +289,14 @@ sv:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
-      browser: 'Browser'
-      device: 'Device / OS'
-      unknown_browser: 'unknown browser'
-      unknown_os: 'unknown operating system'
-      current: 'Current session'
-      title: 'Session management'
-      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
-      may_not_delete_current: 'You cannot delete your current session.'
+      browser: 'Webbläsare'
+      device: 'Enhet / OS'
+      unknown_browser: 'okänd webbläsare'
+      unknown_os: 'okänt operativsystem'
+      current: 'Nuvarande session'
+      title: 'Sessionskontrollering'
+      instructions: 'Det här är en list av enheter som är inloggade på ditt konto. Ta bort alla sessioner som du inte känner igen eller som du inte längre har tillgång till.'
+      may_not_delete_current: 'Du kan inte ta bort din nuvarande session.'
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
       no_results_title_text: This user is currently not a member in any group.
@@ -362,6 +362,7 @@ sv:
         in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
+      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
       no_results_title_text: Det finns för närvarande inga arbetspaket tilldelade till denna version.
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
@@ -829,10 +830,10 @@ sv:
         watcher:
           attributes:
             user_id:
-              not_allowed_to_view: "is not allowed to view this resource."
-              locked: "is locked."
+              not_allowed_to_view: "har inte tillåtelse att visa denna resurs."
+              locked: "är låst."
         wiki_page:
-          error_conflict: "The wiki page has been updated by someone else while you were editing it."
+          error_conflict: "Wiki-sidan har blivit uppdaterad av någon annan medans du redigerade den."
           attributes:
             slug:
               undeducible: "cannot be deduced from the title '%{title}'."
@@ -910,6 +911,7 @@ sv:
             principal:
               unassignable: "kan inte tilldelas till ett projekt."
         version:
+          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "Versionen kan inte tas bort eftersom den har arbetspaket bifogade till den."
         status:
           readonly_default_exlusive: "can not be activated for statuses that are marked default."
@@ -960,9 +962,11 @@ sv:
       created_by_on: "created by %{user} on %{datetime}"
       created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "created on %{datetime}"
+      created_on_time_entry: "time logged on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
-      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
+      updated_on_time_entry: "logged time updated on %{datetime}"
       parent_without_of: "Delprojekt"
       parent_no_longer: "No longer subproject of"
       time_entry:
@@ -1057,13 +1061,13 @@ sv:
       implications: >
         Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
       info: >
-        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+        Du behöver generera en backup-kod för att kunna göra en backup. Varje gång du vill be om en backup så behöver du skriva in den här koden. Du kan ta bort backup-koden för att stänga av backups för den här användaren.
       verification: >
         Enter %{word} to confirm you want to %{action} the backup token.
-      verification_word_reset: reset
-      verification_word_create: create
+      verification_word_reset: återställ
+      verification_word_create: skapa
       warning: >
-        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
+        När du skapar en ny kod så kommer du bara kunna be om en backup efter 24 timmar. Det här är på grund av säkerhet. Efter det så kan du be om en backup när som helt genom att använda den koden.
     text_token_deleted: Backup token deleted. Backups are now disabled.
     error:
       invalid_token: Invalid or missing backup token
@@ -1312,9 +1316,10 @@ sv:
   error_can_not_archive_project: "Det här projektet kan inte arkiveras: %{errors}"
   error_can_not_delete_entry: "Kunde inte ta bort inlägg"
   error_can_not_delete_custom_field: "Det går inte att ta bort anpassat fält"
+  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
+  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Standardtyper kan inte tas bort."
   error_can_not_invite_user: "Det gick inte att skicka inbjudan till användare."
   error_can_not_remove_role: "Denna roll används och kan inte tas bort."
@@ -2139,9 +2144,9 @@ sv:
     salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
-      login_to_see_all: 'Log in to see all notifications.'
-      mentioned: 'You have been <b>mentioned in a comment</b>'
-      mentioned_by: '%{user} mentioned you in a comment'
+      login_to_see_all: 'Logga in för att se alla notifikationer. '
+      mentioned: 'Du har blivit <b>nämnd i en kommentar</b>'
+      mentioned_by: '%{user} nämnde dig i en kommentar'
       more_to_see:
         one: 'There is 1 more work package with notifications.'
         other: 'There are %{count} more work packages with notifications.'
@@ -2170,9 +2175,9 @@ sv:
   mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
   mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "För att ändra ditt lösenord, klicka på följande länk:"
-  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
-  mail_body_register_header_title: "Project member invitation email"
-  mail_body_register_user: "Dear %{name}, "
+  mail_body_register: "Välkommen till %{app_title}. Aktivera ditt konto genom att klicka på den här länken:"
+  mail_body_register_header_title: "Projektmedlem inbjudningsmejl"
+  mail_body_register_user: "Hej %{name},"
   mail_body_register_links_html: |
     Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
     and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
@@ -2674,7 +2679,7 @@ sv:
       first_week_of_year_text_html: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
     experimental:
-      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      save_confirmation: Varning! Risk för dataförlust! Aktivera endast experimentella funktioner om du är okej med att korruptera din OpenProject-installation och att förlora all din data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Feature flags
     general: "Allmänt"
@@ -2745,7 +2750,7 @@ sv:
   text_custom_logo_instructions: >
     En vit logotyp på transparent bakgrund rekommenderas. För bästa resultat på både vanliga och Retina-skärmar bör bilden vara minst 460x60 px.
   text_custom_export_logo_instructions: >
-    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+    Det här är loggan som syns i dina PDF-exporter. Det behöver vara en PNG eller JPEG bildfil. En svart eller färglagd logga på en transparent eller vit bakgrund rekommenderas.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >

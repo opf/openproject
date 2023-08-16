@@ -71,9 +71,9 @@ el:
         new: "Add a file storage to this project"
         edit: "Edit the file storage to this project"
         delete: "Delete file storage"
-        members_check: "Members check"
+        members_connection_status: "Members connection status"
       project_storage_members:
-        title: "Members check"
+        title: "Members connection status"
         subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
     instructions:
       type: "Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:"
@@ -135,10 +135,11 @@ el:
     label_storage: "Storage"
     label_storages: "Storages"
     label_status: "Status"
+    label_files: "Files"
     member_connection_status:
       connected: "Connected"
       connected_no_permissions: "User role has no storages permissions"
-      not_connected: "Not connected"
+      not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
     no_results: "No storages set up yet."
     members_no_results: "No members to display."
     provider_types:

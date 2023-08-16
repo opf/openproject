@@ -41,7 +41,7 @@ ru:
       github_actions: Действия
       pull_requests:
         message: "Запрос на извлечение #%{pr_number} %{pr_link} для %{repository_link} автором %{github_user_link} был %{pr_state}."
-        merged_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
+        merged_message: "Запрос на слияние #%{pr_number} %{pr_link} для %{repository_link} был %{pr_state} от %{github_user_link}."
         referenced_message: "Запрос на извлечение #%{pr_number} %{pr_link} для %{repository_link} автором %{github_user_link} ссылается на этот пакет работ."
         states:
           opened: 'открыт'

@@ -362,6 +362,7 @@ pt:
         nas tabelas de Gantt ou tabelas dos pacotes de trabalho. Recomenda-se o uso de uma cor forte.
   versions:
     overview:
+      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
       no_results_title_text: Não há pacote de trabalho atribuído a esta versão.
   wiki:
     page_not_editable_index: A página solicitada (ainda) não existe. Você foi redirecionado para o índice de todas as páginas wiki.
@@ -910,6 +911,7 @@ pt:
             principal:
               unassignable: "não pode ser atribuído a um projeto."
         version:
+          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "A versão não pode ser excluída pois tem pacotes de trabalho anexados a ela."
         status:
           readonly_default_exlusive: "Não pode ser ativado para estados marcados como padrão."
@@ -960,9 +962,11 @@ pt:
       created_by_on: "criado por %{user} em %{datetime}"
       created_by_on_time_entry: "tempo registrado por %{user} em %{datetime}"
       created_on: "criado em %{datetime}"
+      created_on_time_entry: "time logged on %{datetime}"
       updated_by_on: "atualizado por %{user} em %{datetime}"
-      updated_by_on_time_entry: "tempo registrado por %{user} em %{datetime}"
+      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "atualizado em %{datetime}"
+      updated_on_time_entry: "logged time updated on %{datetime}"
       parent_without_of: "Subprojeto"
       parent_no_longer: "Não é mais um subprojeto de"
       time_entry:
@@ -1312,9 +1316,10 @@ pt:
   error_can_not_archive_project: "Este projeto não pode ser arquivado: %{errors}"
   error_can_not_delete_entry: "Não é possível excluir a entrada"
   error_can_not_delete_custom_field: "Não é possível excluir o campo personalizado"
+  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
+  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Este tipo contém pacotes de trabalho e não pode ser excluído. Você pode ver todos os pacotes de trabalho afetados em <a target="_blank" href="%{url}">esta visão</a>.'
-    archived_projects: 'Também há pacotes de trabalho em projetos arquivados. Primeiro, você precisa reativar os seguintes projetos, antes de poder alterar o tipo dos respectivos pacotes de trabalho: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Tipos padrão não podem ser excluídos."
   error_can_not_invite_user: "Falhou ao enviar convite ao usuário."
   error_can_not_remove_role: "Este papel está em uso e não pode ser excluído."

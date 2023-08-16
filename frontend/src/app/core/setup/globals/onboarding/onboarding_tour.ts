@@ -71,7 +71,7 @@ function startTour(steps:OnboardingStep[]) {
 }
 
 function moduleVisible(name:string):boolean {
-  return document.getElementsByClassName(`${name}-view-menu-item`).length > 0;
+  return document.getElementsByClassName(`${name}-menu-item`).length > 0;
 }
 
 function mainTour(project:ProjectName = ProjectName.demo) {
@@ -88,15 +88,15 @@ function mainTour(project:ProjectName = ProjectName.demo) {
     if (eeTokenAvailable) {
       // ... and available seed data of boards.
       // Then add boards to the tour, otherwise skip it.
-      if (boardsDemoDataAvailable && moduleVisible('board')) {
+      if (boardsDemoDataAvailable && moduleVisible('boards')) {
         steps = steps.concat(boardTourSteps('enterprise', project));
       }
 
       // ... same for team planners
-      if (teamPlannerDemoDataAvailable && moduleVisible('team-planner')) {
+      if (teamPlannerDemoDataAvailable && moduleVisible('team-planner-view')) {
         steps = steps.concat(teamPlannerTourSteps());
       }
-    } else if (boardsDemoDataAvailable && moduleVisible('board')) {
+    } else if (boardsDemoDataAvailable && moduleVisible('boards')) {
       steps = steps.concat(boardTourSteps('basic', project));
     }
 

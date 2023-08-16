@@ -30,10 +30,12 @@ In the page that follows, you will be able to select one of the file storages se
 
 ![Select the desired storage](storage-add-new.png)
 
+### Project folders
+
 In the last step of the process, you will be able to choose which kind of project folder will be the default folder for file uploads for this project:
 
 1. **No specific folder**: By default, each user will start at their own home folder when they upload a file.
-2. **New folder with automatically managed permissions**: This will automatically create a root folder for this project and manage the access permissions for each project member. This option will only be available if the administrator has set up the storage with automatically managed folders.
+2. **New folder with automatically managed permissions**: This will automatically create a root folder for this project and manage the access permissions for each project member. Each project member will automatically get read, write and share access permissions (according to defined [File storages permissions](../../../system-admin-guide/users-permissions/roles-permissions/#permissions) in the project) to this root folder. This option will only be available if the system administrator has [set up the storage with automatically managed folders](../../../system-admin-guide/integrations/nextcloud/).
 3. **Existing folder with manually managed permissions**: Once you selected this option, you can designate an existing folder as the root folder for this project using the button **Select folder**. The permissions are however not automatically managed. The administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
 
 ![Select the project folder type](storage-add-project-folder.png)

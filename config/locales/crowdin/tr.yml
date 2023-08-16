@@ -362,6 +362,7 @@ tr:
         Seçilen renk, Gantt şemalarında veya iş paketleri tablolarında farklı türleri ayırt eder. Bu nedenle güçlü bir renk kullanılması önerilir.
   versions:
     overview:
+      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
       no_results_title_text: Bu sürüme atadığım iş paketi bulunmuyor.
   wiki:
     page_not_editable_index: İstenen sayfa mevcut değil (henüz). Tüm wiki sayfalarının dizinine yönlendirildiniz.
@@ -910,6 +911,7 @@ tr:
             principal:
               unassignable: "bir projeye atanamaz."
         version:
+          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "Eklenmiş iş paketleri olduğu için sürüm silinemez."
         status:
           readonly_default_exlusive: "varsayılan olarak işaretlenen durumlar için etkinleştirilemez."
@@ -960,9 +962,11 @@ tr:
       created_by_on: "%{user} tarafından %{date} tarihinde oluşturuldu"
       created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "Oluşturulma tarihi: {dateTime}"
+      created_on_time_entry: "time logged on %{datetime}"
       updated_by_on: "%{date} tarihinde %{user} tarafından güncellendi"
-      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "Güncellenme tarihi: {dateTime}"
+      updated_on_time_entry: "logged time updated on %{datetime}"
       parent_without_of: "Alt proje"
       parent_no_longer: "No longer subproject of"
       time_entry:
@@ -1312,9 +1316,10 @@ tr:
   error_can_not_archive_project: "Bu proje arşivlenemiyor: %{errors}"
   error_can_not_delete_entry: "Girdi silinemiyor"
   error_can_not_delete_custom_field: "Özel alan silinemiyor"
+  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
+  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Bu tür iş paketleri içerir ve silinemez. Etkilenen tüm iş paketlerini <a target="_blank" href="%{url}">bu görünümde</a> görebilirsiniz.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Standart türler silinemez."
   error_can_not_invite_user: "Kullanıcı daveti gönderemedi."
   error_can_not_remove_role: "Bu rol kullanımda ve silinemez."

@@ -31,20 +31,21 @@ require 'spec_helper'
 RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:custom_field) { build(:custom_field) }
   let(:work_package) { build_stubbed(:work_package, type: build_stubbed(:type)) }
+
   let(:current_user) do
-    build_stubbed(:user, member_in_project: work_package.project).tap do |u|
-      allow(u)
-        .to receive(:allowed_to?)
-        .and_return(false)
-      allow(u)
+    build_stubbed(:user, member_in_project: work_package.project).tap do |user|
+      allow(user).to receive(:allowed_to?).and_return(false)
+      allow(user)
         .to receive(:allowed_to?)
         .with(:edit_work_packages, work_package.project, global: false)
         .and_return(true)
     end
   end
+
   let(:schema) do
     API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package:)
   end
+
   let(:representer) { described_class.create(schema, self_link: nil, current_user:) }
 
   before do
@@ -87,7 +88,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
   end
 
-  describe 'remainingTime' do
+  describe 'remainingTime & derivedRemainingtime' do
     subject { representer.to_json }
 
     shared_examples_for 'has schema for remainingTime' do
@@ -100,11 +101,18 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    before do
-      allow(schema).to receive(:remaining_time_writable?).and_return(true)
+    shared_examples_for 'has schema for derivedRemainingTime' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'derivedRemainingTime' }
+        let(:type) { 'Duration' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.derived_remaining_hours') }
+        let(:required) { false }
+        let(:writable) { false }
+      end
     end
 
     it_behaves_like 'has schema for remainingTime'
+    it_behaves_like 'has schema for derivedRemainingTime'
 
     context 'backlogs disabled' do
       before do
@@ -114,6 +122,10 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       it 'has no schema for remaining time' do
         expect(subject).not_to have_json_path('remainingTime')
       end
+
+      it 'has no schema for derivedRemaining time' do
+        expect(subject).not_to have_json_path('derivedRemainingTime')
+      end
     end
 
     context 'not a story' do
@@ -122,6 +134,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       it_behaves_like 'has schema for remainingTime'
+      it_behaves_like 'has schema for derivedRemainingTime'
     end
 
     context 'remainingTime not writable' do

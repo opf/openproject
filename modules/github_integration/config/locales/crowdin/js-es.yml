@@ -40,12 +40,12 @@ es:
         empty: 'Aún no hay solicitudes de incorporación de cambios vinculadas. Vincule una solicitud de incorporación de cambios existente con el código <code>OP#%{wp_id}</code> en la descripción, o bien cree una nueva solicitud de incorporación de cambios.'
       github_actions: Acciones
       pull_requests:
-        message: "El pull request #%{pr_number} %{pr_link} para %{repository_link} cuyo autor es %{github_user_link} ha sido %{pr_state}."
-        merged_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
-        referenced_message: "El pull request #%{pr_number} %{pr_link} para %{repository_link} cuyo autor es %{github_user_link} hace referencia a este paquete de trabajo."
+        message: "La solicitud de incorporación de cambios #%{pr_number} %{pr_link} para %{repository_link} cuyo autor es %{github_user_link} ha sido %{pr_state}."
+        merged_message: "La solicitud de incorporación de cambios #%{pr_number} %{pr_link} para %{repository_link} ha sido %{pr_state} por %{github_user_link}."
+        referenced_message: "La solicitud de incorporación de cambios #%{pr_number} %{pr_link} para %{repository_link} cuyo autor es %{github_user_link} hace referencia a este paquete de trabajo."
         states:
-          opened: 'Abierto'
+          opened: 'abierto'
           closed: 'cerrado'
           draft: 'redactado'
-          merged: 'Combinado'
+          merged: 'combinado'
           ready_for_review: 'marcado listo para revisión'

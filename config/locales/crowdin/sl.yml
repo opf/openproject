@@ -360,6 +360,7 @@ sl:
         Izbrana barva razlikuje različne vrste v Ganttovih diagramih ali tabelah delovnih paketov. Zato je priporočljivo uporabiti močno barvo.
   versions:
     overview:
+      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
       no_results_title_text: Za to različico trenutno ni opravil
   wiki:
     page_not_editable_index: Ta stran (še) ne obstaja. Preusmerjeni ste bili na kazalo vseh wiki strani.
@@ -912,6 +913,7 @@ sl:
             principal:
               unassignable: "ni mogoče dodeliti projektu."
         version:
+          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "Različice ni mogoče izbrisati, saj so nanjo priloženi delovni paketi."
         status:
           readonly_default_exlusive: "aktivacija za privzeta stanja ni možna."
@@ -972,9 +974,11 @@ sl:
       created_by_on: "created by %{user} on %{datetime}"
       created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "created on %{datetime}"
+      created_on_time_entry: "time logged on %{datetime}"
       updated_by_on: "spremenil %{user} %{datetime}"
-      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
+      updated_on_time_entry: "logged time updated on %{datetime}"
       parent_without_of: "Podprojekt"
       parent_no_longer: "No longer subproject of"
       time_entry:
@@ -1352,9 +1356,10 @@ sl:
   error_can_not_archive_project: "Ta projekt ne more biti arhiviran: %{errors}"
   error_can_not_delete_entry: "Izbris poizvedbe ni mogoč"
   error_can_not_delete_custom_field: "Polja po meri ni mogoče izbrisati"
+  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
+  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_standard_type: "Standardnih vrst ni mogoče izbrisati."
   error_can_not_invite_user: "Povabila uporabniku ni bilo mogoče poslati."
   error_can_not_remove_role: "Ta vloga je v uporabi in je ni mogoče izbrisati."

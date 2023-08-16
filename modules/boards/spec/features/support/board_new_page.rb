@@ -11,7 +11,7 @@ module Pages
     end
 
     def navigate_by_create_button
-      visit boards_all_path unless page.current_path == boards_all_path
+      visit work_package_boards_path unless page.current_path == work_package_boards_path
 
       within '.toolbar-items' do
         click_link 'Board'

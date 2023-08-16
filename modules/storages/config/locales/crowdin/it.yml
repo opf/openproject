@@ -71,9 +71,9 @@ it:
         new: "Aggiungi un archivio file al progetto"
         edit: "Modifica l'archiviazione dei file per questo progetto"
         delete: "Elimina archivio file"
-        members_check: "Controllo membri"
+        members_connection_status: "Members connection status"
       project_storage_members:
-        title: "Controllo membri"
+        title: "Members connection status"
         subtitle: "Controlla lo stato della connessione per lo spazio di archiviazione %{storage_name_link} di tutti i membri del progetto."
     instructions:
       type: "Assicurati di disporre dei privilegi di amministrazione nella tua istanza Nextcloud e di aver installato la seguente applicazione prima di eseguire l'installazione:"
@@ -135,10 +135,11 @@ it:
     label_storage: "Archivio"
     label_storages: "Archivi"
     label_status: "Stato"
+    label_files: "Files"
     member_connection_status:
       connected: "Connesso"
       connected_no_permissions: "Il ruolo utente non ha permessi di archiviazione"
-      not_connected: "Non connesso"
+      not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
     no_results: "Ancora nessun'archiviazione configurata."
     members_no_results: "Nessun membro da visualizzare."
     provider_types:

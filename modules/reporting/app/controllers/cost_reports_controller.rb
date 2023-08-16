@@ -387,11 +387,6 @@ class CostReportsController < ApplicationController
     Array(permissions).any? { |permission| user.allowed_to?(permission, @project, global:) }
   end
 
-  def display_report_list
-    report_type = params[:report_type] || :public
-    render partial: 'report_list', locals: { report_type: }, layout: !request.xhr?
-  end
-
   private
 
   def find_optional_user
