@@ -31,9 +31,9 @@ module WorkPackage::PDFExport::SumsTable
     return unless has_summable_column?
 
     write_optional_page_break
-    write_sums_title!
+    write_sums_title
     with_margin(styles.overview_table_margins) do
-      write_sums_table!(work_packages)
+      write_sums_table
     end
   end
 
@@ -43,7 +43,7 @@ module WorkPackage::PDFExport::SumsTable
     !sums_columns_objects.empty?
   end
 
-  def write_sums_title!
+  def write_sums_title
     with_margin(styles.page_heading_margins) do
       pdf.formatted_text([styles.page_heading.merge({ text: I18n.t('js.work_packages.tabs.overview') })])
     end
@@ -62,13 +62,10 @@ module WorkPackage::PDFExport::SumsTable
     widths.map { |w| w * ratio }
   end
 
-  def write_sums_table!(work_packages)
+  def write_sums_table
     rows = [build_sums_header_row]
     if query.grouped?
-      groups = work_packages.group_by do |work_package|
-        query.group_by_column.value(work_package)
-      end
-      groups.each_key do |group|
+      get_groups.each do |group|
         rows.push build_sums_group_row(group)
       end
     end

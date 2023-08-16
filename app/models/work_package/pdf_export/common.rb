@@ -275,6 +275,12 @@ module WorkPackage::PDFExport::Common
     @group_sums[group] || {}
   end
 
+  def get_groups
+    query.results.work_package_count_by_group
+         .select { |_, count| count > 0  }
+         .map {|group, _| group}
+  end
+
   def wants_report?
     options[:show_report]
   end
