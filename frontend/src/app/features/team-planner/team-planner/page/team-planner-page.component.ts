@@ -90,7 +90,7 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
     },
     {
       component: WorkPackageSettingsButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
       show: ():boolean => this.authorisationService.can('query', 'updateImmediately'),
       inputs: {
         hideTableOptions: true,
