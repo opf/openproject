@@ -56,7 +56,7 @@ class Storages::GroupFolderPropertiesSyncService
     @folders_properties = nil
     @group_users = nil
     @admin_tokens_query = OAuthClientToken.where(oauth_client: @storage.oauth_client,
-                                                 users: User.where(admin: true, status: 'active'))
+                                                 users: User.admin.active)
 
     @admin_nextcloud_usernames = @admin_tokens_query.pluck(:origin_user_id)
     @nextcloud_usernames_used_in_openproject = @admin_nextcloud_usernames.to_set
