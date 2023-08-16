@@ -205,6 +205,9 @@ class Storages::GroupFolderPropertiesSyncService
                  .where(oauth_client: @storage.oauth_client)
                  .where.not(id: @admin_tokens_query)
                  .includes(:user)
+    # The user scope is required in all cases except one:
+    #   when the project is public and non member has at least one storage permission
+    #   then all non memebers should have access to the project folder
     if !(project.public? && Role.non_member.permissions.intersect?(PERMISSIONS_KEYS))
       tokens_query = tokens_query.where(users: project.users)
     end
