@@ -99,6 +99,7 @@ WORKDIR $APP_PATH
 RUN --mount=type=cache,target=/var/cache/apt \
   apt-get update -qq \
   && apt-get install -yq --no-install-recommends \
+  file \
   curl \
   gnupg2 \
   && curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
