@@ -47,6 +47,7 @@ module OpTurbo
         format_block.call(format) if block_given?
       end
     end
+    alias_method :respond_with_turbo_streams, :respond_to_with_turbo_streams
 
     def update_via_turbo_stream(component:)
       modify_via_turbo_stream(component:, action: :update)
@@ -72,8 +73,7 @@ module OpTurbo
     end
 
     def prepend_via_turbo_stream(component:, target_component:)
-      @turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:,
-                                                                action: :prepend)
+      @turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:, action: :prepend)
     end
   end
 end
