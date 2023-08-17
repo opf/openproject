@@ -109,6 +109,21 @@ RSpec.describe User, 'allowed_to?' do
       context 'with the project being private' do
         before { project.update(public: false) }
 
+        context 'with the user being a member of a single work package inside the project' do
+          before do
+            work_package.save!
+            wp_member.save!
+          end
+
+          context 'with the role granting the permission' do
+            before do
+              wp_role.add_permission!(permission)
+            end
+
+            it { expect(user).not_to be_allowed_to(permission, project) }
+          end
+        end
+
         context 'and the permission being assigend to the non-member role' do
           before do
             non_member = Role.non_member
