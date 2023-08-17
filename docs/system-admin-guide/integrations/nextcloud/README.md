@@ -29,11 +29,13 @@ OpenProject offers close integration with Nextcloud to allow users to:
 
 ## Minimum requirements
 
-Please note these minimum version requirements for the integration to work:
+Please note these minimum version requirements for the integration to work with a minimal feature set:
 
 - OpenProject version 12.2 (or above)
 - Nextcloud version 22 (or above)
 - The [OpenProject Integration](https://apps.nextcloud.com/apps/integration_openproject) app, version 2.0.0 (or above)
+
+We recommend using the latest versions of both Nextcloud and OpenProject to be able to use the latest features. 
 
 ## Set up the integration
 
