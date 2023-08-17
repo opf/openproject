@@ -650,12 +650,17 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
       end
 
       it 'sets project folders properties, but does not remove inactive user from group' do
+        allow(OpenProject.logger).to receive(:warn)
         expect(project_storage1.project_folder_id).to be_nil
         expect(project_storage2.project_folder_id).to eq('123')
 
-        expect do
-          described_class.new(storage).call
-        end.to raise_error(RuntimeError, /remove_user_from_group_command was called with/)
+        described_class.new(storage).call
+
+        expect(OpenProject.logger).to have_received(:warn) do |msg, _|
+          expect(msg).to eq "Nextcloud user Darth Maul has not been removed from Nextcloud group " \
+                            "OpenProject: 'Failed to remove user from group: Not viable to remove " \
+                            "user from the last group you are SubAdmin of'"
+        end
 
         expect(request_stubs).to all have_been_requested
         project_storage1.reload

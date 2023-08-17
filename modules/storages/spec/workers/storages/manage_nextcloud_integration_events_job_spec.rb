@@ -77,9 +77,13 @@ RSpec.describe Storages::ManageNextcloudIntegrationEventsJob, type: :job do
       subject
     end
 
-    it 'fails itself when sync has been started by another process' do
+    it 'debounces itself when sync has been started by another process' do
       allow(Storages::NextcloudStorage).to receive(:sync_all_group_folders).and_return(false)
-      expect { subject }.to raise_error('Synchronization is being progressed by another process')
+      allow(described_class).to receive(:debounce)
+
+      subject
+
+      expect(described_class).to have_received(:debounce).once
     end
   end
 end

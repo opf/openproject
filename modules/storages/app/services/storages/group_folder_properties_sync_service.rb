@@ -254,7 +254,11 @@ class Storages::GroupFolderPropertiesSyncService
     @requests
       .remove_user_from_group_command
       .call(user:)
-      .on_failure(&failure_handler('remove_user_from_group_command', { user: }))
+      .on_failure do |service_result|
+      ::OpenProject.logger.warn(
+        "Nextcloud user #{user} has not been removed from Nextcloud group #{@group}: '#{service_result.errors.log_message}'"
+      )
+    end
   end
 
   def hide_inactive_project_folders

@@ -528,6 +528,35 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       expect(result).to be_success
       expect(result.message).to eq("User has been removed from group")
     end
+
+    context 'when Nextcloud reponds with 105 code in the response body' do
+      let(:expected_response_body) do
+        <<~XML
+          <?xml version="1.0"?>
+          <ocs>
+          <meta>
+            <status>failure</status>
+            <statuscode>105</statuscode>
+            <message>Not viable to remove user from the last group you are SubAdmin of</message>
+            <totalitems></totalitems>
+            <itemsperpage></itemsperpage>
+          </meta>
+          <data/>
+          </ocs>
+        XML
+      end
+
+      it 'responds with a failure and parses message from the xml response' do
+        result = subject
+                   .remove_user_from_group_command
+                   .call(user: origin_user_id)
+        expect(result).to be_failure
+        expect(result.errors.log_message).to eq(
+          "Failed to remove user from group: " \
+          "Not viable to remove user from the last group you are SubAdmin of"
+        )
+      end
+    end
   end
 
   describe '#create_folder_command' do
