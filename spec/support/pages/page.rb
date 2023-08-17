@@ -121,6 +121,12 @@ module Pages
       end
     end
 
+    def click_to_sort_by(header_name)
+      within '.generic-table thead' do
+        click_link header_name
+      end
+    end
+
     def drag_and_drop_list(from:, to:, elements:, handler:)
       # Wait a bit because drag & drop in selenium is easily offended
       sleep 1

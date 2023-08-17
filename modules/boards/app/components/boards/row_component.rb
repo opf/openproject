@@ -30,7 +30,7 @@
 
 module Boards
   class RowComponent < ::RowComponent
-    def project_id
+    def project_name
       helpers.link_to_project model.project, {}, {}, false
     end
 
