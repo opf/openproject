@@ -26,6 +26,8 @@ sl:
         position: "Položaj"
         remaining_hours: "Preostale ure"
         remaining_time: "Preostale ure"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Točke v zgodbi"
         backlogs_work_package_type: "Tip opravila na čakanju"
     errors:

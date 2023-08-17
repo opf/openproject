@@ -26,6 +26,8 @@ ckb-IR:
         position: "پێگە"
         remaining_hours: "کاتژمێری ماوە"
         remaining_time: "کاتژمێری ماوە"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Story Points"
         backlogs_work_package_type: "جۆری Backlog"
     errors:

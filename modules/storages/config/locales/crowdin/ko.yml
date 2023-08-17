@@ -71,9 +71,9 @@ ko:
         new: "이 프로젝트에 파일 저장소 추가"
         edit: "이 프로젝트에 대한 파일 저장소 편집"
         delete: "파일 저장소 삭제"
-        members_connection_status: "Members connection status"
+        members_connection_status: "멤버 연결 상태"
       project_storage_members:
-        title: "Members connection status"
+        title: "멤버 연결 상태"
         subtitle: "모든 프로젝트 멤버의 저장소 %{storage_name_link}에 대한 연결 상태를 확인하세요."
     instructions:
       type: "설정을 수행하기 전에 Nextcloud 인스턴스에서 관리 권한이 있고 다음 애플리케이션이 설치되어 있는지 확인하세요."
@@ -135,11 +135,11 @@ ko:
     label_storage: "저장소"
     label_storages: "저장소"
     label_status: "상태"
-    label_files: "Files"
+    label_files: "파일"
     member_connection_status:
       connected: "연결됨"
       connected_no_permissions: "사용자 역할에 저장소 권한이 없습니다"
-      not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
+      not_connected: "연결되지 않았습니다. 사용자는 작업 패키지의 %{files_label} 탭에서 저장소에 로그인해야 연결할 수 있습니다."
     no_results: "아직 저장소가 설정되지 않았습니다."
     members_no_results: "표시할 멤버가 없습니다."
     provider_types:

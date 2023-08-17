@@ -363,7 +363,7 @@ fr:
         dans les graphiques de Gantt ou les tables des lots de travaux. Il est donc recommandé d'utiliser une couleur forte.
   versions:
     overview:
-      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
+      work_packages_in_archived_projects: "La version est partagée avec les projets archivés qui ont encore des lots de travaux assignés à cette version. Ils sont comptés, mais n'apparaîtront pas dans les vues liées."
       no_results_title_text: Il n'y a actuellement aucun lot de travaux assigné à cette version.
   wiki:
     page_not_editable_index: La page demandée n'existe pas (encore). Vous avez été redirigé vers l'index de toutes les pages du wiki.
@@ -912,7 +912,7 @@ fr:
             principal:
               unassignable: "ne peut pas être assigné à un projet."
         version:
-          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_archived_projects: "La version ne peut pas être supprimée, car des lots de travaux y sont attachés."
           undeletable_work_packages_attached: "La version ne peut pas être supprimée car des lots de travaux y sont attachés."
         status:
           readonly_default_exlusive: "ne peut pas être activé pour les statuts qui sont marqués par défaut."
@@ -963,16 +963,16 @@ fr:
       created_by_on: "créé par %{user} le %{datetime}"
       created_by_on_time_entry: "temps enregistré par %{user} le %{datetime}"
       created_on: "créé le %{datetime}"
-      created_on_time_entry: "time logged on %{datetime}"
+      created_on_time_entry: "temps enregistré le %{datetime}"
       updated_by_on: "mis à jour par %{user} le %{datetime}"
-      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "temps enregistré mis à jour par %{user} le %{datetime}"
       updated_on: "mis à jour le %{datetime}"
-      updated_on_time_entry: "logged time updated on %{datetime}"
+      updated_on_time_entry: "temps enregistré mis à jour le %{datetime}"
       parent_without_of: "Sous-projet"
       parent_no_longer: "Plus de sous-projet de"
       time_entry:
         hour:
-          one: "%{count} hour"
+          one: "%{count} heure"
           other: "%{count} heures"
         hour_html:
           one: "<i>%{count} heure</i>"
@@ -1317,8 +1317,8 @@ fr:
   error_can_not_archive_project: "Ce projet ne peut être archivé : %{errors}"
   error_can_not_delete_entry: "Impossible de supprimer l’élément"
   error_can_not_delete_custom_field: "Impossible de supprimer le champ personnalisé"
-  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
-  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
+  error_can_not_delete_in_use_archived_undisclosed: 'Des lots de travaux sont également repris dans les projets archivés. Vous devez demander à un administrateur d''effectuer la suppression pour voir quels projets sont affectés.'
+  error_can_not_delete_in_use_archived_work_packages: 'Il y a aussi des lots de travaux dans les projets archivés. Vous devez d''abord réactiver les projets suivants avant de pouvoir modifier l''attribut des lots de travaux respectifs : %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Ce type contient des lots de travaux et ne peut pas être supprimé. Vous pouvez voir tous les lots de travaux concernés dans <a target="_blank" href="%{url}">cette vue</a>.'
   error_can_not_delete_standard_type: "Les types standards ne peuvent pas être supprimés."

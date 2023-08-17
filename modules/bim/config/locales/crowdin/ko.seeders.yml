@@ -135,7 +135,7 @@ ko:
                     4.  _Gantt 차트 만들기 및 업데이트_: → 프로젝트 탐색에서 [Gantt 차트]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D)로 이동합니다.
                     5.  _추가 모듈 활성화_: → [프로젝트 설정 → 모듈]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules)로 이동합니다.
                     6.  _타일 보기를 확인하고 BCF 이슈 개요 확인:_ → [작업 패키지]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)로 이동합니다.
-                    7.  _애자일하게 작업? 새로운 보드 확인:_ → [보드]({{opSetting:base_url}}/projects/demo-construction-project/boards)로 이동합니다.
+                    7.  _애자일하게 작업하려면? 새로운 보드 확인:_ → [보드]({{opSetting:base_url}}/projects/demo-construction-project/boards)로 이동합니다.
 
                     여기에서 [사용자 가이드](https://www.openproject.org/docs/user-guide/)를 확인할 수 있습니다.
                     질문이 있거나 지원이 필요하면 알려주세요. 연락처: [support\[at\]openproject.com](mailto:support@openproject.com).
@@ -190,7 +190,7 @@ ko:
                     3.  _새 작업 패키지 만들기:_ → [작업 패키지 → 만들기]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11)로 이동합니다.
                     4.  _Gantt 차트 만들기 및 업데이트:_ → 프로젝트 탐색에서 [Gantt 차트]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D)로 이동합니다.
                     5.  _추가 모듈 활성화:_ → [프로젝트 설정 → 모듈]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules)로 이동합니다.
-                    6.  _애자일하게 작업? 새로운 보드 만들기:_ → [보드]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)로 이동합니다.
+                    6.  _애자일하게 작업하려면? 새로운 보드 만들기:_ → [보드]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)로 이동합니다.
 
                     여기에서 [사용자 가이드](https://www.openproject.org/docs/user-guide/)를 확인할 수 있습니다.
                     질문이 있거나 지원이 필요하면 알려주세요. 연락처: [support\[at\]openproject.com](mailto:support@openproject.com).
@@ -433,24 +433,24 @@ ko:
                 options:
                   name: 시작하기
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    가입해주셔서 감사합니다! OpenProject에서 시작하려면 몇 가지를 시도해보시기 바랍니다.
 
-                    This demo project offers roles, workflows and work packages that are specialized for BIM.
+                    이 데모 프로젝트는 BIM에 특화된 역할, 워크플로 및 작업 패키지를 제공합니다.
 
-                    _Try the following steps:_
+                    _다음 단계를 시도해 보세요._
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-bim-project/members) in the project navigation.
-                    2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
-                    3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
-                    4.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    7.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).
-                    8.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    9.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-bim-project/boards)
+                    1.  _프로젝트에 새 멤버 초대:_ → 프로젝트 탐색에서 [멤버]({{opSetting:base_url}}/projects/demo-bim-project/members)로 이동합니다.
+                    2.  _IFC 형식의 3D 모델 업로드 및 보기:_ → 프로젝트 탐색에서 [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf)로 이동합니다.
+                    3.  _IFC 모델에서 직접 링크된 BCF 이슈 만들기 및 관리:_ → [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → 만들기로 이동합니다.
+                    4.  _프로젝트에서 작업 보기:_ → 프로젝트 탐색에서 [작업 패키지]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D)로 이동합니다.
+                    5.  _새 작업 패키지 만들기:_ → [작업 패키지 → 만들기]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11)로 이동합니다.
+                    6.  _Gantt 차트 만들기 및 업데이트:_ → 프로젝트 탐색에서 [Gantt 차트]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D)로 이동합니다.
+                    7.  _추가 모듈 활성화:_ → [프로젝트 설정 → 모듈]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules)로 이동합니다.
+                    8.  _타일 보기를 확인하고 BCF 이슈 개요 확인:_ → [작업 패키지]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)로 이동합니다.
+                    9.  _애자일하게 작업하려면? 새로운 보드 만들기:_ → [보드]({{opSetting:base_url}}/projects/demo-bim-project/boards)로 이동합니다.
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    여기에서 [사용자 가이드](https://www.openproject.org/docs/user-guide/)를 확인할 수 있습니다.
+                    질문이 있거나 지원이 필요하면 알려주세요. 연락처: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: 멤버
@@ -474,31 +474,31 @@ ko:
                 item_0:
                   subject: BIM 모델에 대한 프로젝트별 데이터 및 정보 수집
                   description: |-
-                    ## Goal
+                    ## 목표
 
-                    *   Identify the information strategy for the customer (e.g. by using plain language questions)
-                    *   If provided, analyze the customer information requirements for the BIM model
-                    *   Define an information delivery strategy according to the customers needs
+                    *   고객을 위한 정보 전략 파악(예: 일반 언어 질문 사용)
+                    *   제공된 경우, BIM 모델에 대한 고객 정보 요구 사항 분석
+                    *   고객 요구 사항에 따른 정보 전달 전략 정의
 
-                    ## Description
+                    ## 설명
 
-                    *   Analyzing the customers needs and goals for using the BIM methodology
-                    *   Results of this tasks should be:
-                    *   The requirements for the project
-                    *   A strategy for the delivery phase
+                    *   BIM 방법론을 사용하기 위한 고객의 요구 사항과 목표 분석
+                    *   이 작업의 결과는 다음과 같아야 합니다:
+                    *   프로젝트의 요구 사항
+                    *   전달 단계를 위한 전략
                     *   ...
                 item_1:
                   subject: BIM 실행 계획 만들기
                   description: |-
-                    # Goal
+                    # 목표
 
-                    *   A BIM execution plan will be defined according to the exchange requirements specifications (ERS)
-                    *   All team members and partners have a plan on how to reach each of the project goals
+                    *   교환 요구 사항 사양(ERS)에 따라 BIM 실행 계획이 정의됩니다.
+                    *   모든 팀원과 파트너는 각 프로젝트 목표를 달성하는 방법에 대한 계획을 가지고 있습니다.
 
-                    # Description
+                    # 설명
 
-                    *   Depending on the identifies use cases, the individual Information Delivery Manuals will be defined
-                    *   To handle the technological interfaces, a software topology will be defined and analyzed and verified
+                    *   파악된 사용 사례에 따라 개별 정보 전달 매뉴얼이 정의됩니다.
+                    *   기술 인터페이스를 처리하기 위해 소프트웨어 토폴로지가 정의되고 분석되고 검증됩니다.
                     *   ...
                 item_2:
                   subject: BIM 실행 계획 완료
@@ -513,26 +513,26 @@ ko:
                 item_0:
                   subject: 초기 BIM 모델 모델링
                   description: |-
-                    # Goal
+                    # 목표
 
-                    *   Modelling the initial BIM model
-                    *   Creating a BIM model for the whole project team
+                    *   초기 BIM 모델 모델링
+                    *   전체 프로젝트 팀을 위한 BIM 모델 만들기
 
-                    # Description
+                    # 설명
 
-                    *   According to the gathered data from the customer, the initial model will be modelled
-                    *   The model shall be modelled according to the LOD Matrices and contain the information needed
+                    *   고객으로부터 수집된 데이터에 따라 초기 모델이 모델링됩니다.
+                    *   모델은 LOD 매트릭스에 따라 모델링되며 필요한 정보를 포함합니다.
                     *   ...
                 item_1:
-                  subject: Initial, internal model check and revising
+                  subject: 초기, 내부 모델 확인 및 수정
                   description: |-
-                    # Goal
+                    # 목표
 
-                    *   Submitting a BIM model according to the defined standards
+                    *   정의된 표준에 따라 BIM 모델 제출
 
-                    # Description
+                    # 설명
 
-                    *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised
+                    *   정의된 표준(규칙, LOD, ...)에 따라 모델을 확인하고 수정해야 합니다.
                     *   ...
                 item_2:
                   subject: 초기 BIM 모델 제출
@@ -556,25 +556,25 @@ ko:
                 item_1:
                   subject: BIM 모델 모델링
                   description: |-
-                    # Goal
+                    # 목표
 
-                    *   Creating a BIM model for the project
-                    *   Creating a BIM model for the whole project team
+                    *   프로젝트의 BIM 모델 만들기
+                    *   전체 프로젝트 팀의 BIM 모델 만들기
 
-                    # Description
+                    # 설명
 
-                    *   The model will be created according to the BIM execution plan
+                    *   BIM 실행 계획에 따라 모델이 생성됩니다.
                     *   ...
                 item_2:
-                  subject: First Cycle, internal model check and revising
+                  subject: 첫 번째 사이클, 내부 모델 확인 및 수정
                   description: |-
-                    # Goal
+                    # 목표
 
-                    *   Submitting a BIM model according to the defined standards
+                    *   정의된 표준에 따라 BIM 모델 제출
 
-                    # Description
+                    # 설명
 
-                    *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised.
+                    *   정의된 표준(규칙, LOD, ...)에 따라 모델을 확인하고 수정해야 합니다.
                     *   ...
                 item_3:
                   subject: BIM 모델 제출
@@ -586,15 +586,15 @@ ko:
                 item_0:
                   subject: 다양한 BIM 모델 조정
                   description: |-
-                    # Goal
+                    # 목표
 
-                    *   Assemble the different BIM models of the whole project team
-                    *   Coordinate the identified issues
+                    *   전체 프로젝트 팀의 다양한 BIM 모델 조립
+                    *   파악된 이슈 조정
 
-                    # Description
+                    # 설명
 
-                    *   The different BIM models will be assembled and checked
-                    *   The identified model specific issues will be communicated via BCF files
+                    *   다양한 BIM 모델을 조립하고 확인합니다.
+                    *   파악된 모델별 이슈는 BCF 파일로 전달됩니다.
                     *   ...
                 item_1:
                   subject: 이슈 관리, 첫 번째 사이클
@@ -622,29 +622,29 @@ ko:
                 item_0:
                   subject: 건설 인력에 대한 인계 모델
                   description: |-
-                    ## Goal
+                    ## 목표
 
-                    *   Everyone knows the model and their tasks
-                    *   Everybody gets all the relevant information, model based
+                    *   모든 사람이 모델과 자신의 작업을 알고 있습니다.
+                    *   모든 사람이 모델 기반의 모든 관련 정보를 얻습니다.
                     *   ...
 
-                    ## Description
+                    ## 설명
 
-                    *   The Kickoff on the construction site includes an introduction to the model
-                    *   All the objects should have the information needed for the assigned tasks. If not, data enrichment of the model needs to be done
+                    *   건설 사이트의 킥오프에는 모델 소개가 포함되어 있습니다.
+                    *   모든 개체에는 할당된 작업에 필요한 정보가 있어야 합니다. 그렇지 않은 경우 모델의 데이터 보강을 수행해야 합니다.
                     *   ...
                 item_1:
                   subject: 건물 건설
                   description: |-
-                    ## Goal
+                    ## 목표
 
-                    *   New issues realized on construction site will be handled model based
-                    *   Issues will be documented by using the BCF files and the BIM model
+                    *   건설 사이트에서 파악된 새로운 이슈는 모델 기반으로 처리됩니다.
+                    *   이슈는 BCF 파일과 BIM 모델을 사용하여 문서화됩니다.
 
-                    ## Description
+                    ## 설명
 
-                    *   New issues will be documented using BCF files as sticky notes for the model
-                    *   The BCF files will be used to assign, track and correct issues
+                    *   새로운 이슈는 모델에 대한 스티커 메모로 BCF 파일을 사용하여 문서화됩니다.
+                    *   BCF 파일은 이슈를 할당, 추적 및 수정하는 데 사용됩니다.
                     *   ...
                 item_2:
                   subject: 건설 종료
@@ -653,16 +653,16 @@ ko:
             item_13:
               subject: 시설 관리 인계
               description: |-
-                ## Goal
+                ## 목표
 
-                *   The BIM model will be used for the Facility Management
-                *   The model provides all the relevant information for commissioning and operating the building
+                *   BIM 모델은 시설 관리에 사용됩니다.
+                *   이 모델은 건물 위탁 및 운영에 대한 모든 관련 정보를 제공합니다.
                 *   ...
 
-                ## Description
+                ## 설명
 
-                *   The model contains the relevant information for the facility manager
-                *   The model can be used for the operating system of the building
+                *   모델에는 시설 관리자를 위한 관련 정보가 포함되어 있습니다.
+                *   모델은 건물의 운영 체제에 사용할 수 있습니다.
                 *   ...
             item_14:
               subject: 자산 관리
@@ -709,23 +709,23 @@ ko:
                 options:
                   name: 시작하기
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    가입해주셔서 감사합니다! OpenProject에서 시작하려면 몇 가지를 시도해보시기 바랍니다.
 
-                    This demo project shows BCF management functionalities.
+                    이 데모 프로젝트는 BCF 관리 기능을 보여줍니다.
 
-                    _Try the following steps:_
+                    _다음 단계를 시도해 보세요._
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true) in the project navigation.
-                    2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
-                    3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
-                    4.  _View the BCF files in your project:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) in the project navigation.
-                    5.  _Load your BCF files:_ → Go to [BCF → Import.]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)
-                    6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) in the project navigation.
-                    7.  _Activate further modules:_ → Go to [Project settings → Modules.]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)
-                    8.  _You love the agile approach? Create a board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards).
+                    1.  _프로젝트에 새 멤버 초대:_ → 프로젝트 탐색에서 [멤버]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true)로 이동합니다.
+                    2.  _IFC 형식의 3D 모델 업로드 및 보기:_ → 프로젝트 탐색에서 [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf)로 이동합니다.
+                    3.  _IFC 모델에서 직접 링크된 BCF 이슈 만들기 및 관리:_ → [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → 만들기로 이동합니다.
+                    4.  _프로젝트에서 BCF 파일 보기:_ → 프로젝트 탐색에서 [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)로 이동합니다.
+                    5.  _BCF 파일 로드:_ → [BCF → 가져오기]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)로 이동합니다.
+                    6.  _Gantt  차트 만들기 및 업데이트:_ → 프로젝트 탐색에서 [Gantt 차트]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D)로 이동합니다.
+                    7.  _추가 모듈 활성화:_ → [프로젝트 설정 → 모듈]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)로 이동합니다.
+                    8.  _애자일 접근 방식을 좋아하시나요? 보드 만들기:_ → [보드]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards)로 이동합니다.
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    여기에서 [사용자 가이드](https://www.openproject.org/docs/user-guide/)를 확인할 수 있습니다.
+                    질문이 있거나 지원이 필요하면 알려주세요. 연락처: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: 멤버

@@ -92,8 +92,23 @@ class TableComponent < ApplicationComponent
 
   def initialize_sorted_model
     helpers.sort_init *initial_sort.map(&:to_s)
-    helpers.sort_update sortable_columns.map(&:to_s)
+    helpers.sort_update sortable_columns_correlation
     @model = paginate_collection apply_sort(model)
+  end
+
+  ##
+  # If +initial_sort+ or +sortable_columns+ and the table column names in the database
+  # don't map 1 to 1, or there is an ambiguous column dilemma due
+  # to the joining of tables, these correlation methods can be extended by +TableComponent+
+  # subclasses to set the appropriate sort criteria for said edge-cases.
+  #
+  def initial_sort_correlation
+    initial_sort
+  end
+
+  def sortable_columns_correlation
+    sortable_columns.to_h { [_1.to_s, _1.to_s] }
+                    .with_indifferent_access
   end
 
   def sort_criteria
@@ -155,7 +170,7 @@ class TableComponent < ApplicationComponent
   end
 
   def initial_order
-    initial_sort.join(' ')
+    initial_sort_correlation.join(' ')
   end
 
   def paginated?

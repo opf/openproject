@@ -1239,8 +1239,8 @@ sl:
       - "avgust"
       - "september"
       - "oktober"
-      - "November"
-      - "December"
+      - "november"
+      - "december"
     #Used in date_select and datetime_select.
     order:
       - :leto

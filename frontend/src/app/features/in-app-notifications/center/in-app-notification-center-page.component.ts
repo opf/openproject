@@ -78,7 +78,7 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin im
     },
     {
       component: NotificationSettingsButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
     },
   ];
 

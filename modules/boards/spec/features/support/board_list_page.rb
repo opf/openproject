@@ -46,44 +46,53 @@ module Pages
       end
     end
 
-    def expect_delete_button(board)
+    def expect_delete_buttons(*boards)
       within '#content-wrapper' do
-        expect(page).to have_selector "[data-qa-selector='board-remove-#{board.id}']"
+        boards.each do |board|
+          expect(page).to have_selector "[data-qa-selector='board-remove-#{board.id}']"
+        end
       end
     end
 
-    def expect_no_delete_button(board)
+    def expect_no_delete_buttons(*boards)
       within '#content-wrapper' do
-        expect(page).not_to have_selector "[data-qa-selector='board-remove-#{board.id}']"
+        boards.each do |board|
+          expect(page).not_to have_selector "[data-qa-selector='board-remove-#{board.id}']"
+        end
       end
     end
 
     def expect_boards_listed(*boards)
-      board_names = if boards.all? { |board| board.to_s == board }
-                      boards
-                    else
-                      boards.map(&:name)
-                    end
+      expected_board_names = board_names_for(boards)
 
       within '#content-wrapper' do
-        board_names.each do |board_name|
+        expected_board_names.each do |board_name|
           expect(page).to have_selector("td.name", text: board_name)
         end
       end
     end
 
+    def expect_boards_listed_in_order(*boards)
+      within '#content-wrapper' do
+        listed_board_names = all("td.name").map(&:text)
+        expect_board_names = board_names_for(boards)
+
+        expect(listed_board_names).to match_array(expect_board_names)
+      end
+    end
+
     def expect_boards_not_listed(*boards)
-      board_names = if boards.all? { |board| board.to_s == board }
-                      boards
-                    else
-                      boards.map(&:name)
-                    end
+      unexpected_board_names = board_names_for(boards)
 
       within '#content-wrapper' do
-        board_names.each do |board_name|
+        unexpected_board_names.each do |board_name|
           expect(page).not_to have_selector("td.title", text: board_name)
         end
       end
+    end
+
+    def board_names_for(boards)
+      boards.map { |board| board.to_s == board ? board : board.name }
     end
 
     def expect_no_boards_listed

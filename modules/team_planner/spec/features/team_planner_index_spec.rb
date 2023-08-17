@@ -30,67 +30,105 @@ require 'spec_helper'
 require_relative 'shared_context'
 
 RSpec.describe 'Team planner index', :js, :with_cuprite, with_ee: %i[team_planner_view] do
-  include_context 'with team planner full access'
+  shared_let(:project) do
+    create(:project)
+  end
 
-  let(:current_user) { user }
-  let(:query) { create(:query, user:, project:, public: true) }
-  let(:team_plan) { create(:view_team_planner, query:) }
+  shared_let(:user_with_full_permissions) do
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: %w[
+             view_work_packages edit_work_packages add_work_packages
+             view_team_planner manage_team_planner
+             save_queries manage_public_queries
+             work_package_assigned
+           ])
+  end
+  shared_let(:user_with_limited_permissions) do
+    create(:user,
+           firstname: 'Bernd',
+           member_in_project: project,
+           member_with_permissions: %w[view_work_packages view_team_planner])
+  end
+
+  let(:team_planner) { Pages::TeamPlanner.new(project) }
+
+  let(:current_user) { user_with_full_permissions }
 
   before do
     login_as current_user
-    team_plan
     visit project_team_planners_path(project)
   end
 
-  context 'with no view' do
-    let(:team_plan) { nil }
+  it 'shows a create button' do
+    team_planner.expect_create_button
+  end
 
+  it 'can create an action through the sidebar' do
+    find('[data-qa-selector="team-planner--create-button"]').click
+
+    team_planner.expect_no_toaster
+    team_planner.expect_title
+  end
+
+  context 'with no views' do
     it 'shows an empty index action' do
       team_planner.expect_no_views_rendered
     end
-
-    it 'shows a create button' do
-      team_planner.expect_create_button
-    end
-
-    it 'can create an action through the sidebar' do
-      find('[data-qa-selector="team-planner--create-button"]').click
-
-      team_planner.expect_no_toaster
-      team_planner.expect_title
-    end
   end
 
-  context 'with an existing view' do
-    it 'shows that view' do
-      team_planner.expect_view_rendered query
-      team_planner.expect_delete_button_for query
+  context 'with existing views' do
+    shared_let(:query) do
+      create(:public_query, user: user_with_full_permissions, project:)
+    end
+    shared_let(:team_plan) do
+      create(:view_team_planner, query:)
     end
 
-    context 'with another user with limited access' do
-      let(:current_user) do
-        create(:user,
-               firstname: 'Bernd',
-               member_in_project: project,
-               member_with_permissions: %w[view_work_packages view_team_planner])
+    shared_let(:other_query) do
+      create(:public_query, user: user_with_full_permissions, project:)
+    end
+    shared_let(:other_team_plan) do
+      create(:view_team_planner, query: other_query)
+    end
+
+    shared_let(:private_query) do
+      create(:private_query, user: user_with_full_permissions, project:)
+    end
+    shared_let(:private_team_plan) do
+      create(:view_team_planner, query: private_query)
+    end
+
+    context 'as a user with full permissions within a project' do
+      let(:current_user) { user_with_full_permissions }
+
+      it 'shows views' do
+        team_planner.expect_views_rendered(query, private_query, other_query)
       end
+
+      it 'shows management buttons' do
+        team_planner.expect_delete_buttons_for(query, private_query, other_query)
+      end
+
+      context 'and as the author of a private view' do
+        it 'shows my private view' do
+          team_planner.expect_views_rendered(query, private_query, other_query)
+
+          team_planner.expect_delete_buttons_for(query, private_query, other_query)
+        end
+      end
+    end
+
+    context 'as a user with limited permissions within a project' do
+      let(:current_user) { user_with_limited_permissions }
 
       it 'does not show the management buttons' do
-        team_planner.expect_view_rendered query
-
-        team_planner.expect_no_delete_button_for query
         team_planner.expect_no_create_button
+        team_planner.expect_no_delete_buttons_for(query, other_query)
       end
 
-      context 'when the view is non-public' do
-        let(:query) { create(:query, user:, project:, public: false) }
-
-        it 'does not show a non-public view' do
-          team_planner.expect_no_views_rendered
-          team_planner.expect_view_not_rendered query
-
-          team_planner.expect_no_create_button
-        end
+      it 'shows public views only' do
+        team_planner.expect_views_rendered(query, other_query)
       end
     end
   end

@@ -26,6 +26,8 @@ eo:
         position: "Posicio"
         remaining_hours: "Restantaj horoj"
         remaining_time: "Restantaj horoj"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Historiaj poentoj"
         backlogs_work_package_type: "Backlog type"
     errors:

@@ -26,6 +26,8 @@ si:
         position: "තත්ත්වය"
         remaining_hours: "ඉතිරි පැය"
         remaining_time: "ඉතිරි පැය"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "කතන්දර කරුණු"
         backlogs_work_package_type: "බැක්ලොග් වර්ගය"
     errors:
