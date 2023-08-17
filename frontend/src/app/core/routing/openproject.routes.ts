@@ -78,13 +78,13 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'optional_project',
     parent: 'root',
-    url: '/{projects:(?:projects)}/{projectPath}',
+    url: '/{projects}/{projectPath}',
     abstract: true,
     params: {
       // value: null makes the parameter optional
       // squash: true avoids duplicate slashes when the parameter is not provided
       projectPath: { type: 'path', value: null, squash: true },
-      projects: { value: null, squash: true },
+      projects: { type: 'path', value: null, squash: true },
     },
     views: {
       '!$default': { component: ApplicationBaseComponent },
