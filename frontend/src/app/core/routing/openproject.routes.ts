@@ -78,13 +78,12 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'optional_project',
     parent: 'root',
-    url: '/{projects:(?:projects)}/{projectPath}',
+    url: '/{projects}',
     abstract: true,
     params: {
       // value: null makes the parameter optional
       // squash: true avoids duplicate slashes when the parameter is not provided
-      projectPath: { type: 'path', value: null, squash: true },
-      projects: { value: null, squash: true },
+      projects: { type: 'opProjects', value: null, squash: true },
     },
     views: {
       '!$default': { component: ApplicationBaseComponent },
@@ -204,6 +203,18 @@ export function uiRouterConfiguration(uiRouter:UIRouter, injector:Injector, modu
   );
 
   uiRouter.urlService.config.type(
+    'opProjects',
+    {
+      encode: _.identity,
+      decode: _.identity,
+      raw: true,
+      dynamic: true,
+      is: (val:string) => val === '' || !!val.match(/projects\/\w+/),
+      equals: (a:any, b:any) => _.isEqual(a, b),
+    },
+  );
+
+  uiRouter.urlService.config.type(
     'opQueryId',
     {
       pattern: new RegExp(/(?:new|[0-9]+)/),
@@ -281,15 +292,6 @@ export function initializeUiRouterListeners(injector:Injector) {
     // Reset profiler, if we're actually profiling
     const profiler:{ pageTransition:() => void }|undefined = window.MiniProfiler;
     profiler?.pageTransition();
-
-    const toStateObject:StateObject|undefined = toState.$$state && toState.$$state();
-    const hasProjectRoutes = toStateObject?.includes?.root;
-    const projectIdentifier = toParams.projectPath as string || currentProject.identifier;
-    if (hasProjectRoutes && !toParams.projects && projectIdentifier) {
-      const newParams = _.clone(toParams);
-      _.assign(newParams, { projectPath: projectIdentifier, projects: 'projects' });
-      return $state.target(toState, newParams, { location: 'replace' });
-    }
 
     // Abort the transition and move to the url instead
     // Only move to the URL if we're not coming from an initial URL load

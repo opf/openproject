@@ -114,7 +114,6 @@ export class OpDatePickerBannerComponent {
           {
             query_id: null,
             projects: null,
-            projectPath: null,
             query_props: JSON.stringify(props),
           },
         );

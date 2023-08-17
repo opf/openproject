@@ -40,8 +40,6 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
           uiParams: {
             board_id: board.id,
             query_props: '',
-            projects: 'projects',
-            projectPath: this.currentProject.identifier,
           },
           uiOptions: { reload: true },
         }));
