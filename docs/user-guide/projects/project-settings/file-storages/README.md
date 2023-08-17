@@ -63,3 +63,13 @@ For the moment, you will only be able to edit which project folder type is used 
 To be able to delete a storage from a project you will be asked to confirm the action by introducing the name of the storage. This action is irreversible and will remove all links from work packages of this project to files and folders of that storage. Also, in case this storage has an automatically managed project folder, it and its files will be deleted forever.
 
 ![Delete a storage from a project](storage-delete.png)
+
+## Project folder member connection status
+
+As a project administrator you can see which of the project members have access to the automatically managed folders. To see the list of users click on the users icon on the right side of the list. 
+
+![Open a list of project members](storage-list-members.png)
+
+You will see which project members have have successfully connected and who may need assistance.
+
+![Project folder member connection status](storage-list-member-status.png)
