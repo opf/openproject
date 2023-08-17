@@ -31,9 +31,21 @@ require 'spec_helper'
 RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   include Redmine::I18n
   include PDFExportSpecUtils
+
+  let!(:list_custom_field) do
+    create(:list_wp_custom_field, multi_value: true, possible_values: ["Foo", "Bar"])
+  end
+  let(:custom_value_first) do
+    create(:work_package_custom_value, custom_field: list_custom_field, value: list_custom_field.custom_options.first.id)
+  end
+  let(:custom_value_second) do
+    create(:work_package_custom_value, custom_field: list_custom_field, value: list_custom_field.custom_options.last.id)
+  end
+
   let(:type_standard) { create(:type_standard) }
   let(:type_bug) { create(:type_bug) }
-  let(:project) { create(:project, name: 'Foo Bla. Report No. 4/2021 with/for Case 42', types: [type_standard, type_bug]) }
+  let(:types) { [type_standard, type_bug] }
+  let(:project) { create(:project, name: 'Foo Bla. Report No. 4/2021 with/for Case 42', types:, work_package_custom_fields: [list_custom_field]) }
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -47,7 +59,9 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
            type: type_standard,
            subject: 'Work package 1',
            story_points: 1,
-           description: 'This is a description')
+           description: 'This is a description',
+           custom_values: [custom_value_first, custom_value_second]
+    )
   end
   let(:work_package_child) do
     create(:work_package,
@@ -56,7 +70,9 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
            type: type_bug,
            subject: 'Work package 2',
            story_points: 2,
-           description: 'This is work package 2')
+           description: 'This is work package 2',
+           custom_values: [custom_value_first]
+    )
   end
   let(:work_packages) do
     [work_package_parent, work_package_child]
@@ -80,7 +96,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       export.export!
     end
   end
-  let(:column_names) { %i[id subject status story_points] }
+  let(:column_names) { %w[id subject status story_points] + [list_custom_field.column_name] }
 
   def work_packages_sum
     work_package_parent.story_points + work_package_child.story_points
@@ -102,12 +118,18 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     [project.name, query.name, user.name, export_time_formatted]
   end
 
+  def show
+    cmd = "open -a Preview #{export_pdf.content.path}"
+    `#{cmd}`
+  end
+
   subject(:pdf) do
     PDF::Inspector::Text.analyze(File.read(export_pdf.content.path))
   end
 
   describe 'with a request for a PDF table' do
     it 'contains correct data' do
+      # show
       expect(pdf.strings).to eq([
                                   query.name,
                                   *column_titles,
@@ -137,6 +159,25 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
   describe 'with a request for a PDF table grouped with sums' do
     let(:query_attributes) { { group_by: 'type', display_sums: true } }
+
+    it 'contains correct data' do
+      expect(pdf.strings).to eq([
+                                  query.name,
+                                  work_package_parent.type.name,
+                                  *column_titles,
+                                  *work_package_columns(work_package_parent),
+                                  I18n.t('js.label_sum'), work_package_parent.story_points.to_s,
+                                  work_package_child.type.name,
+                                  *column_titles,
+                                  *work_package_columns(work_package_child),
+                                  I18n.t('js.label_sum'), work_package_child.story_points.to_s,
+                                  '1/1', export_time_formatted, query.name
+                                ])
+    end
+  end
+
+  describe 'with a request for a PDF table grouped by a custom field with sums' do
+    let(:query_attributes) { { group_by: list_custom_field.column_name, display_sums: true } }
 
     it 'contains correct data' do
       expect(pdf.strings).to eq([
