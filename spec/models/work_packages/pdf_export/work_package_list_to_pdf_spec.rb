@@ -31,21 +31,26 @@ require 'spec_helper'
 RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   include Redmine::I18n
   include PDFExportSpecUtils
-
-  let!(:list_custom_field) do
-    create(:list_wp_custom_field, multi_value: true, possible_values: ["Foo", "Bar"])
-  end
-  let(:custom_value_first) do
-    create(:work_package_custom_value, custom_field: list_custom_field, value: list_custom_field.custom_options.first.id)
-  end
-  let(:custom_value_second) do
-    create(:work_package_custom_value, custom_field: list_custom_field, value: list_custom_field.custom_options.last.id)
-  end
-
   let(:type_standard) { create(:type_standard) }
   let(:type_bug) { create(:type_bug) }
+  let!(:list_custom_field) do
+    create(:list_wp_custom_field,
+           types: [type_standard, type_bug],
+           multi_value: true,
+           possible_values: %w[Foo Bar])
+  end
+  let(:custom_value_first) do
+    create(:work_package_custom_value,
+           custom_field: list_custom_field,
+           value: list_custom_field.custom_options.first.id)
+  end
   let(:types) { [type_standard, type_bug] }
-  let(:project) { create(:project, name: 'Foo Bla. Report No. 4/2021 with/for Case 42', types:, work_package_custom_fields: [list_custom_field]) }
+  let(:project) do
+    create(:project,
+           name: 'Foo Bla. Report No. 4/2021 with/for Case 42',
+           types:,
+           work_package_custom_fields: [list_custom_field])
+  end
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -60,8 +65,10 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
            subject: 'Work package 1',
            story_points: 1,
            description: 'This is a description',
-           custom_values: [custom_value_first, custom_value_second]
-    )
+           list_custom_field.attribute_name => [
+             list_custom_field.value_of('Foo'),
+             list_custom_field.value_of('Bar')
+           ])
   end
   let(:work_package_child) do
     create(:work_package,
@@ -71,8 +78,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
            subject: 'Work package 2',
            story_points: 2,
            description: 'This is work package 2',
-           custom_values: [custom_value_first]
-    )
+           list_custom_field.attribute_name => list_custom_field.value_of('Foo'))
   end
   let(:work_packages) do
     [work_package_parent, work_package_child]
@@ -96,7 +102,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       export.export!
     end
   end
-  let(:column_names) { %w[id subject status story_points] + [list_custom_field.column_name] }
+  let(:column_names) { %w[id subject status story_points] }
 
   def work_packages_sum
     work_package_parent.story_points + work_package_child.story_points
@@ -129,7 +135,6 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
   describe 'with a request for a PDF table' do
     it 'contains correct data' do
-      # show
       expect(pdf.strings).to eq([
                                   query.name,
                                   *column_titles,
@@ -182,15 +187,15 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     it 'contains correct data' do
       expect(pdf.strings).to eq([
                                   query.name,
-                                  work_package_parent.type.name,
-                                  *column_titles,
-                                  *work_package_columns(work_package_parent),
-                                  I18n.t('js.label_sum'), work_package_parent.story_points.to_s,
-                                  work_package_child.type.name,
+                                  "Foo",
                                   *column_titles,
                                   *work_package_columns(work_package_child),
                                   I18n.t('js.label_sum'), work_package_child.story_points.to_s,
-                                  '1/1', export_time_formatted, query.name
+                                  "Foo, Bar",
+                                  *column_titles,
+                                  *work_package_columns(work_package_parent),
+                                  I18n.t('js.label_sum'), work_package_parent.story_points.to_s,
+                                  '1/1', export_time_formatted, query.name,
                                 ])
     end
   end
