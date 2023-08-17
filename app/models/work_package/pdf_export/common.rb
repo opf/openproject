@@ -277,8 +277,8 @@ module WorkPackage::PDFExport::Common
 
   def get_groups
     query.results.work_package_count_by_group
-         .select { |_, count| count > 0  }
-         .map {|group, _| group}
+         .select { |_, count| count > 0 }
+         .map { |group, _| group }
   end
 
   def wants_report?

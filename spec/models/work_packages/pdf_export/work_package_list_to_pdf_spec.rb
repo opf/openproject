@@ -195,7 +195,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                   *column_titles,
                                   *work_package_columns(work_package_parent),
                                   I18n.t('js.label_sum'), work_package_parent.story_points.to_s,
-                                  '1/1', export_time_formatted, query.name,
+                                  '1/1', export_time_formatted, query.name
                                 ])
     end
   end
@@ -261,7 +261,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     let(:query_attributes) { { display_sums: true, group_by: 'type' } }
 
     it 'contains correct data' do
-       expect(pdf.strings).to eq([
+      expect(pdf.strings).to eq([
                                   *cover_page_content,
                                   query.name,
                                   '1.', '2', work_package_parent.subject,
