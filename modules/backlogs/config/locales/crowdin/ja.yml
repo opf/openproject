@@ -26,6 +26,8 @@ ja:
         position: "位置"
         remaining_hours: "残り時間"
         remaining_time: "残り時間"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "ストーリーポイント"
         backlogs_work_package_type: "バックログの種類"
     errors:

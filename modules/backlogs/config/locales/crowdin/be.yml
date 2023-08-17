@@ -26,6 +26,8 @@ be:
         position: "Пазіцыя"
         remaining_hours: "Засталося гадзін"
         remaining_time: "Засталося гадзін"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Story Points"
         backlogs_work_package_type: "Тып бэклогу"
     errors:

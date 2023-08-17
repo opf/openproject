@@ -360,7 +360,7 @@ pl:
         na wykresach Gantta lub w tabelach pakietów roboczych. W związku z tym zalecane jest stosowanie mocnego koloru.
   versions:
     overview:
-      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
+      work_packages_in_archived_projects: "Wersja jest udostępniona z zarchiwizowanymi projektami, które nadal mają pakiety robocze przypisane do tej wersji. Są one liczone, ale nie pojawią się w powiązanych widokach."
       no_results_title_text: Nie ma jeszcze żadnego Zestawu zadań przypisanego do tej wersji.
   wiki:
     page_not_editable_index: Żądana strona nie istnieje (jeszcze). Nastąpiło przekierowanie do indeksu wszystkich stron wiki.
@@ -630,7 +630,7 @@ pl:
         confirmation: "nie pasuje do %{attribute}."
         could_not_be_copied: "Nie można było (w pełni) skopiować %{dependency}."
         does_not_exist: "nie istnieje."
-        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise edition"
+        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise Edition"
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
         email: "nie jest poprawnym adresem e-mail."
@@ -913,7 +913,7 @@ pl:
             principal:
               unassignable: "nie można przypisać do projektu."
         version:
-          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_archived_projects: "Wersji nie można usunąć, ponieważ dołączone są do niej pakiety robocze."
           undeletable_work_packages_attached: "Wersji nie można usunąć, ponieważ dołączone są do niej pakiety robocze."
         status:
           readonly_default_exlusive: "nie można aktywować dla statusów, które są oznaczone jako domyślne."
@@ -974,11 +974,11 @@ pl:
       created_by_on: "utworzone %{datetime} przez %{user}"
       created_by_on_time_entry: "czas zalogowania użytkownika %{user} w dniu %{datetime}"
       created_on: "utworzono %{datetime}"
-      created_on_time_entry: "time logged on %{datetime}"
+      created_on_time_entry: "czas zalogowania w dniu %{datetime}"
       updated_by_on: "zaktualizowane przez %{user} dnia %{datetime}"
-      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "czas zalogowania zaktualizowany przez użytkownika %{user} w dniu %{datetime}"
       updated_on: "zaktualizowano %{datetime}"
-      updated_on_time_entry: "logged time updated on %{datetime}"
+      updated_on_time_entry: "czas zalogowania zaktualizowany w dniu %{datetime}"
       parent_without_of: "Podprojekt"
       parent_no_longer: "Nie jest to już podprojekt projektu"
       time_entry:
@@ -1356,8 +1356,8 @@ pl:
   error_can_not_archive_project: "Tego projektu nie można zarchiwizować: %{errors}"
   error_can_not_delete_entry: "Nie można usunąć wpisu"
   error_can_not_delete_custom_field: "Nie można usunąć pola niestandardowego"
-  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
-  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
+  error_can_not_delete_in_use_archived_undisclosed: 'Są również pakiety robocze w zarchiwizowanych projektach. Aby zobaczyć, których projektów to dotyczy, musisz poprosić administratora o wykonanie usunięcia.'
+  error_can_not_delete_in_use_archived_work_packages: 'Pakiety robocze są również w zarchiwizowanych projektach. Musisz najpierw reaktywować następujące projekty, zanim będzie można zmienić atrybut odpowiednich pakietów roboczych: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Ten typ zawiera pakiety robocze i nie może być usunięty. Wszystkie włączone pakiety robocze można zobaczyć w <a target="_blank" href="%{url}">tym widoku</a>.'
   error_can_not_delete_standard_type: "Nie można usunąć standardowych typów."
@@ -2999,7 +2999,7 @@ pl:
         non_working: "%{day} jest teraz dniem nieroboczym"
       dates:
         working: "%{day} jest teraz roboczym"
-        non_working: "%{day} jest teraz wolnym od pracy"
+        non_working: "%{date} jest teraz wolnym od pracy"
   nothing_to_preview: "Nie ma nic do podglądu"
   api_v3:
     attributes:

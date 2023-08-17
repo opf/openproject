@@ -38,9 +38,9 @@ pl:
         project_folder_no_access: >
           Nie masz dostępu do folderu projektu. Skontaktuj się z administratorem, aby uzyskać dostęp lub prześlij plik w innej lokalizacji.
         managed_project_folder_not_available: >
-          The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
+          Jeszcze nie znaleziono automatycznie zarządzanego folderu projektu. Zaczekaj chwilę, odśwież stronę, aby pobrać najnowsze dane i spróbuj ponownie.
         managed_project_folder_no_access: >
-          You have no access yet to the managed project folder. Please wait a bit and try again.
+          Nie masz jeszcze dostępu do zarządzanego folderu projektu. Poczekaj chwilę i spróbuj ponownie.
         upload_keep_both: "Zachowaj oba"
         upload_replace: "Zastąp"
       file_links:

@@ -26,6 +26,8 @@ sk:
         position: "Pozícia"
         remaining_hours: "Zvyšné hodiny"
         remaining_time: "Zvyšné hodiny"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "História bodov"
         backlogs_work_package_type: "Typ oneskorenia"
     errors:

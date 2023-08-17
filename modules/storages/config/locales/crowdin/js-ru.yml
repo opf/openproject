@@ -38,9 +38,9 @@ ru:
         project_folder_no_access: >
           У вас нет доступа к папке проекта. Пожалуйста, обратитесь к администратору, чтобы получить доступ или загрузить файл в другом месте.
         managed_project_folder_not_available: >
-          The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
+          Автоматически управляемая папка проекта еще не найдена.  Подождите немного, перезагрузите страницу, чтобы получить последние данные, и повторите попытку.
         managed_project_folder_no_access: >
-          You have no access yet to the managed project folder. Please wait a bit and try again.
+          У вас пока нет доступа к управляемой папке проекта. Пожалуйста, подождите немного и повторите попытку.
         upload_keep_both: "Оставить оба"
         upload_replace: "Заменить"
       file_links:

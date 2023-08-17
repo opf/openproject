@@ -6,8 +6,8 @@ nl:
   boards:
     label_board: "Bord"
     label_boards: "Borden"
-    label_create_new_board: "Create new board"
-    label_board_type: "Board type"
+    label_create_new_board: "Maak een nieuw bord"
+    label_board_type: "Type bord"
     board_types:
       free: Basis
       action: "Actiebord (%{attribute})"
@@ -20,7 +20,7 @@ nl:
       basic: Basis
     board_type_descriptions:
       basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
+        Begin vanaf nul met een leeg bord. Voeg handmatig kaarten en kolommen toe aan dit bord.
       status: >
         Basic kanban style board with columns for status such as To Do, In Progress, Done.
       assignee: >

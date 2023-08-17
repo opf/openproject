@@ -26,6 +26,8 @@ mn:
         position: "албан тушаал"
         remaining_hours: "хүлээгдэж буй хугацаа"
         remaining_time: "Хүлээгдэж буй хугацаа"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Гүйцэтгэлийн оноо"
         backlogs_work_package_type: "Backlog type"
     errors:

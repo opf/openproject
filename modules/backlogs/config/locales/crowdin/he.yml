@@ -26,6 +26,8 @@ he:
         position: "מיקום"
         remaining_hours: "שעות שנותרו"
         remaining_time: "שעות שנותרו"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Story Points"
         backlogs_work_package_type: "Backlog type"
     errors:

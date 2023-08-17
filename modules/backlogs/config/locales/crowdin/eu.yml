@@ -26,6 +26,8 @@ eu:
         position: "Kokapena"
         remaining_hours: "Geratzen diren orduak"
         remaining_time: "Geratzen diren orduak"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Story Points"
         backlogs_work_package_type: "Backlog type"
     errors:
