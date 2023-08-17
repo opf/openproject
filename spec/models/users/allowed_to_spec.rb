@@ -401,162 +401,92 @@ RSpec.describe User, 'allowed_to?' do
       it { expect(user).to be_allowed_to(permission, nil, global: true) }
     end
 
+    context 'when the non-member role has the permission' do
+      before do
+        Role.non_member.add_permission! permission
+      end
+
+      it { expect(user).to be_allowed_to(permission, nil, global: true) }
+    end
+
+    context 'when there is a global role giving the permission' do
+      before { global_role.save! }
+
+      context 'without the user having the role assigned' do
+        it { expect(user).not_to be_allowed_to(global_permission.name, nil, global: true) }
+      end
+
+      context 'with the user having the role assigned' do
+        before { global_member.save! }
+
+        context 'with the role having the global permission' do
+          it { expect(user).to be_allowed_to(global_permission.name, nil, global: true) }
+        end
+
+        context 'without the role having the global permission' do
+          before do
+            global_role.remove_permission!(global_permission.name)
+          end
+
+          it { expect(user).not_to be_allowed_to(global_permission.name, nil, global: true) }
+        end
+      end
+    end
+
     context 'when the user is member of a project' do
       before { member.save }
 
       context 'and a project permission is requested globally' do
-        it { expect(user).not_to be_allowed_to(permission, nil, global: true) }
+        context 'without the permission being assigned to the role' do
+          it { expect(user).not_to be_allowed_to(permission, nil, global: true) }
+        end
+
+        # TODO: Ask somebody why this is supposed to work!?
+        context 'with the permissio being assigned to the role' do
+          before do
+            role.add_permission! permission
+          end
+
+          it { expect(user).to be_allowed_to(permission, nil, global: true) }
+        end
+      end
+
+      context 'when requesting a controller and action allowed by multiple permissions' do
+        let(:permission) { :manage_categories }
+
+        context 'without the role having the permission' do
+          before { role.remove_permission!(permission) }
+
+          it do
+            expect(user)
+              .not_to be_allowed_to({ controller: '/projects/settings/categories', action: 'show' }, nil, global: true)
+          end
+
+          context 'with the non-member having the permission' do
+            before do
+              Role.non_member.add_permission! permission
+            end
+
+            it do
+              expect(user)
+                .to be_allowed_to({ controller: '/projects/settings/categories', action: 'show' }, nil, global: true)
+            end
+          end
+        end
       end
     end
 
-    context 'w/ the user being a member in the project
-             w/ the role having the necessary permission' do
-      before do
-        role.add_permission! permission
+    context 'when the user is anonymous' do
+      context 'with the anonymous role having the permission allowed' do
+        before do
+          anonymous_role.add_permission! permission
+        end
 
-        member.save!
-
-        final_setup_step
+        it { expect(anonymous).to be_allowed_to(permission, nil, global: true) }
       end
 
-      it 'is true' do
-        expect(user).to be_allowed_to(permission, nil, global: true)
-      end
-    end
-
-    context 'w/ the user being a member in the project
-             w/ inquiring for controller and action
-             w/ the role having the necessary permission' do
-      let(:permission) { :view_wiki_pages }
-
-      before do
-        role.add_permission! permission
-
-        member.save!
-
-        final_setup_step
-      end
-
-      it 'is true' do
-        expect(user)
-          .to be_allowed_to({ controller: 'wiki', action: 'show' }, nil, global: true)
-      end
-    end
-
-    context 'w/ the user being a member in the project
-             w/o the role having the necessary permission
-             w/ non members having the necessary permission' do
-      before do
-        non_member = Role.non_member
-        non_member.add_permission! permission
-
-        member.save!
-
-        final_setup_step
-      end
-
-      it 'is true' do
-        expect(user).to be_allowed_to(permission, nil, global: true)
-      end
-    end
-
-    context 'w/o the user being a member in the project
-             w/ non members being allowed the action' do
-      before do
-        non_member = Role.non_member
-        non_member.add_permission! permission
-
-        final_setup_step
-      end
-
-      it 'is true' do
-        expect(user).to be_allowed_to(permission, nil, global: true)
-      end
-    end
-
-    context "w/o the user being member in a project
-             w/ the user having a global role
-             w/ the global role having the necessary permission" do
-      before do
-        global_role.save!
-
-        global_member.save!
-      end
-
-      it 'is true' do
-        expect(user).to be_allowed_to(global_permission.name, nil, global: true)
-      end
-    end
-
-    context "w/o the user being member in a project
-             w/ the user having a global role
-             w/o the global role having the necessary permission" do
-      before do
-        global_role.permissions = []
-        global_role.save!
-
-        global_member.save!
-      end
-
-      it 'is false' do
-        expect(user).not_to be_allowed_to(global_permission.name, nil, global: true)
-      end
-    end
-
-    context "w/o the user being member in a project
-             w/o the user having the global role
-             w/ the global role having the necessary permission" do
-      before do
-        global_role.save!
-      end
-
-      it 'is false' do
-        expect(user).not_to be_allowed_to(global_permission.name, nil, global: true)
-      end
-    end
-
-    context 'w/ the user being anonymous
-             w/ anonymous being allowed the action' do
-      before do
-        anonymous_role.add_permission! permission
-
-        final_setup_step
-      end
-
-      it 'is true' do
-        expect(anonymous).to be_allowed_to(permission, nil, global: true)
-      end
-    end
-
-    context 'w/ requesting a controller and action allowed by multiple permissions
-             w/ the user being a member in the project
-             w/o the role having the necessary permission
-             w/ non members having the necessary permission' do
-      let(:permission) { :manage_categories }
-
-      before do
-        non_member = Role.non_member
-        non_member.add_permission! permission
-
-        member.save!
-
-        final_setup_step
-      end
-
-      it 'is true' do
-        expect(user)
-          .to be_allowed_to({ controller: '/projects/settings/categories', action: 'show' }, nil, global: true)
-      end
-    end
-
-    context 'w/ the user being anonymous
-             w/ anonymous being not allowed the action' do
-      before do
-        final_setup_step
-      end
-
-      it 'is false' do
-        expect(anonymous).not_to be_allowed_to(permission, nil, global: true)
+      context 'without the anonymous role having the permission allowed' do
+        it { expect(anonymous).not_to be_allowed_to(permission, nil, global: true) }
       end
     end
   end
