@@ -33,7 +33,24 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   include PDFExportSpecUtils
   let(:type_standard) { create(:type_standard) }
   let(:type_bug) { create(:type_bug) }
-  let(:project) { create(:project, name: 'Foo Bla. Report No. 4/2021 with/for Case 42', types: [type_standard, type_bug]) }
+  let!(:list_custom_field) do
+    create(:list_wp_custom_field,
+           types: [type_standard, type_bug],
+           multi_value: true,
+           possible_values: %w[Foo Bar])
+  end
+  let(:custom_value_first) do
+    create(:work_package_custom_value,
+           custom_field: list_custom_field,
+           value: list_custom_field.custom_options.first.id)
+  end
+  let(:types) { [type_standard, type_bug] }
+  let(:project) do
+    create(:project,
+           name: 'Foo Bla. Report No. 4/2021 with/for Case 42',
+           types:,
+           work_package_custom_fields: [list_custom_field])
+  end
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -47,7 +64,11 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
            type: type_standard,
            subject: 'Work package 1',
            story_points: 1,
-           description: 'This is a description')
+           description: 'This is a description',
+           list_custom_field.attribute_name => [
+             list_custom_field.value_of('Foo'),
+             list_custom_field.value_of('Bar')
+           ])
   end
   let(:work_package_child) do
     create(:work_package,
@@ -56,7 +77,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
            type: type_bug,
            subject: 'Work package 2',
            story_points: 2,
-           description: 'This is work package 2')
+           description: 'This is work package 2',
+           list_custom_field.attribute_name => list_custom_field.value_of('Foo'))
   end
   let(:work_packages) do
     [work_package_parent, work_package_child]
@@ -80,7 +102,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       export.export!
     end
   end
-  let(:column_names) { %i[id subject status story_points] }
+  let(:column_names) { %w[id subject status story_points] }
 
   def work_packages_sum
     work_package_parent.story_points + work_package_child.story_points
@@ -100,6 +122,11 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
   def cover_page_content
     [project.name, query.name, user.name, export_time_formatted]
+  end
+
+  def show
+    cmd = "open -a Preview #{export_pdf.content.path}"
+    `#{cmd}`
   end
 
   subject(:pdf) do
@@ -149,6 +176,25 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                   *column_titles,
                                   *work_package_columns(work_package_child),
                                   I18n.t('js.label_sum'), work_package_child.story_points.to_s,
+                                  '1/1', export_time_formatted, query.name
+                                ])
+    end
+  end
+
+  describe 'with a request for a PDF table grouped by a custom field with sums' do
+    let(:query_attributes) { { group_by: list_custom_field.column_name, display_sums: true } }
+
+    it 'contains correct data' do
+      expect(pdf.strings).to eq([
+                                  query.name,
+                                  "Foo",
+                                  *column_titles,
+                                  *work_package_columns(work_package_child),
+                                  I18n.t('js.label_sum'), work_package_child.story_points.to_s,
+                                  "Foo, Bar",
+                                  *column_titles,
+                                  *work_package_columns(work_package_parent),
+                                  I18n.t('js.label_sum'), work_package_parent.story_points.to_s,
                                   '1/1', export_time_formatted, query.name
                                 ])
     end
@@ -228,6 +274,31 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                   I18n.t('js.label_sum'), work_packages_sum.to_s,
                                   *work_package_details(work_package_parent, "1"),
                                   *work_package_details(work_package_child, "2"),
+                                  '2/2', export_time_formatted, query.name
+                                ])
+    end
+  end
+
+  describe 'with a request for a PDF Report grouped by a custom field with sums' do
+    let(:options) { { show_report: true } }
+    let(:query_attributes) { { display_sums: true, group_by: list_custom_field.column_name } }
+
+    it 'contains correct data' do
+      expect(pdf.strings).to eq([
+                                  *cover_page_content,
+                                  query.name,
+                                  '1.', '2', work_package_child.subject,
+                                  '2.', '2', work_package_parent.subject,
+                                  '1/2', export_time_formatted, query.name,
+                                  I18n.t('js.work_packages.tabs.overview'),
+                                  list_custom_field.name.upcase, column_title(:story_points),
+
+                                  "Foo", work_package_child.story_points.to_s,
+                                  "Foo, Bar", work_package_parent.story_points.to_s,
+                                  I18n.t('js.label_sum'), work_packages_sum.to_s,
+
+                                  *work_package_details(work_package_child, "1"),
+                                  *work_package_details(work_package_parent, "2"),
                                   '2/2', export_time_formatted, query.name
                                 ])
     end

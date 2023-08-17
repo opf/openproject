@@ -40,13 +40,85 @@ module WorkPackage::PDFExport::OverviewTable
   private
 
   def write_grouped!(work_packages)
-    groups = work_packages.group_by do |work_package|
+    groups_with_work_packages = work_packages.group_by do |work_package|
       query.group_by_column.value(work_package)
     end
-    groups.each do |group, grouped_work_packages|
-      write_group!(group, grouped_work_packages, get_group_sums(group))
+    sums = transformed_sum_group
+    groups_with_work_packages.each do |group, grouped_work_packages|
+      write_group!(group, grouped_work_packages, sums[group] || {})
     end
   end
+
+  # -- start workaround
+  #
+  # This code is a workaround for currently getting "which group a WP belongs to" is not implemented
+  # see an equal situation for the frontend
+  # this is problematic with custom fields:
+  #
+  # /frontend/src/app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-render-pass.ts#L72
+  #
+  # a) query.group_by_column.value(work_package) returns the _value_ of a group
+  # => so a resulting hash has group values as keys e.g.
+  # { nil: …,
+  #   "Foo": …,
+  #   "Bar": …,
+  #   ["Foo","Bar"]: …
+  # }
+  #
+  # b) query.results.all_group_sums returns a hash with the group as key - not the value, e.g.
+  # {
+  # { []: …,
+  #   [#<CustomOption … value: "Foo">]: …,
+  #   [#<CustomOption … value: "Bar">]: …,
+  #   [#<CustomOption … value: "Bar">, #<CustomOption value: "Foo"">] …,
+  # }
+  #
+  #  we therefor transform the keys of sums from b) to a)
+
+  def transformed_sum_group
+    sums = query.results.all_group_sums
+    if query.group_by_column.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn)
+      transform_custom_field_keys(sums)
+    else
+      sums
+    end
+  end
+
+  def transform_custom_field_keys(groups)
+    custom_field = query.group_by_column.custom_field
+    if custom_field.list?
+      transform_list_custom_field_keys(custom_field, groups)
+    else
+      transform_single_custom_field_keys(custom_field, groups)
+    end
+  end
+
+  def transform_single_custom_field_keys(custom_field, groups)
+    groups.transform_keys { |key| custom_field.cast_value(key) }
+  end
+
+  def transform_list_custom_field_keys(custom_field, groups)
+    groups.transform_keys do |key|
+      if custom_field.multi_value?
+        transform_multi_list_custom_field_key(key)
+      else
+        key&.value
+      end
+    end
+  end
+
+  def transform_multi_list_custom_field_key(key)
+    list = key.map { |v| v&.value }
+    if list.empty?
+      nil
+    elsif list.length == 1
+      list.first
+    else
+      list
+    end
+  end
+
+  # -- end workaround
 
   def overview_columns_objects
     @overview_columns_objects ||= limit_table_columns_objects
