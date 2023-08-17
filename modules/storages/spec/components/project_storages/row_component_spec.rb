@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Storages::ProjectStorages::RowComponent,
-               type: :component,
-               with_flag: { storage_project_members_check: true } do
+               type: :component do
   describe '#button_links' do
     context 'with non-automatic project storage' do
       it 'renders edit and delete buttons' do
