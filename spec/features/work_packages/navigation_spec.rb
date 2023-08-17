@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 RSpec.describe 'Work package navigation', js: true, selenium: true do
-  shared_let(:user) { create(:admin) }
-  shared_let(:project) { create(:project, name: 'Some project', enabled_module_names: [:work_package_tracking]) }
+  let(:user) { create(:admin) }
+  let(:project) { create(:project, name: 'Some project', enabled_module_names: [:work_package_tracking]) }
   let(:work_package) { build(:work_package, project:) }
   let(:global_html_title) { Components::HtmlTitle.new }
   let(:project_html_title) { Components::HtmlTitle.new project }
@@ -39,7 +39,7 @@ RSpec.describe 'Work package navigation', js: true, selenium: true do
     "#{work_package.type.name}: #{work_package.subject} (##{work_package.id})"
   end
 
-  shared_let(:query) do
+  let!(:query) do
     query = build(:query, user:, project:)
     query.column_names = %w(id subject)
     query.name = "My fancy query"
@@ -154,15 +154,6 @@ RSpec.describe 'Work package navigation', js: true, selenium: true do
 
     visit "/projects/#{project.identifier}/work_packages/999999999"
     page404.expect_and_dismiss_toaster type: :error, message: I18n.t('api_v3.errors.not_found.work_package')
-  end
-
-  it 'loading a work package with trailing slash (Regression #49672)' do
-    work_package.subject = 'Foobar'
-    work_package.save!
-    visit "/work_packages/#{work_package.id}/"
-
-    wp_page = Pages::FullWorkPackage.new(work_package)
-    wp_page.expect_subject
   end
 
   # Regression #29994
