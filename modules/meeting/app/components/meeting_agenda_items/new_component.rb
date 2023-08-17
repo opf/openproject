@@ -27,70 +27,32 @@
 #++
 
 module MeetingAgendaItems
-  class NewSectionComponent < ApplicationComponent
+  class NewComponent < ApplicationComponent
     include ApplicationHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting:, meeting_agenda_item: nil, state: :initial)
+    def initialize(meeting:, meeting_agenda_item: nil, hidden: true)
       super
 
       @meeting = meeting
       @meeting_agenda_item = meeting_agenda_item || MeetingAgendaItem.new(meeting:, author: User.current)
-      @state = state
+      @hidden = hidden
     end
 
     def call
       component_wrapper do
-        case @state
-        when :initial
-          initial_state_partial
-        when :form
-          form_state_partial
+        unless @hidden
+          form_partial
         end
       end
     end
 
     private
 
-    def initial_state_partial
-      flex_layout(justify_content: :flex_end) do |flex|
-        flex.with_column do
-          form_with(
-            url: new_meeting_agenda_item_path(@meeting),
-            method: :get,
-            data: { 'turbo-stream': true }
-          ) do |_form|
-            box_collection do |collection|
-              collection.with_box do
-                button_content_partial
-              end
-            end
-          end
-        end
-      end
-    end
-
-    def button_content_partial
-      render(Primer::Beta::Button.new(
-               my: 5,
-               size: :medium,
-               disabled: false,
-               scheme: :primary,
-               show_tooltip: true,
-               type: :submit,
-               'aria-label': "Add agenda item"
-             )) do
-        "Add agenda item"
-      end
-    end
-
-    def form_state_partial
-      render(Primer::Beta::BorderBox.new(padding: :condensed, mt: 3)) do |component|
-        component.with_header do
-          "New agenda item"
-        end
-        component.with_body do
+    def form_partial
+      render(Primer::Box.new(border: :top)) do
+        render(Primer::Box.new(p: 3, pl: 5)) do
           render(MeetingAgendaItems::FormComponent.new(
                    meeting: @meeting,
                    meeting_agenda_item: @meeting_agenda_item,

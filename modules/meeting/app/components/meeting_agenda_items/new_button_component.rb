@@ -27,25 +27,44 @@
 #++
 
 module MeetingAgendaItems
-  class ItemComponent::EditComponent < ApplicationComponent
+  class NewButtonComponent < ApplicationComponent
     include ApplicationHelper
+    include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting_agenda_item:)
+    def initialize(meeting:, meeting_agenda_item: nil, disabled: false)
       super
 
-      @meeting_agenda_item = meeting_agenda_item
+      @meeting = meeting
+      @meeting_agenda_item = meeting_agenda_item || MeetingAgendaItem.new(meeting:, author: User.current)
+      @disabled = disabled
     end
 
     def call
-      render(Primer::Box.new(pl: 5)) do
-        render(MeetingAgendaItems::FormComponent.new(
-                 meeting: @meeting_agenda_item.meeting,
-                 meeting_agenda_item: @meeting_agenda_item,
-                 method: :put,
-                 submit_path: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
-                 cancel_path: cancel_edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item)
-               ))
+      component_wrapper do
+        form_with(
+          url: new_meeting_agenda_item_path(@meeting),
+          method: :get,
+          data: { 'turbo-stream': true }
+        ) do |_form|
+          button_content_partial
+        end
+      end
+    end
+
+    private
+
+    def button_content_partial
+      render(Primer::Beta::Button.new(
+               my: 5,
+               size: :medium,
+               scheme: :primary,
+               show_tooltip: true,
+               type: :submit,
+               disabled: @disabled,
+               'aria-label': "Add agenda item"
+             )) do
+        "Add agenda item"
       end
     end
   end

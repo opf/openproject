@@ -34,13 +34,15 @@ class MeetingAgendaItemsController < ApplicationController
   before_action :set_meeting_agenda_item, except: %i[index new cancel_new create]
 
   def new
-    update_new_section_via_turbo_stream(state: :form)
+    update_new_component_via_turbo_stream(hidden: false)
+    update_new_button_via_turbo_stream(disabled: true)
 
     respond_with_turbo_streams
   end
 
   def cancel_new
-    update_new_section_via_turbo_stream(state: :initial)
+    update_new_component_via_turbo_stream(hidden: true)
+    update_new_button_via_turbo_stream(disabled: false)
 
     respond_with_turbo_streams
   end
@@ -50,10 +52,9 @@ class MeetingAgendaItemsController < ApplicationController
     @meeting_agenda_item.author = User.current
 
     if @meeting_agenda_item.save
-      update_new_section_via_turbo_stream(state: :form) # enabel continue editing
-      update_list_via_turbo_stream
+      update_list_via_turbo_stream(form_hidden: false) # enabel continue editing
     else
-      update_new_section_via_turbo_stream(state: :form, meeting_agenda_item: @meeting_agenda_item) # show errors
+      update_new_component_via_turbo_stream(hidden: false, meeting_agenda_item: @meeting_agenda_item) # show errors
     end
 
     respond_with_turbo_streams

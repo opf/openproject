@@ -39,15 +39,8 @@ module MeetingAgendaItems
 
     def call
       flex_layout(justify_content: :space_between, align_items: :flex_start) do |flex|
-        flex.with_column(flex: 1, flex_layout: true) do |flex|
-          if drag_and_drop_enabled?
-            flex.with_column(mr: 2) do
-              drag_handler_partial
-            end
-          end
-          flex.with_column(flex: 1, mt: 2) do
-            description_partial
-          end
+        flex.with_column(flex: 1) do
+          left_column_partial
         end
         flex.with_column do
           right_column_partial
@@ -56,6 +49,19 @@ module MeetingAgendaItems
     end
 
     private
+
+    def left_column_partial
+      flex_layout do |flex|
+        if drag_and_drop_enabled?
+          flex.with_column(mr: 1) do
+            drag_handler_partial
+          end
+        end
+        flex.with_column(flex: 1, mt: 2) do
+          description_partial
+        end
+      end
+    end
 
     def right_column_partial
       flex_layout(align_items: :center) do |flex|

@@ -29,5 +29,5 @@ See COPYRIGHT and LICENSE files for more details.
 
 <div data-turbo="true">
   <%= render(MeetingAgendaItems::ListComponent.new(meeting: @meeting)) %>
-  <%= render(MeetingAgendaItems::NewSectionComponent.new(meeting: @meeting)) %>
+  <%= render(MeetingAgendaItems::NewButtonComponent.new(meeting: @meeting)) %>
 </div>

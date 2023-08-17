@@ -32,10 +32,11 @@ module MeetingAgendaItems
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting:)
+    def initialize(meeting:, form_hidden: true)
       super
 
       @meeting = meeting
+      @form_hidden = form_hidden
     end
 
     def call
@@ -43,6 +44,9 @@ module MeetingAgendaItems
         render(Primer::Beta::BorderBox.new(padding: :condensed)) do |border_box|
           @meeting.agenda_items.each do |meeting_agenda_item|
             row_partial(border_box, meeting_agenda_item)
+          end
+          border_box.with_row(p: 0, border_top: 0) do
+            new_form_partial
           end
         end
       end
@@ -60,6 +64,7 @@ module MeetingAgendaItems
 
     def row_partial(border_box, meeting_agenda_item)
       border_box.with_row(
+        pl: 0,
         scheme: :default,
         data: {
           id: meeting_agenda_item.id,
@@ -68,6 +73,10 @@ module MeetingAgendaItems
       ) do
         render(MeetingAgendaItems::ItemComponent.new(meeting_agenda_item:))
       end
+    end
+
+    def new_form_partial
+      render(MeetingAgendaItems::NewComponent.new(meeting: @meeting, hidden: @form_hidden))
     end
   end
 end
