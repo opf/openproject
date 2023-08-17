@@ -12,11 +12,11 @@ de:
   errors:
     attributes:
       storage_error:
-        not_authorized: "Not authorized for external connection to storage."
-        not_found: "The requested resource could not be found at the external file storage."
+        not_authorized: "Nicht autorisiert für externe Verbindung zum Speicher."
+        not_found: "Die angeforderte Ressource konnte im externen Dateispeicher nicht gefunden werden."
   activerecord:
     models:
-      file_link: "File"
+      file_link: "Datei"
       storages/storage: "Speicher"
     attributes:
       storages/storage:
@@ -41,7 +41,7 @@ de:
                 ist nicht vollständig eingerichtet. Die Nextcloud-Instanz erhält nicht den HTTP "Authorization" Header. Dieser ist jedoch für eine auf Bearer-Token basierende Autorisierung von API-Anfragen notwendig. Bitte überprüfen Sie die HTTP-Server-Konfiguration Ihres Nextcloud-Servers.
             password:
               invalid_password: "ist ungültig."
-              unknown_error: "could not be validated. Please check your storage connection and try again."
+              unknown_error: "konnte nicht überprüft werden. Bitte überprüfen Sie Ihre Verbindung zum Dateispeicher und versuchen Sie es erneut."
         storages/file_link:
           attributes:
             origin_id:
@@ -50,7 +50,7 @@ de:
     errors:
       too_many_elements_created_at_once: "Zu viele Elemente gleichzeitig erstellt. Maximal %{max} erwartet, %{actual} bekommen."
   storages:
-    unknown_storage: "Unknown storage"
+    unknown_storage: "Unbekannter Speicher"
     buttons:
       done_continue_setup: "Fertig. Setup fortsetzen"
       done_complete_setup: "Fertig, Einrichtung abgeschlossen"
@@ -70,11 +70,11 @@ de:
         index: "Dateispeicher in diesem Projekt verfügbar"
         new: "Einen Datei-Speicher zum Projekt hinzufügen"
         edit: "Dateispeicher in diesem Projekt bearbeiten"
-        delete: "Delete file storage"
-        members_connection_status: "Members connection status"
+        delete: "Dateispeicher löschen"
+        members_connection_status: "Verbindungsstatus der Mitglieder"
       project_storage_members:
-        title: "Members connection status"
-        subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
+        title: "Verbindungsstatus der Mitglieder"
+        subtitle: "Überprüfen Sie den Verbindungsstatus für den Speicher- %{storage_name_link} aller Projektmitglieder."
     instructions:
       type: "Bitte stellen Sie sicher, dass Sie Administrationsrechte in Ihrer Nextcloud-Instanz haben und die folgende Anwendung vor dem Setup installiert wurde:"
       type_link_text: "„OpenProject Integration“"
@@ -104,11 +104,11 @@ de:
       storage: >
         Sind Sie sicher, dass Sie diesen Speicher löschen möchten? Dies löscht den Speicher auch aus allen Projekten, in denen er verwendet wird. Außerdem werden alle Links von Arbeitspaketen zu Dateien gelöscht, die in diesem Speicher gespeichert sind.
       project_storage: >
-        Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:
-      project_storage_delete_result_1: "Remove all links from work packages of this project to files and folders of that storage."
-      project_storage_delete_result_2: "In case this storage has an automatically managed project folder, this and its files will be deleted forever."
-      input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
-      irreversible_notice: "Deleting a file storage is an irreversible action."
+        Sind Sie sicher, dass Sie %{file_storage} aus diesem Projekt löschen möchten? Um diese Aktion zu bestätigen, geben Sie bitte den Namen in das untenstehende Feld ein:
+      project_storage_delete_result_1: "Entfernen Sie alle Links von Arbeitspaketen dieses Projekts zu Dateien und Ordnern dieses Speichers."
+      project_storage_delete_result_2: "Falls dieser Speicher einen automatisch verwalteten Projektordner hat, werden dieser und seine Dateien unwiderbringlich gelöscht."
+      input_delete_confirmation: "Geben Sie den Namen %{file_storage} ein, um mit der Löschung fortzufahren."
+      irreversible_notice: "Die Löschung des Projekts kann nicht rückgängig gemacht werden."
     label_active: "Aktiv"
     label_inactive: "Inaktiv"
     label_creator: "Ersteller"
@@ -135,13 +135,13 @@ de:
     label_storage: "Speicher"
     label_storages: "Speicher"
     label_status: "Status"
-    label_files: "Files"
+    label_files: "Dateien"
     member_connection_status:
-      connected: "Connected"
-      connected_no_permissions: "User role has no storages permissions"
-      not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
+      connected: "Verbunden"
+      connected_no_permissions: "Benutzerrolle hat keine Speicherberechtigungen"
+      not_connected: "Nicht verbunden. Der Benutzer sollte sich in den Speicher über den Tab %{files_label} eines zu verbindenden Arbeitspakets einloggen."
     no_results: "Noch keine Speicher eingerichtet."
-    members_no_results: "No members to display."
+    members_no_results: "Keine Mitglieder zum Anzeigen."
     provider_types:
       label: "Anbieter-Typ"
       nextcloud:

@@ -66,7 +66,7 @@ nl:
     button_continue: "Ga verder"
     button_copy: "Kopieer"
     button_copy_to_clipboard: "Kopiëren naar het klembord"
-    button_copy_link_to_clipboard: "Copy link to clipboard"
+    button_copy_link_to_clipboard: "Link naar klembord kopiëren"
     button_copy_to_other_project: "Kopiëren naar een ander project"
     button_custom-fields: "Aangepaste velden"
     button_delete: "Verwijderen"
@@ -107,7 +107,7 @@ nl:
       remove_from_list: 'Verwijder kaart uit lijst'
     caption_rate_history: "Beoordeel geschiedenis"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
+      browser_error: "Uw browser ondersteunt kopiëren naar het klembord niet. Kopieer het handmatig: %{content}"
       copied_successful: "Succesvol gekopieerd naar klembord!"
     chart:
       type: 'Grafiek type'
@@ -263,7 +263,7 @@ nl:
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
         change_button: "Opslaan en opnieuw plannen"
         change_title: "Wijzig werkdagen"
-        removed_title: "You will remove the following days from the non-working days list:"
+        removed_title: "Je verwijdert de volgende dagen uit de lijst van niet-werkdagen:"
         change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
         warning: >
           The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
@@ -352,8 +352,8 @@ nl:
       inital_setup_error_message: "An error occured while fetching data."
       description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
       warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Where will you be using this?"
-      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_label: "Waar gaat u dit gebruiken?"
+      token_name_placeholder: "Typ een naam, bijv. \"Telefoon\""
       token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
       copy_url_label: "URL kopiëren"
       ical_generation_error_text: "An error occured while generating the calendar URL."
@@ -524,8 +524,8 @@ nl:
     label_custom_queries: "Privé"
     label_columns: "Kolommen"
     label_attachments: Bijlagen
-    label_drop_files: "Drop files here to attach files."
-    label_drop_or_click_files: "Drop files here or click to attach files."
+    label_drop_files: "Sleep bestanden hierheen om bestanden toe te voegen."
+    label_drop_or_click_files: "Sleep bestanden hierheen of klik om bestanden toe te voegen."
     label_drop_folders_hint: U kunt geen mappen uploaden als bijlage. Selecteer a. u. b. enkele bestanden.
     label_add_attachments: "Bestanden toevoegen"
     label_formattable_attachment_hint: "Hecht en link bestanden door deze in dit veld te slepen, of plak deze vanuit het klembord."
@@ -602,7 +602,7 @@ nl:
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Te laat'
-        overdue_since: 'since %{difference_in_days}'
+        overdue_since: 'sinds %{difference_in_days}'
         property_today: 'is vandaag'
         property_is: 'is in %{difference_in_days}'
         property_was: 'was %{difference_in_days} geleden'
@@ -688,7 +688,7 @@ nl:
           description: 'These project-specific settings override default settings above.'
           add: 'Instelling voor project toevoegen'
           already_selected: 'Dit project is al geselecteerd'
-          remove: 'Remove project settings'
+          remove: 'Projectinstellingen verwijderen'
     password_confirmation:
       field_description: 'U moet uw wachtwoord invoeren om deze wijziging te bevestigen.'
       title: 'Voer uw wachtwoord in om door te gaan'
@@ -701,7 +701,7 @@ nl:
       default: '-'
       subject: 'Onderwerp hier invoeren'
       selection: 'Gelieve te selecteren'
-      description: 'Description: Click to edit...'
+      description: 'Beschrijving: Klik om te bewerken...'
       relation_description: 'Klik om een beschrijving voor deze relatie toe te voegen'
     project:
       required_outside_context: >
@@ -1274,15 +1274,15 @@ nl:
         between_two_specific_dates: 'tussen twee specifieke datums'
       legends:
         changes_since: 'Veranderingen sinds'
-        changes_between: 'Changes between'
-        now_meets_filter_criteria: 'Now meets filter criteria'
-        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
-        maintained_with_changes: 'Maintained with changes'
+        changes_between: 'Veranderingen tussen'
+        now_meets_filter_criteria: 'Voldoet nu aan filtercriteria'
+        no_longer_meets_filter_criteria: 'Voldoet niet langer aan filtercriteria'
+        maintained_with_changes: 'Behoud met wijzigingen'
         in_your_timezone: 'In je lokale tijdzone:'
       icon_tooltip:
         added: 'Added to view within the comparison time period'
         removed: 'Removed from view within the comparison time period'
-        changed: 'Maintained with modifications'
+        changed: 'Behoud met wijzigingen'
     forms:
       submit_success_message: 'Het formulier is met succes verzonden'
       load_error_message: 'There was an error loading the form'

@@ -38,9 +38,9 @@ it:
         project_folder_no_access: >
           Non hai accesso alla cartella del progetto. Sei pregato di contattare il tuo amministratore per ottenere l'accesso o caricare il file in un'altra posizione.
         managed_project_folder_not_available: >
-          The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
+          La cartella del progetto gestita automaticamente non è stata ancora trovata. Attendi un po', ricarica la pagina per recuperare i dati più recenti e riprova.
         managed_project_folder_no_access: >
-          You have no access yet to the managed project folder. Please wait a bit and try again.
+          Non hai ancora accesso alla cartella del progetto gestito. Aspetta un po' e riprova.
         upload_keep_both: "Mantieni entrambi"
         upload_replace: "Sostituisci"
       file_links:

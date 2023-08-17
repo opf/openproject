@@ -55,41 +55,41 @@ de:
               group_name: Untergeordnete Arbeitspakete
       groups:
         item_0:
-          name: Architects
+          name: Architekten
         item_1:
-          name: BIM Coordinators
+          name: BIM-Koordinatoren
         item_2:
-          name: BIM Managers
+          name: BIM Manager
         item_3:
-          name: BIM Modellers
+          name: BIM Modellierer
         item_4:
-          name: Lead BIM Coordinators
+          name: Leitende BIM-Koordinatoren
         item_5:
-          name: MEP Engineers
+          name: MEP-Ingenieure
         item_6:
-          name: Planners
+          name: Planer
         item_7:
-          name: Structural Engineers
+          name: Bauingenieure
       welcome:
-        title: Welcome to OpenProject BIM edition!
+        title: Willkommen zur OpenProject BIM Edition!
         text: |
-          Checkout the demo projects to get started with some examples.
+          Schauen Sie sich die Demo-Projekte an, um mit ein paar Beispielen zu beginnen.
 
-          * [(Demo) Construction project]({{opSetting:base_url}}/projects/demo-construction-project): Planning, BIM process, BCF management, and constructing, all at a glance.
-              * [(Demo) Planning & constructing]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Classical planning and construction management.
-              * [(Demo) Bim project]({{opSetting:base_url}}/projects/demo-bim-project): BIM process and coordination.
-                  * [(Demo) BCF management]({{opSetting:base_url}}/projects/demo-bcf-management-project): BCF management.
+          * [(Demo)Bauprojekt]({{opSetting:base_url}}/projects/democonstruction-project): Planung, BIM Prozess, BCF Management und Konstruktion, alles auf einen Blick.
+              * [(Demo) Planung & Konstruktion]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Klassische Planung und Bauleitung.
+              * [(Demo) Bim Projekt]({{opSetting:base_url}}/projects/demo-bim-project): BIM Prozess und Koordination.
+                  * [(Demo) BCF Management]({{opSetting:base_url}}/projects/demo-bcf-management-project): BCF Management.
 
-          Also, you can create a blank [new project]({{opSetting:base_url}}/projects/new).
+          Sie können auch ein leeres [neues Projekt]({{opSetting:base_url}}/projects/new) erstellen.
 
-          Never stop collaborating. With open source and open mind.
+          Seien Sie Teil einer globalen Gemeinschaft - mit Open Source und offenem Verstand.
 
-          You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          Sie können diesen Willkommenstext [hier]({{opSetting:base_url}}/admin/settings/general) ändern.
       projects:
         demo-construction-project:
-          name: "(Demo) Construction project"
-          status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo construction project.
+          name: "(Demo) Bauprojekt"
+          status_explanation: Alle Aufgaben sind im Zeitplan. Die Beteiligten kennen ihre Aufgaben. Das System ist komplett eingerichtet.
+          description: Dies ist eine kurze Zusammenfassung der Ziele dieses beispielhaften Bauprojekts.
           news:
             item_0:
               title: Willkommen bei Ihrem Demo-Projekt
@@ -110,7 +110,7 @@ de:
               name: Teamplaner
           boards:
             bcf:
-              name: Simple drag'n drop workflow
+              name: Einfacher Drag'n Drop Workflow
           project-overview:
             widgets:
               item_0:
@@ -120,25 +120,27 @@ de:
                 options:
                   name: Erste Schritte
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Wir freuen uns, dass Sie dabei sind. Wir empfehlen die folgenden Punkte auszuprobieren, um in OpenProject loszulegen.
 
-                    But before you jump right into it, you should know that this exemplary project is split up into two different projects:
+                    Entdecken Sie die wichtigsten Funktionen mit unserer [geführten Tour]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
 
-                    1.  [Construction project]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Here you will find the classical roles, some workflows and work packages for your construction project.
-                    2.  [Creating BIM Model]({{opSetting:base_url}}/projects/demo-bim-project): This project also offers roles, workflows and work packages but especially in the BIM context.
+                    _Probieren Sie die folgenden Schritte: _
+
+                    1.  [Bauprojekt]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Hier finden Sie die klassischen Rollen, Workflows und Arbeitspakete für ein beispielhaftes Bauprojekt.
+                    2.  [BIM Model anlegen]({{opSetting:base_url}}/projects/demo-bim-project): Dieses Projekt bietet Rollen, Workflows und Arbeitspakete am konkreten Beispiel von BIM.
 
                     _Try the following steps:_
 
-                    1.  _Invite new members to your project_: → Go to [Members]({{opSetting:base_url}}/projects/demo-construction-project/members) in the project navigation.
-                    2.  _View the work in your projects_: → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    3.  _Create a new work package_: → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart_: → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Activate further modules_: → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
+                    1.  _Neue Mitglieder zum Projekt einladen_: → Gehen Sie zu [Mitglieder]({{opSetting:base_url}}/projects/demo-construction-project/members) in der Projektnavigation.
+                    2.  _Die Aufgaben des Projekts einsehen_: → Gehen Sie zu [Arbeitspakete]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in der Projektnavigation.
+                    3.  _Ein neues Arbeitspaket anlegen_: → Gehen Sie zu [Arbeitspakete → Erstellen]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    4.  _Erstellen und aktualisieren eines Gantt-Diagramms_: → Gehen Sie zu [Gantt]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in der Projektnavigation.
+                    5.  _Weitere Module aktivieren_: → Gehen Sie zu [Projekteinstellungen → Module]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
                     6.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    7.  _Agile working? Check out our brand new boards:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-construction-project/boards)
+                    7.  _Agile Arbeitsweisen? Testen Sie unsere agile Boards:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-construction-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Hier finden Sie unsere [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Bitte kontaktieren Sie uns gerne bei offenen Fragen haben wenn Sie Unterstützung benötigen: [Support[at]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Mitglieder
@@ -149,9 +151,9 @@ de:
                 options:
                   name: Meilensteine
         demo-planning-constructing-project:
-          name: "(Demo) Planning & constructing"
+          name: "(Demo) Planung & Bau"
           status_explanation: Alle Aufgaben sind im Zeitplan. Die Beteiligten kennen ihre Aufgaben. Das System ist komplett eingerichtet.
-          description: This is a short summary of the goals of this demo planning and constructing project.
+          description: Dies ist eine kurze Zusammenfassung der Ziele dieses beispielhaften Bauprojekts.
           news:
             item_0:
               title: Willkommen bei Ihrem Demo-Projekt
@@ -179,21 +181,21 @@ de:
                 options:
                   name: Erste Schritte
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Wir freuen uns, dass Sie dabei sind. Wir empfehlen die folgenden Punkte auszuprobieren, um in OpenProject loszulegen.
 
-                    Here you will find the classical roles, some workflows and work packages for your construction project.
+                    Hier finden Sie die klassischen Rollen, Workflows und Arbeitspakete für ein beispielhaftes Bauprojekt.
 
-                    _Try the following steps:_
+                    _Probieren Sie die folgenden Schritte: _
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) in the project navigation.
-                    2.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    3.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
-                    6.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
+                    1.  _Neue Mitglieder ins Projekt hinzufügen:_ → Gehen Sie zu [Members]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) in der Projektnavigation.
+                    2.  _Die Aufgaben im Projekt betrachten:_ → Gehen Sie zu [Arbeitspakete]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in der Projektnavigation.
+                    3.  _Ein Arbeitspaket anlegen:_ → Gehen Sie zu [Arbeitspakete → Erstellen]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    4.  _Ein Gantt-Diagramm anlegen und bearbeiten:_ → Gehen Sie zu [Gantt]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in der Projektnavigation.
+                    5.  _Weitere Module aktivieren:_ → Gehen Sie zu [Projekteinstellungen → Module]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
+                    6.  _Agile Arbeitsweise? Testen Sie unsere agilen Boards:_ → Gehen Sie zu [Boards]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Hier finden Sie unsere [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Bitte kontaktieren Sie uns gerne bei offenen Fragen haben wenn Sie Unterstützung benötigen: [Support[at]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Mitglieder
@@ -205,207 +207,207 @@ de:
                   name: Meilensteine
           work_packages:
             item_0:
-              subject: Project kick off construction project
+              subject: Projektstart Bauprojekt
               description: |-
-                The project kick off initializes the start of the project in your company. Everybody being part of this project should be invited to the kick off for a first briefing.
+                Der Projektstart initialisiert das Projekt in Ihrem Unternehmen. Alle Teilnehmenden des Projekts sollten für ein erste Einführung eingeladen werden.
 
-                The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                Der nächste Schritt könnte das Prüfen der Verfügbarkeiten sein, hierfür können sie den [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) verwenden.
             item_1:
-              subject: Basic evaluation
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Grundlegende Bewertung
+              description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
               children:
                 item_0:
-                  subject: Gathering first project information
+                  subject: Erste Projektinformationen sammeln
                   description: |-
-                    ## Goal
+                    ## Ziel
 
-                    *   Define tasks based on the customer needs
-                    *   Time frame and cost estimation shall be defined
+                    * Definiere Aufgaben basierend auf den Kundenbedürfnissen
+                    * * Zeitrahmen und Kostenschätzung werden definiert
 
-                    ## Description
+                    ## Beschreibung
 
-                    *   Identify the customer needs by having a workshop with him/ her
-                    *   Each need shall represent a task with its corresponding work packages
-                    *   Derive the cost estimation and time frame
+                    * Identifiziere die Kundenbedürfnisse durch einen Workshop
+                    * Jeder Bedarf soll eine Aufgabe mit den entsprechenden Arbeitspaketen
+                    * Bestimme den Kosten- und Zeitrahmen.
                 item_1:
-                  subject: Summarize the results
+                  subject: Ergebnisse zusammenfassen
                   description: |-
-                    ## Goal
+                    ## Ziel
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    * Erstellen Sie einen nützlichen Überblick über die Ergebnisse
+                    * Prüfen Sie, was getan wurde, und fassen Sie die Ergebnisse
+                    * Vermitteln Sie alle relevanten Ergebnisse mit dem Kunden
+                    * Identifizieren Sie die grundlegenden Randbedingungen des Projekts
 
-                    ## Description
+                    ## Beschreibung
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
-                    *   ...
+                    * Jedes Thema erhält eine eigene Übersicht, die als Ergebniskatalog
+                    * Diese Übersicht informiert alle Teilnehmer über die getroffenen Entscheidungen
+                    * ...
                 item_2:
-                  subject: End of basic evaluation
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Ende der grundlegenden Bewertung
+                  description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
             item_2:
-              subject: Preliminary planning
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Vorläufige Planung
+              description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
               children:
                 item_0:
-                  subject: Developing first draft
+                  subject: Entwicklung des ersten Entwurfs
                   description: |-
-                    ## Goal
+                    ## Ziel
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    * Erstellen Sie einen nützlichen Überblick über die Ergebnisse
+                    * Prüfen Sie, was getan wurde, und fassen Sie die Ergebnisse
+                    * Vermitteln Sie alle relevanten Ergebnisse mit dem Kunden
+                    * Identifizieren Sie die grundlegenden Randbedingungen des Projekts
 
-                    ## Description
+                    ## Beschreibung
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
-                    *   ...
+                    * Jedes Thema erhält eine eigene Übersicht, die als Ergebniskatalog
+                    * Diese Übersicht informiert alle Teilnehmer über die getroffenen Entscheidungen
+                    * ...
                 item_1:
-                  subject: Summarize results
+                  subject: Ergebnisse zusammenfassen
                   description: |-
-                    ## Goal
+                    ## Ziel
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    * Erstellen Sie einen nützlichen Überblick über die Ergebnisse
+                    * Prüfen Sie, was getan wurde, und fassen Sie die Ergebnisse
+                    * Vermitteln Sie alle relevanten Ergebnisse mit dem Kunden
+                    * Identifizieren Sie die grundlegenden Randbedingungen des Projekts
 
-                    ## Description
+                    ## Beschreibung
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
-                    *   ...
+                    * Jedes Thema erhält eine eigene Übersicht, die als Ergebniskatalog
+                    * Diese Übersicht informiert alle Teilnehmer über die getroffenen Entscheidungen
+                    * ...
             item_3:
-              subject: Passing of preliminary planning
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Weitergabe der Vorplanung
+              description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
             item_4:
-              subject: Design planning
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Designplanung
+              description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
               children:
                 item_0:
-                  subject: Finishing design
+                  subject: Fertigstellung Design
                   description: |-
-                    ## Goal
+                    ## Ziel
 
-                    *   Design is done
-                    *   All parties are happy with the results of the design planning phase
+                    * Design erfolgt
+                    * Alle Parteien sind zufrieden mit den Ergebnissen der Planungsphase
 
-                    ## Description
+                    ## Beschreibung
 
-                    *   The design of the project will be finished
-                    *   All parties agree on the design
-                    *   The owner is happy with the results
-                    *   ...
+                    * Das Design des Projekts wird beendet
+                    * Alle Parteien stimmen auf das Design
+                    * Der Eigentümer ist zufrieden mit den Ergebnissen
+                    * ...
                 item_1:
-                  subject: Design freeze
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Design Freeze
+                  description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
             item_5:
-              subject: Construction phase
+              subject: Bauphase
               children:
                 item_0:
-                  subject: Start constructing
+                  subject: Konstruktion beginnen
                   description: |-
-                    ## Goal
+                    ## Ziel
 
-                    *   Ground breaking ceremony
-                    *   Setting up the construction site
-                    *   ...
+                    * Spatenstich
+                    * Einrichtung der Baustelle
+                    * ...
 
-                    ## Description
+                    ## Beschreibung
 
-                    *   Preparing the site for the project
-                    *   Get the team together
-                    *   ...
+                    * Vorbereitung der Seite für das Projekt
+                    * Das Team zusammenbringen
+                    * ...
                 item_1:
-                  subject: Foundation
+                  subject: Fundament
                   description: |-
-                    ## Goal
+                    ## Ziel
 
-                    *   Laying of the foundation stone
-                    *   ...
+                    * Verlegung des Grundsteins
+                    * ...
 
-                    ## Description
+                    ## Beschreibung
 
-                    *   Setting up the concrete mixer
-                    *   Setting up the supply chain for the concrete
-                    *   ...
+                    * Einrichtung des Betonmischers
+                    * Einrichtung der Versorgungskette für den Beton
+                    * ...
                 item_2:
-                  subject: Building construction
+                  subject: Baukonstruktion
                   description: |-
-                    ## Goal
+                    ## Ziel
 
-                    *   Topping out ceremony
-                    *   Walls and ceilings are done
-                    *   ...
+                    * Richtfest
+                    * Wände und Decken fertiggestellt
+                    * ...
 
-                    ## Description
+                    ## Beschreibung
 
-                    *   Creating all structural levels of the building
-                    *   Installing doors and windows
-                    *   Finishing the roof structure
-                    *   ...
+                    * Erstelle alle strukturellen Ebenen des Gebäudes
+                    * Installation von Türen und Fenstern
+                    * Abschluss der Dachstruktur
+                    * ...
                 item_3:
-                  subject: Finishing the facade
+                  subject: Fassade fertiggestellt
                   description: |-
-                    ## Goal
+                    ## Ziel
 
-                    *   Facade is done
-                    *   Whole building is waterproof
-                    *   ...
+                    * Fassade ist fertiggestellt
+                    * Ganzes Gebäude ist wasserdicht
+                    * ...
 
-                    ## Description
+                    ## Beschreibung
 
-                    *   Install all elements for the facade
-                    *   Finish the roof
-                    *   ...
+                    * Installieren Sie alle Elemente für die Fassade
+                    * Beenden Sie das Dach
+                    * ...
                 item_4:
-                  subject: Installing the building service systems
+                  subject: Installation der Gebäudedienstsysteme
                   description: |-
-                    ## Goal
+                    ## Ziel
 
-                    *   All building service systems are ready to be used
+                    * Alle Gebäudedienstsysteme sind einsatzbereit
 
-                    ## Description
+                    ## Beschreibung
 
-                    *   Installing the heating system
-                    *   Installing the climate system
-                    *   Electrical installation
-                    *   ...
+                    * Installation des Heizsystems
+                    * Installation des Klimasystems
+                    * Elektroinstallation
+                    * ...
                 item_5:
-                  subject: Final touches
+                  subject: Feinschliff
                   description: |-
-                    ## Goal
+                    ## Ziel
 
-                    *   Handover of the keys
-                    *   The customer is happy with his building
-                    *   ...
+                    * Übergabe der Schlüssel
+                    * Der Kunde ist zufrieden mit seinem Gebäude
+                    * ...
 
-                    ## Description
+                    ## Beschreibung
 
-                    *   Finishing the installation of the building service systems
-                    *   Finishing the interior construction
-                    *   Finishing the facade
-                    *   ...
+                    * Fertigstellung der Installation der Gebäudesystem
+                    * Abschluss des Innenbaus
+                    * Fertigstellung der Fassade
+                    * ...
                 item_6:
-                  subject: House warming party
+                  subject: Einweihungsfeier
                   description: |-
-                    ## Goal
+                    ## Ziel
 
-                    *   Have a blast!
+                    *   Spaß haben!
 
                     ## Description
 
-                    *   Invite the construction team
-                    *   Invite your friends
-                    *   Bring some drinks, snacks and your smile
+                    *   Das Konstruktionsteam einladen
+                    *   Freunde mitbringen
+                    *   Getränke, Snacks und die Freude nicht vergessen
         demo-bim-project:
-          name: "(Demo) BIM project"
-          status_explanation: All tasks and sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo BIM project.
+          name: "(Demo) BIM Projekt"
+          status_explanation: Alle Aufgaben sind im Zeitplan. Die Beteiligten kennen ihre Aufgaben. Das System ist komplett eingerichtet.
+          description: Dies ist eine kurze Zusammenfassung der Ziele dieses beispielhaten BIM-Projekts.
           news:
             item_0:
               title: Willkommen bei Ihrem Demo-Projekt
@@ -433,24 +435,24 @@ de:
                 options:
                   name: Erste Schritte
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Wir freuen uns, dass Sie dabei sind. Wir empfehlen die folgenden Punkte auszuprobieren, um in OpenProject loszulegen.
 
-                    This demo project offers roles, workflows and work packages that are specialized for BIM.
+                    Dieses beispielhafte Projekt zeigt Rollen, Workflows und Arbeitspakete speziell für BIM.
 
-                    _Try the following steps:_
+                    _Probieren Sie die folgenden Schritte: _
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-bim-project/members) in the project navigation.
-                    2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
-                    3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
-                    4.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    7.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).
-                    8.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    9.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-bim-project/boards)
+                    1.  _Neue Mitglieder ins Projekt hinzufügen:_ → Gehen Sie zu [Mitglieder]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) in der Projektnavigation.
+                    2.  _3D-Modelle im IFC Format hochladen und ansehen:_ → Gehen Sie zu [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in der Projektnavigation.
+                    3.  _BCF-Fälle anlegen und mit dem IFC-Modell verknüpfen:_ → Gehen Sie zu [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Erstellen.
+                    4.  _Die Aufgaben im Projekt betrachten:_ → Gehen Sie zu [Arbeitspakete]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in der Projektnavigation.
+                    5.  _Ein Arbeitspaket anlegen:_ → Gehen Sie zu [Arbeitspakete → Erstellen]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    6.  _Ein Gantt-Diagramm anlegen und bearbeiten:_ → Gehen Sie zu [Gantt]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in der Projektnavigation.
+                    7.  _Weitere Module aktivieren:_ → Gehen Sie zu [Projekteinstellungen → Module]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
+                    8.  _Erhalten Sie eine Übersicht der offenen BCF-Fälle mit der Kartenansicht:_ → Gehen Sie zu [Arbeitspakete]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                    9.  _Agile Arbeitsweise? Testen Sie unsere agilen Boards:_ → Gehen Sie zu [Boards]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Hier finden Sie unsere [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Bitte kontaktieren Sie uns gerne bei offenen Fragen haben wenn Sie Unterstützung benötigen: [Support[at]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Mitglieder
@@ -462,233 +464,233 @@ de:
                   name: Meilensteine
           work_packages:
             item_0:
-              subject: Project kick off creating BIM model
+              subject: Projekt starten die Erstellung des BIM-Modells
               description: |-
-                The project Kickoff initializes the start of the project in your company. The whole project team should be invited to the Kickoff for a first briefing.
+                Der Projektstart initialisiert das Projekt in Ihrem Unternehmen. Alle Teilnehmenden des Projekts sollten für ein erste Einführung eingeladen werden.
 
-                The next step could be to check out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                Der nächste Schritt könnte das Prüfen der Verfügbarkeiten sein, hierfür können sie den [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) verwenden.
             item_1:
-              subject: Project preparation
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Projektvorbereitung
+              description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
               children:
                 item_0:
-                  subject: Gathering the project specific data and information for the BIM model
+                  subject: Erhebung der projektspezifischen Daten und Informationen für das BIM-Modell
                   description: |-
-                    ## Goal
+                    ## Ziel
 
-                    *   Identify the information strategy for the customer (e.g. by using plain language questions)
-                    *   If provided, analyze the customer information requirements for the BIM model
-                    *   Define an information delivery strategy according to the customers needs
+                    * Identifizieren Sie die Informationsstrategie für den Kunden (z. durch Verwendung einfacher Fragestellungen)
+                    * wenn vorhanden, Analysieren Sie die Kundeninformationsanforderungen für das BIM-Modell
+                    * Definieren Sie eine Informationslieferungsstrategie entsprechend den Kundenbedürfnissen
 
-                    ## Description
+                    ## Beschreibung
 
-                    *   Analyzing the customers needs and goals for using the BIM methodology
-                    *   Results of this tasks should be:
-                    *   The requirements for the project
-                    *   A strategy for the delivery phase
-                    *   ...
+                    * Analyse der Kundenbedürfnisse und Ziele für die Anwendung der BIM-Methodik
+                    * Ergebnisse dieser Aufgaben sollten sein:
+                    * Die Anforderungen für das Projekt
+                    * Eine Strategie für die Lieferphase
+                    * ...
                 item_1:
-                  subject: Creating the BIM execution plan
+                  subject: BIM-Ausführungsplan erstellen
                   description: |-
-                    # Goal
+                    # Ziel
 
-                    *   A BIM execution plan will be defined according to the exchange requirements specifications (ERS)
-                    *   All team members and partners have a plan on how to reach each of the project goals
+                    * Ein BIM-Ausführungsplan wird gemäß der exchange requirements specifications (ERS) angelegt
+                    * Alle Teammitglieder und Partner haben einen Plan, wie jedes der Projektziele erreicht wird
 
-                    # Description
+                    # Beschreibung
 
-                    *   Depending on the identifies use cases, the individual Information Delivery Manuals will be defined
-                    *   To handle the technological interfaces, a software topology will be defined and analyzed and verified
-                    *   ...
+                    * Abhängig von den Anwendungsfällen werden die einzelnen Informationslieferanleitungen definiert
+                    * Um die technologischen Schnittstellen zu verwalten, Eine Software-Struktur wird definiert und analysiert und verifiziert
+                    * ...
                 item_2:
-                  subject: Completion of the BIM execution plan
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Fertigstellung des BIM-Ausführungsplans
+                  description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
             item_2:
-              subject: End of preparation phase
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Ende der Vorbereitungsphase
+              description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
             item_3:
-              subject: Creating initial BIM model
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Erstelle erstes BIM-Modell
+              description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
               children:
                 item_0:
-                  subject: Modelling initial BIM model
+                  subject: Initiales BIM-Modell modellieren
                   description: |-
-                    # Goal
+                    # Ziel
 
-                    *   Modelling the initial BIM model
-                    *   Creating a BIM model for the whole project team
+                    * Modellierung des BIM-Modells
+                    * Erstellen eines ersten BIM-Modells für das gesamte Projektteam
 
-                    # Description
+                    # Beschreibung
 
-                    *   According to the gathered data from the customer, the initial model will be modelled
-                    *   The model shall be modelled according to the LOD Matrices and contain the information needed
-                    *   ...
+                    * Entsprechend den gesammelten Daten des Kunden, das ursprüngliche Modell wird nach dem Modell
+                    * Das Modell soll nach den LOD Matritzen modelliert werden und die Informationen enthalten
+                    * ...
                 item_1:
-                  subject: Initial, internal model check and revising
+                  subject: Initiale, interne Modellprüfung und Überarbeitung
                   description: |-
-                    # Goal
+                    # Ziel
 
-                    *   Submitting a BIM model according to the defined standards
+                    * Ein BIM-Modell gemäß den definierten Standards
 
-                    # Description
+                    # Beschreibung
 
-                    *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised
-                    *   ...
+                    * Das Modell soll überprüft werden, nach den definierten Standards (Konventionen, LOD, . ) und überarbeitet
+                    * ...
                 item_2:
-                  subject: Submitting initial BIM model
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Erstes BIM-Modell einreichen
+                  description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
             item_4:
-              subject: Modelling, first cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Erster Modellierungsdurchlauf
+              description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
               children:
                 item_0:
-                  subject: Referencing external BIM models
+                  subject: Verweise auf externe BIM-Modelle
                   description: |-
-                    # Goal
+                    # Ziel
 
-                    *   Having a foundation for developing the internal model/ offering answers
-                    *   Using the external model to develop the internal model
+                    * Ein Fundament für die Entwicklung des internen Modells/Antworten
+                    * Verwendung des externen Modells zur Entwicklung des internen Modells
 
-                    # Description
+                    # Beschreibung
 
-                    *   The external model will be referenced in the BIM platform, thus used for modelling the internal model
-                    *   ...
+                    * Das externe Modell wird in der BIM-Plattform referenziert und zum Modellieren des internen Modells verwendet
+                    * ...
                 item_1:
-                  subject: Modelling the BIM model
+                  subject: Modellierung des BIM-Modells
                   description: |-
-                    # Goal
+                    # Ziel
 
-                    *   Creating a BIM model for the project
-                    *   Creating a BIM model for the whole project team
+                    * Erstellen eines BIM-Modells für das Projekt
+                    * Erstellen eines BIM-Modells für das gesamte Projektteam
 
-                    # Description
+                    # Beschreibung
 
-                    *   The model will be created according to the BIM execution plan
-                    *   ...
+                    * Das Modell wird gemäß dem BIM-Ausführungsplan
+                    * ...
                 item_2:
-                  subject: First Cycle, internal model check and revising
+                  subject: Initiale, interne Modellprüfung und Überarbeitung
                   description: |-
-                    # Goal
+                    # Ziel
 
-                    *   Submitting a BIM model according to the defined standards
+                    * Ein BIM-Modell gemäß den definierten Standards
 
-                    # Description
+                    # Beschreibung
 
-                    *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised.
-                    *   ...
+                    * Das Modell soll überprüft werden, nach den definierten Standards (Konventionen, LOD, . ) und überarbeitet
+                    * ...
                 item_3:
-                  subject: Submitting BIM model
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Erstes BIM-Modell einreichen
+                  description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
             item_5:
-              subject: Coordination, first cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Erster Koordinationslauf
+              description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
               children:
                 item_0:
-                  subject: Coordinate the different BIM models
+                  subject: Koordiniere die verschiedenen BIM-Modelle
                   description: |-
-                    # Goal
+                    # Ziel
 
-                    *   Assemble the different BIM models of the whole project team
-                    *   Coordinate the identified issues
+                    *   Zusammenfügen der verschiedenen BIM-Modelle
+                    *   Koordination der identifizieren Probleme
 
-                    # Description
+                    # Beschreibung
 
-                    *   The different BIM models will be assembled and checked
-                    *   The identified model specific issues will be communicated via BCF files
+                    *   Die verschiedenen BIM-Modelle werden zusammengefügt und geprüft
+                    *   Die modellspezifischen Probleme werden über BCF-Fälle kommuniziert
                     *   ...
                 item_1:
-                  subject: Issue management, first cycle
+                  subject: Erster Durchlauf Konfliktprüfung
                 item_2:
-                  subject: Finishing coordination, first cycle
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Erster Koordinierungsabschluss
+                  description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
             item_6:
-              subject: Modelling & coordinating, second cycle
-              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
+              subject: Modellierung & Koordinierung, zweiter Durchlauf
+              description: "## Ziel\n\n* ...\n\n## Beschreibung\n\n*  ..."
             item_7:
-              subject: Modelling & coordinating, ... cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Modellierung & Koordinierung, zweiter Durchlauf
+              description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
             item_8:
-              subject: Modelling & coordinating, (n-th minus 1) cycle
-              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
+              subject: Modellierung & Koordinierung, (n - 1ter) Durchlauf
+              description: "## Ziel\n\n* ...\n\n## Beschreibung\n\n*  ..."
             item_9:
-              subject: Modelling & coordinating n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Modellierung & Koordinierung, (n - 1ter) Durchlauf
+              description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
             item_10:
-              subject: Finishing modelling & coordinating, n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Modellierung & Koordinierung, (n-ter) Durchlauf
+              description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
             item_11:
-              subject: Use model for construction phase
+              subject: Modell für die Bauphase verwenden
               children:
                 item_0:
-                  subject: Handover model for construction crew
+                  subject: Übergabe des Modells für Konstruktionsteam
                   description: |-
-                    ## Goal
+                    ## Ziel
 
-                    *   Everyone knows the model and their tasks
-                    *   Everybody gets all the relevant information, model based
-                    *   ...
+                    * Jeder kennt das Modell und seine Aufgaben
+                    * Jeder erhält alle relevanten Informationen modellbasiert
+                    * ...
 
-                    ## Description
+                    ## Beschreibung
 
-                    *   The Kickoff on the construction site includes an introduction to the model
-                    *   All the objects should have the information needed for the assigned tasks. If not, data enrichment of the model needs to be done
-                    *   ...
+                    * Baubeginn auf der Baustelle umfasst eine Einführung in das Modell
+                    * Alle Objekte sollten die Informationen haben, die für die zugewiesenen Aufgaben benötigt werden. Wenn nicht, muss Modells noch mit Daten angereichert werden
+                    * ...
                 item_1:
-                  subject: Construct the building
+                  subject: Gebäude bauen
                   description: |-
-                    ## Goal
+                    ## Ziel
 
-                    *   New issues realized on construction site will be handled model based
-                    *   Issues will be documented by using the BCF files and the BIM model
+                    * Neue auf der Baustelle realisierte Probleme werden modellbasiert bearbeitet
+                    * Probleme werden durch Verwendung der BCF-Dateien und des BIM-Modells
 
-                    ## Description
+                    ## Beschreibung
 
-                    *   New issues will be documented using BCF files as sticky notes for the model
-                    *   The BCF files will be used to assign, track and correct issues
-                    *   ...
+                    * Neue Probleme werden mit BCF-Dateien dokumentiert als Notizen an dem Modell
+                    * Die BCF-Dateien werden verwendet, um zuzuweisen, Probleme zu verfolgen und korrigieren
+                    * ...
                 item_2:
-                  subject: Finish construction
+                  subject: Bau fertigstellen
             item_12:
-              subject: Issue management, construction phase
+              subject: Problembehandlung, Bauphase
             item_13:
-              subject: Handover for Facility Management
+              subject: Übergabe für das Einrichtungsmanagement
               description: |-
-                ## Goal
+                ## Ziel
 
-                *   The BIM model will be used for the Facility Management
-                *   The model provides all the relevant information for commissioning and operating the building
-                *   ...
+                * Das BIM Modell wird für das Facility Management verwendet
+                * Das Modell bietet alle relevanten Informationen für Inbetriebnahme und Betrieb des Gebäudes
+                * ...
 
-                ## Description
+                ## Beschreibung
 
-                *   The model contains the relevant information for the facility manager
-                *   The model can be used for the operating system of the building
-                *   ...
+                * Das Modell enthält die relevanten Informationen für den Facility Manager
+                * Das Modell kann für das Betriebssystem des Gebäudes
+                * ...
             item_14:
               subject: Asset Management
-              description: Enjoy your building :)
+              description: Freude am Gebäude haben :)
         demo-bcf-management-project:
-          name: "(Demo) BCF management"
+          name: "(Demo) BCF-Management"
           status_explanation: Alle Aufgaben sind im Zeitplan. Die Beteiligten kennen ihre Aufgaben. Das System ist komplett eingerichtet.
-          description: This is a short summary of the goals of this demo BCF management project.
+          description: Dies ist eine kurze Zusammenfassung der Ziele dieses beispielhaten BCF Management-Projekts.
           ifc_models:
             item_0:
-              name: Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)
+              name: Krankenhaus - Architektur (cc-by-sa-3.0 Autodesk Inc.)
             item_1:
-              name: Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)
+              name: Krankenhaus - Struktur (cc-by-sa-3.0 Autodesk Inc.)
             item_2:
-              name: Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)
+              name: Krankenhaus - Mechanisch (cc-by-sa-3.0 Autodesk Inc.)
           categories:
             item_0: Kategorie 1 (zu ändern in den Projekteinstellungen)
           queries:
             item_0:
               name: Probleme
             item_1:
-              name: Clashes
+              name: Konflikte
             item_2:
-              name: Requests
+              name: Anfragen
             item_3:
-              name: Remarks
+              name: Anmerkungen
             item_4:
               name: Projektplan
             item_5:
@@ -699,7 +701,7 @@ de:
               name: Teamplaner
           boards:
             bcf:
-              name: BCF issues
+              name: BCF-Fälle
           project-overview:
             widgets:
               item_0:
@@ -709,23 +711,24 @@ de:
                 options:
                   name: Erste Schritte
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Wir freuen uns, dass Sie dabei sind. Wir empfehlen die folgenden Punkte auszuprobieren, um in OpenProject loszulegen.
 
-                    This demo project shows BCF management functionalities.
+                    Dieses beispielhafte Projekt zeigt BCF-Management Funktionalität.
 
-                    _Try the following steps:_
+                    _Probieren Sie die folgenden Schritte: _
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true) in the project navigation.
-                    2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
-                    3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
-                    4.  _View the BCF files in your project:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) in the project navigation.
-                    5.  _Load your BCF files:_ → Go to [BCF → Import.]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)
-                    6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) in the project navigation.
-                    7.  _Activate further modules:_ → Go to [Project settings → Modules.]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)
-                    8.  _You love the agile approach? Create a board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards).
+                    1.  _Neue Mitglieder ins Projekt hinzufügen:_ → Gehen Sie zu [Mitglieder]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) in der Projektnavigation.
+                    2.  _3D-Modelle im IFC Format hochladen und ansehen:_ → Gehen Sie zu [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in der Projektnavigation.
+                    3.  _BCF-Fälle anlegen und mit dem IFC-Modell verknüpfen:_ → Gehen Sie zu [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Erstellen.
+                    4.  _Die Aufgaben im Projekt betrachten:_ → Gehen Sie zu [Arbeitspakete]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in der Projektnavigation.
+                    5.  _BCF-Dateien importieren:_ → Gehen Sie zu [BCF → Importieren]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)
+                    6.  _Ein Gantt-Diagramm anlegen und bearbeiten:_ → Gehen Sie zu [Gantt]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in der Projektnavigation.
+                    7.  _Weitere Module aktivieren:_ → Gehen Sie zu [Projekteinstellungen → Module]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
+                    8.  _Erhalten Sie eine Übersicht der offenen BCF-Fälle mit der Kartenansicht:_ → Gehen Sie zu [Arbeitspakete]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                    9.  _Agile Arbeitsweise? Testen Sie unsere agilen Boards:_ → Gehen Sie zu [Boards]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Hier finden Sie unsere [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Bitte kontaktieren Sie uns gerne bei offenen Fragen haben wenn Sie Unterstützung benötigen: [Support[at]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Mitglieder
