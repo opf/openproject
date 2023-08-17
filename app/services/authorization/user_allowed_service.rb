@@ -69,6 +69,8 @@ class Authorization::UserAllowedService
       allowed_to_globally?(action)
     elsif context.is_a? Project
       allowed_to_in_project?(action, context)
+    elsif supported_entity?(context)
+      allowed_to_in_entity?(action, context)
     elsif context.respond_to?(:to_a)
       allowed_to_in_all_projects?(action, context)
     else
@@ -164,6 +166,7 @@ class Authorization::UserAllowedService
   def supported_context?(context, global:)
     (context.nil? && global) ||
       context.is_a?(Project) ||
+      supported_entity?(context) ||
       (!context.nil? && context.respond_to?(:to_a))
   end
 

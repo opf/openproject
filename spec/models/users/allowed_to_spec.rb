@@ -491,9 +491,61 @@ RSpec.describe User, 'allowed_to?' do
     end
   end
 
+  shared_examples_for 'when inquiring for work_package' do
+    let(:permission) { :view_work_package }
+    context 'with the user being a member of the work package' do
+      before do
+        work_package.save!
+        wp_member.save!
+      end
+
+      context 'with the role granting the permission' do
+        before do
+          wp_role.add_permission!(permission)
+        end
+
+        it { expect(user).to be_allowed_to(permission, work_package) }
+      end
+
+      context 'without the role granting the permission' do
+        it { expect(user).not_to be_allowed_to(permission, work_package) }
+
+        context 'with a membership on the project granting the permission' do
+          before do
+            member.save!
+            role.add_permission!(permission)
+          end
+
+          it { expect(user).to be_allowed_to(permission, work_package) }
+        end
+      end
+    end
+
+    context 'without the user being a member of the work package' do
+      context 'with the user being a member of the project the work package belongs to' do
+        before do
+          member.save!
+          role.add_permission!(permission)
+        end
+
+        it { expect(user).to be_allowed_to(permission, work_package) }
+      end
+
+      context 'with the user being a member of another project' do
+        before do
+          member2.save!
+          role.add_permission!(permission)
+        end
+
+        it { expect(user).not_to be_allowed_to(permission, work_package) }
+      end
+    end
+  end
+
   context 'without preloaded permissions' do
     it_behaves_like 'when inquiring for project'
     it_behaves_like 'when inquiring globally'
+    it_behaves_like 'when inquiring for work_package'
   end
 
   context 'with preloaded permissions' do
