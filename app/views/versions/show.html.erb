@@ -48,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
     </li>
   <% end %>
   <% if authorize_for(:wiki, :edit) && !(@version.wiki_page_title.blank? || @version.project.wiki.nil?) %>
-    <li class="toolbar-item hidden-for-mobile">
+    <li class="toolbar-item hidden-for-tablet">
       <%= link_to({ controller: '/wiki', action: 'edit',
                     project_id: @version.project,
                     id: @version.wiki_page_title },

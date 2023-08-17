@@ -258,51 +258,50 @@ fr:
               wiki:
                 title: Sprint 1
                 content: |
-                  ### Sprint planning meeting
+                  ### Réunion de planification du sprint
 
-                  _Please document here topics to the Sprint planning meeting_
+                  _Veuillez documenter ici les sujets de la réunion de planification du sprint_
 
-                  * Time boxed (8 h)
-                  * Input: Product Backlog
-                  * Output: Sprint Backlog
+                  * Temps prévu (8 h)
+                  * Entrée : backlog du produit
+                  * Sortie : backlog du sprint
 
-                  * Divided into two additional time boxes of 4 h:
+                  * Divisé en deux périodes de temps supplémentaires de 4 h :
 
-                      * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                      * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
+                      * Le propriétaire du produit présente le [Backlog du produit]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) et les priorités à l'équipe et explique l'objectif du sprint, que l'équipe doit accepter. Ensemble, ils priorisent les sujets du Backlog du produit dont l'équipe s'occupera lors du prochain sprint. L'équipe s'engage à réaliser la livraison convenue.
+                      * L'équipe planifie de manière autonome (sans le Propriétaire du produit) en détail et décompose les tâches des exigences discutées pour consolider un [Backlog du sprint]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
+
+                  ### Réunion quotidienne Scrum
+
+                  _Veuillez documenter ici les sujets de la réunion quotidienne Scrum_
+
+                  * Courte réunion d'étape quotidienne de l'équipe.
+                  * Temps prévu (max. 15 min).
+                  * Réunion debout pour discuter des sujets suivants du [Tableau de travail](##sprint:scrum_project__version__sprint_1).
+                      * Que dois-je faire jusqu'au prochain Scrum quotidien ?
+                      * Qu'est-ce qui a bloqué mon travail (obstacles) ?
+                  * Le Maître Scrum gère la modération et prend des notes [Obstacles du sprint](##sprint:scrum_project__version__sprint_1).
+                  * Le Propriétaire du produit peut participer pour se maintenir au courant.
+
+                  ### Réunion d'examen du sprint
+
+                  _Veuillez documenter ici les sujets de la réunion d'examen du sprint_
+
+                  * Temps prévu (4 h).
+                  * Un maximum d'une heure de préparation par personne.
+                  * L'équipe montre au Propriétaire du produit et aux autres personnes intéressées ce qui a été réalisé au cours de ce sprint.
+                  * Important : pas de maquettes et pas de PowerPoint ! Il suffit de démontrer la fonctionnalité du produit fini (incréments).
+                  * Les commentaires du Propriétaire du produit, des intervenants et d'autres personnes sont recueillis et seront inclus dans les travaux ultérieurs.
+                  * Sur la base des fonctionnalités démontrées, le Propriétaire du produit décide de mettre en œuvre cet incrément ou de le développer davantage. Cette possibilité permet un RSI précoce.
 
 
-                  ### Daily Scrum meeting
+                  ### Rétrospective du sprint
 
-                  _Please document here topics to the Daily Scrum meeting_
+                  _Veuillez documenter ici les sujets de la réunion rétrospective du sprint_
 
-                  * Short, daily status meeting of the team.
-                  * Time boxed (max. 15 min).
-                  * Stand-up meeting to discuss the following topics from the [Task board](##sprint:scrum_project__version__sprint_1).
-                      * What do I plan to do until the next Daily Scrum?
-                      * What has blocked my work (Impediments)?
-                  * Scrum Master moderates and notes down [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
-                  * Product Owner may participate may participate in order to stay informed.
-
-                  ### Sprint Review meeting
-
-                  _Please document here topics to the Sprint Review meeting_
-
-                  * Time boxed (4 h).
-                  * A maximum of one hour of preparation time per person.
-                  * The team shows the product owner and other interested persons what has been achieved in this sprint.
-                  * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-                  * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-                  * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
-
-
-                  ### Sprint Retrospective
-
-                  _Please document here topics to the Sprint Retrospective meeting_
-
-                  * Time boxed (3 h).
-                  * After Sprint Review, will be moderated by Scrum Master.
-                  * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+                  * Temps prévu (3 h).
+                  * Après l'examen du sprint, elle sera modérée par le Maître Scrum.
+                  * L'équipe discute du sprint : ce qui s'est bien passé, ce qui doit être amélioré pour améliorer la productivité pour le prochain sprint ou même avoir plus de plaisir.
             item_3:
               name: Sprint 2
           categories:
@@ -339,22 +338,22 @@ fr:
                 options:
                   name: Pour commencer
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Nous sommes heureux que vous nous ayez rejoints ! Nous vous suggérons d'effectuer quelques essais pour vous familiariser avec OpenProject.
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
+                    Découvrez les fonctionnalités les plus importantes grâce à notre [Visite guidée]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
 
-                    _Try the following steps:_
+                    _Essayez les étapes suivantes :_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
-                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Invitez de nouveaux membres à rejoindre votre projet* : &rightarrow; Accédez à [Membres]({{opSetting:base_url}}/projects/your-scrum-project/members) dans la navigation du projet.
+                    2. *Consultez votre backlog de produit et de sprint* : &rightarrow; Accédez à [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) dans la navigation du projet.
+                    3. *Consultez votre tableau des tâches* : &rightarrow; Accédez à [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Cliquez sur la flèche droite dans Sprint &rightarrow; Sélectionnez [Tableau des tâches](##sprint:scrum_project__version__sprint_1).
+                    4. *Créez un nouveau lot de travaux* : &rightarrow; Accédez à [Lots de travaux &rightarrow; Créer]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    5. *Créez et mettez à jour un plan de projet* : &rightarrow; Accédez à [Plan de projet](##query:scrum_project__query__project_plan) dans la navigation du projet.
+                    6. *Créez un wiki de sprint* : &rightarrow; Accédez à [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) et ouvrez le wiki de sprint à partir du menu déroulant de droite dans un sprint. Vous pouvez modifier le [modèle du wiki]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) en fonction de vos besoins.
+                    7. *Activez d'autres modules* : &rightarrow; Accédez à [Paramètres du projet &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Vous trouverez ici nos [Guides de l'utilisateur](https://www.openproject.org/docs/user-guide/).
+                    Si vous avez des questions ou si vous avez besoin d'aide, n'hésitez pas à nous contacter : [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Lots de Travaux
@@ -413,48 +412,47 @@ fr:
             item_16:
               subject: Version 2.0
           wiki: |
-            ### Sprint planning meeting
+            ### Réunion de planification du sprint
 
-            _Please document here topics to the Sprint planning meeting_
+            _Veuillez documenter ici les sujets de la réunion de planification du sprint_
 
-            * Time boxed (8 h)
-            * Input: Product Backlog
-            * Output: Sprint Backlog
+            * Temps prévu (8 h)
+            * Entrée : backlog du produit
+            * Sortie : backlog du sprint
 
-            * Divided into two additional time boxes of 4 h:
+            * Divisé en deux périodes de temps supplémentaires de 4 h :
 
-                * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
+                * Le propriétaire du produit présente le [Backlog du produit]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) et les priorités à l'équipe et explique l'objectif du sprint, que l'équipe doit accepter. Ensemble, ils priorisent les sujets du Backlog du produit dont l'équipe s'occupera lors du prochain sprint. L'équipe s'engage à réaliser la livraison convenue.
+                * L'équipe planifie de manière autonome (sans le Propriétaire du produit) en détail et décompose les tâches des exigences discutées pour consolider un [Backlog du sprint]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
+
+            ### Réunion quotidienne Scrum
+
+            _Veuillez documenter ici les sujets de la réunion quotidienne Scrum_
+
+            * Courte réunion d'étape quotidienne de l'équipe.
+            * Temps prévu (max. 15 min).
+            * Réunion debout pour discuter des sujets suivants du tableau de travail.
+                * Que dois-je faire jusqu'au prochain Scrum quotidien ?
+                * Qu'est-ce qui a bloqué mon travail (obstacles) ?
+            * Le Maître Scrum gère la modération et prend des notes sur les obstacles du sprint.
+            * Le Propriétaire du produit peut participer pour se maintenir au courant.
+
+            ### Réunion d'examen du sprint
+
+            _Veuillez documenter ici les sujets de la réunion d'examen du sprint_
+
+            * Temps prévu (4 h).
+            * Un maximum d'une heure de préparation par personne.
+            * L'équipe montre au Propriétaire du produit et aux autres personnes intéressées ce qui a été réalisé au cours de ce sprint.
+            * Important : pas de maquettes et pas de PowerPoint ! Il suffit de démontrer la fonctionnalité du produit fini (incréments).
+            * Les commentaires du Propriétaire du produit, des intervenants et d'autres personnes sont recueillis et seront inclus dans les travaux ultérieurs.
+            * Sur la base des fonctionnalités démontrées, le Propriétaire du produit décide de mettre en œuvre cet incrément ou de le développer davantage. Cette possibilité permet un RSI précoce.
 
 
-            ### Daily Scrum meeting
+            ### Rétrospective du sprint
 
-            _Please document here topics to the Daily Scrum meeting_
+            _Veuillez documenter ici les sujets de la réunion rétrospective du sprint_
 
-            * Short, daily status meeting of the team.
-            * Time boxed (max. 15 min).
-            * Stand-up meeting to discuss the following topics from the Task board.
-                * What do I plan to do until the next Daily Scrum?
-                * What has blocked my work (Impediments)?
-            * Scrum Master moderates and notes down Sprint Impediments.
-            * Product Owner may participate may participate in order to stay informed.
-
-            ### Sprint Review meeting
-
-            _Please document here topics to the Sprint Review meeting_
-
-            * Time boxed (4 h).
-            * A maximum of one hour of preparation time per person.
-            * The team shows the product owner and other interested persons what has been achieved in this sprint.
-            * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-            * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-            * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
-
-
-            ### Sprint Retrospective
-
-            _Please document here topics to the Sprint Retrospective meeting_
-
-            * Time boxed (3 h).
-            * After Sprint Review, will be moderated by Scrum Master.
-            * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+            * Temps prévu (3 h).
+            * Après l'examen du sprint, elle sera modérée par le Maître Scrum.
+            * L'équipe discute du sprint : ce qui s'est bien passé, ce qui doit être amélioré pour améliorer la productivité pour le prochain sprint ou même avoir plus de plaisir.

@@ -108,7 +108,7 @@ export class WorkPackagesCalendarPageComponent extends PartitionedQuerySpacePage
     },
     {
       component: WorkPackageSettingsButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
       inputs: {
         hideTableOptions: true,
         showCalendarSharingOption: true,

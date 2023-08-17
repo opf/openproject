@@ -26,6 +26,8 @@ ru:
         position: "Позиция"
         remaining_hours: "Оставшиеся часы"
         remaining_time: "Оставшиеся часы"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Исторические точки"
         backlogs_work_package_type: "Тип невыполненной работы"
     errors:

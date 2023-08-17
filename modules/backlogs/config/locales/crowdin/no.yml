@@ -26,6 +26,8 @@
         position: "Plassering"
         remaining_hours: "Gjenstående timer"
         remaining_time: "Gjenstående timer"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Historiepoeng"
         backlogs_work_package_type: "Backlog-type"
     errors:

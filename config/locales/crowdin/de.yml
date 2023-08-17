@@ -49,7 +49,7 @@ de:
         main-menu-border-color: "Rahmenfarbe des Hauptmenüs"
       custom_colors: "Benutzerdefinierte Farben"
       customize: "Passen Sie Ihre OpenProject Installation mit Ihrem eigenen Logo und eigenen Farben an."
-      enterprise_notice: "Diese kleine Erweiterung steht den Abonnenten der Enterprise edition ganz exklusiv als kleines Dankeschön für deren finanzielle Unterstützung zur Verfügung."
+      enterprise_notice: "Dieses kleine Add-on steht den Abonnenten der Enterprise-Edition ganz exklusiv als kleines Dankeschön für deren finanzielle Unterstützung zur Verfügung."
       enterprise_more_info: "Hinweis: Das verwendete Logo wird öffentlich zugänglich sein."
       manage_colors: "Farbauswahloptionen bearbeiten"
       instructions:
@@ -64,15 +64,15 @@ de:
         main-menu-bg-color: "Hintergrundfarbe des Menüs in der linken Seitenleiste."
       theme_warning: Das Ändern des Themes wird Ihr benutzerdefiniertes Design überschreiben. Alle Änderungen werden dann verloren gehen. Sind Sie sicher, dass Sie fortfahren möchten?
     enterprise:
-      upgrade_to_ee: "Auf Enterprise edition upgraden"
-      add_token: "Enterprise edition Support Token hochladen"
+      upgrade_to_ee: "Auf Enterprise-Edition upgraden"
+      add_token: "Enterprise-Edition Support Token hochladen"
       delete_token_modal:
-        text: "Sind Sie sicher, dass Sie das aktuelle Enterprise edition token entfernen möchten?"
+        text: "Sind Sie sicher, dass Sie das aktuelle Enterprise Edition-Token entfernen möchten?"
         title: "Token löschen"
       replace_token: "Aktuellen Enterprise edition Support Token ersetzen"
       order: "Enterprise on-premises bestellen"
-      paste: "Enterprise edition Support Token hier einfügen"
-      required_for_feature: "Dieses Add-on ist nur mit einem aktiven Enterprise edition Support-Token verfügbar."
+      paste: "Enterprise-Edition Support Token hier einfügen"
+      required_for_feature: "Dieses Add-on ist nur mit einem aktiven Enterprise-Edition Support-Token verfügbar."
       enterprise_link: "Klicken Sie hier für weitere Informationen."
       start_trial: 'Kostenlose Testversion starten'
       book_now: 'Jetzt buchen'
@@ -104,9 +104,9 @@ de:
       error_requeue: "Der Job ist mit einem Fehler fehlgeschlagen, wird aber erneut eingestellt. Der Fehler war: %{message}"
       cancelled_due_to: "Job wurde aufgrund eines Fehlers abgebrochen: %{message}"
   ldap_auth_sources:
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
-    back_to_index: 'Click here to go back to the list of connection.'
+    ldap_error: "LDAP-Fehler: %{error_message}"
+    ldap_auth_failed: "Die Authentifizierung gegenüber des LDAP-Servers ist fehlgeschlagen."
+    back_to_index: 'Klicken Sie hier, um zur Liste der Verbindungen zurückzukehren.'
     technical_warning_html: |
       Dieses LDAP-Formular erfordert technische Kenntnisse ihres LDAP-/Active Directory Setups.
       <br/>
@@ -358,7 +358,7 @@ de:
         in Gantt-Diagrammen oder Arbeitspakettabellen. Es wird daher empfohlen, eine kontrastreiche Farbe zu verwenden.
   versions:
     overview:
-      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
+      work_packages_in_archived_projects: "Die Version wird mit archivierten Projekten geteilt, die immer noch Arbeitspakete auf diese Version zugewiesen haben. Die Arbeitspakete werden beim Zählen berücksichtigt, erscheinen aber nicht in den verknüpften Ansichten."
       no_results_title_text: Derzeit sind keine Arbeitspakete dieser Version zugewiesen.
   wiki:
     page_not_editable_index: Die angeforderte Seite existiert (noch) nicht. Sie wurden auf die Übersichtseite der Wiki-Seiten weitergeleitet.
@@ -445,16 +445,16 @@ de:
         attribute_name: 'Attribut'
         help_text: 'Hilfe-Text'
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
-        attr_login: "Username attribute"
-        attr_mail: "Email attribute"
-        base_dn: "Base DN"
+        account: "Konto"
+        attr_firstname: "Attribut für Vorname"
+        attr_lastname: "Attribut für Nachname"
+        attr_login: "Attribut für Benutzername"
+        attr_mail: "Attribut für E-Mail"
+        base_dn: "Basis-DN"
         host: "Host"
-        onthefly: "Automatic user creation"
+        onthefly: "Benutzer automatisch erzeugen"
         port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
+        tls_certificate_string: "LDAP-Server SSL-Zertifikat"
       changeset:
         repository: "Projektarchiv"
       comment:
@@ -552,7 +552,7 @@ de:
         color: "Farbe"
       user:
         admin: "Administrator"
-        ldap_auth_source: "LDAP connection"
+        ldap_auth_source: "LDAP-Verbindung"
         current_password: "Aktuelles Passwort"
         force_password_change: "Erzwinge Passwortwechsel beim nächsten Login"
         language: "Sprache"
@@ -676,7 +676,7 @@ de:
         ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "Das angegebene SSL-Zertifikat ist ungültig: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -829,7 +829,7 @@ de:
               not_allowed_to_view: "darf diese Ressource nicht sehen."
               locked: "ist gesperrt."
         wiki_page:
-          error_conflict: "The wiki page has been updated by someone else while you were editing it."
+          error_conflict: "Die Wiki-Seite wurde von jemand anderem während der Bearbeitung aktualisiert."
           attributes:
             slug:
               undeducible: "Kann nicht aus dem Titel abgeleitet werden '%{title}'."
@@ -907,7 +907,7 @@ de:
             principal:
               unassignable: "kann keinem Projekt zugeordnet werden."
         version:
-          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_archived_projects: "Die Version kann nicht gelöscht werden, da sie Arbeitspakete enthält, die an sie angeschlossen sind."
           undeletable_work_packages_attached: "Die Version kann nicht gelöscht werden, da sie Arbeitspakete enthält, die an sie angeschlossen sind."
         status:
           readonly_default_exlusive: "kann nicht für einen Status aktiviert werden, der als Standard markiert ist."
@@ -947,22 +947,22 @@ de:
       'doorkeeper/application': "OAuth-Anwendung"
   errors:
     header_invalid_fields:
-      one: "There was a problem with the following field:"
-      other: "There were problems with the following fields:"
+      one: "Bei dem folgenden Feld traten Fehler auf:"
+      other: "Bei den folgenden Feldern traten Fehler auf:"
     header_additional_invalid_fields:
-      one: "Additionally, there was a problem with the following field:"
-      other: "Additionally, there were problems with the following fields:"
+      one: "Zusätzlich gab es ein Problem mit dem folgenden Feld:"
+      other: "Zusätzlich gab es ein Problem mit den folgenden Feldern:"
     field_erroneous_label: "Dieses Feld ist ungültig: %{full_errors} \nBitte geben Sie einen gültigen Wert ein."
   activity:
     item:
       created_by_on: "erstellt von %{user} am %{datetime}"
       created_by_on_time_entry: "gebucht von %{user} am %{datetime}"
       created_on: "erstellt am %{datetime}"
-      created_on_time_entry: "time logged on %{datetime}"
+      created_on_time_entry: "gebucht am %{datetime}"
       updated_by_on: "aktualisiert von %{user} am %{datetime}"
-      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "Zeitbuchung aktualisiert durch %{user} am %{datetime}"
       updated_on: "aktualisiert am %{datetime}"
-      updated_on_time_entry: "logged time updated on %{datetime}"
+      updated_on_time_entry: "Zeitbuchung aktualisiert am %{datetime}"
       parent_without_of: "Unterprojekt"
       parent_no_longer: "Nicht mehr Unterprojekt von"
       time_entry:
@@ -1312,8 +1312,8 @@ de:
   error_can_not_archive_project: "Dieses Projekt kann nicht archiviert werden: %{errors}"
   error_can_not_delete_entry: "Eintrag kann nicht gelöscht werden"
   error_can_not_delete_custom_field: "Benutzerdefiniertes Feld kann nicht gelöscht werden."
-  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
-  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
+  error_can_not_delete_in_use_archived_undisclosed: 'Es gibt auch Arbeitspakete in archivierten Projekten. Sie müssen einen Administrator bitten, die Löschung durchzuführen, um zu sehen, welche Projekte betroffen sind.'
+  error_can_not_delete_in_use_archived_work_packages: 'Es gibt zudem Arbeitspakete in archivierten Projekten. Sie müssen zuerst die folgenden Projekte reaktivieren, bevor Sie den Typ der entsprechenden Arbeitspakete ändern können: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Dieser Typ enthält Arbeitspakete und kann nicht gelöscht werden. Sie können alle betroffenen Arbeitspakete <a target="_blank" href="%{url}">in dieser Ansicht sehen</a>.'
   error_can_not_delete_standard_type: "Standardtypen können nicht gelöscht werden."
@@ -1328,7 +1328,7 @@ de:
   error_cookie_missing: 'Das OpenProject Cookie fehlt. Bitte stellen Sie sicher, dass Cookies aktiviert sind, da diese Applikation ohne aktivierte Cookies nicht korrekt funktioniert.'
   error_custom_option_not_found: "Option ist nicht vorhanden."
   error_enterprise_activation_user_limit: "Ihr Konto konnte nicht aktiviert werden (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff zu erhalten."
-  error_enterprise_token_invalid_domain: "Die Enterprise edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected})."
+  error_enterprise_token_invalid_domain: "Die Enterprise-Edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected})."
   error_failed_to_delete_entry: 'Fehler beim Löschen dieses Eintrags.'
   error_in_dependent: "Fehler beim Versuch, abhängiges Objekt zu ändern: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Fehler beim Versuch, abhängiges Objekt zu erstellen: %{dependent_class} - %{related_subject}: %{error}"
@@ -1423,10 +1423,10 @@ de:
     blocks:
       community: "OpenProject Community"
       upsale:
-        title: "Auf Enterprise edition upgraden"
+        title: "Auf Enterprise-Edition upgraden"
         more_info: "Weitere Informationen"
     links:
-      upgrade_enterprise_edition: "Auf Enterprise edition upgraden"
+      upgrade_enterprise_edition: "Auf Enterprise-Edition upgraden"
       postgres_migration: "Migration Ihrer Installation zu PostgreSQL"
       user_guides: "Benutzerhandbuch"
       faq: "Häufig gestellte Fragen"
@@ -1503,12 +1503,12 @@ de:
         static_token_name: "RSS-Token"
         disabled_text: "RSS-Token sind vom Administrator nicht aktiviert. Bitte kontaktieren Sie Ihren Administrator, um diese Funktion zu nutzen."
       storages:
-        title: "File Storages"
-        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
-        empty_text_hint: "There is no storage access linked to your account."
-        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
-        removed: "File Storage token successfully removed"
-        failed: "An error occurred and the token couldn't be removed. Please try again later."
+        title: "Dateispeicher"
+        text_hint: "Dateispeicher-Tokens verbinden diese OpenProject Instanz mit einem externen Dateispeicher."
+        empty_text_hint: "Es gibt keinen Dateispeicher, der mit Ihrem Konto verknüpft ist."
+        revoke_token: "Möchten Sie dieses Token wirklich entfernen? Sie müssen sich erneut bei %{storage} anmelden"
+        removed: "Dateispeicher-Token erfolgreich entfernt"
+        failed: "Ein Fehler ist aufgetreten und das Token konnte nicht entfernt werden. Bitte versuchen Sie es später erneut."
   notifications:
     send_notifications: "Sende Benachrichtigungen für diese Aktion"
     work_packages:
@@ -1577,9 +1577,9 @@ de:
   label_attachment_plural: "Dateien"
   label_attribute: "Attribut"
   label_attribute_plural: "Attribute"
-  label_ldap_auth_source_new: "New LDAP connection"
-  label_ldap_auth_source: "LDAP connection"
-  label_ldap_auth_source_plural: "LDAP connections"
+  label_ldap_auth_source_new: "Neue LDAP-Verbindung"
+  label_ldap_auth_source: "LDAP-Verbindung"
+  label_ldap_auth_source_plural: "LDAP-Verbindungen"
   label_authentication: "Authentifizierung"
   label_available_project_work_package_categories: 'Verfügbare Arbeitspaket-Kategorien'
   label_available_project_work_package_types: 'Verfügbare Arbeitspaket-Typen'
@@ -1667,7 +1667,7 @@ de:
   label_deleted: "gelöscht"
   label_deleted_custom_field: "(gelöschtes benutzerdefiniertes Feld)"
   label_deleted_custom_option: "(gelöschte Option)"
-  label_empty_element: "(empty)"
+  label_empty_element: "(leer)"
   label_missing_or_hidden_custom_option: "(Fehlender Wert oder fehlende Zugriffsberechtigungen)"
   label_descending: "Absteigend"
   label_details: "Details"
@@ -1699,7 +1699,7 @@ de:
   label_enumerations: "Aufzählungen"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
-  label_enterprise_edition: "Enterprise edition"
+  label_enterprise_edition: "Enterprise Edition"
   label_enterprise_support: "Enterprise Support"
   label_environment: "Umgebung"
   label_estimates_and_time: "Schätzungen & Zeiten"
@@ -2102,7 +2102,7 @@ de:
   label_global_role: "Globale Rolle"
   label_not_changeable: "(nicht veränderbar)"
   label_global: "Global"
-  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
+  label_seeded_from_env_warning: Dieser Datensatz wurde durch eine Konfigurationsrichtlinie oder Umgebungsvariable erstellt. Er kann nicht über die Benutzeroberfläche bearbeitet werden.
   macro_execution_error: "Fehler beim Ausführen des Makros %{macro_name}"
   macro_unavailable: "Das Makro %{macro_name} kann nicht angezeigt werden."
   macros:
@@ -2291,7 +2291,7 @@ de:
   present_access_key_value: "Ihr %{key_name} ist: %{value}"
   notice_automatic_set_of_standard_type: "Der Standard-Typ wurde automatisch gesetzt."
   notice_logged_out: "Sie wurden ausgeloggt."
-  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
+  notice_wont_delete_auth_source: Die LDAP-Verbindung kann nicht gelöscht werden, solange es noch Benutzer gibt, die diese verwenden.
   notice_project_cannot_update_custom_fields: "Sie können die benutzerdefinierten Felder dieses Projekts nicht aktualisieren. Das Projekt ist ungültig: %{errors}"
   notice_attachment_migration_wiki_page: >
     Diese Seite wurde automatisch während der Aktualisierung von OpenProject generiert. Es enthält alle Anhänge, die zuvor innerhalb %{container_type} "%{container_name}" zugeordnet waren.
@@ -2910,7 +2910,7 @@ de:
   warning_user_limit_reached: >
     Nutzerlimit erreicht. Sie können keine weiteren Nutzer aktivieren. Bitte <a href="%{upgrade_url}">upgraden Sie Ihren Tarif</a> oder blockieren Sie Mitglieder, um Platz für weitere Nutzer zu schaffen.
   warning_user_limit_reached_instructions: >
-    Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise edition Plan upzugraden und weitere Nutzer hinzuzufügen.
+    Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise Edition Plan upzugraden und weitere Nutzer hinzuzufügen.
   warning_protocol_mismatch_html: >
 
   warning_bar:

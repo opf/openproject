@@ -36,6 +36,7 @@ class Storages::GroupFolderPropertiesSyncService
     delete_files: 8,
     share_files: 16
   }.freeze
+  PERMISSIONS_KEYS = PERMISSIONS_MAP.keys.freeze
   ALL_PERMISSIONS = PERMISSIONS_MAP.values.sum
   NO_PERMISSIONS = 0
 
@@ -50,11 +51,15 @@ class Storages::GroupFolderPropertiesSyncService
   # rubocop:disable Metrics/AbcSize
   def call
     # we have to flush state to be able to reuse the instace of the class
-    @nextcloud_usernames_used_in_openproject = Set.new
     @project_folder_ids_used_in_openproject = Set.new
     @file_ids = nil
     @folders_properties = nil
     @group_users = nil
+    @admin_tokens_query = OAuthClientToken.where(oauth_client: @storage.oauth_client,
+                                                 users: User.admin.active)
+
+    @admin_nextcloud_usernames = @admin_tokens_query.pluck(:origin_user_id)
+    @nextcloud_usernames_used_in_openproject = @admin_nextcloud_usernames.to_set
 
     set_group_folder_root_permissions
 
@@ -104,7 +109,7 @@ class Storages::GroupFolderPropertiesSyncService
     else
       create_folder(path: project_folder_path, project_storage:) >> obtain_file_id >> save_file_id
     end
-    # local variable is not used due to possible update_columns call
+    # local variable `project_folder_id` is not used due to possible update_columns call
     # then the value inside the local variable will not be updated
     project_storage.project_folder_id
   end
@@ -196,17 +201,35 @@ class Storages::GroupFolderPropertiesSyncService
   end
 
   def project_folder_permissions(project:)
-    OAuthClientToken
-      .where(oauth_client: @storage.oauth_client, users: project.users)
-      .includes(:user)
-      .each_with_object({
-                          users: { "#{@nextcloud_system_user}": ALL_PERMISSIONS },
-                          groups: { "#{@group}": NO_PERMISSIONS }
-                        }) do |token, permissions|
+    tokens_query = OAuthClientToken
+                 .where(oauth_client: @storage.oauth_client)
+                 .where.not(id: @admin_tokens_query)
+                 .includes(:user)
+    # The user scope is required in all cases except one:
+    #   when the project is public and non member has at least one storage permission
+    #   then all non memebers should have access to the project folder
+    if !(project.public? && Role.non_member.permissions.intersect?(PERMISSIONS_KEYS))
+      tokens_query = tokens_query.where(users: project.users)
+    end
+    tokens_query.each_with_object({
+                                    users: admins_project_folder_permissions,
+                                    groups: { "#{@group}": NO_PERMISSIONS }
+                                  }) do |token, permissions|
       nextcloud_username = token.origin_user_id
       permissions[:users][nextcloud_username.to_sym] = calculate_permissions(user: token.user, project:)
       @nextcloud_usernames_used_in_openproject << nextcloud_username
     end
+  end
+
+  def admins_project_folder_permissions
+    @admins_project_folder_permissions ||=
+      {
+        "#{@nextcloud_system_user}": ALL_PERMISSIONS
+      }.tap do |map|
+        @admin_nextcloud_usernames.each do |admin_nextcloud_username|
+          map[admin_nextcloud_username.to_sym] = ALL_PERMISSIONS
+        end
+      end
   end
 
   def add_active_users_to_group

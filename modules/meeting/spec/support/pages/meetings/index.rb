@@ -82,12 +82,6 @@ module Pages::Meetings
       end
     end
 
-    def click_to_sort_by(header_name)
-      within '.generic-table thead' do
-        click_link header_name
-      end
-    end
-
     def set_sidebar_filter(filter_name)
       within '#main-menu' do
         click_link text: filter_name

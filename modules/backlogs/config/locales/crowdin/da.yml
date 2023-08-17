@@ -26,6 +26,8 @@ da:
         position: "Position"
         remaining_hours: "Resterende timer"
         remaining_time: "Resterende timer"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Historiepunkter"
         backlogs_work_package_type: "Backlog-type"
     errors:

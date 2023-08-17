@@ -773,8 +773,8 @@ nl:
               invalid: "Kan niet sorteren op kolom: %{value}"
               format: "%{message}"
             timestamps:
-              invalid: "Timestamps contain invalid values: %{values}"
-              forbidden: "Timestamps contain forbidden values: %{values}"
+              invalid: "Tijdstempels bevatten ongeldige waarden: %{values}"
+              forbidden: "Tijdstempels bevatten verboden waarden: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "is uitsluiten door samenvoeging, '%{group_by}'. U kunt beide niet activeren."
           filters:
@@ -899,7 +899,7 @@ nl:
             status:
               invalid_on_create: "is niet een geldige status voor nieuwe gebruikers."
             ldap_auth_source:
-              error_not_found: "not found"
+              error_not_found: "niet gevonden"
         member:
           principal_blank: "Kies ten minste één gebruiker of groep."
           role_blank: "moet worden toegewezen."
@@ -909,7 +909,7 @@ nl:
             principal:
               unassignable: "kan niet worden toegewezen aan een project."
         version:
-          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_archived_projects: "De versie kan niet worden verwijderd omdat er werkpakketten aan zijn gekoppeld."
           undeletable_work_packages_attached: "De versie kan niet worden verwijderd omdat er werkpakketten aan zijn gekoppeld."
         status:
           readonly_default_exlusive: "kan niet worden geactiveerd voor statussen die standaard zijn gemarkeerd."
@@ -949,10 +949,10 @@ nl:
       'doorkeeper/application': "OAuth-authenticatie"
   errors:
     header_invalid_fields:
-      one: "There was a problem with the following field:"
-      other: "There were problems with the following fields:"
+      one: "Er was een probleem met het volgende veld:"
+      other: "Er waren problemen met de volgende velden:"
     header_additional_invalid_fields:
-      one: "Additionally, there was a problem with the following field:"
+      one: "Er was bovendien een probleem met het volgende veld:"
       other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "Dit veld is ongeldig: %{full_errors} \nVoer alstublieft een geldige waarde in."
   activity:
@@ -981,7 +981,7 @@ nl:
       message: "Fora"
       news: "Nieuws"
       project_attribute: "Project attributes"
-      subproject: "Include subprojects"
+      subproject: "Inclusief subprojecten"
       time_entry: "Bestede tijd"
       wiki_edit: "Wiki"
       work_package: "Werkpakketten"
@@ -1093,7 +1093,7 @@ nl:
   button_continue: "Verdergaan"
   button_copy: "Kopieer"
   button_copy_to_clipboard: "Kopiëren naar het klembord"
-  button_copy_link_to_clipboard: "Copy link to clipboard"
+  button_copy_link_to_clipboard: "Link naar klembord kopiëren"
   button_copy_and_follow: "Kopiëren en volg"
   button_create: "Maken"
   button_create_and_continue: "Aanmaken en doorgaan"
@@ -1326,7 +1326,7 @@ nl:
   error_can_not_unarchive_project: "Dit project kan niet worden gedearchiveerd: %{errors}"
   error_check_user_and_role: "Kies een gebruiker en een rol."
   error_code: "Fout %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "Kleur kon niet opgeslagen worden"
   error_cookie_missing: 'De cookie voor OpenProject ontbreekt. Zorg ervoor dat cookies zijn ingeschakeld aangezien deze toepassing anders niet goed zal functioneren.'
   error_custom_option_not_found: "Optie bestaat niet."
   error_enterprise_activation_user_limit: "Uw account kon niet worden geactiveerd (gebruikerslimiet bereikt). Neem contact op met uw beheerder om toegang te krijgen."
@@ -1351,7 +1351,7 @@ nl:
   error_password_change_failed: 'Er is een fout opgetreden tijdens het wijzigen van het wachtwoord.'
   error_scm_command_failed: "Er is een fout opgetreden tijdens het proberen om toegang te krijgen tot de repository: %{value}"
   error_scm_not_found: "De vermelding of de herziening werd niet gevonden in de repository."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "Type kan niet worden opgeslagen"
   error_unable_delete_status: "De status van het werkpakket kan niet worden verwijderd omdat het door minstens één werkpakket wordt gebruikt."
   error_unable_delete_default_status: "Niet in staat de status van het standaard werkpakket te verwijderen. Gelieve een andere status van het standaard werkpakket te selecteren alvorens de huidige te verwijderen."
   error_unable_to_connect: "Kan geen verbinding maken (%{value})"
@@ -1389,7 +1389,7 @@ nl:
       csv: "CSV"
       pdf: "PDF"
       pdf_overview_table: "PDF Tabel"
-      pdf_report_with_images: "PDF Report with images"
+      pdf_report_with_images: "PDF Rapport met afbeeldingen"
       pdf_report: "PDF Report"
     image:
       omitted: "Afbeelding niet geëxporteerd."
@@ -2951,8 +2951,8 @@ nl:
         working: "%{day} werkt nu"
         non_working: "%{day} is nu niet actief"
       dates:
-        working: "%{date} is now working"
-        non_working: "%{date} is now non-working"
+        working: "%{date} werkt nu"
+        non_working: "%{date} is nu niet actief"
   nothing_to_preview: "Niets om te bekijken"
   api_v3:
     attributes:

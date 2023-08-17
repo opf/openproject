@@ -26,6 +26,8 @@ fi:
         position: "Sijainti"
         remaining_hours: "Jäljellä olevat tunnit"
         remaining_time: "Jäljellä olevat tunnit"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Tarinapisteet"
         backlogs_work_package_type: "Työjonon tyyppi"
     errors:

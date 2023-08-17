@@ -30,15 +30,17 @@ module TeamPlanner
   module Overview
     class TableComponent < ::TableComponent
       options :current_user
-      columns :name, :project_id, :created_at
-      sortable_columns :name, :project_id, :created_at
+      columns :name, :project_name, :created_at
+      sortable_columns :name, :project_name, :created_at
 
-      def initial_sort
-        %w[name asc]
+      def initial_sort_correlation
+        ['queries.name', 'asc']
       end
 
-      def sortable?
-        true
+      def sortable_columns_correlation
+        super.merge(name: 'queries.name',
+                    project_name: 'projects.name',
+                    created_at: 'queries.created_at')
       end
 
       def paginated?
@@ -48,7 +50,7 @@ module TeamPlanner
       def headers
         [
           [:name, { caption: I18n.t(:label_name) }],
-          [:project_id, { caption: Query.human_attribute_name(:project) }],
+          [:project_name, { caption: Query.human_attribute_name(:project) }],
           [:created_at, { caption: Query.human_attribute_name(:created_at) }]
         ]
       end

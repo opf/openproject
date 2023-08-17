@@ -9,7 +9,7 @@ nl:
         identifier: Identifier
         secret: Geheim
         scope: Scope
-        limit_self_registration: Limit self registration
+        limit_self_registration: Beperk zelf-registratie
   openid_connect:
     menu_title: OpenID aanbieders
     providers:

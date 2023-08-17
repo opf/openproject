@@ -26,6 +26,8 @@ lt:
         position: "Vieta"
         remaining_hours: "Liko valandų"
         remaining_time: "Liko valandų"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Istorijos taškai"
         backlogs_work_package_type: "Darbų sąrašo tipas"
     errors:

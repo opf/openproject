@@ -215,7 +215,7 @@ module OpenProject
               href: 'https://www.openproject.org/docs/system-admin-guide/information/#security-badge'
             },
             date_format_settings_documentation: {
-              href: 'https://www.openproject.org/docs/system-admin-guide/calendars-and-dates/'
+              href: 'https://www.openproject.org/docs/system-admin-guide/calendars-and-dates/#date-format'
             },
             chargebee: {
               href: 'https://js.chargebee.com/v2/chargebee.js'
@@ -261,8 +261,7 @@ module OpenProject
               }
             },
             ical_docs: {
-              # href needs to be added in once there are docs for this
-              href: ''
+              href: 'https://www.openproject.org/docs/user-guide/calendar/#subscribe-to-a-calendar'
             }
           }
         end

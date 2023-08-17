@@ -71,9 +71,9 @@ pl:
         new: "Dodaj magazyn plików do tego projektu"
         edit: "Edytuj magazyn plików tego projektu"
         delete: "Usuń magazyn plików"
-        members_connection_status: "Members connection status"
+        members_connection_status: "Status połączenia członków"
       project_storage_members:
-        title: "Members connection status"
+        title: "Status połączenia członków"
         subtitle: "Sprawdź status połączenia magazynu %{storage_name_link} wszystkich członków projektu."
     instructions:
       type: "Upewnij się, że masz uprawnienia administracyjne w swojej instancji Nextcloud oraz zainstalowaną następującą aplikację, przed wykonaniem konfiguracji:"
@@ -135,11 +135,11 @@ pl:
     label_storage: "Magazyn"
     label_storages: "Magazyny"
     label_status: "Status"
-    label_files: "Files"
+    label_files: "Pliki"
     member_connection_status:
       connected: "Połączono"
       connected_no_permissions: "Rola użytkownika nie ma uprawnień do magazynów"
-      not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
+      not_connected: "Nie połączono. Użytkownik powinien zalogować się do magazynu za pomocą karty %{files_label} pakietu roboczego, aby się połączyć."
     no_results: "Brak skonfigurowanych magazynów."
     members_no_results: "Brak członków do wyświetlenia."
     provider_types:

@@ -26,6 +26,8 @@ el:
         position: "Θέση"
         remaining_hours: "Υπολειπόμενες ώρες"
         remaining_time: "Υπολειπόμενες ώρες"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Πόντοι Ιστορίας"
         backlogs_work_package_type: "Τύπος backlog"
     errors:
