@@ -133,6 +133,24 @@ RSpec.describe Calendar::ICalController do
       it_behaves_like 'success'
     end
 
+    context 'with valid params and permissions with a query having a parent filter (bug #49726)' do
+      before do
+        User.execute_as(user) do
+          parent_work_package = create(:work_package, project:, children: work_packages)
+          query.add_filter(:parent, "=", [parent_work_package.id.to_s])
+          query.save!
+        end
+
+        get :show, params: {
+          project_id: project.id,
+          id: query.id,
+          ical_token: valid_ical_token_value
+        }
+      end
+
+      it_behaves_like 'success'
+    end
+
     context 'with valid params and permissions when targeting own query when globally disabled',
             with_settings: { ical_enabled: false } do
       before do
