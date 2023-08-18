@@ -75,23 +75,24 @@ RSpec.describe 'OAuthClient callback endpoint' do
     set_cookie "oauth_state_asdf1234=#{redirect_uri}"
   end
 
+  # rubocop:disable RSpec/Rails/HaveHttpStatus
   shared_examples 'with errors and state param with cookie, not being admin' do
     it 'redirects to URI referenced in the state param and held in a cookie' do
-      expect(response).to have_http_status :found
+      expect(response.status).to eq(302)
       expect(response.location).to eq redirect_uri
     end
   end
 
   shared_examples 'with errors, being an admin' do
     it 'redirects to admin settings for the storage' do
-      expect(response).to have_http_status :found
+      expect(response.status).to eq(302)
       expect(URI(response.location).path).to eq edit_admin_settings_storage_path(oauth_client.integration)
     end
   end
 
   shared_examples 'fallback redirect' do
     it 'redirects to home' do
-      expect(response).to have_http_status :found
+      expect(response.status).to eq(302)
       expect(URI(response.location).path).to eq API::V3::Utilities::PathHelper::ApiV3Path::root_path
     end
   end
@@ -101,13 +102,11 @@ RSpec.describe 'OAuthClient callback endpoint' do
       before do
         uri.query = URI.encode_www_form([['code', code], ['state', state]])
         get uri.to_s
-
-        subject
       end
 
       it 'redirects to the URL that was referenced by the state param and held by a cookie' do
         expect(rack_oauth2_client).to have_received(:authorization_code=).with(code)
-        expect(response).to have_http_status :found
+        expect(response.status).to eq 302
         expect(response.location).to eq redirect_uri
         expect(OAuthClientToken.count).to eq 1
         expect(OAuthClientToken.last.access_token).to eq 'xyzaccesstoken'
@@ -182,4 +181,5 @@ RSpec.describe 'OAuthClient callback endpoint' do
 
     it_behaves_like 'fallback redirect'
   end
+  # rubocop:enable RSpec/Rails/HaveHttpStatus
 end
