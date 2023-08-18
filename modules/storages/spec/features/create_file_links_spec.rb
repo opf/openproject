@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -35,7 +37,7 @@ RSpec.describe 'Managing file links in work package', js: true, webmock: true do
   let(:work_package) { create(:work_package, project:, description: 'Initial description') }
 
   let(:oauth_application) { create(:oauth_application) }
-  let(:storage) { create(:storage, oauth_application:) }
+  let(:storage) { create(:nextcloud_storage, oauth_application:) }
   let(:oauth_client) { create(:oauth_client, integration: storage) }
   let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: current_user) }
   let(:project_storage) { create(:project_storage, project:, storage:, project_folder_id: nil, project_folder_mode: 'inactive') }
@@ -62,7 +64,7 @@ RSpec.describe 'Managing file links in work package', js: true, webmock: true do
     stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user")
       .with(
         headers: {
-          'Authorization' => 'Bearer 1234567890-1',
+          'Authorization' => "Bearer #{oauth_client_token.access_token}",
           'Ocs-Apirequest' => 'true',
           'Accept' => "application/json"
         }

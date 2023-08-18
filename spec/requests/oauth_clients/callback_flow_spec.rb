@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -75,21 +77,21 @@ RSpec.describe 'OAuthClient callback endpoint' do
 
   shared_examples 'with errors and state param with cookie, not being admin' do
     it 'redirects to URI referenced in the state param and held in a cookie' do
-      expect(response.status).to eq 302
+      expect(response).to have_http_status :found
       expect(response.location).to eq redirect_uri
     end
   end
 
   shared_examples 'with errors, being an admin' do
     it 'redirects to admin settings for the storage' do
-      expect(response.status).to eq 302
-      expect(URI(response.location).path).to eq admin_settings_storage_path(oauth_client.integration)
+      expect(response).to have_http_status :found
+      expect(URI(response.location).path).to eq edit_admin_settings_storage_path(oauth_client.integration)
     end
   end
 
   shared_examples 'fallback redirect' do
     it 'redirects to home' do
-      expect(response.status).to eq 302
+      expect(response).to have_http_status :found
       expect(URI(response.location).path).to eq API::V3::Utilities::PathHelper::ApiV3Path::root_path
     end
   end
@@ -105,7 +107,7 @@ RSpec.describe 'OAuthClient callback endpoint' do
 
       it 'redirects to the URL that was referenced by the state param and held by a cookie' do
         expect(rack_oauth2_client).to have_received(:authorization_code=).with(code)
-        expect(response.status).to eq 302
+        expect(response).to have_http_status :found
         expect(response.location).to eq redirect_uri
         expect(OAuthClientToken.count).to eq 1
         expect(OAuthClientToken.last.access_token).to eq 'xyzaccesstoken'
