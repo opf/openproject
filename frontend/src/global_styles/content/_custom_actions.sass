@@ -40,11 +40,21 @@
     max-width: calc(100vw - 20px)
     @include text-shortener
 
-    .button
+    .custom-action--button
       @include text-shortener
       width: 100%
       // The margin is necessary for all buttons so that the alignment is correct on small screens
       margin-right: 10px
+
+      // Disabled custom action buttons should only hint that via the cursor on hover.
+      // Was introduced by #45677
+      &[disabled]
+        opacity: 1
+        // As the `disabled` attribute already prevents that a button is clickable we can allow pointer-events
+        // and thus modify the cursor
+        pointer-events: auto
+        &:hover
+          cursor: not-allowed
 
 wp-custom-actions-admin-date-action
   display: flex
