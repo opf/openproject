@@ -29,37 +29,30 @@
 require 'spec_helper'
 
 RSpec.describe Calendar::ICalController do
-  let(:project) { create(:project) }
-  let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: sufficient_permissions)
-  end
-  let(:sufficient_permissions) { %i[view_work_packages share_calendars] }
-  let(:insufficient_permissions) { %i[view_work_packages] }
+  shared_let(:project) { create(:project) }
 
-  let(:work_package_with_due_date) do
+  shared_let(:work_package_with_due_date) do
     create(:work_package, project:,
                           due_date: Time.zone.today + 7.days)
   end
-  let(:work_package_with_start_date) do
+  shared_let(:work_package_with_start_date) do
     create(:work_package, project:,
                           start_date: Time.zone.today + 14.days)
   end
-  let(:work_package_with_start_and_due_date) do
+  shared_let(:work_package_with_start_and_due_date) do
     create(:work_package, project:,
                           start_date: Date.tomorrow,
                           due_date: Time.zone.today + 7.days)
   end
-  let(:work_package_with_due_date_far_in_past) do
+  shared_let(:work_package_with_due_date_far_in_past) do
     create(:work_package, project:,
                           due_date: Time.zone.today - 180.days)
   end
-  let(:work_package_with_due_date_far_in_future) do
+  shared_let(:work_package_with_due_date_far_in_future) do
     create(:work_package, project:,
                           due_date: Time.zone.today + 180.days)
   end
-  let!(:work_packages) do
+  shared_let(:work_packages) do
     [
       work_package_with_due_date,
       work_package_with_start_date,
@@ -68,6 +61,13 @@ RSpec.describe Calendar::ICalController do
       work_package_with_due_date_far_in_future
     ]
   end
+  let(:user) do
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: sufficient_permissions)
+  end
+  let(:sufficient_permissions) { %i[view_work_packages share_calendars] }
+  let(:insufficient_permissions) { %i[view_work_packages] }
   let(:query) do
     create(:query,
            project:,
