@@ -31,9 +31,7 @@ require_relative '../spec_helper'
 RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
   let(:admin) { create(:admin) }
 
-  before do
-    login_as admin
-  end
+  before { login_as admin }
 
   it 'creates, edits and deletes storages', webmock: true do
     visit admin_settings_storages_path
@@ -136,20 +134,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
     expect(page).to have_text("●●●●●●●●●●●●●●●●")
     ######### Step 4: End Automatically managed project folders #########
 
-    # Show details of a storage
-    created_storage = Storages::Storage.find_by(name: 'NC 1')
-    expect(page).to have_title("Nc 1")
-    expect(page.find('.title-container')).to have_text('NC 1')
-    expect(page).to have_text(admin.name)
-    expect(page).to have_text('https://example.com')
-    expect(page).to have_text(created_storage.created_at.localtime.strftime("%m/%d/%Y %I:%M %p"))
-    # Check for client_id of nextcloud client and oauth application
-    expect(page).to have_text(oauth_app_client_id)
-    expect(page).to have_text("0123456789")
-    # Check for the automatically managed project folders settings
-
     # Edit storage again
-    page.find('.button--icon.icon-edit').click
     expect(page).to have_title("Edit: NC 1")
     expect(page).not_to have_select("storages_storage[provider_type]")
     expect(page).to have_text("NC 1")
@@ -175,7 +160,6 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
 
     # Test the behavior of a failed host validation with code 400 (Bad Request)
     # simulating server not running Nextcloud
-    page.find('.button--icon.icon-edit').click
     mock_server_capabilities_response("https://other.example.com", response_code: '400')
     page.find_by_id('storages_storage_name').set("Other NC")
     page.find_by_id('storages_storage_host').set("https://other.example.com")
@@ -204,16 +188,8 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
     page.find_by_id('storages_storage_name').set("Other NC")
     page.find('button[type=submit]', text: "Save").click
 
-    created_storage = Storages::Storage.find_by(name: 'Other NC')
-    expect(page).to have_title("Other Nc")
-    expect(page.find('.title-container')).to have_text('Other NC')
-    expect(page).to have_text(admin.name)
-    expect(page).to have_text('https://example.com')
-    expect(page).to have_text(created_storage.created_at.localtime.strftime("%m/%d/%Y %I:%M %p"))
-
     ######### Begin Edit Automatically managed project folders #########
-    page.find('.button--icon.icon-edit').click
-
+    #
     # Confirm update of host URL with subpath renders correctly Nextcloud/Administration link
     mock_server_capabilities_response("https://example.com/with/subpath")
     mock_server_config_check_response("https://example.com/with/subpath")
@@ -221,9 +197,8 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
     page.click_button('Save')
 
     # Check for updated host URL
-    expect(page).to have_text("https://example.com/with/subpath")
+    expect(page.find_by_id('storages_storage_host').value).to eq("https://example.com/with/subpath")
 
-    page.find('.button--icon.icon-edit').click
     page.find('a', text: 'Edit automatically managed project folders').click
 
     expect(page).to have_title("Automatically managed project folders")
@@ -232,9 +207,12 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
     expect(automatically_managed_switch).to be_checked
     expect(application_password_input.value).to be_empty
     expect(application_password_input['placeholder']).to eq("●●●●●●●●●●●●●●●●")
-    expect(page).to have_link(text: 'Nextcloud Administration / OpenProject', href: 'https://example.com/with/subpath/settings/admin/openproject')
+    expect(page).to have_link(
+      text: 'Nextcloud Administration / OpenProject',
+      href: 'https://example.com/with/subpath/settings/admin/openproject'
+    )
 
-    # Clicking submit without inputing new application password should show an error
+    # Clicking submit without inputting new application password should show an error
     page.click_button('Save')
     # Check that we're still on the same page
     expect(page).to have_title("Automatically managed project folders")
