@@ -726,7 +726,7 @@ GEM
       eventmachine_httpserver
       http_parser.rb (~> 0.6.0)
       multi_json
-    puma (6.3.0)
+    puma (6.3.1)
       nio4r (~> 2.0)
     puma-plugin-statsd (2.4.0)
       puma (>= 5.0, < 7)
