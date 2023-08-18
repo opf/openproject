@@ -360,7 +360,7 @@ lt:
         Gantt diagramoje ar darbo paketų lentelėse. Todėl rekomenduojama naudoti ryškią spalvą.
   versions:
     overview:
-      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
+      work_packages_in_archived_projects: "Versija bendrinama su archyvuotais projektais, kurie vis dar turi darbo paketų, priskirtų šiai versijai. Jie įskaičiuoti, bet nebus rodomi susietuose vaizduose."
       no_results_title_text: Šiuo metu nėra šiai versijai priskirtų darbų paketų.
   wiki:
     page_not_editable_index: Prašomas puslapis (dar) neegzistuoja. Vietoje to jus nukreipėme į visų wiki puslapių sąrašą.
@@ -913,7 +913,7 @@ lt:
             principal:
               unassignable: "negalima priskirti projektui."
         version:
-          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_archived_projects: "Versija negali būti pašalinta, nes prie jos yra prijungtų darbo paketų."
           undeletable_work_packages_attached: "Versija negali būti pašalinta, nes prie jos yra prijungtų darbo paketų."
         status:
           readonly_default_exlusive: "negali būti aktyvuotas būsenoms, kurios yra pažymėtos kaip numatytosios."
@@ -974,11 +974,11 @@ lt:
       created_by_on: "%{datetime} sukūrė %{user}"
       created_by_on_time_entry: "%{datetime} laiką registravo %{user}"
       created_on: "sukurta %{datetime}"
-      created_on_time_entry: "time logged on %{datetime}"
+      created_on_time_entry: "laikas registruotas %{datetime}"
       updated_by_on: "%{datetime} pakeitė %{user}"
-      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "registruotą laiką pakeitė %{user} %{datetime}"
       updated_on: "pakeitė %{datetime}"
-      updated_on_time_entry: "logged time updated on %{datetime}"
+      updated_on_time_entry: "registruotą laiką atnaujino %{datetime}"
       parent_without_of: "Sub-projektas"
       parent_no_longer: "Nebėra dalis"
       time_entry:
@@ -1356,8 +1356,8 @@ lt:
   error_can_not_archive_project: "Projekto negalima suarchyvuoti: %{errors}"
   error_can_not_delete_entry: "Nepavyko ištrinti įrašo"
   error_can_not_delete_custom_field: "Neįmanoma ištrinti kliento laukelio"
-  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
-  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
+  error_can_not_delete_in_use_archived_undisclosed: 'Taipogi yra darbo paketų archyvuotuose projektuose. Jums reikia paprašyti administratoriaus, kad įvykdytų trynimą, kad pamatytų, kurie projektai įtakoti.'
+  error_can_not_delete_in_use_archived_work_packages: 'Taip pat yra darbo paketų archyvuotuose projektuose. Jums iš pradžių reikia iš naujo aktyvuoti šiuos projektus, kad galėtumėte pakeisti atitinkamų darbo paketų atributą: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Yra darbo paketų su tokiu tipu, todėl jis negali būti ištrintas. Visus susijusius darbo paketus galite matyti <a target="_blank" href="%{url}">šiame vaizde</a>.'
   error_can_not_delete_standard_type: "Standartiniai vaidmenys negali būti ištrinti."
@@ -2217,6 +2217,10 @@ lt:
   mail_body_incoming_email_error_in_reply_to: "%{received_at} %{from_email} rašė"
   mail_body_incoming_email_error_logs: "Žurnalai"
   mail_body_lost_password: "Norėdami pakeisti slaptažodį, spauskite nuorodą:"
+  mail_password_change_not_possible:
+    title: "Password change not possible"
+    body: "Your account at %{app_title} is connected to an external authentication provider (%{name})."
+    subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
   mail_body_register: "Jus sveikina %{app_title}. Prašome aktyvuoti jūsų paskyrą spaudžiant šią nuorodą:"
   mail_body_register_header_title: "Projekto nario kvietimo el. laiškas"
   mail_body_register_user: "Brangus %{name}, "
@@ -2733,9 +2737,7 @@ lt:
         type: "Visa eilutė pagal tipą"
         priority: "Visa eilutė pagal prioritetą"
     icalendar:
-      enable_subscriptions_text_html: Leisti naudotojams su tinkamomis teisėmis prenumeruoti OpenProject kalendorių ir turėti prieigą prie darbo paketų informacijos per išorinį kalendoriaus klientą.
-    #below line needs to be appended above after docs are ready
-    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
     language_name_being_default: '%{language_name} (numatytoji)'
     notifications:
       events_explanation: 'Valdo, kuriems įvykiams yra siunčiami el.laiškai. Darbų paketai nepatenka į šį sąrašą, nes kiekvienam naudotojui pranešimai gali būti sukonfigūruoti individualiai.'

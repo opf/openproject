@@ -2175,6 +2175,10 @@ tr:
   mail_body_incoming_email_error_in_reply_to: "%{required_at} adresinde %{from_email} yazdı"
   mail_body_incoming_email_error_logs: "Günlükler"
   mail_body_lost_password: "Parolanızı değiştirmek için aşağıdaki bağlantıyı tıklayın:"
+  mail_password_change_not_possible:
+    title: "Password change not possible"
+    body: "Your account at %{app_title} is connected to an external authentication provider (%{name})."
+    subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
   mail_body_register: "%{app_title}'a hoş geldiniz. Lütfen bu bağlantıya tıklayarak hesabınızı etkinleştirin:"
   mail_body_register_header_title: "Proje üyesi davet e-postası"
   mail_body_register_user: "Sevgili %{name},"
@@ -2690,9 +2694,7 @@ tr:
         type: "Türe göre tüm satır"
         priority: "Önceliğe göre tüm satır"
     icalendar:
-      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
-    #below line needs to be appended above after docs are ready
-    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
     language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Bir e-postanın hangi olay için gönderileceğini yönetir. İş paketleri, bildirimleri her kullanıcı için özel olarak yapılandırılabileceğinden bu listenin dışında tutulur.'

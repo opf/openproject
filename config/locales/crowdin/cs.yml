@@ -2220,6 +2220,10 @@ cs:
   mail_body_incoming_email_error_in_reply_to: "V %{received_at} %{from_email} napsal/a"
   mail_body_incoming_email_error_logs: "Protokoly"
   mail_body_lost_password: "Pro změnu vašeho hesla klikněte na následující odkaz:"
+  mail_password_change_not_possible:
+    title: "Password change not possible"
+    body: "Your account at %{app_title} is connected to an external authentication provider (%{name})."
+    subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
   mail_body_register: "Vítejte v %{app_title}. Aktivujte svůj účet kliknutím na tento odkaz:"
   mail_body_register_header_title: "E-mail pozvánka člena projektu"
   mail_body_register_user: "Vážený %{name},"
@@ -2739,9 +2743,7 @@ cs:
         type: "Celý řádek podle typu"
         priority: "Celý řádek podle priority"
     icalendar:
-      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
-    #below line needs to be appended above after docs are ready
-    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
     language_name_being_default: '%{language_name} (výchozí)'
     notifications:
       events_explanation: 'Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože notifikace pro ně mohou být nastavena speciálně pro každého uživatele.'

@@ -2176,6 +2176,10 @@ fr:
   mail_body_incoming_email_error_in_reply_to: "Le %{received_at} %{from_email} a écrit"
   mail_body_incoming_email_error_logs: "Journaux"
   mail_body_lost_password: "Pour changer votre mot de passe, cliquez sur le lien suivant:"
+  mail_password_change_not_possible:
+    title: "Password change not possible"
+    body: "Your account at %{app_title} is connected to an external authentication provider (%{name})."
+    subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
   mail_body_register: "Bienvenue sur %{app_title}. Veuillez activer votre compte en cliquant sur ce lien :"
   mail_body_register_header_title: "E-mail d'invitation du membre du projet"
   mail_body_register_user: "Chère/cher %{name}, "
@@ -2694,9 +2698,7 @@ fr:
         type: "Ligne entière par Type"
         priority: "Ligne entière par Priorité"
     icalendar:
-      enable_subscriptions_text_html: Permet aux utilisateurs disposant des autorisations nécessaires de s'abonner aux calendriers OpenProject et d'accéder aux informations du lot de travaux via un client de calendrier externe.
-    #below line needs to be appended above after docs are ready
-    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
     language_name_being_default: '%{language_name} (par défaut)'
     notifications:
       events_explanation: 'Définit pour quel événement un e-mail est envoyé. Les lots de travaux sont exclus de cette liste car les notifications pour ceux-ci peuvent être configurées spécifiquement pour chaque utilisateur.'
