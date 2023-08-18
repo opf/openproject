@@ -34,7 +34,6 @@ class Storages::ManageNextcloudIntegrationCronJob < Cron::CronJob
   self.cron_expression = '*/5 * * * *'
 
   def perform
-    result = Storages::NextcloudStorage.sync_all_group_folders
-    raise 'Synchronization is being progressed by another process' if result == false
+    Storages::NextcloudStorage.sync_all_group_folders
   end
 end

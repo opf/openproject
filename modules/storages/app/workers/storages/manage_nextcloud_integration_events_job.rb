@@ -43,6 +43,6 @@ class Storages::ManageNextcloudIntegrationEventsJob < ApplicationJob
 
   def perform
     result = Storages::NextcloudStorage.sync_all_group_folders
-    raise 'Synchronization is being progressed by another process' if result == false
+    self.class.debounce if result == false
   end
 end
