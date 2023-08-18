@@ -35,8 +35,8 @@ In the page that follows, you will be able to select one of the file storages se
 In the last step of the process, you will be able to choose which kind of project folder will be the default folder for file uploads for this project:
 
 1. **No specific folder**: By default, each user will start at their own home folder when they upload a file.
-2. **New folder with automatically managed permissions**: This will automatically create a root folder for this project and manage the access permissions for each project member. Each project member will automatically get read, write and share access permissions (according to defined [File storages permissions](../../../system-admin-guide/users-permissions/roles-permissions/#permissions) in the project) to this root folder. This option will only be available if the system administrator has [set up the storage with automatically managed folders](../../../system-admin-guide/integrations/nextcloud/).
-3. **Existing folder with manually managed permissions**: Once you selected this option, you can designate an existing folder as the root folder for this project using the button **Select folder**. The permissions are however not automatically managed. The administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
+2. **New folder with automatically managed permissions**: This will automatically create a folder for this project and manage the access permissions for each project member. Each project member will automatically get read, write and share access permissions (according to defined [File storages permissions](../../../system-admin-guide/users-permissions/roles-permissions/#permissions) in the project) to this folder. This option will only be available if the system administrator has [set up the storage with automatically managed folders](../../../system-admin-guide/integrations/nextcloud/).
+3. **Existing folder with manually managed permissions**: Once you selected this option, you can designate an existing folder as the project folder for this project using the button **Select folder**. The permissions are however not automatically managed. The administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
 
 ![Select the project folder type](storage-add-project-folder.png)
 
@@ -58,8 +58,18 @@ For the moment, you will only be able to edit which project folder type is used 
 
 ![Edit the project folder type](storage-edit.png)
 
-> **Note:** If the previous selected project folder type was **New folder with automatically managed permissions**, changing the project folder type will not delete the already created root folder and its permissions.
+> **Note:** If the previous selected project folder type was **New folder with automatically managed permissions**, changing the project folder type will not delete the already created project folder.
 
 To be able to delete a storage from a project you will be asked to confirm the action by introducing the name of the storage. This action is irreversible and will remove all links from work packages of this project to files and folders of that storage. Also, in case this storage has an automatically managed project folder, it and its files will be deleted forever.
 
 ![Delete a storage from a project](storage-delete.png)
+
+## Project folder member connection status
+
+As a project administrator you can see which of the project members have access to the automatically managed folders. To see the list of users click on the users icon on the right side of the list. 
+
+![Open a list of project members](storage-list-members.png)
+
+You will see which project members have have successfully connected and who may need assistance.
+
+![Project folder member connection status](storage-list-member-status.png)
