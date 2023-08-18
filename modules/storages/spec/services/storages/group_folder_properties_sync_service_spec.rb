@@ -658,7 +658,7 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
 
         expect(OpenProject.logger).to have_received(:warn) do |msg, _|
           expect(msg).to eq "Nextcloud user Darth Maul has not been removed from Nextcloud group " \
-                            "OpenProject: 'Failed to remove user from group: Not viable to remove " \
+                            "OpenProject: 'Failed to remove user Darth Maul from group OpenProject: Not viable to remove " \
                             "user from the last group you are SubAdmin of'"
         end
 

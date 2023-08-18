@@ -63,7 +63,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           Util.error(:error, "Insufficient privileges")
         when "105"
           message = Nokogiri::XML(response.body).xpath('/ocs/meta/message').text
-          Util.error(:error, "Failed to remove user from group: #{message}")
+          Util.error(:error, "Failed to remove user #{user} from group #{group}: #{message}")
         end
       when Net::HTTPMethodNotAllowed
         Util.error(:not_allowed)

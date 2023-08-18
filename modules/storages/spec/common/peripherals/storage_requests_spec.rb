@@ -552,7 +552,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
                    .call(user: origin_user_id)
         expect(result).to be_failure
         expect(result.errors.log_message).to eq(
-          "Failed to remove user from group: " \
+          "Failed to remove user #{origin_user_id} from group OpenProject: " \
           "Not viable to remove user from the last group you are SubAdmin of"
         )
       end
