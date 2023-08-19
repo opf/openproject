@@ -26,8 +26,8 @@ uk:
         position: "Позиція"
         remaining_hours: "Залишилися години"
         remaining_time: "Залишилися години"
-        derived_remaining_hours: "Derived remaining hours"
-        derived_remaining_time: "Derived remaining hours"
+        derived_remaining_hours: "Отриманий залишок годин"
+        derived_remaining_time: "Отриманий залишок годин"
         story_points: "Точки історії"
         backlogs_work_package_type: "Тип Backlog-у"
     errors:

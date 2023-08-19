@@ -2216,9 +2216,9 @@ uk:
   mail_body_incoming_email_error_logs: "Журнали"
   mail_body_lost_password: "Щоб змінити пароль, натисніть на посилання:"
   mail_password_change_not_possible:
-    title: "Password change not possible"
-    body: "Your account at %{app_title} is connected to an external authentication provider (%{name})."
-    subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
+    title: "Неможливо змінити пароль"
+    body: "Ваш обліковий запис %{app_title} зв’язано із зовнішнім постачальником послуг автентифікації (%{name})."
+    subtext: "Паролі для зовнішніх облікових записів не можна змінювати в додатку. Скористайтеся функцією відновлення пароля в додатку свого постачальника послуг автентифікації."
   mail_body_register: "Вітаємо в %{app_title}. Активуйте свій обліковий запис, перейшовши за цим посиланням:"
   mail_body_register_header_title: "Електронний лист із запрошенням стати учасником проєкту"
   mail_body_register_user: "Добрий день, %{name}!"
@@ -2736,7 +2736,7 @@ uk:
         type: "Весь рядок за Типом"
         priority: "Весь рядок за Пріоритетом"
     icalendar:
-      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: Дозволяє користувачам із необхідними дозволами підписуватися на календарі OpenProject і отримувати доступ до інформації про пакети робіт через зовнішній клієнт календаря. <strong>Примітка.</strong> Прочитайте про <a href="%{link}" target="_blank">підписки на iCalendar</a>, щоб дізнатися про потенційні ризики для безпеки перед увімкненням цього параметра.
     language_name_being_default: '%{language_name} (за замовчуванням)'
     notifications:
       events_explanation: 'Визначає події, для яких надсилається електронний лист. Пакети робіт виключаються зі списку, оскільки сповіщення для них можна налаштувати окремо для кожного користувача.'

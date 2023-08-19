@@ -65,7 +65,7 @@ ka:
   label_deliverable: "Budget"
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "View all budgets"
-  label_yes: "Yes"
+  label_yes: "დიახ"
   notice_budget_conflict: "Work packages must be of the same project."
   notice_no_budgets_available: "No budgets available."
   permission_edit_budgets: "Edit budgets"

@@ -2174,9 +2174,9 @@ es:
   mail_body_incoming_email_error_logs: "Registros"
   mail_body_lost_password: "Para cambiar su contraseña, haga clic en el siguiente enlace:"
   mail_password_change_not_possible:
-    title: "Password change not possible"
-    body: "Your account at %{app_title} is connected to an external authentication provider (%{name})."
-    subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
+    title: "No es posible cambiar la contraseña"
+    body: "Su cuenta en %{app_title} está conectada a un proveedor de autenticación externo (%{name})."
+    subtext: "Las contraseñas de las cuentas externas no pueden cambiarse en la aplicación. Utilice la funcionalidad de pérdida de contraseña de su proveedor de autenticación."
   mail_body_register: "Bienvenido a %{app_title}. Por favor, active su cuenta haciendo clic en este enlace:"
   mail_body_register_header_title: "Correo electrónico de invitación al miembro del proyecto"
   mail_body_register_user: "Estimado/a %{name},"
@@ -2694,7 +2694,7 @@ es:
         type: "Toda la fila por tipo"
         priority: "Toda la fila por prioridad"
     icalendar:
-      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: Permite a los usuarios con los permisos necesarios suscribirse a los calendarios de OpenProject y acceder a la información de los paquetes de trabajo a través de un cliente de calendario externo. <strong>Nota:</strong> Lea sobre <a href="%{link}" target="_blank">suscripciones a iCalendar</a> para comprender los posibles riesgos de seguridad antes de habilitarlo.
     language_name_being_default: '%{language_name} (por defecto)'
     notifications:
       events_explanation: 'Controla para qué evento se envía un correo electrónico. Los paquetes de trabajo se excluyen de esta lista, ya que las notificaciones para estos se pueden configurar específicamente por usuario.'

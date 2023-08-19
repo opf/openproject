@@ -1,4 +1,4 @@
 ka:
   overviews:
-    label: 'Overview'
-  permission_manage_overview: 'Manage overview page'
+    label: 'მიმოხილვა'
+  permission_manage_overview: 'მიმოხილვის გვერდის მართვა'
