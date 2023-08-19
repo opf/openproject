@@ -64,7 +64,7 @@ ka:
   label_filter: "Filter"
   label_filter_add: "Add Filter"
   label_filter_plural: "Filters"
-  label_group_by: "Group by"
+  label_group_by: "დაჯგუფება"
   label_group_by_add: "Add Group-by Attribute"
   label_inactive: "«inactive»"
   label_no: "No"
