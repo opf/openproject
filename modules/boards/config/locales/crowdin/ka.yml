@@ -2,17 +2,17 @@
 ka:
   permission_show_board_views: "View boards"
   permission_manage_board_views: "Manage boards"
-  project_module_board_view: "Boards"
+  project_module_board_view: "დაფები"
   boards:
-    label_board: "Board"
-    label_boards: "Boards"
+    label_board: "დაფა"
+    label_boards: "დაფები"
     label_create_new_board: "Create new board"
     label_board_type: "Board type"
     board_types:
       free: ძირითადი
       action: "Action board (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
+      assignee: დასაქმებული
       status: სტატუსი
       version: ვერსია
       subproject: Subproject

@@ -1,8 +1,8 @@
 #English strings go here
 ka:
   js:
-    label_preview: 'Preview'
-    button_update: 'Update'
+    label_preview: 'მინიატურა'
+    button_update: 'განახლება'
     avatars:
       label_choose_avatar: "Choose Avatar from file"
       uploading_avatar: "Uploading your avatar."
