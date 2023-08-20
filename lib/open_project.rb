@@ -44,4 +44,10 @@ module OpenProject
   def self.logger
     ::OpenProject::Logging::LogDelegator
   end
+
+  ##
+  # Check whether OpenProject runs inside a migration
+  def self.in_migration?
+    @in_migration ||= File.basename($0) == "rake" && Rake.application.top_level_tasks.grep(/^db:migrate/).any?
+  end
 end
