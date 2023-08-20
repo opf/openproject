@@ -217,12 +217,13 @@ We are happy to announce that we have released the multi-select custom fields fo
 ### Credits and contributions
 
 A very special thank you goes to the following sponsors for features and improvements of this release:
-- The **City of Cologne** for their tremendous support and sponsorship of the new features for the Nextcloud integration.
-- The **Federal Ministry of the Interior and Community (BMI)** as part of the openDesk (formerly Sovereign Workplace) for sponsoring big parts of this release, e.g. new important features for the Nextcloud integration, the new PDF export of work plans, iCalendar subscriptions, and localized seeding of all seed data.
 
+- **Autoliv** for having sponsored the new Baseline comparison.
+- The **City of Cologne** for their tremendous support and sponsorship of new features for the Nextcloud integration.
+- The **Federal Ministry of the Interior and Community (BMI)** as part of the openDesk (formerly Sovereign Workplace) for sponsoring big parts of this release, e.g. new features for the Nextcloud integration, the new PDF export of work plans, iCalendar subscriptions, and localized seeding of all seed data.
 
 A big thanks to Community members for reporting bugs and helping us identifying and providing fixes:
 
 Tobias Nöbauer, K T, Various Interactive, Thyago Sanabio, Piotr F, Sven Kunze, Gerrit Bonn, Aidas Kasparas, Christina Vechkanova, Rince wind, James Neale, Daniel Wilke, Philipp Schulz, Heather Burns, M S.
 
-And last but not least, a thank you to the entire OpenProject team.
+And last but not least, a big thank you to the entire OpenProject team.
