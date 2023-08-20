@@ -2737,7 +2737,7 @@ lt:
         type: "Visa eilutė pagal tipą"
         priority: "Visa eilutė pagal prioritetą"
     icalendar:
-      enable_subscriptions_text_html: Leidžia naudotojams su reikiamomis teisėmis prenumeruoti OpenProject kalendorius ir turėti prieigą prie darbo paketo informacijos per išorinį kalendoriaus klientą. <strong>Pastaba:</strong> Prašome paskaityti apie <a href="%{link}" target="_blank">iCalendar prenumeratas</a> ir suprasti potencialias rizikas prieš įjungiant šį funkcionalumą.
+      enable_subscriptions_text_html: Leidžia naudotojams su reikiamomis teisėmis prenumeruoti OpenProject kalendorius ir turėti prieigą prie darbo paketo informacijos per išorinį kalendoriaus klientą. <strong>Pastaba:</strong> Prašome prieš įjungiant šį funkcionalumą paskaityti apie <a href="%{link}" target="_blank">iCalendar prenumeratas</a>, kad suprastiumėte potencialias rizikas.
     language_name_being_default: '%{language_name} (numatytoji)'
     notifications:
       events_explanation: 'Valdo, kuriems įvykiams yra siunčiami el.laiškai. Darbų paketai nepatenka į šį sąrašą, nes kiekvienam naudotojui pranešimai gali būti sukonfigūruoti individualiai.'
