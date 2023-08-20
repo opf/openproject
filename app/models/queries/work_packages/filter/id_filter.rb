@@ -29,4 +29,8 @@
 class Queries::WorkPackages::Filter::IdFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
   include ::Queries::WorkPackages::Filter::FilterForWpMixin
+
+  def visible_scope
+    WorkPackage.visible
+  end
 end

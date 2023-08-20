@@ -75,23 +75,29 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
     const results = this.querySpace.results.value;
 
-    filters.add('subjectOrId', '**', [searchString]);
+    filters.add('typeahead', '**', [searchString]);
 
     if (results && results.elements.length > 0) {
       filters.add('id', '!', results.elements.map((wp:WorkPackageResource) => wp.id!));
     }
-    // Add the subproject filter, if any
+    // Add the project filter, if any
     const query = this.querySpace.query.value;
     if (query?.filters) {
       const currentFilters = this.urlParamsHelper.buildV3GetFilters(query.filters);
+      filters.merge(currentFilters, 'project');
       filters.merge(currentFilters, 'subprojectId');
     }
 
+    const params = {
+      sortBy: '[["updatedAt","desc"]]',
+      offset: '1',
+      pageSize: '10',
+    };
     return this
       .apiV3Service
       .withOptionalProject(this.CurrentProject.id)
       .work_packages
-      .filtered(filters)
+      .filtered(filters, params)
       .get()
       .pipe(
         map((collection) => collection.elements),
