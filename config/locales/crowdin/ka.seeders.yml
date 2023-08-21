@@ -9,7 +9,7 @@ ka:
         item_0:
           name: Blue (dark)
         item_1:
-          name: Blue
+          name: ლურჯი
         item_2:
           name: Blue (light)
         item_3:
@@ -17,39 +17,39 @@ ka:
         item_4:
           name: Green (dark)
         item_5:
-          name: Yellow
+          name: ყვითელი
         item_6:
-          name: Orange
+          name: ნარინჯისფერი
         item_7:
-          name: Red
+          name: წითელი
         item_8:
-          name: Magenta
+          name: ალისფერი
         item_9:
-          name: White
+          name: თეთრი
         item_10:
           name: Grey (light)
         item_11:
-          name: Grey
+          name: რუხი
         item_12:
           name: Grey (dark)
         item_13:
-          name: Black
+          name: შავები
       document_categories:
         item_0:
           name: Documentation
         item_1:
           name: Specification
         item_2:
-          name: Other
+          name: სხვა
       roles:
         item_0:
           name: Non member
         item_1:
           name: Anonymous
         item_2:
-          name: Member
+          name: წევრი
         item_3:
-          name: Reader
+          name: მკითხველი
         item_4:
           name: Project admin
         item_5:
@@ -57,16 +57,16 @@ ka:
     standard:
       priorities:
         item_0:
-          name: Low
+          name: დაბალი
         item_1:
-          name: Normal
+          name: ჩვეულებრივი
         item_2:
-          name: High
+          name: მაღალი
         item_3:
           name: Immediate
       statuses:
         item_0:
-          name: New
+          name: ახალი
         item_1:
           name: In specification
         item_2:
@@ -84,15 +84,15 @@ ka:
         item_8:
           name: In testing
         item_9:
-          name: Tested
+          name: დატესტილი
         item_10:
           name: Test failed
         item_11:
-          name: Closed
+          name: დახურულია
         item_12:
-          name: On hold
+          name: შეყოვნების რეჟიმში
         item_13:
-          name: Rejected
+          name: უარყოფილია
       time_entry_activities:
         item_0:
           name: Management
@@ -101,26 +101,26 @@ ka:
         item_2:
           name: Development
         item_3:
-          name: Testing
+          name: ტესტირება
         item_4:
-          name: Support
+          name: მხარდაჭერა
         item_5:
-          name: Other
+          name: სხვა
       types:
         item_0:
-          name: Task
+          name: ამოცანა
         item_1:
           name: Milestone
         item_2:
-          name: Phase
+          name: ფაზები
         item_3:
-          name: Feature
+          name: თვისებები
         item_4:
-          name: Epic
+          name: ეპიკური
         item_5:
           name: User story
         item_6:
-          name: Bug
+          name: შეცდომა
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -154,7 +154,7 @@ ka:
             item_1:
               name: Milestones
             item_2:
-              name: Tasks
+              name: დავალებები
             item_3:
               name: Team planner
           boards:
@@ -170,14 +170,14 @@ ka:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: არასოდეს
             parent_child:
               name: Work breakdown structure
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: მოგესალმებით
               item_1:
                 options:
                   name: Getting started
@@ -254,9 +254,9 @@ ka:
             item_1:
               name: Product Backlog
             item_2:
-              name: Sprint 1
+              name: სპრინტი 1
               wiki:
-                title: Sprint 1
+                title: სპრინტი 1
                 content: |
                   ### Sprint planning meeting
 
@@ -304,7 +304,7 @@ ka:
                   * After Sprint Review, will be moderated by Scrum Master.
                   * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
             item_3:
-              name: Sprint 2
+              name: სპრინტი 2
           categories:
             item_0: Category 1 (to be changed in Project settings)
           queries:
@@ -313,9 +313,9 @@ ka:
             item_1:
               name: Product backlog
             item_2:
-              name: Sprint 1
+              name: სპრინტი 1
             item_3:
-              name: Tasks
+              name: დავალებები
           boards:
             kanban:
               name: Kanban board
@@ -329,12 +329,12 @@ ka:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: არასოდეს
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: მოგესალმებით
               item_1:
                 options:
                   name: Getting started

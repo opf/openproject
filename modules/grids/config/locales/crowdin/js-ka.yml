@@ -5,8 +5,8 @@ ka:
       remove: 'Remove widget'
       configure: 'Configure widget'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
-        link: 'Enterprise edition.'
+        text: "ზოგიერთი ვიჯეტი, როგორიცაა სამუშაო პაკეტის გრაფიკის ვიჯეტი, ხელმისაწვდომია, მხოლოდ, საწარმოო ვერსიაში."
+        link: 'საწარმოო რელიზი.'
       widgets:
         custom_text:
           title: 'Custom text'
@@ -14,14 +14,14 @@ ka:
           title: 'Documents'
           no_results: 'No documents yet.'
         members:
-          title: 'Members'
+          title: 'წევრები'
           no_results: 'No visible members.'
           view_all_members: 'View all members'
-          add: 'Member'
+          add: 'წევრი'
           too_many: 'Displaying %{count} of %{total} members.'
         news:
-          title: 'News'
-          at: 'at'
+          title: 'სიახლეები'
+          at: 'დრო'
           no_results: 'Nothing new to report.'
         project_description:
           title: 'Project description'
@@ -32,11 +32,11 @@ ka:
         project_status:
           title: 'Project status'
           not_started: 'Not started'
-          on_track: 'On track'
+          on_track: 'გეგმის მიხედვით'
           off_track: 'Off track'
-          at_risk: 'At risk'
-          not_set: 'Not set'
-          finished: 'Finished'
+          at_risk: 'რისკის ქვეშ'
+          not_set: 'არ არის დაყენებული'
+          finished: 'დასრულებულია'
           discontinued: 'Discontinued'
         subprojects:
           title: 'Subprojects'
@@ -60,7 +60,7 @@ ka:
         work_packages_graph:
           title: 'Work packages graph'
         work_packages_calendar:
-          title: 'Calendar'
+          title: 'კალენდარი'
         work_packages_overview:
           title: 'Work packages overview'
           placeholder: 'Click to edit ...'

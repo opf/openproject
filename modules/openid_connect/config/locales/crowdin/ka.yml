@@ -4,11 +4,11 @@ ka:
   activemodel:
     attributes:
       openid_connect/provider:
-        name: Name
+        name: სახელი
         display_name: Display name
         identifier: Identifier
-        secret: Secret
-        scope: Scope
+        secret: საიდუმლო
+        scope: ფარგლები
         limit_self_registration: Limit self registration
   openid_connect:
     menu_title: OpenID providers

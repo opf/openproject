@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -52,10 +54,6 @@ class Storages::Admin::StoragesController < ApplicationController
     @storages = Storages::Storage.all
   end
 
-  # Show page with details of one Storage object.
-  # Called by: Global app/config/routes.rb to serve Web page
-  def show; end
-
   # Show the admin page to create a new Storage object.
   # Sets the attributes provider_type and name as default values and then
   # renders the new page (allowing the user to overwrite these values and to
@@ -109,7 +107,7 @@ class Storages::Admin::StoragesController < ApplicationController
 
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to admin_settings_storage_path(@object)
+      redirect_to edit_admin_settings_storage_path(@object)
     else
       @errors = service_result.errors
       render :edit

@@ -37,6 +37,10 @@ RSpec.describe RootSeeder,
   include RootSeederTestHelpers
 
   shared_examples 'creates BIM demo data' do
+    def group_name(reference)
+      root_seeder.seed_data.find_reference(reference)['name']
+    end
+
     it 'creates an admin user' do
       expect(User.not_builtin.where(admin: true).count).to eq 1
     end
@@ -64,17 +68,17 @@ RSpec.describe RootSeeder,
       count_by_assignee =
         WorkPackage
           .joins(:assigned_to)
-          .group("array_to_string(ARRAY[type || ':', firstname, lastname], ' ')")
+          .group("array_to_string(array_remove(ARRAY[type || ':', firstname, lastname], ''), ' ')")
           .count
-          .transform_keys! { |key| key.squish.gsub('tr: ', '') }
+      # .transform_keys! { |key| key.squish.gsub('tr: ', '') }
       expect(count_by_assignee).to eq(
-        "Group: Architects" => 1,
-        "Group: BIM Coordinators" => 11,
-        "Group: BIM Managers" => 2,
-        "Group: BIM Modellers" => 21,
-        "Group: Lead BIM Coordinators" => 8,
-        "Group: Planners" => 21,
-        "User: OpenProject Admin" => 12
+        "Group: #{group_name(:group__architects)}" => 1,
+        "Group: #{group_name(:group__bim_coordinators)}" => 11,
+        "Group: #{group_name(:group__bim_managers)}" => 2,
+        "Group: #{group_name(:group__bim_modellers)}" => 21,
+        "Group: #{group_name(:group__lead_bim_coordinators)}" => 8,
+        "Group: #{group_name(:group__planners)}" => 21,
+        "User: #{root_seeder.admin_user.name}" => 12
       )
     end
 

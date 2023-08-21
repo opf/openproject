@@ -207,9 +207,9 @@ ru:
             item_0:
               subject: Начало строительства проекта
               description: |-
-                The project kick off initializes the start of the project in your company. Everybody being part of this project should be invited to the kick off for a first briefing.
+                Начало проекта инициирует запуск проекта в вашей компании.  Все участники этого проекта должны быть приглашены на старт для первого брифинга.
 
-                The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                Следующим шагом может быть проверка расписания и корректировка встреч с помощью [диаграммы Ганта]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22% 3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C% 22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A% 22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
               subject: Базовая оценка
               description: Этот тип является иерархически родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
@@ -464,9 +464,9 @@ ru:
             item_0:
               subject: Начало проекта по созданию BIM-модели
               description: |-
-                The project Kickoff initializes the start of the project in your company. The whole project team should be invited to the Kickoff for a first briefing.
+                Начало проекта инициализирует запуск проекта в вашей компании. Вся проектная команда должна быть приглашена на стартовый инструктаж.
 
-                The next step could be to check out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                Следующим шагом может быть проверка расписания и корректировка встреч, через сверку с [диаграммой Ганта]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
               subject: Подготовка проекта
               description: Этот тип иерархически является родительским для типов "Столкновение" и "Запрос", таким образом, представляет собой общее примечание.
@@ -568,14 +568,14 @@ ru:
                 item_2:
                   subject: Первый цикл, проверка и пересмотр внутренней модели
                   description: |-
-                    # Goal
+                    # Цель
 
-                    *   Submitting a BIM model according to the defined standards
+                    * Представление BIM-модели в соответствии с определенными стандартами
 
-                    # Description
+                    # Описание
 
-                    *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised.
-                    *   ...
+                    * Модель должна быть проверена на соответствие стандартам (конвенциям, LOD, ...) и пересмотрена.
+                    * ...
                 item_3:
                   subject: Отправка BIM-модели
                   description: Этот тип иерархически является родительским для типов "Столкновение" и "Запрос", таким образом, представляет собой общее примечание.
@@ -586,16 +586,16 @@ ru:
                 item_0:
                   subject: Координируйте различные BIM-модели
                   description: |-
-                    # Goal
+                    # Цель
 
-                    *   Assemble the different BIM models of the whole project team
-                    *   Coordinate the identified issues
+                    * Собрать различные BIM-модели всей проектной команды
+                    * Координировать выявленные проблемы
 
-                    # Description
+                    # Описание
 
-                    *   The different BIM models will be assembled and checked
-                    *   The identified model specific issues will be communicated via BCF files
-                    *   ...
+                    * Различные модели BIM будут собраны и проверены
+                    * Выявленные проблемы, характерные для конкретной модели, будут сообщены с помощью файлов BCF
+                    * ...
                 item_1:
                   subject: Управление проблемами, первый цикл
                 item_2:
@@ -670,7 +670,7 @@ ru:
         demo-bcf-management-project:
           name: "(Demo) Управление BCF"
           status_explanation: Все задачи выполнены по расписанию. Участвующие в них люди знают свои задачи. Система полностью настроена.
-          description: This is a short summary of the goals of this demo BCF management project.
+          description: Это краткое описание целей этого демонстрационного проекта по управлению BCF.
           ifc_models:
             item_0:
               name: Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)

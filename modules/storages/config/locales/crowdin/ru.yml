@@ -71,10 +71,10 @@ ru:
         new: "Добавить хранилище файлов в этот проект"
         edit: "Редактировать хранилище файлов для этого проекта"
         delete: "Удалить хранилище файлов"
-        members_connection_status: "Members connection status"
+        members_connection_status: "Статус подключения участников"
       project_storage_members:
-        title: "Members connection status"
-        subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
+        title: "Статус подключения участников"
+        subtitle: "Проверьте статус подключения для хранилища %{storage_name_link} всех участников проекта."
     instructions:
       type: "Перед установкой убедитесь, что у вас есть права администрирования в вашем экземпляре Nextcloud и что перед установкой установлено следующее приложение:"
       type_link_text: "«Интеграционный OpenProject»"
@@ -134,14 +134,14 @@ ru:
     label_no_selected_folder: "Папка не выбрана"
     label_storage: "Хранилище"
     label_storages: "Хранилища"
-    label_status: "Status"
-    label_files: "Files"
+    label_status: "Статус"
+    label_files: "Файлы"
     member_connection_status:
-      connected: "Connected"
-      connected_no_permissions: "User role has no storages permissions"
-      not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
+      connected: "Подключено"
+      connected_no_permissions: "Роль пользователя не имеет разрешения на хранение"
+      not_connected: "Не подключено. Пользователь должен войти в хранилище через вкладку %{files_label} пакета работ для подключения."
     no_results: "Хранилища еще не настроены."
-    members_no_results: "No members to display."
+    members_no_results: "Нет участников для отображения."
     provider_types:
       label: "Тип поставщика"
       nextcloud:

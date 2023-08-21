@@ -7,44 +7,44 @@ ka:
     bim:
       priorities:
         item_0:
-          name: Low
+          name: დაბალი
         item_1:
-          name: Normal
+          name: ჩვეულებრივი
         item_2:
-          name: High
+          name: მაღალი
         item_3:
-          name: Critical
+          name: კრიტიკული
       statuses:
         item_0:
-          name: New
+          name: ახალი
         item_1:
           name: In progress
         item_2:
-          name: Resolved
+          name: შესრულებულია
         item_3:
-          name: Closed
+          name: დახურულია
       time_entry_activities:
         item_0:
           name: Management
         item_1:
           name: Specification
         item_2:
-          name: Other
+          name: სხვა
       types:
         item_0:
-          name: Task
+          name: ამოცანა
         item_1:
           name: Milestone
         item_2:
-          name: Phase
+          name: ფაზები
         item_3:
-          name: Issue
+          name: გამოცემა
         item_4:
-          name: Remark
+          name: შენიშვნა
         item_5:
-          name: Request
+          name: მოთხოვნა
         item_6:
-          name: Clash
+          name: კონფლიქტი
       global_queries:
         item_0:
           name: 'Embedded table: Children'
@@ -52,7 +52,7 @@ ka:
         item_0:
           form_configuration:
             item_0:
-              group_name: Children
+              group_name: შვილები
       groups:
         item_0:
           name: Architects
@@ -67,7 +67,7 @@ ka:
         item_5:
           name: MEP Engineers
         item_6:
-          name: Planners
+          name: მგეგმავები
         item_7:
           name: Structural Engineers
       welcome:
@@ -105,7 +105,7 @@ ka:
             item_1:
               name: Milestones
             item_2:
-              name: Tasks
+              name: ამოცანები
             item_3:
               name: Team planner
           boards:
@@ -115,7 +115,7 @@ ka:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: მოგესალმებით
               item_1:
                 options:
                   name: Getting started
@@ -141,7 +141,7 @@ ka:
                     Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
-                  name: Members
+                  name: წევრები
               item_5:
                 options:
                   name: Work packages
@@ -167,14 +167,14 @@ ka:
             item_1:
               name: Milestones
             item_2:
-              name: Tasks
+              name: ამოცანები
             item_3:
               name: Team planner
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: მოგესალმებით
               item_1:
                 options:
                   name: Getting started
@@ -196,7 +196,7 @@ ka:
                     Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
-                  name: Members
+                  name: წევრები
               item_5:
                 options:
                   name: Work packages
@@ -421,14 +421,14 @@ ka:
             item_1:
               name: Milestones
             item_2:
-              name: Tasks
+              name: ამოცანები
             item_3:
               name: Team planner
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: მოგესალმებით
               item_1:
                 options:
                   name: Getting started
@@ -453,7 +453,7 @@ ka:
                     Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
-                  name: Members
+                  name: წევრები
               item_5:
                 options:
                   name: Work packages
@@ -682,19 +682,19 @@ ka:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Issues
+              name: შენიშვნები
             item_1:
-              name: Clashes
+              name: კონფლიქტები
             item_2:
-              name: Requests
+              name: მოთხოვნები
             item_3:
-              name: Remarks
+              name: შენიშვნები
             item_4:
               name: Project plan
             item_5:
               name: Milestones
             item_6:
-              name: Tasks
+              name: ამოცანები
             item_7:
               name: Team planner
           boards:
@@ -704,7 +704,7 @@ ka:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: მოგესალმებით
               item_1:
                 options:
                   name: Getting started
@@ -728,7 +728,7 @@ ka:
                     Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
-                  name: Members
+                  name: წევრები
               item_5:
                 options:
                   name: Work packages

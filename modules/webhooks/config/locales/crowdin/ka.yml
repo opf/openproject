@@ -4,18 +4,18 @@ ka:
       webhooks/webhook:
         url: 'Payload URL'
         secret: 'Signature secret'
-        events: 'Events'
+        events: 'მოვლენები'
         projects: 'Enabled projects'
       webhooks/log:
         event_name: 'Event name'
         url: 'Payload URL'
         response_code: 'Response code'
-        response_body: 'Response'
+        response_body: 'პასუხი'
     models:
       webhooks/outgoing_webhook: "Outgoing webhook"
   webhooks:
-    singular: Webhook
-    plural: Webhooks
+    singular: ვებჰუკი
+    plural: ვებჰუკები
     resources:
       time_entry:
         name: "Time entry"
@@ -25,8 +25,8 @@ ka:
       label_edit: Edit webhook
       label_event_resources: Event resources
       events:
-        created: "Created"
-        updated: "Updated"
+        created: "შეიქმნა"
+        updated: "განახლებულია"
       explanation:
         text: >
           Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the %{link} has passed.

@@ -15,7 +15,7 @@ ka:
       choose_location: "Choose location"
       types:
         nextcloud: "Nextcloud"
-        default: "Storage"
+        default: "საცავი"
       information:
         connection_error: >
           Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
@@ -42,7 +42,7 @@ ka:
         managed_project_folder_no_access: >
           You have no access yet to the managed project folder. Please wait a bit and try again.
         upload_keep_both: "Keep both"
-        upload_replace: "Replace"
+        upload_replace: "ჩანაცვლება"
       file_links:
         empty: >
           Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.

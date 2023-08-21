@@ -5,8 +5,8 @@ nl:
       link_files_in_storage: "Koppel bestanden aan %{storageType}"
       link_existing_files: "Bestaande bestanden koppelen"
       upload_files: "Bestanden uploaden"
-      drop_files: "Drop files here to upload them to %{name}."
-      drop_or_click_files: "Drop files here or click to upload them to %{name}."
+      drop_files: "Sleep bestanden hier om ze te uploaden naar %{name}."
+      drop_or_click_files: "Sleep bestanden hier naartoe of klik om ze te uploaden naar %{name}."
       login: "%{storageType} login"
       login_to: "Inloggen op %{storageType}"
       no_connection: "Geen %{storageType} verbinding"
@@ -28,10 +28,10 @@ nl:
       files:
         already_existing_header: "Dit bestand bestaat al"
         already_existing_body: >
-          A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
-        directory_not_writeable: "You do not have permission to add files to this folder."
+          Er bestaat al een bestand met de naam "%{fileName}" op de locatie waar u dit bestand probeert te uploaden. Wat wil je doen?
+        directory_not_writeable: "U bent niet gemachtigd om bestanden toe te voegen aan deze map."
         dragging_many_files: "The upload to %{storageType} supports only one file at once."
-        dragging_folder: "The upload to %{storageType} does not support folders."
+        dragging_folder: "De upload naar %{storageType} ondersteunt geen mappen."
         empty_folder: "Deze map is leeg."
         empty_folder_location_hint: "Klik op de knop hieronder om het bestand te uploaden naar deze locatie."
         file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
