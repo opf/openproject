@@ -176,7 +176,7 @@ There are two additional features related to the integration that you can enable
 
 ## Work package link preview in Nextcloud
 
-Starting with OpenProject 13.0 a work package link preview will be shown if you use Nextcloud Talk or Text apps. You can [copy a work package link](../work-packages/copy-move-delete/#copy-link-to-clipboard) and paste it into a Talk or Text app. Alternatively you can use **/** to activate the **smart picker** and find the work package by searching.
+Starting with Nextcloud 2.4 a work package link preview will be shown if you use Nextcloud Talk or Text apps. You can [copy a work package link](../work-packages/copy-move-delete/#copy-link-to-clipboard) and paste it into a Talk or Text app. Alternatively you can use **/** to activate the **smart picker** and find the work package by searching.
 
 ![activate smart picker in nextcloud](nc_smartpicker_start.png)
 
