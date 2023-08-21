@@ -72,13 +72,13 @@ ka:
     button_delete: "წაშლა"
     button_delete_watcher: "Delete watcher"
     button_details_view: "Details view"
-    button_duplicate: "Duplicate"
+    button_duplicate: "დუბლირება"
     button_edit: "ჩასწორება"
     button_filter: "ფილტრი"
     button_collapse_all: "Collapse all"
     button_expand_all: "Expand all"
     button_advanced_filter: "Advanced filter"
-    button_list_view: "List view"
+    button_list_view: "სიის ხედი"
     button_show_view: "Fullscreen view"
     button_log_time: "ჟურნალში დროის ჩაწერა"
     button_more: "კიდევ"
@@ -118,7 +118,7 @@ ka:
         horizontal_bar: 'Horizontal bar'
         bar: 'სვეტი'
         pie: 'მრგვალი'
-        doughnut: 'Doughnut'
+        doughnut: 'რგოლური'
         radar: 'რადარი'
         polar_area: 'Polar area'
       tabs:
@@ -149,7 +149,7 @@ ka:
           button: 'Links to child pages'
           include_parent: 'Include parent'
           text: '[Placeholder] Links to child pages of'
-          page: 'Wiki page'
+          page: 'ვიკი გვერდი'
           this_page: 'this page'
           hint: |
             Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
@@ -166,7 +166,7 @@ ka:
         wiki_page_include:
           button: 'Include content of another wiki page'
           text: '[Placeholder] Included wiki page of'
-          page: 'Wiki page'
+          page: 'ვიკი გვერდი'
           not_set: '(Page not yet set)'
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -191,7 +191,7 @@ ka:
         add_group: "Add attribute group"
         add_table: "Add table of related work packages"
         edit_query: 'Edit query'
-        new_group: 'New group'
+        new_group: 'ახალი ჯგუფი'
         reset_to_defaults: 'Reset to defaults'
       enterprise:
         text_reprieve_days_left: "%{days} days until end of grace period"
@@ -206,7 +206,7 @@ ka:
             invalid_email: "Invalid email address"
             label_company: "კომპანია"
             label_first_name: "First name"
-            label_last_name: "Last name"
+            label_last_name: "გვარი"
             label_domain: "დომენი"
             label_subscriber: "Subscriber"
             label_maximum_users: "Maximum active users"
@@ -766,7 +766,7 @@ ka:
         settings: "მორგება"
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
-      title: 'Log time'
+      title: 'ჟურნალში დროის ჩაწერა'
       tracking: 'Time tracking'
       stop: 'გაჩერება'
     timer:
@@ -786,23 +786,23 @@ ka:
       typeahead_placeholder: Search for possible watchers
     relation_labels:
       parent: "მშობელი"
-      children: "Children"
+      children: "შვილები"
       relates: "Related To"
       duplicates: "Duplicates"
       duplicated: "Duplicated by"
       blocks: "ბლოკავს"
       blocked: "Blocked by"
-      precedes: "Precedes"
+      precedes: "წინ უსწრებს"
       follows: "მიჰყვება"
-      includes: "Includes"
+      includes: "შეიცავს"
       partof: "ნაწილია"
-      requires: "Requires"
+      requires: "მოითხოვს"
       required: "Required by"
       relation_type: "relation type"
     relations_hierarchy:
       parent_headline: "მშობელი"
       hierarchy_headline: "Hierarchy"
-      children_headline: "Children"
+      children_headline: "შვილები"
     relation_buttons:
       set_parent: "Set parent"
       change_parent: "Change parent"
@@ -951,18 +951,18 @@ ka:
         estimatesAndTime: "Estimates & Time"
         other: "სხვა"
       properties:
-        assignee: "Assignee"
+        assignee: "დასაქმებული"
         author: "ავტორი"
         createdAt: "Created on"
         description: "Description"
         date: "თარიღი"
         dueDate: "Finish date"
-        duration: "Duration"
+        duration: "ხანგრძლივობა"
         estimatedTime: "Estimated time"
         spentTime: "Spent time"
-        category: "Category"
+        category: "კატეგორია"
         percentageDone: "Percentage done"
-        priority: "Priority"
+        priority: "პრიორიტეტი"
         projectName: "პროექტი"
         responsible: "Responsible"
         startDate: "Start date"
@@ -979,7 +979,7 @@ ka:
         created_by_me: "Created by me"
         assigned_to_me: "Assigned to me"
         recently_created: "Recently created"
-        all_open: "All open"
+        all_open: "ყველა ღია"
         summary: "შეჯამება"
       jump_marks:
         pagination: "Jump to table pagination"
@@ -992,7 +992,7 @@ ka:
       query:
         column_names: "სვეტები"
         group_by: "Group results by"
-        group: "Group by"
+        group: "დაჯგუფება"
         group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
         hierarchy_disabled_by_group_by: "Hierarchy mode is disabled due to results being grouped by %{column}."
         sort_ascending: "Sort ascending"
@@ -1043,12 +1043,12 @@ ka:
           inline_all: 'All attributes'
           entire_row_by: 'Entire row by'
           status: 'სტატუსი'
-          priority: 'Priority'
+          priority: 'პრიორიტეტი'
           type: 'ტიპი'
         sorting_mode:
           description: 'Chose the mode to sort your Work packages:'
           automatic: 'Automatic'
-          manually: 'Manually'
+          manually: 'ხელით'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
         columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
@@ -1058,10 +1058,10 @@ ka:
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
-        overview: Overview
-        activity: Activity
+        overview: მიმოხილვა
+        activity: აქტივობა
         relations: Relations
-        watchers: Watchers
+        watchers: მეთვალყურეები
         files: ფაილები
       time_relative:
         days: "დღე"
@@ -1072,7 +1072,7 @@ ka:
         configure_view: "Configure view"
         columns: "სვეტები"
         sort_by: "დალაგება"
-        group_by: "Group by"
+        group_by: "დაჯგუფება"
         display_sums: "Display sums"
         display_hierarchy: "Display hierarchy"
         hide_hierarchy: "Hide hierarchy"
@@ -1126,7 +1126,7 @@ ka:
       link_formatting_help: "Text formatting help"
       btn_preview_enable: "მინიატურა"
       btn_preview_disable: "Disable preview"
-      null_value_label: "No value"
+      null_value_label: "მნიშვნელობის გარეშე"
       clear_value_label: "-"
       errors:
         required: '%{field} cannot be empty'
@@ -1235,10 +1235,10 @@ ka:
           user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
-        next_button: 'Continue'
+        next_button: 'გაგრძელება'
     include_projects:
       toggle_title: 'Include projects'
-      title: 'Projects'
+      title: 'პროექტები'
       clear_selection: 'Clear selection'
       apply: 'გადატარება'
       selected_filter:
@@ -1252,7 +1252,7 @@ ka:
         does_not_match_search: 'Project does not match the search criteria.'
       no_results: 'No project matches your search criteria.'
     baseline:
-      toggle_title: 'Baseline'
+      toggle_title: 'ბაზისური ხაზი'
       clear: 'გასუფთავება'
       apply: 'გადატარება'
       header_description: 'Highlight changes made to this list since any point in the past.'

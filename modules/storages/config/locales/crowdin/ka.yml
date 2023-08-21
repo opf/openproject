@@ -110,12 +110,12 @@ ka:
       input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
       irreversible_notice: "Deleting a file storage is an irreversible action."
     label_active: "აქტიური"
-    label_inactive: "Inactive"
+    label_inactive: "არააქტიური"
     label_creator: "შემქმნელი"
     label_file_link: "File link"
     label_file_links: "File links"
     label_name: "სახელი"
-    label_host: "Host URL"
+    label_host: "ჰოსტის URL"
     label_managed_project_folders:
       automatically_managed_folders: "Automatically managed folders"
       application_password: "Application password"
@@ -133,7 +133,7 @@ ka:
     label_automatic_folder: "New folder with automatically managed permissions"
     label_no_selected_folder: "No selected folder"
     label_storage: "საცავი"
-    label_storages: "Storages"
+    label_storages: "საცავები"
     label_status: "სტატუსი"
     label_files: "ფაილები"
     member_connection_status:

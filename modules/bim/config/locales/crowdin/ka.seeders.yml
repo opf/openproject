@@ -13,14 +13,14 @@ ka:
         item_2:
           name: მაღალი
         item_3:
-          name: Critical
+          name: კრიტიკული
       statuses:
         item_0:
           name: ახალი
         item_1:
           name: In progress
         item_2:
-          name: Resolved
+          name: შესრულებულია
         item_3:
           name: დახურულია
       time_entry_activities:
@@ -52,7 +52,7 @@ ka:
         item_0:
           form_configuration:
             item_0:
-              group_name: Children
+              group_name: შვილები
       groups:
         item_0:
           name: Architects
@@ -67,7 +67,7 @@ ka:
         item_5:
           name: MEP Engineers
         item_6:
-          name: Planners
+          name: მგეგმავები
         item_7:
           name: Structural Engineers
       welcome:
@@ -686,7 +686,7 @@ ka:
             item_1:
               name: კონფლიქტები
             item_2:
-              name: Requests
+              name: მოთხოვნები
             item_3:
               name: შენიშვნები
             item_4:
