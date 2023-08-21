@@ -92,7 +92,7 @@ ka:
         item_12:
           name: შეყოვნების რეჟიმში
         item_13:
-          name: Rejected
+          name: უარყოფილია
       time_entry_activities:
         item_0:
           name: Management
@@ -254,9 +254,9 @@ ka:
             item_1:
               name: Product Backlog
             item_2:
-              name: Sprint 1
+              name: სპრინტი 1
               wiki:
-                title: Sprint 1
+                title: სპრინტი 1
                 content: |
                   ### Sprint planning meeting
 
@@ -304,7 +304,7 @@ ka:
                   * After Sprint Review, will be moderated by Scrum Master.
                   * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
             item_3:
-              name: Sprint 2
+              name: სპრინტი 2
           categories:
             item_0: Category 1 (to be changed in Project settings)
           queries:
@@ -313,7 +313,7 @@ ka:
             item_1:
               name: Product backlog
             item_2:
-              name: Sprint 1
+              name: სპრინტი 1
             item_3:
               name: დავალებები
           boards:

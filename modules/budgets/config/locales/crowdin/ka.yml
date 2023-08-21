@@ -24,14 +24,14 @@ ka:
     attributes:
       budget:
         author: "ავტორი"
-        available: "Available"
+        available: "ხელმისაწვდომი"
         budget: "დაგეგმილია"
         budget_ratio: "Spent (ratio)"
         description: "Description"
         spent: "დახარჯული"
         status: "სტატუსი"
         subject: "საგანი"
-        type: "Cost type"
+        type: "ხარჯის ტიპი"
         labor_budget: "Planned labor costs"
         material_budget: "Planned unit costs"
       work_package:
