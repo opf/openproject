@@ -107,6 +107,7 @@ module MeetingAgendaItems
       render(Primer::Beta::Octicon.new(
                color: :subtle,
                classes: "handle",
+               style: "cursor: move;",
                size: :small,
                icon: :grabber,
                'aria-label': "Drag agenda item"

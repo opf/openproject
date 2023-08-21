@@ -63,8 +63,9 @@ module MeetingAgendaItems
                type: :submit,
                disabled: @disabled,
                'aria-label': "Add agenda item"
-             )) do
-        "Add agenda item"
+             )) do |component|
+        component.with_leading_visual_icon(icon: :plus)
+        "Agenda item"
       end
     end
   end
