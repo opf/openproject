@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-RSpec.describe BasicData::RoleSeeder do
+RSpec.describe BasicData::ProjectRoleSeeder do
   subject(:seeder) { described_class.new(seed_data) }
 
   let(:seed_data) { Source::SeedData.new(data_hash) }
@@ -42,18 +42,18 @@ RSpec.describe BasicData::RoleSeeder do
   context 'with some builtin roles defined' do
     let(:data_hash) do
       YAML.load <<~SEEDING_DATA_YAML
-        roles:
-        - reference: :role_non_member
-          name: Non member
-          builtin: :non_member
-          permissions:
-          - :view_status
-          - :view_presentations
-        - reference: :role_anonymous
-          name: Anonymous
-          builtin: :anonymous
-          permissions:
-          - :read_information
+        project_roles:
+          - reference: :role_non_member
+            name: Non member
+            builtin: :non_member
+            permissions:
+            - :view_status
+            - :view_presentations
+          - reference: :role_anonymous
+            name: Anonymous
+            builtin: :anonymous
+            permissions:
+            - :read_information
       SEEDING_DATA_YAML
     end
 
@@ -78,13 +78,13 @@ RSpec.describe BasicData::RoleSeeder do
   context 'with some non-builtin roles defined' do
     let(:data_hash) do
       YAML.load <<~SEEDING_DATA_YAML
-        roles:
-        - reference: :role_member
-          name: Member
-          position: 5
-          permissions:
-          - :view_movies
-          - :eat_popcorn
+        project_roles:
+          - reference: :role_member
+            name: Member
+            position: 5
+            permissions:
+            - :view_movies
+            - :eat_popcorn
       SEEDING_DATA_YAML
     end
 
@@ -103,42 +103,14 @@ RSpec.describe BasicData::RoleSeeder do
     end
   end
 
-  context 'with some global roles defined' do
-    let(:data_hash) do
-      YAML.load <<~SEEDING_DATA_YAML
-        roles:
-        - reference: :role_staff_manager
-          name: Staff manager
-          global: true
-          permissions:
-          - :hire_people
-          - :give_feedback
-      SEEDING_DATA_YAML
-    end
-
-    it 'creates the corresponding global roles with the given attributes' do
-      expect(GlobalRole.count).to eq(1)
-      expect(GlobalRole.find_by(name: 'Staff manager')).to have_attributes(
-        builtin: Role::NON_BUILTIN,
-        permissions: %i[hire_people give_feedback]
-      )
-    end
-
-    it 'references the role in the seed data' do
-      role = GlobalRole.find_by(name: 'Staff manager')
-      expect(seed_data.find_reference(:role_staff_manager)).to eq(role)
-    end
-  end
-
   context 'with permissions: :all_assignable_permissions' do
     let(:data_hash) do
       YAML.load <<~SEEDING_DATA_YAML
-        roles:
-        - reference: :role_project_admin
-          name: Project admin
-          global: true
-          position: 1
-          permissions: :all_assignable_permissions
+        project_roles:
+          - reference: :role_project_admin
+            name: Project admin
+            position: 1
+            permissions: :all_assignable_permissions
       SEEDING_DATA_YAML
     end
 
@@ -151,13 +123,13 @@ RSpec.describe BasicData::RoleSeeder do
   context 'with some permissions added and removed by modules in a modules_permissions section' do
     let(:data_hash) do
       YAML.load <<~SEEDING_DATA_YAML
-        roles:
-        - reference: :role_member
-          name: Member
-          position: 5
-          permissions:
-          - :view_movies
-          - :eat_popcorn
+        project_roles:
+          - reference: :role_member
+            name: Member
+            position: 5
+            permissions:
+            - :view_movies
+            - :eat_popcorn
         modules_permissions:
           ebooks:
           - role: :role_member

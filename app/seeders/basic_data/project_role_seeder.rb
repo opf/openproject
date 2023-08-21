@@ -25,21 +25,9 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module Bim
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinUsersSeeder,
-        ::BasicData::ProjectRoleSeeder,
-        ::BasicData::GlobalRoleSeeder,
-        ::BasicData::TimeEntryActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::BasicData::WorkflowSeeder,
-        ::BasicData::PrioritySeeder,
-        ::Bim::BasicData::SettingSeeder,
-        ::Bim::BasicData::ThemeSeeder
-      ]
-    end
+module BasicData
+  class ProjectRoleSeeder < BaseRoleSeeder
+    self.model_class = Role
+    self.seed_data_model_key = 'project_roles'
   end
 end
