@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,13 +30,7 @@
 
 require 'spec_helper'
 
-RSpec.describe(
-  Projects::CopyService,
-  'integration',
-  type: :model,
-  webmock: true,
-  with_ee: %i[readonly_work_packages]
-) do
+RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true, with_ee: %i[readonly_work_packages]) do
   shared_let(:status_locked) { create(:status, is_readonly: true) }
   shared_let(:source) do
     create(:project,
@@ -254,10 +250,13 @@ RSpec.describe(
       let(:new_project_folder_id) { "819" }
 
       shared_let(:source_automatic_project_storage) do
-        create(:project_storage, project: source, project_folder_id: '123', project_folder_mode: 'automatic')
+        storage = create(:nextcloud_storage)
+        create(:project_storage, storage:, project: source, project_folder_id: '123', project_folder_mode: 'automatic')
       end
+
       shared_let(:source_manual_project_storage) do
-        create(:project_storage, project: source, project_folder_id: '345', project_folder_mode: 'manual')
+        storage = create(:nextcloud_storage)
+        create(:project_storage, storage:, project: source, project_folder_id: '345', project_folder_mode: 'manual')
       end
 
       before do

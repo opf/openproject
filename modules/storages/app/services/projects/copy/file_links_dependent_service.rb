@@ -50,7 +50,7 @@ module Projects::Copy
       Storages::FileLink
         .where(container_id: source_wp_ids, container_type: "WorkPackage")
         .group_by(&:storage_id)
-        .filter { |_storage_id, source_file_links| source_file_links.any? }
+        .select { |_storage_id, source_file_links| source_file_links.any? }
         .each do |(storage_id, source_file_links)|
         tmp = state
                 .copied_project_storages

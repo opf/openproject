@@ -68,7 +68,7 @@ module Projects::Copy
       destination_folder_name = destination_project_storage.project_folder_path
 
       Storages::Peripherals::Registry
-        .resolve("commands.#{source_project_storage.short_provider_type}.copy_template_folder")
+        .resolve("commands.#{source_project_storage.storage.short_provider_type}.copy_template_folder")
         .call(
           storage: source_project_storage.storage,
           source_path: source_folder_name,
@@ -79,7 +79,7 @@ module Projects::Copy
     def update_project_folder_id(project_storage)
       destination_folder_name = project_storage.project_folder_path
 
-      Storages::Peripherals::Registry.resolve("queries.#{storage.short_provider_type}.file_ids")
+      Storages::Peripherals::Registry.resolve("queries.#{project_storage.storage.short_provider_type}.file_ids")
         .call(storage: project_storage.storage, path: destination_folder_name)
         .match(
           on_success: ->(file_ids) do
