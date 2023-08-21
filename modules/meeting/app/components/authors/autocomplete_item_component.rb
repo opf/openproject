@@ -25,27 +25,34 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+# Primer's autocomplete displays the ID of a user when selected instead of the name
+# this cannot be changed at the moment as the component uses a simple text field which
+# can't differentiate between a display and submit value
+# thus, we can't use it
+# leaving the code here for future reference
 
-module MeetingAgendaItems
-  class ItemComponent::EditComponent < ApplicationComponent
+module Authors
+  class AutocompleteItemComponent < ApplicationComponent
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting_agenda_item:)
+    with_collection_parameter :user
+
+    def initialize(user:)
       super
 
-      @meeting_agenda_item = meeting_agenda_item
+      @user = user
     end
 
     def call
-      render(Primer::Box.new(pl: 3)) do
-        render(MeetingAgendaItems::FormComponent.new(
-                 meeting: @meeting_agenda_item.meeting,
-                 meeting_agenda_item: @meeting_agenda_item,
-                 method: :put,
-                 submit_path: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
-                 cancel_path: cancel_edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item)
-               ))
+      render(
+        Primer::Beta::AutoComplete::Item.new(
+          value: @user.id
+        )
+      ) do |component|
+        component.with_leading_visual_icon(icon: :person)
+        @user.name
       end
     end
   end

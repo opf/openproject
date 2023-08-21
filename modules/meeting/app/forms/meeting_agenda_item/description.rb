@@ -26,16 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingAgendaItem::Details < ApplicationForm
+class MeetingAgendaItem::Description < ApplicationForm
   form do |agenda_item_form|
     agenda_item_form.text_area(
-      name: :details,
-      placeholder: "Notes",
-      label: "Notes",
+      name: :description,
+      placeholder: "Description",
+      label: "Description",
       visually_hide_label: true,
-      required: true,
-      autofocus: true,
-      disabled: @disabled
+      disabled: @disabled,
+      rows: 7
     )
   end
 

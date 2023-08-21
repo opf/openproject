@@ -52,7 +52,7 @@ module MeetingAgendaItems
 
     def form_partial
       render(Primer::Box.new(border: :top)) do
-        render(Primer::Box.new(p: 3, pl: 5)) do
+        render(Primer::Box.new(p: 3)) do
           render(MeetingAgendaItems::FormComponent.new(
                    meeting: @meeting,
                    meeting_agenda_item: @meeting_agenda_item,

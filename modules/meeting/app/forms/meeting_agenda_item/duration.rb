@@ -32,6 +32,7 @@ class MeetingAgendaItem::Duration < ApplicationForm
       name: :duration_in_minutes,
       placeholder: "Duration in minutes",
       label: "Duration in minutes",
+      leading_visual: { icon: :stopwatch },
       visually_hide_label: true,
       type: :number,
       disabled: @disabled

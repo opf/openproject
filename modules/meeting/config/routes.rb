@@ -36,6 +36,7 @@ OpenProject::Application.routes.draw do
       collection do
         get :new, action: :new, as: :new
         get :cancel_new
+        # get :author_autocomplete_index
       end
       member do
         get :cancel_edit

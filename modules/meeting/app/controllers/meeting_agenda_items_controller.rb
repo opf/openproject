@@ -31,7 +31,8 @@ class MeetingAgendaItemsController < ApplicationController
   include AgendaComponentStreams
 
   before_action :set_meeting
-  before_action :set_meeting_agenda_item, except: %i[index new cancel_new create]
+  before_action :set_meeting_agenda_item,
+                except: %i[index new cancel_new create author_autocomplete_index author_deferred_select_index]
 
   def new
     update_new_component_via_turbo_stream(hidden: false)
@@ -49,7 +50,11 @@ class MeetingAgendaItemsController < ApplicationController
 
   def create
     @meeting_agenda_item = @meeting.agenda_items.build(meeting_agenda_item_params)
-    @meeting_agenda_item.author = User.current
+    @meeting_agenda_item.author = if meeting_agenda_item_params[:author_id].present?
+                                    User.find(meeting_agenda_item_params[:author_id])
+                                  else
+                                    User.current
+                                  end
 
     if @meeting_agenda_item.save
       update_list_via_turbo_stream(form_hidden: false) # enabel continue editing
@@ -102,6 +107,17 @@ class MeetingAgendaItemsController < ApplicationController
     respond_with_turbo_streams
   end
 
+  # Primer's autocomplete displays the ID of a user when selected instead of the name
+  # this cannot be changed at the moment as the component uses a simple text field which
+  # can't differentiate between a display and submit value
+  # thus, we can't use it
+  # leaving the code here for future reference
+  # def author_autocomplete_index
+  #   @users = User.active.like(params[:q]).limit(10)
+
+  #   render(Authors::AutocompleteItemComponent.with_collection(@users), layout: false)
+  # end
+
   private
 
   def set_meeting
@@ -113,6 +129,6 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def meeting_agenda_item_params
-    params.require(:meeting_agenda_item).permit(:title, :duration_in_minutes, :details, :author_id)
+    params.require(:meeting_agenda_item).permit(:title, :duration_in_minutes, :description, :author_id)
   end
 end

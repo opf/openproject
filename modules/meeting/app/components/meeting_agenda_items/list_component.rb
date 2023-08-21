@@ -41,7 +41,7 @@ module MeetingAgendaItems
 
     def call
       component_wrapper(data: wrapper_data_attributes) do
-        render(Primer::Beta::BorderBox.new(padding: :condensed)) do |border_box|
+        render(Primer::Beta::BorderBox.new) do |border_box|
           @meeting.agenda_items.each do |meeting_agenda_item|
             row_partial(border_box, meeting_agenda_item)
           end

@@ -64,23 +64,83 @@ module MeetingAgendaItems
       }
     end
 
-    def form_content_partial(f)
+    def form_content_partial(form)
       flex_layout do |flex|
-        flex.with_row(flex_layout: true) do |flex|
-          flex.with_column(flex: 1) do
-            render(MeetingAgendaItem::Title.new(f))
+        flex.with_row do
+          form_fields_partial(form)
+        end
+        flex.with_row(mt: 2) do
+          form_description_partial(form)
+        end
+        flex.with_row do
+          form_actions_partial(form)
+        end
+      end
+    end
+
+    def form_fields_partial(form)
+      flex_layout do |flex|
+        flex.with_column(flex: 1) do
+          render(MeetingAgendaItem::Title.new(form))
+        end
+        flex.with_column(ml: 2, flex_layout: true) do |flex|
+          flex.with_column do
+            render(MeetingAgendaItem::Duration.new(form))
           end
           flex.with_column(ml: 2) do
-            render(MeetingAgendaItem::Duration.new(f))
+            author_select_partial(form)
           end
         end
-        flex.with_row(flex_layout: true, justify_content: :flex_end, mt: 2) do |flex|
-          flex.with_column(mr: 2) do
-            back_link_partial
-          end
-          flex.with_column do
-            render(MeetingAgendaItem::Submit.new(f))
-          end
+      end
+    end
+
+    # Primer's autocomplete displays the ID of a user when selected instead of the name
+    # this cannot be changed at the moment as the component uses a simple text field which
+    # can't differentiate between a display and submit value
+    # thus, we can't use it
+    # leaving the code here for future reference
+    # def author_select_partial(_form)
+    #   render(Primer::Beta::AutoComplete.new(
+    #            label_text: "Responsible",
+    #            input_id: "meeting_agenda_item_author_id",
+    #            input_name: "meeting_agenda_item[author_id]",
+    #            list_id: "auther-select-list-#{@meeting_agenda_item.id}",
+    #            src: author_autocomplete_index_meeting_agenda_items_path(meeting_id: @meeting.id),
+    #            show_clear_button: true,
+    #            visually_hide_label: true,
+    #            placeholder: "Responsible"
+    #          )) do |component|
+    #     component.with_leading_visual_icon(icon: :person)
+    #   end
+    # end
+
+    def author_select_partial(form)
+      # Temporary solution until we have a proper autocomplete (probably an Angular component)
+      # The action menu is not filterable, so we can't use it here as we migt have a lot of users
+      render(Primer::Alpha::ActionMenu.new(
+               select_variant: :single,
+               dynamic_label: true, dynamic_label_prefix: "Responsible",
+               form_arguments: { builder: form, name: "author_id" }
+             )) do |menu|
+        menu.with_show_button { "Responsible" }
+        # Temporary code without any scoping
+        User.active.limit(100).each do |user|
+          menu.with_item(label: user.name, data: { value: user.id }, active: @meeting_agenda_item.author_id == user.id)
+        end
+      end
+    end
+
+    def form_description_partial(form)
+      render(MeetingAgendaItem::Description.new(form))
+    end
+
+    def form_actions_partial(form)
+      flex_layout(justify_content: :flex_end, mt: 2) do |flex|
+        flex.with_column(mr: 2) do
+          back_link_partial
+        end
+        flex.with_column do
+          render(MeetingAgendaItem::Submit.new(form))
         end
       end
     end
