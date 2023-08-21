@@ -1,10 +1,8 @@
-# Integrating more external file storage providers
+# Integrating with external file storage provider
 
-External file storages can be integrated with OpenProject via the _File storages_ module. This adds certain use cases,
-e.g. in the _Files_ tab of a work package, to interact with files located on the storage and link them to work packages
-in OpenProject. Currently supported file storages are:
+External file storages can be integrated with OpenProject via the _File storages_ module. A basic integration at least entails the ability to link work packages in OpenProject with files and folders in the external file storage. Currently supported file storages are:
 
-- [Nextcloud](https://nextcloud.com/)
+- [Nextcloud](https://www.openproject.org/docs/user-guide/nextcloud-integration/).
 
 ## Checklist for new candidates
 
@@ -21,3 +19,7 @@ requirements, which are meant to be the very foundation of making the basic use 
   location.
 - Optional: The file storage must provide a direct download link for the file.
 - Optional: The file storage must provide a direct upload link for files to a location on the file storage.
+
+## Contact
+
+If you plan to integrate OpenProject with another external storage provider, either as an OpenProject core feature or as a plugin, please reach out to the OpenProject development team. We are currently in the process of making the integration of further storage provider easier for community developers.
