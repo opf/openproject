@@ -33,7 +33,7 @@ Choose **My account**.
 ![my account profil information](openproject_open_my_account_page.png)
 
 ## Edit your user information
-To change your email address or your name, navigate to **Profile** on the left menu of **My account** page.
+To change your email address or your name, navigate to **Profile** on the left side menu of **My account** page.
 
 Here you can update the information and **save** your changes.
 
