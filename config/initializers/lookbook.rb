@@ -37,7 +37,7 @@ OpenProject::Application.configure do
   # rubocop:enable Lint/ConstantDefinitionInBlock
 
   Rails.application.reloader.to_prepare do
-    Lookbook.define_param_input(:octicon, "lookbook/previews/inputs/octicon")
+    Lookbook.add_input_type(:octicon, "lookbook/previews/inputs/octicon")
 
     [
       Lookbook::ApplicationController,
