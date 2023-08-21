@@ -16,7 +16,7 @@ With RBAC, the application defines a set of roles that users and groups can be i
 *Permissions in OpenProject...*
 
 - use the Role-based access control (RBAC) approach to allow fine-grained access to authorized resources
-- are assigned to users and groups through roles on a per-project, per-resource or global level
+- are assigned to users and groups through roles on a per-resource, per-project, or global level
 - are often communicated to the frontend through the presence of action links in HAL resources
 
 ## Definition of roles
