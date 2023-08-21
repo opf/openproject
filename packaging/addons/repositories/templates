@@ -1,0 +1,45 @@
+Template: repositories/svn-install
+Type: select
+Choices: skip, install
+Translations: Skip, Install Subversion repository support
+Default: skip
+Description: Do you want to use this wizard to setup Subversion repositories support for _APP_NAME_?
+ We can automatically set up to create and host Subversion repositories using Apache.
+ .
+ If you choose NOT to use this wizard, you will have to manually setup Subversion support if you decide to use it at some later point.
+
+Template: repositories/git-install
+Type: select
+Choices: skip, install
+Translations: Skip, Install Git repository support
+Default: skip
+Description: Do you want to use this wizard to setup Git repositories support for _APP_NAME_?
+ We can automatically set up to create and host Git repositories using Apache.
+ .
+ If you choose NOT to use this wizard, you will have to manually setup Git support if you decide to use it at some later point.
+
+Template: repositories/svn-path
+Type: string
+Default: /var/db/_APP_NAME_/svn
+Description: Enter the path to the directory that hosts the SVN repositories:
+
+Template: repositories/git-path
+Type: string
+Default: /var/db/_APP_NAME_/git
+Description: Enter the path to the directory that hosts the Git repositories:
+
+Template: repositories/git-http-backend
+Type: string
+Default: /usr/lib/git-core/git-http-backend/
+Description: Enter the path to the git http backend CGI directory.
+ Please note that the trailing slash is mandatory.
+
+Template: repositories/api-key
+Type: string
+Description: Enter the API key used to communicate with _APP_NAME_:
+ For the repository integration to work, an API key is required.
+
+Template: repositories/apache-wrapper-token
+Type: string
+Description: Enter the access key used to communicate repository changes with the Apache webserver:
+ For the repository integration of Subversion to work, this access key is required.

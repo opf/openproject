@@ -1,0 +1,16 @@
+ar:
+  grids:
+    label_widget_in_grid: "الويدجت متوفر في الشبكة %{grid_name}"
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "الصفحة "
+        row_count: "عدد الصفوف"
+        column_count: "عدد الأعمدة"
+        widgets: "الودجات"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'تداخل.'
+          outside: 'هو خارج الشبكة.'
+          end_before_start: 'يجب أن تكون قيمة النهاية أكبر من قيمة البداية.'

@@ -1,0 +1,11 @@
+<input
+  type="checkbox"
+  class="spot-checkbox--input"
+  [attr.name]="name"
+  [disabled]="disabled"
+  [checked]="checked"
+  (change)="onStateChange()"
+  [tabindex]="tabindex"
+  #input
+/>
+<span class="spot-checkbox--fake"></span>

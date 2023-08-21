@@ -1,0 +1,62 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as LinkStories from './Link.stories';
+
+<Meta of={LinkStories} />
+
+# Links
+
+The link is used for contextual actions where a button would take too much space, or break the flow of existing content. 
+
+Links are usually in-line. 
+
+## Behaviour
+
+The link works like a classic HTML link. The action is triggered immediately on click. 
+
+## Options
+
+A link can optionally have:
+
+- A left-icon
+- A right-icon
+- Text
+
+These can be combined. The most common combinations are:
+
+**Text only**
+
+This is the most basic link. 
+
+<Canvas of={LinkStories.Basic} />
+
+**Text with left icon**
+
+The left icon provides additional context when necessary.
+
+<Canvas of={LinkStories.LeftIcon} />
+
+**Text with right icon**
+
+The right icon is not used as much but is available. The most common use case is to have a down-pointing arrow to signal the presence of drop-down menu, a right-pointing arrow to signal forward movement (in a multi-step process) or an ‘external’ icon to indicate that the link opens in a separate tab.
+
+<Canvas of={LinkStories.RightIcon} />
+
+**Text with both icons**
+
+This is available but we discourage its use.
+
+<Canvas of={LinkStories.BothIcons} />
+
+**Icon-only**
+
+This is essentially just an icon, but is offered here as a way of degrading a link with icon to just an icon when there are spatial constraints.
+
+_Note: We discourage using icon-only links if the icon unfamiliar to the user, or the action is one that the user would not have previously encountered. The only exception is when space is very tight and there is immediate feedback (eg. “configure” button on a search bar)._
+
+## Margins and Spacing
+
+Contrary to buttons, links do not inherently have margin and padding. 
+
+When there are icons present, there is a 0.25 rem margin between the text and the icon.
+

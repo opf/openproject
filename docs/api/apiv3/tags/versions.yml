@@ -1,0 +1,37 @@
+---
+description: |-
+  Work Packages can be assigned to a version. As such, versions serve to group Work Packages into logical units where each group comprises all the work packages that needs to be finished in order for the version to be finished.
+
+  ## Actions
+
+  | Link                | Description                                                              | Condition                              |
+  |:-------------------:|--------------------------------------------------------------------------| ---------------------------------------|
+  | update              | Form endpoint that aids in preparing and performing edits on the version | **Permission**: manage versions        |
+  | updateImmediately   | Directly perform edits on the version                                    | **Permission**: manage versions        |
+
+  ## Linked Properties
+
+  |  Link               | Description                              | Type          | Constraints                                                    | Supported operations |
+  |:-------------------:|----------------------------------------- | ------------- | -------------------------------------------------------------- | -------------------- |
+  | self                | This version                             | Version       | not null                                                       | READ                 |
+  | definingProject     | The project to which the version belongs | Project       | only present if the project is visible for the current user    | READ                 |
+  | availableInProjects | Projects where this version can be used  | Projects      | not null                                                       | READ                 |
+
+  Depending on custom fields defined for versions, additional linked properties might exist.
+
+  ## Local Properties
+
+  | Property    | Description                                   | Type        | Constraints                                        | Supported operations |
+  | :---------: | --------------------------------------------- | ----------- | -----------                                        | -------------------- |
+  | id          | Version id                                    | Integer     | x > 0                                              | READ                 |
+  | name        | Version name                                  | String      | not null, may not exceed 60 characters             | READ / WRITE         |
+  | description |                                               | Formattable |                                                    | READ / WRITE         |
+  | startDate   |                                               | Date        |                                                    | READ / WRITE         |
+  | endDate     |                                               | Date        |                                                    | READ / WRITE         |
+  | status      | The current status of the version             | String      | not null, only 'open', 'finished', 'closed'        | READ / WRITE         |
+  | sharing     | The current status of the version             | String      | not null, limited to fixed set as defined by form  | READ / WRITE         |
+  | createdAt   | Time of creation                              | DateTime    | not null                                           | READ                 |
+  | updatedAt   | Time of the most recent change to the version | DateTime    | not null                                           | READ                 |
+
+  Depending on custom fields defined for versions, additional properties might exist.
+name: Versions

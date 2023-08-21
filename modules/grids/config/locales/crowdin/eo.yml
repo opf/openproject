@@ -1,0 +1,16 @@
+eo:
+  grids:
+    label_widget_in_grid: "Kromprogrameto enhavitaj en la krado %{grid_name}"
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Paĝo"
+        row_count: "Kvanto da vicoj"
+        column_count: "Numero de kolumnoj"
+        widgets: "Kromprogrametoj"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'surmeteco.'
+          outside: 'is outside of the grid.'
+          end_before_start: 'end value needs to be larger than the start value.'

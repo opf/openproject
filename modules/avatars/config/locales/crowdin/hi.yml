@@ -1,0 +1,40 @@
+#English strings go here
+hi:
+  label_avatar: "अवतार"
+  label_avatar_plural: "अवतार्"
+  label_current_avatar: "वर्तमान अवतार"
+  label_choose_avatar: "फ़ाइल से अवतार चुनें"
+  message_avatar_uploaded: "अवतार सफ़लतापूर्वक बदल दिया गया।"
+  error_image_upload: "चित्र सुरक्षित करने में त्रुटि"
+  error_image_size: "चित्र अत्यधिक बड़ा है।"
+  button_change_avatar: "अवतार बदलें।"
+  are_you_sure_delete_avatar: "क्या आप निश्चित रूप से अपना अवतार मिटाना चाहते हैं?"
+  avatar_deleted: "अवतार सफ़लतापूर्वक मिटा दिया गया।"
+  unable_to_delete_avatar: "अवतार मिटाया नहीं जा सका।"
+  wrong_file_format: "मान्य प्रकार हैं jpg, png, gif"
+  empty_file_error: "कृपया वैध चित्र अपलोड करें (jpg, png, gif)"
+  avatars:
+    label_avatar: "अवतार"
+    label_gravatar: 'गृवतार'
+    label_current_avatar: 'वर्तमान अवतार'
+    label_local_avatar: 'अनुकूलित अवतार'
+    text_current_avatar: |
+      आगे प्रदर्शित चित्र वर्तमान अवतार दिखाता है।
+    text_upload_instructions: |
+      अपना व्यक्तिगत 128 x 128 पिक्सेल का अनुकूलित अवतार अपलोड करें। बड़ी फ़ाइलें आकार-परिवर्तन व काट-छांट द्वारा इस आकार में लाई जाएंगी।
+      अवतार के लिये चित्र के चुनाव के बाद, अपलोड से पहले उसका पूर्वावलोकन दिखाया जाएगा।
+    text_change_gravatar_html: 'अपने मेल एड्रेस के लिये Gravatar बदलने अथवा जोड़ने के लिये %{gravatar_url} पर जाएं।'
+    text_your_local_avatar: |
+      OpenProject आपको स्वयं का अनुकूलित अवतार अपलोड करने की अनुमति देता है।
+    text_local_avatar_over_gravatar: |
+      आपके द्वारा अनुकूलित अवतार निर्धारित किये जाने पर इसे उपर्युक्त Gravatar के ऊपर वरीयता देते हुए प्रयोग किया जाएगा।
+    text_your_current_gravatar: |
+      OpenProject आपका Gravatar यदि आपने कोई पंजीकृत किया हो, अथवा एक पूर्व-निर्धारित चित्र या आइकन यदि कोई मौजूद हो, का प्रयोग करता है।
+      वर्तमान Gravatar इस प्रकार है:
+    settings:
+      enable_gravatars: 'उपयोगकर्ता के Gravatar सक्षम करें'
+      gravatar_default: "पूर्व-निर्धारित Gravatar चित्र"
+      enable_local_avatars: 'उपयोक्‍ता अनूकूल‍ित अवतार  सक्षम करें। '
+
+
+

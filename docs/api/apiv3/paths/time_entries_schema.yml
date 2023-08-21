@@ -1,0 +1,121 @@
+# /api/v3/time_entries/schema
+---
+get:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _dependencies: []
+                _links:
+                  self:
+                    href: "/api/v3/time_entries/schema"
+                _type: Schema
+                activity:
+                  _links: {}
+                  hasDefault: true
+                  location: _links
+                  name: Activity
+                  required: true
+                  type: TimeEntriesActivity
+                  writable: true
+                createdAt:
+                  hasDefault: false
+                  name: Created on
+                  options: {}
+                  required: true
+                  type: DateTime
+                  writable: false
+                customField29:
+                  hasDefault: false
+                  name: sfsdfsdfsdfsdfdsf
+                  options:
+                    rtl: 
+                  required: false
+                  type: String
+                  writable: true
+                hours:
+                  hasDefault: false
+                  name: Hours
+                  options: {}
+                  required: true
+                  type: Duration
+                  writable: true
+                id:
+                  hasDefault: false
+                  name: ID
+                  options: {}
+                  required: true
+                  type: Integer
+                  writable: false
+                project:
+                  _links: {}
+                  hasDefault: false
+                  location: _links
+                  name: Project
+                  required: false
+                  type: Project
+                  writable: true
+                ongoing:
+                  hasDefault: false
+                  name: Ongoing
+                  options: {}
+                  required: false
+                  type: Boolean
+                  writable: true
+                spentOn:
+                  hasDefault: false
+                  name: Date
+                  options: {}
+                  required: true
+                  type: Date
+                  writable: true
+                updatedAt:
+                  hasDefault: false
+                  name: Updated on
+                  options: {}
+                  required: true
+                  type: DateTime
+                  writable: false
+                user:
+                  hasDefault: false
+                  name: User
+                  options: {}
+                  required: true
+                  type: User
+                  writable: false
+                workPackage:
+                  _links: {}
+                  hasDefault: false
+                  location: _links
+                  name: Work package
+                  required: false
+                  type: WorkPackage
+                  writable: true
+          schema:
+            "$ref": "../components/schemas/view_time_entry_schema_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions to see the schema.
+
+        **Required permission:** *log time* or *view time entries* or *edit time entries* or *edit own time entries* on any project
+      headers: {}
+  tags:
+  - Time Entries
+  description: ''
+  operationId: View_time_entry_schema
+  summary: View time entry schema

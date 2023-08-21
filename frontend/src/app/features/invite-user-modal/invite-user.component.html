@@ -1,0 +1,61 @@
+<div
+  class="spot-modal"
+  *ngIf="loading"
+></div>
+<op-ium-project-selection
+  *ngIf="!loading && step === Steps.ProjectSelection"
+  [project]="project"
+  [type]="type"
+  (save)="onProjectSelectionSave($event)"
+  (close)="closeMe()"
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
+></op-ium-project-selection>
+
+<op-ium-principal
+  *ngIf="!loading && step === Steps.Principal"
+  [project]="project"
+  [roleData]="role"
+  [messageData]="message"
+  [principalData]="principalData"
+  [type]="type"
+  (save)="onPrincipalSave($event)"
+  (back)="goTo(Steps.ProjectSelection)"
+  (close)="closeMe()"
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
+></op-ium-principal>
+
+<op-ium-summary
+  *ngIf="!loading && step === Steps.Summary"
+  [project]="project"
+  [principalData]="principalData"
+  [type]="type"
+  [role]="role"
+  [message]="message"
+  (save)="onSuccessfulSubmission($event)"
+  (back)="goTo(Steps.Principal)"
+  (close)="closeMe()"
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
+></op-ium-summary>
+
+<op-ium-success
+  [principal]="principalData.principal"
+  [project]="project"
+  [type]="type"
+  [createdNewPrincipal]="createdNewPrincipal"
+  *ngIf="!loading && step === Steps.Success"
+  class="spot-modal"
+  (close)="closeWithPrincipal()"
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
+></op-ium-success>

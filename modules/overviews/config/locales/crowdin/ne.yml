@@ -1,0 +1,4 @@
+ne:
+  overviews:
+    label: 'Overview'
+  permission_manage_overview: 'Manage overview page'

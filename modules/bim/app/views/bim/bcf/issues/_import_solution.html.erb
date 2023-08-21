@@ -1,0 +1,21 @@
+<hr class="form--separator">
+
+<div class="form--field">
+  <%= hidden_field_tag "import_options[#{hidden_field_identifier}]", 'chose'  %>
+  <%= styled_label_tag "import_options[#{solution_select_id}][]", solution_text %>
+
+  <div class="form--field-container">
+    <%= styled_select_tag "import_options[#{solution_select_id}][]",
+                          options_for_select(solution_options),
+                          no_label: true,
+                          tabIndex: 0,
+                          container_class: '-slim',
+                          id:       solution_select_id %>
+  </div>
+</div>
+
+<%= styled_submit_tag t('bcf.bcf_xml.import.button_proceed'), class: '-highlight' %>
+
+<%= link_to t(:button_cancel),
+            defaults_bcf_project_ifc_models_path(@project),
+            class: 'button' %>

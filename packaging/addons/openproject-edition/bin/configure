@@ -1,0 +1,88 @@
+#!/bin/bash
+
+set -e
+
+. "${INSTALLER_DIR}/wizard"
+
+supported_distribution() {
+	case "$(wiz_fact "osfamily")" in
+		"debian")
+			case $(wiz_fact "osversion") in
+				"22.04")
+					return 0
+					;;
+				"20.04")
+					return 0
+					;;
+				"18.04")
+					return 0
+					;;
+				"12")
+					return 0
+					;;
+				"11")
+					return 0
+					;;
+				"10")
+					return 0
+					;;
+			esac
+			;;
+		"redhat")
+			case "$(wiz_fact "osversion")" in
+				8*)
+					return 0
+					;;
+			esac
+			;;
+	esac
+	return 1
+}
+
+existing_installation() {
+	[ "$(wiz_get "server/autoinstall")" != "" ];
+}
+
+never_answered_before() {
+	[ "$(wiz_get "openproject/edition")" == "" ];
+}
+
+input_start() {
+	# on first run of the wizard, set default edition if existing OpenProject installation
+	if never_answered_before && existing_installation ; then
+		wiz_set "openproject/edition" "default"
+		STATE="done"
+	elif supported_distribution ; then
+		wiz_put "openproject/edition"
+		if wiz_ask ; then
+			STATE="done"
+		else
+			STATE="cancel"
+		fi
+	else
+		wiz_set "openproject/edition" "default"
+		STATE="done"
+	fi
+}
+
+state_machine() {
+  case "$1" in
+    "start")
+      input_start
+      ;;
+    "done")
+      echo "DONE"
+      exit 0
+      ;;
+    "cancel")
+      echo "CANCEL"
+      exit 1
+      ;;
+    *)
+      echo "invalid state ${STATE}"
+      exit 1
+      ;;
+  esac
+}
+
+wizard "start"

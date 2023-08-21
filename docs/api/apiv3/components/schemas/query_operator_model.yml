@@ -1,0 +1,22 @@
+# Schema: Query_OperatorModel
+---
+type: object
+required:
+- id
+- name
+properties:
+  id:
+    type: string
+    description: Query operator id
+    readOnly: true
+  name:
+    type: string
+    description: Query operator name
+example:
+  _type: QueryOperator
+  id: "!"
+  name: is not
+  _links:
+    self:
+      href: "/api/v3/queries/operators/!"
+      title: is not

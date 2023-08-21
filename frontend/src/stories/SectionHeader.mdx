@@ -1,0 +1,51 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Components/Section Headers" />
+
+# Section Headers
+
+> Example: Section header example
+
+The section header is used to separate different sections of a page or a view, or different grouping of similar functionality. 
+
+In the Files tab for example, the section header separates the Attachments section and the the different file storages that may be available to a work package.
+
+## Structure and Options
+
+Section headers are at their most basic form a label (in all-caps) with a line underneath. 
+
+> Example of a basic section header
+
+However, they can be extended with a few additional features:
+
+**Left icon**
+This icon can be added to provide context. In a files list, for example, the left icon is used to indicate to which storage provider (for example, Nextcloud) that file storage is linked.
+
+In some parts of the application, this icon is also used to indicate open/closed state when the section header functions as an expandable/collapsible section (see *Behaviour*). 
+
+*Note: Since this element is always all-caps, the baseline of the font requires the icon to be raised by a few pixels. See* Margins and Spacing *for more details.*
+
+**Right icon**
+The icon can be placed to the right of the text too, if required. It can optionally also be used as a link (in icon-only mode). This should nevertheless be used sparingly.
+
+**Action**
+This is usually a button on the far edge (by default the right edge) of the component, but can also be a link. This is used to provide additional contextual action related to that whole section (to access the home directory in Nextcloud in a new tab, for example).
+
+> Example of a section header with a left icon and an action (like a Nextcloud file storage)
+
+**Right position**
+The entire structure can be inverted, with the action buton on the left and the title and icons on the right. This should ideally never be used, but exists because such a format already exists in some places. Use sparingly.
+
+## Behaviour
+
+The section header behaves either as a regular header (static) or as an expandable/collapsible section, where clicking on the entire section header will expand and collapse the content underneath.
+
+> Example: "Group by" expandable/collapsible section, like a cost report page
+
+## Margins and Spacing
+
+The headers have an 0.5 rem top and bottom margin. 
+
+Because the label is all-caps, the baseline of the font is (visually) slightly higher than it otherwise would have been with mixed case. If the optional icons are used, the CSS of this component automatically pushed them up by a few pixels for better alignment.
+
+

@@ -1,0 +1,26 @@
+<span class="spot-icon spot-icon_{{content.iconClass}} info-icon-box"></span>
+
+<div
+  class="text-box"
+>
+  <div
+    class="text-box-header"
+  >
+    <span [textContent]="content.header"></span>
+  </div>
+  <div
+    class="text-box-content"
+  >
+    <span [textContent]="content.content"></span>
+  </div>
+</div>
+
+<div
+  *ngIf="content.login"
+  class="button-box"
+>
+  <op-storage-login-button
+    class="op-files-tab--storage-info-box-button"
+    [input]="content.login"
+  ></op-storage-login-button>
+</div>

@@ -1,0 +1,14 @@
+<div
+    *ngIf="exists"
+    class="spot-link help-text--entry"
+    [attr.data-qa-help-text-for]="attribute"
+    [title]="text.open_dialog"
+    (click)="handleClick($event)"
+    (keydown.enter)="handleClick($event)"
+    (keydown.space)="handleClick($event)"
+    role="button"
+    tabindex="0"
+>
+  <span *ngIf="additionalLabel" [textContent]="additionalLabel"></span>
+  <op-icon icon-classes="icon3 icon-help1"></op-icon>
+</div>

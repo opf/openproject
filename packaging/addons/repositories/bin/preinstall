@@ -1,0 +1,69 @@
+#!/bin/bash
+
+set -e
+
+. ${INSTALLER_DIR}/wizard
+
+OSFAMILY="$(wiz_fact osfamily)"
+OSVERSION="$(wiz_fact osversion)"
+
+install_required_dependencies_for_apache2() {
+	local dependencies=""
+	case "$OSFAMILY" in
+		"debian")
+			dependencies="subversion git libapache2-mod-perl2 libjson-perl"
+			for dependency in $dependencies ; do
+				wiz_check_package "$dependency" || apt-get install -y "$dependency"
+			done
+
+			if apt-cache show "libapache2-svn" &>/dev/null ; then
+				wiz_check_package "libapache2-svn" || apt-get install -y libapache2-svn
+			else
+				# debian 9
+				wiz_check_package "libapache2-mod-svn" || apt-get install -y libapache2-mod-svn
+			fi
+
+			a2enmod perl
+			a2enmod dav
+			a2enmod dav_svn
+			a2enmod cgi
+			;;
+		"redhat")
+			dependencies="mod_dav_svn subversion git mod_perl perl-Digest-SHA perl-libwww-perl perl-JSON"
+			for dependency in $dependencies ; do
+				wiz_check_package "$dependency" || yum install -y "$dependency"
+			done
+
+			wiz_set "repositories/git-http-backend" "/usr/libexec/git-core/git-http-backend/"
+			;;
+		"suse")
+			dependencies="subversion git subversion-server apache2-mod_perl perl-Digest-SHA1 perl-libwww-perl perl-JSON"
+			for dependency in $dependencies ; do
+				wiz_check_package "$dependency" || zypper install -y "$dependency"
+			done
+
+			wiz_set "repositories/git-http-backend" "/usr/lib/git/git-http-backend"
+
+			a2enmod perl
+			a2enmod dav
+			a2enmod dav_svn
+			a2enmod cgi
+
+			;;
+	esac
+}
+
+case "$(wiz_get "server/autoinstall")" in
+	"skip")
+		;;
+	"install")
+		case "$(wiz_get "server/variant")" in
+			"apache2")
+				install_required_dependencies_for_apache2
+				;;
+			*)
+				echo "Unsupported server variant."
+				;;
+		esac
+		;;
+esac

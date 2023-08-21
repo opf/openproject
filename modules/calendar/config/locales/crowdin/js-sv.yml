@@ -1,0 +1,8 @@
+#English strings go here
+sv:
+  js:
+    calendar:
+      create_new: 'Skapa ny kalender'
+      title: 'Kalender'
+      too_many: 'Det finns totalt %{count} arbetspaket, men bara %{max} kan visas.'
+      unsaved_title: 'Kalender utan namn'

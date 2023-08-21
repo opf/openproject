@@ -1,0 +1,35 @@
+---
+description: |-
+  Notifications are created through notifiable actions in OpenProject.
+  Notifications are triggered by actions carried out in the system by users, e.g. editing a work package, but can also be send out because
+  of time passing e.g. when a user is notified of a work package that is overdue.
+
+  This endpoint only returns in-app notifications.
+
+  ## Actions
+
+  | Link                | Description                                                          | Condition                   |
+  |:-------------------:| -------------------------------------------------------------------- | --------------------------- |
+  | read_ian            | Marks the notification as read                                       | notification is unread      |
+  | unread_ian          | Marks the notification as unread                                     | notification is read        |
+
+  ## Linked Properties
+
+  | Link          | Description                                       | Type            | Constraints           | Supported operations | Condition                                 |
+  | :-----------: | ----------------------------------------          | --------------  | --------------------- | -------------------- | ----------------------------------------- |
+  | self          | This notification                                 | Notification    | not null              | READ                 |                                           |
+  | project       | The project containing the resource               | Project         | not null              | READ                 |                                           |
+  | actor         | The user that caused the notification             | User            |                       | READ                 | optional                                  |
+  | resource      | The resource the notification belongs to          | Polymorphic     | not null              | READ                 |                                           |
+  | activity      | The journal the notification belongs to           | Polymorphic     |                       | READ                 | optional                                  |
+  | details       | A list of objects including detailed information  | Polymorphic     |                       | READ                 | optional                                  |
+
+  ## Local Properties
+
+  | Property     | Description                                               | Type          | Constraints                                          | Supported operations | Condition                                                   |
+  | :----------: | --------------------------------------------------------- | --------      | ---------------------------------------------------- | -------------------- | ----------------------------------------------------------- |
+  | id           | Primary key                                               | Integer       |                                                      | READ                 |                                                             |
+  | subject      | The subject of the notification                           | String        |                                                      | READ                 |                                                             |
+  | reason       | The reason causing the notification                       | String        |                                                      | READ                 |                                                             |
+  | readIAN      | Whether the notification is read                          | Boolean       |                                                      | READ                 |                                                             |
+name: Notifications

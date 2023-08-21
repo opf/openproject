@@ -1,0 +1,111 @@
+# /api/v3/groups
+---
+get:
+  summary: List groups
+  operationId: list_groups
+  tags:
+    - Groups
+  description: |-
+    Returns a collection of groups. The client can choose to filter the
+    groups similar to how work packages are filtered. In addition to the provided
+    filters, the server will reduce the result set to only contain groups, for which
+    the requesting client has sufficient permissions (*view_members*, *manage_members*).
+  parameters:
+    - name: sortBy
+      description: |-
+        JSON specifying sort criteria.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported sorts are:
+        
+        + id: Sort by primary key
+        
+        + created_at: Sort by group creation datetime
+        
+        + updated_at: Sort by the time the group was updated last
+      in: query
+      required: false
+      example: '[["id", "asc"]]'
+      schema:
+        default: '[["id", "asc"]]'
+        type: string
+    - name: select
+      description: |-
+        Comma separated list of properties to include.
+      in: query
+      required: false
+      example: 'total,elements/name,elements/self,self'
+      schema:
+        type: string
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/group_collection_model.yml'
+    '403':
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** View members or manage members in any project
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+
+post:
+  summary: Create group
+  operationId: create_group
+  tags:
+    - Groups
+  description: Creates a new group applying the attributes provided in the body.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/group_write_model.yml'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/group_model.yml'
+    '400':
+      $ref: '../components/responses/invalid_request_body.yml'
+    '403':
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** Administrator
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'
+    '422':
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _embedded:
+              details:
+                attribute: name
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: Name can't be blank.

@@ -1,0 +1,27 @@
+<% html_title(t(:label_administration), t('ldap_groups.synchronized_groups.plural'), h(@group.dn)) -%>
+
+<%= error_messages_for @group %>
+
+<%= breadcrumb_toolbar(link_to(t('ldap_groups.synchronized_groups.plural'), { action: :index }), h(@group.dn)) %>
+<section class="admin--edit-section">
+  <%=
+    render(AttributeGroups::AttributeGroupComponent.new) do |component|
+      component.with_attribute(key: @group.class.human_attribute_name(:dn),
+                               value: @group.dn)
+
+      component.with_attribute(key: @group.class.human_attribute_name(:sync_users),
+                               value: @group.sync_users ? checked_image(@group.sync_users) : t(:general_text_no))
+
+      component.with_attribute(key: @group.class.human_attribute_name(:auth_source),
+                               value: link_to(@group.ldap_auth_source.name, edit_ldap_auth_source_path(@group.ldap_auth_source)))
+
+      component.with_attribute(key: @group.class.human_attribute_name(:group),
+                               value: link_to(@group.group, edit_group_path(@group.group)))
+    end %>
+</section>
+
+<section class="admin--edit-section">
+  <h2><%= t :label_user_plural %></h2>
+  <%= render ::LdapGroups::Memberships::TableComponent.new(rows: @group.users) %>
+</section>
+

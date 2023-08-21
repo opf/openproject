@@ -1,0 +1,4 @@
+sv:
+  overviews:
+    label: 'Översikt'
+  permission_manage_overview: 'Hantera översiktssida'

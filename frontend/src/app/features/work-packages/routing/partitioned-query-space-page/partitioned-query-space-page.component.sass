@@ -1,0 +1,72 @@
+@import "src/assets/sass/helpers"
+
+.work-packages-partitioned-query-space--container
+  position: relative
+  height: 100%
+  overflow: hidden
+  display: grid
+  grid-template-columns: 1fr
+  grid-template-rows: auto auto minmax(200px, 1fr)
+
+  margin-left: -10px
+  padding-left: 10px
+  width: calc(100% + 10px)
+
+  &.-right-only
+    .work-packages-partitioned-page--content-left
+      display: none
+
+    .work-packages-partitioned-page--content-right
+      flex-grow: 1
+
+  &.-left-only
+    .work-packages-partitioned-page--content-right
+      display: none
+
+    .work-packages-partitioned-page--content-left
+      overflow: auto
+
+  &.-left-only
+    wp-resizer
+      display: none
+
+  .work-packages-partitioned-page--content-container
+    display: flex
+    overflow: auto
+    @include styled-scroll-bar
+
+  .work-packages-partitioned-page--content-left,
+  .work-packages-partitioned-page--content-right
+    position: relative
+
+  .work-packages-partitioned-page--content-left
+    flex: 1
+
+  // Move to the left so that the actual header text is aligned with the content below
+  .title-container_editable
+    margin-left: -7px
+
+  @media only screen and (max-width: $breakpoint-sm)
+    .work-packages-partitioned-page--content-left,
+    .work-packages-partitioned-page--content-right
+      min-width: initial
+      max-width: 100vw
+      max-height: 100%
+      
+  @media only screen and (max-width: $breakpoint-md)
+    .toolbar
+      display: grid
+      grid-template-columns: 1fr auto
+      grid-template-rows: auto auto
+      justify-items: start
+
+      .op-back-button
+        grid-column: 1 / 3
+        grid-row: 1 / 2
+      .title-container
+        grid-column: 1 / 2
+        grid-row: 2 / 3
+        overflow: hidden
+      .toolbar-items
+        grid-column: 2 / 3
+        grid-row: 2 / 3

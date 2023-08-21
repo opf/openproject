@@ -1,0 +1,40 @@
+#English strings go here
+es:
+  label_avatar: "Avatar"
+  label_avatar_plural: "Avatares"
+  label_current_avatar: "Avatar actual"
+  label_choose_avatar: "Seleccionar avatar de un archivo"
+  message_avatar_uploaded: "El avatar se ha cambiado correctamente."
+  error_image_upload: "Error al guardar la imagen."
+  error_image_size: "El tamaño de la imagen es demasiado grande."
+  button_change_avatar: "Cambiar avatar"
+  are_you_sure_delete_avatar: "¿Está seguro de que quiere eliminar su avatar?"
+  avatar_deleted: "El avatar se ha eliminado correctamente."
+  unable_to_delete_avatar: "No se pudo eliminar el avatar."
+  wrong_file_format: "Los formatos permitidos son JPG, PNG y GIF"
+  empty_file_error: "Cargue un archivo de imagen válido (JPG, PNG o GIF)"
+  avatars:
+    label_avatar: "Avatar"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Avatar actual'
+    label_local_avatar: 'Avatar personalizado'
+    text_current_avatar: |
+      En la imagen siguiente, se muestra el avatar actual.
+    text_upload_instructions: |
+      Cargue su propio avatar personalizado de 128 × 128 píxeles. Si se agregan archivos más grandes, se cambiará el tamaño y se recortará para que coincida.
+      Después de seleccionar una imagen, se mostrará una vista previa del avatar antes de cargarlo.
+    text_change_gravatar_html: 'Para cambiar o agregar el Gravatar a su dirección de correo electrónico, vaya a %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject le permite cargar su propio avatar personalizado.
+    text_local_avatar_over_gravatar: |
+      Si establece uno, este avatar personalizado se usará antes que el Gravatar anterior.
+    text_your_current_gravatar: |
+      OpenProject usará su Gravatar (si registró uno) o usará una imagen o icono predeterminado (si existe).
+      El Gravatar actual es el siguiente:
+    settings:
+      enable_gravatars: 'Habilitar Gravatar de usuario'
+      gravatar_default: "Imagen de gravatar por defecto"
+      enable_local_avatars: 'Habilitar avatares personalizados de usuario'
+
+
+

@@ -1,0 +1,14 @@
+# Example: Project create request body 
+---
+value:
+  name: 'Project example'
+  statusExplanation:
+    raw: Everything **fine**
+  description:
+    raw: Lorem **ipsum** dolor sit amet
+  customField123: 123
+  _links:
+    parent:
+      href: "/api/v3/projects/123"
+    customField456:
+      href: "/api/v3/users/315"

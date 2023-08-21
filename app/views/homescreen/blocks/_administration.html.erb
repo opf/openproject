@@ -1,0 +1,57 @@
+<%= render 'homescreen/blocks/header', title: t(:label_administration) %>
+
+<ul class="widget-box--arrow-links">
+  <li>
+    <%= link_to t(:label_project_plural), projects_path,
+               title: t(:label_project_plural) %>
+  </li>
+  <li>
+    <%= link_to t(:label_user_plural), users_path,
+               title: t(:label_user_plural) %>
+  </li>
+  <li>
+    <%= link_to t(:label_group_plural), groups_path,
+                title: t(:label_group_plural) %>
+  </li>
+  <li>
+    <%= link_to t(:label_role_and_permissions), roles_path,
+               title: t(:label_role_and_permissions) %>
+
+  </li>
+	<li>
+    <%= link_to t(:label_work_package_types), types_path,
+               title: t(:label_work_package_types) %>
+  </li>
+	<li>
+    <%= link_to t(:label_work_package_status), statuses_path,
+               title: t(:label_work_package_status) %>
+  </li>
+	<li>
+    <%= link_to t(:label_workflow_plural), workflows_path,
+               title: t(:label_workflow_plural) %>
+
+  </li>
+	<li>
+    <%= link_to t('attributes.custom_values'), custom_fields_path,
+               title: t('attributes.custom_values') %>
+
+  </li>
+  <li>
+    <%= link_to t(:label_system_settings), admin_settings_general_path,
+               title: t(:label_system_settings) %>
+  </li>
+  <li>
+    <%= link_to t(:label_custom_style), custom_style_path,
+               title: t(:label_custom_style) %>
+  </li>
+  <%= call_hook(:homescreen_administration_links) %>
+</ul>
+
+<%= content_tag :div, class: 'security-badge--container' do %>
+  <%= content_tag :object, nil, data: security_badge_url, type: "image/svg+xml" %>
+  <%= link_to '',
+              ::OpenProject::Static::Links[:security_badge_documentation][:href],
+              title: t(:label_what_is_this),
+              class: 'security-badge--help-icon icon-context icon-help1',
+              target: '_blank' %>
+<% end if display_security_badge_graphic? %>

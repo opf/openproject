@@ -1,0 +1,13 @@
+ru:
+  export_to_excel: "Экспорт XLS"
+  print_with_description: "Предпросмотр печати с описанием"
+  sentence_separator_or: "или"
+  different_formats: Различные форматы
+  export:
+    format:
+      xls: "XLS"
+      xls_with_descriptions: "XLS с описанием"
+      xls_with_relations: "XLS с отношениями"
+  xls_export:
+    child_of: потомок
+    parent_of: родитель

@@ -1,0 +1,83 @@
+#English strings go here
+cs:
+  js:
+    storages:
+      link_files_in_storage: "Prolinkovat soubory v"
+      link_existing_files: "Odkaz na existující soubory"
+      upload_files: "Nahrát soubory"
+      drop_files: "Přetáhněte soubory pro jejich nahrání na %{name}."
+      drop_or_click_files: "Přetáhněte soubory sem nebo klikněte pro jejich nahrání do %{name}."
+      login: "%{storageType} přihlášení"
+      login_to: "Přihlásit se k %{storageType}"
+      no_connection: "Žádné připojení %{storageType}"
+      open_storage: "Otevřít %{storageType}"
+      select_location: "Vyberte lokalitu"
+      choose_location: "Vyberte lokalitu"
+      types:
+        nextcloud: "Nextcloud"
+        default: "Úložiště"
+      information:
+        connection_error: >
+          Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
+        live_data_error: "Chyba při načítání detailů souboru"
+        live_data_error_description: >
+          Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
+        no_file_links: "Chcete-li propojit soubory s tímto pracovním balíčkem, proveďte to prostřednictvím %{storageType}."
+        not_logged_in: >
+          Chcete-li přidat odkaz nebo zobrazit soubory související s tímto pracovním balíčkem, přihlaste se do %{storageType}.
+      files:
+        already_existing_header: "Tento soubor už existuje"
+        already_existing_body: >
+          A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
+        directory_not_writeable: "Nemáte oprávnění přidávat soubory do této složky."
+        dragging_many_files: "The upload to %{storageType} supports only one file at once."
+        dragging_folder: "The upload to %{storageType} does not support folders."
+        empty_folder: "Tato složka je prázdná."
+        empty_folder_location_hint: "Klikněte na tlačítko níže pro nahrání souboru do tohoto umístění."
+        file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
+        project_folder_no_access: >
+          Nemáte přístup ke složce projektu. Obraťte se na svého administrátora pro získání přístupu nebo nahrajte soubor do jiného umístění.
+        managed_project_folder_not_available: >
+          The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
+        managed_project_folder_no_access: >
+          You have no access yet to the managed project folder. Please wait a bit and try again.
+        upload_keep_both: "Zachovat obojí"
+        upload_replace: "Nahradit"
+      file_links:
+        empty: >
+          V současné době neexistují žádné propojené soubory k tomuto pracovnímu balíčku. Začněte propojovat soubory s akcí níže nebo zevnitř %{storageType}.
+        download: "Stáhnout %{fileName}"
+        no_permission: "Nemáte oprávnění k zobrazení tohoto souboru."
+        open: "Otevřít soubor v úložišti"
+        open_location: "Otevřít soubor v umístění"
+        remove: "Odstranit odkaz na soubor"
+        remove_confirmation: >
+          Jste si jisti, že chcete odlinkovat soubor od tohoto pracovního balíčku? Toto nemá vliv na původní soubor a odstraní pouze připojení k tomuto pracovnímu balíčku.
+        remove_short: "Odstranit odkaz"
+        select: "Vybrat soubory"
+        select_all: "Vybrat vše"
+        selection:
+          zero: "Vyberte soubory, které chcete propojit"
+          one: "Propojit 1 Soubor"
+          few: "Link %{count} files"
+          many: "Link %{count} files"
+          other: "Link %{count} files"
+        success_create:
+          one: "Odkaz na soubor byl úspěšně vytvořen."
+          few: "Successfully created %{count} file links."
+          many: "Successfully created %{count} file links."
+          other: "Successfully created %{count} file links."
+        upload_error:
+          default: >
+            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+          403: >
+            Your file (%{fileName}) could not be uploaded due to system restrictions. Please contact your administrator for more information.
+          413: >
+            Your file (%{fileName}) is bigger than what OpenProject can upload to %{storageType}. You can upload it directly to %{storageType} first and then link the file.
+          507: >
+            Your file (%{fileName}) is bigger than the storage quota allows. Contact your administrator to modify this quota.
+        link_uploaded_file_error: >
+          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
+        not_allowed_tooltip: "Pro přístup k tomuto souboru se přihlaste do Nextcloudu"
+        already_linked_file: "Tento soubor je již propojen s tímto pracovním balíčkem."
+        already_linked_directory: "Tento adresář je již propojen s tímto pracovním balíčkem."

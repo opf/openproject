@@ -1,0 +1,47 @@
+<div id="work-package-activites-container">
+  <div id="work-package-comment-container">
+
+    <ng-container *ngIf="!showAbove" [ngTemplateOutlet]="template"></ng-container>
+
+    <div
+        class="work-package--details--long-field work-packages--activity--add-comment hide-when-print"
+        [ngClass]="{'work-packages--activity--add-comment_top': showAbove} "
+        #commentContainer
+        *ngIf="canAddComment"
+    >
+      <div class="inline-edit--container inplace-edit">
+        <edit-form-portal
+            *ngIf="active"
+            [schemaInput]="schema"
+            [changeInput]="change"
+            [editFieldHandler]="handler"
+        >
+        </edit-form-portal>
+        <div
+            *ngIf="!active"
+            (dragover)="startDragOverActivation($event)"
+            (dragenter)="startDragOverActivation($event)"
+        >
+          <button
+              class="work-package-comment inline-edit--display-field"
+              [title]="text.editTitle"
+              (click)="activate()"
+          >
+            <span
+                class="work-package-comment--text"
+                [textContent]="text.placeholder"
+            >
+            </span>
+
+            <op-icon
+                class="work-package-comment--icon"
+                icon-classes="icon-edit" [icon-title]="text.editTitle"
+            ></op-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="showAbove" [ngTemplateOutlet]="template"></ng-container>
+  </div>
+</div>

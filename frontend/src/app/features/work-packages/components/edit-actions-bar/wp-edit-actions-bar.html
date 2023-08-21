@@ -1,0 +1,19 @@
+<div class="work-packages--edit-actions">
+  <button
+      id="work-packages--edit-actions-save"
+      class="button -highlight"
+      accesskey="3"
+      [disabled]="saving"
+      (click)="save()">
+    <op-icon icon-classes="button--icon icon-checkmark"></op-icon>
+    <span class="button--text" [textContent]="text.save"></span>
+  </button>
+  <button
+      id="work-packages--edit-actions-cancel"
+      class="button"
+      accesskey="7"
+      (click)="cancel()">
+    <op-icon icon-classes="button--icon icon-close"></op-icon>
+    <span class="button--text" [textContent]="text.cancel"></span>
+  </button>
+</div>

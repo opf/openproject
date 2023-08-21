@@ -1,0 +1,11 @@
+<%=
+  I18n.t(:"mail_member_updated_global.body.updated_by.#{@message.present? ? 'with_message' : 'without_message'}",
+         user: User.current.name)
+%>
+
+<%= @message %>
+
+<%= I18n.t(:'mail_member_updated_global.body.roles') %>
+<% @roles.each do |role| %>
+  * <%= h(role.name) %>
+<% end %>

@@ -1,0 +1,29 @@
+#English strings go here
+da:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Import'
+      import_bcf_xml_file: 'Importér BCF XML-fil (BCF version 2.1)'
+      export: 'Eksportér'
+      export_bcf_xml_file: 'Eksporter BCF XML-fil (BCF version 2.1)'
+      viewpoint: 'Synsvinkel'
+      add_viewpoint: 'Tilføj synsvinkel'
+      show_viewpoint: 'Vis synsvinkel'
+      delete_viewpoint: 'Slet synsvinkel'
+      management: 'BCF håndtering'
+      refresh: 'Refresh'
+      refresh_work_package: 'Refresh work package'
+    ifc_models:
+      empty_warning: "Dette projekt har endnu ikke nogen IFC-modeller."
+      use_this_link_to_manage: "Brug dette link til at uploade og administrere dine IFC-modeller"
+      keyboard_input_disabled: "Fremviseren har ikke tastaturkontrol. Klik på fremviseren for at give tastaturkontrol til fremviseren."
+      models:
+        ifc_models: 'IFC models'
+      views:
+        viewer: 'Fremviser'
+        split: 'Fremviser og tabel'
+        split_cards: 'Fremviser og kort'
+    revit:
+      revit_add_in: "Revit Tilføjelse"
+      revit_add_in_settings: "Revit tilføjelsesindstillinger"

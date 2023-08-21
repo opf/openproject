@@ -1,0 +1,99 @@
+# /api/v3/work_packages/{id}/available_relation_candidates
+---
+get:
+  summary: Available relation candidates
+  operationId: list_available_relation_candidates
+  tags:
+    - Work Packages
+  description: ''
+  parameters:
+    - description: Project id
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+    - description: Maximum number of candidates to list (default 10)
+      example: '25'
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+    - description: |-
+        JSON specifying filter conditions.
+        Accepts the same filters as the [work packages](https://www.openproject.org/docs/api/endpoints/work-packages/) endpoint.
+      example: '[{ "status_id": { "operator": "o", "values": null } }]'
+      in: query
+      name: filters
+      required: false
+      schema:
+        type: string
+    - description: Shortcut for filtering by ID or subject
+      example: '"rollout"'
+      in: query
+      name: query
+      required: false
+      schema:
+        type: string
+    - description: Type of relation to find candidates for (default "relates")
+      example: '"follows"'
+      in: query
+      name: type
+      required: false
+      schema:
+        type: string
+    - description: |-
+        JSON specifying sort criteria.
+        Accepts the same sort criteria as the [work packages](https://www.openproject.org/docs/api/endpoints/work-packages/) endpoint.
+      example: '[["status", "asc"]]'
+      in: query
+      name: sortBy
+      required: false
+      schema:
+        default: '[["id", "asc"]]'
+        type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                    - _links:
+                        self:
+                          href: "/api/v3/work_packages/1"
+                      _type: WorkPackage
+                      id: 1
+                      subject: Skipped other properties for brevity
+                    - _links:
+                        self:
+                          href: "/api/v3/work_packages/2"
+                      _type: WorkPackage
+                      id: 2
+                      subject: Skipped other properties for brevity
+                _links:
+                  self:
+                    href: "/api/v3/projects/14/work_packages"
+                _type: Collection
+                count: 2
+                total: 2
+          schema:
+            "$ref": "../components/schemas/available_relation_candidates_model.yml"
+      description: OK
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified work package does not exist.
+      description: |-
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package

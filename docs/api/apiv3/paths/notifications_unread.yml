@@ -1,0 +1,42 @@
+# /api/v3/notifications/unread_ian
+---
+post:
+  summary: Unread all notifications
+  operationId: unread_notifications
+  tags:
+    - Notifications
+  description: |-
+    Marks the whole notification collection as unread. The collection contains only elements the authenticated user can
+    see, and can be further reduced with filters.
+  parameters:
+    - name: filters
+      in: query
+      description: |-
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
+        endpoint. Currently supported filters are:
+        
+        + id: Filter by primary key
+        
+        + project: Filter by the project the notification was created in
+        
+        + reason: Filter by the reason, e.g. 'mentioned' or 'assigned' the notification was created because of
+        
+        + resourceId: Filter by the id of the resource the notification was created for. Ideally used together with the
+          `resourceType` filter.
+        
+        + resourceType: Filter by the type of the resource the notification was created for. Ideally used together with
+          the `resourceId` filter.
+      example: '[{ "reason": { "operator": "=", "values": ["mentioned"] } }]'
+      required: false
+      schema:
+        type: string
+  responses:
+    '204':
+      description: OK
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"

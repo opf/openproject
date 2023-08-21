@@ -1,0 +1,18 @@
+---
+description: |-
+  A QueryFilterInstanceSchema is a Schema specifically for describing QueryFilterInstances. Because the behaviour of FilterInstances, with regards to the `values` property, differs from one another depending on the chosen Filter, the QueryFilterInstanceSchema explicitly lists the dependencies in its `_dependencies` property. As the property causing the difference is the selected Filter, that property is linked. Apart from that, a QueryFilterInstanceSchema has the same structure a Schema does.
+
+  ## Linked Properties
+
+  | Link                  | Description                                         | Type                      | Constraints | Supported operations |
+  | :-------------------: | ----------------------------------------            | -------------             | --------    | -------------------- |
+  | self                  | This QueryFilterInstanceSchema (same as for schema) | QueryFilterInstanceSchema | not null    | READ                 |
+  | filter                | The filter for which this schema is specific        | Filter                    | not null    | READ                 |
+
+  ## Local Properties
+
+  | Property         | Description                                            | Type         | Constraints                      | Supported operations |
+  | :--------------: | ------------------------------------------------------ | ------------ | -------------------------------- | -------------------- |
+  | name             | Describes the name attribute                           | Field schema | not null                         | READ                 |
+  | filter           | QuerySortBy name                                       | Field schema | not null                         | READ                 |
+name: Query Filter Instance Schema

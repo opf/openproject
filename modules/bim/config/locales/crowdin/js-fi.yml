@@ -1,0 +1,29 @@
+#English strings go here
+fi:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Tuo'
+      import_bcf_xml_file: 'Tuo BCF XML-tiedosto (BCF versio 2.1)'
+      export: 'Vie'
+      export_bcf_xml_file: 'Vie BCF XML-tiedosto (BCF versio 2.1)'
+      viewpoint: 'Näkymä'
+      add_viewpoint: 'Lisää näkymä'
+      show_viewpoint: 'Näytä näkymä'
+      delete_viewpoint: 'Poista näkymä'
+      management: 'BCF:n hallinnointi'
+      refresh: 'Refresh'
+      refresh_work_package: 'Refresh work package'
+    ifc_models:
+      empty_warning: "Tässä projektissa ei ole vielä IFC mallia."
+      use_this_link_to_manage: "Tuo ja hallitse IFC malleja."
+      keyboard_input_disabled: "Selaimessa ei ole näpäimistöä. Klikkaa selainta saadaksesi näppäimistön."
+      models:
+        ifc_models: 'IFC models'
+      views:
+        viewer: 'Selain'
+        split: 'Näkymä ja tiedot'
+        split_cards: 'Selain ja kortit'
+    revit:
+      revit_add_in: "Revit Lisäosa"
+      revit_add_in_settings: "Revit Lisäosa asetukset"

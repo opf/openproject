@@ -1,0 +1,86 @@
+#English strings go here
+es:
+  js:
+    boards:
+      create_new: 'Crear tablero'
+      label_unnamed_board: 'Tablero sin nombre'
+      label_unnamed_list: 'Lista sin nombre'
+      label_board_type: 'Tipo de tablero'
+      upsale:
+        teaser_text: '¿Quieres automatizar tus flujos de trabajo con tableros? Los tableros avanzados son una extensión de Enterprise. Por favor, actualice a un plan de pago.'
+        upgrade: 'Actualizar ahora'
+      lists:
+        delete: 'Eliminar lista'
+      version:
+        is_locked: 'La versión está bloqueada. No se pueden agregar elementos a esta versión.'
+        is_closed: 'La versión está cerrada. No se pueden agregar elementos a esta versión.'
+        close_version: 'Cerrar versión'
+        open_version: 'Abrir versión'
+        lock_version: 'Bloquear versión'
+        unlock_version: 'Desbloquear versión'
+        edit_version: 'Editar versión'
+        show_version: 'Mostrar versión'
+        locked: 'Bloqueado'
+        closed: 'Cerrado'
+      new_board: 'Nuevo tablero'
+      add_list: 'Añadir lista al tablero'
+      add_card: 'Agregar tarjeta'
+      error_attribute_not_writable: "No se puede mover el paquete de trabajo porque %{attribute} no permite la escritura."
+      error_loading_the_list: "Error al cargar la lista: %{error_message}"
+      error_permission_missing: "Falta el permiso para crear consultas públicas"
+      error_cannot_move_into_self: "No se puede mover un paquete de trabajo a su propia columna."
+      text_hidden_list_warning: "No todas las listas son desplegadas debido a su falta de permiso. Contacte a su administrador para más información."
+      click_to_remove_list: "Haga clic para quitar esta lista"
+      board_type:
+        text: 'Tipo de tablero'
+        free: 'básico'
+        select_board_type: 'Por favor elija el tipo de tablero que necesite.'
+        free_text: >
+          Empiece desde cero con un tablero en blanco. Añada de forma manual tarjetas y columnas a este tablero.
+        action: 'Tablero de acciones'
+        action_by_attribute: 'Tablero de acciones (%{attribute})'
+        action_text: >
+          Un tablero con listas filtradas en el atributo %{attribute}. Al mover paquetes de trabajo a otras listas, se actualizará su atributo.
+        action_text_subprojects: >
+          Tablero con columnas automáticas para subproyectos. Al arrastrar paquetes de trabajo a otras listas, se actualizan los (sub)proyectos en consecuencia.
+        action_text_subtasks: >
+          Tablero con columnas automáticas para subelementos. Al arrastrar paquetes de trabajo a otras listas, se actualizan los elementos principales en consecuencia.
+        action_text_status: >
+          Tablero básico estilo kanban con columnas para indicar el estado, como «Tarea pendiente», «En curso» y «Listo».
+        action_text_assignee: >
+          Tablero con columnas automáticas basadas en los usuarios asignados. Ideal para enviar paquetes de trabajo.
+        action_text_version: >
+          Tablero con columnas automatizadas basadas en el atributo de la versión. Ideal para planificar el desarrollo de productos.
+        action_type:
+          assignee: asignado
+          status: estado
+          version: versión
+          subproject: Subproyecto
+          subtasks: principal-secundaria
+        board_type_title:
+          assignee: Asignado a
+          status: Estado
+          version: Versión
+          subproject: Subproyecto
+          subtasks: Padre-hijo
+          basic: Básico
+        select_attribute: "Atributo de acción"
+      add_list_modal:
+        labels:
+          assignee: Seleccione el usuario que quiera añadir como nueva lista de usuarios asignados
+          status: Seleccione el estado que quiera añadir como nueva lista
+          version: Seleccione la versión que quiera añadir como nueva lista
+          subproject: Seleccione el subproyecto que quiera añadir como nueva lista
+          subtasks: Seleccione el paquete de trabajo que quiera añadir como nueva lista
+        warning:
+          status: |
+            No hay estados disponibles actualmente. <br>
+            Puede que no haya ninguno, o bien ya se añadieron todos al tablero.
+          assignee: No hay ningún miembro que coincida con el valor de filtro. <br>
+          no_member: El proyecto no tiene actualmente ningún miembro que pueda añadirse. <br>
+          add_members: <a href="%{link}">Añada un miembro a este proyecto</a> para volver a seleccionar usuarios.
+      configuration_modal:
+        title: 'Configurar este tablero'
+        display_settings:
+          card_mode: "Mostrar como tarjetas"
+          table_mode: "Mostrar como tabla"

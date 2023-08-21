@@ -1,0 +1,33 @@
+---
+description: |-
+  Groups are collections of users. They support assigning/unassigning multiple users to/from a project in one operation.
+
+  This resource does not yet have the form and schema endpoints. But as all properties are static, clients should still be able
+  to work with this resource.
+
+  ## Actions
+
+  ## Actions
+
+  | Link                | Description                                                          | Condition                                                        |
+  |:-------------------:| -------------------------------------------------------------------- | ---------------------------------------------------------------- |
+  | delete              | Deletes the group.                                                   | **Permission**: Administrator                                    |
+  | updateImmediately   | Updates the group's attributes.                                      | **Permission**: Administrator                                    |
+
+  ## Linked Properties
+
+  |  Link              | Description                                                                                                                                                           | Type              | Constraints           | Supported operations | Condition                                                                |
+  |:-----------:       |--------------------------------------------------------------                                                                                                         | -------------     | --------------------- | -------------------- | -----------------------------------------                                |
+  | self               | This group                                                                                                                                                            | Group             | not null              | READ                 |                                                                          |
+  | memberships        | Link to collection of all the group's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions. | MemberCollection  |                       | READ                 | **Permission**: view members or manage members in any project            |
+  | members            | The list all all the users that are members of the group                                                                                                              | UserCollection    |                       | READ/WRITE           | **Permission**: manage members in any project to read & admin to write   |
+
+  ## Local Properties
+
+  | Property     | Description                                                | Type     | Constraints                                          | Supported operations | Condition                                                      |
+  | :----------: | ---------------------------------------------------------  | -------- | ---------------------------------------------------- | -------------------- | -----------------------------------------------------------    |
+  | id           | Group's id                                                 | Integer  | x > 0                                                | READ                 |                                                                |
+  | name         | Group's full name, formatting depends on instance settings | String   |                                                      | READ/WRITE           | Admin to write                                                 |
+  | createdAt    | Time of creation                                           | DateTime |                                                      | READ                 | Only visible by admins                                         |
+  | updatedAt    | Time of the most recent change to the user                 | DateTime |                                                      | READ                 | Only visible by admins                                         |
+name: Groups

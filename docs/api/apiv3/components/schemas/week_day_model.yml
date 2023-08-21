@@ -1,0 +1,40 @@
+# Schema: WeekDayModel
+---
+type: object
+required:
+  - _type
+  - day
+  - name
+  - working
+properties:
+  _type:
+    type: string
+    enum:
+      - WeekDay
+  day:
+    type: integer
+    description: |-
+      The week day from 1 to 7. 1 is Monday. 7 is Sunday.
+    readOnly: true
+    minimum: 1
+    maximum: 7
+  name:
+    type: string
+    description: |-
+      The week day name.
+  working:
+    type: boolean
+    description: |-
+      `true` for a working week day, `false` otherwise.
+  _links:
+    allOf:
+      - $ref: './week_day_self_link_model.yml'
+example:
+  _type: WeekDay
+  day: 5
+  name: Friday
+  working: false
+  _links:
+    self:
+      href: /api/v3/day/week/5
+      title: Friday

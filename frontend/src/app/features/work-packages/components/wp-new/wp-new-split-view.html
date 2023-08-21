@@ -1,0 +1,35 @@
+<div
+  class="work-packages--details work-packages--new"
+  *ngIf="newWorkPackage"
+>
+  <edit-form [resource]="newWorkPackage"
+             [skippedFields]="['status', 'type']"
+             [inEditMode]="true"
+             (onSaved)="onSaved($event)">
+  <div class="work-packages--details-content -create-mode">
+      <div class="work-packages--new-details-header">
+        <wp-type-status [workPackage]="newWorkPackage"></wp-type-status>
+        <div class="wp--details--switch-fullscreen-wrapper">
+          <a (click)="switchToFullscreen()"
+             class="work-packages-show-view-button wp--details--switch-fullscreen ">
+            <span class="icon-context icon-to-fullscreen"></span>
+          </a>
+        </div>
+      </div>
+      <wp-single-view [workPackage]="newWorkPackage"
+                      [showProject]="copying">
+      </wp-single-view>
+    </div>
+
+    <div class="work-packages--details-toolbar-container">
+      <wp-edit-actions-bar
+        (onCancel)="cancelAndBackToList()">
+      </wp-edit-actions-bar>
+    </div>
+
+    <div class="work-packages--details--resizer hidden-for-mobile hide-when-print">
+      <wp-resizer [elementClass]="'work-packages-partitioned-page--content-right'"
+                  [localStorageKey]="'openProject-splitViewFlexBasis'"></wp-resizer>
+    </div>
+  </edit-form>
+</div>

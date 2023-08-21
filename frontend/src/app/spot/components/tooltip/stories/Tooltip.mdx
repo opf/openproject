@@ -1,0 +1,57 @@
+import { Canvas, Meta, ArgsTable } from '@storybook/blocks';
+
+import { SpotTooltipComponent } from '../tooltip.component';
+import * as TooltipStories from './Tooltip.stories';
+
+<Meta of={TooltipStories} />
+
+# Tooltip
+
+<Canvas of={TooltipStories.Default} />
+
+The tooltip provides additional textual context on hover over interactive elements. 
+
+This context can be used to provide additional information (hover over a "help" icon) or to signal state information (for example, if a certain item is disabled).
+
+By default, the tooltip takes 80% of the width of the container. This can be overridden if needed. 
+
+<Canvas of={TooltipStories.InList} />
+
+## Structure and Options
+
+Tooltips have a sky blue background in the default theme (_Feedback/Info/Light_). A darker version is available is but currently not used.
+
+<Canvas of={TooltipStories.Dark} />
+
+## Behaviour
+
+The tooltip should appear either above or below the item being hovered. By default, it will be displayed above, left-aligned. This can be manually changed to these alternative positions:
+
+- Above, left-aligned
+- Above, center-aligned
+- Above, right-aligned
+- Below, left-aligned
+- Below, center-aligned
+- Below, right- aligned
+
+The item over which the user is hovering itself must never be covered. A tooltip' does not follow the cursor; its position is fixed as long as the user is hovering over the item. Hovering out of the element will cause the tooltip to disappear. 
+
+The tooltip will appear 200 ms after the user starts hovering and disappear 200 ms after the user has moved the cursor away, to avoid jittery behaviour.
+
+The tooltip will automatically become multi-line if necessary (i.e, if the container does not have sufficient space).
+
+<Canvas of={TooltipStories.Multiline} />
+
+## Dos and Don'ts
+
+A tooltip is, in its basic form, a line of text. However, it can also contain icons. 
+
+It must never contain interactive elements (a mouse pointer will not always be able to reach it).
+
+## Margins and Spacing
+
+A tooltip will never hug either side of the container; it will respect the internal padding of the that container.
+
+> Position, in-tree or out-of-tree to be decided
+
+Due to technical limitations, the minimum width of a tooltip is defined by its container (i.e, 80% of it).  Tooltips with content shorter this width will have additional space on the right.

@@ -1,0 +1,40 @@
+# /api/v3/work_packages/schemas/{identifier}
+---
+get:
+  parameters:
+  - description: Identifier of the schema
+    example: 12-13
+    in: path
+    name: identifier
+    required: true
+    schema:
+      type: string
+  responses:
+    '200':
+      description: OK
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified schema does not exist.
+      description: |-
+        Returned if the schema does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view work packages (on the project where this schema is used)
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+        That's why a 404 is returned here, even if a 403 might be more appropriate.*
+      headers: {}
+  tags:
+  - Work Packages
+  description: ''
+  operationId: View_Work_Package_Schema
+  summary: View Work Package Schema

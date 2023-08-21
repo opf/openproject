@@ -1,0 +1,162 @@
+# /api/v3/grids/{id}/form
+---
+post:
+  parameters:
+  - description: ID of the grid being modified
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            type: object
+          examples:
+            response:
+              value:
+                _embedded:
+                  payload:
+                    columnCount: 5
+                    rowCount: 6
+                    widgets:
+                    - _type: GridWidget
+                      endColumn: 3
+                      endRow: 8
+                      identifier: time_entries_current_user
+                      startColumn: 1
+                      startRow: 1
+                    - _type: GridWidget
+                      endColumn: 5
+                      endRow: 8
+                      identifier: news
+                      startColumn: 4
+                      startRow: 3
+                    - _type: GridWidget
+                      endColumn: 6
+                      endRow: 3
+                      identifier: documents
+                      startColumn: 3
+                      startRow: 1
+                  schema:
+                    _links: {}
+                    _type: Schema
+                    columnCount:
+                      hasDefault: false
+                      name: Number of columns
+                      required: true
+                      type: Integer
+                      writable: true
+                    createdAt:
+                      hasDefault: false
+                      name: Created on
+                      required: true
+                      type: DateTime
+                      writable: false
+                    id:
+                      hasDefault: false
+                      name: ID
+                      required: true
+                      type: Integer
+                      writable: false
+                    rowCount:
+                      hasDefault: false
+                      name: Number of rows
+                      required: true
+                      type: Integer
+                      writable: true
+                    scope:
+                      _links: {}
+                      hasDefault: false
+                      name: Page
+                      required: true
+                      type: Href
+                      writable: false
+                    updatedAt:
+                      hasDefault: false
+                      name: Updated on
+                      required: true
+                      type: DateTime
+                      writable: false
+                    widgets:
+                      _links: {}
+                      hasDefault: false
+                      name: Widgets
+                      required: true
+                      type: "[]GridWidget"
+                      writable: true
+                  validationErrors:
+                    widgets:
+                      _embedded:
+                        errors:
+                        - _embedded:
+                            details:
+                              attribute: widgets
+                          _type: Error
+                          errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                          message: Widgets is outside of the grid.
+                        - _embedded:
+                            details:
+                              attribute: widgets
+                          _type: Error
+                          errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                          message: Widgets is outside of the grid.
+                      _type: Error
+                      errorIdentifier: urn:openproject-org:api:v3:errors:MultipleErrors
+                      message: Multiple field constraints have been violated.
+                _links:
+                  self:
+                    href: "/api/v3/grids/2/form"
+                    method: post
+                  validate:
+                    href: "/api/v3/grids/2/form"
+                    method: post
+                _type: Form
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** depends on the page the grid is defined for.
+
+        *Note that you will only receive this error, if you are at least allowed to see the corresponding grid.*
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the grid does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package
+      headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+  tags:
+  - Grids
+  description: ''
+  operationId: Grid_Update_Form
+  summary: Grid Update Form

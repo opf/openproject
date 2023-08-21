@@ -1,0 +1,12 @@
+@import '../../app/spot/styles/sass/variables'
+@import 'helpers'
+
+:host,
+.op-header-project-select-list
+  flex-shrink: 1
+  flex-basis: 100%
+
+  // Since we are referring to the host element as well we need the complete class name here
+  &.op-header-project-select-list--root
+    overflow-y: auto
+    @include styled-scroll-bar

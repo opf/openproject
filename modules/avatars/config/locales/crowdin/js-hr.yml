@@ -1,0 +1,14 @@
+#English strings go here
+hr:
+  js:
+    label_preview: 'Pregled'
+    button_update: 'Ažuriraj'
+    avatars:
+      label_choose_avatar: "Odaberite avatar iz datoteke"
+      uploading_avatar: "Avatar se pohranjuje."
+      text_upload_instructions: |
+        Pohranite svoj prilagođeni avatar dimenzija 128 s 128 piksela. Datoteke većih dimenzija bit će smanjene i izrezane. Kad odaberete sliku, pregled Vašeg avatara bit će prikazan prije pohranjivanja.
+      error_image_too_large: "Slika je prevelika."
+      wrong_file_format: "Dozvoljeni formati su jpg, png, gif"
+      empty_file_error: "Molimo pohranite sliku u ispravom formatu (jpg, png, gif)"
+

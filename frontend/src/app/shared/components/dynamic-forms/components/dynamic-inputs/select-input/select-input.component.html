@@ -1,0 +1,24 @@
+<ng-select
+  [items]="to?.options | async"
+  [formControl]="formControl"
+  [formlyAttributes]="field"
+  [attr.aria-required]="to.required"
+  [attr.required]="to.required"
+  [multiple]="to.multiple"
+  [bindLabel]="to.bindLabel"
+  [searchable]="to.searchable"
+  [virtualScroll]="to.virtualScroll"
+  [clearable]="to.clearable"
+  [typeahead]="to.typeahead"
+  [clearOnBackspace]="to.clearOnBackspace"
+  [clearSearchOnAdd]="to.clearSearchOnAdd"
+  [hideSelected]="to.hideSelected"
+>
+  <ng-template ng-tag-tmp let-search="searchTerm">
+    <b [textContent]="to.text.add_new_action"></b>: {{search}}
+  </ng-template>
+
+  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+    <div [ngOptionHighlight]="search" class="ng-option-label ellipsis">{{ item.name }}</div>
+  </ng-template>
+</ng-select>

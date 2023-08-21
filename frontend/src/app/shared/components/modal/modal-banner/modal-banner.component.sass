@@ -1,0 +1,24 @@
+@import 'helpers'
+
+.op-modal-banner
+  display: grid
+  grid-template-columns: 20px auto max-content
+  grid-gap: $spot-spacing-1
+  align-items: center
+  padding: $spot-spacing-0-75
+
+  @media only screen and (max-width: $breakpoint-sm)
+    grid-template-columns: auto max-content
+
+  &:first-child
+    border-top-left-radius: $spot-spacing-0-25
+    border-top-right-radius: $spot-spacing-0-25
+
+  &_warning
+    background: $spot-color-feedback-warning-light
+
+  &_info
+    background: $spot-color-feedback-info-light
+
+  &--button
+    margin: 0

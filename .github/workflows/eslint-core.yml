@@ -1,0 +1,29 @@
+name: eslint
+on:
+  pull_request:
+    branches:
+      - dev
+      - release/*
+    paths:
+      - '**.html'
+      - '**.js'
+      - '**.ts'
+
+jobs:
+  eslint:
+    name: eslint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.13'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - uses: reviewdog/action-eslint@v1
+        with:
+          reporter: github-pr-check
+          workdir: 'frontend/'
+          eslint_flags: 'src/'

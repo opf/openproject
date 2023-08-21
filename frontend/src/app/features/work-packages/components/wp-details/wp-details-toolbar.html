@@ -1,0 +1,21 @@
+<div class="work-packages--details-toolbar">
+  <wp-watcher-button [workPackage]="workPackage"
+                     [showText]="true">
+  </wp-watcher-button>
+
+  <op-work-package-mark-notification-button
+    *ngIf="displayNotificationsButton"
+    [workPackage]="workPackage"
+    [showWithText]="true"
+    data-qa-selector="mark-notification-read-button"
+  ></op-work-package-mark-notification-button>
+
+  <button class="button dropdown-relative"
+          [attr.accesskey]="7"
+
+          wpSingleContextMenu
+          [wpSingleContextMenu-workPackage]="workPackage">
+    <span class="button--text" [textContent]="text.button_more"></span>
+    <op-icon icon-classes="button--dropdown-indicator"></op-icon>
+  </button>
+</div>

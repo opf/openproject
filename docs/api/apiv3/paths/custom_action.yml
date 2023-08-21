@@ -1,0 +1,46 @@
+# /api/v3/custom_actions/{id}
+---
+get:
+  summary: Get a custom action
+  tags:
+    - Custom actions
+  description: Retrieves a custom action by id.
+  operationId: get_custom_action
+  parameters:
+    - name: id
+      description: The id of the custom action to fetch
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 42
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/custom_action_model.yml'
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** edit work packages in any project
+    '404':
+      description: Returned if the custom action does not exist.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.

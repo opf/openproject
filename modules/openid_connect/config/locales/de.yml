@@ -1,0 +1,27 @@
+de:
+  logout_warning: >
+    Sie wurden ausgeloggt. Inhalte von Formularen, die sie abschicken möchten,
+    können verloren gehen. Bitte [loggen Sie sich wieder ein].
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: Name
+        display_name: Angezeigter Name
+        identifier: Identifier
+        secret: Secret
+        scope: Scope
+        limit_self_registration: Selbstregistrierung einschränken
+  openid_connect:
+    menu_title: OpenID-Provider
+    providers:
+      label_add_new: Einen neuen OpenID-Provider hinzufügen
+      label_edit: OpenID-Provider %{name} bearbeiten
+      no_results_table: Es wurden noch keine OpenID-Provider konfiguriert.
+      plural: OpenID-Provider
+      singular: OpenID-Provider
+      upsale:
+        description: Use existing OpenID credentials with OpenProject for easier access and interoperability with a range of other providers.
+    setting_instructions:
+      limit_self_registration: >
+        Wenn diese Option aktiv ist, können sich neue Nutzer mit diesem OpenID-Provider nur registrieren,
+        wenn die Selbstregistrierungs-Einstellung es erlaubt.

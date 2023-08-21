@@ -1,0 +1,86 @@
+#English strings go here
+fr:
+  js:
+    boards:
+      create_new: 'Créer un nouveau tableau'
+      label_unnamed_board: 'Tableau sans nom'
+      label_unnamed_list: 'Liste sans nom'
+      label_board_type: 'Type de tableau'
+      upsale:
+        teaser_text: 'Voulez-vous automatiser vos flux de travail avec des tableaux ? Les tableaux avancés sont un add-on Entreprise. Veuillez passer à une offre payante.'
+        upgrade: 'Passer au plan supérieur'
+      lists:
+        delete: 'Supprimer la liste'
+      version:
+        is_locked: 'La version est verrouillée. Aucun élément ne peut être ajouté à cette version.'
+        is_closed: 'La version est fermée. Aucun élément ne peut être ajouté à cette version.'
+        close_version: 'Fermer la version'
+        open_version: 'Ouvrir la version'
+        lock_version: 'Verrouiller la version'
+        unlock_version: 'Déverrouiller la version'
+        edit_version: 'Éditer la version'
+        show_version: 'Afficher la version'
+        locked: 'Verrouillé'
+        closed: 'Fermé'
+      new_board: 'Nouveau tableau'
+      add_list: 'Ajouter une liste au tableau'
+      add_card: 'Ajouter une carte'
+      error_attribute_not_writable: "Impossible de déplacer le lot de travaux, %{attribute} n'est pas modifiable."
+      error_loading_the_list: "Erreur lors du chargement de la liste : %{error_message}"
+      error_permission_missing: "La permission pour créer des requêtes publiques est manquante"
+      error_cannot_move_into_self: "Vous ne pouvez pas déplacer un lot de travaux vers sa propre colonne."
+      text_hidden_list_warning: "Toutes les listes ne sont pas affichées parce que vous n'avez pas la permission. Contactez votre administrateur pour plus d'informations."
+      click_to_remove_list: "Cliquez pour supprimer cette liste"
+      board_type:
+        text: 'Type de tableau'
+        free: 'basique'
+        select_board_type: 'Veuillez choisir le type de tableau dont vous avez besoin.'
+        free_text: >
+          Commencez à partir de zéro avec un tableau vide. Ajoutez manuellement des cartes et des colonnes à ce tableau.
+        action: 'Tableau d''action'
+        action_by_attribute: 'Tableau d''action (%{attribute})'
+        action_text: >
+          Un tableau avec des listes filtrées sur l'attribut %{attribute}. Déplacer des lots de travaux vers d'autres listes mettra à jour leur attribut.
+        action_text_subprojects: >
+          Tableau avec colonnes automatiques pour les sous-projets. Glisser les lots de travaux vers d'autres listes met à jour le (sous-)projet en conséquence.
+        action_text_subtasks: >
+          Tableau avec colonnes automatiques pour les sous-éléments. Glisser les lots de travaux vers d'autres listes met à jour le parent en conséquence.
+        action_text_status: >
+          Tableau de style de kanban de base avec des colonnes pour des statuts tels que À faire, En cours, Terminé.
+        action_text_assignee: >
+          Tableau avec colonnes automatisées basées sur des utilisateurs assignés. Idéal pour envoyer des lots de travaux.
+        action_text_version: >
+          Tableau avec des colonnes automatisées basées sur l'attribut de version. Idéal pour planifier le développement d'un produit.
+        action_type:
+          assignee: responsable
+          status: état
+          version: version
+          subproject: Sous-projet
+          subtasks: parent-enfant
+        board_type_title:
+          assignee: Assigné à
+          status: Statut
+          version: Version
+          subproject: Sous-projet
+          subtasks: Parent-enfant
+          basic: Basique
+        select_attribute: "Attribut d'action"
+      add_list_modal:
+        labels:
+          assignee: Sélectionnez l'utilisateur à ajouter en tant que nouvelle liste de destinataires
+          status: Sélectionnez le statut à ajouter comme nouvelle liste
+          version: Sélectionnez la version à ajouter comme nouvelle liste
+          subproject: Sélectionnez le sous-projet à ajouter comme nouvelle liste
+          subtasks: Sélectionnez le lot de travaux à ajouter comme nouvelle liste
+        warning:
+          status: |
+            Il n'y a actuellement aucun statut disponible. <br>
+            Soit il n'y en a aucun ou ils ont tous déjà été ajoutés au tableau.
+          assignee: Aucun membre ne correspond à votre valeur de filtre.  <br>
+          no_member: Ce projet n'a actuellement aucun membre à ajouter. <br>
+          add_members: <a href="%{link}">Ajoutez un nouveau membre à ce projet</a> pour sélectionner à nouveau les utilisateurs.
+      configuration_modal:
+        title: 'Configurer ce tableau'
+        display_settings:
+          card_mode: "Affichage en cartes"
+          table_mode: "Affichage en tableau"

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -e
+set -u
+
+rm -rf "${OPENPROJECT_STORAGE_TMP__PATH:-tmp}/*"
+exec bundle exec rails server -u puma -b 0.0.0.0

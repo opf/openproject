@@ -1,0 +1,123 @@
+# Schema: VersionModel
+---
+type: object
+required:
+- name
+- status
+- sharing
+- createdAt
+- updatedAt
+properties:
+  id:
+    type: integer
+    description: Version id
+    readOnly: true
+    exclusiveMinimum: 0
+  name:
+    type: string
+    description: Version name
+  description:
+    allOf:
+    - "$ref": "./formattable.yml"
+    - {}
+  startDate:
+    type: string
+    format: date
+  endDate:
+    type: string
+    format: date
+  status:
+    type: string
+    description: The current status of the version
+  sharing:
+    type: string
+    description: The current status of the version
+  createdAt:
+    type: string
+    format: date-time
+    description: Time of creation
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time of the most recent change to the version
+    readOnly: true
+  _links:
+    type: object
+    required:
+    - self
+    - availableInProjects
+    properties:
+      update:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Form endpoint that aids in preparing and performing edits on the version
+
+            # Conditions
+
+            **Permission**: manage versions
+          readOnly: true
+      updateImmediately:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Directly perform edits on the version
+
+            # Conditions
+
+            **Permission**: manage versions
+          readOnly: true
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This version
+
+            **Resource**: Version
+          readOnly: true
+      definingProject:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            The project to which the version belongs
+
+            **Resource**: Project
+          readOnly: true
+      availableInProjects:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Projects where this version can be used
+
+            **Resource**: Projects
+          readOnly: true
+example:
+  _links:
+    self:
+      href: "/api/v3/versions/11"
+    update:
+      href: "/api/v3/versions/11/form"
+      method: POST
+    updateImmediately:
+      href: "/api/v3/versions/11"
+      method: PATCH
+    definingProject:
+      href: "/api/v3/projects/11"
+    availableInProjects:
+      href: "/api/v3/versions/11/projects"
+    customField4:
+      href: "/api/v3/custom_options/5"
+      title: Custom field option
+  _type: Version
+  id: 11
+  name: v3.0 Alpha
+  description:
+    format: plain
+    raw: This version has a description
+    html: This version has a description
+  startDate: '2014-11-20'
+  endDate: 
+  status: open
+  sharing: system
+  customField14: '1234567890'

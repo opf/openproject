@@ -1,0 +1,16 @@
+id:
+  grids:
+    label_widget_in_grid: "Widget terdapat dalam Kisi %{grid_name}"
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Halaman"
+        row_count: "Jumlah baris"
+        column_count: "Jumlah kolom"
+        widgets: "Widget"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'tumpang tindih.'
+          outside: 'berada di luar jaringan.'
+          end_before_start: 'nilai akhir harus lebih besar dari nilai awal.'

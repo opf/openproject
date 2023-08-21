@@ -1,0 +1,45 @@
+<ng-container *ngIf="!hidden">
+  <label
+    class="spot-form-field--label-wrap spot-selector-field--label-wrap"
+    [ngClass]="{ 'spot-selector-field--label-wrap_reversed': reverseLabel }"
+  >
+    <div
+      class="spot-form-field--input spot-selector-field--input"
+      [ngClass]="{ 'spot-selector-field--input_reversed': reverseLabel }"
+      [attr.aria-describedby]="describedByID"
+    >
+      <ng-content select="[slot=input]"></ng-content>
+    </div>
+
+    <div
+      *ngIf="label"
+      class="spot-form-field--label spot-selector-field--label"
+      [ngClass]="{
+        'spot-selector-field--label_regular': labelWeight === 'regular'
+      }"
+    >
+      <span
+        *ngIf="showErrorMessage"
+        class="Hidden for sighted"
+      >Invalid</span>
+      {{ label }}
+      <span *ngIf="required" class="spot-form-field--label-indicator">*</span>
+      <ng-content select="[slot=help-text]"></ng-content>
+    </div>
+  </label>
+
+  <div
+    class="spot-form-field--description"
+    [id]="descriptionID"
+  >
+    <ng-content select="[slot=description]"></ng-content>
+  </div>
+
+  <div
+    class="spot-form-field--errors"
+    *ngIf="showErrorMessage"
+    [id]="errorsID"
+  >
+    <ng-content select="[slot=errors]"></ng-content>
+  </div>
+</ng-container>

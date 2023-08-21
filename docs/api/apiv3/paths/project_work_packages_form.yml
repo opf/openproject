@@ -1,0 +1,20 @@
+# /api/v3/projects/{id}/work_packages/form
+---
+post:
+  parameters:
+  - description: ID of the project in which the work package will be created
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK
+      headers: {}
+  tags:
+  - Work Packages
+  description: ''
+  operationId: Work_Package_Create_Form_For_Project
+  summary: Work Package Create Form For Project

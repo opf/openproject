@@ -1,0 +1,101 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2023 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+#English strings go here for Rails i18n
+es:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Ubicación"
+        duration: "Duración"
+        participants: "Participantes"
+        participants_attended: "Asistentes"
+        participants_invited: "Invitados"
+        project: "Proyecto"
+        start_time: "Tiempo"
+        start_time_hour: "Hora de inicio"
+    errors:
+      messages:
+        invalid_time_format: "no es una hora válida. Formato requerido: HH:MM"
+    models:
+      meeting_agenda: "Agenda"
+      meeting_minutes: "Minutas"
+  activity:
+    filter:
+      meeting: "Reuniones"
+  description_attended: "ha asistido"
+  description_invite: "invitado"
+  events:
+    meeting: Reunión editada
+    meeting_agenda: Agenda de reuniones editada
+    meeting_agenda_closed: Agenda de reuniones cerrada
+    meeting_agenda_opened: Agenda de reuniones abierta
+    meeting_minutes: Minuta de reunión editada
+    meeting_minutes_created: Minuta de reuniones creada
+  error_notification_with_errors: "Error al enviar la notificación. Los siguientes destinatarios no han sido notificados: %{recipients}"
+  label_meeting: "Reunión"
+  label_meeting_plural: "Reuniones"
+  label_meeting_new: "Nueva reunión"
+  label_meeting_edit: "Editar reunión"
+  label_meeting_agenda: "Agenda"
+  label_meeting_minutes: "Minutas"
+  label_meeting_close: "Cerrar"
+  label_meeting_open: "Abrir"
+  label_meeting_agenda_close: "Cerrar la agenda para comenzar la minuta"
+  label_meeting_date_time: "Fecha/hora"
+  label_meeting_diff: "Diferencia"
+  label_upcoming_meetings: "Próximas reuniones"
+  label_past_meetings: "Reuniones anteriores"
+  label_involvement: "Implicación"
+  label_upcoming_invitations: "Próximas invitaciones"
+  label_past_invitations: "Invitaciones pasadas"
+  label_attendee: "Asistente"
+  label_author: "Autor"
+  label_notify: "Enviar para revisión"
+  label_icalendar: "Enviar iCalendar"
+  label_version: "Versión"
+  label_time_zone: "Zona horaria"
+  label_start_date: "Fecha de inicio"
+  meeting:
+    copied: "Copiado de la reunión %{id}"
+  notice_successful_notification: "Notificación enviada correctamente"
+  notice_timezone_missing: No se ha establecido zona horaria y se asume %{zone}. Para elegir su zona horaria, por favor, haga clic aquí.
+  permission_create_meetings: "Crear reuniones"
+  permission_edit_meetings: "Editar reuniones"
+  permission_delete_meetings: "Eliminar reuniones"
+  permission_view_meetings: "Ver reuniones"
+  permission_create_meeting_agendas: "Gestionar agendas"
+  permission_close_meeting_agendas: "Cerrar agendas"
+  permission_send_meeting_agendas_notification: "Enviar notificaciones de revisión para las agendas"
+  permission_create_meeting_minutes: "Gestionar minutas"
+  permission_send_meeting_minutes_notification: "Enviar notificaciones de revisión para los minutas"
+  permission_meetings_send_invite: "Invitar a usuarios a reuniones"
+  permission_send_meeting_agendas_icalendar: "Enviar agenda de reunión como entrada del calendario"
+  project_module_meetings: "Reuniones"
+  text_duration_in_hours: "Duración en horas"
+  text_in_hours: "en horas"
+  text_meeting_agenda_for_meeting: 'agenda para la reunión "%{meeting}"'
+  text_meeting_closing_are_you_sure: "¿Seguro que quiere cerrar el orden del día de la reunión?"
+  text_meeting_agenda_open_are_you_sure: "Se sobrescribirán todos los cambios en las minutas. ¿Quiere continuar?"
+  text_meeting_minutes_for_meeting: 'minutas para la reunión "%{meeting}"'
+  text_review_meeting_agenda: "%{author} ha puesto el %{link} para revisión."
+  text_review_meeting_minutes: "%{author} ha definido el %{link} para revisión."
+  text_notificiation_invited: "El correo electrónico contiene una entrada ics para la reunión siguiente:"

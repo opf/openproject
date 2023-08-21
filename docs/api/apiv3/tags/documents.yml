@@ -1,0 +1,27 @@
+---
+description: |-
+  A document is a file containing a list of attachments.
+
+  *Please note, that the endpoint is only a stub for now.*
+
+  ## Actions
+
+  None yet
+
+  ## Linked Properties
+
+  | Link          | Description                               | Type           | Constraints           | Supported operations | Condition                                 |
+  | :-----------: | -------------------------------------     | -------------  | --------------------- | -------------------- | ----------------------------------------- |
+  | self          | This document                             | Document       | not null              | READ                 |                                           |
+  | project       | The project the document is in            | Project        | not null              | READ / WRITE         |                                           |
+  | attachments   | The attachments belonging to the document | []Attachment   | not null              | READ / WRITE         |                                           |
+
+  ## Local Properties
+
+  | Property     | Description                                               | Type     | Constraints                                          | Supported operations | Condition                                                   |
+  | :----------: | --------------------------------------------------------- | -------- | ---------------------------------------------------- | -------------------- | ----------------------------------------------------------- |
+  | id           | Document's id                                             | Integer  | x > 0                                                | READ                 |                                                             |
+  | title        | The title chosen for the collection of documents          | String   | max 60 characters                                    | READ                 |                                                             |
+  | description  | A text describing the documents                           | String   |                                                      | READ                 |                                                             |
+  | createdAt    | The time the document was created at                      | DateTime |                                                      | READ                 |                                                             |
+name: Documents

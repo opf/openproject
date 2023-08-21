@@ -1,0 +1,109 @@
+# /api/v3/queries
+---
+get:
+  summary: List queries
+  operationId: List_queries
+  tags:
+  - Queries
+  description: Returns a collection of queries. The collection can be filtered via
+    query parameters similar to how work packages are filtered. Please note however,
+    that the filters are applied to the queries and not to the work packages the queries
+    in turn might return.
+  parameters:
+  - description: |-
+      JSON specifying filter conditions.
+      Currently supported filters are:
+
+      + project: filters queries by the project they are assigned to. If the project filter is passed with the `!*` (not any) operator, global queries are returned.
+
+      + id: filters queries based on their id
+
+      + updated_at: filters queries based on the last time they where updated
+    example: '[{ "project_id": { "operator": "!*", "values": null }" }]'
+    in: query
+    name: filters
+    required: false
+    schema:
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            Queries:
+              "$ref": "../components/examples/queries.yml"
+          schema:
+            "$ref": "../components/schemas/queries_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not allowed to see the queries.
+      description: |-
+        Returned if the client does not have sufficient permissions to see queries.
+
+        **Required permission:** view work packages or manage public queries in any project
+      headers: {}
+post:
+  summary: Create query
+  operationId: Create_query
+  tags:
+  - Queries
+  description: |-
+    When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
+    The required fields of a Query can be found in its schema, which is embedded in the respective form.
+    Note that it is only allowed to provide properties or links supporting the write operation.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          "$ref": "../components/schemas/query_create_form.yml"
+  responses:
+    '201':
+      content:
+        application/hal+json:
+          examples:
+            Query:
+              "$ref": "../components/examples/query.yml"
+          schema:
+            "$ref": "../components/schemas/query_model.yml"
+      description: Created
+      headers: {}
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _embedded:
+                  details:
+                    attribute: project
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: Project not found
+      description: |-
+        Returned if:
+
+        * the client tries to modify a read-only property (`PropertyIsReadOnly`)
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+        * the client provides a link to an invalid resource (`ResourceTypeMismatch`),
+          e.g. a user, project or operator not found
+      headers: {}

@@ -1,0 +1,40 @@
+#English strings go here
+si:
+  label_avatar: "අවතාර්"
+  label_avatar_plural: "අවතාර්"
+  label_current_avatar: "වත්මන් අවතාරය"
+  label_choose_avatar: "ගොනුව සිට Avatar තෝරන්න"
+  message_avatar_uploaded: "අවතාර් සාර්ථකව වෙනස් විය."
+  error_image_upload: "රූපය සුරැකීමේ දෝෂය."
+  error_image_size: "රූපය ඉතා විශාලයි."
+  button_change_avatar: "වෙනස් අවතාරය"
+  are_you_sure_delete_avatar: "ඔබට ඔබේ අවතාරය මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?"
+  avatar_deleted: "අවතාර් සාර්ථකව මකා දැමීය."
+  unable_to_delete_avatar: "අවතාර් මකා දැමිය නොහැකි විය."
+  wrong_file_format: "අවසර ලත් ආකෘති jpg, png, gif වේ"
+  empty_file_error: "කරුණාකර වලංගු රූපයක් උඩුගත කරන්න (jpg, png, gif)"
+  avatars:
+    label_avatar: "අවතාර්"
+    label_gravatar: 'කැටයම්'
+    label_current_avatar: 'වත්මන් අවතාරය'
+    label_local_avatar: 'අභිරුචි අවතාරය'
+    text_current_avatar: |
+      පහත දැක්වෙන රූපය වත්මන් අවතාරය පෙන්වයි.
+    text_upload_instructions: |
+      128 පික්සල විසින් 128 ඔබේ ම අභිරුචි avatar උඩුගත කරන්න. විශාල ගොනු නැවත සකස් කිරීමට හා ගැලපෙන මුහුණදී ඇත.
+      ඔබ රූපයක් තෝරාගත් පසු ඔබගේ අවතාරයේ පෙරදසුනක් උඩුගත කිරීමට පෙර පෙන්වනු ලැබේ.
+    text_change_gravatar_html: 'ඔබගේ තැපැල් ලිපිනය සඳහා Gravatar වෙනස් කිරීමට හෝ එකතු කිරීමට, යන්න %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject ඔබට ඔබේම අභිරුචි අවතාරය උඩුගත කිරීමට ඉඩ සලසයි.
+    text_local_avatar_over_gravatar: |
+      ඔබ එකක් සකසා ඇත්නම්, මෙම චාරිත්රය අවතාරය ඉහත ගුරුත්වාකර්ණයට වඩා පූර්වයෙන් භාවිතා වේ.
+    text_your_current_gravatar: |
+      OpenProject ඔබ එකක් ලියාපදිංචි කර ඇත්නම් ඔබේ ගුරුත්වාකර්ෂණය භාවිතා කරයි, නැතහොත් එකක් තිබේ නම් පෙරනිමි රූපයක් හෝ නිරූපකයක් භාවිතා කරයි.
+      වත්මන් ගුරුත්වාකර්ෂණය පහත පරිදි වේ:
+    settings:
+      enable_gravatars: 'පරිශීලක ගුරුත්වාකර්ෂණ සක්රිය කරන්න'
+      gravatar_default: "පෙරනිමි රූපය"
+      enable_local_avatars: 'පරිශීලක අභිරුචි අවතාර සක්රීය'
+
+
+

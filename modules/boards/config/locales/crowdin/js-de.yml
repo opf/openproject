@@ -1,0 +1,86 @@
+#English strings go here
+de:
+  js:
+    boards:
+      create_new: 'Neues Board erstellen'
+      label_unnamed_board: 'Unbenanntes Board'
+      label_unnamed_list: 'Unbenannte Liste'
+      label_board_type: 'Board-Typ'
+      upsale:
+        teaser_text: 'Möchten Sie Ihre Workflows mit Boards automatisieren? Erweiterte Boards sind ein Enterprise Add-on. Bitte upgraden Sie auf ein kostenpflichtiges Abonnement.'
+        upgrade: 'Jetzt Upgrade durchführen'
+      lists:
+        delete: 'Liste löschen'
+      version:
+        is_locked: 'Version ist gesperrt. Keine Elemente können dieser Version hinzugefügt werden.'
+        is_closed: 'Version ist geschlossen. Keine Elemente können dieser Version hinzugefügt werden.'
+        close_version: 'Version schließen'
+        open_version: 'Version öffnen'
+        lock_version: 'Version sperren'
+        unlock_version: 'Version entsperren'
+        edit_version: 'Version bearbeiten'
+        show_version: 'Version anzeigen'
+        locked: 'Gesperrt'
+        closed: 'Erledigt'
+      new_board: 'Neues Board'
+      add_list: 'Liste zum Board hinzufügen'
+      add_card: 'Karte erstellen'
+      error_attribute_not_writable: "Das Arbeitspaket kann nicht verschoben werden, %{attribute} ist nicht schreibbar."
+      error_loading_the_list: "Fehler beim Laden der Liste: %{error_message}"
+      error_permission_missing: "Die Berechtigung zur Erstellung öffentlicher Abfragen fehlt"
+      error_cannot_move_into_self: "Sie können ein Arbeitspaket nicht in seine eigene Spalte verschieben."
+      text_hidden_list_warning: "Nicht alle Listen werden angezeigt, weil Ihnen die Berechtigung fehlt. Kontaktieren Sie Ihren Administrator für weitere Informationen."
+      click_to_remove_list: "Klicken, um diese Liste zu entfernen"
+      board_type:
+        text: 'Board-Typ'
+        free: 'Einfach'
+        select_board_type: 'Bitte wählen Sie den gewünschten Board-Typ aus.'
+        free_text: >
+          Beginnen Sie mit einem leeren Board und fügen Sie ihm frei Karten und Spalten hinzu.
+        action: 'Aktionsboard'
+        action_by_attribute: 'Aktionsboard (%{attribute})'
+        action_text: >
+          Ein Board mit gefilterten Listen auf dem Attribut %{attribute}. Das Verschieben von Arbeitspaketen in andere Listen verändert dieses Attribut entsprechend.
+        action_text_subprojects: >
+          Board mit dynamischen Spalten für Unterprojekte. Durch Verschieben von Arbeitspaketen kann das (Unter-)Projekt geändert werden.
+        action_text_subtasks: >
+          Board mit dynamischen Spalten für Unterelemente. Verschieben von Arbeitspaketen auf andere Listen aktualisiert das Elternelement.
+        action_text_status: >
+          Kanban-ähnliches Board mit dynamischen Spalten je Status für das Abbilden von Workflows.
+        action_text_assignee: >
+          Board mit dynamischen Spalten auf zugewiesene Nutzer von Arbeitspaketen. Ideal für die Verteilung von Aufgaben.
+        action_text_version: >
+          Board mit dynamischen Spalten, das auf dem Versions-Attribut basiert. Ideal für die Planung der Produktentwicklung.
+        action_type:
+          assignee: Zugewiesen an
+          status: Status
+          version: Version
+          subproject: Unterprojekt
+          subtasks: Eltern-Kind
+        board_type_title:
+          assignee: Zugewiesen an
+          status: Status
+          version: Version
+          subproject: Unterprojekt
+          subtasks: Eltern-Kind
+          basic: Einfach
+        select_attribute: "Aktionsattribut"
+      add_list_modal:
+        labels:
+          assignee: Benutzer zum Hinzufügen als neue Spalte auswählen
+          status: Status zum Hinzufügen als neue Spalte auswählen
+          version: Version zum Hinzufügen als neue Spalte auswählen
+          subproject: Unterprojekt zum Hinzufügen als neue Spalte auswählen
+          subtasks: Arbeitspaket zum Hinzufügen als neue Spalte auswählen
+        warning:
+          status: |
+            Derzeit ist kein Status verfügbar. <br>
+            Entweder gibt es keinen oder sie wurden alle bereits zum Board hinzugefügt.
+          assignee: Es gibt kein Mitglied, das mit Ihrem Filterwert übereinstimmt.  <br>
+          no_member: Dieses Projekt hat derzeit keine Mitglieder, die hinzugefügt werden können. <br>
+          add_members: <a href="%{link}">Fügen Sie ein neues Mitglied zu diesem Projekt</a> hinzu, um Benutzer zu diesem Board hinzuzufügen.
+      configuration_modal:
+        title: 'Board konfigurieren'
+        display_settings:
+          card_mode: "Als Karten anzeigen"
+          table_mode: "Als Tabelle anzeigen"

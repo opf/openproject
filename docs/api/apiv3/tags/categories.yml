@@ -1,0 +1,17 @@
+---
+description: |-
+  ## Linked Properties
+
+  |  Link           | Description                                         | Type          | Constraints | Supported operations |
+  |:---------------:| --------------------------------------------------- | ------------- | ----------- | -------------------- |
+  | self            | This category                                       | Category      | not null    | READ                 |
+  | project         | The project of this category                        | Project       | not null    | READ                 |
+  | defaultAssignee | Default assignee for work packages of this category | User          |             | READ                 |
+
+  ## Local Properties
+
+  | Property   | Description   | Type    | Constraints | Supported operations |
+  | :--------: | ------------- | ------- | ----------- | -------------------- |
+  | id         | Category id   | Integer | x > 0       | READ                 |
+  | name       | Category name | String  |             | READ                 |
+name: Categories

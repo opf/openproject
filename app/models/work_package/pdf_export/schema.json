@@ -1,0 +1,1749 @@
+{
+  "type" : "object",
+  "title" : "PDF Export Styling yml",
+  "description" : "This document describes the style settings format for the [PDF Export styling file](https://github.com/opf/openproject/blob/dev/app/models/work_package/pdf_export/standard.yml)",
+  "properties" : {
+    "page" : {
+      "$ref" : "#/$defs/page"
+    },
+    "page_logo" : {
+      "$ref" : "#/$defs/page_logo"
+    },
+    "page_header" : {
+      "$ref" : "#/$defs/page_header"
+    },
+    "page_footer" : {
+      "$ref" : "#/$defs/page_footer"
+    },
+    "page_heading" : {
+      "$ref" : "#/$defs/page_heading"
+    },
+    "work_package" : {
+      "$ref" : "#/$defs/work_package"
+    },
+    "toc" : {
+      "$ref" : "#/$defs/toc"
+    },
+    "cover" : {
+      "$ref" : "#/$defs/cover"
+    },
+    "overview" : {
+      "$ref" : "#/$defs/overview"
+    }
+  },
+  "required" : [],
+  "additionalProperties" : false,
+  "$defs" : {
+    "cover" : {
+      "title" : "Cover page",
+      "description" : "Styling for the cover page of the PDF report export",
+      "x-example" : {
+        "cover" : {
+          "header" : {},
+          "footer" : {},
+          "hero" : {}
+        }
+      },
+      "type" : "object",
+      "properties" : {
+        "header" : {
+          "title" : "Cover page header",
+          "description" : "Styling for the cover page header",
+          "$ref" : "#/$defs/cover_header"
+        },
+        "footer" : {
+          "title" : "Cover page footer",
+          "description" : "Styling for the cover page footer",
+          "$ref" : "#/$defs/cover_footer"
+        },
+        "hero" : {
+          "title" : "Cover page hero",
+          "description" : "Styling for the hero banner at the bottom at the cover page",
+          "$ref" : "#/$defs/cover_hero"
+        }
+      }
+    },
+    "cover_header" : {
+      "title" : "Cover page header",
+      "description" : "Styling for the cover page header of the PDF report export",
+      "x-example" : {
+        "header" : {
+          "logo_height" : 25,
+          "border" : {}
+        }
+      },
+      "type" : "object",
+      "properties" : {
+        "spacing" : {
+          "title" : "Minimum spacing between logo and page header text",
+          "examples" : [
+            20
+          ],
+          "$ref" : "#/$defs/measurement"
+        },
+        "offset" : {
+          "title" : "Offset position from page top",
+          "examples" : [
+            6.5
+          ],
+          "$ref" : "#/$defs/measurement"
+        },
+        "logo_height" : {
+          "title" : "Height of the logo in the page header",
+          "examples" : [
+            25
+          ],
+          "$ref" : "#/$defs/measurement"
+        },
+        "border" : {
+          "title" : "Cover page header",
+          "description" : "Styling for the cover page header",
+          "$ref" : "#/$defs/cover_header_border"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        }
+      ]
+    },
+    "cover_hero" : {
+      "title" : "Cover page hero",
+      "description" : "Styling for the hero banner at the bottom at the cover page",
+      "x-example" : {
+        "header" : {
+          "padding_right" : 150,
+          "padding_top" : 120,
+          "title" : {},
+          "heading" : {},
+          "subheading" : {}
+        }
+      },
+      "type" : "object",
+      "properties" : {
+        "padding_right" : {
+          "title" : "Padding right",
+          "description" : "Padding only on the right side of the hero banner",
+          "$ref" : "#/$defs/measurement"
+        },
+        "padding_top" : {
+          "title" : "Padding top",
+          "description" : "Padding only on the top side of the hero banner",
+          "$ref" : "#/$defs/measurement"
+        },
+        "title" : {
+          "title" : "The first block in the hero",
+          "type" : "object",
+          "x-example" : {
+            "title" : {
+              "max_height" : 30,
+              "spacing" : 10,
+              "font" : "SpaceMono",
+              "size" : 10,
+              "color" : "414d5f"
+            }
+          },
+          "properties" : {
+            "spacing" : {
+              "title" : "Minimum spacing between title and heading",
+              "examples" : [
+                10
+              ],
+              "$ref" : "#/$defs/measurement"
+            },
+            "max_height" : {
+              "title" : "Maximum height of the block",
+              "examples" : [
+                30
+              ],
+              "$ref" : "#/$defs/measurement"
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/font"
+            }
+          ]
+        },
+        "heading" : {
+          "title" : "The main block in the hero",
+          "type" : "object",
+          "x-example" : {
+            "heading" : {
+              "spacing" : 10,
+              "size" : 32,
+              "color" : "414d5f",
+              "styles" : [
+                "bold"
+              ]
+            }
+          },
+          "properties" : {
+            "spacing" : {
+              "title" : "Minimum spacing between heading and subheading",
+              "examples" : [
+                10
+              ],
+              "$ref" : "#/$defs/measurement"
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/font"
+            }
+          ]
+        },
+        "subheading" : {
+          "title" : "The last block in the hero",
+          "type" : "object",
+          "x-example" : {
+            "subheading" : {
+              "max_height" : 30,
+              "size" : 10,
+              "color" : "414d5f",
+              "styles" : [
+                "italic"
+              ]
+            }
+          },
+          "properties" : {
+            "max_height" : {
+              "title" : "Maximum height of the block",
+              "examples" : [
+                30
+              ],
+              "$ref" : "#/$defs/measurement"
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/font"
+            }
+          ]
+        }
+      }
+    },
+    "cover_footer" : {
+      "title" : "Cover page footer",
+      "description" : "Styling for the cover page footer of the PDF report export",
+      "x-example" : {
+        "footer" : {
+          "offset" : 20,
+          "size" : 10,
+          "color" : "064e80"
+        }
+      },
+      "type" : "object",
+      "properties" : {
+        "offset" : {
+          "title" : "Offset position from page bottom",
+          "examples" : [
+            30
+          ],
+          "$ref" : "#/$defs/measurement"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        }
+      ]
+    },
+    "cover_header_border" : {
+      "title" : "Cover page header border",
+      "description" : "Styling for the cover page header border of the PDF report export",
+      "x-example" : {
+        "border" : {
+          "color" : "d3dee3",
+          "height" : 1,
+          "offset" : 6
+        }
+      },
+      "type" : "object",
+      "properties" : {
+        "spacing" : {
+          "title" : "Minimum spacing between logo and page header text",
+          "examples" : [
+            20
+          ],
+          "$ref" : "#/$defs/measurement"
+        },
+        "offset" : {
+          "title" : "Offset position from page top",
+          "examples" : [
+            6
+          ],
+          "$ref" : "#/$defs/measurement"
+        },
+        "height" : {
+          "title" : "Line height of the border",
+          "examples" : [
+            25
+          ],
+          "$ref" : "#/$defs/measurement"
+        },
+        "color" : {
+          "title" : "Line color of the border",
+          "$ref" : "#/$defs/color"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        }
+      ]
+    },
+    "toc" : {
+      "title" : "Table of content",
+      "description" : "Styling for the table of content of the PDF report export",
+      "x-example" : {
+        "toc" : {
+          "subject_indent" : 4,
+          "indent_mode" : "stairs",
+          "margin_top" : 10,
+          "margin_bottom" : 20,
+          "item" : {
+            "size" : 9,
+            "color" : "000000",
+            "margin_bottom" : 4
+          },
+          "item_level_1" : {
+            "size" : 10,
+            "styles" : [
+              "bold"
+            ],
+            "margin_top" : 4,
+            "margin_bottom" : 4
+          },
+          "item_level_2" : {
+            "size" : 10
+          }
+        }
+      },
+      "type" : "object",
+      "properties" : {
+        "subject_indent" : {
+          "title" : "Indention width",
+          "description" : "Indention width for TOC levels",
+          "$ref" : "#/$defs/measurement"
+        },
+        "indent_mode" : {
+          "title" : "Indention mode",
+          "description" : "`flat`= no indention, `stairs` = indent on each level, `third_level` = indent only at 3th level",
+          "type" : "string",
+          "enum" : [
+            "flat",
+            "stairs",
+            "third_level"
+          ]
+        },
+        "item" : {
+          "type" : "object",
+          "title" : "Table of content item",
+          "description" : "Default styling for TOC items on all levels.<br/>use item_level_x` as key for TOC items on level `x`.",
+          "x-example" : {
+            "item" : {
+              "size" : 9,
+              "color" : "000000",
+              "margin_bottom" : 4
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/font"
+            },
+            {
+              "$ref" : "#/$defs/margin"
+            }
+          ]
+        }
+      },
+      "patternProperties" : {
+        "^item_level_\\d+" : {
+          "title" : "Table of content item level",
+          "type" : "object",
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/font"
+            },
+            {
+              "$ref" : "#/$defs/margin"
+            }
+          ]
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/margin"
+        }
+      ]
+    },
+    "overview" : {
+      "title" : "Overview",
+      "description" : "Styling for the PDF table export",
+      "x-example" : {
+        "overview" : {
+          "group_heading" : {},
+          "table" : {}
+        }
+      },
+      "type" : "object",
+      "properties" : {
+        "group_heading" : {
+          "type" : "object",
+          "title" : "Overview group heading",
+          "description" : "Styling for the group lavel if grouping is activated",
+          "x-example" : {
+            "group_heading" : {
+              "size" : 11,
+              "styles" : [
+                "bold"
+              ],
+              "margin_bottom" : 10
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/font"
+            },
+            {
+              "$ref" : "#/$defs/margin"
+            }
+          ]
+        },
+        "table" : {
+          "type" : "object",
+          "title" : "Overview table",
+          "x-example" : {
+            "table" : {
+              "subject_indent" : 0,
+              "margin_bottom" : 20,
+              "cell" : {
+                "size" : 9,
+                "color" : "000000",
+                "padding" : 5
+              },
+              "cell_header" : {
+                "size" : 9,
+                "styles" : [
+                  "bold"
+                ]
+              },
+              "cell_sums" : {
+                "size" : 8,
+                "styles" : [
+                  "bold"
+                ]
+              }
+            }
+          },
+          "properties" : {
+            "subject_indent" : {
+              "title" : "Indent subject",
+              "description" : "Indent by work package level in the subject cell",
+              "$ref" : "#/$defs/measurement"
+            },
+            "cell" : {
+              "title" : "Table cell",
+              "description" : "Styling for a table value cell",
+              "$ref" : "#/$defs/table_cell"
+            },
+            "cell_header" : {
+              "title" : "Table header cell",
+              "description" : "Styling for a table header cell",
+              "$ref" : "#/$defs/table_cell"
+            },
+            "cell_sums" : {
+              "title" : "Table sum cell",
+              "description" : "Styling for a table sum cell",
+              "$ref" : "#/$defs/table_cell"
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/margin"
+            }
+          ]
+        }
+      }
+    },
+    "work_package" : {
+      "type" : "object",
+      "title" : "Work package",
+      "description" : "Styling for the Work package section",
+      "x-example" : {
+        "work_package" : {
+          "margin_bottom" : 20,
+          "subject" : {
+          },
+          "subject_level_1" : {
+          },
+          "subject_level_2" : {
+          },
+          "subject_level_3" : {
+          },
+          "attributes_table" : {},
+          "markdown_label" : {},
+          "markdown_margin" : {},
+          "markdown" : {}
+        }
+      },
+      "properties" : {
+        "subject" : {
+          "type" : "object",
+          "title" : "Work package subject",
+          "description" : "Styling for the Work package subject headline",
+          "x-example" : {
+            "subject" : {
+              "size" : 10,
+              "styles" : [
+                "bold"
+              ],
+              "margin_bottom" : 10
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/font"
+            },
+            {
+              "$ref" : "#/$defs/margin"
+            }
+          ]
+        },
+        "attributes_table" : {
+          "type" : "object",
+          "title" : "Work package attributes",
+          "description" : "Styling for the Work package attributes table",
+          "x-example" : {
+            "attributes_table" : {
+              "margin_bottom" : 10,
+              "cell" : {
+                "size" : 9,
+                "color" : "000000",
+                "padding_left" : 5,
+                "padding_right" : 5,
+                "padding_top" : 0,
+                "padding_bottom" : 5,
+                "border_color" : "4B4B4B",
+                "border_width" : 0.25
+              },
+              "cell_label" : {
+                "styles" : [
+                  "bold"
+                ]
+              }
+            }
+          },
+          "properties" : {
+            "cell" : {
+              "title" : "Attribute value table cell",
+              "description" : "Styling for a table cell with attribute value",
+              "$ref" : "#/$defs/table_cell"
+            },
+            "cell_label" : {
+              "title" : "Attribute label table cell",
+              "description" : "Styling for a table cell with attribute label",
+              "$ref" : "#/$defs/table_cell"
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/margin"
+            }
+          ]
+        },
+        "markdown_label" : {
+          "type" : "object",
+          "title" : "Work package markdown label",
+          "description" : "Label headline for work package description and long text custom fields",
+          "x-example" : {
+            "markdown_label" : {
+              "size" : 12,
+              "styles" : [
+                "bold"
+              ],
+              "margin_top" : 2,
+              "margin_bottom" : 4
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/font"
+            },
+            {
+              "$ref" : "#/$defs/margin"
+            }
+          ]
+        },
+        "markdown_margin" : {
+          "type" : "object",
+          "title" : "Work package markdown margins",
+          "description" : "Margins for work package description and long text custom fields",
+          "x-example" : {
+            "markdown_margin" : {
+              "margin_bottom" : 16
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/margin"
+            }
+          ]
+        },
+        "markdown" : {
+          "$ref" : "#/$defs/markdown"
+        }
+      },
+      "patternProperties" : {
+        "^subject_level_\\d+" : {
+          "type" : "object",
+          "title" : "Work package subject level",
+          "x-example" : {
+            "subject_level_1" : {
+              "size" : 14,
+              "styles" : [
+                "bold"
+              ]
+            },
+            "subject_level_2" : {
+              "size" : 13,
+              "styles" : [
+                "bold"
+              ]
+            },
+            "subject_level_3" : {
+              "size" : 12,
+              "styles" : [
+                "bold"
+              ]
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/font"
+            },
+            {
+              "$ref" : "#/$defs/margin"
+            }
+          ]
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/margin"
+        }
+      ]
+    },
+    "markdown" : {
+      "type" : "object",
+      "title" : "Markdown Styling",
+      "description" : "Styling for content of work package description and long text custom fields",
+      "x-example" : {
+        "markdown" : {
+          "font" : {},
+          "header" : {},
+          "header_1" : {},
+          "header_2" : {},
+          "header_3" : {},
+          "paragraph" : {},
+          "unordered_list" : {},
+          "unordered_list_point" : {},
+          "ordered_list" : {},
+          "ordered_list_point" : {},
+          "task_list" : {},
+          "task_list_point" : {},
+          "link" : {},
+          "code" : {},
+          "blockquote" : {},
+          "codeblock" : {},
+          "table" : {}
+        }
+      },
+      "properties" : {
+        "font" : {
+          "$ref" : "#/$defs/font"
+        },
+        "paragraph" : {
+          "title" : "Markdown paragraph",
+          "description" : "A block of text",
+          "type" : "object",
+          "properties" : {
+            "align" : {
+              "type" : "string",
+              "enum" : [
+                "left",
+                "center",
+                "right",
+                "justify"
+              ]
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/font"
+            },
+            {
+              "$ref" : "#/$defs/padding"
+            }
+          ],
+          "x-example" : {
+            "paragraph" : {
+              "align" : "justify",
+              "padding_bottom" : "2mm"
+            }
+          }
+        },
+        "table" : {
+          "type" : "object",
+          "title" : "Markdown table",
+          "x-example" : {
+            "table" : {
+              "auto_width" : true,
+              "header" : {
+                "background_color" : "F0F0F0",
+                "no_repeating" : true,
+                "size" : 12
+              },
+              "cell" : {
+                "background_color" : "000FFF",
+                "size" : 10
+              }
+            }
+          },
+          "properties" : {
+            "auto_width" : {
+              "title" : "Automatic column widths",
+              "description" : "Table columns should fit the content, equal spacing of columns if value is `false`",
+              "type" : "boolean"
+            },
+            "header" : {
+              "$ref" : "#/$defs/table_header"
+            },
+            "cell" : {
+              "$ref" : "#/$defs/table_cell"
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/margin"
+            },
+            {
+              "$ref" : "#/$defs/border"
+            }
+          ]
+        },
+        "headless_table" : {
+          "type" : "object",
+          "title" : "Markdown headless table",
+          "description" : "Tables without or empty header rows can be styled differently.",
+          "x-example" : {
+            "headless_table" : {
+              "auto_width" : true,
+              "cell" : {
+                "style" : "underline",
+                "background_color" : "000FFF"
+              }
+            }
+          },
+          "properties" : {
+            "auto_width" : {
+              "title" : "Automatic column widths",
+              "description" : "Table columns should fit the content, equal spacing of columns if value is `false`",
+              "type" : "boolean"
+            },
+            "cell" : {
+              "$ref" : "#/$defs/table_cell"
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/margin"
+            },
+            {
+              "$ref" : "#/$defs/border"
+            }
+          ]
+        },
+        "code" : {
+          "type" : "object",
+          "title" : "Markdown code",
+          "description" : "Styling to denote a word or phrase as code",
+          "x-example" : {
+            "code" : {
+              "font" : "Consolas",
+              "color" : "880000"
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/font"
+            }
+          ]
+        },
+        "codeblock" : {
+          "type" : "object",
+          "title" : "Markdown code block",
+          "description" : "Styling to denote a paragraph as code",
+          "x-example" : {
+            "codeblock" : {
+              "background_color" : "F5F5F5",
+              "font" : "Consolas",
+              "size" : 8,
+              "color" : "880000",
+              "padding" : "3mm",
+              "margin_top" : "2mm",
+              "margin_bottom" : "2mm"
+            }
+          },
+          "properties" : {
+            "background_color" : {
+              "$ref" : "#/$defs/color"
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/font"
+            },
+            {
+              "$ref" : "#/$defs/padding"
+            },
+            {
+              "$ref" : "#/$defs/margin"
+            }
+          ]
+        },
+        "link" : {
+          "type" : "object",
+          "title" : "Markdown Link",
+          "description" : "Styling a clickable link",
+          "x-example" : {
+            "link" : {
+              "color" : "000088"
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/font"
+            }
+          ]
+        },
+        "image" : {
+          "type" : "object",
+          "title" : "Markdown image",
+          "description" : "Styling of images",
+          "x-example" : {
+            "image" : {
+              "max_width" : "50mm",
+              "margin" : "2mm",
+              "margin_bottom" : "3mm",
+              "align" : "center",
+              "caption" : {
+                "align" : "center",
+                "size" : 8
+              }
+            }
+          },
+          "properties" : {
+            "max_width" : {
+              "$ref" : "#/$defs/measurement",
+              "title" : "Maximum width of the image"
+            },
+            "align" : {
+              "$ref" : "#/$defs/alignment"
+            },
+            "caption" : {
+              "title" : "Image caption",
+              "description" : "Styling for the caption below an image",
+              "type" : "object",
+              "properties" : {
+                "align" : {
+                  "type" : "string",
+                  "enum" : [
+                    "left",
+                    "center",
+                    "right",
+                    "justify"
+                  ]
+                }
+              },
+              "allOf" : [
+                {
+                  "$ref" : "#/$defs/font"
+                },
+                {
+                  "$ref" : "#/$defs/padding"
+                }
+              ]
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/margin"
+            }
+          ]
+        },
+        "hrule" : {
+          "type" : "object",
+          "title" : "Markdown horizontal rule",
+          "description" : "Styling for horizontal lines",
+          "properties" : {
+            "line_width" : {
+              "title" : "Sets the stroke width of the horizontal rule",
+              "$ref" : "#/$defs/measurement"
+            }
+          },
+          "x-example" : {
+            "hrule" : {
+              "line_width" : 1
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/margin"
+            }
+          ]
+        },
+        "header" : {
+          "title" : "Markdown header",
+          "description" : "Default styling for headers on all levels.<br/>use header_`x` as key for header level `x`.",
+          "$ref" : "#/$defs/header"
+        },
+        "blockquote" : {
+          "type" : "object",
+          "title" : "Markdown blockquote",
+          "description" : "Styling to denote a paragraph as quote",
+          "x-example" : {
+            "blockquote" : {
+              "background_color" : "f4f9ff",
+              "size" : 14,
+              "styles" : [
+                "italic"
+              ],
+              "color" : "0f3b66",
+              "border_color" : "b8d6f4",
+              "border_width" : 1,
+              "no_border_right" : true,
+              "no_border_left" : false,
+              "no_border_bottom" : true,
+              "no_border_top" : true
+            }
+          },
+          "properties" : {
+            "background_color" : {
+              "$ref" : "#/$defs/color"
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/font"
+            },
+            {
+              "$ref" : "#/$defs/border"
+            },
+            {
+              "$ref" : "#/$defs/padding"
+            },
+            {
+              "$ref" : "#/$defs/margin"
+            }
+          ]
+        },
+        "ordered_list" : {
+          "title" : "Markdown ordered list",
+          "description" : "Default styling for ordered lists on all levels.<br/>use ordered_list_`x` as key for ordered list level `x`.",
+          "$ref" : "#/$defs/ordered_list"
+        },
+        "ordered_list_point" : {
+          "title" : "Markdown ordered list point",
+          "description" : "Default styling for ordered list points on all levels.<br/>use ordered_list_point_`x` as key for ordered list points level `x`.",
+          "$ref" : "#/$defs/ordered_list_point"
+        },
+        "unordered_list" : {
+          "title" : "Markdown unordered list",
+          "description" : "Default styling for unordered lists on all levels.<br/>use unordered_list_`x` as key for unordered list level `x`.",
+          "$ref" : "#/$defs/unordered_list"
+        },
+        "unordered_list_point" : {
+          "title" : "Markdown unordered list point",
+          "description" : "Default styling for unordered list points on all levels.<br/>use unordered_list_point_`x` as key for unordered list points level `x`.",
+          "$ref" : "#/$defs/unordered_list_point"
+        },
+        "task_list" : {
+          "title" : "Markdown task list",
+          "x-example" : {
+            "task_list" : {
+              "spacing" : "2mm"
+            }
+          },
+          "$ref" : "#/$defs/unordered_list"
+        },
+        "task_list_point" : {
+          "title" : "Markdown task list point",
+          "$ref" : "#/$defs/task_list_point"
+        }
+      },
+      "patternProperties" : {
+        "^ordered_list_point_\\d+" : {
+          "title" : "Markdown ordered list point level",
+          "$ref" : "#/$defs/ordered_list_point"
+        },
+        "^ordered_list_\\d+" : {
+          "title" : "Markdown ordered list level",
+          "$ref" : "#/$defs/ordered_list"
+        },
+        "^unordered_list_point_\\d+" : {
+          "title" : "Markdown unordered list point level",
+          "$ref" : "#/$defs/unordered_list_point"
+        },
+        "^unordered_list_\\d+" : {
+          "title" : "Markdown unordered List Level",
+          "$ref" : "#/$defs/unordered_list"
+        },
+        "^header_\\d+" : {
+          "title" : "Markdown header level",
+          "$ref" : "#/$defs/header"
+        }
+      }
+    },
+    "color" : {
+      "type" : "string",
+      "title" : "Color",
+      "description" : "A color in RRGGBB format",
+      "examples" : [
+        "F0F0F0"
+      ],
+      "x-example" : {
+        "color" : "F0F0F0"
+      },
+      "pattern" : "^(?:[0-9a-fA-F]{3}){1,2}$"
+    },
+    "font" : {
+      "title" : "Font properties",
+      "description" : "Properties to set the font style",
+      "type" : "object",
+      "x-example" : {
+        "font" : "OpenSans",
+        "size" : 10,
+        "character_spacing" : 0,
+        "styles" : [],
+        "color" : "000000",
+        "leading" : 2
+      },
+      "properties" : {
+        "font" : {
+          "type" : "string"
+        },
+        "size" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "character_spacing" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "leading" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "color" : {
+          "$ref" : "#/$defs/color"
+        },
+        "styles" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/$defs/font_style"
+          }
+        }
+      }
+    },
+    "font_style" : {
+      "type" : "string",
+      "title" : "Font Style",
+      "description" : "Style of the font to use",
+      "examples" : [
+        "bold"
+      ],
+      "enum" : [
+        "bold",
+        "italic",
+        "underline",
+        "strikethrough",
+        "superscript",
+        "subscript"
+      ]
+    },
+    "page" : {
+      "title" : "Page settings",
+      "description" : "Properties to set the basic page settings",
+      "type" : "object",
+      "x-example" : {
+        "page" : {
+          "page_size" : "EXECUTIVE",
+          "margin_top" : 60,
+          "margin_bottom" : 60,
+          "margin_left" : 36,
+          "margin_right" : 36,
+          "page_break_threshold" : 200,
+          "link_color" : "175A8E"
+        }
+      },
+      "properties" : {
+        "link_color" : {
+          "title" : "Link color",
+          "description" : "Set the color of clickable links",
+          "$ref" : "#/$defs/color"
+        },
+        "page_layout" : {
+          "title" : "Page layout",
+          "description" : "The layout of a page",
+          "type" : "string",
+          "examples" : [
+            "portrait"
+          ],
+          "enum" : [
+            "portrait",
+            "landscape"
+          ]
+        },
+        "page_size" : {
+          "type" : "string",
+          "title" : "Page size",
+          "description" : "The size of a page",
+          "examples" : [
+            "EXECUTIVE"
+          ],
+          "enum" : [
+            "EXECUTIVE",
+            "TABLOID",
+            "LETTER",
+            "LEGAL",
+            "FOLIO",
+            "A0",
+            "A1",
+            "A2",
+            "A3",
+            "A4",
+            "A5",
+            "A6",
+            "A7",
+            "A8",
+            "A9",
+            "A10",
+            "B0",
+            "B1",
+            "B2",
+            "B3",
+            "B4",
+            "B5",
+            "B6",
+            "B7",
+            "B8",
+            "B9",
+            "B10",
+            "C0",
+            "C1",
+            "C2",
+            "C3",
+            "C4",
+            "C5",
+            "C6",
+            "C7",
+            "C8",
+            "C9",
+            "C10",
+            "RA0",
+            "RA1",
+            "RA2",
+            "RA3",
+            "RA4",
+            "SRA0",
+            "SRA1",
+            "SRA2",
+            "SRA3",
+            "SRA4",
+            "4A0",
+            "2A0"
+          ]
+        },
+        "page_break_threshold" : {
+          "title" : "Page break threshold",
+          "description" : "If there is a new section, start a new page if space less than the threshold is available",
+          "$ref" : "#/$defs/measurement"
+        }
+      },
+      "allOf" : [
+        {
+          "title" : "Default font settings",
+          "$ref" : "#/$defs/font"
+        },
+        {
+          "title" : "Page margins",
+          "$ref" : "#/$defs/margin"
+        }
+      ]
+    },
+    "page_heading" : {
+      "title" : "Page heading",
+      "description" : "The main page title heading",
+      "x-example" : {
+        "page_heading" : {
+          "size" : 14,
+          "styles" : [
+            "bold"
+          ],
+          "margin_bottom" : 10
+        }
+      },
+      "type" : "object",
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        },
+        {
+          "$ref" : "#/$defs/margin"
+        }
+      ]
+    },
+    "page_footer" : {
+      "type" : "object",
+      "title" : "Page footers",
+      "x-example" : {
+        "page_footer" : {
+          "offset" : -30,
+          "size" : 8
+        }
+      },
+      "properties" : {
+        "offset" : {
+          "title" : "Offset position from page bottom",
+          "examples" : [
+            -30
+          ],
+          "$ref" : "#/$defs/measurement_signed"
+        },
+        "spacing" : {
+          "title" : "Minimum spacing between different page footers",
+          "examples" : [
+            8
+          ],
+          "$ref" : "#/$defs/measurement"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        }
+      ]
+    },
+    "page_header" : {
+      "type" : "object",
+      "title" : "Page headers",
+      "x-example" : {
+        "page_header" : {
+          "align" : "left",
+          "offset" : 20,
+          "size" : 8
+        }
+      },
+      "properties" : {
+        "align" : {
+          "$ref" : "#/$defs/alignment"
+        },
+        "offset" : {
+          "title" : "Offset position from page top",
+          "examples" : [
+            -30
+          ],
+          "$ref" : "#/$defs/measurement_signed"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        }
+      ]
+    },
+    "page_logo" : {
+      "title" : "Page logo",
+      "description" : "Styling for logo image in the page header.",
+      "type" : "object",
+      "x-example" : {
+        "page_logo" : {
+          "height" : 20,
+          "align" : "right"
+        }
+      },
+      "properties" : {
+        "height" : {
+          "$ref" : "#/$defs/measurement",
+          "title" : "Height of the image"
+        },
+        "align" : {
+          "$ref" : "#/$defs/alignment"
+        },
+        "offset" : {
+          "title" : "Offset position from page top",
+          "examples" : [
+            -30
+          ],
+          "$ref" : "#/$defs/measurement_signed"
+        }
+      }
+    },
+    "margin" : {
+      "title" : "Margin properties",
+      "description" : "Properties to set margins",
+      "type" : "object",
+      "x-example" : {
+        "margin" : "10mm",
+        "margin_top" : "15mm"
+      },
+      "properties" : {
+        "margin" : {
+          "title" : "Margin",
+          "description" : "One value for margin on all sides",
+          "$ref" : "#/$defs/measurement"
+        },
+        "margin_left" : {
+          "title" : "Margin left",
+          "description" : "Margin only on the left side",
+          "$ref" : "#/$defs/measurement"
+        },
+        "margin_right" : {
+          "title" : "Margin right",
+          "description" : "Margin only on the right side",
+          "$ref" : "#/$defs/measurement"
+        },
+        "margin_top" : {
+          "title" : "Margin top",
+          "description" : "Margin only on the top side",
+          "$ref" : "#/$defs/measurement"
+        },
+        "margin_bottom" : {
+          "title" : "Margin bottom",
+          "description" : "Margin only on the bottom side",
+          "$ref" : "#/$defs/measurement"
+        }
+      }
+    },
+    "padding" : {
+      "title" : "Padding Properties",
+      "description" : "Properties to set paddings",
+      "type" : "object",
+      "x-example" : {
+        "padding" : "10mm",
+        "padding_top" : "15mm"
+      },
+      "properties" : {
+        "padding" : {
+          "title" : "Padding",
+          "description" : "One value for padding on all sides",
+          "$ref" : "#/$defs/measurement"
+        },
+        "padding_left" : {
+          "title" : "Padding left",
+          "description" : "Padding only on the left side",
+          "$ref" : "#/$defs/measurement"
+        },
+        "padding_right" : {
+          "title" : "Padding right",
+          "description" : "Padding only on the right side",
+          "$ref" : "#/$defs/measurement"
+        },
+        "padding_top" : {
+          "title" : "Padding top",
+          "description" : "Padding only on the top side",
+          "$ref" : "#/$defs/measurement"
+        },
+        "padding_bottom" : {
+          "title" : "Padding bottom",
+          "description" : "Padding only on the bottom side",
+          "$ref" : "#/$defs/measurement"
+        }
+      }
+    },
+    "measurement" : {
+      "type" : [
+        "number",
+        "string"
+      ],
+      "pattern" : "^([0-9\\.]+)(mm|cm|dm|m|in|ft|yr|pt)$",
+      "description" : "A number >= 0 and an optional unit",
+      "examples" : [
+        "10mm",
+        "10"
+      ]
+    },
+    "measurement_signed" : {
+      "type" : [
+        "number",
+        "string"
+      ],
+      "pattern" : "^-?([0-9\\.]+)(mm|cm|dm|m|in|ft|yr|pt)$",
+      "description" : "A positive or negative number and an optional unit"
+    },
+    "alignment" : {
+      "title" : "Alignment",
+      "description" : "How the element should be aligned",
+      "examples" : [
+        "center"
+      ],
+      "type" : "string",
+      "enum" : [
+        "left",
+        "center",
+        "right"
+      ]
+    },
+    "unordered_list" : {
+      "title" : "Markdown unordered list",
+      "x-example" : {
+        "unordered_list" : {
+          "spacing" : "1.5mm",
+          "padding_top" : "2mm",
+          "padding_bottom" : "2mm"
+        }
+      },
+      "type" : "object",
+      "properties" : {
+        "spacing" : {
+          "title" : "Spacing",
+          "description" : "Additional space between list items",
+          "$ref" : "#/$defs/measurement"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        },
+        {
+          "$ref" : "#/$defs/padding"
+        }
+      ]
+    },
+    "unordered_list_point" : {
+      "title" : "Markdown unordered list point",
+      "x-example" : {
+        "unordered_list_point" : {
+          "sign" : "•",
+          "spacing" : "0.75mm"
+        }
+      },
+      "type" : "object",
+      "properties" : {
+        "sign" : {
+          "title" : "Sign",
+          "description" : "The 'bullet point' character used in the list",
+          "type" : "string"
+        },
+        "spacing" : {
+          "title" : "Spacing",
+          "description" : "Space between point and list item content",
+          "$ref" : "#/$defs/measurement"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        }
+      ]
+    },
+    "task_list_point" : {
+      "type" : "object",
+      "title" : "Markdown task list point",
+      "x-example" : {
+        "task_list_point" : {
+          "checked" : "☑",
+          "unchecked" : "☐",
+          "spacing" : "0.75mm"
+        }
+      },
+      "properties" : {
+        "checked" : {
+          "title" : "Checked sign",
+          "description" : "Sign for checked state of a task list item",
+          "type" : "string"
+        },
+        "unchecked" : {
+          "title" : "Unchecked sign",
+          "description" : "Sign for unchecked state of a task list item",
+          "type" : "string"
+        },
+        "spacing" : {
+          "title" : "Spacing",
+          "description" : "Additional space between point and list item content",
+          "$ref" : "#/$defs/measurement"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        }
+      ]
+    },
+    "ordered_list" : {
+      "title" : "Markdown ordered list",
+      "x-example" : {
+        "ordered_list" : {
+          "spacing" : "2mm",
+          "point_inline" : false
+        }
+      },
+      "type" : "object",
+      "properties" : {
+        "spacing" : {
+          "title" : "Spacing",
+          "description" : "Additional space between list items",
+          "$ref" : "#/$defs/measurement"
+        },
+        "point_inline" : {
+          "title" : "Inline Point",
+          "description" : "Do not indent paragraph text, but include the point into the first paragraph",
+          "type" : "boolean"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        },
+        {
+          "$ref" : "#/$defs/padding"
+        }
+      ]
+    },
+    "ordered_list_point" : {
+      "title" : "Markdown ordered list point",
+      "type" : "object",
+      "x-example" : {
+        "ordered_list_point" : {
+          "template" : "<number>.",
+          "alphabetical" : false,
+          "spacing" : "0.75mm",
+          "spanning" : true
+        }
+      },
+      "properties" : {
+        "spacing" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "alphabetical" : {
+          "title" : "Alphabetical bullet points",
+          "description" : "Convert the list item number into a character, eg. `a.` `b.` `c.`",
+          "type" : "boolean"
+        },
+        "spanning" : {
+          "title" : "Spanning",
+          "description" : "Use the width of the largest bullet as indention.",
+          "type" : "boolean"
+        },
+        "template" : {
+          "title" : "Template",
+          "description" : "customize what the prefix should contain, eg. `(<number>)`",
+          "type" : "string"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        }
+      ]
+    },
+    "header" : {
+      "type" : "object",
+      "title" : "Markdown header",
+      "x-example" : {
+        "header" : {
+          "styles" : [
+            "bold"
+          ],
+          "padding_top" : "2mm",
+          "padding_bottom" : "2mm"
+        },
+        "header_1" : {
+          "size" : 14,
+          "styles" : [
+            "bold",
+            "italic"
+          ]
+        },
+        "header_2" : {
+          "size" : 12,
+          "styles" : [
+            "bold"
+          ]
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        },
+        {
+          "$ref" : "#/$defs/padding"
+        }
+      ]
+    },
+    "table_cell" : {
+      "type" : "object",
+      "title" : "Table cell",
+      "description" : "Styling for a table cell",
+      "x-example" : {
+        "table_cell" : {
+          "size" : 9,
+          "color" : "000000",
+          "padding" : 5,
+          "border_width" : 1
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        },
+        {
+          "$ref" : "#/$defs/padding"
+        },
+        {
+          "$ref" : "#/$defs/border"
+        }
+      ]
+    },
+    "table_header" : {
+      "type" : "object",
+      "title" : "Table header cell",
+      "description" : "Styling for a table header cell",
+      "x-example" : {
+        "table_header" : {
+          "size" : 9,
+          "styles" : [
+            "bold"
+          ]
+        }
+      },
+      "properties" : {
+        "background_color" : {
+          "$ref" : "#/$defs/color"
+        },
+        "no_repeating" : {
+          "type" : "boolean"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        }
+      ]
+    },
+    "paragraph" : {
+      "type" : "object",
+      "title" : "Markdown paragraph",
+      "properties" : {
+        "align" : {
+          "type" : "string",
+          "enum" : [
+            "left",
+            "center",
+            "right",
+            "justify"
+          ]
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        },
+        {
+          "$ref" : "#/$defs/padding"
+        }
+      ]
+    },
+    "border" : {
+      "type" : "object",
+      "title" : "Border Properties",
+      "description" : "Properties to set borders",
+      "x-example" : {
+        "border_color" : "F000FF",
+        "border_color_top" : "000FFF",
+        "border_color_bottom" : "FFF000",
+        "no_border_left" : true,
+        "no_border_right" : true,
+        "border_width" : "0.25mm",
+        "border_width_left" : "0.5mm",
+        "border_width_right" : "0.5mm"
+      },
+      "properties" : {
+        "border_width" : {
+          "title" : "Border width",
+          "description" : "One value for border line width on all sides",
+          "$ref" : "#/$defs/measurement"
+        },
+        "border_width_left" : {
+          "title" : "Border width left",
+          "description" : "Border width only on the left side",
+          "$ref" : "#/$defs/measurement"
+        },
+        "border_width_top" : {
+          "title" : "Border width top",
+          "description" : "Border width only on the top side",
+          "$ref" : "#/$defs/measurement"
+        },
+        "border_width_right" : {
+          "title" : "Border width right",
+          "description" : "Border width only on the right side",
+          "$ref" : "#/$defs/measurement"
+        },
+        "border_width_bottom" : {
+          "title" : "Border width bottom",
+          "description" : "Border width only on the bottom side",
+          "$ref" : "#/$defs/measurement"
+        },
+        "border_color" : {
+          "title" : "Border color",
+          "description" : "One value for border color on all sides",
+          "$ref" : "#/$defs/color"
+        },
+        "border_color_left" : {
+          "title" : "Border color left",
+          "description" : "Border color only on the left side",
+          "$ref" : "#/$defs/color"
+        },
+        "border_color_top" : {
+          "title" : "Border color top",
+          "description" : "Border color only on the top side",
+          "$ref" : "#/$defs/color"
+        },
+        "border_color_right" : {
+          "title" : "Border color right",
+          "description" : "Border color only on the right side",
+          "$ref" : "#/$defs/color"
+        },
+        "border_color_bottom" : {
+          "title" : "Border color bottom",
+          "description" : "Border color only on the bottom side",
+          "$ref" : "#/$defs/color"
+        },
+        "no_border" : {
+          "title" : "Disable borders",
+          "description" : "Turn off borders on all sides",
+          "type" : "boolean"
+        },
+        "no_border_left" : {
+          "title" : "Disable border left",
+          "description" : "Turn off border on the left sides",
+          "type" : "boolean"
+        },
+        "no_border_top" : {
+          "title" : "Disable border top",
+          "description" : "Turn off border on the top sides",
+          "type" : "boolean"
+        },
+        "no_border_right" : {
+          "title" : "Disable border right",
+          "description" : "Turn off border on the right sides",
+          "type" : "boolean"
+        },
+        "no_border_bottom" : {
+          "title" : "Disable border bottom",
+          "description" : "Turn off border on the bottom sides",
+          "type" : "boolean"
+        }
+      }
+    }
+  }
+}

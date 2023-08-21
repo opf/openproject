@@ -1,0 +1,70 @@
+<% entries = @texts_by_type[tab[:name]] || [] %>
+<% if entries.any? %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <colgroup>
+          <col opHighlightCol>
+          <col opHighlightCol>
+          <col opHighlightCol>
+          <col>
+        </colgroup>
+        <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                  <span>
+                    <%= AttributeHelpText.human_attribute_name(:attribute_name) %>
+                  </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                  <span>
+                    <%= AttributeHelpText.human_attribute_name(:help_text) %>
+                  </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--empty-header"></div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <% entries.each do |attribute_help_text| -%>
+          <tr class="attribute-help-text--entry">
+            <td>
+              <%= link_to h(attribute_help_text.attribute_caption),
+                          edit_attribute_help_text_path(attribute_help_text) %>
+            </td>
+            <td>
+              <%= angular_component_tag 'attribute-help-text',
+                                        inputs: {
+                                          helpTextId: attribute_help_text.id,
+                                          attribute: attribute_help_text.attribute_name,
+                                          attributeScope: attribute_help_text.attribute_scope,
+                                          additionalLabel: t(:'attribute_help_texts.show_preview')
+                                        }
+              %>
+            </td>
+            <td class="buttons">
+              <%= link_to(
+                    op_icon('icon icon-delete'),
+                    (attribute_help_text_path(attribute_help_text)),
+                    method: :delete,
+                    data: { confirm: I18n.t(:text_are_you_sure) },
+                    title: t(:button_delete)) %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% else %>
+  <%= no_results_box %>
+<% end %>

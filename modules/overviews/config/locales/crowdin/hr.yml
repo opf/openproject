@@ -1,0 +1,4 @@
+hr:
+  overviews:
+    label: 'Pregled'
+  permission_manage_overview: 'Manage overview page'

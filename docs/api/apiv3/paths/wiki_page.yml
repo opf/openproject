@@ -1,0 +1,61 @@
+# /api/v3/wiki_pages/{id}
+---
+get:
+  parameters:
+  - description: Wiki page identifier
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  project:
+                    _type: Project...
+                    id: 12
+                _links:
+                  addAttachment:
+                    href: "/api/v3/wiki_pages/72/attachments"
+                    method: post
+                  attachments:
+                    href: "/api/v3/wiki_pages/72/attachments"
+                  project:
+                    href: "/api/v3/projects/12"
+                    title: some project
+                  self:
+                    href: "/api/v3/wiki_pages/72"
+                _type: WikiPage
+                id: 72
+                title: A wiki page with a name
+          schema:
+            "$ref": "../components/schemas/wiki_page_model.yml"
+      description: OK
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the wiki page does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view wiki page in the page's project
+      headers: {}
+  tags:
+  - Wiki Pages
+  description: Retrieve an individual wiki page as identified by the id parameter
+  operationId: View_Wiki_Page
+  summary: View Wiki Page

@@ -1,0 +1,22 @@
+version: "3.7"
+
+networks:
+  testing:
+
+services:
+  ci:
+    build:
+      context: .
+      dockerfile: ./docker/ci/Dockerfile
+    environment:
+      CI_JOBS: "${CI_JOBS}"
+      RSPEC_RETRY_RETRY_COUNT: "${CI_RETRY_COUNT:-3}"
+      CAPYBARA_AWS_ACCESS_KEY_ID: "${CAPYBARA_AWS_ACCESS_KEY_ID}"
+      CAPYBARA_AWS_SECRET_ACCESS_KEY: "${CAPYBARA_AWS_SECRET_ACCESS_KEY}"
+    tmpfs:
+      - "/tmp"
+    volumes:
+      # the spec folder is docker-ignored, so we need to mount it explicitly
+      - "./spec:/app/spec"
+      # used to store stuff that must persist between CI runs, e.g. turbo_tests runtime logs
+      - "${CI_CACHE_PATH:-/tmp}/op-cache:/cache"

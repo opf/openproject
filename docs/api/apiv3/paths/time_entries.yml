@@ -1,0 +1,146 @@
+# /api/v3/time_entries
+---
+get:
+  summary: List time entries
+  operationId: list_time_entries
+  tags:
+    - Time entries
+  description: |-
+    Lists time entries. The time entries returned depend on the filters
+    provided and also on the permission of the requesting user.
+  parameters:
+    - name: offset
+      description: Page number inside the requested collection.
+      example: 25
+      in: query
+      required: false
+      schema:
+        default: 1
+        type: integer
+    - name: pageSize
+      description: Number of elements to display per page.
+      example: '25'
+      in: query
+      required: false
+      schema:
+        type: integer
+    - name: sortBy
+      description: |-
+        JSON specifying sort criteria.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported sorts are:
+        
+        + id: Sort by primary key
+        
+        + hours: Sort by logged hours
+        
+        + spent_on: Sort by spent on date
+        
+        + created_at: Sort by time entry creation datetime
+        
+        + updated_at: Sort by the time the time entry was updated last
+      example: '[["spent_on", "asc"]]'
+      in: query
+      required: false
+      schema:
+        default: '["spent_on", "asc"]'
+        type: string
+    - name: filters
+      description: |-
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters are:
+        
+        + work_package: Filter time entries by work package
+        
+        + project: Filter time entries by project
+        
+        + user: Filter time entries by users
+        
+        + ongoing: Filter for your ongoing timers
+        
+        + spent_on: Filter time entries by spent on date
+        
+        + created_at: Filter time entries by creation datetime
+        
+        + updated_at: Filter time entries by the last time they where updated
+        
+        + activity: Filter time entries by time entry activity
+      example: '[{ "work_package": { "operator": "=", "values": ["1", "2"] } }, { "project": { "operator": "=", "values": ["1"] } }]'
+      in: query
+      required: false
+      schema:
+        type: string
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/time_entry_collection_model.yml'
+    '400':
+      $ref: '../components/responses/invalid_request_body.yml'
+    '403':
+      description: Returned if the client is not logged in and login is required.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to view this resource.
+
+post:
+  summary: Create time entry
+  tags:
+    - Time entries
+  description: |-
+    Creates a new time entry applying the attributes provided in the body.
+    Please note that while there is a fixed set of attributes, custom fields can extend
+    a time entries' attributes and are accepted by the endpoint.
+  operationId: create_time_entry
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+             $ref: '../components/schemas/time_entry_model.yml'
+    '400':
+      $ref: '../components/responses/invalid_request_body.yml'
+    '403':
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** Log time
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'
+    '422':
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _embedded:
+                  details:
+                    attribute: workPackage
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: Work package is invalid.

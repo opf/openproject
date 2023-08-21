@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VisualizationInfo Guid="{{UUID}}">
+  <Components>
+    <Selection>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkc$"/>
+      <Component IfcGuid="2IzdhaXk1DxQeoZSeKbhcz"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyCk"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyCj"/>
+      <Component IfcGuid="2VwVShDiz0gAl$BsweUrbl"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDZ"/>
+      <Component IfcGuid="30Vi1xXgzEtA72FJfoLgwc"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyCe"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDR"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBr"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkb$"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDP"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBn"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDM"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkb_"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcN"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDK"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDJ"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcM"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcL"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcK"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkbZ"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkbY"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcF"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDB"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcD"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcC"/>
+      <Component IfcGuid="13osNZG6b1HvGnEwG5IBDr"/>
+      <Component IfcGuid="3W4DSy3pb33QWyGgzgo0pw"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkc8"/>
+      <Component IfcGuid="0E1Yt2xX98svHrdrMFg9cE"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkc7"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkc6"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkc5"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkc4"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkc2"/>
+      <Component IfcGuid="30Vi1xXgzEtA72FJfoLgxk"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkc1"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkc0"/>
+      <Component IfcGuid="2PzCZPHLj8bQL_hp3fERU1"/>
+      <Component IfcGuid="1s$t1FRQf40wjxOyV1OVTV"/>
+      <Component IfcGuid="13osNZG6b1HvGnEwG5IBE9"/>
+      <Component IfcGuid="1pc0TFRcjAywrRV3HgpmMS"/>
+      <Component IfcGuid="0wh07UsgP8mf3ADo8LWq7U"/>
+      <Component IfcGuid="2VwVShDiz0gAl$BsweUrbX"/>
+      <Component IfcGuid="0wh07UsgP8mf3ADo8LWq6X"/>
+      <Component IfcGuid="3LnOhZYmz8UQwRTZK9roX$"/>
+      <Component IfcGuid="3W4DSy3pb33QWyGgzgo0mc"/>
+      <Component IfcGuid="2MXBDcWRP02P5tfnBdrHNU"/>
+      <Component IfcGuid="2MXBDcWRP02P5tfnBdrHNT"/>
+      <Component IfcGuid="3W4DSy3pb33QWyGgzgo0o9"/>
+      <Component IfcGuid="3W4DSy3pb33QWyGgzgo0mW"/>
+      <Component IfcGuid="2MXBDcWRP02P5tfnBdrHNJ"/>
+      <Component IfcGuid="3bII83hyD6Yu$Mpez2jNcv"/>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWOJ"/>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWOI"/>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWVj"/>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWVi"/>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWO6"/>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWO5"/>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWO4"/>
+      <Component IfcGuid="2UWgTxbmTEourPAlYFxD8x"/>
+      <Component IfcGuid="2UWgTxbmTEourPAlYFxD8v"/>
+      <Component IfcGuid="2UWgTxbmTEourPAlYFxD8u"/>
+      <Component IfcGuid="1mLIVAU39AxPo7CJmxmiBM"/>
+      <Component IfcGuid="1gOilIRmfEGwb7$SzUoanJ"/>
+      <Component IfcGuid="2OyfaLLJzADAvG7yl7qlqI"/>
+      <Component IfcGuid="2OyfaLLJzADAvG7yl7qlnw"/>
+      <Component IfcGuid="0e0$1G54f40AFFxJYqAOJk"/>
+      <Component IfcGuid="2OyfaLLJzADAvG7yl7qlnr"/>
+      <Component IfcGuid="2UWgTxbmTEourPAlYFxD8d"/>
+      <Component IfcGuid="0e0$1G54f40AFFxJYqAOJi"/>
+      <Component IfcGuid="2UWgTxbmTEourPAlYFxD8c"/>
+      <Component IfcGuid="2UWgTxbmTEourPAlYFxD8a"/>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWOz"/>
+      <Component IfcGuid="1nQPsl2Nv5Uvj6quEKe7LN"/>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWO_"/>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWQN"/>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWPL"/>
+      <Component IfcGuid="2OyfaLLJzADAvG7yl7qln3"/>
+      <Component IfcGuid="2OyfaLLJzADAvG7yl7qln0"/>
+      <Component IfcGuid="0mQ6Us0RbAEwcMtmD0TDm6"/>
+      <Component IfcGuid="2OyfaLLJzADAvG7yl7qlm1"/>
+      <Component IfcGuid="1pc0TFRcjAywrRV3HgppMl"/>
+      <Component IfcGuid="1pc0TFRcjAywrRV3HgppMh"/>
+      <Component IfcGuid="1pc0TFRcjAywrRV3HgppMf"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjh"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjg"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkiv"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjf"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkja"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkj7"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhV"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkj6"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhU"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhT"/>
+      <Component IfcGuid="0zsqKw7957Bh4NNjGz39d0"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhS"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkj3"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkj2"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhR"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhQ"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkj1"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkj0"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhP"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhO"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhM"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhL"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhK"/>
+      <Component IfcGuid="1gOilIRmfEGwb7$SzUohOS"/>
+      <Component IfcGuid="1azD0$4TTC1hgVDVWx5ITK"/>
+      <Component IfcGuid="1azD0$4TTC1hgVDVWx5ITI"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjX"/>
+      <Component IfcGuid="0LHXUGtOLEzvvIxaK5XMWV"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjW"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjT"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjS"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjR"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyAn"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyAl"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjN"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyAk"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjM"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjL"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyAi"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyD9"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjK"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyD8"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjJ"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhi"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjI"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBV"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyAf"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjH"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjG"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBR"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyAb"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyD2"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBQ"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBO"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBL"/>
+      <Component IfcGuid="2Cc$KVYf55mfjggfx$IIb9"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBK"/>
+      <Component IfcGuid="2Cc$KVYf55mfjggfx$IIb7"/>
+      <Component IfcGuid="2Cc$KVYf55mfjggfx$IIb6"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkbz"/>
+      <Component IfcGuid="0LHXUGtOLEzvvIxaK5XMW8"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBG"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkby"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBF"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkch"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBE"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBC"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcf"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkbu"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkbt"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBA"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkca"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkbp"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkbo"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkbn"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkbm"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyB3"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkdD"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyB0"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcR"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcQ"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcP"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkh2"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkh1"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDt"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcv"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcu"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDq"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDk"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDf"/>
+    </Selection>
+  </Components>
+  <PerspectiveCamera>
+    <CameraViewPoint>
+      <X>58.1038</X>
+      <Y>16.5493</Y>
+      <Z>24.7329</Z>
+    </CameraViewPoint>
+    <CameraDirection>
+      <X>1.28974</X>
+      <Y>1.2105</Y>
+      <Z>-0.569962</Z>
+    </CameraDirection>
+    <CameraUpVector>
+      <X>0.223629</X>
+      <Y>0.209889</Y>
+      <Z>0.951807</Z>
+    </CameraUpVector>
+    <FieldOfView>60</FieldOfView>
+  </PerspectiveCamera>
+</VisualizationInfo>

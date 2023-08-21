@@ -1,0 +1,298 @@
+#!/bin/bash
+
+set -e
+
+. ${INSTALLER_DIR}/wizard
+
+CLI="${APP_NAME}"
+VHOST_INCLUDES_DIR="/etc/${APP_NAME}/addons/apache2/includes/vhost"
+SERVER_INCLUDES_DIR="/etc/${APP_NAME}/addons/apache2/includes/server"
+OSFAMILY="$(wiz_fact osfamily)"
+SERVER_USER=$(${CLI} config:get SERVER_USER || echo "")
+SERVER_GROUP=$(${CLI} config:get SERVER_GROUP || echo "")
+SERVER_PATH_PREFIX=$(${CLI} config:get SERVER_PATH_PREFIX || echo "")
+INTERNAL_PORT=$(${CLI} config:get PORT || echo "6000")
+INTERNAL_URL="http://127.0.0.1:${INTERNAL_PORT}${SERVER_PATH_PREFIX}"
+
+##
+# Create and set proper permissions to the given SVN repositories root
+create_svn_repositories() {
+	local svn_repositories="$(wiz_get "repositories/svn-path")"
+	if [ ! -d "$svn_repositories" ] ; then
+		mkdir -p "$svn_repositories"
+	fi
+
+	# Ensure permissions are set to what we need
+	chown ${SERVER_USER}.${SERVER_GROUP} "$svn_repositories"
+	chmod 2770 "$svn_repositories"
+
+	${CLI} config:set SVN_REPOSITORIES="$svn_repositories"
+
+	if [ "$OSFAMILY" = "redhat" ] ; then
+		chcon -R -h -t httpd_sys_content_t "$svn_repositories" || true
+		chcon -R -h -t httpd_sys_rw_content_t "$svn_repositories" || true
+	fi
+}
+
+##
+# Create and set proper permissions to the given GIT repositories root
+create_git_repositories() {
+	local git_repositories="$(wiz_get "repositories/git-path")"
+	local git_http_backend="$(wiz_get "repositories/git-http-backend")"
+
+	if [ ! -d "$git_repositories" ] ; then
+		mkdir -p "$git_repositories"
+	fi
+
+	# Ensure permissions are set to what we need
+	chown ${APP_USER}.${SERVER_GROUP} "$git_repositories"
+	chmod 2770 "$git_repositories"
+
+	${CLI} config:set GIT_REPOSITORIES="$git_repositories"
+
+	if [ "$OSFAMILY" = "redhat" ] ; then
+		chcon -R -h -t httpd_sys_content_t "$git_repositories" || true
+		chcon -R -h -t httpd_sys_rw_content_t "$git_repositories" || true
+
+		# selinux requires the file, NOT the path, so remove the trailing
+		# slash we require elsewhere
+		git_http_backend_file=${git_http_backend%/}
+		chcon -t httpd_git_script_exec_t "$git_http_backend_file" || true
+		chcon -R -t httpd_git_rw_content_t "$git_repositories" || true
+	fi
+}
+
+##
+# Determine whether the given vendor (svn/git)
+# has been selected for installation in the wizard.
+vendor_selected() {
+	local VENDOR="$1"
+	VENDOR_CHOICE=$(wiz_get "repositories/$VENDOR-install")
+
+	[ "$VENDOR_CHOICE" = "install" ]
+}
+
+
+configure_api_key() {
+	local sys_api_key="$(wiz_get "repositories/api-key")"
+	${CLI} config:set SYS_API_KEY="${sys_api_key}"
+}
+
+reload_apache2() {
+	case "$OSFAMILY" in
+		"debian"|"suse")
+			service apache2 restart || true
+			;;
+		"redhat")
+			service httpd restart || true
+			;;
+	esac
+}
+
+##
+# Enable an included vhost configuration
+enable_apache2_vhost_include() {
+	local output="$1"
+	chmod 0640 "$output"
+
+	if [ "$OSFAMILY" = "redhat" ] ; then
+		# deal with SELinux
+		chcon -t httpd_config_t "$dst" || true
+	fi
+}
+
+##
+# Replace the configuration templates in 'svn_dav.conf'
+# and output the configured file as an Apache vhost configuration.
+setup_svn_configuration() {
+	local apikey="$1"
+	local src="conf/vhost/svn_dav.conf"
+	local dst="$VHOST_INCLUDES_DIR/svn_dav.conf"
+	local svn_repositories="$(wiz_get "repositories/svn-path")"
+
+	tmpfile=$(mktemp)
+	cp -f "$src" "$tmpfile"
+	sed -i "s|_SVN_REPOSITORIES_|${svn_repositories}|g" ${tmpfile}
+	sed -i "s|_APP_URI_|${INTERNAL_URL}|g" ${tmpfile}
+	sed -i "s|_APP_API_KEY_|${sys_api_key}|g" ${tmpfile}
+	sed -i "s|_SERVER_PATH_PREFIX_|${SERVER_PATH_PREFIX}|g" ${tmpfile}
+	mv -f "$tmpfile" "$dst"
+
+	enable_apache2_vhost_include "$dst"
+}
+
+##
+# Configures the Apache repoman wrapper to create and delete SVN repositories
+# through a simple API
+# in order to bypass permission problems created when pushing to mod_svn / Apache
+setup_subversion_wrapper() {
+	local access_token="$1"
+	local src="conf/vhost/repoman_svn_wrapper.conf"
+	local dst="$VHOST_INCLUDES_DIR/repoman_svn_wrapper.conf"
+	local svn_repositories="$(wiz_get "repositories/svn-path")"
+
+	tmpfile=$(mktemp)
+	cp -f "$src" "$tmpfile"
+	sed -i "s|_REPOMAN_ACCESS_TOKEN_|${access_token}|g" ${tmpfile}
+	sed -i "s|_SVN_REPOSITORIES_|${svn_repositories}|g" ${tmpfile}
+	sed -i "s|_SERVER_PATH_PREFIX_|${SERVER_PATH_PREFIX}|g" ${tmpfile}
+	mv -f "$tmpfile" "$dst"
+
+	${CLI} config:set SVN_REPOMAN_TOKEN="$access_token"
+	${CLI} config:set SVN_REPOMAN_URL="http://127.0.0.1${SERVER_PATH_PREFIX}repoman_svn"
+
+	enable_apache2_vhost_include "$dst"
+}
+
+
+##
+# Create a vhost for the repository wrapper to be accessed by localhost
+setup_subversion_vhost() {
+	local src="conf/server/20_repoman_svn_vhost.conf"
+	local dst="$SERVER_INCLUDES_DIR/20_repoman_svn_vhost.conf"
+	local repoman_location="$VHOST_INCLUDES_DIR/repoman_svn_wrapper.conf"
+
+	tmpfile=$(mktemp)
+	cp -f "$src" "$tmpfile"
+	sed -i "s|_REPOMAN_SVN_CONF_LOCATION_|${repoman_location}|g" ${tmpfile}
+	mv -f "$tmpfile" "$dst"
+
+	enable_apache2_vhost_include "$dst"
+}
+
+
+##
+# Replace the configuration templates in 'git_smart_http.conf'
+# and output the configured file as an Apache vhost configuration.
+setup_git_configuration() {
+	local apikey="$1"
+	local src="conf/vhost/git_smart_http.conf"
+	local dst="$VHOST_INCLUDES_DIR/git_smart_http.conf"
+	local git_repositories="$(wiz_get "repositories/git-path")"
+	local git_http_backend="$(wiz_get "repositories/git-http-backend")"
+
+	# Force trailing slash if missing to treat as CGI script
+	trailing=${git_http_backend:length-1:1}
+	[[ $trailing != "/" ]] && git_http_backend="${git_http_backend}/"; :
+
+	tmpfile=$(mktemp)
+	cp -f "$src" "$tmpfile"
+	sed -i "s|_GIT_REPOSITORIES_|${git_repositories}|g" ${tmpfile}
+	sed -i "s|_GIT_HTTP_BACKEND_|${git_http_backend}|g" ${tmpfile}
+	sed -i "s|_APP_URI_|${INTERNAL_URL}|g" ${tmpfile}
+	sed -i "s|_APP_API_KEY_|${sys_api_key}|g" ${tmpfile}
+	sed -i "s|_SERVER_PATH_PREFIX_|${SERVER_PATH_PREFIX}|g" ${tmpfile}
+	mv -f "$tmpfile" "$dst"
+
+	enable_apache2_vhost_include "$dst"
+}
+
+##
+# Let openproject be a member of the apache group
+# for easier group-based sharing of repository directories
+add_openproject_to_apache_group() {
+	if usermod --help 2>&1 | grep -- "-A group" &>/dev/null ; then
+		# sles11
+		usermod -A "${SERVER_GROUP}" "${APP_USER}"
+	else
+		usermod -a -G "${SERVER_GROUP}" "${APP_USER}"
+	fi
+}
+
+##
+# Configure the correct perl include path for loading
+# the OpenProjectAuthentication perl module.
+# Configure and write SVN and Git configuration files as Apache vhosts.
+configure_apache2_server() {
+	local sys_api_key="$(wiz_get "repositories/api-key")"
+	local repositories_perl_conf="$SERVER_INCLUDES_DIR/00_repositories_perl.conf"
+
+	# Delete old configuration, if it exists
+	local old_repositories_perl_conf="$SERVER_INCLUDES_DIR/repositories_perl.conf"
+	if [ -e ${old_repositories_perl_conf} ] ; then
+		rm -f ${old_repositories_perl_conf}
+	fi
+
+	case "$OSFAMILY" in
+		"debian")
+			mkdir -p /usr/lib/perl5/Apache/
+			cp -f "${APP_HOME}/extra/Apache/OpenProjectAuthentication.pm" /usr/lib/perl5/Apache/
+			cp -f "${APP_HOME}/extra/Apache/OpenProjectRepoman.pm" /usr/lib/perl5/Apache/
+			cat - <<SERVER_CONF > "$repositories_perl_conf"
+PerlSwitches -I/usr/lib/perl5
+PerlLoadModule Apache::OpenProjectAuthentication
+PerlLoadModule Apache::OpenProjectRepoman
+SERVER_CONF
+			;;
+		"redhat")
+			local perl_dir="/usr/lib64/perl5/Apache/"
+			mkdir -p $perl_dir
+			cp -f "${APP_HOME}/extra/Apache/OpenProjectAuthentication.pm" "$perl_dir"
+			cp -f "${APP_HOME}/extra/Apache/OpenProjectRepoman.pm" "$perl_dir"
+			cat - <<SERVER_CONF > "$repositories_perl_conf"
+PerlSwitches -I/usr/lib64/perl5/vendor_perl
+PerlLoadModule Apache::OpenProjectAuthentication
+PerlLoadModule Apache::OpenProjectRepoman
+SERVER_CONF
+			;;
+		"suse")
+			local perl_version="$(perl -e 'print substr $^V, 1;')"
+			local perl_dir="/usr/lib/perl5/vendor_perl/${perl_version}/Apache"
+			mkdir -p "$perl_dir"
+			cp -f "${APP_HOME}/extra/Apache/OpenProjectAuthentication.pm" "$perl_dir"
+			cp -f "${APP_HOME}/extra/Apache/OpenProjectRepoman.pm" "$perl_dir"
+			echo "PerlLoadModule Apache::OpenProjectAuthentication" > "$repositories_perl_conf"
+			echo "PerlLoadModule Apache::OpenProjectRepoman" >> "$repositories_perl_conf"
+			;;
+	esac
+
+	# Install SVN and Git when requested
+	if vendor_selected "svn"; then
+		echo "Setting up SVN integration for Apache"
+
+		# Install Apache wrapper
+		local apache_wrapper_token="$(wiz_get "repositories/apache-wrapper-token")"
+		setup_subversion_wrapper "$apache_wrapper_token"
+		setup_subversion_vhost
+
+		setup_svn_configuration "$sys_api_key"
+		create_svn_repositories
+	fi
+
+	if vendor_selected "git"; then
+		echo "Setting up Git integration for Apache"
+		setup_git_configuration "$sys_api_key"
+		create_git_repositories
+	fi
+
+	reload_apache2
+}
+
+install_apache_configuration() {
+	${CLI} config:set SVN_REPOSITORIES=""
+	${CLI} config:set GIT_REPOSITORIES=""
+
+	if vendor_selected "svn" || vendor_selected "git"; then
+		configure_apache2_server
+		add_openproject_to_apache_group
+	else
+		echo "No repositories have been configured. Skipping configuration."
+	fi
+}
+
+case "$(wiz_get "server/autoinstall")" in
+	"skip")
+		# vhost and config removal is already taken care of by the server wizard
+		;;
+	"install")
+		configure_api_key
+		case "$(wiz_get "server/variant")" in
+			"apache2")
+				install_apache_configuration
+				;;
+			*)
+				echo "Unsupported server variant."
+				;;
+		esac
+		;;
+esac

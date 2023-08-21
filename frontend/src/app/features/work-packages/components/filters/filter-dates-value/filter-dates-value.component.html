@@ -1,0 +1,9 @@
+<op-basic-range-date-picker
+  [id]="'values-' + filter.id"
+  [name]="'v[' + filter.id + ']'"
+  class="advanced-filters--date-field"
+
+  [value]="value"
+  (valueChange)="value = $event"
+  [opAutofocus]="shouldFocus"
+></op-basic-range-date-picker>

@@ -1,0 +1,12 @@
+<div class="op-sidebar">
+  <%=
+    angular_component_tag 'op-view-select',
+                          inputs: {
+                            projectId: (@project ? @project.id.to_s : ''),
+                            menuItems: [parent_name, name],
+                            baseRoute: 'work-packages',
+                            viewType: 'WorkPackagesTable',
+                          },
+                          class: 'op-sidebar--body'
+  %>
+</div>

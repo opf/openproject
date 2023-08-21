@@ -1,0 +1,18 @@
+#English strings go here for Rails i18n
+tr:
+  recaptcha:
+    label_recaptcha: "reCAPTCHA"
+    button_please_wait: 'Lütfen bekleyin ...'
+    verify_account: "Hesabınızı doğrulayın"
+    error_captcha: "Hesabınız doğrulanamadı. Lütfen bir yöneticiye başvurun."
+    settings:
+      website_key: 'Web sitesi anahtarı'
+      website_key_text: 'Bu etki alanı için reCAPTCHA yönetici konsolunda oluşturduğunuz web sitesi anahtarını girin.'
+      secret_key: 'Gizli anahtar'
+      secret_key_text: 'ReCAPTCHA yönetici konsolunda yarattığınız gizli anahtarı girin.'
+      type: 'ReCAPTCHA kullanın'
+      type_disabled: 'ReCAPTCHA''yı devre dışı bırak'
+      type_v2: 'reCAPTCHA v2'
+      type_v3: 'reCAPTCHA v3'
+      recaptcha_description_html: >
+        reCAPTCHA, OpenProject örneğiniz için etkinleştirilebilen Google tarafından sunulan ücretsiz bir hizmettir. Etkinleştirilirse, henüz bir captcha doğrulamayan tüm kullanıcılar için oturum açıldığında bir captcha formu oluşturulur. <br/> reCAPTCHA ve sürümleri ile web sitesinin ve gizli anahtarların nasıl oluşturulacağı hakkında daha fazla ayrıntı için lütfen aşağıdaki bağlantıya bakın: %{recaptcha_link}

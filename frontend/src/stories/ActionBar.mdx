@@ -1,0 +1,76 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ActionBarStories from './ActionBar.stories';
+
+<Meta of={ActionBarStories} />
+
+# Action Bar
+
+The action bar is generally used at the bottom of modals to present the user with a set of actions. These actions are often relative to choices or selections made in the containing modal.
+
+The most common choices are "Save/apply" and "Cancel".  At least one button (Cancel) is the absolute minimum.
+
+Above, you see an action bar embedded inside a modal dialogue.
+
+<Canvas of={ActionBarStories.InModal} />
+
+## Composition
+
+The action bar is composed of:
+
+**Button set**
+
+These are a set of buttons that form the main action choices presented to the user. Although a two-button set is most common, there can be a maximum of three buttons (see “[Options](#)” below).
+
+**Side option (optional)**
+
+The side option allows for a third action (usually a checkbox, but can also be a button, a toggle or any other control). Ideally, the text should be clear and concise.
+
+## Variants
+
+<Canvas of={ActionBarStories.Default} />
+
+By default:
+- the primary button set is on the right side of the action bar
+- the side option on the left
+- the bar has a grey background
+
+There are however alternative variants:
+
+**Left buttons**
+
+The button set can be moved to the left, placing the side action on the right. This should be used sparingly and only if absolutely necessary.
+
+<Canvas of={ActionBarStories.LeftButtons} />
+
+**Transparent background**
+
+The transparent background is useful for when having the action bar in grey (default) does not work visually. The transparent version will simply take the background colour of the element in which it is contained, usually white.
+
+<Canvas of={ActionBarStories.Transparent} />
+
+## Options
+
+**Side options**
+
+The side option is, as the name suggests, optional. An action bar can simply be empty on one side, like so:
+
+<Canvas of={ActionBarStories.NoSideOption} />
+
+**More buttons**
+
+The action bar can also be composed of up to three action buttons. Should there be more than three actions to be made available to the user, the third button will be a “More” button opens a drop-down with additional options.
+
+<Canvas of={ActionBarStories.MoreButtons} />
+
+## Behaviour
+
+At the very minimum there should be one action, ideally two: a primary action like ‘Save’ or ‘Delete’ and a secondary action like ‘Cancel’.
+
+When the action bar is use as a toolbar with more three buttons (or with a “More” button), all actions can be secondary.
+
+## Line breaks and wrapping
+
+When the text is too long, the button set will remain in one line, and the side option (if present) will move to a new line.
+
+If the text in the side option is too long, that will itself also wrap in multiple lines.

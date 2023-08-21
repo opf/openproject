@@ -1,0 +1,117 @@
+# /api/v3/capabilities
+---
+get:
+  parameters:
+  - description: |-
+      JSON specifying filter conditions.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
+
+      + action: Get all capabilities of a certain action
+
+      + principal: Get all capabilities of a principal
+
+      + context: Get all capabilities within a context. Note that for a project context the client needs to provide `p{id}`, e.g. `p5` and for the global context a `g`
+    example: '[{ "principal": { "operator": "=", "values": ["1"] }" }]'
+    in: query
+    name: filters
+    required: false
+    schema:
+      type: string
+  - description: |-
+      JSON specifying sort criteria.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported sorts are:
+
+      + id: Sort by the capabilities id
+    example: '[["id", "asc"]]'
+    in: query
+    name: sortBy
+    required: false
+    schema:
+      default: '[["id", "asc"]]'
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      action:
+                        href: "/api/v3/actions/work_packages/create"
+                        title: Add work package
+                      context:
+                        href: "/api/v3/projects/123"
+                        title: A project
+                      principal:
+                        href: "/api/v3/users/567"
+                        title: Some user
+                      self:
+                        href: "/api/v3/capabilities/work_packages/create/p123-567"
+                    _type: Capability
+                    id: work_packages/create/p123-567
+                  - _links:
+                      action:
+                        href: "/api/v3/actions/work_packages/assignee"
+                      context:
+                        href: "/api/v3/projects/123"
+                        title: A project
+                      principal:
+                        href: "/api/v3/users/567"
+                        title: Some user
+                      self:
+                        href: "/api/v3/capabilities/work_packages/assignee/p123-567"
+                    _type: Capability
+                    id: work_packages/assignee/p123-567
+                  - _links:
+                      action:
+                        href: "/api/v3/actions/memberships/create"
+                      context:
+                        href: "/api/v3/projects/345"
+                        title: A project
+                      principal:
+                        href: "/api/v3/users/821"
+                        title: Some user
+                      self:
+                        href: "/api/v3/capabilities/memberships/create/p345-821"
+                        title: Create members
+                    _type: Capability
+                    id: memberships/create/p345-821
+                  - _links:
+                      context:
+                        href: "/api/v3/capabilities/context/global"
+                        title: Global
+                      principal:
+                        href: "/api/v3/users/567"
+                        title: Some user
+                      self:
+                        href: "/api/v3/capabilities/users/delete/g-567"
+                        title: Delete user
+                    _type: Capability
+                    id: users/delete/g-567
+                _links:
+                  changeSize:
+                    href: "/api/v3/capabilities?pageSize={size}"
+                    templated: true
+                  jumpTo:
+                    href: "/api/v3/capabilities?offset={offset}"
+                    templated: true
+                  self:
+                    href: "/api/v3/capabilities"
+                _type: Collection
+                count: 4
+                total: 4
+          schema:
+            "$ref": "../components/schemas/list_capabilities_model.yml"
+      description: OK
+      headers: {}
+  tags:
+  - Actions & Capabilities
+  description: Returns a collection of actions assigned to a principal in a context.
+    The client can choose to filter the actions similar to how work packages are filtered.
+    In addition to the provided filters, the server will reduce the result set to
+    only contain actions, for which the requesting client has sufficient permissions
+  operationId: List_capabilities
+  summary: List capabilities

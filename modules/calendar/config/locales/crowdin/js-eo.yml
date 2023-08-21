@@ -1,0 +1,8 @@
+#English strings go here
+eo:
+  js:
+    calendar:
+      create_new: 'Create new calendar'
+      title: 'Kalendaro'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      unsaved_title: 'Unnamed calendar'

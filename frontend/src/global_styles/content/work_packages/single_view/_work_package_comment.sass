@@ -1,0 +1,41 @@
+.work-package-comment
+  display: flex
+  align-items: center
+  width: 100%
+  color: var(--body-font-color)
+  padding: 0
+  margin: 0
+  background: none
+  border: 1px solid #eee
+  cursor: pointer
+  height: 42px
+
+
+  &:hover &,
+  &:focus &
+    border-color: var(--inplace-edit--border-color)
+    text-decoration: none
+    color: var(--body-font-color)
+
+    &--icon
+      visibility: visible
+
+  // The trigger text left to the edit icon
+  &--text
+    flex: 1
+    padding: 3px
+
+  // The edit icon to the right of the trigger text
+  &--icon
+    height: 100%
+    text-align: center
+    width: 32px
+    background: var(--gray-light)
+    border-left: 1px solid var(--inplace-edit--border-color)
+    color: var(--body-font-color)
+    visibility: hidden
+    // Align the icon centered
+    display: flex
+    align-items: center
+    justify-content: center
+

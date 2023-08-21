@@ -1,0 +1,23 @@
+---
+description: |-
+  A QuerySortBy can be referenced by a Query to denote the sorting applied to the query's work package results. It consists of the columns to sort by as well as the direction (ascending/descending)
+
+  ## Actions
+
+  As of now, no actions are defined.
+
+  ## Linked Properties
+
+  | Property         | Description                                                                                                                                                                                                               | Type        | Constraints                      | Supported operations |
+  | :--------------: | ------------------------------------------------------                                                                                                                                                                    | ----------- | -------------------------------- | -------------------- |
+  | self             | This query sort by                                                                                                                                                                                                        | QuerySortBy | not null                         | READ                 |
+  | column           | The QueryColumn to sort on.                                                                                                                                                                                               | QueryColumn | not null                         | READ                 |
+  | direction        | The direction the QueryColumn is to be sorted in. This property is identified by a URI (`urn:openproject-org:api:v3:queries:directions:asc` or `urn:openproject-org:api:v3:queries:directions:desc`) instead of by a URL. |             | not null                         | READ                 |
+
+  ## Local Properties
+
+  | Property         | Description                                            | Type        | Constraints                      | Supported operations |
+  | :--------------: | ------------------------------------------------------ | ----------- | -------------------------------- | -------------------- |
+  | id               | QuerySortBy id                                         | String      | not null                         | READ                 |
+  | name             | QuerySortBy name                                       | String      | not null                         | READ                 |
+name: Query Sort Bys

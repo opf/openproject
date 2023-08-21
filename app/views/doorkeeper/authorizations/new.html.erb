@@ -1,0 +1,51 @@
+<% client_name = h(@pre_auth.client.name) %>
+<% user_login = h(current_user.login) %>
+
+<div id="login-form" class="form -bordered">
+  <h2><%= t('oauth.authorization_dialog.title', application_name: client_name) %></h2>
+  <p>
+    <%= t('oauth.authorization_dialog.prompt_html', application_name: client_name, login: user_login) %>
+  </p>
+
+  <% if @pre_auth.scopes.count > 0 %>
+    <div id="oauth-permissions">
+      <p>
+        <%= t('oauth.authorization_dialog.wants_to_access_html', login: h(current_user.login)) %>
+      </p>
+
+      <ul class="text-info">
+        <% @pre_auth.scopes.each do |scope| %>
+          <li>
+            <strong><%= t("oauth.scopes.#{scope}", default: scope.humanize) %></strong>
+            <br/>
+            <%= t "oauth.scopes.#{scope}_text", default: "Access to scope #{scope}" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form_tag oauth_authorization_path, method: :post do %>
+      <%= hidden_field_tag :client_id, @pre_auth.client.uid %>
+      <%= hidden_field_tag :redirect_uri, @pre_auth.redirect_uri %>
+      <%= hidden_field_tag :state, @pre_auth.state %>
+      <%= hidden_field_tag :response_type, @pre_auth.response_type %>
+      <%= hidden_field_tag :scope, @pre_auth.scope %>
+      <%= hidden_field_tag :code_challenge, @pre_auth.code_challenge %>
+      <%= hidden_field_tag :code_challenge_method, @pre_auth.code_challenge_method %>
+      <%= submit_tag t('oauth.authorization_dialog.authorize'), class: "button -highlight -expand" %>
+    <% end %>
+    <br/>
+    <%= form_tag oauth_authorization_path, method: :delete do %>
+      <%= hidden_field_tag :client_id, @pre_auth.client.uid %>
+      <%= hidden_field_tag :redirect_uri, @pre_auth.redirect_uri %>
+      <%= hidden_field_tag :state, @pre_auth.state %>
+      <%= hidden_field_tag :response_type, @pre_auth.response_type %>
+      <%= hidden_field_tag :scope, @pre_auth.scope %>
+      <%= hidden_field_tag :code_challenge, @pre_auth.code_challenge %>
+      <%= hidden_field_tag :code_challenge_method, @pre_auth.code_challenge_method %>
+      <%= submit_tag t('oauth.authorization_dialog.cancel'), class: "button--link -expand" %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+# /api/v3/values/schemas/{id}
+---
+get:
+  parameters:
+    - name: id
+      in: path
+      description: |-
+        The identifier of the value. This is typically the value of the `property` property of
+        the `Values` resource. It should be in lower camelcase format.
+      example: 'startDate'
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/schema_model.yml"
+          examples:
+            'Values::Property Start date schema':
+              $ref: '../components/examples/values_property_start_date_schema.yml'
+            'Values::Property Due date schema':
+              $ref: '../components/examples/values_property_due_date_schema.yml'
+            'Values::Property Date schema for Milestone work package':
+              $ref: '../components/examples/values_property_date_schema.yml'
+      description: OK
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the schema does not exist.
+    '400':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:BadRequest
+            message: "Bad request: property is invalid"
+      description: |-
+        Returned if the requested property id is not in a lower camel case format.
+  tags:
+    - Values::Property
+  description: The schema of a `Values` resource.
+  operationId: View_values_schema
+  summary: View Values schema

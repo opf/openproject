@@ -1,0 +1,21 @@
+<ng-select
+  [items]="to?.options | async"
+  [formControl]="formControl"
+  [formlyAttributes]="field"
+  bindLabel="name"
+  [searchable]="true"
+  [virtualScroll]="true"
+  [clearable]="false"
+  [clearOnBackspace]="false"
+  [clearSearchOnAdd]="false"
+  [hideSelected]="true"
+>
+  <ng-template ng-label-tmp let-item="item">
+    <span class="project-status--bulb -inline" [ngClass]="cssClass(item)"></span>
+    <span class="project-status--name" [ngClass]="cssClass(item)">{{item.name}}</span>
+  </ng-template>
+  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+    <span class="project-status--bulb -inline" [ngClass]="cssClass(item)"></span>
+    <span class="project-status--name" [ngClass]="cssClass(item)">{{item.name}}</span>
+  </ng-template>
+</ng-select>

@@ -1,0 +1,86 @@
+#English strings go here
+da:
+  js:
+    boards:
+      create_new: 'Create new board'
+      label_unnamed_board: 'Unnamed board'
+      label_unnamed_list: 'Unnamed list'
+      label_board_type: 'Board type'
+      upsale:
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+        upgrade: 'Upgrade now'
+      lists:
+        delete: 'Delete list'
+      version:
+        is_locked: 'Version is locked. No items can be added to this version.'
+        is_closed: 'Version is closed. No items can be added to this version.'
+        close_version: 'Close version'
+        open_version: 'Open version'
+        lock_version: 'Lock version'
+        unlock_version: 'Unlock version'
+        edit_version: 'Edit version'
+        show_version: 'Show version'
+        locked: 'Låst'
+        closed: 'Lukket'
+      new_board: 'New board'
+      add_list: 'Tilføj liste til tavlen'
+      add_card: 'Add card'
+      error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."
+      error_loading_the_list: "Error loading the list: %{error_message}"
+      error_permission_missing: "The permission to create public queries is missing"
+      error_cannot_move_into_self: "Du kan ikke flytte en arbejdspakke til sin egen kolonne."
+      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
+      click_to_remove_list: "Click to remove this list"
+      board_type:
+        text: 'Board type'
+        free: 'grundlæggende'
+        select_board_type: 'Vælg venligst den type tavle, du har brug for.'
+        free_text: >
+          Start fra bunden med et tomt bord. Tilføj manuelt kort og kolonner til denne tavle.
+        action: 'Action board'
+        action_by_attribute: 'Action board (%{attribute})'
+        action_text: >
+          En tavle med filtrerede lister på attributten %{attribute} . Flytning af arbejdspakker til andre lister vil opdatere deres attribut.
+        action_text_subprojects: >
+          Board med automatiserede kolonner til underprojekter. Træk arbejdspakker til andre lister opdaterer (under)projektet i overensstemmelse hermed.
+        action_text_subtasks: >
+          Board med automatiserede kolonner til underelementer. Træk arbejdspakker til andre lister, opdaterer den overordnede i overensstemmelse hermed.
+        action_text_status: >
+          Grundlæggende kanban stil tavle med kolonner til status som To Do, I gang, Udført.
+        action_text_assignee: >
+          Tavle med automatiserede kolonner baseret på tildelte brugere. Ideel til afsendelse af arbejdspakker.
+        action_text_version: >
+          Tavle med automatiserede kolonner baseret på versionsattributten. Ideel til planlægning af produktudvikling.
+        action_type:
+          assignee: Tildeler
+          status: Status
+          version: version
+          subproject: underprojekt
+          subtasks: overordnet-underordnet
+        board_type_title:
+          assignee: Tildelt
+          status: Status
+          version: Version
+          subproject: Underprojekt
+          subtasks: Parent-child
+          basic: Grundlæggende
+        select_attribute: "Action attribute"
+      add_list_modal:
+        labels:
+          assignee: Vælg bruger til at tilføje som en ny tildelingsliste
+          status: Vælg status for at tilføje som en ny liste
+          version: Vælg version for at tilføje som en ny liste
+          subproject: Vælg underprojekt der skal tilføjes som en ny liste
+          subtasks: Vælg arbejdspakke at tilføje som en ny liste
+        warning:
+          status: |
+            There is currently no status available. <br>
+            Either there are none or they have all already been added to the board.
+          assignee: Der er ikke noget medlem matchet med din filterværdi.  <br>
+          no_member: Dette projekt har i øjeblikket ikke nogen medlemmer, der kan tilføjes.  <br>
+          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+      configuration_modal:
+        title: 'Configure this board'
+        display_settings:
+          card_mode: "Display as cards"
+          table_mode: "Display as table"

@@ -1,0 +1,12 @@
+<% unless EnterpriseToken.allows_to?(ee_feature) %>
+  <span class="form--field -indented">
+    <%=
+    angular_component_tag 'op-enterprise-banner',
+                          inputs: {
+                            collapsible: true,
+                            textMessage: explanation,
+                            moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:attribute_highlighting][:href],
+                          }
+    %>
+  </span>
+<% end %>

@@ -1,0 +1,10 @@
+{
+  "paths": ["src/**/*.ts", "src/*.ts"],
+  "ignored": [
+    "**/node_modules/**/*",
+    "src/**/*.spec.ts",
+    "src/test/*"
+  ],
+  "port": 5004,
+  "quiet": true
+}

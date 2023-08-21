@@ -1,0 +1,38 @@
+<div *ngIf="editable"
+     (focusout)="saveWhenFocusOutside($event)"
+     class="editable-toolbar-title--container">
+  <button
+    *ngIf="showSave"
+    type="button"
+    class="spot-link editable-toolbar-title--save"
+    (click)="save($event, true)"
+    [attr.title]="text.query_has_changed_click_to_save">
+    <op-icon icon-classes="icon icon-save icon-no-color"></op-icon>
+  </button>
+  <input #editableTitleInput
+         size="1"
+         type="text"
+         aria-required="true"
+         [attr.name]="selectableTitleIdentifier"
+         [opAutofocus]="this.initialFocus || undefined"
+         (focus)="onFocus($event)"
+         (blur)="onBlur()"
+         (keydown.escape)="reset($event)"
+         (keydown.enter)="save($event)"
+         [attr.placeholder]="text.input_placeholder"
+         [attr.title]="text.input_title"
+         [(ngModel)]="selectedTitle"
+         [disabled]="inFlight"
+         [ngClass]="{ '-error': isEmpty, '-changed': showSave }"
+         class="editable-toolbar-title--input -border-on-hover-only toolbar--editable-toolbar ellipsis"/>
+  <!-- This is not an angular component, rather it is a custom element so the specificity of the css stays low.
+       The &nbsp;&nbsp; is for making sure that the shim is always a bit larger than the input. Sometimes the ellipsis
+       would kick in to early otherwise. -->
+  <input-shim
+    class="editable-toolbar-title--input editable-toolbar-title--input-shim toolbar--editable-toolbar">{{ selectedTitle || text.input_placeholder }}{{ selectedTitle ? '&nbsp;&nbsp;' : ''}}</input-shim>
+</div>
+<h2 *ngIf="!editable"
+    [attr.title]="selectedTitle"
+    [ngClass]="{ '-disabled': disabled, '-small': smallHeader }"
+    class="editable-toolbar-title--fixed">{{ selectedTitle }}
+</h2>

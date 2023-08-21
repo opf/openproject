@@ -1,0 +1,10 @@
+<% announcement = Announcement.active_and_current %>
+<% if announcement.present? %>
+<div id="announcement">
+  <div class="op-toast -info">
+    <div class="op-toast--content op-uc-container">
+      <%= format_text announcement.text %>
+    </div>
+  </div>
+</div>
+<% end %>

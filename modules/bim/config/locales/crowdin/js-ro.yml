@@ -1,0 +1,29 @@
+#English strings go here
+ro:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Importă'
+      import_bcf_xml_file: 'Importați fișierul BCF XML (BCF versiunea 2.1)'
+      export: 'Exportare'
+      export_bcf_xml_file: 'Exportați fișierul BCF XML (BCF versiunea 2.1)'
+      viewpoint: 'Punct de vedere'
+      add_viewpoint: 'Adăugați un punct de vedere'
+      show_viewpoint: 'Arată punctul de vedere'
+      delete_viewpoint: 'Ștergeți punctul de vedere'
+      management: 'Managementul BCF'
+      refresh: 'Reîmprospătare'
+      refresh_work_package: 'Reîmprospătare pachet de lucru'
+    ifc_models:
+      empty_warning: "Acest proiect nu are încă niciun model IFC."
+      use_this_link_to_manage: "Utilizați acest link pentru a încărca și gestiona modelele IFC"
+      keyboard_input_disabled: "Vizualizatorul nu dispune de comenzi de tastatură. Faceți clic pe vizualizator pentru a da control de tastatură vizualizatorului."
+      models:
+        ifc_models: 'Modele IFC'
+      views:
+        viewer: 'Vizualizare'
+        split: 'Vizualizator și tabel'
+        split_cards: 'Vizualizator și carduri'
+    revit:
+      revit_add_in: "Adăugare Revit"
+      revit_add_in_settings: "Setări Revit Add-In"

@@ -1,0 +1,40 @@
+.spot-selector-field
+  &--label-wrap
+    display: grid
+    grid-template-columns: auto 1fr
+    grid-template-areas: "input label" "description description"
+
+    &_reversed
+      grid-template-areas: "label input" "description description"
+
+  &--input
+    grid-area: input
+    padding-right: 0.5rem
+    display: flex
+    align-self: center
+
+    &_reversed
+      margin-left: auto
+      padding-left: 0.5rem
+      padding-right: 0
+
+      @media #{$spot-mq-drop-modal-full-screen}
+        // Push input to end of grid
+        justify-self: end
+
+  &--label
+    grid-area: label
+    margin-bottom: 0
+    align-self: center
+
+    &_regular
+      font-weight: normal
+
+  &--description
+    margin-bottom: 0
+
+  &--label,
+  &--description
+    white-space: pre-line
+    word-break: break-word
+    word-wrap: break-word

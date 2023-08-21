@@ -1,0 +1,41 @@
+---
+description: |-
+  A View is a representation of some information. That information might be a query (currently it always is).
+  The view will store the configuration on how to display the information but not the information itself.
+  
+  A View might then be a graph, a table, a gantt chart or something completely different.
+  The client will have to choose how to represenent in the view. 
+  
+  A View instance will always be of a subtype of `Views`, e.g. `Views::WorkPackageslist`. The properties between each `Views` type might differ a lot.
+  
+  **The View is a new concept so it is prone to change.**
+  
+  Currently a lot of restrictions still apply:
+    * There will always be a query associated to the view when in the complete concept, this limitation should not be necessary.
+    * A query can only have one view associated.
+    * There is neither an update nor a delete endpoint and the schema and form endpoints are also missing. 
+      To delete a view, simply delete the query.
+    * Most of the properties are deduced from the associated query and can thus only be updated via updating the query.
+    * The properties are not different between `Views` subtypes.
+
+  ## Linked Properties
+
+  | Link                  | Description                                                                                                               | Type                      | Constraints            | Supported operations |
+  | :-------------------: | ----------------------------------------                                                                                  | -------------             | --------               | -------------------- |
+  | self                  | This view                                                                                                                 | View (a subtype of it)    | not null               | READ                 |
+  | query                 | This query from which to fetch the data                                                                                   | Query                     | not null               | READ/WRITE           |
+  | project               | This project the view is defined in (deduces from the query). If no project is specified, the View is considered global.  | Project                   | Deduced from the query | READ                 |
+
+  ## Local Properties
+
+  | Property         | Description                                           | Type                  | Constraints                               | Supported operations|
+  | :--------------: | ------------------------------------------------------| -----------           | ------------------------------------      | --------------------|
+  | _type            | The subtype chosen                                    | String                |                                           | READ                |
+  | id               | View id                                               | Integer               | x > 0                                     | READ                |
+  | name             | View name                                             | String                | Deduced from the query                    | READ                |
+  | public           | Can users besides the owner see the view?             | Boolean               | Deduced from the query                    | READ                |
+  | starred          | Should the view be highlighted to the user?           | Boolean               | Deduced from the query                    | READ                |
+  | createdAt        | Time of creation                                      | DateTime              | not null                                  | READ                |
+  | updatedAt        | Time of the most recent change to the view            | DateTime              | not null                                  | READ                |
+
+name: Views

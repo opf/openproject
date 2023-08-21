@@ -1,0 +1,23 @@
+<div
+  class="op-pause-reminders"
+  [formGroup]="form"
+>
+  <spot-selector-field
+    class="op-pause-reminders--checkbox"
+    [label]="text.label"
+    [control]="form.get('enabled')"
+  >
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="enabled"
+    />
+  </spot-selector-field>
+
+  <op-basic-range-date-picker
+    *ngIf="(enabled$ | async)"
+    [required]="enabled$ | async"
+    [value]="selectedDates$ | async"
+    (valueChange)="setDates($event)"
+  ></op-basic-range-date-picker>
+</div>

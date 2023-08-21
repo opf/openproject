@@ -1,0 +1,78 @@
+# Schema: TimeEntryActivityModel
+---
+type: object
+required:
+  - _type
+  - id
+  - name
+  - position
+  - default
+  - _embedded
+  - _links
+properties:
+  _type:
+    type: string
+    enum:
+      - TimeEntriesActivity
+  id:
+    type: integer
+    description: Time entry id
+    minimum: 1
+  name:
+    type: string
+    description: The human readable name chosen for this activity
+  position:
+    type: integer
+    description: The rank the activity has in a list of activities
+  default:
+    type: boolean
+    description: Flag to signal whether this activity is the default activity
+  _embedded:
+    type: object
+    required:
+      - projects
+    properties:
+      projects:
+        type: array
+        items:
+          $ref: './project_model.yml'
+  _links:
+    type: object
+    required:
+      - self
+      - projects
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This time entry activity
+              
+              **Resource**: TimeEntriesActivity
+      projects:
+        type: array
+        items:
+          allOf:
+            - $ref: './link.yml'
+            - description: |-
+                One of the projects the time entry is active in.
+                
+                **Resource**: Project
+
+examples:
+  - _type: TimeEntriesActivity
+    id: 18
+    name: Management
+    position: 8
+    default: false
+    _embedded:
+      projects: [ ]
+    _links:
+      self:
+        href: "/api/v3/time_entries/activities/18"
+        title: Management
+      projects:
+        - href: "/api/v3/projects/death_star_v2"
+          title: DeathStarV2
+        - href: "/api/v3/projects/star_killer_base"
+          title: StarKillerBase

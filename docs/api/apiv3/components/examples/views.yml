@@ -1,0 +1,45 @@
+# Example: Views
+---
+value:
+  _links:
+    self:
+      href: "/api/v3/views"
+    changeSize:
+      href: "/api/v3/views?pageSize={size}"
+      templated: true
+    jumpTo:
+      href: "/api/v3/views?offset={offset}"
+      templated: true
+  total: 1
+  count: 1
+  _type: Collection
+  _embedded:
+    elements:
+      - _type: Views::WorkPackagesTable
+        name: Current work packages
+        timelineVisible: true
+        id: 9
+        _links:
+          self:
+            href: "/api/v3/views/9"
+          query:
+            href: "/api/v3/queries/18"
+            title: A query
+          columns:
+            - href: "/api/v3/users/id"
+              title: ID
+            - href: "/api/v3/users/subject"
+              title: Subject
+            - href: "/api/v3/users/type"
+              title: Type
+            - href: "/api/v3/users/status"
+              title: Status
+            - href: "/api/v3/users/priority"
+              title: Priority
+            - href: "/api/v3/users/assignee"
+              title: Assignee
+            - href: "/api/v3/users/updated_at"
+              title: Updated on
+          project:
+            href: "/api/v3/project/89"
+            title: The project

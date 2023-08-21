@@ -1,0 +1,32 @@
+<ng-select #ngSelectComponent
+           [(ngModel)]="model"
+           [items]="availableValues"
+           [ngClass]="classes"
+           [addTag]="createAllowed"
+           [virtualScroll]="true"
+           [required]="required"
+           [clearable]="!required"
+           [disabled]="disabled"
+           [typeahead]="typeahead"
+           [clearOnBackspace]="false"
+           [clearSearchOnAdd]="false"
+           [appendTo]="appendTo"
+           [hideSelected]="hideSelected"
+           [compareWith]="compareByHref"
+           [id]="id"
+           (change)="changeModel($event)"
+           (open)="opened()"
+           (close)="closed()"
+           (keydown)="keyPressed($event)"
+           bindLabel="name">
+  <ng-template ng-tag-tmp let-search="searchTerm">
+    <b [textContent]="text.add_new_action"></b>: {{search}}
+  </ng-template>
+
+  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+    <span [ngOptionHighlight]="search"
+          [textContent]="item.name"
+          class="ng-option-label ellipsis">
+    </span>
+  </ng-template>
+</ng-select>

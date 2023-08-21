@@ -1,0 +1,43 @@
+@import '../../app/spot/styles/sass/variables'
+@import '../../global_styles/openproject/variables'
+
+.op-non-working-days-list
+  .fc-list-event-graphic
+    display: none
+
+  &--delete-icon
+    opacity: 0
+
+  &--add-button
+    padding: $spot-spacing-0_5 0
+
+  .fc-list-event
+    &:hover
+      .op-non-working-days-list--delete-icon
+        opacity: 1
+
+  .fc-list-empty
+    display: unset !important
+    background: inherit
+
+  .fc-list-empty-cushion
+    margin: auto !important
+
+  .fc-list-day-cushion
+    a
+      cursor: default
+      color: black
+      text-decoration: none
+
+  .fc-list-event-title a
+    cursor: text
+
+  .fc-toolbar h2
+    display: inline
+    margin: $spot-spacing-0_25 $spot-spacing-0_5
+    padding-top: 1px
+    position: absolute
+
+  @media screen and (max-width: $breakpoint-sm)
+   .op-non-working-days-list--delete-icon
+      opacity: 1

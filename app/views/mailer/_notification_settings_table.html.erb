@@ -1,0 +1,17 @@
+<table <%= placeholder_table_styles(style: 'font-size:14px;') %>>
+  <tr>
+    <td>
+      <table <%= placeholder_table_styles(width:'100%',style: 'width:100%;') %>>
+        <tr>
+          <td>
+            <%= yield %>
+          </td>
+        </tr>
+      </table>
+    </td>
+    <%= placeholder_cell('10px', vertical: true) %>
+    <td>
+      <%= render partial: 'mailer/notification_settings_button' %>
+    </td>
+  </tr>
+</table>

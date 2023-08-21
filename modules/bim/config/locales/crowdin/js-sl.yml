@@ -1,0 +1,29 @@
+#English strings go here
+sl:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Uvozi'
+      import_bcf_xml_file: 'Uvozi BCF XML datoteko (BCF verzija 2.1)'
+      export: 'Izvozi'
+      export_bcf_xml_file: 'Izvozi BCF XML datoteko (BCF verzija 2.1)'
+      viewpoint: 'Pogled/vidik'
+      add_viewpoint: 'Dodaj pogled/vidik'
+      show_viewpoint: 'Prikaži pogled/vidik'
+      delete_viewpoint: 'Zbriši pogled/vidik'
+      management: 'Upravljanje BFC'
+      refresh: 'Osveži'
+      refresh_work_package: 'Osveži delovni paket'
+    ifc_models:
+      empty_warning: "Ta projekt še nima modelov IFC."
+      use_this_link_to_manage: "Uporabite povezavo za nalaganje in upravljanje z vašimi modeli IFC"
+      keyboard_input_disabled: "Preglednik nima nadzora tipkovnice . Kliknite na pregledovalnik, da mu omogočite nadzor nad tipkovnico.\n"
+      models:
+        ifc_models: 'model IFC'
+      views:
+        viewer: 'Preglednik'
+        split: 'Pregledovalnik in tabele'
+        split_cards: 'Preglednik in kartice '
+    revit:
+      revit_add_in: "Revit dodatek"
+      revit_add_in_settings: "Revit dodatek nastavitve"

@@ -1,0 +1,4 @@
+th:
+  dashboards:
+    label: 'แผงควบคุม'
+  project_module_dashboards: 'แผงควบคุม'

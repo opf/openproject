@@ -1,0 +1,123 @@
+# /api/v3/users/{id}/lock
+---
+delete:
+  summary: Unlock user
+  operationId: unlock_user
+  tags:
+    - Users
+  parameters:
+    - description: User id
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/user_model.yml'
+      description: OK
+    '400':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidUserStatusTransition
+            message: The current user account status does not allow this operation.
+      description: |-
+        Returned if the client tries to unlock a user account whose current status does not allow this transition.
+
+        **Required permission:** Administrators only
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to unlock the account of this user.
+      description: |-
+        Returned if the client does not have sufficient permissions for unlocking a user.
+
+        **Required permission:** Administrators only
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified user does not exist.
+      description: Returned if the user does not exist.
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+
+post:
+  summary: Lock user
+  operationId: lock_user
+  tags:
+    - Users
+  parameters:
+    - description: User id
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/user_model.yml'
+      description: OK
+    '400':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidUserStatusTransition
+            message: The current user account status does not allow this operation.
+      description: |-
+        Returned if the client tries to lock a user account whose current status does not allow this transition.
+
+        **Required permission:** Administrators only
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to lock the account of this user.
+      description: |-
+        Returned if the client does not have sufficient permissions for locking a user.
+
+        **Required permission:** Administrators only
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified user does not exist.
+      description: Returned if the user does not exist.
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"

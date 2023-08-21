@@ -1,0 +1,13 @@
+<%= I18n.t(:'mail.salutation', user: @user.firstname) %>
+<%= "#{I18n.t(:'mail.work_packages.mentioned_by', user: @journal.user)}" %>
+<%= "-" * 100 %>
+
+
+<%= "=" * (('# ' + @work_package.id.to_s + @work_package.subject).length + 4) %>
+= #<%= @work_package.id %> <%= @work_package.subject %> =
+<%= "=" * (('# ' + @work_package.id.to_s + @work_package.subject).length + 4) %>
+
+<%= I18n.t(:label_comment_added) %>:
+<%= strip_tags @journal.notes %>
+
+<%= "-" * 100 %>

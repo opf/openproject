@@ -1,0 +1,17 @@
+@import '../../../spot/styles/sass/variables'
+
+.op-project-include
+  &--include-all
+    display: flex
+    align-items: center
+    cursor: pointer
+
+    &-text
+      // A true center aligned text does not look center aligned
+      padding-top: 1px
+      margin-left: $spot-spacing-0_5
+
+  &--list
+    // If there is only one item and it is disabled, we'll need to be able to view the
+    // tooltip message. If we wouldn't have a default height here, the user would need to scroll
+    min-height: $spot-spacing-9

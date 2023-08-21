@@ -1,0 +1,11 @@
+.op-uc-list
+  page-break-inside: avoid
+
+  &_task-list
+    list-style: none
+  &--task-checkbox
+    margin-left: -1.5rem
+
+  &--item
+    @at-root .op-uc-container_editing #{&} input[type="checkbox"]
+      margin-top: -0.1rem

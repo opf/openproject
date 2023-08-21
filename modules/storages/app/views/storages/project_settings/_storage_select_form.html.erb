@@ -1,0 +1,55 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2023 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<div class="form--field -required">
+  <%= f.select :storage_id,
+               @available_storages.map { |storage| ["#{storage.name} (#{storage.short_provider_type})", storage.id] },
+               class: '-bold',
+               selected: @available_storages.first.id.to_s,
+               container_class: '-slim'
+  %>
+  <% if User.current.admin? %>
+      <span class="form--field-instructions">
+        <%= t(:"storages.instructions.setting_up_additional_storages") %>
+        <%= link_to "#{t(:label_administration)} / #{t(:project_module_storages)}", controller: '/storages/admin/storages', action: :index %>
+        .
+      </span>
+  <% end %>
+</div>
+
+<div class="form--field">
+  <%= styled_button_tag class: "-highlight" do %>
+    <%= spot_icon('checkmark') %>
+    <%= content_tag :span, submit_button_label %>
+  <% end %>
+  <%= link_to project_settings_project_storages_path(@project), class: 'button' do %>
+    <%= spot_icon('cancel') %>
+    <%= content_tag :span, t(:button_cancel) %>
+  <% end %>
+</div>

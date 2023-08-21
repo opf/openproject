@@ -1,0 +1,264 @@
+# /api/v3/work_packages
+---
+get:
+  summary: List work packages
+  operationId: list_work_packages
+  tags:
+    - Work Packages
+  description: Returns a collection of work packages.
+  parameters:
+    - description: Page number inside the requested collection.
+      example: '25'
+      in: query
+      name: offset
+      required: false
+      schema:
+        default: 1
+        type: integer
+    - description: Number of elements to display per page.
+      example: '25'
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+    - description: |-
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
+        endpoint. If no filter is to be applied, the client should send an empty array (`[]`), otherwise a default
+        filter is applied. A Currently supported filters are (there are additional filters added by modules):
+
+        - assigned_to
+        - assignee_or_group
+        - attachment_base
+        - attachment_content
+        - attachment_file_name
+        - author
+        - blocked
+        - blocks
+        - category
+        - comment
+        - created_at
+        - custom_field
+        - dates_interval
+        - description
+        - done_ratio
+        - due_date
+        - duplicated
+        - duplicates
+        - duration
+        - estimated_hours
+        - file_link_origin_id
+        - follows
+        - group
+        - id
+        - includes
+        - linkable_to_storage_id
+        - linkable_to_storage_url
+        - manual_sort
+        - milestone
+        - only_subproject
+        - parent
+        - partof
+        - precedes
+        - principal_base
+        - priority
+        - project
+        - relatable
+        - relates
+        - required
+        - requires
+        - responsible
+        - role
+        - search
+        - start_date
+        - status
+        - storage_id
+        - storage_url
+        - subject
+        - subject_or_id
+        - subproject
+        - type
+        - typeahead
+        - updated_at
+        - version
+        - watcher
+        - work_package
+      example: '[{ "type_id": { "operator": "=", "values": ["1", "2"] }}]'
+      in: query
+      name: filters
+      required: false
+      schema:
+        default: '[{ "status_id": { "operator": "o", "values": null }}]'
+        type: string
+    - description: |-
+        JSON specifying sort criteria.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
+      example: '[["status", "asc"]]'
+      in: query
+      name: sortBy
+      required: false
+      schema:
+        default: '[["id", "asc"]]'
+        type: string
+    - description: The column to group by.
+      example: status
+      in: query
+      name: groupBy
+      required: false
+      schema:
+        type: string
+    - description: Indicates whether properties should be summed up if they support it.
+      example: true
+      in: query
+      name: showSums
+      required: false
+      schema:
+        default: false
+        type: boolean
+    - description: |-
+        Comma separated list of properties to include.
+      example: 'total,elements/subject,elements/id,self'
+      in: query
+      name: select
+      required: false
+      schema:
+        type: string
+    - description: |-
+        In order to perform a [baseline comparison](/docs/api/baseline-comparisons), you may provide one or several timestamps
+        in ISO-8601 format as comma-separated list. The timestamps may be absolute or relative,
+        such as ISO8601 dates, ISO8601 durations and the following relative date keywords: "oneDayAgo@HH:MM+HH:MM",
+        "lastWorkingDay@HH:MM+HH:MM", "oneWeekAgo@HH:MM+HH:MM", "oneMonthAgo@HH:MM+HH:MM".
+        The first "HH:MM" part represents the zero paded hours and minutes.
+        The last "+HH:MM" part represents the timezone offset from UTC associated with the time,
+        the offset can be positive or negative e.g."oneDayAgo@01:00+01:00", "oneDayAgo@01:00-01:00".
+
+        Usually, the first timestamp is the baseline date, the last timestamp is the current date.
+        Values older than 1 day are accepted only with valid Enterprise Token available.
+      example: '2022-01-01T00:00:00Z,PT0S'
+      in: query
+      name: timestamps
+      required: false
+      schema:
+        default: PT0S
+        type: string
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/work_packages_model.yml'
+    '400':
+      $ref: '../components/responses/invalid_request_body.yml'
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to see work packages.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** view work packages (globally or in any project)
+
+post:
+  summary: Create Work Package
+  operationId: create_work_package
+  tags:
+    - Work Packages
+  description: |-
+    When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
+    The required fields of a WorkPackage can be found in its schema, which is embedded in the respective form.
+    Note that it is only allowed to provide properties or links supporting the write operation.
+
+    A project link must be set when creating work packages through this route.
+
+    When setting start date, finish date, and duration together, their correctness will be checked and a 422 error will be returned if one value does not match with the two others. You can make the server compute a value: set only two values in the request and the third one will be computed and returned in the response. For instance, when sending `{ "startDate": "2022-08-23", duration: "P2D" }`, the response will include `{ "dueDate": "2022-08-24" }`.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/work_package_model.yml'
+  parameters:
+    - description: |-
+        Indicates whether change notifications (e.g. via E-Mail) should be sent.
+        Note that this controls notifications for all users interested in changes to the work package (e.g. watchers, author and assignee),
+        not just the current user.
+      example: false
+      in: query
+      name: notify
+      required: false
+      schema:
+        default: true
+        type: boolean
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/work_package_model.yml'
+    '400':
+      $ref: '../components/responses/invalid_request_body.yml'
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not allowed to add work packages to this project.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** add work packages
+
+        *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified project does not exist.
+      description: |-
+        Returned if the project does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permissions:** view project
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+        That's why a 404 is returned here, even if a 403 might be more appropriate.*
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: The subject might not be blank.
+            _embedded:
+              details:
+                attribute: Subject
+      description: |-
+        Returned if:
+
+        * the client tries to write a read-only property
+
+        * a constraint for a property was violated
+
+        * a property was provided in an unreadable format

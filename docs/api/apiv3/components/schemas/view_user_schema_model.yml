@@ -1,0 +1,121 @@
+# Schema: View_user_schemaModel
+---
+type: object
+example:
+  _type: Schema
+  _dependencies: []
+  id:
+    type: Integer
+    name: ID
+    required: true
+    hasDefault: false
+    writable: false
+    options: {}
+  login:
+    type: String
+    name: Username
+    required: true
+    hasDefault: false
+    writable: true
+    minLength: 1
+    maxLength: 255
+    options: {}
+  admin:
+    type: Boolean
+    name: Administrator
+    required: false
+    hasDefault: false
+    writable: true
+    options: {}
+  mail:
+    type: String
+    name: Email
+    required: true
+    hasDefault: false
+    writable: true
+    minLength: 1
+    maxLength: 255
+    options: {}
+  firstName:
+    type: String
+    name: First name
+    required: true
+    hasDefault: false
+    writable: false
+    minLength: 1
+    maxLength: 255
+    options: {}
+  lastName:
+    type: String
+    name: Last name
+    required: true
+    hasDefault: false
+    writable: false
+    minLength: 1
+    maxLength: 255
+    options: {}
+  avatar:
+    type: String
+    name: Avatar
+    required: false
+    hasDefault: false
+    writable: false
+    options: {}
+  status:
+    type: String
+    name: Status
+    required: false
+    hasDefault: false
+    writable: true
+    options: {}
+  identityUrl:
+    type: String
+    name: Identity url
+    required: false
+    hasDefault: false
+    writable: true
+    options: {}
+  language:
+    type: String
+    name: Language
+    required: false
+    hasDefault: false
+    writable: true
+    options: {}
+  password:
+    type: Password
+    name: Password
+    required: false
+    hasDefault: false
+    writable: false
+    options: {}
+  createdAt:
+    type: DateTime
+    name: Created on
+    required: true
+    hasDefault: false
+    writable: false
+    options: {}
+  updatedAt:
+    type: DateTime
+    name: Updated on
+    required: true
+    hasDefault: false
+    writable: false
+    options: {}
+  customField1:
+    type: String
+    name: User String CF
+    required: false
+    hasDefault: false
+    writable: true
+  customField2:
+    type: CustomOption
+    name: User List cf
+    required: false
+    hasDefault: false
+    writable: true
+    location: _links
+  _links:
+    self:
+      href: "/api/v3/users/schema"

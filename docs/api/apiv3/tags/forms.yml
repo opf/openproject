@@ -1,0 +1,88 @@
+---
+description: |-
+  This API provides forms as a concept to aid in editing or creating resources. The goal of forms is to:
+
+  * make writable properties of a resource discoverable
+
+  * show to which values a property can be set
+
+  * validate changes to a resource and indicate validation errors
+
+  These benefits aside, a client can freely choose to immediately edit a resource without prior validation by a form.
+  In the case of an invalid request the edit will fail and return appropriate errors nevertheless.
+
+  A form is associated to a single resource and aids in performing changes on that resource.
+  When posting to a form endpoint with an empty request body or an empty JSON object,
+  you will receive an initial form for the associated resource.
+  Subsequent calls to the form should contain a single JSON object as described by the form.
+
+  ## Actions
+
+  | Link                | Description                                                           | Condition                        |
+  |:-------------------:| --------------------------------------------------------------------- | -------------------------------- |
+  | validate            | Validate changes, show errors and allowed values for changed resource |                                  |
+  | commit              | Actually perform changes to the resource                              | form content is valid            |
+  | previewMarkup       | Post markup (e.g. markdown) here to receive an HTML-rendered response |                                  |
+
+  ## Linked Properties
+
+  | Link                | Description                                      | Type          | Nullable | Supported operations |
+  |:-------------------:| ------------------------------------------------ | ------------- | -------- | -------------------- |
+  | self                | This form                                        | Form          |          | READ                 |
+
+  ## Embedded Properties:
+
+  Apart from the linked properties, forms contain always three other embedded properties:
+
+  * `payload`
+
+  * `schema`
+
+  * `validationErrors`
+
+  Their purpose is explained below.
+
+  ### Payload
+
+  The payload contains an edited version of the resource that will be modified when committing the form.
+  This representation contains all writable properties of the resource and reflects all changes that the latest call to **validate** included,
+  thereby acting as a preview for the changes.
+
+  In case the client tries to set the value to something invalid, the invalid change is also reflected here. However a validation error (see below)
+  indicates that a commit of this payload would fail.
+
+  It might happen that setting one property affects the allowed values for another property. Thus by changing a property A
+  the current value of another property B might become invalid. If the client did not yet touch the value of B, the payload will
+  contain a default value for that property. Nevertheless the client will also receive an appropriate validation error for value B.
+
+  The content of this element *can* be used as a template for the request body of a call to **validate** or **commit**.
+
+  A call to **validate** and **commit** does not need to include all properties that were defined in the `payload` section.
+  It is only necessary to include the properties that you want to change, as well as the `lockVersion` if one is present.
+  However you *may* include all the properties sent in the `payload` section.
+
+  ### Schema
+
+  The schema embedded in a form is a normal [schema describing the underlying resource](https://www.openproject.org/docs/api/endpoints/schemas/).
+  However, the embedded schema can change with each revalidation of the form.
+  For example it might be possible, that changing the type of a work package affects its available properties,
+  as well as possible values for certain properties.
+  As this makes the embedded schema very dynamic, it is not included as a static link.
+
+  ### Validation Errors
+
+  Like a schema the validation errors build a dictionary where the key is a property name.
+  Each value is an error object that indicates the error that occurred validating the corresponding property.
+  There are only key value pairs for properties that failed validation, the element is empty if all validations succeeded.
+
+  However note that even in the case of validation errors, the response you receive from the form endpoint will be an HTTP 200.
+  That is because the main purpose of a form is helping the client to sort out validation errors.
+
+  ### Meta object
+
+  Form resources may have an additional `_meta` object that contains parameters to be sent together with the resource,
+  but that do not belong to the resource itself. For example, parameters on if and how to send notifications for the action
+  performed with the API request can be sent.
+
+  Each individual endpoint will describe their meta properties, if available.
+name: Forms

@@ -1,0 +1,16 @@
+<%= turbo_frame_tag "my_timers" do %>
+  <div
+    class="op-menu--item-action"
+    data-controller="my--timers"
+    data-my--timers-start-value="'<%= @timer.created_at %>'"
+    data-application-target="dynamic"
+  >
+
+    <span
+      data-my--timers-target="elapsedTime"
+
+    ></span>
+
+   
+  </div>
+<% end %>

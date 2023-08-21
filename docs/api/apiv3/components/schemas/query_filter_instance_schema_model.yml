@@ -1,0 +1,77 @@
+# Schema: Query_Filter_Instance_SchemaModel
+---
+type: object
+required:
+- name
+- filter
+properties:
+  name:
+    type: string
+    description: Describes the name attribute
+    readOnly: true
+  filter:
+    type: string
+    description: QuerySortBy name
+  _links:
+    type: object
+    required:
+    - self
+    - filter
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This QueryFilterInstanceSchema (same as for schema)
+
+            **Resource**: QueryFilterInstanceSchema
+          readOnly: true
+      filter:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            The filter for which this schema is specific
+
+            **Resource**: Filter
+          readOnly: true
+example:
+  _type: QueryFilterInstanceSchema
+  _dependencies:
+  - _type: SchemaDependency
+    'on': operator
+    dependencies:
+      "/api/v3/queries/operators/=":
+        values:
+          type: "[]User"
+          name: Values
+          required: true
+          hasDefault: false
+          writable: true
+          _links: {}
+      "/api/v3/queries/operators/!":
+        values:
+          type: "[]User"
+          name: Values
+          required: true
+          hasDefault: false
+          writable: true
+          _links: {}
+  name:
+    type: String
+    name: Name
+    required: true
+    hasDefault: true
+    writable: false
+  filter:
+    type: QueryFilter
+    name: Filter
+    required: true
+    hasDefault: false
+    writable: true
+    _links: {}
+  _links:
+    self:
+      href: "/api/v3/queries/filter_instance_schemas/author"
+    filter:
+      href: "/api/v3/queries/filters/author"
+      title: Author

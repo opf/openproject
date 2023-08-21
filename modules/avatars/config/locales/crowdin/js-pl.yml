@@ -1,0 +1,15 @@
+#English strings go here
+pl:
+  js:
+    label_preview: 'Podgląd'
+    button_update: 'Aktualizacja'
+    avatars:
+      label_choose_avatar: "Wybierz awatar z pliku"
+      uploading_avatar: "Przesyłanie tego awatara."
+      text_upload_instructions: |
+        Prześlij swój własny awatar 128 na 128 pikseli. Rozmiar większych plików zostanie zmieniony i zostaną one odpowiednio przycięte.
+        Podgląd awatara zostanie wyświetlony przed przesłaniem, po wybraniu obrazu.
+      error_image_too_large: "Obraz jest zbyt duży."
+      wrong_file_format: "Dozwolone są formaty jpg, png, gif"
+      empty_file_error: "Prześlij prawidłowy obraz (jpg, png, gif)"
+

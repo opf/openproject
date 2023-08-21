@@ -1,0 +1,16 @@
+sv:
+  grids:
+    label_widget_in_grid: "Widget som finns i rutnät %{grid_name}"
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Sida"
+        row_count: "Antal rader"
+        column_count: "Antal kolumner"
+        widgets: "Widgets"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'överlappar.'
+          outside: 'är utanför nätet.'
+          end_before_start: 'slutvärdet måste vara större än startvärdet.'

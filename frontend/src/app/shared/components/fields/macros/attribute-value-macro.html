@@ -1,0 +1,10 @@
+<span *ngIf="error">
+  <i class="icon icon-error"></i>
+  <em [textContent]="error"></em>
+</span>
+<display-field *ngIf="!!resource"
+               [resource]="resource"
+               containerType="single-view"
+               [displayFieldOptions]="{ writable: false }"
+               [fieldName]="fieldName">
+</display-field>

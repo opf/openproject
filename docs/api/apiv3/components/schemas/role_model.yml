@@ -1,0 +1,39 @@
+# Schema: RoleModel
+---
+type: object
+required:
+- name
+properties:
+  _type:
+    type: string
+    enum:
+      - Role
+  id:
+    type: integer
+    description: Role id
+    readOnly: true
+    minimum: 1
+  name:
+    type: string
+    description: Role name
+  _links:
+    type: object
+    required:
+    - self
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This role
+
+            **Resource**: Role
+          readOnly: true
+example:
+  _type: Role
+  id: 3
+  name: Manager
+  _links:
+    self:
+      href: "/api/v3/roles/3"
+      title: Manager

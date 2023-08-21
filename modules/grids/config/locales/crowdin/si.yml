@@ -1,0 +1,16 @@
+si:
+  grids:
+    label_widget_in_grid: "Widget contained in Grid %{grid_name}"
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "පිටුව"
+        row_count: "පේළි ගණන"
+        column_count: "තීරු ගණන"
+        widgets: "විජට්"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'අතිච්ඡාදනය.'
+          outside: 'ජාලයෙන් පිටත වේ.'
+          end_before_start: 'අවසාන අගය ආරම්භක අගයට වඩා විශාල විය යුතුය.'

@@ -1,0 +1,39 @@
+#English strings go here
+he:
+  label_avatar: "אווטר"
+  label_avatar_plural: "סמלים אישיים"
+  label_current_avatar: "תמונה נוכחית"
+  label_choose_avatar: "בחר תמונה מקובץ"
+  message_avatar_uploaded: "התמונה שונתה בהצלחה"
+  error_image_upload: "תקלה בשמירת תמונה"
+  error_image_size: "קובץ גדול מדי"
+  button_change_avatar: "שנה תמונה"
+  are_you_sure_delete_avatar: "האם אתה בטוח שאתה רוצה למחוק את התמונה?"
+  avatar_deleted: "התמונה נמחקה בהצלחה"
+  unable_to_delete_avatar: "אין אפשרות למחוק את הקובץ"
+  wrong_file_format: "רק קבצי jpg, png, gif מותרים"
+  empty_file_error: "בבקשה העלה תמונה נתמכת (jpg, png, gif)"
+  avatars:
+    label_avatar: "אווטר"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'תמונה נוכחית'
+    label_local_avatar: 'תמונה אישית'
+    text_current_avatar: |
+      התמונה הבאה מראה את התמונה הנוכחית.
+    text_upload_instructions: |
+      העלה תמונה משלך בגודל של 128 על 128 פיקסלים. קובץ גדול יותר ישונה וייחתך כדי להתאים. תצוגה מקדימה של התמונה שלך תיראה, ברגע שתבחר תמונה.
+    text_change_gravatar_html: 'כדי לשנות או להוסיף את Gravatar לכתובת מייל שלך, לחץ על %{gravatar_url}'
+    text_your_local_avatar: |
+      OpenProject מאפשר לך להעלות תמונה אישית משלך.
+    text_local_avatar_over_gravatar: |
+      If you set one, this custom avatar is used in precedence over the gravatar above.
+    text_your_current_gravatar: |
+      OpenProject uses your gravatar if you registered one, or a default image or icon if one exists.
+      The current gravatar is as follows:
+    settings:
+      enable_gravatars: 'Enable user gravatars'
+      gravatar_default: "Default Gravatar image"
+      enable_local_avatars: 'Enable user custom avatars'
+
+
+

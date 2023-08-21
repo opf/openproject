@@ -1,0 +1,27 @@
+ca:
+  logout_warning: >
+    S'ha tancat la teva sessió. Es poden haver perdut els continguts de qualsevol formulari sotmès. Si us plau, [inicia sessió].
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: Nom
+        display_name: Nom mostrat
+        identifier: Identificador
+        secret: Secret
+        scope: Abast
+        limit_self_registration: Limitar el registre per part dels propis usuaris
+  openid_connect:
+    menu_title: Proveïdor d’OpenID
+    providers:
+      label_add_new: Afegeix un proveïdor d'OpenID
+      label_edit: Edita el proveïdor d'OpenID %{name}
+      no_results_table: Encara no s'han definit cap proveïdor.
+      plural: Proveïdors d’OpenID
+      singular: Proveïdor d’OpenID
+    setting_instructions:
+      azure_graph_api: >
+        Use the graph.microsoft.com userinfo endpoint to request userdata. This should be the default unless you have an older azure application.
+      azure_tenant_html: >
+        Set the tenant of your Azure endpoint. This will control who gets access to the OpenProject instance. For more information, please see <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">our user guide on Azure OpenID connect</a>.
+      limit_self_registration: >
+        Si s'activa, els usuaris només poden registrar-se utilitzant aquest proveïdor en cas que la configuració de registre per part dels propis usuaris ho permet.

@@ -1,0 +1,15 @@
+<section class="form--section">
+  <% if current_user.admin? || can_users_have_auth_source? || @user.uses_external_authentication? %>
+    <h3 class="form--section-title"><%=t(:label_authentication)%></h3>
+  <% end %>
+
+  <% if @user.uses_external_authentication? %>
+    <%= render partial: 'users/form/authentication/external', locals: { f: f } %>
+  <% else %>
+    <%= render partial: 'users/form/authentication/auth_source', locals: { f: f } %>
+
+    <% if current_user.admin? %>
+      <%= render partial: 'users/form/authentication/internal', locals: { f: f } %>
+    <% end %>
+  <% end %>
+</section>

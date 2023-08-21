@@ -1,0 +1,23 @@
+<div class="title-container">
+  <h2 [textContent]="text.title"></h2>
+</div>
+
+<form
+  *ngIf="formInitialized"
+  [formGroup]="form"
+  (ngSubmit)="saveChanges()"
+  class="op-form"
+>
+  <op-immediate-reminder-settings class="op-form--fieldset"></op-immediate-reminder-settings>
+  <op-reminder-settings-daily-time class="op-form--fieldset"></op-reminder-settings-daily-time>
+  <op-workdays-settings class="op-form--fieldset"></op-workdays-settings>
+  <op-email-alerts-settings class="op-form--fieldset"></op-email-alerts-settings>
+
+  <div class="op-form--submit">
+    <button
+      class="button -highlight"
+      [textContent]="text.save"
+      type="submit"
+    ></button>
+  </div>
+</form>

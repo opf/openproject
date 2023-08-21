@@ -1,0 +1,16 @@
+// window.parent == OpenProject window
+var op = window.parent;
+var $ = op.jQuery
+var back_url = encodeURIComponent(op.document.location.href);
+
+$.ajax({
+    url: "/session/logout_warning?back_url=" + back_url,
+    cache: false,
+    success: function(html) {
+      $("#logout-warning").remove();
+      $(html).prependTo("body").hide().slideDown();
+      $('html, body').animate({
+        scrollTop: $("#logout-warning").offset().top
+      }, 1000);
+    }
+});

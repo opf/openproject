@@ -1,0 +1,9 @@
+<% html_title(t(:label_administration), t('openid_connect.providers.plural')) -%>
+
+<%= render template: 'common/upsale',
+           locals: {
+               feature_title:  t('openid_connect.providers.plural'),
+               feature_description: t('openid_connect.providers.upsale.description'),
+               feature_reference: 'enterprise-openid-connect',
+               feature_image: 'enterprise/open-id-providers.jpg'
+           } %>

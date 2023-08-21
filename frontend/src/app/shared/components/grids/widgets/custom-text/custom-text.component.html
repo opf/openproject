@@ -1,0 +1,61 @@
+<widget-header
+  [name]="widgetName"
+  (onRenamed)="renameWidget($event)">
+
+  <widget-menu
+    slot="menu"
+    [resource]="resource">
+  </widget-menu>
+</widget-header>
+
+<ng-template #text>
+  <span #displayContainer
+        class="inline-edit--formattable-display-text -default">
+    <div class="op-uc-container"
+         *ngIf="!textEmpty"
+         [innerHTML]="customText"></div>
+    <div
+      *ngIf="textEmpty"
+      [innerHTML]="placeholderText"></div>
+  </span>
+</ng-template>
+
+<div class="grid--widget-content -custom-text -allow-inner-overflow">
+  <div class="inline-edit--container inplace-edit">
+    <edit-form-portal
+      *ngIf="active"
+      [schemaInput]="schema"
+      [changeInput]="changeset"
+      [editFieldHandler]="handler"
+    ></edit-form-portal>
+
+    <fieldset
+      *ngIf="active"
+      class="form--fieldset"
+    >
+      <legend class="form--fieldset-legend">
+        {{ text.attachments }}
+      </legend>
+      <op-attachments [resource]="resource.grid"></op-attachments>
+    </fieldset>
+
+    <div
+      *ngIf="!active"
+      class="inplace-edit--read wiki -no-label"
+      [ngClass]="{'inline-edit--container': isTextEditable}"
+    >
+      <button
+        type="button"
+        *ngIf="isTextEditable"
+        (click)="activate($event)"
+        [ngClass]="inplaceEditClasses"
+      >
+        <ng-container *ngTemplateOutlet="text"></ng-container>
+      </button>
+
+      <ng-container *ngIf="!isTextEditable">
+        <ng-container *ngTemplateOutlet="text"></ng-container>
+      </ng-container>
+    </div>
+  </div>
+</div>

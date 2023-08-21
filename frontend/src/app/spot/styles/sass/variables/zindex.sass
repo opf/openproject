@@ -1,0 +1,6 @@
+@use "sass:map"
+
+$spot-z-indexes: ("toast": 300, "tooltip": 500, "main-menu": 600, "header": 800, "drop-modal": 1000)
+
+@mixin spot-z-index($type, $addition: 0)
+  z-index: map.get($spot-z-indexes, $type) + $addition

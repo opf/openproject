@@ -1,0 +1,21 @@
+PATH
+  remote: .
+  specs:
+    openproject-ldap_groups (8.0.0)
+
+GEM
+  remote: https://www.rubygems.org/
+  specs:
+    ladle (1.0.1)
+      open4 (~> 1.0)
+    open4 (1.3.4)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  ladle
+  openproject-ldap_groups!
+
+BUNDLED WITH
+   1.16.1

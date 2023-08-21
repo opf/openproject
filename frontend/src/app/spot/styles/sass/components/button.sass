@@ -1,0 +1,213 @@
+.spot-button
+  @include spot-body-small
+
+  display: inline-flex
+  flex-direction: row
+  align-items: center
+  justify-content: center
+  flex-wrap: nowrap
+  line-height: calc(#{$spot-spacing-1_25} - 2px) // The border needs to be removed from this
+  min-height: $spot-spacing-2
+
+  margin: 0
+  padding: 0 $spot-spacing-0_75
+  border-width: 1px
+  border-style: solid
+  border-radius: $spot-spacing-1
+  border-color: $spot-color-basic-white
+  background-color: $spot-color-basic-white
+  color: $spot-color-main
+  cursor: pointer
+
+  &, *
+    box-sizing: border-box
+
+  &:focus
+    @include spot-focus
+
+  &:hover
+    background-color: $spot-color-basic-gray-6
+    border-color: $spot-color-basic-gray-6
+    color: $spot-color-main-dark
+
+  &:active
+    background-color: $spot-color-basic-gray-6
+    border-color: $spot-color-basic-gray-6
+    color: $spot-color-main
+
+  &_main
+    border-color: $spot-color-main
+    background-color: $spot-color-main
+    color: $spot-color-basic-white
+
+    &:hover
+      border-color: $spot-color-main-light
+      background-color: $spot-color-main-light
+      color: $spot-color-main-dark
+
+    &:active
+      border-color: $spot-color-main-light
+      background-color: $spot-color-main-light
+      color: $spot-color-main
+
+  &_accent
+    border-color: $spot-color-accent
+    background-color: $spot-color-accent
+    color: $spot-color-basic-white
+
+    &:hover
+      border-color: $spot-color-accent-light
+      background-color: $spot-color-accent-light
+      color: $spot-color-accent-dark
+
+    &:active
+      border-color: $spot-color-accent-light
+      background-color: $spot-color-accent-light
+      color: $spot-color-accent
+
+  &_danger
+    border-color: $spot-color-danger
+    background-color: $spot-color-danger
+    color: $spot-color-basic-white
+
+    &:hover
+      border-color: $spot-color-danger-light
+      background-color: $spot-color-danger-light
+      color: $spot-color-danger-dark
+
+    &:active
+      border-color: $spot-color-danger-light
+      background-color: $spot-color-danger-light
+      color: $spot-color-danger
+
+  &[disabled],
+  &_disabled
+    &,
+    &:hover,
+    &:active
+      border-color: $spot-color-basic-gray-4
+      background-color: $spot-color-basic-gray-4
+      color: $spot-color-basic-white
+      cursor: default
+
+  &_outlined
+    background-color: transparent
+    border-color: $spot-color-basic-white
+    color: $spot-color-basic-white
+
+    &:hover
+      background-color: $spot-color-basic-gray-6
+      border-color: $spot-color-main
+      color: $spot-color-main
+
+    &:active
+      background-color: $spot-color-basic-white
+      border-color: $spot-color-basic-white
+      color: $spot-color-main
+
+  &_outlined#{&}_main
+    background-color: transparent
+    border-color: $spot-color-main
+    color: $spot-color-main
+
+    &:hover
+      background-color: $spot-color-main-light
+      border-color: $spot-color-main
+      color: $spot-color-main
+
+    &:active
+      background-color: $spot-color-main
+      border-color: $spot-color-basic-white
+      color: $spot-color-basic-white
+
+  &_outlined#{&}_accent
+    background-color: transparent
+    border-color: $spot-color-accent
+    color: $spot-color-accent
+
+    &:hover
+      background-color: $spot-color-accent-light
+      border-color: $spot-color-accent
+      color: $spot-color-accent
+
+    &:active
+      background-color: $spot-color-accent
+      border-color: $spot-color-basic-white
+      color: $spot-color-basic-white
+
+  &_outlined#{&}_danger
+    background-color: transparent
+    border-color: $spot-color-danger
+    color: $spot-color-danger
+
+    &:hover
+      background-color: $spot-color-danger-light
+      border-color: $spot-color-danger
+      color: $spot-color-danger
+
+    &:active
+      background-color: $spot-color-danger
+      border-color: $spot-color-basic-white
+      color: $spot-color-basic-white
+
+  &_basic
+    background-color: transparent
+    border-color: transparent
+    color: $spot-color-basic-white
+
+    &:hover,
+    &:active
+      background-color: transparent
+      border-color: transparent
+      color: $spot-color-main
+
+  &_basic#{&}_main
+    color: $spot-color-main
+
+    &:hover
+      color: $spot-color-main-dark
+
+    &:active
+      color: $spot-color-main
+
+  &_basic#{&}_accent
+    color: $spot-color-accent
+
+    &:hover
+      color: $spot-color-accent-dark
+
+    &:active
+      color: $spot-color-accent
+
+  &_basic#{&}_danger
+    color: $spot-color-danger
+
+    &:hover
+      color: $spot-color-danger-dark
+
+    &:active
+      color: $spot-color-danger
+
+  .spot-icon
+    width: $spot-spacing-1_5
+    height: $spot-spacing-1_5
+
+    &:first-child
+      margin-left: calc(-1 * #{$spot-spacing-0_25} - 1px) // The border needs to be removed from this
+
+      &:not(:last-child)
+        margin-right: $spot-spacing-0_25
+
+    &:last-child
+      margin-right: calc(-1 * #{$spot-spacing-0_25} - 1px) // The border needs to be removed from this
+
+      &:not(:first-child)
+        margin-left: $spot-spacing-0_25
+
+    &:first-child:last-child
+      margin: 0 calc(-1 * #{$spot-spacing-0_5} - 1px) // The border needs to be removed from this
+
+
+  .spot-checkbox
+    margin-right: $spot-spacing-0_75
+    

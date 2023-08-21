@@ -1,0 +1,31 @@
+<fieldset
+  class="op-fieldset op-fieldset_collapsible"
+  [ngClass]="{'op-fieldset_collapsed': to.collapsibleFieldGroupsCollapsed}"
+  *ngIf="to?.collapsibleFieldGroups"
+>
+  <legend class="op-fieldset--legend">
+    <button
+      title="Show/hide"
+      type="button"
+      class="op-fieldset--toggle"
+      (click)="to.collapsibleFieldGroupsCollapsed = !to.collapsibleFieldGroupsCollapsed"
+    >
+      {{ to.label }}
+    </button>
+  </legend>
+
+  <div class="op-fieldset--fields">
+    <ng-container #fieldComponent></ng-container>
+  </div>
+</fieldset>
+
+<fieldset
+  class="op-fieldset"
+  *ngIf="!to?.collapsibleFieldGroups"
+>
+  <legend class="op-fieldset--legend">{{ to.label }}</legend>
+
+  <div class="op-fieldset--fields">
+    <ng-container #fieldComponent></ng-container>
+  </div>
+</fieldset>

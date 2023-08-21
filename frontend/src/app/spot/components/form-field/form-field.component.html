@@ -1,0 +1,53 @@
+<ng-container *ngIf="!hidden">
+  <label class="spot-form-field--label-wrap">
+    <div class="spot-form-field--label">
+      <span
+        *ngIf="showErrorMessage"
+        class="hidden-for-sighted"
+      >
+        {{ text.invalid }}
+      </span>
+      {{ label }}
+
+      <span *ngIf="required" class="spot-form-field--label-indicator">*</span>
+
+      <ng-content select="[slot=help-text]"></ng-content>
+    </div>
+
+    <ng-container *ngIf="!noWrapLabel">
+      <ng-container *ngTemplateOutlet="inputTemplate"></ng-container>
+    </ng-container>
+  </label>
+
+  <ng-container *ngIf="noWrapLabel">
+    <ng-container *ngTemplateOutlet="inputTemplate"></ng-container>
+  </ng-container>
+
+  <div
+    class="spot-form-field--description"
+    [id]="descriptionID"
+  >
+    <ng-content select="[slot=description]"></ng-content>
+  </div>
+
+  <div
+    class="spot-form-field--errors"
+    *ngIf="showErrorMessage"
+    [id]="errorsID"
+  >
+    <ng-content select="[slot=errors]"></ng-content>
+  </div>
+
+  <div class="spot-form-field--actions">
+    <ng-content select="[slot=action]"></ng-content>
+  </div>
+</ng-container>
+
+<ng-template #inputTemplate>
+  <div
+    class="spot-form-field--input"
+    [attr.aria-describedby]="describedByID"
+  >
+    <ng-content select="[slot=input]"></ng-content>
+  </div>
+</ng-template>

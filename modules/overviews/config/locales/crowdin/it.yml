@@ -1,0 +1,4 @@
+it:
+  overviews:
+    label: 'Panoramica'
+  permission_manage_overview: 'Gestisci la pagina panoramica'

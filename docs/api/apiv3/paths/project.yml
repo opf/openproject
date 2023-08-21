@@ -1,0 +1,224 @@
+# /api/v3/projects/{id}
+---
+delete:
+  parameters:
+  - description: Project id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '204':
+      description: |-
+        Returned if the project was successfully deleted. There is currently no end point to query for the actual deletion status.
+        Such an end point _might_ be added in the future.
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** admin
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the project does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view project
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of
+        a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+      headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _embedded:
+                  details:
+                    attribute: base
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: Work packages in non descendant projects reference versions
+                  of the project or its descendants.
+      description: |-
+        Returned if the project cannot be deleted. This can happen when there are still references to the project in other projects
+        that need to be severed at first.
+      headers: {}
+  tags:
+  - Projects
+  description: |-
+    Deletes the project permanently. As this is a lengthy process, the actual deletion is carried out asynchronously.
+    So the project might exist well after the request has returned successfully. To prevent unwanted changes to
+    the project scheduled for deletion, it is archived at once.
+  operationId: Delete_Project
+  summary: Delete Project
+get:
+  parameters:
+  - description: Project id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            "with custom fields":
+              "$ref": "../components/examples/project.yml"
+          schema:
+            "$ref": "../components/schemas/project_model.yml"
+      description: OK
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the project does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view project
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+        That's why a 404 is returned here, even if a 403 might be more appropriate.*
+      headers: {}
+  tags:
+  - Projects
+  description: ''
+  operationId: View_project
+  summary: View project
+patch:
+  parameters:
+  - description: Project id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+        examples:
+          "with custom fields":
+            "$ref": "../components/examples/project_body.yml"
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/project_model.yml"
+          examples:
+            "with custom fields":
+              "$ref": "../components/examples/project.yml"
+      description: OK
+      headers: {}
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** edit project for the project to be altered
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the project does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view project
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of
+        a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+      headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _embedded:
+                  details:
+                    attribute: name
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: Name can't be blank.
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)
+      headers: {}
+  tags:
+  - Projects
+  description: Updates the given project by applying the attributes provided in the
+    body.
+  operationId: Update_Project
+  summary: Update Project

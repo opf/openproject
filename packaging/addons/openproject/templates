@@ -1,0 +1,29 @@
+Template: server/ssl
+Type: select
+Choices: no, yes
+Translations: No, Yes
+Default: no
+Description: Do you use SSL to access _APP_NAME_
+ Enabling SSL makes your _APP_NAME_ installation more secure.
+ .
+ If you choose YES, the application server will only respond to https. You need to manually configure SSL certificates for your web server.
+
+Template: server/hostname
+Type: string
+Default: www.example.com
+Description: Your fully qualified domain name:
+ Enter the fully qualified domain name (FQDN), where this server can be reached.
+
+Template: openproject/admin_email
+Type: string
+Default: admin@example.net
+Description: Your email address for the admin account:
+ Enter the email address to be used for first admin account.
+
+Template: openproject/default_language
+Type: select
+Choices: af, ar, az, be, bg, ca, ckb-IR, cs, da, de, el, en, eo, es, et, eu, fa, fi, fil, fr, he, hi, hr, hu, id, it, ja, ka, ko, lt, lv, mn, ne, nl, no, pl, pt, ro, ru, rw, si, sk, sl, sr, sv, th, tr, uk, vi, zh-CN, zh-TW
+Translations: Afrikaans, العربية, Azərbaycan, Беларуская, Български, Català, کوردیی ناوەندی, Čeština, Dansk, Deutsch, Ελληνικά, English, Esperanto, Español, Eesti, Euskara, فارسی, Suomi, Filipino, Français, עברית, हिन्दी, Hrvatski, Magyar, Indonesia, Italiano, 日本語, ქართული, 한국어, Lietuvių, Latviešu, Монгол, नेपाली, Nederlands, Norsk, Polski, Português, Română, Русский, Kinyarwanda, සිංහල, Slovenčina, Slovenščina, Српски, Svenska, ไทย, Türkçe, Українська, Tiếng việt, 简体中文, 繁体中文
+Default: en
+Description: Default language of OpenProject:
+ Choose the language to use by default when accessing your OpenProject instance.

@@ -1,0 +1,32 @@
+<div class="op-wp-list-view--result-overlay"
+     *ngIf="(showResultOverlay$ | async) && showTableView"></div>
+<op-baseline-legends
+     *ngIf="baselineEnabled"
+></op-baseline-legends>
+<!-- TABLE + TIMELINE horizontal split -->
+<wp-table *ngIf="tableInformationLoaded && showTableView"
+          [projectIdentifier]="CurrentProject.identifier"
+          [configuration]="wpTableConfiguration"
+          (itemClicked)="handleWorkPackageClicked($event)"
+          (stateLinkClicked)="openStateLink($event)"
+          class="work-packages-split-view--tabletimeline-content">
+</wp-table>
+
+<!-- GRID representation of the WP -->
+<div *ngIf="!showTableView"
+     class="op-wp-list-view--card-view-container"
+     [ngClass]="{ '-with-resizer': showResizerInCardView() }" >
+<wp-grid [configuration]="wpTableConfiguration"
+          [showResizer]="showResizerInCardView()"
+          (itemClicked)="handleWorkPackageCardClicked($event)"
+          (stateLinkClicked)="openStateLink($event)"
+          resizerClass="work-packages-partitioned-page--content-right"
+          resizerStorageKey="openProject-splitViewFlexBasis">
+</wp-grid>
+</div>
+
+<!-- Footer -->
+<div class="work-packages-split-view--tabletimeline-footer hide-when-print"
+     *ngIf="tableInformationLoaded">
+     <wp-table-pagination></wp-table-pagination>
+</div>

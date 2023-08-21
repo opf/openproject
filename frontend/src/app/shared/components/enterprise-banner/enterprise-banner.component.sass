@@ -1,0 +1,52 @@
+@import '../../app/spot/styles/sass/variables'
+
+.op-enterprise-banner
+
+  &--header
+    font-size: 20px
+    line-height: 24px
+    display: grid
+    grid-template-columns: auto auto 1fr
+    align-items: center
+
+  &--title
+    margin-left: $spot-spacing-0_5
+
+  &--description
+    display: block
+    @include spot-body-small
+    margin-bottom: $spot-spacing-0_75
+
+  &--image
+    width: 115px
+    height: 75px
+    padding-right: 20px
+    margin: auto
+
+  &--buttons
+    display: flex
+    justify-content: flex-end
+    align-items: center
+
+    a.button
+      text-decoration: none
+
+  &--info-button
+    padding-top: $spot-spacing-1
+    padding-right: $spot-spacing-1_5
+    display: flex
+    justify-content: center
+    align-items: center
+    text-decoration: none
+
+    .spot-icon:before
+      padding-right: 0.875rem
+
+  &--collapsible-button
+    background: transparent
+    color: $spot-color-main
+    border: 0
+    padding: $spot-spacing-0_5 $spot-spacing-0_5
+    cursor: pointer
+    display: flex
+    justify-content: flex-end

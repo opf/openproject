@@ -1,0 +1,23 @@
+<%= render 'import_options_hidden_fields' %>
+
+<p>
+  <span>
+    <%= op_icon 'icon-context icon-warning' %>
+    <strong><%= error_message %></strong>
+  </span>
+</p>
+<ul>
+  <% error_objects.each do |obj| %>
+    <li>
+      <% if obj.present? %>
+        <% if obj.instance_of?(User) %>
+          <%= obj.mail %> (<%= obj.name %>)
+        <% else %>
+          <%= obj %>
+        <% end  %>
+      <% else %>
+        <%= "(#{error_default_text})"%>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

@@ -1,0 +1,273 @@
+# /api/v3/projects/form
+---
+post:
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+        examples:
+          "with custom fields":
+            "$ref": "../components/examples/project_body.yml"
+          "empty":
+            description: Empty request to get the form initially in order to start the guided creation of a project
+            value: {}
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            type: object
+          examples:
+            response:
+              value:
+                _embedded:
+                  payload:
+                    _links:
+                      customField26:
+                        href: 
+                        title: 
+                      customField31:
+                        href: 
+                        title: 
+                      parent:
+                        href: 
+                      status:
+                        href: 
+                    active: true
+                    customField30: 
+                    customField34: 
+                    customField35: Text custom field value
+                    customField41:
+                      format: markdown
+                      html: ''
+                      raw: ''
+                    customField42: 
+                    description:
+                      format: markdown
+                      html: ''
+                      raw: 
+                    identifier: new_project_identifier
+                    name: New project name
+                    public: false
+                    statusExplanation:
+                      format: markdown
+                      html: "<p></p>"
+                      raw: 
+                  schema:
+                    _dependencies: []
+                    _links: {}
+                    _type: Schema
+                    active:
+                      hasDefault: true
+                      name: Active
+                      required: true
+                      type: Boolean
+                      writable: true
+                    createdAt:
+                      hasDefault: false
+                      name: Created on
+                      required: true
+                      type: DateTime
+                      writable: false
+                    customField26:
+                      _links:
+                        allowedValues:
+                          href: "/api/v3/principals?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22%21%22%2C%22values%22%3A%5B%220%22%2C%223%22%5D%7D%7D%2C%7B%22type%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22User%22%5D%7D%7D%2C%7B%22member%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22%22%5D%7D%7D%5D&pageSize=0"
+                      hasDefault: false
+                      location: _links
+                      name: Project user
+                      required: false
+                      type: User
+                      visibility: default
+                      writable: true
+                    customField30:
+                      hasDefault: false
+                      name: some project cf
+                      required: false
+                      type: Integer
+                      visibility: default
+                      writable: true
+                    customField31:
+                      _embedded:
+                        allowedValues:
+                        - _links:
+                            self:
+                              href: "/api/v3/custom_options/513"
+                              title: abc
+                          _type: CustomOption
+                          id: 513
+                          value: abc
+                        - _links:
+                            self:
+                              href: "/api/v3/custom_options/514"
+                              title: def
+                          _type: CustomOption
+                          id: 514
+                          value: def
+                        - _links:
+                            self:
+                              href: "/api/v3/custom_options/515"
+                              title: ghi
+                          _type: CustomOption
+                          id: 515
+                          value: ghi
+                      _links:
+                        allowedValues:
+                        - href: "/api/v3/custom_options/513"
+                          title: abc
+                        - href: "/api/v3/custom_options/514"
+                          title: def
+                        - href: "/api/v3/custom_options/515"
+                          title: ghi
+                      hasDefault: false
+                      location: _links
+                      name: list project cf
+                      required: false
+                      type: CustomOption
+                      visibility: default
+                      writable: true
+                    customField34:
+                      hasDefault: false
+                      name: Bool Project CF
+                      required: false
+                      type: Boolean
+                      visibility: default
+                      writable: true
+                    customField35:
+                      hasDefault: false
+                      name: text project cf
+                      required: true
+                      type: String
+                      visibility: default
+                      writable: true
+                    customField41:
+                      hasDefault: false
+                      name: Long text project cf
+                      required: false
+                      type: Formattable
+                      visibility: default
+                      writable: true
+                    customField42:
+                      hasDefault: false
+                      name: Date project cf
+                      required: false
+                      type: Date
+                      visibility: default
+                      writable: true
+                    description:
+                      hasDefault: false
+                      name: Description
+                      required: false
+                      type: Formattable
+                      writable: true
+                    id:
+                      hasDefault: false
+                      name: ID
+                      required: true
+                      type: Integer
+                      writable: false
+                    identifier:
+                      hasDefault: false
+                      maxLength: 100
+                      minLength: 1
+                      name: Identifier
+                      required: true
+                      type: String
+                      writable: true
+                    name:
+                      hasDefault: false
+                      maxLength: 255
+                      minLength: 1
+                      name: Name
+                      required: true
+                      type: String
+                      writable: true
+                    parent:
+                      _links:
+                        allowedValues:
+                          href: "/api/v3/projects/available_parent_projects"
+                      hasDefault: false
+                      location: _links
+                      name: Subproject of
+                      required: false
+                      type: Project
+                      visibility: default
+                      writable: true
+                    public:
+                      hasDefault: false
+                      name: Public
+                      required: true
+                      type: Boolean
+                      writable: true
+                    status:
+                      _links:
+                        allowedValues:
+                        - href: "/api/v3/project_statuses/on_track"
+                          title: On track
+                        - href: "/api/v3/project_statuses/at_risk"
+                          title: At risk
+                        - href: "/api/v3/project_statuses/off_track"
+                          title: Off track
+                      hasDefault: true
+                      name: Status
+                      required: false
+                      type: ProjectStatus
+                      writable: true
+                    statusExplanation:
+                      hasDefault: false
+                      name: Status explanation
+                      required: false
+                      type: Formattable
+                      writable: true
+                    updatedAt:
+                      hasDefault: false
+                      name: Updated on
+                      required: true
+                      type: DateTime
+                      writable: false
+                  validationErrors:
+                    identifier:
+                      _embedded:
+                        details:
+                          attribute: identifier
+                      _type: Error
+                      errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                      message: Identifier has already been taken.
+                _links:
+                  self:
+                    href: "/api/v3/projects/form"
+                    method: post
+                  validate:
+                    href: "/api/v3/projects/form"
+                    method: post
+                _type: Form
+      description: OK
+      headers: {}
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** add project which is a global permission
+      headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+  tags:
+  - Projects
+  description: ''
+  operationId: Project_create_form
+  summary: Project create form

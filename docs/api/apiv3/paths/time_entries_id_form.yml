@@ -1,0 +1,65 @@
+# /api/v3/time_entries/{id}/form
+---
+post:
+  parameters:
+    - description: Time entries activity id
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      headers: {}
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions to edit the time entry.
+
+        **Required permission:** *edit time entries* for every time entry of a project, or *edit own time entries* for time entries belonging to the user.
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the time entry does not exist or if the client does not have sufficient permissions to view it.
+
+        **Required permission** `view time entries` in the project the time entry is assigned to or `view own time entries` for time entries belonging to the user
+      headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+  tags:
+  - Time Entries
+  description: ''
+  operationId: Time_entry_update_form
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: integer
+    description: Time entries activity id
+    required: true
+  summary: Time entry update form

@@ -1,0 +1,10 @@
+services:
+  traefik:
+    networks:
+      external:
+        aliases:
+          # Traefik is aliased to all the services that run behind it here.
+          # The reason to do this is that step-ca tries to validate the domains
+          # by connecting to them, and we'd like it to go through traefik, instead
+          # of calling the service containers directly.
+          - openproject.local

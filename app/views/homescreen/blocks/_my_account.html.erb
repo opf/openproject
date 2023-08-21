@@ -1,0 +1,14 @@
+<%= render 'homescreen/blocks/header', title: t('label_my_account') %>
+
+<ul class="widget-box--arrow-links">
+  <li>
+    <%= link_to t(:label_profile), my_account_path, title: t(:label_profile) %>
+  </li>
+  <li>
+    <%= link_to t(:'js.my_page.label'), my_page_path,
+                title: t(:'js.my_page.label') %>
+  </li>
+  <li>
+    <%= link_to t(:button_change_password), my_password_path, title: t(:button_change_password) %>
+  </li>
+</ul>

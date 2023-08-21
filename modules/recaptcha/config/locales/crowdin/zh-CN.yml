@@ -1,0 +1,18 @@
+#English strings go here for Rails i18n
+zh-CN:
+  recaptcha:
+    label_recaptcha: "reCAPTCHA"
+    button_please_wait: '请稍候…'
+    verify_account: "验证您的帐户"
+    error_captcha: "您的帐户无法验证。请联系管理员。"
+    settings:
+      website_key: '网站密钥'
+      website_key_text: '输入您在 reCAPTCHA 管理控制台上为此域创建的网站密钥。'
+      secret_key: '密钥'
+      secret_key_text: '输入您在 reCAPTCHA 管理控制台上创建的密钥。'
+      type: '使用 reCAPTCHA'
+      type_disabled: '禁用 reCAPTCHA'
+      type_v2: 'reCAPTCHA v2'
+      type_v3: 'reCAPTCHA v3'
+      recaptcha_description_html: >
+        reCAPTCHA 是一项可为您的 OpenProject 实例启用的 Google 免费服务。如果启用，则在登录时将为尚未验证验证码的所有用户提供一个验证码表单。<br/>请参见以下链接，获取有关 reCAPTCHA 及其版本以及如何创建网站和密钥的更多详细信息：%{recaptcha_link}

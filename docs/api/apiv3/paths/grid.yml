@@ -1,0 +1,91 @@
+# /api/v3/grids/{id}
+---
+get:
+  summary: Get a grid
+  operationId: get_grid
+  tags:
+    - Grids
+  description: Fetches a single grid identified by its id.
+  parameters:
+    - name: id
+      in: path
+      description: Grid id
+      required: true
+      schema:
+        type: integer
+      example: '42'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/grid_read_model.yml'
+          examples:
+            'Simple grid':
+              $ref: '../components/examples/grid-simple-response.yml'
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the Grid does not exist or if the user does not have permission to view it.
+
+        **Required permission** depends on the page the grid is defined for
+
+patch:
+  summary: Update a grid
+  operationId: update_grid
+  tags:
+    - Grids
+  description: |-
+    Updates the given grid by applying the attributes provided in the body. The constraints applied to the grid depend
+    on the page the grid is placed in which is why the create form end point should be used to be guided when wanting
+    to update a grid.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/grid_write_model.yml'
+        examples:
+          'Simple grid patch':
+            $ref: '../components/examples/grid-simple-patch-model.yml'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/grid_read_model.yml'
+          examples:
+            'Simple grid':
+              $ref: '../components/examples/grid-simple-response.yml'
+    '400':
+      $ref: '../components/responses/invalid_request_body.yml'
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** The permission depends on the page the grid is placed in.
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'
+    '422':
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)

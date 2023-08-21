@@ -1,0 +1,21 @@
+<widget-header
+    [name]="widgetName"
+    [editable]="isEditable">
+
+  <widget-menu
+      slot="menu"
+      [resource]="resource">
+  </widget-menu>
+</widget-header>
+
+<div class="grid--widget-content">
+  <op-no-results *ngIf="noEntries"
+              [title]="text.noResults">
+  </op-no-results>
+  <span *ngFor="let project of projects; let last = last">
+    <a [href]="projectPath(project)"
+       [textContent]="projectName(project)">
+    </a>
+    <span *ngIf="!last">, </span>
+  </span>
+</div>

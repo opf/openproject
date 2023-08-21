@@ -1,0 +1,1695 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2023 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+modules_permissions:
+  bim:
+  - role: :default_role_non_member
+    add:
+    - :view_linked_issues
+    - :view_ifc_models
+  - role: :default_role_anonymous
+    add:
+    - :view_linked_issues
+  - role: :default_role_member
+    add:
+    - :view_linked_issues
+    - :manage_bcf
+    - :delete_work_packages
+    - :manage_ifc_models
+    - :view_ifc_models
+  - role: :default_role_reader
+    add:
+    - :view_linked_issues
+
+priorities:
+  - t_name: Low
+    color_name: cyan-1
+    is_default: true
+    position: 1
+  - t_name: Normal
+    color_name: blue-3
+    position: 2
+  - t_name: High
+    color_name: yellow-7
+    position: 3
+  - t_name: Critical
+    color_name: grape-5
+    position: 4
+
+statuses:
+  - reference: :default_status_new
+    t_name: New
+    color_name: blue-6
+    is_default: true
+    position: 1
+  - reference: :default_status_in_progress
+    t_name: In progress
+    color_name: orange-6
+    position: 2
+  - reference: :default_status_resolved
+    t_name: Resolved
+    color_name: green-3
+    position: 3
+  - reference: :default_status_closed
+    t_name: Closed
+    color_name: gray-3
+    is_closed: true
+    position: 4
+
+time_entry_activities:
+  - t_name: Management
+    is_default: true
+    position: 1
+  - t_name: Specification
+    position: 2
+  - t_name: Other
+    position: 3
+
+types:
+- reference: :default_type_task
+  t_name: Task
+  is_default: true
+  color_name: 'blue-6'
+  is_in_roadmap: true
+  position: 1
+- reference: :default_type_milestone
+  t_name: Milestone
+  is_default: true
+  color_name: 'orange-6'
+  is_milestone: true
+  position: 2
+- reference: :default_type_phase
+  t_name: Phase
+  is_default: true
+  color_name: :default_color_grey
+  position: 3
+- reference: :default_type_issue
+  t_name: Issue
+  is_default: true
+  color_name: 'indigo-7'
+  is_in_roadmap: true
+  position: 4
+- reference: :default_type_remark
+  t_name: Remark
+  is_default: true
+  color_name: :default_color_green_dark
+  is_in_roadmap: true
+  position: 5
+- reference: :default_type_request
+  t_name: Request
+  is_default: true
+  color_name: 'cyan-7'
+  is_in_roadmap: true
+  position: 6
+- reference: :default_type_clash
+  t_name: Clash
+  is_default: true
+  color_name: 'red-8'
+  is_in_roadmap: true
+  position: 7
+
+workflows:
+- type: :default_type_task
+  statuses:
+  - :default_status_new
+  - :default_status_in_progress
+  - :default_status_closed
+- type: :default_type_milestone
+  statuses:
+  - :default_status_new
+  - :default_status_in_progress
+  - :default_status_closed
+- type: :default_type_phase
+  statuses:
+  - :default_status_new
+  - :default_status_in_progress
+  - :default_status_closed
+- type: :default_type_clash
+  statuses:
+  - :default_status_new
+  - :default_status_in_progress
+  - :default_status_resolved
+  - :default_status_closed
+- type: :default_type_issue
+  statuses:
+  - :default_status_new
+  - :default_status_in_progress
+  - :default_status_resolved
+  - :default_status_closed
+- type: :default_type_remark
+  statuses:
+  - :default_status_new
+  - :default_status_in_progress
+  - :default_status_resolved
+  - :default_status_closed
+- type: :default_type_request
+  statuses:
+  - :default_status_new
+  - :default_status_in_progress
+  - :default_status_resolved
+  - :default_status_closed
+
+global_queries:
+  - t_name: "Embedded table: Children"
+    reference: :global_query__children
+    parent: '{id}'
+    timeline: false
+    sort_by: id
+    hidden: true
+    public: false
+    columns:
+      - type
+      - id
+      - subject
+      - status
+      - assigned_to
+      - priority
+      - project
+type_configuration:
+  - type: :default_type_phase
+    form_configuration:
+      - t_group_name: "Children"
+        query: :global_query__children
+groups:
+  - t_name: Architects
+    reference: :group__architects
+  - t_name: BIM Coordinators
+    reference: :group__bim_coordinators
+  - t_name: BIM Managers
+    reference: :group__bim_managers
+  - t_name: BIM Modellers
+    reference: :group__bim_modellers
+  - t_name: Lead BIM Coordinators
+    reference: :group__lead_bim_coordinators
+  - t_name: MEP Engineers
+  - t_name: Planners
+    reference: :group__planners
+  - t_name: Structural Engineers
+welcome:
+  t_title: "Welcome to OpenProject BIM edition!"
+  t_text: |
+    Checkout the demo projects to get started with some examples.
+
+    * [(Demo) Construction project]({{opSetting:base_url}}/projects/demo-construction-project): Planning, BIM process, BCF management, and constructing, all at a glance.
+        * [(Demo) Planning & constructing]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Classical planning and construction management.
+        * [(Demo) Bim project]({{opSetting:base_url}}/projects/demo-bim-project): BIM process and coordination.
+            * [(Demo) BCF management]({{opSetting:base_url}}/projects/demo-bcf-management-project): BCF management.
+
+    Also, you can create a blank [new project]({{opSetting:base_url}}/projects/new).
+
+    Never stop collaborating. With open source and open mind.
+
+    You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+projects:
+  demo-construction-project:
+    t_name: (Demo) Construction project
+    identifier: demo-construction-project
+    status_code: on_track
+    t_status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
+    t_description: This is a short summary of the goals of this demo construction project.
+    modules:
+      - work_package_tracking
+      - news
+      - wiki
+      - board_view
+      - team_planner_view
+    news:
+      - t_title: Welcome to your demo project
+        t_summary: |
+          We are glad you joined.
+          In this module you can communicate project news to your team members.
+        t_description: The actual news
+    types:
+      - :default_type_task
+      - :default_type_milestone
+      - :default_type_phase
+    t_categories:
+      - Category 1 (to be changed in Project settings)
+    queries:
+      - t_name: Project plan
+        status: open
+        timeline: true
+        sort_by: start_date
+        hierarchy: true
+        starred: true
+        columns:
+          - id
+          - type
+          - status
+          - subject
+          - start_date
+          - due_date
+          - duration
+          - assigned_to
+      - t_name: Milestones
+        reference: :demo_construction_project__query__milestones
+        status: open
+        type: :default_type_milestone
+        timeline: true
+        columns:
+          - id
+          - type
+          - status
+          - subject
+          - start_date
+          - due_date
+        sort_by: start_date
+      - t_name: Tasks
+        status: open
+        type: :default_type_task
+        hierarchy: true
+        sort_by: id
+        columns:
+          - id
+          - subject
+          - priority
+          - type
+          - status
+          - assigned_to
+      - t_name: Team planner
+        module: team_planner
+        assigned_to: :openproject_admin
+    boards:
+      bcf:
+        t_name: "Simple drag'n drop workflow"
+    project-overview:
+      row_count: 6
+      column_count: 2
+      widgets:
+        - identifier: 'custom_text'
+          start_row: 1
+          end_row: 2
+          start_column: 1
+          end_column: 3
+          options:
+            t_name: 'Welcome'
+            text: '![Teaser](##attachment:"demo_project_teaser_bim.jpg")'
+          attachments:
+            - demo_project_teaser_bim.jpg
+        - identifier: 'custom_text'
+          start_row: 2
+          end_row: 5
+          start_column: 1
+          end_column: 2
+          options:
+            t_name: 'Getting started'
+            t_text: |
+              We are glad you joined! We suggest to try a few things to get started in OpenProject.
+
+              But before you jump right into it, you should know that this exemplary project is split up into two different projects:
+
+              1.  [Construction project]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Here you will find the classical roles, some workflows and work packages for your construction project.
+              2.  [Creating BIM Model]({{opSetting:base_url}}/projects/demo-bim-project): This project also offers roles, workflows and work packages but especially in the BIM context.
+
+              _Try the following steps:_
+
+              1.  _Invite new members to your project_: → Go to [Members]({{opSetting:base_url}}/projects/demo-construction-project/members) in the project navigation.
+              2.  _View the work in your projects_: → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
+              3.  _Create a new work package_: → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+              4.  _Create and update a Gantt chart_: → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
+              5.  _Activate further modules_: → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
+              6.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+              7.  _Agile working? Check out our brand new boards:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-construction-project/boards)
+
+              Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+              Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+        - identifier: 'project_status'
+          start_row: 2
+          end_row: 3
+          start_column: 2
+          end_column: 3
+        - identifier: 'project_description'
+          start_row: 3
+          end_row: 4
+          start_column: 2
+          end_column: 3
+        - identifier: 'members'
+          start_row: 4
+          end_row: 5
+          start_column: 2
+          end_column: 3
+          options:
+            t_name: 'Members'
+        - identifier: 'work_packages_overview'
+          start_row: 5
+          end_row: 6
+          start_column: 1
+          end_column: 3
+          options:
+            t_name: 'Work packages'
+        - identifier: 'work_packages_table'
+          start_row: 6
+          end_row: 7
+          start_column: 1
+          end_column: 3
+          options:
+            t_name: 'Milestones'
+            queryId: '##query.id:demo_construction_project__query__milestones'
+    work_packages: []
+  demo-planning-constructing-project:
+    t_name: (Demo) Planning & constructing
+    identifier: demo-planning-constructing-project
+    status_code: on_track
+    t_status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+    parent: demo-construction-project
+    t_description: This is a short summary of the goals of this demo planning and constructing project.
+    modules:
+      - work_package_tracking
+      - news
+      - wiki
+      - board_view
+      - team_planner_view
+    news:
+      - t_title: Welcome to your demo project
+        t_summary: |
+          We are glad you joined.
+          In this module you can communicate project news to your team members.
+        t_description: The actual news
+    types:
+      - :default_type_task
+      - :default_type_milestone
+      - :default_type_phase
+    t_categories:
+      - Category 1 (to be changed in Project settings)
+    queries:
+      - t_name: Project plan
+        status: open
+        timeline: true
+        sort_by: start_date
+        hierarchy: true
+        starred: true
+        columns:
+          - id
+          - type
+          - status
+          - subject
+          - start_date
+          - due_date
+          - duration
+      - t_name: Milestones
+        reference: :demo_planning_constructing_project__query__milestones
+        status: open
+        type: :default_type_milestone
+        timeline: true
+        columns:
+          - id
+          - type
+          - status
+          - subject
+          - start_date
+          - due_date
+        sort_by: start_date
+      - t_name: Tasks
+        status: open
+        type: :default_type_task
+        hierarchy: true
+        sort_by: id
+        columns:
+          - id
+          - subject
+          - priority
+          - type
+          - status
+          - assigned_to
+      - t_name: Team planner
+        module: team_planner
+        assigned_to: :openproject_admin
+    project-overview:
+      row_count: 6
+      column_count: 2
+      widgets:
+        - identifier: 'custom_text'
+          start_row: 1
+          end_row: 2
+          start_column: 1
+          end_column: 3
+          options:
+            t_name: 'Welcome'
+            text: '![Teaser](##attachment:"demo_project_teaser_bim.jpg")'
+          attachments:
+            - demo_project_teaser_bim.jpg
+        - identifier: 'custom_text'
+          start_row: 2
+          end_row: 5
+          start_column: 1
+          end_column: 2
+          options:
+            t_name: 'Getting started'
+            t_text: |
+              We are glad you joined! We suggest to try a few things to get started in OpenProject.
+
+              Here you will find the classical roles, some workflows and work packages for your construction project.
+
+              _Try the following steps:_
+
+              1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) in the project navigation.
+              2.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
+              3.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+              4.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
+              5.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
+              6.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
+
+              Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+              Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+        - identifier: 'project_status'
+          start_row: 2
+          end_row: 3
+          start_column: 2
+          end_column: 3
+        - identifier: 'project_description'
+          start_row: 3
+          end_row: 4
+          start_column: 2
+          end_column: 3
+        - identifier: 'members'
+          start_row: 4
+          end_row: 5
+          start_column: 2
+          end_column: 3
+          options:
+            t_name: 'Members'
+        - identifier: 'work_packages_overview'
+          start_row: 5
+          end_row: 6
+          start_column: 1
+          end_column: 3
+          options:
+            t_name: 'Work packages'
+        - identifier: 'work_packages_table'
+          start_row: 6
+          end_row: 7
+          start_column: 1
+          end_column: 3
+          options:
+            t_name: 'Milestones'
+            queryId: '##query.id:demo_planning_constructing_project__query__milestones'
+    work_packages:
+      - :start: 4
+        :t_subject: Project kick off construction project
+        :reference: :project_kick_off_construction_project
+        :t_description: |-
+          The project kick off initializes the start of the project in your company. Everybody being part of this project should be invited to the kick off for a first briefing.
+
+          The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+        :status: :default_status_new
+        :type: :default_type_milestone
+        :assigned_to: :group__planners
+        :duration: 1
+      - :start: 7
+        :t_subject: Basic evaluation
+        :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
+          and &quot;Request&quot;, thus represents a general note.
+        :status: :default_status_new
+        :type: :default_type_phase
+        :children:
+          - :start: 7
+            :t_subject: Gathering first project information
+            :reference: :gathering_first_project_information
+            :t_description: |-
+              ## Goal
+
+              *   Define tasks based on the customer needs
+              *   Time frame and cost estimation shall be defined
+
+              ## Description
+
+              *   Identify the customer needs by having a workshop with him/ her
+              *   Each need shall represent a task with its corresponding work packages
+              *   Derive the cost estimation and time frame
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__planners
+            :duration: 4
+          - :start: 14
+            :t_subject: Summarize the results
+            :reference: :summarize_the_results
+            :t_description: |-
+              ## Goal
+
+              *   Create a useful overview of the results
+              *   Check what has been done and summarize the results
+              *   Communicate all the relevant results with the customer
+              *   Identify the fundamental boundary conditions of the project
+
+              ## Description
+
+              *   Each topic gets its own overview which will be used as a catalogue of results
+              *   This overview informs all participants about the decisions made
+              *   ...
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__planners
+            :duration: 4
+            :relations:
+              - :to: :gathering_first_project_information
+                :type: follows
+          - :start: 21
+            :t_subject: End of basic evaluation
+            :reference: :end_of_basic_evaluation
+            :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
+              and &quot;Request&quot;, thus represents a general note.
+            :status: :default_status_new
+            :type: :default_type_milestone
+            :assigned_to: :group__planners
+            :duration: 1
+            :relations:
+              - :to: :summarize_the_results
+                :type: follows
+        :assigned_to: :group__planners
+        :duration: 14
+        :relations:
+          - :to: :project_kick_off_construction_project
+            :type: follows
+      - :start: 22
+        :t_subject: Preliminary planning
+        :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
+          and &quot;Request&quot;, thus represents a general note.
+        :status: :default_status_new
+        :type: :default_type_phase
+        :children:
+          - :start: 22
+            :t_subject: Developing first draft
+            :reference: :developing_first_draft
+            :t_description: |-
+              ## Goal
+
+              *   Create a useful overview of the results
+              *   Check what has been done and summarize the results
+              *   Communicate all the relevant results with the customer
+              *   Identify the fundamental boundary conditions of the project
+
+              ## Description
+
+              *   Each topic gets its own overview which will be used as a catalogue of results
+              *   This overview informs all participants about the decisions made
+              *   ...
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__planners
+            :duration: 10
+            :relations:
+              - :to: :end_of_basic_evaluation
+                :type: follows
+          - :start: 35
+            :t_subject: Summarize results
+            :reference: :summarize_results
+            :t_description: |-
+              ## Goal
+
+              *   Create a useful overview of the results
+              *   Check what has been done and summarize the results
+              *   Communicate all the relevant results with the customer
+              *   Identify the fundamental boundary conditions of the project
+
+              ## Description
+
+              *   Each topic gets its own overview which will be used as a catalogue of results
+              *   This overview informs all participants about the decisions made
+              *   ...
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__planners
+            :duration: 4
+            :relations:
+              - :to: :developing_first_draft
+                :type: follows
+        :assigned_to: :group__planners
+        :duration: 17
+      - :start: 42
+        :t_subject: Passing of preliminary planning
+        :reference: :passing_of_preliminary_planning
+        :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
+          and &quot;Request&quot;, thus represents a general note.
+        :status: :default_status_new
+        :type: :default_type_milestone
+        :assigned_to: :group__planners
+        :duration: 1
+        :relations:
+          - :to: :summarize_results
+            :type: follows
+      - :start: 44
+        :t_subject: Design planning
+        :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
+          and &quot;Request&quot;, thus represents a general note.
+        :status: :default_status_new
+        :type: :default_type_phase
+        :children:
+          - :start: 44
+            :t_subject: Finishing design
+            :reference: :finishing_design
+            :t_description: |-
+              ## Goal
+
+              *   Design is done
+              *   All parties are happy with the results of the design planning phase
+
+              ## Description
+
+              *   The design of the project will be finished
+              *   All parties agree on the design
+              *   The owner is happy with the results
+              *   ...
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__planners
+            :duration: 45
+            :relations:
+              - :to: :passing_of_preliminary_planning
+                :type: follows
+          - :start: 90
+            :t_subject: Design freeze
+            :reference: :design_freeze
+            :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
+              and &quot;Request&quot;, thus represents a general note.
+            :status: :default_status_new
+            :type: :default_type_milestone
+            :assigned_to: :group__planners
+            :duration: 1
+            :relations:
+              - :to: :finishing_design
+                :type: follows
+        :assigned_to: :group__planners
+        :duration: 46
+      - :start: 98
+        :t_subject: Construction phase
+        :description: ''
+        :status: :default_status_new
+        :type: :default_type_phase
+        :children:
+          - :start: 98
+            :t_subject: Start constructing
+            :reference: :start_constructing
+            :t_description: |-
+              ## Goal
+
+              *   Ground breaking ceremony
+              *   Setting up the construction site
+              *   ...
+
+              ## Description
+
+              *   Preparing the site for the project
+              *   Get the team together
+              *   ...
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__planners
+            :duration: 31
+          - :start: 130
+            :t_subject: Foundation
+            :t_description: |-
+              ## Goal
+
+              *   Laying of the foundation stone
+              *   ...
+
+              ## Description
+
+              *   Setting up the concrete mixer
+              *   Setting up the supply chain for the concrete
+              *   ...
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__planners
+            :duration: 25
+            :relations:
+              - :to: :start_constructing
+                :type: follows
+          - :start: 149
+            :t_subject: Building construction
+            :t_description: |-
+              ## Goal
+
+              *   Topping out ceremony
+              *   Walls and ceilings are done
+              *   ...
+
+              ## Description
+
+              *   Creating all structural levels of the building
+              *   Installing doors and windows
+              *   Finishing the roof structure
+              *   ...
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__planners
+            :duration: 46
+          - :start: 164
+            :t_subject: Finishing the facade
+            :t_description: |-
+              ## Goal
+
+              *   Facade is done
+              *   Whole building is waterproof
+              *   ...
+
+              ## Description
+
+              *   Install all elements for the facade
+              *   Finish the roof
+              *   ...
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__planners
+            :duration: 32
+          - :start: 178
+            :t_subject: Installing the building service systems
+            :t_description: |-
+              ## Goal
+
+              *   All building service systems are ready to be used
+
+              ## Description
+
+              *   Installing the heating system
+              *   Installing the climate system
+              *   Electrical installation
+              *   ...
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__planners
+            :duration: 25
+          - :start: 189
+            :t_subject: Final touches
+            :reference: :final_touches
+            :t_description: |-
+              ## Goal
+
+              *   Handover of the keys
+              *   The customer is happy with his building
+              *   ...
+
+              ## Description
+
+              *   Finishing the installation of the building service systems
+              *   Finishing the interior construction
+              *   Finishing the facade
+              *   ...
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__planners
+            :duration: 18
+          - :start: 208
+            :t_subject: House warming party
+            :t_description: |-
+              ## Goal
+
+              *   Have a blast!
+
+              ## Description
+
+              *   Invite the construction team
+              *   Invite your friends
+              *   Bring some drinks, snacks and your smile
+            :status: :default_status_new
+            :type: :default_type_milestone
+            :duration: 1
+            :relations:
+              - :to: :final_touches
+                :type: follows
+        :assigned_to: :group__planners
+        :duration: 110
+        :relations:
+          - :to: :design_freeze
+            :type: follows
+  demo-bim-project:
+    t_name: (Demo) BIM project
+    identifier: demo-bim-project
+    status_code: on_track
+    t_status_explanation: All tasks and sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
+    parent: demo-construction-project
+    t_description: This is a short summary of the goals of this demo BIM project.
+    modules:
+      - work_package_tracking
+      - news
+      - wiki
+      - board_view
+      - team_planner_view
+    news:
+      - t_title: Welcome to your demo project
+        t_summary: |
+          We are glad you joined.
+          In this module you can communicate project news to your team members.
+        t_description: The actual news
+    types:
+      - :default_type_task
+      - :default_type_milestone
+      - :default_type_phase
+    t_categories:
+      - Category 1 (to be changed in Project settings)
+    queries:
+      - t_name: Project plan
+        status: open
+        timeline: true
+        sort_by: start_date
+        hierarchy: true
+        starred: true
+        columns:
+          - id
+          - type
+          - status
+          - subject
+          - start_date
+          - due_date
+          - duration
+      - t_name: Milestones
+        reference: :demo_bim_project__query__milestones
+        status: open
+        type: :default_type_milestone
+        timeline: true
+        columns:
+          - id
+          - type
+          - status
+          - subject
+          - start_date
+          - due_date
+        sort_by: start_date
+      - t_name: Tasks
+        status: open
+        type: :default_type_task
+        hierarchy: true
+        sort_by: id
+        columns:
+          - id
+          - subject
+          - priority
+          - type
+          - status
+          - assigned_to
+      - t_name: Team planner
+        module: team_planner
+        assigned_to: :openproject_admin
+    project-overview:
+      row_count: 6
+      column_count: 2
+      widgets:
+        - identifier: 'custom_text'
+          start_row: 1
+          end_row: 2
+          start_column: 1
+          end_column: 3
+          options:
+            t_name: 'Welcome'
+            text: '![Teaser](##attachment:"demo_project_teaser_bim.jpg")'
+          attachments:
+            - demo_project_teaser_bim.jpg
+        - identifier: 'custom_text'
+          start_row: 2
+          end_row: 5
+          start_column: 1
+          end_column: 2
+          options:
+            t_name: 'Getting started'
+            t_text: |
+              We are glad you joined! We suggest to try a few things to get started in OpenProject.
+
+              This demo project offers roles, workflows and work packages that are specialized for BIM.
+
+              _Try the following steps:_
+
+              1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-bim-project/members) in the project navigation.
+              2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
+              3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
+              4.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
+              5.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+              6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
+              7.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).
+              8.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+              9.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-bim-project/boards)
+
+              Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+              Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+        - identifier: 'project_status'
+          start_row: 2
+          end_row: 3
+          start_column: 2
+          end_column: 3
+        - identifier: 'project_description'
+          start_row: 3
+          end_row: 4
+          start_column: 2
+          end_column: 3
+        - identifier: 'members'
+          start_row: 4
+          end_row: 5
+          start_column: 2
+          end_column: 3
+          options:
+            t_name: 'Members'
+        - identifier: 'work_packages_overview'
+          start_row: 5
+          end_row: 6
+          start_column: 1
+          end_column: 3
+          options:
+            t_name: 'Work packages'
+        - identifier: 'work_packages_table'
+          start_row: 6
+          end_row: 7
+          start_column: 1
+          end_column: 3
+          options:
+            t_name: 'Milestones'
+            queryId: '##query.id:demo_bim_project__query__milestones'
+    work_packages:
+      - :start: 14
+        :t_subject: Project kick off creating BIM model
+        :reference: :project_kick_off_creating_bim_model
+        :t_description: |-
+          The project Kickoff initializes the start of the project in your company. The whole project team should be invited to the Kickoff for a first briefing.
+
+          The next step could be to check out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+        :status: :default_status_new
+        :type: :default_type_milestone
+        :assigned_to: :group__bim_managers
+        :duration: 1
+      - :start: 15
+        :t_subject: Project preparation
+        :reference: :project_preparation
+        :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
+          and &quot;Request&quot;, thus represents a general note.
+        :status: :default_status_new
+        :type: :default_type_phase
+        :children:
+          - :start: 15
+            :t_subject: Gathering the project specific data and information for the BIM model
+            :reference: :gathering_project_data_and_info
+            :t_description: |-
+              ## Goal
+
+              *   Identify the information strategy for the customer (e.g. by using plain language questions)
+              *   If provided, analyze the customer information requirements for the BIM model
+              *   Define an information delivery strategy according to the customers needs
+
+              ## Description
+
+              *   Analyzing the customers needs and goals for using the BIM methodology
+              *   Results of this tasks should be:
+                  *   The requirements for the project
+                  *   A strategy for the delivery phase
+                  *   ...
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__planners
+            :duration: 14
+            :relations:
+              - :to: :project_kick_off_creating_bim_model
+                :type: follows
+          - :start: 33
+            :t_subject: Creating the BIM execution plan
+            :reference: :creating_bim_execution_plan
+            :t_description: |-
+              # Goal
+
+              *   A BIM execution plan will be defined according to the exchange requirements specifications (ERS)
+              *   All team members and partners have a plan on how to reach each of the project goals
+
+              # Description
+
+              *   Depending on the identifies use cases, the individual Information Delivery Manuals will be defined
+              *   To handle the technological interfaces, a software topology will be defined and analyzed and verified
+              *   ...
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__lead_bim_coordinators
+            :duration: 18
+            :relations:
+              - :to: :gathering_project_data_and_info
+                :type: follows
+          - :start: 52
+            :t_subject: Completion of the BIM execution plan
+            :reference: :completion_of_bim_execution_plan
+            :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
+              and &quot;Request&quot;, thus represents a general note.
+            :status: :default_status_resolved
+            :type: :default_type_milestone
+            :assigned_to: :group__bim_coordinators
+            :duration: 1
+            :relations:
+              - :to: :creating_bim_execution_plan
+                :type: follows
+                :assigned_to: :group__bim_managers
+        :duration: 37
+      - :start: 53
+        :t_subject: End of preparation phase
+        :reference: :end_of_preparation_phase
+        :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
+          and &quot;Request&quot;, thus represents a general note.
+        :status: :default_status_new
+        :type: :default_type_milestone
+        :assigned_to: :group__bim_managers
+        :duration: 1
+        :relations:
+          - :to: :project_preparation
+            :type: follows
+      - :start: 54
+        :t_subject: Creating initial BIM model
+        :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
+          and &quot;Request&quot;, thus represents a general note.
+        :status: :default_status_new
+        :type: :default_type_phase
+        :children:
+          - :start: 54
+            :t_subject: Modelling initial BIM model
+            :reference: :modelling_initial_bim_model
+            :t_description: |-
+              # Goal
+
+              *   Modelling the initial BIM model
+              *   Creating a BIM model for the whole project team
+
+              # Description
+
+              *   According to the gathered data from the customer, the initial model will be modelled
+              *   The model shall be modelled according to the LOD Matrices and contain the information needed
+              *   ...
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__bim_modellers
+            :duration: 7
+            :relations:
+              - :to: :end_of_preparation_phase
+                :type: follows
+          - :start: 62
+            :t_subject: Initial, internal model check and revising
+            :reference: :initial_internal_model_check_and_revising
+            :t_description: |-
+              # Goal
+
+              *   Submitting a BIM model according to the defined standards
+
+              # Description
+
+              *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised
+              *   ...
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__lead_bim_coordinators
+            :duration: 2
+            :relations:
+              - :to: :modelling_initial_bim_model
+                :type: follows
+          - :start: 65
+            :t_subject: Submitting initial BIM model
+            :reference: :submitting_initial_bim_model
+            :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
+              and &quot;Request&quot;, thus represents a general note.
+            :status: :default_status_new
+            :type: :default_type_milestone
+            :assigned_to: :group__bim_modellers
+            :duration: 1
+            :relations:
+              - :to: :initial_internal_model_check_and_revising
+                :type: follows
+        :assigned_to: :group__architects
+        :duration: 11
+        :relations:
+          - :to: :completion_of_bim_execution_plan
+            :type: follows
+      - :start: 66
+        :t_subject: Modelling, first cycle
+        :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
+          and &quot;Request&quot;, thus represents a general note.
+        :status: :default_status_new
+        :type: :default_type_phase
+        :children:
+          - :start: 66
+            :t_subject: Referencing external BIM models
+            :reference: :referencing_external_bim_models
+            :t_description: |-
+              # Goal
+
+              *   Having a foundation for developing the internal model/ offering answers
+              *   Using the external model to develop the internal model
+
+              # Description
+
+              *   The external model will be referenced in the BIM platform, thus used for modelling the internal model
+              *   ...
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__bim_modellers
+            :duration: 1
+            :relations:
+              - :to: :submitting_initial_bim_model
+                :type: follows
+          - :start: 67
+            :t_subject: Modelling the BIM model
+            :reference: :modelling_of_the_bim_model
+            :t_description: |-
+              # Goal
+
+              *   Creating a BIM model for the project
+              *   Creating a BIM model for the whole project team
+
+              # Description
+
+              *   The model will be created according to the BIM execution plan
+              *   ...
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__bim_modellers
+            :duration: 6
+            :relations:
+              - :to: :referencing_external_bim_models
+                :type: follows
+          - :start: 74
+            :t_subject: First Cycle, internal model check and revising
+            :reference: :first_cycle_internal_model_check_and_revising
+            :t_description: |-
+              # Goal
+
+              *   Submitting a BIM model according to the defined standards
+
+              # Description
+
+              *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised.
+              *   ...
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__bim_coordinators
+            :duration: 1
+            :relations:
+              - :to: :modelling_of_the_bim_model
+                :type: follows
+          - :start: 76
+            :t_subject: Submitting BIM model
+            :reference: :submitting_bim_model
+            :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
+              and &quot;Request&quot;, thus represents a general note.
+            :status: :default_status_new
+            :type: :default_type_milestone
+            :assigned_to: :group__bim_modellers
+            :duration: 1
+            :relations:
+              - :to: :first_cycle_internal_model_check_and_revising
+                :type: follows
+        :assigned_to: :group__bim_coordinators
+        :duration: 10
+        :relations:
+          - :to: :submitting_initial_bim_model
+            :type: follows
+      - :start: 77
+        :t_subject: Coordination, first cycle
+        :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
+          and &quot;Request&quot;, thus represents a general note.
+        :status: :default_status_new
+        :type: :default_type_phase
+        :children:
+          - :start: 77
+            :t_subject: Coordinate the different BIM models
+            :t_description: |-
+              # Goal
+
+              *   Assemble the different BIM models of the whole project team
+              *   Coordinate the identified issues
+
+              # Description
+
+              *   The different BIM models will be assembled and checked
+              *   The identified model specific issues will be communicated via BCF files
+              *   ...
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__bim_coordinators
+            :duration: 3
+          - :start: 77
+            :t_subject: Issue management, first cycle
+            :reference: :issue_management_first_cycle
+            :description: ''
+            :status: :default_status_new
+            :type: :default_type_phase
+            :assigned_to: :group__bim_coordinators
+            :duration: 4
+          - :start: 82
+            :t_subject: Finishing coordination, first cycle
+            :reference: :finishing_coordination_first_cycle
+            :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
+              and &quot;Request&quot;, thus represents a general note.
+            :status: :default_status_new
+            :type: :default_type_milestone
+            :assigned_to: :group__lead_bim_coordinators
+            :duration: 1
+            :relations:
+              - :to: :issue_management_first_cycle
+                :type: follows
+        :assigned_to: :group__lead_bim_coordinators
+        :duration: 5
+        :relations:
+          - :to: :submitting_bim_model
+            :type: follows
+      - :start: 83
+        :t_subject: Modelling & coordinating, second cycle
+        :reference: :modelling_and_coordinating_second_cycle
+        :t_description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n*   ..."
+        :status: :default_status_new
+        :type: :default_type_phase
+        :assigned_to: :group__lead_bim_coordinators
+        :duration: 1
+        :relations:
+          - :to: :finishing_coordination_first_cycle
+            :type: follows
+      - :start: 84
+        :t_subject: Modelling & coordinating, ... cycle
+        :reference: :modelling_and_coordinating_another_cycle
+        :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
+          and &quot;Request&quot;, thus represents a general note.
+        :status: :default_status_new
+        :type: :default_type_phase
+        :assigned_to: :group__lead_bim_coordinators
+        :duration: 1
+        :relations:
+          - :to: :modelling_and_coordinating_second_cycle
+            :type: follows
+      - :start: 85
+        :t_subject: Modelling & coordinating, (n-th minus 1) cycle
+        :reference: :modelling_and_coordinating_penultimate_cycle
+        :t_description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n*   ..."
+        :status: :default_status_new
+        :type: :default_type_phase
+        :assigned_to: :group__lead_bim_coordinators
+        :duration: 1
+        :relations:
+          - :to: :modelling_and_coordinating_another_cycle
+            :type: follows
+      - :start: 86
+        :t_subject: Modelling & coordinating n-th cycle
+        :reference: :modelling_and_coordinating_last_cycle
+        :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
+          and &quot;Request&quot;, thus represents a general note.
+        :status: :default_status_new
+        :type: :default_type_phase
+        :assigned_to: :group__bim_coordinators
+        :duration: 1
+        :relations:
+          - :to: :modelling_and_coordinating_penultimate_cycle
+            :type: follows
+      - :start: 87
+        :t_subject: Finishing modelling & coordinating, n-th cycle
+        :reference: :finishing_modelling_and_coordinating
+        :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
+          and &quot;Request&quot;, thus represents a general note.
+        :status: :default_status_new
+        :type: :default_type_milestone
+        :assigned_to: :group__bim_coordinators
+        :duration: 1
+        :relations:
+          - :to: :modelling_and_coordinating_last_cycle
+            :type: follows
+      - :start: 88
+        :t_subject: Use model for construction phase
+        :description: ''
+        :status: :default_status_new
+        :type: :default_type_phase
+        :children:
+          - :start: 88
+            :t_subject: Handover model for construction crew
+            :t_description: |-
+              ## Goal
+
+              *   Everyone knows the model and their tasks
+              *   Everybody gets all the relevant information, model based
+              *   ...
+
+              ## Description
+
+              *   The Kickoff on the construction site includes an introduction to the model
+              *   All the objects should have the information needed for the assigned tasks. If not, data enrichment of the model needs to be done
+              *   ...
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__bim_coordinators
+            :duration: 5
+          - :start: 98
+            :t_subject: Construct the building
+            :reference: :construct_building
+            :t_description: |-
+              ## Goal
+
+              *   New issues realized on construction site will be handled model based
+              *   Issues will be documented by using the BCF files and the BIM model
+
+              ## Description
+
+              *   New issues will be documented using BCF files as sticky notes for the model
+              *   The BCF files will be used to assign, track and correct issues
+              *   ...
+            :status: :default_status_new
+            :type: :default_type_task
+            :assigned_to: :group__bim_coordinators
+            :duration: 101
+          - :start: 200
+            :t_subject: Finish construction
+            :reference: :finish_construction
+            :description: ''
+            :status: :default_status_new
+            :type: :default_type_milestone
+            :assigned_to: :group__bim_coordinators
+            :duration: 1
+            :relations:
+              - :to: :construct_building
+                :type: follows
+        :assigned_to: :group__bim_coordinators
+        :duration: 112
+        :relations:
+          - :to: :finishing_modelling_and_coordinating
+            :type: follows
+      - :start: 98
+        :t_subject: Issue management, construction phase
+        :reference: :issue_management_construction_phase
+        :description: ''
+        :status: :default_status_new
+        :type: :default_type_phase
+        :assigned_to: :group__planners
+        :duration: 88
+      - :start: 210
+        :t_subject: Handover for Facility Management
+        :reference: :handover_for_facility_management
+        :t_description: |-
+          ## Goal
+
+          *   The BIM model will be used for the Facility Management
+          *   The model provides all the relevant information for commissioning and operating the building
+          *   ...
+
+          ## Description
+
+          *   The model contains the relevant information for the facility manager
+          *   The model can be used for the operating system of the building
+          *   ...
+        :status: :default_status_new
+        :type: :default_type_milestone
+        :assigned_to: :group__lead_bim_coordinators
+        :duration: 1
+        :relations:
+          - :to: :finish_construction
+            :type: follows
+      - :start: 211
+        :t_subject: Asset Management
+        :t_description: Enjoy your building :)
+        :status: :default_status_new
+        :type: :default_type_phase
+        :duration: 1
+        :relations:
+          - :to: :handover_for_facility_management
+            :type: follows
+  demo-bcf-management-project:
+    t_name: (Demo) BCF management
+    identifier: demo-bcf-management-project
+    status_code: on_track
+    t_status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+    parent: demo-bim-project
+    t_description: This is a short summary of the goals of this demo BCF management project.
+    modules:
+      - work_package_tracking
+      - bim
+      - board_view
+      - team_planner_view
+    ifc_models:
+      - file: 'hospital_architecture'
+        t_name: 'Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)'
+        default: true
+      - file: 'hospital_structural'
+        t_name: 'Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)'
+        default: true
+      - file: 'hospital_mechanical'
+        t_name: 'Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)'
+        default: false
+    types:
+      - :default_type_task
+      - :default_type_milestone
+      - :default_type_phase
+      - :default_type_clash
+      - :default_type_request
+      - :default_type_issue
+      - :default_type_remark
+    t_categories:
+      - Category 1 (to be changed in Project settings)
+    queries:
+      - t_name: Issues
+        status: open
+        type: :default_type_issue
+        display_representation: card
+      - t_name: Clashes
+        status: open
+        type: :default_type_clash
+        display_representation: card
+      - t_name: Requests
+        status: open
+        type: :default_type_request
+        display_representation: card
+      - t_name: Remarks
+        status: open
+        type: :default_type_remark
+        display_representation: card
+      - t_name: Project plan
+        status: open
+        timeline: true
+        sort_by: start_date
+        hierarchy: true
+        starred: true
+        columns:
+          - id
+          - type
+          - status
+          - subject
+          - start_date
+          - due_date
+          - duration
+      - t_name: Milestones
+        status: open
+        type: :default_type_milestone
+        timeline: true
+        columns:
+          - id
+          - type
+          - status
+          - subject
+          - start_date
+          - due_date
+        sort_by: start_date
+      - t_name: Tasks
+        status: open
+        type: :default_type_task
+        hierarchy: true
+        sort_by: id
+        columns:
+          - id
+          - subject
+          - priority
+          - type
+          - status
+          - assigned_to
+      - t_name: Team planner
+        module: team_planner
+        assigned_to: :openproject_admin
+    boards:
+      bcf:
+        t_name: "BCF issues"
+    bcf_xml_file: "seed.bcf"
+    project-overview:
+      row_count: 5
+      column_count: 2
+      widgets:
+        - identifier: 'custom_text'
+          start_row: 1
+          end_row: 2
+          start_column: 1
+          end_column: 3
+          options:
+            t_name: 'Welcome'
+            text: '![Teaser](##attachment:"demo_project_teaser_bim.jpg")'
+          attachments:
+            - demo_project_teaser_bim.jpg
+        - identifier: 'custom_text'
+          start_row: 2
+          end_row: 5
+          start_column: 1
+          end_column: 2
+          options:
+            t_name: 'Getting started'
+            t_text: |
+              We are glad you joined! We suggest to try a few things to get started in OpenProject.
+
+              This demo project shows BCF management functionalities.
+
+              _Try the following steps:_
+
+              1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true) in the project navigation.
+              2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
+              3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
+              4.  _View the BCF files in your project:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) in the project navigation.
+              5.  _Load your BCF files:_ → Go to [BCF → Import.]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)
+              6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) in the project navigation.
+              7.  _Activate further modules:_ → Go to [Project settings → Modules.]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)
+              8.  _You love the agile approach? Create a board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards).
+
+              Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+              Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+        - identifier: 'project_status'
+          start_row: 2
+          end_row: 3
+          start_column: 2
+          end_column: 3
+        - identifier: 'project_description'
+          start_row: 3
+          end_row: 4
+          start_column: 2
+          end_column: 3
+        - identifier: 'members'
+          start_row: 4
+          end_row: 5
+          start_column: 2
+          end_column: 3
+          options:
+            t_name: 'Members'
+        - identifier: 'work_packages_overview'
+          start_row: 5
+          end_row: 6
+          start_column: 1
+          end_column: 3
+          options:
+            t_name: 'Work packages'
+    work_packages:
+      - :start: 77
+        :bcf_issue_uuid: fbbf9ecf-5721-4bf1-a08c-aed50dc19353
+        :assigned_to: :group__bim_modellers
+        :duration: 3
+        :parent: :issue_management_first_cycle
+      - :start: 77
+        :bcf_issue_uuid: f6271a32-acf5-49f8-a1b5-7c445f9158e5
+        :assigned_to: :group__bim_modellers
+        :duration: 3
+        :parent: :issue_management_first_cycle
+      - :start: 77
+        :bcf_issue_uuid: f210a2cd-f1f7-4691-b986-2f94117caefe
+        :assigned_to: :group__bim_modellers
+        :duration: 3
+        :parent: :issue_management_first_cycle
+      - :start: 77
+        :bcf_issue_uuid: feb97e6e-14fd-4c62-bbad-607f2bb4ebf5
+        :assigned_to: :group__bim_modellers
+        :duration: 3
+        :parent: :issue_management_first_cycle
+      - :start: 77
+        :bcf_issue_uuid: 00efc0da-b4d5-4933-bcb6-e01513ee2bcc
+        :assigned_to: :group__bim_modellers
+        :duration: 3
+        :parent: :issue_management_first_cycle
+      - :start: 77
+        :bcf_issue_uuid: f9e079a8-02f5-40f0-a08a-171f494ee130
+        :assigned_to: :group__bim_modellers
+        :duration: 3
+        :parent: :issue_management_first_cycle
+      - :start: 77
+        :bcf_issue_uuid: f70417a8-174a-42ae-bf1e-a0b6457d0e6f
+        :assigned_to: :group__bim_modellers
+        :duration: 3
+        :parent: :issue_management_first_cycle
+      - :start: 77
+        :bcf_issue_uuid: f55d0ec0-9a0f-4222-9926-cc5744888b02
+        :assigned_to: :group__bim_modellers
+        :duration: 4
+        :parent: :issue_management_first_cycle
+      - :start: 77
+        :bcf_issue_uuid: fc560c06-51fc-44fa-81b4-e688be189c6a
+        :assigned_to: :group__bim_modellers
+        :duration: 3
+        :parent: :issue_management_first_cycle
+      - :start: 77
+        :bcf_issue_uuid: fe2f9c1f-631b-4b37-91ea-833c4751725a
+        :assigned_to: :group__bim_modellers
+        :duration: 3
+        :parent: :issue_management_first_cycle
+      - :start: 77
+        :bcf_issue_uuid: fc5099c0-bedb-4770-a576-0429a7733517
+        :assigned_to: :group__bim_modellers
+        :duration: 3
+        :parent: :issue_management_first_cycle
+      - :start: 77
+        :bcf_issue_uuid: 010d9884-8c93-4551-b2bc-570faffe7082
+        :assigned_to: :group__bim_modellers
+        :duration: 3
+        :parent: :issue_management_first_cycle
+      - :start: 77
+        :bcf_issue_uuid: febee8e1-1ad2-45e5-b08d-b4be92d25ad6
+        :assigned_to: :group__bim_modellers
+        :duration: 3
+        :parent: :issue_management_first_cycle
+      - :start: 77
+        :bcf_issue_uuid: f4d71d45-5a2c-4dad-bcb1-8a4935f2ea69
+        :assigned_to: :group__bim_modellers
+        :duration: 3
+        :parent: :issue_management_first_cycle
+      - :start: 77
+        :bcf_issue_uuid: fb9705ea-b32c-46ff-bb6f-d1d049494e05
+        :assigned_to: :group__bim_modellers
+        :duration: 4
+        :parent: :issue_management_first_cycle
+      - :start: 77
+        :bcf_issue_uuid: fbe1d941-06ce-45f4-8ccb-ef48b8426f72
+        :assigned_to: :group__bim_modellers
+        :duration: 3
+        :parent: :issue_management_first_cycle
+      - :start: 98
+        :bcf_issue_uuid: 73def76d-939d-404c-9bd0-581399f92714
+        :duration: 8
+        :parent: :issue_management_construction_phase
+      - :start: 98
+        :bcf_issue_uuid: b5105e2e-add1-4d48-abb9-ce51fcea3bdd
+        :duration: 8
+        :parent: :issue_management_construction_phase
+      - :start: 98
+        :bcf_issue_uuid: 99f03fde-4c74-4a8f-940a-c741738ab073
+        :duration: 2
+        :parent: :issue_management_construction_phase
+      - :start: 111
+        :bcf_issue_uuid: af1de642-6d08-489b-8056-ca4c383e0617
+        :duration: 8
+        :parent: :issue_management_construction_phase
+      - :start: 114
+        :bcf_issue_uuid: e6276745-3d58-4d40-80fb-6de5cb05077e
+        :duration: 8
+        :parent: :issue_management_construction_phase
+      - :start: 149
+        :bcf_issue_uuid: efd7be98-1a64-4a35-ad4c-51b8881d79ed
+        :duration: 8
+        :parent: :issue_management_construction_phase
+      - :start: 152
+        :bcf_issue_uuid: f689bfd4-ec09-45ca-bbe3-7d1d0f5d9933
+        :duration: 21
+        :parent: :issue_management_construction_phase
+      - :start: 178
+        :bcf_issue_uuid: 3746180f-ba1e-4ea0-a0fb-6ee69ccabd85
+        :duration: 8
+        :parent: :issue_management_construction_phase
+      - :start: 178
+        :bcf_issue_uuid: 2adbdbb4-bb60-4250-b8af-3cd786437814
+        :duration: 8
+        :parent: :issue_management_construction_phase

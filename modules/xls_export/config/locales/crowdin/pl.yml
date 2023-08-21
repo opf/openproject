@@ -1,0 +1,13 @@
+pl:
+  export_to_excel: "Wyeksportuj XLS"
+  print_with_description: "Podgląd wydruku z opisem"
+  sentence_separator_or: "lub"
+  different_formats: Odmienne formaty
+  export:
+    format:
+      xls: "XLS"
+      xls_with_descriptions: "XLS z opisami"
+      xls_with_relations: "XLS z relacjami"
+  xls_export:
+    child_of: element podrzędny
+    parent_of: element nadrzędny

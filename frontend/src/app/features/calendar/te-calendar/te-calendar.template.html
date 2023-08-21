@@ -1,0 +1,28 @@
+<!-- position: relative added in order for the loading indicator to be positioned correctly -->
+<div
+  class="te-calendar--container loading-indicator--location"
+  [attr.data-indicator-name]="'table'"
+  style="position: relative"
+>
+  <button
+    *ngIf="memoizedCreateAllowed"
+    class="button te-calendar--create-button"
+    [attr.aria-label]="text.logTime"
+    (click)="addEventToday()"
+  >
+    <op-icon icon-classes="button--icon icon-log_time"></op-icon>
+    <span
+      class="button--text"
+      [textContent]="text.logTime"
+      aria-hidden="true"
+    ></span>
+  </button>
+  <ng-container
+  *ngIf="(calendarOptions$ | async) as calendarOptions">
+    <full-calendar
+      #ucCalendar
+      *ngIf="calendarOptions"
+      [options]="calendarOptions"
+    ></full-calendar>
+  </ng-container>
+</div>

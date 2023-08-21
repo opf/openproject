@@ -1,0 +1,9 @@
+<div class="op-toast -error">
+  <div class="op-toast--content">
+    <p>
+      <strong><%= t('oauth.authorization_error') %></strong>
+      <br/>
+      <%= @pre_auth.error_response.body[:error_description] %></pre>
+    </p>
+  </div>
+</div>

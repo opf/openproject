@@ -1,0 +1,15 @@
+<table <%= placeholder_table_styles(width:'100%',style: "width:100%;border-width:1px;border-color:#E0E0E0;border-style:solid;border-radius:10px") %>>
+  <tr>
+    <%= placeholder_cell('12px', vertical: false) %>
+  </tr>
+  <tr>
+    <td>
+      <table <%= placeholder_table_styles(width:'100%',style: 'width:100%;font-size:14px;') %>>
+        <%= yield %>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <%= placeholder_cell('12px', vertical: false) %>
+  </tr>
+</table>

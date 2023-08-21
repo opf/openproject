@@ -1,0 +1,15 @@
+#English strings go here
+it:
+  js:
+    label_preview: 'Anteprima'
+    button_update: 'Aggiorna'
+    avatars:
+      label_choose_avatar: "Scegli Avatar da file"
+      uploading_avatar: "Caricamento del tuo avatar."
+      text_upload_instructions: |
+        Carica il tuo avatar personalizzato di 128x128 pixel. I file più grandi saranno ridimensionati e tagliati per corrispondere.
+        Una volta selezionata un'immagine, verrà mostrata un'anteprima del tuo avatar prima del caricamento.
+      error_image_too_large: "L'immagine è troppo grande."
+      wrong_file_format: "I formati consentiti sono jpg, png, gif"
+      empty_file_error: "Per favore caricare un'immagine valida (jpg, png, gif)"
+

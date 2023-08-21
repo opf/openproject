@@ -1,0 +1,40 @@
+#English strings go here
+lt:
+  label_avatar: "Nuotrauka"
+  label_avatar_plural: "Nuotraukos"
+  label_current_avatar: "Dabartinė nuotrauka"
+  label_choose_avatar: "Parinkite nuotrauką iš failo"
+  message_avatar_uploaded: "Nuotrauka sėkmingai pakeista."
+  error_image_upload: "Klaida įrašant paveikslėlį."
+  error_image_size: "Paveikslėlis per didelis."
+  button_change_avatar: "Keisti nuotrauką"
+  are_you_sure_delete_avatar: "Ar tikrai norite ištrinti jūsų nuotrauką?"
+  avatar_deleted: "Nuotrauka sėkmingai ištrinta."
+  unable_to_delete_avatar: "Nepavyko ištrinti nuotraukos."
+  wrong_file_format: "Leidžiami formatai yra jpg, png, gif"
+  empty_file_error: "Prašome įkelti tinkamą piešinį (jpg, png, gif)"
+  avatars:
+    label_avatar: "Nuotrauka"
+    label_gravatar: 'Gravataras'
+    label_current_avatar: 'Dabartinė nuotrauka'
+    label_local_avatar: 'Sava nuotrauka'
+    text_current_avatar: |
+      Šis piešinys rodo dabartinę nuotrauką.
+    text_upload_instructions: |
+      Įkelkite savo 128x128 taškų nuotrauką. Didesni failai bus sumažinti ir apkarpyti, kad atitiktų.
+      Nuotraukos peržiūra bus prieš įkeliant parodyta parinkus piešinuką.
+    text_change_gravatar_html: 'Norėdami pakeisti jūsų pašto adreso Gravatarą, eikite į %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject leidžia jums įkelti jūsų savo nuotrauką.
+    text_local_avatar_over_gravatar: |
+      Jei nurodote, savai nuotraukai bus teikiamas prioritetas prieš aukščiau nurodytą gravatarą.
+    text_your_current_gravatar: |
+      OpenProject naudoja gravatarą, jei jį priregistravote. Arba numatytą piešinuką ar piktogramą, jei tokia yra.
+      Dabartinis gravataras yra toks:
+    settings:
+      enable_gravatars: 'Įjungti naudotojų gravatarus'
+      gravatar_default: "Gravatar paveiksliukas pagal nutylėjimą"
+      enable_local_avatars: 'Įjungti savus naudotojų gravatarus'
+
+
+

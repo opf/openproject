@@ -1,0 +1,124 @@
+@import 'grid'
+@import 'elements/bar'
+@import 'elements/hover'
+@import 'elements/milestone'
+@import 'elements/relation'
+@import 'elements/labels'
+
+@import 'timelines_header'
+@import 'timelines_static_elements'
+
+.wp-timeline--th
+  min-width: 600px !important
+
+.wp-timeline--dummy-controls
+  position: absolute
+  right: 20px
+  background: white
+  top: calc(#{var(--generic-table--header-height)} + 10px)
+  border: 1px solid #D7D7D7
+  box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.2)
+  z-index: 200
+
+  // Ensure even padding around buttons
+  padding: 5px
+  line-height: 1
+
+  button
+    margin: 0
+
+.wp-table-timeline--container
+  position: relative
+  width: 100%
+
+.wp-table-timeline--relations
+  z-index: 0
+
+.wp-table-timeline--grid
+  z-index: -2
+
+.wp-table-timeline--relations,
+.wp-table-timeline--grid
+  position: absolute
+  width: 100%
+  // Position 45px below header
+  top: var(--generic-table--header-height)
+  height: calc(100% - var(--generic-table--header-height))
+  // Disable pointer-events to allow cells to handle them
+  pointer-events: none
+
+// Left border for the timeline
+.work-packages-split-view--left-timeline
+  border-left: 5px solid #888
+
+// Add bottom border to timeline
+.wp-table-timeline--body
+  outline: 1px solid var(--table-row-border-color)
+
+.wp-timeline-cell
+  // Ensure the height of table and timeline rows
+  height: var(--table-timeline--row-height)
+  // Vertically center elements
+  display: flex
+  align-items: center
+
+  &:first-child
+    // The first table child is 1px larger
+    height: calc(var(--table-timeline--row-height) + 1px)
+
+  // Need to disable flex behavior on children
+  > div
+    flex: 0 0 auto
+
+  // Relative position for positioning of elements within
+  position: relative
+
+  &.-collapsed
+    display: none
+
+// Add margin (row's height) to the timeline on split view
+// to compensate either of 'wpTableSumsRow' or 'wpInlineCreate' row that the work
+// packages table has. If not, when scrolling down the last
+// rows are misaligned.
+.work-packages-tabletimeline--timeline-side
+  // Only one of the rows visible
+  &.-single-margin
+    .wp-table-timeline--body
+      margin-bottom: var(--table-timeline--row-height)
+
+  // Both rows visible
+  &.-double-margin
+    .wp-table-timeline--body
+      margin-bottom: calc(var(--table-timeline--row-height) * 2)
+
+.children-duration-bar
+  position: absolute
+  height: 10px
+  top: 1.7em
+  border: 1px solid
+  background: none
+  border-bottom: none
+
+.-duration-overflow
+  border-color: var(--warn)
+
+.children-duration-hover-container
+  display: none
+  margin-left: -1px
+  margin-right: -1px
+  background-color: #d3d3d361
+
+.wp-timeline-cell.row-hovered .children-duration-hover-container
+  display: block
+
+.wp-timeline-cell.__hierarchy-root-collapsed .children-duration-hover-container
+  display: none
+
+.-group-row
+  .timeline-element
+    position: absolute
+
+  .labelRight:not(.not-empty), .labelFarRight, .labelLeft
+    display: none !important
+
+

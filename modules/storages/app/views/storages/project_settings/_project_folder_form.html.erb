@@ -1,0 +1,163 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2023 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% content_controller 'project-storage-form',
+                      dynamic: true,
+                      'project-storage-form-folder-mode-value': @project_storage.project_folder_mode,
+                      'project-storage-form-placeholder-folder-name-value': t(:"storages.label_no_selected_folder"),
+                      'project-storage-form-not-logged-in-validation-value': t(:"storages.instructions.not_logged_into_storage"),
+                      'project-storage-form-last-project-folders-value': @last_project_folders
+%>
+
+<div class="form--field -required">
+  <%= f.label :storage_id, class: "form--label -bold" do %>
+    <%= t(:"storages.label_storage") %>
+  <% end %>
+  <div class="form--field-container">
+    <%= f.hidden_field :storage_id %>
+    <% storage = @project_storage.storage %>
+    <%= content_tag(:span,
+                    storage.name,
+                    data: {
+                      'project-storage-form-target': 'storage',
+                      storage: {
+                        name: storage.name,
+                        id: storage.id,
+                        _links: {
+                          self: { href: api_v3_paths.storage(storage.id) },
+                          type: { href: API::V3::Storages::URN_STORAGE_TYPE_NEXTCLOUD }
+                        }
+                      },
+                    }) %>
+  </div>
+</div>
+
+
+<%= f.hidden_field :project_folder_id,
+                   data: {
+                     'project-storage-form-target': "projectFolderIdInput"
+                   } %>
+
+<div class="form--field -required">
+  <%= styled_label_tag :project_folder_mode,
+                       class: "-bold -flex" do %>
+    <%= t(:"storages.label_project_folder") %>
+    <%= angular_component_tag 'op-static-attribute-help-text',
+                              inputs: {
+                                title: t(:"storages.label_project_folder"),
+                                content: t(:"storages.help_texts.project_folder"),
+                              }
+    %>
+  <% end %>
+  <div class="form--field-container">
+    <%= f.label :project_folder_mode, class: "form--label-with-radio-button" do %>
+      <%= f.radio_button :project_folder_mode,
+                         'inactive',
+                         no_label: true,
+                         data: { action: 'project-storage-form#updateForm' } %>
+      <%= t(:"storages.label_no_specific_folder") %>
+    <% end %>
+  </div>
+  <span class="form--field-instructions -with-bottom-spacing">
+    <%= t(:"storages.instructions.no_specific_folder") %>
+  </span>
+
+  <div class="form--field-container">
+    <%= f.label :project_folder_mode, class: "form--label-with-radio-button" do %>
+      <%= f.radio_button :project_folder_mode,
+                         'automatic',
+                         no_label: true,
+                         data: { action: 'project-storage-form#updateForm' } %>
+      <%= t(:"storages.label_automatic_folder") %>
+    <% end %>
+  </div>
+  <span class="form--field-instructions -xwide -with-bottom-spacing">
+    <%= t(:"storages.instructions.automatic_folder") %>
+  </span>
+
+  <div class="form--field-container">
+    <%= f.label :project_folder_mode, class: "form--label-with-radio-button" do %>
+      <%= f.radio_button :project_folder_mode,
+                         'manual',
+                         no_label: true,
+                         data: { action: 'project-storage-form#updateForm' } %>
+      <%= t(:"storages.label_existing_manual_folder") %>
+    <% end %>
+  </div>
+  <span class="form--field-instructions -xwide -with-bottom-spacing">
+    <%= t(:"storages.instructions.existing_manual_folder") %>
+  </span>
+
+  <div
+    style="display: none;"
+    class="form--field-container -with-children-spacing"
+    data-project-storage-form-target="projectFolderSection"
+  >
+    <%= styled_button_tag class: 'button_no-margin',
+                          data: {
+                            'project-storage-form-target': "selectProjectFolderButton",
+                            'action': "project-storage-form#selectProjectFolder"
+                          },
+                          type: 'button' do %>
+      <%= spot_icon('folder-open') %>
+      <%= content_tag :span, t(:"storages.buttons.select_folder") %>
+    <% end %>
+    <%= angular_component_tag 'op-storage-login-button',
+                              inputs: {
+                                input: storage_login_input(@project_storage.storage)
+                              },
+                              style: 'display: inline-block',
+                              data: {
+                                'project-storage-form-target': "loginButton"
+                              }
+    %>
+    <span
+      data-project-storage-form-target="selectedFolderText"
+    >...</span>
+  </div>
+  <% if @errors&.any? { |error| error.attribute == :project_folder_id } %>
+    <%= content_tag :span,
+                    t(:"storages.instructions.empty_project_folder_validation"),
+                    class: 'form--field-error -with-bottom-spacing',
+                    data: {
+                      'project-storage-form-target': "projectFolderIdValidation"
+                    } %>
+  <% end %>
+</div>
+
+<div class="form--field">
+  <%= styled_button_tag class: "-highlight" do %>
+    <%= spot_icon('checkmark') %>
+    <%= content_tag :span, submit_button_label %>
+  <% end %>
+  <%= link_to project_settings_project_storages_path(@project), class: 'button' do %>
+    <%= spot_icon('cancel') %>
+    <%= content_tag :span, t(:button_cancel) %>
+  <% end %>
+</div>

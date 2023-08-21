@@ -1,0 +1,38 @@
+.spot-icon 
+  display: inline-flex
+  justify-content: center
+  align-items: center
+  font-size: 1.5rem
+
+  &_1_25
+    font-size: 1.25rem
+
+  &_1
+    font-size: 1rem
+
+  &_inline
+    transform: translateY(0.25em)
+
+  &::before 
+    font-family: "openproject-spot-icon-font"
+    font-style: normal
+    font-weight: normal
+    font-variant: normal
+    font-size: inherit
+    text-transform: none
+    text-decoration: none
+    display: block
+    speak: none
+    line-height: 1
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+
+{{#each codepoints}}
+
+@mixin spot-icon-{{@key}} 
+  content: "\\{{this}}"
+
+.spot-icon_{{@key}}:before 
+  content: "\\{{this}}"
+
+{{/each}}

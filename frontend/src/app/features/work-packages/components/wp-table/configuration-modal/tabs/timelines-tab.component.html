@@ -1,0 +1,74 @@
+<div>
+  <form class="form">
+    <div class="form--field">
+      <label class="form--label"
+             [textContent]="text.display_timelines"
+             for="display_timelines_switch"></label>
+      <div class="form--field-container">
+        <div class="form--check-box-container">
+          <input type="checkbox"
+                 (change)="timelineVisible = !timelineVisible"
+                 [checked]="timelineVisible"
+                 id="display_timelines_switch"
+                 name="display_timelines_switch">
+        </div>
+      </div>
+      <p class="form--field-instructions" [textContent]="text.display_timelines_hint"></p>
+    </div>
+    <ng-container *ngIf="timelineVisible">
+      <fieldset class="form--fieldset">
+        <legend class="form--fieldset-legend"
+                [textContent]="text.zoom.level">
+        </legend>
+        <p [textContent]="text.zoom.description"></p>
+
+        <div class="form--field">
+          <div class="form--field-container">
+            <div class="form--text-select-container -slim">
+
+              <select
+                  id="modal-timelines-zoomlevel"
+                  [attr.disabled]="autoZoom === true ? 'disabled' : undefined"
+                  (change)="zoomLevel = $event.target.value"
+                  class="form--select">
+                <option *ngFor="let level of availableZoomLevels"
+                        [textContent]="text.zoom[level]"
+                        [value]="level"
+                        [selected]="zoomLevel === level"></option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="form--fieldset">
+        <legend class="form--fieldset-legend"
+                [textContent]="text.labels.title">
+        </legend>
+        <p [textContent]="text.labels.description"></p>
+        <div class="form--row" *ngFor="let key of availableLabels">
+          <div class="form--field">
+            <label
+              for="modal-timelines-label-{{key}}"
+              class="form--label">
+              {{ text.labels[key] }}
+            </label>
+            <div class="form--field-container">
+              <div class="form--select-container">
+                <select
+                  id="modal-timelines-label-{{key}}"
+                  (change)="updateLabels(key, $event.target.value)"
+                  class="form--select">
+                  <option *ngFor="let column of availableAttributes"
+                          [textContent]="column.name"
+                          [value]="column.id"
+                          [selected]="labels[key] === column.id"></option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </ng-container>
+  </form>
+</div>

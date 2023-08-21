@@ -1,0 +1,78 @@
+# /api/v3/news/{id}
+---
+get:
+  parameters:
+  - description: news id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  author:
+                    _type: User...
+                  project:
+                    _type: Project...
+                _links:
+                  author:
+                    href: "/api/v3/users/2"
+                    title: Peggie Feeney
+                  project:
+                    href: "/api/v3/projects/1"
+                    title: A project
+                  self:
+                    href: "/api/v3/news/1"
+                    title: asperiores possimus nam doloribus ab
+                _type: News
+                createdAt: '2015-03-20T12:57:01Z'
+                description:
+                  format: markdown
+                  html: "<p>Videlicet deserunt aequitas cognatus. Concedo quia est
+                    quia pariatur vorago vallum. Calco autem atavus accusamus conscendo
+                    cornu ulterius. Tam patria ago consectetur ventito sustineo nihil
+                    caecus. Supra officiis eos velociter somniculosus tonsor qui.
+                    Suffragium aduro arguo angustus cogito quia tolero vulnus. Supplanto
+                    sortitus cresco apud vestrum qui.</p>"
+                  raw: Videlicet deserunt aequitas cognatus. Concedo quia est quia
+                    pariatur vorago vallum. Calco autem atavus accusamus conscendo
+                    cornu ulterius. Tam patria ago consectetur ventito sustineo nihil
+                    caecus. Supra officiis eos velociter somniculosus tonsor qui.
+                    Suffragium aduro arguo angustus cogito quia tolero vulnus. Supplanto
+                    sortitus cresco apud vestrum qui.
+                id: 1
+                summary: Celebrer spiculum colo viscus claustrum atque. Id nulla culpa
+                  sumptus. Comparo crapula depopulo demonstro.
+                title: asperiores possimus nam doloribus ab
+          schema:
+            "$ref": "../components/schemas/news_model.yml"
+      description: OK
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the news does not exist or if the user does not have permission to view it.
+
+        **Required permission** being member of the project the news belongs to
+      headers: {}
+  tags:
+  - News
+  description: ''
+  operationId: View_news
+  summary: View news

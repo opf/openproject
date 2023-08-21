@@ -1,0 +1,9 @@
+# Schema: View_global_contextModel
+---
+type: object
+example:
+  _links:
+    self:
+      href: "/api/v3/capabilities/context/global"
+  _type: CapabilityContext::Global
+  id: global

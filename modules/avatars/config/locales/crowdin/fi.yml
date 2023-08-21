@@ -1,0 +1,38 @@
+#English strings go here
+fi:
+  label_avatar: "Kuva"
+  label_avatar_plural: "Kuvat"
+  label_current_avatar: "Nykyinen kuva"
+  label_choose_avatar: "Valitse kuva tiedostosta"
+  message_avatar_uploaded: "Kuva vaihdettu."
+  error_image_upload: "Virhe tallentaessa kuvaa"
+  error_image_size: "Kuva on liian suuri"
+  button_change_avatar: "Vaihda kuva"
+  are_you_sure_delete_avatar: "Haluatko varmasti poistaa kuvan?"
+  avatar_deleted: "Kuva poistettu."
+  unable_to_delete_avatar: "Kuvaa ei voitu poistaa."
+  wrong_file_format: "Sallitut tiedostomuodot jpg, png, gif"
+  empty_file_error: "Lisää kuva sallitussa tiedostomuodossa (jpg, png, gif)"
+  avatars:
+    label_avatar: "Kuva"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Nykyinen kuva'
+    label_local_avatar: 'Valinnainen kuva'
+    text_current_avatar: |
+      Ohessa nykyinen kuva.
+    text_upload_instructions: |
+      Lisää oma kuvasi, jonka koko on 128x128 pikseliä. Suuremmat kuvat pienennetään ja leikataan sopiviksi. Kuvan esikatselu näytetään kun olet valinnut kuvatiedoston.
+    text_change_gravatar_html: 'Vaihtaaksesi kuva sähköpostiosoitteellesi, siirry %{gravatar_url}.'
+    text_your_local_avatar: |
+      Voit lisätä oman kuvasi OpenProjectiin.
+    text_local_avatar_over_gravatar: |
+      Lisätty kuva korvaa gravatar -kuvan.
+    text_your_current_gravatar: |
+      OpenProject käyttää gravatar -kuvaa jos olet rekisteröinyt sellaisen tai oletuskuvaa tai ikonia mikäli sellainen on olemassa. Nykyinen gravatar -kuva:
+    settings:
+      enable_gravatars: 'Salli käyttäjien gravatar kuvat'
+      gravatar_default: "Oletus Gravatar käyttäjäikoni"
+      enable_local_avatars: 'Salli käyttäjien omat kuvat'
+
+
+

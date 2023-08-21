@@ -1,0 +1,10 @@
+// Some backend modals come wrapped once extra. Because of the way
+// augmented modals are loaded, this is not so easy to change.
+// TODO: When refactoring the modal service, this should be removed
+.spot-modal > .form:only-child
+  display: flex
+  flex-direction: column
+  max-height: var(--app-height)
+
+.modal-delivery-element
+  display: none

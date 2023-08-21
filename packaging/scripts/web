@@ -1,0 +1,6 @@
+#!/bin/bash -e
+
+HOST="${HOST:=127.0.0.1}"
+PORT="${PORT:=8080}"
+
+bundle exec rails server -u puma -b $HOST -p $PORT

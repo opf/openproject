@@ -1,0 +1,60 @@
+<% more_info = local_assigns[:feature_more_info] %>
+<% feature_video = local_assigns[:feature_video] %>
+<% feature_image = local_assigns[:feature_image] %>
+<% additional_classes = local_assigns[:additional_classes] %>
+<% write_augur_to_gon %>
+
+<% if !EnterpriseToken.current.present? %>
+  <% write_trial_key_to_gon %>
+<% end %>
+
+<div class="upsale-notification <%= additional_classes %>">
+    <h2><%= feature_title %></h2>
+    <% if feature_description.empty? %>
+      <p class="upsale--feature-reference">
+        <%= t('js.admin.enterprise.upsale.benefits.description') %>
+        </br>
+        <%= t('js.admin.enterprise.upsale.benefits.premium_features_text') %>
+        </br>
+        <%= t('js.admin.enterprise.upsale.benefits.professional_support_text') %>
+      </p>
+    <% else %>
+      <p class="upsale--feature-reference">
+        <%= feature_description %>
+      </p>
+    <% end %>
+
+    <p class="upsale--feature-reference">
+    <%= more_info %>
+    </p>
+
+    <% if feature_video.present? %>
+      <%= video_tag feature_video, :controls => false, class: "widget-box--teaser-video", autoplay: true, loop: true, muted: true %>
+    <% elsif feature_image.present? %>
+      <%= image_tag feature_image, class: "widget-box--teaser-image" %>
+    <% else %>
+      <%= image_tag "enterprise-add-on.svg", class: "widget-box--teaser-image_default" %>
+    <% end %>
+
+    <p> <%= feature_title %> <%= t('admin.enterprise.enterprise_info_html') %>
+    </br>
+    <%= t('admin.enterprise.upgrade_info') %>
+    </p>
+    <%= link_to(OpenProject::Static::Links.links[:contact_us][:href],
+                { class: 'button',
+                  aria: {label: t('admin.enterprise.buttons.contact')},
+                  target: '_blank',
+                  title: t('admin.enterprise.buttons.contact')}) do %>
+      <span class="button--text"><%= t('admin.enterprise.buttons.contact') %></span>
+    <% end %>
+
+    <%= link_to(OpenProject::Static::Links.links[:pricing][:href],
+                { class: 'button -highlight',
+                  aria: {label: t('admin.enterprise.buttons.upgrade')},
+                  target: '_blank',
+                  title: t('admin.enterprise.buttons.upgrade')}) do %>
+      <%= spot_icon('enterprise-addons') %>
+      <span class="button--text"><%= t('admin.enterprise.buttons.upgrade') %></span>
+    <% end %>
+    <free-trial-button></free-trial-button>
+</div>

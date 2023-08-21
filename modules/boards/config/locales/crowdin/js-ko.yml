@@ -1,0 +1,86 @@
+#English strings go here
+ko:
+  js:
+    boards:
+      create_new: '새 보드 만들기'
+      label_unnamed_board: '명명되지 않은 보드'
+      label_unnamed_list: '명명되지 않은 목록'
+      label_board_type: '보드 유형'
+      upsale:
+        teaser_text: '보드에서 작업 흐름을 자동화하길 원하시나요? 고급 보드는 기업용 기능입니다. 유료 플랜으로 업그레이드하세요.'
+        upgrade: '지금 업그레이드'
+      lists:
+        delete: '목록 삭제'
+      version:
+        is_locked: '버전이 잠겨 있습니다. 이 버전에 항목을 추가할 수 없습니다.'
+        is_closed: '버전이 닫혔습니다. 이 버전에 항목을 추가할 수 없습니다.'
+        close_version: '버전 닫기'
+        open_version: '버전 열기'
+        lock_version: '버전 잠금'
+        unlock_version: '버전 잠금 해제'
+        edit_version: '버전 편집'
+        show_version: '버전 표시'
+        locked: '잠김'
+        closed: '닫음'
+      new_board: '새로운 보드'
+      add_list: '보드에 목록 추가'
+      add_card: '카드 추가'
+      error_attribute_not_writable: "작업 패키지를 이동할 수 없습니다. %{attribute}은(는) 쓰기 가능하지 않습니다."
+      error_loading_the_list: "목록 로드 중 오류 발생: %{error_message}"
+      error_permission_missing: "공용 쿼리를 만들 수 있는 권한이 없습니다"
+      error_cannot_move_into_self: "작업 패키지를 자체 열로 이동할 수 없습니다."
+      text_hidden_list_warning: "허가를 받지 않아 모든 목록이 보이지는 않습니다. 추가 정보를 위해 관리자에게 연락 바랍니다."
+      click_to_remove_list: "이 목록을 제거하려면 클릭"
+      board_type:
+        text: '보드 유형'
+        free: '기본'
+        select_board_type: '필요한 보드 유형을 선택하세요.'
+        free_text: >
+          빈 보드로 처음부터 시작하세요. 이 보드에 카드와 열을 수동으로 추가하세요.
+        action: '작업 보드'
+        action_by_attribute: '작업 보드(%{attribute})'
+        action_text: >
+          %{attribute} 특성에서 필터링된 목록이 있는 보드입니다. 작업 패키지를 다른 목록으로 이동하면 해당 특성이 업데이트됩니다.
+        action_text_subprojects: >
+          하위 프로젝트에 대한 자동화된 열이 있는 보드입니다. 작업 패키지를 다른 목록으로 끌어다 놓으면 그에 따라 (하위)프로젝트가 업데이트됩니다.
+        action_text_subtasks: >
+          하위 요소에 대한 자동화된 열이 있는 보드입니다. 작업 패키지를 다른 목록으로 끌어다 놓으면 그에 따라 부모가 업데이트됩니다.
+        action_text_status: >
+          기본 Kanban 스타일 보드에는 "할 일", "진행 중", "완료" 등의 상태 열이 있습니다.
+        action_text_assignee: >
+          할당된 사용자에 기반한 자동화된 열이 있는 보드입니다. 작업 패키지 디스패치에 적합합니다.
+        action_text_version: >
+          버전 속성 컬럼이 있는 보드. 소프트웨어 개발 계획에 적합함.
+        action_type:
+          assignee: 담당자
+          status: 상태
+          version: 버전
+          subproject: 하위 프로젝트
+          subtasks: 부모-자식
+        board_type_title:
+          assignee: 담당자
+          status: 상태
+          version: 버전
+          subproject: 하위 프로젝트
+          subtasks: 부모-자식
+          basic: 기본
+        select_attribute: "작업 특성"
+      add_list_modal:
+        labels:
+          assignee: 새 담당자 목록으로 추가할 사용자 선택
+          status: 새 목록으로 추가할 상태 선택
+          version: 새 목록으로 추가할 버전 선택
+          subproject: 새 목록으로 추가할 하위 프로젝트 선택
+          subtasks: 새 목록으로 추가할 작업 패키지 선택
+        warning:
+          status: |
+            사용 가능한 상태가 현재 없습니다. <br>
+            상태가 없거나 보드에 이미 모두 추가되었습니다.
+          assignee: 해당 필터 값과 일치하는 멤버가 없습니다.  <br>
+          no_member: 추가할 수 있는 멤버가 이 프로젝트에는 현재 없습니다.  <br>
+          add_members: <a href="%{link}">이 프로젝트에 새 멤버를 추가하여</a> 사용자를 다시 선택하세요.
+      configuration_modal:
+        title: '이 보드 구성'
+        display_settings:
+          card_mode: "카드로 표시"
+          table_mode: "테이블로 표시"

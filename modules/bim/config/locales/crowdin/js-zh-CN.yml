@@ -1,0 +1,29 @@
+#English strings go here
+zh-CN:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: '导入'
+      import_bcf_xml_file: '导入 BCF XML 文件（BCF 版本 2.1）'
+      export: '导出'
+      export_bcf_xml_file: '导出 BCF XML 文件（BCF 版本 2.1）'
+      viewpoint: '视点'
+      add_viewpoint: '添加视点'
+      show_viewpoint: '显示视点'
+      delete_viewpoint: '删除视点'
+      management: 'BCF 管理'
+      refresh: '刷新'
+      refresh_work_package: '刷新工作包'
+    ifc_models:
+      empty_warning: "此项目还没有任何 IFC 模型。"
+      use_this_link_to_manage: "使用此链接上传和管理您的 IFC 模型"
+      keyboard_input_disabled: "查看器没有键盘控件。点击该查看器可以使其控制键盘。"
+      models:
+        ifc_models: 'IFC 模型'
+      views:
+        viewer: '查看器'
+        split: '查看器和表'
+        split_cards: '查看器和卡片'
+    revit:
+      revit_add_in: "Revit 加载项"
+      revit_add_in_settings: "Revit 加载项设置"

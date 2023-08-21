@@ -1,0 +1,56 @@
+# Schema: CategoryModel
+---
+type: object
+properties:
+  id:
+    type: integer
+    description: Category id
+    readOnly: true
+    exclusiveMinimum: 0
+  name:
+    type: string
+    description: Category name
+  _links:
+    type: object
+    required:
+    - self
+    - project
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This category
+
+            **Resource**: Category
+          readOnly: true
+      project:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            The project of this category
+
+            **Resource**: Project
+          readOnly: true
+      defaultAssignee:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Default assignee for work packages of this category
+
+            **Resource**: User
+          readOnly: true
+example:
+  _links:
+    self:
+      href: "/api/v3/categories/10"
+      title: Category with assignee
+    project:
+      href: "/api/v3/projects/11"
+      title: Example project
+    defaultAssignee:
+      href: "/api/v3/users/42"
+      title: John Sheppard
+  _type: Category
+  id: 10
+  name: Foo

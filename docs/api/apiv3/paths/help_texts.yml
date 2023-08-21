@@ -1,0 +1,15 @@
+# /api/v3/help_texts
+---
+get:
+  summary: List help texts
+  operationId: list_help_texts
+  tags:
+    - Help texts
+  description: List the complete collection of help texts.
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/help_text_collection_model.yml'

@@ -1,0 +1,49 @@
+# Schema: NotificationCollectionModel
+---
+allOf:
+  - $ref: './collection_model.yml'
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            allOf:
+              - $ref: "./link.yml"
+              - description: |-
+                  This notification collection
+
+                  **Resource**: NotificationCollectionModel
+          jumpTo:
+            allOf:
+              - $ref: "./link.yml"
+              - description: |-
+                  The notification collection at another offset
+
+                  **Resource**: NotificationCollectionModel
+          changeSize:
+            allOf:
+              - $ref: "./link.yml"
+              - description: |-
+                  The notification collection with another size
+
+                  **Resource**: NotificationCollectionModel
+      _embedded:
+        type: object
+        required:
+          - elements
+          - detailsSchemas
+        properties:
+          elements:
+            type: array
+            items:
+              $ref: './notification_model.yml'
+          detailsSchemas:
+            type: array
+            items:
+              $ref: './schema_model.yml'

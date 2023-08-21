@@ -1,0 +1,33 @@
+---
+description: |-
+  Attachments are files that were uploaded to OpenProject. Each attachment belongs to a single
+  container (e.g. a work package or a board message).
+
+  ## Actions
+
+  | Link                | Description                                                          | Condition                                                                                          |
+  |:-------------------:|----------------------------------------------------------------------| --------------------------------------------                                                       |
+  | delete              | Deletes this attachment                                              | **Permission**: edit on attachment container or being the author for attachments without container |
+
+  ## Linked Properties
+
+  |  Link            | Description                                         | Type          | Constraints | Supported operations |
+  |:----------------:| --------------------------------------------------- | ------------- | ----------- | -------------------- |
+  | self             | This attachment                                     | Attachment    | not null    | READ                 |
+  | container        | The object (e.g. WorkPackage) housing the attachment| Anything      | not null    | READ                 |
+  | author           | The user who uploaded the attachment                | User          | not null    | READ                 |
+  | downloadLocation | Direct download link to the attachment              | -             | not null    | READ                 |
+
+  ## Local Properties
+
+  | Property     | Description                                     | Type        | Constraints | Supported operations |
+  |:------------:| ----------------------------------------------- | ----------- | ----------- | -------------------- |
+  | id           | Attachment's id                                 | Integer     | x > 0       | READ                 |
+  | title        | The name of the file                            | String      | not null    | READ                 |
+  | fileName     | The name of the uploaded file                   | String      | not null    | READ                 |
+  | fileSize     | The size of the uploaded file in Bytes          | Integer     | x >= 0      | READ                 |
+  | description  | A user provided description of the file         | Formattable | not null    | READ                 |
+  | contentType  | The files MIME-Type as determined by the server | String      | not null    | READ                 |
+  | digest       | A checksum for the files content                | Digest      | not null    | READ                 |
+  | createdAt    | Time of creation                                | DateTime    | not null    | READ                 |
+name: Attachments

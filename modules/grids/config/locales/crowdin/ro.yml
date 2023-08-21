@@ -1,0 +1,16 @@
+ro:
+  grids:
+    label_widget_in_grid: "Widget conținut în grila %{grid_name}"
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Pagină"
+        row_count: "Număr de rânduri"
+        column_count: "Număr de coloane"
+        widgets: "Widget-uri"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'suprapunere.'
+          outside: 'se află în afara rețelei.'
+          end_before_start: 'valoarea finală trebuie să fie mai mare decât valoarea inițială.'

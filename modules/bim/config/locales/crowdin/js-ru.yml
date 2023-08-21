@@ -1,0 +1,29 @@
+#English strings go here
+ru:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Импорт'
+      import_bcf_xml_file: 'Импорт файла BCF XML (BCF версии 2.1)'
+      export: 'Экспорт'
+      export_bcf_xml_file: 'Экспорт файла BCF XML (BCF версии 2.1)'
+      viewpoint: 'Точка просмотра'
+      add_viewpoint: 'Добавить точку просмотра'
+      show_viewpoint: 'Показать точку просмотра'
+      delete_viewpoint: 'Удалить точку просмотра'
+      management: 'Управление BCF'
+      refresh: 'Обновить'
+      refresh_work_package: 'Обновить пакет работ'
+    ifc_models:
+      empty_warning: "В этом проекте пока нет моделей IFC."
+      use_this_link_to_manage: "Эта ссылка служит для загрузки и управления моделями IFC"
+      keyboard_input_disabled: "Для просмотрщика не назначены клавиши управления. Нажмите на просмотрщик, чтобы назначить клавишу."
+      models:
+        ifc_models: 'Модели IFC'
+      views:
+        viewer: 'Просмотрщик'
+        split: 'Просмотр и таблица'
+        split_cards: 'Просмотрщик и карточки'
+    revit:
+      revit_add_in: "Дополнения для библиотеки Revit"
+      revit_add_in_settings: "Настройки дополнений Revit"

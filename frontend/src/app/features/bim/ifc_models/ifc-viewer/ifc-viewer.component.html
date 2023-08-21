@@ -1,0 +1,61 @@
+<div #outerContainer
+     class="op-ifc-viewer">
+
+  <div *ngIf="modelCount === 0" class="op-toast -info">
+    <div class="op-toast--content">
+      <p>
+        {{ text.empty_warning }}
+        <br/>
+        <a *ngIf="canManage"
+           [href]="ifcData.manageIFCPath"
+           target="_blank"
+           [textContent]="text.use_this_link_to_manage">
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <div #viewerContainer
+       *ngIf="modelCount"
+       class="op-ifc-viewer--container xeokit-busy-modal-backdrop"
+       data-qa-selector="op-ifc-viewer--container">
+
+    <div class="op-ifc-viewer--toolbar op-ifc-viewer--model-canvas-overlay">
+      <div #toolbar
+           class="op-ifc-viewer--toolbar-container"
+           data-qa-selector="op-ifc-viewer--toolbar-container">
+      </div>
+
+      <div class="op-ifc-viewer--toolbar-info-button">
+        <button class="icon-info1 xeokit-btn"
+                [class.active]="inspectorVisible$ | async"
+                (click)="toggleInspector()">
+        </button>
+      </div>
+    </div>
+
+    <canvas #modelCanvas
+            class="op-ifc-viewer--model-canvas"
+            data-qa-selector="op-ifc-viewer--model-canvas"
+            tabindex="0">
+    </canvas>
+
+    <div *ngIf="!keyboardEnabled"
+         class="op-ifc-viewer--focus-warning op-ifc-viewer--model-canvas-overlay">
+      <a class="op-ifc-viewer--keyboard-disabled-icon icon-no-color icon-input-disabled"
+         (mousedown)="enableFromIcon($event)"
+         [attr.title]="text.keyboard_input_disabled">
+      </a>
+    </div>
+
+    <canvas #navCubeCanvas
+            class="op-ifc-viewer--nav-cube-canvas op-ifc-viewer--model-canvas-overlay"
+            data-qa-selector="op-ifc-viewer--nav-cube-canvas"></canvas>
+  </div>
+
+  <div #inspectorPane
+       class="op-ifc-viewer--inspector-container"
+       [class.op-ifc-viewer--inspector-container-hidden]="!(inspectorVisible$ | async)"
+       data-qa-selector="op-ifc-viewer--inspector-container">
+  </div>
+</div>

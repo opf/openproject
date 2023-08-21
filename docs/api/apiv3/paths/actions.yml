@@ -1,0 +1,80 @@
+# /api/v3/actions
+---
+get:
+  parameters:
+  - description: |-
+      JSON specifying filter conditions.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
+      Currently supported filters are:
+
+      + id: Returns only the action having the id or all actions except those having the id(s).
+    example: '[{ "id": { "operator": "=", "values": ["memberships/create"] }" }]'
+    in: query
+    name: filters
+    required: false
+    schema:
+      type: string
+  - description: |-
+      JSON specifying sort criteria.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported sorts are:
+
+      + *No sort supported yet*
+    example: '[["id", "asc"]]'
+    in: query
+    name: sortBy
+    required: false
+    schema:
+      default: '[["id", "asc"]]'
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      self:
+                        href: "/api/v3/actions/work_packages/create"
+                        title: Add work package
+                    _type: Action
+                    description: Creating a work package within a project including
+                      the uploading of attachments. Some attributes might not be selected,
+                      e.g version which requires a second permission
+                    id: work_packages/create
+                    modules:
+                    - work_packages
+                    name: Add work package
+                  - _links:
+                      self:
+                        href: "/api/v3/actions/work_packages/assign_versions"
+                        title: Assigning version
+                    _type: Action
+                    description: Assigning a work package to a version when creating/updating
+                      a work package. Only principals having this permission can assign
+                      a value to the version property of the work package resource.
+                    id: work_packages/assign_versions
+                    modules:
+                    - work_packages
+                    - versions
+                    name: Assign version
+                _links:
+                  self:
+                    href: "/api/v3/actions"
+                _type: Collection
+                count: 2
+                total: 2
+          schema:
+            "$ref": "../components/schemas/list_actions_model.yml"
+      description: OK
+      headers: {}
+  tags:
+  - Actions & Capabilities
+  description: |-
+    Returns a collection of actions. The client can choose to filter the actions similar to how work packages are filtered.
+    In addition to the provided filters, the server will reduce the result set to only contain actions, for which the requesting client
+    has sufficient permissions.
+  operationId: List_actions
+  summary: List actions

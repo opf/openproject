@@ -1,0 +1,32 @@
+<div
+  class="wp-attribute-group--attribute attributes-key-value"
+  [ngClass]="{'wp-attribute-group--attribute_span-all': descriptor.spanAll }"
+  *ngFor="let descriptor of group.members; trackBy:trackByName"
+>
+  <ng-template [ngIf]="!shouldHideField(descriptor)">
+    <div
+      class="wp-attribute-group--attribute-key attributes-key-value--key"
+      *ngIf="!descriptor.multiple && descriptor.field"
+    >
+      <wp-replacement-label [fieldName]="descriptor.name">
+        {{ descriptor.label }}
+        <span
+          class="required"
+          *ngIf="descriptor.field!.required && descriptor.field!.writable"
+        > *</span>
+      </wp-replacement-label>
+      <attribute-help-text [attribute]="descriptor.name" [attributeScope]="'WorkPackage'"></attribute-help-text>
+    </div>
+    <div
+      *ngIf="!descriptor.multiple && descriptor.field"
+      class="wp-attribute-group--attribute-value-container attributes-key-value--value-container"
+    >
+      <op-editable-attribute-field
+        [ngClass]="{'wp-edit-formattable-field': descriptor.field!.isFormattable }"
+        [resource]="workPackage"
+        [isDropTarget]="descriptor.field!.isFormattable"
+        [fieldName]="fieldName(descriptor.name)"
+      ></op-editable-attribute-field>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,32 @@
+<widget-header
+  [name]="widgetName"
+  [editable]="isEditable">
+
+  <widget-menu
+    slot="menu"
+    [resource]="resource">
+  </widget-menu>
+</widget-header>
+
+<div class="grid--widget-content">
+  <op-no-results *ngIf="noEntries"
+                 [title]="text.noResults">
+  </op-no-results>
+  <ng-container *ngFor="let document of entries">
+    <h4 class="document-category-elements--header">
+      <a [href]="documentPath(document)"
+         [textContent]="document.title">
+      </a>
+      <span *ngIf="!currentProject.identifier">
+          ({{ text.project }}: {{ document.project.name }})
+      </span>
+    </h4>
+    <p class="document-category-elements--date">
+      <em [textContent]="documentCreated(document)"></em>
+    </p>
+
+    <div class="wiki grid--widget-limited-text op-uc-container"
+         [innerHtml]="documentDescription(document)">
+    </div>
+  </ng-container>
+</div>

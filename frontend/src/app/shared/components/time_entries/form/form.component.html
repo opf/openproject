@@ -1,0 +1,92 @@
+<edit-form
+  #editForm
+  [resource]="entry"
+  [inEditMode]="inEditMode"
+  (onSaved)="signalModifiedEntry($event)"
+>
+  <div class="attributes-map">
+    <ng-container *ngIf="showUserField && schema.user.writable">
+      <div class="attributes-map--key"
+           [ngClass]="{'-required': isRequired('user')}"
+           [textContent]="schema.user.name">
+      </div>
+      <div class="attributes-map--value">
+        <op-editable-attribute-field [resource]="entry"
+                                  [wrapperClasses]="'-tiny'"
+                                  [fieldName]="'user'">
+        </op-editable-attribute-field>
+      </div>
+    </ng-container>
+
+    <div class="attributes-map--key"
+         [ngClass]="{'-required': isRequired('spentOn')}"
+         [textContent]="schema.spentOn.name">
+    </div>
+    <div class="attributes-map--value attributes-map--value_overflow">
+      <op-editable-attribute-field [resource]="entry"
+                                [wrapperClasses]="'-tiny'"
+                                [fieldName]="'spentOn'">
+      </op-editable-attribute-field>
+    </div>
+
+    <div class="attributes-map--key"
+         [ngClass]="{'-required': isRequired('hours')}"
+         [textContent]="schema.hours.name">
+    </div>
+    <div class="attributes-map--value">
+      <op-editable-attribute-field [resource]="entry"
+                                [wrapperClasses]="'-tiny'"
+                                [fieldName]="'hours'">
+      </op-editable-attribute-field>
+    </div>
+
+    <ng-container *ngIf="showWorkPackageField">
+      <div class="attributes-map--key"
+           [ngClass]="{'-required': isRequired('workPackage')}"
+           [textContent]="schema.workPackage.name">
+      </div>
+      <div class="attributes-map--value">
+        <op-editable-attribute-field [resource]="entry"
+                                  [fieldName]="'workPackage'">
+        </op-editable-attribute-field>
+      </div>
+    </ng-container>
+
+    <div class="attributes-map--key"
+         [ngClass]="{'-required': isRequired('activity')}"
+         [textContent]="schema.activity.name">
+    </div>
+    <div class="attributes-map--value">
+      <op-editable-attribute-field *ngIf="workPackageSelected"
+                                [resource]="entry"
+                                [fieldName]="'activity'">
+      </op-editable-attribute-field>
+      <i *ngIf="!workPackageSelected"
+         [textContent]="text.wpRequired">
+      </i>
+    </div>
+
+    <div class="attributes-map--key"
+         [ngClass]="{'-required': isRequired('comment')}"
+         [textContent]="schema.comment.name">
+    </div>
+    <div class="attributes-map--value">
+      <op-editable-attribute-field [resource]="entry"
+                                [fieldName]="'comment'">
+      </op-editable-attribute-field>
+    </div>
+
+    <ng-container *ngFor="let cf of customFields">
+      <div class="attributes-map--key"
+           [ngClass]="{'-required': isRequired(cf.key)}"
+           [textContent]="cf.label">
+      </div>
+      <div class="attributes-map--value">
+        <op-editable-attribute-field [resource]="entry"
+                                  [fieldName]="cf.key"
+                                  [wrapperClasses]="cf.type === 'Date' ? '-tiny' : null">
+        </op-editable-attribute-field>
+      </div>
+    </ng-container>
+  </div>
+</edit-form>

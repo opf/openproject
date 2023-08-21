@@ -1,0 +1,16 @@
+sk:
+  grids:
+    label_widget_in_grid: "Widget contained in Grid %{grid_name}"
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Stránka"
+        row_count: "Počet riadkov"
+        column_count: "Počet stĺpcov"
+        widgets: "Miniaplikácie"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'prekrývajú.'
+          outside: 'je mimo mriežku.'
+          end_before_start: 'koncová hodnota musí byť väčšia ako počiatočná hodnota.'

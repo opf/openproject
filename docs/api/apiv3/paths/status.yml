@@ -1,0 +1,53 @@
+# /api/v3/statuses/{id}
+---
+get:
+  parameters:
+  - description: Status id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  self:
+                    href: "/api/v3/statuses/1"
+                _type: Status
+                defaultDoneRatio: 0
+                id: 1
+                isClosed: false
+                isDefault: true
+                name: New
+                position: 1
+          schema:
+            "$ref": "../components/schemas/status_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not allowed to see this status.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** view work package (on any project)
+      headers: {}
+  tags:
+  - Statuses
+  description: ''
+  operationId: View_Status
+  summary: View Status

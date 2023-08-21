@@ -1,0 +1,139 @@
+# /api/v3/versions
+---
+get:
+  parameters:
+  - description: |-
+      JSON specifying filter conditions.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
+      Currently supported filters are:
+
+      + sharing: filters versions by how they are shared within the server (*none*, *descendants*, *hierarchy*, *tree*, *system*).
+    example: '[{ "sharing": { "operator": "*", "values": ["system"] }" }]'
+    in: query
+    name: filters
+    required: false
+    schema:
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      availableInProjects:
+                        href: "/api/v3/versions/11/projects"
+                      definingProject:
+                        href: "/api/v3/projects/12"
+                      self:
+                        href: "/api/v3/versions/11"
+                    _type: Version
+                    description:
+                      format: plain
+                      html: This version has a description
+                      raw: This version has a description
+                    endDate:
+                    id: 11
+                    name: v3.0 Alpha
+                    startDate: '2014-11-20'
+                    status: Open
+                  - _links:
+                      availableInProjects:
+                        href: "/api/v3/versions/12/projects"
+                      definingProject:
+                        href: "/api/v3/projects/11"
+                      self:
+                        href: "/api/v3/versions/12"
+                    _type: Version
+                    description:
+                      format: plain
+                      html: ''
+                      raw: ''
+                    endDate:
+                    id: 12
+                    name: v2.0
+                    startDate:
+                    status: Closed
+                  - _links:
+                      availableInProjects:
+                        href: "/api/v3/versions/13/projects"
+                      definingProject:
+                        href: "/api/v3/projects/13"
+                      self:
+                        href: "/api/v3/versions/10"
+                    _type: Version
+                    description:
+                      format: plain
+                      html: ''
+                      raw: ''
+                    endDate:
+                    id: 10
+                    name: v1.0
+                    startDate:
+                    status: Open
+                _links:
+                  self:
+                    href: "/api/v3/versions"
+                _type: Collection
+                count: 3
+                total: 3
+          schema:
+            "$ref": "../components/schemas/versions_model.yml"
+      description: OK
+      headers: {}
+  tags:
+  - Versions
+  description: Returns a collection of versions. The client can choose to filter the
+    versions similar to how work packages are filtered. In addition to the provided
+    filters, the server will reduce the result set to only contain versions, for which
+    the requesting client has sufficient permissions (*view_work_packages*).
+  operationId: List_versions
+  summary: List versions
+post:
+  responses:
+    '201':
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/version_model.yml"
+      description: Created
+      headers: {}
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** Manage versions
+      headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)
+      headers: {}
+  tags:
+  - Versions
+  description: |-
+    Creates a new version applying the attributes provided in the body. Please note that while there is a fixed set of attributes, custom fields can extend a version's attributes and are accepted by the endpoint.
+
+    You can use the form and schema to be retrieve the valid attribute values and by that be guided towards successful creation.
+  operationId: Create_version
+  summary: Create version

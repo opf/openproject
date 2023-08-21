@@ -1,0 +1,8 @@
+#English strings go here
+hu:
+  js:
+    calendar:
+      create_new: 'Új naptár létrehozása'
+      title: 'Naptár'
+      too_many: 'Összesen %{count} munkacsomag van, de csak %{max} jeleníthető meg.'
+      unsaved_title: 'Névtelen naptár'

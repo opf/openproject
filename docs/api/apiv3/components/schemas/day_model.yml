@@ -1,0 +1,62 @@
+# Schema: DayModel
+---
+type: object
+required:
+  - _type
+  - date
+  - name
+  - working
+properties:
+  _type:
+    type: string
+    enum:
+      - Day
+  date:
+    type: string
+    format: date
+    description: |-
+      Date of the day.
+  name:
+    type: string
+    description: |-
+      Descriptive name for the day.
+  working:
+    type: boolean
+    description: |-
+      `true` for a working day, `false` otherwise.
+  _links:
+    type: object
+    required:
+      - self
+    properties:
+      self:
+        $ref: './link.yml'
+      nonWorkingReasons:
+        type: array
+        description: |-
+          A list of resources describing why this day is a non-working day.
+          Linked resources can be `NonWorkingDay` and `WeekDay` resources.
+          This property is absent for working days.
+        items:
+          $ref: './link.yml'
+      weekDay:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The week day for this day.
+example:
+  _type: Day
+  date: '2022-12-25'
+  name: Sunday (Christmas)
+  working: false
+  _links:
+    self:
+      href: /api/v3/days/2022-12-25
+    nonWorkingReasons:
+      - href: /api/v3/days/week/7
+        title: Sunday
+      - href: /api/v3/days/non_working/2022-12-25
+        title: Christmas
+    weekday:
+      href: /api/v3/days/week/7
+      title: Sunday

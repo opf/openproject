@@ -1,0 +1,86 @@
+#English strings go here
+eo:
+  js:
+    boards:
+      create_new: 'Create new board'
+      label_unnamed_board: 'Nenomita panelo'
+      label_unnamed_list: 'Nenomita listo'
+      label_board_type: 'Speco de panelo'
+      upsale:
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+        upgrade: 'Ppromocii nun'
+      lists:
+        delete: 'Forigi liston'
+      version:
+        is_locked: 'Version is locked. No items can be added to this version.'
+        is_closed: 'Version is closed. No items can be added to this version.'
+        close_version: 'Fermi version'
+        open_version: 'Malfermi version'
+        lock_version: 'Ŝlosi version'
+        unlock_version: 'Malŝlosi version'
+        edit_version: 'Redakti version'
+        show_version: 'Montri version'
+        locked: 'Ŝlosita'
+        closed: 'Fermita'
+      new_board: 'Nova panelo'
+      add_list: 'Add list to board'
+      add_card: 'Aldoni karton'
+      error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."
+      error_loading_the_list: "Error loading the list: %{error_message}"
+      error_permission_missing: "The permission to create public queries is missing"
+      error_cannot_move_into_self: "You can not move a work package into its own column."
+      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
+      click_to_remove_list: "Click to remove this list"
+      board_type:
+        text: 'Speco de panelo'
+        free: 'basic'
+        select_board_type: 'Please choose the type of board you need.'
+        free_text: >
+          Start from scratch with a blank board. Manually add cards and columns to this board.
+        action: 'Agpanelo'
+        action_by_attribute: 'Agpanelo (%{attribute})'
+        action_text: >
+          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+        action_text_subprojects: >
+          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        action_text_subtasks: >
+          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        action_text_status: >
+          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        action_text_assignee: >
+          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        action_text_version: >
+          Board with automated columns based on the version attribute. Ideal for planning product development.
+        action_type:
+          assignee: respondeculo
+          status: statuso
+          version: versio
+          subproject: subproject
+          subtasks: parent-child
+        board_type_title:
+          assignee: Asignita al
+          status: Stato
+          version: Versio
+          subproject: Subprojekto
+          subtasks: Parent-child
+          basic: Basic
+        select_attribute: "Agatributo"
+      add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
+        warning:
+          status: |
+            There is currently no status available. <br>
+            Either there are none or they have all already been added to the board.
+          assignee: There isn't any member matched with your filter value.  <br>
+          no_member: This project currently does not have any members that can be added.  <br>
+          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+      configuration_modal:
+        title: 'Agordi tiu ĉi panelon'
+        display_settings:
+          card_mode: "Vidigi kiel kartoj"
+          table_mode: "Vidigi kiel tabelo"

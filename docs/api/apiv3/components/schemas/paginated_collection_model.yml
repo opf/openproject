@@ -1,0 +1,37 @@
+# Schema: PaginatedCollectionModel
+---
+allOf:
+  - $ref: './collection_model.yml'
+  - type: object
+    required:
+      - pageSize
+      - offset
+    properties:
+      pageSize:
+        type: integer
+        description: Amount of elements that a response will hold.
+        minimum: 0
+      offset:
+        type: integer
+        description: The page number that is requested from paginated collection.
+        minimum: 1
+      _links:
+        type: object
+        required:
+          - jumpTo
+          - changeSize
+        properties:
+          jumpTo:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Templated link to another page offset.
+                  
+                  **Resource**: Collection
+          changeSize:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Templated link for another page size.
+                  
+                  **Resource**: Collection

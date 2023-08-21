@@ -1,0 +1,98 @@
+#!/bin/bash
+
+set -e
+
+. "${INSTALLER_DIR}/wizard"
+
+input_start() {
+  local server_autoinstall=$(wiz_get "server/autoinstall" || echo "skip")
+  if [ "$server_autoinstall" = "skip" ] ; then
+    STATE="input_hostname"
+  else
+    STATE="input_admin_mail"
+  fi
+}
+
+input_hostname_params() {
+  local default_hostname=$(hostname -f 2>/dev/null || hostname || echo "example.com")
+
+  if ! wiz_get "server/hostname" &>/dev/null ; then
+    wiz_set "server/hostname" "$default_hostname"
+    wiz_unseen "server/hostname"
+  fi
+
+  wiz_put "server/hostname"
+  if wiz_ask ; then
+    STATE="input_protocol"
+  else
+    STATE="start"
+  fi
+}
+
+input_protocol_params() {
+  wiz_put "server/ssl"
+  if wiz_ask ; then
+    STATE="input_admin_mail"
+  else
+    STATE="input_hostname"
+  fi
+}
+
+input_admin_mail() {
+  if wiz_get "smtp/admin_email" &>/dev/null ; then
+    STATE="input_default_language"
+    return
+  fi
+
+  wiz_put "openproject/admin_email"
+  if wiz_ask ; then
+    STATE="input_default_language"
+  else
+    STATE="start"
+  fi
+}
+
+input_default_language() {
+  # if legacy existing install, or when reconfiguring an existing install, we do not ask for default language again
+  if ${APP_NAME} config:get HOST &>/dev/null ; then
+    STATE="done"
+    return
+  fi
+
+  wiz_put "openproject/default_language"
+  if wiz_ask ; then
+    STATE="done"
+  else
+    STATE="start"
+  fi
+}
+
+state_machine() {
+  case "$1" in
+    "start")
+      input_start
+      ;;
+    "input_hostname")
+      input_hostname_params
+      ;;
+    "input_protocol")
+      input_protocol_params
+      ;;
+    "input_admin_mail")
+      input_admin_mail
+      ;;
+    "input_default_language")
+      input_default_language
+      ;;
+    "done")
+      echo "DONE"
+      exit 0
+      ;;
+    *)
+      echo "invalid state ${STATE}"
+      exit 1
+      ;;
+  esac
+}
+
+wizard "start"

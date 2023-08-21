@@ -1,0 +1,53 @@
+<op-autocompleter
+  [model]="model"
+  [items]="availableValues"
+  [ngClass]="classes"
+  [addTag]="createAllowed"
+  [virtualScroll]="true"
+  [required]="required"
+  [clearable]="!required"
+  [disabled]="disabled"
+  [clearOnBackspace]="false"
+  [typeahead]="typeahead"
+  [appendTo]="appendTo"
+  [hideSelected]="hideSelected"
+  [id]="id"
+  (change)="changeModel($event)"
+  (open)="opened()"
+  (close)="closed()"
+  (keydown)="keyPressed($event)"
+  resource="work_packages"
+>
+  <ng-template op-autocompleter-header-tmp>
+    <div class="scrollable-tabs">
+      <div class="op-scrollable-tabs--tab-container">
+        <ul class="op-tab-row">
+          <li
+              class="op-tab-row--tab"
+              (click)="setMode('all')"
+          >
+            <a
+                href="#"
+                class="op-tab-row--link"
+                [class.op-tab-row--link_selected]="mode === 'all'"
+                [textContent]="text.all"
+            >
+            </a>
+          </li>
+          <li
+              class="op-tab-row--tab"
+              (click)="setMode('recent')"
+          >
+            <a
+                href="#"
+                class="op-tab-row--link"
+                [class.op-tab-row--link_selected]="mode === 'recent'"
+                [textContent]="text.recent"
+            >
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </ng-template>
+</op-autocompleter>

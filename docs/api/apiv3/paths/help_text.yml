@@ -1,0 +1,34 @@
+# /api/v3/help_texts/{id}
+---
+get:
+  summary: Get help text
+  operationId: get_help_text
+  tags:
+    - Help texts
+  description: Fetches the help text from the given id.
+  parameters:
+    - name: id
+      description: Help text id
+      example: 1
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/help_text_model.yml'
+    '404':
+      description: |-
+        Returned if the help text does not exist.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.

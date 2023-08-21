@@ -1,0 +1,24 @@
+---
+description: |-
+  Time entries are classified by an activity which is one item of a set of user defined activities (e.g. Design, Specification, Development).
+
+  ## Actions
+
+  None
+
+  ## Linked Properties
+
+  | Link          | Description                                                    | Type                | Constraints           | Supported operations | Condition                                 |
+  | :-----------: | -------------------------------------------------------------- | -------------       | --------------------- | -------------------- | ----------------------------------------- |
+  | self          | This time entry activity                                       | TimeEntriesActivity | not null              | READ                 |                                           |
+  | projects      | List of projects the time entry is active in                   | []Project           | not null              | READ / WRITE         |                                           |
+
+  ## Local Properties
+
+  | Property     | Description                                                  | Type     | Constraints                                          | Supported operations | Condition                                                   |
+  | :----------: | ---------------------------------------------------------    | -------- | ---------------------------------------------------- | -------------------- | ----------------------------------------------------------- |
+  | id           | Time entries' id                                             | Integer  | x > 0                                                | READ                 |                                                             |
+  | name         | The human readable name chosen for this activity             | String   | max 30 characters                                    | READ                 |                                                             |
+  | position     | The rank the activity has in a list of activities            | Date     |                                                      | READ                 |                                                             |
+  | default      | Flag to signal whether this activity is the default activity | Boolean  |                                                      | READ                 |                                                             |
+name: Time entry activities

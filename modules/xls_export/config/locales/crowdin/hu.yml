@@ -1,0 +1,13 @@
+hu:
+  export_to_excel: "Exportálás XLS fáljba"
+  print_with_description: "Nyomtatási előnézet leírással"
+  sentence_separator_or: "vagy"
+  different_formats: Más formátumok
+  export:
+    format:
+      xls: "XLS"
+      xls_with_descriptions: "XLS leírásokkal"
+      xls_with_relations: "XLS kapcsolatokkal"
+  xls_export:
+    child_of: gyermeke
+    parent_of: szülője

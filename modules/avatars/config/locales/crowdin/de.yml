@@ -1,0 +1,39 @@
+#English strings go here
+de:
+  label_avatar: "Profilfoto"
+  label_avatar_plural: "Avatars"
+  label_current_avatar: "Aktuelles Profilbild"
+  label_choose_avatar: "Profilbild aus Datei auswählen"
+  message_avatar_uploaded: "Das Porfilbild wurde erfolgreich geändert."
+  error_image_upload: "Fehler beim Speichern des Bildes."
+  error_image_size: "Das Bild ist zu groß."
+  button_change_avatar: "Profilbild ändern"
+  are_you_sure_delete_avatar: "Sind Sie sicher, dass Sie das Profilbild löschen möchten?"
+  avatar_deleted: "Profilbild erfolgreich gelöscht."
+  unable_to_delete_avatar: "Profilbild konnte nicht gelöscht werden."
+  wrong_file_format: "Erlaubte Formate sind JPG, PNG und GIF"
+  empty_file_error: "Bitte laden Sie ein gültiges Bild hoch (JPG, PNG, GIF)"
+  avatars:
+    label_avatar: "Profilfoto"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Aktuelles Profilbild'
+    label_local_avatar: 'Selbsterstelltes Profilbild'
+    text_current_avatar: |
+      Das folgende Bild zeigt das aktuelle Profilbild.
+    text_upload_instructions: |
+      Laden Sie Ihr eigenes Profilbild von 128 mal 128 Pixeln hoch. Größere Dateien werden verkleinert und zugeschnitten.
+      Eine Vorschau Ihres Profilbild wird angezeigt, sobald Sie ein Bild ausgewählt haben.
+    text_change_gravatar_html: 'Um das Gravatar für Ihre E-Mail-Adresse zu ändern oder eines hinzuzufügen, gehen Sie zu %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject ermöglicht es Ihnen, Ihr eigenes Profilbild hochzuladen.
+    text_local_avatar_over_gravatar: |
+      Wenn Sie ein eigenes Profilbild verwenden, wird es vorrangig vor dem für Ihre E-Mail-Adresse hinterlegten Gravatar verwendet.
+    text_your_current_gravatar: |
+      OpenProject verwendet, sofern verfügbar, Ihr Gravatar oder ein Standardbild. Das aktuelle Gravatar sieht wie folgt aus:
+    settings:
+      enable_gravatars: 'Aktiviere Gravatare'
+      gravatar_default: "Standard-Gravatar-Bild"
+      enable_local_avatars: 'Selbsterstellte Profilbilder aktivieren'
+
+
+

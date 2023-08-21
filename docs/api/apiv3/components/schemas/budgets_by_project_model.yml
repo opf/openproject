@@ -1,0 +1,26 @@
+# Schema: Budgets_by_ProjectModel
+---
+type: object
+example:
+  _links:
+    self:
+      href: "/api/v3/projects/1/budgets"
+  _type: Collection
+  total: 2
+  count: 2
+  _embedded:
+    elements:
+    - _type: Budget
+      _links:
+        self:
+          href: "/api/v3/budgets/1"
+          title: Q3 2015
+      id: 1
+      subject: Q3 2015
+    - _type: Budget
+      _links:
+        self:
+          href: "/api/v3/budgets/2"
+          title: Q4 2015
+      id: 2
+      subject: Q4 2015

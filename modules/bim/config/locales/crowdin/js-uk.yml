@@ -1,0 +1,29 @@
+#English strings go here
+uk:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Імпортувати'
+      import_bcf_xml_file: 'Імпорт файлу BCF XML (версія BCF 2.1)'
+      export: 'Експорт'
+      export_bcf_xml_file: 'Експорт файлу BCF XML  (версія BCF 2.1)'
+      viewpoint: 'Точка огляду'
+      add_viewpoint: 'Додати точку огляду'
+      show_viewpoint: 'Показати точку огляду'
+      delete_viewpoint: 'Видалити точку огляду'
+      management: 'Управління BCF'
+      refresh: 'Оновити'
+      refresh_work_package: 'Оновити робочий пакет'
+    ifc_models:
+      empty_warning: "Даний проєкт ще немає жодних моделей IFC."
+      use_this_link_to_manage: "Використати це посилання задля завантаження та управління вашими моделями IFC"
+      keyboard_input_disabled: "У глядача немає доступу до управління клавіатурою. Натисніть на глядача для того, щоб надати йому доступ до управління клавіатурою."
+      models:
+        ifc_models: 'Моделі IFC'
+      views:
+        viewer: 'Глядач'
+        split: 'Глядач та таблиця'
+        split_cards: 'Глядач та картки'
+    revit:
+      revit_add_in: "Додатки Revit"
+      revit_add_in_settings: "Налаштування додатків Revit"

@@ -1,0 +1,4 @@
+th:
+  js:
+    my_page:
+      label: "หน้าของฉัน"

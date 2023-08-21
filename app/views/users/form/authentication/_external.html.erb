@@ -1,0 +1,9 @@
+<div class="form--field">
+  <%= styled_label_tag nil, I18n.t('user.authentication_provider') %>
+  <div class="form--field-container">
+    <%= @user.authentication_provider %>
+  </div>
+</div>
+<div class="form--field-instructions">
+  <%= I18n.t('user.authentication_settings_disabled_due_to_external_authentication') %>
+</div>

@@ -1,0 +1,29 @@
+#English strings go here
+nl:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Importeren'
+      import_bcf_xml_file: 'BCF XML-bestand importeren (BCF versie 2.1)'
+      export: 'Exporteren'
+      export_bcf_xml_file: 'Exporteer BCF XML bestand (BCF versie 2.1)'
+      viewpoint: 'Perspectief'
+      add_viewpoint: 'Perspectief toevoegen'
+      show_viewpoint: 'Toon perspectief'
+      delete_viewpoint: 'Verwijder perspectief'
+      management: 'BCF beheer'
+      refresh: 'Vernieuwen'
+      refresh_work_package: 'Werkpakket vernieuwen'
+    ifc_models:
+      empty_warning: "Dit project heeft nog geen IFC-modellen."
+      use_this_link_to_manage: "Gebruik deze link om je IFC-modellen te uploaden en te beheren"
+      keyboard_input_disabled: "Viewer heeft geen toetsenbord besturingselementen. Klik op de viewer om toetsenbord besturing aan de viewer te geven."
+      models:
+        ifc_models: 'IFC modellen'
+      views:
+        viewer: 'Bekijker'
+        split: 'Bekijker en tabel'
+        split_cards: 'Bekijker en kaarten'
+    revit:
+      revit_add_in: "Revit toevoeging"
+      revit_add_in_settings: "Revit toevoeging instellingen"

@@ -1,0 +1,37 @@
+# Schema: StorageFileModel
+---
+allOf:
+  - $ref: './file_link_origin_data_model.yml'
+  - type: object
+    required:
+      - _type
+      - location
+      - _links
+    properties:
+      _type:
+        type: string
+        enum:
+          - StorageFile
+      location:
+        type: string
+        description: Location identification for file in storage
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Not provided
+
+                  **Resource**: urn:openproject-org:api:v3:storages:storage_file:no_link_provided
+example:
+  id: 42
+  name: readme.md
+  _type: StorageFile
+  location: '/readme.md'
+  _links:
+    self:
+      href: 'urn:openproject-org:api:v3:storages:storage_file:no_link_provided'

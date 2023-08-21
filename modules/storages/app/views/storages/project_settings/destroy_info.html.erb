@@ -1,0 +1,63 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2023 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<%= styled_form_tag(project_settings_project_storage_path(project_id: @project_storage_to_destroy.project, id: @project_storage_to_destroy),
+                    class: 'danger-zone',
+                    method: :delete) do %>
+  <section class="form--section">
+    <h3 class="form--section-title">
+      <%= t('storages.page_titles.project_settings.delete') %>
+    </h3>
+    <p>
+      <%= t('storages.delete_warning.project_storage', file_storage: "<strong>#{h(@project_storage_to_destroy.storage.name)}</strong>").html_safe %>
+    </p>
+    <ul class="mb-3">
+      <li> <%= t('storages.delete_warning.project_storage_delete_result_1') %>
+      <li> <%= t('storages.delete_warning.project_storage_delete_result_2') %>
+    </ul>
+    <p class="danger-zone--warning">
+      <span class="icon icon-error"></span>
+      <span><%= t('storages.delete_warning.irreversible_notice')%></span>
+    </p>
+    <p>
+      <%= t('storages.delete_warning.input_delete_confirmation', file_storage: "<em class=\"danger-zone--expected-value\">#{h(@project_storage_to_destroy.storage.name)}</em>").html_safe %>
+    </p>
+    <div class="danger-zone--verification">
+      <%= text_field_tag :delete_confirmation %>
+      <%= styled_button_tag title: t(:button_delete), class: '-highlight', disabled: true do
+           concat content_tag :i, '', class: 'button--icon icon-delete'
+           concat content_tag :span, t(:button_delete), class: 'button--text'
+           end %>
+      <%= link_to project_settings_project_storages_path(@project_storage_to_destroy.project),
+          title: t(:button_cancel),
+          class: 'button -with-icon icon-cancel' do %>
+            <%= t(:button_cancel) %>
+          <% end %>
+    </div>
+  </section>
+<% end %>

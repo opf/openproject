@@ -1,0 +1,3 @@
+<op-query-filters *ngIf="!!filters"
+               (filtersChanged)="filters = $event"
+               [filters]="filters"></op-query-filters>

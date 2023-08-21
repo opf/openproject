@@ -1,0 +1,68 @@
+version: "3.9"
+
+services:
+  traefik:
+    image: traefik:latest
+    command: >
+      --log.level=INFO
+      --providers.docker
+      --providers.docker.network=gateway
+      --providers.docker.exposedByDefault=false
+      --api.dashboard=true
+      --api.disabledashboardad=true
+      --entryPoints.web.address=:80
+      --entryPoints.web.http.redirections.entrypoint.to=websecure
+      --entryPoints.websecure.address=:443
+      --entryPoints.websecure.http.tls=true
+      --entryPoints.websecure.http.tls.certresolver=step
+      --certificatesresolvers.step.acme.caserver=https://step:9000/acme/acme/directory
+      --certificatesresolvers.step.acme.tlschallenge=true
+      --certificatesresolvers.step.acme.email=root@localhost
+      --certificatesresolvers.step.acme.keytype=RSA4096
+      --certificatesresolvers.step.acme.storage=acme.json
+    environment:
+      - TZ=UTC
+      - LEGO_CA_CERTIFICATES=/step/certs/root_ca.crt
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./acme.json:/acme.json
+      - step:/step:ro
+    restart: unless-stopped
+    depends_on:
+      step:
+        condition: service_healthy
+    networks:
+      external:
+        aliases:
+          - traefik.local
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.local`)"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+
+  step:
+    image: smallstep/step-ca:latest
+    restart: unless-stopped
+    environment:
+      - TZ=UTC
+      - DOCKER_STEPCA_INIT_NAME=OpenProject Development
+      - DOCKER_STEPCA_INIT_DNS_NAMES=step,localhost
+      - DOCKER_STEPCA_INIT_PROVISIONER_NAME=openproject
+      - DOCKER_STEPCA_INIT_PASSWORD=openproject
+      - DOCKER_STEPCA_INIT_ACME=true
+    volumes:
+      - step:/home/step
+    networks:
+      - external
+
+volumes:
+  step:
+
+networks:
+  external:
+    name: gateway
+    external: true

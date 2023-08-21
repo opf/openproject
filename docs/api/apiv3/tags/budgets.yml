@@ -1,0 +1,17 @@
+---
+description: |-
+  *Note: Budgets are currently only implemented as a stub. Further properties of budgets might be added at a future date, however they will require the view budget permission to be displayed.*
+
+  ## Linked Properties:
+
+  |  Link     | Description                                 | Type          | Constraints           | Supported operations |
+  |:---------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
+  | self      | This budget                                 | Budget        | not null              | READ                 |
+
+  ## Properties
+
+  | Property    | Description                                 | Type        | Constraints | Supported operations | Condition                   |
+  | :---------: | ------------------------------------------- | ----------- | ----------- | -------------------- | --------------------------- |
+  | id          | Budget id                                   | Integer     | x > 0       | READ                 |                             |
+  | subject     | Budget name                                 | String      | not empty   | READ                 |                             |
+name: Budgets
