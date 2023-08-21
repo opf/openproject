@@ -95,9 +95,8 @@ RSpec.describe Calendar::CreateICalService, type: :model do
       UID:#{work_package_with_due_date.id}@localhost:3000
       DTSTART;VALUE=DATE:#{work_package_with_due_date.due_date.strftime('%Y%m%d')}
       DTEND;VALUE=DATE:#{(work_package_with_due_date.due_date + 1.day).strftime('%Y%m%d')}
-      DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_due_date.status.name}\nAssignee: \nPriority: #{work_package_with_due_date.priority.name}\n\nDescription:\n#{work_package_with_due_date.description}
+      DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_due_date.status.name}\nAssignee: \nAuthor: #{work_package_with_due_date.author.name}\nPriority: #{work_package_with_due_date.priority.name}\n\nDescription:\n#{work_package_with_due_date.description}
       LOCATION:http://localhost:3000/work_packages/#{work_package_with_due_date.id}
-      ORGANIZER;CN=#{work_package_with_due_date.author.name}:mailto:#{work_package_with_due_date.author.mail}
       SUMMARY:#{work_package_with_due_date.name}
       END:VEVENT
       BEGIN:VEVENT
@@ -105,9 +104,8 @@ RSpec.describe Calendar::CreateICalService, type: :model do
       UID:#{work_package_with_start_date.id}@localhost:3000
       DTSTART;VALUE=DATE:#{work_package_with_start_date.start_date.strftime('%Y%m%d')}
       DTEND;VALUE=DATE:#{(work_package_with_start_date.start_date + 1.day).strftime('%Y%m%d')}
-      DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_start_date.status.name}\nAssignee: \nPriority: #{work_package_with_start_date.priority.name}\n\nDescription:\n#{work_package_with_start_date.description}
+      DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_start_date.status.name}\nAssignee: \nAuthor: #{work_package_with_start_date.author.name}\nPriority: #{work_package_with_start_date.priority.name}\n\nDescription:\n#{work_package_with_start_date.description}
       LOCATION:http://localhost:3000/work_packages/#{work_package_with_start_date.id}
-      ORGANIZER;CN=#{work_package_with_start_date.author.name}:mailto:#{work_package_with_start_date.author.mail}
       SUMMARY:#{work_package_with_start_date.name}
       END:VEVENT
       BEGIN:VEVENT
@@ -115,9 +113,8 @@ RSpec.describe Calendar::CreateICalService, type: :model do
       UID:#{work_package_with_start_and_due_date.id}@localhost:3000
       DTSTART;VALUE=DATE:#{work_package_with_start_and_due_date.start_date.strftime('%Y%m%d')}
       DTEND;VALUE=DATE:#{(work_package_with_start_and_due_date.due_date + 1.day).strftime('%Y%m%d')}
-      DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_start_and_due_date.status.name}\nAssignee: \nPriority: #{work_package_with_start_and_due_date.priority.name}\n\nDescription:\n#{work_package_with_start_and_due_date.description}
+      DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_start_and_due_date.status.name}\nAssignee: \nAuthor: #{work_package_with_start_and_due_date.author.name}\nPriority: #{work_package_with_start_and_due_date.priority.name}\n\nDescription:\n#{work_package_with_start_and_due_date.description}
       LOCATION:http://localhost:3000/work_packages/#{work_package_with_start_and_due_date.id}
-      ORGANIZER;CN=#{work_package_with_start_and_due_date.author.name}:mailto:#{work_package_with_start_and_due_date.author.mail}
       SUMMARY:#{work_package_with_start_and_due_date.name}
       END:VEVENT
       BEGIN:VEVENT
@@ -125,11 +122,9 @@ RSpec.describe Calendar::CreateICalService, type: :model do
       UID:#{work_package_with_due_date_and_assignee.id}@localhost:3000
       DTSTART;VALUE=DATE:#{work_package_with_due_date_and_assignee.due_date.strftime('%Y%m%d')}
       DTEND;VALUE=DATE:#{(work_package_with_due_date_and_assignee.due_date + 1.day).strftime('%Y%m%d')}
-      DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_due_date_and_assignee.status.name}\nAssignee: #{work_package_with_due_date_and_assignee.assigned_to.name}\nPriority: #{work_package_with_due_date_and_assignee.priority.name}\n\nDescription:\n#{work_package_with_due_date_and_assignee.description}
+      DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_due_date_and_assignee.status.name}\nAssignee: #{work_package_with_due_date_and_assignee.assigned_to.name}\nAuthor: #{work_package_with_due_date_and_assignee.author.name}\nPriority: #{work_package_with_due_date_and_assignee.priority.name}\n\nDescription:\n#{work_package_with_due_date_and_assignee.description}
       LOCATION:http://localhost:3000/work_packages/#{work_package_with_due_date_and_assignee.id}
-      ORGANIZER;CN=#{work_package_with_due_date_and_assignee.author.name}:mailto:#{work_package_with_due_date_and_assignee.author.mail}
       SUMMARY:#{work_package_with_due_date_and_assignee.name}
-      ATTENDEE;CN=#{work_package_with_due_date_and_assignee.assigned_to.name}:mailto:#{work_package_with_due_date_and_assignee.assigned_to.mail}
       END:VEVENT
       END:VCALENDAR
     EOICAL
