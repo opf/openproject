@@ -43,11 +43,13 @@ module Calendar
 
       ical_string = nil
 
-      success, errors = validate_and_yield(query, user, options: { ical_token: ical_token_instance }) do
-        ical_string = ical_generation(query, user)
-      end
+      User.execute_as(user) do
+        success, errors = validate_and_yield(query, user, options: { ical_token: ical_token_instance }) do
+          ical_string = ical_generation(query, user)
+        end
 
-      ServiceResult.new(success:, result: ical_string, errors:)
+        ServiceResult.new(success:, result: ical_string, errors:)
+      end
     end
 
     protected
