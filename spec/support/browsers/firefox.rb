@@ -45,10 +45,6 @@ def register_firefox(language, name: :"firefox_#{language}")
       options:
     }
 
-    if is_grid
-      driver_opts[:url] = ENV.fetch('SELENIUM_GRID_URL', nil)
-    end
-
     driver = Capybara::Selenium::Driver.new app, **driver_opts
 
     Capybara::Screenshot.register_driver(name) do |driver, path|
