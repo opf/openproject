@@ -28,8 +28,8 @@ RSpec.describe User do
     context "WHEN the uploaded file is a good image" do
       subject { lambda { user.local_avatar_attachment = avatar_file } }
 
-      it { is_expected.not_to raise_error }
-      specify { is_expected.to change(user, :local_avatar_attachment) }
+      it { expect { subject.call }.not_to raise_error }
+      it { expect { subject.call }.to change(user, :local_avatar_attachment) }
     end
   end
 end
