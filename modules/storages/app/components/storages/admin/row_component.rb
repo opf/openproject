@@ -38,7 +38,18 @@ module Storages::Admin
 
     # Delegate delegates the execution of certain methods to :storage.
     # https://www.rubydoc.info/gems/activesupport/Module:delegate
-    delegate :created_at, :name, :host, :provider_type, to: :storage
+    delegate :created_at, :host, :provider_type, :configuration_complete?, to: :storage
+
+    def name
+      if configuration_complete?
+        storage.name
+      else
+        helpers.op_icon('icon-warning -warning') +
+          content_tag(:span,
+                      storage.name,
+                      class: 'pl-2')
+      end
+    end
 
     def creator
       icon = helpers.avatar storage.creator, size: :mini

@@ -5,6 +5,8 @@
 <% local_assigns[:additional_breadcrumb] = @object.name %>
 <%= toolbar title: t('label_edit_x', x: @object.name) %>
 
+<%= render(Storages::Admin::ConfigurationCompletionChecksComponent.new(@object)) %>
+
 <%= labelled_tabular_form_for @object, url: admin_settings_storage_path(@object), as: :storages_storage do |f| -%>
   <%= render partial: 'form', locals: { f: f } %>
   <%= styled_button_tag t(:button_save), class: "-highlight -with-icon icon-checkmark" %>
