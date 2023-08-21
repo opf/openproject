@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -66,6 +68,4 @@ class Storages::NextcloudStorage < Storages::Storage
   def provider_fields_defaults
     PROVIDER_FIELDS_DEFAULTS
   end
-
-  def namespace = 'nextcloud'
 end
