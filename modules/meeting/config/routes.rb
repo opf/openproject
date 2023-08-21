@@ -41,6 +41,7 @@ OpenProject::Application.routes.draw do
       member do
         get :cancel_edit
         put :drop
+        put :move
       end
     end
 

@@ -32,7 +32,7 @@ class MeetingAgendaItemsController < ApplicationController
 
   before_action :set_meeting
   before_action :set_meeting_agenda_item,
-                except: %i[index new cancel_new create author_autocomplete_index author_deferred_select_index]
+                except: %i[index new cancel_new create author_autocomplete_index]
 
   def new
     update_new_component_via_turbo_stream(hidden: false)
@@ -101,6 +101,23 @@ class MeetingAgendaItemsController < ApplicationController
 
   def drop
     @meeting_agenda_item.insert_at(params[:position].to_i)
+
+    update_list_via_turbo_stream
+
+    respond_with_turbo_streams
+  end
+
+  def move
+    case params[:direction]
+    when 'top'
+      @meeting_agenda_item.move_to_top
+    when 'up'
+      @meeting_agenda_item.move_higher
+    when 'down'
+      @meeting_agenda_item.move_lower
+    when 'bottom'
+      @meeting_agenda_item.move_to_bottom
+    end
 
     update_list_via_turbo_stream
 

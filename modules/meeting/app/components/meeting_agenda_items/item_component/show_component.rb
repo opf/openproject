@@ -190,6 +190,10 @@ module MeetingAgendaItems
       render(Primer::Alpha::ActionMenu.new) do |menu|
         menu.with_show_button(icon: "kebab-horizontal", 'aria-label': "Agenda item actions", scheme: :invisible)
         edit_action_item(menu)
+        move_action_item(menu, :top, "Move to top", "move-to-top")
+        move_action_item(menu, :up, "Move up", "chevron-up")
+        move_action_item(menu, :down, "Move down", "chevron-down")
+        move_action_item(menu, :bottom, "Move to bottom", "move-to-bottom")
         delete_action_item(menu)
       end
     end
@@ -199,15 +203,31 @@ module MeetingAgendaItems
                      href: edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
                      content_arguments: {
                        data: { 'turbo-stream': true }
-                     })
+                     }) do |item|
+        item.with_leading_visual_icon(icon: :pencil)
+      end
     end
 
     def delete_action_item(menu)
       menu.with_item(label: "Remove",
+                     scheme: :danger,
                      href: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
                      form_arguments: {
                        method: :delete, data: { confirm: "Are you sure?", 'turbo-stream': true }
-                     })
+                     }) do |item|
+        item.with_leading_visual_icon(icon: :trash)
+      end
+    end
+
+    def move_action_item(menu, direction, label_text, icon)
+      menu.with_item(label: label_text,
+                     href: move_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item,
+                                                         direction:),
+                     form_arguments: {
+                       method: :put, data: { 'turbo-stream': true }
+                     }) do |item|
+        item.with_leading_visual_icon(icon:)
+      end
     end
   end
 end
