@@ -189,7 +189,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   }
 
   public baselineIcon(workPackage:WorkPackageResource) {
-    this.baselineMode = getBaselineState(workPackage, this.schemaCache, this.wpTableColumns);
+    this.baselineMode = getBaselineState(workPackage, this.schemaCache);
     return this.baselineMode;
   }
 

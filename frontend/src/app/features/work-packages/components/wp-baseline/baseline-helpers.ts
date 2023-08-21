@@ -52,16 +52,16 @@ export function getPartsFromTimestamp(value:string):BaselineTimestamp|null {
   return null;
 }
 
-export function visibleAttributeChanged(base:IWorkPackageTimestamp, schema:ISchemaProxy, wpTableColumns:WorkPackageViewColumnsService):boolean {
-  return !!wpTableColumns
-    .getColumns()
-    .find((column) => {
-      const name = schema.mappedName(column.id);
+export function attributeChanged(base:IWorkPackageTimestamp, schema:ISchemaProxy):boolean {
+  return !!schema
+    .availableAttributes
+    .find((attribute) => {
+      const name = schema.mappedName(attribute);
       return Object.prototype.hasOwnProperty.call(base, name) || Object.prototype.hasOwnProperty.call(base.$links, name);
     });
 }
 
-export function getBaselineState(workPackage:WorkPackageResource, schemaService:SchemaCacheService, wpTableColumns:WorkPackageViewColumnsService):string {
+export function getBaselineState(workPackage:WorkPackageResource, schemaService:SchemaCacheService):string {
   let state = '';
   const schema = schemaService.of(workPackage);
   const timestamps = workPackage.attributesByTimestamp || [];
@@ -72,7 +72,7 @@ export function getBaselineState(workPackage:WorkPackageResource, schemaService:
       state = 'added';
     } else if ((base._meta.exists && !compare._meta.exists) || (base._meta.matchesFilters && !compare._meta.matchesFilters)) {
       state = 'removed';
-    } else if (visibleAttributeChanged(base, schema, wpTableColumns)) {
+    } else if (attributeChanged(base, schema)) {
       state = 'updated';
     }
   } else {

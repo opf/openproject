@@ -53,7 +53,7 @@ export class BaselineColumnBuilder {
   private changeIcon(
     workPackage:WorkPackageResource,
   ):HTMLElement|null {
-    const state = getBaselineState(workPackage, this.schemaCache, this.wpTableColumns);
+    const state = getBaselineState(workPackage, this.schemaCache);
     if (state === 'added') {
       const icon = opIconElement('spot-icon', 'spot-icon_1', 'spot-icon_flex', 'spot-icon_arrow-in', 'op-table-baseline--icon-added');
       icon.title = this.I18n.t('js.work_packages.baseline.addition_label');

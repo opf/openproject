@@ -207,7 +207,7 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
     const results = this.querySpace.results.value;
     if (baselineIsActive && results && results.elements.length > 0) {
       results.elements.forEach((workPackage:WorkPackageResource) => {
-        state = getBaselineState(workPackage, this.schemaCache, this.wpTableColumns);
+        state = getBaselineState(workPackage, this.schemaCache);
         if (state === 'added') {
           this.numAdded += 1;
         } else if (state === 'removed') {
