@@ -33,7 +33,7 @@ Choose **My account**.
 ![my account profil information](openproject_open_my_account_page.png)
 
 ## Edit your user information
-To change your email address or your name, navigate to **Profile** on the right side menu of **My account** page.
+To change your email address or your name, navigate to **Profile** on the left side menu of **My account** page.
 
 Here you can update the information and **save** your changes.
 
@@ -148,7 +148,7 @@ You will then see a message informing you that the the token und the iCal URL ar
 
 ### OAUTH
 
-OAuth tokens allow third-party applications to connect with this OpenProject instance, for example Nextcloud (see [here](https://www.openproject.org/docs/user-guide/nextcloud-integration/) how to set up Nextcloud integration.  OAuth tokens can be created under [*Administration-> Authentication*](https://www.openproject.org/docs/system-admin-guide/authentication/). 
+OAuth tokens allow third-party applications to connect with this OpenProject instance, for example Nextcloud (see [here](https://www.openproject.org/docs/user-guide/nextcloud-integration/) how to set up Nextcloud integration).  OAuth tokens can be created under [*Administration-> Authentication*](https://www.openproject.org/docs/system-admin-guide/authentication/). 
 
 If no third-party application integration has been activated yet, this list will be empty. Please contact your administrator to help you set it up. Once an integration has been set up, you will see the details here and will be able to delete any OAuth tokens by clicking on the **Delete** icon. 
 
@@ -160,7 +160,7 @@ If no third-party application integration has been activated yet, this list will
 
 RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader.  You can only have one active RSS token. 
 
-Create by clicking the **+RSS token** button. This will create your token and trigger a message showing you the access token. 
+Create a new token by clicking the **+RSS token** button. This will create your token and trigger a message showing you the access token. 
 
 >  **Note**: You will only be able to see the RSS access token once, directly after you create it. Make sure to copy it. 
 

@@ -41,7 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
     </li>
   <% end %>
   <% if User.current.allowed_to_globally?(:create_user) %>
-    <li class="toolbar-item hidden-for-mobile">
+    <li class="toolbar-item hidden-for-tablet">
       <%= form_for(@user, html: { class: 'toolbar-item' },
                  url: { action: :resend_invitation },
                  method: :post) do |_form| %>

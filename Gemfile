@@ -245,8 +245,7 @@ group :test do
   gem 'capybara', '~> 3.39.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'cuprite', '~> 0.14.3'
-  gem 'selenium-webdriver', '~> 4.0'
-  gem 'webdrivers', '~> 5.2.0'
+  gem 'selenium-webdriver', '~> 4.11.0'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
@@ -354,6 +353,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-primer_view_components", '~>0.6.3'
+gem "openproject-primer_view_components", '~>0.7.0'
 gem "openproject-octicons", '~>19.6.7'
 gem "openproject-octicons_helper", '~>19.6.7'

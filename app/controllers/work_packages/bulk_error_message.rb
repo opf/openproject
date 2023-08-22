@@ -33,9 +33,9 @@ module WorkPackages::BulkErrorMessage
     private
 
     def bulk_error_message(selected_work_packages, service_result)
-      ApplicationController.renderer.render_to_string partial: 'work_packages/bulk/errors',
-                                                      locals: { service_result:,
-                                                                selected_work_packages: }
+      ApplicationController.renderer.render partial: 'work_packages/bulk/errors',
+                                            locals: { service_result:,
+                                                      selected_work_packages: }
     end
   end
 end

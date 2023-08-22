@@ -26,6 +26,8 @@ nl:
         position: "Positie"
         remaining_hours: "Resterende uren"
         remaining_time: "Resterende uren"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Verhaal punten"
         backlogs_work_package_type: "Backlog type"
     errors:

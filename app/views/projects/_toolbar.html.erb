@@ -39,14 +39,14 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     </li>
   <% end %>
-  <li class="toolbar-item hidden-for-mobile">
+  <li class="toolbar-item hidden-for-tablet">
     <%= link_to project_identifier_path(@project), class: 'button' do %>
       <%= op_icon('button--icon icon-edit') %>
       <span class="button--text"><%= t('projects.settings.change_identifier') %></span>
     <% end %>
   </li>
   <% if @project.copy_allowed? %>
-    <li class="toolbar-item hidden-for-mobile">
+    <li class="toolbar-item hidden-for-tablet">
       <%= link_to copy_project_path(@project), class: 'button copy', accesskey: accesskey(:copy) do %>
         <%= op_icon('button--icon icon-copy') %>
         <span class="button--text"><%= t(:button_copy) %></span>
@@ -54,7 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
     </li>
   <% end %>
   <% if User.current.allowed_to?(:archive_project, @project) %>
-    <li class="toolbar-item hidden-for-mobile">
+    <li class="toolbar-item hidden-for-tablet">
       <%= link_to(project_archive_path(@project, status: '', name: @project.name),
                   data: { confirm: t('project.archive.are_you_sure', name: @project.name) },
                   method: :post,
@@ -66,7 +66,7 @@ See COPYRIGHT and LICENSE files for more details.
     </li>
   <% end %>
   <% if User.current.admin? %>
-    <li class="toolbar-item hidden-for-mobile">
+    <li class="toolbar-item hidden-for-tablet">
       <% label = @project.templated ? 'remove_from_templates' : 'make_template' %>
       <%= link_to(project_templated_path(@project),
                   method: @project.templated ? :delete : :post,

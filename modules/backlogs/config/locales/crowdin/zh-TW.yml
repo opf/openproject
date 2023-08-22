@@ -26,6 +26,8 @@ zh-TW:
         position: "位置"
         remaining_hours: "剩餘時數"
         remaining_time: "剩餘時數"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "需求重要性"
         backlogs_work_package_type: "待辦項目類型"
     errors:

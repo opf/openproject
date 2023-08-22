@@ -2176,6 +2176,10 @@ fr:
   mail_body_incoming_email_error_in_reply_to: "Le %{received_at} %{from_email} a écrit"
   mail_body_incoming_email_error_logs: "Journaux"
   mail_body_lost_password: "Pour changer votre mot de passe, cliquez sur le lien suivant:"
+  mail_password_change_not_possible:
+    title: "Modification du mot de passe impossible"
+    body: "Votre compte sur %{app_title} est connecté à un fournisseur d'authentification externe (%{name})."
+    subtext: "Les mots de passe pour le compte externe ne peuvent pas être modifiés dans l'application. Veuillez utiliser la fonctionnalité de réinitialisation de mot de passe de votre fournisseur d'authentification."
   mail_body_register: "Bienvenue sur %{app_title}. Veuillez activer votre compte en cliquant sur ce lien :"
   mail_body_register_header_title: "E-mail d'invitation du membre du projet"
   mail_body_register_user: "Chère/cher %{name}, "
@@ -2694,9 +2698,7 @@ fr:
         type: "Ligne entière par Type"
         priority: "Ligne entière par Priorité"
     icalendar:
-      enable_subscriptions_text_html: Permet aux utilisateurs disposant des autorisations nécessaires de s'abonner aux calendriers OpenProject et d'accéder aux informations du lot de travaux via un client de calendrier externe.
-    #below line needs to be appended above after docs are ready
-    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: Permet aux utilisateurs disposant des autorisations nécessaires de s'abonner aux calendriers OpenProject et d'accéder aux informations du lot de travaux par le biais d'un client de calendrier externe. <strong>Note :</strong> veuillez lire les abonnements à <a href="%{link}" target="_blank">iCalendar</a> pour comprendre les risques potentiels de sécurité avant de l'activer.
     language_name_being_default: '%{language_name} (par défaut)'
     notifications:
       events_explanation: 'Définit pour quel événement un e-mail est envoyé. Les lots de travaux sont exclus de cette liste car les notifications pour ceux-ci peuvent être configurées spécifiquement pour chaque utilisateur.'

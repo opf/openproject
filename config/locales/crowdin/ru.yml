@@ -2219,6 +2219,10 @@ ru:
   mail_body_incoming_email_error_in_reply_to: "%{received_at} %{from_email} написал"
   mail_body_incoming_email_error_logs: "Журналы"
   mail_body_lost_password: "Чтобы изменить пароль, щёлкните по следующей ссылке:"
+  mail_password_change_not_possible:
+    title: "Не удалось изменить пароль"
+    body: "Ваша учетная запись на %{app_title} подключена к внешнему поставщику аутентификации (%{name})."
+    subtext: "Пароли внешней учетной записи не могут быть изменены в приложении. Пожалуйста, используйте функцию утери пароля вашего поставщика аутентификации."
   mail_body_register: "Добро пожаловать в %{app_title}. Пожалуйста, активируйте свою учетную запись, перейдя по ссылке:"
   mail_body_register_header_title: "Приглашение участника проекта по электронной почте"
   mail_body_register_user: "Уважаемый, %{name},"
@@ -2736,9 +2740,7 @@ ru:
         type: "Вся строка по типу"
         priority: "Вся строка по приоритету"
     icalendar:
-      enable_subscriptions_text_html: Позволяет пользователям с необходимыми разрешениями подписываться на календари OpenProject и получать доступ к информации о рабочем пакете через внешний клиент календаря.
-    #below line needs to be appended above after docs are ready
-    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: Позволяет пользователям с необходимыми разрешениями подписаться на календари OpenProject и получить доступ к информации о комплексе работ через внешний клиент календаря. <strong>Примечание:</strong> Пожалуйста, прочтите о <a href="%{link}" target="_blank">подписках на iCalendar</a> для понимания потенциальных рисков безопасности, прежде чем включить это.
     language_name_being_default: '%{language_name} (по умолчанию)'
     notifications:
       events_explanation: 'Регулирует, по каким событиям отправляется письмо. Пакеты работ исключаются из этого списка, поскольку уведомления для них могут быть настроены специально для каждого пользователя.'

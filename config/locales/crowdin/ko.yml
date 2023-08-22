@@ -2153,6 +2153,10 @@ ko:
   mail_body_incoming_email_error_in_reply_to: "%{received_at}, %{from_email} 작성함"
   mail_body_incoming_email_error_logs: "로그"
   mail_body_lost_password: "암호를 변경하려면 다음 링크를 클릭하세요."
+  mail_password_change_not_possible:
+    title: "암호를 변경할 수 없음"
+    body: "%{app_title}의 계정이 외부 인증 공급자(%{name})에 연결되었습니다."
+    subtext: "외부 계정의 암호는 애플리케이션에서 변경할 수 없습니다. 인증 공급자의 암호 분실 기능을 사용하십시오."
   mail_body_register: "%{app_title}입니다. 다음 링크를 클릭하여 계정을 활성화하세요:"
   mail_body_register_header_title: "프로젝트 멤버 초대 이메일"
   mail_body_register_user: "%{name}님께, "
@@ -2667,9 +2671,7 @@ ko:
         type: "유형별 전체 행"
         priority: "우선 순위별 전체 행"
     icalendar:
-      enable_subscriptions_text_html: OpenProject 캘린더를 구독하고 외부 캘린더 클라이언트를 통해 작업 패키지 정보에 액세스하는 데 필요한 권한이 있는 사용자를 허용합니다.
-    #below line needs to be appended above after docs are ready
-    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: 필요한 권한이 있는 사용자가 OpenProject 캘린더를 구독하고 외부 캘린더 클라이언트를 통해 작업 패키지 정보에 액세스하도록 허용합니다. <strong>참고:</strong> 활성화하기 전에 <a href="%{link}" target="_blank">iCalendar 구독</a>에 대해 읽고 잠재적인 보안 위험을 파악하세요.
     language_name_being_default: '%{language_name}(기본값)'
     notifications:
       events_explanation: '이메일을 보낼 이벤트를 관리합니다. 작업 패키지에 대한 알림은 각 사용자에 대해 구체적으로 구성할 수 있으므로 작업 패키지는 이 목록에 포함되지 않습니다.'

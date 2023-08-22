@@ -2175,6 +2175,10 @@ pt:
   mail_body_incoming_email_error_in_reply_to: "Às %{received_at}, %{from_email} escreveu"
   mail_body_incoming_email_error_logs: "Registros"
   mail_body_lost_password: "Para alterar sua senha, clique no link a seguir:"
+  mail_password_change_not_possible:
+    title: "Não né possível alterar a senha"
+    body: "Sua conta em %{app_title} está conectada tada a um provedor de autenticação externo (%{name})."
+    subtext: "As senhas por conta externa não podem ser alteradas no aplicativo. Use o recurso de senha perdida de seu provedor de autenticação."
   mail_body_register: "Bem-vindo ao %{app_title}. Por favor, ative sua conta clicando neste link:"
   mail_body_register_header_title: "E-mail de convite a membro do projeto"
   mail_body_register_user: "Prezado(a) %{name},"
@@ -2691,9 +2695,7 @@ pt:
         type: "Toda linha por Tipo"
         priority: "Toda linha por Prioridade"
     icalendar:
-      enable_subscriptions_text_html: Permite que usuários com as permissões necessárias possam assinar calendários do OpenProject e acessar as informações do pacote de trabalho através de um cliente de calendário externo.
-    #below line needs to be appended above after docs are ready
-    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: Permite aos usuários, com as permissões necessárias, assinar calendários do OpenProject e acessar as informações do pacote de trabalho através de um cliente de calendário externo. <strong>Nota:</strong> Leia sobre <a href="%{link}" target="_blank">assinaturas iCalendar</a> para entender os potenciais riscos de segurança antes de habilitá-las.
     language_name_being_default: '%{language_name} (padrão)'
     notifications:
       events_explanation: 'Governa para qual evento um e-mail é enviado. Como as notificações de pacotes de trabalhos podem ser configuradas especificamente para todos os usuários, eles são excluídos desta lista.'

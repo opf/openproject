@@ -26,6 +26,8 @@ it:
         position: "Posizione"
         remaining_hours: "Ore rimaste"
         remaining_time: "Ore rimaste"
+        derived_remaining_hours: "Ore rimanenti derivate"
+        derived_remaining_time: "Ore rimanenti derivate"
         story_points: "Punti della storia"
         backlogs_work_package_type: "Tipo di backlog"
     errors:

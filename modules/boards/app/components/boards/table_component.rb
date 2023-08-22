@@ -31,10 +31,16 @@
 module Boards
   class TableComponent < ::TableComponent
     options :current_project, :current_user
-    sortable_columns :name, :project_id, :created_at
+    sortable_columns :name, :project_name, :created_at
 
-    def initial_sort
-      %i[name asc]
+    def initial_sort_correlation
+      %w[grids.name asc]
+    end
+
+    def sortable_columns_correlation
+      super.merge(name: 'grids.name',
+                  project_name: 'projects.name',
+                  created_at: 'grids.created_at')
     end
 
     def paginated?
@@ -42,18 +48,16 @@ module Boards
     end
 
     def headers
-      columns.map do |attr|
-        [attr, { caption: Boards::Grid.human_attribute_name(attr) }]
-      end
+      @headers ||= [
+        [:name, { caption: Boards::Grid.human_attribute_name(:name) }],
+        current_project.blank? ? [:project_name, { caption: I18n.t('attributes.project') }] : nil,
+        [:type, { caption: Boards::Grid.human_attribute_name(:type) }],
+        [:created_at, { caption: Boards::Grid.human_attribute_name(:created_at) }]
+      ].compact
     end
 
     def columns
-      @columns ||= [
-        :name,
-        (:project_id if current_project.blank?),
-        :type,
-        :created_at
-      ].compact
+      @columns ||= headers.map(&:first)
     end
   end
 end

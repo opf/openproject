@@ -56,6 +56,12 @@ module OpenProject::Backlogs
                    required: false,
                    show_if: ->(*) { represented.project && represented.project.backlogs_enabled? }
 
+            schema :derived_remaining_time,
+                   type: 'Duration',
+                   name_source: :derived_remaining_hours,
+                   required: false,
+                   show_if: ->(*) { represented.project && represented.project.backlogs_enabled? }
+
             define_method :backlogs_constraint_passed? do |attribute|
               represented.project&.backlogs_enabled? &&
                 (!represented.type || represented.type.passes_attribute_constraint?(attribute))

@@ -75,14 +75,14 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     },
     {
       component: OpBaselineModalComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
     },
     {
       component: WorkPackageFilterButtonComponent,
     },
     {
       component: WorkPackageViewToggleButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
     },
     {
       component: WorkPackageFoldToggleButtonComponent,
@@ -90,15 +90,15 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     },
     {
       component: WorkPackageDetailsViewButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
     },
     {
       component: WorkPackageTimelineButtonComponent,
-      containerClasses: 'hidden-for-mobile -no-spacing',
+      containerClasses: 'hidden-for-tablet -no-spacing',
     },
     {
       component: ZenModeButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
     },
     {
       component: WorkPackageSettingsButtonComponent,

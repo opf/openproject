@@ -38,7 +38,7 @@ module Calendar
       link_to query.name, project_calendar_path(project, query.id)
     end
 
-    def project_id
+    def project_name
       link_to project.name, project_path(project)
     end
 

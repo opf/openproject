@@ -60,12 +60,11 @@ module ::Boards
     private
 
     def load_query
-      if @project
-        @board_grids = Boards::Grid.includes(:project).where(project: @project)
-      else
-        projects = Project.allowed_to(User.current, :show_board_views)
-        @board_grids = Boards::Grid.includes(:project).where(project: projects)
-      end
+      projects = @project || Project.allowed_to(User.current, :show_board_views)
+
+      @board_grids = Boards::Grid.includes(:project)
+                                 .references(:project)
+                                 .where(project: projects)
     end
 
     def find_board_grid

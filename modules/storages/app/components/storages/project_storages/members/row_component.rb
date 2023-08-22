@@ -53,7 +53,7 @@ module Storages::ProjectStorages::Members
       connection_result = storage_connection_status
 
       if connection_result == :not_connected
-        render(Primer::Beta::Octicon.new(:'alert-fill', size: :small, color: :severe)) +
+        helpers.op_icon('icon-warning -warning') +
           content_tag(:span,
                       I18n.t("storages.member_connection_status.not_connected",
                              files_label: content_tag(:span,

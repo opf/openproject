@@ -38,7 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
     </li>
   <% end %>
   <% if authorize_for(:budgets, :copy) %>
-    <li class="toolbar-item hidden-for-mobile">
+    <li class="toolbar-item hidden-for-tablet">
       <%= link_to({ controller: 'budgets', action: 'copy', id: @budget }, class: 'button') do %>
         <%= op_icon('button--icon icon-copy') %>
         <span class="button--text"><%= t(:button_copy) %></span>

@@ -74,10 +74,23 @@ class UserMailer < ApplicationMailer
               t(:mail_subject_lost_password, value: Setting.app_title))
   end
 
+  def password_change_not_possible(user)
+    @user = user
+    @provider =
+      if user.ldap_auth_source
+        user.ldap_auth_source.name
+      else
+        user.authentication_provider
+      end
+    open_project_headers 'Type' => 'Account'
+
+    send_mail(user, t('mail_password_change_not_possible.title'))
+  end
+
   def news_added(user, news)
     @news = news
 
-    open_project_headers 'Type'    => 'News'
+    open_project_headers 'Type' => 'News'
     open_project_headers 'Project' => @news.project.identifier if @news.project
 
     message_id @news, user
@@ -106,7 +119,7 @@ class UserMailer < ApplicationMailer
 
   def news_comment_added(user, comment)
     @comment = comment
-    @news    = @comment.commented
+    @news = @comment.commented
 
     open_project_headers 'Project' => @news.project.identifier if @news.project
 
@@ -126,7 +139,7 @@ class UserMailer < ApplicationMailer
     message_id @wiki_page, user
 
     send_mail(user,
-              "[#{@wiki_page.project.name}] #{t(:mail_subject_wiki_page_added, id: @wiki_page.title)}")
+              "[#{@wiki_page.project.name}] #{t(:mail_subject_wiki_content_added, id: @wiki_page.title)}")
   end
 
   def wiki_page_updated(user, wiki_page)
@@ -141,7 +154,7 @@ class UserMailer < ApplicationMailer
     message_id @wiki_page, user
 
     send_mail(user,
-              "[#{@wiki_page.project.name}] #{t(:mail_subject_wiki_page_updated, id: @wiki_page.title)}")
+              "[#{@wiki_page.project.name}] #{t(:mail_subject_wiki_content_updated, id: @wiki_page.title)}")
   end
 
   def message_posted(user, message)
@@ -165,7 +178,7 @@ class UserMailer < ApplicationMailer
   end
 
   def account_information(user, password)
-    @user     = user
+    @user = user
     @password = password
 
     open_project_headers 'Type' => 'Account'
@@ -175,7 +188,7 @@ class UserMailer < ApplicationMailer
   end
 
   def account_activation_requested(admin, user)
-    @user           = user
+    @user = user
     @activation_url = url_for(controller: '/users',
                               action: :index,
                               status: 'registered',

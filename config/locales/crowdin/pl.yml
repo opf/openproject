@@ -630,7 +630,7 @@ pl:
         confirmation: "nie pasuje do %{attribute}."
         could_not_be_copied: "Nie można było (w pełni) skopiować %{dependency}."
         does_not_exist: "nie istnieje."
-        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise edition"
+        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise Edition"
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
         email: "nie jest poprawnym adresem e-mail."
@@ -2217,6 +2217,10 @@ pl:
   mail_body_incoming_email_error_in_reply_to: "O %{received_at} z adresu %{from_email} napisano"
   mail_body_incoming_email_error_logs: "Dzienniki"
   mail_body_lost_password: "Aby zmienić hasło, kliknij na poniższy link:"
+  mail_password_change_not_possible:
+    title: "Nie można zmienić hasła"
+    body: "Twoje konto w %{app_title} jest połączone z zewnętrznym dostawcą uwierzytelniania (%{name})."
+    subtext: "Haseł do konta zewnętrznego nie można zmienić w aplikacji. Użyj funkcji odzyskiwania utraconego hasła u dostawcy uwierzytelniania."
   mail_body_register: "Witamy w %{app_title}. Aktywuj swoje konto, klikając ten link:"
   mail_body_register_header_title: "Wiadomość e-mail z zaproszeniem członka projektu"
   mail_body_register_user: "Witaj %{name}, "
@@ -2734,9 +2738,7 @@ pl:
         type: "Cały wiersz wg typu"
         priority: "Cały wiersz wg priorytetu"
     icalendar:
-      enable_subscriptions_text_html: Zezwala na użytkowników mających niezbędne uprawnienia do subskrybowania kalendarzy OpenProject i uzyskiwania dostępu do informacji o pakietach roboczych za pośrednictwem zewnętrznego klienta kalendarza.
-    #below line needs to be appended above after docs are ready
-    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: Umożliwia użytkownikom z niezbędnymi uprawnieniami subskrybowanie kalendarzy OpenProject i dostęp do informacji o pakietach roboczych za pośrednictwem zewnętrznego klienta kalendarza. <strong>Uwaga:</strong> przed włączeniem tej opcji zapoznaj się z informacjami o <a href="%{link}" target="_blank">subskrypcjach iCalendar</a>, aby zrozumieć potencjalne zagrożenia bezpieczeństwa.
     language_name_being_default: '%{language_name} (domyślny)'
     notifications:
       events_explanation: 'Zarządza dla których zdarzeń są wysyłane wiadomości e-mail. Pakiety robocze są wyłączone z tej listy, ponieważ ich powiadomienia mogą być skonfigurowane specjalnie dla każdego użytkownika.'
@@ -2999,7 +3001,7 @@ pl:
         non_working: "%{day} jest teraz dniem nieroboczym"
       dates:
         working: "%{day} jest teraz roboczym"
-        non_working: "%{day} jest teraz wolnym od pracy"
+        non_working: "%{date} jest teraz wolnym od pracy"
   nothing_to_preview: "Nie ma nic do podglądu"
   api_v3:
     attributes:

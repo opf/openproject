@@ -67,4 +67,45 @@ RSpec.describe 'Lost password' do
     expect(page)
       .to have_current_path(my_page_path)
   end
+
+  context 'when user has an auth source' do
+    let!(:ldap_auth_source) { create(:ldap_auth_source, name: 'Foo') }
+    let!(:user) { create(:user, ldap_auth_source:) }
+
+    it 'sends an email with external auth info' do
+      visit account_lost_password_path
+
+      # shows same flash for invalid and existing users
+      fill_in 'mail', with: user.mail
+      click_on 'Submit'
+
+      expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_account_lost_email_sent))
+
+      perform_enqueued_jobs
+      expect(ActionMailer::Base.deliveries.size).to be 1
+      mail = ActionMailer::Base.deliveries.first
+      expect(mail.subject).to eq I18n.t('mail_password_change_not_possible.title')
+      expect(mail.body.parts.first.body.to_s).to include 'Foo'
+    end
+  end
+
+  context 'when user has identity_url' do
+    let!(:user) { create(:user, identity_url: 'saml:foobar') }
+
+    it 'sends an email with external auth info' do
+      visit account_lost_password_path
+
+      # shows same flash for invalid and existing users
+      fill_in 'mail', with: user.mail
+      click_on 'Submit'
+
+      expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_account_lost_email_sent))
+
+      perform_enqueued_jobs
+      expect(ActionMailer::Base.deliveries.size).to be 1
+      mail = ActionMailer::Base.deliveries.first
+      expect(mail.subject).to eq I18n.t('mail_password_change_not_possible.title')
+      expect(mail.body.parts.first.body.to_s).to include 'Saml'
+    end
+  end
 end

@@ -41,11 +41,6 @@ webfontsGenerator({
   "classPrefix": "icon-",
   "baseSelector": ".icon",
   "html": true,
-  "htmlDest": path.join(
-    path.resolve(__dirname, '..', '..', '..', '..', '..', 'frontend', 'src', 'global_styles', 'fonts'),
-    '_openproject_icon_font.lsg',
-  ),
-  "htmlTemplate": path.join(TEMPLATE_DIR, "openproject-icon-font.template.lsg"),
   "types": ['woff2', 'woff'],
   "fixedWidth": true,
   "descent": 100
