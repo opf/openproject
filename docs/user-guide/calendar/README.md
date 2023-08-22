@@ -36,7 +36,7 @@ Once enabled, clicking on the **Calendars** entry on the left sidebar takes you 
       
     - Any calendar that has the **Public** option checked will be visible to all members of the current project and listed under the **Public** heading in the sidebar to the left.
       
-    - Any calendar that has the **Public** option unchecked will be considered **Private** and displayed under the **Private Views** heading in the menu bar to the left.
+    - Any calendar that has the **Public** option unchecked will be considered **private** and displayed under the **Private** heading in the menu bar to the left.
       
 
 ## Use the calendar
