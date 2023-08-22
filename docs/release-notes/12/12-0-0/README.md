@@ -19,9 +19,9 @@ The new in-app notifications let you never miss a change in your projects again.
 
 ![in-app-notifications-header-bell](in-app-notifications-header-bell.png)
 
-Go to our user guide to find out how to [configure in-app notifications](../../user-guide/notifications/).
+Go to our user guide to find out how to [configure in-app notifications](../../../user-guide/notifications/).
 
-> **Info:** Please note that starting with version 12.0, OpenProject will no longer send individual emails for each notification. You can view your notifications via the new [Notification center](../../user-guide/notifications/#access-in-app-notifications). You can however still choose to receive daily [email reminders](../../getting-started/my-account/#email-reminders) at specific times of the day that you can configure.
+> **Info:** Please note that starting with version 12.0, OpenProject will no longer send individual emails for each notification. You can view your notifications via the new [Notification center](../../../user-guide/notifications/#access-in-app-notifications). You can however still choose to receive daily [email reminders](../../getting-started/my-account/#email-reminders) at specific times of the day that you can configure.
 
 ## Notification center
 
@@ -213,13 +213,13 @@ OpenProject 12.0 will deprecate PostgreSQL versions < 13. This will result in a 
 To use OpenProject 12.0 right away, create an instance and [test Enterprise cloud 14 days for free](https://start.openproject.com/).
 
 Prefer to run OpenProject 12.0 in your own infrastructure?
-Here you can find the [Installation guidelines](../../installation-and-operations) for OpenProject.
+Here you can find the [Installation guidelines](../../../installation-and-operations) for OpenProject.
 
 Want to upgrade from your self-managed Community version to try out the Enterprise add-ons? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/blog/enterprise-edition-upgrade-test-free/)  Navigate to the -> *Administration*-> *Enterprise edition* and request your trial token.
 
 ## Migrating to OpenProject 12.0
 
-Follow the [upgrade guide for the packaged installation or Docker installation](../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 12.0. Please note the blue box on top of the page.
+Follow the [upgrade guide for the packaged installation or Docker installation](../../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 12.0. Please note the blue box on top of the page.
 
 We update the hosted OpenProject environments (Enterprise cloud) automatically.
 
@@ -229,5 +229,5 @@ A big thanks to community members for reporting bugs and helping us identifying 
 
 - Special thanks for City of Cologne and Autoliv for sponsoring the development of project export and improved auto-completion for work packages.
 - Special thanks for reporting and finding bugs go to Tomáš Jukin, C A, Peter Vanhee, Walid Ibrahim, Frank Long, Simon Seiler, Matthew Trescott, Silas Kropf, Kane Z, SO M, Kris M, Christina Vechkanova, Christoph Lechleitner, Daniel Hug, Sven Kunze, Andreas Sturm, broug geo, Jörg Mollowitz, Luca Puchert, David Epping.
-- Every other dedicated user who has [reported bugs](../../development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+- Every other dedicated user who has [reported bugs](../../../development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
 - All the dedicated users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).

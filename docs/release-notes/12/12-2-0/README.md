@@ -32,11 +32,11 @@ We believe the productivity of users of both platforms will increase significant
 
 Further integration efforts are under way, notably to make it possible to create links to Nextcloud files from directly from OpenProject (it is currently only possible via Nextcloud) and adding complete project folders.
 
-You can find out more [how to use the Nextcloud integration](../../user-guide/nextcloud-integration/) as well as the [how to setup the Nextcloud integration](../../system-admin-guide/integrations/nextcloud/) in our documentation.
+You can find out more [how to use the Nextcloud integration](../../../user-guide/nextcloud-integration/) as well as the [how to setup the Nextcloud integration](../../system-admin-guide/integrations/nextcloud/) in our documentation.
 
 ## Contextual information and warnings when scheduling work packages
 
-For OpenProject 12.2, the team has worked on **improving the date picker** to give you more clarity when scheduling work packages. To choose [automatic or manual scheduling mode](../../user-guide/gantt-chart/scheduling/), the selection box moved to the top of the date picker to be more visible. We are also introducing information and warning banners that provide important contextual information before modifying dates of work packages that have relations with other work packages. 
+For OpenProject 12.2, the team has worked on **improving the date picker** to give you more clarity when scheduling work packages. To choose [automatic or manual scheduling mode](../../../user-guide/gantt-chart/scheduling/), the selection box moved to the top of the date picker to be more visible. We are also introducing information and warning banners that provide important contextual information before modifying dates of work packages that have relations with other work packages. 
 
 *Blue banners* will indicate information that maybe be helpful (such as if the work package's dates are automatically derived from relations, or if available date ranges are limited by relations) and *orange banners* will warn of possible consequences to other work packages (existing relations being ignored as a result of enabling manual scheduling, or the dates of related work packages changing as a result of changes to the current work package). 
 
@@ -44,7 +44,7 @@ Additionally, a new "**Show relations**" on these banners allows you to quickly 
 
 ![warning in date picker](date-picker-warning.png)
 
-Find out more about how to set and change dates with the [improved date picker](../../user-guide/work-packages/set-change-dates/) in our documentation.
+Find out more about how to set and change dates with the [improved date picker](../../../user-guide/work-packages/set-change-dates/) in our documentation.
 
 ## Log time for other users
 
@@ -52,7 +52,7 @@ OpenProject 12.2 gives an administrator the possibility to grant permissions to 
 
 ![log time for other users](image-20220811130616209.png)
 
-Find out more about [logging time for other users](../../user-guide/time-and-costs/time-tracking/#log-and-edit-time-for-other-users) in our documentation.
+Find out more about [logging time for other users](../../../user-guide/time-and-costs/time-tracking/#log-and-edit-time-for-other-users) in our documentation.
 
 ## Improved navigation bar
 
@@ -79,8 +79,8 @@ For docker you will need to set the environment variable `OPENPROJECT_HTTPS=fals
 
 For more information, please see the respective installation pages:
 
-- [Packaged installation](../../installation-and-operations/installation/packaged/#step-3-apache2-web-server-and-ssl-termination)
-- [Docker installation](../../installation-and-operations/installation/docker/#configuration)
+- [Packaged installation](../../../installation-and-operations/installation/packaged/#step-3-apache2-web-server-and-ssl-termination)
+- [Docker installation](../../../installation-and-operations/installation/docker/#configuration)
 
 ##  List of all bug fixes and changes
 
@@ -177,5 +177,5 @@ A big thanks to community members for reporting bugs, helping us identify issues
 
 - Special thanks for City of Cologne and University of Duisburg-Essen for sponsoring the development of the Nextcloud integration.
 - Special thanks for reporting and finding bugs go to kak tux, Karl Sebera, Christina Vechkanova, Ulrich Germann, Kiran Kafle, Alexander Seitz, Max Chen, PD Inc Support, Rince wind, Simon Rohart, Sander Kleijwegt, Sreekanth Gopalakris.
-- A big thank you to every other dedicated user who has [reported bugs](../../development/report-a-bug) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+- A big thank you to every other dedicated user who has [reported bugs](../../../development/report-a-bug) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
 - A big thank you to all the dedicated users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).
