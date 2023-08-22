@@ -79,7 +79,7 @@ You can make basic date modifications simply by manipulating the work package st
 
 > **Note**: The calendar will highlight non-working days with a darker background colour. By default, a work package cannot be dragged or resized such that it begins or ends on these days unless the “Working days only” switch is turned off for that work package. To learn how to do this, refer to the documentation on [Working days and duration](../work-packages/set-change-dates/#working-days-and-duration).
 >
-> Work packages can also expand and retract in width depending on how many non-working days are spanned (for example, a 3-day task starting on Thursday and ending on Monday will spread across 5 calendar days; dragging that same work package so that it starts on a Tuesday and ends on a Thursday means that it will spread across 3 calendar days. In both cases, the duration remains 3 days.
+> Work packages can also expand and retract in width depending on how many non-working days are spanned. For example, a 3-day task starting on Thursday and ending on Monday will spread across 5 calendar days. Dragging that same work package so that it starts on a Tuesday and ends on a Thursday means that it will spread across 3 calendar days. In both cases, the duration remains 3 days.
 
 ### Filters
 
