@@ -32,7 +32,7 @@ This helps you to create more accurate project schedules and avoid having start 
 
 ![work-week-administration](work-week-administration.png)
 
-You can find out [how to set working and non-working days](../../../system-admin-guide/calendars-and-dates/#working-days) and [how to schedule your work packages within and without working and non-working days](../../user-guide/work-packages/set-change-dates/#working-days) in our documentation.
+You can find out [how to set working and non-working days](../../../system-admin-guide/calendars-and-dates/#working-days) and [how to schedule your work packages within and without working and non-working days](../../../user-guide/work-packages/set-change-dates/#working-days) in our documentation.
 
 ## Duration of work packages
 
