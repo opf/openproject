@@ -138,7 +138,7 @@ module MeetingAgendaItems
     end
 
     def description_partial
-      render(Primer::Box.new(font_size: :small, color: :subtle)) do
+      render(Primer::Box.new(color: :subtle)) do
         simple_format(@meeting_agenda_item.description.html_safe, {}, wrapper_tag: "div")
       end
     end
