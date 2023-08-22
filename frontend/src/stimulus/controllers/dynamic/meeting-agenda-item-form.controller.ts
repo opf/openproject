@@ -37,8 +37,10 @@ export default class extends Controller {
   }
   declare cancelUrlValue: string
 
-  static targets = [ "titleInput"]
+  static targets = [ "titleInput", "descriptionInput", "descriptionAddButton"]
   declare readonly titleInputTarget: HTMLInputElement
+  declare readonly descriptionInputTarget: HTMLInputElement
+  declare readonly descriptionAddButtonTarget: HTMLInputElement
 
   connect(): void {
     this.focusInput();
@@ -61,14 +63,24 @@ export default class extends Controller {
       headers: {
         'X-CSRF-Token': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).content,
         'Accept': 'text/vnd.turbo-stream.html',
-      },
-      credentials: 'same-origin',
+      }
     });
 
     if (response.ok) {
       const text = await response.text();
       Turbo.renderStreamMessage(text);
     }
+  }
+
+  async addDescription() {
+    this.descriptionInputTarget.classList.remove("d-none");
+    this.descriptionAddButtonTarget.classList.add("d-none");
+    const textarea = this.element.querySelector('textarea[name="meeting_agenda_item[description]"]');
+    setTimeout(() => {
+      if(textarea) {
+        (textarea as HTMLInputElement).focus();
+      }
+    }, 100);
   }
 }
 

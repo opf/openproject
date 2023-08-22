@@ -131,11 +131,47 @@ module MeetingAgendaItems
     end
 
     def form_description_partial(form)
-      render(MeetingAgendaItem::Description.new(form))
+      render(Primer::Box.new(data: { 'meeting-agenda-item-form-target': "descriptionInput" },
+                             display: display_description_input_value)) do
+        render(MeetingAgendaItem::Description.new(form))
+      end
+    end
+
+    def display_description_input_value
+      @meeting_agenda_item.description.blank? ? :none : nil
     end
 
     def form_actions_partial(form)
-      flex_layout(justify_content: :flex_end, mt: 2) do |flex|
+      flex_layout(justify_content: :space_between, mt: 2) do |flex|
+        flex.with_column do
+          additional_elements_partial
+        end
+        flex.with_column do
+          save_or_cancel_partial(form)
+        end
+      end
+    end
+
+    def additional_elements_partial
+      render(Primer::Beta::Button.new(
+               scheme: :secondary,
+               display: display_description_add_button_value,
+               data: {
+                 'meeting-agenda-item-form-target': "descriptionAddButton",
+                 action: 'click->meeting-agenda-item-form#addDescription keydown.enter->meeting-agenda-item-form#addDescription'
+               }
+             )) do |component|
+        component.with_leading_visual_icon(icon: :plus)
+        "Notes"
+      end
+    end
+
+    def display_description_add_button_value
+      @meeting_agenda_item.description.blank? ? nil : :none
+    end
+
+    def save_or_cancel_partial(form)
+      flex_layout(justify_content: :flex_end) do |flex|
         flex.with_column(mr: 2) do
           back_link_partial
         end

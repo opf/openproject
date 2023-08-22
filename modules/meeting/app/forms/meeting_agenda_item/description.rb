@@ -30,8 +30,8 @@ class MeetingAgendaItem::Description < ApplicationForm
   form do |agenda_item_form|
     agenda_item_form.text_area(
       name: :description,
-      placeholder: "Description",
-      label: "Description",
+      placeholder: "Notes",
+      label: "Notes",
       visually_hide_label: true,
       disabled: @disabled,
       rows: 7
