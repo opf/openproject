@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -34,16 +36,9 @@ module Storages::Admin
       row
     end
 
-    delegate :created_at, to: :storage
-
-    def name
-      link_to storage.name, admin_settings_storage_path(storage)
-    end
-
     # Delegate delegates the execution of certain methods to :storage.
     # https://www.rubydoc.info/gems/activesupport/Module:delegate
-    delegate :host, to: :storage
-    delegate :provider_type, to: :storage
+    delegate :created_at, :name, :host, :provider_type, to: :storage
 
     def creator
       icon = helpers.avatar storage.creator, size: :mini

@@ -71,9 +71,9 @@ es:
         new: "Añadir un almacenamiento de archivos a este proyecto"
         edit: "Edite el archivo de almacenamiento a este proyecto"
         delete: "Eliminar el almacenamiento de archivos"
-        members_connection_status: "Members connection status"
+        members_connection_status: "Estado de conexión de los miembros"
       project_storage_members:
-        title: "Members connection status"
+        title: "Estado de conexión de los miembros"
         subtitle: "Compruebe el estado de conexión del almacenamiento %{storage_name_link} de todos los miembros del proyecto."
     instructions:
       type: "Por favor, asegúrese de tener privilegios de administrador en su instancia de Nextcloud y tener la siguiente aplicación instalada antes de hacer la configuración:"
@@ -135,11 +135,11 @@ es:
     label_storage: "Almacén"
     label_storages: "Almacenes"
     label_status: "Estado"
-    label_files: "Files"
+    label_files: "Archivos"
     member_connection_status:
       connected: "Conectado"
       connected_no_permissions: "El rol de usuario no tiene permisos de almacenamiento"
-      not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
+      not_connected: "No conectado. El usuario debe acceder al almacén a través de la pestaña %{files_label} de un paquete de trabajo para conectarse."
     no_results: "Aún no se han configurado almacenes de archivos."
     members_no_results: "No hay miembros para mostrar."
     provider_types:

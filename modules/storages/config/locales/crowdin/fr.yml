@@ -71,9 +71,9 @@ fr:
         new: "Ajouter un stockage de fichiers à ce projet"
         edit: "Modifier l'espace de stockage de fichiers pour ce projet"
         delete: "Supprimer l'espace de stockage de fichiers"
-        members_connection_status: "Members connection status"
+        members_connection_status: "Statut de connexion des membres"
       project_storage_members:
-        title: "Members connection status"
+        title: "Statut de connexion des membres"
         subtitle: "Vérifiez l'état de la connexion pour l'espace de stockage %{storage_name_link} de tous les membres du projet."
     instructions:
       type: "Veuillez vous assurer que vous avez les privilèges d'administration dans votre instance Nextcloud et que l'application suivante est installée avant de procéder à l'installation :"
@@ -135,11 +135,11 @@ fr:
     label_storage: "Stockage"
     label_storages: "Stockages"
     label_status: "Statut"
-    label_files: "Files"
+    label_files: "Fichiers"
     member_connection_status:
       connected: "Connecté"
       connected_no_permissions: "Le rôle d'utilisateur n'a pas d'autorisations de stockage"
-      not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
+      not_connected: "Non connecté. L'utilisateur doit se connecter à l'espace de stockage via l'onglet %{files_label} d'un lot de travaux pour se connecter."
     no_results: "Aucun espace de stockage n'est configuré pour le moment."
     members_no_results: "Aucun membre à afficher."
     provider_types:

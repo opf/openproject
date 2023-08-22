@@ -362,7 +362,7 @@ ko:
         다양한 유형을 구분합니다. 따라서 진한 색상을 사용하는 것이 좋습니다.
   versions:
     overview:
-      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
+      work_packages_in_archived_projects: "해당 버전은 이 버전에 할당된 작업 패키지가 아직 있는 보관된 프로젝트와 공유됩니다. 이러한 버전은 카운트되지만, 링크된 보기에 나타나지는 않습니다."
       no_results_title_text: 이 버전에 할당된 작업 패키지가 없습니다.
   wiki:
     page_not_editable_index: 요청한 페이지가 (아직) 존재하지 않습니다. 모든 위키 페이지의 색인으로 리디렉션되었습니다.
@@ -909,7 +909,7 @@ ko:
             principal:
               unassignable: "프로젝트에 할당할 수 없습니다."
         version:
-          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_archived_projects: "첨부된 작업 패키지가 있으므로 이 버전은 삭제할 수 없습니다."
           undeletable_work_packages_attached: "첨부된 작업 패키지가 있으므로 이 버전은 삭제할 수 없습니다."
         status:
           readonly_default_exlusive: "- 기본값으로 표시된 상태에 대해 활성화할 수 없습니다."
@@ -955,11 +955,11 @@ ko:
       created_by_on: "%{datetime}, %{user} 님이 생성함"
       created_by_on_time_entry: "%{datetime}, %{user} 님이 시간 기록함"
       created_on: "%{datetime} 생성함"
-      created_on_time_entry: "time logged on %{datetime}"
+      created_on_time_entry: "%{datetime}, 시간 기록함"
       updated_by_on: "%{datetime}, %{user} 님이 업데이트함"
-      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "%{datetime}, %{user} 님이 기록한 시간을 업데이트함"
       updated_on: "%{datetime} 업데이트함"
-      updated_on_time_entry: "logged time updated on %{datetime}"
+      updated_on_time_entry: "%{datetime}, 기록한 시간을 업데이트함"
       parent_without_of: "하위 프로젝트"
       parent_no_longer: "더 이상 다음의 하위 프로젝트 아님"
       time_entry:
@@ -1295,8 +1295,8 @@ ko:
   error_can_not_archive_project: "이 프로젝트는 보관할 수 없습니다: %{errors}"
   error_can_not_delete_entry: "항목을 삭제할 수 없습니다."
   error_can_not_delete_custom_field: "사용자 지정 필드를 삭제할 수 없습니다."
-  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
-  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
+  error_can_not_delete_in_use_archived_undisclosed: '보관된 프로젝트에는 작업 패키지도 있습니다. 어떤 프로젝트가 영향을 받는지 확인하려면 관리자에게 삭제를 수행하도록 요청해야 합니다.'
+  error_can_not_delete_in_use_archived_work_packages: '보관된 프로젝트에 작업 패키지도 있습니다. 해당 작업 패키지의 특성을 변경하려면 먼저 다음 프로젝트를 다시 활성화해야 합니다: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: '이 유형에는 작업 패키지가 포함되어 있으며 삭제할 수 없습니다. 영향을 받는 모든 작업 패키지는 <a target="_blank" href="%{url}">이 보기</a>에서 볼 수 있습니다.'
   error_can_not_delete_standard_type: "표준 유형은 삭제할 수 없습니다."

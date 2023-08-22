@@ -1,13 +1,13 @@
 ka:
-  export_to_excel: "Export XLS"
-  print_with_description: "Print preview with description"
-  sentence_separator_or: "or"
-  different_formats: Different formats
+  export_to_excel: "XLS-ის გატანა"
+  print_with_description: "დაბეჭდვის გადახედვა აღწერიტ"
+  sentence_separator_or: "ან"
+  different_formats: სხვადასხვა ფორმატები
   export:
     format:
       xls: "XLS"
-      xls_with_descriptions: "XLS with descriptions"
-      xls_with_relations: "XLS with relations"
+      xls_with_descriptions: "XLS აღწერებით"
+      xls_with_relations: "XLS ურთიერთობებით"
   xls_export:
-    child_of: child of
-    parent_of: parent of
+    child_of: მშობელია
+    parent_of: შვილია

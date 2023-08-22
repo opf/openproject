@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -29,7 +31,7 @@
 OpenProject::Application.routes.draw do
   namespace :admin do
     namespace :settings do
-      resources :storages, controller: '/storages/admin/storages' do
+      resources :storages, controller: '/storages/admin/storages', except: [:show] do
         resource :oauth_client, controller: '/storages/admin/oauth_clients', only: %i[new create]
         resource :automatically_managed_project_folders, controller: '/storages/admin/automatically_managed_project_folders',
                                                          only: %i[new edit update]

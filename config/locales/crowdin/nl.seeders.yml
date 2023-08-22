@@ -136,9 +136,9 @@ nl:
           You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
-          name: Demo project
+          name: Demo-project
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo project.
+          description: Dit is een korte samenvatting van de doelen van dit demo-project.
           news:
             item_0:
               title: Welkom bij uw demo-project
@@ -150,7 +150,7 @@ nl:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: Project abonnement
             item_1:
               name: Mijlpalen
             item_2:
@@ -225,7 +225,7 @@ nl:
             item_2:
               subject: Conferentie
             item_3:
-              subject: Follow-up tasks
+              subject: Follow-up status
               children:
                 item_0:
                   subject: Upload presentaties naar website
@@ -309,7 +309,7 @@ nl:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: Project abonnement
             item_1:
               name: Product backlog
             item_2:
@@ -360,10 +360,10 @@ nl:
                   name: Werkpakketten
               item_6:
                 options:
-                  name: Project plan
+                  name: Project abonnement
           work_packages:
             item_0:
-              subject: New login screen
+              subject: Nieuw inlogscherm
             item_1:
               subject: Password reset does not send email
             item_2:
@@ -394,14 +394,14 @@ nl:
             item_8:
               subject: Choose a content management system
             item_9:
-              subject: Website navigation structure
+              subject: Website navigatiestructuur
               children:
                 item_0:
                   subject: Set up navigation concept for website.
             item_10:
               subject: Internal link structure
             item_11:
-              subject: Develop v1.0
+              subject: Ontwikkel v1.0
             item_12:
               subject: Release v1.0
             item_13:

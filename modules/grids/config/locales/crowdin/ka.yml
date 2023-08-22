@@ -4,13 +4,13 @@ ka:
   activerecord:
     attributes:
       grids/grid:
-        page: "Page"
+        page: "გვერდი"
         row_count: "Number of rows"
         column_count: "Number of columns"
-        widgets: "Widgets"
+        widgets: "ვიჯეტები"
     errors:
       models:
         grids/grid:
-          overlaps: 'overlap.'
+          overlaps: 'გადაფარება.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'

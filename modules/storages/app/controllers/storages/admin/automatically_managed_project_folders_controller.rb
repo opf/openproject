@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -82,7 +84,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
 
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to admin_settings_storage_path(@storage)
+      redirect_to edit_admin_settings_storage_path(@storage)
     else
       @errors = service_result.errors
       render '/storages/admin/storages/automatically_managed_project_folders/edit'
