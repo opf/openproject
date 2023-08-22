@@ -4,7 +4,6 @@ import { DEFAULT_TIMESTAMP } from 'core-app/features/work-packages/routing/wp-vi
 import * as moment from 'moment-timezone';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 
 export type BaselineOption = 'oneDayAgo'|'lastWorkingDay'|'oneWeekAgo'|'oneMonthAgo'|'aSpecificDate'|'betweenTwoSpecificDates';
 

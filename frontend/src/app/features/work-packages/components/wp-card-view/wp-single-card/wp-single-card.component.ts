@@ -29,7 +29,6 @@ import { StatusResource } from 'core-app/features/hal/resources/status-resource'
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 import {
   getBaselineState,
@@ -122,7 +121,6 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     readonly cdRef:ChangeDetectorRef,
     readonly timezoneService:TimezoneService,
     readonly schemaCache:SchemaCacheService,
-    readonly wpTableColumns:WorkPackageViewColumnsService,
   ) {
     super();
   }
