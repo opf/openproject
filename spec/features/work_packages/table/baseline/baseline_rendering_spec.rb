@@ -364,6 +364,13 @@ RSpec.describe 'baseline rendering',
                                            'Version B'
                                          ]
 
+      # Shows changes even if columns not showing
+      query.column_names -= %w[start_date due_date]
+      query.save!
+      wp_table.visit_query(query)
+
+      baseline.expect_icon wp_milestone_date_changed, 'changed'
+
       # show icons on work package single card
       display_representation.switch_to_card_layout
       within "wp-single-card[data-work-package-id='#{wp_bug_was_task.id}']" do

@@ -8,7 +8,6 @@ import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/
 import { tdClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/cell-builder';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
-import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { getBaselineState } from '../../../wp-baseline/baseline-helpers';
@@ -19,8 +18,6 @@ export class BaselineColumnBuilder {
   @InjectField() states:States;
 
   @InjectField() wpTableBaseline:WorkPackageViewBaselineService;
-
-  @InjectField() wpTableColumns:WorkPackageViewColumnsService;
 
   @InjectField() schemaCache:SchemaCacheService;
 
@@ -53,7 +50,7 @@ export class BaselineColumnBuilder {
   private changeIcon(
     workPackage:WorkPackageResource,
   ):HTMLElement|null {
-    const state = getBaselineState(workPackage, this.schemaCache, this.wpTableColumns);
+    const state = getBaselineState(workPackage, this.schemaCache);
     if (state === 'added') {
       const icon = opIconElement('spot-icon', 'spot-icon_1', 'spot-icon_flex', 'spot-icon_arrow-in', 'op-table-baseline--icon-added');
       icon.title = this.I18n.t('js.work_packages.baseline.addition_label');
