@@ -70,7 +70,7 @@ ka:
   caption_rate_history: "Rate history"
   caption_rate_history_for: "Rate history for %{user}"
   caption_rate_history_for_project: "Rate history for %{user} in project %{project}"
-  caption_save_rate: "Save rate"
+  caption_save_rate: "ტარიფის შენახვა"
   caption_set_rate: "Set current rate"
   caption_show_locked: "Show locked types"
   description_date_for_new_rate: "Date for new rate"
