@@ -527,35 +527,45 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
         let(:new_oauth_client_token) { create(:oauth_client_token) }
         let(:refresh_service_result) { ServiceResult.success }
 
-        before do
-          stub_request(:get, File.join(host, OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
-            .to_return(status: 401) # 401 unauthorized
-          allow(instance).to receive(:refresh_token).and_return(refresh_service_result)
-        end
+        shared_examples 'refresh' do |code|
+          before do
+            stub_request(:get, File.join(host, OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
+              .to_return(status: code)
+            allow(instance).to receive(:refresh_token).and_return(refresh_service_result)
+          end
 
-        context 'with valid refresh token' do
-          it 'refreshes the access token and returns :connected' do
-            expect(subject).to eq :connected
-            expect(instance).to have_received(:refresh_token)
+          context 'with valid refresh token' do
+            it 'refreshes the access token and returns :connected' do
+              expect(subject).to eq :connected
+              expect(instance).to have_received(:refresh_token)
+            end
+          end
+
+          context 'with invalid refresh token' do
+            let(:refresh_service_result) { ServiceResult.failure(result: 'invalid_request') }
+
+            it 'refreshes the access token and returns :failed_authorization' do
+              expect(subject).to eq :failed_authorization
+              expect(instance).to have_received(:refresh_token)
+            end
+          end
+
+          context 'with some other error while refreshing access token' do
+            let(:refresh_service_result) { ServiceResult.failure }
+
+            it 'returns :error' do
+              expect(subject).to eq :error
+              expect(instance).to have_received(:refresh_token)
+            end
           end
         end
 
-        context 'with invalid refresh token' do
-          let(:refresh_service_result) { ServiceResult.failure(result: 'invalid_request') }
-
-          it 'refreshes the access token and returns :failed_authorization' do
-            expect(subject).to eq :failed_authorization
-            expect(instance).to have_received(:refresh_token)
-          end
+        context 'when Uanthorized is returned' do
+          it_behaves_like 'refresh', 401
         end
 
-        context 'with some other error while refreshing access token' do
-          let(:refresh_service_result) { ServiceResult.failure }
-
-          it 'returns :error' do
-            expect(subject).to eq :error
-            expect(instance).to have_received(:refresh_token)
-          end
+        context 'when Forbidded is returned' do
+          it_behaves_like 'refresh', 403
         end
       end
     end
