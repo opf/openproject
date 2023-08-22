@@ -29,13 +29,14 @@
 #++
 #
 module Storages::Admin
-  class ConfigurationCompletionChecksComponent < ::Storages::Components::FlashComponent
-    def initialize(storage:, dismissible: false, icon: :alert, scheme: :danger, **kwargs)
-      super(storage:, dismissible:, icon:, scheme:, **kwargs)
+  class ConfigurationCompletionChecksComponent < Primer::Beta::Flash
+    def initialize(storage:, spacious: true, dismissible: false, icon: :alert, scheme: :danger, **kwargs)
+      @storage = storage
+      super(spacious:, dismissible:, icon:, scheme:, **kwargs)
     end
 
     def render?
-      !storage.configuration_complete?
+      !@storage.configuration_complete?
     end
 
     def content
