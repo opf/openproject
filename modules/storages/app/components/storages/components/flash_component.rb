@@ -32,7 +32,7 @@ module Storages::Components
   class FlashComponent < Primer::Beta::Flash
     attr_reader :storage
 
-    def initialize(storage, **kwargs)
+    def initialize(storage:, **kwargs)
       @storage = storage
       super(**kwargs)
     end

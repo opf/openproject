@@ -30,8 +30,8 @@
 #
 module Storages::Admin
   class ConfigurationCompletionChecksComponent < ::Storages::Components::FlashComponent
-    def initialize(storage, dismissible: false, icon: :alert, scheme: :danger, **kwargs)
-      super(storage, dismissible:, icon:, scheme:, **kwargs)
+    def initialize(storage:, dismissible: false, icon: :alert, scheme: :danger, **kwargs)
+      super(storage:, dismissible:, icon:, scheme:, **kwargs)
     end
 
     def render?
