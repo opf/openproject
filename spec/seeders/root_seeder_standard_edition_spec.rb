@@ -52,6 +52,7 @@ RSpec.describe RootSeeder,
       expect(View.where(type: 'team_planner').count).to eq 1
       expect(Query.count).to eq 26
       expect(Role.where(type: 'Role').count).to eq 5
+      expect(WorkPackageRole.count).to eq 3
       expect(GlobalRole.count).to eq 1
       expect(Grids::Overview.count).to eq 2
       expect(Version.count).to eq 4
@@ -80,6 +81,10 @@ RSpec.describe RootSeeder,
     it 'adds additional permissions from modules' do
       # do not test for all permissions but only some of them to ensure each
       # module got processed for a standard edition
+      work_package_role = root_seeder.seed_data.find_reference(:default_role_work_package_editor)
+      expect(work_package_role.permissions).to include(
+        :view_work_packages # from common basic data
+      )
       member_role = root_seeder.seed_data.find_reference(:default_role_member)
       expect(member_role.permissions).to include(
         :view_work_packages, # from common basic data
@@ -104,8 +109,9 @@ RSpec.describe RootSeeder,
     include_examples 'it creates records', model: Color, expected_count: 144
     include_examples 'it creates records', model: DocumentCategory, expected_count: 3
     include_examples 'it creates records', model: GlobalRole, expected_count: 1
+    include_examples 'it creates records', model: WorkPackageRole, expected_count: 3
+    include_examples 'it creates records', model: Role, expected_count: 9
     include_examples 'it creates records', model: IssuePriority, expected_count: 4
-    include_examples 'it creates records', model: Role, expected_count: 6
     include_examples 'it creates records', model: Status, expected_count: 14
     include_examples 'it creates records', model: TimeEntryActivity, expected_count: 6
     include_examples 'it creates records', model: Workflow, expected_count: 1172
@@ -138,6 +144,7 @@ RSpec.describe RootSeeder,
         expect(View.where(type: 'team_planner').count).to eq 1
         expect(Query.count).to eq 26
         expect(Role.where(type: 'Role').count).to eq 5
+        expect(WorkPackageRole.count).to eq 3
         expect(GlobalRole.count).to eq 1
         expect(Grids::Overview.count).to eq 2
         expect(Version.count).to eq 4
