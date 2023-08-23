@@ -1,4 +1,11 @@
-# OpenProject development Setup on Mac OS X
+---
+sidebar_navigation:
+  title: Development setup on MacOS
+description: OpenProject development setup on Mac OS
+keywords: development setup macos
+---
+
+# OpenProject development setup on Mac OS X
 
 To develop OpenProject a setup similar to that for using OpenProject in production is needed.
 

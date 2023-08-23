@@ -1,4 +1,11 @@
-# OpenProject development Setup on Debian / Ubuntu
+---
+sidebar_navigation:
+  title: Development setup on Debian / Ubuntu
+description: OpenProject development setup on Debian / Ubuntu
+keywords: development setup debian ubuntu linux
+---
+
+# OpenProject development setup on Debian / Ubuntu
 
 To develop OpenProject a setup similar to that for using OpenProject in production is needed.
 

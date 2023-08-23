@@ -1,3 +1,10 @@
+---
+sidebar_navigation:
+  title: Development setup via docker
+description: OpenProject development setup via docker
+keywords: development setup docker
+---
+
 # OpenProject development setup via docker
 
 The quickest way to get started developing OpenProject is to use the docker setup.
