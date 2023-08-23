@@ -68,7 +68,7 @@ PDF Report with images is the same as PDF Report, but also includes the images f
 OpenProject can export the table for Microsoft Excel with the following options:
 
 ### XLS  
-XLS is a plain sheet that matches the OpenProject work packages table with its columns and work packages as rows matching the selected filter(s).
+**XLS** is a plain sheet that matches the OpenProject work packages table with its columns and work packages as rows matching the selected filter(s).
 
 ![OpenProject_work_package_export_excel](openproject_export_excel.png)
 
