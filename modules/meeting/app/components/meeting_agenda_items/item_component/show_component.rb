@@ -76,7 +76,11 @@ module MeetingAgendaItems
           end
         end
         flex.with_column(flex: 1, mt: 2) do
-          title_partial
+          if @meeting_agenda_item.work_package.present?
+            work_package_title_partial
+          else
+            title_partial
+          end
         end
       end
     end
@@ -122,17 +126,61 @@ module MeetingAgendaItems
       true
     end
 
+    def work_package_title_partial
+      flex_layout(align_items: :center) do |flex|
+        flex.with_column(mr: 2) do
+          work_package_link_partial
+        end
+        flex.with_column(mr: 2) do
+          work_package_type_and_id_partial
+        end
+        flex.with_column(mr: 2) do
+          work_package_status_partial
+        end
+        flex.with_column do
+          duration_partial
+        end
+      end
+    end
+
+    def work_package_link_partial
+      render(Primer::Beta::Link.new(href: work_package_path(@meeting_agenda_item.work_package), underline: false,
+                                    font_size: :normal, font_weight: :bold, target: "_blank")) do
+        render(Primer::Beta::Truncate.new) do |component|
+          component.with_item(max_width: 300, expandable: true) { @meeting_agenda_item.work_package.subject }
+        end
+      end
+    end
+
+    def work_package_type_and_id_partial
+      render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
+        "#{@meeting_agenda_item.work_package.type.name} ##{@meeting_agenda_item.work_package.id}"
+      end
+    end
+
+    def work_package_status_partial
+      render(Primer::Beta::Label.new(font_weight: :bold)) do
+        @meeting_agenda_item.work_package.status.name
+      end
+    end
+
+    def duration_partial
+      render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
+        "#{@meeting_agenda_item.duration_in_minutes || 0} min"
+      end
+    end
+
     def title_partial
       flex_layout(align_items: :center) do |flex|
         flex.with_column(mr: 2) do
           render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do
-            @meeting_agenda_item.title
+            render(Primer::Beta::Truncate.new) do |component|
+              component.with_item(max_width: 300, expandable: true) { @meeting_agenda_item.title }
+            end
           end
         end
         flex.with_column do
-          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
-            "#{@meeting_agenda_item.duration_in_minutes || 0} min"
-          end
+          duration_partial
         end
       end
     end

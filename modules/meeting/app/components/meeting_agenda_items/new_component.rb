@@ -32,12 +32,13 @@ module MeetingAgendaItems
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting:, meeting_agenda_item: nil, hidden: true)
+    def initialize(meeting:, meeting_agenda_item: nil, hidden: true, type: :simple)
       super
 
       @meeting = meeting
       @meeting_agenda_item = meeting_agenda_item || MeetingAgendaItem.new(meeting:, author: User.current)
       @hidden = hidden
+      @type = type
     end
 
     def call
@@ -58,7 +59,8 @@ module MeetingAgendaItems
                    meeting_agenda_item: @meeting_agenda_item,
                    method: :post,
                    submit_path: meeting_agenda_items_path(@meeting),
-                   cancel_path: cancel_new_meeting_agenda_items_path(@meeting)
+                   cancel_path: cancel_new_meeting_agenda_items_path(@meeting),
+                   type: @type
                  ))
         end
       end

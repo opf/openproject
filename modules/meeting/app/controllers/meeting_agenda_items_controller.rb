@@ -35,7 +35,8 @@ class MeetingAgendaItemsController < ApplicationController
                 except: %i[index new cancel_new create author_autocomplete_index]
 
   def new
-    update_new_component_via_turbo_stream(hidden: false)
+    agenda_item_type = params[:type]&.to_sym
+    update_new_component_via_turbo_stream(hidden: false, type: agenda_item_type)
     update_new_button_via_turbo_stream(disabled: true)
 
     respond_with_turbo_streams
@@ -49,6 +50,7 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def create
+    agenda_item_type = params[:type]&.to_sym
     @meeting_agenda_item = @meeting.agenda_items.build(meeting_agenda_item_params)
     @meeting_agenda_item.author = if meeting_agenda_item_params[:author_id].present?
                                     User.find(meeting_agenda_item_params[:author_id])
@@ -57,9 +59,11 @@ class MeetingAgendaItemsController < ApplicationController
                                   end
 
     if @meeting_agenda_item.save
-      update_list_via_turbo_stream(form_hidden: false) # enabel continue editing
+      update_list_via_turbo_stream(form_hidden: false, form_type: agenda_item_type) # enabel continue editing
     else
-      update_new_component_via_turbo_stream(hidden: false, meeting_agenda_item: @meeting_agenda_item) # show errors
+      update_new_component_via_turbo_stream(
+        hidden: false, meeting_agenda_item: @meeting_agenda_item, type: agenda_item_type
+      ) # show errors
     end
 
     respond_with_turbo_streams
@@ -146,6 +150,6 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def meeting_agenda_item_params
-    params.require(:meeting_agenda_item).permit(:title, :duration_in_minutes, :description, :author_id)
+    params.require(:meeting_agenda_item).permit(:title, :duration_in_minutes, :description, :author_id, :work_package_id)
   end
 end

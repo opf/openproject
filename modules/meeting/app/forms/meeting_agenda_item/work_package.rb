@@ -26,15 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingAgendaItem::Submit < ApplicationForm
+class MeetingAgendaItem::WorkPackage < ApplicationForm
   form do |agenda_item_form|
-    agenda_item_form.group(layout: :horizontal) do |button_group|
-      button_group.hidden(name: :type, value: @type, scope_name_to_model: false)
-      button_group.submit(name: :submit, label: "Submit", scheme: :primary)
+    agenda_item_form.select_list(
+      name: :work_package_id,
+      label: "Work package",
+      include_blank: false,
+      visually_hide_label: true,
+      disabled: @disabled
+    ) do |user_select_list|
+      WorkPackage.visible.with_status_open
+        .includes(:project)
+        .order(:id)
+        .each do |wp|
+          user_select_list.option(
+            label: "##{wp.id} #{wp.subject.truncate(50)} - #{wp.project.name.truncate(50)}",
+            value: wp.id
+          )
+        end
     end
   end
 
-  def initialize(type: :simple)
-    @type = type
+  def initialize(disabled: false)
+    @disabled = disabled
   end
 end

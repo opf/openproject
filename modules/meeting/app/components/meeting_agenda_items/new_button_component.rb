@@ -41,31 +41,35 @@ module MeetingAgendaItems
     end
 
     def call
-      component_wrapper do
-        form_with(
-          url: new_meeting_agenda_item_path(@meeting),
-          method: :get,
-          data: { 'turbo-stream': true }
-        ) do |_form|
-          button_content_partial
-        end
+      component_wrapper(class: "mt-3") do
+        menu_content_partial
       end
     end
 
     private
 
-    def button_content_partial
-      render(Primer::Beta::Button.new(
-               my: 5,
-               size: :medium,
-               scheme: :primary,
-               show_tooltip: true,
-               type: :submit,
-               disabled: @disabled,
-               'aria-label': "Add agenda item"
-             )) do |component|
-        component.with_leading_visual_icon(icon: :plus)
-        "Agenda item"
+    def menu_content_partial
+      render(Primer::Alpha::ActionMenu.new) do |component|
+        component.with_show_button(scheme: :primary, disabled: @disabled) do |button|
+          button.with_leading_visual_icon(icon: :plus)
+          "Add"
+        end
+        component.with_item(
+          label: "Agenda item",
+          tag: :a,
+          content_arguments: {
+            href: new_meeting_agenda_item_path(@meeting, type: "simple"),
+            data: { 'turbo-stream': true }
+          }
+        )
+        component.with_item(
+          label: "Work package",
+          tag: :a,
+          content_arguments: {
+            href: new_meeting_agenda_item_path(@meeting, type: "work_package"),
+            data: { 'turbo-stream': true }
+          }
+        )
       end
     end
   end

@@ -32,7 +32,7 @@ module MeetingAgendaItems
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting:, meeting_agenda_item:, method:, submit_path:, cancel_path:)
+    def initialize(meeting:, meeting_agenda_item:, method:, submit_path:, cancel_path:, type: :simple)
       super
 
       @meeting = meeting
@@ -40,6 +40,7 @@ module MeetingAgendaItems
       @method = method
       @submit_path = submit_path
       @cancel_path = cancel_path
+      @type = type
     end
 
     def call
@@ -81,7 +82,12 @@ module MeetingAgendaItems
     def form_fields_partial(form)
       flex_layout do |flex|
         flex.with_column(flex: 1) do
-          render(MeetingAgendaItem::Title.new(form))
+          case @type
+          when :simple
+            render(MeetingAgendaItem::Title.new(form))
+          when :work_package
+            render(MeetingAgendaItem::WorkPackage.new(form))
+          end
         end
         flex.with_column(ml: 2, flex_layout: true) do |flex|
           flex.with_column do
@@ -176,7 +182,7 @@ module MeetingAgendaItems
           back_link_partial
         end
         flex.with_column do
-          render(MeetingAgendaItem::Submit.new(form))
+          render(MeetingAgendaItem::Submit.new(form, type: @type))
         end
       end
     end

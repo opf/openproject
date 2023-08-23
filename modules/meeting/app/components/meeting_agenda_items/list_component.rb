@@ -32,11 +32,12 @@ module MeetingAgendaItems
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting:, form_hidden: true)
+    def initialize(meeting:, form_hidden: true, form_type: :simple)
       super
 
       @meeting = meeting
       @form_hidden = form_hidden
+      @form_type = form_type
     end
 
     def call
@@ -76,7 +77,7 @@ module MeetingAgendaItems
     end
 
     def new_form_partial
-      render(MeetingAgendaItems::NewComponent.new(meeting: @meeting, hidden: @form_hidden))
+      render(MeetingAgendaItems::NewComponent.new(meeting: @meeting, hidden: @form_hidden, type: @form_type))
     end
   end
 end

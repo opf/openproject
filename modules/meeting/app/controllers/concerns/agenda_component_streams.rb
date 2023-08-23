@@ -30,12 +30,13 @@ module AgendaComponentStreams
   extend ActiveSupport::Concern
 
   included do
-    def update_new_component_via_turbo_stream(hidden: false, meeting_agenda_item: nil, meeting: @meeting)
+    def update_new_component_via_turbo_stream(hidden: false, meeting_agenda_item: nil, meeting: @meeting, type: :simple)
       update_via_turbo_stream(
         component: MeetingAgendaItems::NewComponent.new(
           hidden:,
           meeting:,
-          meeting_agenda_item:
+          meeting_agenda_item:,
+          type:
         )
       )
     end
@@ -50,13 +51,14 @@ module AgendaComponentStreams
       )
     end
 
-    def update_list_via_turbo_stream(meeting: @meeting, form_hidden: true)
+    def update_list_via_turbo_stream(meeting: @meeting, form_hidden: true, form_type: :simple)
       # replace needs to be called in order to mount the drag and drop handlers again
       # update would not do that and drag and drop would stop working after the first update
       replace_via_turbo_stream(
         component: MeetingAgendaItems::ListComponent.new(
           meeting:,
-          form_hidden:
+          form_hidden:,
+          form_type:
         )
       )
       # as the list is updated without displaying the form, the new button needs to be enabled again
