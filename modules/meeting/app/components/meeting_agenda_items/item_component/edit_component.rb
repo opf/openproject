@@ -35,6 +35,11 @@ module MeetingAgendaItems
       super
 
       @meeting_agenda_item = meeting_agenda_item
+      @type = if @meeting_agenda_item.work_package.present?
+                :work_package
+              else
+                :simple
+              end
     end
 
     def call
@@ -44,7 +49,8 @@ module MeetingAgendaItems
                  meeting_agenda_item: @meeting_agenda_item,
                  method: :put,
                  submit_path: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
-                 cancel_path: cancel_edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item)
+                 cancel_path: cancel_edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
+                 type: @type
                ))
       end
     end
