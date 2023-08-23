@@ -239,10 +239,10 @@ module MeetingAgendaItems
       render(Primer::Alpha::ActionMenu.new) do |menu|
         menu.with_show_button(icon: "kebab-horizontal", 'aria-label': "Agenda item actions", scheme: :invisible)
         edit_action_item(menu)
-        move_action_item(menu, :top, "Move to top", "move-to-top")
-        move_action_item(menu, :up, "Move up", "chevron-up")
-        move_action_item(menu, :down, "Move down", "chevron-down")
-        move_action_item(menu, :bottom, "Move to bottom", "move-to-bottom")
+        move_action_item(menu, :top, "Move to top", "move-to-top") unless @meeting_agenda_item.first?
+        move_action_item(menu, :up, "Move up", "chevron-up") unless @meeting_agenda_item.first?
+        move_action_item(menu, :down, "Move down", "chevron-down") unless @meeting_agenda_item.last?
+        move_action_item(menu, :bottom, "Move to bottom", "move-to-bottom") unless @meeting_agenda_item.last?
         delete_action_item(menu)
       end
     end
