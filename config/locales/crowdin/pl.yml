@@ -630,7 +630,7 @@ pl:
         confirmation: "nie pasuje do %{attribute}."
         could_not_be_copied: "Nie można było (w pełni) skopiować %{dependency}."
         does_not_exist: "nie istnieje."
-        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise edition"
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
         email: "nie jest poprawnym adresem e-mail."
@@ -3001,7 +3001,7 @@ pl:
         non_working: "%{day} jest teraz dniem nieroboczym"
       dates:
         working: "%{day} jest teraz roboczym"
-        non_working: "%{date} jest teraz wolnym od pracy"
+        non_working: "%{day} jest teraz wolnym od pracy"
   nothing_to_preview: "Nie ma nic do podglądu"
   api_v3:
     attributes:

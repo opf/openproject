@@ -26,6 +26,8 @@ ka:
         position: "მდებარეობა"
         remaining_hours: "დარჩენილია საათი"
         remaining_time: "დარჩენილია საათი"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Story Points"
         backlogs_work_package_type: "Backlog type"
     errors:

@@ -49,7 +49,7 @@ de:
         main-menu-border-color: "Rahmenfarbe des Hauptmenüs"
       custom_colors: "Benutzerdefinierte Farben"
       customize: "Passen Sie Ihre OpenProject Installation mit Ihrem eigenen Logo und eigenen Farben an."
-      enterprise_notice: "Dieses kleine Add-on steht den Abonnenten der Enterprise-Edition ganz exklusiv als kleines Dankeschön für deren finanzielle Unterstützung zur Verfügung."
+      enterprise_notice: "Diese kleine Erweiterung steht den Abonnenten der Enterprise edition ganz exklusiv als kleines Dankeschön für deren finanzielle Unterstützung zur Verfügung."
       enterprise_more_info: "Hinweis: Das verwendete Logo wird öffentlich zugänglich sein."
       manage_colors: "Farbauswahloptionen bearbeiten"
       instructions:
@@ -64,15 +64,15 @@ de:
         main-menu-bg-color: "Hintergrundfarbe des Menüs in der linken Seitenleiste."
       theme_warning: Das Ändern des Themes wird Ihr benutzerdefiniertes Design überschreiben. Alle Änderungen werden dann verloren gehen. Sind Sie sicher, dass Sie fortfahren möchten?
     enterprise:
-      upgrade_to_ee: "Auf Enterprise-Edition upgraden"
-      add_token: "Enterprise-Edition Support Token hochladen"
+      upgrade_to_ee: "Auf Enterprise edition upgraden"
+      add_token: "Enterprise edition Support Token hochladen"
       delete_token_modal:
-        text: "Sind Sie sicher, dass Sie das aktuelle Enterprise Edition-Token entfernen möchten?"
+        text: "Sind Sie sicher, dass Sie das aktuelle Enterprise edition token entfernen möchten?"
         title: "Token löschen"
       replace_token: "Aktuellen Enterprise edition Support Token ersetzen"
       order: "Enterprise on-premises bestellen"
-      paste: "Enterprise-Edition Support Token hier einfügen"
-      required_for_feature: "Dieses Add-on ist nur mit einem aktiven Enterprise-Edition Support-Token verfügbar."
+      paste: "Enterprise edition Support Token hier einfügen"
+      required_for_feature: "Dieses Add-on ist nur mit einem aktiven Enterprise edition Support-Token verfügbar."
       enterprise_link: "Klicken Sie hier für weitere Informationen."
       start_trial: 'Kostenlose Testversion starten'
       book_now: 'Jetzt buchen'
@@ -1328,7 +1328,7 @@ de:
   error_cookie_missing: 'Das OpenProject Cookie fehlt. Bitte stellen Sie sicher, dass Cookies aktiviert sind, da diese Applikation ohne aktivierte Cookies nicht korrekt funktioniert.'
   error_custom_option_not_found: "Option ist nicht vorhanden."
   error_enterprise_activation_user_limit: "Ihr Konto konnte nicht aktiviert werden (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff zu erhalten."
-  error_enterprise_token_invalid_domain: "Die Enterprise-Edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected})."
+  error_enterprise_token_invalid_domain: "Die Enterprise edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected})."
   error_failed_to_delete_entry: 'Fehler beim Löschen dieses Eintrags.'
   error_in_dependent: "Fehler beim Versuch, abhängiges Objekt zu ändern: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Fehler beim Versuch, abhängiges Objekt zu erstellen: %{dependent_class} - %{related_subject}: %{error}"
@@ -1423,10 +1423,10 @@ de:
     blocks:
       community: "OpenProject Community"
       upsale:
-        title: "Auf Enterprise-Edition upgraden"
+        title: "Auf Enterprise edition upgraden"
         more_info: "Weitere Informationen"
     links:
-      upgrade_enterprise_edition: "Auf Enterprise-Edition upgraden"
+      upgrade_enterprise_edition: "Auf Enterprise edition upgraden"
       postgres_migration: "Migration Ihrer Installation zu PostgreSQL"
       user_guides: "Benutzerhandbuch"
       faq: "Häufig gestellte Fragen"
@@ -1699,7 +1699,7 @@ de:
   label_enumerations: "Aufzählungen"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
-  label_enterprise_edition: "Enterprise Edition"
+  label_enterprise_edition: "Enterprise edition"
   label_enterprise_support: "Enterprise Support"
   label_environment: "Umgebung"
   label_estimates_and_time: "Schätzungen & Zeiten"
@@ -2172,9 +2172,9 @@ de:
   mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:"
   mail_password_change_not_possible:
-    title: "Password change not possible"
-    body: "Your account at %{app_title} is connected to an external authentication provider (%{name})."
-    subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
+    title: "Passwortänderung nicht möglich"
+    body: "Ihr Konto bei %{app_title} ist mit einem externen Authentifizierungsanbieter (%{name}) verbunden."
+    subtext: "Passwörter für externe Konten können in der Anwendung nicht geändert werden. Bitte verwenden Sie die Passwort-verloren-Funktion Ihres Authentifizierungsanbieters."
   mail_body_register: "Willkommen zu %{app_title}. Bitte aktivieren Sie Ihr Konto, indem Sie auf diesen Link klicken:"
   mail_body_register_header_title: "Einladung als Projektmitglied"
   mail_body_register_user: "Hallo %{name},"
@@ -2693,7 +2693,7 @@ de:
         type: "Ganze Zeile nach Typ"
         priority: "Ganze Zeile nach Priorität"
     icalendar:
-      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: Ermöglicht Benutzern mit den erforderlichen Berechtigungen das Abonnieren von OpenProject-Kalendern und den Zugriff auf Arbeitspaketinformationen über einen externen Kalender-Client. <strong>Hinweis:</strong> Bitte lesen Sie die Informationen über <a href="%{link}" target="_blank">iCalendar-Abonnements</a>, um mögliche Sicherheitsrisiken zu verstehen, bevor Sie dies aktivieren.
     language_name_being_default: '%{language_name} (Standard)'
     notifications:
       events_explanation: 'Bestimmt, für welche Ereignisse eine E-Mail verschickt wird. Arbeitspakete sind von dieser Liste ausgeschlossen, da die Benachrichtigungen hierfür pro Benutzer konfiguriert werden können.'
@@ -2912,7 +2912,7 @@ de:
   warning_user_limit_reached: >
     Nutzerlimit erreicht. Sie können keine weiteren Nutzer aktivieren. Bitte <a href="%{upgrade_url}">upgraden Sie Ihren Tarif</a> oder blockieren Sie Mitglieder, um Platz für weitere Nutzer zu schaffen.
   warning_user_limit_reached_instructions: >
-    Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise Edition Plan upzugraden und weitere Nutzer hinzuzufügen.
+    Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise edition Plan upzugraden und weitere Nutzer hinzuzufügen.
   warning_protocol_mismatch_html: >
 
   warning_bar:
