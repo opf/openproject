@@ -134,6 +134,6 @@ You can create a new meeting directly from within the global modules menu by cli
 
 ![Creating a new meeting from the Meetings global module](openproject_global_modules_new_meeting.png)
 
-On this page, you can set the title and select the participants, location, time and the date of the meeting. Depending on the selected project, the page will show you a list of project members to invite as participants.. Once you click on the **Create** button, you will be able to edit the **Meeting agenda**.
+On this page, you can set the title and select the participants, location, time and the date of the meeting. Depending on the selected project, the page will show you a list of project members to invite as participants. Once you click on the **Create** button, you will be able to edit the **Meeting agenda**.
 
 Read more about creating and editing **Meetings** [here](../../meetings).
