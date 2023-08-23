@@ -22,31 +22,31 @@ If you want to set up a PostgreSQL installation database outside the container a
 
 OpenProject requires at least PostgreSQL 9.5 installed. Please check [www.postgresql.org/download](https://www.postgresql.org/download/) if your distributed package is too old.
 
-```bash
+```shell
 [root@host] apt-get install postgresql postgresql-contrib libpq-dev
 ```
 
 Once installed, switch to the PostgreSQL system user.
 
-```bash
+```shell
 [root@host] su - postgres
 ```
 
 Then, as the PostgreSQL user, create the system user for OpenProject. This will prompt you for a password. We are going to assume in the following guide that password were 'openproject'. Of course, please choose a strong password and replace the values in the following guide with it!
 
-```bash
+```shell
 [postgres@host] createuser -W openproject
 ```
 
 Next, create the database owned by the new user
 
-```bash
+```shell
 [postgres@host] createdb -O openproject openproject
 ```
 
 Lastly, exit the system user
 
-```bash
+```shell
 [postgres@host] exit
 # You will be root again now.
 ```
@@ -63,7 +63,7 @@ To run the migration part of the image, you will have to provide two environment
 
 Note down or copy the current MySQL `DATABASE_URL`
 
-```bash
+```shell
 # Will look something of the kind
 # mysql2://user:password@localhost:3306/dbname
 
@@ -80,7 +80,7 @@ MYSQL_DATABASE_URL="mysql://user:password@localhost:3306/dbname"
 
 Pass in `DATABASE_URL` pointing to your new PostgreSQL database. This is either the default `postgres://openproject:openproject@127.0.0.1/openproject` or if you set up a PostgreSQL installation above, use credentials for your installation you set up above.
 
-```bash
+```shell
 POSTGRES_DATABASE_URL="postgresql://<USER>:<PASSWORD>@<HOST>/<Database name>"
 ```
 
@@ -96,7 +96,7 @@ with `host.docker.internal` to access the docker host. On Mac for example, local
 To run the migration script within the container, now simply run the following command, replacing the content of the environment variables with your actual values.
 
 
-```bash
+```shell
 docker run -it \
   -e MYSQL_DATABASE_URL="mysql://user:password@localhost:3306/dbname" \
   -e DATABASE_URL="postgresql://openproject:<PASSWORD>@localhost:5432/openproject" \

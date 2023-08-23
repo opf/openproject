@@ -191,7 +191,7 @@ In these cases, use `<` customize `>` to call out where a reader must replace te
 
 For example:
 
-```
+```shell
 cp <your_source_directory> <your_destination_directory>
 ```
 
@@ -459,7 +459,7 @@ At the moment it is not possible for external contributors to upload videos to t
 
 Use alert boxes to call attention to information. The alert boxes in the OpenProject documentation have a specific format. Please use the following to be consistent:
 
-```
+```markdown
 > **Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/#create-a-new-account).
 ```
 

@@ -170,12 +170,12 @@ Using the various available values, the client can now construct a body that wil
 When constructing the body of the request, the difference between properties referencing resources according to HAL and those with scalar values also shows.
 All referencing properties (`project` and `type` in our case) are noted in the `_links` section and have an `href` property while the scalar values (`subject` in our case) are provided on the root level.
 
-```
+```json5
 {
-  # Scalar values
+  // Scalar values
   "subject": "abc",
   "_links": {
-    # Resource values
+    // Resource values
     "project": {
       "href": "some/url"
     }
@@ -216,12 +216,12 @@ The set of available custom fields might change depending on the values provided
 As some custom fields reference other resources (e.g. list and user) while others are scalar values (e.g. integer and float), setting the properties requires to have them set in different parts of the body payload. This is the same as for the `subject` property vs. the `project` property.
 The schema can instruct the client where to set them properly. All properties with an `availableValues` section either listing values themselves or linking to them need to be placed in the `_links` section of the payload.
 
-```json
+```json5
 {
-  # Scalar values
+  // Scalar values
   "customFieldX": 123,
   "_links": {
-    # Resource values
+    // Resource values
     "customFieldY": {
       "href": "some/url"
     }

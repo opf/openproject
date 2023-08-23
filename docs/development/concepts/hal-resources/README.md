@@ -48,7 +48,7 @@ The following is an example HAL JSON for a work package as it is retrieved by th
 
 
 
-```JSON
+```json5
 {
   "_type": "WorkPackage",
   "id": 34250,
@@ -87,7 +87,7 @@ The following is an example HAL JSON for a work package as it is retrieved by th
       "href": "/api/v3/statuses/7",
       "title": "confirmed"
     }
-    ...
+    // ...
   },
   "_embedded": {
     "project": {
@@ -107,7 +107,7 @@ The following is an example HAL JSON for a work package as it is retrieved by th
           "href": "/api/v3/projects/14",
           "title": "OpenProject"
         }
-        ...
+        // ...
       }
     },
     "status": {

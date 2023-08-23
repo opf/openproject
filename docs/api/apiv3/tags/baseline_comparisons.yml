@@ -46,7 +46,7 @@ description: |-
 
   The properties `timestamp`, `matchesFilters`, and `exists` are wrapped in a `_meta` section, which is added to each work-package element as well as to each element of the `attributesByTimestamp` array.
 
-  ```json
+  ```json5
   // /api/v3/work_packages?timestamps=2022-01-01T00:00:00Z,PT0S
   {
     "_type": "WorkPackageCollection",
@@ -128,7 +128,7 @@ description: |-
 
   To save bandwidth, only attributes that differ from the ones in the main work-package object are included in the `"attributesByTimestamp"`. Attributes with the same value as in the main work-package object are not included in the `"attributesByTimestamp"` section.
 
-  ```json
+  ```json5
   // /api/v3/work_packages?timestamps=2022-01-01T00:00:00Z,PT0S
   {
     "_type": "WorkPackageCollection",
@@ -173,7 +173,7 @@ description: |-
 
   To find out whether a work package matches the given set of filter criteria at a certain timestamp, check the `"matchesFilters"` property in the `"_meta"` section for that timestamp:
 
-  ```json
+  ```json5
   // /api/v3/work_packages?filters=...&timestamps=2022-01-01T00:00:00Z,PT0S
   {
     "_type": "WorkPackageCollection",
@@ -217,7 +217,7 @@ description: |-
 
   To find out whether a work package has existed at a requested timestamp, check the `"exists"` property in the `"_meta"` section for that timestamp:
 
-  ```json
+  ```json5
   // /api/v3/work_packages?timestamps=2022-01-01T00:00:00Z,PT0S
   {
     "_type": "WorkPackageCollection",

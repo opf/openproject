@@ -53,14 +53,14 @@ On your new host or cluster, ensure you have created a database user and databas
 In the following, the values `<dbuser>`, `<dbhost>` and `<dbname>` variables have to be replaced with your database user and database above.
 To read the values from the old installation, you can execute the following command:
 
-```bash
+```shell
 openproject config:get DATABASE_URL
 #=> e.g.: postgres://dbusername:dbpassword@dbhost:dbport/dbname
 ```
 
 First the dump has to be extracted (unzipped) and then restored. The command used should look very similar to the following. The `--clean` option is used to drop any database object within `<dbname>` so ensure this is the correct database you want to restore, as you will lose all data within it!
 
-```
+```shell
 # Restore the PostgreSQL dump
 pg_restore -h <dbhost> -u <dbuser> -W --dbname <dbname> --clean postgresql-dump-20180408095521.pgdump
 ```
@@ -70,7 +70,7 @@ pg_restore -h <dbhost> -u <dbuser> -W --dbname <dbname> --clean postgresql-dump-
 
 Your storage path on the old installation can be shown using the following command:
 
-```
+```shell
 openproject config:get OPENPROJECT_ATTACHMENTS__STORAGE__PATH
 #=> e.g., /var/db/openproject/files
 ```
@@ -78,7 +78,7 @@ openproject config:get OPENPROJECT_ATTACHMENTS__STORAGE__PATH
 On versions prior to 12.5, the environment variable was named differently. Use
 the following command to show the storage path:
 
-```
+```shell
 openproject config:get ATTACHMENTS_STORAGE_PATH
 #=> e.g., /var/db/openproject/files
 ```
@@ -94,7 +94,7 @@ For repositories, the same approach applies as for the attachments:
 
 Your SVN and Git storage paths on the old installation can be shown using the following command:
 
-```
+```shell
 # Subversion
 openproject config:get SVN_REPOSITORIES
 #=> e.g., /var/db/openproject/svn
@@ -112,7 +112,7 @@ Simply extract your respective repository dumps into ech folder, creating it bef
 
 After you restored all data and updated your installer.dat, all you need to do is run through the configuration process of the packaged installation:
 
-```bash
+```shell
 openproject configure
 ```
 
