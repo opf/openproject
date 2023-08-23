@@ -27,7 +27,7 @@ Please follow the steps listed below according to your Linux distribution.
 
 ### Debian / Ubuntu
 
-```bash
+```shell
 sudo apt-get update
 sudo apt-get install --only-upgrade openproject
 sudo openproject configure
@@ -51,7 +51,7 @@ These two messages messages are expected, due to a change in Origin and Label re
 
 ### CentOS / RHEL
 
-```bash
+```shell
 sudo yum update
 sudo yum install openproject
 sudo openproject configure
@@ -59,7 +59,7 @@ sudo openproject configure
 
 ### SuSE
 
-```bash
+```shell
 sudo zypper refresh openproject
 sudo zypper update openproject
 sudo openproject configure
@@ -102,7 +102,7 @@ Note that this still takes previous values into consideration. Values that shoul
 
 When using the Compose-based docker installation, you can simply do the following:
 
-```bash
+```shell
 docker-compose pull
 docker-compose up -d
 ```
@@ -115,14 +115,14 @@ When using the all-in-one docker container, you need to perform the following st
 
 1. First, pull the latest version of the image:
 
-```bash
+```shell
 docker pull openproject/community:VERSION
 # e.g. docker pull openproject/community:10
 ```
 
 Then stop and remove your existing container (we assume that you are running with the recommended production setup here):
 
-```bash
+```shell
 docker stop openproject
 docker rm openproject
 ```
@@ -130,7 +130,7 @@ docker rm openproject
 Finally, re-launch the container in the same way you launched it previously.
 This time, it will use the new image:
 
-```
+```shell
 docker run -d ... openproject/community:VERSION
 ```
 
@@ -145,7 +145,7 @@ You can extract your data from the existing container and mount it in a new one 
 
 You can copy the data from the container using `docker cp` like this:
 
-```
+```shell
 # Find out the container name with `docker ps`, we use `openproject-community1` here.
 # The target folder should be what ever persistent volume you have on the system, e.g. `/volume1`.
 docker cp openproject-community1:/var/openproject/assets /volume1/openproject/assets
@@ -154,7 +154,7 @@ docker cp openproject-community1:/var/openproject/pgdata /volume1/openproject/pg
 
 Make sure the folders have the correct owner so the new container can read and write them.
 
-```
+```shell
 sudo chown -R 102 /volume1/openproject/*
 ```
 
@@ -216,7 +216,7 @@ As has been reported from the community, [there appear to be issues with NPM lef
 
 To ensure the package's node_modules folder matches your local version, we recommend you simply remove `/opt/openproject/frontend/node_modules` entirely **before** installing the package
 
-```
+```shell
 rm -rf /opt/openproject/frontend/node_modules
 # Continue with the installation steps described below
 ```

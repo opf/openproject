@@ -52,7 +52,7 @@ As with [all the rest of the OpenProject configuration settings](../../../instal
 
 Example
 
-```bash
+```shell
 # Name of the provider, leave this at saml unless you use multiple providers
 OPENPROJECT_SAML_SAML_NAME="saml"
 
@@ -102,7 +102,7 @@ The SAML settings can also be changed at runtime in the database through the Ope
 As opposed to other settings there is no user interface for this.
 That means it's best to set them using the console.
 
-```
+```shell
 # package based installation:
 > sudo openproject run console
 
@@ -165,7 +165,7 @@ Setting.plugin_openproject_auth_saml = Hash(Setting.plugin_openproject_auth_saml
 In your OpenProject packaged installation, you can modify the `/opt/openproject/config/configuration.yml` file. 
 Edit the file in your favorite editor
 
-```
+```shell
 vim /opt/openproject/config/configuration.yml
 ```
 
@@ -382,7 +382,7 @@ You can configure OpenProject to restrict which users can register on the system
 
  By default, users returning from a SAML idP will be automatically created. If you'd like for the SAML integration to respect the configured self-registration option, please use this setting:
 
-```yml
+```yaml
 default:
   # <-- other configuration -->
     mysaml1:
@@ -481,7 +481,7 @@ OpenProject needs the certificate or fingerprint of the ADFS to validate the sig
 
 In OpenProject, these are the variables you will need to set. Please refer to the above documentation for the different ways you can configure these variables  OpenProject
 
-```bash
+```shell
 OPENPROJECT_SAML_SAML_NAME="saml"
 OPENPROJECT_SAML_SAML_DISPLAY__NAME="ADFS SSO" # This is the text shown to users in OpenProject, freely change this value
 OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_EMAIL="[mail]"
@@ -540,7 +540,7 @@ To view the certificate in Base64 encoding, go to the menu "Realm settings" and 
 
 In OpenProject, these are the variables you will need to set. Please refer to the above documentation for the different ways you can configure these variables  OpenProject
 
-```bash
+```shell
 OPENPROJECT_SAML_SAML_NAME="saml"
 OPENPROJECT_SAML_SAML_DISPLAY__NAME="Keycloak SSO" # This is the text shown to users in OpenProject, freely change this value
 OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_EMAIL="[mail]"
@@ -568,7 +568,7 @@ A: This can happen if you previously created user accounts in OpenProject with t
 Spawn an interactive console in OpenProject. The following example shows the command for the packaged installation.
 See [our process control guide](../../../installation-and-operations/operation/control/) for information on other installation types.
 
-```bash
+```shell
 sudo openproject run console
 > Setting.oauth_allow_remapping_of_existing_users = true
 > exit

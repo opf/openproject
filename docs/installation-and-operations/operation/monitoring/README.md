@@ -13,7 +13,7 @@ used to see the log information. The most typically use case is to show/follow
 all current log entries. This can be accomplished using the the `–tail` flag.
 See example below:
 
-```bash
+```shell
 sudo openproject logs --tail
 ```
 
@@ -29,13 +29,13 @@ In a docker-based installation, all logs are redirected to STDOUT so you can use
 
 For instance for the Compose-based installation:
 
-```bash
+```shell
 docker-compose logs -f --tail 1000
 ```
 
 Or the all-in-one docker installation:
 
-```bash
+```shell
 docker logs -f --tail 1000 openproject
 ```
 
@@ -47,7 +47,7 @@ OpenProject can log at different service levels, the default being `info`. You c
 
 For example, to set this in the packaged installation, use the following command:
 
-```bash
+```shell
 openproject config:set OPENPROJECT_LOG__LEVEL="debug"
 service openproject restart
 ```

@@ -369,7 +369,7 @@ take over to your custom `docker-compose.override.yml` in the repository root.
 In addition, we need to alter the environmental variables used in the new overrides. So we need to amend the `.env` file
 like that:
 
-```text
+```shell
 OPENPROJECT_DEV_HOST=openproject.local
 OPENPROJECT_DEV_URL=https://${OPENPROJECT_DEV_HOST}
 ```
