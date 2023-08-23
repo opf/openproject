@@ -30,7 +30,7 @@ class MeetingAgendaItem::Submit < ApplicationForm
   form do |agenda_item_form|
     agenda_item_form.group(layout: :horizontal) do |button_group|
       button_group.hidden(name: :type, value: @type, scope_name_to_model: false)
-      button_group.submit(name: :submit, label: "Submit", scheme: :primary)
+      button_group.submit(name: :submit, label: "Save", scheme: :primary)
     end
   end
 

@@ -30,8 +30,8 @@ class MeetingAgendaItem::Author < ApplicationForm
   form do |agenda_item_form|
     agenda_item_form.select_list(
       name: :author_id,
-      label: "Owner",
-      include_blank: true,
+      label: "Responsible",
+      include_blank: false,
       visually_hide_label: true,
       disabled: @disabled
     ) do |user_select_list|
@@ -40,7 +40,7 @@ class MeetingAgendaItem::Author < ApplicationForm
         .map { |user| [user.name, user.id] }
         .each do |name, id|
           user_select_list.option(
-            label: "#{name}",
+            label: name,
             value: id
           )
         end

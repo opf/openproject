@@ -94,7 +94,7 @@ module MeetingAgendaItems
             render(MeetingAgendaItem::Duration.new(form))
           end
           flex.with_column(ml: 2) do
-            author_select_partial(form)
+            render(MeetingAgendaItem::Author.new(form))
           end
         end
       end
@@ -120,21 +120,23 @@ module MeetingAgendaItems
     #   end
     # end
 
-    def author_select_partial(form)
-      # Temporary solution until we have a proper autocomplete (probably an Angular component)
-      # The action menu is not filterable, so we can't use it here as we migt have a lot of users
-      render(Primer::Alpha::ActionMenu.new(
-               select_variant: :single,
-               dynamic_label: true, dynamic_label_prefix: "Responsible",
-               form_arguments: { builder: form, name: "author_id" }
-             )) do |menu|
-        menu.with_show_button { "Responsible" }
-        # Temporary code without any scoping
-        User.active.limit(100).each do |user|
-          menu.with_item(label: user.name, data: { value: user.id }, active: @meeting_agenda_item.author_id == user.id)
-        end
-      end
-    end
+    # Primer's action menu is not filterable, so we can't use it here as we migt have a lot of users
+    # leaving the code here for future reference
+    # def author_select_partial(form)
+    #   # Temporary solution until we have a proper autocomplete (probably an Angular component)
+    #   # The action menu is not filterable, so we can't use it here as we migt have a lot of users
+    #   render(Primer::Alpha::ActionMenu.new(
+    #            select_variant: :single,
+    #            dynamic_label: true, dynamic_label_prefix: "Responsible",
+    #            form_arguments: { builder: form, name: "author_id" }
+    #          )) do |menu|
+    #     menu.with_show_button { "Responsible" }
+    #     # Temporary code without any scoping
+    #     User.active.limit(100).each do |user|
+    #       menu.with_item(label: user.name, data: { value: user.id }, active: @meeting_agenda_item.author_id == user.id)
+    #     end
+    #   end
+    # end
 
     def form_description_partial(form)
       render(Primer::Box.new(data: { 'meeting-agenda-item-form-target': "descriptionInput" },
