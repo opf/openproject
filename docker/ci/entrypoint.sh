@@ -69,6 +69,10 @@ setup_tests() {
 
 	# create test database "app" and dump schema because db/structure.sql is not checked in
 	execute_quiet "time bundle exec rails db:migrate db:schema:dump zeitwerk:check"
+
+	# pre-cache browsers and their drivers binaries
+	execute "$(bundle show selenium)/bin/linux/selenium-manager --browser chrome --debug"
+	execute "$(bundle show selenium)/bin/linux/selenium-manager --browser firefox --debug"
 }
 
 run_units() {
