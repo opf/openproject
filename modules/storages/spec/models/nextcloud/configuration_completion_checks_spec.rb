@@ -32,10 +32,9 @@ RSpec.describe Storages::Nextcloud::ConfigurationCompletionChecks do
   describe '#configuration_complete?' do
     context 'with a complete configuration' do
       let(:storage) do
-        storage_ = create(:nextcloud_storage, :as_not_automatically_managed)
-        create(:oauth_application, integration: storage_)
-        create(:oauth_client, integration: storage_)
-        storage_
+        build_stubbed(:nextcloud_storage, :as_not_automatically_managed,
+                      oauth_application: build_stubbed(:oauth_application),
+                      oauth_client: build_stubbed(:oauth_client))
       end
 
       it 'returns true' do
@@ -52,7 +51,7 @@ RSpec.describe Storages::Nextcloud::ConfigurationCompletionChecks do
     end
 
     context 'without host name' do
-      let(:storage) { build(:nextcloud_storage, host: nil, name: nil) }
+      let(:storage) { build_stubbed(:nextcloud_storage, host: nil, name: nil) }
 
       it 'returns false' do
         aggregate_failures do
@@ -65,7 +64,7 @@ RSpec.describe Storages::Nextcloud::ConfigurationCompletionChecks do
     end
 
     context 'without openproject and nextcloud integrations' do
-      let(:storage) { build(:nextcloud_storage, :as_not_automatically_managed) }
+      let(:storage) { build_stubbed(:nextcloud_storage, :as_not_automatically_managed) }
 
       it 'returns false' do
         expect(storage.configuration_complete?).to be(false)
@@ -78,7 +77,7 @@ RSpec.describe Storages::Nextcloud::ConfigurationCompletionChecks do
     end
 
     context 'without automatic project folder configuration' do
-      let(:storage) { build(:nextcloud_storage) }
+      let(:storage) { build_stubbed(:nextcloud_storage) }
 
       it 'returns false' do
         expect(storage.configuration_complete?).to be(false)
