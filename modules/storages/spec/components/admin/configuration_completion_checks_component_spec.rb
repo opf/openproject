@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-require 'spec_helper'
+require_relative '../../spec_helper'
 
 RSpec.describe Storages::Admin::ConfigurationCompletionChecksComponent,
                type: :component do
