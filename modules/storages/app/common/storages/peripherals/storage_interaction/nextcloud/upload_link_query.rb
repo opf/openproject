@@ -38,6 +38,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       @oauth_client = storage.oauth_client
     end
 
+    def self.call(storage:, user:, data:)
+      new(storage).call(user:, data:)
+    end
+
     def call(user:, data:)
       Util.token(user:, oauth_client: @oauth_client) do |token|
         if data.nil? || data['parent'].nil?

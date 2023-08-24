@@ -37,6 +37,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       @oauth_client = storage.oauth_client
     end
 
+    def self.call(storage:, user:, file_ids: [])
+      new(storage).call(user:, file_ids:)
+    end
+
     def call(user:, file_ids: [])
       if file_ids.nil?
         return Util.error(:error, 'File IDs can not be nil', file_ids)

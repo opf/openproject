@@ -37,6 +37,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       @password = storage.password
     end
 
+    def self.call(storage:, source:, target:)
+      new(storage).call(source:, target:)
+    end
+
     def call(source:, target:)
       response = Util.http(@uri).move(
         Util.join_uri_path(@base_path, Util.escape_path(source)),

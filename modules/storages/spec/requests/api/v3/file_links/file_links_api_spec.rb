@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -74,13 +76,8 @@ RSpec.describe 'API v3 file links resource' do
     allow(OAuthClients::ConnectionManager)
       .to receive(:new).and_return(connection_manager)
     allow(connection_manager)
-      .to receive(:get_access_token)
-            .and_return(ServiceResult.success(result: oauth_client_token))
-    allow(connection_manager)
-      .to receive(:authorization_state).and_return(:connected)
-
-    allow(connection_manager)
-      .to receive(:get_authorization_uri).and_return('https://example.com/authorize')
+      .to receive_messages(get_access_token: ServiceResult.success(result: oauth_client_token), authorization_state: :connected,
+                           get_authorization_uri: 'https://example.com/authorize')
 
     # Mock FileLinkSyncService as if Nextcloud would respond positively
     allow(Storages::FileLinkSyncService)
@@ -558,10 +555,10 @@ RSpec.describe 'API v3 file links resource' do
 
     describe 'with successful response' do
       before do
-        clazz = Storages::Peripherals::StorageInteraction::Nextcloud::DownloadLinkQuery
-        instance = instance_double(clazz)
-        allow(clazz).to receive(:new).and_return(instance)
-        allow(instance).to receive(:call).and_return(ServiceResult.success(result: url))
+        Storages::Peripherals::Registry.stub(
+          'queries.nextcloud.download_link',
+          ->(_) { ServiceResult.success(result: url) }
+        )
       end
 
       it 'responds successfully' do
@@ -574,11 +571,9 @@ RSpec.describe 'API v3 file links resource' do
 
     describe 'with query failed' do
       before do
-        clazz = Storages::Peripherals::StorageInteraction::Nextcloud::DownloadLinkQuery
-        instance = instance_double(clazz)
-        allow(clazz).to receive(:new).and_return(instance)
-        allow(instance).to receive(:call).and_return(
-          ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error))
+        Storages::Peripherals::Registry.stub(
+          'queries.nextcloud.download_link',
+          ->(_) { ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error)) }
         )
 
         get path

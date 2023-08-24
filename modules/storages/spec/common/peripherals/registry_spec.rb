@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,7 +30,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
+RSpec.describe Storages::Peripherals::Registry, webmock: true do
   using Storages::Peripherals::ServiceResultRefinements
 
   let(:user) { create(:user) }
@@ -36,7 +38,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
   let(:origin_user_id) { 'admin' }
   let(:storage) { build(:nextcloud_storage, :as_automatically_managed, host: url, password: 'OpenProjectSecurePassword') }
 
-  subject { described_class.new(storage:) }
+  subject(:registry) { described_class }
 
   context 'when requests depend on OAuth token' do
     let(:token) do
@@ -84,33 +86,29 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
       describe 'with Nextcloud storage type selected' do
         it 'must return a download link URL' do
-          result = subject
-                     .download_link_query
-                     .call(user:, file_link:)
+          result = registry.resolve("queries.nextcloud.download_link").call(storage:, user:, file_link:)
           expect(result).to be_success
-          expect(result.result).to be_eql(uri)
+          expect(result.result).to eql(uri)
         end
 
         context 'if Nextcloud is running on a sub path' do
           let(:url) { 'https://example.com/html' }
 
           it 'must return a download link URL' do
-            result = subject
-                       .download_link_query
-                       .call(user:, file_link:)
+            result = registry.resolve('queries.nextcloud.download_link').call(storage:, user:, file_link:)
             expect(result).to be_success
-            expect(result.result).to be_eql(uri)
+            expect(result.result).to eql(uri)
           end
         end
       end
 
       describe 'with not supported storage type selected' do
         before do
-          allow(storage).to receive(:provider_type).and_return('not_supported_storage_type'.freeze)
+          allow(storage).to receive(:provider_type).and_return('not_supported_storage_type')
         end
 
         it 'must raise ArgumentError' do
-          expect { subject.download_link_query }.to raise_error(ArgumentError)
+          expect { registry.resolve('queries.nextcloud.download_link').call(storage:) }.to raise_error(ArgumentError)
         end
       end
 
@@ -122,9 +120,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
         end
 
         it 'must return ":not_authorized" ServiceResult' do
-          result = subject
-                     .download_link_query
-                     .call(user:, file_link:)
+          result = registry.resolve('queries.nextcloud.download_link').call(storage:, user:, file_link:)
           expect(result).to be_failure
           expect(result.errors.code).to be(:not_authorized)
         end
@@ -136,9 +132,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
         end
 
         it 'must return :not_authorized ServiceResult' do
-          result = subject
-                     .download_link_query
-                     .call(user:, file_link:)
+          result = registry.resolve('queries.nextcloud.download_link').call(user:, file_link:, storage:)
           expect(result).to be_failure
           expect(result.errors.code).to be(:not_authorized)
         end
@@ -151,11 +145,9 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           end
 
           it "must return :#{symbol} ServiceResult" do
-            result = subject
-                       .download_link_query
-                       .call(user:, file_link:)
+            result = registry.resolve('queries.nextcloud.download_link').call(user:, file_link:, storage:)
             expect(result).to be_failure
-            expect(result.errors.code).to be(symbol)
+            expect(result.errors.code).to eq(symbol)
           end
         end
       end
@@ -187,23 +179,25 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
         describe 'with Nextcloud storage type selected' do
           it 'returns a list files directories with names and permissions' do
-            result = subject.files_query.call(folder: nil, user:)
+            result = registry.resolve('queries.nextcloud.files').call(storage:, folder: nil, user:)
             expect(result).to be_success
-            expect(result.result.files.size).to eq(4)
-            expect(result.result.ancestors.size).to eq(0)
-            expect(result.result.parent).not_to be_nil
-            expect(result.result.files[0]).to have_attributes(id: '11',
-                                                              name: 'Folder1',
-                                                              mime_type: 'application/x-op-directory',
-                                                              permissions: include(:readable, :writeable))
-            expect(result.result.files[1]).to have_attributes(mime_type: 'application/x-op-directory',
-                                                              permissions: %i[readable])
-            expect(result.result.files[2]).to have_attributes(id: '12',
-                                                              name: 'README.md',
-                                                              mime_type: 'text/markdown',
-                                                              permissions: include(:readable, :writeable))
-            expect(result.result.files[3]).to have_attributes(mime_type: 'application/pdf',
-                                                              permissions: %i[readable])
+
+            query_result = result.result
+            expect(query_result.files.size).to eq(4)
+            expect(query_result.ancestors.size).to eq(0)
+            expect(query_result.parent).not_to be_nil
+            expect(query_result.files[0]).to have_attributes(id: '11',
+                                                             name: 'Folder1',
+                                                             mime_type: 'application/x-op-directory',
+                                                             permissions: include(:readable, :writeable))
+            expect(query_result.files[1]).to have_attributes(mime_type: 'application/x-op-directory',
+                                                             permissions: %i[readable])
+            expect(query_result.files[2]).to have_attributes(id: '12',
+                                                             name: 'README.md',
+                                                             mime_type: 'text/markdown',
+                                                             permissions: include(:readable, :writeable))
+            expect(query_result.files[3]).to have_attributes(mime_type: 'application/pdf',
+                                                             permissions: %i[readable])
           end
 
           describe 'with origin user id containing whitespaces' do
@@ -211,9 +205,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
             let(:xml) { create(:webdav_data, origin_user_id:) }
 
             it do
-              result = subject
-                         .files_query
-                         .call(folder: parent, user:)
+              result = registry.resolve('queries.nextcloud.files').call(folder: parent, user:, storage:)
               expect(result.result.files[0].location).to eq('/Folder1')
 
               assert_requested(:propfind, request_url)
@@ -224,9 +216,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
             let(:parent) { '/Photos/Birds' }
 
             it do
-              result = subject
-                         .files_query
-                         .call(folder: parent, user:)
+              result = registry.resolve('queries.nextcloud.files').call(folder: parent, user:, storage:)
               expect(result.result.files[2].location).to eq('/Photos/Birds/README.md')
               expect(result.result.ancestors[0].location).to eq('/')
               expect(result.result.ancestors[1].location).to eq('/Photos')
@@ -239,9 +229,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
             let(:root_path) { '/storage' }
 
             it do
-              result = subject
-                         .files_query
-                         .call(folder: nil, user:)
+              result = registry.resolve('queries.nextcloud.files').call(folder: nil, user:, storage:)
               expect(result.result.files[2].location).to eq('/README.md')
               assert_requested(:propfind, request_url)
             end
@@ -252,9 +240,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
             let(:parent) { '/Photos/Birds' }
 
             it do
-              result = subject
-                         .files_query
-                         .call(folder: parent, user:)
+              result = registry.resolve('queries.nextcloud.files').call(folder: parent, user:, storage:)
 
               expect(result.result.files[2].location).to eq('/Photos/Birds/README.md')
               assert_requested(:propfind, request_url)
@@ -264,11 +250,11 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
         describe 'with not supported storage type selected' do
           before do
-            allow(storage).to receive(:provider_type).and_return('not_supported_storage_type'.freeze)
+            allow(storage).to receive(:provider_type).and_return('not_supported_storage_type')
           end
 
           it 'must raise ArgumentError' do
-            expect { subject.files_query }.to raise_error(ArgumentError)
+            expect { registry.resolve('queries.nextcloud.files').call(storage:) }.to raise_error(ArgumentError)
           end
         end
 
@@ -280,9 +266,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           end
 
           it 'must return ":not_authorized" ServiceResult' do
-            result = subject
-                       .files_query
-                       .call(folder: parent, user:)
+            result = registry.resolve('queries.nextcloud.files').call(folder: parent, user:, storage:)
             expect(result).to be_failure
             expect(result.errors.code).to be(:not_authorized)
           end
@@ -296,9 +280,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           end
 
           it "must return :#{symbol} ServiceResult" do
-            result = subject
-                       .files_query
-                       .call(folder: parent, user:)
+            result = registry.resolve('queries.nextcloud.files').call(folder: parent, user:, storage:)
             expect(result).to be_failure
             expect(result.errors.code).to be(symbol)
           end
@@ -328,13 +310,11 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
       describe 'with Nextcloud storage type selected' do
         it 'must return an upload link URL' do
-          link = subject
-                   .upload_link_query
-                   .call(user:, data: query_payload)
+          link = registry.resolve('queries.nextcloud.upload_link').call(storage:, user:, data: query_payload)
                    .result
-          expect(link.destination.path).to be_eql("/index.php/apps/integration_openproject/direct-upload/#{upload_token}")
-          expect(link.destination.host).to be_eql(URI(url).host)
-          expect(link.destination.scheme).to be_eql(URI(url).scheme)
+          expect(link.destination.path).to eql("/index.php/apps/integration_openproject/direct-upload/#{upload_token}")
+          expect(link.destination.host).to eql(URI(url).host)
+          expect(link.destination.scheme).to eql(URI(url).scheme)
           expect(link.destination.user).to be_nil
           expect(link.destination.password).to be_nil
           expect(link.method).to eq(:post)
@@ -343,11 +323,11 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
       describe 'with not supported storage type selected' do
         before do
-          allow(storage).to receive(:provider_type).and_return('not_supported_storage_type'.freeze)
+          allow(storage).to receive(:provider_type).and_return('not_supported_storage_type')
         end
 
         it 'must raise ArgumentError' do
-          expect { subject.upload_link_query }.to raise_error(ArgumentError)
+          expect { registry.resolve('queries.nextcloud.upload_link').call(storage:, user:) }.to raise_error(ArgumentError)
         end
       end
 
@@ -359,9 +339,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
         end
 
         it 'must return ":not_authorized" ServiceResult' do
-          result = subject
-                     .upload_link_query
-                     .call(user:, data: query_payload)
+          result = registry.resolve('queries.nextcloud.upload_link').call(storage:, user:, data: query_payload)
           expect(result).to be_failure
           expect(result.errors.code).to be(:not_authorized)
         end
@@ -374,9 +352,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           end
 
           it "must return :#{symbol} ServiceResult" do
-            result = subject
-                       .upload_link_query
-                       .call(user:, data: query_payload)
+            result = registry.resolve('queries.nextcloud.upload_link').call(storage:, user:, data: query_payload)
             expect(result).to be_failure
             expect(result.errors.code).to be(symbol)
           end
@@ -434,9 +410,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
     end
 
     it 'responds with a strings array with group users' do
-      result = subject
-                 .group_users_query
-                 .call
+      result = registry.resolve('queries.nextcloud.group_users').call(storage:)
       expect(result).to be_success
       expect(result.result).to eq(["admin", "OpenProject", "reader", "TestUser", "TestUser34"])
     end
@@ -478,9 +452,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
     end
 
     it 'adds user to the group' do
-      result = subject
-                 .add_user_to_group_command
-                 .call(user: origin_user_id)
+      result = registry.resolve('commands.nextcloud.add_user_to_group').call(storage:, user: origin_user_id)
       expect(result).to be_success
       expect(result.message).to eq("User has been added successfully")
     end
@@ -522,9 +494,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
     end
 
     it 'removes user from the group' do
-      result = subject
-                 .remove_user_from_group_command
-                 .call(user: origin_user_id)
+      result = registry.resolve('commands.nextcloud.remove_user_from_group').call(storage:, user: origin_user_id)
       expect(result).to be_success
       expect(result.message).to eq("User has been removed from group")
     end
@@ -547,9 +517,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       end
 
       it 'responds with a failure and parses message from the xml response' do
-        result = subject
-                   .remove_user_from_group_command
-                   .call(user: origin_user_id)
+        result = registry.resolve('commands.nextcloud.remove_user_from_group').call(storage:, user: origin_user_id)
         expect(result).to be_failure
         expect(result.errors.log_message).to eq(
           "Failed to remove user #{origin_user_id} from group OpenProject: " \
@@ -582,9 +550,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       end
 
       it 'creates a folder and responds with a success' do
-        result = subject
-                   .create_folder_command
-                   .call(folder_path:)
+        result = registry.resolve('commands.nextcloud.create_folder').call(storage:, folder_path:)
         expect(result).to be_success
         expect(result.message).to eq("Folder was successfully created.")
       end
@@ -609,9 +575,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       end
 
       it 'does not create a folder and responds with a success' do
-        result = subject
-                   .create_folder_command
-                   .call(folder_path:)
+        result = registry.resolve('commands.nextcloud.create_folder').call(storage:, folder_path:)
         expect(result).to be_success
         expect(result.message).to eq("Folder already exists.")
       end
@@ -636,9 +600,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       end
 
       it 'does not create a folder and responds with a failure' do
-        result = subject
-                   .create_folder_command
-                   .call(folder_path:)
+        result = registry.resolve('commands.nextcloud.create_folder').call(storage:, folder_path:)
         expect(result).to be_failure
         expect(result.result).to eq(:conflict)
         expect(result.errors.log_message).to eq('Parent node does not exist')
@@ -742,9 +704,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           end
 
           it 'returns success when permissions can be set' do
-            result = subject
-                       .set_permissions_command
-                       .call(path:, permissions:)
+            result = registry.resolve('commands.nextcloud.set_permissions').call(storage:, path:, permissions:)
             expect(result).to be_success
           end
         end
@@ -770,9 +730,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           end
 
           it 'returns failure' do
-            result = subject
-                       .set_permissions_command
-                       .call(path:, permissions:)
+            result = registry.resolve('commands.nextcloud.set_permissions').call(storage:, path:, permissions:)
             expect(result).to be_failure
           end
         end
@@ -798,9 +756,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           end
 
           it 'returns failure' do
-            result = subject
-                       .set_permissions_command
-                       .call(path:, permissions:)
+            result = registry.resolve('commands.nextcloud.set_permissions').call(storage:, path:, permissions:)
             expect(result).to be_failure
           end
         end
@@ -809,17 +765,13 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       context 'when forbidden values are given as folder' do
         it 'raises an ArgumentError on nil' do
           expect do
-            subject
-              .set_permissions_command
-              .call(path: nil, permissions:)
+            registry.resolve('commands.nextcloud.set_permissions').call(storage:, path: nil, permissions:)
           end.to raise_error(ArgumentError)
         end
 
         it 'raises an ArgumentError on empty string' do
           expect do
-            subject
-              .set_permissions_command
-              .call(path: '', permissions:)
+            registry.resolve('commands.nextcloud.set_permissions').call(path: '', permissions:)
           end.to raise_error(ArgumentError)
         end
       end
@@ -926,9 +878,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
     shared_examples 'a file_ids_query response' do
       it 'responds with a list of paths and attributes for each of them' do
-        result = subject
-                   .file_ids_query
-                   .call(path: 'OpenProject')
+        result = registry.resolve('queries.nextcloud.file_ids').call(storage:, path: 'OpenProject')
                    .result
         expect(result).to eq({ "OpenProject/" => { "fileid" => "349" },
                                "OpenProject/Project #2/" => { "fileid" => "381" },
@@ -962,9 +912,8 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
     describe 'with Nextcloud storage type selected' do
       it 'moves the file' do
-        result = subject
-                   .rename_file_command
-                   .call(source: 'OpenProject/asd', target: 'OpenProject/qwe')
+        result = registry.resolve('commands.nextcloud.rename_file').call(storage:, source: 'OpenProject/asd',
+                                                                         target: 'OpenProject/qwe')
         expect(result).to be_success
       end
     end
@@ -979,9 +928,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
     describe 'with Nextcloud storage type selected' do
       it 'deletes the folder' do
-        result = subject
-                   .delete_folder_command
-                   .call(location: 'OpenProject/Folder 1')
+        result = registry.resolve('commands.nextcloud.delete_folder').call(storage:, location: 'OpenProject/Folder 1')
         expect(result).to be_success
       end
     end

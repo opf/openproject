@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -65,6 +67,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
       @username = storage.username
       @password = storage.password
       @group = storage.group
+    end
+
+    def self.call(storage:, depth:, path:, props:)
+      new(storage).call(depth:, path:, props:)
     end
 
     # rubocop:disable Metrics/AbcSize

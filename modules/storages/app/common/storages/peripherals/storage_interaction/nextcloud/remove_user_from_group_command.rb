@@ -35,6 +35,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       @group = storage.group
     end
 
+    def self.call(storage:, user:, group: storage.group)
+      new(storage).call(user:, group:)
+    end
+
     # rubocop:disable Metrics/AbcSize
     def call(user:, group: @group)
       response = Util.http(@uri).delete(

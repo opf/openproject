@@ -35,6 +35,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       @oauth_client = storage.oauth_client
     end
 
+    def self.call(storage:, user:, file_link:)
+      new(storage).call(user:, file_link:)
+    end
+
     # rubocop:disable Metrics/AbcSize
     def call(user:, file_link:)
       result = Util.token(user:, oauth_client: @oauth_client) do |token|
