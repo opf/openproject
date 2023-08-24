@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,7 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../spec_helper'
+require 'spec_helper'
+require_module_spec_helper
 
 # Setup storages in Project -> Settings -> File Storages
 # This tests assumes that a Storage has already been setup
@@ -154,7 +157,7 @@ RSpec.describe(
     # Press Edit icon to change the project folder mode to inactive
     page.find('.icon.icon-edit').click
     expect(page).to have_current_path edit_project_settings_project_storage_path(project_id: project,
-                                                                                  id: Storages::ProjectStorage.last)
+                                                                                 id: Storages::ProjectStorage.last)
     expect(page).to have_text('Edit the file storage to this project')
     expect(page).not_to have_select('storages_project_storage_storage_id')
     expect(page).to have_text(storage.name)
@@ -173,7 +176,7 @@ RSpec.describe(
     # Click Edit icon again but cancel the edit
     page.find('.icon.icon-edit').click
     expect(page).to have_current_path edit_project_settings_project_storage_path(project_id: project,
-                                                                                  id: Storages::ProjectStorage.last)
+                                                                                 id: Storages::ProjectStorage.last)
     expect(page).to have_text('Edit the file storage to this project')
     page.click_link('Cancel')
     expect(page).to have_current_path project_settings_project_storages_path(project)

@@ -36,6 +36,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       @password = storage.password
     end
 
+    def self.call(storage:, source_path:, destination_path:)
+      new(storage).call(source_path:, destination_path:)
+    end
+
     def call(source_path:, destination_path:)
       validate_inputs(source_path, destination_path) >>
         build_origin_paths >>

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -65,20 +67,20 @@ module Projects::Copy
       source_folder_name = source_project_storage.project_folder_path
       destination_folder_name = destination_project_storage.project_folder_path
 
-      Storages::Peripherals::StorageRequests
-        .new(storage: source_project_storage.storage)
-        .copy_template_folder_command
-        .call(source_path: source_folder_name, destination_path: destination_folder_name)
-        .on_failure { |r| add_error!(source_folder_name, r.to_active_model_errors) }
+      Storages::Peripherals::Registry
+        .resolve("commands.#{source_project_storage.storage.short_provider_type}.copy_template_folder")
+        .call(
+          storage: source_project_storage.storage,
+          source_path: source_folder_name,
+          destination_path: destination_folder_name
+        ).on_failure { |r| add_error!(source_folder_name, r.to_active_model_errors) }
     end
 
     def update_project_folder_id(project_storage)
       destination_folder_name = project_storage.project_folder_path
 
-      Storages::Peripherals::StorageRequests
-        .new(storage: project_storage.storage)
-        .file_ids_query
-        .call(path: destination_folder_name)
+      Storages::Peripherals::Registry.resolve("queries.#{project_storage.storage.short_provider_type}.file_ids")
+        .call(storage: project_storage.storage, path: destination_folder_name)
         .match(
           on_success: ->(file_ids) do
             project_storage.update!(

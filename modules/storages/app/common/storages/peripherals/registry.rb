@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,37 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
-  class DeleteEntityCommand
-    UTIL = ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
+module Storages
+  module Peripherals
+    class Registry
+      extend Dry::Container::Mixin
 
-    def initialize(storage)
-      @uri = URI(storage.host).normalize
-      @base_path = UTIL.join_uri_path(@uri.path, "remote.php/dav/files", CGI.escapeURIComponent(storage.username))
-      @username = storage.username
-      @password = storage.password
-    end
-
-    def self.call(storage:, location:)
-      new(storage).call(location:)
-    end
-
-    def call(location:)
-      response = UTIL.http(@uri).delete(
-        UTIL.join_uri_path(@base_path, UTIL.escape_path(location)),
-        UTIL.basic_auth_header(@username, @password)
-      )
-
-      case response
-      when Net::HTTPSuccess
-        ServiceResult.success
-      when Net::HTTPNotFound
-        UTIL.error(:not_found)
-      when Net::HTTPUnauthorized
-        UTIL.error(:not_authorized)
-      else
-        UTIL.error(:error)
+      class Resolver < Dry::Container::Resolver
+        def call(container, key)
+          super
+        rescue Dry::Container::KeyError
+          _, storage, operation = key.split('.')
+          raise ::Storages::Errors::OperationNotSupported, "Operation #{operation} not support by provider: #{storage}"
+        end
       end
+
+      config.resolver = Resolver.new
     end
+
+    Registry.import StorageInteraction::Nextcloud::Queries
+    Registry.import StorageInteraction::Nextcloud::Commands
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,7 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../spec_helper'
+require 'spec_helper'
+require_module_spec_helper
 
 RSpec.describe 'Showing of file links in work package', js: true do
   let(:permissions) { %i(view_work_packages edit_work_packages view_file_links manage_file_links) }
@@ -50,14 +53,9 @@ RSpec.describe 'Showing of file links in work package', js: true do
       .to receive(:new)
             .and_return(connection_manager)
     allow(connection_manager)
-      .to receive(:refresh_token)
-            .and_return(ServiceResult.success(result: oauth_client_token))
-    allow(connection_manager)
-      .to receive(:get_access_token)
-            .and_return(ServiceResult.success(result: oauth_client_token))
-    allow(connection_manager)
-      .to receive(:authorization_state)
-            .and_return(:connected)
+      .to receive_messages(refresh_token: ServiceResult.success(result: oauth_client_token),
+                           get_access_token: ServiceResult.success(result: oauth_client_token),
+                           authorization_state: :connected)
 
     # Mock FileLinkSyncService as if Nextcloud would respond with origin_permission=nil
     allow(Storages::FileLinkSyncService)
@@ -99,8 +97,8 @@ RSpec.describe 'Showing of file links in work package', js: true do
 
   context 'if user is not authorized in Nextcloud' do
     before do
-      allow(connection_manager).to receive(:authorization_state).and_return(:failed_authorization)
-      allow(connection_manager).to receive(:get_authorization_uri).and_return('https://example.com/authorize')
+      allow(connection_manager).to receive_messages(authorization_state: :failed_authorization,
+                                                    get_authorization_uri: 'https://example.com/authorize')
     end
 
     it 'must show storage information box with login button' do

@@ -141,28 +141,35 @@ module OAuthClients
       # valid authentication, so we use it for testing the validity of the Bearer token.
       # curl -H "Authorization: Bearer MY_TOKEN" -X GET 'https://my.nextcloud.org/ocs/v1.php/cloud/user' \
       #      -H "OCS-APIRequest: true" -H "Accept: application/json"
-      RestClient.get(
-        File.join(oauth_client.integration.host, AUTHORIZATION_CHECK_PATH),
-        {
-          'Authorization' => "Bearer #{oauth_client_token.access_token}",
-          'OCS-APIRequest' => "true",
-          'Accept' => "application/json"
-        }
-      )
-      :connected
-    rescue RestClient::Unauthorized, RestClient::Forbidden
-      service_result = refresh_token # `refresh_token` already has exception handling
-      return :connected if service_result.success?
-
-      if service_result.result == 'invalid_request'
-        # This can happen if the Authorization Server invalidated all tokens.
-        # Then the user would ideally be asked to reauthorize.
-        :failed_authorization
-      else
-        # It could also be that some other error happened, i.e. firewall badly configured.
-        # Then the user needs to know that something is technically off. The user could try
-        # to reload the page or contact an admin.
-        :error
+      util = Storages::Peripherals::StorageInteraction::Nextcloud::Util
+      uri = URI(oauth_client.integration.host).normalize
+      response = util
+        .http(uri)
+        .get(
+          util.join_uri_path(uri, AUTHORIZATION_CHECK_PATH),
+          {
+            'Authorization' => "Bearer #{oauth_client_token.access_token}",
+            'OCS-APIRequest' => 'true',
+            'Accept' => 'application/json'
+          }
+        )
+      case response
+      when Net::HTTPSuccess
+        :connected
+      when Net::HTTPForbidden, Net::HTTPUnauthorized
+        service_result = refresh_token # `refresh_token` already has exception handling
+        if service_result.success?
+          :connected
+        elsif service_result.result == 'invalid_request'
+          # This can happen if the Authorization Server invalidated all tokens.
+          # Then the user would ideally be asked to reauthorize.
+          :failed_authorization
+        else
+          # It could also be that some other error happened, i.e. firewall badly configured.
+          # Then the user needs to know that something is technically off. The user could try
+          # to reload the page or contact an admin.
+          :error
+        end
       end
     rescue StandardError
       :error

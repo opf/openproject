@@ -191,13 +191,14 @@ gem 'openproject-token', '~> 3.0.1'
 
 gem 'plaintext', '~> 0.3.2'
 
-gem 'rest-client', '~> 2.0'
-
 gem 'ruby-progressbar', '~> 1.13.0', require: false
 
 gem 'mini_magick', '~> 4.12.0', require: false
 
 gem 'validate_url'
+
+# Storages support code
+gem "dry-container"
 
 # ActiveRecord extension which adds typecasting to store accessors
 gem "store_attribute", "~> 1.0"

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,38 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals
-  class StorageRequests
-    COMMANDS = %i[
-      set_permissions_command
-      create_folder_command
-      add_user_to_group_command
-      delete_folder_command
-      remove_user_from_group_command
-      rename_file_command
-      copy_template_folder_command
-    ].freeze
-
-    QUERIES = %i[
-      download_link_query
-      files_info_query
-      files_query
-      file_ids_query
-      folder_files_file_ids_deep_query
-      upload_link_query
-      group_users_query
-    ].freeze
-
-    def initialize(storage:)
-      @storage = storage
-    end
-
-    (COMMANDS + QUERIES).each do |request|
-      define_method(request) do
-        clazz = "::Storages::Peripherals::StorageInteraction::" \
-                "#{@storage.short_provider_type.capitalize}::#{request.to_s.classify}".constantize
-        clazz.new(@storage).method(:call).to_proc
-      end
-    end
+module Storages
+  class OneDriveStorage < Storage
   end
 end

@@ -1,4 +1,3 @@
-require 'rest-client'
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH

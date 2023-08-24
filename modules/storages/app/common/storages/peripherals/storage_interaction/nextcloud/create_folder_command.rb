@@ -36,6 +36,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       @password = storage.password
     end
 
+    def self.call(storage:, folder_path:)
+      new(storage).call(folder_path:)
+    end
+
     # rubocop:disable Metrics/AbcSize
     def call(folder_path:)
       response = Util.http(@uri).mkcol(
