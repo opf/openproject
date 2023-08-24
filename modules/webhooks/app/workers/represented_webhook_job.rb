@@ -52,9 +52,6 @@ class RepresentedWebhookJob < WebhookJob
         request_body,
         headers
       )
-    rescue Faraday::TimeoutError => e
-      response = e.response
-      exception = e
     rescue Faraday::Error => e
       response = e.response
       exception = e
