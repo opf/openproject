@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,7 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../spec_helper'
+require 'spec_helper'
+require_module_spec_helper
 
 RSpec.describe Storages::Storage do
   let(:creator) { create(:user) }
@@ -84,11 +87,11 @@ RSpec.describe Storages::Storage do
       end
 
       it "fails the validation if name is not unique" do
-        expect(described_class.create(default_attributes.merge({ host: 'https://example2.com' }))).to be_invalid
+        expect(described_class.create(default_attributes.merge({ host: 'https://example2.com' }))).not_to be_valid
       end
 
       it "fails the validation if host is not unique" do
-        expect(described_class.create(default_attributes.merge({ name: 'NC 2' }))).to be_invalid
+        expect(described_class.create(default_attributes.merge({ name: 'NC 2' }))).not_to be_valid
       end
     end
   end

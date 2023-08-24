@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,6 +29,7 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
 
 RSpec.describe Storages::Storages::SetNextcloudProviderFieldsAttributesService, type: :model do
   let(:current_user) { build_stubbed(:admin) }
@@ -101,8 +104,7 @@ RSpec.describe Storages::Storages::SetNextcloudProviderFieldsAttributesService, 
 
   def stub_contract_instance(contract_class, contract_valid, contract_errors)
     contract_instance = instance_double(contract_class, 'contract_instance')
-    allow(contract_instance).to receive(:validate).and_return(contract_valid)
-    allow(contract_instance).to receive(:errors).and_return(contract_errors)
+    allow(contract_instance).to receive_messages(validate: contract_valid, errors: contract_errors)
     contract_instance
   end
 end

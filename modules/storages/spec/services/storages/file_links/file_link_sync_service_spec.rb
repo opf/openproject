@@ -29,6 +29,7 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
 
 RSpec.describe Storages::FileLinkSyncService, type: :model do
   let(:user) { create(:user) }

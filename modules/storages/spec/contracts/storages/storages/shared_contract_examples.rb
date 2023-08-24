@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,7 +29,7 @@
 #++
 
 require 'spec_helper'
-require_relative '../../../support/storage_server_helpers'
+require_module_spec_helper
 
 RSpec.shared_examples_for 'storage contract', :storage_server_helpers, webmock: true do
   # Only admins have the right to create/delete storages.
