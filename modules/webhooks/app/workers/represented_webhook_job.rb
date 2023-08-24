@@ -70,7 +70,7 @@ class RepresentedWebhookJob < WebhookJob
       request_headers: headers,
       request_body: body,
       response_code: response&.status,
-      response_headers: response&.headers&.to_h&.transform_keys {|k| k.underscore.to_sym},
+      response_headers: response&.headers&.to_h&.transform_keys { |k| k.underscore.to_sym },
       response_body: response&.body || exception&.message
     )
 
