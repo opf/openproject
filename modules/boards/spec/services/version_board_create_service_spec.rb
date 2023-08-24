@@ -34,7 +34,10 @@ require_relative 'base_create_service_shared_examples'
 RSpec.describe Boards::VersionBoardCreateService do
   shared_let(:project) { create(:project) }
   shared_let(:other_project) { create(:project) }
-  shared_let(:versions) { create_list(:version, 3, project:) }
+  # Amount of versions is important to test that the right column count is
+  # set by the service. It should set the column count to the number of versions
+  # and avoid out of bounds errors.
+  shared_let(:versions) { create_list(:version, 5, project:) }
   shared_let(:excluded_versions) do
     [
       create(:version, project:, status: 'closed'),
