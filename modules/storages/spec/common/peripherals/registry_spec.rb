@@ -517,9 +517,7 @@ RSpec.describe Storages::Peripherals::Registry, webmock: true do
       end
 
       it 'responds with a failure and parses message from the xml response' do
-        result = subject
-                   .remove_user_from_group_command
-                   .call(user: origin_user_id)
+        result = registry.resolve('commands.nextcloud.remove_user_from_group').call(storage:, user: origin_user_id)
         expect(result).to be_failure
         expect(result.errors.log_message).to eq(
           "Failed to remove user #{origin_user_id} from group OpenProject: " \
