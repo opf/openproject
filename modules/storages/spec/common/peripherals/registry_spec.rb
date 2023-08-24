@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
+RSpec.describe Storages::Peripherals::Registry, webmock: true do
   using Storages::Peripherals::ServiceResultRefinements
 
   let(:user) { create(:user) }
@@ -38,7 +38,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
   let(:origin_user_id) { 'admin' }
   let(:storage) { build(:nextcloud_storage, :as_automatically_managed, host: url, password: 'OpenProjectSecurePassword') }
 
-  subject(:registry) { Storages::Peripherals::Registry }
+  subject(:registry) { described_class }
 
   context 'when requests depend on OAuth token' do
     let(:token) do
