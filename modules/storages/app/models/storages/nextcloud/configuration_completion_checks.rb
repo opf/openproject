@@ -28,24 +28,15 @@
 #
 module Storages::Nextcloud
   module ConfigurationCompletionChecks
-    extend ActiveSupport::Concern
-
     def configuration_complete?
-      openproject_application_credentials_configured? &&
-        nextcloud_application_credentials_configured? &&
-        nextcloud_automatically_managed_project_folders_configured?
+      configuration_completion_checks.values.all?
     end
 
-    def openproject_application_credentials_configured?
-      oauth_application.present?
-    end
-
-    def nextcloud_application_credentials_configured?
-      oauth_client.present?
-    end
-
-    def nextcloud_automatically_managed_project_folders_configured?
-      !automatic_management_unspecified?
+    def configuration_completion_checks
+      { host_name_configured: (host.present? && name.present?),
+        openproject_application_credentials_configured: oauth_application.present?,
+        nextcloud_application_credentials_configured: oauth_client.present?,
+        nextcloud_automatically_managed_project_folders_configured: !automatic_management_unspecified? }
     end
   end
 end
