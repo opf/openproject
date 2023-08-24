@@ -54,27 +54,26 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     private
 
     def files_info(file_ids, token)
-      ServiceResult.success(
-        result: RestClient::Request.execute(
-          method: :post,
-          url: Util.join_uri_path(@uri, FILES_INFO_PATH),
-          payload: { fileIds: file_ids }.to_json,
-          headers: {
-            'Authorization' => "Bearer #{token.access_token}",
-            'Accept' => 'application/json',
-            'Content-Type' => 'application/json',
-            'OCS-APIRequest' => true
-          }
-        )
-      ).map(&:body)
-    rescue RestClient::Unauthorized => e
-      Util.error(:not_authorized, 'Outbound request not authorized!', e.response)
-    rescue RestClient::NotFound => e
-      Util.error(:not_found, 'Outbound request destination not found!', e.response)
-    rescue RestClient::ExceptionWithResponse => e
-      Util.error(:error, 'Outbound request failed!', e.response)
-    rescue StandardError
-      Util.error(:error, 'Outbound request failed!')
+      response = Util.http(@uri).post(
+        Util.join_uri_path(@uri.path, FILES_INFO_PATH),
+        { fileIds: file_ids }.to_json,
+        {
+          'Authorization' => "Bearer #{token.access_token}",
+          'Accept' => 'application/json',
+          'Content-Type' => 'application/json',
+          'OCS-APIRequest' => 'true'
+        }
+      )
+      case response
+      when Net::HTTPSuccess
+        ServiceResult.success(result: response.body)
+      when Net::HTTPNotFound
+        Util.error(:not_found, 'Outbound request destination not found!', response)
+      when Net::HTTPUnauthorized
+        Util.error(:not_authorized, 'Outbound request not authorized!', response)
+      else
+        Util.error(:error, 'Outbound request failed!')
+      end
     end
 
     def parse_json

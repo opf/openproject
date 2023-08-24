@@ -31,7 +31,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     using Storages::Peripherals::ServiceResultRefinements
 
     def initialize(storage)
-      @base_uri = URI(storage.host).normalize
+      @uri = URI(storage.host).normalize
       @oauth_client = storage.oauth_client
     end
 
@@ -39,25 +39,25 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def call(user:, file_link:)
       result = Util.token(user:, oauth_client: @oauth_client) do |token|
         service_result = begin
-          ServiceResult.success(
-            result: RestClient.post(
-              Util.join_uri_path(@base_uri, '/ocs/v2.php/apps/dav/api/v1/direct'),
-              { fileId: file_link.origin_id },
-              {
-                'Authorization' => "Bearer #{token.access_token}",
-                'OCS-APIRequest' => 'true',
-                'Accept' => 'application/json'
-              }
-            )
+          response = Util.http(@uri).post(
+            Util.join_uri_path(@uri.path, '/ocs/v2.php/apps/dav/api/v1/direct'),
+            { fileId: file_link.origin_id },
+            {
+              'Authorization' => "Bearer #{token.access_token}",
+              'OCS-APIRequest' => 'true',
+              'Accept' => 'application/json'
+            }
           )
-        rescue RestClient::Unauthorized => e
-          Util.error(:not_authorized, 'Outbound request not authorized!', e.response)
-        rescue RestClient::NotFound => e
-          Util.error(:not_found, 'Outbound request destination not found!', e.response)
-        rescue RestClient::ExceptionWithResponse => e
-          Util.error(:error, 'Outbound request failed!', e.response)
-        rescue StandardError
-          Util.error(:error, 'Outbound request failed!')
+          case response
+          when Net::HTTPSuccess
+            ServiceResult.success(result: response)
+          when Net::HTTPNotFound
+            Util.error(:not_found, 'Outbound request destination not found!', response)
+          when Net::HTTPUnauthorized
+            Util.error(:not_authorized, 'Outbound request not authorized!', response)
+          else
+            Util.error(:error, 'Outbound request failed!')
+          end
         end
 
         service_result.bind do |response|
@@ -65,7 +65,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           if response.body.blank?
             Util.error(:not_authorized, 'Outbound request not authorized!')
           else
-            ServiceResult.success(result: response)
+            ServiceResult.success(result: response.body)
           end
         end
       end
@@ -80,7 +80,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     private
 
     def download_link(token, origin_name)
-      Util.join_uri_path(@base_uri, 'index.php/apps/integration_openproject/direct', token, CGI.escape(origin_name))
+      Util.join_uri_path(@uri, 'index.php/apps/integration_openproject/direct', token, CGI.escape(origin_name))
     end
 
     def direct_download_token(body:)
