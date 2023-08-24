@@ -74,7 +74,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
         if response.body.present?
           ServiceResult.success(
-            result: JSON.parse(response.body, object_class: OpenStruct)
+            result: JSON.parse(response.body, object_class: OpenStruct) # rubocop:disable Style/OpenStructUse
           )
         else
           Util.error(:not_authorized, 'Outbound request not authorized!')
