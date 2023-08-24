@@ -1,7 +1,7 @@
 <!-- Standard Ruby view, please see the controller for comments -->
-<% html_title t(:label_administration), t("project_module_storages"), @object.name, "#{t("storages.provider_types.#{@object.short_provider_type}.name")} #{t("storages.label_oauth_application_details")}" %>
+<% html_title t(:label_administration), t("project_module_storages"), @storage.name, "#{t("storages.provider_types.#{@storage.short_provider_type}.name")} #{t("storages.label_oauth_application_details")}" %>
 <% local_assigns[:additional_breadcrumb] = [
-  link_to(@object.name, edit_admin_settings_storage_path(@object)),
+  link_to(@storage.name, edit_admin_settings_storage_path(@storage)),
   t("storages.label_oauth_breadcrumb.openproject")
 ] %>
 <%= toolbar title: "OpenProject #{t("storages.label_oauth_application_details")}" %>

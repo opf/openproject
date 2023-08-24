@@ -1,4 +1,6 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
 #
@@ -26,8 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# See also: base_contract.rb for comments
 module Storages::Storages
-  class UpdateContract < ::Storages::Storages::BaseContract
+  class NextcloudUpdateContract < ::Storages::Storages::NextcloudBaseContract
   end
 end

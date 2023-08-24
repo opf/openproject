@@ -61,7 +61,8 @@ class Storages::Storage < ApplicationRecord
   has_one :oauth_application, class_name: '::Doorkeeper::Application', as: :integration, dependent: :destroy
 
   PROVIDER_TYPES = [
-    PROVIDER_TYPE_NEXTCLOUD = 'Storages::NextcloudStorage'.freeze
+    PROVIDER_TYPE_NEXTCLOUD = 'Storages::NextcloudStorage'.freeze,
+    PROVIDER_TYPE_ONE_DRIVE = 'Storages::OneDriveStorage'.freeze
   ].freeze
 
   # Uniqueness - no two storages should  have the same host.
@@ -103,5 +104,9 @@ class Storages::Storage < ApplicationRecord
 
   def provider_type_nextcloud?
     provider_type == ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+  end
+
+  def provider_type_one_drive?
+    provider_type == ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
   end
 end

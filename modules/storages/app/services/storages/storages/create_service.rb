@@ -34,6 +34,11 @@
 # The comments here are also valid for the other *_service.rb files
 module Storages::Storages
   class CreateService < ::BaseServices::Create
+    # def initialize(user:)
+    #   binding.pry
+    #   super(user:, contract_class: nil, contract_options: {})
+    # end
+
     protected
 
     def after_perform(service_call)

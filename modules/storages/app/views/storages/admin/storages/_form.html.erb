@@ -27,10 +27,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<!-- Included form for create and edit operations, please see the controller for comments -->
-<%= error_messages_for_contract @object, @errors %>
+<% content_controller 'storages--storage-form',
+                      dynamic: true,
+                      'storages--storage-form-one-drive-placeholder-value': t(:"storages.provider_types.onedrive.name_placeholder"),
+                      'storages--storage-form-nextcloud-placeholder-value': t(:"storages.provider_types.nextcloud.name_placeholder")
+%>
 
-<fieldset class="form--fieldset">
+<!-- Included form for create and edit operations, please see the controller for comments -->
+<%= error_messages_for_contract @storage, @errors %>
+
+<fieldset class="form--fieldset" data-storages--storage-form-target="fieldset">
   <legend class="form--fieldset-legend"><%= I18n.t(:label_general) %></legend>
   <div class="form--field -required">
     <% if action_name == 'new' || action_name == 'create' %>
@@ -40,6 +46,9 @@ See COPYRIGHT and LICENSE files for more details.
                    {
                      selected: ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD,
                      container_class: '-slim'
+                   },
+                   data: {
+                     'storages--storage-form-target': 'selectProviderType'
                    }
       %>
       <span class="form--field-instructions"><%= t('storages.instructions.type') %> <%= t('storages.instructions.type_link_text') %></span>
@@ -48,24 +57,28 @@ See COPYRIGHT and LICENSE files for more details.
         <%= t(:"storages.label_provider_type") %>
       <% end %>
       <div class="form--field-container -horizontal">
-        <span><%= @object.name %></span>
+        <span><%= I18n.t("storages.provider_types.#{@storage.short_provider_type}.name") %></span>
       </div>
     <% end %>
   </div>
   <div class="form--field -required">
     <%= f.text_field :name,
                      required: true,
-                     placeholder: I18n.t("storages.provider_types.#{@object.short_provider_type}.name_placeholder"),
-                     container_class: '-slim' %>
+                     placeholder: I18n.t("storages.provider_types.#{@storage.short_provider_type}.name_placeholder"),
+                     container_class: '-slim',
+                     data: {
+                       'storages--storage-form-target': 'storageName'
+                     } %>
     <span class="form--field-instructions"><%= t('storages.instructions.name') %></span>
   </div>
-  <div class="form--field -required">
+  <div class="form--field -required" data-storages--storage-form-target="storageUrl">
     <%= f.text_field :host,
                      label: t('storages.label_host'),
                      type: :url,
                      required: true,
                      pattern: ".{1,255}",
-                     placeholder: "https://my-file-storage.com", container_class: '-wide' %>
+                     placeholder: "https://my-file-storage.com",
+                     container_class: '-wide' %>
     <span class="form--field-instructions"><%= t('storages.instructions.host') %></span>
   </div>
 </fieldset>

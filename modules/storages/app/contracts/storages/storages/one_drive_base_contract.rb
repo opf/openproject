@@ -28,26 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'net/http'
-require 'uri'
-
-# Purpose: common functionalities shared by CreateContract and UpdateContract
-# UpdateService by default checks if UpdateContract exists
-# and uses the contract to validate the model under consideration
-# (normally it's a model).
 module Storages::Storages
-  class BaseContract < ::ModelContract
-    MINIMAL_NEXTCLOUD_VERSION = 22
-
-    include ::Storages::Storages::Concerns::ManageStoragesGuarded
-    include ActiveModel::Validations
-
-    attribute :name
-    validates :name, presence: true, length: { maximum: 255 }
-
-    attribute :provider_type
-    validates :provider_type, inclusion: { in: Storages::Storage::PROVIDER_TYPES }
-
-    attribute :provider_fields
+  class OneDriveBaseContract < BaseContract
+    attribute :host
+    validates :host, absence: true
   end
 end

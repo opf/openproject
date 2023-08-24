@@ -30,5 +30,6 @@ module Storages
   module Admin
     LABEL_OAUTH_CLIENT_ID = 'OAuth Client ID'.freeze
     LABEL_OAUTH_CLIENT_SECRET = 'OAuth Client Secret'.freeze
+    LABEL_OAUTH_REDIRECT_URI = 'OAuth Redirect URI'.freeze
   end
 end
