@@ -16,7 +16,7 @@ tr:
         not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
-      file_link: "File"
+      file_link: "Dosya"
       storages/storage: "Depolama"
     attributes:
       storages/storage:

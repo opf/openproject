@@ -767,7 +767,7 @@ tr:
       work_package_required: 'Önce bir iş paketi seçilmesini gerektirir.'
       title: 'Zaman kaydet'
       tracking: 'Zaman takibi'
-      stop: 'Stop'
+      stop: 'Dur'
     timer:
       start_new_timer: 'Start new timer'
       timer_already_running: 'To start a new timer, you must first stop the current timer:'
@@ -833,7 +833,7 @@ tr:
       placeholder: "Aramak için metni yazın"
       notFoundText: "Hiçbir öge bulunamadı"
       project:
-        placeholder: "Select project"
+        placeholder: "Proje seçin"
     repositories:
       select_tag: 'Etiket seç'
       select_branch: 'Branş seç'
