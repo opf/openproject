@@ -30,5 +30,6 @@
 
 module Storages
   class OneDriveStorage < Storage
+    store_attribute :provider_fields, :tenant_id, :string
   end
 end
