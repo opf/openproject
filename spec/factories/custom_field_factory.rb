@@ -44,6 +44,104 @@ FactoryBot.define do
       RequestStore.clear!
     end
 
+    trait :boolean do
+      field_format { 'bool' }
+    end
+
+    trait :string do
+      field_format { 'string' }
+    end
+
+    trait :text do
+      field_format { 'text' }
+    end
+
+    trait :int do
+      field_format { 'int' }
+    end
+
+    trait :float do
+      field_format { 'float' }
+    end
+
+    trait :date do
+      field_format { 'date' }
+    end
+
+    trait :list do
+      transient do
+        default_option { nil }
+        default_options { nil }
+      end
+      field_format { 'list' }
+      multi_value { false }
+      possible_values { ['A', 'B', 'C', 'D', 'E', 'F', 'G'] }
+
+      # update custom options default value from the default_option transient
+      # field for non-multiselect field
+      after(:create) do |custom_field, evaluator|
+        default_option = evaluator.default_option
+        next if default_option.blank?
+
+        # ensure the right options are used
+        if evaluator.multi_value
+          raise "Please use default_options instead of default_option for multi_value list field."
+        end
+
+        if default_option.is_a?(Array)
+          raise "default_option #{default_option.inspect} is an array but the list custom field is not a multi_value." \
+                "Please use a single value instead."
+        end
+
+        default_custom_option = custom_field.possible_values.find_by(value: default_option)
+        if default_custom_option.nil?
+          raise "Default option #{default_option.inspect} not found. " \
+                "Possible options are #{custom_field.possible_values.pluck(:value).inspect}"
+        end
+
+        default_custom_option.update!(default_value: true)
+      end
+
+      # update custom options default value from the default_options transient
+      # field for multiselect field
+      after(:create) do |custom_field, evaluator|
+        default_options = Array(evaluator.default_options)
+        next if default_options.blank?
+
+        default_custom_options = custom_field.possible_values.where(value: default_options)
+        if default_custom_options.size != default_options.size
+          not_found_options = default_options - default_custom_options.pluck(:value)
+          raise "Default options #{not_found_options.inspect} not found. " \
+                "Possible options are #{custom_field.possible_values.pluck(:value).inspect}"
+        end
+
+        default_custom_options.update_all(default_value: true)
+      end
+    end
+
+    trait :multi_list do
+      list
+      multi_value { true }
+    end
+
+    trait :version do
+      field_format { 'version' }
+    end
+
+    trait :multi_version do
+      field_format { 'version' }
+      multi_value { true }
+    end
+
+    trait :user do
+      field_format { 'user' }
+    end
+
+    trait :multi_user do
+      field_format { 'user' }
+      multi_value { true }
+    end
+
     factory :project_custom_field, class: 'ProjectCustomField' do
       sequence(:name) { |n| "Project custom field #{n}" }
 
