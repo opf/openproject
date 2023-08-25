@@ -81,9 +81,10 @@ RSpec.describe RootSeeder,
     it 'adds additional permissions from modules' do
       # do not test for all permissions but only some of them to ensure each
       # module got processed for a standard edition
-      work_package_role = root_seeder.seed_data.find_reference(:default_role_work_package_editor)
-      expect(work_package_role.permissions).to include(
-        :view_work_packages # from common basic data
+      work_package_editor_role = root_seeder.seed_data.find_reference(:default_role_work_package_editor)
+      expect(work_package_editor_role.permissions).to include(
+        :view_work_packages, # from common basic data
+        :view_own_time_entries # from costs module
       )
       member_role = root_seeder.seed_data.find_reference(:default_role_member)
       expect(member_role.permissions).to include(

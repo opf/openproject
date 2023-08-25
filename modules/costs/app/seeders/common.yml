@@ -36,3 +36,13 @@ modules_permissions:
     - :edit_own_cost_entries
     - :view_budgets
     - :view_own_cost_entries
+  - role: :default_role_work_package_editor
+    add:
+      - :view_own_time_entries
+      - :log_own_time
+      - :edit_own_time_entries
+  - role: :default_role_work_package_commenter
+    add:
+      - :view_own_time_entries
+      - :log_own_time
+      - :edit_own_time_entries
