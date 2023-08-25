@@ -35,9 +35,8 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
   let(:current_user) { build_stubbed(:admin) }
 
   let(:contract_instance) do
-    contract = instance_double(Storages::Storages::BaseContract, 'contract_instance')
-    allow(contract)
-      .to receive_messages(validate: contract_valid, errors: contract_errors)
+    contract = instance_double(Storages::Storages::NextcloudCreateContract, 'contract_instance')
+    allow(contract).to receive_messages(validate: contract_valid, errors: contract_errors)
     contract
   end
 
@@ -53,11 +52,11 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
   end
   let(:model_instance) { Storages::Storage.new }
   let(:contract_class) do
-    allow(Storages::Storages::CreateContract)
+    allow(Storages::Storages::NextcloudCreateContract)
       .to receive(:new)
-      .and_return(contract_instance)
+            .and_return(contract_instance)
 
-    Storages::Storages::CreateContract
+    Storages::Storages::NextcloudCreateContract
   end
 
   let(:params) { { provider_type: Storages::Storage::PROVIDER_TYPE_NEXTCLOUD } }
@@ -65,7 +64,7 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
   before do
     allow(model_instance)
       .to receive(:valid?)
-      .and_return(model_valid)
+            .and_return(model_valid)
   end
 
   subject { instance.call(params) }
@@ -90,7 +89,7 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
     end
 
     it 'sets name to "My Nextcloud" by default' do
-      expect(subject.result.name).to eq I18n.t('storages.provider_types.nextcloud.default_name')
+      expect(subject.result.name).to eq I18n.t('storages.default_name')
     end
 
     context 'when setting host' do

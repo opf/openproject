@@ -36,11 +36,10 @@ require 'uri'
 # and uses the contract to validate the model under consideration
 # (normally it's a model).
 module Storages::Storages
-  class BaseContract < ::ModelContract
+  class BaseContract < ::BaseContract
     MINIMAL_NEXTCLOUD_VERSION = 22
 
     include ::Storages::Storages::Concerns::ManageStoragesGuarded
-    include ActiveModel::Validations
 
     attribute :name
     validates :name, presence: true, length: { maximum: 255 }
@@ -49,5 +48,24 @@ module Storages::Storages
     validates :provider_type, inclusion: { in: Storages::Storage::PROVIDER_TYPES }
 
     attribute :provider_fields
+
+    validate :provider_type_strategy
+
+    private
+
+    def provider_type_strategy
+      contract = if model.provider_type_nextcloud?
+                   NextcloudContract.new(model, @user, options: @options)
+                 else
+                   OneDriveContract.new(model, @user, options: @options)
+                 end
+
+      # Append the attributes defined in the internal contract
+      # to the list of writable attributes.
+      # Otherwise, we get :readonly validation errors.
+      contract.writable_attributes.append(*writable_attributes)
+      contract.validate
+      errors.merge!(contract.errors)
+    end
   end
 end

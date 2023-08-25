@@ -29,6 +29,6 @@
 #++
 
 module Storages::Storages
-  class OneDriveUpdateContract < ::Storages::Storages::OneDriveBaseContract
+  class UpdateContract < ::Storages::Storages::BaseContract
   end
 end

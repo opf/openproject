@@ -52,8 +52,7 @@ RSpec.describe 'API v3 storages resource', content_type: :json, webmock: true do
   end
 
   before do
-    allow(connection_manager).to receive(:get_authorization_uri).and_return(authorize_url)
-    allow(connection_manager).to receive(:authorization_state).and_return(:connected)
+    allow(connection_manager).to receive_messages(get_authorization_uri: authorize_url, authorization_state: :connected)
     allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
     project_storage
     login_as current_user
@@ -423,12 +422,12 @@ RSpec.describe 'API v3 storages resource', content_type: :json, webmock: true do
       context 'if request body is invalid' do
         let(:params) do
           {
-            clientId: 'only_an_id'
+            clientSecret: 'only_an_id'
           }
         end
 
         it_behaves_like 'constraint violation' do
-          let(:message) { 'Client secret can\'t be blank.' }
+          let(:message) { 'Client can\'t be blank.' }
         end
       end
     end

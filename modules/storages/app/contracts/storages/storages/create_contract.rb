@@ -29,7 +29,7 @@
 #++
 
 module Storages::Storages
-  class NextcloudCreateContract < ::Storages::Storages::NextcloudBaseContract
+  class CreateContract < ::Storages::Storages::BaseContract
     attribute :creator
     validate :creator_must_be_user
 

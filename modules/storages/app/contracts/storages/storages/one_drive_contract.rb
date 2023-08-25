@@ -29,6 +29,8 @@
 #++
 
 module Storages::Storages
-  class NextcloudUpdateContract < ::Storages::Storages::NextcloudBaseContract
+  class OneDriveContract < BaseContract
+    attribute :host
+    validates :host, absence: true
   end
 end

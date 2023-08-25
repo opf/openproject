@@ -34,7 +34,7 @@ module OAuthClients
     validates :client_id, presence: true, length: { maximum: 255 }
 
     attribute :client_secret, writable: true
-    validates :client_secret, length: { maximum: 255 }
+    validates :client_secret, length: { in: 1..255 }, allow_nil: true
 
     attribute :integration_type, writable: true
     validates :integration_type, presence: true

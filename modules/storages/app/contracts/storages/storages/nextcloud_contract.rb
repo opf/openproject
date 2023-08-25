@@ -29,7 +29,7 @@
 #++
 
 module Storages::Storages
-  class NextcloudBaseContract < BaseContract
+  class NextcloudContract < ::ModelContract
     attribute :host
     validates :host, url: { message: I18n.t('activerecord.errors.messages.invalid_url') }, length: { maximum: 255 }
     # Check that a host actually is a storage server.
