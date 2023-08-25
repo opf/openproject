@@ -15,7 +15,7 @@ module Boards
     private
 
     def column_count_for_board
-      versions(params).count
+      [super, versions(params).count].max
     end
 
     def create_queries(params)

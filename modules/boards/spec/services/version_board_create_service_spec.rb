@@ -71,6 +71,25 @@ RSpec.describe Boards::VersionBoardCreateService do
       expect(board.options[:type]).to eq('action')
     end
 
+    describe 'column_count' do
+      it 'matches the column_count to the version count' do
+        board = subject.result
+
+        expect(board.column_count).to eq(versions.count)
+      end
+
+      context 'when there are no versions that apply for the project' do
+        before do
+          versions.each { _1.update!(status: 'closed') }
+        end
+
+        it 'sets the column_count to the default value' do
+          board = subject.result
+          expect(board.column_count).to eq(4)
+        end
+      end
+    end
+
     describe 'widgets and queries' do
       let(:board) { subject.result }
       let(:widgets) { board.widgets }
