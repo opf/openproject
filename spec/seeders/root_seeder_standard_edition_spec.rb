@@ -85,7 +85,8 @@ RSpec.describe RootSeeder,
       expect(work_package_editor_role.permissions).to include(
         :view_work_packages, # from common basic data
         :view_own_time_entries, # from costs module
-        :view_file_links # from storages module
+        :view_file_links, # from storages module
+        :show_github_content # from github_integration module
       )
       member_role = root_seeder.seed_data.find_reference(:default_role_member)
       expect(member_role.permissions).to include(
