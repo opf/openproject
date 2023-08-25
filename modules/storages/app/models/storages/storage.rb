@@ -66,7 +66,7 @@ class Storages::Storage < ApplicationRecord
   ].freeze
 
   # Uniqueness - no two storages should  have the same host.
-  validates_uniqueness_of :host
+  validates_uniqueness_of :host, allow_nil: true
   validates_uniqueness_of :name
 
   # Creates a scope of all storages, which belong to a project the user is a member

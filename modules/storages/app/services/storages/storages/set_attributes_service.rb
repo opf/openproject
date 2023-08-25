@@ -39,12 +39,22 @@ module Storages::Storages
     private
 
     def set_attributes(params)
-      super(params)
+      super(replace_empty_host_with_nil(params))
       unset_nextcloud_application_credentials if nextcloud_storage?
     end
 
     def remove_host_trailing_slashes
       storage.host = storage.host&.gsub(/\/+$/, '')
+    end
+
+    def replace_empty_host_with_nil(params)
+      cloned_param = params.clone
+
+      if cloned_param[:host] == ''
+        cloned_param.merge!(host: nil)
+      end
+
+      cloned_param
     end
 
     def unset_nextcloud_application_credentials

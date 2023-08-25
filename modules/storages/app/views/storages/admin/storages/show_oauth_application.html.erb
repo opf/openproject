@@ -83,9 +83,9 @@
     </div>
   </fieldset>
 
-  <% if @object.oauth_client %>
-    <%= link_to t("storages.buttons.done_continue_setup"), edit_admin_settings_storage_path(@object), class: "-highlight -with-icon icon-checkmark button" %>
+  <% if @storage.oauth_client %>
+    <%= link_to t("storages.buttons.done_continue_setup"), edit_admin_settings_storage_path(@storage), class: "-highlight -with-icon icon-checkmark button" %>
   <% else %>
-    <%= link_to t("storages.buttons.done_continue_setup"), new_admin_settings_storage_oauth_client_path(@object), class: "-highlight -with-icon icon-checkmark button" %>
+    <%= link_to t("storages.buttons.done_continue_setup"), new_admin_settings_storage_oauth_client_path(@storage), class: "-highlight -with-icon icon-checkmark button" %>
   <% end %>
 <% end %>

@@ -86,13 +86,13 @@ class Storages::Admin::StoragesController < ApplicationController
 
     service_result = Storages::Storages::CreateService.new(user: current_user, contract_class:).call(storage_params)
 
+    @storage = service_result.result
+    @oauth_application = oauth_application(service_result)
+
     service_result.on_failure do
       @errors = service_result.errors
       render :new
     end
-
-    @storage = service_result.result
-    @oauth_application = oauth_application(service_result)
 
     service_result.on_success do
       case @storage.provider_type
