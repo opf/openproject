@@ -48,7 +48,7 @@ module Storages::Admin
       if configured?
         storage.name
       else
-        helpers.op_icon('icon-warning -warning') +
+        render(Primer::Beta::Octicon.new(:'alert-fill', size: :small, color: :severe)) +
           content_tag(:span,
                       storage.name,
                       class: 'pl-2')

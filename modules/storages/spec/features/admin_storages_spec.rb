@@ -253,8 +253,11 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
       visit admin_settings_storages_path
 
       aggregate_failures 'storages view with configuration checks' do
-        expect(page.find_by_id("storages_nextcloud_storage_#{configured_storage.id}")).not_to have_css('i.icon-warning')
-        expect(page.find_by_id("storages_nextcloud_storage_#{unconfigured_storage.id}")).to have_css('i.icon-warning')
+        configured_storage_table_row = page.find_by_id("storages_nextcloud_storage_#{configured_storage.id}")
+        unconfigured_storage_table_row = page.find_by_id("storages_nextcloud_storage_#{unconfigured_storage.id}")
+
+        expect(configured_storage_table_row).not_to have_css('.octicon-alert-fill')
+        expect(unconfigured_storage_table_row).to have_css('.octicon-alert-fill')
       end
 
       aggregate_failures 'individual storage view' do
