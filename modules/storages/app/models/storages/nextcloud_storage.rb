@@ -27,8 +27,6 @@
 #++
 
 class Storages::NextcloudStorage < Storages::Storage
-  include ::Storages::Nextcloud::ConfigurationCompletionChecks
-
   PROVIDER_FIELDS_DEFAULTS = {
     automatically_managed: true,
     username: 'OpenProject'

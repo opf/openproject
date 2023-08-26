@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,17 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-module Storages::Nextcloud
-  module ConfigurationCompletionChecks
-    def configuration_complete?
-      configuration_completion_checks.values.all?
+module Storages::Admin
+  class ConfigurationChecksComponent < Primer::Beta::Flash
+    def initialize(storage:, spacious: true, dismissible: false, icon: :alert, scheme: :danger, **kwargs)
+      @storage = storage
+      super(spacious:, dismissible:, icon:, scheme:, **kwargs)
     end
 
-    def configuration_completion_checks
-      { host_name_configured: (host.present? && name.present?),
-        openproject_application_credentials_configured: oauth_application.present?,
-        nextcloud_application_credentials_configured: oauth_client.present?,
-        nextcloud_automatically_managed_project_folders_configured: !automatic_management_unspecified? }
+    def render?
+      !@storage.configured?
+    end
+
+    def content
+      I18n.t('storages.configuration_checks.incomplete')
     end
   end
 end

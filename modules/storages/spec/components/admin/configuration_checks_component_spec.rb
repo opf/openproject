@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,19 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-module Storages::Admin
-  class ConfigurationCompletionChecksComponent < Primer::Beta::Flash
-    def initialize(storage:, spacious: true, dismissible: false, icon: :alert, scheme: :danger, **kwargs)
-      @storage = storage
-      super(spacious:, dismissible:, icon:, scheme:, **kwargs)
+require_relative '../../spec_helper'
+
+RSpec.describe Storages::Admin::ConfigurationChecksComponent,
+               type: :component do
+  describe '#render?' do
+    context 'with all configuration checks complete' do
+      it 'returns false, does not render view component' do
+        storage = build_stubbed(:storage,
+                                oauth_application: build_stubbed(:oauth_application),
+                                oauth_client: build_stubbed(:oauth_client))
+        component = described_class.new(storage:)
+
+        expect(render_inline(component).content).to be_blank
+      end
     end
 
-    def render?
-      !@storage.configuration_complete?
-    end
+    context 'with incomplete configuration checks' do
+      it 'returns true, renders view component' do
+        storage = build_stubbed(:storage, host: nil, name: nil)
+        component = described_class.new(storage:)
 
-    def content
-      I18n.t('storages.configuration_completion_checks.incomplete')
+        expect(render_inline(component)).to have_content('The setup of this storage is incomplete.')
+      end
     end
   end
 end

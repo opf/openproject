@@ -110,7 +110,7 @@ en:
       project_folder: >
         The project folder is the default folder for file uploads for this project.
         Users can nevertheless still upload files to other locations.
-    configuration_completion_checks:
+    configuration_checks:
       incomplete: "The setup of this storage is incomplete."
     delete_warning:
       storage: >

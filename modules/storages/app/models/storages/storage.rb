@@ -39,6 +39,8 @@
 class Storages::Storage < ApplicationRecord
   self.inheritance_column = :provider_type
 
+  include ::Storages::Common::ConfigurationChecks
+
   # One Storage can have multiple FileLinks, representing external files.
   #
   # FileLink deletion is done:

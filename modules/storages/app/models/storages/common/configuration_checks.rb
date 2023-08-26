@@ -26,29 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-require_relative '../../spec_helper'
+module Storages::Common
+  module ConfigurationChecks
+    extend ActiveSupport::Concern
 
-RSpec.describe Storages::Admin::ConfigurationCompletionChecksComponent,
-               type: :component do
-  describe '#render?' do
-    context 'with all configuration checks complete' do
-      it 'returns false, does not render view component' do
-        storage = build_stubbed(:nextcloud_storage, :as_automatically_managed,
-                                oauth_application: build_stubbed(:oauth_application),
-                                oauth_client: build_stubbed(:oauth_client))
-        component = described_class.new(storage:)
-
-        expect(render_inline(component).content).to be_blank
+    included do
+      scope :configured, -> do
+        where.associated(:oauth_client, :oauth_application)
+        .where("storages.host IS NOT NULL AND storages.name IS NOT NULL")
       end
     end
 
-    context 'with incomplete configuration checks' do
-      it 'returns true, renders view component' do
-        storage = build_stubbed(:nextcloud_storage, host: nil, name: nil)
-        component = described_class.new(storage:)
+    def configured?
+      configuration_checks.values.all?
+    end
 
-        expect(render_inline(component)).to have_content('The setup of this storage is incomplete.')
-      end
+    def configuration_checks
+      { host_name_configured: (host.present? && name.present?),
+        openproject_oauth_application_configured: oauth_application.present?,
+        storage_oauth_client_configured: oauth_client.present? }
     end
   end
 end
