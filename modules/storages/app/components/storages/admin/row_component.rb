@@ -40,6 +40,10 @@ module Storages::Admin
     # https://www.rubydoc.info/gems/activesupport/Module:delegate
     delegate :created_at, :host, :provider_type, :configured?, to: :storage
 
+    def row_css_id
+      helpers.dom_id storage
+    end
+
     def name
       if configured?
         storage.name
