@@ -268,8 +268,8 @@ description: |-
   timestamps = [baseline_timestamp, current_timestamp]
 
   # Retrieve work packages
-  url = "https://community.openproject.org/api/v3/work_packages?timestamps=#{timestamps.join(',')}"
-  response = JSON.parse(RestClient.get(url), object_class: OpenStruct)
+  url = URI("https://community.openproject.org/api/v3/work_packages?timestamps=#{timestamps.join(',')}")
+  response = JSON.parse(Net::HTTP.get(url), object_class: OpenStruct)
   work_packages = response.dig("_embedded", "elements")
 
   # Extract differing baseline attributes

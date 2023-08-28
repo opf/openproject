@@ -26,6 +26,8 @@ hr:
         position: "Pozicija"
         remaining_hours: "Preostalo vrijeme"
         remaining_time: "Preostalo vrijeme"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Točke priče"
         backlogs_work_package_type: "Backlog tip"
     errors:

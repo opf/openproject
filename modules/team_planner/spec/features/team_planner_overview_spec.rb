@@ -33,18 +33,38 @@ require 'spec_helper'
 require_relative 'shared_context'
 
 RSpec.describe 'Team planner overview',
-               :js,
                :with_cuprite,
                with_ee: %i[team_planner_view] do
-  include_context 'with team planner full access'
+  # The order the Projects are created in is important. By naming `project` alphanumerically
+  # after `other_project`, we can ensure that subsequent specs that assert sorting is
+  # correct for the right reasons (sorting by Project name and not id)
+  shared_let(:project) { create(:project, name: 'Project 2') }
+  shared_let(:other_project) { create(:project, name: 'Project 1') }
 
-  let(:current_user) { user }
-  let(:query) { create(:query, user:, project:, public: true) }
-  let(:team_plan) { create(:view_team_planner, query:) }
+  shared_let(:admin) { create(:admin) }
+  shared_let(:user_with_full_permissions) do
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: %w[
+             view_work_packages edit_work_packages add_work_packages
+             view_team_planner manage_team_planner
+             save_queries manage_public_queries
+             work_package_assigned
+           ])
+  end
+  shared_let(:user_with_limited_permissions) do
+    create(:user,
+           firstname: 'Bernd',
+           member_in_project: project,
+           member_with_permissions: %w[view_work_packages view_team_planner])
+  end
+
+  let(:team_planner) { Pages::TeamPlanner.new(project) }
+
+  let(:current_user) { admin }
 
   before do
     login_as current_user
-    team_plan
     visit team_planners_path
   end
 
@@ -58,44 +78,119 @@ RSpec.describe 'Team planner overview',
     team_planner.expect_create_button
   end
 
-  context 'with no view' do
-    let(:team_plan) { nil }
-
+  context 'with no views' do
     it 'shows an empty overview action' do
       team_planner.expect_no_views_rendered
     end
   end
 
-  context 'with an existing view' do
-    it 'shows that view' do
-      team_planner.expect_view_rendered query
-
-      team_planner.expect_no_delete_button_for query
+  context 'with existing views' do
+    shared_let(:query) do
+      create(:public_query, user: user_with_full_permissions, project:)
+    end
+    shared_let(:team_plan) do
+      create(:view_team_planner, query:)
     end
 
-    context 'with another user with limited access' do
-      let(:current_user) do
-        create(:user,
-               firstname: 'Bernd',
-               member_in_project: project,
-               member_with_permissions: %w[view_work_packages view_team_planner])
+    shared_let(:other_query) do
+      create(:public_query, user: user_with_full_permissions, project:)
+    end
+    shared_let(:other_team_plan) do
+      create(:view_team_planner, query: other_query)
+    end
+
+    shared_let(:private_query) do
+      create(:private_query, user: user_with_full_permissions, project:)
+    end
+    shared_let(:private_team_plan) do
+      create(:view_team_planner, query: private_query)
+    end
+
+    shared_let(:other_project_query) do
+      create(:public_query, user: user_with_full_permissions, project: other_project)
+    end
+    shared_let(:other_project_team_plan) do
+      create(:view_team_planner, query: other_project_query)
+    end
+
+    context 'as an admin' do
+      let(:current_user) { admin }
+
+      it 'shows those views' do
+        team_planner.expect_views_rendered(query, other_query, other_project_query)
+
+        team_planner.expect_no_delete_buttons_for(query, other_query, other_project_query)
       end
+    end
+
+    context 'as a user with full permissions within a project' do
+      let(:current_user) { user_with_full_permissions }
+
+      it 'shows views in projects the user is a member of' do
+        team_planner.expect_views_rendered(query, private_query, other_query)
+
+        team_planner.expect_no_delete_buttons_for(query, private_query, other_query)
+      end
+
+      context 'and as the author of a private view' do
+        it 'shows my private view' do
+          team_planner.expect_views_rendered(query, private_query, other_query)
+
+          team_planner.expect_no_delete_buttons_for(query, private_query, other_query)
+        end
+      end
+    end
+
+    context 'as a user with limited permissions within a project' do
+      let(:current_user) { user_with_limited_permissions }
 
       it 'does not show the management buttons' do
-        team_planner.expect_view_rendered query
-
-        team_planner.expect_no_delete_button_for query
         team_planner.expect_no_create_button
+        team_planner.expect_no_delete_buttons_for(query, other_query)
       end
 
-      context 'when the view is non-public' do
-        let(:query) { create(:query, user:, project:, public: false) }
+      it 'shows views in projects the user is a member of' do
+        team_planner.expect_views_rendered(query, other_query)
+      end
+    end
 
-        it 'does not show a non-public view' do
-          team_planner.expect_no_views_rendered
-          team_planner.expect_view_not_rendered query
+    describe 'sorting' do
+      let(:current_user) { admin }
 
-          team_planner.expect_no_create_button
+      it 'allows sorting by all columns' do
+        # Initial sort is Name ASC
+        # We can assert this by expecting the order to be
+        # 1. query
+        # 2. other_query
+        # 3. other_project_query
+        aggregate_failures 'Sorting by Name' do
+          team_planner.expect_views_listed_in_order(query, other_query, other_project_query)
+          team_planner.click_to_sort_by('Name')
+          team_planner.expect_views_listed_in_order(other_project_query, other_query, query)
+        end
+
+        aggregate_failures 'Sorting by Project' do
+          team_planner.click_to_sort_by('Project')
+          # Sorting is performed on multiple columns at a time, taking into account
+          # previous sorting criteria and using the latest clicked column as
+          # the first column in the +ORDER BY+ clause and previously sorted by columns after.
+          #
+          # This is unintuitive to a user who is visually being informed by arrows in table headers
+          # that only one column is taken into account for sorting.
+          # TODO:
+          #   Fix sorting behavior to un-toggle previous columns sorted by or provide
+          #   visual feedback of all columns currently being taken into account for
+          #   sorting.
+          team_planner.expect_views_listed_in_order(other_project_query, other_query, query)
+          team_planner.click_to_sort_by('Project')
+          team_planner.expect_views_listed_in_order(other_query, query, other_project_query)
+        end
+
+        aggregate_failures 'Sorting by Created on' do
+          team_planner.click_to_sort_by('Created on')
+          team_planner.expect_views_listed_in_order(query, other_query, other_project_query)
+          team_planner.click_to_sort_by('Created on')
+          team_planner.expect_views_listed_in_order(other_project_query, other_query, query)
         end
       end
     end

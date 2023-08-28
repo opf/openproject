@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,6 +29,7 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
 
 RSpec.describe Storages::ManageNextcloudIntegrationCronJob, type: :job do
   it 'has a schedule set' do
@@ -41,9 +44,9 @@ RSpec.describe Storages::ManageNextcloudIntegrationCronJob, type: :job do
       subject
     end
 
-    it 'fails itself when sync has been started by another process' do
+    it 'works out silently without doing anything when sync has been started by another process' do
       allow(Storages::NextcloudStorage).to receive(:sync_all_group_folders).and_return(false)
-      expect { subject }.to raise_error('Synchronization is being progressed by another process')
+      subject
     end
   end
 end

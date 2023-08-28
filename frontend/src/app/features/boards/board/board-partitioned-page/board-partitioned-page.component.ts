@@ -126,15 +126,15 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
       component: WorkPackageFilterButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
     },
     {
       component: ZenModeButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
     },
     {
       component: BoardsMenuButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
       show: () => this.editable,
       inputs: {
         board$: this.board$,

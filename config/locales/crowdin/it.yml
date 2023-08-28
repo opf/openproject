@@ -2173,6 +2173,10 @@ it:
   mail_body_incoming_email_error_in_reply_to: "Alle %{received_at} %{from_email} ha scritto"
   mail_body_incoming_email_error_logs: "Log"
   mail_body_lost_password: "Per cambiare la password, clicca nel link seguente:"
+  mail_password_change_not_possible:
+    title: "Modifica della password non possibile"
+    body: "Il tuo account su %{app_title} è connesso a un provider di autenticazione esterno (%{name})."
+    subtext: "Le password per l'account esterno non possono essere modificate nell'applicazione. Usa la funzionalità di password smarrita del provider di autenticazione."
   mail_body_register: "Benvenuto in %{app_title}. Attiva il tuo account cliccando su questo link:"
   mail_body_register_header_title: "Email di invito come membro del progetto"
   mail_body_register_user: "Gentile %{name}, "
@@ -2691,9 +2695,7 @@ it:
         type: "Tutta la riga per Tipo"
         priority: "Tutta la riga per Priorità"
     icalendar:
-      enable_subscriptions_text_html: Consente agli utenti con le autorizzazioni necessarie di iscriversi ai calendari OpenProject e accedere alle informazioni sulle macro-attività tramite un client di calendario esterno.
-    #below line needs to be appended above after docs are ready
-    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: Consente agli utenti con le autorizzazioni necessarie di iscriversi ai calendari OpenProject e accedere alle informazioni sui pacchetti di lavoro tramite un client di calendario esterno. <strong>Nota:</strong> informati sulle <a href="%{link}" target="_blank">iscrizioni a iCalendar</a> per comprendere i potenziali rischi per la sicurezza prima di abilitare questa funzione.
     language_name_being_default: '%{language_name} (predefinito)'
     notifications:
       events_explanation: 'Determina per quale evento viene inviata un''e-mail. Le macro-attività sono escluse da questo elenco in quanto le notifiche per essi possono essere configurate in modo specifico per ogni utente.'

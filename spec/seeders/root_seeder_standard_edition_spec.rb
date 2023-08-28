@@ -220,6 +220,10 @@ RSpec.describe RootSeeder,
       expect(Project.count).to eq 6
     end
 
+    it 'creates 1 project with custom fields' do
+      expect(CustomField.count).to eq 12
+    end
+
     include_examples 'no email deliveries'
   end
 end

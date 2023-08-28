@@ -93,7 +93,7 @@ RSpec.describe Stories::CreateService, type: :model do
       let(:remaining_hours) { 15.0 }
 
       it 'does update the parents remaining hours' do
-        expect(story.reload.remaining_hours).to eq(15)
+        expect(story.reload.derived_remaining_hours).to eq(15)
       end
     end
 

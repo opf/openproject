@@ -1523,7 +1523,7 @@ es:
         watched: "Estás viendo a %{work_package}"
     update_info_mail:
       body: >
-        Nos complace anunciar la publicación de la versión OpenProject 12.0. Esta, es una nueva versión con muchos cambios que esperamos simplifiquen y mejoren en gran medida la forma en que usa OpenProject.
+        Nos complace anunciar el lanzamiento de la versión OpenProject 12.0. Esta, es una nueva versión con muchos cambios que esperamos simplifiquen y mejoren en gran medida la forma en que usa OpenProject.
         Para empezar, con esta versión introducimos las notificaciones dentro de la aplicación. Des de ahora, va a recibir notificaciones por actualizaciones en los paquetes de trabajo directamente en OpenProject. Puede marcar estas notificaciones como leídas, contestar a comentarios e incluso modificar los atributos de un paquete de trabajo sin salir del centro de notificaciones.
         Esto también supone que no se van a usar más los correos electrónicos para este tipo de notificaciones. Creemos que el centro de notificaciones es el mejor sitio para ver y realizar cambios sobre estas actualizaciones. No obstante, si desea continuar recibiendo notificaciones vía correo electrónico, puede seleccionar recibir correos recordatorios diarios en horas concretas de su elección.
         Por favor, asegúrese de validar sus nuevas configuraciones de notificaciones que se han reseteado por defecto y a posteriori puede crear y modificar sus preferencias tanto para las notificaciones dentro de la aplicación como para los recordatorios vía correo electrónico en la configuración de su cuenta. También puede hacer estos cambios usando el botón abajo "Cambiar configuración de correo electrónico".
@@ -1531,7 +1531,7 @@ es:
         Sinceramente, El equipo de OpenProject
       body_header: 'Versión 12.0 con el Centro de notificaciones'
       body_subheader: 'Noticias'
-      subject: 'Cambios importantes en las notificaciones con la publicación de la versión 12.0'
+      subject: 'Cambios importantes en las notificaciones con el lanzamiento de la versión 12.0'
   label_accessibility: "Accesibilidad"
   label_account: "Cuenta"
   label_active: "Activo"
@@ -1932,7 +1932,7 @@ es:
   label_relates_to: "relacionado con"
   label_relation_delete: "Eliminar relación"
   label_relation_new: "Nueva relación"
-  label_release_notes: "Notas de publicación"
+  label_release_notes: "Notas de lanzamiento"
   label_remove_columns: "Eliminar columnas seleccionadas"
   label_renamed: "nombre cambiado"
   label_reply_plural: "Respuestas"
@@ -2173,6 +2173,10 @@ es:
   mail_body_incoming_email_error_in_reply_to: "El %{received_at} %{from_email} escribió"
   mail_body_incoming_email_error_logs: "Registros"
   mail_body_lost_password: "Para cambiar su contraseña, haga clic en el siguiente enlace:"
+  mail_password_change_not_possible:
+    title: "No es posible cambiar la contraseña"
+    body: "Su cuenta en %{app_title} está conectada a un proveedor de autenticación externo (%{name})."
+    subtext: "Las contraseñas de las cuentas externas no pueden cambiarse en la aplicación. Utilice la funcionalidad de pérdida de contraseña de su proveedor de autenticación."
   mail_body_register: "Bienvenido a %{app_title}. Por favor, active su cuenta haciendo clic en este enlace:"
   mail_body_register_header_title: "Correo electrónico de invitación al miembro del proyecto"
   mail_body_register_user: "Estimado/a %{name},"
@@ -2690,9 +2694,7 @@ es:
         type: "Toda la fila por tipo"
         priority: "Toda la fila por prioridad"
     icalendar:
-      enable_subscriptions_text_html: Permite a los usuarios con los permisos necesarios suscribirse a los calendarios de OpenProject y acceder a la información de los paquetes de trabajo a través de un cliente de calendario externo.
-    #below line needs to be appended above after docs are ready
-    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: Permite a los usuarios con los permisos necesarios suscribirse a los calendarios de OpenProject y acceder a la información de los paquetes de trabajo a través de un cliente de calendario externo. <strong>Nota:</strong> Lea sobre <a href="%{link}" target="_blank">suscripciones a iCalendar</a> para comprender los posibles riesgos de seguridad antes de habilitarlo.
     language_name_being_default: '%{language_name} (por defecto)'
     notifications:
       events_explanation: 'Controla para qué evento se envía un correo electrónico. Los paquetes de trabajo se excluyen de esta lista, ya que las notificaciones para estos se pueden configurar específicamente por usuario.'

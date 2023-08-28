@@ -191,13 +191,14 @@ gem 'openproject-token', '~> 3.0.1'
 
 gem 'plaintext', '~> 0.3.2'
 
-gem 'rest-client', '~> 2.0'
-
 gem 'ruby-progressbar', '~> 1.13.0', require: false
 
 gem 'mini_magick', '~> 4.12.0', require: false
 
 gem 'validate_url'
+
+# Storages support code
+gem "dry-container"
 
 # ActiveRecord extension which adds typecasting to store accessors
 gem "store_attribute", "~> 1.0"
@@ -245,8 +246,7 @@ group :test do
   gem 'capybara', '~> 3.39.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'cuprite', '~> 0.14.3'
-  gem 'selenium-webdriver', '~> 4.0'
-  gem 'webdrivers', '~> 5.2.0'
+  gem 'selenium-webdriver', '~> 4.11.0'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
@@ -276,6 +276,7 @@ group :development do
 
   gem 'spring'
   gem 'spring-commands-rspec'
+  gem 'spring-commands-rubocop'
 
   gem 'colored2'
 
@@ -354,6 +355,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-primer_view_components", '~>0.6.3'
+gem "openproject-primer_view_components", '~>0.7.0'
 gem "openproject-octicons", '~>19.6.7'
 gem "openproject-octicons_helper", '~>19.6.7'

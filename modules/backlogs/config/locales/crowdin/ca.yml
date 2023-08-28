@@ -26,6 +26,8 @@ ca:
         position: "Posició"
         remaining_hours: "Hores restants"
         remaining_time: "Hores restants"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Punts d'història"
         backlogs_work_package_type: "Tipus de backlog"
     errors:

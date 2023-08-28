@@ -76,6 +76,10 @@
   h2
     font-size: 1.4rem
 
-@include breakpoint(sm)
+@media screen and (min-width: $breakpoint-sm)
   .hidden-for-desktop
+    display: none !important
+
+@media screen and (max-width: $breakpoint-md)
+  .hidden-for-tablet
     display: none !important

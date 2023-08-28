@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,7 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../spec_helper'
+require 'spec_helper'
+require_module_spec_helper
 
 RSpec.describe Storages::FileLink do
   let(:creator) { create(:user) }
@@ -55,12 +58,12 @@ RSpec.describe Storages::FileLink do
 
     it "fails when creating an instance with an unsupported container type" do
       file_link = described_class.create(attributes.merge({ container_id: creator.id, container_type: "User" }))
-      expect(file_link).to be_invalid
+      expect(file_link).not_to be_valid
     end
 
     it "create instance should fail with empty origin_id" do
       file_link = described_class.create(attributes.merge({ origin_id: "" }))
-      expect(file_link).to be_invalid
+      expect(file_link).not_to be_valid
     end
   end
 
@@ -72,7 +75,7 @@ RSpec.describe Storages::FileLink do
     end
 
     it "destroy instance should leave no file_link" do
-      expect(Storages::FileLink.count).to be 0
+      expect(described_class.count).to be 0
     end
   end
 end

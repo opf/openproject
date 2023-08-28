@@ -346,7 +346,7 @@ es:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                La versión contiene varias características nuevas y mejoras: <br> <ul class="%{list_styling_class}"> <li>Comparación de referencia para facilitar el seguimiento de los cambios.</li> <li>Exportación de PDF para informes sobre planes de trabajo.</li> <li>Suscripción a calendarios de proyectos a través de URL (iCalendar).</li> <li>Carpetas de proyectos con plantillas de documentos para la integración de Nextcloud.</li> <li>Sembrado localizado de todos los datos de semillas.</li> <li>Los módulos globales se enumeran en nuevas páginas de índice.</li> </ul>
+                El lanzamiento contiene varias características nuevas y mejoras: <br> <ul class="%{list_styling_class}"> <li>Comparación de referencia para facilitar el seguimiento de los cambios.</li> <li>Exportación de PDF para informes sobre planes de trabajo.</li> <li>Suscripción a calendarios de proyectos a través de URL (iCalendar).</li> <li>Carpetas de proyectos con plantillas de documentos para la integración de Nextcloud.</li> <li>Sembrado localizado de todos los datos de semillas.</li> <li>Los módulos globales se enumeran en nuevas páginas de índice.</li> </ul>
     ical_sharing_modal:
       title: "Suscribirse al calendario"
       inital_setup_error_message: "Se ha producido un error al obtener los datos."

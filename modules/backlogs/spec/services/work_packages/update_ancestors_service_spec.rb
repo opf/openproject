@@ -32,87 +32,62 @@ RSpec.describe WorkPackages::UpdateAncestorsService do
   let(:user) { create(:user) }
 
   let(:sibling_remaining_hours) { 7.0 }
+  let(:parent_remaining_hours) { 2.0 }
   let(:work_package_remaining_hours) { 5.0 }
 
-  let!(:grandparent) do
-    create(:work_package)
-  end
-  let!(:parent) do
-    create(:work_package,
-           parent: grandparent)
-  end
-  let!(:sibling) do
-    create(:work_package,
-           parent:,
-           remaining_hours: sibling_remaining_hours)
-  end
+  let!(:grandparent) { create(:work_package) }
+  let!(:parent) { create(:work_package, parent: grandparent, remaining_hours: parent_remaining_hours) }
+  let!(:sibling) { create(:work_package, parent:, remaining_hours: sibling_remaining_hours) }
 
   context 'for a new ancestors' do
-    let!(:work_package) do
-      create(:work_package,
-             remaining_hours: work_package_remaining_hours,
-             parent:)
-    end
-
-    subject do
-      described_class
-        .new(user:,
-             work_package:)
-        .call(%i(parent))
-    end
+    let!(:work_package) { create(:work_package, remaining_hours: work_package_remaining_hours, parent:) }
 
     before do
-      subject
+      described_class.new(user:, work_package:).call(%i(parent))
     end
 
     it 'recalculates the remaining_hours for new parent and grandparent' do
-      expect(grandparent.reload.remaining_hours)
-        .to eql sibling_remaining_hours + work_package_remaining_hours
+      [grandparent, parent, sibling].each(&:reload)
 
-      expect(parent.reload.remaining_hours)
-        .to eql sibling_remaining_hours + work_package_remaining_hours
+      expect(grandparent.remaining_hours).to be_nil
+      expect(grandparent.derived_remaining_hours)
+        .to eql(sibling_remaining_hours + work_package_remaining_hours + parent_remaining_hours)
 
-      expect(sibling.reload.remaining_hours)
-        .to eql sibling_remaining_hours
+      expect(parent.remaining_hours).to eql(parent_remaining_hours)
+      expect(parent.derived_remaining_hours).to eql(sibling_remaining_hours + work_package_remaining_hours)
 
-      expect(work_package.reload.remaining_hours)
-        .to eql work_package_remaining_hours
+      expect(sibling.remaining_hours).to eql(sibling_remaining_hours)
+      expect(sibling.derived_remaining_hours).to be_nil
+
+      expect(work_package.remaining_hours).to eql(work_package_remaining_hours)
+      expect(work_package.derived_remaining_hours).to be_nil
     end
   end
 
   context 'for the previous ancestors' do
-    let!(:work_package) do
-      create(:work_package,
-             remaining_hours: work_package_remaining_hours,
-             parent:)
-    end
+    let(:work_package) { create(:work_package, remaining_hours: work_package_remaining_hours, parent:) }
 
-    subject do
+    before do
       work_package.parent = nil
       work_package.save!
 
-      described_class
-        .new(user:,
-             work_package:)
-        .call(%i(parent))
+      described_class.new(user:, work_package:).call(%i(parent))
     end
 
-    before do
-      subject
-    end
+    it 'recalculates the derived_remaining_hours for former parent and grandparent' do
+      [grandparent, parent, sibling, work_package].each(&:reload)
 
-    it 'recalculates the remaining_hours for former parent and grandparent' do
-      expect(grandparent.reload.remaining_hours)
-        .to eql sibling_remaining_hours
+      expect(grandparent.remaining_hours).to be_nil
+      expect(grandparent.derived_remaining_hours).to eql sibling_remaining_hours + parent_remaining_hours
 
-      expect(parent.reload.remaining_hours)
-        .to eql sibling_remaining_hours
+      expect(parent.remaining_hours).to eql(parent_remaining_hours)
+      expect(parent.derived_remaining_hours).to eql sibling_remaining_hours
 
-      expect(sibling.reload.remaining_hours)
-        .to eql sibling_remaining_hours
+      expect(sibling.remaining_hours).to eql sibling_remaining_hours
+      expect(sibling.derived_remaining_hours).to be_nil
 
-      expect(work_package.reload.remaining_hours)
-        .to eql work_package_remaining_hours
+      expect(work_package.remaining_hours).to eql work_package_remaining_hours
+      expect(work_package.derived_remaining_hours).to be_nil
     end
   end
 end

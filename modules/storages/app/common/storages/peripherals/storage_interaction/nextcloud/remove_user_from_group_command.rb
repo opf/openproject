@@ -35,6 +35,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       @group = storage.group
     end
 
+    def self.call(storage:, user:, group: storage.group)
+      new(storage).call(user:, group:)
+    end
+
     # rubocop:disable Metrics/AbcSize
     def call(user:, group: @group)
       response = Util.http(@uri).delete(
@@ -62,7 +66,8 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         when "104"
           Util.error(:error, "Insufficient privileges")
         when "105"
-          Util.error(:error, "Failed to remove user from group")
+          message = Nokogiri::XML(response.body).xpath('/ocs/meta/message').text
+          Util.error(:error, "Failed to remove user #{user} from group #{group}: #{message}")
         end
       when Net::HTTPMethodNotAllowed
         Util.error(:not_allowed)

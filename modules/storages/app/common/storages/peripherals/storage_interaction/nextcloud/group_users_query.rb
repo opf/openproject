@@ -34,11 +34,14 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       @uri = URI(storage.host).normalize
       @username = storage.username
       @password = storage.password
-      @group = storage.group
+    end
+
+    def self.call(storage:, group: storage.group)
+      new(storage).call(group:)
     end
 
     # rubocop:disable Metrics/AbcSize
-    def call(group: @group)
+    def call(group:)
       response = Util.http(@uri).get(
         Util.join_uri_path(@uri, "ocs/v1.php/cloud/groups", CGI.escapeURIComponent(group)),
         Util.basic_auth_header(@username, @password).merge('OCS-APIRequest' => 'true')

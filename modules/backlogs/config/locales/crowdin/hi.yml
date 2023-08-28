@@ -26,6 +26,8 @@ hi:
         position: "स्थिति"
         remaining_hours: "बाकी बचे घंटे"
         remaining_time: "बाकी बचे घंटे"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "कहानी अंक"
         backlogs_work_package_type: "बैकलॉग प्रकार"
     errors:

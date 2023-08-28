@@ -32,17 +32,20 @@ module Meetings
   class TableComponent < ::TableComponent
     options :current_project # used to determine if displaying the projects column
 
-    sortable_columns :title, :project_id, :start_time, :duration, :location
+    sortable_columns :title, :project_name, :start_time, :duration, :location
 
     def initial_sort
       %i[start_time asc]
     end
 
+    def sortable_columns_correlation
+      super.merge(project_name: 'projects.name')
+    end
+
     def initialize_sorted_model
       helpers.sort_clear
-      helpers.sort_init *initial_sort.map(&:to_s)
-      helpers.sort_update disambiguated_sortable_columns
-      @model = paginate_collection apply_sort(model)
+
+      super
     end
 
     def paginated?
@@ -52,7 +55,7 @@ module Meetings
     def headers
       @headers ||= [
         [:title, { caption: Meeting.human_attribute_name(:title) }],
-        current_project.blank? ? [:project_id, { caption: Meeting.human_attribute_name(:project) }] : nil,
+        current_project.blank? ? [:project_name, { caption: Meeting.human_attribute_name(:project) }] : nil,
         [:start_time, { caption: Meeting.human_attribute_name(:start_time) }],
         [:duration, { caption: Meeting.human_attribute_name(:duration) }],
         [:location, { caption: Meeting.human_attribute_name(:location) }]
@@ -61,13 +64,6 @@ module Meetings
 
     def columns
       @columns ||= headers.map(&:first)
-    end
-
-    private
-
-    def disambiguated_sortable_columns
-      sortable_columns.to_h { [_1.to_s, _1.to_s] }
-                      .merge('project_id' => 'meetings.project_id')
     end
   end
 end

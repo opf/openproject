@@ -37,6 +37,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
       @password = storage.password
     end
 
+    def self.call(storage:, location:)
+      new(storage).call(location:)
+    end
+
     def call(location:)
       response = UTIL.http(@uri).delete(
         UTIL.join_uri_path(@base_path, UTIL.escape_path(location)),

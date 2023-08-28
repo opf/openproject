@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,12 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../spec_helper'
+require 'spec_helper'
+require_module_spec_helper
 
-RSpec.describe(
-  'Project storage members connection status view',
-  with_flag: { storage_project_members_check: true }
-) do
+RSpec.describe 'Project storage members connection status view' do
   let(:user) { create(:user) }
   let(:admin_user) { create(:admin) }
   let(:connected_user) { create(:user) }

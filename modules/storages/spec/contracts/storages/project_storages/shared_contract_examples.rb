@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,6 +30,7 @@
 
 # Include OpenProject support/*.rb files
 require 'spec_helper'
+require_module_spec_helper
 
 # Purpose: Common testing logic shared between create and update specs.
 RSpec.shared_examples_for 'ProjectStorages contract' do

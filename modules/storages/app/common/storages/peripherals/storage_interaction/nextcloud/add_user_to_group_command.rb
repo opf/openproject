@@ -36,6 +36,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     # rubocop:disable Metrics/AbcSize
+    def self.call(storage:, user:, group: storage.group)
+      new(storage).call(user:, group:)
+    end
+
     def call(user:, group: @group)
       response = Util.http(@uri).post(
         Util.join_uri_path(@uri, 'ocs/v1.php/cloud/users', CGI.escapeURIComponent(user), 'groups'),

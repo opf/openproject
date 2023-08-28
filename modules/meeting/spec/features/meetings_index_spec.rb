@@ -31,8 +31,11 @@ require 'spec_helper'
 require_relative '../support/pages/meetings/index'
 
 RSpec.describe 'Meetings', 'Index', :with_cuprite do
-  shared_let(:project) { create(:project, name: 'Project 1', enabled_module_names: %w[meetings]) }
-  shared_let(:other_project) { create(:project, name: 'Project 2', enabled_module_names: %w[meetings]) }
+  # The order the Projects are created in is important. By naming `project` alphanumerically
+  # after `other_project`, we can ensure that subsequent specs that assert sorting is
+  # correct for the right reasons (sorting by Project name and not id)
+  shared_let(:project) { create(:project, name: 'Project 2', enabled_module_names: %w[meetings]) }
+  shared_let(:other_project) { create(:project, name: 'Project 1', enabled_module_names: %w[meetings]) }
   let(:role) { create(:role, permissions:) }
   let(:permissions) { %i(view_meetings) }
   let(:user) do
@@ -47,13 +50,25 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
   end
 
   let(:meeting) do
-    create(:meeting, project:, title: 'Awesome meeting today!', start_time: Time.current)
+    create(:meeting,
+           project:,
+           title: 'Awesome meeting today!',
+           start_time: Time.current)
   end
   let(:tomorrows_meeting) do
-    create(:meeting, project:, title: 'Awesome meeting tomorrow!', start_time: 1.day.from_now, location: 'no-protocol.com')
+    create(:meeting,
+           project:,
+           title: 'Awesome meeting tomorrow!',
+           start_time: 1.day.from_now,
+           duration: 2.0,
+           location: 'no-protocol.com')
   end
   let(:meeting_with_no_location) do
-    create(:meeting, project:, title: 'Boring meeting without a location!', start_time: 1.day.from_now, location: '')
+    create(:meeting,
+           project:,
+           title: 'Boring meeting without a location!',
+           start_time: 1.day.from_now,
+           location: '')
   end
   let(:meeting_with_malicious_location) do
     create(:meeting,
@@ -252,11 +267,11 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
 
         aggregate_failures 'Sorting by Project' do
           meetings_page.click_to_sort_by('Project')
-          meetings_page.expect_meetings_listed_in_order(meeting,
-                                                        other_project_meeting)
+          meetings_page.expect_meetings_listed_in_order(other_project_meeting,
+                                                        meeting)
           meetings_page.click_to_sort_by('Project')
-          meetings_page.expect_meetings_listed_in_order(other_project_meeting,
-                                                        meeting)
+          meetings_page.expect_meetings_listed_in_order(meeting,
+                                                        other_project_meeting)
         end
 
         aggregate_failures 'Sorting by Time' do
@@ -264,24 +279,6 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
           meetings_page.expect_meetings_listed_in_order(meeting,
                                                         other_project_meeting)
           meetings_page.click_to_sort_by('Time')
-          meetings_page.expect_meetings_listed_in_order(other_project_meeting,
-                                                        meeting)
-        end
-
-        aggregate_failures 'Sorting by Time' do
-          meetings_page.click_to_sort_by('Time')
-          meetings_page.expect_meetings_listed_in_order(meeting,
-                                                        other_project_meeting)
-          meetings_page.click_to_sort_by('Time')
-          meetings_page.expect_meetings_listed_in_order(other_project_meeting,
-                                                        meeting)
-        end
-
-        aggregate_failures 'Sorting by Duration' do
-          meetings_page.click_to_sort_by('Duration')
-          meetings_page.expect_meetings_listed_in_order(meeting,
-                                                        other_project_meeting)
-          meetings_page.click_to_sort_by('Duration')
           meetings_page.expect_meetings_listed_in_order(other_project_meeting,
                                                         meeting)
         end
@@ -378,6 +375,76 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
       meetings_page.expect_plaintext_meeting_location(tomorrows_meeting)
       meetings_page.expect_plaintext_meeting_location(meeting_with_malicious_location)
       meetings_page.expect_no_meeting_location(meeting_with_no_location)
+    end
+
+    describe 'sorting' do
+      before do
+        meeting
+        tomorrows_meeting
+        meetings_page.visit!
+        # Start Time ASC is the default sort order for Upcoming meetings
+        # We can assert the initial sort by expecting the order is
+        # 1. `meeting`
+        # 2. `tomorrows_meeting`
+        # upon page load
+        meetings_page.expect_meetings_listed_in_order(meeting, tomorrows_meeting)
+      end
+
+      it 'allows sorting by every column' do
+        aggregate_failures 'Sorting by Title' do
+          meetings_page.click_to_sort_by('Title')
+          meetings_page.expect_meetings_listed_in_order(meeting,
+                                                        tomorrows_meeting)
+          meetings_page.click_to_sort_by('Title')
+          meetings_page.expect_meetings_listed_in_order(tomorrows_meeting,
+                                                        meeting)
+        end
+
+        aggregate_failures 'Sorting by Time' do
+          meetings_page.click_to_sort_by('Time')
+          meetings_page.expect_meetings_listed_in_order(meeting,
+                                                        tomorrows_meeting)
+          meetings_page.click_to_sort_by('Time')
+          meetings_page.expect_meetings_listed_in_order(tomorrows_meeting,
+                                                        meeting)
+        end
+
+        aggregate_failures 'Sorting by Time' do
+          meetings_page.click_to_sort_by('Time')
+          meetings_page.expect_meetings_listed_in_order(meeting,
+                                                        tomorrows_meeting)
+          meetings_page.click_to_sort_by('Time')
+          meetings_page.expect_meetings_listed_in_order(tomorrows_meeting,
+                                                        meeting)
+        end
+
+        aggregate_failures 'Sorting by Duration' do
+          meetings_page.click_to_sort_by('Duration')
+          meetings_page.expect_meetings_listed_in_order(meeting,
+                                                        tomorrows_meeting)
+          meetings_page.click_to_sort_by('Duration')
+          meetings_page.expect_meetings_listed_in_order(tomorrows_meeting,
+                                                        meeting)
+        end
+
+        aggregate_failures 'Sorting by Duration' do
+          meetings_page.click_to_sort_by('Duration')
+          meetings_page.expect_meetings_listed_in_order(meeting,
+                                                        tomorrows_meeting)
+          meetings_page.click_to_sort_by('Duration')
+          meetings_page.expect_meetings_listed_in_order(tomorrows_meeting,
+                                                        meeting)
+        end
+
+        aggregate_failures 'Sorting by Location' do
+          meetings_page.click_to_sort_by('Location')
+          meetings_page.expect_meetings_listed_in_order(meeting,
+                                                        tomorrows_meeting)
+          meetings_page.click_to_sort_by('Location')
+          meetings_page.expect_meetings_listed_in_order(tomorrows_meeting,
+                                                        meeting)
+        end
+      end
     end
   end
 end

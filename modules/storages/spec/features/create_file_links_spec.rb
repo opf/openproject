@@ -28,7 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../spec_helper'
+require 'spec_helper'
+require_module_spec_helper
 
 RSpec.describe 'Managing file links in work package', js: true, webmock: true do
   let(:permissions) { %i(view_work_packages edit_work_packages view_file_links manage_file_links) }

@@ -1391,7 +1391,7 @@ ka:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_overview_table: "PDF Table"
+      pdf_overview_table: "PDF ცხრილი"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
     image:
@@ -1491,7 +1491,7 @@ ka:
       api:
         title: "API"
         text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
-        static_token_name: "API token"
+        static_token_name: "API კოდი"
         disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
       ical:
         title: "iCalendar"
@@ -1505,7 +1505,7 @@ ka:
       rss:
         title: "RSS"
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
-        static_token_name: "RSS token"
+        static_token_name: "RSS კოდი"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
       storages:
         title: "File Storages"
@@ -1605,7 +1605,7 @@ ka:
   label_branch: "ბრენჩი"
   label_browse: "დათვალიერება"
   label_bulk_edit_selected_work_packages: "Bulk edit selected work packages"
-  label_bundled: '(Bundled)'
+  label_bundled: '(მოჰყვება)'
   label_calendar: "კალენდარი"
   label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Show Calendar"
@@ -1621,7 +1621,7 @@ ka:
   label_change_status_of_user: "Change status of #{username}"
   label_change_view_all: "View all changes"
   label_changes_details: "Details of all changes"
-  label_changeset: "Changeset"
+  label_changeset: "ცვლილებები"
   label_changeset_id: "Changeset ID"
   label_changeset_plural: "Changesets"
   label_checked: "შემოწმებულია"
@@ -1782,7 +1782,7 @@ ka:
   label_last_login: "Last login"
   label_last_month: "last month"
   label_last_n_days: "last %{count} days"
-  label_last_week: "last week"
+  label_last_week: "ბოლო კვირას"
   label_latest_revision: "Latest revision"
   label_latest_revision_plural: "Latest revisions"
   label_ldap_authentication: "LDAP authentication"
@@ -1790,7 +1790,7 @@ ka:
   label_less_than_ago: "less than days ago"
   label_list: "სია"
   label_loading: "Loading..."
-  label_lock_user: 'Lock user'
+  label_lock_user: 'მომხმარებლის დაბლოკვა'
   label_logged_as: "Logged in as"
   label_login: "შესვლა"
   label_custom_logo: "Custom logo"
@@ -1798,7 +1798,7 @@ ka:
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "გასვლა"
-  label_main_menu: "Side Menu"
+  label_main_menu: "გვერდითი მენიუ"
   label_manage_groups: "Manage groups"
   label_managed_repositories_vendor: "Managed %{vendor} repositories"
   label_max_size: "Maximum size"
@@ -1809,7 +1809,7 @@ ka:
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
   label_menu_badge:
-    pre_alpha: 'pre-alpha'
+    pre_alpha: 'პრე-ალფა'
     alpha: 'ალფა'
     beta: 'ბეტა'
   label_menu_item_name: "Name of menu item"
@@ -1845,7 +1845,7 @@ ka:
   label_news_comment_added: "Comment added to a news"
   label_news_latest: "Latest news"
   label_news_new: "სიახლის დამატება"
-  label_news_edit: "Edit news"
+  label_news_edit: "სიახლის ჩასწორება"
   label_news_plural: "სიახლეები"
   label_news_view_all: "View all news"
   label_next: "შემდეგი"
@@ -1877,10 +1877,10 @@ ka:
   label_page_title: "Page title"
   label_part_of: "ნაწილია"
   label_password_lost: "Forgot your password?"
-  label_password_rule_lowercase: "Lowercase"
+  label_password_rule_lowercase: "დაბალი რეგისტრი"
   label_password_rule_numeric: "Numeric Characters"
   label_password_rule_special: "Special Characters"
-  label_password_rule_uppercase: "Uppercase"
+  label_password_rule_uppercase: "მაღალი რეგისტრი"
   label_path_encoding: "Path encoding"
   label_per_page: "თითოეულ გვერდზე"
   label_people: "ხალხი"
@@ -1921,7 +1921,7 @@ ka:
   label_project_show_details: "Show project details"
   label_project_hide_details: "Hide project details"
   label_public_projects: "Public projects"
-  label_query_new: "New query"
+  label_query_new: "ახალი მოთხოვნა"
   label_query_plural: "Custom queries"
   label_read: "წაკითხვა..."
   label_register: "Create a new account"
@@ -1943,7 +1943,7 @@ ka:
   label_report_bug: "Report a bug"
   label_report_plural: "ანგარიშები"
   label_reported_work_packages: "Reported work packages"
-  label_reporting: "Reporting"
+  label_reporting: "ანგარიშები"
   label_reporting_plural: "Reportings"
   label_repository: "Repository"
   label_repository_root: "Repository root"
@@ -1954,7 +1954,7 @@ ka:
   label_reverse_chronological_order: "Newest first"
   label_revision: "რევიზია"
   label_revision_id: "Revision %{value}"
-  label_revision_plural: "Revisions"
+  label_revision_plural: "რევიზიები"
   label_roadmap: "პროექტის გრაფიკი"
   label_roadmap_edit: "Edit roadmap %{name}"
   label_roadmap_due_in: "Due in %{value}"
@@ -1998,10 +1998,10 @@ ka:
   label_system_storage: "Storage information"
   label_table_of_contents: "Table of contents"
   label_tag: "ჭდე"
-  label_text: "Long text"
+  label_text: "გრძელი ტექსტი"
   label_this_month: "this month"
-  label_this_week: "this week"
-  label_this_year: "this year"
+  label_this_week: "ამ კვირაში "
+  label_this_year: "ამ წელში"
   label_time_entry_plural: "Spent time"
   label_title: "სათაური"
   label_projects_menu: "პროექტები"
@@ -2055,7 +2055,7 @@ ka:
   label_wiki_toc: "Table of Contents"
   label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Do not show this wikipage in project navigation"
-  label_wiki_edit: "Wiki edit"
+  label_wiki_edit: "ვიკის ჩასწორება"
   label_wiki_edit_plural: "Wiki edits"
   label_wiki_page_attachments: "Wiki page attachments"
   label_wiki_page_id: "Wiki page ID"
@@ -2098,10 +2098,10 @@ ka:
     other: "%{count} open"
     zero: "0 ღიაა"
   label_x_projects:
-    one: "1 project"
+    one: "1 პროექტი"
     other: "%{count} projects"
     zero: "no projects"
-  label_yesterday: "yesterday"
+  label_yesterday: "გუშინ"
   label_role_type: "ტიპი"
   label_member_role: "Project Role"
   label_global_role: "Global Role"
@@ -2156,7 +2156,7 @@ ka:
         watched: 'მეთვალყურეობის ქვეშაა'
         assigned: 'მინიჭებულია'
         responsible: 'Accountable'
-        mentioned: 'Mentioned'
+        mentioned: 'მოხსენიებულები'
         subscribed: 'ყველა'
         prefix: 'Received because of the notification setting: %{reason}'
         date_alert_start_date: 'Date alert'
@@ -2176,6 +2176,10 @@ ka:
   mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
   mail_body_incoming_email_error_logs: "ჟურნალი"
   mail_body_lost_password: "To change your password, click on the following link:"
+  mail_password_change_not_possible:
+    title: "Password change not possible"
+    body: "Your account at %{app_title} is connected to an external authentication provider (%{name})."
+    subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
@@ -2694,9 +2698,7 @@ ka:
         type: "Entire row by Type"
         priority: "Entire row by Priority"
     icalendar:
-      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
-    #below line needs to be appended above after docs are ready
-    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
     language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'

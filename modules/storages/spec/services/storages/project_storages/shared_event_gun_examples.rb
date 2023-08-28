@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -25,6 +27,9 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
+require 'spec_helper'
+require_module_spec_helper
 
 RSpec.shared_examples 'an event gun' do |event|
   %i[automatic manual inactive].each do |mode|
