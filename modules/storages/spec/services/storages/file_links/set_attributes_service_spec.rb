@@ -53,11 +53,11 @@ RSpec.describe Storages::FileLinks::SetAttributesService, type: :model do
   end
   let(:model_instance) { Storages::Storage.new }
   let(:contract_class) do
-    allow(Storages::Storages::NextcloudCreateContract)
+    allow(Storages::Storages::CreateContract)
       .to receive(:new)
       .and_return(contract_instance)
 
-    Storages::Storages::NextcloudCreateContract
+    Storages::Storages::CreateContract
   end
 
   let(:params) { {} }

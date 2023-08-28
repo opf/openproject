@@ -35,7 +35,7 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
   let(:current_user) { build_stubbed(:admin) }
 
   let(:contract_instance) do
-    contract = instance_double(Storages::Storages::NextcloudCreateContract, 'contract_instance')
+    contract = instance_double(Storages::Storages::CreateContract, 'contract_instance')
     allow(contract).to receive_messages(validate: contract_valid, errors: contract_errors)
     contract
   end
@@ -52,11 +52,11 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
   end
   let(:model_instance) { Storages::Storage.new }
   let(:contract_class) do
-    allow(Storages::Storages::NextcloudCreateContract)
+    allow(Storages::Storages::CreateContract)
       .to receive(:new)
             .and_return(contract_instance)
 
-    Storages::Storages::NextcloudCreateContract
+    Storages::Storages::CreateContract
   end
 
   let(:params) { { provider_type: Storages::Storage::PROVIDER_TYPE_NEXTCLOUD } }

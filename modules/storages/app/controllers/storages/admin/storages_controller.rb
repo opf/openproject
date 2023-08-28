@@ -65,26 +65,16 @@ class Storages::Admin::StoragesController < ApplicationController
     # See also: storages/services/storages/storages/set_attributes_services.rb
     # That service inherits from ::BaseServices::SetAttributes
     @storage = ::Storages::Storages::SetAttributesService
-                .new(user: current_user,
-                     model: Storages::NextcloudStorage.new,
-                     contract_class: EmptyContract)
-                .call
-                .result
+                 .new(user: current_user,
+                      model: Storages::NextcloudStorage.new,
+                      contract_class: EmptyContract)
+                 .call
+                 .result
   end
 
   # rubocop:disable Metrics/AbcSize
   def create
-    storage_params = permitted_storage_params
-    contract_class = case storage_params['provider_type']
-                     when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
-                       ::Storages::Storages::NextcloudCreateContract
-                     when ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
-                       ::Storages::Storages::OneDriveCreateContract
-                     else
-                       raise "Unknown provider type: #{storage_params['provider_type']}"
-                     end
-
-    service_result = Storages::Storages::CreateService.new(user: current_user, contract_class:).call(storage_params)
+    service_result = Storages::Storages::CreateService.new(user: current_user).call(permitted_storage_params)
 
     @storage = service_result.result
     @oauth_application = oauth_application(service_result)
@@ -121,17 +111,8 @@ class Storages::Admin::StoragesController < ApplicationController
   # See also: create above
   # Called by: Global app/config/routes.rb to serve Web page
   def update
-    contract_class = case @storage.provider_type
-                     when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
-                       ::Storages::Storages::NextcloudUpdateContract
-                     when ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
-                       ::Storages::Storages::OneDriveUpdateContract
-                     end
-
     service_result = ::Storages::Storages::UpdateService
-                       .new(user: current_user,
-                            model: @storage,
-                            contract_class:)
+                       .new(user: current_user, model: @storage)
                        .call(permitted_storage_params)
 
     if service_result.success?

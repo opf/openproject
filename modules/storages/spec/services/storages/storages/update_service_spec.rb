@@ -72,8 +72,7 @@ RSpec.describe Storages::Storages::UpdateService, type: :model do
     storage_creator = create(:admin, login: "storage_creator")
     storage = create(:nextcloud_storage, creator: storage_creator)
     service = described_class.new(user: create(:admin),
-                                  model: storage,
-                                  contract_class: Storages::Storages::NextcloudUpdateContract)
+                                  model: storage)
 
     service_result = service.call(creator: create(:user, login: "impostor"))
 
@@ -90,7 +89,7 @@ RSpec.describe Storages::Storages::UpdateService, type: :model do
 
     subject do
       described_class
-        .new(user:, model: storage, contract_class: Storages::Storages::NextcloudUpdateContract)
+        .new(user:, model: storage)
         .call({ name: })
     end
 
