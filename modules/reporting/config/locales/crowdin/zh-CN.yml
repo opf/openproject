@@ -21,7 +21,7 @@
 #++
 zh-CN:
   button_save_as: "报告另存为..."
-  comments: "评论"
+  comments: "注释"
   cost_reports_title: "时间和成本"
   label_cost_report: "成本报告"
   label_cost_report_plural: "成本报告"
@@ -31,7 +31,7 @@ zh-CN:
   description_remove_filter: "删除筛选器"
   information_restricted_depending_on_permission: "根据您的权限，此页面可能包含受限的信息。"
   label_click_to_edit: "点击编辑。"
-  label_closed: "关闭"
+  label_closed: "已关闭"
   label_columns: "列"
   label_cost_entry_attributes: "成本条目属性"
   label_days_ago: "在过去几天"
@@ -81,6 +81,9 @@ zh-CN:
   units: "单位"
   validation_failure_date: "不是有效的日期"
   validation_failure_integer: "不是有效的整数"
+  export:
+    cost_reports:
+      title: "您的成本报告 XLS 导出"
   reporting:
     group_by:
       selected_columns: "选定的列"

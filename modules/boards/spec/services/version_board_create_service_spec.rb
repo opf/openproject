@@ -34,7 +34,10 @@ require_relative 'base_create_service_shared_examples'
 RSpec.describe Boards::VersionBoardCreateService do
   shared_let(:project) { create(:project) }
   shared_let(:other_project) { create(:project) }
-  shared_let(:versions) { create_list(:version, 3, project:) }
+  # Amount of versions is important to test that the right column count is
+  # set by the service. It should set the column count to the number of versions
+  # and avoid out of bounds errors.
+  shared_let(:versions) { create_list(:version, 5, project:) }
   shared_let(:excluded_versions) do
     [
       create(:version, project:, status: 'closed'),
@@ -66,6 +69,25 @@ RSpec.describe Boards::VersionBoardCreateService do
       expect(board.name).to eq("Gotham Renewal Board")
       expect(board.options[:attribute]).to eq('version')
       expect(board.options[:type]).to eq('action')
+    end
+
+    describe 'column_count' do
+      it 'matches the column_count to the version count' do
+        board = subject.result
+
+        expect(board.column_count).to eq(versions.count)
+      end
+
+      context 'when there are no versions that apply for the project' do
+        before do
+          versions.each { _1.update!(status: 'closed') }
+        end
+
+        it 'sets the column_count to the default value' do
+          board = subject.result
+          expect(board.column_count).to eq(4)
+        end
+      end
     end
 
     describe 'widgets and queries' do
