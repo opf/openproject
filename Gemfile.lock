@@ -918,7 +918,7 @@ GEM
     store_attribute (1.1.1)
       activerecord (>= 6.0)
     stringex (2.8.6)
-    stringio (3.0.7)
+    stringio (3.0.8)
     structured_warnings (0.4.0)
     svg-graph (2.2.2)
     swd (2.0.2)
