@@ -83,7 +83,7 @@ module Versions
       if wiki
         wiki.pages
       else
-        WikiPage.where('1=0')
+        WikiPage.none
       end
     end
 

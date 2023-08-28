@@ -49,8 +49,7 @@ RSpec.describe Dashboards::GridRegistration do
 
   describe 'defaults' do
     it 'returns the initialized widget' do
-      expect(described_class.defaults[:widgets].map(&:identifier))
-        .to match_array ["work_packages_table"]
+      expect(described_class.defaults[:widgets].map(&:identifier)).to contain_exactly("work_packages_table")
     end
   end
 

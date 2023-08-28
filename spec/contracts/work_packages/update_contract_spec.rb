@@ -259,7 +259,7 @@ RSpec.describe WorkPackages::UpdateContract do
 
       it 'is invalid' do
         expect(contract.errors.symbols_for(:ignore_non_working_days))
-          .to match_array([:error_readonly])
+          .to contain_exactly(:error_readonly)
       end
     end
 
