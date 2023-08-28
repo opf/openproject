@@ -57,7 +57,7 @@ module Queries
     end
 
     def user_allowed_to_edit_work_packages?
-      user.allowed_to?(:edit_work_packages, model.project, global: model.project.nil?)
+      user.allowed_to?(:edit_work_packages, model)
     end
 
     def user_allowed_to_save_queries?

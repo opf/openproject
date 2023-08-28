@@ -31,16 +31,10 @@ require 'spec_helper'
 RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
   let(:project) { build(:project) }
   let(:type) { build(:type) }
-  let(:work_package) do
-    build(:work_package,
-          project:,
-          type:)
-  end
+  let(:work_package) { build(:work_package, project:, type:) }
   let(:current_user) do
-    build_stubbed(:user).tap do |u|
-      allow(u)
-        .to receive(:allowed_to?)
-        .and_return(true)
+    build_stubbed(:user).tap do |user|
+      allow(user).to receive(:allowed_to?).and_return(true)
     end
   end
 

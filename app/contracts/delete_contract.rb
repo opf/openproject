@@ -60,7 +60,7 @@ class DeleteContract < ModelContract
     when Proc
       instance_exec(&permission)
     else
-      !model.project || user.allowed_to?(permission, model.project)
+      user.allowed_to?(permission, model)
     end
   end
 end

@@ -86,7 +86,7 @@ module Costs
 
     def user_allowed_to?(*privileges)
       privileges.inject(false) do |result, privilege|
-        result || @user.allowed_to?(privilege, @work_package.project)
+        result || @user.allowed_to?(privilege, @work_package)
       end
     end
   end

@@ -81,9 +81,9 @@ RSpec.describe OpenProject::GithubIntegration::NotificationHandler::Helper do
       before do
         allow(WorkPackage).to receive(:includes).and_return(WorkPackage)
         allow(WorkPackage).to receive(:where).with(id: ids).and_return(work_packages)
-        allow(user).to receive(:allowed_to?) { |permission, project|
-          (permission == :add_work_package_notes) && (project == :project_with_permissions)
-        }
+        allow(user).to receive(:allowed_to?) do |permission, wp|
+          (permission == :add_work_package_notes) && (wp == visible_wp)
+        end
       end
 
       it 'finds work packages visible to the user' do

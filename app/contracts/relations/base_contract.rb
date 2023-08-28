@@ -87,7 +87,7 @@ module Relations
     end
 
     def manage_relations?
-      user.allowed_to? :manage_work_package_relations, model.from.project
+      user.allowed_to?(:manage_work_package_relations, model.from)
     end
   end
 end

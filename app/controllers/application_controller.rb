@@ -250,7 +250,7 @@ class ApplicationController < ActionController::Base
   # * a parameter-like Hash (eg. { controller: '/projects', action: 'edit' })
   # * a permission Symbol (eg. :edit_project)
   def do_authorize(action, global: false)
-    context = @project || @projects
+    context = @work_package || @project || @projects
     is_authorized = User.current.allowed_to?(action, context, global:)
 
     unless is_authorized

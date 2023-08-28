@@ -252,11 +252,19 @@ class BaseContract < Disposable::Twin
 
       next unless permissions
 
-      # This will break once a model that does not respond to project is used.
-      # This is intended to be worked on then with the additional knowledge.
-      next if permissions.any? { |p| user.allowed_to?(p, model.project, global: model.project.nil?) }
+      next if permissions.any? { |permission| permitted?(permission) }
 
       true
+    end
+  end
+
+  def permitted?(permission)
+    if Member.can_be_member_of?(model)
+      user.allowed_to?(permission, model)
+    else
+      # This will break once a model that does not respond to project is used.
+      # This is intended to be worked on then with the additional knowledge.
+      user.allowed_to?(permission, model.project, global: model.project.nil?)
     end
   end
 end

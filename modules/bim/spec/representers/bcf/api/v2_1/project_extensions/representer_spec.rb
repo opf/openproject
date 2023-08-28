@@ -54,8 +54,7 @@ RSpec.describe Bim::Bcf::API::V2_1::ProjectExtensions::Representer, 'rendering' 
   let(:permissions) { %i[manage_bcf edit_project] }
 
   before do
-    allow(user)
-      .to receive(:allowed_to?) do |permission, context|
+    allow(user).to receive(:allowed_to?) do |permission, context|
       context == project && permissions.include?(permission)
     end
   end

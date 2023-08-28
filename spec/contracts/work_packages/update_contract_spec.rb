@@ -167,6 +167,7 @@ RSpec.describe WorkPackages::UpdateContract do
       allow(user)
         .to receive(:allowed_to?) do |permission, context|
         (permissions.include?(permission) && context == work_package_project) ||
+          (permissions.include?(permission) && context == work_package) ||
           (target_permissions.include?(permission) && context == target_project)
       end
 
@@ -192,7 +193,7 @@ RSpec.describe WorkPackages::UpdateContract do
       let(:target_permissions) { [] }
 
       it 'is invalid' do
-        expect(contract.errors.symbols_for(:project_id)).to match_array([:error_readonly])
+        expect(contract.errors.symbols_for(:project_id)).to contain_exactly(:error_readonly)
       end
     end
   end

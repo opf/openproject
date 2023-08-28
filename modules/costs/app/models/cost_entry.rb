@@ -101,17 +101,17 @@ class CostEntry < ApplicationRecord
 
   # Returns true if the cost entry can be edited by usr, otherwise false
   def editable_by?(usr)
-    usr.allowed_to?(:edit_cost_entries, project) ||
-      (usr.allowed_to?(:edit_own_cost_entries, project) && user_id == usr.id)
+    usr.allowed_to?(:edit_cost_entries, work_package) ||
+      (usr.allowed_to?(:edit_own_cost_entries, work_package) && user_id == usr.id)
   end
 
   def creatable_by?(usr)
-    usr.allowed_to?(:log_costs, project) ||
-      (usr.allowed_to?(:log_own_costs, project) && user_id == usr.id)
+    usr.allowed_to?(:log_costs, work_package) ||
+      (usr.allowed_to?(:log_own_costs, work_package) && user_id == usr.id)
   end
 
   def costs_visible_by?(usr)
-    usr.allowed_to?(:view_cost_rates, project) ||
+    usr.allowed_to?(:view_cost_rates, work_package) ||
       (usr.id == user_id && !overridden_costs.nil?)
   end
 

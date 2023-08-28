@@ -37,17 +37,13 @@ RSpec.shared_examples_for 'ifc model contract' do
   let(:model_title) { 'some title' }
 
   before do
-    allow(ifc_model)
-      .to receive(:ifc_attachment)
-      .and_return(ifc_attachment)
+    allow(ifc_model).to receive(:ifc_attachment).and_return(ifc_attachment)
 
-    allow(other_user)
-      .to receive(:allowed_to?) do |permission, permission_project|
+    allow(other_user).to receive(:allowed_to?) do |permission, permission_project|
       permissions.include?(permission) && model_project == permission_project
     end
 
-    allow(current_user)
-      .to receive(:allowed_to?) do |permission, permission_project|
+    allow(current_user).to receive(:allowed_to?) do |permission, permission_project|
       permissions.include?(permission) && model_project == permission_project
     end
   end

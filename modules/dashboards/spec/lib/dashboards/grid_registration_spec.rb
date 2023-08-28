@@ -58,10 +58,7 @@ RSpec.describe Dashboards::GridRegistration do
     let(:allowed) { true }
 
     before do
-      allow(user)
-        .to receive(:allowed_to?)
-        .with(:manage_dashboards, project)
-        .and_return(allowed)
+      allow(user).to receive(:allowed_to?).with(:manage_dashboards, project).and_return(allowed)
     end
 
     context 'if the user has the :manage_dashboards permission' do
