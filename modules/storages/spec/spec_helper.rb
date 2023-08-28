@@ -34,6 +34,17 @@
 require 'spec_helper'
 require 'dry/container/stub'
 
+require 'vcr'
+VCR.configure do |config|
+  config.cassette_library_dir = 'modules/storages/spec/support/fixtures/vcr_cassettes'
+  config.hook_into :webmock
+  # https://benoittgt.github.io/vcr/#/test_frameworks/rspec_metadata
+  config.configure_rspec_metadata!
+  config.before_record do |i|
+    i.response.body.force_encoding('UTF-8')
+  end
+end
+
 # Loads files from relative support/ directory
 Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }
 

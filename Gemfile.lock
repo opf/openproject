@@ -957,6 +957,7 @@ GEM
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
       public_suffix
+    vcr (6.2.0)
     view_component (3.5.0)
       activesupport (>= 5.2.0, < 8.0)
       concurrent-ruby (~> 1.0)
@@ -1165,6 +1166,7 @@ DEPENDENCIES
   typed_dag (~> 2.0.2)
   tzinfo-data (~> 1.2023.1)
   validate_url
+  vcr
   view_component
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
