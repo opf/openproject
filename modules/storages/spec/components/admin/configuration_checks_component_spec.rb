@@ -28,38 +28,26 @@
 #
 require_relative '../../spec_helper'
 
-RSpec.describe Storages::ProjectStorages::RowComponent,
+RSpec.describe Storages::Admin::ConfigurationChecksComponent,
                type: :component do
-  describe '#button_links' do
-    context 'with non-automatic project storage' do
-      it 'renders edit and delete buttons' do
-        project_storage = build_stubbed(:project_storage)
-        expect(project_storage).not_to be_project_folder_automatic
+  describe '#render?' do
+    context 'with all configuration checks complete' do
+      it 'returns false, does not render view component' do
+        storage = build_stubbed(:storage,
+                                oauth_application: build_stubbed(:oauth_application),
+                                oauth_client: build_stubbed(:oauth_client))
+        component = described_class.new(storage:)
 
-        table = instance_double(Storages::ProjectStorages::TableComponent, columns: [])
-        component = described_class.new(row: project_storage, table:)
-
-        render_inline(component)
-
-        expect(page).not_to have_css('a.icon.icon-group')
-        expect(page).to have_css('a.icon.icon-edit')
-        expect(page).to have_css('a.icon.icon-delete')
+        expect(render_inline(component).content).to be_blank
       end
     end
 
-    context 'with automatic project storage' do
-      it 'renders members connection status, edit and delete buttons' do
-        project_storage = build_stubbed(:project_storage, :as_automatically_managed)
-        expect(project_storage).to be_project_folder_automatic
+    context 'with incomplete configuration checks' do
+      it 'returns true, renders view component' do
+        storage = build_stubbed(:storage, host: nil, name: nil)
+        component = described_class.new(storage:)
 
-        table = instance_double(Storages::ProjectStorages::TableComponent, columns: [])
-        component = described_class.new(row: project_storage, table:)
-
-        render_inline(component)
-
-        expect(page).to have_css('a.icon.icon-group')
-        expect(page).to have_css('a.icon.icon-edit')
-        expect(page).to have_css('a.icon.icon-delete')
+        expect(render_inline(component)).to have_content('The setup of this storage is incomplete.')
       end
     end
   end
