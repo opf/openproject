@@ -550,7 +550,7 @@ RSpec.describe Query,
 
     context 'with a missing value for a custom field' do
       let(:custom_field) do
-        create(:text_issue_custom_field, is_filter: true, is_for_all: true)
+        create(:issue_custom_field, :text, is_filter: true, is_for_all: true)
       end
 
       before do

@@ -241,8 +241,7 @@ RSpec.describe CustomField do
       context 'for a project' do
         it 'is a list of name, id pairs' do
           expect(field.possible_values_options(project))
-            .to match_array [[user1.name, user1.id.to_s],
-                             [user2.name, user2.id.to_s]]
+            .to contain_exactly([user1.name, user1.id.to_s], [user2.name, user2.id.to_s])
         end
       end
 
@@ -251,15 +250,14 @@ RSpec.describe CustomField do
           object = OpenStruct.new(project:) # rubocop:disable Style/OpenStructUse
 
           expect(field.possible_values_options(object))
-            .to match_array [[user1.name, user1.id.to_s],
-                             [user2.name, user2.id.to_s]]
+            .to contain_exactly([user1.name, user1.id.to_s], [user2.name, user2.id.to_s])
         end
       end
 
       context 'for nil' do
         it 'returns all principles visible to me' do
           expect(field.possible_values_options)
-            .to match_array [[user2.name, user2.id.to_s]]
+            .to contain_exactly([user2.name, user2.id.to_s])
         end
       end
     end
@@ -276,8 +274,7 @@ RSpec.describe CustomField do
 
       it 'is a list of name, id pairs' do
         expect(field.possible_values_options)
-          .to match_array [[option1.value, option1.id.to_s],
-                           [option2.value, option2.id.to_s]]
+          .to contain_exactly([option1.value, option1.id.to_s], [option2.value, option2.id.to_s])
       end
     end
 
@@ -336,7 +333,7 @@ RSpec.describe CustomField do
 
         it 'accepts the values' do
           expect(field.possible_values.map(&:value))
-            .to match_array(['One value', 'Two values'])
+            .to contain_exactly('One value', 'Two values')
         end
       end
 
@@ -347,7 +344,7 @@ RSpec.describe CustomField do
 
         it 'accepts the values' do
           expect(field.possible_values.map(&:value))
-            .to match_array(['One value'])
+            .to contain_exactly('One value')
         end
       end
 
@@ -358,7 +355,7 @@ RSpec.describe CustomField do
 
         it 'accepts the values' do
           expect(field.possible_values.map(&:value))
-            .to match_array(['One value', 'Two values'])
+            .to contain_exactly('One value', 'Two values')
         end
       end
     end
@@ -422,7 +419,7 @@ RSpec.describe CustomField do
     end
 
     context 'with a wp int cf' do
-      let(:field) { build_stubbed(:int_wp_custom_field) }
+      let(:field) { build_stubbed(:integer_wp_custom_field) }
 
       it 'is true' do
         expect(field)
@@ -449,7 +446,7 @@ RSpec.describe CustomField do
     end
 
     context 'with a project int cf' do
-      let(:field) { build_stubbed(:int_project_custom_field) }
+      let(:field) { build_stubbed(:integer_project_custom_field) }
 
       it 'is true' do
         expect(field)
@@ -458,7 +455,7 @@ RSpec.describe CustomField do
     end
 
     context 'with a time_entry user cf' do
-      let(:field) { build_stubbed(:time_entry_custom_field, field_format: 'user') }
+      let(:field) { build_stubbed(:time_entry_custom_field, :user) }
 
       it 'is true' do
         expect(field)
@@ -467,7 +464,7 @@ RSpec.describe CustomField do
     end
 
     context 'with a time_entry list cf' do
-      let(:field) { build_stubbed(:time_entry_custom_field, field_format: 'list') }
+      let(:field) { build_stubbed(:time_entry_custom_field, :list) }
 
       it 'is true' do
         expect(field)

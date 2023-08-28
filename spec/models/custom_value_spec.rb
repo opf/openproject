@@ -191,7 +191,7 @@ RSpec.describe CustomValue do
     end
 
     context 'for an integer custom field without default value' do
-      shared_let(:custom_field) { create(:project_custom_field, :int) }
+      shared_let(:custom_field) { create(:project_custom_field, :integer) }
 
       include_examples 'returns true for generated custom value'
       include_examples 'returns false for custom value with value', value: 123
@@ -202,11 +202,11 @@ RSpec.describe CustomValue do
     context 'for an integer custom field with default value' do
       describe 'for a generated custom value' do
         it 'returns true' do
-          create(:project_custom_field, :int, default_value: 0)
-          create(:project_custom_field, :int, default_value: 123)
-          create(:project_custom_field, :int, default_value: '456')
-          create(:project_custom_field, :int, default_value: -987)
-          create(:project_custom_field, :int, default_value: '-678')
+          create(:project_custom_field, :integer, default_value: 0)
+          create(:project_custom_field, :integer, default_value: 123)
+          create(:project_custom_field, :integer, default_value: '456')
+          create(:project_custom_field, :integer, default_value: -987)
+          create(:project_custom_field, :integer, default_value: '-678')
 
           custom_values = project.custom_field_values
 

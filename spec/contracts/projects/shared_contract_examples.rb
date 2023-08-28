@@ -262,8 +262,8 @@ RSpec.shared_examples_for 'project contract' do
   end
 
   describe 'available_custom_fields' do
-    let(:visible_custom_field) { build_stubbed(:int_project_custom_field, visible: true) }
-    let(:invisible_custom_field) { build_stubbed(:int_project_custom_field, visible: false) }
+    let(:visible_custom_field) { build_stubbed(:integer_project_custom_field, visible: true) }
+    let(:invisible_custom_field) { build_stubbed(:integer_project_custom_field, visible: false) }
 
     before do
       allow(project)
@@ -280,14 +280,14 @@ RSpec.shared_examples_for 'project contract' do
 
       it 'returns all available_custom_fields of the project' do
         expect(subject.available_custom_fields)
-          .to match_array([visible_custom_field, invisible_custom_field])
+          .to contain_exactly(visible_custom_field, invisible_custom_field)
       end
     end
 
     context 'if the user is no admin' do
       it 'returns all visible and available_custom_fields of the project' do
         expect(subject.available_custom_fields)
-          .to match_array([visible_custom_field])
+          .to contain_exactly(visible_custom_field)
       end
     end
   end

@@ -32,9 +32,9 @@ require_relative '../support/pages/dashboard'
 
 RSpec.describe 'Project details widget on dashboard', js: true do
   let!(:version_cf) { create(:version_project_custom_field) }
-  let!(:bool_cf) { create(:bool_project_custom_field) }
+  let!(:bool_cf) { create(:boolean_project_custom_field) }
   let!(:user_cf) { create(:user_project_custom_field) }
-  let!(:int_cf) { create(:int_project_custom_field) }
+  let!(:int_cf) { create(:integer_project_custom_field) }
   let!(:float_cf) { create(:float_project_custom_field) }
   let!(:text_cf) { create(:text_project_custom_field) }
   let!(:string_cf) { create(:string_project_custom_field) }

@@ -35,9 +35,9 @@ RSpec.describe 'baseline rendering',
   shared_let(:list_wp_custom_field) { create(:list_wp_custom_field) }
   shared_let(:multi_list_wp_custom_field) { create(:list_wp_custom_field, multi_value: true) }
   shared_let(:version_wp_custom_field) { create(:version_wp_custom_field) }
-  shared_let(:bool_wp_custom_field) { create(:bool_wp_custom_field) }
+  shared_let(:bool_wp_custom_field) { create(:boolean_wp_custom_field) }
   shared_let(:user_wp_custom_field) { create(:user_wp_custom_field) }
-  shared_let(:int_wp_custom_field) { create(:int_wp_custom_field) }
+  shared_let(:int_wp_custom_field) { create(:integer_wp_custom_field) }
   shared_let(:float_wp_custom_field) { create(:float_wp_custom_field) }
   shared_let(:string_wp_custom_field) { create(:string_wp_custom_field) }
   shared_let(:date_wp_custom_field) { create(:date_wp_custom_field) }

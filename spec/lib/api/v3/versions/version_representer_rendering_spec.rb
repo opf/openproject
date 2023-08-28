@@ -132,7 +132,7 @@ RSpec.describe API::V3::Versions::VersionRepresenter, 'rendering' do
     end
 
     context 'custom value' do
-      let(:custom_field) { build_stubbed(:list_version_custom_field) }
+      let(:custom_field) { build_stubbed(:version_custom_field, :list) }
       let(:custom_value) do
         build_stubbed(:custom_value, custom_field:, value: '1')
       end

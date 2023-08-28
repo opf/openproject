@@ -30,7 +30,7 @@ RSpec.describe 'Create BCF',
     create(:type, custom_fields: [integer_cf])
   end
   let(:integer_cf) do
-    create(:int_wp_custom_field)
+    create(:integer_wp_custom_field)
   end
 
   shared_examples 'bcf details creation' do |with_viewpoints|
