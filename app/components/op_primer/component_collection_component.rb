@@ -27,17 +27,15 @@
 #++
 
 module OpPrimer
-  module ComponentHelpers
-    def flex_layout(**, &)
-      render(OpPrimer::FlexLayoutComponent.new(**), &)
+  class ComponentCollectionComponent < Primer::Component
+    def initialize(**)
+      super
+
+      @system_arguments = deny_tag_argument(**) || {}
     end
 
-    def box_collection(**, &)
-      render(OpPrimer::BoxCollectionComponent.new(**), &)
-    end
-
-    def component_collection(**, &)
-      render(OpPrimer::ComponentCollectionComponent.new(**), &)
-    end
+    renders_many :components, lambda { |component_instance|
+      component_instance
+    }
   end
 end
