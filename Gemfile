@@ -255,7 +255,7 @@ group :test do
   gem 'webmock', '~> 3.12', require: false
 
   # Mock selenium requests through proxy (for feature tests)
-  gem 'puffing-billy', '~> 3.1.0'
+  gem 'puffing-billy', '~> 3.2.0'
   gem 'table_print', '~> 1.5.6'
 
   gem 'equivalent-xml', '~> 0.6'
