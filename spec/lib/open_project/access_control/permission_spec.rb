@@ -33,9 +33,9 @@ RSpec.describe OpenProject::AccessControl::Permission do
     context 'for a permission with a dependency' do
       subject { OpenProject::AccessControl.permission(:edit_work_packages) }
 
-      it 'denotes the prerequiresites' do
+      it 'denotes the pre-requisites' do
         expect(subject.dependencies)
-          .to match_array([:view_work_packages])
+          .to contain_exactly(:view_work_packages)
       end
     end
 
@@ -50,46 +50,58 @@ RSpec.describe OpenProject::AccessControl::Permission do
   end
 
   describe '#global?' do
-    describe 'setting global permission' do
-      let(:permission) { described_class.new(:perm, { cont: [:action] }, global: true) }
+    context 'when it is marked as global' do
+      subject(:permission) do
+        described_class.new(:perm, { cont: [:action] }, global: true)
+      end
 
       it { expect(permission).to be_global }
     end
 
-    describe 'setting non global permission' do
-      let(:permission) { described_class.new :perm, { cont: [:action] }, global: false }
-
-      it 'is false' do
-        expect(permission).not_to be_global
+    context 'when it is marked as non-global' do
+      subject(:permission) do
+        described_class.new :perm, { cont: [:action] }, global: false
       end
+
+      it { expect(permission).not_to be_global }
     end
 
-    describe 'not specifying -> default' do
-      let(:permission) { described_class.new :perm, { cont: [:action] } }
+    describe "without specifying whether the permission is global or not" do
+      subject(:permission) do
+        described_class.new :perm, { cont: [:action] }
+      end
 
-      it 'is false' do
+      it 'defaults to non-global' do
         expect(permission).not_to be_global
       end
     end
   end
 
   describe '#grant_to_admin?' do
-    context 'if explicitly specified' do
-      let(:permission) { described_class.new(:perm, {}, grant_to_admin: true) }
+    context 'when it is marked as grant-able to admin' do
+      subject(:permission) do
+        described_class.new(:perm, {}, grant_to_admin: true)
+      end
 
       it { expect(permission).to be_grant_to_admin }
     end
 
-    context 'as a default' do
-      let(:permission) { described_class.new(:perm, {}) }
-
-      it { expect(permission).to be_grant_to_admin }
-    end
-
-    context 'if explicitly specified not to' do
-      let(:permission) { described_class.new(:perm, {}, grant_to_admin: false) }
+    context 'when it is marked as non-grant-able to admin' do
+      subject(:permission) do
+        described_class.new(:perm, {}, grant_to_admin: false)
+      end
 
       it { expect(permission).not_to be_grant_to_admin }
+    end
+
+    context 'without specifying whether the permissions is grant-able to admin or not' do
+      subject(:permission) do
+        described_class.new(:perm, {})
+      end
+
+      it 'defaults to grant-able to admin' do
+        expect(permission).to be_grant_to_admin
+      end
     end
   end
 end
