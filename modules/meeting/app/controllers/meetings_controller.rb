@@ -150,6 +150,23 @@ class MeetingsController < ApplicationController
     respond_with_turbo_streams
   end
 
+  def update_details
+    @meeting.update(meeting_params)
+
+    if @meeting.errors.any?
+      update_sidebar_details_form_component_via_turbo_stream
+    else
+      update_header_component_via_turbo_stream
+      update_sidebar_details_component_via_turbo_stream
+
+      # the list needs to be updated if the start time has changed
+      # in order to update the agenda item time slots
+      update_list_via_turbo_stream if @meeting.previous_changes[:start_time].present?
+    end
+
+    respond_with_turbo_streams
+  end
+
   private
 
   def load_query

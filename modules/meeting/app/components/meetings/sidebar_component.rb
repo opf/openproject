@@ -27,8 +27,9 @@
 #++
 
 module Meetings
-  class ShowComponent < ApplicationComponent
+  class SidebarComponent < ApplicationComponent
     include ApplicationHelper
+    include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
     def initialize(meeting:)
@@ -38,46 +39,33 @@ module Meetings
     end
 
     def call
-      flex_layout(data: { turbo: true }) do |flex|
-        flex.with_row(mt: 2, mb: 3, pb: 2, border: :bottom) do
-          heading_partial
-        end
-        flex.with_row do
-          main_content_partial
+      component_wrapper do
+        flex_layout(pl: 1) do |flex|
+          flex.with_row(border: :bottom, pb: 2) do
+            details_partial
+          end
+          flex.with_row(mt: 3, border: :bottom, pb: 2) do
+            state_partial
+          end
+          flex.with_row(mt: 3) do
+            participants_partial
+          end
         end
       end
     end
 
     private
 
-    def heading_partial
-      render(Meetings::HeaderComponent.new(meeting: @meeting))
+    def details_partial
+      render(Meetings::Sidebar::DetailsComponent.new(meeting: @meeting))
     end
 
-    def main_content_partial
-      flex_layout(direction: %i[column column column row row]) do |flex|
-        flex.with_box(flex: 1, mr: [0, 0, 0, 3, 3]) do
-          agenda_partial
-        end
-        flex.with_box(mt: [3, 3, 3, 0, 0], style: "width: 296px;") do
-          sidebar_partial
-        end
-      end
+    def state_partial
+      render(Primer::Beta::Heading.new(tag: :h4)) { "State" }
     end
 
-    def agenda_partial
-      flex_layout do |flex|
-        flex.with_row do
-          render(MeetingAgendaItems::ListComponent.new(meeting: @meeting))
-        end
-        flex.with_row do
-          render(MeetingAgendaItems::NewButtonComponent.new(meeting: @meeting))
-        end
-      end
-    end
-
-    def sidebar_partial
-      render(Meetings::SidebarComponent.new(meeting: @meeting))
+    def participants_partial
+      render(Primer::Beta::Heading.new(tag: :h4)) { "Invitees" }
     end
   end
 end

@@ -35,6 +35,7 @@ OpenProject::Application.routes.draw do
     member do
       get :cancel_edit
       put :update_title
+      put :update_details
     end
     resources :agenda_items, controller: 'meeting_agenda_items' do
       collection do

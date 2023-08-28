@@ -39,6 +39,30 @@ module AgendaComponentStreams
       )
     end
 
+    def update_sidebar_component_via_turbo_stream(meeting: @meeting)
+      update_via_turbo_stream(
+        component: Meetings::SidebarComponent.new(
+          meeting:
+        )
+      )
+    end
+
+    def update_sidebar_details_component_via_turbo_stream(meeting: @meeting)
+      update_via_turbo_stream(
+        component: Meetings::Sidebar::DetailsComponent.new(
+          meeting:
+        )
+      )
+    end
+
+    def update_sidebar_details_form_component_via_turbo_stream(meeting: @meeting)
+      update_via_turbo_stream(
+        component: Meetings::Sidebar::DetailsFormComponent.new(
+          meeting:
+        )
+      )
+    end
+
     def update_new_component_via_turbo_stream(hidden: false, meeting_agenda_item: nil, meeting: @meeting, type: :simple)
       update_via_turbo_stream(
         component: MeetingAgendaItems::NewComponent.new(
@@ -86,6 +110,7 @@ module AgendaComponentStreams
 
     def update_all_via_turbo_stream
       update_header_component_via_turbo_stream
+      update_sidebar_component_via_turbo_stream
       update_new_section_via_turbo_stream
       update_list_via_turbo_stream
     end
