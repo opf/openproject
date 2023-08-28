@@ -92,4 +92,26 @@ RSpec.describe Member do
       expect(project_membership).not_to be_deletable_role(project_role)
     end
   end
+
+  describe '.can_be_member_of?' do
+    it 'returns true when a whitelisted entity is passed in' do
+      result = described_class.can_be_member_of?(build(:work_package))
+      expect(result).to be_truthy
+    end
+
+    it 'returns true when the class name of a whitelisted entity is passed in' do
+      result = described_class.can_be_member_of?(WorkPackage)
+      expect(result).to be_truthy
+    end
+
+    it 'returns false when a non-whitelisted entity is passed in' do
+      result = described_class.can_be_member_of?(build(:user))
+      expect(result).to be_falsey
+    end
+
+    it 'returns false when the class name of a whitelisted entity is passed in' do
+      result = described_class.can_be_member_of?(User)
+      expect(result).to be_falsey
+    end
+  end
 end

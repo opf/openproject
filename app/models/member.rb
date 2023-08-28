@@ -96,6 +96,16 @@ class Member < ApplicationRecord
     user? && principal&.invited? && principal.memberships.none? { |m| m.project_id != project_id }
   end
 
+  def self.can_be_member_of?(entity_or_class)
+    checked_class = if entity_or_class.is_a?(Class)
+                      entity_or_class.name
+                    else
+                      entity_or_class.class.name
+                    end
+
+    ALLOWED_ENTITIES.include?(checked_class)
+  end
+
   protected
 
   attr_accessor :prune_watchers_on_destruction
