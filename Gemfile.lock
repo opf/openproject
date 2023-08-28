@@ -300,7 +300,7 @@ GEM
       airbrake-ruby (~> 6.0)
     airbrake-ruby (6.2.1)
       rbtree3 (~> 0.6)
-    appsignal (3.4.10)
+    appsignal (3.4.11)
       rack
     ast (2.4.2)
     attr_required (1.0.1)
