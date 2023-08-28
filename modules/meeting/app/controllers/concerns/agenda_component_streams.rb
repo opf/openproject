@@ -30,6 +30,15 @@ module AgendaComponentStreams
   extend ActiveSupport::Concern
 
   included do
+    def update_header_component_via_turbo_stream(meeting: @meeting, state: :show)
+      update_via_turbo_stream(
+        component: Meetings::HeaderComponent.new(
+          meeting:,
+          state:
+        )
+      )
+    end
+
     def update_new_component_via_turbo_stream(hidden: false, meeting_agenda_item: nil, meeting: @meeting, type: :simple)
       update_via_turbo_stream(
         component: MeetingAgendaItems::NewComponent.new(
@@ -76,6 +85,7 @@ module AgendaComponentStreams
     end
 
     def update_all_via_turbo_stream
+      update_header_component_via_turbo_stream
       update_new_section_via_turbo_stream
       update_list_via_turbo_stream
     end

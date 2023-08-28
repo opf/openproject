@@ -216,7 +216,16 @@ module MeetingAgendaItems
           end
         end
         flex.with_column do
-          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { @meeting_agenda_item.author.name }
+          author_link_partial
+        end
+      end
+    end
+
+    def author_link_partial
+      render(Primer::Beta::Link.new(href: user_path(@meeting_agenda_item.author), underline: false,
+                                    font_size: :small, scheme: :primary, muted: true, target: "_blank")) do
+        render(Primer::Beta::Truncate.new) do |component|
+          component.with_item(max_width: 150, expandable: true) { @meeting_agenda_item.author.name }
         end
       end
     end

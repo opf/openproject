@@ -44,7 +44,7 @@ module OpenProject::Meeting
                    { meetings: %i[new create copy] },
                    require: :member,
                    contract_actions: { meetings: %i[create] }
-        permission :edit_meetings, { meetings: %i[edit update] }, require: :member
+        permission :edit_meetings, { meetings: %i[edit cancel_edit update update_title] }, require: :member
         permission :delete_meetings, { meetings: [:destroy] }, require: :member
         permission :meetings_send_invite, { meetings: [:icalendar] }, require: :member
         permission :create_meeting_agendas, { meeting_agendas: %i[update preview] }, require: :member
@@ -72,8 +72,8 @@ module OpenProject::Meeting
            partial: 'meetings/menu_query_select'
 
       should_render_global_menu_item = Proc.new do
-          (User.current.logged? || !Setting.login_required?) &&
-          User.current.allowed_to_globally?(:view_meetings)
+        (User.current.logged? || !Setting.login_required?) &&
+        User.current.allowed_to_globally?(:view_meetings)
       end
 
       menu :top_menu,

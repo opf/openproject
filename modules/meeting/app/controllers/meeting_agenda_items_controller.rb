@@ -60,6 +60,7 @@ class MeetingAgendaItemsController < ApplicationController
 
     if @meeting_agenda_item.save
       update_list_via_turbo_stream(form_hidden: false, form_type: agenda_item_type) # enabel continue editing
+      update_header_component_via_turbo_stream
     else
       update_new_component_via_turbo_stream(
         hidden: false, meeting_agenda_item: @meeting_agenda_item, type: agenda_item_type
@@ -88,8 +89,10 @@ class MeetingAgendaItemsController < ApplicationController
       update_item_via_turbo_stream(state: :edit) # show errors
     elsif @meeting_agenda_item.duration_in_minutes_previously_changed?
       update_list_via_turbo_stream
+      update_header_component_via_turbo_stream
     else
       update_item_via_turbo_stream
+      update_header_component_via_turbo_stream
     end
 
     respond_with_turbo_streams
@@ -99,6 +102,7 @@ class MeetingAgendaItemsController < ApplicationController
     @meeting_agenda_item.destroy!
 
     update_list_via_turbo_stream
+    update_header_component_via_turbo_stream
 
     respond_with_turbo_streams
   end
@@ -107,6 +111,7 @@ class MeetingAgendaItemsController < ApplicationController
     @meeting_agenda_item.insert_at(params[:position].to_i)
 
     update_list_via_turbo_stream
+    update_header_component_via_turbo_stream
 
     respond_with_turbo_streams
   end
@@ -124,6 +129,7 @@ class MeetingAgendaItemsController < ApplicationController
     end
 
     update_list_via_turbo_stream
+    update_header_component_via_turbo_stream
 
     respond_with_turbo_streams
   end

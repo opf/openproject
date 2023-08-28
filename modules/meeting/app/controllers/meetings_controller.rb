@@ -43,6 +43,9 @@ class MeetingsController < ApplicationController
   include PaginationHelper
   include SortHelper
 
+  include OpTurbo::ComponentStream
+  include AgendaComponentStreams
+
   menu_item :new_meeting, only: %i[new create]
 
   def index
@@ -56,7 +59,9 @@ class MeetingsController < ApplicationController
   end
 
   def show
-    params[:tab] ||= 'minutes' if @meeting.agenda.present? && @meeting.agenda.locked?
+    # params[:tab] ||= 'minutes' if @meeting.agenda.present? && @meeting.agenda.locked?
+
+    render(Meetings::ShowComponent.new(meeting: @meeting))
   end
 
   def create
@@ -103,7 +108,24 @@ class MeetingsController < ApplicationController
     redirect_to action: 'index', project_id: @project
   end
 
-  def edit; end
+  def edit
+    respond_to do |format|
+      format.turbo_stream do
+        update_header_component_via_turbo_stream(state: :edit)
+
+        render turbo_stream: @turbo_streams
+      end
+      format.html do
+        render :edit
+      end
+    end
+  end
+
+  def cancel_edit
+    update_header_component_via_turbo_stream(state: :show)
+
+    respond_with_turbo_streams
+  end
 
   def update
     @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
@@ -114,6 +136,18 @@ class MeetingsController < ApplicationController
     else
       render action: 'edit'
     end
+  end
+
+  def update_title
+    @meeting.update(title: meeting_params[:title])
+
+    if @meeting.errors.any?
+      update_header_component_via_turbo_stream(state: :edit)
+    else
+      update_header_component_via_turbo_stream(state: :show)
+    end
+
+    respond_with_turbo_streams
   end
 
   private
