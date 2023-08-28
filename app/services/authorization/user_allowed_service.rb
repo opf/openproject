@@ -171,6 +171,6 @@ class Authorization::UserAllowedService
   end
 
   def supported_entity?(entity)
-    Member::ALLOWED_ENTITIES.include?(entity.class.to_s)
+    Member.can_be_member_of?(entity)
   end
 end

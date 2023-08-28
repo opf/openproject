@@ -496,6 +496,10 @@ class User < Principal
     user_allowed_service.call(action, context, global:)
   end
 
+  def allowed_to_in_entity?(action, entity)
+    allowed_to?(action, entity)
+  end
+
   def allowed_to_in_project?(action, project)
     allowed_to?(action, project)
   end
