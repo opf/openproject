@@ -26,6 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# TODO: Rework to cache on the work package, not on the project
 class WorkPackagePolicy < BasePolicy
   private
 

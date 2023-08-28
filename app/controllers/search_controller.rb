@@ -147,6 +147,8 @@ class SearchController < ApplicationController
   def search_types
     types = Redmine::Search.available_search_types.dup
 
+    # TODO: Figure out if we explicitly need to check here for the specific entities as well
+
     if projects_to_search.is_a? Project
       # don't search projects
       types.delete('projects')

@@ -289,6 +289,9 @@ class ApplicationController < ActionController::Base
 
   def find_optional_project_and_raise_error
     @project = Project.find(params[:project_id]) if params[:project_id].present?
+
+    # TODO: Maybe also check if user is allowed on the entity itself. Will figure out or remove
+
     allowed = User.current.allowed_to?({ controller: params[:controller], action: params[:action] },
                                        @project, global: @project.nil?)
     allowed ? true : deny_access

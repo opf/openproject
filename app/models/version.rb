@@ -65,6 +65,7 @@ class Version < ApplicationRecord
 
   # Returns true if +user+ or current user is allowed to view the version
   def visible?(user = User.current)
+    # TODO: Check if we also need to check if user is allowed to see any work packages within the project
     user.allowed_to?(:view_work_packages, project)
   end
 

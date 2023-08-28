@@ -37,6 +37,7 @@ module Costs::Patches::ProjectsControllerPatch
 
   module InstanceMethods
     def own_total_hours
+      # TODO: Also change to check on work package
       if User.current.allowed_to?(:view_own_time_entries, @project)
         cond = @project.project_condition(Setting.display_subprojects_work_packages?)
         @total_hours = TimeEntry.not_ongoing.visible.includes(:project).where(cond).sum(:hours).to_f
