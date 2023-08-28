@@ -41,8 +41,25 @@ module OpPrimer
     renders_many :columns, lambda { |**system_arguments, &block|
       child_component(system_arguments, &block)
     }
+    # boxes are used when direction is set to row or column based on responsive breakpoints
+    renders_many :boxes, lambda { |**system_arguments, &block|
+      child_component(system_arguments, &block)
+    }
 
     private
+
+    def render?
+      if rows.empty? && columns.empty? && boxes.empty?
+        # no slot provided
+        raise ArgumentError, "You have to provide either rows, columns or boxes as a slot"
+      elsif [rows, columns, boxes].count { |arr| !arr.empty? } == 1
+        # only rows or columns or boxes are used
+        true
+      else
+        # rows, columns and boxes are used together, which is not allowed
+        raise ArgumentError, "You can't mix row, column and box slots"
+      end
+    end
 
     def child_component(system_arguments, &)
       if system_arguments[:flex_layout] == true

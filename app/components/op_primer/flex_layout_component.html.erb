@@ -42,3 +42,11 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 <% end %>
 
+<% if boxes.any? %>
+  <%= render(Primer::Box.new(**@system_arguments)) do %>
+    <% boxes.each do |box| %>
+      <%= box %>
+    <% end %>
+  <% end %>
+<% end %>
+
