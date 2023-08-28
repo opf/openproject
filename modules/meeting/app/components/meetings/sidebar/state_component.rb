@@ -27,7 +27,7 @@
 #++
 
 module Meetings
-  class SidebarComponent < ApplicationComponent
+  class Sidebar::StateComponent < ApplicationComponent
     include ApplicationHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
@@ -40,15 +40,15 @@ module Meetings
 
     def call
       component_wrapper do
-        flex_layout(pl: 1) do |flex|
-          flex.with_row(border: :bottom, pb: 2) do
-            details_partial
-          end
-          flex.with_row(mt: 3, border: :bottom, pb: 2) do
-            state_partial
+        flex_layout do |flex|
+          flex.with_row do
+            state_label_partial
           end
           flex.with_row(mt: 3) do
-            participants_partial
+            description_partial
+          end
+          flex.with_row(mt: 2) do
+            actions_partial
           end
         end
       end
@@ -56,16 +56,30 @@ module Meetings
 
     private
 
-    def details_partial
-      render(Meetings::Sidebar::DetailsComponent.new(meeting: @meeting))
+    def state_label_partial
+      render(Primer::Beta::State.new(title: "state", scheme: :open)) do
+        flex_layout do |flex|
+          flex.with_column(mr: 1) do
+            render(Primer::Beta::Octicon.new(icon: "issue-opened"))
+          end
+          flex.with_column do
+            render(Primer::Beta::Text.new) { "Open" }
+          end
+        end
+      end
     end
 
-    def state_partial
-      render(Meetings::Sidebar::StateComponent.new(meeting: @meeting))
+    def description_partial
+      render(Primer::Beta::Text.new(color: :subtle)) do
+        "This meeting is open. You can add/remove agenda items and edit them as you please. After the meeting is over, close it to lock it."
+      end
     end
 
-    def participants_partial
-      render(Primer::Beta::Heading.new(tag: :h4)) { "Invitees (to-do)" }
+    def actions_partial
+      render(Primer::Beta::Button.new(scheme: :invisible)) do |button|
+        button.with_leading_visual_icon(icon: :lock)
+        "Close meeting (to-do)"
+      end
     end
   end
 end
