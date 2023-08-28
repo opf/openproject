@@ -9,11 +9,19 @@ zh-CN:
         identifier: 标识符
         secret: 密钥
         scope: 范围
+        limit_self_registration: 限制自行注册
   openid_connect:
     menu_title: OpenID 提供商
     providers:
       label_add_new: 添加一个新的 OpenID 提供商
       label_edit: 编辑 OpenID 提供商 %{name}
       no_results_table: 尚未定义提供商。
-      plural: OpenID 提供商
+      plural: OpenID 提供者
       singular: OpenID 提供商
+    setting_instructions:
+      azure_graph_api: >
+        使用 graph.microsoft.com userinfo 端点请求用户数据。除非您有更低版本的 Azure 应用程序，否则这应该是默认设置。
+      azure_tenant_html: >
+        设置 Azure 端点的租户。它将控制谁能够访问 OpenProject 实例。有关详情，请参阅<a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">我们的 Azure OpenID 连接用户指南</a>。
+      limit_self_registration: >
+        如果启用，用户只能使用此提供商注册，如果自注册设置允许的话。

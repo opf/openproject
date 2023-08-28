@@ -72,8 +72,8 @@ zh-CN:
       text_2fa_enabled: '每次登录时，系统将要求此用户从默认的 2FA 设备输入 OTP 令牌。'
       text_2fa_disabled: "用户未通过“我的帐户页面”设置过 2FA 设备"
     upsale:
-      title: '双重身份验证是企业版功能'
-      description: '使用双重身份验证强化您的内部或外部验证机制。'
+      title: '双重身份验证'
+      description: '通过向所有项目成员提供（或强制执行）双重身份验证来增强 OpenProject 实例的安全性。'
     backup_codes:
       none_found: 此帐户不存在备份代码。
       singular: 备份代码
@@ -136,8 +136,6 @@ zh-CN:
     message_bird:
       sms_delivery_failed: 'MessageBird 短信发送失败。'
       voice_delivery_failed: 'MessageBird 语音呼叫失败。'
-    restdt:
-      delivery_failed_with_code: '令牌传送失败。（错误代码 %{code}）'
     strategies:
       totp: '身份验证器应用程序'
       sns: 'Amazon SNS'
