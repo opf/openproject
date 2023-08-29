@@ -438,6 +438,7 @@ Rails.application.reloader.to_prepare do
     map.project_module :activity do
       map.permission :view_project_activity,
                      { activities: %i[index menu] },
+                     permissible_on: :project,
                      public: true,
                      contract_actions: { activities: %i[read] }
     end
