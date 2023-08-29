@@ -6,8 +6,8 @@ zh-TW:
   boards:
     label_board: "面板"
     label_boards: "看板"
-    label_create_new_board: "Create new board"
-    label_board_type: "Board type"
+    label_create_new_board: "建立新看板"
+    label_board_type: "看板類型"
     board_types:
       free: 基本
       action: "行動項看板 (%{attribute})"
@@ -16,21 +16,21 @@ zh-TW:
       status: 狀態
       version: 版本
       subproject: 子專案
-      subtasks: Parent-child
+      subtasks: 父-子
       basic: 基本
     board_type_descriptions:
       basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
+        從空白看板開始使用，添加新的卡片和列表到這個看板
       status: >
-        Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        基本看板樣式的面板，包含「待辦」、「正在進行」、「已完成」等狀態的列。
       assignee: >
-        Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        具有根據所分配用戶自動生成的列的面板。適合分發工作包。
       version: >
-        Board with automated columns based on the version attribute. Ideal for planning product development.
+        基於版本屬性的自動列面板。理想用於產品開發規劃。
       subproject: >
-        Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        具有子專案自動列的面板。將工作包拖動到其他列表會相應地更新（子）專案。
       subtasks: >
-        Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        具有子元素自動列的面板。將工作包拖動到其他列表會相應地更新父項。
     upsale:
-      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-      upgrade: 'Upgrade now'
+      teaser_text: '你想用面板來自動化你的工作流程嗎？高級面板是一項企業功能。請升級到付費計劃。'
+      upgrade: '立即升級'

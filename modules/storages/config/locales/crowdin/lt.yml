@@ -100,6 +100,8 @@ lt:
     help_texts:
       project_folder: >
         Projekto aplankas yra numatytasis aplankas failų įkėlimui šiame projekte. Naudotojai gali įkelti failus ir į kitas vietas.
+    configuration_checks:
+      incomplete: "The setup of this storage is incomplete."
     delete_warning:
       storage: >
         Ar tikrai norite ištrinti šią failų saugyklą? Saugykla taipogi bus ištrinta iš visų projektų, kur ji naudojama. Taipogi tai ištrins visus ryšius iš darbo paketų į failus, esančius šioje saugykloje.

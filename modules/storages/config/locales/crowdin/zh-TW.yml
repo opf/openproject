@@ -100,6 +100,8 @@ zh-TW:
     help_texts:
       project_folder: >
         The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
+    configuration_checks:
+      incomplete: "The setup of this storage is incomplete."
     delete_warning:
       storage: >
         Are you sure you want to delete this storage? This will also delete the storage from all projects where it is used. Further, it will also delete all links from work packages to files that are stored in that storage.
@@ -121,8 +123,8 @@ zh-TW:
       application_password: "Application password"
     label_managed_project_folders_breadcrumb: "Automatically managed project folders"
     label_oauth_breadcrumb:
-      openproject: "OpenProject OAuth"
-      nextcloud: "Nextcloud OAuth"
+      openproject: "OpenProject 開放授權 (OAuth) "
+      nextcloud: "NextCloud 開放授權 (OAuth) "
     label_oauth_application_details: "OAuth application details"
     label_oauth_client_details: "OAuth client details"
     label_provider_type: "Provider type"
