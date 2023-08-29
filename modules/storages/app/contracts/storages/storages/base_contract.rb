@@ -37,28 +37,23 @@ require 'uri'
 # (normally it's a model).
 module Storages::Storages
   class BaseContract < ::BaseContract
-    MINIMAL_NEXTCLOUD_VERSION = 22
-
     include ::Storages::Storages::Concerns::ManageStoragesGuarded
 
     attribute :name
     validates :name, presence: true, length: { maximum: 255 }
 
     attribute :provider_type
-    validates :provider_type, inclusion: { in: Storages::Storage::PROVIDER_TYPES }
+    validates :provider_type, inclusion: { in: Storages::Storage::PROVIDER_TYPES }, allow_nil: false
 
     attribute :provider_fields
 
-    validate :provider_type_strategy
+    validate :provider_type_strategy, unless: -> { errors.include?(:provider_type) }
 
     private
 
     def provider_type_strategy
-      contract = if model.provider_type_nextcloud?
-                   NextcloudContract.new(model, @user, options: @options)
-                 else
-                   OneDriveContract.new(model, @user, options: @options)
-                 end
+      contract = ::Storages::Peripherals::Registry.resolve("contracts.#{model.short_provider_type}")
+                                                  .new(model, @user, options: @options)
 
       # Append the attributes defined in the internal contract
       # to the list of writable attributes.

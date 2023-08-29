@@ -1,6 +1,6 @@
-# frozen_string_literal: true
+# frozen_string_literal:true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
 #
@@ -28,9 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Storages
-  class OneDriveContract < ::ModelContract
-    attribute :host
-    validates :host, absence: true
+module Storages
+  module Peripherals
+    Contracts = Dry::Container::Namespace.new('contracts') do
+      register(:nextcloud, ::Storages::Storages::NextcloudContract)
+      register(:one_drive, ::Storages::Storages::OneDriveContract)
+    end
   end
 end

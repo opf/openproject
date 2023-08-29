@@ -90,7 +90,7 @@ class Storages::Storage < ApplicationRecord
   def self.shorten_provider_type(provider_type)
     case /Storages::(?'provider_name'.*)Storage/.match(provider_type)
     in provider_name:
-      provider_name.downcase
+      provider_name.underscore
     else
       raise ArgumentError,
             "Unknown provider_type! Given: #{provider_type}. " \

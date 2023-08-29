@@ -26,9 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
-<% html_title t(:label_administration), t("project_module_storages"), t('label_edit_x', x: @object.name) %>
+<% html_title t(:label_administration), t("project_module_storages"), t('label_edit_x', x: @storage.name) %>
 <% local_assigns[:additional_breadcrumb] = @storage.name %>
-<%= toolbar title: t('label_edit_x', x: @object.name) %>
+<%= toolbar title: t('label_edit_x', x: @storage.name) %>
 
 <%= render(::Storages::Admin::ConfigurationChecksComponent.new(storage: @storage)) %>
 

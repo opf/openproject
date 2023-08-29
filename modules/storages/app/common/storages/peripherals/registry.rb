@@ -37,8 +37,14 @@ module Storages
         def call(container, key)
           super
         rescue Dry::Container::KeyError
-          _, storage, operation = key.split('.')
-          raise ::Storages::Errors::OperationNotSupported, "Operation #{operation} not support by provider: #{storage}"
+          case key.split('.')
+          in ['contracts', storage]
+            raise ::Storages::Errors::MissingContract, "No contract defined for provider: #{storage}"
+          in [_, storage, operation]
+            raise ::Storages::Errors::OperationNotSupported, "Operation #{operation} not support by provider: #{storage}"
+          else
+            raise ::Storages::Errors::ResolverStandardError, "Cannot resolve key #{key}."
+          end
         end
       end
 
@@ -47,5 +53,7 @@ module Storages
 
     Registry.import StorageInteraction::Nextcloud::Queries
     Registry.import StorageInteraction::Nextcloud::Commands
+
+    Registry.import Contracts
   end
 end

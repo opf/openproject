@@ -30,16 +30,14 @@ See COPYRIGHT and LICENSE files for more details.
   <% component.with_header(title: "#{t("storages.provider_types.#{@storage.short_provider_type}.name")} #{t(:'storages.label_oauth_client_details')}") %>
 
   <% if @storage.oauth_client %>
-    <% attributes = [{ key: "#{t("storages.provider_types.#{@storage.short_provider_type}.name")} #{Storages::Admin::LABEL_OAUTH_CLIENT_ID}",
-                       value: @storage.oauth_client.client_id }] %>
-    <% if @storage.oauth_client.client_secret.present? %>
-      <% attributes.append({ key: "#{t("storages.provider_types.#{@storage.short_provider_type}.name")} #{Storages::Admin::LABEL_OAUTH_CLIENT_SECRET}",
-                             value: short_secret(@storage.oauth_client.client_secret) }) %>
-    <% end %>
-    <% attributes.append({ key: "#{t("storages.provider_types.#{@storage.short_provider_type}.name")} #{Storages::Admin::LABEL_OAUTH_REDIRECT_URI}",
-                           value: oauth_client_redirect_uri(@storage.oauth_client) }) %>
-
-    <% component.with_attributes(attributes) %>
+    <% component.with_attributes([
+                                   { key: "#{t("storages.provider_types.#{@storage.short_provider_type}.name")} #{Storages::Admin::LABEL_OAUTH_CLIENT_ID}",
+                                     value: @storage.oauth_client.client_id },
+                                   { key: "#{t("storages.provider_types.#{@storage.short_provider_type}.name")} #{Storages::Admin::LABEL_OAUTH_CLIENT_SECRET}",
+                                     value: short_secret(@storage.oauth_client.client_secret) },
+                                   { key: "#{t("storages.provider_types.#{@storage.short_provider_type}.name")} #{Storages::Admin::LABEL_OAUTH_REDIRECT_URI}",
+                                     value: oauth_client_redirect_uri(@storage.oauth_client) }
+                                 ]) %>
 
     <%= link_to(t("storages.buttons.replace_provider_type_oauth", provider_type: t("storages.provider_types.#{@storage.short_provider_type}.name")),
                 new_admin_settings_storage_oauth_client_path(@storage),
