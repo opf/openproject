@@ -40,6 +40,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { States } from 'core-app/core/states/states.service';
+import { UIRouterGlobals } from '@uirouter/core';
 
 @Component({
   templateUrl: './save-query.modal.html',
@@ -76,6 +77,7 @@ export class SaveQueryModalComponent extends OpModalComponent {
     readonly halNotification:HalResourceNotificationService,
     readonly cdRef:ChangeDetectorRef,
     readonly toastService:ToastService,
+    readonly uiRouterGlobals:UIRouterGlobals,
   ) {
     super(locals, cdRef, elementRef);
   }
@@ -103,6 +105,7 @@ export class SaveQueryModalComponent extends OpModalComponent {
     this.isBusy = true;
     const query = this.querySpace.query.value!;
     query.public = this.isPublic;
+    query.displayRepresentation = this.uiRouterGlobals.params.cview;
 
     this.wpListService
       .create(query, this.queryName)

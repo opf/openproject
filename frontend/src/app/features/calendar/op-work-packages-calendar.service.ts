@@ -250,8 +250,9 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     );
   }
 
-  public get initialView():string|undefined {
-    return this.urlParams.cview as string|undefined;
+  public async initialView():Promise<string | undefined>{
+    const initialQuery = await firstValueFrom(this.apiV3Service.queries.find({ pageSize: 0 }, this.urlParams.query_id));
+    return initialQuery.displayRepresentation || 'resourceTimelineWorkWeek';
   }
 
   dateEditable(wp:WorkPackageResource):boolean {
@@ -347,7 +348,6 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
         right: '',
       },
       initialDate: this.initialDate,
-      initialView: this.initialView,
       datesSet: (dates) => this.updateDateParam(dates),
       dayHeaderClassNames: (data:DayHeaderContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
       dayCellClassNames: (data:DayCellContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),

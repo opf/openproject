@@ -47,6 +47,7 @@ import {
 import {
   BehaviorSubject,
   combineLatest,
+  firstValueFrom,
   Subject,
 } from 'rxjs';
 import {
@@ -62,7 +63,7 @@ import {
   take,
   withLatestFrom,
 } from 'rxjs/operators';
-import { StateService } from '@uirouter/angular';
+import { StateService, UIRouterGlobals } from '@uirouter/angular';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import interactionPlugin, {
   EventDragStartArg,
@@ -261,6 +262,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       shareReplay(1),
     );
 
+    public get urlParams() {
+      return this.uiRouterGlobals.params;
+    }
   private params$ = this.principalIds$
     .pipe(
       this.untilDestroyed(),
@@ -320,7 +324,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   isMobile = this.deviceService.isMobile;
 
-  private initialCalendarView = this.workPackagesCalendar.initialView || 'resourceTimelineWorkWeek';
+  private initialCalendarView = this.querySpace.query.value?.displayRepresentation || 'resourceTimelineWorkWeek';
 
   private viewOptionDefaults = {
     type: 'resourceTimeline',
@@ -393,13 +397,18 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     readonly loadingIndicatorService:LoadingIndicatorService,
     readonly weekdayService:WeekdayService,
     readonly deviceService:DeviceService,
+    readonly uiRouterGlobals:UIRouterGlobals,
   ) {
     super();
   }
 
-  ngOnInit():void {
+  ngOnInit(){
     registerEffectCallbacks(this, this.untilDestroyed());
-    this.initializeCalendar();
+    firstValueFrom(this.apiV3Service.queries.find({ pageSize: 0 }, this.urlParams.query_id)).then((e)=>{
+      this.initialCalendarView = e.displayRepresentation || 'resourceTimelineWorkWeek';
+    this.initializeCalendar()
+    });
+    
     this.projectIdentifier = this.currentProject.identifier || undefined;
 
     this.calendar.resize$
