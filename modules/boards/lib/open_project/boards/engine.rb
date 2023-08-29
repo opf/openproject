@@ -30,10 +30,12 @@ module OpenProject::Boards
       project_module :board_view, dependencies: :work_package_tracking, order: 80 do
         permission :show_board_views,
                    { 'boards/boards': %i[index show] },
+                   permissible_on: :project,
                    dependencies: :view_work_packages,
                    contract_actions: { boards: %i[read] }
         permission :manage_board_views,
                    { 'boards/boards': %i[index show new create destroy] },
+                   permissible_on: :project,
                    dependencies: :manage_public_queries,
                    contract_actions: { boards: %i[create update destroy] }
       end
