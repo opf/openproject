@@ -70,7 +70,7 @@ You can mention and notify team members via [@notification](../../notifications/
 ![comment-work-packages](comment-work-packages.png)
 
 ### Emojis
-Starting with OpenProject 13.0 you can add emojis to all text editors. Type a colon and a letter, e.g. **:a** into the wiki editor and get a suggested list of emojis you can use.
+Starting with OpenProject 13.0 you can add emojis to all text editors. Type a colon and a letter, e.g. **:a** into the text editor and get a suggested list of emojis you can use.
 
 ![openproject_user_guide_wp_comment_emojis](openproject_user_guide_wp_comment_emojis.png)
 

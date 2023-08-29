@@ -49,18 +49,20 @@ The resulting schema JSON is an object with properties that look like the follow
 
 
 
-```json
-"property": {
-  "type": "String",
-  "name": "Schema property",
-  "required": true,
-  "hasDefault": false,
-  "writable": true,
-  "minLength": 1,
-  "maxLength": 255,
-  "options": { /** */ }
-},
-...
+```json5
+{
+  "property": {
+    "type": "String",
+    "name": "Schema property",
+    "required": true,
+    "hasDefault": false,
+    "writable": true,
+    "minLength": 1,
+    "maxLength": 255,
+    "options": { /** */ }
+  }
+//...
+}
 ```
 
 

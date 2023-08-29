@@ -36,7 +36,7 @@ Click on the Details link to see the individual *jobs* that GitHub executes.
 Click on each job and each step to show the [log output for this job](https://github.com/opf/openproject/pull/9355/checks?check_run_id=2730782867). It will contain more information about how many tests failed and will also temporarily provide a screenshot of the browser during the occurrence of the test failure (only if a browser was involved in testing).
 
 In our example, multiple tests are reported as failing:
-```
+```shell
 rspec ./spec/features/work_packages/pagination_spec.rb[1:1:1:1] # Work package pagination with project scope behaves like paginated work package list is expected not to have text "WorkPackage No. 23"
 rspec ./spec/features/work_packages/pagination_spec.rb[1:2:1:1] # Work package pagination globally behaves like paginated work package list is expected not to have text "WorkPackage No. 29"
 rspec ./spec/features/work_packages/timeline/timeline_navigation_spec.rb:131 # Work package timeline navigation can save the open state and zoom of timeline
@@ -75,13 +75,13 @@ You will be able to run failing tests locally in a similar fashion for all error
 
 There is a small ruby script that will parse the logs of a GitHub Actions run and output all `rspec` tests that failed for you to run in one command.
 
-```
+```shell
 ./script/github_pr_errors
 ```
 
 If you want to run the tests directly to rspec, you can use this command:
 
-```
+```shell
 ./script/github_pr_errors | xargs bundle exec rspec
 ```
 
@@ -178,7 +178,7 @@ The configuration above determines that a database called `openproject_test` is 
 
 Before you can start testing, you will often need to run the database migrations first on the development and the test database. You can use the following rails command for this:
 
-```bash
+```shell
 RAILS_ENV=development rails db:migrate db:test:prepare
 ```
 
@@ -194,13 +194,13 @@ To run JavaScript frontend tests, first ensure you have all necessary dependenci
 
 You can run all frontend tests with the standard npm command:
 
-    npm test
-
-
+```shell
+npm test
+```
 
 Alternatively, when in the `frontend/` folder, you can also use the watch mode of Angular to automatically run tests after you changed a file in the frontend.
 
-```bash
+```shell
 ./node_modules/.bin/ng test --watch
 ```
 
@@ -210,13 +210,13 @@ Alternatively, when in the `frontend/` folder, you can also use the watch mode o
 
 After following the prerequisites, use the following command to run individual specs:
 
-```bash
+```shell
 RAILS_ENV=test bundle exec rspec spec/models/work_package_spec.rb
 ```
 
 Run multiple specs by separating them with spaces:
 
-```bash
+```shell
 RAILS_ENV=test bundle exec rspec spec/models/work_package_spec.rb spec/models/project_spec.rb
 ```
 
@@ -228,7 +228,7 @@ System tests are also called *rspec feature specs* and use [Capybara](https://ru
 
 System tests are located in `spec/features`. Use the following command to run individual test:
 
-```bash
+```shell
 RAILS_ENV=test bundle exec rspec spec/features/auth/login_spec.rb
 ```
 
@@ -248,7 +248,7 @@ Almost all system tests depend on the browser for testing, you will need to have
 
 So with `npm run serve` running and completed in one tab, run the test using `rspec` as  for the unit tests:
 
-```bash
+```shell
 RAILS_ENV=test bundle exec rspec ./modules/documents/spec/features/attachment_upload_spec.rb[1:1:1:1]
 ```
 
@@ -258,7 +258,7 @@ The tests will generally run a lot slower due to the whole application being run
 
 You can also run *all* feature specs locally with this command. This is not recommended due to the required execution time. Instead, prefer to select individual tests that you would like to test and let GitHub Actions CI test the entire suite.
 
-```bash
+```shell
 RAILS_ENV=test bundle exec rake parallel:features -- --group-number 1 --only-group 1
 ```
 
@@ -289,7 +289,7 @@ The download is a JAR, i.e. a Java application. You will also need to download a
 
 In your powershell on Windows, find the JAR you downloaded in the previous step and run it like this:
 
-```
+```shell
 java -jar .\Downloads\selenium-server-standalone-3.141.59.jar -host 192.168.0.216
 ```
 
@@ -303,7 +303,7 @@ Usually this should work transparently but it doesn't always. So we'll make sure
 
 Now in the linux world do the following variables:
 
-```
+```shell
 export RAILS_ENV=test
 export CAPYBARA_APP_HOSTNAME=`hostname -I`
 export SELENIUM_GRID_URL=http://192.168.0.216:4444/wd/hub
@@ -316,7 +316,7 @@ Setting this make sure the browser in Windows will try to access, for instance `
 
 Now you can run the integration tests as usual as seen above. For instance like this:
 
-```
+```shell
 bundle exec rspec ./modules/documents/spec/features/attachment_upload_spec.rb[1:1:1:1]
 ```
 
@@ -361,7 +361,7 @@ See its GitHub page for any options like number of cpus used.
 
 By default, `parallel_test` will use CPU count to parallelize. This might be a bit much to handle for your system when 8 or more parallel browser instances are being run. To manually set the value of databases to create and tests to run in parallel, use this command:
 
-```bash
+```shell
 export PARALLEL_TEST_PROCESSORS=4
 ```
 
@@ -369,7 +369,7 @@ export PARALLEL_TEST_PROCESSORS=4
 
 Adjust `database.yml` to use different databases:
 
-```yml
+```yaml
 test: &test
   database: openproject_test<%= ENV['TEST_ENV_NUMBER'] %>
   # ...
@@ -391,7 +391,7 @@ Run all unit and system tests in parallel with `RAILS_ENV=test ./bin/rails paral
 
 If you want to run specific tests (e.g., only those from the team planner module), you can use this command:
 
-```bash
+```shell
 RAILS_ENV=test bundle exec parallel_rspec -- modules/team_planner/spec
 ```
 
@@ -399,7 +399,7 @@ RAILS_ENV=test bundle exec parallel_rspec -- modules/team_planner/spec
 
 To run tests automatically when a file is modified, you can use [watchexec](https://github.com/watchexec/watchexec) like this:
 
-```
+```shell
 watchexec --exts rb,erb -- bin/rspec spec/some/path/to/a_particular_spec.rb
 ```
 
@@ -408,7 +408,8 @@ This command instructs `watchexec` to watch `.rb` and `.erb` files for modificat
 Stop `watchexec` by pressing `Ctrl+C`.
 
 Set an alias to make it easier to call:
-```
+
+```shell
 alias wrspec='watchexec --exts rb,erb -- bin/rspec'
 
 wrspec spec/some/path/to/a_particular_spec.rb
@@ -432,8 +433,7 @@ If you want to access the development server of OpenProject from a VM, you need 
 
 One way is to disable the Angular CLI that serves some of the assets when developing. To do that, run
 
-```bash
-
+```shell
 # Precompile the application
 ./bin/rails assets:precompile
 
@@ -449,7 +449,7 @@ Now assuming networking is set up in your VM, you can access your app server on 
 Assuming your openproject is served at `<your local ip>:3000` and your ng serve middleware is running at `<your local ip>:4200`,
 you can access both from inside a VM with nat/bridged networking as follows:
 
-```bash
+```shell
 # Start ng serve middleware binding to all interfaces
 npm run serve:public
 

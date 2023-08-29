@@ -1,3 +1,10 @@
+---
+sidebar_navigation:
+  title: Development setup via docker on MacOS
+description: OpenProject development setup via docker on MacOS
+keywords: development setup docker macos
+---
+
 # OpenProject development setup via docker (MacOS)
 
 This guide covers observed nuances with the docker runtime on MacOS. Please ensure you've gone through the general [OpenProject development setup via docker](../development-environment-docker) guide before proceeding.
@@ -13,7 +20,7 @@ As Docker runs in a virtual machine, a shared filesystem is needed and applicati
 
 The following is a benchmark performed on a _MacBook Pro, 2019 16 GB 2667 MHz DDR4 2.3 GHz 8-Core Intel Core i9_
 
-```sh
+```shell
 $ time docker compose exec backend-test bundle exec rspec spec/models/work_package_spec.rb
 ```
 
@@ -28,13 +35,13 @@ $ time docker compose exec backend-test bundle exec rspec spec/models/work_packa
 
 _Ref Quick Start Guide [here](https://docs.orbstack.dev/quick-start)_
 
-```sh
+```shell
 $ brew install orbstack
 ```
 
 **Note:** You can use Docker contexts to run OrbStack and Docker Desktop side-by-side. Switching contexts affects all Docker commands you run from that point on. [Ref: Side-by-side](https://docs.orbstack.dev/install#reverting)
 
-```sh
+```shell
 # Switch to OrbStack
 docker context use orbstack
 # Switch to Docker Desktop
@@ -43,6 +50,6 @@ docker context use desktop-linux
 
 To view the list of docker contexts run:
 
-```sh
+```shell
 $ docker context ls
 ```

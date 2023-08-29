@@ -30,7 +30,7 @@ services:
 
 And the corresponding NginX configuration file would look like:
 
-```
+```nginx
 # default.conf
 upstream web {
     server web:8080;

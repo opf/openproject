@@ -29,7 +29,7 @@ To dynamically load a controller, it needs to live under `frontend/src/stimulus/
 
 In DOM, you'll tell the application the controller is dynamically loaded using the `data-application-target="dynamic"`attribute. It tells the application controller (`frontend/src/stimulus/controllers/op-application.controller.ts`) we load on every page on body to dynamically import and load the controller named `users`.
 
-```HTML
+```html
 <div data-controller="users" data-application-target="dynamic"></div>
 ```
 

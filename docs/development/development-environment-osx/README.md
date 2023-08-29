@@ -1,4 +1,11 @@
-# OpenProject development Setup on Mac OS X
+---
+sidebar_navigation:
+  title: Development setup on MacOS
+description: OpenProject development setup on Mac OS
+keywords: development setup macos
+---
+
+# OpenProject development setup on Mac OS X
 
 To develop OpenProject a setup similar to that for using OpenProject in production is needed.
 
@@ -22,7 +29,7 @@ Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/
 rbenv is a ruby version manager that lets you quickly switch between ruby versions.
 ruby-build is an addon to rbenv that installs ruby versions.
 
-```bash
+```shell
 # Install
 $ brew install rbenv ruby-build
 # Initialize rbenv
@@ -37,20 +44,20 @@ At the time of this writing, the latest stable version is `3.2.1`, which we also
 We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile). Search for the `ruby '~> X.Y.Z'` line
 and install that version.
 
-```bash
+```shell
 # Install the required version as read from the Gemfile
 rbenv install 3.2.1
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to globally activate this version
 
-```bash
+```shell
 rbenv global 3.2.1
 ```
 
 You also need to install [bundler](https://github.com/bundler/bundler/), the ruby gem bundler.
 
-```bash
+```shell
 gem install bundler
 ```
 
@@ -58,7 +65,7 @@ gem install bundler
 
 Next, install a PostgreSQL database. If you wish to use a MySQL database instead and have installed one, skip these steps.
 
-```bash
+```shell
 # Install postgres database
 $ brew install postgres
 
@@ -68,14 +75,14 @@ $ postgres -D /usr/local/var/postgres
 
 Then, create the OpenProject database user and accompanied database.
 
-```bash
+```shell
 $ createuser -d -P openproject
 ```
 You will be prompted for a password, for the remainder of these instructions, we assume its `openproject-dev-password`.
 
 Now, create the database `openproject_dev` and `openproject_test` owned by the previously created user.
 
-```bash
+```shell
 $ createdb -O openproject openproject_dev
 $ createdb -O openproject openproject_test
 ```
@@ -86,7 +93,7 @@ We will install the latest LTS version of Node.js via [nodenv](https://github.co
 
 ### Install nodenv and node-build
 
-```bash
+```shell
 # Install
 $ brew install nodenv node-build
 # Initialize nodenv
@@ -99,14 +106,14 @@ You can find the latest LTS version here: [nodejs.org/en/download](https://nodej
 
 At the time of writing this is v16.17.0. Install and activate it with:
 
-```bash
+```shell
 nodenv install 16.17.0
 nodenv global 16.17.0
 ```
 
 ### Update NPM to the latest version
 
-```bash
+```shell
 npm install npm@latest -g
 ```
 
@@ -114,7 +121,7 @@ npm install npm@latest -g
 
 You should now have an active ruby and node installation. Verify that it works with these commands.
 
-```bash
+```shell
 $ ruby --version
 ruby 3.2.1 (2023-02-08 revision 31819e82c8) [arm64-darwin22]
 
@@ -130,7 +137,7 @@ npm --version
 
 # Install OpenProject
 
-```bash
+```shell
 # Download the repository
 git clone https://github.com/opf/openproject.git
 cd openproject
@@ -143,14 +150,14 @@ So, if you want to develop a feature, create a feature branch from a current `de
 
 Create and configure the database configuration file in `config/database.yml` (relative to the openproject-directory.
 
-```bash
+```shell
 vim config/database.yml
 ```
 
 Now edit the `config/database.yml` file and insert your database credentials.
 It should look like this (just with your database name, username, and password):
 
-```
+```yaml
 default: &default
   adapter: postgresql
   encoding: unicode
@@ -177,13 +184,13 @@ Install code dependencies, link plugin modules and export translation files.
 - link plugin frontend modules
 - and export frontend localization files
 
-```bash
+```shell
 bin/setup_dev
 ```
 
 Now, run the following tasks to migrate and seed the dev database, and prepare the test setup for running tests locally.
 
-```bash
+```shell
 RAILS_ENV=development bin/rails db:seed
 ```
 1
@@ -194,7 +201,7 @@ run `overmind` as a daemon and connect to services individually.
 The `bin/dev` command will first check if `overmind` is available and run the application if via `Procfile.dev` if possible. If not,
 it falls back to `foreman`, installing it if needed.
 
-```bash
+```shell
 bin/dev
 ```
 
@@ -204,7 +211,7 @@ project as `.env` and [configure values](https://github.com/DarthSim/overmind/tr
 By default a worker process will also be started. In development asynchronous execution of long-running background tasks (sending emails, copying projects,
 etc.) may be of limited use and it has known issues with regards to memory (see background worker section below). To disable the worker process:
 
-```bash
+```shell
 echo "OVERMIND_IGNORED_PROCESSES=worker" >> .overmind.env
 ```
 
@@ -221,7 +228,7 @@ To run OpenProject manually, you need to run the rails server and the webpack fr
 
 ### Rails web server
 
-```bash
+```shell
 RAILS_ENV=development bin/rails server
 ```
 
@@ -231,7 +238,7 @@ This will start the development server on port `3000` by default.
 
 To run the frontend server, please run
 
-```bash
+```shell
 RAILS_ENV=development npm run serve
 ```
 
@@ -242,7 +249,7 @@ You can then access the application either through `localhost:3000` (Rails serve
 
 ### Delayed Job background worker
 
-```bash
+```shell
 RAILS_ENV=development bin/rails jobs:work
 ```
 
@@ -260,7 +267,7 @@ The delayed_job background worker reloads the application for every job in devel
 
 If you haven't run this command for a while, chances are that a lot of background jobs have queued up and might cause a significant amount of open tabs (due to the way we deliver mails with the letter_opener gem). To get rid of the jobs before starting the worker, use the following command. **This will remove all currently scheduled jobs, never use this in a production setting.**
 
-```bash
+```shell
 RAILS_ENV=development bin/rails runner "Delayed::Job.delete_all"
 ```
 
