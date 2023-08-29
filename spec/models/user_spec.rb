@@ -908,6 +908,6 @@ RSpec.describe User do
 
   it_behaves_like 'acts_as_customizable included' do
     let(:model_instance) { user }
-    let(:custom_field) { create(:string_user_custom_field) }
+    let(:custom_field) { create(:user_custom_field, :string) }
   end
 end

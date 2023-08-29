@@ -127,7 +127,7 @@ RSpec.describe 'Custom actions',
     cf
   end
   let!(:int_custom_field) do
-    create(:int_wp_custom_field)
+    create(:integer_wp_custom_field)
   end
   let(:selected_list_custom_field_options) do
     [list_custom_field.custom_options.first, list_custom_field.custom_options.last]

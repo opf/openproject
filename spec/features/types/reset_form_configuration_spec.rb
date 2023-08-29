@@ -38,7 +38,7 @@ RSpec.describe 'Reset form configuration', js: true do
 
   describe "with EE token and CFs", with_ee: %i[edit_attribute_groups] do
     let(:custom_fields) { [custom_field] }
-    let(:custom_field) { create(:integer_issue_custom_field, is_required: true, name: 'MyNumber') }
+    let(:custom_field) { create(:issue_custom_field, :integer, is_required: true, name: 'MyNumber') }
     let(:cf_identifier) { custom_field.attribute_name }
     let(:cf_identifier_api) { cf_identifier.camelcase(:lower) }
 

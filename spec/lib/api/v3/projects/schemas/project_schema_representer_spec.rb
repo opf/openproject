@@ -45,7 +45,7 @@ RSpec.describe API::V3::Projects::Schemas::ProjectSchemaRepresenter do
   let(:new_record) { true }
   let(:model_id) { 1 }
   let(:custom_field) do
-    build_stubbed(:int_project_custom_field)
+    build_stubbed(:integer_project_custom_field)
   end
   let(:allowed_status) { ['some status'] }
   let(:contract) do

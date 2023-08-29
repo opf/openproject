@@ -44,13 +44,13 @@ RSpec.describe CustomActions::Actions::CustomField do
     build_stubbed(:version_wp_custom_field)
   end
   let(:bool_custom_field) do
-    build_stubbed(:bool_wp_custom_field)
+    build_stubbed(:boolean_wp_custom_field)
   end
   let(:user_custom_field) do
     build_stubbed(:user_wp_custom_field)
   end
   let(:int_custom_field) do
-    build_stubbed(:int_wp_custom_field)
+    build_stubbed(:integer_wp_custom_field)
   end
   let(:float_custom_field) do
     build_stubbed(:float_wp_custom_field)

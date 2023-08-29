@@ -30,8 +30,8 @@ require 'spec_helper'
 
 RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
   let(:query) { Queries::Projects::ProjectQuery.new }
-  let(:bool_project_custom_field) { build_stubbed(:bool_project_custom_field) }
-  let(:int_project_custom_field) { build_stubbed(:int_project_custom_field) }
+  let(:bool_project_custom_field) { build_stubbed(:boolean_project_custom_field) }
+  let(:int_project_custom_field) { build_stubbed(:integer_project_custom_field) }
   let(:float_project_custom_field) { build_stubbed(:float_project_custom_field) }
   let(:text_project_custom_field) { build_stubbed(:text_project_custom_field) }
   let(:user_project_custom_field) { build_stubbed(:user_project_custom_field) }
@@ -78,12 +78,9 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
 
     before do
       instance.values = ['bogus']
-    end
-
-    before do
       allow(ProjectCustomField)
-        .to receive_message_chain(:visible, :exists?)
-        .and_return(true)
+              .to receive_message_chain(:visible, :exists?) # rubocop:disable RSpec/MessageChain
+              .and_return(true)
     end
 
     shared_examples_for 'custom field type dependent validity' do
@@ -303,8 +300,8 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
 
       it 'is list for a bool' do
         expect(instance.allowed_values)
-          .to match_array [[I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
-                           [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE]]
+          .to contain_exactly([I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
+                              [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE])
       end
     end
 
@@ -370,8 +367,7 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
 
         it 'returns an array with custom classes' do
           expect(instance.value_objects)
-            .to match_array([custom_field.custom_options.last,
-                             custom_field.custom_options.first])
+            .to contain_exactly(custom_field.custom_options.last, custom_field.custom_options.first)
         end
 
         it 'ignores invalid values' do
@@ -379,7 +375,7 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
                              custom_field.custom_options.last.id]
 
           expect(instance.value_objects)
-            .to match_array([custom_field.custom_options.last])
+            .to contain_exactly(custom_field.custom_options.last)
         end
       end
     end
@@ -432,7 +428,7 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
 
         it 'returns an array with users' do
           expect(instance.value_objects)
-            .to match_array([user1, user2])
+            .to contain_exactly(user1, user2)
         end
       end
     end
@@ -462,7 +458,7 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
 
         it 'returns an array with users' do
           expect(instance.value_objects)
-            .to match_array([version1, version2])
+            .to contain_exactly(version1, version2)
         end
       end
     end

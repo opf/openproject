@@ -49,7 +49,7 @@ RSpec.describe Projects::UpdateService, 'integration', type: :model do
            status_explanation:)
   end
   let(:instance) { described_class.new(user:, model: project) }
-  let(:custom_field) { create(:int_project_custom_field) }
+  let(:custom_field) { create(:integer_project_custom_field) }
   let(:status_code) { nil }
   let(:status_explanation) { nil }
   let(:attributes) { {} }
