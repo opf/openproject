@@ -265,7 +265,7 @@ RSpec.describe OpenProject::AccessControl do
       before do
         described_class.map do |map|
           map.project_module :dynamic_module, if: if_proc do |mod|
-            mod.permission :perm_d1, { dont: :care }
+            mod.permission :perm_d1, { dont: :care }, permissible_on: :project
           end
         end
       end

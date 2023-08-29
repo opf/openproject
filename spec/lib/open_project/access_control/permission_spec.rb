@@ -49,38 +49,57 @@ RSpec.describe OpenProject::AccessControl::Permission do
     end
   end
 
-  describe '#global?' do
-    context 'when it is marked as global' do
+  describe '#work_package?' do
+    context 'when marked as permissible on work package roles' do
       subject(:permission) do
-        described_class.new(:perm, { cont: [:action] }, global: true)
+        described_class.new(:perm, { cont: [:action] }, permissible_on: :work_package)
+      end
+
+      it { expect(permission).to be_work_package }
+    end
+  end
+
+  describe '#project?' do
+    context 'when marked as permissible on project roles' do
+      subject(:permission) do
+        described_class.new(:perm, { cont: [:action] }, permissible_on: :project)
+      end
+
+      it { expect(permission).to be_project }
+    end
+  end
+
+  describe '#global?' do
+    context 'when marked as permissible on global roles' do
+      subject(:permission) do
+        described_class.new(:perm, { cont: [:action] }, permissible_on: :global)
       end
 
       it { expect(permission).to be_global }
     end
+  end
 
-    context 'when it is marked as non-global' do
-      subject(:permission) do
-        described_class.new :perm, { cont: [:action] }, global: false
-      end
-
-      it { expect(permission).not_to be_global }
+  describe 'marking it as permissible on multiple role types' do
+    subject(:permission) do
+      described_class.new(:perm, { cont: [:action] }, permissible_on: %i[work_package project])
     end
 
-    describe "without specifying whether the permission is global or not" do
-      subject(:permission) do
-        described_class.new :perm, { cont: [:action] }
-      end
+    it { expect(permission).to be_work_package }
+    it { expect(permission).to be_project }
+  end
 
-      it 'defaults to non-global' do
-        expect(permission).not_to be_global
-      end
+  context 'without :permissible_on as an argument' do
+    it do
+      expect do
+        described_class.new(:perm, { cont: [:action] })
+      end.to raise_error(ArgumentError)
     end
   end
 
   describe '#grant_to_admin?' do
     context 'when it is marked as grant-able to admin' do
       subject(:permission) do
-        described_class.new(:perm, {}, grant_to_admin: true)
+        described_class.new(:perm, {}, permissible_on: :project, grant_to_admin: true)
       end
 
       it { expect(permission).to be_grant_to_admin }
@@ -88,7 +107,7 @@ RSpec.describe OpenProject::AccessControl::Permission do
 
     context 'when it is marked as non-grant-able to admin' do
       subject(:permission) do
-        described_class.new(:perm, {}, grant_to_admin: false)
+        described_class.new(:perm, {}, permissible_on: :project, grant_to_admin: false)
       end
 
       it { expect(permission).not_to be_grant_to_admin }
@@ -96,7 +115,7 @@ RSpec.describe OpenProject::AccessControl::Permission do
 
     context 'without specifying whether the permissions is grant-able to admin or not' do
       subject(:permission) do
-        described_class.new(:perm, {})
+        described_class.new(:perm, {}, permissible_on: :project)
       end
 
       it 'defaults to grant-able to admin' do
