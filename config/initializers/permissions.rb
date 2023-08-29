@@ -299,6 +299,7 @@ Rails.application.reloader.to_prepare do
     map.project_module :news do |news|
       news.permission :view_news,
                       { news: %i[index show] },
+                      permissible_on: :project,
                       public: true
 
       news.permission :manage_news,
@@ -306,10 +307,12 @@ Rails.application.reloader.to_prepare do
                         news: %i[new create edit update destroy preview],
                         'news/comments': [:destroy]
                       },
+                      permissible_on: :project,
                       require: :member
 
       news.permission :comment_news,
-                      { 'news/comments': :create }
+                      { 'news/comments': :create },
+                      permissible_on: :project
     end
 
     map.project_module :wiki do |wiki|
