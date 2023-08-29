@@ -374,23 +374,28 @@ Rails.application.reloader.to_prepare do
 
     map.project_module :repository do |repo|
       repo.permission :browse_repository,
-                      { repositories: %i[show browse entry annotate changes diff stats graph] }
+                      { repositories: %i[show browse entry annotate changes diff stats graph] },
+                      permissible_on: :project
 
       repo.permission :commit_access,
-                      {}
+                      {},
+                      permissible_on: :project
 
       repo.permission :manage_repository,
                       {
                         repositories: %i[edit create update committers destroy_info destroy],
                         'projects/settings/repository': :show
                       },
+                      permissible_on: :project,
                       require: :member
 
       repo.permission :view_changesets,
-                      { repositories: %i[show revisions revision] }
+                      { repositories: %i[show revisions revision] },
+                      permissible_on: :project
 
       repo.permission :view_commit_author_statistics,
-                      {}
+                      {},
+                      permissible_on: :project
     end
 
     map.project_module :forums do |forum|
