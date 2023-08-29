@@ -317,46 +317,58 @@ Rails.application.reloader.to_prepare do
 
     map.project_module :wiki do |wiki|
       wiki.permission :view_wiki_pages,
-                      { wiki: %i[index show special menu] }
+                      { wiki: %i[index show special menu] },
+                      permissible_on: :project
 
       wiki.permission :list_attachments,
                       { wiki: :list_attachments },
+                      permissible_on: :project,
                       require: :member
 
       wiki.permission :manage_wiki,
                       { wikis: %i[edit destroy] },
+                      permissible_on: :project,
                       require: :member
 
       wiki.permission :manage_wiki_menu,
                       { wiki_menu_items: %i[edit update select_main_menu_item replace_main_menu_item] },
+                      permissible_on: :project,
                       require: :member
 
       wiki.permission :rename_wiki_pages,
                       { wiki: :rename },
+                      permissible_on: :project,
                       require: :member
 
       wiki.permission :change_wiki_parent_page,
                       { wiki: %i[edit_parent_page update_parent_page] },
+                      permissible_on: :project,
                       require: :member
 
       wiki.permission :delete_wiki_pages,
                       { wiki: :destroy },
+                      permissible_on: :project,
                       require: :member
 
       wiki.permission :export_wiki_pages,
-                      { wiki: [:export] }
+                      { wiki: [:export] },
+                      permissible_on: :project
 
       wiki.permission :view_wiki_edits,
-                      { wiki: %i[history diff annotate] }
+                      { wiki: %i[history diff annotate] },
+                      permissible_on: :project
 
       wiki.permission :edit_wiki_pages,
-                      { wiki: %i[edit update preview add_attachment new new_child create] }
+                      { wiki: %i[edit update preview add_attachment new new_child create] },
+                      permissible_on: :project
 
       wiki.permission :delete_wiki_pages_attachments,
-                      {}
+                      {},
+                      permissible_on: :project
 
       wiki.permission :protect_wiki_pages,
                       { wiki: :protect },
+                      permissible_on: :project,
                       require: :member
     end
 
