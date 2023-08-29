@@ -33,18 +33,26 @@ RSpec.describe OpenProject::AccessControl do
     OpenProject::AccessControl.map do |map|
       map.permission :no_module_project_permission_with_contract_actions,
                      { dont: :care },
+                     permissible_on: :project,
                      require: :member,
                      contract_actions: { foo: :create }
-      map.permission :no_module_global_permission, { dont: :care }, global: true
-      map.permission :no_module_project_permission, { dont: :care }
+      map.permission :no_module_global_permission,
+                     { dont: :care },
+                     permissible_on: :global
+      map.permission :no_module_project_permission,
+                     { dont: :care },
+                     permissible_on: :project
 
       map.project_module :global_module do |mod|
-        mod.permission :global_module_global_permission, { dont: :care }, global: true
+        mod.permission :global_module_global_permission,
+                       { dont: :care },
+                       permissible_on: :global
       end
 
       map.project_module :project_module do |mod|
         mod.permission :project_module_project_permission_with_contract_actions,
                        { dont: :care },
+                       permissible_on: :project,
                        contract_actions: { bar: %i[create read] },
                        public: true
       end
@@ -52,16 +60,18 @@ RSpec.describe OpenProject::AccessControl do
       map.project_module :mixed_module do |mod|
         mod.permission :mixed_module_project_permission_granted_to_admin,
                        { dont: :care },
+                       permissible_on: :project,
                        grant_to_admin: true
         mod.permission :mixed_module_global_permission_with_contract_actions,
                        { dont: :care },
-                       global: true,
+                       permissible_on: :global,
                        contract_actions: { baz: %i[destroy] }
       end
 
       map.project_module :dependent_module, dependencies: :project_module do |mod|
         mod.permission :dependent_module_project_permission_not_granted_to_admin,
                        { dont: :care },
+                       permissible_on: :project,
                        grant_to_admin: false
       end
     end
