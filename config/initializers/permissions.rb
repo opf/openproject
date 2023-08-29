@@ -401,30 +401,37 @@ Rails.application.reloader.to_prepare do
     map.project_module :forums do |forum|
       forum.permission :manage_forums,
                        { forums: %i[new create edit update move destroy] },
+                       permissible_on: :project,
                        require: :member
 
       forum.permission :view_messages,
                        { forums: %i[index show],
                          messages: [:show] },
+                       permissible_on: :project,
                        public: true
 
       forum.permission :add_messages,
-                       { messages: %i[new create reply quote preview] }
+                       { messages: %i[new create reply quote preview] },
+                       permissible_on: :project
 
       forum.permission :edit_messages,
                        { messages: %i[edit update preview] },
+                       permissible_on: :project,
                        require: :member
 
       forum.permission :edit_own_messages,
                        { messages: %i[edit update preview] },
+                       permissible_on: :project,
                        require: :loggedin
 
       forum.permission :delete_messages,
                        { messages: :destroy },
+                       permissible_on: :project,
                        require: :member
 
       forum.permission :delete_own_messages,
                        { messages: :destroy },
+                       permissible_on: :project,
                        require: :loggedin
     end
 
