@@ -67,6 +67,9 @@ class WorkPackage < ApplicationRecord
 
   has_and_belongs_to_many :github_pull_requests # rubocop:disable Rails/HasAndBelongsToMany
 
+  has_many :members, as: :entity, dependent: :destroy
+  has_many :principals, through: :members
+
   scope :recently_updated, -> {
     order(updated_at: :desc)
   }
