@@ -31,14 +31,15 @@ Rails.application.reloader.to_prepare do
     map.project_module nil, order: 100 do
       map.permission :add_project,
                      { projects: %i[new] },
+                     permissible_on: :global,
                      require: :loggedin,
-                     global: true,
                      contract_actions: { projects: %i[create] }
 
       map.permission :archive_project,
                      {
                        'projects/archive': %i[create]
                      },
+                     permissible_on: :project,
                      require: :member
 
       map.permission :create_backup,
@@ -46,8 +47,8 @@ Rails.application.reloader.to_prepare do
                        admin: %i[index],
                        'admin/backups': %i[delete_token perform_token_reset reset_token show]
                      },
+                     permissible_on: :global,
                      require: :loggedin,
-                     global: true,
                      enabled: -> { OpenProject::Configuration.backup_enabled? }
 
       map.permission :create_user,
@@ -56,8 +57,8 @@ Rails.application.reloader.to_prepare do
                        'users/memberships': %i[create],
                        admin: %i[index]
                      },
+                     permissible_on: :global,
                      require: :loggedin,
-                     global: true,
                      contract_actions: { users: %i[read create] }
 
       map.permission :manage_user,
@@ -66,8 +67,8 @@ Rails.application.reloader.to_prepare do
                        'users/memberships': %i[create update destroy],
                        admin: %i[index]
                      },
+                     permissible_on: :global,
                      require: :loggedin,
-                     global: true,
                      contract_actions: { users: %i[read update] }
 
       map.permission :manage_placeholder_user,
@@ -76,16 +77,18 @@ Rails.application.reloader.to_prepare do
                        'placeholder_users/memberships': %i[create update destroy],
                        admin: %i[index]
                      },
+                     permissible_on: :global,
                      require: :loggedin,
-                     global: true,
                      contract_actions: { placeholder_users: %i[create read update] }
 
       map.permission :view_project,
                      { projects: [:show] },
+                     permissible_on: :project,
                      public: true
 
       map.permission :search_project,
                      { search: :index },
+                     permissible_on: :project,
                      public: true
 
       map.permission :edit_project,
@@ -95,6 +98,7 @@ Rails.application.reloader.to_prepare do
                        'projects/templated': %i[create destroy],
                        'projects/identifier': %i[show update]
                      },
+                     permissible_on: :project,
                      require: :member,
                      contract_actions: { projects: %i[update] }
 
@@ -102,16 +106,19 @@ Rails.application.reloader.to_prepare do
                      {
                        'projects/settings/modules': %i[show update]
                      },
+                     permissible_on: :project,
                      require: :member
 
       map.permission :manage_members,
                      { members: %i[index new create update destroy autocomplete_for_member] },
+                     permissible_on: :project,
                      require: :member,
                      dependencies: :view_members,
                      contract_actions: { members: %i[create update destroy] }
 
       map.permission :view_members,
                      { members: [:index] },
+                     permissible_on: :project,
                      contract_actions: { members: %i[read] }
 
       map.permission :manage_versions,
@@ -119,28 +126,33 @@ Rails.application.reloader.to_prepare do
                        'projects/settings/versions': [:show],
                        versions: %i[new create edit update close_completed destroy]
                      },
+                     permissible_on: :project,
                      require: :member
 
       map.permission :manage_types,
                      {
                        'projects/settings/types': %i[show update]
                      },
+                     permissible_on: :project,
                      require: :member
 
       map.permission :select_custom_fields,
                      {
                        'projects/settings/custom_fields': %i[show update]
                      },
+                     permissible_on: :project,
                      require: :member
 
       map.permission :add_subprojects,
                      { projects: %i[new] },
+                     permissible_on: :project,
                      require: :member
 
       map.permission :copy_projects,
                      {
                        projects: %i[copy]
                      },
+                     permissible_on: :project,
                      require: :member,
                      contract_actions: { projects: %i[copy] }
     end
