@@ -166,46 +166,54 @@ Rails.application.reloader.to_prepare do
                        work_packages_api: [:get],
                        'work_packages/reports': %i[report report_details]
                      },
+                     permissible_on: %i[work_package project],
                      contract_actions: { work_packages: %i[read] }
 
       wpt.permission :add_work_packages,
                      {},
+                     permissible_on: :project,
                      contract_actions: { work_packages: %i[create] }
 
       wpt.permission :edit_work_packages,
                      {
                        'work_packages/bulk': %i[edit update]
                      },
+                     permissible_on: %i[work_package project],
                      require: :member,
                      dependencies: :view_work_packages,
                      contract_actions: { work_packages: %i[update] }
 
       wpt.permission :move_work_packages,
                      { 'work_packages/moves': %i[new create] },
+                     permissible_on: :project,
                      require: :loggedin,
                      dependencies: :view_work_packages,
                      contract_actions: { work_packages: %i[move] }
 
       wpt.permission :copy_work_packages,
                      {},
-                     require: :loggedin,
                      permissible_on: %i[work_package project],
+                     require: :loggedin,
                      dependencies: :view_work_packages
+
       wpt.permission :add_work_package_notes,
                      {
                        # FIXME: Although the endpoint is removed, the code checking whether a user
                        # is eligible to add work packages through the API still seems to rely on this.
                        journals: [:new]
                      },
+                     permissible_on: %i[work_package project],
                      dependencies: :view_work_packages
 
       wpt.permission :edit_work_package_notes,
                      {},
+                     permissible_on: :project,
                      require: :loggedin,
                      dependencies: :view_work_packages
 
       wpt.permission :edit_own_work_package_notes,
                      {},
+                     permissible_on: %i[work_package project],
                      require: :loggedin,
                      dependencies: :view_work_packages
 
@@ -215,12 +223,14 @@ Rails.application.reloader.to_prepare do
                        'projects/settings/categories': [:show],
                        categories: %i[new create edit update destroy]
                      },
+                     permissible_on: :project,
                      require: :member
 
       wpt.permission :export_work_packages,
                      {
                        work_packages: %i[index all]
                      },
+                     permissible_on: %i[work_package project],
                      dependencies: :view_work_packages
 
       wpt.permission :delete_work_packages,
@@ -228,6 +238,7 @@ Rails.application.reloader.to_prepare do
                        work_packages: :destroy,
                        'work_packages/bulk': :destroy
                      },
+                     permissible_on: :project,
                      require: :member,
                      dependencies: :view_work_packages
 
@@ -235,35 +246,43 @@ Rails.application.reloader.to_prepare do
                      {
                        work_package_relations: %i[create destroy]
                      },
+                     permissible_on: %i[work_package project],
                      dependencies: :view_work_packages
 
       wpt.permission :manage_subtasks,
                      {},
+                     permissible_on: :project,
                      dependencies: :view_work_packages
       # Queries
       wpt.permission :manage_public_queries,
                      {},
+                     permissible_on: :project,
                      require: :member
 
       wpt.permission :save_queries,
                      {},
+                     permissible_on: :project,
                      require: :loggedin,
                      dependencies: :view_work_packages
       # Watchers
       wpt.permission :view_work_package_watchers,
                      {},
+                     permissible_on: :project,
                      dependencies: :view_work_packages
 
       wpt.permission :add_work_package_watchers,
                      {},
+                     permissible_on: :project,
                      dependencies: :view_work_packages
 
       wpt.permission :delete_work_package_watchers,
                      {},
+                     permissible_on: :project,
                      dependencies: :view_work_packages
 
       wpt.permission :assign_versions,
                      {},
+                     permissible_on: :project,
                      dependencies: :view_work_packages
 
       # A user having the following permission can become assignee and/or responsible of a work package.
@@ -271,6 +290,7 @@ Rails.application.reloader.to_prepare do
       # actions but rather to have actions taken together with him/her.
       wpt.permission :work_package_assigned,
                      {},
+                     permissible_on: %i[work_package project],
                      require: :member,
                      contract_actions: { work_packages: %i[assigned] },
                      grant_to_admin: false
