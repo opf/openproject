@@ -28,23 +28,28 @@
 
 module Backups
   class CreateContract < ::ModelContract
-    include SingleTableInheritanceModelContract
+    include RequiresGlobalPermissionsGuard
+    include RequiresNoPendingBackupsGuard
+    include RequiresBackupTokenGuard
 
-    validate :user_allowed_to_create_backup
-    validate :backup_token
+    attribute :comment
+    attribute :creator
+
+    validates :creator, presence: true
+
+    validate :backup_token_not_on_cooldown
     validate :backup_limit
-    validate :no_pending_backups
 
     private
 
-    def backup_token
-      token = Token::Backup.find_by_plaintext_value options[:backup_token].to_s
+    def required_global_permissions
+      [Backup.create_permission]
+    end
 
-      if token.blank? || token.user_id != user.id
-        errors.add :base, :invalid_token, message: I18n.t("backup.error.invalid_token")
-      else
-        check_waiting_period token
-      end
+    def backup_token_not_on_cooldown
+      token = find_backup_token
+
+      check_waiting_period token if token.present?
     end
 
     def check_waiting_period(token)
@@ -61,25 +66,6 @@ module Backups
       if Backup.where("created_at >= ?", Time.zone.today).count > limit
         errors.add :base, :limit_reached, message: I18n.t("backup.error.limit_reached", limit:)
       end
-    end
-
-    def no_pending_backups
-      current_backup = Backup.last
-      if pending_statuses.include? current_backup&.job_status&.status
-        errors.add :base, :backup_pending, message: I18n.t("backup.error.backup_pending")
-      end
-    end
-
-    def user_allowed_to_create_backup
-      errors.add :base, :error_unauthorized unless user_allowed_to_create_backup?
-    end
-
-    def user_allowed_to_create_backup?
-      user.allowed_to_globally? Backup.permission
-    end
-
-    def pending_statuses
-      ::JobStatus::Status.statuses.slice(:in_queue, :in_process).values
     end
   end
 end

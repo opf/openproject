@@ -26,9 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :backup, class: 'Backup' do
-    creator factory: :user
-    sequence(:comment) { |n| "Backup number ##{n}" }
+module Backups
+  class UploadContract < ::ParamsContract
+    include RequiresGlobalPermissionsGuard
+
+    private
+
+    def required_global_permissions
+      [Backup.restore_permission]
+    end
   end
 end

@@ -64,6 +64,22 @@ en:
       include_attachments: Include attachments
       download_backup: Download backup
       request_backup: Request backup
+    restore:
+      info: >
+        You can restore a backup here. The process can take some time depending on the amount
+        of data (especially attachments) you have. You will receive an email once it's ready.
+        In the meantime OpenProject will be in maintenance mode and not usable.
+      note: >
+        Restoring a backup will override any and all data.
+      title: Restore OpenProject backup
+      preview_info: >
+        You can preview this backup here. The process can take some time. Normal operations are not affected.
+      preview_note: >
+        Only you can see the preview. A preview is only temporary and does not affect the actual
+        OpenProject data.
+      preview_title: Preview OpenProject backup
+      restore_backup: Restore backup
+      preview_backup: Preview backup
 
     close_popup_title: "Close popup"
     close_filter_title: "Close filter"

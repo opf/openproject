@@ -422,8 +422,19 @@ OpenProject::Application.routes.draw do
       post 'plugin/:id', action: :update_plugin
     end
 
-    resource :backups, controller: '/admin/backups', only: %i[show] do
+    resources :backups, controller: '/admin/backups', only: %i[index new destroy] do
+      member do
+        get :preview
+        get :restore
+      end
+
       collection do
+        get :back
+        get :restored
+
+        get :upload
+        post :upload, action: :perform_upload
+
         get :reset_token
         post :reset_token, action: :perform_token_reset
 
@@ -526,8 +537,7 @@ OpenProject::Application.routes.draw do
         to: redirect("#{rails_relative_url_root}/attachments/%{id}")
 
     scope ':id' do
-      get '(/:filename)',
-          to: redirect("#{rails_relative_url_root}/api/v3/attachments/%{id}/content")
+      get '(/:filename)', as: :attachment, to: redirect("#{rails_relative_url_root}/api/v3/attachments/%{id}/content")
 
       delete '',
              to: redirect("#{rails_relative_url_root}/api/v3/attachments/%{id}")

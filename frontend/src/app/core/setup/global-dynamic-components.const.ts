@@ -146,6 +146,7 @@ import {
   spotSwitchSelector,
 } from 'core-app/spot/components/switch/switch.component';
 import { BackupComponent, backupSelector } from 'core-app/core/setup/globals/components/admin/backup.component';
+import { RestoreComponent, restoreSelector } from 'core-app/core/setup/globals/components/admin/restore.component';
 import {
   EnterpriseBaseComponent,
   enterpriseBaseSelector,
@@ -283,6 +284,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: quickInfoMacroSelector, cls: WorkPackageQuickinfoMacroComponent, embeddable: true },
   { selector: editableQueryPropsSelector, cls: EditableQueryPropsComponent },
   { selector: backupSelector, cls: BackupComponent },
+  { selector: restoreSelector, cls: RestoreComponent },
   { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },
   { selector: ianMenuSelector, cls: IanMenuComponent },
 

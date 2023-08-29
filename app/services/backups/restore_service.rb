@@ -27,34 +27,53 @@
 #++
 
 module Backups
-  class CreateService < ::BaseServices::Create
-    attr_reader :comment
-
-    def initialize(user:, backup_token:, comment: nil, include_attachments: true, contract_class: ::Backups::CreateContract)
+  class RestoreService < ::BaseServices::BaseContracted
+    def initialize(user:, backup_token:, contract_class: ::Backups::RestoreContract)
       super user:, contract_class:, contract_options: { backup_token: }
-
-      @include_attachments = include_attachments
-      @comment = comment
     end
 
-    def instance(_params)
-      instance_class.new creator: user
+    def instantiate_contract(object, user, options: {})
+      contract_class.new(object, user, params:, options:)
     end
 
-    def include_attachments?
-      @include_attachments
+    def default_contract_class
+      "#{namespace}::RestoreContract".constantize
+    end
+
+    def backup
+      Backup.find params[:backup_id]
+    end
+
+    def preview?
+      params[:preview]
     end
 
     def after_perform(call)
       if call.success?
-        BackupJob.perform_later(
-          backup: call.result,
-          user:,
-          include_attachments: include_attachments?
-        )
-      end
+        reset_status
 
-      call
+        job = RestoreBackupJob.perform_later backup:, user:, preview: preview?
+
+        backup.touch # so that the representer cache is invalidated
+        backup.job_status.update!(
+          status: :in_queue,
+          message: I18n.t("backup#{preview? ? '_preview' : ''}.restore.job_status.in_queue"),
+          job_id: job.job_id,
+          payload: {}
+        )
+
+        ServiceResult.success(result: backup)
+      else
+        call
+      end
+    end
+
+    def reset_status
+      # There will still be a job status from when the backup was created.
+      # Delete it so we can create a new status for the restoration.
+      JobStatus::Status
+        .where(reference: backup)
+        .delete_all
     end
   end
 end

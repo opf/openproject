@@ -34,6 +34,7 @@ require 'active_support/dependencies'
 require 'core_extensions'
 require "view_component"
 require "primer/view_components/engine"
+require 'open_project/elevators/backup_preview_elevator'
 
 # Silence deprecations early on for testing on CI and production
 ActiveSupport::Deprecation.silenced =
@@ -114,6 +115,11 @@ module OpenProject
     # Ensure that tempfiles are cleared after request
     # http://stackoverflow.com/questions/4590229
     config.middleware.use Rack::TempfileReaper
+
+    # configure apartment
+    Apartment.db_migrate_tenants = false
+
+    config.middleware.insert_before Rails::Rack::Logger, OpenProject::Elevators::BackupPreviewElevator
 
     # Custom directories with classes and modules you want to be autoloadable.
     config.enable_dependency_loading = true

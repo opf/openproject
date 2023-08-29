@@ -44,42 +44,36 @@ import { OpenProjectBackupService } from 'core-app/core/backup/op-backup.service
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalError } from 'core-app/features/hal/services/hal-error';
 
-export const backupSelector = 'backup';
+export const restoreSelector = 'restore';
 
 @Component({
-  selector: backupSelector,
-  templateUrl: './backup.component.html',
+  selector: restoreSelector,
+  templateUrl: './restore.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BackupComponent implements AfterViewInit {
+export class RestoreComponent implements AfterViewInit {
   public text = {
-    info: this.i18n.t('js.backup.info'),
-    note: this.i18n.t('js.backup.note'),
-    title: this.i18n.t('js.backup.title'),
-    lastBackup: this.i18n.t('js.backup.last_backup'),
-    lastBackupFrom: this.i18n.t('js.backup.last_backup_from'),
-    includeAttachments: this.i18n.t('js.backup.include_attachments'),
-    options: this.i18n.t('js.backup.options'),
-    downloadBackup: this.i18n.t('js.backup.download_backup'),
-    requestBackup: this.i18n.t('js.backup.request_backup'),
-    attachmentsDisabled: this.i18n.t('js.backup.attachments_disabled'),
+    restoreInfo: this.i18n.t('js.restore.info'),
+    restoreNote: this.i18n.t('js.restore.note'),
+    restoreTitle: this.i18n.t('js.restore.title'),
+    previewInfo: this.i18n.t('js.restore.preview_info'),
+    previewNote: this.i18n.t('js.restore.preview_note'),
+    previewTitle: this.i18n.t('js.restore.preview_title'),
+    restoreBackup: this.i18n.t('js.restore.restore_backup'),
+    previewBackup: this.i18n.t('js.restore.preview_backup'),
   };
 
-  public jobStatusId:string = this.elementRef.nativeElement.dataset.jobStatusId;
+  private inputDataset = (this.elementRef.nativeElement as HTMLElement).dataset;
 
-  public lastBackupDate:string = this.elementRef.nativeElement.dataset.lastBackupDate;
+  jobStatusId:string = this.inputDataset.jobStatusId || '';
 
-  public lastBackupAttachmentId:string = this.elementRef.nativeElement.dataset.lastBackupAttachmentId;
+  backupToken = '';
 
-  public mayIncludeAttachments:boolean = this.elementRef.nativeElement.dataset.mayIncludeAttachments != 'false';
+  backupId:string = this.inputDataset.backupId || '';
 
-  public isInProgress = false;
+  backupComment:string = this.inputDataset.backupComment || '';
 
-  public includeAttachments = true;
-
-  public backupToken = '';
-
-  public comment = '';
+  preview:boolean = this.inputDataset.preview !== 'false';
 
   @InjectField() opBackup:OpenProjectBackupService;
 
@@ -93,33 +87,17 @@ export class BackupComponent implements AfterViewInit {
     protected opModalService:OpModalService,
     protected pathHelper:PathHelperService,
   ) {
-    this.includeAttachments = this.mayIncludeAttachments;
   }
 
   ngAfterViewInit():void {
-    this.backupTokenInput.nativeElement.focus();
+    (this.backupTokenInput.nativeElement as HTMLElement).focus();
   }
 
-  public isDownloadReady():boolean {
-    return this.jobStatusId !== undefined && this.jobStatusId !== ''
-      && this.lastBackupAttachmentId !== undefined && this.lastBackupAttachmentId !== '';
-  }
-
-  public getDownloadUrl():string {
-    return this.pathHelper.attachmentDownloadPath(this.lastBackupAttachmentId, undefined);
-  }
-
-  public includeAttachmentsDefault():boolean {
-    return this.mayIncludeAttachments;
-  }
-
-  public includeAttachmentsTitle():string {
-    return this.mayIncludeAttachments ? '' : this.text.attachmentsDisabled;
-  }
-
-  public triggerBackup(event?:JQuery.TriggeredEvent) {
+  public triggerRestore(event:JQuery.TriggeredEvent) {
     if (event) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       event.stopPropagation();
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       event.preventDefault();
     }
 
@@ -128,10 +106,10 @@ export class BackupComponent implements AfterViewInit {
     this.backupToken = '';
 
     this.opBackup
-      .triggerBackup(backupToken, this.includeAttachments, this.comment)
+      .triggerRestore(backupToken, this.backupId, this.preview)
       .subscribe(
         (resp:HalResource) => {
-          this.jobStatusId = resp.jobStatusId;
+          this.jobStatusId = resp.jobStatusId as string;
           this.opModalService.show(JobStatusModalComponent, 'global', { jobId: resp.jobStatusId });
         },
         (error:HalError) => {

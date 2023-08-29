@@ -1,0 +1,30 @@
+<% breadcrumb_paths(t(:label_backup), t('backup.upload_button')) %>
+
+<%= toolbar title: t('backup.button_upload') %>
+<% html_title t(:label_backup), t('backup.upload_button') %>
+
+<%= form_tag('/admin/backups/upload', method: :post, name: 'backup_upload_form', multipart: true) do %>
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend" title="<%= t 'label_backup' %>"><%= t 'label_backup' %></legend>
+    <div class="form--field">
+      <label class="form--label" for="comment">
+        <%= t('attributes.comment') %>
+      </label>
+      <div class="form--field-container">
+        <%= styled_text_field_tag 'comment', nil, id: 'comment', tabindex: 1, autocapitalize: 'none' %>
+      </div>
+    </div>
+    <div class="form--field">
+      <label class="form--label" for="backup_file">
+        <%= I18n.t('label_backup') %>
+      </label>
+      <div class="form--field-container">
+          <input type="file" accept="application/zip" id="backup_file" name="backup_file" />
+      </div>
+      <div class="form--field-instructions">
+        <span><%= I18n.t('backup.file_instructions') %></span>
+      </div>
+    </div>
+    <button type="submit" class="button -highlight -with-icon icon-upload"><%= I18n.t('backup.label_upload') %></button>
+  </fieldset>
+<% end %>

@@ -99,6 +99,10 @@ FactoryBot.define do
     factory :invited_user do
       status { User.statuses[:invited] }
     end
+
+    factory :omniauth_user do
+      sequence(:identity_url) { |n| "concierge:1279#{n}" }
+    end
   end
 
   factory :anonymous, class: 'AnonymousUser' do

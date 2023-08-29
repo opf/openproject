@@ -64,7 +64,6 @@ RSpec.describe BackupJob, type: :model do
     before do
       previous_backup
       backup
-      status # create
 
       allow(job).to receive(:arguments).and_return arguments
       allow(job).to receive(:job_id).and_return job_id
@@ -125,7 +124,7 @@ RSpec.describe BackupJob, type: :model do
 
       let!(:attachment) { create(:attachment) }
       let!(:pending_direct_upload) { create(:pending_direct_upload) }
-      let(:stored_backup) { Attachment.where(container_type: "Export").last }
+      let(:stored_backup) { Attachment.where(container_type: "Backup").last }
       let(:backup_files) { Zip::File.open(stored_backup.file.path) { |zip| zip.entries.map(&:name) } }
 
       def backed_up_attachment(attachment)
@@ -138,8 +137,8 @@ RSpec.describe BackupJob, type: :model do
         perform
       end
 
-      it "destroys any previous backups" do
-        expect(Backup.find_by(id: previous_backup.id)).to be_nil
+      it "does not destroy previous backups" do
+        expect(Backup.find_by(id: previous_backup.id)).to be_present
       end
 
       it "stores a new backup as an attachment" do

@@ -26,9 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :backup, class: 'Backup' do
-    creator factory: :user
-    sequence(:comment) { |n| "Backup number ##{n}" }
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
+
+RSpec.describe Backups::RestoreContract do
+  let(:backup) { create(:backup) }
+  let(:contract) { described_class.new nil, current_user, options: { backup_token: }, params: }
+  let(:backup_token) { create(:backup_token, user: current_user).plain_value }
+  let(:params) { { backup_id: backup.id } }
+
+  include_context 'ModelContract shared context'
+
+  context 'with a regular user who has the :restore_backup permission' do
+    let(:current_user) { create(:user, global_permissions: [:restore_backup]) }
+
+    it_behaves_like 'contract is valid'
+
+    context 'with a missing backup' do
+      let(:params) { { backup_id: 0 } }
+
+      it_behaves_like 'contract is invalid'
+    end
+
+    context 'with an invalid backup token' do
+      let(:backup_token) { "42" }
+
+      it_behaves_like 'contract is invalid'
+    end
+  end
+
+  context 'with a user missing the required permission' do
+    let(:current_user) { create(:user) }
+
+    it_behaves_like 'contract is invalid'
   end
 end

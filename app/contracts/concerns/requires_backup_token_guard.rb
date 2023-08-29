@@ -26,9 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :backup, class: 'Backup' do
-    creator factory: :user
-    sequence(:comment) { |n| "Backup number ##{n}" }
+module RequiresBackupTokenGuard
+  extend ActiveSupport::Concern
+
+  included do
+    validate :validate_backup_token
+  end
+
+  private
+
+  def find_backup_token
+    Token::Backup.find_by_plaintext_value options[:backup_token].to_s # rubocop:disable Rails/DynamicFindBy
+  end
+
+  def validate_backup_token
+    token = find_backup_token
+
+    if token.blank? || token.user_id != user.id
+      errors.add :base, :invalid_token, message: I18n.t("backup.error.invalid_token")
+    end
   end
 end

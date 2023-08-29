@@ -26,9 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :backup, class: 'Backup' do
-    creator factory: :user
-    sequence(:comment) { |n| "Backup number ##{n}" }
+module RequiresGlobalPermissionsGuard
+  extend ActiveSupport::Concern
+
+  included do
+    validate :validate_global_permissions
+  end
+
+  private
+
+  ##
+  # @return [Array<Symbol>] Array of required permissions
+  def required_global_permissions
+    raise "Define permissions!"
+  end
+
+  def validate_global_permissions
+    required_global_permissions.each do |permission|
+      errors.add :base, :error_unauthorized unless user.allowed_to_globally? permission
+    end
   end
 end

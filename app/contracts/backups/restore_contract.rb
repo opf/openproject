@@ -26,9 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :backup, class: 'Backup' do
-    creator factory: :user
-    sequence(:comment) { |n| "Backup number ##{n}" }
+module Backups
+  class RestoreContract < ::ParamsContract
+    include RequiresGlobalPermissionsGuard
+    include RequiresNoPendingBackupsGuard
+    include RequiresBackupTokenGuard
+
+    validate :backup_exists
+
+    private
+
+    def required_global_permissions
+      [Backup.restore_permission]
+    end
+
+    def backup_exists
+      if !Backup.exists?(id: params[:backup_id])
+        errors.add :base, :not_found, message: I18n.t("label_not_found")
+      end
+    end
   end
 end

@@ -26,9 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :backup, class: 'Backup' do
-    creator factory: :user
-    sequence(:comment) { |n| "Backup number ##{n}" }
+module RequiresNoPendingBackupsGuard
+  extend ActiveSupport::Concern
+
+  included do
+    validate :validate_no_pending_backups
+  end
+
+  private
+
+  def validate_no_pending_backups
+    errors.add :base, :backup_pending, message: I18n.t("backup.error.backup_pending") if pending_backups?
+  end
+
+  def pending_backups?
+    Backup
+      .joins(:job_status)
+      .exists?(job_status: { status: pending_statuses })
+  end
+
+  def pending_statuses
+    ::JobStatus::Status.statuses.slice(:in_queue, :in_process).values
   end
 end

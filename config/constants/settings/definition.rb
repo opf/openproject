@@ -31,6 +31,12 @@ module Settings
     ENV_PREFIX = 'OPENPROJECT_'.freeze
     AR_BOOLEAN_TYPE = ActiveRecord::Type::Boolean.new
     DEFINITIONS = {
+      # internal settings are prefixed with an underscore
+      _maintenance_mode: {
+        format: :hash,
+        default: { enabled: false, message: nil },
+        writable: true
+      },
       activity_days_default: {
         default: 30
       },
@@ -151,6 +157,11 @@ module Settings
       # Allow users with the required permissions to create backups via the web interface or API.
       backup_enabled: {
         description: 'Enable application backups through the UI',
+        default: true,
+        writable: false
+      },
+      restore_backup_enabled: {
+        description: 'Enable restoring application backups through the UI',
         default: true,
         writable: false
       },

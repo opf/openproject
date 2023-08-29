@@ -26,9 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :backup, class: 'Backup' do
-    creator factory: :user
-    sequence(:comment) { |n| "Backup number ##{n}" }
+class CloseBackupPreviewJob < ApplicationJob
+  queue_with_priority :high
+
+  def perform(backup_id)
+    return unless RestoreBackupJob.preview_active?(backup_id:)
+
+    RestoreBackupJob.close_preview!(backup_id:)
   end
 end

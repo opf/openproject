@@ -151,28 +151,28 @@ See COPYRIGHT and LICENSE files for more details.
   // execute these lines to prevent flickering when page loads:
 
   (function($) {
-    var wrapper = $('#wrapper');
-    var savedMainMenuWidth = window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth");
-    var mainMenuCollapsed =  window.OpenProject.guardedLocalStorage("openProject-mainMenuCollapsed");
+  var wrapper = $('#wrapper');
+  var savedMainMenuWidth = window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth");
+  var mainMenuCollapsed = window.OpenProject.guardedLocalStorage("openProject-mainMenuCollapsed");
 
-    if (window.innerWidth < 680) {
-      // force hide on load for mobile
-      $('.can-hide-navigation').addClass('hidden-navigation');
-    }
+  if (window.innerWidth < 680) {
+  // force hide on load for mobile
+  $('.can-hide-navigation').addClass('hidden-navigation');
+  }
 
-    if (mainMenuCollapsed === 'true') {
-      savedMainMenuWidth = 0;
-    }
+  if (mainMenuCollapsed === 'true') {
+  savedMainMenuWidth = 0;
+  }
 
-    if (savedMainMenuWidth || savedMainMenuWidth === 0) {
-      document.documentElement.style.setProperty("--main-menu-width", savedMainMenuWidth + 'px');
-    }
+  if (savedMainMenuWidth || savedMainMenuWidth === 0) {
+  document.documentElement.style.setProperty("--main-menu-width", savedMainMenuWidth + 'px');
+  }
 
-    wrapper.show();
+  wrapper.show();
 
-    // Wrapper for page-specific JS from deprecated inline functions
-    // no longer available with CSP.
-    <%= content_for :additional_js_dom_ready %>
+  // Wrapper for page-specific JS from deprecated inline functions
+  // no longer available with CSP.
+  <%= content_for :additional_js_dom_ready %>
   }(jQuery));
 <% end %>
 <div class="op-wide-autocomplete-wrapper"></div>

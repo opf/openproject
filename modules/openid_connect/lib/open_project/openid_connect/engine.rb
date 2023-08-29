@@ -41,8 +41,8 @@ module OpenProject::OpenIDConnect
             redirect_to "#{omniauth_start_path(h[:name])}/logout"
           end
 
-          # Remember oidc session values when logging in user
-          h[:retain_from_session] = %w[omniauth.oidc_sid]
+          # Remember oidc session values when logging in user, also include the login flash
+          h[:retain_from_session] = %w[omniauth.oidc_sid login_flash]
 
           h[:backchannel_logout_callback] = ->(logout_token) do
             ::OpenProject::OpenIDConnect::SessionMapper.handle_logout(logout_token)

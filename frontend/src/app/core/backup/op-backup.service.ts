@@ -38,10 +38,17 @@ export class OpenProjectBackupService {
   ) {
   }
 
-  public triggerBackup(backupToken:string, includeAttachments = true):Observable<HalResource> {
+  public triggerBackup(backupToken:string, includeAttachments = true, comment = ''):Observable<HalResource> {
     return this
       .apiV3Service
       .backups
-      .post(backupToken, includeAttachments);
+      .post(backupToken, includeAttachments, comment);
+  }
+
+  public triggerRestore(backupToken:string, backupId:string, preview = true):Observable<HalResource> {
+    return this
+      .apiV3Service
+      .backups
+      .restore(backupToken, backupId, preview);
   }
 }
