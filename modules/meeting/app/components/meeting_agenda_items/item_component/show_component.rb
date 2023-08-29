@@ -36,6 +36,7 @@ module MeetingAgendaItems
       super
 
       @meeting_agenda_item = meeting_agenda_item
+      @meeting = meeting_agenda_item.meeting
     end
 
     def call
@@ -43,13 +44,25 @@ module MeetingAgendaItems
         flex.with_row do
           first_row_partial
         end
-        flex.with_row(mt: 2, pl: 4) do
+        flex.with_row(mt: @meeting.closed? ? 2 : 1, pl: 4) do
           second_row_partial
         end
       end
     end
 
     private
+
+    def drag_and_drop_enabled?
+      @meeting.open?
+    end
+
+    def show_time_slot?
+      false
+    end
+
+    def edit_enabled?
+      @meeting.open?
+    end
 
     def first_row_partial
       flex_layout(justify_content: :space_between, align_items: :flex_start) do |flex|
@@ -70,12 +83,12 @@ module MeetingAgendaItems
 
     def left_column_partial
       flex_layout(align_items: :flex_start) do |flex|
-        if drag_and_drop_enabled?
-          flex.with_column(mx: 1, pt: 2) do
+        flex.with_column(mx: 1, pt: 2) do
+          if drag_and_drop_enabled?
             drag_handler_partial
           end
         end
-        flex.with_column(flex: 1, mt: 2) do
+        flex.with_column(flex: 1, mt: 2, pl: @meeting.closed? ? 3 : 0) do
           if @meeting_agenda_item.work_package.present?
             work_package_title_partial
           else
@@ -86,7 +99,7 @@ module MeetingAgendaItems
     end
 
     def right_column_partial
-      flex_layout(align_items: :center) do |flex|
+      flex_layout(align_items: :center, mt: @meeting.closed? ? 2 : 1) do |flex|
         if show_time_slot?
           flex.with_column(pr: 2) do
             time_slot_partial
@@ -95,16 +108,10 @@ module MeetingAgendaItems
         flex.with_column(mr: 2) do
           author_partial
         end
-        if edit_enabled?
-          flex.with_column do
-            actions_partial
-          end
+        flex.with_column do
+          actions_partial if edit_enabled?
         end
       end
-    end
-
-    def drag_and_drop_enabled?
-      true
     end
 
     def drag_handler_partial
@@ -116,14 +123,6 @@ module MeetingAgendaItems
                icon: :grabber,
                'aria-label': "Drag agenda item"
              ))
-    end
-
-    def show_time_slot?
-      false
-    end
-
-    def edit_enabled?
-      true
     end
 
     def work_package_title_partial

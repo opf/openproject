@@ -167,6 +167,23 @@ class MeetingsController < ApplicationController
     respond_with_turbo_streams
   end
 
+  def change_state
+    case meeting_state_params[:state]
+    when "open"
+      @meeting.open!
+    when "closed"
+      @meeting.closed!
+    end
+
+    if @meeting.errors.any?
+      update_sidebar_state_component_via_turbo_stream
+    else
+      update_all_via_turbo_stream
+    end
+
+    respond_with_turbo_streams
+  end
+
   private
 
   def load_query
@@ -245,5 +262,9 @@ class MeetingsController < ApplicationController
                                       :duration, :start_date, :start_time_hour,
                                       participants_attributes: %i[email name invited attended user user_id meeting id])
     end
+  end
+
+  def meeting_state_params
+    params.require(:meeting).permit(:state)
   end
 end

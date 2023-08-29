@@ -37,7 +37,7 @@ module MeetingAgendaItems
 
       @meeting = meeting
       @meeting_agenda_item = meeting_agenda_item || MeetingAgendaItem.new(meeting:, author: User.current)
-      @disabled = disabled
+      @disabled = @meeting.closed? || disabled
     end
 
     def call

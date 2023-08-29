@@ -96,6 +96,11 @@ class Meeting < ApplicationRecord
 
   after_initialize :set_initial_values
 
+  enum state: {
+    open: 0, # 0 -> default, leave values for future states between open and closed
+    closed: 5
+  }
+
   ##
   # Return the computed start_time when changed
   def start_time

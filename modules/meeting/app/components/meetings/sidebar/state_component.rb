@@ -40,23 +40,32 @@ module Meetings
 
     def call
       component_wrapper do
-        flex_layout do |flex|
-          flex.with_row do
-            state_label_partial
-          end
-          flex.with_row(mt: 3) do
-            description_partial
-          end
-          flex.with_row(mt: 2) do
-            actions_partial
-          end
+        case @meeting.state
+        when "open"
+          open_state_partial
+        when "closed"
+          closed_state_partial
         end
       end
     end
 
     private
 
-    def state_label_partial
+    def open_state_partial
+      flex_layout do |flex|
+        flex.with_row do
+          open_state_label_partial
+        end
+        flex.with_row(mt: 3) do
+          open_description_partial
+        end
+        flex.with_row(mt: 2) do
+          open_actions_partial
+        end
+      end
+    end
+
+    def open_state_label_partial
       render(Primer::Beta::State.new(title: "state", scheme: :open)) do
         flex_layout do |flex|
           flex.with_column(mr: 1) do
@@ -69,16 +78,80 @@ module Meetings
       end
     end
 
-    def description_partial
+    def open_description_partial
       render(Primer::Beta::Text.new(color: :subtle)) do
         "This meeting is open. You can add/remove agenda items and edit them as you please. After the meeting is over, close it to lock it."
       end
     end
 
-    def actions_partial
-      render(Primer::Beta::Button.new(scheme: :invisible)) do |button|
-        button.with_leading_visual_icon(icon: :lock)
-        "Close meeting (to-do)"
+    def open_actions_partial
+      form_for(@meeting, method: "put", url: change_state_meeting_path(@meeting),
+                         data: { 'turbo-stream': true }) do |f|
+        flex_layout do |flex|
+          flex.with_row do
+            f.hidden_field :state, value: "closed"
+          end
+          flex.with_row do
+            render(Primer::Beta::Button.new(
+                     scheme: :invisible, type: :submit
+                   )) do |button|
+              button.with_leading_visual_icon(icon: :lock)
+              "Close meeting"
+            end
+          end
+        end
+      end
+    end
+
+    def closed_state_partial
+      flex_layout do |flex|
+        flex.with_row do
+          closed_state_label_partial
+        end
+        flex.with_row(mt: 3) do
+          closed_description_partial
+        end
+        flex.with_row(mt: 2) do
+          closed_actions_partial
+        end
+      end
+    end
+
+    def closed_state_label_partial
+      render(Primer::Beta::State.new(title: "state", scheme: :closed)) do
+        flex_layout do |flex|
+          flex.with_column(mr: 1) do
+            render(Primer::Beta::Octicon.new(icon: "issue-closed"))
+          end
+          flex.with_column do
+            render(Primer::Beta::Text.new) { "closed" }
+          end
+        end
+      end
+    end
+
+    def closed_description_partial
+      render(Primer::Beta::Text.new(color: :subtle)) do
+        "This meeting is closed. You cannot add/remove agenda items anymore."
+      end
+    end
+
+    def closed_actions_partial
+      form_for(@meeting, method: "put", url: change_state_meeting_path(@meeting),
+                         data: { 'turbo-stream': true }) do |f|
+        flex_layout do |flex|
+          flex.with_row do
+            f.hidden_field :state, value: "open"
+          end
+          flex.with_row do
+            render(Primer::Beta::Button.new(
+                     scheme: :invisible, type: :submit
+                   )) do |button|
+              button.with_leading_visual_icon(icon: :unlock)
+              "Reopen meeting"
+            end
+          end
+        end
       end
     end
   end
