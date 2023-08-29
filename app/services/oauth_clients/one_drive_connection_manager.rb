@@ -45,7 +45,7 @@ module OAuthClients
 
       # Call AUTHORIZATION_CHECK_PATH
       # And check for the response
-      # In case of error fail
+      # In case of error failN
     end
 
     def get_authorization_uri(scope: [], state: nil)

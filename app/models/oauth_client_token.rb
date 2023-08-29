@@ -38,6 +38,6 @@ class OAuthClientToken < ApplicationRecord
 
   validates :user, uniqueness: { scope: :oauth_client }
 
-  validates :access_token, length: { minimum: 1 }
-  validates :refresh_token, length: { minimum: 1 }
+  validates :access_token, presence: true
+  validates :refresh_token, presence: true
 end

@@ -42,61 +42,58 @@ module Storages
             @storage = storage
           end
 
-          def call(user:, folder:)
-            # result = Util.token(user:, oauth_client: @oauth_client) do |token|
-            #   base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files")
-            #   @location_prefix = Util.join_uri_path(base_path, token.origin_user_id.gsub(' ', '%20'))
-            #
-            #   response = Util.http(@uri).propfind(
-            #     Util.join_uri_path(base_path, CGI.escapeURIComponent(token.origin_user_id), requested_folder(folder)),
-            #     requested_properties,
-            #     {
-            #       'Depth' => '1',
-            #       'Authorization' => "Bearer #{token.access_token}"
-            #     }
-            #   )
-            #
-            #   case response
-            #   when Net::HTTPSuccess
-            #     ServiceResult.success(result: response.body)
-            #   when Net::HTTPNotFound
-            #     Util.error(:not_found)
-            #   when Net::HTTPUnauthorized
-            #     Util.error(:not_authorized)
-            #   else
-            #     Util.error(:error)
-            #   end
-            # end
-            #
-            # storage_files(result)
-            uri = URI('https://graph.microsoft.com').normalize
-
-            using_user_token(user) do |token|
+          def call(user:, folder: nil)
+            result = using_user_token(user) do |token|
               # Make the Get Request to the necessary endpoints
-              request = Net::HTTP.new(uri.host, uri.port)
-              request.use_ssl = true
-              p request.get(
-                '/drives/root/items/children',
-                {
-                  'Authorization' => "Bearer #{token.access_token}"
-                }
-              )
-              # grab the response
-              # parse!
-              # Do stuff!
+              response = Net::HTTP.start(GRAPH_API_URI.host, GRAPH_API_URI.port, use_ssl: true) do |http|
+                http.get(uri_path_for(folder), { 'Authorization' => "Bearer #{token.access_token}" })
+              end
+
+              handle_response(response)
             end
 
-            # Using a token
-            # Call the folder_path
-            # grab the response
-            # parse into Storages::Files
+            result.result[:value].map { |file| storage_file(file) }
           end
 
           private
 
+          def handle_response(response)
+            case response
+            when Net::HTTPSuccess
+              ServiceResult.success(result: MultiJson.load(response.body, symbolize_keys: true))
+            when Net::HTTPNotFound
+              ServiceResult.failure(result: :not_found, errors: ::Storages::StorageError.new(code: :not_found))
+            when Net::HTTPUnauthorized
+              ServiceResult.failure(result: :not_authorized, errors: ::Storages::StorageError.new(code: :not_authorized))
+            else
+              ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error))
+            end
+          end
+
+          def uri_path_for(folder)
+            return "/v1.0/me/drive/root/children" unless folder
+
+            "/v1.0/drives/#{@storage.drive_id}/items/#{folder}/children"
+          end
+
+          def storage_file(json)
+            StorageFile.new(
+              id: json[:id],
+              name: json[:name],
+              size: json[:size],
+              mime_type: json.dig(:file, :mimeType) || 'application/x-op-directory',
+              created_at: DateTime.parse(json.dig(:fileSystemInfo, :createdDateTime)),
+              last_modified_at: DateTime.parse(json.dig(:fileSystemInfo, :lastModifiedDateTime)),
+              created_by_name: json.dig(:createdBy, :user, :displayName),
+              last_modified_by_name: json.dig(:lastModifiedBy, :user, :displayName),
+              location: json[:webUrl],
+              permissions: nil
+            )
+          end
+
           def using_user_token(user, &block)
             connection_manager = ::OAuthClients::OneDriveConnectionManager
-              .new(user:, oauth_client: @storage.oauth_client, tenant_id: @storage.provider_fields['tenant_id'])
+              .new(user:, oauth_client: @storage.oauth_client, tenant_id: @storage.tenant_id)
 
             connection_manager
               .get_access_token
@@ -104,7 +101,12 @@ module Storages
                 on_success: ->(token) do
                   connection_manager.request_with_token_refresh(token) { block.call(token) }
                 end,
-                on_failure: ->(_) { error(:not_authorized, 'Query could not be created! No access token found!') }
+                on_failure: ->(_) do
+                  ServiceResult.failure(
+                    result: :not_authorized,
+                    message: 'Query could not be created! No access token found!'
+                  )
+                end
               )
           end
         end

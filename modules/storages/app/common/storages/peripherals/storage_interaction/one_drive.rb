@@ -32,6 +32,8 @@ module Storages
   module Peripherals
     module StorageInteraction
       module OneDrive
+        GRAPH_API_URI = URI('https://graph.microsoft.com').freeze
+
         Queries = Dry::Container::Namespace.new('queries') do
           namespace('one_drive') do
             register(:files, FilesQuery)
