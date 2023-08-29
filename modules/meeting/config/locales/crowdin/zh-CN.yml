@@ -25,10 +25,11 @@ zh-CN:
     attributes:
       meeting:
         location: "地点"
-        duration: "持续时间"
+        duration: "时长"
         participants: "参加者"
         participants_attended: "出席者"
         participants_invited: "受邀者"
+        project: "项目"
         start_time: "时间"
         start_time_hour: "开始时间"
     errors:
@@ -37,6 +38,9 @@ zh-CN:
     models:
       meeting_agenda: "议程"
       meeting_minutes: "会议记录"
+  activity:
+    filter:
+      meeting: "会议"
   description_attended: "已出席"
   description_invite: "已邀请"
   events:
@@ -53,11 +57,18 @@ zh-CN:
   label_meeting_edit: "编辑会议"
   label_meeting_agenda: "议程"
   label_meeting_minutes: "会议记录"
-  label_meeting_close: "关闭"
-  label_meeting_open: "打开"
+  label_meeting_close: "结束"
+  label_meeting_open: "开始"
   label_meeting_agenda_close: "确定议程以开始会议记录"
   label_meeting_date_time: "日期/时间"
   label_meeting_diff: "比较"
+  label_upcoming_meetings: "即将进行的会议"
+  label_past_meetings: "过去的会议"
+  label_involvement: "参与"
+  label_upcoming_invitations: "即将发出的邀请"
+  label_past_invitations: "过去的邀请"
+  label_attendee: "参与者"
+  label_author: "创建者"
   label_notify: "发送待审阅"
   label_icalendar: "发送 iCalendar"
   label_version: "版本"
@@ -80,10 +91,10 @@ zh-CN:
   permission_send_meeting_agendas_icalendar: "将会议议程作为日历条目发送"
   project_module_meetings: "会议"
   text_duration_in_hours: "持续时间（单位：小时）"
-  text_in_hours: "时长"
+  text_in_hours: "小时"
   text_meeting_agenda_for_meeting: '“%{meeting}”会议议程'
-  text_meeting_closing_are_you_sure: "您确定要关闭此会议吗？"
-  text_meeting_agenda_open_are_you_sure: "这将在几分钟内覆盖所有变更！要继续吗？"
+  text_meeting_closing_are_you_sure: "确定要关闭该会议议程吗？"
+  text_meeting_agenda_open_are_you_sure: "这将在几分钟内覆盖所有更改！要继续吗？"
   text_meeting_minutes_for_meeting: '“%{meeting}“会议记录'
   text_review_meeting_agenda: "%{author} 已经将 %{link} 上传待审阅。"
   text_review_meeting_minutes: "%{author} 已经将 %{link} 上传待审阅。"

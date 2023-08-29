@@ -56,7 +56,7 @@ These are the options that are available. Please see the [Configuration guide](.
 
 If you installed OpenProject with the package-based installation, you can configure the above settings using the config:set helper. Please note that this will disable the settings in the administration UI.
 
-```bash
+```shell
 openproject config:set OPENPROJECT_EMAIL__DELIVERY__METHOD=smtp
 openproject config:set OPENPROJECT_SMTP__ADDRESS=smtp.sendgrid.net
 openproject config:set OPENPROJECT_SMTP__PORT=587
@@ -74,7 +74,7 @@ openproject config:set OPENPROJECT_SMTP__PASSWORD="SG.pKvc3DQyQGyEjNh4RdOo_g.lVJ
 If you installed OpenProject with Docker, here is how you would enable outbound emails through the use of the SMTP environment variables (with SendGrid, the `SMTP_USER_NAME` is always `apikey`. Just replace `SMTP_PASSWORD` with the API key you've generated and you should be good to
 go). Please note that this will disable the settings in the administration UI.
 
-```bash
+```shell
 docker run -d \
   -e OPENPROJECT_EMAIL__DELIVERY__METHOD=smtp \
   -e OPENPROJECT_SMTP__ADDRESS=smtp.sendgrid.net \

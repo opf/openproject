@@ -362,7 +362,7 @@ ru:
         в диаграммах Ганта или таблицах пакетов работ. Поэтому рекомендуется использовать насыщенный цвет.
   versions:
     overview:
-      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
+      work_packages_in_archived_projects: "Версия предоставляется совместно с архивированными проектами, которым все еще назначены рабочие пакеты для этой версии. Они учитываются, но не отображаются в связанных представлениях."
       no_results_title_text: В настоящее время пакетов работ для этой версии нет.
   wiki:
     page_not_editable_index: Запрошенная страница (пока) не существует. Вы были перенаправлены на индекс всех вики-страниц.
@@ -915,7 +915,7 @@ ru:
             principal:
               unassignable: "не может быть присвоен проекту."
         version:
-          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_archived_projects: "Версия не может быть удалена, так как она имеет связанные с ней пакеты работ."
           undeletable_work_packages_attached: "Версия не может быть удалена, так как имеет пакеты работ, прикрепленные к ней."
         status:
           readonly_default_exlusive: "не может быть активирован для статусов, отмеченных по умолчанию."
@@ -976,11 +976,11 @@ ru:
       created_by_on: "создано %{user} %{datetime}"
       created_by_on_time_entry: "время зарегистрировано %{user} %{datetime}"
       created_on: "создано %{datetime}"
-      created_on_time_entry: "time logged on %{datetime}"
+      created_on_time_entry: "время входа в систему %{datetime}"
       updated_by_on: "обновлено %{user} %{datetime}"
-      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "зарегистрированное время, обновленное %{user} в %{datetime}"
       updated_on: "обновлено %{datetime}"
-      updated_on_time_entry: "logged time updated on %{datetime}"
+      updated_on_time_entry: "зарегистрированное время обновлено в %{дата-время}"
       parent_without_of: "Подпроект"
       parent_no_longer: "Больше не подпроект"
       time_entry:
@@ -1358,7 +1358,7 @@ ru:
   error_can_not_archive_project: "Этот проект невозможно заархивировать: %{errors}"
   error_can_not_delete_entry: "Не удается удалить содержимое"
   error_can_not_delete_custom_field: "Не удается удалить настраиваемое поле"
-  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
+  error_can_not_delete_in_use_archived_undisclosed: 'Есть также пакеты работ в архивных проектах. Вам нужно попросить администратора выполнить удаление, чтобы увидеть, какие проекты затронуты.'
   error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Этот тип содержит пакеты работ и не может быть удален. Вы можете увидеть все затрагиваемые пакеты работ в <a target="_blank" href="%{url}">этом представлении</a>.'
@@ -2220,9 +2220,9 @@ ru:
   mail_body_incoming_email_error_logs: "Журналы"
   mail_body_lost_password: "Чтобы изменить пароль, щёлкните по следующей ссылке:"
   mail_password_change_not_possible:
-    title: "Password change not possible"
-    body: "Your account at %{app_title} is connected to an external authentication provider (%{name})."
-    subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
+    title: "Не удалось изменить пароль"
+    body: "Ваша учетная запись на %{app_title} подключена к внешнему поставщику аутентификации (%{name})."
+    subtext: "Пароли внешней учетной записи не могут быть изменены в приложении. Пожалуйста, используйте функцию утери пароля вашего поставщика аутентификации."
   mail_body_register: "Добро пожаловать в %{app_title}. Пожалуйста, активируйте свою учетную запись, перейдя по ссылке:"
   mail_body_register_header_title: "Приглашение участника проекта по электронной почте"
   mail_body_register_user: "Уважаемый, %{name},"
@@ -2740,7 +2740,7 @@ ru:
         type: "Вся строка по типу"
         priority: "Вся строка по приоритету"
     icalendar:
-      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: Позволяет пользователям с необходимыми разрешениями подписаться на календари OpenProject и получить доступ к информации о комплексе работ через внешний клиент календаря. <strong>Примечание:</strong> Пожалуйста, прочтите о <a href="%{link}" target="_blank">подписках на iCalendar</a> для понимания потенциальных рисков безопасности, прежде чем включить это.
     language_name_being_default: '%{language_name} (по умолчанию)'
     notifications:
       events_explanation: 'Регулирует, по каким событиям отправляется письмо. Пакеты работ исключаются из этого списка, поскольку уведомления для них могут быть настроены специально для каждого пользователя.'

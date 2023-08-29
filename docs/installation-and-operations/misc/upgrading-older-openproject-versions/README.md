@@ -16,7 +16,7 @@ All the script needs is docker to be installed. It will start containers as requ
 
 First, you will need to create a backup to get the MySQL database dump. Please see our separate guide on [Backing up](../../operation/backing-up/). In a packaged installation, the following command will output a full backup to `/var/db/openproject/backup`:
 
-```bash
+```shell
 openproject run backup
 ```
 
@@ -25,7 +25,7 @@ openproject run backup
 This will output a MySQL dump at `/var/db/openproject/backup/mysql-dump-<timestamp>.sql.gz`. You will need to gunzip this:
 
 
-```
+```shell
 cp /var/db/openproject/backup/mysql-dump-<timestamp>.sql.gz /tmp/openproject-mysql.dump.gz
 gunzip /tmp/openproject/openproject-mysql.dump.gz
 ```
@@ -36,7 +36,7 @@ gunzip /tmp/openproject/openproject-mysql.dump.gz
 
 With docker installed, use the following command to start the upgrade process on your MySQL dump.
 
-```bash
+```shell
 bash migrate-from-pre-8.sh <docker host IP> <Path to MySQL dump file> [sql|custom]
 ```
 

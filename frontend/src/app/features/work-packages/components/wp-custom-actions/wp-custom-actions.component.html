@@ -1,5 +1,5 @@
 <wp-custom-action
-    *ngFor="let action of actions"
+    *ngFor="let action of actions; trackBy: trackByHref"
     [workPackage]="workPackage"
     [action]="action"
     class="custom-action">

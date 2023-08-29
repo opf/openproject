@@ -41,7 +41,7 @@ The package is available for the following Linux distributions:
 
 Please ensure that you are running on a 64bit system before proceeding with the installation. You can check by running the `uname -i` command on the target server and verifying that it outputs `x86_64`:
 
-```bash
+```shell
 $ uname -m
 x86_64
 ```
@@ -54,27 +54,27 @@ x86_64
 
 Update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
 
-```bash
+```shell
 sudo apt-get update
 sudo apt-get install apt-transport-https ca-certificates wget
 ```
 
 Import the PGP key used to sign our packages:
 
-```bash
+```shell
 sudo wget -O /etc/apt/trusted.gpg.d/openproject.asc https://dl.packager.io/srv/opf/openproject/key
 ```
 
 Add the OpenProject package source:
 
-```bash
+```shell
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
   https://dl.packager.io/srv/opf/openproject/stable/13/installer/ubuntu/22.04.repo
 ```
 
 Download the OpenProject package:
 
-```bash
+```shell
 sudo apt-get update
 sudo apt-get install openproject
 ```
@@ -87,27 +87,27 @@ Then finish the installation by reading the [*Initial configuration*](#initial-c
 
 Update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
 
-```bash
+```shell
 sudo apt-get update
 sudo apt-get install apt-transport-https ca-certificates wget
 ```
 
 Import the PGP key used to sign our packages:
 
-```bash
+```shell
 wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
 ```
 
 Add the OpenProject package source:
 
-```bash
+```shell
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
   https://dl.packager.io/srv/opf/openproject/stable/13/installer/ubuntu/20.04.repo
 ```
 
 Download the OpenProject package:
 
-```bash
+```shell
 sudo apt-get update
 sudo apt-get install openproject
 ```
@@ -120,7 +120,7 @@ Then finish the installation by reading the [*Initial configuration*](#initial-c
 
 As root update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
 
-```bash
+```shell
 su -
 apt update
 apt install apt-transport-https ca-certificates wget
@@ -128,20 +128,20 @@ apt install apt-transport-https ca-certificates wget
 
 Import the PGP key used to sign our packages:
 
-```bash
+```shell
 wget -qO- https://dl.packager.io/srv/opf/openproject/key | gpg --dearmor > /etc/apt/trusted.gpg.d/packager-io.gpg
 ```
 
 Add the OpenProject package source:
 
-```bash
+```shell
 wget -O /etc/apt/sources.list.d/openproject.list \
   https://dl.packager.io/srv/opf/openproject/stable/13/installer/debian/12.repo
 ```
 
 Download the OpenProject package:
 
-```bash
+```shell
 apt update
 apt install openproject
 ```
@@ -152,7 +152,7 @@ Then finish the installation by reading the [*Initial configuration*](#initial-c
 
 As root update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
 
-```bash
+```shell
 su -
 apt update
 apt install apt-transport-https ca-certificates wget
@@ -160,20 +160,20 @@ apt install apt-transport-https ca-certificates wget
 
 Import the PGP key used to sign our packages:
 
-```bash
+```shell
 wget -qO- https://dl.packager.io/srv/opf/openproject/key | gpg --dearmor > /etc/apt/trusted.gpg.d/packager-io.gpg
 ```
 
 Add the OpenProject package source:
 
-```bash
+```shell
 wget -O /etc/apt/sources.list.d/openproject.list \
   https://dl.packager.io/srv/opf/openproject/stable/13/installer/debian/11.repo
 ```
 
 Download the OpenProject package:
 
-```bash
+```shell
 apt update
 apt install openproject
 ```
@@ -184,27 +184,27 @@ Then finish the installation by reading the [*Initial configuration*](#initial-c
 
 Update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
 
-```bash
+```shell
 sudo apt-get update
 sudo apt-get install apt-transport-https ca-certificates wget
 ```
 
 Import the PGP key used to sign our packages:
 
-```bash
+```shell
 wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
 ```
 
 Add the OpenProject package source:
 
-```bash
+```shell
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
   https://dl.packager.io/srv/opf/openproject/stable/13/installer/debian/10.repo
 ```
 
 Download the OpenProject package:
 
-```bash
+```shell
 sudo apt-get update
 sudo apt-get install openproject
 ```
@@ -217,20 +217,20 @@ Then finish the installation by reading the [*Initial configuration*](#initial-c
 
 Add the OpenProject package source:
 
-```bash
+```shell
 sudo wget -O /etc/yum.repos.d/openproject.repo \
   https://dl.packager.io/srv/opf/openproject/stable/13/installer/el/9.repo
 ```
 
 If it is not already enabled, make sure to enable [Extra Packages for Enterprise Linux](https://fedoraproject.org/wiki/EPEL) (EPEL).
 
-```bash
+```shell
 sudo dnf install -y epel-release
 ```
 
 Download the OpenProject package:
 
-```bash
+```shell
 sudo yum install openproject
 ```
 
@@ -243,20 +243,20 @@ Then finish the installation by reading the [*Initial configuration*](#initial-c
 
 Add the OpenProject package source:
 
-```bash
+```shell
 sudo wget -O /etc/yum.repos.d/openproject.repo \
   https://dl.packager.io/srv/opf/openproject/stable/13/installer/el/8.repo
 ```
 
 If it is not already enabled, make sure to enable [Extra Packages for Enterprise Linux](https://fedoraproject.org/wiki/EPEL) (EPEL).
 
-```bash
+```shell
 sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
 ```
 
 Download the OpenProject package:
 
-```bash
+```shell
 sudo yum install openproject
 ```
 
@@ -269,14 +269,14 @@ Then finish the installation by reading the [*Initial configuration*](#initial-c
 
 Add the OpenProject package source:
 
-```bash
+```shell
 sudo wget -O /etc/yum.repos.d/openproject.repo \
   https://dl.packager.io/srv/opf/openproject/stable/13/installer/el/7.repo
 ```
 
 Download the OpenProject package:
 
-```bash
+```shell
 sudo yum install openproject
 ```
 
@@ -306,7 +306,7 @@ This happens when your local postgresql-libs package is outdated. You'll have to
 
 Add the OpenProject package source:
 
-```bash
+```shell
 wget -O /etc/zypp/repos.d/openproject.repo \
   https://dl.packager.io/srv/opf/openproject/stable/13/installer/sles/15.repo
 ```
@@ -314,13 +314,13 @@ wget -O /etc/zypp/repos.d/openproject.repo \
 If you already had an old package source that is being updated you must refresh
 your source next. It can't hurt to do this in any case, though.
 
-```bash
+```shell
 sudo zypper refresh openproject
 ```
 
 Next, download the OpenProject package:
 
-```bash
+```shell
 sudo zypper install openproject
 ```
 
@@ -330,7 +330,7 @@ Then finish the installation by reading the [*Initial configuration*](#initial-c
 
 Add the OpenProject package source:
 
-```bash
+```shell
 wget -O /etc/zypp/repos.d/openproject.repo \
   https://dl.packager.io/srv/opf/openproject/stable/13/installer/sles/12.repo
 ```
@@ -338,13 +338,13 @@ wget -O /etc/zypp/repos.d/openproject.repo \
 If you already had an old package source that is being updated you must refresh
 your source next. It can't hurt to do this in any case, though.
 
-```bash
+```shell
 sudo zypper refresh openproject
 ```
 
 Next, download the OpenProject package:
 
-```bash
+```shell
 sudo zypper install openproject
 ```
 
@@ -368,7 +368,7 @@ After you have successfully installed the OpenProject package, you can now perfo
 
 To start the configuration wizard, please run the following command  with `sudo`, or as root:
 
-```bash
+```shell
 sudo openproject reconfigure #interactive - manual choices are stored in /etc/openproject/installer.dat
 sudo openproject configure #non-interactive - using values stored in /etc/openproject/installer.dat
 ```
@@ -428,7 +428,7 @@ The wizard will not try to connect to any database. You will have to specify a d
 
 You can set this `DATABASE_URL` parameter yourself to a PostgreSQL database URL.
 
-```bash
+```shell
 sudo openproject config:set DATABASE_URL="postgresql://[user[:password]@][host][:port][/dbname][?param1=value1&...]
 ```
 
@@ -499,7 +499,7 @@ Here an example for external SSL/TLS terminaltion with apache (httpd):
 
 > **Note:** There is [another example](../docker/#1-virtual-host-root) for external SSL/TLS termination for **docker-compose** installations
 
-```bash
+```shell
 <VirtualHost *:443>
    ServerName openproject.example.com
    

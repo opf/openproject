@@ -139,7 +139,7 @@ class UserMailer < ApplicationMailer
     message_id @wiki_page, user
 
     send_mail(user,
-              "[#{@wiki_page.project.name}] #{t(:mail_subject_wiki_page_added, id: @wiki_page.title)}")
+              "[#{@wiki_page.project.name}] #{t(:mail_subject_wiki_content_added, id: @wiki_page.title)}")
   end
 
   def wiki_page_updated(user, wiki_page)
@@ -154,7 +154,7 @@ class UserMailer < ApplicationMailer
     message_id @wiki_page, user
 
     send_mail(user,
-              "[#{@wiki_page.project.name}] #{t(:mail_subject_wiki_page_updated, id: @wiki_page.title)}")
+              "[#{@wiki_page.project.name}] #{t(:mail_subject_wiki_content_updated, id: @wiki_page.title)}")
   end
 
   def message_posted(user, message)

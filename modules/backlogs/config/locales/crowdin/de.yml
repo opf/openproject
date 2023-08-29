@@ -26,8 +26,8 @@ de:
         position: "Position"
         remaining_hours: "Verbleibende Stunden"
         remaining_time: "Verbleibende Stunden"
-        derived_remaining_hours: "Derived remaining hours"
-        derived_remaining_time: "Derived remaining hours"
+        derived_remaining_hours: "Abgeleitete verbleibende Stunden"
+        derived_remaining_time: "Abgeleitete verbleibende Stunden"
         story_points: "Story-Punkte"
         backlogs_work_package_type: "Backlog Typ"
     errors:

@@ -33,7 +33,7 @@ RSpec.describe "multi select custom values",
     wait_for_reload
   end
 
-  describe 'with mixed users, group, and placeholdders' do
+  describe 'with mixed users, group, and placeholders' do
     let(:work_package) { create(:work_package, project:, type:) }
 
     let!(:user) do

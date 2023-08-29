@@ -12,7 +12,7 @@ sidebar_navigation:
 
 When using environment variables, you can set the options by setting environment variables with the name of the options below in uppercase. So for example, to configure email delivery via an SMTP server, you can set the following environment variables:
 
-```bash
+```shell
 EMAIL_DELIVERY_METHOD="smtp"
 SMTP_ADDRESS="smtp.example.net"
 SMTP_PORT="587"
@@ -33,7 +33,7 @@ You can override nested configuration values as well by joining the respective h
 Underscores within keys have to be escaped by doubling them.
 For example, given the following configuration:
 
-```yml
+```yaml
 storage:
   tmp_path: tmp
 ```
@@ -99,19 +99,19 @@ A list of all configuration variables that can be overridden by defining them in
 
 For packaged installations:
 
-```bash
+```shell
 sudo openproject run bundle exec rake setting:available_envs
 ```
 
 For Docker installations:
 
-```bash
+```shell
 docker exec -it $(docker ps | grep web | cut -d' ' -f 1) bash -c "RAILS_ENV=production bundle exec rake setting:available_envs"
 ```
 
 The default value is also visible for each variable in parenthesis. The following are the correct values at the time of writing and that you should use the commands shown above to make sure to get the up-to-date list.
 
-```bash
+```shell
 OPENPROJECT_ACTIVITY__DAYS__DEFAULT (default=30) Days displayed on project activity
 OPENPROJECT_AFTER__FIRST__LOGIN__REDIRECT__URL (default=nil) URL users logging in for the first time will be redirected to (e.g., a help screen)
 OPENPROJECT_AFTER__LOGIN__DEFAULT__REDIRECT__URL (default=nil) Override URL to which logged in users are redirected instead of the My page

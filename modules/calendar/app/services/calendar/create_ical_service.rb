@@ -60,7 +60,6 @@ module Calendar
     def add_values_to_event(event, work_package)
       %i[
         uid
-        organizer
         summary
         dtstamp
         dtstart
@@ -71,25 +70,11 @@ module Calendar
         event.send("#{value}=", send("#{value}_value", work_package))
       end
 
-      add_attendee_value(event, work_package)
+      event
     end
 
     def uid_value(work_package)
       "#{work_package.id}@#{host}"
-    end
-
-    def attendee_value(work_package)
-      Icalendar::Values::CalAddress.new(
-        "mailto:#{work_package.assigned_to&.mail}",
-        cn: work_package.assigned_to&.name
-      )
-    end
-
-    def organizer_value(work_package)
-      Icalendar::Values::CalAddress.new(
-        "mailto:#{work_package.author&.mail}",
-        cn: work_package.author&.name
-      )
     end
 
     def summary_value(work_package)
@@ -132,19 +117,13 @@ module Calendar
       OpenProject::StaticRouting::UrlHelpers.host
     end
 
-    def add_attendee_value(event, work_package)
-      # event.attendee = [work_package.assigned_to&.name] # causing thunderbird error "id is null"
-      event.attendee = attendee_value(work_package) if work_package.assigned_to.present?
-
-      event
-    end
-
     def description_value(work_package)
       %i[
         project
         type
         status
         assigned_to
+        author
         priority
       ].map do |attribute|
         translated_attribute_name_and_value(work_package, attribute)

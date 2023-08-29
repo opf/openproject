@@ -58,9 +58,9 @@ In OpenProject, authentication is an important element to guarantee a data prote
 
 A backlog in OpenProject is defined as a [plugin](#plugin) that allows to use the backlogs feature in OpenProject. The backlog is a tool in scrum: a list that contains everything needed to achieve a specific outcome. In order to use backlogs in OpenProject, the backlogs module has to be activated in the [project settings](#project-settings) by a project admin. [Read how to work with backlogs in OpenProject](https://www.openproject.org/docs/user-guide/backlogs-scrum)
 
-### Baseline (Comparisons)
+### Baseline (Comparison)
 
-Baseline is a feature in OpenProject that will be released with 13.0. It allows users to quickly track changes on [filtered](#filters) work packages table views. [Read more about technical challenges, design and next steps for Baseline in the OpenProject blog](https://www.openproject.org/blog/news-product-team-baseline/)
+Baseline is a feature in OpenProject released with version 13.0. It allows users to quickly track changes on [filtered](#filters) work packages table views. [Read more about technical challenges, design and next steps for Baseline in the OpenProject blog](https://www.openproject.org/blog/news-product-team-baseline/)
 
 ### BIM
 
@@ -80,6 +80,17 @@ A board in OpenProject is a view that allows you to see your work packages as ca
 ### Classic project management
 
 Classic project management is a structured and sequential approach to project management. It often follows a hierarchical structure with a project manager overseeing team coordination, and is associated with methodologies like Waterfall. OpenProject supports classic project management as well as [agile project management](#agile-project-management), and works best for [hybrid project management](#hybrid-project-management).
+
+### Cloud
+
+OpenProject can be installed either [on-premises](#on-premises) (available for both OpenProject Community and Enterprise) or in the cloud (Enterprise only). If you choose the cloud hosting, your instance will be hosted and maintained by OpenProject – as software as a service (SaaS).
+
+**More information on cloud hosting for OpenProject**
+
+- [Read a blog article on OpenProject's cloud project management software](https://www.openproject.org/blog/cloud-project-management-software/)
+- [See OpenProject's prices and plans](https://www.openproject.org/pricing)
+- [Read a blog article on why to choose an open source cloud software](https://www.openproject.org/blog/open-source-cloud-software/)
+- [See the FAQ for OpenProject Enterprise cloud](https://www.openproject.org/docs/enterprise-guide/enterprise-cloud-guide/enterprise-cloud-faq/)
 
 ### Community edition
 
@@ -129,7 +140,7 @@ Date alerts in OpenProject are an [Enterprise add-on](#enterprise-add-on) and de
 
 ### Enterprise add-on
 
-In OpenProject, some features are defined as an Enterprise add-on. This means, they are not part of the [Community edition](#community-edition) and therefore not free of charge. Enterprise add-ons are available as Cloud or [on-premises](#on-premises) versions. You can choose from the following plans to get access to all Enterprise add-ons: Basic, Professional, Premium and Corporate. [Read more about OpenProject plans and pricing](https://www.openproject.org/pricing/)
+In OpenProject, some features are defined as an Enterprise add-on. This means, they are not part of the [Community edition](#community-edition) and therefore not free of charge. Enterprise add-ons are available as [cloud](#cloud) or [on-premises](#on-premises) versions. You can choose from the following plans to get access to all Enterprise add-ons: Basic, Professional, Premium and Corporate. [Read more about OpenProject plans and pricing](https://www.openproject.org/pricing/)
 
 ### Enumerations
 
@@ -166,6 +177,10 @@ The Gantt chart in OpenProject displays the work packages in a timeline. You can
 A Group in OpenProject is defined as a list of users which can be added as a member to projects with a selected [role](#role). Groups can also be assigned to work packages. New groups can be defined in Administration -> Users and permissions -> Groups.
 
 ## H
+
+### Home page
+
+In the OpenProject application, the home page is defined as a start page for your instance, where you get an overview about important information. From the home page you can access all global modules of OpenProject. To get to the OpenProject application home page, click on the logo in the header of the application. [Read more about the OpenProject application home page](https://www.openproject.org/docs/user-guide/home/#application-home-page)
 
 ### Hybrid project management
 
@@ -247,6 +262,10 @@ In OpenProject, a [project](https://www.openproject.org/docs/user-guide/projects
 - an overarching team working on one topic or
 - separate products or customers.
 
+### Project folder
+
+Project folders are a feature in OpenProject's [Nextcloud integration](#nextcloud-integration) to collaborate in the most efficient way. [Read more about project folders in OpenProject](https://www.openproject.org/docs/user-guide/projects/project-settings/file-storages/#project-folders)
+
 ### Project identifier
 
 The project identifier is defined as the unique name used to identify and reference projects in the application as well as in the address bar of your browser. Project identifiers can be changed in the [project settings](#project-settings).
@@ -308,6 +327,10 @@ The team planner in OpenProject is defined as a [module](#module) ([Enterprise a
 ### Time and costs
 
 Time and costs in OpenProject is defined as a [module](#module) which allows users to log time on [work packages](#work-package), track costs and create time and cost reports. Once the time and costs module is activated by a project admin, time and unit cost can be logged via the action menu of a work package. Logged time and costs can be searched for, aggregated and reported using the Cost reports menu item. [Read more about the time and costs module in OpenProject](https://www.openproject.org/docs/user-guide/time-and-costs/)
+
+### Time tracking button
+
+The time tracking button in OpenProject is a feature to track time spent on work packages in real time. [Read more about logging time via the time tracking button in OpenProject](https://www.openproject.org/docs/user-guide/time-and-costs/time-tracking/#log-time-via-the-time-tracking-button)
 
 ## U
 

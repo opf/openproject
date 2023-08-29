@@ -199,7 +199,7 @@ A: This can happen if you previously created user accounts in OpenProject with t
 Spawn an interactive console in OpenProject. The following example shows the command for the packaged installation.
 See [our process control guide](../../../installation-and-operations/operation/control/) for information on other installation types.
 
-```
+```shell
 sudo openproject run console
 # or if using docker:
 # docker-compose run --rm web bundle exec rails console
@@ -207,7 +207,7 @@ sudo openproject run console
 
 Once in the console you can then enter the following to enable the setting and leave the console.
 
-```
+```shell
 Setting.oauth_allow_remapping_of_existing_users = true
 exit
 ```

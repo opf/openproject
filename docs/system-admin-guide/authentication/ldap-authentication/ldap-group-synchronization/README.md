@@ -84,7 +84,7 @@ Click on *Create* to finish the creation of the synchronized  group. The LDAP me
 If you want to trigger the synchronization *manually* you can do so by running the respective rake task directly.
 In the packaged installation, for instance, this would work like this:
 
-```
+```shell
 sudo openproject run bundle exec rake ldap_groups:synchronize
 ```
 

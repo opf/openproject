@@ -34,13 +34,13 @@ With an [access token or other means of API authentication](../../../api/introdu
 
 
 
-```json
+```json5
 {
     "_type": "Form",
     "_embedded": {
         "payload": {
-            "name": "",
-            ...
+            "name": ""
+            // ...
         },
         "schema": {
             "name": {
@@ -52,8 +52,8 @@ With an [access token or other means of API authentication](../../../api/introdu
                 "minLength": 1,
                 "maxLength": 255,
                 "options": {}
-            },
-            ....
+            }
+            // ...
         },
         "validationErrors": {
             "name": {

@@ -47,26 +47,28 @@ The display fields handle showing read-only representation of a resource's attri
 
 Since OpenProject can also have dynamic custom fields with varying formats, the frontend cannot know all potential attribute names and their types. Instead, the available attributes of a resource are retrieved from its associated [schema resource](../resource-schemas/). For display fields, the important part of the schema definition for an attribute is its `type` attribute. Take a look at the JSON schema response for projects at the community: [community.openproject.com/api/v3/projects/schema](https://community.openproject.com/api/v3/projects/schema). For the sake of brevity, the following JSON will only show two of the returned attributes: The name and status attribute description:
 
-```json
-"name": {
-  "type": "String",
-  "name": "Name",
-  "required": true,
-  "hasDefault": false,
-  "writable": true,
-  "minLength": 1,
-  "maxLength": 255,
-  "options": {}
-},
-"status": {
-  "type": "ProjectStatus",
-  "name": "Status",
-  "required": false,
-  "hasDefault": false,
-  "writable": true,
-  "options": {}
-}, 
-...
+```json5
+{
+  "name": {
+    "type": "String",
+    "name": "Name",
+    "required": true,
+    "hasDefault": false,
+    "writable": true,
+    "minLength": 1,
+    "maxLength": 255,
+    "options": {}
+  },
+  "status": {
+    "type": "ProjectStatus",
+    "name": "Status",
+    "required": false,
+    "hasDefault": false,
+    "writable": true,
+    "options": {}
+}
+// ...
+}
 ```
 
 The `type` property will decide that for name, we're looking for a display field that can handle `String` type, while for the project `status` attribute, we're looking for a specific display type called `ProjectStatus`.

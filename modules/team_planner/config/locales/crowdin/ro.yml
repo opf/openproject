@@ -5,7 +5,7 @@ ro:
   project_module_team_planner_view: "Planificatori de echipe"
   team_planner:
     label_team_planner: "Planificator de echipă"
-    label_new_team_planner: "New team planner"
+    label_new_team_planner: "Noul planificator de echipe"
     label_create_new_team_planner: "Creați un nou planificator de echipă"
     label_team_planner_plural: "Planificatori de echipe"
     label_assignees: "Responsabili"
