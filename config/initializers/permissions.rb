@@ -174,6 +174,11 @@ Rails.application.reloader.to_prepare do
                      dependencies: :view_work_packages,
                      contract_actions: { work_packages: %i[move] }
 
+      wpt.permission :copy_work_packages,
+                     {},
+                     require: :loggedin,
+                     permissible_on: %i[work_package project],
+                     dependencies: :view_work_packages
       wpt.permission :add_work_package_notes,
                      {
                        # FIXME: Although the endpoint is removed, the code checking whether a user

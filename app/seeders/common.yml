@@ -250,6 +250,7 @@ work_package_roles:
       - :add_work_package_notes
       - :edit_own_work_package_notes
       - :manage_work_package_relations
+      - :copy_work_packages
       - :export_work_packages
   - reference: :default_role_work_package_commenter
     t_name: Work Package Commenter
