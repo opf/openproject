@@ -39,6 +39,11 @@ module Authorization
     Authorization::ProjectQuery.query(user, action)
   end
 
+  # Returns all work packages the user has explicit permission in
+  def work_packages(action, user)
+    Authorization::WorkPackageQuery.query(user, action)
+  end
+
   # Returns all roles a user has in a certain project, for a specific entity or globally
   def roles(user, context = nil)
     if context.is_a?(Project)
