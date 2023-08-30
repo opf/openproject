@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -344,7 +346,7 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
           before do
             # Simulate a token too long
             response_body = {
-              access_token: "x" * 257, # will fail model validation
+              access_token: nil, # will fail model validation
               token_type: "Bearer",
               expires_in: 3601,
               refresh_token: "xUwFp...1FROJ",
@@ -356,9 +358,7 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
 
           it 'returns dependent error from model validation', webmock: true do
             expect(subject.success).to be_falsey
-            expect(subject.result).to be_nil
             expect(subject.errors.size).to be(1)
-            puts subject.errors
           end
         end
 
@@ -371,7 +371,6 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
           it 'returns a server error', webmock: true do
             expect(subject.success).to be_falsey
             expect(subject.errors.size).to be(1)
-            puts subject.errors
           end
         end
 

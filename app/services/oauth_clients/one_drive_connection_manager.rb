@@ -44,25 +44,20 @@ module OAuthClients
       current_token = get_existing_token
       return :failed_authorization unless current_token
 
-      response = Net::HTTP.start(GRAPH_API_URI.host.host, GRAPH_API_URI.host.port, use_ssl: true) do |http|
-        http.get('/v1.0/me', { 'Authorization' => "Bearer #{oauth_client_token.access_token}" })
+      response = Net::HTTP.start(GRAPH_API_URI.host, GRAPH_API_URI.port, use_ssl: true) do |http|
+        http.get('/v1.0/me', { 'Authorization' => "Bearer #{current_token.access_token}" })
       end
 
       case response
       when Net::HTTPSuccess
         :connected
       when Net::HTTPForbidden, Net::HTTPUnauthorized
-        service_result = refresh_token # `refresh_token` already has exception handling
+        service_result = refresh_token
         if service_result.success?
           :connected
         elsif service_result.result == 'invalid_request'
-          # This can happen if the Authorization Server invalidated all tokens.
-          # Then the user would ideally be asked to reauthorize.
           :failed_authorization
         else
-          # It could also be that some other error happened, i.e. firewall badly configured.
-          # Then the user needs to know that something is technically off. The user could try
-          # to reload the page or contact an admin.
           :error
         end
       else
@@ -73,7 +68,7 @@ module OAuthClients
     end
 
     def get_authorization_uri(scope: [], state: nil)
-      joined_scope = (scope | DEFAULT_SCOPES).join(' ')
+      joined_scope = Array(scope) | DEFAULT_SCOPES
       super(scope: joined_scope, state:)
     end
 
