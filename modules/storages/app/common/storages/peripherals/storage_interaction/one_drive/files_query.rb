@@ -54,7 +54,7 @@ module Storages
               handle_response(response)
             end
 
-            result.result[:value].map { |file| storage_file(file) }
+            result.map { |json_files| storage_files(json_files) }
           end
 
           private
@@ -62,7 +62,7 @@ module Storages
           def handle_response(response)
             case response
             when Net::HTTPSuccess
-              ServiceResult.success(result: MultiJson.load(response.body, symbolize_keys: true))
+              ServiceResult.success(result: MultiJson.load(response.body, symbolize_keys: true)[:value])
             when Net::HTTPNotFound
               ServiceResult.failure(result: :not_found, errors: ::Storages::StorageError.new(code: :not_found))
             when Net::HTTPUnauthorized
@@ -78,19 +78,21 @@ module Storages
             "/v1.0/drives/#{@storage.drive_id}/items/#{folder}/children"
           end
 
-          def storage_file(json)
-            StorageFile.new(
-              id: json[:id],
-              name: json[:name],
-              size: json[:size],
-              mime_type: json.dig(:file, :mimeType) || 'application/x-op-directory',
-              created_at: DateTime.parse(json.dig(:fileSystemInfo, :createdDateTime)),
-              last_modified_at: DateTime.parse(json.dig(:fileSystemInfo, :lastModifiedDateTime)),
-              created_by_name: json.dig(:createdBy, :user, :displayName),
-              last_modified_by_name: json.dig(:lastModifiedBy, :user, :displayName),
-              location: json[:webUrl],
-              permissions: nil
-            )
+          def storage_files(json_files)
+            json_files.map do |json|
+              StorageFile.new(
+                id: json[:id],
+                name: json[:name],
+                size: json[:size],
+                mime_type: json.dig(:file, :mimeType) || 'application/x-op-directory',
+                created_at: DateTime.parse(json.dig(:fileSystemInfo, :createdDateTime)),
+                last_modified_at: DateTime.parse(json.dig(:fileSystemInfo, :lastModifiedDateTime)),
+                created_by_name: json.dig(:createdBy, :user, :displayName),
+                last_modified_by_name: json.dig(:lastModifiedBy, :user, :displayName),
+                location: json[:webUrl],
+                permissions: nil
+              )
+            end
           end
 
           def mime_type(json)

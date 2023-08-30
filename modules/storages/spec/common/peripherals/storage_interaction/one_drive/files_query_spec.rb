@@ -49,7 +49,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
       .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
       .to_return(status: 200, body: json, headers: {})
 
-    storage_files = described_class.call(storage:, user:, folder: nil)
+    storage_files = described_class.call(storage:, user:, folder: nil).result
 
     expect(storage_files).to all(be_a(Storages::StorageFile))
     one_file = storage_files[10]
@@ -73,7 +73,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
       .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
       .to_return(status: 200, body: json, headers: {})
 
-    storage_files = described_class.call(storage:, user:, folder: nil)
+    storage_files = described_class.call(storage:, user:, folder: nil).result
 
     expect(storage_files.size).to eq(38)
   end
@@ -92,7 +92,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
         .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
         .to_return(status: 200, body: json, headers: {})
 
-      storage_files = described_class.call(storage:, user:, folder: '01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY')
+      storage_files = described_class.call(storage:, user:, folder: '01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY').result
 
       expect(storage_files.size).to eq(22)
     end
@@ -100,22 +100,27 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
 
   describe 'error handling' do
     it 'returns a notfound error if the API call returns a 404' do
-      skip("Seems that our error handling isn't handling errors")
-
       stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder")
         .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
         .to_return(status: 404, body: '', headers: {})
 
       storage_files = described_class.call(storage:, user:, folder: nil)
+
       expect(storage_files).to be_failure
+      expect(storage_files.result).to eq(:not_found)
+      expect(storage_files.errors.to_s).to eq(Storages::StorageError.new(code: :not_found).to_s)
     end
 
     it 'retries authentication when it returns a 401' do
-      skip("Seems that our error handling isn't handling errors")
-
       stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder")
         .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
         .to_return(status: 401, body: '', headers: {})
+
+      storage_files = described_class.call(storage:, user:, folder: nil)
+
+      expect(storage_files).to be_failure
+      expect(storage_files.result).to eq(:not_authorized)
+      expect(storage_files.errors.to_s).to eq(Storages::StorageError.new(code: :not_authorized).to_s)
     end
   end
 

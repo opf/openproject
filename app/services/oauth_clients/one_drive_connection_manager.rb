@@ -30,9 +30,10 @@
 
 module OAuthClients
   class OneDriveConnectionManager < ConnectionManager
-    OAUTH_URI = URI.parse('https://login.microsoftonline.com/')
-    AUTHORIZATION_CHECK_PATH = "https://graph.microsoft.com/v1.0/me"
+    OAUTH_URI = URI('https://login.microsoftonline.com/')
     DEFAULT_SCOPES = %w[offline_access files.readwrite.all user.read sites.readwrite.all].freeze
+
+    GRAPH_API_URI = URI('https://graph.microsoft.com')
 
     def initialize(user:, oauth_client:, tenant_id:)
       super(user:, oauth_client:)
@@ -41,11 +42,34 @@ module OAuthClients
 
     def authorization_state
       current_token = get_existing_token
-      :failed_authorization unless current_token
+      return :failed_authorization unless current_token
 
-      # Call AUTHORIZATION_CHECK_PATH
-      # And check for the response
-      # In case of error failN
+      response = Net::HTTP.start(GRAPH_API_URI.host.host, GRAPH_API_URI.host.port, use_ssl: true) do |http|
+        http.get('/v1.0/me', { 'Authorization' => "Bearer #{oauth_client_token.access_token}" })
+      end
+
+      case response
+      when Net::HTTPSuccess
+        :connected
+      when Net::HTTPForbidden, Net::HTTPUnauthorized
+        service_result = refresh_token # `refresh_token` already has exception handling
+        if service_result.success?
+          :connected
+        elsif service_result.result == 'invalid_request'
+          # This can happen if the Authorization Server invalidated all tokens.
+          # Then the user would ideally be asked to reauthorize.
+          :failed_authorization
+        else
+          # It could also be that some other error happened, i.e. firewall badly configured.
+          # Then the user needs to know that something is technically off. The user could try
+          # to reload the page or contact an admin.
+          :error
+        end
+      else
+        raise StandardError, 'not sure what to do'
+      end
+    rescue StandardError
+      :error
     end
 
     def get_authorization_uri(scope: [], state: nil)
