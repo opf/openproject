@@ -39,7 +39,9 @@ module OpenProject::GithubIntegration
              author_url: 'https://www.openproject.org/',
              bundled: true do
       project_module(:github, dependencies: :work_package_tracking) do
-        permission(:show_github_content, {})
+        permission(:show_github_content,
+                   {},
+                   permissible_on: %i[work_package project])
       end
     end
 
