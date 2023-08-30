@@ -26,8 +26,12 @@ module Dashboards
 
         OpenProject::AccessControl.map do |ac_map|
           ac_map.project_module(:dashboards) do |pm_map|
-            pm_map.permission(:view_dashboards, { 'dashboards/dashboards': ['show'] })
-            pm_map.permission(:manage_dashboards, { 'dashboards/dashboards': ['show'] })
+            pm_map.permission(:view_dashboards,
+                              { 'dashboards/dashboards': %i[show] },
+                              permissible_on: :project)
+            pm_map.permission(:manage_dashboards,
+                              { 'dashboards/dashboards': %i[show] },
+                              permissible_on: :project)
           end
         end
       end
