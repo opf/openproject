@@ -236,6 +236,29 @@ RSpec.describe OpenProject::AccessControl do
     end
   end
 
+  describe '.project_permissions' do
+    include_context 'with blank access control state'
+
+    before do
+      setup_permissions
+    end
+
+    subject(:project_permissions) do
+      described_class.project_permissions
+    end
+
+    it { expect(project_permissions.size).to eq(5) }
+
+    it do
+      expect(project_permissions.map(&:name))
+        .to contain_exactly(:no_module_project_permission_with_contract_actions,
+                            :no_module_project_permission,
+                            :project_module_project_permission_with_contract_actions,
+                            :mixed_module_project_permission_granted_to_admin,
+                            :dependent_module_project_permission_not_granted_to_admin)
+    end
+  end
+
   describe '.global_permissions' do
     include_context 'with blank access control state'
 
