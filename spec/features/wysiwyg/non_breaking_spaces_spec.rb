@@ -36,6 +36,18 @@ RSpec.describe 'Wysiwyg bold behavior',
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { Components::WysiwygEditor.new }
 
+  def mac_osx?
+    RUBY_PLATFORM.include?('darwin')
+  end
+
+  def bold_keystroke
+    if mac_osx?
+      [:meta, 'b']
+    else
+      [:ctrl, 'b']
+    end
+  end
+
   describe 'in wikis' do
     describe 'creating a wiki page' do
       before do
@@ -43,7 +55,7 @@ RSpec.describe 'Wysiwyg bold behavior',
       end
 
       it 'can insert strong formatting with nbsp' do
-        editor.click_and_type_slowly 'some text ', [:meta, 'b'], 'with bold'
+        editor.click_and_type_slowly 'some text ', bold_keystroke, 'with bold'
 
         # Save wiki page
         click_on 'Save'
