@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './mock_global_permissions'
+require_relative 'mock_global_permissions'
 
 RSpec.describe 'Global role: No module',
                js: true,
