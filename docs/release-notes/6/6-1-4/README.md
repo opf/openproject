@@ -16,16 +16,16 @@ your OpenProject installation to this
 ## Bug fixes (7)
 
   - Work package filter for subprojects not working
-    ([#24550](https://community.openproject.com/projects/openproject/work_packages/24550/activity)).
+    ([#24550](https://community.openproject.com/projects/openproject/work_packages/24550)).
   - Last updated work package information is always shown in UTC
-    ([#24498](https://community.openproject.com/projects/openproject/work_packages/24498/activity)).
+    ([#24498](https://community.openproject.com/projects/openproject/work_packages/24498)).
   - Design error on system settings page
-    ([#24497](https://community.openproject.com/projects/openproject/work_packages/24497/activity)).
+    ([#24497](https://community.openproject.com/projects/openproject/work_packages/24497)).
   - Missing translation on workflow administration page
-    ([#24495](https://community.openproject.com/projects/openproject/work_packages/24495/activity)).
+    ([#24495](https://community.openproject.com/projects/openproject/work_packages/24495)).
   - Very long custom field names break design on custom field settings
     page
-    ([#24407](https://community.openproject.com/projects/openproject/work_packages/24407/activity)).
+    ([#24407](https://community.openproject.com/projects/openproject/work_packages/24407)).
   - Filter “Show all work packages” on MyPage did not work
     correctly.
   - Project filter was lost on the second page of the search results page.

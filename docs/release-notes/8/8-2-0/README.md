@@ -61,9 +61,9 @@ table](WorkPackage-Table-1024x457.png)
 ## Technical improvements and bug fixes
 
 The OpenProject API now allows you to update times in OpenProject
-([#29003](https://community.openproject.com/projects/openproject/work_packages/29003/activity))
+([#29003](https://community.openproject.com/projects/openproject/work_packages/29003))
 and delete time entries
-([#29029](https://community.openproject.com/projects/openproject/work_packages/29029/activity)),
+([#29029](https://community.openproject.com/projects/openproject/work_packages/29029)),
 OpenProject 8.2 contains a large number of smaller improvements and bug
 fixes.
 

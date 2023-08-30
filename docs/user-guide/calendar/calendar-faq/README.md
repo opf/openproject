@@ -28,4 +28,4 @@ Since the [12.3 release](https://www.openproject.org/docs/release-notes/12/12-3-
 
 ## Is there a limit for the number of work packages displayed in the calendar?
 
-The limit is 100 and can't be changed at the moment. Find the respective feature request [here](https://community.openproject.com/projects/openproject/work_packages/35062/activity).
+The limit is 100 and can't be changed at the moment. Find the respective feature request [here](https://community.openproject.com/projects/openproject/work_packages/35062).
