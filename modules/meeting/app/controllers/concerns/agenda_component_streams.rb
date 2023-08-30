@@ -71,6 +71,22 @@ module AgendaComponentStreams
       )
     end
 
+    def update_sidebar_participants_component_via_turbo_stream(meeting: @meeting)
+      update_via_turbo_stream(
+        component: Meetings::Sidebar::ParticipantsComponent.new(
+          meeting:
+        )
+      )
+    end
+
+    def update_sidebar_participants_form_component_via_turbo_stream(meeting: @meeting)
+      update_via_turbo_stream(
+        component: Meetings::Sidebar::ParticipantsFormComponent.new(
+          meeting:
+        )
+      )
+    end
+
     def update_new_component_via_turbo_stream(hidden: false, meeting_agenda_item: nil, meeting: @meeting, type: :simple)
       update_via_turbo_stream(
         component: MeetingAgendaItems::NewComponent.new(

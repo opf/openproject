@@ -56,7 +56,7 @@ module Meetings
     def heading_partial
       flex_layout(align_items: :center, justify_content: :space_between) do |flex|
         flex.with_column(flex: 1) do
-          render(Primer::Beta::Heading.new(tag: :h4)) { "Partcipants" }
+          render(Primer::Beta::Heading.new(tag: :h4)) { "Participants" }
         end
         flex.with_column do
           dialog_wrapper_partial
@@ -66,10 +66,10 @@ module Meetings
 
     def dialog_wrapper_partial
       render(Primer::Alpha::Dialog.new(
-               id: "edit-participants-dialog", title: "Partcipants (Not working right now)",
+               id: "edit-participants-dialog", title: "Partcipants",
                size: :medium_portrait
              )) do |dialog|
-        dialog.with_show_button(icon: :pencil, 'aria-label': "Edit partcipants", scheme: :invisible)
+        dialog.with_show_button(icon: :pencil, 'aria-label': "Edit participants", scheme: :invisible)
         render(Meetings::Sidebar::ParticipantsFormComponent.new(meeting: @meeting))
       end
     end
@@ -92,9 +92,14 @@ module Meetings
                                               font_size: :normal, muted: false
                                             }))
         end
-        flex.with_column(ml: 1) do
-          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
-            participant.invited? ? "Invited" : "Attended"
+        if participant.invited?
+          flex.with_column(ml: 1) do
+            render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { "Invited" }
+          end
+        end
+        if participant.attended?
+          flex.with_column(ml: 1) do
+            render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { "Attended" }
           end
         end
       end

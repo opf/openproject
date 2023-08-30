@@ -31,7 +31,7 @@ class MeetingsController < ApplicationController
   before_action :find_optional_project, only: %i[index new create]
   before_action :build_meeting, only: %i[new create]
   before_action :find_meeting, except: %i[index new create]
-  before_action :convert_params, only: %i[create update]
+  before_action :convert_params, only: %i[create update update_participants]
   before_action :authorize, except: %i[index new create]
   before_action :authorize_global, only: %i[index new create]
 
@@ -136,6 +136,19 @@ class MeetingsController < ApplicationController
     else
       render action: 'edit'
     end
+  end
+
+  def update_participants
+    @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
+    @meeting.attributes = @converted_params
+
+    if @meeting.errors.any?
+      update_sidebar_participants_form_component_via_turbo_stream
+    else
+      update_sidebar_participants_component_via_turbo_stream
+    end
+
+    respond_with_turbo_streams
   end
 
   def update_title

@@ -29,6 +29,7 @@
 module Meetings
   class Sidebar::ParticipantsFormComponent < ApplicationComponent
     include ApplicationHelper
+    include OpenProject::FormTagHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
@@ -50,7 +51,7 @@ module Meetings
       primer_form_with(
         model: @meeting,
         method: :put,
-        url: meeting_path(@meeting)
+        url: update_participants_meeting_path(@meeting)
       ) do |f|
         component_collection do |collection|
           collection.with_component(Primer::Alpha::Dialog::Body.new(style: "max-height: 460px;", my: 3)) do
@@ -72,8 +73,8 @@ module Meetings
 
     def header_partial
       flex_layout(justify_content: :flex_end) do |flex|
-        flex.with_column(mr: 4) { "Invited" }
-        flex.with_column(mr: 2) { "Attended" }
+        flex.with_column(mr: 3) { "Invited" }
+        flex.with_column(mr: 1) { "Attended" }
       end
     end
 
@@ -111,7 +112,7 @@ module Meetings
                    }
                  ))
         end
-        flex.with_column(mx: 4) do
+        flex.with_column(ml: 4, mr: 5) do
           invited_participant_checkbox_partial(participant)
         end
         flex.with_column(mx: 4) do
@@ -121,27 +122,37 @@ module Meetings
     end
 
     def invited_participant_checkbox_partial(participant)
-      render(Primer::Alpha::CheckBox.new(
-               name: "meeting[participants_attributes][][invited]",
-               checked: participant.invited?,
-               id: "checkbox_invited_#{participant.user.id}",
-               visually_hide_label: true,
-               label: "Invited",
-               scheme: :boolean,
-               unchecked_value: ""
-             ))
+      styled_check_box_tag "meeting[participants_attributes][][invited]", 1, participant.invited?,
+                           id: "checkbox_invited_#{participant.user.id}"
+      # Primer checkboxes currently not working in this context as they render an additional hidden input tag
+      # messing up the nested attributes mapping when posting the data to the server
+      #
+      # render(Primer::Alpha::CheckBox.new(
+      #          name: "meeting[participants_attributes][][invited]",
+      #          checked: participant.invited?,
+      #          id: "checkbox_invited_#{participant.user.id}",
+      #          visually_hide_label: true,
+      #          label: "Invited",
+      #          scheme: :boolean,
+      #          unchecked_value: ""
+      #        ))
     end
 
     def attended_participant_checkbox_partial(participant)
-      render(Primer::Alpha::CheckBox.new(
-               name: "meeting[participants_attributes][][attended]",
-               checked: participant.attended?,
-               id: "checkbox_attended_#{participant.user.id}",
-               visually_hide_label: true,
-               label: "Attended",
-               scheme: :boolean,
-               unchecked_value: ""
-             ))
+      styled_check_box_tag "meeting[participants_attributes][][attended]", 1, participant.attended?,
+                           id: "checkbox_attended_#{participant.user.id}"
+      # Primer checkboxes currently not working in this context as they render an additional hidden input tag
+      # messing up the nested attributes mapping when posting the data to the server
+      #
+      # render(Primer::Alpha::CheckBox.new(
+      #          name: "meeting[participants_attributes][][attended]",
+      #          checked: participant.attended?,
+      #          id: "checkbox_attended_#{participant.user.id}",
+      #          visually_hide_label: true,
+      #          label: "Attended",
+      #          scheme: :boolean,
+      #          unchecked_value: ""
+      #        ))
     end
 
     def new_participant_form_partial(user)
@@ -154,7 +165,7 @@ module Meetings
                    }
                  ))
         end
-        flex.with_column(mx: 4) do
+        flex.with_column(ml: 4, mr: 5) do
           invited_user_checkbox_partial(user)
         end
         flex.with_column(mx: 4) do
@@ -164,55 +175,44 @@ module Meetings
     end
 
     def invited_user_checkbox_partial(user)
-      render(Primer::Alpha::CheckBox.new(
-               name: "meeting[participants_attributes][][invited]",
-               id: "checkbox_invited_#{user.id}",
-               visually_hide_label: true,
-               label: "Invited",
-               scheme: :boolean,
-               unchecked_value: ""
-             ))
+      styled_check_box_tag "meeting[participants_attributes][][invited]", value = "1", checked = false,
+                           id: "checkbox_invited_#{user.id}"
+      # Primer checkboxes currently not working in this context as they render an additional hidden input tag
+      # messing up the nested attributes mapping when posting the data to the server
+      #
+      # render(Primer::Alpha::CheckBox.new(
+      #          name: "meeting[participants_attributes][][invited]",
+      #          id: "checkbox_invited_#{user.id}",
+      #          visually_hide_label: true,
+      #          label: "Invited",
+      #          scheme: :boolean,
+      #          unchecked_value: ""
+      #        ))
     end
 
     def attended_user_checkbox_partial(user)
-      render(Primer::Alpha::CheckBox.new(
-               name: "meeting[participants_attributes][][attended]",
-               id: "checkbox_attended_#{user.id}",
-               visually_hide_label: true,
-               label: "Attended",
-               scheme: :boolean,
-               unchecked_value: ""
-             ))
+      styled_check_box_tag "meeting[participants_attributes][][attended]", value = "1", checked = false,
+                           id: "checkbox_attended_#{user.id}"
+      # Primer checkboxes currently not working in this context as they render an additional hidden input tag
+      # messing up the nested attributes mapping when posting the data to the server
+      #
+      # render(Primer::Alpha::CheckBox.new(
+      #          name: "meeting[participants_attributes][][attended]",
+      #          id: "checkbox_attended_#{user.id}",
+      #          visually_hide_label: true,
+      #          label: "Attended",
+      #          scheme: :boolean,
+      #          unchecked_value: ""
+      #        ))
     end
-
-    # <% if @meeting.participants.present? && participant = @meeting.participants.detect{|p| p.user_id == user.id} -%>
-    #   <%= hidden_field_tag "meeting[participants_attributes][][id]", participant.id %>
-    #   <td class="form--matrix-checkbox-cell">
-    #     <%= label_tag "checkbox_invited_#{user.id}", user.name + " " + t(:description_invite), :class => "hidden-for-sighted" %>
-    #     <%= styled_check_box_tag "meeting[participants_attributes][][invited]", 1, participant.invited?, :id => "checkbox_invited_#{user.id}" %>
-    #   </td>
-    #   <td class="form--matrix-checkbox-cell">
-    #     <%= label_tag "checkbox_attended_#{user.id}", user.name + " " + t(:description_attended), :class => "hidden-for-sighted" %>
-    #     <%= styled_check_box_tag "meeting[participants_attributes][][attended]", 1, participant.attended?, :id => "checkbox_attended_#{user.id}" %>
-    #   </td>
-    # <% else -%>
-    #   <td class="form--matrix-checkbox-cell">
-    #     <%= label_tag "checkbox_invited_#{user.id}", user.name + " " + t(:description_invite), :class => "hidden-for-sighted" %>
-    #     <%= styled_check_box_tag "meeting[participants_attributes][][invited]", value = "1", checked = false, :id => "checkbox_invited_#{user.id}" %>
-    #   </td>
-    #   <td class="form--matrix-checkbox-cell">
-    #     <%= label_tag "checkbox_attended_#{user.id}", user.name + " " + t(:description_attended), :class => "hidden-for-sighted" %>
-    #     <%= styled_check_box_tag "meeting[participants_attributes][][attended]", value = "1", checked = false, :id => "checkbox_attended_#{user.id}" %>
-    #   </td>
-    # <% end -%>
 
     def form_actions_partial
       component_collection do |collection|
         collection.with_component(Primer::ButtonComponent.new(data: { 'close-dialog-id': "edit-participants-dialog" })) do
           "Cancel"
         end
-        collection.with_component(Primer::ButtonComponent.new(scheme: :primary, type: :submit, disabled: true)) do
-          "Submit (to-do)"
+        collection.with_component(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) do
+          "Save"
         end
       end
     end
