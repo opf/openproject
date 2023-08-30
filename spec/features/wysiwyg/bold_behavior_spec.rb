@@ -28,16 +28,24 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Wysiwyg &nbsp; behavior',
-               js: true do
-  shared_let(:admin) { create(:admin) }
-  let(:user) { admin }
+RSpec.describe 'Wysiwyg bold behavior',
+               js: true,
+               with_cuprite: true do
+  current_user { create(:admin) }
 
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { Components::WysiwygEditor.new }
 
-  before do
-    login_as(user)
+  def mac_osx?
+    RUBY_PLATFORM.include?('darwin')
+  end
+
+  def bold_keystroke
+    if mac_osx?
+      [:meta, 'b']
+    else
+      [:ctrl, 'b']
+    end
   end
 
   describe 'in wikis' do
@@ -47,7 +55,7 @@ RSpec.describe 'Wysiwyg &nbsp; behavior',
       end
 
       it 'can insert strong formatting with nbsp' do
-        editor.click_and_type_slowly 'some text ', [:control, 'b'], 'with bold'
+        editor.click_and_type_slowly 'some text ', bold_keystroke, 'with bold'
 
         # Save wiki page
         click_on 'Save'
