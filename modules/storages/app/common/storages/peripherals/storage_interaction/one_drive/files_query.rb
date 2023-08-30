@@ -33,6 +33,8 @@ module Storages
     module StorageInteraction
       module OneDrive
         class FilesQuery
+          FIELDS = "?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder"
+
           using ServiceResultRefinements
           def self.call(storage:, user:, folder:)
             new(storage).call(user:, folder:)
@@ -46,7 +48,7 @@ module Storages
             result = using_user_token(user) do |token|
               # Make the Get Request to the necessary endpoints
               response = Net::HTTP.start(GRAPH_API_URI.host, GRAPH_API_URI.port, use_ssl: true) do |http|
-                http.get(uri_path_for(folder), { 'Authorization' => "Bearer #{token.access_token}" })
+                http.get(uri_path_for(folder) + FIELDS, { 'Authorization' => "Bearer #{token.access_token}" })
               end
 
               handle_response(response)
@@ -89,6 +91,10 @@ module Storages
               location: json[:webUrl],
               permissions: nil
             )
+          end
+
+          def mime_type(json)
+            json.dig(:file, :mimeType) || json.key?(:folder) ? 'application/x-op-directory' : nil
           end
 
           def using_user_token(user, &block)

@@ -1,15 +1,11 @@
 {
-  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#drives('b%21-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd')/items('01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY')/children",
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#drives('b%21-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd')/items('01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY')/children(id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder)",
   "value": [
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=29fea8b3-fd38-4817-b672-5931a5ccab77&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6Ik1JVVpBNHA0clozTUtMc2o5Q2N3eUJqYnczaDd1OEdlTHNzUXdrM3VMVEE9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0.shb4SLTamd5MHVd-QH_XZiS3wEnTEQSw472daV-0LlU&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:13:10Z",
-      "eTag": "\"{29FEA8B3-FD38-4817-B672-5931A5CCAB77},3\"",
+      "@odata.etag": "\"{29FEA8B3-FD38-4817-B672-5931A5CCAB77},3\"",
       "id": "01BYE5RZ5TVD7CSOH5C5ELM4SZGGS4ZK3X",
-      "lastModifiedDateTime": "2017-08-07T16:13:10Z",
       "name": "00. Starfish Aquarium.jpg",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Class%20Documents/00.%20Starfish%20Aquarium.jpg",
-      "cTag": "\"c:{29FEA8B3-FD38-4817-B672-5931A5CCAB77},1\"",
       "size": 6497631,
       "createdBy": {
         "user": {
@@ -25,13 +21,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "image/jpeg",
         "hashes": {
@@ -41,22 +30,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:13:10Z",
         "lastModifiedDateTime": "2017-08-07T16:13:10Z"
-      },
-      "image": {
-        "height": 3867,
-        "width": 2578
-      },
-      "photo": {}
+      }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=daec05bc-7c34-4bdb-aaa3-8ae97f8cd16e&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6IlJsRVFWVDl2Z3RCQjcxb3V2cjVEZjBsUHFENi9KTE1hOTI0YXliUnJ5ZW89IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0.K-lVyKGlDTVtajnIvj8iCuILLPf0hhgx19E34etVz9o&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:13:15Z",
-      "eTag": "\"{DAEC05BC-7C34-4BDB-AAA3-8AE97F8CD16E},3\"",
+      "@odata.etag": "\"{DAEC05BC-7C34-4BDB-AAA3-8AE97F8CD16E},3\"",
       "id": "01BYE5RZ54AXWNUND43NF2VI4K5F7YZULO",
-      "lastModifiedDateTime": "2017-08-07T16:13:15Z",
       "name": "01. Organic Chemistry Header Image.jpg",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Class%20Documents/01.%20Organic%20Chemistry%20Header%20Image.jpg",
-      "cTag": "\"c:{DAEC05BC-7C34-4BDB-AAA3-8AE97F8CD16E},1\"",
       "size": 21883,
       "createdBy": {
         "user": {
@@ -72,13 +52,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "image/jpeg",
         "hashes": {
@@ -88,22 +61,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:13:15Z",
         "lastModifiedDateTime": "2017-08-07T16:13:15Z"
-      },
-      "image": {
-        "height": 153,
-        "width": 1275
-      },
-      "photo": {}
+      }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=6c93f38d-c92e-4a08-b809-cbf58dc85bd1&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6IlFXZ1JBcGRDZVhvNkV6QWphWXQzM3JRZmt3TmltcjdBQ0l0d2QzYllOSms9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0.HQfapy_mfj1VivP4D8AzJgRxe4TFQrQu-AB0ttR8CUo&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:13:21Z",
-      "eTag": "\"{6C93F38D-C92E-4A08-B809-CBF58DC85BD1},2\"",
+      "@odata.etag": "\"{6C93F38D-C92E-4A08-B809-CBF58DC85BD1},2\"",
       "id": "01BYE5RZ4N6OJWYLWJBBFLQCOL6WG4QW6R",
-      "lastModifiedDateTime": "2017-08-07T16:13:21Z",
       "name": "02. Carbon at a glance.png",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Class%20Documents/02.%20Carbon%20at%20a%20glance.png",
-      "cTag": "\"c:{6C93F38D-C92E-4A08-B809-CBF58DC85BD1},1\"",
       "size": 208830,
       "createdBy": {
         "user": {
@@ -119,13 +83,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "image/png",
         "hashes": {
@@ -135,18 +92,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:13:21Z",
         "lastModifiedDateTime": "2017-08-07T16:13:21Z"
-      },
-      "image": {}
+      }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=13f4cfab-9ae0-457c-b864-4b349a04bc99&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6IkVibHRvOFJKZXE5UVI2bFZBT3B4OVdQSm1KQUtya1RoanNqZUdvazR2S3M9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0.dz2tnLYKl8BVqagI5mv5MZ3rsInhw7d7NHlaj7hz52Q&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:13:27Z",
-      "eTag": "\"{13F4CFAB-9AE0-457C-B864-4B349A04BC99},2\"",
+      "@odata.etag": "\"{13F4CFAB-9AE0-457C-B864-4B349A04BC99},2\"",
       "id": "01BYE5RZ5LZ72BHYE2PRC3QZCLGSNAJPEZ",
-      "lastModifiedDateTime": "2017-08-07T16:13:27Z",
       "name": "03. Valence Shell Theory.png",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Class%20Documents/03.%20Valence%20Shell%20Theory.png",
-      "cTag": "\"c:{13F4CFAB-9AE0-457C-B864-4B349A04BC99},1\"",
       "size": 435413,
       "createdBy": {
         "user": {
@@ -162,13 +114,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "image/png",
         "hashes": {
@@ -178,18 +123,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:13:27Z",
         "lastModifiedDateTime": "2017-08-07T16:13:27Z"
-      },
-      "image": {}
+      }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=ba5aa6fb-c2a9-4ccf-9181-678db7648635&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6IjR3VUVxU2RjOThVRENIQ29vbVBwR001NjdHMWRUSzB5Rk1zMk1XQnJyMnc9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0._myM_CyWOOHM6MAfrNoaiQDL-kOb9PBChMcOC0itLhc&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:13:34Z",
-      "eTag": "\"{BA5AA6FB-C2A9-4CCF-9181-678DB7648635},2\"",
+      "@odata.etag": "\"{BA5AA6FB-C2A9-4CCF-9181-678DB7648635},2\"",
       "id": "01BYE5RZ73UZNLVKOCZ5GJDALHRW3WJBRV",
-      "lastModifiedDateTime": "2017-08-07T16:13:34Z",
       "name": "04. Lewis Dot Structures.png",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Class%20Documents/04.%20Lewis%20Dot%20Structures.png",
-      "cTag": "\"c:{BA5AA6FB-C2A9-4CCF-9181-678DB7648635},1\"",
       "size": 235196,
       "createdBy": {
         "user": {
@@ -205,13 +145,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "image/png",
         "hashes": {
@@ -221,18 +154,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:13:34Z",
         "lastModifiedDateTime": "2017-08-07T16:13:34Z"
-      },
-      "image": {}
+      }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=23ed8d10-23db-4d77-b505-b601f5341761&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6ImhUYzE4L2VsNnYwQzVzRDFXODliMjE1ckxqbEZTOGlIRUlDZ0FPU3pJUk09IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0.yPwzK5iz_VvrxlhMbcJw-IFrO4M_SOUGm-L-kDhPH38&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:13:39Z",
-      "eTag": "\"{23ED8D10-23DB-4D77-B505-B601F5341761},2\"",
+      "@odata.etag": "\"{23ED8D10-23DB-4D77-B505-B601F5341761},2\"",
       "id": "01BYE5RZYQRXWSHWZDO5G3KBNWAH2TIF3B",
-      "lastModifiedDateTime": "2017-08-07T16:13:39Z",
       "name": "05. Electron Orbital Shells.png",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Class%20Documents/05.%20Electron%20Orbital%20Shells.png",
-      "cTag": "\"c:{23ED8D10-23DB-4D77-B505-B601F5341761},1\"",
       "size": 435483,
       "createdBy": {
         "user": {
@@ -248,13 +176,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "image/png",
         "hashes": {
@@ -264,18 +185,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:13:39Z",
         "lastModifiedDateTime": "2017-08-07T16:13:39Z"
-      },
-      "image": {}
+      }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=f983579b-3db9-4615-99e1-3cdbe5e461fb&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6Im5GZ0tndmJKNFNpYU9tK2xvbnNkLzV6TTRKSnoyL3QybDdvMHhURGVLWGs9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0.lFKd88sgOH0sPpi8jtwe8oSAbZARk6Dp-B2daGfllU4&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:10:24Z",
-      "eTag": "\"{F983579B-3DB9-4615-99E1-3CDBE5E461FB},2\"",
+      "@odata.etag": "\"{F983579B-3DB9-4615-99E1-3CDBE5E461FB},2\"",
       "id": "01BYE5RZ43K6B7TOJ5CVDJTYJ43PS6IYP3",
-      "lastModifiedDateTime": "2017-08-07T16:10:24Z",
       "name": "06. Methane.png",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Class%20Documents/06.%20Methane.png",
-      "cTag": "\"c:{F983579B-3DB9-4615-99E1-3CDBE5E461FB},1\"",
       "size": 409225,
       "createdBy": {
         "user": {
@@ -291,13 +207,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "image/png",
         "hashes": {
@@ -307,18 +216,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:10:24Z",
         "lastModifiedDateTime": "2017-08-07T16:10:24Z"
-      },
-      "image": {}
+      }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=1d11838a-6192-4672-8184-8b088f2f15d0&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6IjQ3dWEwTDJIUXIvQzlvY2xqcmpHVm5wVVBBVFY3SU9FTE8zUnZtS0k0ZlE9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0.4_0Ubq8gTzCicN_j-2BQHLzAc4Z-NGuzEhyYXhQLgU8&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:10:30Z",
-      "eTag": "\"{1D11838A-6192-4672-8184-8B088F2F15D0},2\"",
+      "@odata.etag": "\"{1D11838A-6192-4672-8184-8B088F2F15D0},2\"",
       "id": "01BYE5RZ4KQMIR3ETBOJDIDBELBCHS6FOQ",
-      "lastModifiedDateTime": "2017-08-07T16:10:30Z",
       "name": "07. Propane.png",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Class%20Documents/07.%20Propane.png",
-      "cTag": "\"c:{1D11838A-6192-4672-8184-8B088F2F15D0},1\"",
       "size": 306231,
       "createdBy": {
         "user": {
@@ -334,13 +238,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "image/png",
         "hashes": {
@@ -350,18 +247,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:10:30Z",
         "lastModifiedDateTime": "2017-08-07T16:10:30Z"
-      },
-      "image": {}
+      }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=f17679ac-6061-472a-a796-eb11fc90da82&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6IlArNVBIekloZC90OEdsekxqNlNBVkowS0dWOExkQ1NHSVpIUFFwOTZSNXc9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0.ZBhxaU-jre9H-EcsmqX_gi998PMXI50uOKXfOSHcDKM&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:10:36Z",
-      "eTag": "\"{F17679AC-6061-472A-A796-EB11FC90DA82},2\"",
+      "@odata.etag": "\"{F17679AC-6061-472A-A796-EB11FC90DA82},2\"",
       "id": "01BYE5RZ5MPF3PCYLAFJD2PFXLCH6JBWUC",
-      "lastModifiedDateTime": "2017-08-07T16:10:36Z",
       "name": "08. Carbon Compound Table.png",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Class%20Documents/08.%20Carbon%20Compound%20Table.png",
-      "cTag": "\"c:{F17679AC-6061-472A-A796-EB11FC90DA82},1\"",
       "size": 14597,
       "createdBy": {
         "user": {
@@ -377,13 +269,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "image/png",
         "hashes": {
@@ -393,18 +278,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:10:36Z",
         "lastModifiedDateTime": "2017-08-07T16:10:36Z"
-      },
-      "image": {}
+      }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=825dd868-ad74-4935-9817-8f496e819b97&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6Ii9qdVFsc0daT0NGV1VhbmpQcUFWdUR0TlRGWDFkNVVzQm40bllaT3VzbW89IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0.M_moCKaCrapMSmnIur37F1KUd6FhVB_vzDFhuk9bHhE&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:10:49Z",
-      "eTag": "\"{825DD868-AD74-4935-9817-8F496E819B97},2\"",
+      "@odata.etag": "\"{825DD868-AD74-4935-9817-8F496E819B97},2\"",
       "id": "01BYE5RZ3I3BOYE5FNGVEZQF4PJFXIDG4X",
-      "lastModifiedDateTime": "2017-08-07T16:10:49Z",
       "name": "09. Variety of Carbon Compounds.png",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Class%20Documents/09.%20Variety%20of%20Carbon%20Compounds.png",
-      "cTag": "\"c:{825DD868-AD74-4935-9817-8F496E819B97},1\"",
       "size": 22672,
       "createdBy": {
         "user": {
@@ -420,13 +300,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "image/png",
         "hashes": {
@@ -436,18 +309,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:10:49Z",
         "lastModifiedDateTime": "2017-08-07T16:10:49Z"
-      },
-      "image": {}
+      }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=7990c2ba-ab09-427a-b293-2767fb7b193a&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6InZ4UXVPS1ZaZ0hmZFBvbmNOVUtVVUpNRHdxdlZPcytMQXlHV1VGMXFYSE09IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0.Lwp721s2u1N57VLKtE7nOMOypPzTc7n-aa_5_cfOXtk&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:11:17Z",
-      "eTag": "\"{7990C2BA-AB09-427A-B293-2767FB7B193A},2\"",
+      "@odata.etag": "\"{7990C2BA-AB09-427A-B293-2767FB7B193A},2\"",
       "id": "01BYE5RZ52YKIHSCNLPJBLFEZHM75XWGJ2",
-      "lastModifiedDateTime": "2017-08-07T16:11:17Z",
       "name": "10. Carbon Decay.png",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Class%20Documents/10.%20Carbon%20Decay.png",
-      "cTag": "\"c:{7990C2BA-AB09-427A-B293-2767FB7B193A},1\"",
       "size": 74625,
       "createdBy": {
         "user": {
@@ -463,13 +331,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "image/png",
         "hashes": {
@@ -479,18 +340,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:11:17Z",
         "lastModifiedDateTime": "2017-08-07T16:11:17Z"
-      },
-      "image": {}
+      }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=6b3b123c-fc6c-4319-a76a-1f31d99acc1c&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6IkNYQ2xWY3lxL2tJSTlXZlV6eWJKOTB2aW5rdlliWEpGYkJOTUU4dHpqRFE9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0.87SoaaAkCBaJcyeN8WSbhJWgY-PuWaedEetZi5dGNYM&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:11:32Z",
-      "eTag": "\"{6B3B123C-FC6C-4319-A76A-1F31D99ACC1C},2\"",
+      "@odata.etag": "\"{6B3B123C-FC6C-4319-A76A-1F31D99ACC1C},2\"",
       "id": "01BYE5RZZ4CI5WW3H4DFB2O2Q7GHMZVTA4",
-      "lastModifiedDateTime": "2017-08-07T16:11:32Z",
       "name": "11. Bent Line.png",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Class%20Documents/11.%20Bent%20Line.png",
-      "cTag": "\"c:{6B3B123C-FC6C-4319-A76A-1F31D99ACC1C},1\"",
       "size": 3512,
       "createdBy": {
         "user": {
@@ -506,13 +362,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "image/png",
         "hashes": {
@@ -522,18 +371,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:11:32Z",
         "lastModifiedDateTime": "2017-08-07T16:11:32Z"
-      },
-      "image": {}
+      }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=94411f86-b6b8-4da1-82d8-62ecf1e2b243&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6IlkzUDFOdUN4QUMzVCtpLy9QeUI0ZE1NcHZvQnNRZ1lHODhOaFdacytnSDg9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0._OZ7ubZWuzqgSNqGw-i1fFU3BpjZNxmbPV2T-hD4SZw&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:11:47Z",
-      "eTag": "\"{94411F86-B6B8-4DA1-82D8-62ECF1E2B243},2\"",
+      "@odata.etag": "\"{94411F86-B6B8-4DA1-82D8-62ECF1E2B243},2\"",
       "id": "01BYE5RZ4GD5AZJOFWUFGYFWDC5TY6FMSD",
-      "lastModifiedDateTime": "2017-08-07T16:11:47Z",
       "name": "12. Carbon Bent Line.png",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Class%20Documents/12.%20Carbon%20Bent%20Line.png",
-      "cTag": "\"c:{94411F86-B6B8-4DA1-82D8-62ECF1E2B243},1\"",
       "size": 10368,
       "createdBy": {
         "user": {
@@ -549,13 +393,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "image/png",
         "hashes": {
@@ -565,18 +402,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:11:47Z",
         "lastModifiedDateTime": "2017-08-07T16:11:47Z"
-      },
-      "image": {}
+      }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=ae9d0f42-1c7f-466e-abbf-53a364918d80&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6Inl3TUsyQVgxNTQ1dUFuNmVPbUV0Q1dITXI5RFJORzkvdzE1ZzV1WkV4M0E9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0.--J8cwJGGa70z_baQT_MyFGZfxf_zfNgJQ5KEWO22eE&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:11:53Z",
-      "eTag": "\"{AE9D0F42-1C7F-466E-ABBF-53A364918D80},2\"",
+      "@odata.etag": "\"{AE9D0F42-1C7F-466E-ABBF-53A364918D80},2\"",
       "id": "01BYE5RZ2CB6O247Y4NZDKXP2TUNSJDDMA",
-      "lastModifiedDateTime": "2017-08-07T16:11:53Z",
       "name": "13. Carbon Bent Line with Hydrogen.png",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Class%20Documents/13.%20Carbon%20Bent%20Line%20with%20Hydrogen.png",
-      "cTag": "\"c:{AE9D0F42-1C7F-466E-ABBF-53A364918D80},1\"",
       "size": 15680,
       "createdBy": {
         "user": {
@@ -592,13 +424,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "image/png",
         "hashes": {
@@ -608,18 +433,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:11:53Z",
         "lastModifiedDateTime": "2017-08-07T16:11:53Z"
-      },
-      "image": {}
+      }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=ca1a75cc-8500-468f-a1e5-8fb18fbe5174&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6Ijl3UUtlY0QydHZURjNqN0dSY2tJZ3czY0UxMkpmdkNIQ0pybFN0L29ReTQ9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0.wc8ZclNjoFnTEuzpd4-CNd0sSeu_eelUWkUB7aQazoo&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:12:03Z",
-      "eTag": "\"{CA1A75CC-8500-468F-A1E5-8FB18FBE5174},3\"",
+      "@odata.etag": "\"{CA1A75CC-8500-468F-A1E5-8FB18FBE5174},3\"",
       "id": "01BYE5RZ6MOUNMUAEFR5DKDZMPWGH34ULU",
-      "lastModifiedDateTime": "2017-08-07T16:12:03Z",
       "name": "Carbon Bonding Presentation.pptx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7BCA1A75CC-8500-468F-A1E5-8FB18FBE5174%7D&file=Carbon%20Bonding%20Presentation.pptx&action=edit&mobileredirect=true",
-      "cTag": "\"c:{CA1A75CC-8500-468F-A1E5-8FB18FBE5174},1\"",
       "size": 4537346,
       "createdBy": {
         "user": {
@@ -635,13 +455,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
         "hashes": {
@@ -654,14 +467,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=2964723d-9e45-470e-8fe4-85ceda9d4018&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6IkJRMi9seVVyYnN3VSs5b21qU1BDVU9xODZJSGIwRkprQUMxUlpwMlpTNDA9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0.vmhrRFIbogdlv6Km6rXWNiUZs094-euTR0mXoNUNHDc&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:12:10Z",
-      "eTag": "\"{2964723D-9E45-470E-8FE4-85CEDA9D4018},9\"",
+      "@odata.etag": "\"{2964723D-9E45-470E-8FE4-85CEDA9D4018},9\"",
       "id": "01BYE5RZZ5OJSCSRM6BZDY7ZEFZ3NJ2QAY",
-      "lastModifiedDateTime": "2017-09-14T23:52:31Z",
       "name": "Carbon Deposits Analysis.xlsx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B2964723D-9E45-470E-8FE4-85CEDA9D4018%7D&file=Carbon%20Deposits%20Analysis.xlsx&action=default&mobileredirect=true",
-      "cTag": "\"c:{2964723D-9E45-470E-8FE4-85CEDA9D4018},7\"",
       "size": 1137258,
       "createdBy": {
         "user": {
@@ -677,13 +486,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "hashes": {
@@ -696,14 +498,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=83832b8c-d37a-4685-be7d-508a6bfea005&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6InBIVVJadWR3SFk1amZiaXdxNzRJcFFZdC9wQ2hwcHNLMjNvYjh1QkZnbFE9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0.G91fmiqYKkWeYHY1mMo19McFdanPPOyB2444Me8aeas&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:12:16Z",
-      "eTag": "\"{83832B8C-D37A-4685-BE7D-508A6BFEA005},2\"",
+      "@odata.etag": "\"{83832B8C-D37A-4685-BE7D-508A6BFEA005},2\"",
       "id": "01BYE5RZ4MFOBYG6WTQVDL47KQRJV75IAF",
-      "lastModifiedDateTime": "2017-08-07T16:12:16Z",
       "name": "Carbon_Analysis_DB.xlsx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B83832B8C-D37A-4685-BE7D-508A6BFEA005%7D&file=Carbon_Analysis_DB.xlsx&action=default&mobileredirect=true",
-      "cTag": "\"c:{83832B8C-D37A-4685-BE7D-508A6BFEA005},1\"",
       "size": 171839,
       "createdBy": {
         "user": {
@@ -719,13 +517,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "hashes": {
@@ -738,14 +529,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=01cffe3d-8938-40a1-a002-780756b3f133&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6ImtVaGNxQmsrT0dUdTg1TzFRdXVPSjNIQUlKN3h6a24zbCtBckd4UE5LWTg9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0.eoNdC86pGEW7GnbkYlEV-CD-jcplMHemEG2E1DozSvc&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:12:26Z",
-      "eTag": "\"{01CFFE3D-8938-40A1-A002-780756B3F133},2\"",
+      "@odata.etag": "\"{01CFFE3D-8938-40A1-A002-780756B3F133},2\"",
       "id": "01BYE5RZZ573HQCOEJUFAKAATYA5LLH4JT",
-      "lastModifiedDateTime": "2017-08-07T16:12:26Z",
       "name": "Figure_2._Energy-related_carbon_dioxide_emissions_by_fuel_1990-2014.csv",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B01CFFE3D-8938-40A1-A002-780756B3F133%7D&file=Figure_2._Energy-related_carbon_dioxide_emissions_by_fuel_1990-2014.csv&action=default&mobileredirect=true",
-      "cTag": "\"c:{01CFFE3D-8938-40A1-A002-780756B3F133},1\"",
       "size": 1011,
       "createdBy": {
         "user": {
@@ -761,13 +548,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.ms-excel",
         "hashes": {
@@ -780,14 +560,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=49f57df2-ebc1-4814-b0b9-5774fcfbd00f&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6ImVpaXN0emdBb1VSdXFXS2NLV1hYOHB4L2x4TUVZMjcrT0VyQTR4UE9QSlk9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0.hXK27nxT82N3u7xfmwhe_zXD7-OxVbGyqTCVZ1kvUyw&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:12:31Z",
-      "eTag": "\"{49F57DF2-EBC1-4814-B0B9-5774FCFBD00F},3\"",
+      "@odata.etag": "\"{49F57DF2-EBC1-4814-B0B9-5774FCFBD00F},3\"",
       "id": "01BYE5RZ7SPX2UTQPLCRELBOKXOT6PXUAP",
-      "lastModifiedDateTime": "2017-08-07T16:12:31Z",
       "name": "Intro to Chemistry.docx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B49F57DF2-EBC1-4814-B0B9-5774FCFBD00F%7D&file=Intro%20to%20Chemistry.docx&action=default&mobileredirect=true",
-      "cTag": "\"c:{49F57DF2-EBC1-4814-B0B9-5774FCFBD00F},1\"",
       "size": 23618,
       "createdBy": {
         "user": {
@@ -803,13 +579,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "hashes": {
@@ -822,14 +591,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=4898251f-53a8-4b6a-b48d-015b15eaa79d&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6IkJKdm5neUNHcjhqRXpNakJrRnRDSHFkZFZvd0V2alQxbVRWQXhBbFF0ZjQ9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0.7S180ixRVY7-pZRBN6wQmaJza54w50OcMGDFg2rC7ZM&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:12:36Z",
-      "eTag": "\"{4898251F-53A8-4B6A-B48D-015B15EAA79D},2\"",
+      "@odata.etag": "\"{4898251F-53A8-4B6A-B48D-015B15EAA79D},2\"",
       "id": "01BYE5RZY7EWMERKCTNJF3JDIBLMK6VJ45",
-      "lastModifiedDateTime": "2017-08-07T16:12:36Z",
       "name": "Introduction to Carbon Bonding Supplemental.pdf",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Class%20Documents/Introduction%20to%20Carbon%20Bonding%20Supplemental.pdf",
-      "cTag": "\"c:{4898251F-53A8-4B6A-B48D-015B15EAA79D},1\"",
       "size": 89385,
       "createdBy": {
         "user": {
@@ -845,13 +610,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/pdf",
         "hashes": {
@@ -864,14 +622,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=fb0920bf-a14a-42ce-bb19-8501d66e478e&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6IlVvZk9TaFZ1OUVPRnZ3Y2I3aUVGMlRmUTNheHFkeWtWSE9XVVU1VnZDUFk9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0.zIPdldpQdEw6wv744KIfJZWB2wWpjBy9NgXIEV5_XpA&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:12:43Z",
-      "eTag": "\"{FB0920BF-A14A-42CE-BB19-8501D66E478E},3\"",
+      "@odata.etag": "\"{FB0920BF-A14A-42CE-BB19-8501D66E478E},3\"",
       "id": "01BYE5RZ57EAE7WSVBZZBLWGMFAHLG4R4O",
-      "lastModifiedDateTime": "2017-08-07T16:12:43Z",
       "name": "Introduction to Carbon Bonding.docx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7BFB0920BF-A14A-42CE-BB19-8501D66E478E%7D&file=Introduction%20to%20Carbon%20Bonding.docx&action=default&mobileredirect=true",
-      "cTag": "\"c:{FB0920BF-A14A-42CE-BB19-8501D66E478E},1\"",
       "size": 1494485,
       "createdBy": {
         "user": {
@@ -887,13 +641,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "hashes": {
@@ -906,14 +653,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=cb286026-5932-4530-ba0c-a7fa8c7313a4&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzMyNzkwNSIsImV4cCI6IjE2OTMzMzE1MDUiLCJlbmRwb2ludHVybCI6IkNYbVBwbGlEZnlBK08yWTRnSHltS0NyNmZSbkVtN1pKQ3ozUkFqQ2JNeG89IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjZ5VHpvVXRBRlVXRnlyM0J0RkUyanc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5Ljk2In0.mEiczAOFZmnTojx2ce1YkAOffK20TQ18gGhUmXJ6VQw&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:13:00Z",
-      "eTag": "\"{CB286026-5932-4530-BA0C-A7FA8C7313A4},3\"",
+      "@odata.etag": "\"{CB286026-5932-4530-BA0C-A7FA8C7313A4},3\"",
       "id": "01BYE5RZZGMAUMWMSZGBC3UDFH7KGHGE5E",
-      "lastModifiedDateTime": "2017-08-07T16:13:00Z",
       "name": "Molecular Diagram.docx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7BCB286026-5932-4530-BA0C-A7FA8C7313A4%7D&file=Molecular%20Diagram.docx&action=default&mobileredirect=true",
-      "cTag": "\"c:{CB286026-5932-4530-BA0C-A7FA8C7313A4},1\"",
       "size": 505504,
       "createdBy": {
         "user": {
@@ -928,13 +671,6 @@
           "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
           "displayName": "Megan Bowen"
         }
-      },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
       },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",

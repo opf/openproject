@@ -1,14 +1,11 @@
 {
-  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users('48d31887-5fad-4d73-a9f5-3c356e68a038')/drive/root/children",
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users('48d31887-5fad-4d73-a9f5-3c356e68a038')/drive/root/children(id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder)",
   "value": [
     {
-      "createdDateTime": "2017-07-31T18:56:29Z",
-      "eTag": "\"{60F36ED0-85CE-4771-B349-E671C691EFCA},1\"",
+      "@odata.etag": "\"{60F36ED0-85CE-4771-B349-E671C691EFCA},1\"",
       "id": "01BYE5RZ6QN3ZWBTUFOFD3GSPGOHDJD36K",
-      "lastModifiedDateTime": "2017-07-31T18:56:29Z",
       "name": "Attachments",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Attachments",
-      "cTag": "\"c:{60F36ED0-85CE-4771-B349-E671C691EFCA},0\"",
       "size": 0,
       "createdBy": {
         "user": {
@@ -24,32 +21,19 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "fileSystemInfo": {
         "createdDateTime": "2017-07-31T18:56:29Z",
         "lastModifiedDateTime": "2017-07-31T18:56:29Z"
       },
       "folder": {
         "childCount": 0
-      },
-      "specialFolder": {
-        "name": "attachments"
       }
     },
     {
-      "createdDateTime": "2017-08-07T16:16:30Z",
-      "eTag": "\"{A9D9C2AC-FF32-42EE-87C3-283CFCE061E1},1\"",
+      "@odata.etag": "\"{A9D9C2AC-FF32-42EE-87C3-283CFCE061E1},1\"",
       "id": "01BYE5RZ5MYLM2SMX75ZBIPQZIHT6OAYPB",
-      "lastModifiedDateTime": "2017-08-07T16:16:30Z",
       "name": "Business Data",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Business%20Data",
-      "cTag": "\"c:{A9D9C2AC-FF32-42EE-87C3-283CFCE061E1},0\"",
       "size": 39566226,
       "createdBy": {
         "user": {
@@ -65,13 +49,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:16:30Z",
         "lastModifiedDateTime": "2017-08-07T16:16:30Z"
@@ -81,13 +58,10 @@
       }
     },
     {
-      "createdDateTime": "2017-08-07T16:10:22Z",
-      "eTag": "\"{73E9E609-FA05-42D8-82BD-1239D821CDD8},1\"",
+      "@odata.etag": "\"{73E9E609-FA05-42D8-82BD-1239D821CDD8},1\"",
       "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
-      "lastModifiedDateTime": "2017-08-07T16:10:22Z",
       "name": "Class Documents",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Class%20Documents",
-      "cTag": "\"c:{73E9E609-FA05-42D8-82BD-1239D821CDD8},0\"",
       "size": 16651792,
       "createdBy": {
         "user": {
@@ -103,13 +77,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:10:22Z",
         "lastModifiedDateTime": "2017-08-07T16:10:22Z"
@@ -119,13 +86,10 @@
       }
     },
     {
-      "createdDateTime": "2017-08-07T16:18:24Z",
-      "eTag": "\"{70BB7882-79BA-4711-A14F-F2C95A811302},1\"",
+      "@odata.etag": "\"{70BB7882-79BA-4711-A14F-F2C95A811302},1\"",
       "id": "01BYE5RZ4CPC5XBOTZCFD2CT7SZFNICEYC",
-      "lastModifiedDateTime": "2017-08-07T16:18:24Z",
       "name": "Contoso Clothing",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Contoso%20Clothing",
-      "cTag": "\"c:{70BB7882-79BA-4711-A14F-F2C95A811302},0\"",
       "size": 5912877,
       "createdBy": {
         "user": {
@@ -141,13 +105,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:18:24Z",
         "lastModifiedDateTime": "2017-08-07T16:18:24Z"
@@ -157,13 +114,10 @@
       }
     },
     {
-      "createdDateTime": "2017-08-07T16:05:29Z",
-      "eTag": "\"{D43D7B05-A00E-4889-B2AD-B3BC79950023},1\"",
+      "@odata.etag": "\"{D43D7B05-A00E-4889-B2AD-B3BC79950023},1\"",
       "id": "01BYE5RZYFPM65IDVARFELFLNTXR4ZKABD",
-      "lastModifiedDateTime": "2017-08-07T16:05:29Z",
       "name": "Contoso Electronics",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Contoso%20Electronics",
-      "cTag": "\"c:{D43D7B05-A00E-4889-B2AD-B3BC79950023},0\"",
       "size": 18128460,
       "createdBy": {
         "user": {
@@ -179,13 +133,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:05:29Z",
         "lastModifiedDateTime": "2017-08-07T16:05:29Z"
@@ -195,13 +142,10 @@
       }
     },
     {
-      "createdDateTime": "2017-08-07T16:17:40Z",
-      "eTag": "\"{704F02D3-CC74-43B6-A38D-63FC9A4B94B4},1\"",
+      "@odata.etag": "\"{704F02D3-CC74-43B6-A38D-63FC9A4B94B4},1\"",
       "id": "01BYE5RZ6TAJHXA5GMWZB2HDLD7SNEXFFU",
-      "lastModifiedDateTime": "2017-08-07T16:17:40Z",
       "name": "CR-227 Project",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/CR-227%20Project",
-      "cTag": "\"c:{704F02D3-CC74-43B6-A38D-63FC9A4B94B4},0\"",
       "size": 6934759,
       "createdBy": {
         "user": {
@@ -217,13 +161,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:17:40Z",
         "lastModifiedDateTime": "2017-08-07T16:17:40Z"
@@ -233,13 +170,10 @@
       }
     },
     {
-      "createdDateTime": "2017-09-15T01:15:43Z",
-      "eTag": "\"{2BB874B8-B62C-4074-9E53-DB9081B4CFAF},1\"",
+      "@odata.etag": "\"{2BB874B8-B62C-4074-9E53-DB9081B4CFAF},1\"",
       "id": "01BYE5RZ5YOS4CWLFWORAJ4U63SCA3JT5P",
-      "lastModifiedDateTime": "2017-09-15T01:15:43Z",
       "name": "Notebooks",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Notebooks",
-      "cTag": "\"c:{2BB874B8-B62C-4074-9E53-DB9081B4CFAF},0\"",
       "size": 22842,
       "createdBy": {
         "application": {
@@ -263,13 +197,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "fileSystemInfo": {
         "createdDateTime": "2017-09-15T01:15:43Z",
         "lastModifiedDateTime": "2017-09-15T01:15:43Z"
@@ -279,13 +206,10 @@
       }
     },
     {
-      "createdDateTime": "2017-08-07T16:13:50Z",
-      "eTag": "\"{748556DB-5188-404B-BFCF-F5151ED9EB24},1\"",
+      "@odata.etag": "\"{748556DB-5188-404B-BFCF-F5151ED9EB24},1\"",
       "id": "01BYE5RZ63K2CXJCCRJNAL7T7VCUPNT2ZE",
-      "lastModifiedDateTime": "2017-08-07T16:13:50Z",
       "name": "Presentation Documents",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Presentation%20Documents",
-      "cTag": "\"c:{748556DB-5188-404B-BFCF-F5151ED9EB24},0\"",
       "size": 11905701,
       "createdBy": {
         "user": {
@@ -301,13 +225,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:13:50Z",
         "lastModifiedDateTime": "2017-08-07T16:13:50Z"
@@ -317,13 +234,10 @@
       }
     },
     {
-      "createdDateTime": "2017-08-07T16:06:56Z",
-      "eTag": "\"{D7A8A9D0-3D78-4693-ABBD-5322CA2D9903},1\"",
+      "@odata.etag": "\"{D7A8A9D0-3D78-4693-ABBD-5322CA2D9903},1\"",
       "id": "01BYE5RZ6QVGUNO6B5SNDKXPKTELFC3GID",
-      "lastModifiedDateTime": "2017-08-07T16:06:56Z",
       "name": "Private Info",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Private%20Info",
-      "cTag": "\"c:{D7A8A9D0-3D78-4693-ABBD-5322CA2D9903},0\"",
       "size": 20674,
       "createdBy": {
         "user": {
@@ -339,13 +253,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:06:56Z",
         "lastModifiedDateTime": "2017-08-07T16:06:56Z"
@@ -355,13 +262,10 @@
       }
     },
     {
-      "createdDateTime": "2018-03-27T07:34:38Z",
-      "eTag": "\"{C5B6EF53-3783-453F-9ACA-6CE8BE81A474},1\"",
+      "@odata.etag": "\"{C5B6EF53-3783-453F-9ACA-6CE8BE81A474},1\"",
       "id": "01BYE5RZ2T563MLAZXH5CZVSTM5C7IDJDU",
-      "lastModifiedDateTime": "2018-03-27T07:34:38Z",
       "name": "TestBatchingFolder",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/TestBatchingFolder",
-      "cTag": "\"c:{C5B6EF53-3783-453F-9ACA-6CE8BE81A474},0\"",
       "size": 0,
       "createdBy": {
         "application": {
@@ -385,13 +289,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "fileSystemInfo": {
         "createdDateTime": "2018-03-27T07:34:38Z",
         "lastModifiedDateTime": "2018-03-27T07:34:38Z"
@@ -401,14 +298,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=dd092d3e-427f-45ea-8daf-e25e7f77530c&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6IjlacHYvK25wK3ExWnFXdnlMM2RZNGVVaHdtMlllaHJvRTlBSmFjOC84R2c9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.0EvnxdOU70bsTdoxEDvjRhNeic1nJyd5d3HKm--PL18&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:07:10Z",
-      "eTag": "\"{DD092D3E-427F-45EA-8DAF-E25E7F77530C},3\"",
+      "@odata.etag": "\"{DD092D3E-427F-45EA-8DAF-E25E7F77530C},3\"",
       "id": "01BYE5RZZ6FUE5272C5JCY3L7CLZ7XOUYM",
-      "lastModifiedDateTime": "2017-08-07T16:07:10Z",
       "name": "All Japan Revenues By City.xlsx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7BDD092D3E-427F-45EA-8DAF-E25E7F77530C%7D&file=All%20Japan%20Revenues%20By%20City.xlsx&action=default&mobileredirect=true",
-      "cTag": "\"c:{DD092D3E-427F-45EA-8DAF-E25E7F77530C},1\"",
       "size": 20051,
       "createdBy": {
         "user": {
@@ -424,13 +317,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "hashes": {
@@ -440,20 +326,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:07:10Z",
         "lastModifiedDateTime": "2017-08-07T16:07:10Z"
-      },
-      "shared": {
-        "scope": "users"
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=5adb5f85-9453-4e1d-889b-7a72e76e214c&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6InJXOGFHck92ckUzbGc2bUZEeHVQQUNFeFJUZ1g2NGdpYkwyNmlWMGl6eDg9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.-Yex1ExTlFqV04-ySRosPskEISL2-lgpGml23Wya37M&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:01:51Z",
-      "eTag": "\"{5ADB5F85-9453-4E1D-889B-7A72E76E214C},4\"",
+      "@odata.etag": "\"{5ADB5F85-9453-4E1D-889B-7A72E76E214C},4\"",
       "id": "01BYE5RZ4FL7NVUU4UDVHIRG32OLTW4IKM",
-      "lastModifiedDateTime": "2017-08-07T16:01:51Z",
       "name": "Annual Financial Report (DRAFT).docx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B5ADB5F85-9453-4E1D-889B-7A72E76E214C%7D&file=Annual%20Financial%20Report%20(DRAFT).docx&action=default&mobileredirect=true",
-      "cTag": "\"c:{5ADB5F85-9453-4E1D-889B-7A72E76E214C},1\"",
       "size": 22750,
       "createdBy": {
         "user": {
@@ -469,13 +348,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "hashes": {
@@ -485,20 +357,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:01:51Z",
         "lastModifiedDateTime": "2017-08-07T16:01:51Z"
-      },
-      "shared": {
-        "scope": "users"
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=76967189-8511-4f0d-8747-647bf66a04c1&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6Ik1USlVCS2ptNm1OU0tOK0JjZUFsRnZJZFlrUlV6YzV6S0FRY2g1ZW45VFE9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.FbAAAwnmyDrSS4eWeYbuY7-UWTwe3lYikLWgFjI4GVI&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:02:35Z",
-      "eTag": "\"{76967189-8511-4F0D-8747-647BF66A04C1},3\"",
+      "@odata.etag": "\"{76967189-8511-4F0D-8747-647BF66A04C1},3\"",
       "id": "01BYE5RZ4JOGLHMEMFBVHYOR3EPP3GUBGB",
-      "lastModifiedDateTime": "2017-08-07T16:02:35Z",
       "name": "Audit of Small Business Sales.xlsx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B76967189-8511-4F0D-8747-647BF66A04C1%7D&file=Audit%20of%20Small%20Business%20Sales.xlsx&action=default&mobileredirect=true",
-      "cTag": "\"c:{76967189-8511-4F0D-8747-647BF66A04C1},1\"",
       "size": 21479,
       "createdBy": {
         "user": {
@@ -514,13 +379,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "hashes": {
@@ -530,20 +388,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:02:35Z",
         "lastModifiedDateTime": "2017-08-07T16:02:35Z"
-      },
-      "shared": {
-        "scope": "users"
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=63d21c9f-fbbb-4fb0-a735-b7866ad6a169&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6Ik1BT3pvbGh5VURRMzhnSEEyajhQS1NoU2dzY015WlZBWlN3d1VsRDBOYkk9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.nfaT2QKlqG0CiwhOC_FTlP7u467tPNrQlTzsUetoUNQ&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:08:22Z",
-      "eTag": "\"{63D21C9F-FBBB-4FB0-A735-B7866AD6A169},4\"",
+      "@odata.etag": "\"{63D21C9F-FBBB-4FB0-A735-B7866AD6A169},4\"",
       "id": "01BYE5RZ47DTJGHO73WBH2ONNXQZVNNILJ",
-      "lastModifiedDateTime": "2017-08-07T16:08:22Z",
       "name": "BrokenPipe.jpg",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/BrokenPipe.jpg",
-      "cTag": "\"c:{63D21C9F-FBBB-4FB0-A735-B7866AD6A169},1\"",
       "size": 5336,
       "createdBy": {
         "user": {
@@ -559,13 +410,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "image/jpeg",
         "hashes": {
@@ -575,25 +419,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:08:22Z",
         "lastModifiedDateTime": "2017-08-07T16:08:22Z"
-      },
-      "image": {
-        "height": 183,
-        "width": 260
-      },
-      "photo": {},
-      "shared": {
-        "scope": "users"
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=a38dffa7-801b-445f-8548-592a10378f63&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6IkhQN0Z2TGJ0MnZsZHljdGloMFl6anBNenhDYzczTVpkcmJETzlVWUtnSTA9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.K1Sf40Sqa7AbK96y_jFryn7aUThW8hEPv3Zy08M-UIs&ApiVersion=2.0",
-      "createdDateTime": "2017-09-02T02:41:05Z",
-      "eTag": "\"{A38DFFA7-801B-445F-8548-592A10378F63},2\"",
+      "@odata.etag": "\"{A38DFFA7-801B-445F-8548-592A10378F63},2\"",
       "id": "01BYE5RZ5H76G2GG4AL5CIKSCZFIIDPD3D",
-      "lastModifiedDateTime": "2017-09-02T02:41:05Z",
       "name": "Business Card.pdf",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Business%20Card.pdf",
-      "cTag": "\"c:{A38DFFA7-801B-445F-8548-592A10378F63},1\"",
       "size": 866319,
       "createdBy": {
         "user": {
@@ -609,13 +441,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/pdf",
         "hashes": {
@@ -628,14 +453,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=68a26adc-3c85-4ef5-aadd-c31091f963b2&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6Ino4T0JtcHZHYjcrZjdDTU9ISjlsSWlPMlMyYUtQa2V4UnhUK05ST3lHUDg9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.nFDjst-Xg3u60Qqp9g3hWTErvAgFiRMeiTXokv_WPjo&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:03:39Z",
-      "eTag": "\"{68A26ADC-3C85-4EF5-AADD-C31091F963B2},4\"",
+      "@odata.etag": "\"{68A26ADC-3C85-4EF5-AADD-C31091F963B2},4\"",
       "id": "01BYE5RZ64NKRGRBJ46VHKVXODCCI7SY5S",
-      "lastModifiedDateTime": "2021-12-02T17:04:34Z",
       "name": "Contoso Patent App 150219a.docx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B68A26ADC-3C85-4EF5-AADD-C31091F963B2%7D&file=Contoso%20Patent%20App%20150219a.docx&action=default&mobileredirect=true",
-      "cTag": "\"c:{68A26ADC-3C85-4EF5-AADD-C31091F963B2},2\"",
       "size": 86468,
       "createdBy": {
         "user": {
@@ -651,13 +472,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "hashes": {
@@ -670,14 +484,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=17a8ba57-138f-4cfa-b79f-1702c28ba88b&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6Imc4Qzh4Y3pZSEdScCt3Y2hWdTBhZEgwTWxGdFhPUCsxWnFzMzh0ZTBlN009IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.F9DeBdrWdK3zKEFFsxyIN-HS7j70SU5HZcQ8z5xtwLs&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:03:47Z",
-      "eTag": "\"{17A8BA57-138F-4CFA-B79F-1702C28BA88B},3\"",
+      "@odata.etag": "\"{17A8BA57-138F-4CFA-B79F-1702C28BA88B},3\"",
       "id": "01BYE5RZ2XXKUBPDYT7JGLPHYXALBIXKEL",
-      "lastModifiedDateTime": "2017-08-07T16:03:47Z",
       "name": "Contoso Patent Template.docx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B17A8BA57-138F-4CFA-B79F-1702C28BA88B%7D&file=Contoso%20Patent%20Template.docx&action=default&mobileredirect=true",
-      "cTag": "\"c:{17A8BA57-138F-4CFA-B79F-1702C28BA88B},1\"",
       "size": 85596,
       "createdBy": {
         "user": {
@@ -693,13 +503,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "hashes": {
@@ -712,14 +515,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=3df225b9-5e1f-402c-b8a4-131b81a9c0c9&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6IlpWZk9GbEJzSzFQSCtpK0FZQTYvS3BDQ0xnV1N0eGk2QTYwR1RUYy9oM3c9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.3BujAYTuPxd6kbk-UN1JPXFi8iOfo6Ejmh3eTRSIJFg&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:03:52Z",
-      "eTag": "\"{3DF225B9-5E1F-402C-B8A4-131B81A9C0C9},2\"",
+      "@odata.etag": "\"{3DF225B9-5E1F-402C-B8A4-131B81A9C0C9},2\"",
       "id": "01BYE5RZ5ZEXZD2H26FRALRJATDOA2TQGJ",
-      "lastModifiedDateTime": "2017-08-07T16:03:52Z",
       "name": "Contoso Purchasing Data - Q1 - Copy.xlsx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B3DF225B9-5E1F-402C-B8A4-131B81A9C0C9%7D&file=Contoso%20Purchasing%20Data%20-%20Q1%20-%20Copy.xlsx&action=default&mobileredirect=true",
-      "cTag": "\"c:{3DF225B9-5E1F-402C-B8A4-131B81A9C0C9},1\"",
       "size": 19334,
       "createdBy": {
         "user": {
@@ -735,13 +534,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "hashes": {
@@ -754,14 +546,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=11b8b053-851f-4382-b3b2-d61aae13ab52&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6Ii9GR0VHSWFsT2ZkVittdHFBaXFQZjNJcGk4RWpMc2ZoVSsyS3NVNDRvVDA9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.cfLqZvXtsMT7EZSy4JLquzRUjeLeD7BotrJy9ZxtxYc&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:03:58Z",
-      "eTag": "\"{11B8B053-851F-4382-B3B2-D61AAE13AB52},2\"",
+      "@odata.etag": "\"{11B8B053-851F-4382-B3B2-D61AAE13AB52},2\"",
       "id": "01BYE5RZ2TWC4BCH4FQJB3HMWWDKXBHK2S",
-      "lastModifiedDateTime": "2017-08-07T16:03:58Z",
       "name": "Contoso Purchasing Data - Q1 KJ copy.xlsx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B11B8B053-851F-4382-B3B2-D61AAE13AB52%7D&file=Contoso%20Purchasing%20Data%20-%20Q1%20KJ%20copy.xlsx&action=default&mobileredirect=true",
-      "cTag": "\"c:{11B8B053-851F-4382-B3B2-D61AAE13AB52},1\"",
       "size": 21965,
       "createdBy": {
         "user": {
@@ -777,13 +565,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "hashes": {
@@ -796,14 +577,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=c832384c-baf8-471c-8faa-8d0ee95a6951&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6InZnTXRzUDdubHA2ckdxcko0Ymczb3hTc2U1K3c5eEpvZlV4OExVeWRZbEk9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.OBN-DBYj9Q1jibKHU55uxrz7PsCs9NcKbN4LGIIHdGc&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:04:25Z",
-      "eTag": "\"{C832384C-BAF8-471C-8FAA-8D0EE95A6951},3\"",
+      "@odata.etag": "\"{C832384C-BAF8-471C-8FAA-8D0EE95A6951},3\"",
       "id": "01BYE5RZ2MHAZMR6F2DRDY7KUNB3UVU2KR",
-      "lastModifiedDateTime": "2017-08-07T16:04:25Z",
       "name": "Contoso Purchasing Permissions - Confidential.docx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7BC832384C-BAF8-471C-8FAA-8D0EE95A6951%7D&file=Contoso%20Purchasing%20Permissions%20-%20Confidential.docx&action=default&mobileredirect=true",
-      "cTag": "\"c:{C832384C-BAF8-471C-8FAA-8D0EE95A6951},1\"",
       "size": 100352,
       "createdBy": {
         "user": {
@@ -819,13 +596,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "hashes": {
@@ -838,14 +608,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=18ff008b-1d8d-4dc9-98f0-dfccf93ae7ea&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6Ikc1WHNOZjMzRkI0a0E1bzlmY29NWWt2ZG9BMTBTRHZKT0dQVi9xNHZoT2s9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.nZoAm5asIH0zmJN575b0AoYsdLHMY2sieF9cAet76II&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:04:17Z",
-      "eTag": "\"{18FF008B-1D8D-4DC9-98F0-DFCCF93AE7EA},3\"",
+      "@odata.etag": "\"{18FF008B-1D8D-4DC9-98F0-DFCCF93AE7EA},3\"",
       "id": "01BYE5RZ4LAD7RRDI5ZFGZR4G7ZT4TVZ7K",
-      "lastModifiedDateTime": "2017-08-07T16:04:17Z",
       "name": "Contoso Purchasing Permissions - Q1.docx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B18FF008B-1D8D-4DC9-98F0-DFCCF93AE7EA%7D&file=Contoso%20Purchasing%20Permissions%20-%20Q1.docx&action=default&mobileredirect=true",
-      "cTag": "\"c:{18FF008B-1D8D-4DC9-98F0-DFCCF93AE7EA},1\"",
       "size": 25268,
       "createdBy": {
         "user": {
@@ -861,13 +627,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "hashes": {
@@ -880,14 +639,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=a0dd6857-db76-4544-84e0-71dc1c411602&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6InJHdFplTGlsS010VGtwQkhNMmdNUlF1a21IUkJDY0VMREhmQUNRM1VMNkU9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.cNoKaq6oOzy7L2lLkJyVyRtosGGLvBuTR0BY8tibwLg&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:04:31Z",
-      "eTag": "\"{A0DD6857-DB76-4544-84E0-71DC1C411602},2\"",
+      "@odata.etag": "\"{A0DD6857-DB76-4544-84E0-71DC1C411602},2\"",
       "id": "01BYE5RZ2XNDO2A5W3IRCYJYDR3QOECFQC",
-      "lastModifiedDateTime": "2017-08-07T16:04:31Z",
       "name": "Employee Data - Q1 KJ copy.xlsx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7BA0DD6857-DB76-4544-84E0-71DC1C411602%7D&file=Employee%20Data%20-%20Q1%20KJ%20copy.xlsx&action=default&mobileredirect=true",
-      "cTag": "\"c:{A0DD6857-DB76-4544-84E0-71DC1C411602},1\"",
       "size": 21693,
       "createdBy": {
         "user": {
@@ -903,13 +658,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "hashes": {
@@ -922,14 +670,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=a1ed023a-c3a9-4bb3-ae5a-f0170251d3dc&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6IllIRXRiWkg2S0ZUek9haVhZTVRrMk5XQUl2WTgzcUtzS2xYWVpCdlM1TUU9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.4-p3gu3qQTDDqkD6calRgCNoMgHkNxELbQhZ2s02A74&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:09:15Z",
-      "eTag": "\"{A1ED023A-C3A9-4BB3-AE5A-F0170251D3DC},3\"",
+      "@odata.etag": "\"{A1ED023A-C3A9-4BB3-AE5A-F0170251D3DC},3\"",
       "id": "01BYE5RZZ2ALW2DKODWNF24WXQC4BFDU64",
-      "lastModifiedDateTime": "2017-08-07T16:09:15Z",
       "name": "Employee Health Accounts - Q3.xlsx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7BA1ED023A-C3A9-4BB3-AE5A-F0170251D3DC%7D&file=Employee%20Health%20Accounts%20-%20Q3.xlsx&action=default&mobileredirect=true",
-      "cTag": "\"c:{A1ED023A-C3A9-4BB3-AE5A-F0170251D3DC},1\"",
       "size": 21991,
       "createdBy": {
         "user": {
@@ -944,13 +688,6 @@
           "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
           "displayName": "Megan Bowen"
         }
-      },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
       },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -961,20 +698,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:09:15Z",
         "lastModifiedDateTime": "2017-08-07T16:09:15Z"
-      },
-      "shared": {
-        "scope": "users"
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=967ff8e3-a11c-4dbd-84cc-2cd067df9290&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6IjdqMTh2dlFHSEEwNkFNeUkyOVlKNWtQNHE4OXFZYUNzMFl6cjNDeWJ2UFE9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.i-Wf4JKY56P7B_IgsThPO7ZjOipZ6bStIxrLPnJ6VFs&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:04:44Z",
-      "eTag": "\"{967FF8E3-A11C-4DBD-84CC-2CD067DF9290},2\"",
+      "@odata.etag": "\"{967FF8E3-A11C-4DBD-84CC-2CD067DF9290},2\"",
       "id": "01BYE5RZ7D7B7ZMHFBXVGYJTBM2BT57EUQ",
-      "lastModifiedDateTime": "2017-08-07T16:04:44Z",
       "name": "Employee Health Accounts.xlsx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B967FF8E3-A11C-4DBD-84CC-2CD067DF9290%7D&file=Employee%20Health%20Accounts.xlsx&action=default&mobileredirect=true",
-      "cTag": "\"c:{967FF8E3-A11C-4DBD-84CC-2CD067DF9290},1\"",
       "size": 21991,
       "createdBy": {
         "user": {
@@ -989,13 +719,6 @@
           "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
           "displayName": "Megan Bowen"
         }
-      },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
       },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -1009,14 +732,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=1219a7ca-6564-4c25-ab44-22fb95c24f69&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6ImFyUXhwMDhTM2FyL3VJelJZMjFkLy9SdU52MGR0RGhCS1hJUm5jUDNBVE09IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.Ta2hRFjp6aJgr6n2eQUpTtqszq5a5ulYLokzE02qKs4&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:04:50Z",
-      "eTag": "\"{1219A7CA-6564-4C25-AB44-22FB95C24F69},2\"",
+      "@odata.etag": "\"{1219A7CA-6564-4C25-AB44-22FB95C24F69},2\"",
       "id": "01BYE5RZ6KU4MREZDFEVGKWRBC7OK4ET3J",
-      "lastModifiedDateTime": "2017-08-07T16:04:50Z",
       "name": "Employee Travel - Q1 -KJ ONLY.xlsx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B1219A7CA-6564-4C25-AB44-22FB95C24F69%7D&file=Employee%20Travel%20-%20Q1%20-KJ%20ONLY.xlsx&action=default&mobileredirect=true",
-      "cTag": "\"c:{1219A7CA-6564-4C25-AB44-22FB95C24F69},1\"",
       "size": 21675,
       "createdBy": {
         "user": {
@@ -1032,13 +751,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "hashes": {
@@ -1051,14 +763,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=7a411b11-3cd1-4cc8-8346-b04866418c67&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6IndnbWFOM0Y2dmpmcWJkZTJFWGJ3TnpUWXRpUGIzVzZOODZkQm4yTDJpNlU9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.FQsVEtz4Zu_FZSpSyyb4w4dK2id5NcZBfzGZpjEt8oc&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:05:01Z",
-      "eTag": "\"{7A411B11-3CD1-4CC8-8346-B04866418C67},2\"",
+      "@odata.etag": "\"{7A411B11-3CD1-4CC8-8346-B04866418C67},2\"",
       "id": "01BYE5RZYRDNAXVUJ4ZBGIGRVQJBTEDDDH",
-      "lastModifiedDateTime": "2017-08-07T16:05:01Z",
       "name": "Employee Travel - Q1.xlsx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B7A411B11-3CD1-4CC8-8346-B04866418C67%7D&file=Employee%20Travel%20-%20Q1.xlsx&action=default&mobileredirect=true",
-      "cTag": "\"c:{7A411B11-3CD1-4CC8-8346-B04866418C67},1\"",
       "size": 21139,
       "createdBy": {
         "user": {
@@ -1074,13 +782,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "hashes": {
@@ -1093,14 +794,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=893dd5b3-bc7f-4657-ac41-b4870812833e&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6IjNUZGVmOGRKU2l6U1NJRnNmVHpXTEtFYWhEWlh2d2tocENuWFoyWDRweUk9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.VcAUIzpFeF9j-DtKpg8FNnAesNfvU0_eZ7Nf7fSbV6M&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:09:36Z",
-      "eTag": "\"{893DD5B3-BC7F-4657-AC41-B4870812833E},3\"",
+      "@odata.etag": "\"{893DD5B3-BC7F-4657-AC41-B4870812833E},3\"",
       "id": "01BYE5RZ5T2U6YS754K5DKYQNUQ4EBFAZ6",
-      "lastModifiedDateTime": "2017-08-07T16:09:36Z",
       "name": "Employee Travel - Q3.xlsx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B893DD5B3-BC7F-4657-AC41-B4870812833E%7D&file=Employee%20Travel%20-%20Q3.xlsx&action=default&mobileredirect=true",
-      "cTag": "\"c:{893DD5B3-BC7F-4657-AC41-B4870812833E},1\"",
       "size": 21147,
       "createdBy": {
         "user": {
@@ -1116,13 +813,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "hashes": {
@@ -1132,20 +822,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:09:36Z",
         "lastModifiedDateTime": "2017-08-07T16:09:36Z"
-      },
-      "shared": {
-        "scope": "users"
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=8986f192-b784-4f8e-94a2-7613ede08862&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6InRXRVVMd2gvOVBtMlhzU1V5cGZraDhMY3MrVkFsazdaOGRNV1BHQWgzVGc9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.cAN0TXz3ik_BAk7ta7kzirV-2jxA37zRB30AkNswkWk&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:03:06Z",
-      "eTag": "\"{8986F192-B784-4F8E-94A2-7613EDE08862},3\"",
+      "@odata.etag": "\"{8986F192-B784-4F8E-94A2-7613EDE08862},3\"",
       "id": "01BYE5RZ4S6GDITBFXRZHZJITWCPW6BCDC",
-      "lastModifiedDateTime": "2017-08-07T16:03:06Z",
       "name": "European Expansion.pptx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B8986F192-B784-4F8E-94A2-7613EDE08862%7D&file=European%20Expansion.pptx&action=edit&mobileredirect=true",
-      "cTag": "\"c:{8986F192-B784-4F8E-94A2-7613EDE08862},1\"",
       "size": 3578693,
       "createdBy": {
         "user": {
@@ -1161,13 +844,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
         "hashes": {
@@ -1180,14 +856,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=0bc35248-e4e2-4759-ad85-89407bceccfe&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6ImRiTVlReWEvRVlzRHl1MS9DL1Z5VnMwR0VldDQvYXpDSUhNQ0pzeGMvTXc9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.xlCSpg10E-t6r2olPzd8YKVgcVPS_QxxdRB_4MQ_uHA&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:08:45Z",
-      "eTag": "\"{0BC35248-E4E2-4759-AD85-89407BCECCFE},4\"",
+      "@odata.etag": "\"{0BC35248-E4E2-4759-AD85-89407BCECCFE},4\"",
       "id": "01BYE5RZ2IKLBQXYXELFD23BMJIB545TH6",
-      "lastModifiedDateTime": "2020-01-09T03:02:37Z",
       "name": "Fabrikam.one",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B0BC35248-E4E2-4759-AD85-89407BCECCFE%7D&file=Fabrikam.one&action=edit&mobileredirect=true&wdorigin=Sharepoint",
-      "cTag": "\"c:{0BC35248-E4E2-4759-AD85-89407BCECCFE},2\"",
       "size": 55782,
       "createdBy": {
         "user": {
@@ -1201,13 +873,6 @@
           "displayName": "System Account"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/msonenote",
         "hashes": {
@@ -1217,20 +882,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:08:45Z",
         "lastModifiedDateTime": "2020-01-09T03:02:37Z"
-      },
-      "shared": {
-        "scope": "users"
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=d27d0780-9bd9-4d77-818d-8da75253ac66&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6IjcvM09UbTd1dFRFc2tIeEdYemVpdkNtUHdpODFVVEhnQy9UaUNYMWpiTjA9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.Q6597KT00RGo7oIPQjJt_qjVnJMhSgEoNLWeUaK2iY0&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:01:43Z",
-      "eTag": "\"{D27D0780-9BD9-4D77-818D-8DA75253AC66},4\"",
+      "@odata.etag": "\"{D27D0780-9BD9-4D77-818D-8DA75253AC66},4\"",
       "id": "01BYE5RZ4AA565FWM3O5GYDDMNU5JFHLDG",
-      "lastModifiedDateTime": "2017-08-07T16:01:43Z",
       "name": "Pricing Guidelines for XT1000.docx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7BD27D0780-9BD9-4D77-818D-8DA75253AC66%7D&file=Pricing%20Guidelines%20for%20XT1000.docx&action=default&mobileredirect=true",
-      "cTag": "\"c:{D27D0780-9BD9-4D77-818D-8DA75253AC66},1\"",
       "size": 399606,
       "createdBy": {
         "user": {
@@ -1246,13 +904,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "hashes": {
@@ -1262,20 +913,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:01:43Z",
         "lastModifiedDateTime": "2017-08-07T16:01:43Z"
-      },
-      "shared": {
-        "scope": "users"
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=21406a2f-1b59-4759-bcb9-b048cfc6e18d&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6ImdoTGowYmwzYzJpUGFHYzBFbHFHRVF3QllzOExjYjZ3V2ZRRXJHc2k3MjA9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.zMr4ftCgutxN2IgBrhV7GFSxRc2DKR8dZE-E9D6vbME&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:03:12Z",
-      "eTag": "\"{21406A2F-1B59-4759-BCB9-B048CFC6E18D},2\"",
+      "@odata.etag": "\"{21406A2F-1B59-4759-BCB9-B048CFC6E18D},2\"",
       "id": "01BYE5RZZPNJACCWI3LFD3ZONQJDH4NYMN",
-      "lastModifiedDateTime": "2017-08-07T16:03:12Z",
       "name": "Projected Revenues Northwest and California.xlsx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B21406A2F-1B59-4759-BCB9-B048CFC6E18D%7D&file=Projected%20Revenues%20Northwest%20and%20California.xlsx&action=default&mobileredirect=true",
-      "cTag": "\"c:{21406A2F-1B59-4759-BCB9-B048CFC6E18D},1\"",
       "size": 18411,
       "createdBy": {
         "user": {
@@ -1291,13 +935,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "hashes": {
@@ -1310,14 +947,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=46f213bb-2549-469e-9f00-85ae5fb16c26&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6Ing2Um1WMTJIa3ltSkJha05YQUxoalptSWE1bmRoWEd0djVnenVXOW9MMVk9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.v_lRRbme2PEi0mtI8BceA4LY4w-IwLsfgUprjQvmDfA&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:03:23Z",
-      "eTag": "\"{46F213BB-2549-469E-9F00-85AE5FB16C26},3\"",
+      "@odata.etag": "\"{46F213BB-2549-469E-9F00-85AE5FB16C26},3\"",
       "id": "01BYE5RZ53CPZEMSJFTZDJ6AEFVZP3C3BG",
-      "lastModifiedDateTime": "2017-08-07T16:03:23Z",
       "name": "Q3 Sales and Marketing Expense Report Audit.pptx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B46F213BB-2549-469E-9F00-85AE5FB16C26%7D&file=Q3%20Sales%20and%20Marketing%20Expense%20Report%20Audit.pptx&action=edit&mobileredirect=true",
-      "cTag": "\"c:{46F213BB-2549-469E-9F00-85AE5FB16C26},1\"",
       "size": 1255076,
       "createdBy": {
         "user": {
@@ -1333,13 +966,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
         "hashes": {
@@ -1352,14 +978,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=e02f6d14-5cd9-4fc7-aa33-49e80b967006&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6InVKMmhFTkNuVmE1cmVoTWZ6ZWUraUYzVkJOZDg4MkZxZjYxdnpFczMrb2s9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.I9EnD1sY7SDTmIO0A0_o9mciPdpOL9nK2Q1amwhlIGI&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:03:27Z",
-      "eTag": "\"{E02F6D14-5CD9-4FC7-AA33-49E80B967006},2\"",
+      "@odata.etag": "\"{E02F6D14-5CD9-4FC7-AA33-49E80B967006},2\"",
       "id": "01BYE5RZYUNUX6BWK4Y5H2UM2J5AFZM4AG",
-      "lastModifiedDateTime": "2017-08-07T16:03:27Z",
       "name": "RD And Engineering Costs Q1.xlsx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7BE02F6D14-5CD9-4FC7-AA33-49E80B967006%7D&file=RD%20And%20Engineering%20Costs%20Q1.xlsx&action=default&mobileredirect=true",
-      "cTag": "\"c:{E02F6D14-5CD9-4FC7-AA33-49E80B967006},1\"",
       "size": 16082,
       "createdBy": {
         "user": {
@@ -1375,13 +997,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "hashes": {
@@ -1394,14 +1009,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=108263d1-322a-48f0-94b2-d789646d9db3&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6ImZKUnhxdnp5cHNHeVVBak82dWpyVU55YWw3VE9LanBXdW5mTE1MSFd4VUk9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.bphZEqbhRRdWoDB9vRCO2fk3YoniuQGcvYGg_iO_iVQ&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:07:45Z",
-      "eTag": "\"{108263D1-322A-48F0-94B2-D789646D9DB3},5\"",
+      "@odata.etag": "\"{108263D1-322A-48F0-94B2-D789646D9DB3},5\"",
       "id": "01BYE5RZ6RMOBBAKRS6BEJJMWXRFSG3HNT",
-      "lastModifiedDateTime": "2017-08-07T16:07:45Z",
       "name": "RD Expense Report.pptx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B108263D1-322A-48F0-94B2-D789646D9DB3%7D&file=RD%20Expense%20Report.pptx&action=edit&mobileredirect=true",
-      "cTag": "\"c:{108263D1-322A-48F0-94B2-D789646D9DB3},1\"",
       "size": 361107,
       "createdBy": {
         "user": {
@@ -1417,13 +1028,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
         "hashes": {
@@ -1433,20 +1037,13 @@
       "fileSystemInfo": {
         "createdDateTime": "2017-08-07T16:07:45Z",
         "lastModifiedDateTime": "2017-08-07T16:07:45Z"
-      },
-      "shared": {
-        "scope": "users"
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=50ac12e6-7362-4ad8-b76b-e7d11f6b718f&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6IkpuUVhxU1NXcGxubHNHZ1lZblBSbGM5M0JtMURxYTRsQit3Zmo1NEdLQW89IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.X1o3avHtfojzbV6YJkXUHdDoqvnU0e3pDdB3OEIgnd8&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:03:31Z",
-      "eTag": "\"{50AC12E6-7362-4AD8-B76B-E7D11F6B718F},2\"",
+      "@odata.etag": "\"{50AC12E6-7362-4AD8-B76B-E7D11F6B718F},2\"",
       "id": "01BYE5RZ7GCKWFAYTT3BFLO27H2EPWW4MP",
-      "lastModifiedDateTime": "2017-08-07T16:03:31Z",
       "name": "RD Expenses Q1 to Q3.xlsx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B50AC12E6-7362-4AD8-B76B-E7D11F6B718F%7D&file=RD%20Expenses%20Q1%20to%20Q3.xlsx&action=default&mobileredirect=true",
-      "cTag": "\"c:{50AC12E6-7362-4AD8-B76B-E7D11F6B718F},1\"",
       "size": 13394,
       "createdBy": {
         "user": {
@@ -1462,13 +1059,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "hashes": {
@@ -1481,14 +1071,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=f257d0da-dfb6-4f9b-8ba8-0045b89a3678&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6IkYzeHRzbmtOQXNPcmh3bllFYlBtU2lST2FKcTdLYUl1QVJNY2lvZmhNNWM9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.NhcRV7cnU2myJu3uez6a4I3gGS9UaFJw4zzuDSiyGMc&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:05:08Z",
-      "eTag": "\"{F257D0DA-DFB6-4F9B-8BA8-0045B89A3678},3\"",
+      "@odata.etag": "\"{F257D0DA-DFB6-4F9B-8BA8-0045B89A3678},3\"",
       "id": "01BYE5RZ622BL7FNW7TNHYXKAAIW4JUNTY",
-      "lastModifiedDateTime": "2017-08-07T16:05:08Z",
       "name": "Sales Invoice March.docx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7BF257D0DA-DFB6-4F9B-8BA8-0045B89A3678%7D&file=Sales%20Invoice%20March.docx&action=default&mobileredirect=true",
-      "cTag": "\"c:{F257D0DA-DFB6-4F9B-8BA8-0045B89A3678},1\"",
       "size": 32467,
       "createdBy": {
         "user": {
@@ -1504,13 +1090,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "hashes": {
@@ -1523,14 +1102,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=1af92144-fc73-403a-81e1-f4707d9998c3&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6ImV3TmZFeEc3U1RpeVV3cDNWSWhHcVRHc2JVUHJmNGp3d1RqRTJHL0NnRk09IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.0blCiBIq6JsYHD49lGhDpT6ZZZj3cOMnGYYTX0YqLHM&ApiVersion=2.0",
-      "createdDateTime": "2017-08-07T16:05:23Z",
-      "eTag": "\"{1AF92144-FC73-403A-81E1-F4707D9998C3},3\"",
+      "@odata.etag": "\"{1AF92144-FC73-403A-81E1-F4707D9998C3},3\"",
       "id": "01BYE5RZ2EEH4RU474HJAIDYPUOB6ZTGGD",
-      "lastModifiedDateTime": "2017-08-07T16:05:23Z",
       "name": "Sales Invoice Template.docx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B1AF92144-FC73-403A-81E1-F4707D9998C3%7D&file=Sales%20Invoice%20Template.docx&action=default&mobileredirect=true",
-      "cTag": "\"c:{1AF92144-FC73-403A-81E1-F4707D9998C3},1\"",
       "size": 33755,
       "createdBy": {
         "user": {
@@ -1546,13 +1121,6 @@
           "displayName": "Megan Bowen"
         }
       },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
-      },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "hashes": {
@@ -1565,14 +1133,10 @@
       }
     },
     {
-      "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=3ed62e59-844b-4b3e-9a62-cd17666b1411&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5MzI5OTA5MSIsImV4cCI6IjE2OTMzMDI2OTEiLCJlbmRwb2ludHVybCI6ImZtMkJBME1JZHJKcmRIOUFwWjY1cDN4M0pZNmNlWEVNcmYwMGxFU0JCTGM9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjNIeHAyY1pXdlVxTGY5TWFYMGJNTkE9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiI0MC4xMjYuNDEuOTYifQ.k5WIQcdFXp9sJTmFMO1WiVHEEsL-JJ8whGUfuRpkl0s&ApiVersion=2.0",
-      "createdDateTime": "2017-09-13T21:51:28Z",
-      "eTag": "\"{3ED62E59-844B-4B3E-9A62-CD17666B1411},1\"",
+      "@odata.etag": "\"{3ED62E59-844B-4B3E-9A62-CD17666B1411},1\"",
       "id": "01BYE5RZ2ZF3LD4S4EHZFZUYWNC5TGWFAR",
-      "lastModifiedDateTime": "2017-09-13T21:51:28Z",
       "name": "Temperatures.xlsx",
       "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B3ED62E59-844B-4B3E-9A62-CD17666B1411%7D&file=Temperatures.xlsx&action=default&mobileredirect=true",
-      "cTag": "\"c:{3ED62E59-844B-4B3E-9A62-CD17666B1411},1\"",
       "size": 17498,
       "createdBy": {
         "user": {
@@ -1587,13 +1151,6 @@
           "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
           "displayName": "Megan Bowen"
         }
-      },
-      "parentReference": {
-        "driveType": "business",
-        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
-        "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
-        "path": "/drive/root:",
-        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
       },
       "file": {
         "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",

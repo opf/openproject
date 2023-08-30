@@ -45,7 +45,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
   end
 
   it 'returns an array of StorageFile' do
-    stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children")
+    stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder")
       .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
       .to_return(status: 200, body: json, headers: {})
 
@@ -69,7 +69,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
   end
 
   it 'when the argument folder is nil, gets information from that users root folder' do
-    stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children")
+    stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder")
       .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
       .to_return(status: 200, body: json, headers: {})
 
@@ -87,7 +87,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
     let(:json) { read_json('specific_folder') }
 
     it 'uses the specific drive url' do
-      uri = "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY/children"
+      uri = "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder"
       stub_request(:get, uri)
         .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
         .to_return(status: 200, body: json, headers: {})
@@ -102,7 +102,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
     it 'returns a notfound error if the API call returns a 404' do
       skip("Seems that our error handling isn't handling errors")
 
-      stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children")
+      stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder")
         .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
         .to_return(status: 404, body: '', headers: {})
 
@@ -113,7 +113,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
     it 'retries authentication when it returns a 401' do
       skip("Seems that our error handling isn't handling errors")
 
-      stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children")
+      stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder")
         .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
         .to_return(status: 401, body: '', headers: {})
     end
