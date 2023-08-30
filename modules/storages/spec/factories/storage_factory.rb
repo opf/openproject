@@ -46,7 +46,7 @@ FactoryBot.define do
         automatically_managed { false }
       end
 
-      factory :nextcloud_storage_with_real_integration, traits: [:as_automatically_managed] do
+      factory :nextcloud_storage_with_real_integration, traits: [:as_not_automatically_managed] do
         transient do
           oauth_client_token_user { association :user }
         end
