@@ -490,10 +490,10 @@ he:
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
       grids/grid:
-        page: "Page"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
-        widgets: "Widgets"
+        page: "דף"
+        row_count: "מספר שורות"
+        column_count: "מספר עמודות"
+        widgets: "ווידג'טים"
       relation:
         delay: "זמן המתנה"
         from: "חבילת עבודה"

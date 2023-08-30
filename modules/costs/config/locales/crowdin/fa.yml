@@ -23,9 +23,9 @@ fa:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Work package"
-        overridden_costs: "Overridden costs"
-        spent: "Spent"
+        work_package: "بسته کاری"
+        overridden_costs: "هزینه‌های لغو شده"
+        spent: "صرف شده"
         spent_on: "تاریخ"
       cost_type:
         unit: "نام واحد"

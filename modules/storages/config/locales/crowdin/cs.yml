@@ -16,7 +16,7 @@ cs:
         not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
-      file_link: "File"
+      file_link: "Soubor"
       storages/storage: "Úložiště"
     attributes:
       storages/storage:
@@ -50,7 +50,7 @@ cs:
     errors:
       too_many_elements_created_at_once: "Příliš mnoho prvků vytvořených najednou. Očekáváno nanejvýš %{max} , získáno %{actual}."
   storages:
-    unknown_storage: "Unknown storage"
+    unknown_storage: "Neznámé úložiště"
     buttons:
       done_continue_setup: "Hotovo. Pokračovat v nastavení"
       done_complete_setup: "Hotovo, kompletní nastavení"
@@ -134,14 +134,14 @@ cs:
     label_no_selected_folder: "Žádná vybraná složka"
     label_storage: "Úložiště"
     label_storages: "Úložiště"
-    label_status: "Status"
-    label_files: "Files"
+    label_status: "Stav"
+    label_files: "Soubory"
     member_connection_status:
-      connected: "Connected"
+      connected: "Připojeno"
       connected_no_permissions: "User role has no storages permissions"
       not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
     no_results: "Zatím nejsou nastaveny žádné úložiště."
-    members_no_results: "No members to display."
+    members_no_results: "Žádní členové k zobrazení."
     provider_types:
       label: "Typ poskytovatele"
       nextcloud:

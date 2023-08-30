@@ -343,7 +343,7 @@ cs:
     light_high_contrast: "Light high contrast"
     dark: "Tmavý"
     dark_dimmed: "Dark dimmed"
-    dark_high_contrast: "Dark high contrast"
+    dark_high_contrast: "Tmavý vysoký kontrast"
   types:
     index:
       no_results_title_text: V současné době neexistují žádné typy.
@@ -559,7 +559,7 @@ cs:
         color: "Barva"
       user:
         admin: "Administrátor"
-        ldap_auth_source: "LDAP connection"
+        ldap_auth_source: "Připojení LDAP"
         current_password: "Aktuální přístupové heslo"
         force_password_change: "Vynutit změnu hesla při příštím přihlášení"
         language: "Jazyk"
@@ -1396,7 +1396,7 @@ cs:
   error_password_change_failed: 'Došlo k chybě při pokusu o změnu hesla.'
   error_scm_command_failed: "Vyskytla se chyba při pokusu o přístup k repozitáři: %{value}"
   error_scm_not_found: "Položka nebo revize nebyla v repozitáři nalezena."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "Typ nelze uložit"
   error_unable_delete_status: "Stav pracovního balíčku sa nedá odstranit, protože ho používá ještě alespoň jeden další pracovní balíček."
   error_unable_delete_default_status: "Není možné odstranit přednastavený stav pracovního balíčku. Před odstraněním aktuálního vyberte jiný přednastavený stav."
   error_unable_to_connect: "Nelze se připojit (%{value})"

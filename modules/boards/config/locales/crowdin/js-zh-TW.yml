@@ -2,7 +2,7 @@
 zh-TW:
   js:
     boards:
-      create_new: '建立看板'
+      create_new: '建立新看板'
       label_unnamed_board: '未命名看板'
       label_unnamed_list: '未命名列表'
       label_board_type: '看板類型'
@@ -40,17 +40,17 @@ zh-TW:
         action: '行動項看板'
         action_by_attribute: '行動項看板 (%{attribute})'
         action_text: >
-          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          一個在 %{attribute} 屬性上具有篩選列表的面板。將工作包移動到其他列表會更新其屬性。
         action_text_subprojects: >
-          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+          具有子項目自動列的面板。將工作包拖動到其他列表會相應地更新（子）項目。
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          具有子元素自動列的面板。將工作包拖動到其他列表會相應地更新父項。
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          基本看板樣式的面板，包含「待辦」、「正在進行」、「已完成」等狀態的列。
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          具有根據所分配用戶自動生成的列的面板。適合分發工作包。
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning product development.
+          基於版本屬性的自動列面板。理想用於產品開發規劃。
         action_type:
           assignee: 負責執行者
           status: 狀態
