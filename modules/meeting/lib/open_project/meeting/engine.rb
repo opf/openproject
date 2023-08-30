@@ -38,21 +38,52 @@ module OpenProject::Meeting
              author_url: 'https://www.openproject.org',
              bundled: true do
       project_module :meetings do
-        permission :view_meetings, meetings: %i[index show], meeting_agendas: %i[history show diff],
-                                   meeting_minutes: %i[history show diff]
+        permission :view_meetings,
+                   { meetings: %i[index show],
+                     meeting_agendas: %i[history show diff],
+                     meeting_minutes: %i[history show diff] },
+                   permissible_on: :project
         permission :create_meetings,
                    { meetings: %i[new create copy] },
+                   permissible_on: :project,
                    require: :member,
                    contract_actions: { meetings: %i[create] }
-        permission :edit_meetings, { meetings: %i[edit update] }, require: :member
-        permission :delete_meetings, { meetings: [:destroy] }, require: :member
-        permission :meetings_send_invite, { meetings: [:icalendar] }, require: :member
-        permission :create_meeting_agendas, { meeting_agendas: %i[update preview] }, require: :member
-        permission :close_meeting_agendas, { meeting_agendas: %i[close open] }, require: :member
-        permission :send_meeting_agendas_notification, { meeting_agendas: [:notify] }, require: :member
-        permission :send_meeting_agendas_icalendar, { meeting_agendas: [:icalendar] }, require: :member
-        permission :create_meeting_minutes, { meeting_minutes: %i[update preview] }, require: :member
-        permission :send_meeting_minutes_notification, { meeting_minutes: [:notify] }, require: :member
+        permission :edit_meetings,
+                   { meetings: %i[edit update] },
+                   permissible_on: :project,
+                   require: :member
+        permission :delete_meetings,
+                   { meetings: [:destroy] },
+                   permissible_on: :project,
+                   require: :member
+        permission :meetings_send_invite,
+                   { meetings: [:icalendar] },
+                   permissible_on: :project,
+                   require: :member
+        permission :create_meeting_agendas,
+                   { meeting_agendas: %i[update preview] },
+                   permissible_on: :project,
+                   require: :member
+        permission :close_meeting_agendas,
+                   { meeting_agendas: %i[close open] },
+                   permissible_on: :project,
+                   require: :member
+        permission :send_meeting_agendas_notification,
+                   { meeting_agendas: [:notify] },
+                   permissible_on: :project,
+                   require: :member
+        permission :send_meeting_agendas_icalendar,
+                   { meeting_agendas: [:icalendar] },
+                   permissible_on: :project,
+                   require: :member
+        permission :create_meeting_minutes,
+                   { meeting_minutes: %i[update preview] },
+                   permissible_on: :project,
+                   require: :member
+        permission :send_meeting_minutes_notification,
+                   { meeting_minutes: [:notify] },
+                   permissible_on: :project,
+                   require: :member
       end
 
       Redmine::Search.map do |search|
