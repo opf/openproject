@@ -27,7 +27,7 @@
 #++
 
 require 'open_project/plugins'
-require_relative './patches/api/work_package_representer'
+require_relative 'patches/api/work_package_representer'
 
 module OpenProject::GithubIntegration
   class Engine < ::Rails::Engine
