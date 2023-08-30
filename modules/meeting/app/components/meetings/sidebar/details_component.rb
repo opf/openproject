@@ -82,8 +82,10 @@ module Meetings
         flex.with_row(mt: 2) do
           time_partial
         end
-        flex.with_row(mt: 2) do
-          location_partial
+        if @meeting.location.present?
+          flex.with_row(mt: 2) do
+            location_partial
+          end
         end
       end
     end

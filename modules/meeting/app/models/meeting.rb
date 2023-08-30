@@ -146,6 +146,10 @@ class Meeting < ApplicationRecord
     (user || User.current).allowed_to?(:view_meetings, project)
   end
 
+  def invited_or_attended_participants
+    participants.where(invited: true).or(participants.where(attended: true))
+  end
+
   def all_changeable_participants
     changeable_participants = participants.select(&:invited).collect(&:user)
     changeable_participants = changeable_participants + participants.select(&:attended).collect(&:user)

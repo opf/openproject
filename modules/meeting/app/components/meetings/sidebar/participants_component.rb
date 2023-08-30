@@ -45,7 +45,10 @@ module Meetings
             heading_partial
           end
           flex.with_row(mt: 2) do
-            participant_list_partial
+            participant_list_partial(5)
+          end
+          flex.with_row(mt: 3) do
+            manage_button_partial
           end
         end
       end
@@ -56,7 +59,7 @@ module Meetings
     def heading_partial
       flex_layout(align_items: :center, justify_content: :space_between) do |flex|
         flex.with_column(flex: 1) do
-          render(Primer::Beta::Heading.new(tag: :h4)) { "Participants" }
+          title_partial
         end
         flex.with_column do
           dialog_wrapper_partial
@@ -64,19 +67,82 @@ module Meetings
       end
     end
 
+    def title_partial
+      flex_layout(align_items: :center) do |flex|
+        flex.with_column(mr: 2) do
+          render(Primer::Beta::Heading.new(tag: :h4)) { "Participants" }
+        end
+        flex.with_column do
+          render(Primer::Beta::Counter.new(count: @meeting.invited_or_attended_participants.count, scheme: :primary))
+        end
+      end
+    end
+
     def dialog_wrapper_partial
       render(Primer::Alpha::Dialog.new(
-               id: "edit-participants-dialog", title: "Partcipants",
+               id: "edit-participants-dialog", title: "Participants",
                size: :medium_portrait
              )) do |dialog|
-        dialog.with_show_button(icon: :pencil, 'aria-label': "Edit participants", scheme: :invisible)
+        dialog.with_show_button(icon: :gear, 'aria-label': "Manage participants", scheme: :invisible)
         render(Meetings::Sidebar::ParticipantsFormComponent.new(meeting: @meeting))
       end
     end
 
-    def participant_list_partial
+    def participant_list_partial(max_initially_shown_participants)
+      count = @meeting.invited_or_attended_participants.count
+
+      if count == 0
+        render(Primer::Beta::Text.new(color: :subtle)) { "No participants" }
+      elsif count <= max_initially_shown_participants
+        unsplit_participant_list
+      elsif count > max_initially_shown_participants
+        split_participant_list(max_initially_shown_participants)
+      end
+    end
+
+    def unsplit_participant_list
       flex_layout do |flex|
-        @meeting.participants.sort.each do |participant|
+        @meeting.invited_or_attended_participants.sort.each do |participant|
+          flex.with_row(mt: 1) do
+            participant_partial(participant)
+          end
+        end
+      end
+    end
+
+    def split_participant_list(max_initially_shown_participants)
+      flex_layout do |flex|
+        @meeting.invited_or_attended_participants.sort.take(max_initially_shown_participants).each do |participant|
+          flex.with_row(mt: 1) do
+            participant_partial(participant)
+          end
+        end
+        flex.with_row(mt: 2) do
+          more_participants_partial(max_initially_shown_participants)
+        end
+      end
+    end
+
+    def more_participants_partial(max_initially_shown_participants)
+      render Primer::Beta::Details.new do |component|
+        flex_layout do |flex|
+          flex.with_row do
+            component.with_summary(size: :small, scheme: :link) do
+              "Show/hide #{@meeting.invited_or_attended_participants.count - max_initially_shown_participants} more"
+            end
+          end
+          flex.with_row do
+            component.with_body do
+              hidden_participants_partial(max_initially_shown_participants)
+            end
+          end
+        end
+      end
+    end
+
+    def hidden_participants_partial(max_initially_shown_participants)
+      flex_layout do |flex|
+        @meeting.invited_or_attended_participants.sort[max_initially_shown_participants..].each do |participant|
           flex.with_row(mt: 1) do
             participant_partial(participant)
           end
@@ -102,6 +168,19 @@ module Meetings
             render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { "Attended" }
           end
         end
+      end
+    end
+
+    def manage_button_partial
+      render(Primer::Beta::Button.new(
+               scheme: :link,
+               color: :default,
+               underline: false,
+               font_weight: :bold,
+               data: { 'show-dialog-id': "edit-participants-dialog" }
+             )) do |button|
+        button.with_leading_visual_icon(icon: "person-add")
+        "Add participants"
       end
     end
   end

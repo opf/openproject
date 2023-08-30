@@ -93,7 +93,11 @@ module Meetings
           end
           flex.with_row do
             render(Primer::Beta::Button.new(
-                     scheme: :invisible, type: :submit
+                     scheme: :link,
+                     color: :default,
+                     underline: false,
+                     font_weight: :bold,
+                     type: :submit
                    )) do |button|
               button.with_leading_visual_icon(icon: :lock)
               "Close meeting"
@@ -145,7 +149,11 @@ module Meetings
           end
           flex.with_row do
             render(Primer::Beta::Button.new(
-                     scheme: :invisible, type: :submit
+                     scheme: :link,
+                     color: :default,
+                     underline: false,
+                     font_weight: :bold,
+                     type: :submit
                    )) do |button|
               button.with_leading_visual_icon(icon: :unlock)
               "Reopen meeting"

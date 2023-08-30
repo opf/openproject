@@ -140,7 +140,7 @@ class MeetingsController < ApplicationController
 
   def update_participants
     @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
-    @meeting.attributes = @converted_params
+    @meeting.save
 
     if @meeting.errors.any?
       update_sidebar_participants_form_component_via_turbo_stream
