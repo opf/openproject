@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Invite user modal custom fields', js: true, with_cuprite: true do
+RSpec.describe 'Invite user modal custom fields', :js, :with_cuprite do
   shared_let(:project) { create(:project) }
 
   let(:permissions) { %i[view_project manage_members] }
@@ -45,16 +45,16 @@ RSpec.describe 'Invite user modal custom fields', js: true, with_cuprite: true d
            permissions:)
   end
 
-  let!(:boolean_cf) { create(:boolean_user_custom_field, name: 'bool', is_required: true) }
-  let!(:integer_cf) { create(:integer_user_custom_field, name: 'int', is_required: true) }
-  let!(:text_cf) { create(:text_user_custom_field, name: 'Text', is_required: true) }
-  let!(:string_cf) { create(:string_user_custom_field, name: 'String', is_required: true) }
+  let!(:boolean_cf) { create(:user_custom_field, :boolean, name: 'bool', is_required: true) }
+  let!(:integer_cf) { create(:user_custom_field, :integer, name: 'int', is_required: true) }
+  let!(:text_cf) { create(:user_custom_field, :text, name: 'Text', is_required: true) }
+  let!(:string_cf) { create(:user_custom_field, :string, name: 'String', is_required: true) }
   # TODO float not supported yet
-  # let!(:float_cf) { create :float_user_custom_field, name: 'Float', is_required: true }
-  let!(:list_cf) { create(:list_user_custom_field, name: 'List', is_required: true) }
-  let!(:list_multi_cf) { create(:list_user_custom_field, name: 'Multi list', multi_value: true, is_required: true) }
+  # let!(:float_cf) { create :user_custom_field, :float, name: 'Float', is_required: true }
+  let!(:list_cf) { create(:user_custom_field, :list, name: 'List', is_required: true) }
+  let!(:list_multi_cf) { create(:user_custom_field, :list, name: 'Multi list', multi_value: true, is_required: true) }
 
-  let!(:non_req_cf) { create(:string_user_custom_field, name: 'non req', is_required: false) }
+  let!(:non_req_cf) { create(:user_custom_field, :string, name: 'non req', is_required: false) }
 
   let(:boolean_field) { FormFields::InputFormField.new boolean_cf }
   let(:integer_field) { FormFields::InputFormField.new integer_cf }
@@ -113,8 +113,8 @@ RSpec.describe 'Invite user modal custom fields', js: true, with_cuprite: true d
     text_field.set_value 'A **markdown** value'
     string_field.set_value 'String value'
 
-    list_field.select_option '1'
-    list_multi_field.select_option '1', '2'
+    list_field.select_option 'A'
+    list_multi_field.select_option 'A', 'B'
 
     modal.click_next
 
@@ -135,7 +135,7 @@ RSpec.describe 'Invite user modal custom fields', js: true, with_cuprite: true d
     expect(invited.custom_value_for(integer_cf).typed_value).to eq 1234
     expect(invited.custom_value_for(text_cf).typed_value).to eq 'A **markdown** value'
     expect(invited.custom_value_for(string_cf).typed_value).to eq 'String value'
-    expect(invited.custom_value_for(list_cf).typed_value).to eq '1'
-    expect(invited.custom_value_for(list_multi_cf).map(&:typed_value)).to eq %w[1 2]
+    expect(invited.custom_value_for(list_cf).typed_value).to eq 'A'
+    expect(invited.custom_value_for(list_multi_cf).map(&:typed_value)).to eq %w[A B]
   end
 end

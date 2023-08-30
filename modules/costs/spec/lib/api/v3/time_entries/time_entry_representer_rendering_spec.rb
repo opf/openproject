@@ -106,7 +106,7 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
 
     context 'custom value' do
       let(:custom_field) do
-        build_stubbed(:time_entry_custom_field, field_format: 'user')
+        build_stubbed(:time_entry_custom_field, :user)
       end
       let(:custom_value) do
         double('CustomValue',
@@ -255,7 +255,7 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
     end
 
     context 'custom value' do
-      let(:custom_field) { build_stubbed(:text_time_entry_custom_field) }
+      let(:custom_field) { build_stubbed(:time_entry_custom_field) }
       let(:custom_value) do
         CustomValue.new(custom_field:,
                         value: '1234',

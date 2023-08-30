@@ -45,7 +45,7 @@ RSpec.describe 'Work package index sums', js: true do
   end
   let(:type) { create(:type) }
   let!(:int_cf) do
-    create(:int_wp_custom_field).tap do |cf|
+    create(:integer_wp_custom_field) do |cf|
       project.work_package_custom_fields << cf
       type.custom_fields << cf
     end

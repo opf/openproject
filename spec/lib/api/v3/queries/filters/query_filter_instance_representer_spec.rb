@@ -205,7 +205,7 @@ RSpec.describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
     end
 
     context 'with a bool custom field filter' do
-      let(:bool_cf) { create(:bool_wp_custom_field) }
+      let(:bool_cf) { create(:boolean_wp_custom_field) }
       let(:filter) do
         Queries::WorkPackages::Filter::CustomFieldFilter.create!(name: bool_cf.column_name, operator:, values:)
       end
