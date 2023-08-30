@@ -52,6 +52,7 @@ module Overviews
           ac_map.project_module nil do |map|
             map.permission :manage_overview,
                            { 'overviews/overviews': ['show'] },
+                           permissible_on: :project,
                            require: :member
           end
         end
