@@ -3,6 +3,7 @@ import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/c
 import { ChartOptions } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
+import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 
 export interface WorkPackageEmbeddedGraphDataset {
   label:string;
@@ -36,6 +37,8 @@ export class WorkPackageEmbeddedGraphComponent {
   public chartLabels:string[] = [];
 
   public chartData:ChartDataSet[] = [];
+
+  public chartPlugins = [DataLabelsPlugin];
 
   public internalChartOptions:ChartOptions;
 
@@ -105,6 +108,7 @@ export class WorkPackageEmbeddedGraphComponent {
           display: this.datasets.length > 1,
         },
         datalabels: {
+          anchor: 'center',
           align: this.chartType === 'bar' ? 'top' : 'center',
         },
       },
