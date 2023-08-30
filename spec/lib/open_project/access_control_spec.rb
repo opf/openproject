@@ -247,7 +247,9 @@ RSpec.describe OpenProject::AccessControl do
       described_class.project_permissions
     end
 
-    it { expect(project_permissions.size).to eq(5) }
+    describe 'size' do
+      it { expect(project_permissions.size).to eq(5) }
+    end
 
     it do
       expect(project_permissions.map(&:name))
@@ -270,7 +272,9 @@ RSpec.describe OpenProject::AccessControl do
       described_class.global_permissions
     end
 
-    it { expect(global_permissions.size).to eq(3) }
+    describe 'size' do
+      it { expect(global_permissions.size).to eq(3) }
+    end
 
     it do
       expect(global_permissions.map(&:name))
