@@ -131,26 +131,37 @@ RSpec.describe Authentication::OmniauthService do
       let!(:user) { create(:user, identity_url: 'foo', login: auth_email.downcase) }
 
       shared_examples_for 'a successful remapping of foo' do
-        it 'does not call register user service and logs in the user' do
+        before do
           allow(Users::RegisterUserService).to receive(:new)
-
-          expect(OpenProject::OmniAuth::Authorization)
+          allow(OpenProject::OmniAuth::Authorization)
             .to(receive(:after_login!))
             .with(user, auth_hash, instance)
+        end
 
-          expect(call).to be_success
-          expect(call.result).to eq user
-          expect(call.result.firstname).to eq 'foo'
-          expect(call.result.lastname).to eq 'bar'
-          expect(call.result.login).to eq auth_email
-          expect(call.result.mail).to eq auth_email
+        it 'does not call register user service and logs in the user' do
+          aggregate_failures 'Service call' do
+            expect(call).to be_success
+            expect(call.result).to eq user
+            expect(call.result.firstname).to eq 'foo'
+            expect(call.result.lastname).to eq 'bar'
+            expect(call.result.login).to eq auth_email
+            expect(call.result.mail).to eq auth_email
+          end
 
           user.reload
-          expect(user.firstname).to eq 'foo'
-          expect(user.lastname).to eq 'bar'
-          expect(user.identity_url).to eq 'google:123545'
 
-          expect(Users::RegisterUserService).not_to have_received(:new)
+          aggregate_failures 'User attributes' do
+            expect(user.firstname).to eq 'foo'
+            expect(user.lastname).to eq 'bar'
+            expect(user.identity_url).to eq 'google:123545'
+          end
+
+          aggregate_failures 'Message expectations' do
+            expect(OpenProject::OmniAuth::Authorization)
+              .to(have_received(:after_login!))
+
+            expect(Users::RegisterUserService).not_to have_received(:new)
+          end
         end
       end
 
