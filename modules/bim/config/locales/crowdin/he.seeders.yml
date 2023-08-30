@@ -13,7 +13,7 @@ he:
         item_2:
           name: גבוה
         item_3:
-          name: Critical
+          name: קריטי
       statuses:
         item_0:
           name: חדש
@@ -40,9 +40,9 @@ he:
         item_3:
           name: בעיה
         item_4:
-          name: Remark
+          name: 'הערות:'
         item_5:
-          name: Request
+          name: בקשות
         item_6:
           name: Clash
       global_queries:
@@ -103,11 +103,11 @@ he:
             item_0:
               name: Project plan
             item_1:
-              name: Milestones
+              name: אבני דרך
             item_2:
-              name: Tasks
+              name: משימות
             item_3:
-              name: Team planner
+              name: מתכנן צוות
           boards:
             bcf:
               name: Simple drag'n drop workflow
@@ -167,14 +167,14 @@ he:
             item_1:
               name: Milestones
             item_2:
-              name: Tasks
+              name: משימות
             item_3:
               name: Team planner
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: ברוכים הבאים
               item_1:
                 options:
                   name: Getting started
@@ -196,13 +196,13 @@ he:
                     Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
-                  name: Members
+                  name: חברים
               item_5:
                 options:
-                  name: Work packages
+                  name: חבילות עבודה
               item_6:
                 options:
-                  name: Milestones
+                  name: אבני דרך
           work_packages:
             item_0:
               subject: Project kick off construction project
@@ -321,7 +321,7 @@ he:
                     *   Get the team together
                     *   ...
                 item_1:
-                  subject: Foundation
+                  subject: יסודות
                   description: |-
                     ## Goal
 
@@ -419,16 +419,16 @@ he:
             item_0:
               name: Project plan
             item_1:
-              name: Milestones
+              name: אבני דרך
             item_2:
-              name: Tasks
+              name: משימות
             item_3:
-              name: Team planner
+              name: מתכנן צוות
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: ברוכים הבאים
               item_1:
                 options:
                   name: Getting started
@@ -453,13 +453,13 @@ he:
                     Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
-                  name: Members
+                  name: חברים
               item_5:
                 options:
-                  name: Work packages
+                  name: חבילת עבודה
               item_6:
                 options:
-                  name: Milestones
+                  name: אבני דרך
           work_packages:
             item_0:
               subject: Project kick off creating BIM model
