@@ -39,8 +39,8 @@ module OpenProject::TeamPlanner
       end
 
       should_render_global_menu_item = Proc.new do
-          (User.current.logged? || !Setting.login_required?) &&
-          User.current.allowed_to_globally?(:view_team_planner)
+        (User.current.logged? || !Setting.login_required?) &&
+        User.current.allowed_to_globally?(:view_team_planner)
       end
 
       menu :global_menu,
