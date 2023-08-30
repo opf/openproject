@@ -100,7 +100,7 @@ If you need to synchronize a large number of groups that follow a common pattern
 ### Are nested / recursive LDAP groups supported?
 
 No, at this point in time, nested LDAP groups (i.e., group DNs being memberOf of another group entry) are not supported in OpenProject.
-However, there is a feature ticket for this in the wish list: https://community.openproject.org/projects/openproject/work_packages/34049/activity
+However, there is a feature ticket for this in the wish list: https://community.openproject.org/projects/openproject/work_packages/34049
 
 If you'd like to voice your interest in this feature, please comment it with your use-case to provide visibility.
 

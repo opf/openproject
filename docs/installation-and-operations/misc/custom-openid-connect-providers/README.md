@@ -289,7 +289,7 @@ OPENPROJECT_OPENID__CONNECT_KEYCLOAK_END__SESSION__ENDPOINT="http://<Hostname of
 
 ### Azure with Microsoft Graph API
 
-The Azure integration for OpenProject uses the previous userinfo endpoints, which for some tenants results in not being able to access the user's email attribute. [See this bug report for more information](https://community.openproject.org/wp/45832). While our UI is still being extended to accept the new endpoints, you can manually configure Azure like follows.
+The Azure integration for OpenProject uses the previous userinfo endpoints, which for some tenants results in not being able to access the user's email attribute. [See this bug report for more information](https://community.openproject.org/projects/openproject/work_packages/45832). While our UI is still being extended to accept the new endpoints, you can manually configure Azure like follows.
 
 
 
