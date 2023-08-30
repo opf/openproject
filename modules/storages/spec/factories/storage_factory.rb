@@ -32,57 +32,61 @@ FactoryBot.define do
     sequence(:name) { |n| "Storage #{n}" }
     sequence(:host) { |n| "https://host#{n}.example.com" }
     creator factory: :user
+  end
 
-    factory :nextcloud_storage, class: '::Storages::NextcloudStorage' do
-      provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
+  factory :nextcloud_storage,
+          parent: :storage,
+          class: '::Storages::NextcloudStorage' do
+    provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
 
-      trait :as_automatically_managed do
-        automatically_managed { true }
-        username { 'OpenProject' }
-        password { 'Password123' }
-      end
+    trait :as_automatically_managed do
+      automatically_managed { true }
+      username { 'OpenProject' }
+      password { 'Password123' }
+    end
 
-      trait :as_not_automatically_managed do
-        automatically_managed { false }
-      end
+    trait :as_not_automatically_managed do
+      automatically_managed { false }
+    end
+  end
 
-      factory :nextcloud_storage_with_real_integration, traits: [:as_not_automatically_managed] do
-        transient do
-          oauth_client_token_user { association :user }
-        end
+  factory :nextcloud_storage_with_real_integration,
+          parent: :nextcloud_storage,
+          traits: [:as_not_automatically_managed] do
+    transient do
+      oauth_client_token_user { association :user }
+    end
 
-        name { 'Nextcloud Local' }
-        host { 'https://nextcloud.local' }
+    name { 'Nextcloud Local' }
+    host { 'https://nextcloud.local' }
 
-        initialize_with do
-          Storages::NextcloudStorage.create_or_find_by(attributes.except(:oauth_client, :oauth_application))
-        end
+    initialize_with do
+      Storages::NextcloudStorage.create_or_find_by(attributes.except(:oauth_client, :oauth_application))
+    end
 
-        after(:create) do |storage, evaluator|
-          create(:oauth_client,
-                 client_id: ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_ID', nil),
-                 client_secret: ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_SECRET', nil),
-                 integration: storage)
+    after(:create) do |storage, evaluator|
+      create(:oauth_client,
+             client_id: ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_ID', nil),
+             client_secret: ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_SECRET', nil),
+             integration: storage)
 
-          create(:oauth_application,
-                 uid: ENV.fetch('NEXTCLOUD_LOCAL_OPENPROJECT_UID', 'MISSING_NEXTCLOUD_LOCAL_OPENPROJECT_UID'),
-                 secret: ENV.fetch('NEXTCLOUD_LOCAL_OPENPROJECT_SECRET', 'MISSING_NEXTCLOUD_LOCAL_OPENPROJECT_SECRET'),
-                 redirect_uri: ENV.fetch('NEXTCLOUD_LOCAL_OPENPROJECT_REDIRECT_URI',
-                                         "https://nextcloud.local/index.php/apps/integration_openproject/oauth-redirect"),
-                 scopes: 'api_v3',
-                 integration: storage)
+      create(:oauth_application,
+             uid: ENV.fetch('NEXTCLOUD_LOCAL_OPENPROJECT_UID', 'MISSING_NEXTCLOUD_LOCAL_OPENPROJECT_UID'),
+             secret: ENV.fetch('NEXTCLOUD_LOCAL_OPENPROJECT_SECRET', 'MISSING_NEXTCLOUD_LOCAL_OPENPROJECT_SECRET'),
+             redirect_uri: ENV.fetch('NEXTCLOUD_LOCAL_OPENPROJECT_REDIRECT_URI',
+                                     "https://nextcloud.local/index.php/apps/integration_openproject/oauth-redirect"),
+             scopes: 'api_v3',
+             integration: storage)
 
-          create(:oauth_client_token,
-                 oauth_client: storage.oauth_client,
-                 user: evaluator.oauth_client_token_user,
-                 access_token: ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN',
-                                         'MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN'),
-                 refresh_token: ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_REFRESH_TOKEN',
-                                          'MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_REFRESH_TOKEN'),
-                 token_type: 'bearer',
-                 origin_user_id: 'admin')
-        end
-      end
+      create(:oauth_client_token,
+             oauth_client: storage.oauth_client,
+             user: evaluator.oauth_client_token_user,
+             access_token: ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN',
+                                     'MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN'),
+             refresh_token: ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_REFRESH_TOKEN',
+                                      'MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_REFRESH_TOKEN'),
+             token_type: 'bearer',
+             origin_user_id: 'admin')
     end
   end
 end
