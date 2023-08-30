@@ -250,7 +250,7 @@ class MeetingsController < ApplicationController
     # instance variable.
     @converted_params = meeting_params.to_h
 
-    @converted_params[:duration] = @converted_params[:duration].to_hours
+    @converted_params[:duration] = @converted_params[:duration].to_hours if @converted_params[:duration].present?
     # Force defaults on participants
     @converted_params[:participants_attributes] ||= {}
     @converted_params[:participants_attributes].each { |p| p.reverse_merge! attended: false, invited: false }

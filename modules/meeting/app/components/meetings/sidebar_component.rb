@@ -65,7 +65,7 @@ module Meetings
     end
 
     def participants_partial
-      render(Primer::Beta::Heading.new(tag: :h4)) { "Invitees (to-do)" }
+      render(Meetings::Sidebar::ParticipantsComponent.new(meeting: @meeting))
     end
   end
 end

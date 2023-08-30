@@ -106,7 +106,7 @@ module MeetingAgendaItems
           end
         end
         flex.with_column(mr: 2) do
-          author_partial
+          render(Users::AvatarComponent.new(user: @meeting_agenda_item.author, text_system_attributes: { muted: true }))
         end
         flex.with_column do
           actions_partial if edit_enabled?
@@ -199,48 +199,6 @@ module MeetingAgendaItems
           "(#{@meeting_agenda_item.duration_in_minutes || 0} min)"
         ].join(" ")
       end
-    end
-
-    # build_principal_avatar_tag(@meeting_agenda_item.author, hide_name: true) cannot be used
-    # once the list or item gets updated by hotwire, the avatar is not rendered anymore
-    def author_partial
-      flex_layout(align_items: :center) do |flex|
-        if @meeting_agenda_item.author.local_avatar_attachment.present?
-          flex.with_column(mr: 2) do
-            avatar_partial
-          end
-        else
-          flex.with_column(mr: 2) do
-            avatar_fallback_partial
-          end
-        end
-        flex.with_column do
-          author_link_partial
-        end
-      end
-    end
-
-    def author_link_partial
-      render(Primer::Beta::Link.new(href: user_path(@meeting_agenda_item.author), underline: false,
-                                    font_size: :small, scheme: :primary, muted: true, target: "_blank")) do
-        render(Primer::Beta::Truncate.new) do |component|
-          component.with_item(max_width: 150, expandable: true) { @meeting_agenda_item.author.name }
-        end
-      end
-    end
-
-    def avatar_partial
-      render(Primer::Beta::Avatar.new(src: avatar_url(@meeting_agenda_item.author),
-                                      alt: @meeting_agenda_item.author.name, size: 16))
-    end
-
-    def avatar_fallback_partial
-      render(Primer::Beta::Octicon.new(
-               color: :subtle,
-               size: :small,
-               icon: "feed-person",
-               'aria-label': "Responsible"
-             ))
     end
 
     def actions_partial
