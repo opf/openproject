@@ -45,12 +45,20 @@ module Meetings
         when :show
           show_partial
         when :edit
-          edit_partial
+          edit_partial if edit_enabled?
         end
       end
     end
 
     private
+
+    def edit_enabled?
+      User.current.allowed_to?(:edit_meetings, nil, global: true)
+    end
+
+    def delete_enabled?
+      User.current.allowed_to?(:delete_meetings, nil, global: true)
+    end
 
     def show_partial
       flex_layout do |flex|
@@ -81,8 +89,8 @@ module Meetings
     def actions_partial
       render(Primer::Alpha::ActionMenu.new) do |menu|
         menu.with_show_button(icon: "kebab-horizontal", 'aria-label': "Meeting actions")
-        edit_action_item(menu)
-        delete_action_item(menu)
+        edit_action_item(menu) if edit_enabled?
+        delete_action_item(menu) if delete_enabled?
       end
     end
 

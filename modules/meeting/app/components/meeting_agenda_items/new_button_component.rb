@@ -46,6 +46,10 @@ module MeetingAgendaItems
       end
     end
 
+    def render?
+      User.current.allowed_to?(:create_meeting_agendas, nil, global: true)
+    end
+
     private
 
     def menu_content_partial

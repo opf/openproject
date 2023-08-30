@@ -44,7 +44,7 @@ module MeetingAgendaItems
         flex.with_row do
           first_row_partial
         end
-        flex.with_row(mt: @meeting.closed? ? 2 : 1, pl: 4) do
+        flex.with_row(mt: edit_enabled? ? 1 : 2, pl: 4) do
           second_row_partial
         end
       end
@@ -53,7 +53,7 @@ module MeetingAgendaItems
     private
 
     def drag_and_drop_enabled?
-      @meeting.open?
+      @meeting.open? && User.current.allowed_to?(:create_meeting_agendas, nil, global: true)
     end
 
     def show_time_slot?
@@ -61,7 +61,7 @@ module MeetingAgendaItems
     end
 
     def edit_enabled?
-      @meeting.open?
+      @meeting.open? && User.current.allowed_to?(:create_meeting_agendas, nil, global: true)
     end
 
     def first_row_partial
@@ -88,7 +88,7 @@ module MeetingAgendaItems
             drag_handler_partial
           end
         end
-        flex.with_column(flex: 1, mt: 2, pl: @meeting.closed? ? 3 : 0) do
+        flex.with_column(flex: 1, mt: 2, pl: drag_and_drop_enabled? ? 0 : 3) do
           if @meeting_agenda_item.work_package.present?
             work_package_title_partial
           else
@@ -99,7 +99,7 @@ module MeetingAgendaItems
     end
 
     def right_column_partial
-      flex_layout(align_items: :center, mt: @meeting.closed? ? 2 : 1) do |flex|
+      flex_layout(align_items: :center, mt: edit_enabled? ? 1 : 2) do |flex|
         if show_time_slot?
           flex.with_column(pr: 2) do
             time_slot_partial

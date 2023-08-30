@@ -57,6 +57,10 @@ module Meetings
       end
     end
 
+    def render?
+      User.current.allowed_to?(:edit_meetings, nil, global: true)
+    end
+
     private
 
     def form_content_partial(form)

@@ -51,6 +51,10 @@ module Meetings
 
     private
 
+    def edit_enabled?
+      User.current.allowed_to?(:close_meeting_agendas, nil, global: true)
+    end
+
     def open_state_partial
       flex_layout do |flex|
         flex.with_row do
@@ -59,8 +63,10 @@ module Meetings
         flex.with_row(mt: 3) do
           open_description_partial
         end
-        flex.with_row(mt: 2) do
-          open_actions_partial
+        if edit_enabled?
+          flex.with_row(mt: 2) do
+            open_actions_partial
+          end
         end
       end
     end
@@ -115,8 +121,10 @@ module Meetings
         flex.with_row(mt: 3) do
           closed_description_partial
         end
-        flex.with_row(mt: 2) do
-          closed_actions_partial
+        if edit_enabled?
+          flex.with_row(mt: 2) do
+            closed_actions_partial
+          end
         end
       end
     end

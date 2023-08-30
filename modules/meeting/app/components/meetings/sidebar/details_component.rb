@@ -53,13 +53,19 @@ module Meetings
 
     private
 
+    def edit_enabled?
+      User.current.allowed_to?(:edit_meetings, nil, global: true)
+    end
+
     def heading_partial
       flex_layout(align_items: :center, justify_content: :space_between) do |flex|
         flex.with_column(flex: 1) do
           render(Primer::Beta::Heading.new(tag: :h4)) { "Meeting details" }
         end
-        flex.with_column do
-          dialog_wrapper_partial
+        if edit_enabled?
+          flex.with_column do
+            dialog_wrapper_partial
+          end
         end
       end
     end

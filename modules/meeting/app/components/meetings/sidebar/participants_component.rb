@@ -47,8 +47,10 @@ module Meetings
           flex.with_row(mt: 2) do
             participant_list_partial(5)
           end
-          flex.with_row(mt: 3) do
-            manage_button_partial
+          if edit_enabled?
+            flex.with_row(mt: 3) do
+              manage_button_partial
+            end
           end
         end
       end
@@ -56,13 +58,19 @@ module Meetings
 
     private
 
+    def edit_enabled?
+      User.current.allowed_to?(:edit_meetings, nil, global: true)
+    end
+
     def heading_partial
       flex_layout(align_items: :center, justify_content: :space_between) do |flex|
         flex.with_column(flex: 1) do
           title_partial
         end
-        flex.with_column do
-          dialog_wrapper_partial
+        if edit_enabled?
+          flex.with_column do
+            dialog_wrapper_partial
+          end
         end
       end
     end

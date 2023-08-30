@@ -55,6 +55,10 @@ module MeetingAgendaItems
       end
     end
 
+    def render?
+      User.current.allowed_to?(:create_meeting_agendas, nil, global: true)
+    end
+
     private
 
     def wrapper_data_attributes

@@ -44,12 +44,15 @@ module OpenProject::Meeting
                    { meetings: %i[new create copy] },
                    require: :member,
                    contract_actions: { meetings: %i[create] }
-        permission :edit_meetings, { meetings: %i[edit cancel_edit update update_title update_details update_participants change_state] },
+        permission :edit_meetings, { meetings: %i[edit cancel_edit update update_title update_details update_participants] },
                    require: :member
         permission :delete_meetings, { meetings: [:destroy] }, require: :member
         permission :meetings_send_invite, { meetings: [:icalendar] }, require: :member
-        permission :create_meeting_agendas, { meeting_agendas: %i[update preview] }, require: :member
-        permission :close_meeting_agendas, { meeting_agendas: %i[close open] }, require: :member
+        permission :create_meeting_agendas, {
+          meeting_agendas: %i[update preview],
+          meeting_agenda_items: %i[new cancel_new create edit cancel_edit update destroy drop move]
+        }, require: :member
+        permission :close_meeting_agendas, { meeting_agendas: %i[close open], meetings: %i[change_state] }, require: :member
         permission :send_meeting_agendas_notification, { meeting_agendas: [:notify] }, require: :member
         permission :send_meeting_agendas_icalendar, { meeting_agendas: [:icalendar] }, require: :member
         permission :create_meeting_minutes, { meeting_minutes: %i[update preview] }, require: :member

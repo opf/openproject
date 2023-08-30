@@ -30,9 +30,11 @@ class MeetingAgendaItemsController < ApplicationController
   include OpTurbo::ComponentStream
   include AgendaComponentStreams
 
+  before_action :find_optional_project
   before_action :set_meeting
   before_action :set_meeting_agenda_item,
                 except: %i[index new cancel_new create author_autocomplete_index]
+  before_action :authorize_global
 
   def new
     agenda_item_type = params[:type]&.to_sym
