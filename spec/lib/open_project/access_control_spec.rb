@@ -42,6 +42,12 @@ RSpec.describe OpenProject::AccessControl do
       map.permission :no_module_project_permission,
                      { dont: :care },
                      permissible_on: :project
+      map.permission :no_module_work_package_permission,
+                     { dont: :care },
+                     permissible_on: :work_package
+      map.permission :no_module_mixed_permissible_on_permission,
+                     { dont: :care },
+                     permissible_on: %i[project work_package]
 
       map.project_module :global_module do |mod|
         mod.permission :global_module_global_permission,
@@ -236,6 +242,28 @@ RSpec.describe OpenProject::AccessControl do
     end
   end
 
+  describe '.work_package_permissions' do
+    include_context 'with blank access control state'
+
+    before do
+      setup_permissions
+    end
+
+    subject(:work_package_permissions) do
+      described_class.work_package_permissions
+    end
+
+    describe 'size' do
+      it { expect(work_package_permissions.size).to eq(2) }
+    end
+
+    it do
+      expect(work_package_permissions.map(&:name))
+        .to contain_exactly(:no_module_work_package_permission,
+                            :no_module_mixed_permissible_on_permission)
+    end
+  end
+
   describe '.project_permissions' do
     include_context 'with blank access control state'
 
@@ -248,7 +276,7 @@ RSpec.describe OpenProject::AccessControl do
     end
 
     describe 'size' do
-      it { expect(project_permissions.size).to eq(5) }
+      it { expect(project_permissions.size).to eq(6) }
     end
 
     it do
@@ -257,7 +285,8 @@ RSpec.describe OpenProject::AccessControl do
                             :no_module_project_permission,
                             :project_module_project_permission_with_contract_actions,
                             :mixed_module_project_permission_granted_to_admin,
-                            :dependent_module_project_permission_not_granted_to_admin)
+                            :dependent_module_project_permission_not_granted_to_admin,
+                            :no_module_mixed_permissible_on_permission)
     end
   end
 

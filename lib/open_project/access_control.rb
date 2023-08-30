@@ -96,6 +96,10 @@ module OpenProject
         @loggedin_only_permissions ||= @mapped_permissions.select(&:require_loggedin?)
       end
 
+      def work_package_permissions
+        @work_package_permissions ||= @mapped_permissions.select(&:work_package?)
+      end
+
       def project_permissions
         @project_permissions ||= @mapped_permissions.select(&:project?)
       end
@@ -173,6 +177,7 @@ module OpenProject
         @members_only_permissions = nil
         @project_modules = nil
         @public_permissions = nil
+        @work_package_permissions = nil
         @project_permissions = nil
         @global_permissions = nil
         @public_permissions = nil
