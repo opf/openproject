@@ -29,7 +29,6 @@
 require 'vcr'
 VCR.configure do |config|
   config.cassette_library_dir = 'spec/support/fixtures/vcr_cassettes'
-  config.hook_into :webmock
   # https://benoittgt.github.io/vcr/#/test_frameworks/rspec_metadata
   config.configure_rspec_metadata!
   config.before_record do |i|
@@ -42,13 +41,21 @@ RSpec.configure do |config|
     # As we're using VCR to record and test remote HTTP requests,
     # we require specs to selectively enable recording of HTTP interations.
     # Otherwise, VCR would attempt to intercept all HTTP requests by default.
+    VCR.configuration.clear_hooks
     VCR.turn_off!
   end
 
   config.around(:example, :vcr) do |example|
+    VCR.configure do |c|
+      # Only enable VCR's webmock integration for tests tagged with :vcr otherwise interferes with WebMock
+      c.hook_into :webmock
+    end
+
     VCR.turn_on!
     example.run
   ensure
+    # Clear all VCR hooks to prevent VCR from interfering with other tests
+    VCR.configuration.clear_hooks
     VCR.turn_off!
   end
 end
