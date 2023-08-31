@@ -65,7 +65,6 @@ class Storages::Storage < ApplicationRecord
     PROVIDER_TYPE_ONE_DRIVE = 'Storages::OneDriveStorage'.freeze
   ].freeze
 
-  # Uniqueness - no two storages should  have the same host.
   validates_uniqueness_of :host, allow_nil: true
   validates_uniqueness_of :name
 
