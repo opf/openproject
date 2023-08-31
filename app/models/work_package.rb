@@ -75,9 +75,16 @@ class WorkPackage < ApplicationRecord
   }
 
   scope :visible, ->(user = User.current) {
-    where(project_id: Authorization.projects(:view_work_packages, user)).or(
-      where(id: Authorization.work_packages(:view_work_packages, user))
-    )
+    visible_by_project_membership = WorkPackage.where(project_id: Authorization.projects(:view_work_packages, user))
+    visible_by_work_package_membership = Authorization.work_packages(:view_work_packages, user)
+
+    from(<<~SQL.squish)
+      (
+        (#{visible_by_project_membership.to_sql})
+        UNION
+        (#{visible_by_work_package_membership.to_sql})
+      ) AS work_packages
+    SQL
   }
 
   scope :in_status, ->(*args) do

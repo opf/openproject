@@ -77,31 +77,31 @@ class Authorization::WorkPackageQuery < Authorization::AbstractQuery
   end
 
   def self.projects_table
-    Project.arel_table.alias("wp_projects")
+    Project.arel_table
   end
 
   def self.enabled_modules_table
-    EnabledModule.arel_table.alias("wp_enabled_modules")
+    EnabledModule.arel_table
   end
 
   def self.member_roles_table
-    MemberRole.arel_table.alias("wp_member_roles")
+    MemberRole.arel_table
   end
 
   def self.members_table
-    Member.arel_table.alias("wp_members")
+    Member.arel_table
   end
 
   def self.role_permissions_table
-    RolePermission.arel_table.alias("wp_role_permissions")
+    RolePermission.arel_table
   end
 
   def self.permission_roles_table
-    Role.arel_table.alias('wp_permission_roles')
+    Role.arel_table.alias('permission_roles')
   end
 
   def self.assigned_roles_table
-    Role.arel_table.alias('wp_assigned_roles')
+    Role.arel_table.alias('assigned_roles')
   end
 
   def self.role_has_permission_and_is_assigned(user, action)
@@ -153,88 +153,68 @@ class Authorization::WorkPackageQuery < Authorization::AbstractQuery
     user.admin? && OpenProject::AccessControl.grant_to_admin?(action)
   end
 
-  transformations.register :all,
-                           :members_join do |statement, user, action|
+  transformations.register :all, :members_join do |statement, user, action|
     if granted_to_admin?(user, action)
       statement
     else
-      statement
-        .outer_join(members_table)
-        .on(entities_members_join(user))
+      statement.outer_join(members_table).on(entities_members_join(user))
     end
   end
 
-  transformations.register :all,
-                           :projects_join,
-                           after: [:members_join] do |statement, user, action|
+  transformations.register :all, :projects_join, after: [:members_join] do |statement, user, action|
     if granted_to_admin?(user, action)
       statement
+        .join(projects_table)
+        .on(work_packages_table[:project_id].eq(projects_table[:id]))
     else
       statement
         .join(projects_table)
         .on(projects_table[:id].eq(members_table[:project_id]).and(project_active_condition))
-
     end
   end
 
-  transformations.register :all,
-                           :enabled_modules_join,
-                           after: [:members_join] do |statement, _, action|
-    if action_project_modules(action).empty?
+  transformations.register :all, :enabled_modules_join, after: [:projects_join] do |statement, user, action|
+    if granted_to_admin?(user, action) || action_project_modules(action).empty?
       statement
     else
-      statement.join(enabled_modules_table)
-               .on(enabled_modules_join(action))
+      statement.join(enabled_modules_table).on(enabled_modules_join(action))
     end
   end
 
-  transformations.register :all,
-                           :role_permissions_join,
-                           after: [:enabled_modules_join] do |statement, user, action|
+  transformations.register :all, :role_permissions_join, after: [:enabled_modules_join] do |statement, user, action|
     if action_public?(action) || granted_to_admin?(user, action)
       statement
     else
-      statement.join(role_permissions_table)
-               .on(roles_having_permissions(action))
+      statement.join(role_permissions_table).on(roles_having_permissions(action))
     end
   end
 
-  transformations.register :all,
-                           :members_member_roles_join,
-                           after: [:members_join] do |statement, user, action|
+  transformations.register :all, :members_member_roles_join, after: [:members_join] do |statement, user, action|
     if granted_to_admin?(user, action)
       statement
     else
-      statement.outer_join(member_roles_table)
-               .on(members_member_roles_join)
+      statement.outer_join(member_roles_table).on(members_member_roles_join)
     end
   end
 
-  transformations.register :all,
-                           :permission_roles_join,
-                           after: [:role_permissions_join] do |statement, user, action|
+  transformations.register :all, :permission_roles_join, after: [:role_permissions_join] do |statement, user, action|
     if action_public?(action) || granted_to_admin?(user, action)
       statement
     else
-      statement.join(permission_roles_table)
-               .on(role_permissions_join)
+      statement.join(permission_roles_table).on(role_permissions_join)
     end
   end
 
-  transformations.register :all,
-                           :assigned_roles_join,
-                           after: %i[permission_roles_join
-                                     members_member_roles_join] do |statement, user, action|
+  transformations.register :all, :assigned_roles_join,
+                           after: %i[projects_join permission_roles_join members_member_roles_join] do |statement, user, action|
     if granted_to_admin?(user, action)
       statement
     else
-      statement.outer_join(assigned_roles_table)
-               .on(role_has_permission_and_is_assigned(user, action))
+      statement.outer_join(assigned_roles_table).on(role_has_permission_and_is_assigned(user, action))
     end
   end
 
-  transformations.register :all,
-                           :assigned_role_exists_condition do |statement, user, action|
+  transformations.register :all, :assigned_role_exists_condition do |statement, user, action|
     if granted_to_admin?(user, action)
       statement.where(project_active_condition)
     else
