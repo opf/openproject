@@ -198,7 +198,7 @@ module MeetingAgendaItems
                scheme: :secondary,
                tag: :a,
                href: @cancel_path,
-               data: { confirm: 'Are you sure?', 'turbo-stream': true }
+               data: { 'turbo-stream': true }
              )) do |_c|
         "Cancel"
       end
