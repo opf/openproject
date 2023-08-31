@@ -78,9 +78,7 @@ RSpec.describe BasicData::WorkPackageRoleSeeder do
     end
   end
 
-  context 'with permissions: :all_assignable_permissions',
-          pending: 'Defining what `all_assignable_permissions` are for ' \
-                   'the `WorkPackageRole` type is still a TODO' do
+  context 'with permissions: :all_assignable_permissions' do
     let(:data_hash) do
       YAML.load <<~SEEDING_DATA_YAML
         work_package_roles:
@@ -91,11 +89,6 @@ RSpec.describe BasicData::WorkPackageRoleSeeder do
     end
 
     it 'gives all assignable permissions to the role' do
-      expect(Roles::CreateContract.new(WorkPackageRole.new, nil)
-                                  .assignable_permissions.map { _1.name.to_sym })
-        .not_to match_array(Roles::CreateContract.new(Role.new, nil)
-                                       .assignable_permissions.map { _1.name.to_sym })
-
       expect(Role.find_by(name: 'Edit work package').permissions)
         .to match_array(Roles::CreateContract.new(WorkPackageRole.new, nil)
                                              .assignable_permissions.map { _1.name.to_sym })

@@ -73,25 +73,31 @@ RSpec.shared_examples_for 'roles contract' do
   describe '#assignable_permissions' do
     let(:all_permissions) { %i[perm1 perm2 perm3] }
 
-    context 'for a standard role' do
-      let(:public_permissions) { [:perm1] }
-      let(:global_permissions) { [:perm3] }
+    context 'for a project role' do
+      before do
+        allow(OpenProject::AccessControl)
+          .to receive(:project_permissions)
+          .and_return(all_permissions)
+      end
+
+      it 'is all project permissions' do
+        expect(contract.assignable_permissions)
+          .to eql all_permissions
+      end
+    end
+
+    context 'for a work package role' do
+      let(:role) { work_package_role }
 
       before do
         allow(OpenProject::AccessControl)
-          .to receive(:permissions)
+          .to receive(:work_package_permissions)
           .and_return(all_permissions)
-        allow(OpenProject::AccessControl)
-          .to receive(:global_permissions)
-          .and_return(global_permissions)
-        allow(OpenProject::AccessControl)
-          .to receive(:public_permissions)
-          .and_return(public_permissions)
       end
 
-      it 'is all non public, non global permissions' do
+      it 'is all work package permissions' do
         expect(contract.assignable_permissions)
-          .to eql [:perm2]
+          .to eql all_permissions
       end
     end
 
