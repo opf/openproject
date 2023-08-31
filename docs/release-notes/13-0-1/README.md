@@ -16,7 +16,6 @@ The release contains several bug fixes and we recommend updating to the newest v
 <!--more-->
 #### Bug fixes and changes
 
-- Changed: Forbid user to enable misconfigured storages for a project. \[[#49218](https://community.openproject.com/wp/49218)\]
 - Fixed: Copy to clipboard icon wrong \[[#49721](https://community.openproject.com/wp/49721)\]
 - Fixed: Shared calendar return 404 when using a parent filter \[[#49726](https://community.openproject.com/wp/49726)\]
 - Fixed: Identity providers sign in icons overlap with the text or not enough spacing between them \[[#49749](https://community.openproject.com/wp/49749)\]
