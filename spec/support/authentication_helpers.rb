@@ -39,7 +39,7 @@ module AuthenticationHelpers
       # we must set the user_id in rack.session accordingly
       # Otherwise e.g. calls to Warden will behave unexpectantly
       # as they will login AnonymousUser
-      if using_cuprite? && js_enabled?
+      if using_cuprite?
         page.driver.set_cookie(
           OpenProject::Configuration['session_cookie_name'],
           session_value_for(user).to_s
@@ -75,12 +75,8 @@ module AuthenticationHelpers
 
   private
 
-  def js_enabled?
-    RSpec.current_example.metadata[:js]
-  end
-
   def using_cuprite?
-    RSpec.current_example.metadata[:with_cuprite]
+    Capybara.default_driver == :better_cuprite_en
   end
 
   def session_value_for(user)

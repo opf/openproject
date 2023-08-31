@@ -85,27 +85,26 @@ end
 
 register_better_cuprite 'en'
 
-MODULES_WITH_CUPRITE_ENABLED = %w[
-  avatars
-  backlogs
-  job_status
-  meeting
-].freeze
+def reset_drivers_to_cuprite_if_changed
+  unless Capybara.javascript_driver == :better_cuprite_en
+    Capybara.javascript_driver = :better_cuprite_en
+  end
+end
 
 RSpec.configure do |config|
-  config.define_derived_metadata(file_path: %r{/(#{MODULES_WITH_CUPRITE_ENABLED.join('|')})/spec/features/}) do |meta|
-    if meta[:js] && !meta.key?(:with_cuprite)
-      meta[:with_cuprite] = true
-    end
-  end
+  config.around(:each, type: :feature) do |example|
+    disable_cuprite = example.metadata.key?(:with_cuprite) && example.metadata[:with_cuprite] == false
+    other_driver_registered = example.metadata.key?(:driver)
 
-  config.around(:each, type: :feature, with_cuprite: true) do |example|
-    original_driver = Capybara.javascript_driver
+    if disable_cuprite || other_driver_registered
+      driver = example.metadata[:driver] || :chrome_en
+      Capybara.javascript_driver = driver
+    end
+
     begin
-      Capybara.javascript_driver = :better_cuprite_en
       example.run
     ensure
-      Capybara.javascript_driver = original_driver
+      reset_drivers_to_cuprite_if_changed
     end
   end
 end
