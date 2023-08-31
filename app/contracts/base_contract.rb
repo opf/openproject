@@ -142,19 +142,13 @@ class BaseContract < Disposable::Twin
     writable_attributes.include?(attribute.to_s)
   end
 
-  def valid?(*_args)
-    super()
-
-    errors.empty?
-  end
-
   # Provide same interface with valid? and validate
   # as with AM::Validations
   #
   # Do not use alias_method as this will not work when
   # valid? is overridden in subclasses
-  def validate(*args)
-    valid?(*args)
+  def validate(*)
+    valid?(*)
   end
 
   # Methods required to get ActiveModel error messages working
