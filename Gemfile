@@ -255,7 +255,7 @@ group :test do
   gem 'webmock', '~> 3.12', require: false
 
   # Mock selenium requests through proxy (for feature tests)
-  gem 'puffing-billy', '~> 3.2.0'
+  gem 'puffing-billy', '~> 4.0.0'
   gem 'table_print', '~> 1.5.6'
 
   gem 'equivalent-xml', '~> 0.6'
@@ -316,7 +316,7 @@ end
 gem 'bootsnap', '~> 1.16.0', require: false
 
 # API gems
-gem 'grape', '~> 1.7.0'
+gem 'grape', '~> 1.8.0'
 gem 'grape_logging', '~> 1.8.4'
 gem 'roar', '~> 1.2.0'
 
