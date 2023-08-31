@@ -97,6 +97,22 @@ RSpec.describe "Workday notification settings", js: true, with_cuprite: true do
         expect(pref.reload.workdays).to eq [1, 2, 5, 6]
       end
     end
+
+    context 'with Chinese Simplified locale and start of week setting defined',
+            with_settings: {
+              start_of_week: 1,
+              first_week_of_year: 1
+            } do
+      let(:locale) { 'zh-CN' }
+
+      it 'displays week days in Chinese (bug #49848)' do
+        settings_page.visit!
+
+        I18n.t('date.day_names', locale:).map(&:strip).each do |day_name|
+          expect(page).to have_field(day_name)
+        end
+      end
+    end
   end
 
   context 'with the my page' do
