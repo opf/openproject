@@ -35,7 +35,9 @@ require 'spec_helper'
 require 'dry/container/stub'
 
 # Record Storages Cassettes in module
-VCR.configuration.cassette_library_dir = 'modules/storages/spec/support/fixtures/vcr_cassettes'
+VCR.configure do |config|
+  config.cassette_library_dir = 'modules/storages/spec/support/fixtures/vcr_cassettes'
+end
 
 # Loads files from relative support/ directory
 Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }
