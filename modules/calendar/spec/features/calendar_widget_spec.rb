@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../../../overviews/spec/support/pages/overview'
 
-RSpec.describe 'Calendar Widget', :js, :with_cuprite do
+RSpec.describe 'Calendar Widget', :js do
   let(:project) do
     create(:project, enabled_module_names: %w[work_package_tracking calendar_view])
   end

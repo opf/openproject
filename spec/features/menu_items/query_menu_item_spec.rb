@@ -32,8 +32,7 @@ require 'features/work_packages/shared_contexts'
 require 'features/work_packages/work_packages_page'
 
 RSpec.describe 'Query menu items',
-               js: true,
-               with_cuprite: true do
+               js: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }

@@ -2,8 +2,7 @@ require "spec_helper"
 require "support/pages/work_packages/abstract_work_package"
 
 RSpec.describe "multi select custom values",
-               js: true,
-               with_cuprite: true do
+               js: true do
   shared_let(:admin) { create(:admin) }
   let(:current_user) { admin }
   let(:wp_page) { Pages::FullWorkPackage.new work_package }

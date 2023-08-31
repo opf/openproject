@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Projects', 'editing settings',
-               js: true,
-               with_cuprite: true do
+               js: true do
   let(:name_field) { FormFields::InputFormField.new :name }
   let(:parent_field) { FormFields::SelectFormField.new :parent }
   let(:permissions) { %i(edit_project) }

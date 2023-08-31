@@ -31,7 +31,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe 'Project menu', js: true, with_cuprite: true do
+RSpec.describe 'Project menu', js: true do
   let(:storage) { create(:storage, name: "Storage 1") }
   let(:another_storage) { create(:storage, name: "Storage 2") }
   let(:unlinked_storage) { create(:storage, name: "Storage 3") }

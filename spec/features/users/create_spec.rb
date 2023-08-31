@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'create users', with_cuprite: true do
+RSpec.describe 'create users' do
   shared_let(:admin) { create(:admin) }
   let(:current_user) { admin }
   let!(:auth_source) { create(:ldap_auth_source) }

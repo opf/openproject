@@ -31,7 +31,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'News global menu item spec', :js, :with_cuprite do
+RSpec.describe 'News global menu item spec', :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:user_without_permissions) { create(:user) }
 

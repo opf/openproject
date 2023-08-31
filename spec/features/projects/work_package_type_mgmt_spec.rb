@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Projects', 'work package type mgmt',
-               js: true,
-               with_cuprite: true do
+               js: true do
   current_user { create(:user, member_in_project: project, member_with_permissions: %i[edit_project manage_types]) }
 
   let(:phase_type)     { create(:type, name: 'Phase', is_default: true) }

@@ -550,7 +550,7 @@ RSpec.describe 'filter work packages', js: true do
       wp_table.ensure_work_package_not_listed! wp_updated_3d_ago, wp_updated_5d_ago
     end
 
-    it 'filters between date by updated_at', :with_cuprite do
+    it 'filters between date by updated_at' do
       wp_table.visit!
       loading_indicator_saveguard
       wp_table.expect_work_package_listed wp_updated_today, wp_updated_3d_ago, wp_updated_5d_ago

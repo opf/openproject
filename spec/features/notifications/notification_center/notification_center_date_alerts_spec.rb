@@ -4,7 +4,6 @@ require 'features/page_objects/notification'
 # rubocop:disable RSpec/ScatteredLet
 RSpec.describe "Notification center date alerts",
                js: true,
-               with_cuprite: true,
                with_settings: { journal_aggregation_time_minutes: 0 } do
   include ActiveSupport::Testing::TimeHelpers
 

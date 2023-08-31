@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Global role: Global Create project',
-               js: true,
-               with_cuprite: true do
+               js: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
 

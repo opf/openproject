@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Wiki Activity', :js, :with_cuprite do
+RSpec.describe 'Wiki Activity', :js do
   let(:user) do
     create(:user,
            member_in_project: project,

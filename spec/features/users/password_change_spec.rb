@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'random password generation', js: true, with_cuprite: true do
+RSpec.describe 'random password generation', js: true do
   shared_let(:admin) { create(:admin) }
 
   let(:old_password) { 'old_Password!123' }

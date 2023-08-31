@@ -30,7 +30,6 @@ require 'spec_helper'
 
 RSpec.describe 'TimeEntry activity',
                :js,
-               :with_cuprite,
                with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:user) do
     create(:user,

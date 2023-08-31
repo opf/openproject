@@ -30,7 +30,6 @@ require 'spec_helper'
 require_relative 'support/board_index_page'
 
 RSpec.describe 'Work Package Project Boards Index Page',
-               :with_cuprite,
                with_ee: %i[board_view] do
   # The identifier is important to test https://community.openproject.com/wp/29754
   shared_let(:project) { create(:project, identifier: 'boards', enabled_module_names: %i[work_package_tracking board_view]) }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'index users', js: true, with_cuprite: true do
+RSpec.describe 'index users', js: true do
   shared_let(:current_user) { create(:admin, firstname: 'admin', lastname: 'admin', created_at: 1.hour.ago) }
   let(:index_page) { Pages::Admin::Users::Index.new }
 

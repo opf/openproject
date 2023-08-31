@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative 'support/board_index_page'
 require_relative 'support/board_page'
 
-RSpec.describe 'Boards enterprise spec', :js, :with_cuprite do
+RSpec.describe 'Boards enterprise spec', :js do
   shared_let(:admin) { create(:admin) }
 
   shared_let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }

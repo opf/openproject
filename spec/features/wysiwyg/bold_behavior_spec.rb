@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Wysiwyg bold behavior',
-               js: true,
-               with_cuprite: true do
+               js: true do
   current_user { create(:admin) }
 
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }

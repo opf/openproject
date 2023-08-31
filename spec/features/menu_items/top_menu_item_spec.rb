@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Top menu items', :js, :with_cuprite do
+RSpec.describe 'Top menu items', :js do
   let(:user) { create(:user) }
   let(:open_menu) { true }
 

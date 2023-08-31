@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../support/pages/calendar'
 
-RSpec.describe 'Calendars', 'index', :with_cuprite do
+RSpec.describe 'Calendars', 'index' do
   # The order the Projects are created in is important. By naming `project` alphanumerically
   # after `other_project`, we can ensure that subsequent specs that assert sorting is
   # correct for the right reasons (sorting by Project name and not id)

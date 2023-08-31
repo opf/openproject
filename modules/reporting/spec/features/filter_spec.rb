@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Cost report calculations', :js, :with_cuprite do
+RSpec.describe 'Cost report calculations', :js do
   let(:project) { create(:project) }
   let(:user) { create(:admin) }
 

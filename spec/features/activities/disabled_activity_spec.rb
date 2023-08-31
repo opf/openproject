@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Disabled activity', :js, :with_cuprite do
+RSpec.describe 'Disabled activity', :js do
   shared_let(:admin) { create(:admin) }
 
   let(:project1) do

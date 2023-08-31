@@ -30,7 +30,6 @@ require 'spec_helper'
 
 RSpec.describe 'Custom actions',
                js: true,
-               with_cuprite: true,
                with_ee: %i[custom_actions] do
   shared_let(:admin) { create(:admin) }
 

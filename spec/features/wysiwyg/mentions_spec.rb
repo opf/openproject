@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Wysiwyg work package mentions',
-               :js,
-               :with_cuprite do
+               :js do
   let!(:user) { create(:admin, firstname: 'MeMyself', lastname: 'AndI', member_in_project: project) }
   let!(:user2) { create(:user, firstname: 'Foo', lastname: 'Bar', member_in_project: project) }
   let!(:group) { create(:group, firstname: 'Foogroup', lastname: 'Foogroup') }

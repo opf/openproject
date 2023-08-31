@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Test mail notification', js: true, with_cuprite: true do
+RSpec.describe 'Test mail notification', js: true do
   shared_let(:admin) { create(:admin) }
 
   before do

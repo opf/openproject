@@ -30,7 +30,6 @@ require 'spec_helper'
 
 RSpec.describe 'baseline rendering',
                :js,
-               :with_cuprite,
                with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:list_wp_custom_field) { create(:list_wp_custom_field) }
   shared_let(:multi_list_wp_custom_field) { create(:list_wp_custom_field, multi_value: true) }

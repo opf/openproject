@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Quick-add menu', js: true, with_cuprite: true do
+RSpec.describe 'Quick-add menu', js: true do
   let(:quick_add) { Components::QuickAddMenu.new }
 
   context 'as a logged in user with add_project permission' do

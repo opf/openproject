@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe 'OAuth applications management',
-               js: true,
-               with_cuprite: true do
+               js: true do
   let(:admin) { create(:admin) }
 
   before do

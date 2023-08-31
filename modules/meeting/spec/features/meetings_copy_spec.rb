@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Meetings copy', :js, :with_cuprite do
+RSpec.describe 'Meetings copy', :js do
   shared_let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   shared_let(:permissions) { %i[view_meetings create_meetings] }
   shared_let(:user) do

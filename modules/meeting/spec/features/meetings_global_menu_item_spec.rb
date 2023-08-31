@@ -32,8 +32,7 @@
 require 'spec_helper'
 require_relative '../support/pages/meetings/index'
 
-RSpec.describe 'Meetings global menu item',
-               :with_cuprite do
+RSpec.describe 'Meetings global menu item' do
   shared_let(:user_without_permissions) { create(:user) }
   shared_let(:admin) { create(:admin) }
   shared_let(:meetings_label) { I18n.t(:label_meeting_plural) }

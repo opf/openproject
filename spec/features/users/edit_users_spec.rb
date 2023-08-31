@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'edit users', js: true, with_cuprite: true do
+RSpec.describe 'edit users', js: true do
   shared_let(:admin) { create(:admin) }
   let(:current_user) { admin }
   let(:user) { create(:user, mail: 'foo@example.com') }

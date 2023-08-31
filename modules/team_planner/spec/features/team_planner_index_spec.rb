@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative 'shared_context'
 
-RSpec.describe 'Team planner index', :js, :with_cuprite, with_ee: %i[team_planner_view] do
+RSpec.describe 'Team planner index', :js, with_ee: %i[team_planner_view] do
   shared_let(:project) do
     create(:project)
   end

@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Global role: Unchanged Member Roles',
-               js: true,
-               with_cuprite: true do
+               js: true do
   let(:admin) { create(:admin) }
   let(:project) { create(:project) }
   let!(:role) { create(:role, name: 'MemberRole1') }

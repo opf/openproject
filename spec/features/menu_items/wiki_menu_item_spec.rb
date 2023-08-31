@@ -85,7 +85,7 @@ RSpec.describe 'Wiki menu items' do
     end
   end
 
-  it 'allows managing the menu item of a wiki page', js: true, with_cuprite: true do
+  it 'allows managing the menu item of a wiki page', js: true do
     other_wiki_page
     another_wiki_page
 

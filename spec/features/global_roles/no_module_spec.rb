@@ -30,8 +30,7 @@ require 'spec_helper'
 require_relative './mock_global_permissions'
 
 RSpec.describe 'Global role: No module',
-               js: true,
-               with_cuprite: true do
+               js: true do
   let(:admin) { create(:admin) }
   let(:project) { create(:project) }
   let!(:role) { create(:role) }

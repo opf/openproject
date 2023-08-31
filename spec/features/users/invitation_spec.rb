@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'invitations', js: true, with_cuprite: true do
+RSpec.describe 'invitations', js: true do
   let(:user) { create(:invited_user, mail: 'holly@openproject.com') }
 
   before do

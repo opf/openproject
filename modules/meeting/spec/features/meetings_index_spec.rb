@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/meetings/index'
 
-RSpec.describe 'Meetings', 'Index', :with_cuprite do
+RSpec.describe 'Meetings', 'Index' do
   # The order the Projects are created in is important. By naming `project` alphanumerically
   # after `other_project`, we can ensure that subsequent specs that assert sorting is
   # correct for the right reasons (sorting by Project name and not id)

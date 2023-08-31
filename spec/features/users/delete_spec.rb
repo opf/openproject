@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'user deletion:', js: true, with_cuprite: true do
+RSpec.describe 'user deletion:', js: true do
   let(:dialog) { Components::PasswordConfirmationDialog.new }
 
   before do

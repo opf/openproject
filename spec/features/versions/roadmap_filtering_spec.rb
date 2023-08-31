@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Roadmap Filtering', :js, :with_cuprite do
+RSpec.describe 'Roadmap Filtering', :js do
   shared_let(:project) { create(:project) }
   shared_let(:sub_project) { create(:project, parent: project) }
 

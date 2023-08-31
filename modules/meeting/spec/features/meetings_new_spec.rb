@@ -67,12 +67,12 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
     let(:new_page) { Pages::Meetings::New.new(nil) }
 
     context 'with permission to create meetings' do
-      it 'does not render menus', :with_cuprite do
+      it 'does not render menus' do
         new_page.visit!
         new_page.expect_no_main_menu
       end
 
-      describe 'clicking on the create new meeting button', :with_cuprite do
+      describe 'clicking on the create new meeting button' do
         it 'navigates to the global create form' do
           index_page.visit!
           index_page.click_create_new
@@ -151,7 +151,7 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
       end
     end
 
-    context 'without permission to create meetings', :with_cuprite do
+    context 'without permission to create meetings' do
       let(:permissions) { %i[view_meetings] }
 
       it 'shows no edit link' do
@@ -161,7 +161,7 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
       end
     end
 
-    context 'as an admin', :with_cuprite do
+    context 'as an admin' do
       let(:current_user) { admin }
 
       it 'allows creating meeting in a project without members' do
@@ -227,7 +227,7 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
         other_user
       end
 
-      describe 'clicking on the create new meeting button', :with_cuprite do
+      describe 'clicking on the create new meeting button' do
         it 'navigates to the project-specific create form' do
           index_page.visit!
           index_page.click_create_new
@@ -277,7 +277,7 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
       end
     end
 
-    context 'without permission to create meetings', :with_cuprite do
+    context 'without permission to create meetings' do
       let(:permissions) { %i[view_meetings] }
 
       it 'shows no edit link' do
@@ -287,7 +287,7 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
       end
     end
 
-    context 'as an admin', :with_cuprite do
+    context 'as an admin' do
       let(:current_user) { admin }
       let(:field) do
         TextEditorField.new(page,

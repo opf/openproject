@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'version delete', js: true, with_cuprite: true do
+RSpec.describe 'version delete', js: true do
   let!(:project) { create(:project, name: 'Parent') }
   let!(:archived_child) { create(:project, name: 'Archived child', parent: project, active: false) }
 

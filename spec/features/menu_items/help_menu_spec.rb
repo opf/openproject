@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Help menu items',
-               js: true,
-               with_cuprite: true do
+               js: true do
   let(:user) { create(:admin) }
   let(:help_item) { find('.op-app-help .op-app-menu--item-action') }
   let(:help_menu_dropdown_selector) { '.op-app-menu--dropdown.op-menu' }

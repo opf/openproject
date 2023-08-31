@@ -3,7 +3,7 @@ require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 require 'features/page_objects/notification'
 
-RSpec.describe 'new work package', js: true, with_cuprite: true do
+RSpec.describe 'new work package', js: true do
   shared_let(:status) { create(:status, is_default: true) }
   shared_let(:priority) { create(:priority, is_default: true) }
   shared_let(:type_task) { create(:type_task) }

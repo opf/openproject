@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/categories/categories_page'
 
-RSpec.describe 'Deletion', js: true, with_cuprite: true do
+RSpec.describe 'Deletion', js: true do
   let(:current_user) do
     create(:user,
            member_in_project: category.project,

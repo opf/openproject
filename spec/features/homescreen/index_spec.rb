@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Homescreen', 'index', :with_cuprite do
+RSpec.describe 'Homescreen', 'index' do
   let(:admin) { create(:admin) }
   let(:user) { build_stubbed(:user) }
   let!(:project) { create(:public_project, identifier: 'public-project') }

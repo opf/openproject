@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Attribute help texts',
-               js: true,
-               with_cuprite: true do
+               js: true do
   shared_let(:admin) { create(:admin) }
 
   let(:instance) { AttributeHelpText.last }

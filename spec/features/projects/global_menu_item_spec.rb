@@ -31,7 +31,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Projects global menu item', :js, :with_cuprite do
+RSpec.describe 'Projects global menu item', :js do
   let(:user) { create(:user) }
 
   before do

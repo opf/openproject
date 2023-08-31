@@ -32,8 +32,7 @@ require 'features/work_packages/work_packages_page'
 require 'support/edit_fields/edit_field'
 
 RSpec.describe 'Activity tab',
-               js: true,
-               with_cuprite: true do
+               js: true do
   let(:project) do
     create(:project_with_types,
            types: [type_with_cf],

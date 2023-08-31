@@ -1,7 +1,7 @@
 require 'spec_helper'
 require_relative 'support/pages/cost_report_page'
 
-RSpec.describe 'Cost report calculations', 'grouping', :js, :with_cuprite do
+RSpec.describe 'Cost report calculations', 'grouping', :js do
   let(:project) { create(:project) }
   let(:user) { create(:admin) }
   let(:work_package) { create(:work_package, project:) }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Top menu item for boards', :js, :with_cuprite do
+RSpec.describe 'Top menu item for boards', :js do
   let(:user) { create(:admin) }
 
   let(:menu) { find(".op-app-menu a[title='#{I18n.t('label_modules')}']") }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Invite user modal', js: true, with_cuprite: true do
+RSpec.describe 'Invite user modal', js: true do
   shared_let(:project) { create(:project) }
   shared_let(:work_package) { create(:work_package, project:) }
 

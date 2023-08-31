@@ -6,7 +6,6 @@ require_relative 'support/board_new_page'
 RSpec.describe 'Boards',
                'Creating a view from a Global Context',
                :js,
-               :with_cuprite,
                with_ee: %i[board_view] do
   shared_let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   shared_let(:other_project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }

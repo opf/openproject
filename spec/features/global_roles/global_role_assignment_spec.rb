@@ -30,8 +30,7 @@ require 'spec_helper'
 require_relative './mock_global_permissions'
 
 RSpec.describe 'Global role: Global role assignment',
-               js: true,
-               with_cuprite: true do
+               js: true do
   before do
     login_as current_user
   end
