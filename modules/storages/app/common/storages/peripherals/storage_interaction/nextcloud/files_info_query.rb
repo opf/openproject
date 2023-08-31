@@ -70,12 +70,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       )
       case response
       when Net::HTTPSuccess
-        # Nextcloud returns a 200 even if the file is not found
-        if response.body.match?(%r{"statuscode":404})
-          Util.error(:not_found, 'Outbound request destination not found!', response)
-        else
-          ServiceResult.success(result: response.body)
-        end
+        ServiceResult.success(result: response.body)
       when Net::HTTPNotFound
         Util.error(:not_found, 'Outbound request destination not found!', response)
       when Net::HTTPUnauthorized

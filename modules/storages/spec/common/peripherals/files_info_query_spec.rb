@@ -95,26 +95,34 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQu
     end
 
     context 'with outbound request not found' do
-      context 'with an array of file ids', vcr: 'nextcloud/files_info_query_not_found' do
+      context 'with a single file id',
+              vcr: 'nextcloud/files_info_query_not_found' do
         let(:file_ids) { %w[1234] }
 
-        it 'must return an error when called' do
+        it 'returns an HTTP 200 with individual status code per file ID' do
           subject.call(user:, file_ids:).match(
-            on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" },
-            on_failure: ->(error) { expect(error.code).to eq(:not_found) }
+            on_success: ->(file_infos) do
+              expect(file_infos.size).to eq(1)
+              expect(file_infos.first.to_h).to include(status: 'Not Found', status_code: 404)
+            end,
+            on_failure: ->(error) { fail "Expected success, got #{error}" }
           )
         end
       end
+    end
 
-      context 'with only one file id that does not exist',
-              vcr: 'nextcloud/files_info_query_only_one_not_exists' do
+    context 'with outbound request not authorized' do
+      context 'with multiple file IDs, one of which is not authorized',
+              vcr: 'nextcloud/files_info_query_only_one_not_authorized' do
         let(:file_ids) { %w[182 1234] }
 
-        # FIXME: Discuss with team whether this behaviour is acceptable
-        it 'must return an error when called' do
+        it 'returns an HTTP 200 with individual status code per file ID' do
           subject.call(user:, file_ids:).match(
-            on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" },
-            on_failure: ->(error) { expect(error.code).to eq(:not_found) }
+            on_success: ->(file_infos) do
+              expect(file_infos.size).to eq(2)
+              expect(file_infos.map(&:status_code)).to contain_exactly(403, 404)
+            end,
+            on_failure: ->(error) { fail "Expected success, got #{error}" }
           )
         end
       end
