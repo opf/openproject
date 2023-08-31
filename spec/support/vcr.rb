@@ -26,21 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# This is the RSpec main include file that is included in basically every test case below.
-# See also: https://rspec.info/
-
-# Loads spec_helper from OpenProject core
-# This will include any support file from OpenProject core
-require 'spec_helper'
-require 'dry/container/stub'
-
-# Record Storages Cassettes in module
-VCR.configuration.cassette_library_dir = 'modules/storages/spec/support/fixtures/vcr_cassettes'
-
-# Loads files from relative support/ directory
-Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }
+require 'vcr'
+VCR.configure do |config|
+  config.cassette_library_dir = 'spec/support/fixtures/vcr_cassettes'
+  config.hook_into :webmock
+  # https://benoittgt.github.io/vcr/#/test_frameworks/rspec_metadata
+  config.configure_rspec_metadata!
+  config.before_record do |i|
+    i.response.body.force_encoding('UTF-8')
+  end
+end
 
 RSpec.configure do |config|
-  config.before(:suite) { Storages::Peripherals::Registry.enable_stubs! }
-  config.append_after { Storages::Peripherals::Registry.unstub }
+  config.before(:suite) do
+    # As we're using VCR to record and test remote HTTP requests,
+    # we require specs to selectively enable recording of HTTP interations.
+    # Otherwise, VCR would attempt to intercept all HTTP requests by default.
+    VCR.turn_off!
+  end
+
+  config.around(:example, :vcr) do |example|
+    VCR.turn_on!
+    example.run
+  ensure
+    VCR.turn_off!
+  end
 end
