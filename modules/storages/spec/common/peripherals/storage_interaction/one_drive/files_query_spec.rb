@@ -78,7 +78,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
     expect(storage_files.size).to eq(38)
   end
 
-  context 'when accessing an specific folder' do
+  context 'when accessing a specific folder' do
     let(:storage) do
       create(:one_drive_storage,
              :with_oauth_client,
