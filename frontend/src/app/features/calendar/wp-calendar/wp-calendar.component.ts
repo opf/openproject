@@ -197,6 +197,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
   private initializeCalendar() {
     const additionalOptions:{ [key:string]:unknown } = {
       height: '100%',
+      timeZone: 'UTC',
       headerToolbar: this.buildHeader(),
       eventSources: [
         {

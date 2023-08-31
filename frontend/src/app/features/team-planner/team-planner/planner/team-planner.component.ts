@@ -477,6 +477,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           this.workPackagesCalendar.calendarOptions({
             schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
             selectable: true,
+            timeZone: 'UTC',
             plugins: [resourceTimelinePlugin, interactionPlugin],
             titleFormat: { year: 'numeric', month: 'long', day: 'numeric' },
             buttonText: { today: this.text.today },
