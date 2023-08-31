@@ -30,9 +30,29 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title t(:label_administration), "#{t('.label_edit_color')} #{h @color.name}" %>
 <% local_assigns[:additional_breadcrumb] = @color.name %>
 
+<% if primer_forms_in_admin_active? %>
+
+<%= toolbar title: t('.label_edit_color') do %>
+  <li class="toolbar-item">
+    <%= link_to color_path(@color),
+                method: :delete,
+                data: { confirm: t('text_are_you_sure') },
+                class: "button -danger" do %>
+      <%= op_icon 'button--icon icon-delete' %>
+      <span class="button--text"><%= t :button_delete %></span>
+    <% end %>
+  </li>
+<% end %>
+<%= primer_form_with(model: @color, url: color_url(@color), method: :put) do |f| %>
+  <%= render ColorsForm.new(f) %>
+<% end %>
+
+<% else %>
+
 <%= labelled_tabular_form_for @color,
             url: color_url(@color),
             html: {method: 'put'}, as: :color do |f| %>
   <%= render partial: 'form',
              locals: {f: f, color: @color} %>
+<% end %>
 <% end %>

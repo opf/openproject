@@ -28,6 +28,12 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <%= toolbar title: t(:'attributes.attachments') %>
 
+<% if primer_forms_in_admin_active? %>
+<%= primer_form_with(scope: :settings, url: admin_settings_update_attachments_path, method: :patch) do |f| %>
+  <%= render Admin::Settings::AttachmentsSettingsForm.new(f) %>
+<% end %>
+<% else %>
+
 <%= styled_form_tag(admin_settings_update_attachments_path, method: :patch) do %>
   <section class="form--section">
     <div class="form--field">
@@ -45,4 +51,6 @@ See COPYRIGHT and LICENSE files for more details.
   </section>
 
   <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
+
 <% end %>

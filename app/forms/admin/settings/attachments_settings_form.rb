@@ -1,6 +1,8 @@
-# --copyright
+# frozen_string_literal: true
+
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,20 +26,31 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-require_relative '../../lib_static/open_project/feature_decisions'
+class Admin::Settings::AttachmentsSettingsForm < ApplicationForm
+  form do |attachments_form|
+    attachments_form.text_field(
+      label: I18n.t('setting_attachment_max_size'),
+      name: :attachment_max_size,
+      value: Setting.attachment_max_size,
+      caption: 'Size in kilobytes.'
+    )
 
-# Add feature flags here via e.g.
-#
-#   OpenProject::FeatureDecisions.add :some_flag
-#
-# If the feature to be flag-guarded stems from a module, add an initializer
-# to that module's engine:
-#
-#   initializer 'the_engine.feature_decisions' do
-#     OpenProject::FeatureDecisions.add :some_flag
-#   end
+    attachments_form.text_area(
+      label: I18n.t('setting_attachment_whitelist'),
+      name: :attachment_whitelist,
+      value: Setting.attachment_whitelist.join("\n"),
+      caption: I18n.t('settings.attachments.whitelist_text_html',
+                      ext_example: '*.jpg',
+                      mime_example: 'image/jpeg').html_safe,
+      rows: 5
+    )
 
-OpenProject::FeatureDecisions.add :personal_theme_selection
-OpenProject::FeatureDecisions.add :primer_forms_in_admin
+    attachments_form.submit(
+      name: 'submit',
+      label: I18n.t(:button_save),
+      scheme: :primary
+    )
+  end
+end

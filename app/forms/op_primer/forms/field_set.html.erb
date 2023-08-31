@@ -1,0 +1,6 @@
+<%= render(Primer::Beta::Subhead.new(spacious: true)) do |component|
+  component.with_heading { @input.heading }
+end %>
+<% @inputs.each do |input| %>
+  <%= render(input.to_component) %>
+<% end %>

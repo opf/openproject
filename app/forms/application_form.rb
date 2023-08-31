@@ -1,6 +1,8 @@
-# --copyright
+# frozen_string_literal: true
+
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,20 +26,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-require_relative '../../lib_static/open_project/feature_decisions'
-
-# Add feature flags here via e.g.
-#
-#   OpenProject::FeatureDecisions.add :some_flag
-#
-# If the feature to be flag-guarded stems from a module, add an initializer
-# to that module's engine:
-#
-#   initializer 'the_engine.feature_decisions' do
-#     OpenProject::FeatureDecisions.add :some_flag
-#   end
-
-OpenProject::FeatureDecisions.add :personal_theme_selection
-OpenProject::FeatureDecisions.add :primer_forms_in_admin
+class ApplicationForm < Primer::Forms::Base
+  def url_helpers
+    Rails.application.routes.url_helpers
+  end
+end

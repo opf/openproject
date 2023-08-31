@@ -28,6 +28,13 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <%= toolbar title: t(:label_general) %>
 
+<% if primer_forms_in_admin_active? %>
+<%= primer_form_with(scope: :settings, url: admin_settings_update_general_path, method: :patch) do |f| %>
+  <%= render Admin::Settings::GeneralSettingsForm.new(f, guessed_host: @guessed_host) %>
+<% end %>
+<% end %>
+
+
 <%= styled_form_tag(admin_settings_update_general_path, method: :patch) do %>
   <section class="form--section">
     <div class="form--field"><%= setting_text_field :app_title, size: 30, container_class: '-middle' %></div>

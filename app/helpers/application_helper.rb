@@ -329,6 +329,7 @@ module ApplicationHelper
     mode, _theme_suffix = User.current.pref.theme.split("_", 2)
     "data-color-mode=#{mode} data-#{mode}-theme=#{User.current.pref.theme}"
   end
+
   def highlight_default_language(lang_options)
     lang_options.map do |(language_name, code)|
       if code == Setting.default_language
@@ -493,5 +494,9 @@ module ApplicationHelper
     s = raw '<em>' + OpenProject::Passwords::Evaluator.min_length_description + '</em>'
     s += raw '<br /><em>' + rules + '</em>' unless rules.empty?
     s
+  end
+
+  def primer_forms_in_admin_active?
+    OpenProject::FeatureDecisions.primer_forms_in_admin_active?
   end
 end
