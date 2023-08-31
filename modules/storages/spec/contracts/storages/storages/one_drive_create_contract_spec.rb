@@ -26,28 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :storage, class: '::Storages::Storage' do
-    sequence(:name) { |n| "Storage #{n}" }
-    creator factory: :user
+require 'spec_helper'
+require_module_spec_helper
+require 'contracts/shared/model_contract_shared_context'
+require_relative 'shared_contract_examples'
 
-    factory :nextcloud_storage, class: '::Storages::NextcloudStorage' do
-      provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
-      sequence(:host) { |n| "https://host#{n}.example.com" }
+RSpec.describe Storages::Storages::CreateContract do
+  include_context 'ModelContract shared context'
 
-      trait :as_automatically_managed do
-        automatically_managed { true }
-        username { 'OpenProject' }
-        password { 'Password123' }
-      end
+  let(:storage) do
+    build_stubbed(:one_drive_storage,
+                  creator: storage_creator,
+                  name: storage_name,
+                  provider_type: storage_provider_type)
+  end
+  let(:contract) { described_class.new(storage, current_user) }
 
-      trait :as_not_automatically_managed do
-        automatically_managed { false }
-      end
-    end
+  it_behaves_like 'onedrive storage contract' do
+    context 'when creator is not the current user' do
+      let(:storage_creator) { build_stubbed(:user) }
 
-    factory :one_drive_storage, class: '::Storages::OneDriveStorage' do
-      provider_type { Storages::Storage::PROVIDER_TYPE_ONE_DRIVE }
+      include_examples 'contract is invalid', creator: :invalid
     end
   end
 end

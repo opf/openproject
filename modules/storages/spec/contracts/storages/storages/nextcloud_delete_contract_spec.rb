@@ -29,25 +29,13 @@
 require 'spec_helper'
 require_module_spec_helper
 require 'contracts/shared/model_contract_shared_context'
-require_relative 'shared_contract_examples'
 
-RSpec.describe Storages::Storages::UpdateContract do
+RSpec.describe Storages::Storages::DeleteContract do
   include_context 'ModelContract shared context'
 
-  it_behaves_like 'storage contract' do
-    let(:storage) do
-      build_stubbed(:nextcloud_storage,
-                    creator: storage_creator,
-                    host: storage_host,
-                    name: storage_name,
-                    provider_type: storage_provider_type)
-    end
-    let(:contract) { described_class.new(storage, current_user) }
+  let(:storage) { create(:nextcloud_storage) }
+  let(:contract) { described_class.new(storage, current_user) }
 
-    context 'when current user is not the initial storage creator' do
-      let(:storage_creator) { build_stubbed(:user) }
-
-      include_examples 'contract is valid'
-    end
-  end
+  # Generic checks that the contract is valid for valid admin, but invalid otherwise
+  it_behaves_like 'contract is valid for active admins and invalid for regular users'
 end

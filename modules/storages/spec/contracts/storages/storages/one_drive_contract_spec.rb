@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,27 +30,22 @@
 
 require 'spec_helper'
 require_module_spec_helper
-require 'contracts/shared/model_contract_shared_context'
-require_relative 'shared_contract_examples'
 
-RSpec.describe Storages::Storages::CreateContract do
-  include_context 'ModelContract shared context'
+RSpec.describe Storages::Storages::NextcloudContract, :storage_server_helpers, webmock: true do
+  let(:current_user) { create(:admin) }
+  let(:storage) { build(:one_drive_storage) }
 
-  it_behaves_like 'storage contract' do
-    let(:current_user) { create(:admin) }
-    let(:storage) do
-      build_stubbed(:nextcloud_storage,
-                    creator: storage_creator,
-                    host: storage_host,
-                    name: storage_name,
-                    provider_type: storage_provider_type)
+  # As the OneDriveContract is selected by the BaseContract to make writable attributes available,
+  # the BaseContract needs to be instantiated here.
+  subject { Storages::Storages::BaseContract.new(storage, current_user) }
+
+  describe 'when a host is set' do
+    before do
+      storage.host = "https://exmaple.com/"
     end
-    let(:contract) { described_class.new(storage, current_user) }
 
-    context 'when creator is not the current user' do
-      let(:storage_creator) { build_stubbed(:user) }
-
-      include_examples 'contract is invalid', creator: :invalid
+    it 'must be invalid' do
+      expect(subject).not_to be_valid
     end
   end
 end
