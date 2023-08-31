@@ -42,7 +42,7 @@ RSpec.describe 'REST API docs index page', js: true do
   context 'with authenticated user' do
     current_user { create(:user) }
 
-    it 'displays the docs rendered by openapi-explorer' do
+    it 'displays the docs rendered by openapi-explorer', with_cuprite: false do
       visit_docs_page
 
       # web component are harder to test with capybara

@@ -66,7 +66,7 @@ RSpec.describe 'messages', js: true do
     login_as user
   end
 
-  it 'adding, checking replies, replying' do
+  it 'adding, checking replies, replying', with_cuprite: false do
     index_page.visit!
     click_link forum.name
 

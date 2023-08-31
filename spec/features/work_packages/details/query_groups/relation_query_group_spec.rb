@@ -81,7 +81,7 @@ RSpec.describe 'Work package with relation query group', js: true, selenium: tru
   end
 
   context 'children table' do
-    it 'creates and removes across all tables' do
+    it 'creates and removes across all tables', with_cuprite: false do
       embedded_table.expect_work_package_count 1
       relations_tab.click
       relations.expect_child(related_work_package)
@@ -198,7 +198,7 @@ RSpec.describe 'Work package with relation query group', js: true, selenium: tru
       relations.expect_relation(related_work_package)
     end
 
-    it 'creates and removes across all tables' do
+    it 'creates and removes across all tables', with_cuprite: false do
       embedded_table.table_container.find('button', text: I18n.t('js.relation_buttons.create_new')).click
       subject_field = embedded_table.edit_field(nil, :subject)
 
@@ -209,7 +209,7 @@ RSpec.describe 'Work package with relation query group', js: true, selenium: tru
       relations.expect_relation_by_text('Fresh WP')
     end
 
-    it 'add existing, remove it, add it from relations tab, remove from relations tab' do
+    it 'add existing, remove it, add it from relations tab, remove from relations tab', with_cuprite: false do
       embedded_table.table_container.find('button', text: I18n.t('js.relation_buttons.add_existing')).click
       embedded_table.table_container.find('.wp-relations-create--form', wait: 10)
       autocomplete = page.find("[data-qa-selector='wp-relations-autocomplete']")

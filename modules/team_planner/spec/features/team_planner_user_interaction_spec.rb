@@ -98,7 +98,7 @@ RSpec.describe 'Team planner drag&dop and resizing', js: true, with_ee: %i[team_
       end
     end
 
-    it 'allows to drag&drop between the lanes to change the assignee' do
+    it 'allows to drag&drop between the lanes to change the assignee', with_cuprite: false do
       # Move first wp to the user
       retry_block do
         team_planner.drag_wp_to_lane(first_wp, user)
@@ -180,7 +180,7 @@ RSpec.describe 'Team planner drag&dop and resizing', js: true, with_ee: %i[team_
       end
     end
 
-    it 'allows to resize to change the dates of a wp' do
+    it 'allows to resize to change the dates of a wp', with_cuprite: false do
       retry_block do
         # Change date of second_wp by resizing it
         team_planner.change_wp_date_by_resizing(second_wp, number_of_days: 1, is_start_date: true)
@@ -252,7 +252,7 @@ RSpec.describe 'Team planner drag&dop and resizing', js: true, with_ee: %i[team_
       end
     end
 
-    it 'allows neither dragging nor resizing any wp' do
+    it 'allows neither dragging nor resizing any wp', with_cuprite: false do
       team_planner.expect_wp_not_resizable(first_wp)
       team_planner.expect_wp_not_resizable(second_wp)
       team_planner.expect_wp_not_resizable(third_wp)

@@ -36,7 +36,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
 
   before { login_as admin }
 
-  it 'creates, edits and deletes storages', webmock: true do
+  it 'creates, edits and deletes storages', webmock: true, with_cuprite: false do
     visit admin_settings_storages_path
 
     ######### Step 1: Begin Create a storage #########

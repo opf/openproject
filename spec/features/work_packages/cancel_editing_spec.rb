@@ -89,8 +89,9 @@ RSpec.describe 'Cancel editing work package', js: true do
     loading_indicator_saveguard
     wp_table.expect_work_package_listed(work_package2)
 
-    wp_table.open_split_view(work_package2)
-    page.driver.browser.switch_to.alert.dismiss
+    dismiss_prompt do
+      wp_table.open_split_view(work_package2)
+    end
 
     expect(page).to have_selector('#wp-new-inline-edit--field-subject')
     expect(wp_page).not_to have_alert_dialog
@@ -106,15 +107,15 @@ RSpec.describe 'Cancel editing work package', js: true do
     version.activate!
 
     # Decline move, expect field still active
-    wp_table.open_split_view(work_package2)
-    page.driver.browser.switch_to.alert.dismiss
+    dismiss_prompt do
+      wp_table.open_split_view(work_package2)
+    end
     version.expect_active!
 
-    sleep 1
-
     # Now accept to move to the second page
-    split_page = wp_table.open_split_view(work_package2)
-    page.driver.browser.switch_to.alert.accept
+    accept_alert do
+      split_page = wp_table.open_split_view(work_package2)
+    end
     version = split_page.edit_field :version
     version.expect_inactive!
   end
@@ -168,8 +169,9 @@ RSpec.describe 'Cancel editing work package', js: true do
     description.click_and_type_slowly 'foobar'
 
     # Try to move back to list, expect warning
-    wp_page.go_back
-    wp_page.dismiss_alert_dialog!
+    dismiss_prompt do
+      wp_page.go_back
+    end
 
     # Now cancel the field
     description.cancel_by_click

@@ -104,7 +104,7 @@ RSpec.describe 'Switching work package view',
 
     it 'saves the representation in the query' do
       # After refresh the WP are still disaplyed as cards
-      page.driver.browser.navigate.refresh
+      refresh
       cards.expect_work_package_listed wp_1, wp_2
     end
   end
@@ -128,15 +128,15 @@ RSpec.describe 'Switching work package view',
       expect(url).not_to match(/query_props=.+/)
 
       # Since the query is unchanged, the WPs will be displayed as list on larger screens again
-      page.driver.browser.manage.window.resize_to(700, 1080)
-      page.driver.browser.navigate.refresh
+      page.driver.resize(700, 1080)
+      refresh
       wp_table.expect_work_package_listed wp_1, wp_2
       wp_table.expect_work_package_order wp_1, wp_2
     end
   end
 
   context 'when reordering an unsaved query' do
-    it 'retains that order' do
+    it 'retains that order', with_cuprite: false do
       wp_table.expect_work_package_order wp_1, wp_2
 
       wp_table.drag_and_drop_work_package from: 1, to: 0

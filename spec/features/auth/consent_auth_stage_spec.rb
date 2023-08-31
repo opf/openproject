@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Authentication Stages' do
+RSpec.describe 'Authentication Stages', with_cuprite: false do
   let(:language) { 'en' }
   let(:user_password) { 'bob' * 4 }
   let(:user) do

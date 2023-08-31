@@ -131,7 +131,7 @@ RSpec.describe 'Backlogs', js: true do
     end
 
     # the order is kept even after a page refresh -> it is persisted in the db
-    page.driver.refresh
+    refresh
 
     expect(page)
       .not_to have_content 'Another story'

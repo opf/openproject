@@ -64,7 +64,7 @@ RSpec.describe 'Board management spec', js: true, with_ee: %i[board_view] do
     end
     let(:board_view) { create(:board_grid_with_query, project:) }
 
-    it 'allows parallel creation of cards (Regression #30842)' do
+    it 'allows parallel creation of cards (Regression #30842)', with_cuprite: false do
       board_view
       board_index.visit!
 
@@ -103,7 +103,7 @@ RSpec.describe 'Board management spec', js: true, with_ee: %i[board_view] do
       board_page.expect_card('List 2', 'New card 1')
     end
 
-    it 'allows management of boards' do
+    it 'allows management of boards', with_cuprite: false do
       board_view
       board_index.visit!
 
@@ -241,7 +241,7 @@ RSpec.describe 'Board management spec', js: true, with_ee: %i[board_view] do
     let(:permissions) { %i[show_board_views view_work_packages add_work_packages edit_work_packages] }
     let(:board_view) { create(:board_grid_with_queries, project:) }
 
-    it 'allows viewing boards index and moving items around' do
+    it 'allows viewing boards index and moving items around', with_cuprite: false do
       board_view
       board_index.visit!
 

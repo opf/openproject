@@ -72,9 +72,11 @@ RSpec.describe 'Select work package row', js: true do
       end
 
       it 'sorts by version although version is not selected as a column' do
-        sort_by.open_modal
-        sort_by.update_nth_criteria(0, 'Version')
-        expect_work_packages_to_be_in_order([work_package_1, work_package_2])
+        ignore_ferrum_javascript_error do
+          sort_by.open_modal
+          sort_by.update_nth_criteria(0, 'Version')
+          expect_work_packages_to_be_in_order([work_package_1, work_package_2])
+        end
       end
     end
   end
@@ -85,9 +87,11 @@ RSpec.describe 'Select work package row', js: true do
     before do
       login_as user
       wp_table.visit!
+      expect_angular_frontend_initialized
     end
 
-    it 'provides the default sortation and allows using the value at another level (Regression WP#26792)' do
+    it 'provides the default sorting and allows using the value at another level (Regression WP#26792)',
+       with_cuprite: false do
       # Expect current criteria
       sort_by.expect_criteria(['-', 'asc'])
 

@@ -98,7 +98,7 @@ RSpec.describe 'Arbitrary WorkPackage query graph widget dashboard',
   end
 
   context 'with the permission to save queries' do
-    it 'can add the widget and see the work packages of the filtered for types' do
+    it 'can add the widget and see the work packages of the filtered for types', with_cuprite: false do
       expect(page)
         .to have_content(type_work_package.subject)
 

@@ -179,10 +179,10 @@ RSpec.describe 'Work package index accessibility', selenium: true do
         expect(page).to have_focus_on(first_row_selector)
 
         # Avoid sending keys on body since that resets focus
-        page.driver.browser.switch_to.active_element.send_keys('j')
+        find(first_row_selector).native.send_keys('j')
         expect(page).to have_focus_on(second_row_selector)
 
-        page.driver.browser.switch_to.active_element.send_keys('k')
+        find(second_row_selector).native.send_keys('k')
         expect(page).to have_focus_on(first_row_selector)
       end
     end
@@ -225,7 +225,7 @@ RSpec.describe 'Work package index accessibility', selenium: true do
       end
     end
 
-    describe 'work package context menu', js: true do
+    describe 'work package context menu', js: true, with_cuprite: false do
       it_behaves_like 'context menu' do
         let(:target_link) { '#work-package-context-menu a.detailsViewMenuItem' }
         let(:source_link) { '.work-package-table--container tr.issue td.id a' }

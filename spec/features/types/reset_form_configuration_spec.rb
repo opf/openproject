@@ -50,7 +50,7 @@ RSpec.describe 'Reset form configuration', js: true do
       visit edit_type_tab_path(id: type.id, tab: "form_configuration")
     end
 
-    it 'resets the form properly after changes with CFs (Regression test #27487)' do
+    it 'resets the form properly after changes with CFs (Regression test #27487)', with_cuprite: false do
       # Should be initially disabled
       form.expect_inactive(cf_identifier)
 

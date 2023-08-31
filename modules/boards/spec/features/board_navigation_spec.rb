@@ -55,7 +55,7 @@ RSpec.describe 'Work Package boards spec', js: true, with_ee: %i[board_view] do
     login_as(admin)
   end
 
-  it 'navigates from boards to the WP full view and back' do
+  it 'navigates from boards to the WP full view and back', with_cuprite: false do
     board_index.visit!
 
     # Add a new WP on the board
@@ -161,7 +161,7 @@ RSpec.describe 'Work Package boards spec', js: true, with_ee: %i[board_view] do
     split_view.ensure_page_loaded
     split_view.expect_subject
 
-    page.driver.refresh
+    refresh
 
     split_view.ensure_page_loaded
     split_view.expect_subject

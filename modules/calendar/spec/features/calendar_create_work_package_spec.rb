@@ -27,9 +27,11 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_context'
+require_relative 'shared_context'
 
-RSpec.describe 'Calendar create new work package', js: true do
+RSpec.describe 'Calendar create new work package',
+               js: true,
+               with_cuprite: false do
   include_context 'with calendar full access'
 
   let(:type_task) { create(:type_task) }

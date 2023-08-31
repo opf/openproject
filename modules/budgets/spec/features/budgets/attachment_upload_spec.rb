@@ -79,7 +79,7 @@ RSpec.describe 'Upload attachment to budget', js: true do
     attachments_list.expect_attached('image.png', count: 2)
   end
 
-  it 'can upload an image to new and existing budgets via drag & drop on attachment list' do
+  it 'can upload an image to new and existing budgets via drag & drop on attachment list', with_cuprite: false do
     visit projects_budgets_path(project)
 
     within '.toolbar-items' do

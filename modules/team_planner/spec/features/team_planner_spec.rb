@@ -240,7 +240,7 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
       team_planner.expect_empty_state(present: false)
     end
 
-    it 'can add and remove assignees' do
+    it 'can add and remove assignees', with_cuprite: false do
       team_planner.visit!
 
       team_planner.expect_empty_state
@@ -288,7 +288,7 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
       team_planner.expect_assignee(other_user, present: false)
     end
 
-    it 'filters possible assignees correctly' do
+    it 'filters possible assignees correctly', with_cuprite: false do
       team_planner.visit!
 
       retry_block do
@@ -328,7 +328,9 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
              subject: 'A blocked task')
     end
 
-    it 'disables editing on readonly tasks', with_ee: %i[team_planner_view readonly_work_packages] do
+    it 'disables editing on readonly tasks',
+       with_cuprite: false,
+       with_ee: %i[team_planner_view readonly_work_packages] do
       team_planner.visit!
 
       team_planner.wait_for_loaded

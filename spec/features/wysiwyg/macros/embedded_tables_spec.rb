@@ -55,7 +55,7 @@ RSpec.describe 'Wysiwyg embedded work package tables',
         visit project_wiki_path(project, :wiki)
       end
 
-      it 'can add and edit an embedded table widget' do
+      it 'can add and edit an embedded table widget', with_cuprite: false do
         editor.in_editor do |_container, editable|
           editor.insert_macro 'Embed work package table'
 

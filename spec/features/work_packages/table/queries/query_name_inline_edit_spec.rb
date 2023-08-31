@@ -73,7 +73,7 @@ RSpec.describe 'Query name inline edit', js: true do
     wp_table.visit_query assignee_query
   end
 
-  it 'allows renaming the query and shows changed state' do
+  it 'allows renaming the query and shows changed state', with_cuprite: false do
     wp_table.expect_work_package_listed work_package
     query_title.expect_not_changed
 

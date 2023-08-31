@@ -37,7 +37,7 @@ RSpec.describe 'Menu item traversal' do
       visit admin_index_path
     end
 
-    it 'correctly maps the menu items for controllers in their namespace (Regression #30859)' do
+    it 'correctly maps the menu items for controllers in their namespace (Regression #30859)', with_cuprite: false do
       expect(page).to have_selector('.admin-overview-menu-item.selected', text: 'Overview')
 
       find('.plugin-webhooks-menu-item').click

@@ -91,7 +91,7 @@ RSpec.describe 'Upload attachment to forum message', js: true do
     attachments_list.expect_attached('image.png', count: 2)
   end
 
-  it 'can upload an image to new and existing messages via drag & drop on attachments' do
+  it 'can upload an image to new and existing messages via drag & drop on attachments', with_cuprite: false do
     index_page.visit!
     click_link forum.name
 

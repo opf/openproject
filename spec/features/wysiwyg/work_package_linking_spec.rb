@@ -44,7 +44,7 @@ RSpec.describe 'Wysiwyg work package linking',
       visit project_wiki_path(project, :wiki)
     end
 
-    it 'can reference work packages' do
+    it 'can reference work packages', with_cuprite: false do
       # single hash autocomplete
       editor.click_and_type_slowly "##{work_package.id}"
       editor.click_autocomplete work_package.subject

@@ -64,7 +64,7 @@ RSpec.describe 'Team planner error handling', js: true do
       end
     end
 
-    it 'cannot change the wp because of required fields not being set' do
+    it 'cannot change the wp because of required fields not being set', with_cuprite: false do
       custom_field.is_required = true
       custom_field.save!
 
@@ -79,7 +79,7 @@ RSpec.describe 'Team planner error handling', js: true do
       end
     end
 
-    it 'cannot change the wp because of conflicting modifications' do
+    it 'cannot change the wp because of conflicting modifications', with_cuprite: false do
       # Try to move the wp
       retry_block do
         wp_strip = page.find('.fc-event', text: work_package.subject)

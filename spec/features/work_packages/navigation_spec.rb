@@ -55,7 +55,7 @@ RSpec.describe 'Work package navigation', js: true, selenium: true do
     login_as(user)
   end
 
-  it 'all different angular based work package views' do
+  it 'all different angular based work package views', with_cuprite: false do
     work_package.save!
 
     # deep link global work package index
@@ -168,7 +168,7 @@ RSpec.describe 'Work package navigation', js: true, selenium: true do
     expect(page).to have_field('editable-toolbar-title', with: query.name)
   end
 
-  it 'double clicking search result row (Regression #30247)' do
+  it 'double clicking search result row (Regression #30247)', with_cuprite: false do
     work_package.subject = 'Foobar'
     work_package.save!
     visit search_path(q: 'Foo', work_packages: 1, scope: :all)

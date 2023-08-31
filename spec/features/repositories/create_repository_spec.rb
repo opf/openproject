@@ -109,7 +109,7 @@ RSpec.describe 'Create repository', js: true, selenium: true do
     shared_examples 'has hidden type' do |type, vendor|
       let(:selector) { find("input[name='scm_type'][value='#{type}']") }
 
-      it 'displays a collapsed type' do
+      it 'displays a collapsed type', with_cuprite: false do
         expect(selector).not_to be_nil
         expect(selector[:selected]).to be_falsey
         expect(selector).not_to be_disabled
@@ -124,7 +124,7 @@ RSpec.describe 'Create repository', js: true, selenium: true do
       it_behaves_like 'has hidden type', type, vendor
       it_behaves_like 'has hidden type', 'managed', vendor
 
-      it 'can toggle between the two' do
+      it 'can toggle between the two', with_cuprite: false do
         find("input[name='scm_type'][value='#{type}']").set(true)
         content = find("#attributes-group--content-#{type}")
         expect(content).not_to be_nil

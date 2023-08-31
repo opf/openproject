@@ -170,7 +170,9 @@ RSpec.describe 'Assigned to me embedded query on my page', js: true do
     embedded_table.expect_work_package_listed wp
   end
 
-  it 'can paginate in embedded tables (Regression test #29845)', with_settings: { per_page_options: '1' } do
+  it 'can paginate in embedded tables (Regression test #29845)',
+     with_cuprite: false,
+     with_settings: { per_page_options: '1' } do
     my_page.visit!
 
     # exists as default

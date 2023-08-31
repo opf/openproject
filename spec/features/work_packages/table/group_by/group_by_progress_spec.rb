@@ -68,7 +68,7 @@ RSpec.describe 'Work Package group by progress', js: true do
       group_by.expect_no_groups
 
       # Expect disabled group by to be kept after reload
-      page.driver.browser.navigate.refresh
+      refresh
       group_by.expect_no_groups
 
       # But query has not been changed

@@ -99,7 +99,7 @@ RSpec.describe 'Team planner add existing work packages', js: true do
                due_date: 12.days.from_now)
       end
 
-      it 'shows work packages removed from the team planner' do
+      it 'shows work packages removed from the team planner', with_cuprite: false do
         team_planner.within_lane(user) do
           team_planner.expect_event first_wp
         end
@@ -116,7 +116,7 @@ RSpec.describe 'Team planner add existing work packages', js: true do
       end
     end
 
-    it 'allows to click cards to open split view when open' do
+    it 'allows to click cards to open split view when open', with_cuprite: false do
       # Search for a work package
       add_existing_pane.search 'Task'
       add_existing_pane.expect_result second_wp
@@ -133,7 +133,7 @@ RSpec.describe 'Team planner add existing work packages', js: true do
       expect(page).to have_current_path /\/details\/#{second_wp.id}/
     end
 
-    it 'allows to add work packages via drag&drop from the left hand shortlist' do
+    it 'allows to add work packages via drag&drop from the left hand shortlist', with_cuprite: false do
       # Search for a work package
       add_existing_pane.search 'Task'
       add_existing_pane.expect_result second_wp
@@ -173,7 +173,7 @@ RSpec.describe 'Team planner add existing work packages', js: true do
       split_view.expect_open
     end
 
-    it 'the search applies the filter from the team planner' do
+    it 'the search applies the filter from the team planner', with_cuprite: false do
       # Search for a work package
       add_existing_pane.search 'Task'
       add_existing_pane.expect_result second_wp
@@ -215,7 +215,7 @@ RSpec.describe 'Team planner add existing work packages', js: true do
 
       let(:dropdown) { Components::ProjectIncludeComponent.new }
 
-      it 'applies the project include filter' do
+      it 'applies the project include filter', with_cuprite: false do
         # Search for the work package in the child project
         add_existing_pane.search 'Subtask'
         add_existing_pane.expect_empty

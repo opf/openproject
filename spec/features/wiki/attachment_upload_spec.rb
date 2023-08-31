@@ -46,7 +46,7 @@ RSpec.describe 'Upload attachment to wiki page', js: true do
     login_as(user)
   end
 
-  it 'can upload an image to new and existing wiki page via drag & drop in editor' do
+  it 'can upload an image to new and existing wiki page via drag & drop in editor', with_cuprite: false do
     visit project_wiki_path(project, 'test')
 
     # adding an image
@@ -104,7 +104,7 @@ RSpec.describe 'Upload attachment to wiki page', js: true do
     expect(wiki_page_content).to have_selector '.op-uc-image[src^="/api/v3/attachments"]'
   end
 
-  it 'can upload an image to new and existing wiki page via drag & drop on attachments' do
+  it 'can upload an image to new and existing wiki page via drag & drop on attachments', with_cuprite: false do
     visit project_wiki_path(project, 'test')
 
     editor.attachments_list.expect_empty

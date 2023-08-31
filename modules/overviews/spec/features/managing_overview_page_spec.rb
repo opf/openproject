@@ -71,7 +71,7 @@ RSpec.describe 'Overview page managing', js: true do
     overview_page.visit!
   end
 
-  it 'renders the default view, allows altering and saving' do
+  it 'renders the default view, allows altering and saving', with_cuprite: false do
     description_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
     status_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
     details_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')

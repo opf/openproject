@@ -87,7 +87,7 @@ RSpec.describe 'Assignee action board',
       login_as(bobself_user)
     end
 
-    it 'allows to move a task between two assignees' do
+    it 'allows to move a task between two assignees', with_cuprite: false do
       # Move to the board index page
       board_index.visit!
 

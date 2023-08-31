@@ -6,7 +6,7 @@ RSpec.shared_examples 'as an accessible inplace editor' do
     field.cancel_by_escape
   end
 
-  it 'triggers edit mode on RETURN key' do
+  it 'triggers edit mode on RETURN key', with_cuprite: false do
     scroll_to_element(field.display_element)
 
     field.display_element.native.send_keys(:return)

@@ -60,7 +60,7 @@ RSpec.describe 'My page documents widget', js: true do
     my_page.visit!
   end
 
-  it 'can add the widget and see the visible documents' do
+  it 'can add the widget and see the visible documents', with_cuprite: false do
     # within top-right area, add an additional widget
     my_page.add_widget(1, 1, :within, 'Documents')
 

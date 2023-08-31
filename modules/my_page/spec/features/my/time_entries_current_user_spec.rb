@@ -121,7 +121,7 @@ RSpec.describe 'My page time entries current user widget spec', js: true do
     my_page.visit!
   end
 
-  it 'adds the widget which then displays time entries and allows manipulating them' do
+  it 'adds the widget which then displays time entries and allows manipulating them', with_cuprite: false do
     # within top-right area, add an additional widget
     my_page.add_widget(1, 1, :within, 'My spent time')
 

@@ -54,7 +54,7 @@ RSpec.describe 'Calendar drag&dop and resizing', js: true do
     calendar.expect_event work_package
   end
 
-  context 'with full permissions' do
+  context 'with full permissions', with_cuprite: false do
     it 'allows to resize to change the dates of a wp' do
       target = work_package.due_date + 1.day
       current_start = work_package.start_date

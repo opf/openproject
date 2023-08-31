@@ -46,11 +46,11 @@ RSpec.shared_context 'with mobile screen size' do |width, height|
     # and refresh the page
     if using_cuprite?
       page.driver.resize(width || 500, height || 1000)
-      page.driver.refresh
     else
       page.driver.browser.manage.window.resize_to(width || 500, height || 1000)
-      page.driver.browser.navigate.refresh
     end
+
+    refresh
   end
 
   after do

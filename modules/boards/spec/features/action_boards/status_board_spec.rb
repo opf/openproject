@@ -103,7 +103,7 @@ RSpec.describe 'Status action board', js: true, with_ee: %i[board_view] do
       board_page.expect_list 'Closed'
     end
 
-    it 'does not change moving card project when filtering on projects (Bug #44895)' do
+    it 'does not change moving card project when filtering on projects (Bug #44895)', with_cuprite: false do
       other_project = create(:project,
                              types: [type],
                              enabled_module_names: %i[work_package_tracking board_view],
@@ -148,7 +148,7 @@ RSpec.describe 'Status action board', js: true, with_ee: %i[board_view] do
       expect(wp_task.project).to eq(project), 'Moving the card should not change the project'
     end
 
-    it 'allows management of boards' do
+    it 'allows management of boards', with_cuprite: false do
       board_index.visit!
 
       # Create new board

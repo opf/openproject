@@ -67,7 +67,7 @@ RSpec.describe 'wiki pages', js: true, with_settings: { journal_aggregation_time
     login_as user
   end
 
-  it 'adding, editing and history' do
+  it 'adding, editing and history', with_cuprite: false do
     visit project_settings_modules_path(project)
 
     expect(page).not_to have_selector('.menu-sidebar .main-item-wrapper', text: 'Wiki')

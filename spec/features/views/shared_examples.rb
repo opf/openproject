@@ -33,7 +33,7 @@ RSpec.shared_examples 'module specific query view management' do
     let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
     let(:filters) { module_page.filters }
 
-    it 'allows to save, rename and delete a query' do
+    it 'allows to save, rename and delete a query', with_cuprite: false do
       # Change the query
       filters.open
       filters.add_filter_by 'Subject', 'contains', ['Test']

@@ -157,7 +157,7 @@ module Pages
       visit root_path
 
       within '#more-menu', visible: false do
-        click_on link_title, visible: false
+        click_link link_title, visible: false
       end
     end
   end

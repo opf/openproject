@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Select work package card', js: true, selenium: true do
+RSpec.describe 'Select work package card', js: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_package_1) { create(:work_package, project:) }
@@ -52,7 +52,7 @@ RSpec.describe 'Select work package card', js: true, selenium: true do
   end
 
   describe 'opening' do
-    it 'the full screen view via double click' do
+    it 'the full screen view via double click', with_cuprite: false do
       wp_card_view.open_full_screen_by_doubleclick(work_package_1)
       expect(page).to have_selector('.work-packages--details--subject',
                                     text: work_package_1.subject)

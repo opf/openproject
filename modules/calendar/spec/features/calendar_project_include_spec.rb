@@ -30,7 +30,8 @@ require 'spec_helper'
 require 'features/work_packages/project_include/project_include_shared_examples'
 require_relative '../support/pages/calendar'
 
-RSpec.describe 'Calendar project include', js: true do
+RSpec.describe 'Calendar project include',
+               js: true do
   shared_let(:enabled_modules) { %w[work_package_tracking calendar_view] }
   shared_let(:permissions) do
     %i[view_work_packages view_calendar edit_work_packages add_work_packages save_queries manage_public_queries]
@@ -71,7 +72,7 @@ RSpec.describe 'Calendar project include', js: true do
       work_package_view.expect_event other_task
       work_package_view.expect_event other_other_task
 
-      page.refresh
+      refresh
 
       work_package_view.expect_event task
       work_package_view.expect_event sub_bug, present: true

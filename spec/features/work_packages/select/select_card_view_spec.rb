@@ -64,7 +64,7 @@ RSpec.describe 'Selecting cards in the card view (regression #31962)', js: true 
       cards.expect_work_package_selected work_package3, false
     end
 
-    it 'can select and deselect single cards' do
+    it 'can select and deselect single cards', with_cuprite: false do
       # Select a card
       cards.select_work_package work_package1
       cards.expect_work_package_selected work_package1, true
@@ -84,7 +84,7 @@ RSpec.describe 'Selecting cards in the card view (regression #31962)', js: true 
       cards.expect_work_package_selected work_package3, false
     end
 
-    it 'can select and deselect range of cards' do
+    it 'can select and deselect range of cards', with_cuprite: false do
       # Select the first WP
       cards.select_work_package work_package1
       cards.expect_work_package_selected work_package1, true

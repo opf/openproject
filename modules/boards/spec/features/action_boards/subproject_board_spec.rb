@@ -107,7 +107,7 @@ RSpec.describe 'Subproject action board', js: true, with_ee: %i[board_view] do
              member_through_role: role)
     end
 
-    it 'allows management of subproject work packages' do
+    it 'allows management of subproject work packages', with_cuprite: false do
       board_index.visit!
 
       # Create new board

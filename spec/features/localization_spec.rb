@@ -28,9 +28,11 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Localization', with_settings: { login_required?: false,
-                                                available_languages: %w[de en],
-                                                default_language: 'en' } do
+RSpec.describe 'Localization',
+               with_cuprite: false,
+               with_settings: { login_required?: false,
+                                available_languages: %w[de en],
+                                default_language: 'en' } do
   context 'with a HTTP header Accept-Language having a valid supported language' do
     before do
       Capybara.current_session.driver.header('Accept-Language', 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3')

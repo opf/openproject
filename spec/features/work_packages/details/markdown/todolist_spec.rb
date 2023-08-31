@@ -154,7 +154,7 @@ RSpec.describe 'Todolists in CKEditor', js: true do
       ckeditor.clear
     end
 
-    it 'can add a task list with links in them (Regression #30920)' do
+    it 'can add a task list with links in them (Regression #30920)', with_cuprite: false do
       ckeditor.click_toolbar_button 'To-do List'
       ckeditor.type_slowly 'Todo item 1'
       ckeditor.type_slowly :enter

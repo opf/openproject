@@ -270,7 +270,7 @@ RSpec.describe "Notification center date alerts",
 
       # When a work package is updated to a different date
       wp_double_notification.update_column(:due_date, time_zone.now + 5.days)
-      page.driver.refresh
+      refresh
       wait_for_reload
 
       center.expect_item(notification_wp_double_date_alert, 'Finish date is in 5 days')

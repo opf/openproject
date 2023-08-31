@@ -69,7 +69,7 @@ RSpec.describe 'new work package', js: true do
   end
 
   describe 'global work package create' do
-    it 'shows the template after selection of project and type' do
+    it 'shows the template after selection of project and type', with_cuprite: false do
       visit '/work_packages/new'
       wp_page.expect_fully_loaded
 

@@ -136,7 +136,7 @@ RSpec.describe 'Watcher tab', js: true, selenium: true do
       wp_table.expect_work_package_listed work_package
     end
 
-    it 'shows the number of watchers [#33685]' do
+    it 'shows the number of watchers [#33685]', with_cuprite: false do
       wp_table.open_full_screen_by_doubleclick(work_package)
       expect(page).to have_selector('[data-qa-selector="tab-count"]', text: "(1)")
     end

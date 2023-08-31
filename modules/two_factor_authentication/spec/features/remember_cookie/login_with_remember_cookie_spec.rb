@@ -55,7 +55,7 @@ RSpec.describe 'Login with 2FA remember cookie',
     end
   end
 
-  context 'when user has no remember cookie' do
+  context 'when user has no remember cookie', with_cuprite: false do
     it 'can remove the autologin cookie after login' do
       login_with_cookie
       visit my_2fa_devices_path

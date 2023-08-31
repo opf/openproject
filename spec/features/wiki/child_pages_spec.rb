@@ -51,7 +51,7 @@ RSpec.describe 'wiki child pages', js: true do
     login_as user
   end
 
-  it 'adding a childpage' do
+  it 'adding a childpage', with_cuprite: false do
     visit project_wiki_path(project, parent_page.title)
 
     click_on 'Wiki page'

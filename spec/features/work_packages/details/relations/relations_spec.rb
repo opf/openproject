@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package relations tab', js: true, selenium: true do
+RSpec.describe 'Work package relations tab', js: true, with_cuprite: false do
   include_context 'ng-select-autocomplete helpers'
 
   let(:user) { create(:admin) }

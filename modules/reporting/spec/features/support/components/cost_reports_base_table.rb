@@ -83,9 +83,9 @@ module Components
 
     def delete_entry(row)
       SeleniumHubWaiter.wait
-      page.find("#{row_selector(row)} .icon-delete").click
-
-      page.driver.browser.switch_to.alert.accept
+      accept_alert do
+        page.find("#{row_selector(row)} .icon-delete").click
+      end
     end
 
     private

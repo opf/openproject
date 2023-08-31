@@ -96,7 +96,7 @@ RSpec.describe 'My page', js: true do
     Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(#{index + 1})")
   end
 
-  it 'renders the default view, allows altering and saving' do
+  it 'renders the default view, allows altering and saving', with_cuprite: false do
     sleep(0.5)
 
     assigned_area.expect_to_exist

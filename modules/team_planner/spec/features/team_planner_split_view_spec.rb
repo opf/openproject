@@ -55,7 +55,7 @@ RSpec.describe 'Team planner split view navigation', js: true, with_ee: %i[team_
            due_date: start_of_week.next_occurring(:thursday))
   end
 
-  it 'allows to navigate to the split view' do
+  it 'allows to navigate to the split view', with_cuprite: false do
     team_planner.visit!
 
     team_planner.add_assignee user

@@ -27,10 +27,11 @@
 #++
 
 require 'spec_helper'
-require_relative './../support/onboarding_steps'
+require_relative '../support/onboarding_steps'
 
 RSpec.describe 'boards onboarding tour',
-               js: true do
+               js: true,
+               with_cuprite: false do
   let(:next_button) { find('.enjoyhint_next_btn') }
   let(:user) do
     create(:admin,

@@ -42,7 +42,7 @@ RSpec.describe 'Team planner project include', js: true, with_ee: %i[team_planne
     let(:work_package_view) { Pages::TeamPlanner.new(project) }
     let(:dropdown) { Components::ProjectIncludeComponent.new }
 
-    it 'correctly filters work packages by project' do
+    it 'correctly filters work packages by project', with_cuprite: false do
       dropdown.expect_count 1
 
       # Make sure the filter gets set once
@@ -102,7 +102,7 @@ RSpec.describe 'Team planner project include', js: true, with_ee: %i[team_planne
         work_package_view.expect_event other_other_task
       end
 
-      page.refresh
+      refresh
 
       work_package_view.within_lane(other_user) do
         work_package_view.expect_event other_task

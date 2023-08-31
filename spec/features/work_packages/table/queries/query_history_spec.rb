@@ -99,7 +99,7 @@ RSpec.describe 'Going back and forth through the browser history', js: true do
     version_query
   end
 
-  it 'updates the filters and query results on history back and forth', retry: 1 do
+  it 'updates the filters and query results on history back and forth', retry: 1, with_cuprite: false do
     wp_table.visit!
     wp_table.expect_title('All open', editable: true)
 

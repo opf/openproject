@@ -100,7 +100,7 @@ RSpec.describe 'BIM filter spec',
       card_view.expect_work_package_not_listed wp2
     end
 
-    it 'the filter is applied even after reload' do
+    it 'the filter is applied even after reload', with_cuprite: false do
       # Change filter
       filters.set_operator('Status', 'closed', nil)
       filters.expect_filter_count 1

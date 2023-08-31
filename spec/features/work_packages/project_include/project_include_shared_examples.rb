@@ -227,7 +227,7 @@ RSpec.shared_examples 'has a project include dropdown', js: true, type: :feature
     dropdown.expect_closed
     dropdown.expect_count 3
 
-    page.refresh
+    refresh
 
     dropdown.expect_count 3
 
@@ -327,7 +327,7 @@ RSpec.shared_examples 'has a project include dropdown', js: true, type: :feature
     dropdown.expect_count 1
   end
 
-  it 'filter projects in the list' do
+  it 'filter projects in the list', with_cuprite: false do
     dropdown.expect_count 1
     dropdown.toggle!
     dropdown.expect_open

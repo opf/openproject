@@ -59,7 +59,7 @@ RSpec.describe 'Custom text widget on my page', js: true do
     my_page.visit!
   end
 
-  it 'can add the widget set custom text and upload attachments' do
+  it 'can add the widget set custom text and upload attachments', with_cuprite: false do
     my_page.add_widget(1, 1, :within, "Custom text")
 
     sleep(0.1)

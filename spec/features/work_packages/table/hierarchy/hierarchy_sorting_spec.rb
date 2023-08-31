@@ -47,7 +47,7 @@ RSpec.describe 'Work Package table hierarchy and sorting', js: true do
     login_as(user)
   end
 
-  it 'can show hierarchies and sort by start_date' do
+  it 'can show hierarchies and sort by start_date', with_cuprite: false do
     wp_table.visit!
     wp_table.expect_work_package_listed(wp_root, wp_child1, wp_child2, wp_child3)
     hierarchy.expect_hierarchy_at(wp_root)

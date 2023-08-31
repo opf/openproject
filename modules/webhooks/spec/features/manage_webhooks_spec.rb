@@ -74,8 +74,9 @@ RSpec.describe 'Manage webhooks through UI', js: true do
 
       SeleniumHubWaiter.wait
       # Delete webhook
-      find(".webhooks--outgoing-webhook-row-#{webhook.id} .icon-delete").click
-      page.driver.browser.switch_to.alert.accept
+      accept_alert do
+        find(".webhooks--outgoing-webhook-row-#{webhook.id} .icon-delete").click
+      end
 
       expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_successful_delete))
       expect(page).to have_selector('.generic-table--empty-row')

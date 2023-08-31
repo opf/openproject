@@ -30,10 +30,11 @@ require 'spec_helper'
 require 'features/page_objects/notification'
 
 RSpec.describe 'Upload attachment to documents',
-         js: true,
-         with_settings: {
-           journal_aggregation_time_minutes: 0
-         } do
+               js: true,
+               with_cuprite: false,
+               with_settings: {
+                 journal_aggregation_time_minutes: 0
+               } do
   let!(:user) do
     create(:user,
            member_in_project: project,

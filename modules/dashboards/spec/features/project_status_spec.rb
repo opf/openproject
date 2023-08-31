@@ -106,7 +106,7 @@ RSpec.describe 'Project status widget on dashboard', js: true do
   context 'with editing permissions' do
     let(:current_user) { editing_user }
 
-    it 'can edit the status and its explanation' do
+    it 'can edit the status and its explanation', with_cuprite: false do
       # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
       status_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
 

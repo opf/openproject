@@ -96,7 +96,7 @@ RSpec.describe 'Version action board', js: true, with_ee: %i[board_view] do
       login_as(user)
     end
 
-    it 'allows management of boards' do
+    it 'allows management of boards', with_cuprite: false do
       board_page = create_new_version_board
 
       board_page.expect_card 'Open version', work_package.subject, present: true
@@ -222,7 +222,7 @@ RSpec.describe 'Version action board', js: true, with_ee: %i[board_view] do
       board_page.expect_card('A second version', 'Task 1', present: false)
     end
 
-    it 'allows adding new and closed versions from within the board' do
+    it 'allows adding new and closed versions from within the board', with_cuprite: false do
       board_page = create_new_version_board
 
       # Add new version (and list)

@@ -128,7 +128,7 @@ RSpec.describe 'Wysiwyg code block macro',
         end
       end
 
-      it 'can add and edit a code block widget' do
+      it 'can add and edit a code block widget', with_cuprite: false do
         editor.in_editor do |container,|
           editor.click_toolbar_button 'Insert code snippet'
 

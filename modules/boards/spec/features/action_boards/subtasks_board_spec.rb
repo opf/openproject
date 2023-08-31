@@ -82,7 +82,7 @@ RSpec.describe 'Subtasks action board', js: true, with_ee: %i[board_view] do
          edit_work_packages view_work_packages manage_public_queries manage_subtasks]
     end
 
-    it 'allows management of subtasks work packages' do
+    it 'allows management of subtasks work packages', with_cuprite: false do
       board_index.visit!
 
       # Create new board
@@ -157,7 +157,7 @@ RSpec.describe 'Subtasks action board', js: true, with_ee: %i[board_view] do
       board_page.expect_card('Other WP', 'Second child', present: false)
     end
 
-    it 'prevents adding a work package to its own column' do
+    it 'prevents adding a work package to its own column', with_cuprite: false do
       board_index.visit!
       board_page = board_index.create_board action: 'Parent-child', expect_empty: true
       board_page.add_list option: 'Parent WP'

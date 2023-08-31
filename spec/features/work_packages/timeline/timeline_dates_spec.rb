@@ -194,7 +194,7 @@ RSpec.describe 'Work package timeline date formatting',
     end
 
     shared_examples "sets dates, duration and displays bar" do
-      it 'sets dates, duration and duration bar' do
+      it 'sets dates, duration and duration bar', with_cuprite: false do
         subject
 
         row.expect_bar(duration: expected_bar_duration)
@@ -219,7 +219,7 @@ RSpec.describe 'Work package timeline date formatting',
         work_package_with_non_working_days.update({ start_date: nil, due_date: nil, duration: 5 })
       end
 
-      it 'displays the hover bar correctly' do
+      it 'displays the hover bar correctly', with_cuprite: false do
         # Expect no hover bar when hovering over a non working day
         row.hover_bar(offset_days: -1)
         row.expect_no_hovered_bar
@@ -303,7 +303,7 @@ RSpec.describe 'Work package timeline date formatting',
         end
       end
 
-      it 'cancels when the drag starts or finishes on a weekend' do
+      it 'cancels when the drag starts or finishes on a weekend', with_cuprite: false do
         # Finish on the weekend
         row.drag_and_drop(offset_days: 1, days: 5)
 

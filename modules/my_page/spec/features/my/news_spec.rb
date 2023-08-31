@@ -60,7 +60,7 @@ RSpec.describe 'My page news widget spec', js: true do
     my_page.visit!
   end
 
-  it 'can add the widget and see the visible news' do
+  it 'can add the widget and see the visible news', with_cuprite: false do
     # No other widgets exist as the user lacks the permissions for the default widgets
     # add widget in top right corner
     my_page.add_widget(1, 1, :within, 'News')

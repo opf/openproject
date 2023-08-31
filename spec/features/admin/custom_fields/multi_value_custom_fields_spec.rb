@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Multi-value custom fields creation', js: true do
+RSpec.describe 'Multi-value custom fields creation', js: true, with_cuprite: false do
   shared_let(:admin) { create(:admin) }
 
   before do

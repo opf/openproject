@@ -54,7 +54,7 @@ RSpec.describe 'form configuration', js: true do
         visit edit_type_tab_path(id: type.id, tab: "form_configuration")
       end
 
-      it 'resets the form properly after changes' do
+      it 'resets the form properly after changes', with_cuprite: false do
         form.rename_group('Details', 'Whatever')
         form.expect_attribute(key: :assignee)
 
@@ -119,7 +119,7 @@ RSpec.describe 'form configuration', js: true do
           .to have_selector('.work-packages--details--description', text: work_package.description)
       end
 
-      it 'allows modification of the form configuration' do
+      it 'allows modification of the form configuration', with_cuprite: false do
         #
         # Test default set of groups
         #
@@ -256,7 +256,7 @@ RSpec.describe 'form configuration', js: true do
         visit edit_type_tab_path(id: type.id, tab: "form_configuration")
       end
 
-      it 'shows the field' do
+      it 'shows the field', with_cuprite: false do
         # Should be initially disabled
         form.expect_inactive(cf_identifier)
 
@@ -300,7 +300,7 @@ RSpec.describe 'form configuration', js: true do
       end
 
       context 'if inactive in project' do
-        it 'can be added to the type, but is not shown' do
+        it 'can be added to the type, but is not shown', with_cuprite: false do
           add_cf_to_group
           # Disable in project, should be invisible
           # This step is necessary, since we auto-activate custom fields
@@ -353,7 +353,7 @@ RSpec.describe 'form configuration', js: true do
                  work_package_custom_fields: custom_fields)
         end
 
-        it 'can be added to type and is visible' do
+        it 'can be added to type and is visible', with_cuprite: false do
           add_cf_to_group
 
           # Visit work package with that type

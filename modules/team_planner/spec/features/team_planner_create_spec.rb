@@ -29,7 +29,10 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-RSpec.describe 'Team planner create new work package', js: true, with_ee: %i[team_planner_view] do
+RSpec.describe 'Team planner create new work package',
+               js: true,
+               with_cuprite: false,
+               with_ee: %i[team_planner_view] do
   include_context 'with team planner full access'
 
   let(:type_task) { create(:type_task) }

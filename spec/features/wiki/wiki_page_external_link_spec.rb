@@ -41,7 +41,7 @@ RSpec.describe 'Wiki page external link', js: true do
            text: 'A link to <a href="http://0.0.0.0:3001/">OpenProject</a>.')
   end
 
-  it 'opens that link in a new window or tab' do
+  it 'opens that link in a new window or tab', with_cuprite: false do
     visit project_wiki_path(project, wiki_page)
 
     link = page.find('a[href^="http://0.0.0.0:3001/"]')

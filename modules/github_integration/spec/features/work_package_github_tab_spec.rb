@@ -69,7 +69,7 @@ RSpec.describe 'Open the GitHub tab', js: true do
       work_package_page.switch_to_tab(tab: 'github')
     end
 
-    it 'shows the github tab when the user is allowed to see it' do
+    it 'shows the github tab when the user is allowed to see it', with_cuprite: false do
       work_package_page.visit!
       work_package_page.switch_to_tab(tab: 'github')
 
@@ -88,7 +88,7 @@ RSpec.describe 'Open the GitHub tab', js: true do
       let(:check_run) {}
       let(:pull_request) {}
 
-      it 'shows the github tab with an empty-pull-requests message' do
+      it 'shows the github tab with an empty-pull-requests message', with_cuprite: false do
         work_package_page.visit!
         work_package_page.switch_to_tab(tab: 'github')
         tabs.expect_no_counter(github_tab_element)

@@ -76,7 +76,9 @@ module AuthenticationHelpers
   private
 
   def using_cuprite?
-    Capybara.default_driver == :better_cuprite_en
+    metadata = RSpec.current_example.metadata
+
+    metadata[:javascript_driver] == :better_cuprite_en && metadata[:js]
   end
 
   def session_value_for(user)

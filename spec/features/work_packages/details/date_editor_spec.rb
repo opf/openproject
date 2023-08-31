@@ -260,7 +260,7 @@ RSpec.describe 'date inplace editor',
     expect(work_package.start_date).to be_nil
   end
 
-  it 'closes the date picker when moving away' do
+  it 'closes the date picker when moving away', with_cuprite: false do
     wp_table.visit!
     wp_table.open_full_screen_by_doubleclick work_package
 

@@ -296,7 +296,7 @@ RSpec.describe 'Work package timeline navigation', js: true, selenium: true do
       wp_timeline.expect_no_timeline_relation(wp_cat1, wp_cat2)
     end
 
-    it 'removes the relation element when removed in split screen' do
+    it 'removes the relation element when removed in split screen', with_cuprite: false do
       wp_table.visit_query(query)
       wp_table.expect_work_package_listed(wp_cat1, wp_cat2, wp_none)
 

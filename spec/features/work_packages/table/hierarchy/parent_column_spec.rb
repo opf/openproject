@@ -36,7 +36,7 @@ RSpec.describe 'Work Package table parent column', js: true do
     end
   end
 
-  it 'can edit the parent work package (Regression #43647)' do
+  it 'can edit the parent work package (Regression #43647)', with_cuprite: false do
     wp_table.visit_query query
     wp_table.expect_work_package_listed(parent, child)
 

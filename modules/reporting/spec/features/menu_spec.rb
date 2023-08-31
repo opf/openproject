@@ -66,7 +66,7 @@ RSpec.describe 'project menu' do
           visit current_path
         end
 
-        it 'leads to cost reports' do
+        it 'leads to cost reports', with_cuprite: false do
           find('#main-menu [data-qa-selector="op-menu--item-action"]', text: 'Time and costs').click
 
           expect(page).to have_current_path("/projects/ponyo/cost_reports")
@@ -92,7 +92,7 @@ RSpec.describe 'project menu' do
           visit current_path
         end
 
-        it 'leads to cost reports' do
+        it 'leads to cost reports', with_cuprite: false do
           # doing what no human can - click on invisible items.
           # This way, we avoid having to use selenium and by that increase stability.
           find('#main-menu [data-qa-selector="op-menu--item-action"]', text: 'Time and costs').click

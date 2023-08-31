@@ -59,7 +59,7 @@ RSpec.describe 'OAuth authorization code flow',
     expect(body['scope']).to eq 'api_v3'
   end
 
-  it 'can authorize and manage an OAuth application grant' do
+  it 'can authorize and manage an OAuth application grant', with_cuprite: false do
     visit oauth_path app.uid, redirect_uri
 
     # Expect we're guided to the login screen
@@ -137,7 +137,7 @@ RSpec.describe 'OAuth authorization code flow',
       let!(:redirect_uri) { "https://foo.com/foo" }
       let!(:allowed_redirect_uri) { "#{redirect_uri} https://bar.com/bar" }
 
-      it 'can authorize and manage an OAuth application grant' do
+      it 'can authorize and manage an OAuth application grant', with_cuprite: false do
         visit oauth_path app.uid, redirect_uri
 
         # Check that the hosts of allowed redirection urls are present in the content security policy

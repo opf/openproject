@@ -30,7 +30,10 @@ require 'spec_helper'
 require_relative '../support/pages/team_planner'
 require_relative '../../../../spec/features/views/shared_examples'
 
-RSpec.describe 'Team planner query handling', js: true, with_ee: %i[team_planner_view] do
+RSpec.describe 'Team planner query handling',
+               js: true,
+               with_cuprite: false,
+               with_ee: %i[team_planner_view] do
   shared_let(:type_task) { create(:type_task) }
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:project) do

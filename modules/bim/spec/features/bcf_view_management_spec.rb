@@ -32,7 +32,9 @@ require_relative '../support/pages/ifc_models/show_default'
 require_relative '../../../../spec/features/views/shared_examples'
 
 RSpec.describe 'bcf view management',
-               js: true, with_config: { edition: 'bim' } do
+               js: true,
+               with_config: { edition: 'bim' },
+               with_cuprite: false do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:bcf_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:role) do

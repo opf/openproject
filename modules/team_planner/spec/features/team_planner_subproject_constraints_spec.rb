@@ -54,7 +54,7 @@ RSpec.describe 'Team planner constraints for a subproject', js: true, with_ee: %
            due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday))
   end
 
-  it 'shows a visual aid that the other user cannot be assigned' do
+  it 'shows a visual aid that the other user cannot be assigned', with_cuprite: false do
     team_planner.visit!
 
     team_planner.add_assignee user

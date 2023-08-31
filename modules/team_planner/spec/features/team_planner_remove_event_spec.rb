@@ -85,7 +85,7 @@ RSpec.describe 'Team planner remove event', js: true, with_ee: %i[team_planner_v
     sleep 2
   end
 
-  it 'can remove one of the work packages' do
+  it 'can remove one of the work packages', with_cuprite: false do
     team_planner.drag_to_remove_dropzone non_removable_wp, expect_removable: false
     team_planner.drag_to_remove_dropzone removable_wp, expect_removable: true
   end
@@ -93,7 +93,7 @@ RSpec.describe 'Team planner remove event', js: true, with_ee: %i[team_planner_v
   context 'with the add existing open searching for the task' do
     let(:add_existing_pane) { Components::AddExistingPane.new }
 
-    it 'the removed task shows up again' do
+    it 'the removed task shows up again', with_cuprite: false do
       # Open the left hand pane
       add_existing_pane.open
       add_existing_pane.expect_empty

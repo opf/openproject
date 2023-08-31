@@ -58,7 +58,7 @@ RSpec.describe 'Work Package highlighting fields',
     wp_table.expect_work_package_listed wp_1, wp_2
   end
 
-  it 'provides highlighting through css classes' do
+  it 'provides highlighting through css classes', with_cuprite: false do
     # Default inline highlight
     wp1_row = wp_table.row(wp_1)
     wp2_row = wp_table.row(wp_2)

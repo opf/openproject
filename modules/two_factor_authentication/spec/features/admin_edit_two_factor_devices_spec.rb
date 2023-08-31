@@ -73,9 +73,10 @@ RSpec.describe 'Admin 2FA management',
       visit edit_user_path(other_user, tab: :two_factor_authentication)
       expect(page).to have_selector('.mobile-otp--two-factor-device-row', count: 2)
       expect(page).to have_selector('.on-off-status.-enabled')
-      find('.button', text: I18n.t('two_factor_authentication.admin.button_delete_all_devices')).click
 
-      page.driver.browser.switch_to.alert.accept
+      accept_alert do
+        find('.button', text: I18n.t('two_factor_authentication.admin.button_delete_all_devices')).click
+      end
 
       expect(page).to have_selector('.generic-table--empty-row',
                                     text: I18n.t('two_factor_authentication.admin.no_devices_for_user'), wait: 20)

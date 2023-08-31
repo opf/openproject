@@ -93,7 +93,7 @@ RSpec.describe 'Arbitrary WorkPackage query table widget dashboard', js: true do
   end
 
   context 'with the permission to save queries' do
-    it 'can add the widget and see the work packages of the filtered for types' do
+    it 'can add the widget and see the work packages of the filtered for types', with_cuprite: false do
       # This one always exists by default.
       # Using it here as a safeguard to govern speed.
       wp_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')

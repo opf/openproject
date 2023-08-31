@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'My account session management', js: true do
+RSpec.describe 'My account session management', js: true, with_cuprite: false do
   include Redmine::I18n
   let(:user) { create(:user) }
 
@@ -63,8 +63,9 @@ RSpec.describe 'My account session management', js: true do
     expect(trs[1]).to have_text format_time(old_session_time)
     expect(trs[1]).to have_selector('.buttons a')
 
-    trs[1].find('.buttons a').click
-    page.driver.browser.switch_to.alert.accept
+    accept_alert do
+      trs[1].find('.buttons a').click
+    end
 
     expect(page).to have_selector('.generic-table tbody tr', count: 1)
 

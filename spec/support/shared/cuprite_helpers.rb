@@ -45,6 +45,14 @@ def wait_for_reload
   page.driver.wait_for_reload
 end
 
+def refresh
+  if using_cuprite?
+    page.driver.refresh
+  else
+    page.refresh
+  end
+end
+
 # Ferrum is yet support `fill_options` as a Hash
 def clear_input_field_contents(input_element)
   if input_element.is_a? String
@@ -58,5 +66,5 @@ def clear_input_field_contents(input_element)
 end
 
 def using_cuprite?
-  Capybara.javascript_driver == :better_cuprite_en
+  RSpec.current_example.metadata[:javascript_driver] == :better_cuprite_en
 end

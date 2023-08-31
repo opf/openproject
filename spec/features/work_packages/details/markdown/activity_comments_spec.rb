@@ -143,7 +143,7 @@ RSpec.describe 'activity comments', js: true do
       end
 
       describe 'with an existing comment' do
-        it 'allows to edit an existing comment' do
+        it 'allows to edit an existing comment', with_cuprite: false do
           # Insert new text, need to do this separately.''
           ['Comment with', ' ', '*', '*', 'bold text', '*', '*', ' ', 'in it'].each do |key|
             comment_field.input_element.send_keys key

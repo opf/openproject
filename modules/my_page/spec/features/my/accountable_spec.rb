@@ -78,7 +78,7 @@ RSpec.describe 'Accountable widget on my page', js: true do
     my_page.visit!
   end
 
-  it 'can add the widget and see the work packages the user is accountable for' do
+  it 'can add the widget and see the work packages the user is accountable for', with_cuprite: false do
     # Added to ensure the page has finished loading.
     # The page starts with a "wp created widget".
     created_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')

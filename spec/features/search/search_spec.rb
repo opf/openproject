@@ -287,7 +287,7 @@ RSpec.describe 'Search', js: true, with_settings: { per_page_options: '5' } do
       let(:columns) { Components::WorkPackages::Columns.new }
       let(:top_menu) { Components::Projects::TopMenu.new }
 
-      it 'shows a work package table with correct results' do
+      it 'shows a work package table with correct results', with_cuprite: false do
         # Search without subprojects
         global_search.search query
         global_search.submit_in_current_project
