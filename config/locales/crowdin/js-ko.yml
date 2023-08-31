@@ -65,6 +65,8 @@ ko:
     button_confirm: "확인"
     button_continue: "계속"
     button_copy: "복사"
+    button_copy_to_clipboard: "클립보드 복사"
+    button_copy_link_to_clipboard: "클립보드에 링크 복사"
     button_copy_to_other_project: "다른 프로젝트에 복사"
     button_custom-fields: "사용자 정의 필드"
     button_delete: "삭제"
@@ -105,7 +107,7 @@ ko:
       remove_from_list: '목록에서 카드 제거'
     caption_rate_history: "요금 기록"
     clipboard:
-      browser_error: "브라우저를 클립보드에 복사를 지원 하지 않습니다. 텍스트를 타이핑하여 복사하십시오."
+      browser_error: "해당 브라우저는 클립보드에 복사를 지원하지 않습니다. 수동으로 복사하세요: %{content}"
       copied_successful: "클립보드에 복사되었습니다!"
     chart:
       type: '차트 유형'
@@ -228,7 +230,7 @@ ko:
           quick_overview: "OpenProject Enterprise Edition으로 프로젝트 관리 및 팀 공동 작업에 대한 간략한 개요를 가져올 수 있습니다."
         upsale:
           become_hero: "영웅이 되세요!"
-          enterprise_info_html: "%{feature_title}은(는) Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> 추가 기능입니다."
+          enterprise_info_html: "%{feature_title}은(는) Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> 추가 기능입니다."
           upgrade_info: "활성화하고 팀에서 사용하려면 유료 플랜으로 업그레이드하세요."
           benefits:
             description: "Enterprise on-premises Edition의 장점은 무엇입니까?"
@@ -294,6 +296,34 @@ ko:
           one: "첫 번째 정렬 기준"
           two: "두 번째 정렬 기준"
           three: "세 번째 정렬 기준"
+    gantt_chart:
+      label: 'Gantt 차트'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: '레이블 구성'
+        bar: '막대 레이블'
+        left: '왼쪽'
+        right: '오른쪽'
+        farRight: '맨 오른쪽'
+        description: >
+          항상 Gantt 차트의 각 위치에 표시할 특성을 선택하세요. 요소를 가리키면 해당 특성 대신 날짜 레이블이 표시됩니다.
+      button_activate: 'Gantt 차트 표시'
+      button_deactivate: 'Gantt 차트 숨기기'
+      filter:
+        noneSelection: "(없음)"
+      selection_mode:
+        notification: '강조 표시된 작업 패키지를 클릭하여 관계를 만드세요. 취소하려면 ESC 키를 누르세요.'
+      zoom:
+        in: "확대"
+        out: "축소"
+        auto: "자동 확대/축소"
+        days: "일"
+        weeks: "주"
+        months: "개월"
+        quarters: "분기"
+        years: "년"
+        description: >
+          자동 확대/축소를 사용할 수 없는 경우 표시되어야 하는 초기 확대/축소 수준을 선택하세요.
     general_text_no: "아니요"
     general_text_yes: "예"
     general_text_No: "아니요"
@@ -312,11 +342,22 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>작업 패키지의 파일을 Nextcloud 파일 저장소에 업로드하고 연결합니다.</li> <li>프로젝트 활동 추적을 통해 프로젝트 변경 사항을 추적합니다.</li> <li>인스턴스 전체 공휴일(휴무일)을 추가합니다.</li> <li>비관리자가 프로젝트를 보관합니다.</li> <li>기한이 지난 작업 패키지에 대한 새로운 기본 필터.</li> </ul>
+                이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>변경 사항을 쉽게 추적할 수 있는 기준선 비교.</li> <li>작업 계획의 보고서에 대한 PDF 내보내기.</li> <li>URL(iCalendar)로 프로젝트 캘린더 구독.</li> <li>Nextcloud 통합에 대한 문서 템플릿이 있는 프로젝트 폴더.</li> <li>모든 시드 데이터의 지역화된 시딩.</li> <li>새 색인 페이지에 나열되는 글로벌 모듈.</li> </ul>
+    ical_sharing_modal:
+      title: "캘린더 구독"
+      inital_setup_error_message: "데이터를 가져오는 중에 오류가 발생했습니다."
+      description: "URL(iCalendar)을 사용하여 외부 클라이언트에서 이 캘린더를 구독하고 여기에서 최신 작업 패키지 정보를 볼 수 있습니다."
+      warning: "다른 사용자와 이 URL을 공유하지 마세요. 이 링크가 있으면 누구든지 계정이나 암호 없이 작업 패키지 세부 정보를 볼 수 있습니다."
+      token_name_label: "이 항목을 어디서 사용하실건가요?"
+      token_name_placeholder: "이름을 입력하세요. 예: \"휴대폰\""
+      token_name_description_text: "여러 장치에서 이 캘린더를 구독하는 경우 이 이름은 <a href=\"my/access_token\", target=\"_blank\">액세스 토큰</a> 목록에서 장치를 구분하는 데 도움이 됩니다."
+      copy_url_label: "URL 복사"
+      ical_generation_error_text: "캘린더 URL을 생성하는 중에 오류가 발생했습니다."
+      success_message: "\"%{name}\" URL이 클립보드에 복사되었습니다. 구독을 완료하려면 캘린더 클라이언트에 붙여넣으세요."
     label_activate: "활성화"
     label_assignee: '담당자'
     label_add_column_after: "다음 뒤에 열 추가"
@@ -328,7 +369,7 @@ ko:
     label_add_row_before: "다음 앞에 행 추가"
     label_add_selected_columns: "선택된 열 추가"
     label_added_by: "추가함 : "
-    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
+    label_added_time_by: "%{age}, <a href=\"%{authorLink}\">%{author}</a> 님이 추가함"
     label_ago: "일 전"
     label_all: "모두"
     label_all_work_packages: "모든 작업 패키지"
@@ -493,7 +534,7 @@ ko:
     label_remove_all_files: 모든 파일을 삭제
     label_add_description: "%{file} 의 설명 추가"
     label_upload_notification: "파일 업로드 중..."
-    label_work_package_upload_notification: "작업 패키지 #%{id}: %{subject} 를 위한 파일 업로딩" #%{id}: %{subject} 를 위한 파일 업로딩"
+    label_work_package_upload_notification: "작업 패키지 #%{id}: %{subject} 를 위한 파일 업로딩"
     label_wp_id_added_by: "#%{id} - %{author}님이 추가함"
     label_files_to_upload: "이 파일들이 업로드 됩니다."
     label_rejected_files: "파일들이 업로드 할 수 없습니다."
@@ -666,7 +707,7 @@ ko:
         모든 특성을 보려면 작업 패키지를 만들 프로젝트를 선택하십시오. 위 유형이 활성화된 프로젝트만 선택할 수 있습니다.
       details_activity: '프로젝트 세부 정보 활동'
       context: '프로젝트 컨텍스트'
-      click_to_switch_to_project: 'Project: %{projectname}'
+      click_to_switch_to_project: '프로젝트: %{projectname}'
       confirm_template_load: '템플릿을 전환하면 페이지가 다시 로드되고 이 양식에 대한 모든 입력이 손실됩니다. 계속하시겠습니까?'
       use_template: "템플릿 사용"
       no_template_selected: "(없음)"
@@ -725,6 +766,14 @@ ko:
     time_entry:
       work_package_required: '먼저 작업 패키지를 선택해야 합니다.'
       title: '작업시간 기록'
+      tracking: '시간 추적'
+      stop: '중지'
+    timer:
+      start_new_timer: '새 타이머 시작'
+      timer_already_running: '새 타이머를 시작하려면 먼저 현재 타이머를 중지해야 합니다.'
+      timer_already_stopped: '이 작업 패키지에 대한 활성 타이머가 없습니다. 다른 창에서 중지하셨습니까?'
+      tracking_time: '추적 시간'
+      button_stop: '현재 타이머 중지'
     two_factor_authentication:
       label_two_factor_authentication: '2단계 인증'
     watchers:
@@ -783,7 +832,8 @@ ko:
     autocompleter:
       placeholder: "검색할 유형"
       notFoundText: "항목 없음"
-      typeToSearchText: "검색할 유형"
+      project:
+        placeholder: "프로젝트 선택"
     repositories:
       select_tag: '태그 선택'
       select_branch: '브랜치 선택'
@@ -801,63 +851,6 @@ ko:
       activate_no: '정렬을 제거하기 위해 활성화합니다'
     text_work_packages_destroy_confirmation: "선택한 작업 패키지를 삭제하시겠습니까?"
     text_query_destroy_confirmation: "선택한 보기를 삭제하시겠습니까?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt 차트'
-      labels:
-        title: '레이블 구성'
-        bar: '막대 레이블'
-        left: '왼쪽'
-        right: '오른쪽'
-        farRight: '맨 오른쪽'
-        showNone: '-- 레이블 없음 --'
-        description: >
-          항상 Gantt 차트의 각 위치에 표시할 특성을 선택하세요. 요소를 가리키면 해당 특성 대신 날짜 레이블이 표시됩니다.
-      button_activate: 'Gantt 차트 표시'
-      button_deactivate: 'Gantt 차트 숨기기'
-      cancel: 취소
-      change: "계획에서 변경"
-      due_date: "완료 날짜"
-      empty: "(비어 있음)"
-      error: "오류가 발생했습니다."
-      errors:
-        not_implemented: "아직 구현되지 않은 기능을 사용하기 때문에 타임라인을 렌더링할 수 없습니다."
-        report_comparison: "타임라인은 구성된 비교를 렌더링할 수 없습니다. 구성에서 적절한 섹션을 확인하세요. 이를 재설정하면 이 문제가 해결될 수 있습니다."
-        report_epicfail: "예기치 않은 오류로 인해 타임라인을 로드할 수 없습니다."
-        report_timeout: "적절한 시간에 타임라인을 로드할 수 없습니다."
-      filter:
-        grouping_other: "기타"
-        noneSelection: "(없음)"
-      name: "이름"
-      outline: "윤곽 재설정"
-      outlines:
-        aggregation: "집계만 표시"
-        level1: "확장 수준 1"
-        level2: "확장 수준 2"
-        level3: "확장 수준 3"
-        level4: "확장 수준 4"
-        level5: "확장 수준 5"
-        all: "모두 표시"
-      project_status: "프로젝트 상태"
-      really_close_dialog: "입력된 자료를 저장하지 않고 대화상자를 닫으시겠습니까?"
-      responsible: "책임"
-      save: 저장
-      start_date: "시작 날짜"
-      tooManyProjects: "프로젝트 수가 %{count}개를 초과합니다. 검색 조건을 좁히시기 바랍니다."
-      selection_mode:
-        notification: '강조 표시된 작업 패키지를 클릭하여 관계를 만드세요. 취소하려면 ESC 키를 누르세요.'
-      zoom:
-        in: "확대"
-        out: "축소"
-        auto: "자동 확대/축소"
-        days: "일"
-        weeks: "주"
-        months: "개월"
-        quarters: "분기"
-        years: "년"
-        slider: "줌 슬라이더"
-        description: >
-          자동 확대/축소를 사용할 수 없는 경우 표시되어야 하는 초기 확대/축소 수준을 선택하세요.
     tl_toolbar:
       zooms: "확대 수준"
       outlines: "계층 수준"
@@ -918,8 +911,15 @@ ko:
       message_work_package_read_only: "작업 패키지가 이 상태로 잠겨 있습니다. 상태 이외의 특성은 변경할 수 없습니다."
       message_work_package_status_blocked: "닫힌 상태이고 닫힌 버전이 할당되었기 때문에 작업 패키지 상태를 쓸 수 없습니다."
       placeholder_filter_by_text: "제목, 설명, 코멘트, ..."
+      baseline:
+        addition_label: '비교 기간 내에서 보기에 추가됨'
+        removal_label: '비교 기간 내에서 보기에서 제거됨'
+        modification_label: '비교 기간 내에서 수정됨'
+        column_incompatible: '이 열은 기준선 모드에서 변경 사항을 표시하지 않습니다.'
       filters:
         title: '작업 패키지 필터링'
+        baseline_incompatible: '이 필터 특성은 기준선 모드에서 고려되지 않습니다.'
+        baseline_warning: '기준선 모드가 켜져 있지만 일부 활성 필터가 비교에 포함되지 않습니다.'
       inline_create:
         title: '이 목록에 새 작업 패키지를 추가하려면 여기를 클릭하세요.'
       create:
@@ -1080,6 +1080,7 @@ ko:
         save_as: "다른 이름으로 저장"
         export: "내보내기"
         visibility_settings: "표시 여부 설정"
+        share_calendar: "캘린더 구독"
         page_settings: "보기 이름 바꾸기"
         delete: "삭제"
       filter: "필터"
@@ -1154,10 +1155,11 @@ ko:
       button_deactivate: 'Zen 모드 비활성화'
     global_search:
       all_projects: "모든 프로젝트에서"
-      search: "검색"
       close_search: "검색 닫기"
-      current_project: "이 프로젝트에서"
       current_project_and_all_descendants: "이 프로젝트 + 하위 프로젝트에서"
+      current_project: "이 프로젝트에서"
+      recently_viewed: "최근에 조회됨"
+      search: "검색"
       title:
         all_projects: "모든 프로젝트"
         project_and_subprojects: "그리고 모든 하위 프로젝트"
@@ -1246,6 +1248,38 @@ ko:
         current_project: '작업 중인 현재 프로젝트입니다.'
         does_not_match_search: '프로젝트가 검색 기준과 일치하지 않습니다.'
       no_results: '검색 기준과 일치하는 프로젝트가 없습니다.'
+    baseline:
+      toggle_title: '기준선'
+      clear: '선택 취소'
+      apply: '적용'
+      header_description: '과거 어느 시점 이후에 이 목록에서 변경된 사항을 강조 표시합니다.'
+      enterprise_header_description: 'Enterprise Edition에서 과거 어느 시점 이후에 이 목록에서 변경된 사항을 강조 표시합니다.'
+      show_changes_since: '다음 이후 변경 사항 표시'
+      baseline_comparison: '기준선 비교'
+      help_description: '기준선의 참조 시간대입니다.'
+      time_description: '내 현지 시간: %{datetime}'
+      time: '시간'
+      from: '시작'
+      to: '끝'
+      drop_down:
+        none: '-'
+        yesterday: '어제'
+        last_working_day: '마지막 근무일'
+        last_week: '지난주'
+        last_month: '지난달'
+        a_specific_date: '특정 날짜'
+        between_two_specific_dates: '특정한 두 날짜 사이'
+      legends:
+        changes_since: '다음 이후 변경 사항'
+        changes_between: '다음 사이 변경 사항'
+        now_meets_filter_criteria: '이제 필터 기준을 충족합니다'
+        no_longer_meets_filter_criteria: '더 이상 필터 기준을 충족하지 않습니다'
+        maintained_with_changes: '변경 사항으로 유지됨'
+        in_your_timezone: '내 현지 시간대:'
+      icon_tooltip:
+        added: '비교 기간 내에서 보기에 추가됨'
+        removed: '비교 기간 내에서 보기에서 제거됨'
+        changed: '수정 사항으로 유지됨'
     forms:
       submit_success_message: '양식을 성공적으로 제출했습니다'
       load_error_message: '양식을 불러오는 중 오류가 발생했습니다'

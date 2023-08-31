@@ -45,9 +45,9 @@ export function compareByHref<T extends HalResource>(a:T|undefined|null, b:T|und
   return bothNil || (!!a && !!b && a.href === b.href);
 }
 
-export function compareByHrefOrString<T extends HalResource>(a:T|string|undefined|null, b:T|string|undefined|null):boolean {
+export function compareByHrefOrString<T extends HalResource>(a:T|string|undefined|null|unknown, b:T|string|undefined|null|unknown):boolean {
   if (a instanceof HalResource && b instanceof HalResource) {
-    return compareByHref(a as HalResource, b as HalResource);
+    return compareByHref(a, b);
   }
 
   const bothNil = !a && !b;

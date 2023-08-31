@@ -69,8 +69,8 @@ it:
       delete_all_are_you_sure: 'Sei sicuro di voler eliminare tutti i dispositivi 2FA per questo utente?'
       button_delete_all_devices: 'Elimina i dispositivi 2FA registrati'
       button_register_mobile_phone_for_user: 'Registra telefono cellulare'
-      text_2fa_enabled: 'All''ogni accesso, l''utente sarà richiesto di inserire un token OTP dal suo dispositivo 2FA predefinito.'
-      text_2fa_disabled: "L'utente non ha impostato un dispositivo 2FA attraverso la pagina 'Mio Account'"
+      text_2fa_enabled: 'A ogni accesso, questo utente dovrà inserire un token OTP dal proprio dispositivo predefinito A2F.'
+      text_2fa_disabled: "L'utente non ha configurato un dispositivo A2F tramite la propria 'pagina Il Mio profilo'"
     upsale:
       title: 'Autenticazione a due fattori'
       description: 'Rafforza la sicurezza della tua istanza OpenProject offrendo (o implementando) l''autenticazione a due fattori a tutti i membri del progetto.'

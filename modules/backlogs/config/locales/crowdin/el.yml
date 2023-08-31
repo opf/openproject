@@ -26,6 +26,8 @@ el:
         position: "Θέση"
         remaining_hours: "Υπολειπόμενες ώρες"
         remaining_time: "Υπολειπόμενες ώρες"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Πόντοι Ιστορίας"
         backlogs_work_package_type: "Τύπος backlog"
     errors:
@@ -35,9 +37,6 @@ el:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "μπορεί να περιέχει μόνο ταυτότητες πακέτων εργασία του τρέχοντος sprint."
               must_block_at_least_one_work_package: "πρέπει να περιέχει την ταυτότητα από τουλάχιστον ένα ticket."
-            parent_id:
-              parent_child_relationship_across_projects: "δεν είναι έγκυρο επειδή το πακέτο εργασίας '%{work_package_name}' είναι μια εργασία backlog επομένως δεν μπορεί να έχει γονέα εκτός του τρέχοντος έργου."
-              type_must_be_one_of_the_following: "Ο τύπος πρέπει να είναι ένας από τους παρακάτω: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "πρέπει να είναι το ίδιο με την έκδοση ιστορίας του γονέα."
         sprint:
@@ -78,7 +77,6 @@ el:
     x_more: "%{count} ακόμα..."
   backlogs_active: "ενεργό"
   backlogs_any: "οποιoδήποτε"
-  backlogs_card_specification: "Μέγεθος ετικέτας για εκτύπωση καρτών"
   backlogs_inactive: "Το έργο δεν φαίνεται να έχει δραστηριότητα"
   backlogs_points_burn_direction: "Points burn up/down"
   backlogs_product_backlog: "Backlog προϊόντος"

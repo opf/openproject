@@ -7,3 +7,7 @@ export const internalSortColumn = {
 export const internalContextMenuColumn = {
   id: '__internal-contextMenu',
 } as QueryColumn;
+
+export const internalBaselineColumn = {
+  id: '__internal-baseline',
+} as QueryColumn;

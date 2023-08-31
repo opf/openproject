@@ -65,6 +65,8 @@ sk:
     button_confirm: "Potvrdiť"
     button_continue: "Pokračovať"
     button_copy: "Kopírovať"
+    button_copy_to_clipboard: "Kopírovať do schránky"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Vlastné polia"
     button_delete: "Odstrániť"
@@ -105,7 +107,7 @@ sk:
       remove_from_list: 'Odstrániť kartu zo zoznamu'
     caption_rate_history: "Hodinová sadzba - História"
     clipboard:
-      browser_error: "Váš prehliadač nepodporuje kopírovanie do schránky. Manuálne skopírujte vybratý text."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
@@ -228,7 +230,7 @@ sk:
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Staň sa hrdinom!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
@@ -294,6 +296,34 @@ sk:
           one: "Prvé kritérium zoradenia"
           two: "Druhé kritérium zoradenia"
           three: "Tretie kritérium zoradenia"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "nie"
     general_text_yes: "áno"
     general_text_No: "Nie"
@@ -312,11 +342,22 @@ sk:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to calendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Aktivovať"
     label_assignee: 'Priradené'
     label_add_column_after: "Pridať stĺpec po"
@@ -493,7 +534,7 @@ sk:
     label_remove_all_files: Odstrániť všetky súbory
     label_add_description: "Pridať popis %{file}"
     label_upload_notification: "Nahrávanie súborov..."
-    label_work_package_upload_notification: "Nahrávanie súborov pre Pracovný balík #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Nahrávanie súborov pre Pracovný balík #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} pridané %{author}"
     label_files_to_upload: "Tieto súbory budú odovzdané:"
     label_rejected_files: "Tieto súbory nie je možné odovzdať:"
@@ -728,6 +769,14 @@ sk:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'Zaprotokoluj čas'
+      tracking: 'Sledovanie času'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvojfaktorové overenie (2FA)'
     watchers:
@@ -786,7 +835,8 @@ sk:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Vybrať značku'
       select_branch: 'Vyberte odbor'
@@ -804,63 +854,6 @@ sk:
       activate_no: 'aktivovať odstránenie zoradenia'
     text_work_packages_destroy_confirmation: "Naozaj chcete odstrániť vybraný pracovný balíček(y)?"
     text_query_destroy_confirmation: "Naozaj chcete odstrániť vybraté zobrazenie?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Ganttov diagram'
-      labels:
-        title: 'Konfigurácia popisku'
-        bar: 'Menovky pásov'
-        left: 'Vľavo'
-        right: 'Vpravo'
-        farRight: 'Vzdialene vpravo'
-        showNone: '-- Žiadna menovka --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Zobraziť Ganttov graf'
-      button_deactivate: 'Skryť Ganttov graf'
-      cancel: Zrušíť
-      change: "Zmena v plánovaní"
-      due_date: "Dátum dokončenia"
-      empty: "(prázdny)"
-      error: "Vyskytla sa chyba."
-      errors:
-        not_implemented: "Časovú os nebolo možné zobraziť, pretože používa funkciu, ktorá ešte nie je implementovaná."
-        report_comparison: "Časová os nemôže vykresliť konfigurované porovnania. Skontrolujte príslušnú časť v konfigurácii, vynulovanie môže pomôcť vyriešiť tento problém."
-        report_epicfail: "Časovú os nebolo možné načítať kvôli neočakávanej chybe."
-        report_timeout: "Časovú os nebolo možné načítať v primeranom čase."
-      filter:
-        grouping_other: "Ostatné"
-        noneSelection: "(žiadny)"
-      name: "Názov"
-      outline: "Obnoviť osnovu"
-      outlines:
-        aggregation: "Zobraziť iba vyznačené zoskupenia"
-        level1: "Rozbaľte položky úrovne 1"
-        level2: "Rozbaľte položky do úrovne 2"
-        level3: "Rozbaľte položky do úrovne 3"
-        level4: "Rozbaľte položky do úrovne 4"
-        level5: "Rozbaľte položky do úrovne 5"
-        all: "Zobraziť všetko"
-      project_status: "Stav projektu"
-      really_close_dialog: "Naozaj chcete zatvoriť dialógové okno a prísť o zadané údaje?"
-      responsible: "Zodpovedný"
-      save: Uložiť
-      start_date: "Dátum začiatku"
-      tooManyProjects: "Nájdených viac ako %{count} projektov. Prosím, použite presnejšiu podmienku pre filter!"
-      selection_mode:
-        notification: 'Kliknutím na ľubovoľný zvýraznený pracovný balíček vytvoríte vzťah. Ak chcete zrušiť stlačte klávesu escape.'
-      zoom:
-        in: "Priblížiť"
-        out: "Vzdialiť"
-        auto: "Automatické zväčšenie"
-        days: "Dni"
-        weeks: "Týždne"
-        months: "Mesiace"
-        quarters: "Kvartály"
-        years: "Roky"
-        slider: "Posuvný ovládač priblíženia / oddialenia"
-        description: >
-          Zvoľte počiatočnú úroveň priblíženia, ktorá by sa mala zobraziť, ak nie je k dispozícii autozoom.
     tl_toolbar:
       zooms: "Úroveň priblíženia"
       outlines: "Úroveň vnorenia"
@@ -921,8 +914,15 @@ sk:
       message_work_package_read_only: "Pracovný balíček je v tomto stave uzamknutý. Nie je možné zmeniť iný atribút ako stav."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "Predmet, popis, komentáre, ..."
+      baseline:
+        addition_label: 'Added to view within the comparison time period'
+        removal_label: 'Removed from view within the comparison time period'
+        modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filter pracovných balíčkov'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Kliknutím sem pridajte nový pracovný balík do tohto zoznamu'
       create:
@@ -1083,6 +1083,7 @@ sk:
         save_as: "Uložiť ako"
         export: "Exportovať"
         visibility_settings: "Nastavenia viditeľnosti"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Premenovať zobrazenie"
         delete: "Odstrániť"
       filter: "Filtrovať"
@@ -1163,10 +1164,11 @@ sk:
       button_deactivate: 'Deaktivovať zen režim'
     global_search:
       all_projects: "Pre všetky projekty"
-      search: "Vyhľadávanie"
       close_search: "Zavrieť vyhľadávanie"
-      current_project: "V tomto projekte"
       current_project_and_all_descendants: "V tomto projekte + podprojektoch"
+      current_project: "V tomto projekte"
+      recently_viewed: "Recently viewed"
+      search: "Vyhľadávanie"
       title:
         all_projects: "všetky projekty"
         project_and_subprojects: "a všetky podprojekty"
@@ -1255,6 +1257,38 @@ sk:
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
       no_results: 'No project matches your search criteria.'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: 'Vyčistiť'
+      apply: 'Použiť'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
+      show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
+      time: 'Čas'
+      from: 'Od'
+      to: 'Do'
+      drop_down:
+        none: '-'
+        yesterday: 'včera'
+        last_working_day: 'last working day'
+        last_week: 'minulý týždeň'
+        last_month: 'Minulý mesiac'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
+      legends:
+        changes_since: 'Changes since'
+        changes_between: 'Changes between'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
+        in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

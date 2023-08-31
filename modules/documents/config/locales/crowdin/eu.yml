@@ -29,11 +29,6 @@ eu:
   default_doc_category_tech: "Dokumentazio teknikoa"
   default_doc_category_user: "Erabiltzaile dokumentazioa"
   enumeration_doc_categories: "Dokumentuen kategoriak"
-  enumeration:
-    document_category:
-      documentation: Dokumentazioa
-      specification: Zehaztapena
-      other: Beste bat
   documents:
     label_attachment_author: "Eranskinaren egilea"
   label_document_added: "Dokumentua gehituta"

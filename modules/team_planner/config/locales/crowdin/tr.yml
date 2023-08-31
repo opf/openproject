@@ -2,9 +2,10 @@
 tr:
   permission_view_team_planner: "Takım planlayıcıyı görüntüle"
   permission_manage_team_planner: "Takım planlayıcıyı yönet"
-  project_module_team_planner_view: "Takım planlayıcısı"
+  project_module_team_planner_view: "Takım planlayıcıları"
   team_planner:
     label_team_planner: "Takım planlayıcısı"
+    label_new_team_planner: "New team planner"
     label_create_new_team_planner: "Yeni takım planlayıcısı oluştur"
     label_team_planner_plural: "Takım planlayıcıları"
     label_assignees: "Atananlar"

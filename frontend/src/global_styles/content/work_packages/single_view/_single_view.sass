@@ -44,6 +44,7 @@
       white-space: normal
       overflow-wrap: anywhere
       word-break: normal
+      line-height: normal
 
 // Subject field
 .wp-new--subject-wrapper
@@ -116,34 +117,6 @@ i
     border: 0
     padding: 0
     margin: 0
-
-// Increase label width
-.router--work-packages-full-view .attributes-group,
-.router--work-packages-full-create .attributes-group
-  // We have to find a middle way between
-  // (a) avoiding label wrap and
-  // (b) ugly content wrap (e.g. in the label)
-  // These values are what matches best at the moment. So be careful when changing them.
-  .attributes-key-value--key
-    flex: 1 0 45%
-    max-width: 45%
-  .attributes-key-value--value-container
-    position: relative
-    flex: 1 0 55%
-    max-width: 55%
-
-  // For attributes that span both columns, make sure the label is not way too wide 
-  .wp-attribute-group--attribute_span-all
-    @media screen and (min-width: 92rem), print
-      // These weird calculations are made to account for the side-margins that make
-      // up the flex-basis calculations of the single-column items. 
-      .attributes-key-value--key
-        flex: 1 0 calc((100% - 3rem) * 0.225)
-        max-width: calc((100% - 3rem) * 0.225)
-      .attributes-key-value--value-container
-        flex: 1 0 calc((100% - 3rem) * 0.775)
-        max-width: calc((100% - 3rem) * 0.775)
-
 
 // -------------------- Info row --------------------
 .work-packages--info-row

@@ -11,6 +11,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
+import * as moment from 'moment-timezone';
 
 @Injectable()
 export class CalendarDragDropService {

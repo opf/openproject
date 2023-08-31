@@ -13,6 +13,12 @@ import { CachedBoardActionService } from 'core-app/features/boards/board/board-a
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { VersionAutocompleterComponent } from 'core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import {
+  firstValueFrom,
+  Observable,
+  of,
+} from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class BoardVersionActionService extends CachedBoardActionService {
@@ -53,23 +59,6 @@ export class BoardVersionActionService extends CachedBoardActionService {
     return this.writable$;
   }
 
-  public addInitialColumnsForAction(board:Board):Promise<Board> {
-    return this
-      .loadValues()
-      .toPromise()
-      .then((results) => Promise.all<unknown>(
-        results.map((version:VersionResource) => {
-          const definingName = _.get(version, 'definingProject.name', null);
-          if (version.isOpen() && definingName && definingName === this.currentProject.name) {
-            return this.addColumnWithActionAttribute(board, version);
-          }
-
-          return Promise.resolve(board);
-        }),
-      )
-        .then(() => board));
-  }
-
   /**
    * Adds an entry to the list menu to edit the version if allowed
    * @param {QueryResource} query The active query
@@ -97,7 +86,8 @@ export class BoardVersionActionService extends CachedBoardActionService {
   public disabledAddButtonPlaceholder(version:VersionResource) {
     if (version.isLocked()) {
       return { icon: 'locked', text: this.I18n.t('js.boards.version.locked') };
-    } if (version.isClosed()) {
+    }
+    if (version.isClosed()) {
       return { icon: 'not-supported', text: this.I18n.t('js.boards.version.closed') };
     }
     return undefined;
@@ -107,9 +97,9 @@ export class BoardVersionActionService extends CachedBoardActionService {
     return value instanceof VersionResource && value.isOpen();
   }
 
-  protected loadUncached():Promise<HalResource[]> {
+  protected loadUncached():Observable<HalResource[]> {
     if (this.currentProject.id === null) {
-      return Promise.resolve([]);
+      return of([]);
     }
 
     return this
@@ -118,8 +108,9 @@ export class BoardVersionActionService extends CachedBoardActionService {
       .id(this.currentProject.id)
       .versions
       .get()
-      .toPromise()
-      .then((collection) => collection.elements);
+      .pipe(
+        map((collection) => collection.elements),
+      );
   }
 
   private patchVersionStatus(version:VersionResource, newStatus:'open'|'closed'|'locked') {

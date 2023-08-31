@@ -1,9 +1,10 @@
 @import '../../app/spot/styles/sass/variables'
+@import '../../global_styles/openproject/variables'
 
 .op-non-working-days-list
   .fc-list-event-graphic
     display: none
-      
+
   &--delete-icon
     opacity: 0
 
@@ -21,7 +22,7 @@
 
   .fc-list-empty-cushion
     margin: auto !important
-  
+
   .fc-list-day-cushion
     a
       cursor: default
@@ -31,6 +32,12 @@
   .fc-list-event-title a
     cursor: text
 
-  @media screen and (max-width: 679px)
+  .fc-toolbar h2
+    display: inline
+    margin: $spot-spacing-0_25 $spot-spacing-0_5
+    padding-top: 1px
+    position: absolute
+
+  @media screen and (max-width: $breakpoint-sm)
    .op-non-working-days-list--delete-icon
       opacity: 1

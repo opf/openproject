@@ -1,21 +1,49 @@
-<!-- Standard Ruby view, please see the controller for comments -->
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2023 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
 <% html_title t(:label_administration), t("project_module_storages") %>
 
 <% if ::Storages::Storage.any? %>
   <%= toolbar title: t("storages.page_titles.project_settings.index") do %>
 
     <li class="toolbar-item">
-      <%= link_to new_project_settings_projects_storage_path,
+      <%= link_to new_project_settings_project_storage_path,
                   { class: 'button -alt-highlight',
                     aria: { label: t(:'storages.label_new_storage') },
-                    title: t(:'ifc_models.label_new_storage') } do %>
+                    title: t(:'storages.label_new_storage') } do %>
         <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= ::Storages::Storage.model_name.human %></span>
       <% end %>
     </li>
   <% end %>
 
-  <%= rails_cell ::Storages::ProjectsStoragesTableCell, @projects_storages %>
+  <%= render(::Storages::ProjectStorages::TableComponent.new(rows: @project_storages)) %>
 <% else %>
   <%= render partial: '/storages/project_settings/toast_no_storage_set_up' %>
 <% end %>

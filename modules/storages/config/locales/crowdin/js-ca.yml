@@ -15,6 +15,7 @@ ca:
       choose_location: "Tria ubicació"
       types:
         nextcloud: "Nextcloud"
+        default: "Emmagatzematge"
       information:
         connection_error: >
           Alguna configuració de %{storageType} no està funcionant. Si us plau, contacta el teu administrador de %{storageType}.
@@ -30,9 +31,16 @@ ca:
           Un fitxer amb el nom "%{fileName}" ja existeix a la ubicació on estàs intentant carregar-lo. Que vols fer?
         directory_not_writeable: "No tens permís per afegir fitxers dins d'aquesta carpeta."
         dragging_many_files: "La càrrega a %{storageType} només permet un fitxer per càrrega."
+        dragging_folder: "The upload to %{storageType} does not support folders."
         empty_folder: "Aquesta carpeta està buida."
         empty_folder_location_hint: "Fes clic al botó de sota per carregar fitxers a aquesta ubicació."
         file_not_selectable_location: "Seleccionar un fitxer, no és possible en el procés de tria d'ubicació."
+        project_folder_no_access: >
+          No tens accés a la capeta de projecte. Si us plau, contacta amb el teu administrador per obtenir accés o puja el fitxer en una altra ubicació.
+        managed_project_folder_not_available: >
+          The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
+        managed_project_folder_no_access: >
+          You have no access yet to the managed project folder. Please wait a bit and try again.
         upload_keep_both: "Conserva els dos"
         upload_replace: "Substitueix"
       file_links:

@@ -3,9 +3,20 @@ et:
   permission_view_file_links: "View file links"
   permission_manage_file_links: "Manage file links"
   permission_manage_storages_in_project: "Manage file storages in project"
+  permission_read_files: "Read files"
+  permission_write_files: "Write files"
+  permission_create_files: "Create files"
+  permission_delete_files: "Delete files"
+  permission_share_files: "Share files"
   project_module_storages: "File storages"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Not authorized for external connection to storage."
+        not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
+      file_link: "File"
       storages/storage: "Storage"
     attributes:
       storages/storage:
@@ -28,6 +39,9 @@ et:
                 appears to not have the app "OpenProject integration" installed. Please install it first and then try again.
               authorization_header_missing: >
                 is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
+            password:
+              invalid_password: "is not valid."
+              unknown_error: "could not be validated. Please check your storage connection and try again."
         storages/file_link:
           attributes:
             origin_id:
@@ -36,22 +50,45 @@ et:
     errors:
       too_many_elements_created_at_once: "Too many elements created at once. Expected %{max} at most, got %{actual}."
   storages:
+    unknown_storage: "Unknown storage"
     buttons:
       done_continue_setup: "Done. Continue setup"
+      done_complete_setup: "Done, complete setup"
+      edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Replace OpenProject OAuth"
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
+      select_folder: "Select folder"
+      configure: "Configure"
     page_titles:
+      managed_project_folders:
+        title: "Automatically managed project folders"
+        subtitle: >
+          Let OpenProject create folders per project automatically. This is recommended as it ensures that every team member always has the correct access permissions.
       project_settings:
         index: "File storages available in this project"
         new: "Add a file storage to this project"
+        edit: "Edit the file storage to this project"
+        delete: "Delete file storage"
+        members_connection_status: "Members connection status"
+      project_storage_members:
+        title: "Members connection status"
+        subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
     instructions:
       type: "Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:"
       type_link_text: "“Integration OpenProject”"
       name: "Give your storage a name so that users can differentiate between multiple storages."
       host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
+      managed_project_folders_application_password: >
+        Copy this value from:
       no_storage_set_up: "There are no file storages set up yet."
+      no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
+      automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
+      empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
+      not_logged_into_storage: "To select a project folder, please first login"
+      existing_manual_folder: >
+        You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "For setting up additional file storages, please visit"
       setting_up_additional_storages_non_admin: "Administrators can set up additional file storages in Administration / File Storages."
       setting_up_storages: "For setting up file storages, please visit"
@@ -60,26 +97,51 @@ et:
       copy_from: "Copy this value from"
       nextcloud:
         integration: "Nextcloud Administration / OpenProject"
+    help_texts:
+      project_folder: >
+        The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     delete_warning:
       storage: >
         Are you sure you want to delete this storage? This will also delete the storage from all projects where it is used. Further, it will also delete all links from work packages to files that are stored in that storage.
       project_storage: >
-        Are you sure you want to remove this file storage from this project? This will also remove all links to files stored in this storage for this project.
+        Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:
+      project_storage_delete_result_1: "Remove all links from work packages of this project to files and folders of that storage."
+      project_storage_delete_result_2: "In case this storage has an automatically managed project folder, this and its files will be deleted forever."
+      input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
+      irreversible_notice: "Deleting a file storage is an irreversible action."
+    label_active: "Active"
+    label_inactive: "Inactive"
     label_creator: "Creator"
     label_file_link: "File link"
     label_file_links: "File links"
     label_name: "Nimi"
     label_host: "Host URL"
+    label_managed_project_folders:
+      automatically_managed_folders: "Automatically managed folders"
+      application_password: "Application password"
+    label_managed_project_folders_breadcrumb: "Automatically managed project folders"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
     label_oauth_application_details: "OAuth application details"
     label_oauth_client_details: "OAuth client details"
     label_provider_type: "Provider type"
+    label_project_folder: "Project folder"
     label_new_storage: "New storage"
+    label_existing_manual_folder: "Existing folder with manually managed permissions"
+    label_no_specific_folder: "No specific folder"
+    label_automatic_folder: "New folder with automatically managed permissions"
+    label_no_selected_folder: "No selected folder"
     label_storage: "Storage"
     label_storages: "Storages"
+    label_status: "Status"
+    label_files: "Files"
+    member_connection_status:
+      connected: "Connected"
+      connected_no_permissions: "User role has no storages permissions"
+      not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
     no_results: "No storages set up yet."
+    members_no_results: "No members to display."
     provider_types:
       label: "Provider type"
       nextcloud:
@@ -89,4 +151,5 @@ et:
     confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
     confirm_replace_oauth_client: "Are you sure? All users will have to authorize again against the storage."
     oauth_client_details_missing: "To complete the setup, please add OAuth client credentials from your storage."
+    automatically_managed_project_folder_missing: "To complete the setup, please configure automatically managed project folders for your storage."
     notice_oauth_application_replaced: "The OpenProject OAuth application was successfully replaced."

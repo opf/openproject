@@ -23,12 +23,12 @@ ja:
   js:
     ajax:
       hide: "非表示"
-      loading: "Loading…"
-      updating: "Updating…"
+      loading: "読み込み中…"
+      updating: "更新中..."
     attachments:
-      delete: "Delete attachment"
+      delete: "添付ファイルを削除"
       delete_confirmation: |
-        Are you sure you want to delete this file? This action is not reversible.
+        本当に、このファイルを削除してもよろしいですか? この操作は元に戻すことができません。
       draggable_hint: |
         インライン画像または参照添付ファイルをエディタ領域にドラッグします。
         ドラッグしつづけると閉じられたエディタ領域が開きます。
@@ -66,7 +66,9 @@ ja:
     button_confirm: "確認"
     button_continue: "続行"
     button_copy: "コピー"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_clipboard: "クリップボードにコピー"
+    button_copy_link_to_clipboard: "クリップボードにリンクをコピー"
+    button_copy_to_other_project: "他のプロジェクトにコピー"
     button_custom-fields: "カスタムフィールド"
     button_delete: "削除"
     button_delete_watcher: "ウォッチャーを削除"
@@ -87,9 +89,9 @@ ja:
     button_show_cards: "カードビュー表示"
     button_show_list: "リストビュー表示"
     button_show_table: "Show table view"
-    button_show_gantt: "Show Gantt view"
-    button_show_fullscreen: "Show fullscreen view"
-    button_more_actions: "More actions"
+    button_show_gantt: "ガントビューを表示"
+    button_show_fullscreen: "全画面表示"
+    button_more_actions: "その他の操作"
     button_quote: "引用"
     button_save: "保存"
     button_settings: "設定"
@@ -106,7 +108,7 @@ ja:
       remove_from_list: 'リストからカードを削除'
     caption_rate_history: "進捗履歴"
     clipboard:
-      browser_error: "お使いのブラウザーでは、クリップボードへのコピーをサポートしていません。手動で選択したテキストをコピーしてください。"
+      browser_error: "お使いのブラウザーはクリップボードへのコピーをサポートしていません。手動でコピーしてください: %{content}"
       copied_successful: "クリップボードにコピーしました"
     chart:
       type: 'グラフの種類'
@@ -134,7 +136,7 @@ ja:
       preview: 'プレビューモードの切り替え'
       source_code: 'Markdown ソースモードの切り替え'
       error_saving_failed: '次のエラーで文書を保存するのに失敗しました: %{error}'
-      ckeditor_error: 'An error occurred within CKEditor'
+      ckeditor_error: 'CKEditor内でエラーが発生しました'
       mode:
         manual: 'Markdownソースに切り替える'
         wysiwyg: 'WYSIWYGエディタに切り替えます'
@@ -159,7 +161,7 @@ ja:
           language_hint: '強調表示に使用する言語の書式を入力します（サポートされている場合）。'
         dropdown:
           macros: 'マクロ'
-          chose_macro: 'Choose macro'
+          chose_macro: 'マクロを選択'
         toc: '目次'
         toolbar_help: 'クリックしてウィジェットを選択しツールバーを表示します。 ダブルクリックしてウィジェットを編集'
         wiki_page_include:
@@ -229,7 +231,7 @@ ja:
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "ヒーローになろう!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
@@ -258,10 +260,10 @@ ja:
           empty_state_header: "Non-working days"
           empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
           new_date: '(new)'
-        add_non_working_day: "Non-working day"
+        add_non_working_day: "休業日"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
         change_button: "Save and reschedule"
-        change_title: "Change working days"
+        change_title: "営業日を変更する"
         removed_title: "You will remove the following days from the non-working days list:"
         change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
         warning: >
@@ -295,6 +297,34 @@ ja:
           one: "最初の並べ替え条件"
           two: "2 番目の並べ替え基準"
           three: "3 番目の並べ替え条件"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "いいえ"
     general_text_yes: "はい"
     general_text_No: "いいえ"
@@ -313,11 +343,22 @@ ja:
           learn_about: "新機能の詳細はこちら"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to calendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      copy_url_label: "URLをコピー"
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "有効にする"
     label_assignee: '担当者'
     label_add_column_after: "後に列を追加"
@@ -423,7 +464,7 @@ ja:
     label_per_page: "1 ページあたり"
     label_please_wait: "しばらくお待ちください"
     label_project: "プロジェクト"
-    label_project_list: "Projects list"
+    label_project_list: "プロジェクト一覧"
     label_project_plural: "プロジェクト"
     label_visibility_settings: "表示の設定"
     label_quote_comment: "このコメントを引用"
@@ -479,15 +520,15 @@ ja:
     label_unwatch_work_package: "作業項目のウォッチを削除"
     label_uploaded_by: "アップロードした人"
     label_default_queries: "既定の項目"
-    label_starred_queries: "Favorite"
+    label_starred_queries: "お気に入り"
     label_global_queries: "公開"
-    label_custom_queries: "Private"
+    label_custom_queries: "非公開"
     label_columns: "列"
     label_attachments: 添付ファイル
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: フォルダを添付ファイルとしてアップロードすることはできません。 単一のファイルを選択してください。
-    label_add_attachments: "Attach files"
+    label_add_attachments: "ファイルを添付"
     label_formattable_attachment_hint: "このフィールドにドロップ、またはクリップボードから貼り付けて、ファイルを添付およびリンクします。"
     label_remove_file: "%{fileName}を削除"
     label_remove_watcher: "ウォッチャー%{name}を削除"
@@ -726,6 +767,14 @@ ja:
     time_entry:
       work_package_required: '最初にワークパッケージを選択する必要があります。'
       title: '時間を記録'
+      tracking: '作業時間の記録'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: '2要素認証'
     watchers:
@@ -784,7 +833,8 @@ ja:
     autocompleter:
       placeholder: "検索キーワードを入力"
       notFoundText: "No items found"
-      typeToSearchText: "検索キーワードを入力"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'タグを選択する'
       select_branch: '分岐を選択する'
@@ -802,63 +852,6 @@ ja:
       activate_no: '並べ替えを削除'
     text_work_packages_destroy_confirmation: "選択したワークパッケージを削除してもよろしいですか？"
     text_query_destroy_confirmation: "選択したビューを削除してもよろしいですか？"
-    timelines:
-      quarter_label: '第%{quarter_number}四半期'
-      gantt_chart: 'ガントチャート'
-      labels:
-        title: 'ラベル設定'
-        bar: 'バーのラベル'
-        left: '左'
-        right: '右'
-        farRight: '右端'
-        showNone: '-- ラベルなし --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'ガントチャートの表示'
-      button_deactivate: 'ガントチャートを隠す'
-      cancel: キャンセル
-      change: "計画の変更する"
-      due_date: "終了日"
-      empty: "（空）"
-      error: "エラーが発生しました。"
-      errors:
-        not_implemented: "まだ実装されていない機能を使用するため、タイムラインが表示できません。"
-        report_comparison: "設定された比較表はタイムラインで表示できません。該当する設定部分をご確認ください。設定をリセットすることにより、この問題を解決するに役立つことがあります。"
-        report_epicfail: "タイムラインは予期しないエラーのため読み込めませんでした。"
-        report_timeout: "タイムラインは適切な時間内に読み込めませんでした。"
-      filter:
-        grouping_other: "その他"
-        noneSelection: "(なし)"
-      name: "名称"
-      outline: "概要をリセットする"
-      outlines:
-        aggregation: "集計のみを表示"
-        level1: "レベル１を展開"
-        level2: "レベル２を展開"
-        level3: "レベル３を展開"
-        level4: "レベル４を展開"
-        level5: "レベル５を展開"
-        all: "全てを表示"
-      project_status: "プロジェクトの進捗状況"
-      really_close_dialog: "ダイアログボックスを閉じて入力したデータを破棄してもよろしいですか？"
-      responsible: "責任者"
-      save: 保存
-      start_date: "開始日"
-      tooManyProjects: "プロジェクト数が%{count} 件を超えました。フィルタを変えてください ！"
-      selection_mode:
-        notification: '関連を作成するには、強調表示されたワークパッケージをクリックします。キャンセルするにはエスケープキーを押してください。'
-      zoom:
-        in: "拡大"
-        out: "拡大"
-        auto: "自動ズーム"
-        days: "日"
-        weeks: "週"
-        months: "ヶ月"
-        quarters: "四半期ごと"
-        years: " 年"
-        slider: "ズームスライダー"
-        description: >
-          オートズームが使用できない場合に表示される初期ズームレベルを選択します。
     tl_toolbar:
       zooms: "ズームレベル"
       outlines: "階層レベル"
@@ -919,8 +912,15 @@ ja:
       message_work_package_read_only: "作業項目はこの状態でロックされています。 ステータス以外の属性は変更できません。"
       message_work_package_status_blocked: "ステータスがクローズでクローズされたバージョンが割り当てられているため、ワークパッケージのステータスは書き込みできません。"
       placeholder_filter_by_text: "タイトル、説明、コメント、..."
+      baseline:
+        addition_label: 'Added to view within the comparison time period'
+        removal_label: 'Removed from view within the comparison time period'
+        modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'ワークパッケージのフィルタ'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'クリックしてこのリストに新しい作業項目を追加します'
       create:
@@ -1081,6 +1081,7 @@ ja:
         save_as: "名前をつけて保存"
         export: "外部出力"
         visibility_settings: "表示の設定"
+        share_calendar: "Subscribe to calendar"
         page_settings: "ビューの名前を変更..."
         delete: "削除"
       filter: "フィルタ"
@@ -1155,10 +1156,11 @@ ja:
       button_deactivate: 'マナーモードを非アクティブにする'
     global_search:
       all_projects: "すべてのプロジェクトで"
-      search: "検索"
       close_search: "検索を閉じる"
-      current_project: "このプロジェクトでは"
       current_project_and_all_descendants: "このプロジェクトとサブプロジェクトでは"
+      current_project: "このプロジェクトでは"
+      recently_viewed: "Recently viewed"
+      search: "検索"
       title:
         all_projects: "すべてのプロジェクト"
         project_and_subprojects: "すべてのプロジェクトで"
@@ -1247,6 +1249,38 @@ ja:
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
       no_results: 'No project matches your search criteria.'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: 'クリア'
+      apply: '適用'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
+      show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
+      time: '時間'
+      from: '日付指定: '
+      to: 'から'
+      drop_down:
+        none: '-'
+        yesterday: '昨日'
+        last_working_day: 'last working day'
+        last_week: '先週'
+        last_month: '先月'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
+      legends:
+        changes_since: 'Changes since'
+        changes_between: 'Changes between'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
+        in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'フォームは正常に送信されました'
       load_error_message: 'フォームの読み込み中にエラーが発生しました'

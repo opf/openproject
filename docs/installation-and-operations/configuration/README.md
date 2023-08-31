@@ -26,7 +26,7 @@ After changing the file `/etc/openproject/conf.d/env`  the command `sudo openpro
 
 If you would like to change only one variable you are able to configure the environment variable by using the following command:
 
-```bash
+```shell
 sudo openproject config:set VARIABLE=value
 ```
 
@@ -80,7 +80,7 @@ x-op-app: &app
     - "${OPDATA:-opdata}:/var/openproject/assets"
 
 # configuration cut off at this point.
-# Please use the file at https://github.com/opf/openproject-deploy/blob/stable/12/compose/docker-compose.yml
+# Please use the file at https://github.com/opf/openproject-deploy/blob/stable/13/compose/docker-compose.yml
 ```
 
 
@@ -89,7 +89,7 @@ Alternatively, you can also use an env file for docker-compose like so:
 
 First, add a `.env` file with some variable:
 
-```bash
+```shell
 OPENPROJECT_HTTPS="true"
 ```
 
@@ -117,14 +117,14 @@ x-op-app: &app
     # ... more environment variables
 
 # configuration cut off at this point.
-# Please use the file at https://github.com/opf/openproject-deploy/blob/stable/12/compose/docker-compose.yml
+# Please use the file at https://github.com/opf/openproject-deploy/blob/stable/13/compose/docker-compose.yml
 ```
 
 
 
 Let's say you have a `.env.prod`  file with some production-specific configuration. Then, start the services with that special env file specified.
 
-```bash
+```shell
 docker-compose --env-file .env.prod up
 ```
 
@@ -150,7 +150,7 @@ Configuring OpenProject through environment variables is described in detail [in
 Environment variables can be either passed directly on the command-line to the
 Docker Engine, or via an environment file:
 
-```bash
+```shell
 docker run -d -e KEY1=VALUE1 -e KEY2=VALUE2 ...
 # or
 docker run -d --env-file path/to/file ...
@@ -160,7 +160,105 @@ Configuring OpenProject through environment variables is described in detail [in
 
 
 
-## Examples for common use cases
+# Seeding through environment
+
+OpenProject allows some resources to be seeded/created initially through configuration variables.
+
+| Topic                                                       | Description                                                  |
+| ----------------------------------------------------------- | ------------------------------------------------------------ |
+| [Initial admin user creation](#initial-admin-user-creation) | Changing attributes or passwords of the initially created administrator |
+| [Seeding LDAP connections](#seeding-ldap-connections)       | How to create an LDAP connection through configuration       |
+
+
+
+## Initial admin user creation
+
+**Note:** These variables are only applicable during the first initial setup of your OpenProject setup. Changing or setting them later will have no effect, as the admin user will already have been created.
+
+By default, an admin user will be created with the login and password set to `admin`. You will be required to change this password on first login.
+
+In case of automated deployments, you might find it useful to seed an admin user with password and attributes of your choosing. For that, you can use the following set of variables:
+
+
+
+```shell
+OPENPROJECT_SEED_ADMIN_USER_PASSWORD="admin" # Password to set for the admin user
+OPENPROJECT_SEED_ADMIN_USER_PASSWORD_RESET="true" # Whether to force a password reset on first login (true/false)
+OPENPROJECT_SEED_ADMIN_USER_NAME="OpenProject Admin" # Name to assign to that user (First and lastnames will be split on the space character)
+OPENPROJECT_SEED_ADMIN_USER_MAIL="admin@example.net" # Email attribute to assign to that user. Note that in packaged installations, a wizard step will assign this variable as well.
+```
+
+
+
+## Seeding LDAP connections
+
+OpenProject allows you to create and maintain an LDAP connection with optional synchronized group filters. This is relevant for e.g., automated deployments, where you want to trigger the synchronization right at the start.
+
+**Note:** These variables are applied whenever `db:seed` rake task is being executed. This happens on every packaged `configure` call or when the seeder container job is being run, so be aware that these changes might happen repeatedly.
+
+The connection can be set with the following options. Please note that "EXAMPLE" stands for an arbitrary name (expressable in ENV keys)  which will become the name of the connection. In this case, "example" and "examplefilter" for the synchronized filter.
+
+The name of the LDAP connection is derived from the ENV key behind `SEED_LDAP_`, so you need to take care to use only valid characters. If you need to place an underscore, use a double underscore to encode it e.g., `my__ldap`.
+
+The following options are possible
+
+```shell
+# Host name of the connection
+OPENPROJECT_SEED_LDAP_EXAMPLE_HOST="localhost"
+# Port of the connection
+OPENPROJECT_SEED_LDAP_EXAMPLE_PORT="389"
+# LDAP security options. One of the following
+# plain_ldap: Unencrypted connection, no TLS/SSL
+# simple_tls: Using deprecated LDAPS/SSL (often in combination with port 636)
+# start_tls: LDAPv3 start_tls call using standard unencrypted port (e.g., 389) before upgrading connection
+OPENPROJECT_SEED_LDAP_EXAMPLE_SECURITY="start_tls"
+# Whether to verify the certificate/chain of the LDAP connection. true/false (True by default)
+OPENPROJECT_SEED_LDAP_EXAMPLE_TLS__VERIFY="true"
+# Optionally, provide a certificate of the connection
+OPENPROJECT_SEED_LDAP_EXAMPLE_TLS__CERTIFICATE="-----BEGIN CERTIFICATE-----\nMII....\n-----END CERTIFICATE-----"
+# The admin LDAP bind account with read access
+OPENPROJECT_SEED_LDAP_EXAMPLE_BINDUSER="uid=admin,ou=system"
+# Password for the bind account
+OPENPROJECT_SEED_LDAP_EXAMPLE_BINDPASSWORD="secret"
+# BASE DN of the connection
+OPENPROJECT_SEED_LDAP_EXAMPLE_BASEDN="dc=example,dc=com"
+# Optional filter string to restrict which users may log in to OpenProject
+# (relevant when for automatic creation of users is active)
+OPENPROJECT_SEED_LDAP_EXAMPLE_FILTER="(uid=*)"
+# Whether to create found and matching users automatically when they log in
+OPENPROJECT_SEED_LDAP_EXAMPLE_SYNC__USERS="true"
+# Attribute mapping for the OpenProject login attribute
+OPENPROJECT_SEED_LDAP_EXAMPLE_LOGIN__MAPPING="uid"
+# Attribute mapping for the OpenProject first name attribute
+OPENPROJECT_SEED_LDAP_EXAMPLE_FIRSTNAME__MAPPING="givenName"
+# Attribute mapping for the OpenProject last name attribute
+OPENPROJECT_SEED_LDAP_EXAMPLE_LASTNAME__MAPPING="sn"
+# Attribute mapping for the OpenProject mail attribute
+OPENPROJECT_SEED_LDAP_EXAMPLE_MAIL__MAPPING="mail"
+# Attribute mapping for the OpenProject admin attribute
+# Leave empty or remove to not derive admin status from an attribute
+OPENPROJECT_SEED_LDAP_EXAMPLE_ADMIN__MAPPING=""
+```
+
+To define a synchronized LDAP filter (for automatic group creation and synchronization), you can add these values:
+
+```shell
+# Define a filter called "examplefilter" with the following options
+# LDAP base to search for groups
+OPENPROJECT_SEED_LDAP_EXAMPLE_GROUPFILTER_EXAMPLEFILTER_BASE="ou=groups,dc=example,dc=com"
+# LDAP filter to locate groups to synchronize with OpenProject
+OPENPROJECT_SEED_LDAP_EXAMPLE_GROUPFILTER_EXAMPLEFILTER_FILTER="(cn=*)"
+# Whether users found in these groups are automatically created
+OPENPROJECT_SEED_LDAP_EXAMPLE_GROUPFILTER_EXAMPLEFILTER_SYNC__USERS="true"
+# The attribute used for the OpenProject group name
+OPENPROJECT_SEED_LDAP_EXAMPLE_GROUPFILTER_EXAMPLEFILTER_GROUP__ATTRIBUTE="cn"
+```
+
+When a filter is defined, synchronization happens directly during seeding for enterprise editions. Be aware of that when you create the connection that e.g., the LDAP connection needs to be reachable.
+
+
+
+# Examples for common use cases
 
 * `attachments_storage_path`
 * `autologin_cookie_name` (default: 'autologin'),
@@ -171,7 +269,6 @@ Configuring OpenProject through environment variables is described in detail [in
 * `scm_subversion_command` (default: 'svn')
 * [`scm_local_checkout_path`](#local-checkout-path) (default: 'repositories')
 * `force_help_link` (default: nil)
-* `session_store`: `active_record_store`, `cache_store`, or `cookie_store` (default: cache_store)
 * `drop_old_sessions_on_logout` (default: true)
 * `drop_old_sessions_on_login` (default: false)
 * [`auth_source_sso`](#auth-source-sso) (default: nil)
@@ -192,30 +289,29 @@ Configuring OpenProject through environment variables is described in detail [in
 * [`web`](#web) (nested configuration)
 * [`statsd`](#statsd) (nested configuration)
 
-## Setting session options
 
-Use `session_store` to define where session information is stored. In order to store sessions in the database and use the following options, set that configuration to `:active_record_store`.
+
+## Setting session options
 
 **Delete old sessions for the same user when logging in**
 
-To enable, set the configuration option:
-
 *default: false*
 
+To enable, set the configuration option:
+
 ```yaml
-OPENPROJECT_SESSION__STORE="{ :active_record_store: { drop_old_sessions_on_login: true } }"
+OPENPROJECT_DROP__OLD__SESSIONS__ON__LOGIN="true"
 ```
 
 **Delete old sessions for the same user when logging out**
 
-To disable, set the configuration option:
-
 *default: true*
 
-```yaml
-OPENPROJECT_SESSION__STORE="{ :active_record_store: { drop_old_sessions_on_logout: false } }"
-```
+To disable, set the configuration option:
 
+```yaml
+OPENPROJECT_DROP__OLD__SESSIONS__ON__LOGOUT="false"
+```
 
 ### disable password login
 
@@ -260,6 +356,9 @@ auth_source_sso:
 Per default the user may choose the usual password login as well as <u>several</u> omniauth providers on the login page and in the login drop down menu. With this configuration option you can set a specific omniauth provider to be used for direct login. Meaning that the login provider selection is skipped and the configured provider is used directly (non-interactive) instead.
 
 If this option is active, a login will lead directly to the configured omniauth provider and so will a click on 'Sign in' (the drop down menu will not open).
+
+To still reach the internal login route for e.g., an internal administrative user, you can manually navigate to `/login/internal`.
+This route is only available when the direct login provider is set.
 
 > **NOTE:** This does not stop a user from manually navigating to any other omniauth provider if additional ones are configured.
 
@@ -324,13 +423,13 @@ OPENPROJECT_FOG_DIRECTORY="uploads"
 
 You can migrate attachments between the available backends. One example would be that you change the configuration from the file storage to the fog storage. If you want to put all the present file-based attachments into the cloud, you will have to use the following rake task:
 
-```bash
+```shell
 rake attachments:copy_to[fog]
 ```
 
 It works the other way around too:
 
-```bash
+```shell
 rake attachments:copy_to[file]
 ```
 
@@ -407,7 +506,7 @@ OPENPROJECT_HIDDEN__MENU__ITEMS_ADMIN__MENU="roles types"
 The following example disables all menu items except 'Users', 'Groups' and 'Custom fields' under 'Administration':
 
 ```yaml
-OPENPROJECT_HIDDEN__MENU__ITEMS_ADMIN__MENU="roles types statuses workflows enumerations settings ldap_authentication colors project_types export_card_configurations plugins info"
+OPENPROJECT_HIDDEN__MENU__ITEMS_ADMIN__MENU="roles types statuses workflows enumerations settings ldap_authentication colors project_types plugins info"
 ```
 
 ### blacklisted routes
@@ -419,7 +518,7 @@ You can blacklist specific routes
 The following example forbid all routes for the second example at the 'hidden menu items admin menu':
 
 ```yaml
-OPENPROJECT_BLACKLISTED__ROUTES="admin/info admin/plugins export_card_configurations project_types colors settings admin/enumerations workflows/* statuses types admin/roles"
+OPENPROJECT_BLACKLISTED__ROUTES="admin/info admin/plugins project_types colors settings admin/enumerations workflows/* statuses types admin/roles"
 ```
 
 ### disabled modules
@@ -568,7 +667,7 @@ If you would like to hide the homescreen links to the OpenProject community, you
 
 *default=true*
 
-```
+```yaml
 OPENPROJECT_SHOW__COMMUNITY__LINKS=false
 ```
 

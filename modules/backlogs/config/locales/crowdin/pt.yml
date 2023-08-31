@@ -26,6 +26,8 @@ pt:
         position: "Posição"
         remaining_hours: "Horas restantes"
         remaining_time: "Horas restantes"
+        derived_remaining_hours: "Horas restantes derivadas"
+        derived_remaining_time: "Horas restantes derivadas"
         story_points: "Pontos de história"
         backlogs_work_package_type: "Tipo de backlog"
     errors:
@@ -35,9 +37,6 @@ pt:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "pode conter somente os IDs dos pacotes de trabalho no sprint atual."
               must_block_at_least_one_work_package: "deve conter o ID de pelo menos um tíquete."
-            parent_id:
-              parent_child_relationship_across_projects: "é inválido porque o pacote de trabalho '%{work_package_name}' é uma tarefa do backlog e, portanto, não pode ter um pai fora do projeto atual."
-              type_must_be_one_of_the_following: "Tipo deve ser um dos seguintes: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "deve ser igual à versão da história dos pais."
         sprint:
@@ -78,7 +77,6 @@ pt:
     x_more: "%{count} mais..."
   backlogs_active: "ativo"
   backlogs_any: "qualquer"
-  backlogs_card_specification: "Tipos de etiqueta para impressão de cartões"
   backlogs_inactive: "Projeto não mostra nenhuma atividade"
   backlogs_points_burn_direction: "Pontos burn up/down"
   backlogs_product_backlog: "Backlog do produto"

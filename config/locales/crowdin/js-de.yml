@@ -65,6 +65,8 @@ de:
     button_confirm: "Bestätigen"
     button_continue: "Fortfahren"
     button_copy: "Kopieren"
+    button_copy_to_clipboard: "In Zwischenablage kopieren"
+    button_copy_link_to_clipboard: "Link in Zwischenablage kopieren"
     button_copy_to_other_project: "In anderes Projekt kopieren"
     button_custom-fields: "Benutzerdefinierte Felder"
     button_delete: "Löschen"
@@ -105,7 +107,7 @@ de:
       remove_from_list: 'Karte aus Liste entfernen'
     caption_rate_history: "Stundensatz-Historie"
     clipboard:
-      browser_error: "Ihr Browser unterstützt das Kopieren in die Zwischenablage nicht nativ. Bitte selektieren und kopieren Sie den Text händisch."
+      browser_error: "Ihr Browser unterstützt das Kopieren in die Zwischenablage nicht nativ. Bitte selektieren und kopieren Sie den Text händisch: %{content}"
       copied_successful: "Erfolgreich in die Zwischenablage kopiert!"
     chart:
       type: 'Art des Diagramms'
@@ -227,7 +229,7 @@ de:
           quick_overview: "Erhalten Sie einen schnellen Überblick über Projektmanagement und Teamzusammenarbeit mit der OpenProject Enterprise Edition."
         upsale:
           become_hero: "Werde zum Held!"
-          enterprise_info_html: "%{feature_title} ist ein Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> Add-on."
+          enterprise_info_html: "%{feature_title} ist ein Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> Add-on."
           upgrade_info: "Bitte steigen Sie auf einen kostenpflichtigen Plan um, um dieses Add-on zu aktivieren und in Ihrem Team zu verwenden."
           benefits:
             description: "Was sind die Vorteile von Enterprise on-premises?"
@@ -293,6 +295,34 @@ de:
           one: "Erstes Sortierkriterium"
           two: "Zweites Sortierkriterium"
           three: "Drittes Sortierkriterium"
+    gantt_chart:
+      label: 'Gantt-Diagramm'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Konfiguration von Beschriftungen'
+        bar: 'Balkenbeschriftungen'
+        left: 'Links'
+        right: 'Rechts'
+        farRight: 'Rechts außen'
+        description: >
+          Wählen Sie die Attribute, die an den jeweiligen Positionen des Gantt-Diagramms zu jeder Zeit angezeigt werden sollen. Bedenken Sie, dass beim Überfahren eines Elements die Datumswerte angezeigt werden anstatt dieser Attribute.
+      button_activate: 'Gantt-Diagramm zeigen'
+      button_deactivate: 'Gantt-Diagramm ausblenden'
+      filter:
+        noneSelection: "(keine)"
+      selection_mode:
+        notification: 'Klicken Sie auf ein hervorgehobenes Arbeitspaket, um eine Relation zu diesem zu erstellen. Drücken Sie Escape, um den Modus abzubrechen.'
+      zoom:
+        in: "Mehr Details"
+        out: "Weniger Details"
+        auto: "Auto-Zoom"
+        days: "Tage"
+        weeks: "Wochen"
+        months: "Monate"
+        quarters: "Quartale"
+        years: "Jahre"
+        description: >
+          Wählen Sie die Zoomstufe für das Gantt-Diagramm aus, wenn kein Autozoom aktiviert ist.
     general_text_no: "nein"
     general_text_yes: "ja"
     general_text_No: "Nein"
@@ -311,11 +341,22 @@ de:
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release
               new_features_html: >
-                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Dateien direkt in einem Arbeitspaket auf Ihren Nextcloud-Speicher hochladen oder verlinken.</li> <li>Bleiben Sie bei Projektänderungen auf dem Laufenden mit der Aktivitätsverfolgung auf Projekten.</li> <li>Fügen Sie instanzweite Feiertage für die Datumsplanung hinzu.</li> <li>Projekte sind über eine neue globale Rolle auch von Nicht-Administratoren archivierbar.</li> <li>Neuer Standardfilter für überfällige Arbeitspakete.</li> </ul>
+                Das Release enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Basislinien Vergleich zur einfachen Verfolgung von Änderungen.</li> <li>PDF-Export für Berichte über Arbeitspläne.</li> <li>Abonnieren Sie Projektkalender über die URL (iCalendar).</li> <li>Projektordner mit Dokumentvorlagen für die Nextcloud-Integration.</li> <li>Lokalisiertes Befüllen der Datenbank mit Basis-Daten.</li> <li>Globale Module werden auf neuen Indexseiten gelistet.</li> </ul>
+    ical_sharing_modal:
+      title: "Kalender abonnieren"
+      inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."
+      description: "Sie können die URL (iCalendar) verwenden, um diesen Kalender in einem externen Client zu abonnieren und aktuelle Arbeitspaket-Informationen von dort aus anzuzeigen."
+      warning: "Bitte teilen Sie diese URL nicht mit anderen Benutzern. Jeder mit diesem Link kann die Arbeitspaket-Details ohne Konto oder Passwort anzeigen."
+      token_name_label: "Wo werden Sie diesen Kalender nutzen?"
+      token_name_placeholder: "Geben sie einen Namen ein (z.B. \"Telefon\")"
+      token_name_description_text: "Wenn Sie diesen Kalender auf mehreren Geräten abonnieren, wird Ihnen dieser Name helfen, zwischen diesen in der Liste der  <a href=\"my/access_token\", target=\"_blank\">Zugriffstoken</a> zu unterscheiden."
+      copy_url_label: "URL kopieren"
+      ical_generation_error_text: "Beim Generieren der Kalender-URL ist ein Fehler aufgetreten."
+      success_message: "Die URL \"%{name}\" wurde erfolgreich in Ihre Zwischenablage kopiert. Fügen Sie sie in Ihren Kalender-Client ein, um das Abonnement abzuschließen."
     label_activate: "Aktiviere"
     label_assignee: 'Zugewiesen an'
     label_add_column_after: "Spalte danach hinzufügen"
@@ -327,7 +368,7 @@ de:
     label_add_row_before: "Zeile davor hinzufügen"
     label_add_selected_columns: "Ausgewählte Spalten hinzufügen"
     label_added_by: "hinzugefügt von"
-    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
+    label_added_time_by: "Hinzugefügt von <a href=\"%{authorLink}\">%{author}</a> am %{age}"
     label_ago: "Tage her"
     label_all: "alle"
     label_all_work_packages: "alle Arbeitspakete"
@@ -492,7 +533,7 @@ de:
     label_remove_all_files: Alle Dateien löschen
     label_add_description: "Fügen Sie eine Beschreibung für %{file} hinzu"
     label_upload_notification: "Dateien werden hochgeladen..."
-    label_work_package_upload_notification: "Hochladen von Dateien für Arbeitspaket #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Hochladen von Dateien für Arbeitspaket #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} erstellt von %{author}"
     label_files_to_upload: "Diese Dateien werden hochgeladen:"
     label_rejected_files: "Diese Dateien können nicht hochgeladen werden:"
@@ -666,7 +707,7 @@ de:
         Bitte wählen Sie ein Projekt für das Arbeitspaket, um alle Attribute anzuzeigen. Sie können nur Projekte auswählen, für die der ausgewählte Typ oben aktiviert ist.
       details_activity: 'Projektdetails-Aktivität'
       context: 'Projektkontext'
-      click_to_switch_to_project: 'Project: %{projectname}'
+      click_to_switch_to_project: 'Projekt: %{projectname}'
       confirm_template_load: 'Das Ändern der Vorlage wird die Seite neu laden und Sie verlieren alle Eingaben zu diesem Formular. Fortfahren?'
       use_template: "Vorlage verwenden"
       no_template_selected: "(Keine)"
@@ -725,6 +766,14 @@ de:
     time_entry:
       work_package_required: 'Benötigt zuerst die Auswahl eines Arbeitspakets.'
       title: 'Zeit buchen'
+      tracking: 'Zeiterfassung'
+      stop: 'Anhalten'
+    timer:
+      start_new_timer: 'Neuen Timer starten'
+      timer_already_running: 'Um einen neuen Timer zu starten, müssen Sie zuerst den aktuellen Timer beenden:'
+      timer_already_stopped: 'Kein aktiver Timer für dieses Arbeitspaket, hast du einen Timer in einem anderen Fenster gestoppt?'
+      tracking_time: 'Zeiterfassung'
+      button_stop: 'Aktuellen Timer stoppen'
     two_factor_authentication:
       label_two_factor_authentication: 'Zwei-Faktor-Authentifizierung'
     watchers:
@@ -783,7 +832,8 @@ de:
     autocompleter:
       placeholder: "Suchbegriff eintippen"
       notFoundText: "Keine Elemente gefunden"
-      typeToSearchText: "Suchbegriff eintippen"
+      project:
+        placeholder: "Projekt wählen"
     repositories:
       select_tag: 'Tag auswählen'
       select_branch: 'Branch auswählen'
@@ -801,63 +851,6 @@ de:
       activate_no: 'aktivieren um Sortierung zu entfernen'
     text_work_packages_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete löschen möchten?"
     text_query_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählte Ansicht löschen möchten?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt-Diagramm'
-      labels:
-        title: 'Konfiguration von Beschriftungen'
-        bar: 'Balkenbeschriftungen'
-        left: 'Links'
-        right: 'Rechts'
-        farRight: 'Rechts außen'
-        showNone: '-- Keine Beschriftung --'
-        description: >
-          Wählen Sie die Attribute, die an den jeweiligen Positionen des Gantt-Diagramms zu jeder Zeit angezeigt werden sollen. Bedenken Sie, dass beim Überfahren eines Elements die Datumswerte angezeigt werden anstatt dieser Attribute.
-      button_activate: 'Gantt-Diagramm zeigen'
-      button_deactivate: 'Gantt-Diagramm ausblenden'
-      cancel: Abbrechen
-      change: "Planungsänderung"
-      due_date: "Endtermin"
-      empty: "(leer)"
-      error: "Ein Fehler ist aufgetreten."
-      errors:
-        not_implemented: "Der Zeitplan-Report konnte nicht gezeichnet werden, da eine noch nicht implementierte Funktionalität benutzt wird."
-        report_comparison: "Der Zeitplan-Report konnte nicht gezeichnet werden, weil es ein Problem mit den konfigurierten Planungsvergleichen gibt. Ein Zurücksetzen der Vergleichsoptionen kann dieses Problem beheben."
-        report_epicfail: "Der Zeitplan-Report konnte wegen eines unerwarteten Fehlers nicht geladen werden."
-        report_timeout: "Der Zeitplan-Report konnte nicht in angemessener Zeit geladen werden."
-      filter:
-        grouping_other: "Andere"
-        noneSelection: "(keiner)"
-      name: "Name"
-      outline: "Hierarchie zurücksetzen"
-      outlines:
-        aggregation: "Nur Aggregationen anzeigen"
-        level1: "Bis zur ersten Ebene"
-        level2: "Bis zur zweiten Ebene"
-        level3: "Bis zur dritten Ebene"
-        level4: "Bis zur vierten Ebene"
-        level5: "Bis zur fünften Ebene"
-        all: "Alle anzeigen"
-      project_status: "Projekt-Status"
-      really_close_dialog: "Dialog schließen und eingegebene Daten verwerfen?"
-      responsible: "Verantwortlicher"
-      save: Speichern
-      start_date: "Anfangstermin"
-      tooManyProjects: "Mehr als %{count} Projekte. Bitte verwenden Sie einen genaueren Filter!"
-      selection_mode:
-        notification: 'Klicken Sie auf ein hervorgehobenes Arbeitspaket, um eine Relation zu diesem zu erstellen. Drücken Sie Escape, um den Modus abzubrechen.'
-      zoom:
-        in: "Mehr Details"
-        out: "Weniger Details"
-        auto: "Auto-Zoom"
-        days: "Tage"
-        weeks: "Wochen"
-        months: "Monate"
-        quarters: "Quartale"
-        years: "Jahre"
-        slider: "Zoom-Regler"
-        description: >
-          Wählen Sie die Zoomstufe für das Gantt-Diagramm aus, wenn kein Autozoom aktiviert ist.
     tl_toolbar:
       zooms: "Zoomstufe"
       outlines: "Hierarchie-Stufe"
@@ -918,15 +911,22 @@ de:
       message_work_package_read_only: "Das Arbeitspaket ist in diesem Status gesperrt. Kein Attribut außer des Status selbst kann darin verändert werden."
       message_work_package_status_blocked: "Das Arbeitspaket ist auf geschlossene Status- und Versions-Attribute gesetzt, der Status kann nicht verändert werden."
       placeholder_filter_by_text: "Titel, Beschreibung, Kommentare, ..."
+      baseline:
+        addition_label: 'Innerhalb des Vergleichszeitraums zur Ansicht hinzugefügt'
+        removal_label: 'Innerhalb des Vergleichszeitraums aus der Ansicht entfernt'
+        modification_label: 'Innerhalb des Vergleichszeitraums geändert'
+        column_incompatible: 'Diese Spalte zeigt keine Änderungen im Basislinien-Modus.'
       filters:
         title: 'Arbeitspakete filtern'
+        baseline_incompatible: 'Dieses Filterattribut wird im Basislininen-Modus nicht berücksichtigt.'
+        baseline_warning: 'Der Baseline-Vergleich ist aktiviert, aber einige Ihrer aktiven Filter sind nicht im Vergleich enthalten.'
       inline_create:
         title: 'Klicken Sie hier, um ein neues Arbeitspaket zu dieser Liste hinzufügen'
       create:
         title: 'Neues Arbeitspaket'
         header: 'Neu: %{type}'
         header_no_type: 'Neues Arbeitspaket (Typ noch nicht gesetzt)'
-        header_with_parent: 'Neu: %{type} (Kind von %{parent_type} #%{id})' #%{id})'
+        header_with_parent: 'Neu: %{type} (Kind von %{parent_type} #%{id})'
         button: 'Erstellen'
       copy:
         title: 'Arbeitspaket kopieren'
@@ -1080,6 +1080,7 @@ de:
         save_as: "Speichern unter"
         export: "Exportieren"
         visibility_settings: "Sichtbarkeits-Einstellungen"
+        share_calendar: "Kalender abonnieren"
         page_settings: "Ansicht umbenennen"
         delete: "Löschen"
       filter: "Filter"
@@ -1156,10 +1157,11 @@ de:
       button_deactivate: 'Zen-Modus deaktivieren'
     global_search:
       all_projects: "In allen Projekten"
-      search: "Suche"
       close_search: "Suche schließen"
-      current_project: "In diesem Projekt"
       current_project_and_all_descendants: "In diesem Projekt + Unterprojekten"
+      current_project: "In diesem Projekt"
+      recently_viewed: "Vor Kurzem angesehen"
+      search: "Suche"
       title:
         all_projects: "alle Projekte"
         project_and_subprojects: "und alle Unterprojekte"
@@ -1248,6 +1250,38 @@ de:
         current_project: 'Dies ist das aktuelle Projekt, in dem Sie sich befinden.'
         does_not_match_search: 'Projekt entspricht nicht den Suchkriterien.'
       no_results: 'Kein Projekt entspricht Ihren Suchkriterien.'
+    baseline:
+      toggle_title: 'Grundlinie'
+      clear: 'Zurücksetzen'
+      apply: 'Anwenden'
+      header_description: 'An dieser Liste vorgenommene Änderungen seit einem beliebigen Zeitpunkt in der Vergangenheit hervorheben.'
+      enterprise_header_description: 'Mit der Enterprise Edition an dieser Liste vorgenommene Änderungen seit einem beliebigen Zeitpunkt in der Vergangenheit hervorheben.'
+      show_changes_since: 'Änderungen anzeigen ab'
+      baseline_comparison: 'Baseline-Vergleich'
+      help_description: 'Referenz-Zeitzone für die Baseline.'
+      time_description: 'In Ihrer Ortszeit: %{datetime}'
+      time: 'Zeit'
+      from: 'Von'
+      to: 'Bis'
+      drop_down:
+        none: '-'
+        yesterday: 'gestern'
+        last_working_day: 'letzter Arbeitstag'
+        last_week: 'vorige Woche'
+        last_month: 'voriger Monat'
+        a_specific_date: 'ein bestimmtes Datum'
+        between_two_specific_dates: 'zwischen zwei bestimmten Daten'
+      legends:
+        changes_since: 'Änderungen seit'
+        changes_between: 'Änderungen zwischen'
+        now_meets_filter_criteria: 'Erfüllt nun die Filterkriterien'
+        no_longer_meets_filter_criteria: 'Erfüllt Filterkriterien nicht mehr'
+        maintained_with_changes: 'Änderungen erhalten'
+        in_your_timezone: 'In Ihrer lokalen Zeitzone:'
+      icon_tooltip:
+        added: 'Innerhalb des Vergleichszeitraums zur Ansicht hinzugefügt'
+        removed: 'Innerhalb des Vergleichszeitraums aus der Ansicht entfernt'
+        changed: 'Mit Änderungen erhalten'
     forms:
       submit_success_message: 'Das Formular wurde erfolgreich übermittelt'
       load_error_message: 'Beim Laden des Formulars ist ein Fehler aufgetreten'

@@ -29,8 +29,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t("create_new_page") %>
 
-<%= labelled_tabular_form_for @content,
-                              as: :content,
+<%= labelled_tabular_form_for @page,
+                              as: :page,
                               url: create_project_wiki_index_path(project_id: @project),
                               html: { method: :post, multipart: true, id: 'wiki_form' } do |f| %>
 

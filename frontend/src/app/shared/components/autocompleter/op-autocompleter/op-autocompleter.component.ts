@@ -32,7 +32,6 @@ import {
 } from 'rxjs';
 import {
   debounce,
-  debounceTime,
   distinctUntilChanged,
   filter,
   switchMap,
@@ -50,6 +49,7 @@ import { OpAutocompleterService } from './services/op-autocompleter.service';
 import { OpAutocompleterHeaderTemplateDirective } from './directives/op-autocompleter-header-template.directive';
 import { OpAutocompleterLabelTemplateDirective } from './directives/op-autocompleter-label-template.directive';
 import { OpAutocompleterOptionTemplateDirective } from './directives/op-autocompleter-option-template.directive';
+import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
 
 @Component({
   selector: 'op-autocompleter',
@@ -116,11 +116,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
   @Input() public markFirst ? = true;
 
   @Input() public placeholder:string = this.I18n.t('js.autocompleter.placeholder');
-
   @Input() public notFoundText:string = this.I18n.t('js.autocompleter.notFoundText');
-
-  @Input() public typeToSearchText:string = this.I18n.t('js.autocompleter.typeToSearchText');
-
   @Input() public addTagText?:string;
 
   @Input() public loadingText:string = this.I18n.t('js.ajax.loading');
@@ -217,16 +213,16 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
   @ViewChild('ngSelectInstance') ngSelectInstance:NgSelectComponent;
 
   @ContentChild(OpAutocompleterOptionTemplateDirective, { read: TemplateRef })
-  optionTemplate:TemplateRef<any>;
+    optionTemplate:TemplateRef<Element>;
 
   @ContentChild(OpAutocompleterLabelTemplateDirective, { read: TemplateRef })
-  labelTemplate:TemplateRef<any>;
+    labelTemplate:TemplateRef<Element>;
 
   @ContentChild(OpAutocompleterHeaderTemplateDirective, { read: TemplateRef })
-  headerTemplate:TemplateRef<any>;
+    headerTemplate:TemplateRef<Element>;
 
   @ContentChild(OpAutocompleterFooterTemplateDirective, { read: TemplateRef })
-  footerTemplate:TemplateRef<any>;
+    footerTemplate:TemplateRef<Element>;
 
   initialDebounce = true;
 
@@ -278,16 +274,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
   }
 
   public repositionDropdown() {
-    if (this.ngSelectInstance) {
-      setTimeout(() => {
-        this.cdRef.detectChanges();
-        const component = this.ngSelectInstance;
-        if (this.appendTo && component && component.dropdownPanel) {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-member-access,no-underscore-dangle
-          (component.dropdownPanel as any)._updatePosition();
-        }
-      }, 25);
-    }
+    repositionDropdownBugfix(this.ngSelectInstance);
   }
 
   public opened():void { // eslint-disable-line no-unused-vars
@@ -374,6 +361,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
       filter(() => !!(this.defaultData || this.getOptionsFn)),
       distinctUntilChanged(),
       tap(() => this.loading$.next(true)),
+      // tap(() => console.log('Debounce is ', this.getDebounceTimeout())),
       debounce(() => timer(this.getDebounceTimeout())),
       switchMap((queryString:string) => {
         if (this.defaultData) {
@@ -398,6 +386,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
       this.initialDebounce = false;
       return 0;
     }
-    return 250;
+    return 50;
   }
 }

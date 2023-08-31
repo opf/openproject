@@ -55,8 +55,9 @@ module API
         property :state,
                  render_nil: true
 
-        property :repository,
-                 render_nil: true
+        property :repository
+
+        property :repository_html_url
 
         date_time_property :github_updated_at,
                            render_nil: true,

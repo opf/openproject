@@ -65,6 +65,8 @@ hr:
     button_confirm: "Potvrdi"
     button_continue: "Nastavi"
     button_copy: "Kopiraj"
+    button_copy_to_clipboard: "Kopiraj u međuspremnik"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Prilagođena polja"
     button_delete: "Obriši"
@@ -105,7 +107,7 @@ hr:
       remove_from_list: 'Remove card from list'
     caption_rate_history: "Povijest satnica"
     clipboard:
-      browser_error: "Vaš izbornik ne podržava kopiranje u međuspremnik. Molim vas manualno kopirajte odabrani tekst."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
@@ -228,7 +230,7 @@ hr:
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Postati heroj!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
@@ -294,6 +296,34 @@ hr:
           one: "Prvi kriterijum sortiranja"
           two: "Drugi kriterijum sortiranja"
           three: "Treći kriterijum sortiranja"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "ne"
     general_text_yes: "da"
     general_text_No: "Ne"
@@ -312,11 +342,22 @@ hr:
           learn_about: "Saznaj više o novim značajkama"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to calendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Aktiviraj"
     label_assignee: 'Opunomoćeno'
     label_add_column_after: "Add column after"
@@ -493,7 +534,7 @@ hr:
     label_remove_all_files: Izbrišite sve datoteke
     label_add_description: "Dodaj opis za %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Prijenos datoteka za Radni paket #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Prijenos datoteka za Radni paket #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "Ove datoteke će biti prenešene:"
     label_rejected_files: "Ove datoteke ne mogu biti prenešene:"
@@ -727,6 +768,14 @@ hr:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'Vrijeme pristupa'
+      tracking: 'Praćenje vremena'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
@@ -785,7 +834,8 @@ hr:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Odaberi tag'
       select_branch: 'Odaberi ogranak'
@@ -803,63 +853,6 @@ hr:
       activate_no: 'activate to remove the sort'
     text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt chart'
-      labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
-        showNone: '-- No label --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
-      cancel: Odustani
-      change: "Promjene u planiranju"
-      due_date: "Finish date"
-      empty: "(prazno)"
-      error: "Došlo je do pogreške."
-      errors:
-        not_implemented: "Kronologiju nije moguće posložiti zato što koristi mogućnosti koje još nisu implementirane."
-        report_comparison: "Kronologija nije u stanju prikazati konfigurirane usporedbe. Molim vas provjerite odgovarajuću konfiguraciju. Resetiranje može pomoći u riješavanju ovog problema."
-        report_epicfail: "Kronologiju nije moguće učitati. Uslijedila je neočekivana pogreška."
-        report_timeout: "Kronologiju nije moguće učitati u razumnom vremenu."
-      filter:
-        grouping_other: "Ostalo"
-        noneSelection: "(nijedan)"
-      name: "Naziv"
-      outline: "Resetirajte skice"
-      outlines:
-        aggregation: "Show aggregations only"
-        level1: "Proširi nivo 1"
-        level2: "Proširi nivo 2"
-        level3: "Proširi nivo 3"
-        level4: "Proširi nivo 4"
-        level5: "Proširi nivo 5"
-        all: "Prikaži sve"
-      project_status: "Status projekta"
-      really_close_dialog: "Da li stvarno želite zatvoriti trenutni dijaloški okvir i izgubiti sve unesene podatke?"
-      responsible: "Odgovoran"
-      save: Spremi
-      start_date: "Datum Početka"
-      tooManyProjects: "Više od %{count} Projekata. Molim vas koristite bolji filter!"
-      selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
-      zoom:
-        in: "Zumiraj"
-        out: "Odzumiraj"
-        auto: "Auto zoom"
-        days: "Dane"
-        weeks: "Tjedne"
-        months: "Mjeseci"
-        quarters: "Kvartali"
-        years: "Godine"
-        slider: "Slider za zumiranje"
-        description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
     tl_toolbar:
       zooms: "Razina zumiranja"
       outlines: "Razina u hijerarhiji"
@@ -920,8 +913,15 @@ hr:
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "Subject, description, comments, ..."
+      baseline:
+        addition_label: 'Added to view within the comparison time period'
+        removal_label: 'Removed from view within the comparison time period'
+        modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filtriraj radne pakete'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Click here to add a new work package to this list'
       create:
@@ -1082,6 +1082,7 @@ hr:
         save_as: "Spremiti kao"
         export: "Izvezi"
         visibility_settings: "Visibility settings"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Rename view"
         delete: "Obriši"
       filter: "Filter"
@@ -1160,10 +1161,11 @@ hr:
       button_deactivate: 'Deactivate zen mode'
     global_search:
       all_projects: "In all projects"
-      search: "Pretraživanje"
       close_search: "Close search"
-      current_project: "In this project"
       current_project_and_all_descendants: "In this project + subprojects"
+      current_project: "In this project"
+      recently_viewed: "Recently viewed"
+      search: "Pretraživanje"
       title:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"
@@ -1252,6 +1254,38 @@ hr:
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
       no_results: 'No project matches your search criteria.'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: 'Očisti'
+      apply: 'Primjeni'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
+      show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
+      time: 'Vrijeme'
+      from: 'Od'
+      to: 'Prima'
+      drop_down:
+        none: '-'
+        yesterday: 'jučer'
+        last_working_day: 'last working day'
+        last_week: 'prošlog tjedna'
+        last_month: 'prošli mjesec'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
+      legends:
+        changes_since: 'Changes since'
+        changes_between: 'Changes between'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
+        in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

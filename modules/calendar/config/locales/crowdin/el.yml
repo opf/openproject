@@ -1,6 +1,9 @@
 #English strings go here
 el:
+  label_calendar: "Ημερολόγιο"
   label_calendar_plural: "Ημερολόγια"
+  label_new_calendar: "New calendar"
   permission_view_calendar: "Προβολή ημερολογίων"
   permission_manage_calendars: "Διαχείριση ημερολογίων"
-  project_module_calendar_view: "Ημερολόγιο"
+  permission_share_calendars: "Subscribe to iCalendars"
+  project_module_calendar_view: "Ημερολόγια"

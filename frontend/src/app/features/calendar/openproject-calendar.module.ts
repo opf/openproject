@@ -28,6 +28,7 @@
 
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { WorkPackagesCalendarComponent } from 'core-app/features/calendar/wp-calendar/wp-calendar.component';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
@@ -38,6 +39,7 @@ import { OpenprojectTimeEntriesModule } from 'core-app/shared/components/time_en
 import { WorkPackagesCalendarPageComponent } from 'core-app/features/calendar/wp-calendar-page/wp-calendar-page.component';
 import { CALENDAR_ROUTES } from 'core-app/features/calendar/calendar.routes';
 import { CalendarSidemenuComponent } from './sidemenu/calendar-sidemenu.component';
+import { QueryGetIcalUrlModalComponent } from 'core-app/shared/components/modals/get-ical-url-modal/query-get-ical-url.modal';
 
 @NgModule({
   imports: [
@@ -58,6 +60,9 @@ import { CalendarSidemenuComponent } from './sidemenu/calendar-sidemenu.componen
 
     // Calendar component
     FullCalendarModule,
+
+    // Angular reactive forms, required for QueryGetIcalUrlModalComponent
+    ReactiveFormsModule,
   ],
   declarations: [
     // Work package calendars
@@ -65,6 +70,7 @@ import { CalendarSidemenuComponent } from './sidemenu/calendar-sidemenu.componen
     WorkPackagesCalendarComponent,
     TimeEntryCalendarComponent,
     CalendarSidemenuComponent,
+    QueryGetIcalUrlModalComponent,
   ],
   exports: [
     WorkPackagesCalendarComponent,

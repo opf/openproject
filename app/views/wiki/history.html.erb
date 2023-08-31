@@ -31,7 +31,9 @@ See COPYRIGHT and LICENSE files for more details.
 <% breadcrumb_paths(*(@page.ancestors.reverse.collect { |parent| link_to h(parent.breadcrumb_title), {id: parent, project_id: parent.project}} + [h(@page.breadcrumb_title)] )) %>
 <h3><%= t(:label_history) %></h3>
 <%= form_tag({action: "diff"}, method: :get) do %>
-  <div class="generic-table--container">
+  <div class="generic-table--container"
+       data-application-target="dynamic"
+       data-controller="journal-history">
     <div class="generic-table--results-container">
       <table class="generic-table wiki-page-versions">
         <colgroup>
@@ -120,18 +122,28 @@ See COPYRIGHT and LICENSE files for more details.
               <td class="checkbox">
                 <% if show_diff && (line_num < @versions.size)  %>
                   <label for="<%="cb-#{line_num}"%>" class="hidden-for-sighted"><%= t(:description_compare_from) + ' ' + t(:label_version) + " " + h(ver.version.to_s) %></label>
-                  <%= radio_button_tag 'version',
+                  <%= radio_button_tag('version_from',
                                        ver.version,
                                        (line_num==1),
                                        class: 'history-cb-from',
-                                       data: { 'select-to': "#cbto-#{line_num + 1}" },
-                                       id: "cb-#{line_num}" %>
+                                       id: "cb-#{line_num}",
+                                       data: {
+                                         'journal-history-target': 'fromVersion',
+                                         action: 'journal-history#selectToVersion'
+                                       }) %>
                 <% end %>
               </td>
               <td class="checkbox">
                 <% if show_diff && (line_num > 1) %>
                   <label for="<%="cbto-#{line_num}"%>" class="hidden-for-sighted"><%= t(:description_compare_to) + ' ' + t(:label_version) + " " + h(ver.version.to_s) %></label>
-                  <%= radio_button_tag('version_from', ver.version, (line_num==2), id: "cbto-#{line_num}") %>
+                  <%= radio_button_tag('version_to',
+                                       ver.version,
+                                       (line_num==2),
+                                       id: "cbto-#{line_num}",
+                                       data: {
+                                         'journal-history-target': 'toVersion',
+                                         action: 'journal-history#selectFromVersion'
+                                       }) %>
                 <% end %>
               </td>
               <td class="updated_at"><%= format_time(ver.created_at) %></td>
@@ -149,13 +161,5 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="generic-table--action-buttons">
     <%= submit_tag t(:label_view_diff), class: 'button -highlight -small' if show_diff %>
   </div>
-
-  <%= nonced_javascript_tag  do -%>
-    jQuery(function($) {
-      $('.history-cb-from').click(function() {
-        var target = $($(this).data('selectTo')).prop('checked', true);
-      });
-    });
-  <% end -%>
   <%= pagination_links_full @versions %>
 <% end %>

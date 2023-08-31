@@ -29,11 +29,6 @@ ca:
   default_doc_category_tech: "Documentació tècnica"
   default_doc_category_user: "Documentació d'usuari"
   enumeration_doc_categories: "Categories de documents"
-  enumeration:
-    document_category:
-      documentation: Documentació
-      specification: Especificació
-      other: Altres
   documents:
     label_attachment_author: "Autor de l'adjunt"
   label_document_added: "Document afegit"

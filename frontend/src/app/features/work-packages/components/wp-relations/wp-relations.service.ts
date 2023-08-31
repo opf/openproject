@@ -1,11 +1,14 @@
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { multiInput, MultiInputState, StatesGroup } from 'reactivestates';
+import { multiInput, MultiInputState, StatesGroup } from '@openproject/reactivestates';
 import { Injectable } from '@angular/core';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
-import { Observable } from 'rxjs';
+import {
+  firstValueFrom,
+  Observable,
+} from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 
@@ -40,12 +43,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * @param force Load the value anyway.
    */
   public require(id:string, force = false):Promise<RelationsStateValue> {
-    return this
-      .requireAndStream(id, force)
-      .pipe(
-        take(1),
-      )
-      .toPromise();
+    return firstValueFrom(this.requireAndStream(id, force));
   }
 
   /**

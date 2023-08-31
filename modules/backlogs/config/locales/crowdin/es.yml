@@ -26,6 +26,8 @@ es:
         position: "Posición"
         remaining_hours: "Horas restantes"
         remaining_time: "Horas restantes"
+        derived_remaining_hours: "Horas restantes derivadas"
+        derived_remaining_time: "Horas restantes derivadas"
         story_points: "Puntos de Historia"
         backlogs_work_package_type: "Tipo de Backlog"
     errors:
@@ -35,9 +37,6 @@ es:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "solo puede conter IDs de paquetes de trabajo en el sprint actual."
               must_block_at_least_one_work_package: "debe contener el ID de por lo menos un ticket."
-            parent_id:
-              parent_child_relationship_across_projects: "no es valido porque el paquete de trabjo '%{work_package_name}' es una tarea de backlog y por lo tanto no puede tener un padre fuera del proyecto actual."
-              type_must_be_one_of_the_following: "El tipo debe ser uno de lo siguientes: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "debe coincidir con la versión de la historia principal."
         sprint:
@@ -78,7 +77,6 @@ es:
     x_more: "%{count} más..."
   backlogs_active: "activo"
   backlogs_any: "cualquiera"
-  backlogs_card_specification: "Tipos de etiquetas para impresión de la tarjeta"
   backlogs_inactive: "El proyecto no muestra ninguna actividad"
   backlogs_points_burn_direction: "Puntos de quemado arriba/abajo"
   backlogs_product_backlog: "Cartera de producto"
@@ -130,13 +128,13 @@ es:
   label_sprint_velocity: "Velocidad %{velocity}, basada en %{sprints} sprints con una media de %{days} días"
   label_stories: "Historias"
   label_stories_tasks: "Historias/tareas"
-  label_task_board: "Panel de tareas"
+  label_task_board: "Tablero de tareas"
   label_version_setting: "Versiones"
   label_version: 'Versión'
   label_webcal: "Webcal Feed"
   label_wiki: "Wiki"
   permission_view_master_backlog: "Ver backlog maestro"
-  permission_view_taskboards: "Ver paneles de tareas"
+  permission_view_taskboards: "Ver tablero de tareas"
   permission_select_done_statuses: "Seleccionar estados de finalización"
   permission_update_sprints: "Actualizar sprints"
   points_accepted: "puntos aceptados"

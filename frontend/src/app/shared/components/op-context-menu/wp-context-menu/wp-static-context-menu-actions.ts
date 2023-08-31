@@ -15,6 +15,11 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
     link: 'copy',
   },
   {
+    key: 'copy_link_to_clipboard',
+    icon: 'icon-clipboard',
+    link: 'id',
+  },
+  {
     key: 'copy_to_other_project',
     link: 'copy',
     icon: 'icon-project-types',

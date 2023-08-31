@@ -3,11 +3,11 @@ fr:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        auth_source: 'Connexion LDAP'
+        ldap_auth_source: 'Connexion LDAP'
         sync_users: 'Synchroniser les utilisateurs'
       ldap_groups/synchronized_filter:
         filter_string: 'Filtre LDAP'
-        auth_source: 'Connexion LDAP'
+        ldap_auth_source: 'Connexion LDAP'
         group_name_attribute: "Attribut nom de groupe"
         sync_users: 'Synchroniser les utilisateurs'
         base_dn: "Rechercher dans la base DN"

@@ -40,7 +40,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 export class WorkPackageRelationsTabComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackageId?:string;
 
-  public workPackage:WorkPackageResource;
+  @Input() public workPackage:WorkPackageResource;
 
   public constructor(readonly I18n:I18nService,
     readonly $transition:Transition,

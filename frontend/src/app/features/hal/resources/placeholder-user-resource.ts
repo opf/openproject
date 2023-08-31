@@ -27,7 +27,7 @@
 //++
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { InputState } from 'reactivestates';
+import { InputState } from '@openproject/reactivestates';
 
 export class PlaceholderUserResource extends HalResource {
   // Links

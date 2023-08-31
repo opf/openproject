@@ -26,6 +26,8 @@ hu:
         position: "Pozició"
         remaining_hours: "Fennmaradó órák"
         remaining_time: "Fennmaradó órák"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Story pontok"
         backlogs_work_package_type: "Backlog típus"
     errors:
@@ -35,9 +37,6 @@ hu:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "csak a jelenlegi sprint munkacsomagjainak azonosítóit tartalmazhatja."
               must_block_at_least_one_work_package: "legalább egy munkacsomag azonosítóját tartalmaznia kell."
-            parent_id:
-              parent_child_relationship_across_projects: "érvénytelen, mert a munka csomag \"%{work_package_name}\" egy backlog feladat, ezért nem lehet a szülő nem az aktuális projektben."
-              type_must_be_one_of_the_following: "A következő típusok egyikének kell lennie: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "a szülő story verziójával megegyezőnek kell lennie."
         sprint:
@@ -78,7 +77,6 @@ hu:
     x_more: "további %{count}..."
   backlogs_active: "aktív"
   backlogs_any: "bármely"
-  backlogs_card_specification: "A kártya nyomtatásához használt címke típusok"
   backlogs_inactive: "A projekt nem mutat tevékenységet"
   backlogs_points_burn_direction: "Pontok teendő fel/le"
   backlogs_product_backlog: "Termék backlog"

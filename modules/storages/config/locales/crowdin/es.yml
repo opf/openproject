@@ -3,9 +3,20 @@ es:
   permission_view_file_links: "Ver enlaces de archivos"
   permission_manage_file_links: "Administrar enlaces de archivos"
   permission_manage_storages_in_project: "Administrar almacenes de archivos en el proyecto"
+  permission_read_files: "Leer archivos"
+  permission_write_files: "Escribir archivos"
+  permission_create_files: "Crear archivos"
+  permission_delete_files: "Eliminar archivos"
+  permission_share_files: "Compartir archivos"
   project_module_storages: "Almacenes de archivos"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "No autorizada para la conexión externa al almacenamiento."
+        not_found: "No se ha podido encontrar el recurso solicitado en el almacén de archivos externo."
   activerecord:
     models:
+      file_link: "Archivo"
       storages/storage: "Almacén"
     attributes:
       storages/storage:
@@ -28,6 +39,9 @@ es:
                 parece que no tienes la aplicación "Integración OpenProject" instalada. Por favor, instálala primero y vuelve a intentarlo.
               authorization_header_missing: >
                 no está completamente configurado. La instancia de Nextcloud no recibe la cabecera "Autorización", que es necesaria para la autorización basada en token Bearer de solicitudes API. Por favor, compruebe la configuración de tu servidor HTTP.
+            password:
+              invalid_password: "no es válido."
+              unknown_error: "no se ha podido validar. Compruebe su conexión de almacenamiento e inténtelo de nuevo."
         storages/file_link:
           attributes:
             origin_id:
@@ -36,22 +50,45 @@ es:
     errors:
       too_many_elements_created_at_once: "Se intentaron crear demasiados elementos a la vez. Se esperaban como máximo %{max}, pero se recibieron %{actual}."
   storages:
+    unknown_storage: "Almacenamiento desconocido"
     buttons:
       done_continue_setup: "Hecho. Continuar configuración"
+      done_complete_setup: "Hecho, configuración completada"
+      edit_automatically_managed_project_folders: "Editar carpetas de proyecto administradas automáticamente"
       replace_openproject_oauth: "Reemplazar OpenProject OAuth"
       replace_provider_type_oauth: "Reemplazar %{provider_type} OAuth"
       save_and_continue_setup: "Guardar y continuar configuración"
       save_and_complete_setup: "Guardar y completar configuración"
+      select_folder: "Seleccionar carpeta"
+      configure: "Configurar"
     page_titles:
+      managed_project_folders:
+        title: "Carpetas de proyecto administradas automáticamente"
+        subtitle: >
+          Deje que OpenProject cree carpetas por proyecto automáticamente. Esto es recomendable, ya que garantiza que cada miembro del equipo tenga siempre los permisos de acceso correctos.
       project_settings:
         index: "Hay almacenes de archivos disponibles en este proyecto"
         new: "Añadir un almacenamiento de archivos a este proyecto"
+        edit: "Edite el archivo de almacenamiento a este proyecto"
+        delete: "Eliminar el almacenamiento de archivos"
+        members_connection_status: "Estado de conexión de los miembros"
+      project_storage_members:
+        title: "Estado de conexión de los miembros"
+        subtitle: "Compruebe el estado de conexión del almacenamiento %{storage_name_link} de todos los miembros del proyecto."
     instructions:
       type: "Por favor, asegúrese de tener privilegios de administrador en su instancia de Nextcloud y tener la siguiente aplicación instalada antes de hacer la configuración:"
       type_link_text: "“Integración OpenProject”"
       name: "Dale un nombre a tu almacenamiento para que los usuarios puedan diferenciar entre múltiples almacenamientos."
       host: "Por favor añade la dirección de host de tu almacenamiento incluyendo el https://. No debe tener más de 255 caracteres."
+      managed_project_folders_application_password: >
+        Copiar este valor de:
       no_storage_set_up: "Aún no se han configurado los almacenamientos de archivos."
+      no_specific_folder: "Por defecto, cada usuario comenzará en su propia carpeta de inicio cuando cargue un archivo."
+      automatic_folder: "Esto creará automáticamente una carpeta raíz para este proyecto y gestionará los permisos de acceso para cada miembro del proyecto."
+      empty_project_folder_validation: "Es obligatorio seleccionar una carpeta para continuar."
+      not_logged_into_storage: "Para seleccionar una carpeta de proyecto, inicie primero la sesión"
+      existing_manual_folder: >
+        Puede designar una carpeta existente como carpeta raíz de este proyecto. Sin embargo, los permisos no se gestionan automáticamente, sino que el administrador debe asegurarse manualmente de que los usuarios pertinentes tienen acceso. La carpeta seleccionada puede ser utilizada por varios proyectos.
       setting_up_additional_storages: "Para configurar almacenes de archivos adicionales, visite"
       setting_up_additional_storages_non_admin: "Los administradores pueden configurar almacenes de archivos adicionales en Administración > Almacenes de archivos."
       setting_up_storages: "Para configurar almacenes de archivos, visite"
@@ -60,26 +97,51 @@ es:
       copy_from: "Copiar este valor de"
       nextcloud:
         integration: "Administración de Nextcloud / OpenProject"
+    help_texts:
+      project_folder: >
+        La carpeta del proyecto es la carpeta predeterminada para la carga de archivos de este proyecto. No obstante, los usuarios pueden subir archivos a otras ubicaciones.
     delete_warning:
       storage: >
         ¿Seguro que quiere eliminar este almacén? También se eliminará de todos los proyectos donde se use. Además, se quitarán todos los enlaces de los paquetes de trabajo a los archivos guardados en ese almacén.
       project_storage: >
-        ¿Seguro que quiere quitar este almacén de archivos del proyecto? También se quitarán todos los enlaces a los archivos guardados en este almacén para el proyecto.
+        ¿Seguro que desea eliminar %{file_storage} de este proyecto? Para confirmar esta acción introduzca el nombre del almacenamiento en el campo inferior, esto hará lo siguiente:
+      project_storage_delete_result_1: "Eliminar todos los enlaces de los paquetes de trabajo de este proyecto a los archivos y carpetas de ese almacén."
+      project_storage_delete_result_2: "En caso de que este almacenamiento tenga una carpeta de proyecto gestionada automáticamente, esta y sus archivos se eliminarán para siempre."
+      input_delete_confirmation: "Introduzca el nombre de almacenamiento de archivos %{file_storage} para confirmar la eliminación."
+      irreversible_notice: "Eliminar un archivo almacenado es una acción irreversible."
+    label_active: "Activo"
+    label_inactive: "Inactivo"
     label_creator: "Autor"
     label_file_link: "Enlace de archivo"
     label_file_links: "Enlaces de archivos"
     label_name: "Nombre"
     label_host: "URL del host"
+    label_managed_project_folders:
+      automatically_managed_folders: "Carpetas gestionadas automáticamente"
+      application_password: "Contraseña de aplicación"
+    label_managed_project_folders_breadcrumb: "Carpetas de proyecto gestionadas automáticamente"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
     label_oauth_application_details: "Detalles de aplicación OAuth"
     label_oauth_client_details: "Detalles del cliente OAuth"
     label_provider_type: "Tipo de proveedor"
+    label_project_folder: "Carpeta del proyecto"
     label_new_storage: "Nuevo almacén"
+    label_existing_manual_folder: "Carpeta existente con permisos gestionados manualmente"
+    label_no_specific_folder: "Ninguna carpeta específica"
+    label_automatic_folder: "Nueva carpeta con permisos gestionados automáticamente"
+    label_no_selected_folder: "No hay carpeta seleccionada"
     label_storage: "Almacén"
     label_storages: "Almacenes"
+    label_status: "Estado"
+    label_files: "Archivos"
+    member_connection_status:
+      connected: "Conectado"
+      connected_no_permissions: "El rol de usuario no tiene permisos de almacenamiento"
+      not_connected: "No conectado. El usuario debe acceder al almacén a través de la pestaña %{files_label} de un paquete de trabajo para conectarse."
     no_results: "Aún no se han configurado almacenes de archivos."
+    members_no_results: "No hay miembros para mostrar."
     provider_types:
       label: "Tipo de proveedor"
       nextcloud:
@@ -89,4 +151,5 @@ es:
     confirm_replace_oauth_application: "¿Estás seguro? Todos los usuarios tendrán que autorizar de nuevo contra OpenProject."
     confirm_replace_oauth_client: "¿Estás seguro? Todos los usuarios tendrán que autorizar de nuevo en el almacenamiento."
     oauth_client_details_missing: "Para completar la configuración, por favor agregue las credenciales del cliente OAuth desde su almacenamiento."
+    automatically_managed_project_folder_missing: "Para completar la configuración, configure carpetas de proyecto gestionadas automáticamente para su almacenamiento."
     notice_oauth_application_replaced: "La aplicación OpenProject OAuth fue reemplazada con éxito."

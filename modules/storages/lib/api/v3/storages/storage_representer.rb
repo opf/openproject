@@ -81,6 +81,28 @@ module API::V3::Storages
 
     property :name
 
+    property :applicationPassword,
+             skip_render: ->(*) { true },
+             getter: ->(*) {},
+             setter: ->(fragment:, represented:, **) {
+               if fragment.present?
+                 represented.automatically_managed = true
+                 represented.password = fragment
+               else
+                 represented.automatically_managed = false
+               end
+             }
+
+    property :hasApplicationPassword,
+             skip_parse: true,
+             skip_render: ->(represented:, **) { !represented.provider_type_nextcloud? },
+             getter: ->(represented:, **) {
+               break unless represented.provider_type_nextcloud?
+
+               represented.automatically_managed?
+             },
+             setter: ->(*) {}
+
     date_time_property :created_at
 
     date_time_property :updated_at
@@ -148,6 +170,11 @@ module API::V3::Storages
       { href: @connection_manager.get_authorization_uri, title: 'Authorize' }
     end
 
+    link :projectStorages do
+      filters = [{ storageId: { operator: "=", values: [represented.id.to_s] } }]
+      { href: api_v3_paths.path_for(:project_storages, filters:) }
+    end
+
     associated_resource :oauth_application,
                         skip_render: ->(*) { !current_user.admin? },
                         getter: ->(*) {
@@ -180,10 +207,12 @@ module API::V3::Storages
 
     private
 
+    def storage_projects(storage)
+      storage.projects.merge(Project.allowed_to(current_user, :manage_file_links))
+    end
+
     def storage_projects_ids(storage)
-      storage.projects
-        .merge(Project.allowed_to(current_user, :manage_file_links))
-        .pluck(:id)
+      storage_projects(storage).pluck(:id)
     end
 
     def authorization_state

@@ -1,0 +1,69 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2023 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+.op-table-baseline
+  &--column-cell
+    padding-right: 0
+
+  &--icon-added
+    color: #5F42E0
+
+  &--icon-removed
+    color: #555555
+
+  &--icon-changed
+    color: #54AFE0
+
+  &--old-field
+    @include spot-caption
+    text-decoration: line-through
+    filter: grayscale(1)
+    padding: 2px 2px 0 2px
+
+  &--cell
+    background-color: #f3f3f3
+    padding: 0 2px 2px 2px
+
+  &--container
+    display: flex
+    flex-direction: column
+    padding-right: 6px
+    // Ensure items are not taking full width
+    align-items: flex-start
+
+    &.startDate
+      padding-left: $work-package--start-date-display-field-padding-left
+
+  &--column-header
+    display: flex
+    align-items: center
+
+  .op-table-baseline--column-cell .spot-icon
+    display: flex
+    align-items: center
+    justify-items: center

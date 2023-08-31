@@ -1,19 +1,47 @@
-<div class="advanced-filters--filter-value <%= value_visibility %>">
+<div class="advanced-filters--filter-value <%= value_visibility %>"
+     data-project-target="filterValueContainer"
+     data-filter-name="<%= filter.name %>">
   <% if filter.type == :string %>
       <div>
-        <%= text_field_tag :value, filter.values.first, class: 'advanced-filters--text-field -slim' %>
+        <%= text_field_tag :value,
+                           filter.values.first,
+                           class: 'advanced-filters--text-field -slim',
+                           data: {
+                             'project-target': 'simpleValue',
+                             'filter-name': filter.name
+                           } %>
       </div>
   <% elsif filter.type == :text %>
       <div>
-        <%= text_field_tag :value, filter.values.first, class: 'advanced-filters--text-field -slim' %>
+        <%= text_field_tag :value,
+                           filter.values.first,
+                           class: 'advanced-filters--text-field -slim',
+                           data: {
+                             'project-target': 'simpleValue',
+                             'filter-name': filter.name
+                           } %>
       </div>
   <% elsif filter.type == :integer %>
       <div>
-        <%= number_field_tag :value, filter.values.first, class: 'advanced-filters--text-field -slim', step: 'any'  %>
+        <%= number_field_tag :value,
+                             filter.values.first,
+                             class: 'advanced-filters--text-field -slim',
+                             step: 'any',
+                             data: {
+                               'project-target': 'simpleValue',
+                               'filter-name': filter.name
+                             }%>
       </div>
   <% elsif filter.type == :float %>
       <div>
-        <%= number_field_tag :value, filter.values.first, class: 'advanced-filters--text-field -slim', step: 'any' %>
+        <%= number_field_tag :value,
+                             filter.values.first,
+                             class: 'advanced-filters--text-field -slim',
+                             step: 'any',
+                             data: {
+                               'project-target': 'simpleValue',
+                               'filter-name': filter.name
+                             }%>
       </div>
   <% end %>
 </div>

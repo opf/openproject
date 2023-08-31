@@ -15,6 +15,7 @@ pl:
       choose_location: "Wybierz lokalizację"
       types:
         nextcloud: "Nextcloud"
+        default: "Magazyn"
       information:
         connection_error: >
           Niektóre ustawienia %{storageType} nie działają. Skontaktuj się z administratorem %{storageType}.
@@ -30,9 +31,16 @@ pl:
           Plik o nazwie „%{fileName}” już istnieje w lokalizacji, do której próbujesz go przesłać. Co chcesz zrobić?
         directory_not_writeable: "Nie masz uprawnień do dodawania plików do tego folderu."
         dragging_many_files: "Przesyłanie do %{storageType} obsługuje tylko jeden plik na raz."
+        dragging_folder: "Przesyłanie do %{storageType} nie obsługuje folderów."
         empty_folder: "Ten folder jest pusty."
         empty_folder_location_hint: "Kliknij poniższy przycisk, aby przesłać plik do tej lokalizacji."
         file_not_selectable_location: "Wybranie pliku nie jest możliwe w procesie wyboru lokalizacji."
+        project_folder_no_access: >
+          Nie masz dostępu do folderu projektu. Skontaktuj się z administratorem, aby uzyskać dostęp lub prześlij plik w innej lokalizacji.
+        managed_project_folder_not_available: >
+          Jeszcze nie znaleziono automatycznie zarządzanego folderu projektu. Zaczekaj chwilę, odśwież stronę, aby pobrać najnowsze dane i spróbuj ponownie.
+        managed_project_folder_no_access: >
+          Nie masz jeszcze dostępu do zarządzanego folderu projektu. Poczekaj chwilę i spróbuj ponownie.
         upload_keep_both: "Zachowaj oba"
         upload_replace: "Zastąp"
       file_links:
@@ -61,7 +69,7 @@ pl:
           other: "Pomyślnie utworzono %{count} połączeń plików."
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+            Nie można przesłać pliku (%{fileName}). Sprawdź, czy zainstalowana jest najnowsza wersja aplikacji Nextcloud „OpenProject Integration” i skontaktuj się z administratorem, aby uzyskać więcej informacji.
           403: >
             Nie można przesłać pliku (%{fileName}) ze względu na ograniczenia systemu. Aby uzyskać więcej informacji, skontaktuj się z administratorem.
           413: >

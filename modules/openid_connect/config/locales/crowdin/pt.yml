@@ -19,5 +19,9 @@ pt:
       plural: Provedores OpenID
       singular: Provedor OpenID
     setting_instructions:
+      azure_graph_api: >
+        Use o ponto de extremidade de userinfo graph.microsoft.com para solicitar dados de usuário. Este deve ser o padrão, a menos que você tenha um aplicativo Azure mais antigo.
+      azure_tenant_html: >
+        Defina o proprietário do seu ponto de extremidade Azure. Isto irá controlar quem obtém acesso à instância do OpenProject. Para obter mais informações, consulte <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">nosso guia de usuário em conexão do Azure OpenID</a>.
       limit_self_registration: >
         Se ativado, os usuários só poderão se registrar usando esse provedor se a configuração de registro automático permitir isso.

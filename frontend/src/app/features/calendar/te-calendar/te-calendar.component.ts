@@ -20,11 +20,15 @@ import { DomSanitizer } from '@angular/platform-browser';
 import timeGrid from '@fullcalendar/timegrid';
 import {
   CalendarOptions,
+  DayCellContentArg,
   DayCellMountArg,
-  DayHeaderMountArg,
+  DayHeaderContentArg,
   Duration,
   EventApi,
   EventInput,
+  EventSourceFuncArg,
+  SlotLabelContentArg,
+  SlotLaneContentArg,
 } from '@fullcalendar/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
@@ -46,6 +50,10 @@ import { SchemaResource } from 'core-app/features/hal/resources/schema-resource'
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { VerboseFormattingArg } from '@fullcalendar/common';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { Subject, firstValueFrom } from 'rxjs';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { IDay } from 'core-app/core/state/days/day.model';
+import { DayResourceService } from 'core-app/core/state/days/day.service';
 
 interface TimeEntrySchema extends SchemaResource {
   activity:IFieldSchema;
@@ -68,7 +76,9 @@ interface CalendarMoveEvent {
   delta:Duration;
   revert:() => void;
 }
-
+interface CalendarOptionsWithDayGrid extends CalendarOptions {
+  dayGridClassNames:(data:DayCellMountArg) => void;
+}
 // An array of all the days that are displayed. The zero index represents Monday.
 export type DisplayedDays = [boolean, boolean, boolean, boolean, boolean, boolean, boolean];
 
@@ -99,7 +109,7 @@ export class TimeEntryCalendarComponent {
   @Input() static = false;
 
   @Input() set displayedDays(days:DisplayedDays) {
-    this.setHiddenDays(days);
+    this.initializeCalendar(days);
   }
 
   @Output() entries = new EventEmitter<CollectionResource<TimeEntryResource>>();
@@ -122,7 +132,11 @@ export class TimeEntryCalendarComponent {
     today: this.i18n.t('js.team_planner.today'),
   };
 
-  calendarOptions:CalendarOptions = {
+  calendarOptions$ = new Subject<CalendarOptions>();
+
+  public nonWorkingDays:IDay[] = [];
+
+  public additionalOptions:CalendarOptionsWithDayGrid = {
     editable: false,
     locale: this.i18n.locale,
     fixedWeekCount: false,
@@ -134,6 +148,7 @@ export class TimeEntryCalendarComponent {
     buttonText: { today: this.text.today },
     initialView: 'timeGridWeek',
     firstDay: this.configuration.startOfWeek(),
+    timeZone: this.configuration.isTimezoneSet() ? this.configuration.timezone() : 'local',
     hiddenDays: [],
     // This is a magic number that is derived by trial and error
     contentHeight: 550,
@@ -144,21 +159,32 @@ export class TimeEntryCalendarComponent {
     displayEventTime: false,
     slotMinTime: `${this.minHour - 1}:00:00`,
     slotMaxTime: `${this.maxHour}:00:00`,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     events: this.calendarEventsFunction.bind(this),
     eventOverlap: (stillEvent:EventApi) => !stillEvent.classNames.includes(TIME_ENTRY_CLASS_NAME),
     plugins: [timeGrid, interactionPlugin],
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     eventDidMount: this.alterEventEntry.bind(this),
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     eventWillUnmount: this.beforeEventRemove.bind(this),
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     eventClick: this.dispatchEventClick.bind(this),
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     eventDrop: this.moveEvent.bind(this),
-    dayHeaderClassNames: (data:DayHeaderMountArg) => this.calendar.applyNonWorkingDay(data, []),
-    dayCellClassNames: (data:DayCellMountArg) => this.calendar.applyNonWorkingDay(data, []),
+    dayHeaderClassNames: (data:DayHeaderContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
+    dayCellClassNames: (data:DayCellContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
+    dayGridClassNames: (data:DayCellContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
+    slotLaneClassNames: (data:SlotLaneContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
+    slotLabelClassNames: (data:SlotLabelContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
   };
+
+  private initializeCalendar(displayedDayss:DisplayedDays) {
+    void this.weekdayService.loadWeekdays()
+      .toPromise()
+      .then(async () => {
+        const date = moment(new Date()).toString();
+        await this.requireNonWorkingDays(date);
+        this.additionalOptions.hiddenDays = this.setHiddenDays(displayedDayss);
+        this.calendarOptions$.next(
+          this.additionalOptions,
+        );
+      });
+  }
 
   constructor(
     readonly states:States,
@@ -177,18 +203,24 @@ export class TimeEntryCalendarComponent {
     private colors:ColorsService,
     private browserDetector:BrowserDetector,
     private calendar:OpCalendarService,
+    readonly weekdayService:WeekdayService,
+    readonly dayService:DayResourceService,
   ) {}
 
+  async requireNonWorkingDays(date:Date|string) {
+    this.nonWorkingDays = await firstValueFrom(this.dayService.requireNonWorkingYear$(date));
+  }
+
   public calendarEventsFunction(
-    fetchInfo:{ start:Date, end:Date },
+    fetchInfo:EventSourceFuncArg,
     successCallback:(events:EventInput[]) => void,
-    failureCallback:(error:unknown) => void,
+    failureCallback:(error:Error) => void,
   ):void|PromiseLike<EventInput[]> {
     void this.fetchTimeEntries(fetchInfo.start, fetchInfo.end)
-      .then((collection) => {
+      .then(async (collection) => {
         this.entries.emit(collection);
 
-        successCallback(this.buildEntries(collection.elements, fetchInfo));
+        successCallback(await this.buildEntries(collection.elements, fetchInfo));
       })
       .catch(failureCallback);
   }
@@ -197,11 +229,12 @@ export class TimeEntryCalendarComponent {
     if (!this.memoizedTimeEntries
       || this.memoizedTimeEntries.start.getTime() !== start.getTime()
       || this.memoizedTimeEntries.end.getTime() !== end.getTime()) {
-      const promise = this
-        .apiV3Service
-        .time_entries
-        .list({ filters: this.dmFilters(start, end), pageSize: 500 })
-        .toPromise()
+      const promise = firstValueFrom(
+        this
+          .apiV3Service
+          .time_entries
+          .list({ filters: this.dmFilters(start, end), pageSize: 500 }),
+      )
         .then((collection) => {
           this.memoizedCreateAllowed = !!collection.createTimeEntry;
 
@@ -214,9 +247,10 @@ export class TimeEntryCalendarComponent {
     return this.memoizedTimeEntries.entries;
   }
 
-  private buildEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }):EventInput[] {
+  private async buildEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }):Promise<EventInput[]> {
     this.setRatio(entries);
-
+    await this.requireNonWorkingDays(fetchInfo.start);
+    await this.requireNonWorkingDays(fetchInfo.end);
     return this.buildTimeEntryEntries(entries)
       .concat(this.buildAuxEntries(entries, fetchInfo));
   }
@@ -274,7 +308,7 @@ export class TimeEntryCalendarComponent {
 
     const calendarEntries:EventInput[] = [];
 
-    for (let m = moment(fetchInfo.start); m.diff(fetchInfo.end, 'days') <= 0; m.add(1, 'days')) {
+    for (let m = moment(this.timezone.formattedISODate(fetchInfo.start)); m.diff(fetchInfo.end, 'days') <= 0; m.add(1, 'days')) {
       const duration = dateSums[m.format('YYYY-MM-DD')] || 0;
 
       calendarEntries.push(this.sumEntry(m, duration));
@@ -335,7 +369,7 @@ export class TimeEntryCalendarComponent {
       rendering: 'background' as const,
       startEditable: false,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      sum: this.i18n.t('js.units.hour', { count: this.formatNumber(duration) }),
+      sum: this.i18n.t('js.units.hour', { count: duration }),
     };
   }
 
@@ -427,12 +461,13 @@ export class TimeEntryCalendarComponent {
       });
   }
 
-  private updateEventSet(event:TimeEntryResource, action:'update'|'destroy'|'create'):void {
+  private updateEventSet(event:TimeEntryResource, action:'update'|'destroy'|'create'|'unchanged'):void {
     void this.memoizedTimeEntries.entries.then((collection) => {
       const foundIndex = collection.elements.findIndex((x) => x.id === event.id);
 
       switch (action) {
         case 'update':
+        case 'unchanged':
           collection.elements[foundIndex] = event;
           break;
         case 'destroy':
@@ -492,7 +527,7 @@ export class TimeEntryCalendarComponent {
 
     const { entry } = event.event.extendedProps;
 
-    const schema:TimeEntrySchema = await this.schemaCache.ensureLoaded(entry);
+    const schema = await this.schemaCache.ensureLoaded(entry as TimeEntryResource) as TimeEntrySchema;
 
     jQuery(event.el).tooltip({
       content: this.tooltipContentString(event.event.extendedProps.entry, schema),
@@ -626,8 +661,8 @@ export class TimeEntryCalendarComponent {
     return 1;
   }
 
-  protected setHiddenDays(displayedDays:DisplayedDays):void {
-    const hiddenDays:number[] = Array
+  protected setHiddenDays(displayedDays:DisplayedDays) {
+    return Array
       .from(displayedDays, (value, index) => {
         if (!value) {
           return (index + 1) % 7;
@@ -635,7 +670,5 @@ export class TimeEntryCalendarComponent {
         return null;
       })
       .filter((value) => value !== null) as number[];
-
-    this.calendarOptions = { ...this.calendarOptions, hiddenDays };
   }
 }

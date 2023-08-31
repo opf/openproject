@@ -66,6 +66,9 @@ module OpenProject::GithubIntegration::Services
         repository: payload.fetch('base')
                           .fetch('repo')
                           .fetch('full_name'),
+        repository_html_url: payload.fetch('base')
+                                    .fetch('repo')
+                                    .fetch('html_url'),
         draft: payload.fetch('draft'),
         merged: payload.fetch('merged'),
         merged_by: github_user_id(payload['merged_by']),

@@ -29,6 +29,7 @@ nl:
         participants: "Deelnemers"
         participants_attended: "Aanwezigen"
         participants_invited: "Genodigden"
+        project: "Project"
         start_time: "Tijd"
         start_time_hour: "Begintijd"
     errors:
@@ -61,6 +62,13 @@ nl:
   label_meeting_agenda_close: "Sluit de agenda om de notulen te beginnen"
   label_meeting_date_time: "Datum/Tijd"
   label_meeting_diff: "Diff"
+  label_upcoming_meetings: "Geplande vergaderingen"
+  label_past_meetings: "Eerdere vergaderingen"
+  label_involvement: "Betrokkenheid"
+  label_upcoming_invitations: "Aankomende uitnodigingen"
+  label_past_invitations: "Vorige uitnodigingen"
+  label_attendee: "Deelnemer"
+  label_author: "Maker"
   label_notify: "Verzenden voor revisie"
   label_icalendar: "Verstuur iCalendar"
   label_version: "Versie"
@@ -85,7 +93,7 @@ nl:
   text_duration_in_hours: "Duur in uren"
   text_in_hours: "in uren"
   text_meeting_agenda_for_meeting: 'agenda voor de vergadering "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the agenda?"
+  text_meeting_closing_are_you_sure: "Weet je zeker dat je de vergaderagenda wilt sluiten?"
   text_meeting_agenda_open_are_you_sure: "Dit overschrijft alle wijzigingen in de aantekeningen! Wilt u doorgaan?"
   text_meeting_minutes_for_meeting: 'minuten voor de vergadering "%{meeting}"'
   text_review_meeting_agenda: "%{author} heeft de %{link} geselecteerd voor herziening."

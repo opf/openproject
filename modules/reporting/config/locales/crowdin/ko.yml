@@ -81,6 +81,9 @@ ko:
   units: "단위"
   validation_failure_date: "은(는) 유효한 날짜가 아닙니다."
   validation_failure_integer: "은(는) 유효한 정수가 아닙니다."
+  export:
+    cost_reports:
+      title: "비용 리포트 XML로 내보내기"
   reporting:
     group_by:
       selected_columns: "선택된 열"

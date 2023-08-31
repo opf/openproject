@@ -1,14 +1,25 @@
-<%= form_tag({}, method: :get, class: "project-filters #{filter_set? ? '-expanded' : ''}") do %>
-  <% operators_without_values = ['*', '!*', 't', 'w'] %>
+<%= form_tag({},
+             method: :get,
+             class: "project-filters #{show_filters_section? ? '-expanded' : ''}",
+             data: {
+               'project-target': 'filterForm',
+               action: 'submit->project#sendForm:prevent'
+             }) do %>
+  <% operators_without_values = %w[* !* t w] %>
   <fieldset class="advanced-filters--container">
-    <a id="projects-filter-close-button" title="<%= t('js.close_form_title') %>" class="advanced-filters--close icon-context icon-close"></a>
+    <a title="<%= t('js.close_form_title') %>"
+       class="advanced-filters--close icon-context icon-close"
+       data-action="project#toggleFilterForm"></a>
     <legend><%= t(:label_filter_plural) %></legend>
     <ul class="advanced-filters--filters">
       <% allowed_filters(query).each do |filter| %>
         <% filter_active = query.find_active_filter(filter.name).present? %>
         <% filter_boolean = filter.is_a?(Queries::Filters::Shared::BooleanFilter) %>
 
-        <li class="advanced-filters--filter <%= filter_active ? '' : 'hidden' %>" filter-name="<%= filter.name %>" filter-type="<%= filter.type %>">
+        <li class="advanced-filters--filter <%= filter_active ? '' : 'hidden' %>"
+            filter-name="<%= filter.name %>"
+            filter-type="<%= filter.type %>"
+            data-project-target="filter">
           <label class='advanced-filters--filter-name' for="<%= filter.name %>">
             <%= filter.human_name %>
           </label>
@@ -20,7 +31,13 @@
                              :symbol,
                              :human_name,
                              selected_operator),
-                           class: 'advanced-filters--select' %>
+                           class: 'advanced-filters--select',
+                           data: {
+                             action: 'change->project#setValueVisibility',
+                             'project-filter-name-param': filter.name,
+                             'project-target': 'operator',
+                             'filter-name': filter.name
+                           } %>
           <% end %>
           <% value_visibility = operators_without_values.include?(selected_operator) ? 'hidden' : '' %>
           <% if filter_boolean %>
@@ -44,14 +61,18 @@
           <% end %>
 
           <div class="advanced-filters--remove-filter">
-            <a href="#" class="filter_rem">
+            <a href="#"
+               class="filter_rem"
+               data-action="click->project#removeFilter"
+               data-project-filter-name-param="<%= filter.name %>">
               <%= op_icon("icon-close advanced-filters--remove-filter-icon", title: I18n.t('js.button_delete')) %>
             </a>
           </div>
         </li>
       <% end %>
 
-      <li class="advanced-filters--spacer <%= query.filters.blank? ? 'hidden' : '' %>"></li>
+      <li class="advanced-filters--spacer <%= query.filters.blank? ? 'hidden' : '' %>"
+          data-project-target="spacer"></li>
 
       <li class="advanced-filters--add-filter">
         <!-- Add filters -->
@@ -76,7 +97,11 @@
                          prompt: t(:actionview_instancetag_blank_option),
                          class: 'advanced-filters--select',
                          focus: "false",
-                         'aria-invalid': "false" %>
+                         'aria-invalid': "false",
+                         data: {
+                           'project-target': 'addFilterSelect',
+                           action: 'change->project#addFilter:prevent'
+                         } %>
         </div>
       </li>
       <li class="advanced-filters--controls">

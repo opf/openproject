@@ -15,6 +15,7 @@ ko:
       choose_location: "위치 선택"
       types:
         nextcloud: "Nextcloud"
+        default: "저장소"
       information:
         connection_error: >
           일부 %{storageType} 설정이 작동하지 않습니다. %{storageType} 관리자에게 문의하세요.
@@ -30,9 +31,16 @@ ko:
           이 파일을 업로드하려는 위치에 이름이 "%{fileName}"인 파일이 이미 있습니다. 어떤 작업을 하시겠습니까?
         directory_not_writeable: "이 폴더에 파일을 추가할 수 있는 권한이 없습니다."
         dragging_many_files: "%{storageType}(으)로 업로드는 한 번에 하나의 파일만 지원합니다."
+        dragging_folder: "%{storageType}에 업로드는 폴더를 지원하지 않습니다."
         empty_folder: "이 폴더는 비어 있습니다."
         empty_folder_location_hint: "아래 버튼을 클릭하여 이 위치에 파일을 업로드하세요."
         file_not_selectable_location: "위치 선택 프로세스에서 파일을 선택할 수는 없습니다."
+        project_folder_no_access: >
+          프로젝트 폴더에 대한 액세스 권한이 없습니다. 관리자에게 문의하여 액세스 권한을 얻거나 다른 위치에 파일을 업로드하세요.
+        managed_project_folder_not_available: >
+          자동으로 관리되는 프로젝트 폴더를 아직 찾지 못했습니다. 잠시 기다렸다가 페이지를 다시 로드하고 최신 데이터를 가져온 후에 다시 시도하세요.
+        managed_project_folder_no_access: >
+          관리되는 프로젝트 폴더에 대한 액세스 권한이 아직 없습니다. 잠시 후 다시 시도하세요.
         upload_keep_both: "모두 유지"
         upload_replace: "바꾸기"
       file_links:
@@ -55,7 +63,7 @@ ko:
           other: "%{count}개 파일 링크를 생성했습니다."
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+            파일(%{fileName})을 업로드할 수 없습니다. 최신 버전의 Nextcloud 앱 "OpenProject Integration"이 설치되어 있는지 확인하고 자세한 내용은 관리자에게 문의하세요.
           403: >
             시스템 제한으로 인해 파일(%{fileName})을 업로드할 수 없습니다. 자세한 내용은 관리자에게 문의하세요.
           413: >

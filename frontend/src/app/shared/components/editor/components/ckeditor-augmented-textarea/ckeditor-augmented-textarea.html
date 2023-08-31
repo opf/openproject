@@ -2,20 +2,21 @@
   <op-ckeditor
     [context]="context"
     [content]="initialContent"
-    (onInitialized)="setup($event)"
-    (onContentChange)="markEdited()"
+    (initializeDone)="setup($event)"
+    (contentChanged)="markEdited()"
+    (saveRequested)="saveForm()"
   ></op-ckeditor>
 </div>
 
 <fieldset
   class="form--fieldset"
-  *ngIf="resource && resource.attachments"
+  *ngIf="halResource && halResource.attachments"
 >
   <legend class="form--fieldset-legend">
     {{ text.attachments }}
   </legend>
   <op-attachments
-    [resource]="resource"
+    [resource]="halResource"
     [destroyImmediately]="false"
   ></op-attachments>
 </fieldset>

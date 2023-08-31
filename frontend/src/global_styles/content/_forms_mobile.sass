@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-@include breakpoint(680px down)
+@media screen and (max-width: $breakpoint-sm)
   form
     .grid-block
       display: block
@@ -50,19 +50,20 @@
       max-width: 100%
 
   #tab-content-info form,
-    .form--label,
-    .form--field-container
-      flex-basis: 100% !important
-      max-width: 100% !important
+  .form--label,
+  .form--field-container
+    flex-basis: 100%
+    max-width: 100%
 
   autocomplete-select-decoration
     width: 100%
 
-  .form--field-inline-buttons-container
-    .form--field-inline-button
-      width: auto !important
+  .form--field-inline-buttons-container,
+  .form--field-inline-button
+    width: auto
 
-  .-browser-safari, .-browser-chrome
+  .-browser-safari,
+  .-browser-chrome
     // Special rule for mobile safari and chrome to prevent zooming into the text field
     // when focused.
     select,

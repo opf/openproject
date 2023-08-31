@@ -40,7 +40,10 @@ module OpenProject::Meeting
       project_module :meetings do
         permission :view_meetings, meetings: %i[index show], meeting_agendas: %i[history show diff],
                                    meeting_minutes: %i[history show diff]
-        permission :create_meetings, { meetings: %i[new create copy] }, require: :member
+        permission :create_meetings,
+                   { meetings: %i[new create copy] },
+                   require: :member,
+                   contract_actions: { meetings: %i[create] }
         permission :edit_meetings, { meetings: %i[edit update] }, require: :member
         permission :delete_meetings, { meetings: [:destroy] }, require: :member
         permission :meetings_send_invite, { meetings: [:icalendar] }, require: :member
@@ -61,7 +64,38 @@ module OpenProject::Meeting
            caption: :project_module_meetings,
            after: :wiki,
            before: :members,
-           icon: 'icon2 icon-meetings'
+           icon: 'meetings'
+
+      menu :project_menu,
+           :meetings_query_select, { controller: '/meetings', action: 'index' },
+           parent: :meetings,
+           partial: 'meetings/menu_query_select'
+
+      should_render_global_menu_item = Proc.new do
+          (User.current.logged? || !Setting.login_required?) &&
+          User.current.allowed_to_globally?(:view_meetings)
+      end
+
+      menu :top_menu,
+           :meetings, { controller: '/meetings', action: 'index', project_id: nil },
+           context: :modules,
+           caption: :label_meeting_plural,
+           last: true,
+           icon: 'meetings',
+           if: should_render_global_menu_item
+
+      menu :global_menu,
+           :meetings, { controller: '/meetings', action: 'index', project_id: nil },
+           caption: :label_meeting_plural,
+           last: true,
+           icon: 'meetings',
+           if: should_render_global_menu_item
+
+      menu :global_menu,
+           :meetings_query_select, { controller: '/meetings', action: 'index', project_id: nil },
+           parent: :meetings,
+           partial: 'meetings/menu_query_select',
+           if: should_render_global_menu_item
 
       ActiveSupport::Inflector.inflections do |inflect|
         inflect.uncountable 'meeting_minutes'
@@ -71,10 +105,7 @@ module OpenProject::Meeting
     activity_provider :meetings, class_name: 'Activities::MeetingActivityProvider', default: false
 
     patches [:Project]
-    patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :BasicData, :SettingSeeder
-
-    patch_with_namespace :OpenProject, :TextFormatting, :Formats, :Markdown, :TextileConverter
 
     add_api_endpoint 'API::V3::Root' do
       mount ::API::V3::Meetings::MeetingContentsAPI

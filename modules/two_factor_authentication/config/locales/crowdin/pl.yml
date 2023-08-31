@@ -70,7 +70,7 @@ pl:
       button_delete_all_devices: 'Usuń zarejestrowane urządzenia 2FA'
       button_register_mobile_phone_for_user: 'Zarejestruj telefon komórkowy'
       text_2fa_enabled: 'Po każdym logowaniu ten użytkownik zostanie poproszony o wprowadzenie tokena OTP z jego domyślnego urządzenia 2FA.'
-      text_2fa_disabled: "Użytkownik nie ustawił urządzenia 2FA na swojej stronie \"Moje konto\""
+      text_2fa_disabled: "Użytkownik nie ustawił urządzenia 2FA na swojej stronie „Moje konto”"
     upsale:
       title: 'Uwierzytelnianie dwuskładnikowe'
       description: 'Potwierdź bezpieczeństwo twojej instancji OpenProject poprzez zaoferowanie (lub wyegzekwowanie) uwierzytelnienia dwuskładnikowego wszystkim członkom projektu.'

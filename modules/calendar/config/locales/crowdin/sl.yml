@@ -1,6 +1,9 @@
 #English strings go here
 sl:
+  label_calendar: "Koledar"
   label_calendar_plural: "Koledarji"
+  label_new_calendar: "New calendar"
   permission_view_calendar: "Poglej koledarje"
   permission_manage_calendars: "Uporavljaj koledarje"
-  project_module_calendar_view: "Koledar"
+  permission_share_calendars: "Subscribe to iCalendars"
+  project_module_calendar_view: "Koledarji"

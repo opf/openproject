@@ -29,11 +29,11 @@ ka:
       no_results_title_text: There are currently no plugins available.
     custom_styles:
       color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme_custom: "(მომხმარებლის)"
       colors:
         alternative-color: "Alternative"
-        content-link-color: "Link font"
-        primary-color: "Primary"
+        content-link-color: "ბმულის ფონტი"
+        primary-color: "ძირითადი"
         primary-color-dark: "Primary (dark)"
         header-bg-color: "Header background"
         header-item-bg-hover-color: "Header background on hover"
@@ -75,17 +75,17 @@ ka:
       required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "For more information, click here."
       start_trial: 'Start free trial'
-      book_now: 'Book now'
+      book_now: 'ახლა დაჯავშნა'
       get_quote: 'Get a quote'
       buttons:
-        upgrade: "Upgrade now"
+        upgrade: "ახლავე განაახლე"
         contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
       explanation:
         text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
-        link: "webhook"
+        link: "ვებჰუკი"
   announcements:
     show_until: Show until
     is_active: currently displayed
@@ -99,15 +99,14 @@ ka:
     edit: "Edit help text for %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: There are currently no authentication modes.
-      no_results_content_text: Create a new authentication mode
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
       <br/>
@@ -149,7 +148,7 @@ ka:
       The following fields are related to how users are created in OpenProject from LDAP entries and
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
     tls_mode:
-      plain: 'none'
+      plain: 'არა'
       simple_tls: 'LDAPS'
       start_tls: 'STARTTLS'
       plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
@@ -169,10 +168,21 @@ ka:
     index:
       no_results_title_text: There are currently no colors.
       no_results_content_text: Create a new color
-    label_no_color: 'No color'
+      label_new_color: "ახალი ფერი"
+    new:
+      label_new_color: "ახალი ფერი"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "ახალი ფერი"
+      label_edit_color: "Edit color"
+    label_no_color: "ფერის გარეშე"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Actions'
+      name: "ქმედებები"
       add: 'Add action'
       assigned_to:
         executing_user_value: '(Assign to executing user)'
@@ -197,13 +207,11 @@ ka:
       no_results_title_text: There are currently no custom fields.
       no_results_content_text: Create a new custom field
   concatenation:
-    single: 'or'
-  documentation:
-    see_more_link: For more information, please see our documentation on this topic.
+    single: 'ან'
   global_search:
     overwritten_tabs:
-      wiki_pages: "Wiki"
-      messages: "Forum"
+      wiki_pages: "ვიკი"
+      messages: "ფორუმი"
   groups:
     index:
       no_results_title_text: There are currently no groups.
@@ -253,6 +261,8 @@ ka:
         no_results_title_text: There are currently no custom fields available.
       types:
         no_results_title_text: There are currently no types available.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
@@ -269,11 +279,24 @@ ka:
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: There are currently no access tokens available.
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: There is currently no news to report.
       no_results_content_text: Add a news item
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'ბრაუზერი'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
       no_results_title_text: This user is currently not a member in any group.
@@ -315,16 +338,22 @@ ka:
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Add a new status
+  themes:
+    light: "ღია"
+    light_high_contrast: "Light high contrast"
+    dark: "მუქი"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: There are currently no types.
       no_results_content_text: Create a new type
     edit:
-      settings: "Settings"
+      settings: "მორგება"
       form_configuration: "Form configuration"
       more_info_text_html: >
         Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
-      projects: "Projects"
+      projects: "პროექტები"
       enabled_projects: "Enabled projects"
       edit_query: "Edit table"
       query_group_placeholder: "Give the table a name"
@@ -334,6 +363,7 @@ ka:
         in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
+      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
       no_results_title_text: There are currently no work packages assigned to this version.
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
@@ -412,45 +442,45 @@ ka:
       attachment:
         attachment_content: "Attachment content"
         attachment_file_name: "Attachment file name"
-        downloads: "Downloads"
-        file: "File"
-        filename: "File"
-        filesize: "Size"
+        downloads: "გადმოწერები"
+        file: "ფაილი"
+        filename: "ფაილი"
+        filesize: "ზომა"
       attribute_help_text:
-        attribute_name: 'Attribute'
-        help_text: 'Help text'
-      auth_source:
-        account: "Account"
+        attribute_name: 'ატრიბუტი'
+        help_text: 'დახმარების ტექსტი'
+      ldap_auth_source:
+        account: "ანგარიში"
         attr_firstname: "Firstname attribute"
         attr_lastname: "Lastname attribute"
         attr_login: "Username attribute"
         attr_mail: "Email attribute"
         base_dn: "Base DN"
-        host: "Host"
+        host: "ჰოსტი"
         onthefly: "Automatic user creation"
-        port: "Port"
+        port: "პორტი"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repository"
       comment:
-        commented: "Commented" #an object that this comment belongs to
+        commented: "კომენტარით" #an object that this comment belongs to
       custom_action:
-        actions: "Actions"
+        actions: "ქმედებები"
       custom_field:
         default_value: "Default value"
-        editable: "Editable"
-        field_format: "Format"
+        editable: "ჩასწორებადი"
+        field_format: "ფორმატი"
         is_filter: "Used as a filter"
-        is_required: "Required"
+        is_required: "აუცილებელია"
         max_length: "Maximum length"
         min_length: "Minimum length"
         multi_value: "Allow multi-select"
         possible_values: "Possible values"
         regexp: "Regular expression"
         searchable: "Searchable"
-        visible: "Visible"
+        visible: "ხილული"
       custom_value:
-        value: "Value"
+        value: "მნიშვნელობა"
       enterprise_token:
         starts_at: "Valid since"
         expires_at: "Expires at"
@@ -458,79 +488,79 @@ ka:
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
       grids/grid:
-        page: "Page"
+        page: "გვერდი"
         row_count: "Number of rows"
         column_count: "Number of columns"
-        widgets: "Widgets"
+        widgets: "ვიჯეტები"
       relation:
-        delay: "Delay"
+        delay: "დაყოვნება"
         from: "Work package"
         to: "Related work package"
       status:
         is_closed: "Work package closed"
         is_readonly: "Work package read-only"
       journal:
-        notes: "Notes"
+        notes: "შენიშვნები"
       member:
-        roles: "Roles"
+        roles: "როლები"
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "დაარქივებულია"
         identifier: "Identifier"
         latest_activity_at: "Latest activity at"
         parent: "Subproject of"
         public_value:
           title: "Visibility"
-          true: "public"
-          false: "private"
-        queries: "Queries"
+          true: "საჯარო"
+          false: "პირადი"
+        queries: "მოთხოვნები"
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
+        status_codes:
+          not_started: 'Not started'
+          on_track: 'გეგმის მიხედვით'
+          at_risk: 'რისკის ქვეშ'
+          off_track: 'შეჩერებულია'
+          finished: 'დასრულებულია'
+          discontinued: 'Discontinued'
         templated: "Template project"
         templated_value:
           true: "marked as template"
           false: "unmarked as template"
-        types: "Types"
-        versions: "Versions"
+        types: "ტიპები"
+        versions: "ვერსიები"
         work_packages: "Work Packages"
-      projects/status:
-        code: 'Status'
-        explanation: 'Status description'
-        codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
       query:
-        column_names: "Columns"
+        column_names: "სვეტები"
         relations_to_type_column: "Relations to %{type}"
         relations_of_type_column: "%{type} relations"
         group_by: "Group results by"
-        filters: "Filters"
+        filters: "ფილტრები"
         timeline_labels: "Timeline labels"
       repository:
         url: "URL"
       role:
         permissions: "Permissions"
       time_entry:
-        activity: "Activity"
-        hours: "Hours"
-        spent_on: "Date"
-        type: "Type"
+        activity: "აქტივობა"
+        hours: "საათი"
+        spent_on: "თარიღი"
+        type: "ტიპი"
+        ongoing: "მიმდინარე"
       type:
         description: "Default text for description"
         attribute_groups: ''
         is_in_roadmap: "Displayed in roadmap by default"
         is_default: "Activated for new projects by default"
         is_milestone: "Is milestone"
-        color: "Color"
+        color: "ფერი"
       user:
         admin: "Administrator"
-        auth_source: "Authentication mode"
+        ldap_auth_source: "LDAP connection"
         current_password: "Current password"
         force_password_change: "Enforce password change on next login"
-        language: "Language"
+        language: "ენა"
         last_login_on: "Last login"
         new_password: "New password"
         password_confirmation: "Confirmation"
@@ -539,25 +569,25 @@ ka:
         comments_sorting: "Display comments"
         hide_mail: "Hide my email address"
         impaired: "Accessibility mode"
-        time_zone: "Time zone"
+        time_zone: "დროის სარტყელი"
         auto_hide_popups: "Auto-hide success notifications"
         warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
       version:
         effective_date: "Finish date"
-        sharing: "Sharing"
+        sharing: "გაზიარება"
       wiki_content:
-        text: "Text"
+        text: "ტექსტი"
       wiki_page:
         parent_title: "Parent page"
         redirect_existing_links: "Redirect existing links"
       planning_element_type_color:
-        hexcode: Hex code
+        hexcode: თექვსმეტობითი კოდი
       work_package:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
         children: "Subelements"
         done_ratio: "Progress (%)"
-        duration: "Duration"
+        duration: "ხანგრძლივობა"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
         ignore_non_working_days: "Ignore non working days"
@@ -565,27 +595,27 @@ ka:
           title: 'Working days'
           false: 'working days only'
           true: 'include non-working days'
-        parent: "Parent"
-        parent_issue: "Parent"
-        parent_work_package: "Parent"
-        priority: "Priority"
+        parent: "მშობელი"
+        parent_issue: "მშობელი"
+        parent_work_package: "მშობელი"
+        priority: "პრიორიტეტი"
         progress: "Progress (%)"
-        readonly: "Read only"
+        readonly: "მხოლოდ წაკითხვისთვის"
         schedule_manually: "Manual scheduling"
         spent_hours: "Spent time"
         spent_time: "Spent time"
         subproject: "Subproject"
-        time_entries: "Log time"
-        type: "Type"
-        version: "Version"
-        watcher: "Watcher"
+        time_entries: "ჟურნალში დროის ჩაწერა"
+        type: "ტიპი"
+        version: "ვერსია"
+        watcher: "მეთვალყურე"
       'doorkeeper/application':
-        uid: "Client ID"
+        uid: "კლიენტის ID"
         secret: "Client secret"
-        owner: "Owner"
+        owner: "მფლობელი"
         redirect_uri: "Redirect URI"
         client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
+        scopes: "ფარგლები"
         confidential: "Confidential"
     errors:
       messages:
@@ -648,7 +678,7 @@ ka:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "is the wrong length (should be %{count} characters)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -661,7 +691,7 @@ ka:
               format: "%{message}"
         capability:
           context:
-            global: 'Global'
+            global: 'გლობალური'
           query:
             filters:
               minimum: "need to include at least one filter for principal, context or id with the '=' operator."
@@ -689,9 +719,14 @@ ka:
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
         grids/grid:
-          overlaps: 'overlap.'
+          overlaps: 'გადაფარება.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -728,7 +763,7 @@ ka:
         query:
           attributes:
             project:
-              error_not_found: "not found"
+              error_not_found: "ვერ მოიძებნა"
             public:
               error_unauthorized: "- The user has no permission to create public views."
             group_by:
@@ -739,6 +774,10 @@ ka:
               format: "%{message}"
             sort_criteria:
               invalid: "Can't sort by column: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
@@ -795,6 +834,7 @@ ka:
               not_allowed_to_view: "is not allowed to view this resource."
               locked: "is locked."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "cannot be deduced from the title '%{title}'."
@@ -861,8 +901,8 @@ ka:
                 description: "'Password confirmation' should match the input in the 'New password' field."
             status:
               invalid_on_create: "is not a valid status for new users."
-            auth_source:
-              error_not_found: "not found"
+            ldap_auth_source:
+              error_not_found: "ვერ მოიძებნა"
         member:
           principal_blank: "Please choose at least one user or group."
           role_blank: "need to be assigned."
@@ -872,6 +912,7 @@ ka:
             principal:
               unassignable: "cannot be assigned to a project."
         version:
+          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
         status:
           readonly_default_exlusive: "can not be activated for statuses that are marked default."
@@ -881,72 +922,90 @@ ka:
           one: "1 error prohibited this %{model} from being saved"
           other: "%{count} errors prohibited this %{model} from being saved"
     models:
-      attachment: "File"
+      attachment: "ფაილი"
       attribute_help_text: "Attribute help text"
-      forum: "Forum"
-      comment: "Comment"
+      forum: "ფორუმი"
+      comment: "კომენტარი"
       custom_action: "Custom action"
       custom_field: "Custom field"
-      group: "Group"
-      category: "Category"
+      group: "ჯგუფი"
+      category: "კატეგორია"
       status: "Work package status"
-      member: "Member"
-      news: "News"
+      member: "წევრი"
+      news: "სიახლეები"
       notification:
         one: "Notification"
         other: "Notifications"
       placeholder_user: "Placeholder user"
-      project: "Project"
+      project: "პროექტი"
       query: "Custom query"
       role:
-        one: "Role"
-        other: "Roles"
-      type: "Type"
-      user: "User"
-      version: "Version"
-      wiki: "Wiki"
-      wiki_page: "Wiki page"
-      workflow: "Workflow"
+        one: "როლი"
+        other: "როლი"
+      type: "ტიპი"
+      user: "მომხმარებელი"
+      version: "ვერსია"
+      wiki: "ვიკი"
+      wiki_page: "ვიკი გვერდი"
+      workflow: "სამუშაო პროცესი"
       work_package: "Work package"
       'doorkeeper/application': "OAuth application"
   errors:
-    header_invalid_fields: "There were problems with the following fields:"
+    header_invalid_fields:
+      one: "There was a problem with the following field:"
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      one: "Additionally, there was a problem with the following field:"
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "This field is invalid: %{full_errors}\nPlease enter a valid value."
   activity:
     item:
       created_by_on: "created by %{user} on %{datetime}"
+      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "created on %{datetime}"
+      created_on_time_entry: "time logged on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
+      updated_on_time_entry: "logged time updated on %{datetime}"
       parent_without_of: "Subproject"
       parent_no_longer: "No longer subproject of"
+      time_entry:
+        hour:
+          one: "%{count} hour"
+          other: "%{count} hours"
+        hour_html:
+          one: "<i>%{count} hour</i>"
+          other: "<i>%{count} hours</i>"
+        updated: "changed from %{old_value} to %{value}"
+        logged_for: "Logged for"
     filter:
       changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      message: "ფორუმები"
+      news: "სიახლეები"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
       time_entry: "Spent time"
-      wiki_edit: "Wiki"
+      wiki_edit: "ვიკი"
       work_package: "Work packages"
   #common attributes of all models
   attributes:
-    active: "Active"
-    assigned_to: "Assignee"
-    assignee: "Assignee"
+    active: "აქტიური"
+    assigned_to: "დასაქმებული"
+    assignee: "დასაქმებული"
     attachments: "Attachments"
-    author: "Author"
+    author: "ავტორი"
     base: "General Error:"
     blocks_ids: "IDs of blocked work packages"
-    category: "Category"
-    comment: "Comment"
-    comments: "Comment"
-    content: "Content"
-    color: "Color"
+    category: "კატეგორია"
+    comment: "კომენტარი"
+    comments: "კომენტარი"
+    content: "შემცველობა"
+    color: "ფერი"
     created_at: "Created on"
     custom_options: "Possible values"
     custom_values: "Custom fields"
-    date: "Date"
+    date: "თარიღი"
     default_columns: "Default columns"
     description: "Description"
     derived_due_date: "Derived finish date"
@@ -957,36 +1016,36 @@ ka:
     estimated_hours: "Estimated time"
     estimated_time: "Estimated time"
     firstname: "First name"
-    group: "Group"
-    groups: "Groups"
+    group: "ჯგუფი"
+    groups: "ჯგუფები"
     id: "ID"
     is_default: "Default value"
     is_for_all: "For all projects"
-    public: "Public"
+    public: "საზოგადო"
     #kept for backwards compatibility
     issue: "Work package"
-    lastname: "Last name"
-    login: "Username"
-    mail: "Email"
-    name: "Name"
-    password: "Password"
-    priority: "Priority"
-    project: "Project"
+    lastname: "გვარი"
+    login: "მომხმარებლის სახელი"
+    mail: "ელფოსტა"
+    name: "სახელი"
+    password: "პაროლი"
+    priority: "პრიორიტეტი"
+    project: "პროექტი"
     responsible: "Accountable"
-    role: "Role"
-    roles: "Roles"
+    role: "როლი"
+    roles: "როლები"
     start_date: "Start date"
-    status: "Status"
-    subject: "Subject"
-    summary: "Summary"
-    title: "Title"
-    type: "Type"
+    status: "სტატუსი"
+    subject: "საგანი"
+    summary: "შეჯამება"
+    title: "სათაური"
+    type: "ტიპი"
     updated_at: "Updated on"
     updated_on: "Updated on"
-    uploader: "Uploader"
-    user: "User"
-    value: "Value"
-    version: "Version"
+    uploader: "ამტვირთავი"
+    user: "მომხმარებელი"
+    value: "მნიშვნელობა"
+    version: "ვერსია"
     work_package: "Work package"
   backup:
     failed: "Backup failed"
@@ -996,8 +1055,8 @@ ka:
     label_reset_token: "Reset backup token"
     label_token_users: "The following users have active backup tokens"
     reset_token:
-      action_create: Create
-      action_reset: Reset
+      action_create: შექმნა
+      action_reset: ჩამოყრა
       heading_reset: "Reset backup token"
       heading_create: "Create backup token"
       implications: >
@@ -1006,8 +1065,8 @@ ka:
         You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
       verification: >
         Enter %{word} to confirm you want to %{action} the backup token.
-      verification_word_reset: reset
-      verification_word_create: create
+      verification_word_reset: ჩამოყრა
+      verification_word_create: შექმნა
       warning: >
         When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
     text_token_deleted: Backup token deleted. Backups are now disabled.
@@ -1016,69 +1075,71 @@ ka:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
-  button_add: "Add"
+  button_add: "დამატება"
   button_add_comment: "Add comment"
   button_add_member: Add member
   button_add_watcher: "Add watcher"
-  button_annotate: "Annotate"
-  button_apply: "Apply"
-  button_archive: "Archive"
-  button_back: "Back"
-  button_cancel: "Cancel"
-  button_change: "Change"
+  button_annotate: "კომენტარის დაწერა"
+  button_apply: "გადატარება"
+  button_archive: "არქივი"
+  button_back: "უკან"
+  button_cancel: "გაუქმება"
+  button_change: "შეცვლა"
   button_change_parent_page: "Change parent page"
   button_change_password: "Change password"
-  button_check_all: "Check all"
-  button_clear: "Clear"
+  button_check_all: "ყველას მონიშვნა"
+  button_clear: "გასუფთავება"
   button_click_to_reveal: "Click to reveal"
-  button_close: 'Close'
+  button_close: 'დახურვა'
   button_collapse_all: "Collapse all"
-  button_configure: "Configure"
-  button_continue: "Continue"
-  button_copy: "Copy"
+  button_configure: "გამართვა"
+  button_continue: "გაგრძელება"
+  button_copy: "კოპირება"
+  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Copy and follow"
-  button_create: "Create"
+  button_create: "შექმნა"
   button_create_and_continue: "Create and continue"
-  button_delete: "Delete"
-  button_decline: "Decline"
+  button_delete: "წაშლა"
+  button_decline: "უარყოფა"
   button_delete_watcher: "Delete watcher %{name}"
-  button_download: "Download"
-  button_duplicate: "Duplicate"
-  button_edit: "Edit"
+  button_download: "გადმოწერა"
+  button_duplicate: "დუბლირება"
+  button_edit: "ჩასწორება"
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   button_expand_all: "Expand all"
-  button_filter: "Filter"
-  button_generate: "Generate"
-  button_list: "List"
-  button_lock: "Lock"
-  button_login: "Sign in"
-  button_move: "Move"
+  button_filter: "ფილტრი"
+  button_generate: "გენერაცია"
+  button_list: "სია"
+  button_lock: "ჩაკეტვა"
+  button_login: "შესვლა"
+  button_move: "გადატანა"
   button_move_and_follow: "Move and follow"
-  button_print: "Print"
-  button_quote: "Quote"
-  button_remove: Remove
-  button_rename: "Rename"
-  button_replace: "Replace"
-  button_revoke: "Revoke"
-  button_reply: "Reply"
-  button_reset: "Reset"
+  button_print: "ბეჭდვა"
+  button_quote: "ციტატა"
+  button_remove: წაშლა
+  button_rename: "გადარქმევა"
+  button_replace: "ჩანაცვლება"
+  button_revoke: "გაუქმება"
+  button_reply: "პასუხი"
+  button_reset: "ჩამოყრა"
   button_rollback: "Rollback to this version"
-  button_save: "Save"
+  button_save: "შენახვა"
   button_apply_changes: "Apply changes"
   button_save_back: "Save and back"
-  button_show: "Show"
-  button_sort: "Sort"
-  button_submit: "Submit"
-  button_test: "Test"
-  button_unarchive: "Unarchive"
+  button_show: "ჩვენება"
+  button_sort: "დალაგება"
+  button_submit: "გადაცემა"
+  button_test: "ტესტი"
+  button_unarchive: "არქივიდან გამოტანა"
   button_uncheck_all: "Uncheck all"
-  button_unlock: "Unlock"
-  button_unwatch: "Unwatch"
-  button_update: "Update"
-  button_upgrade: "Upgrade"
-  button_upload: "Upload"
-  button_view: "View"
-  button_watch: "Watch"
+  button_unlock: "განბლოკვა"
+  button_unwatch: "მეთვალყურეობის გაუქმება"
+  button_update: "განახლება"
+  button_upgrade: "განახლება"
+  button_upload: "ატვირთვა"
+  button_view: "ხედი"
+  button_watch: "თვალის დევნება"
   button_manage_menu_entry: "Configure menu item"
   button_add_menu_entry: "Add menu item"
   button_configure_menu_entry: "Configure menu item"
@@ -1101,7 +1162,7 @@ ka:
     failed: "Cannot copy project %{source_project_name}"
     failed_internal: "Copying failed due to an internal error."
     succeeded: "Created project %{target_project_name}"
-    errors: "Error"
+    errors: "შეცდომა"
     project_custom_fields: 'Custom fields on project'
     x_objects_of_this_type:
       zero: 'No objects of this type'
@@ -1110,66 +1171,66 @@ ka:
     text:
       failed: "Could not copy project \"%{source_project_name}\" to project \"%{target_project_name}\"."
       succeeded: "Copied project \"%{source_project_name}\" to \"%{target_project_name}\"."
-  create_new_page: "Wiki page"
+  create_new_page: "ვიკი გვერდი"
   date:
     abbr_day_names:
-      - "Sun"
-      - "Mon"
-      - "Tue"
-      - "Wed"
-      - "Thu"
-      - "Fri"
-      - "Sat"
+      - "კვ"
+      - "ორშ."
+      - "სამ"
+      - "ოთხ"
+      - "ხუთ"
+      - "პარ"
+      - "შაბ"
     abbr_month_names:
       - null
-      - "Jan"
-      - "Feb"
-      - "Mar"
-      - "Apr"
-      - "May"
-      - "Jun"
-      - "Jul"
-      - "Aug"
-      - "Sep"
-      - "Oct"
-      - "Nov"
-      - "Dec"
-    abbr_week: 'Wk'
+      - "იან"
+      - "თებ"
+      - "მარ"
+      - "აპრ"
+      - "მაისი"
+      - "ივნ"
+      - "ივლ"
+      - "აგვ"
+      - "სექ"
+      - "ოქტ"
+      - "ნოე"
+      - "დეკ"
+    abbr_week: 'კვ'
     day_names:
-      - "Sunday"
-      - "Monday"
-      - "Tuesday"
-      - "Wednesday"
-      - "Thursday"
-      - "Friday"
-      - "Saturday"
+      - "კვირა"
+      - "ორშაბათი"
+      - "სამშაბათი"
+      - "ოთხშაბათი"
+      - "ხუთშაბათი"
+      - "პარასკევი"
+      - "შაბათი"
     formats:
       #Use the strftime parameters for formats.
       #When no format has been given, it uses default.
       #You can provide other formats here if you like!
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
-      short: "%b %d"
+      short: "%d %b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
-      - "January"
-      - "February"
-      - "March"
-      - "April"
-      - "May"
-      - "June"
-      - "July"
-      - "August"
-      - "September"
-      - "October"
-      - "November"
-      - "December"
-    #Used in date_select and datime_select.
+      - "იანვარი"
+      - "თებერვალი"
+      - "მარტი"
+      - "აპრილი"
+      - "მაისი"
+      - "ივნისი"
+      - "ივლისი"
+      - "აგვისტო"
+      - "სექტემბერი"
+      - "ოქტომბერი"
+      - "ნოემბერი"
+      - "დეკემბერი"
+    #Used in date_select and datetime_select.
     order:
-      - :year
-      - :month
-      - :day
+      - ':წელი'
+      - ':თვე'
+      - ':დღე'
   datetime:
     distance_in_words:
       about_x_hours:
@@ -1195,82 +1256,27 @@ ka:
         one: "over 1 year"
         other: "over %{count} years"
       x_days:
-        one: "1 day"
-        other: "%{count} days"
+        one: "1 დღე"
+        other: "%{count} დღე"
       x_minutes:
-        one: "1 minute"
-        other: "%{count} minutes"
+        one: "1 წუთი"
+        other: "%{count} წუთი"
       x_months:
-        one: "1 month"
-        other: "%{count} months"
+        one: "1 თვე"
+        other: "%{count} თვე"
       x_seconds:
-        one: "1 second"
-        other: "%{count} seconds"
+        one: "1 წამი"
+        other: "%{count} წამი"
     units:
       hour:
-        one: "hour"
-        other: "hours"
-  default_activity_development: "Development"
-  default_activity_management: "Management"
-  default_activity_other: "Other"
-  default_activity_specification: "Specification"
-  default_activity_support: "Support"
-  default_activity_testing: "Testing"
-  default_color_black: "Black"
-  default_color_blue: "Blue"
-  default_color_blue_dark: "Blue (dark)"
-  default_color_blue_light: "Blue (light)"
-  default_color_green_dark: "Green (dark)"
-  default_color_green_light: "Green (light)"
-  default_color_grey_dark: "Grey (dark)"
-  default_color_grey_light: "Grey (light)"
-  default_color_grey: "Grey"
-  default_color_magenta: "Magenta"
-  default_color_orange: "Orange"
-  default_color_red: "Red"
-  default_color_white: "White"
-  default_color_yellow: "Yellow"
-  default_status_closed: "Closed"
-  default_status_confirmed: "Confirmed"
-  default_status_developed: "Developed"
-  default_status_in_development: "In development"
-  default_status_in_progress: "In progress"
-  default_status_in_specification: "In specification"
-  default_status_in_testing: "In testing"
-  default_status_new: "New"
-  default_status_on_hold: "On hold"
-  default_status_rejected: "Rejected"
-  default_status_scheduled: "Scheduled"
-  default_status_specified: "Specified"
-  default_status_tested: "Tested"
-  default_status_test_failed: "Test failed"
-  default_status_to_be_scheduled: "To be scheduled"
-  default_priority_low: "Low"
-  default_priority_normal: "Normal"
-  default_priority_high: "High"
-  default_priority_immediate: "Immediate"
-  default_role_anonymous: "Anonymous"
-  default_role_developer: "Developer"
-  default_role_project_admin: "Project admin"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
-  default_role_non_member: "Non member"
-  default_role_reader: "Reader"
-  default_role_member: "Member"
-  default_type: "Work Package"
-  default_type_bug: "Bug"
-  default_type_deliverable: "Deliverable"
-  default_type_epic: "Epic"
-  default_type_feature: "Feature"
-  default_type_milestone: "Milestone"
-  default_type_phase: "Phase"
-  default_type_task: "Task"
-  default_type_user_story: "User story"
-  description_active: "Active?"
+        one: "საათი"
+        other: "საათი"
+  description_active: "აქტიურია?"
   description_attachment_toggle: "Show/Hide attachments"
   description_autocomplete: >
     This field uses autocomplete. While typing the title of a work package you will receive a list of possible candidates. Choose one using the arrow up and arrow down key and select it with tab or enter. Alternatively you can enter the work package number directly.
   description_available_columns: "Available Columns"
-  description_choose_project: "Projects"
+  description_choose_project: "პროექტები"
   description_compare_from: "Compare from"
   description_compare_to: "Compare to"
   description_current_position: "You are here: "
@@ -1278,12 +1284,12 @@ ka:
   description_date_to: "Enter end date"
   description_enter_number: "Enter number"
   description_enter_text: "Enter text"
-  description_filter: "Filter"
+  description_filter: "ფილტრი"
   description_filter_toggle: "Show/Hide filter"
   description_category_reassign: "Choose category"
   description_message_content: "Message content"
   description_my_project: "You are member"
-  description_notes: "Notes"
+  description_notes: "შენიშვნები"
   description_parent_work_package: "Parent work package of current"
   description_project_scope: "Search scope"
   description_query_sort_criteria_attribute: "Sort attribute"
@@ -1295,7 +1301,7 @@ ka:
   description_toc_toggle: "Show/Hide table of contents"
   description_wiki_subpages_reassign: "Choose new parent page"
   #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
-  direction: ltr
+  direction: მარცხნიდან
   ee:
     upsale:
       form_configuration:
@@ -1311,9 +1317,10 @@ ka:
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Unable to delete custom field"
+  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
+  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Standard types cannot be deleted."
   error_can_not_invite_user: "Failed to send invitation to user."
   error_can_not_remove_role: "This role is in use and cannot be deleted."
@@ -1322,12 +1329,13 @@ ka:
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Please choose a user and a role."
   error_code: "Error %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
   error_custom_option_not_found: "Option does not exist."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
@@ -1346,6 +1354,7 @@ ka:
   error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "The work package status cannot be deleted since it is used by at least one work package."
   error_unable_delete_default_status: "Unable to delete the default work package status. Please select another default work package status before deleting the current one."
   error_unable_to_connect: "Unable to connect (%{value})"
@@ -1362,10 +1371,10 @@ ka:
   events:
     changeset: 'Changeset edited'
     message: Message edited
-    news: News
+    news: სიახლეები
     project_attributes: 'Project attributes edited'
     projects: 'Project edited'
-    reply: Replied
+    reply: ნაპასუხებია
     time_entry: 'Timelog edited'
     wiki_page: 'Wiki page edited'
     work_package_closed: 'Work Package closed'
@@ -1382,11 +1391,14 @@ ka:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF with descriptions"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF ცხრილი"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
+    units:
+      hours: სთ
+      days: დ
   extraction:
     available:
       pdftotext: "Pdftotext available (optional)"
@@ -1400,13 +1412,13 @@ ka:
   general_csv_separator: ","
   general_first_day_of_week: "7"
   general_pdf_encoding: "ISO-8859-1"
-  general_text_no: "no"
-  general_text_yes: "yes"
-  general_text_No: "No"
-  general_text_Yes: "Yes"
-  general_text_true: "true"
-  general_text_false: "false"
-  gui_validation_error: "1 error"
+  general_text_no: "არა"
+  general_text_yes: "დიახ"
+  general_text_No: "არა"
+  general_text_Yes: "დიახ"
+  general_text_true: "ჭეშმარიტი"
+  general_text_false: "ცრუ"
+  gui_validation_error: "1 შეცდომა"
   gui_validation_error_plural: "%{count} errors"
   homescreen:
     additional:
@@ -1422,9 +1434,9 @@ ka:
       upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "User guides"
-      faq: "FAQ"
-      glossary: "Glossary"
-      shortcuts: "Shortcuts"
+      faq: "ხდკ"
+      glossary: "ლექსიკონი"
+      shortcuts: "მალსახმობები"
       blog: "OpenProject blog"
       forums: "Community forum"
       newsletter: "Security alerts / Newsletter"
@@ -1432,6 +1444,25 @@ ka:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
+    caused_changes:
+      dates_changed: "Dates changed"
+      system_update: "OpenProject update"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: 'Configuration guide'
     get_in_touch: "You have questions? Get in touch with us."
@@ -1441,7 +1472,7 @@ ka:
   menus:
     admin:
       mail_notification: "Email notifications"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
@@ -1453,9 +1484,36 @@ ka:
         description: "All of them have been disabled. They can be re-enabled in the administration menu."
       access_tokens: "Access tokens"
       headers:
-        action: "Action"
-        expiration: "Expires"
-      indefinite_expiration: "Never"
+        action: "ქმედება"
+        expiration: "ვადა"
+      indefinite_expiration: "არასოდეს"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API კოდი"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS კოდი"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1475,50 +1533,58 @@ ka:
         We hope you find in-app notifications useful and that they makes you even more productive.
         Sincerely, The OpenProject team
       body_header: 'Version 12.0 with Notification Center'
-      body_subheader: 'News'
+      body_subheader: 'სიახლეები'
       subject: 'Important changes to notifications with the release of 12.0'
   label_accessibility: "Accessibility"
-  label_account: "Account"
-  label_active: "Active"
+  label_account: "ანგარიში"
+  label_active: "აქტიური"
   label_activate_user: 'Activate user'
   label_active_in_new_projects: "Active in new projects"
-  label_activity: "Activity"
+  label_activity: "აქტივობა"
   label_add_edit_translations: "Add and edit translations"
   label_add_another_file: "Add another file"
   label_add_columns: "Add selected columns"
   label_add_note: "Add a note"
   label_add_related_work_packages: "Add related work packages"
   label_add_subtask: "Add subtask"
-  label_added: "added"
+  label_added: "დამატებულია"
   label_added_time_by: "Added by %{author} %{age} ago"
   label_additional_workflow_transitions_for_assignee: "Additional transitions allowed when the user is the assignee"
   label_additional_workflow_transitions_for_author: "Additional transitions allowed when the user is the author"
   label_administration: "Administration"
   label_advanced_settings: "Advanced settings"
-  label_age: "Age"
-  label_ago: "days ago"
-  label_all: "all"
-  label_all_time: "all time"
-  label_all_words: "All words"
-  label_all_open_wps: "All open"
+  label_age: "ასაკი"
+  label_ago: "დღის წინ"
+  label_all: "ყველა"
+  label_all_projects: "All projects"
+  label_all_time: "სრული დრო"
+  label_all_words: "ყველა სიტყვა"
+  label_all_open_wps: "ყველა ღია"
   label_always_visible: "Always displayed"
   label_announcement: "Announcement"
   label_api_access_key: "API access key"
   label_api_access_key_created_on: "API access key created %{value} ago"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "უახლესი"
+  label_ical_access_key_revoke: "გაუქმება"
   label_applied_status: "Applied status"
   label_archive_project: "Archive project"
-  label_ascending: "Ascending"
+  label_archived_projects: "Archived projects"
+  label_ascending: "ზრდადობით"
   label_assigned_to_me_work_packages: "Work packages assigned to me"
   label_associated_revisions: "Associated revisions"
   label_attachment_delete: "Delete file"
-  label_attachment_new: "New file"
-  label_attachment_plural: "Files"
-  label_attribute: "Attribute"
+  label_attachment_new: "ახალი ფაილი"
+  label_attachment_plural: "ფაილები"
+  label_attribute: "ატრიბუტი"
   label_attribute_plural: "Attributes"
-  label_auth_source: "Authentication mode"
-  label_auth_source_new: "New authentication mode"
-  label_auth_source_plural: "Authentication modes"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Authentication"
   label_available_project_work_package_categories: 'Available work package categories'
   label_available_project_work_package_types: 'Available work package types'
@@ -1526,61 +1592,62 @@ ka:
   label_available_project_versions: 'Available versions'
   label_available_project_repositories: 'Available repositories'
   label_api_documentation: "API documentation"
-  label_backup: "Backup"
-  label_between: "between"
+  label_backup: "მარქაფი"
+  label_between: "მითითებულ დროის შუალედში"
   label_blocked_by: "blocked by"
-  label_blocks: "blocks"
-  label_blog: "Blog"
-  label_forums_locked: "Locked"
-  label_forum_new: "New forum"
-  label_forum_plural: "Forums"
-  label_forum_sticky: "Sticky"
-  label_boolean: "Boolean"
-  label_branch: "Branch"
-  label_browse: "Browse"
+  label_blocks: "ბლოკავს"
+  label_blog: "ბლოგი"
+  label_forums_locked: "ჩაკეტილია"
+  label_forum_new: "ახალი ფორუმი"
+  label_forum_plural: "ფორუმები"
+  label_forum_sticky: "მიმაგრებული"
+  label_boolean: "ლოგიკური მნიშვნელობა"
+  label_branch: "ბრენჩი"
+  label_browse: "დათვალიერება"
   label_bulk_edit_selected_work_packages: "Bulk edit selected work packages"
-  label_bundled: '(Bundled)'
-  label_calendar: "Calendar"
+  label_bundled: '(მოჰყვება)'
+  label_calendar: "კალენდარი"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Show Calendar"
-  label_category: "Category"
+  label_category: "კატეგორია"
   label_consent_settings: "User Consent"
   label_wiki_menu_item: Wiki menu item
   label_select_main_menu_item: Select new main menu item
   label_required_disk_storage: "Required disk storage"
   label_send_invitation: Send invitation
-  label_change_plural: "Changes"
+  label_change_plural: "ცვლილებები"
   label_change_properties: "Change properties"
   label_change_status: "Change status"
   label_change_status_of_user: "Change status of #{username}"
   label_change_view_all: "View all changes"
   label_changes_details: "Details of all changes"
-  label_changeset: "Changeset"
+  label_changeset: "ცვლილებები"
   label_changeset_id: "Changeset ID"
   label_changeset_plural: "Changesets"
-  label_checked: "checked"
+  label_checked: "შემოწმებულია"
   label_check_uncheck_all_in_column: "Check/Uncheck all in column"
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_child_element: "Child element"
   label_chronological_order: "Oldest first"
   label_close_versions: "Close completed versions"
-  label_closed_work_packages: "closed"
-  label_collapse: "Collapse"
+  label_closed_work_packages: "დახურულია"
+  label_collapse: "ჩახურვა"
   label_collapsed_click_to_show: "Collapsed. Click to show"
   label_configuration: configuration
   label_comment_add: "Add a comment"
   label_comment_added: "Comment added"
   label_comment_delete: "Delete comments"
-  label_comment_plural: "Comments"
+  label_comment_plural: "კომენტარები"
   label_commits_per_author: "Commits per author"
   label_commits_per_month: "Commits per month"
   label_confirmation: "Confirmation"
-  label_contains: "contains"
-  label_content: "Content"
-  label_copied: "copied"
-  label_copy_to_clipboard: "Copy to clipboard"
+  label_contains: "შეიცავს"
+  label_content: "შემცველობა"
+  label_color_plural: "ფერები"
+  label_copied: "კოპირებულია"
   label_copy_same_as_target: "Same as target"
-  label_copy_source: "Source"
-  label_copy_target: "Target"
+  label_copy_source: "წყარო"
+  label_copy_target: "სამიზნე"
   label_copy_workflow_from: "Copy workflow from"
   label_copy_project: "Copy project"
   label_core_version: "Core version"
@@ -1590,39 +1657,41 @@ ka:
   label_custom_field_new: "New custom field"
   label_custom_field_plural: "Custom fields"
   label_custom_field_default_type: "Empty type"
-  label_custom_style: "Design"
+  label_custom_style: "დიზაინი"
   label_database_version: "PostgreSQL version"
-  label_date: "Date"
+  label_date: "თარიღი"
   label_date_and_time: "Date and time"
-  label_date_from: "From"
+  label_date_format: "Date format"
+  label_date_from: "ვისგან"
   label_date_from_to: "From %{start} to %{end}"
-  label_date_to: "To"
-  label_day_plural: "days"
-  label_default: "Default"
+  label_date_to: "ვის"
+  label_day_plural: "დღე"
+  label_default: "ნაგულისხმევი"
   label_delete_user: "Delete user"
   label_delete_project: "Delete project"
-  label_deleted: "deleted"
+  label_deleted: "წაშლილია"
   label_deleted_custom_field: "(deleted custom field)"
   label_deleted_custom_option: "(deleted option)"
+  label_empty_element: "(ცარიელი)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Descending"
-  label_details: "Details"
+  label_details: "დეტალები"
   label_development_roadmap: "Development roadmap"
-  label_diff: "diff"
-  label_diff_inline: "inline"
+  label_diff: "სხვაობა"
+  label_diff_inline: "ხაზში"
   label_diff_side_by_side: "side by side"
   label_digital_accessibility: 'Digital accessibility (DE)'
-  label_disabled: "disabled"
-  label_display: "Display"
+  label_disabled: "გათიშულია"
+  label_display: "ჩვენება"
   label_display_per_page: "Per page: %{value}"
   label_display_used_statuses_only: "Only display statuses that are used by this type"
   label_download: "%{count} Download"
   label_download_plural: "%{count} Downloads"
-  label_downloads_abbr: "D/L"
+  label_downloads_abbr: "გადმ"
   label_duplicated_by: "duplicated by"
-  label_duplicate: "duplicate"
+  label_duplicate: "დუბლირება"
   label_duplicates: "duplicates"
-  label_edit: "Edit"
+  label_edit: "ჩასწორება"
   label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Toggle multiselect"
   label_enabled_project_custom_fields: 'Enabled custom fields'
@@ -1636,70 +1705,76 @@ ka:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Environment"
   label_estimates_and_time: "Estimates and time"
-  label_equals: "is"
+  label_equals: "არის"
   label_everywhere: "everywhere"
-  label_example: "Example"
-  label_import: "Import"
+  label_example: "მაგალითი"
+  label_experimental: "Experimental"
+  label_i_am_member: "I am member"
+  label_import: "შემოტანა"
   label_export_to: "Also available in:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
-  label_feed_plural: "Feeds"
+  label_favoured: "რჩეული"
+  label_feed_plural: "არხები"
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key created %{value} ago"
   label_feeds_access_key_type: "RSS"
-  label_file_plural: "Files"
+  label_file_plural: "ფაილები"
   label_filter_add: "Add filter"
-  label_filter_plural: "Filters"
+  label_filter_plural: "ფილტრები"
   label_filters_toggle: "Show/hide filters"
-  label_float: "Float"
-  label_folder: "Folder"
-  label_follows: "follows"
+  label_float: "მცურავი"
+  label_folder: "საქაღალდე"
+  label_follows: "მიჰყვება"
   label_force_user_language_to_default: "Set language of users having a non allowed language to default"
   label_form_configuration: "Form configuration"
-  label_gantt: "Gantt"
+  label_gantt: "განტი"
   label_gantt_chart: "Gantt chart"
-  label_general: "General"
+  label_general: "ზოგადი"
   label_generate_key: "Generate a key"
   label_git_path: "Path to .git directory"
   label_greater_or_equal: ">="
-  label_group_by: "Group by"
-  label_group_new: "New group"
-  label_group: "Group"
+  label_group_by: "დაჯგუფება"
+  label_group_new: "ახალი ჯგუფი"
+  label_group: "ჯგუფი"
   label_group_named: "Group %{name}"
-  label_group_plural: "Groups"
-  label_help: "Help"
-  label_here: here
-  label_hide: "Hide"
-  label_history: "History"
+  label_group_plural: "ჯგუფები"
+  label_help: "დახმარება"
+  label_here: აქ
+  label_hide: "დამალვა"
+  label_history: "ისტორია"
   label_hierarchy_leaf: "Hierarchy leaf"
-  label_home: "Home"
+  label_home: "მთავარი"
   label_subject_or_id: "Subject or ID"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Legal notice"
-  label_in: "in"
+  label_in: "სად"
   label_in_less_than: "in less than"
   label_in_more_than: "in more than"
-  label_inactive: "Inactive"
+  label_inactive: "არააქტიური"
   label_incoming_emails: "Incoming emails"
-  label_includes: 'includes'
+  label_includes: 'შეიცავს'
   label_index_by_date: "Index by date"
   label_index_by_title: "Index by title"
   label_information: "Information"
   label_information_plural: "Information"
   label_installation_guides: 'Installation guides'
-  label_integer: "Integer"
-  label_internal: "Internal"
+  label_integer: "მთელი რიცხვი"
+  label_internal: "შიდა"
   label_introduction_video: "Introduction video"
   label_invite_user: "Invite user"
-  label_show_hide: "Show/hide"
+  label_show_hide: "ჩვენება/დამალვა"
   label_show_all_registered_users: "Show all registered users"
-  label_journal: "Journal"
+  label_journal: "ჟურნალი"
   label_journal_diff: "Description Comparison"
-  label_language: "Language"
+  label_language: "ენა"
+  label_languages: "ენები"
   label_jump_to_a_project: "Jump to a project..."
-  label_keyword_plural: 'Keywords'
+  label_keyword_plural: 'საკვანძო სიტყვები'
   label_language_based: "Based on user's language"
   label_last_activity: "Last activity"
   label_last_change_on: "Last change on"
@@ -1707,128 +1782,128 @@ ka:
   label_last_login: "Last login"
   label_last_month: "last month"
   label_last_n_days: "last %{count} days"
-  label_last_week: "last week"
+  label_last_week: "ბოლო კვირას"
   label_latest_revision: "Latest revision"
   label_latest_revision_plural: "Latest revisions"
   label_ldap_authentication: "LDAP authentication"
   label_less_or_equal: "<="
   label_less_than_ago: "less than days ago"
-  label_list: "List"
+  label_list: "სია"
   label_loading: "Loading..."
-  label_lock_user: 'Lock user'
+  label_lock_user: 'მომხმარებლის დაბლოკვა'
   label_logged_as: "Logged in as"
-  label_login: "Sign in"
+  label_login: "შესვლა"
   label_custom_logo: "Custom logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
-  label_logout: "Sign out"
-  label_main_menu: "Side Menu"
+  label_logout: "გასვლა"
+  label_main_menu: "გვერდითი მენიუ"
   label_manage_groups: "Manage groups"
   label_managed_repositories_vendor: "Managed %{vendor} repositories"
   label_max_size: "Maximum size"
-  label_me: "me"
+  label_me: "მე"
   label_member_new: "New member"
   label_member_all_admin: "(All roles due to admin status)"
-  label_member_plural: "Members"
+  label_member_plural: "წევრები"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
   label_menu_badge:
-    pre_alpha: 'pre-alpha'
-    alpha: 'alpha'
-    beta: 'beta'
+    pre_alpha: 'პრე-ალფა'
+    alpha: 'ალფა'
+    beta: 'ბეტა'
   label_menu_item_name: "Name of menu item"
-  label_message: "Message"
+  label_message: "შეტყობინება"
   label_message_last: "Last message"
   label_message_new: "New message"
-  label_message_plural: "Messages"
+  label_message_plural: "შეტყობინებები"
   label_message_posted: "Message added"
   label_min_max_length: "Min - Max length"
-  label_minute_plural: "minutes"
+  label_minute_plural: "წუთი"
   label_missing_api_access_key: "Missing API access key"
   label_missing_feeds_access_key: "Missing RSS access key"
   label_modification: "%{count} change"
-  label_modified: "modified"
-  label_module_plural: "Modules"
-  label_modules: "Modules"
+  label_modified: "შეცვლილია"
+  label_module_plural: "მოდულები"
+  label_modules: "მოდულები"
   label_months_from: "months from"
-  label_more: "More"
+  label_more: "კიდევ"
   label_more_than_ago: "more than days ago"
   label_move_work_package: "Move work package"
   label_my_account: "My account"
+  label_my_activity: "My activity"
   label_my_account_data: "My account data"
   label_my_projects: "My projects"
   label_my_queries: "My custom queries"
-  label_name: "Name"
-  label_never: "Never"
-  label_new: "New"
+  label_name: "სახელი"
+  label_never: "არასოდეს"
+  label_new: "ახალი"
   label_new_features: "New features"
   label_new_statuses_allowed: "New statuses allowed"
-  label_news_singular: "News"
+  label_news_singular: "სიახლეები"
   label_news_added: "News added"
   label_news_comment_added: "Comment added to a news"
   label_news_latest: "Latest news"
-  label_news_new: "Add news"
-  label_news_edit: "Edit news"
-  label_news_plural: "News"
+  label_news_new: "სიახლის დამატება"
+  label_news_edit: "სიახლის ჩასწორება"
+  label_news_plural: "სიახლეები"
   label_news_view_all: "View all news"
-  label_next: "Next"
-  label_next_week: "Next week"
+  label_next: "შემდეგი"
+  label_next_week: "შემდეგი კვირა"
   label_no_change_option: "(No change)"
   label_no_data: "No data to display"
   label_no_parent_page: "No parent page"
   label_nothing_display: "Nothing to display"
-  label_nobody: "nobody"
-  label_not_found: 'not found'
-  label_none: "none"
-  label_none_parentheses: "(none)"
+  label_nobody: "არავინ"
+  label_not_found: 'ვერ მოიძებნა'
+  label_none: "არა"
+  label_none_parentheses: "(არც ერთი)"
   label_not_contains: "doesn't contain"
-  label_not_equals: "is not"
-  label_on: "on"
+  label_not_equals: "არაა"
+  label_on: "რაზე"
   label_operator_all: "is not empty"
-  label_operator_none: "is empty"
-  label_operator_equals_or: "is (OR)"
-  label_operator_equals_all: "is (AND)"
-  label_open_menu: "Open menu"
-  label_open_work_packages: "open"
-  label_open_work_packages_plural: "open"
+  label_operator_none: "ცარიელია"
+  label_operator_equals_or: "არის (ან)"
+  label_operator_equals_all: "არის (და)"
+  label_open_menu: "მენიუს გახსნა"
+  label_open_work_packages: "გახსნა"
+  label_open_work_packages_plural: "გახსნა"
   label_openproject_website: "OpenProject website"
   label_optional_description: "Description"
-  label_options: "Options"
-  label_other: "Other"
+  label_options: "მორგება"
+  label_other: "სხვა"
   label_overall_activity: "Overall activity"
-  label_overview: "Overview"
+  label_overview: "მიმოხილვა"
   label_page_title: "Page title"
-  label_part_of: "part of"
+  label_part_of: "ნაწილია"
   label_password_lost: "Forgot your password?"
-  label_password_rule_lowercase: "Lowercase"
+  label_password_rule_lowercase: "დაბალი რეგისტრი"
   label_password_rule_numeric: "Numeric Characters"
   label_password_rule_special: "Special Characters"
-  label_password_rule_uppercase: "Uppercase"
+  label_password_rule_uppercase: "მაღალი რეგისტრი"
   label_path_encoding: "Path encoding"
-  label_pdf_with_descriptions: "PDF with Descriptions"
-  label_per_page: "Per page"
-  label_people: "People"
+  label_per_page: "თითოეულ გვერდზე"
+  label_people: "ხალხი"
   label_permissions: "Permissions"
   label_permissions_report: "Permissions report"
   label_personalize_page: "Personalize this page"
   label_placeholder_user: "Placeholder user"
   label_placeholder_user_new: "New placeholder user"
   label_placeholder_user_plural: "Placeholder users"
-  label_planning: "Planning"
+  label_planning: "დაგეგმვა"
   label_please_login: "Please log in"
-  label_plugins: "Plugins"
+  label_plugins: "დამატებები"
   label_modules_and_plugins: "Modules and Plugins"
-  label_precedes: "precedes"
+  label_precedes: "წინ უსწრებს"
   label_preferences: "Preferences"
-  label_preview: "Preview"
-  label_previous: "Previous"
+  label_preview: "მინიატურა"
+  label_previous: "წინა"
   label_previous_week: "Previous week"
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: "Add existing users or groups"
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Product version"
-  label_professional_support: "Professional support"
-  label_profile: "Profile"
+  label_profile: "პროფილი"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Total number of projects"
@@ -1837,17 +1912,18 @@ ka:
   label_project_default_type: "Allow empty type"
   label_project_hierarchy: "Project hierarchy"
   label_project_new: "New project"
-  label_project_plural: "Projects"
+  label_project_plural: "პროექტები"
   label_project_settings: "Project settings"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: "View all projects"
   label_project_show_details: "Show project details"
   label_project_hide_details: "Hide project details"
   label_public_projects: "Public projects"
-  label_query_new: "New query"
+  label_query_new: "ახალი მოთხოვნა"
   label_query_plural: "Custom queries"
-  label_read: "Read..."
+  label_read: "წაკითხვა..."
   label_register: "Create a new account"
   label_register_with_developer: "Register as developer"
   label_registered_on: "Registered on"
@@ -1861,128 +1937,130 @@ ka:
   label_relation_new: "New relation"
   label_release_notes: "Release notes"
   label_remove_columns: "Remove selected columns"
-  label_renamed: "renamed"
-  label_reply_plural: "Replies"
-  label_report: "Report"
+  label_renamed: "გადარქმეულია"
+  label_reply_plural: "პასუხები"
+  label_report: "ანგარიშები"
   label_report_bug: "Report a bug"
-  label_report_plural: "Reports"
+  label_report_plural: "ანგარიშები"
   label_reported_work_packages: "Reported work packages"
-  label_reporting: "Reporting"
+  label_reporting: "ანგარიშები"
   label_reporting_plural: "Reportings"
   label_repository: "Repository"
   label_repository_root: "Repository root"
   label_repository_plural: "Repositories"
-  label_required: 'required'
-  label_requires: 'requires'
-  label_result_plural: "Results"
+  label_required: 'აუცილებელია'
+  label_requires: 'ითხოვს'
+  label_result_plural: "შედეგები"
   label_reverse_chronological_order: "Newest first"
-  label_revision: "Revision"
+  label_revision: "რევიზია"
   label_revision_id: "Revision %{value}"
-  label_revision_plural: "Revisions"
-  label_roadmap: "Roadmap"
+  label_revision_plural: "რევიზიები"
+  label_roadmap: "პროექტის გრაფიკი"
   label_roadmap_edit: "Edit roadmap %{name}"
   label_roadmap_due_in: "Due in %{value}"
   label_roadmap_no_work_packages: "No work packages for this version"
   label_roadmap_overdue: "%{value} late"
   label_role_and_permissions: "Roles and permissions"
-  label_role_new: "New role"
-  label_role_plural: "Roles"
+  label_role_new: "ახალი როლი"
+  label_role_plural: "როლი"
   label_role_search: "Assign role to new members"
   label_scm: "SCM"
-  label_search: "Search"
-  label_send_information: "Send account information to the user"
+  label_search: "ძებნა"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Send a test email"
-  label_setting_plural: "Settings"
+  label_setting_plural: "მორგება"
   label_system_settings: "System settings"
   label_show_completed_versions: "Show completed versions"
-  label_sort: "Sort"
+  label_sort: "დალაგება"
   label_sort_by: "Sort by %{value}"
   label_sorted_by: "sorted by %{value}"
-  label_sort_higher: "Move up"
+  label_sort_higher: "აწევა"
   label_sort_highest: "Move to top"
-  label_sort_lower: "Move down"
+  label_sort_lower: "ქვემოთ ჩატანა"
   label_sort_lowest: "Move to bottom"
   label_spent_time: "Spent time"
   label_start_to_end: "start to end"
   label_start_to_start: "start to start"
   label_statistics: "Statistics"
-  label_status: "Status"
+  label_status: "სტატუსი"
   label_stay_logged_in: "Stay logged in"
   label_storage_free_space: "Remaining disk space"
   label_storage_used_space: "Used disk space"
   label_storage_group: "Storage filesystem %{identifier}"
   label_storage_for: "Encompasses storage for"
-  label_string: "Text"
+  label_string: "ტექსტი"
   label_subproject: "Subproject"
   label_subproject_new: "New subproject"
   label_subproject_plural: "Subprojects"
-  label_subtask_plural: "Subtasks"
-  label_summary: "Summary"
-  label_system: "System"
+  label_subtask_plural: "ქვეამოცანები"
+  label_summary: "შეჯამება"
+  label_system: "სისტემა"
   label_system_storage: "Storage information"
   label_table_of_contents: "Table of contents"
-  label_tag: "Tag"
-  label_text: "Long text"
+  label_tag: "ჭდე"
+  label_text: "გრძელი ტექსტი"
   label_this_month: "this month"
-  label_this_week: "this week"
-  label_this_year: "this year"
+  label_this_week: "ამ კვირაში "
+  label_this_year: "ამ წელში"
   label_time_entry_plural: "Spent time"
-  label_projects_menu: "Projects"
-  label_today: "today"
-  label_top_menu: "Top Menu"
-  label_topic_plural: "Topics"
-  label_total: "Total"
-  label_type_new: "New type"
-  label_type_plural: "Types"
+  label_title: "სათაური"
+  label_projects_menu: "პროექტები"
+  label_today: "დღეს"
+  label_top_menu: "ზედა მენიუ"
+  label_topic_plural: "თემები"
+  label_total: "ჯამი"
+  label_type_new: "ახალი ტიპი"
+  label_type_plural: "ტიპი"
   label_ui: "User Interface"
   label_update_work_package_done_ratios: "Update work package done ratios"
   label_updated_time: "Updated %{value} ago"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Updated by %{author} %{age} ago"
   label_upgrade_guides: 'Upgrade guides'
-  label_used_by: "Used by"
+  label_used_by: "გამოიყენება"
   label_used_by_types: "Used by types"
   label_used_in_projects: "Used in projects"
-  label_user: "User"
+  label_user: "მომხმარებელი"
   label_user_and_permission: "Users and permissions"
   label_user_named: "User %{name}"
   label_user_activity: "%{value}'s activity"
-  label_user_anonymous: "Anonymous"
+  label_user_anonymous: "ანონიმური"
   label_user_mail_option_all: "For any event on all my projects"
-  label_user_mail_option_none: "No events"
+  label_user_mail_option_none: "მოვლენების გარეშე"
   label_user_mail_option_only_assigned: "Only for things I am assigned to"
   label_user_mail_option_only_my_events: "Only for things I watch or I'm involved in"
   label_user_mail_option_only_owner: "Only for things I am the owner of"
   label_user_mail_option_selected: "For any event on the selected projects only"
-  label_user_new: "New user"
-  label_user_plural: "Users"
+  label_user_new: "ახალი მომხმარებელი"
+  label_user_plural: "მომხმარებლები"
   label_user_search: "Search for user"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "New version"
-  label_version_plural: "Versions"
+  label_version_plural: "ვერსიები"
   label_version_sharing_descendants: "With subprojects"
   label_version_sharing_hierarchy: "With project hierarchy"
   label_version_sharing_none: "Not shared"
   label_version_sharing_system: "With all projects"
   label_version_sharing_tree: "With project tree"
-  label_videos: "Videos"
+  label_videos: "ვიდეოები"
   label_view_all_revisions: "View all revisions"
   label_view_diff: "View differences"
   label_view_revisions: "View revisions"
   label_watched_work_packages: "Watched work packages"
   label_what_is_this: "What is this?"
-  label_week: "Week"
+  label_week: "კვირა"
   label_wiki_content_added: "Wiki page added"
   label_wiki_content_updated: "Wiki page updated"
   label_wiki_toc: "Table of Contents"
   label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Do not show this wikipage in project navigation"
-  label_wiki_edit: "Wiki edit"
+  label_wiki_edit: "ვიკის ჩასწორება"
   label_wiki_edit_plural: "Wiki edits"
   label_wiki_page_attachments: "Wiki page attachments"
   label_wiki_page_id: "Wiki page ID"
   label_wiki_navigation: "Wiki navigation"
-  label_wiki_page: "Wiki page"
+  label_wiki_page: "ვიკი გვერდი"
   label_wiki_page_plural: "Wiki pages"
   label_wiki_show_index_page_link: "Show submenu item 'Table of Contents'"
   label_wiki_show_menu_item: "Show as menu item in project navigation"
@@ -2003,36 +2081,33 @@ ka:
   label_work_package_types: "Work package types"
   label_work_package_tracking: "Work package tracking"
   label_work_package_view_all: "View all work packages"
-  label_workflow: "Workflow"
-  label_workflow_plural: "Workflows"
-  label_workflow_summary: "Summary"
+  label_workflow: "სამუშაო პროცესი"
+  label_workflow_plural: "სამუშაო პროცესები"
+  label_workflow_summary: "შეჯამება"
   label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
-    one: "1 closed"
+    one: "1 დახურულია"
     other: "%{count} closed"
-    zero: "0 closed"
+    zero: "0 დახურულია"
   label_x_comments:
-    one: "1 comment"
+    one: "1 კომენტარი"
     other: "%{count} comments"
     zero: "no comments"
   label_x_open_work_packages_abbr:
-    one: "1 open"
+    one: "1 ღიაა"
     other: "%{count} open"
-    zero: "0 open"
+    zero: "0 ღიაა"
   label_x_projects:
-    one: "1 project"
+    one: "1 პროექტი"
     other: "%{count} projects"
     zero: "no projects"
-  label_yesterday: "yesterday"
-  label_role_type: "Type"
+  label_yesterday: "გუშინ"
+  label_role_type: "ტიპი"
   label_member_role: "Project Role"
   label_global_role: "Global Role"
   label_not_changeable: "(not changeable)"
-  label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "Can't use an abstract authentication source."
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+  label_global: "გლობალური"
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
   macros:
@@ -2053,14 +2128,14 @@ ka:
       link_name: 'New work package'
       link_name_type: 'New %{type_name}'
   mail:
-    actions: 'Actions'
+    actions: 'ქმედებები'
     digests:
       including_mention_singular: 'including a mention'
       including_mention_plural: 'including %{number_mentioned} mentions'
       unread_notification_singular: '1 unread notification'
       unread_notification_plural: '%{number_unread} unread notifications'
-      you_have: 'You have'
-    logo_alt_text: 'Logo'
+      you_have: 'გაქვთ'
+    logo_alt_text: 'ლოგო'
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
@@ -2076,16 +2151,17 @@ ka:
       more_to_see:
         one: 'There is 1 more work package with notifications.'
         other: 'There are %{count} more work packages with notifications.'
+      open_in_browser: 'Open in browser'
       reason:
-        watched: 'Watched'
-        assigned: 'Assigned'
+        watched: 'მეთვალყურეობის ქვეშაა'
+        assigned: 'მინიჭებულია'
         responsible: 'Accountable'
-        mentioned: 'Mentioned'
-        subscribed: 'all'
+        mentioned: 'მოხსენიებულები'
+        subscribed: 'ყველა'
         prefix: 'Received because of the notification setting: %{reason}'
         date_alert_start_date: 'Date alert'
         date_alert_due_date: 'Date alert'
-      see_all: 'See all'
+      see_all: 'ყველას ნახვა'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Your account information"
@@ -2098,8 +2174,12 @@ ka:
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
   mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
-  mail_body_incoming_email_error_logs: "Logs"
+  mail_body_incoming_email_error_logs: "ჟურნალი"
   mail_body_lost_password: "To change your password, click on the following link:"
+  mail_password_change_not_possible:
+    title: "Password change not possible"
+    body: "Your account at %{app_title} is connected to an external authentication provider (%{name})."
+    subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
@@ -2220,7 +2300,7 @@ ka:
   present_access_key_value: "Your %{key_name} is: %{value}"
   notice_automatic_set_of_standard_type: "Set standard type automatically."
   notice_logged_out: "You have been logged out."
-  notice_wont_delete_auth_source: The authentication mode cannot be deleted as long as there are still users using it.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields. The project is invalid: %{errors}"
   notice_attachment_migration_wiki_page: >
     This page was generated automatically during the update of OpenProject. It contains all attachments previously associated with the %{container_type} "%{container_name}".
@@ -2238,12 +2318,12 @@ ka:
         format: "%n %u"
         units:
           byte:
-            one: "Byte"
-            other: "Bytes"
-          gb: "GB"
-          kb: "kB"
+            one: "ბაიტი"
+            other: "ბაიტი"
+          gb: "გბ"
+          kb: "კბ"
           mb: "MB"
-          tb: "TB"
+          tb: "ტბ"
   onboarding:
     heading_getting_started: "Get an overview"
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
@@ -2254,7 +2334,8 @@ ka:
   permission_add_messages: "Post messages"
   permission_add_project: "Create project"
   permission_archive_project: "Archive project"
-  permission_manage_user: "Create and edit users"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Create subprojects"
   permission_add_work_package_watchers: "Add watchers"
@@ -2342,13 +2423,13 @@ ka:
       remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
-      archived: "Archived"
-  project_module_activity: "Activity"
-  project_module_forums: "Forums"
-  project_module_work_package_tracking: "Work package tracking"
-  project_module_news: "News"
+      archived: "დაარქივებულია"
+  project_module_activity: "აქტივობა"
+  project_module_forums: "ფორუმები"
+  project_module_work_package_tracking: "Work packages"
+  project_module_news: "სიახლეები"
   project_module_repository: "Repository"
-  project_module_wiki: "Wiki"
+  project_module_wiki: "ვიკი"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2519,7 +2600,7 @@ ka:
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Allow cross-project work package relations"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "Date format"
+  setting_date_format: "თარიღი"
   setting_default_language: "Default language"
   setting_default_projects_modules: "Default enabled modules for new projects"
   setting_default_projects_public: "New projects are public by default"
@@ -2531,6 +2612,7 @@ ka:
   setting_enabled_scm: "Enabled SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Enable Feeds"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
@@ -2547,7 +2629,7 @@ ka:
   setting_log_requesting_user: "Log user login, name, and mail address for all requests"
   setting_login_required: "Authentication required"
   setting_mail_from: "Emission email address"
-  setting_mail_handler_api_key: "API key"
+  setting_mail_handler_api_key: "API გასაღები"
   setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
   setting_mail_handler_body_delimiter_regex: "Truncate emails matching this regex"
   setting_mail_handler_ignore_filenames: "Ignored mail attachments"
@@ -2559,7 +2641,7 @@ ka:
   setting_password_min_adhered_rules: "Minimum number of required classes"
   setting_per_page_options: "Objects per page options"
   setting_plain_text_mail: "Plain text mail (no HTML)"
-  setting_protocol: "Protocol"
+  setting_protocol: "პროტოკოლი"
   setting_project_gantt_query: "Project portfolio Gantt view"
   setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Display security badge"
@@ -2581,9 +2663,9 @@ ka:
   setting_start_of_week: "Week starts on"
   setting_sys_api_enabled: "Enable repository management web service"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
-  setting_time_format: "Time format"
+  setting_time_format: "დრო"
   setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
-  setting_user_format: "Users display format"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "User accounts deletable by admins"
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
@@ -2592,29 +2674,22 @@ ka:
   setting_welcome_on_homescreen: "Display welcome block on homescreen"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
+  setting_working_days: "Working days"
   settings:
-    general: "General"
-    other: "Other"
-    passwords: "Passwords"
-    session: "Session"
-    brute_force_prevention: "Automated user blocking"
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
-    notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-    display:
+    brute_force_prevention: "Automated user blocking"
+    date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
-      first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
-    projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
-    user:
-      default_preferences: "Default preferences"
-      deletion: "Deletion"
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
+    general: "ზოგადი"
     highlighting:
       mode_long:
         inline: "Highlight attribute(s) inline"
@@ -2622,19 +2697,38 @@ ka:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
+    notifications:
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+    other: "სხვა"
+    passwords: "Passwords"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
+    session: "სესია"
+    user:
+      default_preferences: "Default preferences"
+      display_format: "Display format"
+      deletion: "წაშლა"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Plain text'
-  status_active: "active"
-  status_archived: "archived"
-  status_invited: invited
-  status_locked: locked
+  status_active: "აქტიური"
+  status_archived: "დაარქივებულია"
+  status_invited: მოწვეულია
+  status_locked: დაბლოკილია
   status_registered: registered
   #Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "and"
-      skip_last_comma: "false"
+      sentence_connector: "და"
+      skip_last_comma: "ცრუ"
   text_accessibility_hint: "The accessibility mode is designed for users who are blind, motorically handicaped or have a bad eyesight. For the latter focused elements are specially highlighted. Please notice, that the Backlogs module is not available in this mode."
   text_access_token_hint: "Access tokens allow you to grant external applications access to resources in OpenProject."
   text_analyze: "Further analyze: %{subject}"
@@ -2654,22 +2748,22 @@ ka:
     When using custom fields: Keep in mind that custom fields need to be activated per project, too.
   text_custom_field_hint_activate_per_project_and_type: >
     Custom fields need to be activated per work package type and per project.
-  text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
     The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    This is the tiny icon that appears in your browser window/tab next to the page's title. It's needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It's needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Database allows TSVector (optional)"
   text_default_administrator_account_changed: "Default administrator account changed"
   text_default_encoding: "Default: UTF-8"
-  text_destroy: "Delete"
+  text_destroy: "წაშლა"
   text_destroy_with_associated: "There are additional objects assossociated with the work package(s) that are to be deleted. Those objects are of the following types:"
   text_destroy_what_to_do: "What do you want to do?"
   text_diff_truncated: "... This diff was truncated because it exceeds the maximum size that can be displayed."
@@ -2691,12 +2785,16 @@ ka:
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
   text_journal_added: "%{label} %{value} added"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} set to %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"
@@ -2739,9 +2837,14 @@ ka:
   text_wiki_page_nullify_children: "Keep child pages as root pages"
   text_wiki_page_reassign_children: "Reassign child pages to this parent page"
   text_workflow_edit: "Select a role and a type to edit the workflow"
-  text_zoom_in: "Zoom in"
-  text_zoom_out: "Zoom out"
+  text_zoom_in: "გადიდება"
+  text_zoom_out: "დაპატარავება"
   text_setup_mail_configuration: "Configure your email provider"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "am"
     formats:
@@ -2749,158 +2852,11 @@ ka:
       long: "%B %d, %Y %H:%M"
       short: "%d %b %H:%M"
       time: "%I:%M %p"
-    pm: "pm"
+    pm: "საღამო"
   timeframe:
     show: "Show timeframe"
-    end: "to"
-    start: "from"
-  timelines:
-    admin_menu:
-      color: "Color"
-      colors: "Colors"
-    associations: "Dependencies"
-    button_delete_all: "Delete all"
-    change: "Change in planning"
-    children: "Child elements"
-    color_could_not_be_saved: "Color could not be saved"
-    current_planning: "Current planning"
-    dates: "Dates"
-    dates_are_calculated_based_on_sub_elements: "Dates are calculated based on sub elements."
-    delete_all: "Delete all"
-    delete_thing: "Delete"
-    duration: "Duration"
-    duration_days:
-      one: "1 day"
-      other: "%{count} days"
-    edit_color: "Edit color"
-    edit_thing: "Edit"
-    edit_timeline: "Edit timeline report %{timeline}"
-    delete_timeline: "Delete timeline report %{timeline}"
-    empty: "(empty)"
-    enable_type_in_project: 'Enable type "%{type}"'
-    end: "End"
-    errors:
-      not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
-      report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
-      report_epicfail: "The timeline could not be loaded due to an unexpected error."
-      report_timeout: "The timeline could not be loaded in a reasonable amount of time."
-    filter:
-      errors:
-        timeframe_start: "The timeframe start "
-        timeframe_end: "The timeframe end "
-        compare_to_relative: "The value of the relative comparison "
-        compare_to_absolute: "The value of the absolute comparison "
-        planning_element_time_relative_one: "The start for work packages in a certain timeframe "
-        planning_element_time_relative_two: "The end for work packages in a certain timeframe "
-        planning_element_time_absolute_one: "The start for work packages in a certain timeframe  "
-        planning_element_time_absolute_two: "The end for work packages in a certain timeframe  "
-      sort:
-        sortation: "Sort by"
-        alphabet: "alphabet"
-        explicit_order: "explicit order"
-        project_sortation: "Sort projects by"
-        date: "date"
-        default: "default"
-      column:
-        assigned_to: "Assignee"
-        type: "Type"
-        due_date: "End date"
-        name: "Name"
-        status: "Status"
-        start_date: "Start date"
-      columns: "Columns"
-      comparisons: "Comparisons"
-      comparison:
-        absolute: "Absolute"
-        none: "None"
-        relative: "Relative"
-        compare_relative_prefix: "Compare current planning to"
-        compare_relative_suffix: "ago"
-        compare_absolute: "Compare current planning to %{date}"
-      time_relative:
-        days: "days"
-        weeks: "weeks"
-        months: "months"
-      exclude_own_work_packages: "Hide work packages from this project"
-      exclude_reporters: "Hide other projects"
-      exclude_empty: "Hide empty projects"
-      grouping: "Grouping"
-      grouping_hide_group: "Hide group \"%{group}\""
-      grouping_one: "First grouping criterion"
-      grouping_one_phrase: "Is a subproject of"
-      grouping_other: "Other"
-      hide_chart: "Hide chart"
-      noneElement: "(none)"
-      noneSelection: "(none)"
-      outline: "Initial outline expansion"
-      parent: "Show subprojects of"
-      work_package_responsible: "Show work packages with accountable"
-      work_package_assignee: "Show work packages with assignee"
-      types: "Show types"
-      status: "Show status"
-      project_time_filter: "Projects with a work package of a certain type in a certain timeframe"
-      project_time_filter_timeframe: "Timeframe"
-      project_time_filter_historical_from: "from"
-      project_time_filter_historical_to: "to"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago, %{end_label} %{endspan}%{endspanunit} from now"
-      project_filters: "Filter projects"
-      project_responsible: "Show projects with accountable"
-      project_status: "Show project status"
-      timeframe: "Show timeframe"
-      timeframe_end: "to"
-      timeframe_start: "from"
-      timeline: "General Settings"
-      zoom: "Zoom factor"
-    history: "History"
-    new_color: "New color"
-    new_association: "New dependency"
-    new_work_package: "New work package"
-    new_reporting: "New reporting"
-    new_timeline: "New timeline report"
-    no_projects_for_reporting_available: "There are no projects to which a reporting association can be created."
-    no_right_to_view_timeline: "You do not have the necessary permission to view the linked timeline."
-    no_timeline_for_id: "There is no timeline with ID %{id}."
-    notice_successful_deleted_all_elements: "Successfully deleted all elements"
-    outline: "Reset Outline"
-    outlines:
-      aggregation: "Show aggregations only"
-      level1: "Expand level 1"
-      level2: "Expand level 2"
-      level3: "Expand level 3"
-      level4: "Expand level 4"
-      level5: "Expand level 5"
-      all: "Show all"
-    reporting_for_project:
-      show: "Status reported to project: %{title}"
-      edit_delete: "status report for project: %{title}"
-      history: "History for status for project: %{title}"
-    reporting:
-      delete: "Delete status: %{comment}"
-      edit: "Edit status: %{comment}"
-      show: "Status: %{comment}"
-    planning_element_update: "Update: %{title}"
-    type_could_not_be_saved: "Type could not be saved"
-    reporting_could_not_be_saved: "Reporting could not be saved"
-    properties: "Properties"
-    really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
-    really_delete_reporting: >
-      Are you sure, you want to delete the following reporting? Previous reporting statuses will be deleted, too.
-    start: "Start"
-    timeline: "Timeline report"
-    timelines: "Timeline reports"
-    settings: "Timelines"
-    vertical_work_package: "Vertical work packages"
-    you_are_viewing_the_selected_timeline: "You are viewing the selected timeline report"
-    zoom:
-      in: "Zoom in"
-      out: "Zoom out"
-      days: "Days"
-      weeks: "Weeks"
-      months: "Months"
-      quarters: "Quarters"
-      years: "Years"
+    end: "სადამდე"
+    start: "ვისგან"
   title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
   title_enterprise_upgrade: "Upgrade to unlock more users."
   tooltip_user_default_timezone: >
@@ -2918,9 +2874,9 @@ ka:
     help_and_support: "Help and support"
   total_progress: "Total progress"
   user:
-    all: "all"
-    active: "active"
-    activate: "Activate"
+    all: "ყველა"
+    active: "აქტიური"
+    activate: "გააქტიურება"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
     authentication_provider: "Authentication Provider"
     authentication_settings_disabled_due_to_external_authentication: >
@@ -2935,7 +2891,7 @@ ka:
     deleted: "Deleted user"
     error_status_change_failed: "Changing the user status failed due to the following errors: %{errors}"
     invite: Invite user via email
-    invited: invited
+    invited: მოწვეულია
     lock: "Lock permanently"
     locked: "locked permanently"
     no_login: "This user authenticates through login by password. Since it is disabled, they cannot log in."
@@ -2945,14 +2901,14 @@ ka:
     status_user_and_brute_force: "%{user} and %{brute_force}"
     status_change: "Status change"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
-    unlock: "Unlock"
+    unlock: "განბლოკვა"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
-  version_status_closed: "closed"
-  version_status_locked: "locked"
-  version_status_open: "open"
-  note: Note
+  version_status_closed: "დახურულია"
+  version_status_locked: "დაბლოკილია"
+  version_status_open: "გახსნა"
+  note: შენიშვნა
   note_password_login_disabled: "Password login has been disabled by %{configuration}."
-  warning: Warning
+  warning: გაფრთხილება
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
   warning_imminent_user_limit: >
     You invited more users than are supported by your current plan. Invited users may not be able to join your OpenProject environment. Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users in order to allow invited and registered users to join.
@@ -2990,9 +2946,9 @@ ka:
       title: "Delete the work package"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
@@ -3008,7 +2964,7 @@ ka:
   api_v3:
     attributes:
       lock_version: "Lock Version"
-      property: 'Property'
+      property: 'თვისება'
     errors:
       code_400: "Bad request: %{message}"
       code_401: "You need to be authenticated to access this resource."
@@ -3018,6 +2974,7 @@ ka:
       code_409: "Could not update the resource because of conflicting modifications."
       code_429: "Too many requests. Please try again later."
       code_500: "An internal error has occurred."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
@@ -3055,14 +3012,14 @@ ka:
         invalid_gzip: "is invalid gzip: %{message}"
         invalid_json: "is invalid json: %{message}"
     resources:
-      schema: 'Schema'
+      schema: 'სქემა'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
       ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'
-    auth_url: 'Auth URL'
+    auth_url: 'ავთენტიკაციის URL'
     access_token_url: 'Access token URL'
     errors:
       messages:
@@ -3153,7 +3110,7 @@ ka:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "შეცდომა"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
@@ -3197,4 +3154,4 @@ ka:
       missing_authorization: "The server side request failed due to missing authorization information."
     response:
       unexpected: "Unexpected response received."
-  you: you
+  you: თქვენ

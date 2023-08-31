@@ -10,7 +10,7 @@ keywords: work package status
 
 Work packages can have various status depending on their types, e.g. tasks can have the status new, in progress, done, on hold, rejected, closed. Or any other status which you would need.
 
-The status can be set at the top of the work package details view or in the list view in the corresponding column.
+The status can be set at the top of the work package details view or in the table view in the corresponding column.
 
 ![Sys-admin-work-package-status](Sys-admin-work-package-status.png)The status field can be configured under *Administration ->* *Work packages* -> *Status*. You will see the list of all the existing work package status in the system. You can add new status or change the name and order of existing status. 
 To learn about the options for configuring the transition from one status to another navigate to [Manage work package workflows](../work-package-workflows).
@@ -24,7 +24,7 @@ To create a new work package status click the green ***+ New Status*** icon.
 A new window will open, where you will be able to specify the following:
 
 1. Name the new work package status.
-2. Define if the new work package status closes a work package (e.g. relevant when filtering for closed for packages), e.g. a work package status "rejected" will set a work package technically on closed and it will not appear in the default work package list with Open Work packages.
+2. Define if the new work package status closes a work package (e.g. relevant when filtering for closed for packages), e.g. a work package status "rejected" will set a work package technically on closed and it will not appear in the default work package table with Open Work packages.
 3. Define if this status is set as default value when creating new work packages. BEWARE: If you decide to set the new status as default it will impact all work packages, existing and future ones. See more below.
 4. Check if this status sets a **work package in read-only mode**. This means no work package attributes can be changed except the status.
 5. Set a **color** for the work package status. The color appears in the status button of the work packages or in the work package table.

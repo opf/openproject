@@ -138,9 +138,9 @@
   </div>
 
   <op-storage
-    *ngFor="let storage of storages$ | async"
+    *ngFor="let storage of projectStorages | async"
     [resource]="workPackage"
-    [storage]="storage"
+    [projectStorage]="storage"
     [allowLinking]="true"
     [allowUploading]="true"
   ></op-storage>

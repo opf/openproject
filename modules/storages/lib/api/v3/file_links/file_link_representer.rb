@@ -92,7 +92,7 @@ module API::V3::FileLinks
 
     link :originOpen do
       {
-        href: storage_url_open_file(represented)
+        href: storage_url_open_file(represented.storage, represented.origin_id)
       }
     end
 
@@ -104,7 +104,7 @@ module API::V3::FileLinks
 
     link :originOpenLocation do
       {
-        href: storage_url_open_file(represented, open_location: true)
+        href: storage_url_open_file(represented.storage, represented.origin_id, open_location: true)
       }
     end
 

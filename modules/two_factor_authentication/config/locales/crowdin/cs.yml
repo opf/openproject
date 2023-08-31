@@ -68,8 +68,8 @@ cs:
       delete_all_are_you_sure: 'Opravdu chcete odstranit všechna 2FA zařízení tohoto uživatele?'
       button_delete_all_devices: 'Odstranit registrovaná 2FA zařízení'
       button_register_mobile_phone_for_user: 'Registrovat mobilní telefon'
-      text_2fa_enabled: 'Při každém přihlášení bude tento uživatel požádán, aby zadal jednorázové heslo z jeho výchozího 2FA zařízení.'
-      text_2fa_disabled: "Uživatel si nenastavil 2FA zařízení prostřednictvím stránky 'Můj účet'"
+      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from their default 2FA device.'
+      text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
     upsale:
       title: 'Dvoufázové ověření'
       description: 'Posilte bezpečnost vaší OpenProject instance tím, že nabízíte (nebo vynucujte) dvoufaktorové ověřování všem členům projektu.'

@@ -33,6 +33,7 @@ import {
 } from 'core-app/shared/components/storages/icons.mapping';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import { IFileLinkOriginData } from 'core-app/core/state/file-links/file-link.model';
+import { nextcloud } from 'core-app/shared/components/storages/storages-constants.const';
 
 export function isDirectory(originData:IFileLinkOriginData):boolean {
   return originData.mimeType === 'application/x-op-directory';
@@ -61,4 +62,13 @@ export function makeFilesCollectionLink(storageLink:IHalResourceLink, location:s
     href: `${storageLink.href}/files${query}`,
     title: 'Storage files',
   };
+}
+
+const storageTypeMap:Record<string, string> = {
+  [nextcloud]: 'js.storages.types.nextcloud',
+  default: 'js.storages.types.default',
+};
+
+export function storageLocaleString(storageTypeUrn:string) {
+  return storageTypeMap[storageTypeUrn] || storageTypeMap.default;
 }

@@ -1,12 +1,8 @@
-$tree-menu-item-height: 30px
-
-.tree-menu--container
-  padding-top: 10px
+$tree-menu-item-height: 40px
 
 #main-menu ul ul.main-menu--children ul.pages-hierarchy,
 div.wiki ul.pages-hierarchy,
 .pages-hierarchy
-  line-height: $tree-menu-item-height
   margin-left: 0
   padding-left: 0
   overflow-x: hidden
@@ -14,14 +10,16 @@ div.wiki ul.pages-hierarchy,
   .tree-menu--title
     display: inline-block
     width: inherit
-    vertical-align: bottom
+    vertical-align: middle
     height: $tree-menu-item-height
     line-height: $tree-menu-item-height
     text-decoration: none !important
 
+    &.-parent-node
+      font-weight: bold
+
   .tree-menu--hierarchy-span
     display: inline-block
-    line-height: $tree-menu-item-height
 
   .tree-menu--hierarchy-indicator-icon,
   .tree-menu--leaf-indicator
@@ -80,8 +78,7 @@ div.wiki ul.pages-hierarchy,
     width: 100%
     border-radius: 3px
     line-height: $tree-menu-item-height
-    padding: 0 10px
-    overflow-x: hidden
+    padding: 0 10px 0 0
     white-space: nowrap
     &.-selected
       background: var(--main-menu-bg-hover-background)
@@ -91,10 +88,3 @@ div.wiki ul.pages-hierarchy,
       background: var(--main-menu-bg-hover-background)
       .tree-menu--title
         color: var(--main-menu-hover-font-color)
-
-
-
-
-
-
-

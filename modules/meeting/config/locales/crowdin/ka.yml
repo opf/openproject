@@ -24,24 +24,25 @@ ka:
   activerecord:
     attributes:
       meeting:
-        location: "Location"
-        duration: "Duration"
+        location: "მდებარეობა"
+        duration: "ხანგრძლივობა"
         participants: "Participants"
-        participants_attended: "Attendees"
-        participants_invited: "Invitees"
-        start_time: "Time"
+        participants_attended: "დამსწრეები"
+        participants_invited: "მოწვეულები"
+        project: "პროექტი"
+        start_time: "დრო"
         start_time_hour: "Starting time"
     errors:
       messages:
         invalid_time_format: "is not a valid time. Required format: HH:MM"
     models:
-      meeting_agenda: "Agenda"
-      meeting_minutes: "Minutes"
+      meeting_agenda: "დღის განრიგი"
+      meeting_minutes: "წუთი"
   activity:
     filter:
-      meeting: "Meetings"
-  description_attended: "attended"
-  description_invite: "invited"
+      meeting: "შეხვედრები"
+  description_attended: "დაესწრო"
+  description_invite: "მოწვეულია"
   events:
     meeting: Meeting edited
     meeting_agenda: Meeting agenda edited
@@ -50,21 +51,28 @@ ka:
     meeting_minutes: Meeting minutes edited
     meeting_minutes_created: Meeting minutes created
   error_notification_with_errors: "Failed to send notification. The following recipients could not be notified: %{recipients}"
-  label_meeting: "Meeting"
-  label_meeting_plural: "Meetings"
+  label_meeting: "შეხვედრა"
+  label_meeting_plural: "შეხვედრები"
   label_meeting_new: "New Meeting"
   label_meeting_edit: "Edit Meeting"
-  label_meeting_agenda: "Agenda"
-  label_meeting_minutes: "Minutes"
-  label_meeting_close: "Close"
-  label_meeting_open: "Open"
+  label_meeting_agenda: "დღის განრიგი"
+  label_meeting_minutes: "წუთი"
+  label_meeting_close: "დახურვა"
+  label_meeting_open: "გახსნა"
   label_meeting_agenda_close: "Close the agenda to begin the Minutes"
-  label_meeting_date_time: "Date/Time"
-  label_meeting_diff: "Diff"
+  label_meeting_date_time: "თარიღი / დრო"
+  label_meeting_diff: "სხვაობა"
+  label_upcoming_meetings: "Upcoming meetings"
+  label_past_meetings: "Past meetings"
+  label_involvement: "Involvement"
+  label_upcoming_invitations: "Upcoming invitations"
+  label_past_invitations: "Past invitations"
+  label_attendee: "დამსწრე"
+  label_author: "შემქმნელი"
   label_notify: "Send for review"
   label_icalendar: "Send iCalendar"
-  label_version: "Version"
-  label_time_zone: "Time zone"
+  label_version: "ვერსია"
+  label_time_zone: "დროის სარტყელი"
   label_start_date: "Start date"
   meeting:
     copied: "Copied from Meeting #%{id}"
@@ -81,11 +89,11 @@ ka:
   permission_send_meeting_minutes_notification: "Send review notification for minutes"
   permission_meetings_send_invite: "Invite users to meetings"
   permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
-  project_module_meetings: "Meetings"
+  project_module_meetings: "შეხვედრები"
   text_duration_in_hours: "Duration in hours"
-  text_in_hours: "in hours"
+  text_in_hours: "საათებში"
   text_meeting_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the agenda?"
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting agenda?"
   text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
   text_meeting_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
   text_review_meeting_agenda: "%{author} has put the %{link} up for review."

@@ -28,39 +28,36 @@
 
 module Storages::Peripherals
   class StorageRequests
+    COMMANDS = %i[
+      set_permissions_command
+      create_folder_command
+      add_user_to_group_command
+      delete_folder_command
+      remove_user_from_group_command
+      rename_file_command
+      copy_template_folder_command
+    ].freeze
+
+    QUERIES = %i[
+      download_link_query
+      files_info_query
+      files_query
+      file_ids_query
+      folder_files_file_ids_deep_query
+      upload_link_query
+      group_users_query
+    ].freeze
+
     def initialize(storage:)
       @storage = storage
-      @oauth_client = storage.oauth_client
     end
 
-    def download_link_query(user:)
-      storage_queries(user)
-        .download_link_query
-        .map { |query| query.method(:query).to_proc }
-    end
-
-    def files_query(user:)
-      storage_queries(user)
-        .files_query
-        .map { |query| query.method(:query).to_proc }
-    end
-
-    def upload_link_query(user:)
-      storage_queries(user)
-        .upload_link_query
-        .map { |query| query.method(:query).to_proc }
-    end
-
-    private
-
-    def storage_queries(user)
-      ::Storages::Peripherals::StorageInteraction::StorageQueries
-        .new(
-          uri: URI(@storage.host).normalize,
-          provider_type: @storage.provider_type,
-          user:,
-          oauth_client: @oauth_client
-        )
+    (COMMANDS + QUERIES).each do |request|
+      define_method(request) do
+        clazz = "::Storages::Peripherals::StorageInteraction::" \
+                "#{@storage.short_provider_type.capitalize}::#{request.to_s.classify}".constantize
+        clazz.new(@storage).method(:call).to_proc
+      end
     end
   end
 end

@@ -27,11 +27,7 @@
 #++
 
 require 'open_project/plugins'
-
 require_relative './patches/api/work_package_representer'
-require_relative './notification_handler'
-require_relative './hook_handler'
-require_relative './services'
 
 module OpenProject::GithubIntegration
   class Engine < ::Rails::Engine
@@ -81,6 +77,10 @@ module OpenProject::GithubIntegration
 
     add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
       mount ::API::V3::GithubPullRequests::GithubPullRequestsByWorkPackageAPI
+    end
+
+    add_api_endpoint 'API::V3::Root' do
+      mount ::API::V3::GithubPullRequests::GithubPullRequestsAPI
     end
 
     config.to_prepare do

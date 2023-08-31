@@ -83,7 +83,7 @@ export class CurrentUserService {
           const filters:ApiV3ListFilter[] = [userFilter];
 
           if (projectContext) {
-            filters.push(['context', '=', [projectContext === 'global' ? 'g' : `p${projectContext}`]]);
+            filters.push(['context', '=', [projectContext === 'global' || projectContext === 'projects' ? 'g' : `p${projectContext}`]]);
           }
 
           if (actions.length > 0) {
@@ -92,7 +92,7 @@ export class CurrentUserService {
 
           return { filters, pageSize: -1 };
         }),
-        switchMap((params) => this.capabilitiesService.require(params)),
+        switchMap((params) => this.capabilitiesService.requireCollection(params)),
       );
   }
 

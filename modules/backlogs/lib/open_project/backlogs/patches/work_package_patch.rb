@@ -33,9 +33,10 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     prepend InstanceMethods
     extend ClassMethods
 
-    before_validation :backlogs_before_validation, if: lambda { backlogs_enabled? }
+    before_validation :backlogs_before_validation, if: -> { backlogs_enabled? }
 
     register_journal_formatted_fields(:fraction, 'remaining_hours')
+    register_journal_formatted_fields(:fraction, 'derived_remaining_hours')
     register_journal_formatted_fields(:decimal, 'story_points')
     register_journal_formatted_fields(:decimal, 'position')
 
@@ -43,12 +44,17 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
                                              allow_nil: true,
                                              greater_than_or_equal_to: 0,
                                              less_than: 10_000,
-                                             if: lambda { backlogs_enabled? }
+                                             if: -> { backlogs_enabled? }
 
     validates_numericality_of :remaining_hours, only_integer: false,
                                                 allow_nil: true,
                                                 greater_than_or_equal_to: 0,
-                                                if: lambda { backlogs_enabled? }
+                                                if: -> { backlogs_enabled? }
+
+    validates_numericality_of :derived_remaining_hours, only_integer: false,
+                                                        allow_nil: true,
+                                                        greater_than_or_equal_to: 0,
+                                                        if: -> { backlogs_enabled? }
 
     include OpenProject::Backlogs::List
   end
@@ -106,9 +112,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
       if is_story?
         Story.find(id)
       elsif is_task?
-        ancestors
-          .where(type_id: Story.types)
-          .first
+        ancestors.where(type_id: Story.types).first
       end
     end
 

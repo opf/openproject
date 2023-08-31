@@ -23,10 +23,10 @@ ka:
   js:
     work_packages:
       property_groups:
-        costs: "Costs"
+        costs: "ხარჯები"
       properties:
         overallCosts: "Overall costs"
         spentUnits: "Spent units"
     button_log_costs: "Log unit costs"
-    label_hour: "hour"
-    label_hours: "hours"
+    label_hour: "საათი"
+    label_hours: "საათი"

@@ -80,7 +80,7 @@ fi:
       buttons:
         upgrade: "Päivitä nyt"
         contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
       explanation:
@@ -99,15 +99,14 @@ fi:
     edit: "Muokkaa aputeksiä ominaisuudelle %{attribute_caption}"
     enterprise:
       description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: Tällä hetkellä ei ole todennustiloja.
-      no_results_content_text: Luo uusi todennustila
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
       <br/>
@@ -169,10 +168,21 @@ fi:
     index:
       no_results_title_text: Tällä hetkellä ei ole värejä.
       no_results_content_text: Luo uusi väri
-    label_no_color: 'Ei väriä'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "Ei väriä"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Toiminnot'
+      name: "Toiminnot"
       add: 'Lisää toiminto'
       assigned_to:
         executing_user_value: '(Assign to executing user)'
@@ -198,8 +208,6 @@ fi:
       no_results_content_text: Luo uusi mukautettu kenttä
   concatenation:
     single: 'tai'
-  documentation:
-    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -253,6 +261,8 @@ fi:
         no_results_title_text: Tällä hetkellä ei ole mukautettuja kenttiä.
       types:
         no_results_title_text: Tällä hetkellä tyyppejä ei ole saatavilla.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: Projektille ei ole versioita.
         no_results_content_text: Luo uusi versio
@@ -269,11 +279,24 @@ fi:
       notice_reset_token: "Uusi %{type} API-salasana generoitu. Salasanasi on:"
       token_value_warning: "Huomautus: Tämä on ainoa kerta kun näet tämän tunnuksen, varmista että kopio se nyt."
       no_results_title_text: Tällä hetkellä ei ole pääsyavaimia saatavilla.
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Tällä hetkellä ei ole uutisia.
       no_results_content_text: Lisää uutinen
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
       no_results_title_text: This user is currently not a member in any group.
@@ -315,6 +338,12 @@ fi:
     index:
       no_results_title_text: Ei tehtävien tiloja.
       no_results_content_text: Lisää uusi tila
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Ei tyyppejä tällä hetkellä.
@@ -334,6 +363,7 @@ fi:
         in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
+      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
       no_results_title_text: Tähän versioon ei ole liitetty yhtään tehtävää.
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
@@ -419,16 +449,16 @@ fi:
       attribute_help_text:
         attribute_name: 'Määre'
         help_text: 'Help text'
-      auth_source:
-        account: "Käyttäjätili"
-        attr_firstname: "Etunimi-tietue"
-        attr_lastname: "Sukunimi-tietue"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
         attr_login: "Username attribute"
-        attr_mail: "Sähköposti-tietue"
+        attr_mail: "Email attribute"
         base_dn: "Base DN"
-        host: "Isäntä"
+        host: "Host"
         onthefly: "Automatic user creation"
-        port: "Portti"
+        port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Tietovarasto"
@@ -485,6 +515,15 @@ fi:
           true: "public"
           false: "private"
         queries: "Kyselyt"
+        status_code: 'Projektin tila'
+        status_explanation: 'Project status description'
+        status_codes:
+          not_started: 'Not started'
+          on_track: 'Hyvä'
+          at_risk: 'Rajalla'
+          off_track: 'Huono'
+          finished: 'Valmis'
+          discontinued: 'Discontinued'
         templated: "Malliprojekti"
         templated_value:
           true: "marked as template"
@@ -492,16 +531,6 @@ fi:
         types: "Tehtävätyypit"
         versions: "Versiot"
         work_packages: "Tehtävät"
-      projects/status:
-        code: 'Tila'
-        explanation: 'Tilan kuvaus'
-        codes:
-          not_started: 'Not started'
-          on_track: 'Hyvä'
-          at_risk: 'Rajalla'
-          off_track: 'Huono'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
       query:
         column_names: "Sarakkeet"
         relations_to_type_column: "Riippuvuus %{type}"
@@ -518,6 +547,7 @@ fi:
         hours: "Tunnit"
         spent_on: "Päivämäärä"
         type: "Tyyppi"
+        ongoing: "Ongoing"
       type:
         description: "Default text for description"
         attribute_groups: ''
@@ -527,7 +557,7 @@ fi:
         color: "Väri"
       user:
         admin: "Järjestelmänvalvoja"
-        auth_source: "Todennustila"
+        ldap_auth_source: "LDAP connection"
         current_password: "Nykyinen salasana"
         force_password_change: "Pakota salasanan vaihto seuraavan kirjautumisen yhteydessä"
         language: "Kieli"
@@ -648,7 +678,7 @@ fi:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -692,6 +722,11 @@ fi:
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -739,6 +774,10 @@ fi:
               format: "%{message}"
             sort_criteria:
               invalid: "Can't sort by column: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
@@ -795,6 +834,7 @@ fi:
               not_allowed_to_view: "is not allowed to view this resource."
               locked: "is locked."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "cannot be deduced from the title '%{title}'."
@@ -861,8 +901,8 @@ fi:
                 description: "\"Salasanan vahvistus\" -kentän arvon tulee olla identtinen \"Uusi salasana\" -kentän arvon kanssa."
             status:
               invalid_on_create: "ei ole kelvollinen tila uusille käyttäjille."
-            auth_source:
-              error_not_found: "ei löydetty"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Valitse vähintään yksi käyttäjä tai ryhmä."
           role_blank: "need to be assigned."
@@ -872,6 +912,7 @@ fi:
             principal:
               unassignable: "cannot be assigned to a project."
         version:
+          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
         status:
           readonly_default_exlusive: "can not be activated for statuses that are marked default."
@@ -910,16 +951,34 @@ fi:
       work_package: "Työpaketti"
       'doorkeeper/application': "OAuth application"
   errors:
-    header_invalid_fields: "Seuraavissa kentissä oli ongelmia:"
+    header_invalid_fields:
+      one: "There was a problem with the following field:"
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      one: "Additionally, there was a problem with the following field:"
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "Tämä kenttä on virheellinen: %{full_errors} Anna kelvollinen arvo."
   activity:
     item:
       created_by_on: "created by %{user} on %{datetime}"
+      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "created on %{datetime}"
+      created_on_time_entry: "time logged on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
+      updated_on_time_entry: "logged time updated on %{datetime}"
       parent_without_of: "Aliprojekti"
       parent_no_longer: "No longer subproject of"
+      time_entry:
+        hour:
+          one: "%{count} hour"
+          other: "%{count} tuntia"
+        hour_html:
+          one: "<i>%{count} hour</i>"
+          other: "<i>%{count} hours</i>"
+        updated: "changed from %{old_value} to %{value}"
+        logged_for: "Logged for"
     filter:
       changeset: "Muutosryhmät"
       message: "Keskustelupalstat"
@@ -1036,6 +1095,8 @@ fi:
   button_configure: "Asetukset"
   button_continue: "Jatka"
   button_copy: "Kopioi"
+  button_copy_to_clipboard: "Kopioi leikepöydälle"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Kopioi ja seuraa"
   button_create: "Uusi"
   button_create_and_continue: "Luo ja jatka"
@@ -1165,7 +1226,7 @@ fi:
       - "Lokakuu"
       - "Marraskuu"
       - "Joulukuu"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - :vuosi
       - :kuukausi
@@ -1210,61 +1271,6 @@ fi:
       hour:
         one: "tunti"
         other: "tuntia"
-  default_activity_development: "Kehitys"
-  default_activity_management: "Työnjohto"
-  default_activity_other: "Muut"
-  default_activity_specification: "Määrittely"
-  default_activity_support: "Tuki"
-  default_activity_testing: "Testaus"
-  default_color_black: "Musta"
-  default_color_blue: "Sininen"
-  default_color_blue_dark: "Sininen (tumma)"
-  default_color_blue_light: "Sininen (vaalea)"
-  default_color_green_dark: "Vihreä (tumma)"
-  default_color_green_light: "Vihreä (vaalea)"
-  default_color_grey_dark: "Harmaa (tumma)"
-  default_color_grey_light: "Harmaa (vaalea)"
-  default_color_grey: "Harmaa"
-  default_color_magenta: "Purppura (magenta)"
-  default_color_orange: "Oranssi"
-  default_color_red: "Punainen"
-  default_color_white: "Valkoinen"
-  default_color_yellow: "Keltainen"
-  default_status_closed: "Suljettu"
-  default_status_confirmed: "Vahvistettu"
-  default_status_developed: "Kehitetty"
-  default_status_in_development: "Kehitys käynnissä"
-  default_status_in_progress: "Käynnissä"
-  default_status_in_specification: "Määrittelyssä"
-  default_status_in_testing: "Testauksessa"
-  default_status_new: "Uusi"
-  default_status_on_hold: "Pidossa"
-  default_status_rejected: "Hylätty"
-  default_status_scheduled: "Ajoitettu"
-  default_status_specified: "Määritetty"
-  default_status_tested: "Testattu"
-  default_status_test_failed: "Testi epäonnistui"
-  default_status_to_be_scheduled: "Aikataulutettava"
-  default_priority_low: "Matala"
-  default_priority_normal: "Normaali"
-  default_priority_high: "Korkea"
-  default_priority_immediate: "Valitön"
-  default_role_anonymous: "Anonyymi"
-  default_role_developer: "Kehittäjä"
-  default_role_project_admin: "Projektin ylläpitäjä"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
-  default_role_non_member: "Ei jäsen"
-  default_role_reader: "Lukuoikeus"
-  default_role_member: "Jäsen"
-  default_type: "Tehtävä"
-  default_type_bug: "Virhe"
-  default_type_deliverable: "Suorite"
-  default_type_epic: "Eeppinen"
-  default_type_feature: "Ominaisuus"
-  default_type_milestone: "Milestone"
-  default_type_phase: "Vaihe"
-  default_type_task: "Tehtävä"
-  default_type_user_story: "Käyttäjän tarina"
   description_active: "Aktiivinen?"
   description_attachment_toggle: "Näytä tai Piilota liitteet"
   description_autocomplete: >
@@ -1311,9 +1317,10 @@ fi:
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Mukautettua kenttää ei voi poistaa"
+  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
+  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Standardin tyyppiä ei voi poistaa."
   error_can_not_invite_user: "Kutsun lähettäminen käyttäjälle epäonnistui."
   error_can_not_remove_role: "Tämä rooli on käytössä joten sitä ei voida poistaa."
@@ -1322,12 +1329,13 @@ fi:
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Please choose a user and a role."
   error_code: "Virhe %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'OpenProject evästeen puuttuu. Varmista, että evästeet ovat käytössä, koska tämä sovellus ei toimi oikein ilman evästeitä.'
   error_custom_option_not_found: "Vaihtoehtoa ei ole olemassa."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Tämän merkinnän poisto ei onnistunut.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
@@ -1346,6 +1354,7 @@ fi:
   error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Tietovarastoon pääsyssä tapahtui virhe: %{value}"
   error_scm_not_found: "Syötettä ja/tai versiota ei löydy tietovarastosta."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "Toimia paketti tila ei voi poistaa koska se on käytössä vähintään yksi toimia paketti."
   error_unable_delete_default_status: "Ei voi poistaa oletuksena työ paketti tila. Ole hyvä ja valitse vielä oletusarvo työ paketti tila ennen poistamalla nykyinen yksi."
   error_unable_to_connect: "Ei voi yhdistää (%{value})"
@@ -1382,11 +1391,14 @@ fi:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF kuvauksilla"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext available (optional)"
@@ -1432,6 +1444,25 @@ fi:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
+    caused_changes:
+      dates_changed: "Dates changed"
+      system_update: "OpenProject update"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: 'Configuration guide'
     get_in_touch: "You have questions? Get in touch with us."
@@ -1441,7 +1472,7 @@ fi:
   menus:
     admin:
       mail_notification: "Sähköposti-ilmoitukset"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
@@ -1456,6 +1487,33 @@ fi:
         action: "Toiminto"
         expiration: "Vanhentuu"
       indefinite_expiration: "Ei koskaan"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1498,6 +1556,7 @@ fi:
   label_age: "Ikä"
   label_ago: "päiviä sitten"
   label_all: "kaikki"
+  label_all_projects: "All projects"
   label_all_time: "koko ajalta"
   label_all_words: "kaikki sanat"
   label_all_open_wps: "Avoimet tehtävät"
@@ -1506,8 +1565,15 @@ fi:
   label_api_access_key: "API avain"
   label_api_access_key_created_on: "API access key created %{value} ago"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Käytetty tila"
   label_archive_project: "Arkisto projekti"
+  label_archived_projects: "Archived projects"
   label_ascending: "Nouseva"
   label_assigned_to_me_work_packages: "Minulle määritellyt tehtävät"
   label_associated_revisions: "Liittyvät versiot"
@@ -1516,9 +1582,9 @@ fi:
   label_attachment_plural: "Tiedostot"
   label_attribute: "Määre"
   label_attribute_plural: "Määreet"
-  label_auth_source: "Todennustila"
-  label_auth_source_new: "Uusi kirjautumistapa"
-  label_auth_source_plural: "Kirjautumistavat"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Kirjautuminen"
   label_available_project_work_package_categories: 'Olemassa olevat tehtäväluokat'
   label_available_project_work_package_types: 'Olemassa olevat tehtävätyypit'
@@ -1541,6 +1607,7 @@ fi:
   label_bulk_edit_selected_work_packages: "Muokkaa valittuja tehtäviä"
   label_bundled: '(Bundled)'
   label_calendar: "Kalenteri"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Näytä kalenteri"
   label_category: "Kategoria"
   label_consent_settings: "Käyttäjän suostumus"
@@ -1576,8 +1643,8 @@ fi:
   label_confirmation: "Vahvistus"
   label_contains: "sisältää"
   label_content: "Sisältö"
+  label_color_plural: "Colors"
   label_copied: "kopioitu"
-  label_copy_to_clipboard: "Kopioi leikepöydälle"
   label_copy_same_as_target: "Sama kuin kohde"
   label_copy_source: "Lähde"
   label_copy_target: "Kohde"
@@ -1594,6 +1661,7 @@ fi:
   label_database_version: "PostgreSQL version"
   label_date: "Päivämäärä"
   label_date_and_time: "Päivämäärä ja aika"
+  label_date_format: "Päivän muoto"
   label_date_from: "Alkaen"
   label_date_from_to: "Välillä %{start} - %{end}"
   label_date_to: "Päättyen"
@@ -1604,6 +1672,7 @@ fi:
   label_deleted: "poistettu"
   label_deleted_custom_field: "(poistettu mukautettu kenttä)"
   label_deleted_custom_option: "(deleted option)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Laskeva"
   label_details: "Yksityiskohdat"
@@ -1636,16 +1705,20 @@ fi:
   label_enterprise: "Yritys"
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Ympäristö"
   label_estimates_and_time: "Arviot ja ajankäyttö"
   label_equals: "on"
   label_everywhere: "kaikkialla"
   label_example: "Esimerkki"
+  label_experimental: "Experimental"
+  label_i_am_member: "I am member"
   label_import: "Tuo"
   label_export_to: "Vie"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} tunti"
   label_f_hour_plural: "%{value} tuntia"
+  label_favoured: "Favoured"
   label_feed_plural: "Syötteet"
   label_feeds_access_key: "RSS avain"
   label_feeds_access_key_created_on: "RSS avain luotiin %{value} sitten"
@@ -1677,6 +1750,7 @@ fi:
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Koti"
   label_subject_or_id: "Aihe tai ID"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Legal notice"
   label_in: "tässä"
   label_in_less_than: "pienempi kuin"
@@ -1698,6 +1772,7 @@ fi:
   label_journal: "Journal"
   label_journal_diff: "Kuvauksen vertailu"
   label_language: "Kieli"
+  label_languages: "Languages"
   label_jump_to_a_project: "Siirry projektiin..."
   label_keyword_plural: 'Keywords'
   label_language_based: "Pohjautuen käyttäjän kieleen"
@@ -1719,6 +1794,7 @@ fi:
   label_logged_as: "Kirjautuneena"
   label_login: "Kirjaudu"
   label_custom_logo: "Oma logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Mukautettu kuvake"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "Kirjaudu ulos"
@@ -1755,6 +1831,7 @@ fi:
   label_more_than_ago: "enemän kuin päivää sitten"
   label_move_work_package: "Siirrä tehtävä"
   label_my_account: "Tiliasetukset"
+  label_my_activity: "My activity"
   label_my_account_data: "Tilini tiedot"
   label_my_projects: "Omat projektit"
   label_my_queries: "Omat hakuni"
@@ -1805,7 +1882,6 @@ fi:
   label_password_rule_special: "Erikoismerkit"
   label_password_rule_uppercase: "Suuri kirjainkoko"
   label_path_encoding: "Polun koodaus"
-  label_pdf_with_descriptions: "PDF kuvauksilla"
   label_per_page: "Per sivu"
   label_people: "Henkilöresurssit"
   label_permissions: "Oikeudet"
@@ -1827,7 +1903,6 @@ fi:
   label_principal_search: "Lisää olemassa olevia käyttäjiä tai ryhmiä"
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Tuotteen versio"
-  label_professional_support: "Ammatillinen apu"
   label_profile: "Profile"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1839,7 +1914,8 @@ fi:
   label_project_new: "Uusi projekti"
   label_project_plural: "Projektit"
   label_project_settings: "Projektiasetukset"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} projektia käyttää %{storage} tallennustilaa"
   label_project_view_all: "Kaikki projektit"
   label_project_show_details: "Show project details"
@@ -1890,7 +1966,7 @@ fi:
   label_role_search: "Määritä rooli uusille jäsenille"
   label_scm: "SCM"
   label_search: "Haku"
-  label_send_information: "Lähetä tilin tiedot käyttäjälle"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Lähetä testi sähköposti"
   label_setting_plural: "Asetukset"
   label_system_settings: "Järjestelmäasetukset"
@@ -1927,6 +2003,7 @@ fi:
   label_this_week: "tällä viikolla"
   label_this_year: "tänä vuonna"
   label_time_entry_plural: "Käytetty aika"
+  label_title: "Title"
   label_projects_menu: "Projektit"
   label_today: "tänään"
   label_top_menu: "Päävalikko"
@@ -1958,6 +2035,7 @@ fi:
   label_user_plural: "Käyttäjät"
   label_user_search: "Etsi käyttäjä"
   label_user_settings: "Käyttäjäasetukset"
+  label_users_settings: "Users settings"
   label_version_new: "Uusi versio"
   label_version_plural: "Versiot"
   label_version_sharing_descendants: "Aliprojektien kanssa"
@@ -2029,10 +2107,7 @@ fi:
   label_global_role: "Yleinen rooli"
   label_not_changeable: "(ei vaihdettavissa)"
   label_global: "Yleinen"
-  auth_source:
-    using_abstract_auth_source: "Voi käyttää abstrakti autentikointi lähde."
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
   macros:
@@ -2076,6 +2151,7 @@ fi:
       more_to_see:
         one: 'There is 1 more work package with notifications.'
         other: 'There are %{count} more work packages with notifications.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Watched'
         assigned: 'Assigned'
@@ -2100,6 +2176,10 @@ fi:
   mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
   mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Vaihtaaksesi salasanasi, napsauta seuraavaa linkkiä:"
+  mail_password_change_not_possible:
+    title: "Password change not possible"
+    body: "Your account at %{app_title} is connected to an external authentication provider (%{name})."
+    subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Kutsu projektin jäseneksi"
   mail_body_register_user: "Hyvä %{name},"
@@ -2220,7 +2300,7 @@ fi:
   present_access_key_value: "Your %{key_name} is: %{value}"
   notice_automatic_set_of_standard_type: "Set standard type automatically."
   notice_logged_out: "You have been logged out."
-  notice_wont_delete_auth_source: Todennustilaa ei voi poistaa koska sillä on vielä käyttäjiä.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "Et voi päivittää projektin käytettävissä olevia mukautettuja kenttiä. Projekti on virheellinen: %{errors}"
   notice_attachment_migration_wiki_page: >
     This page was generated automatically during the update of OpenProject. It contains all attachments previously associated with the %{container_type} "%{container_name}".
@@ -2254,7 +2334,8 @@ fi:
   permission_add_messages: "Jätä viesti"
   permission_add_project: "Luo projekti"
   permission_archive_project: "Arkisto projekti"
-  permission_manage_user: "Create and edit users"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Luoda aliprojekteja"
   permission_add_work_package_watchers: "Lisää seuraajia"
@@ -2345,7 +2426,7 @@ fi:
       archived: "Archived"
   project_module_activity: "Tapahtumat"
   project_module_forums: "Keskustelupalstat"
-  project_module_work_package_tracking: "Tehtävien seuranta"
+  project_module_work_package_tracking: "Tehtävät"
   project_module_news: "Uutiset"
   project_module_repository: "Tietovarasto"
   project_module_wiki: "Wiki"
@@ -2519,7 +2600,7 @@ fi:
   setting_consent_decline_mail: "Suostumukseen liittyvien lisätietojen sähköpostiosoite"
   setting_cross_project_work_package_relations: "Salli projektien väliset tehtävien riippuvuudet"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "Päivän muoto"
+  setting_date_format: "Päivämäärä"
   setting_default_language: "Vakiokieli"
   setting_default_projects_modules: "Oletusmodulit uusille projketeille"
   setting_default_projects_public: "Uudet projektit ovat oletuksena julkisia"
@@ -2531,6 +2612,7 @@ fi:
   setting_enabled_scm: "Käytössäoleva versionhallinta"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Ota syötteet käyttöön"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Syötteen sisällön raja"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Verkko-osoite"
@@ -2581,9 +2663,9 @@ fi:
   setting_start_of_week: "Viikko alkaa"
   setting_sys_api_enabled: "Salli WS tietovaraston hallintaan"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
-  setting_time_format: "Ajan esitysmuoto"
+  setting_time_format: "Aika"
   setting_accessibility_mode_for_anonymous: "Ota helppokäyttötila anonyymeille käyttäjille"
-  setting_user_format: "Käyttäjien esitysmuoto"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "User accounts deletable by admins"
   setting_users_deletable_by_self: "Käyttäjille saa poistaa tilinsä"
@@ -2592,29 +2674,22 @@ fi:
   setting_welcome_on_homescreen: "Näytä tervehdyspalkki kotinäkymässä"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
+  setting_working_days: "Working days"
   settings:
-    general: "Yleinen"
-    other: "Muut"
-    passwords: "Salasana"
-    session: "Istunto"
-    brute_force_prevention: "Automaattinen käyttäjän estäminen"
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
-    notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-    display:
+    brute_force_prevention: "Automaattinen käyttäjän estäminen"
+    date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
-      first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
-    projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
-    user:
-      default_preferences: "Default preferences"
-      deletion: "Deletion"
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
+    general: "Yleinen"
     highlighting:
       mode_long:
         inline: "Highlight attribute(s) inline"
@@ -2622,6 +2697,25 @@ fi:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
+    notifications:
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+    other: "Muut"
+    passwords: "Salasana"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
+    session: "Istunto"
+    user:
+      default_preferences: "Default preferences"
+      display_format: "Display format"
+      deletion: "Deletion"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Plain text'
@@ -2654,18 +2748,18 @@ fi:
     When using custom fields: Keep in mind that custom fields need to be activated per project, too.
   text_custom_field_hint_activate_per_project_and_type: >
     Custom fields need to be activated per work package type and per project.
-  text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
     The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    This is the tiny icon that appears in your browser window/tab next to the page's title. It's needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It's needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Database allows TSVector (optional)"
   text_default_administrator_account_changed: "Oletuarvoinen järjestelmävalvoja muutettu"
   text_default_encoding: "Default: UTF-8"
@@ -2691,12 +2785,16 @@ fi:
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Vertailemalla ja korjaus toimia paketit sitoutua viestejä"
   text_journal_added: "%{label} %{value} lisätty"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} päivitetty"
   text_journal_changed_with_diff: "%{label} muutettu (%{link})"
   text_journal_deleted: "%{label} poistettu (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} muutettu %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"
@@ -2742,6 +2840,11 @@ fi:
   text_zoom_in: "Lähennä"
   text_zoom_out: "Loitonna"
   text_setup_mail_configuration: "Määritä sähköpostin palveluntarjoajasi"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "aamupäivä"
     formats:
@@ -2754,153 +2857,6 @@ fi:
     show: "Näytä aikataulu"
     end: "to"
     start: "from"
-  timelines:
-    admin_menu:
-      color: "Väri"
-      colors: "Värit"
-    associations: "Riippuvuudet"
-    button_delete_all: "Poista kaikki"
-    change: "Muuta suunnittelussa"
-    children: "Ali-elementit"
-    color_could_not_be_saved: "Väriä ei voitu tallentaa"
-    current_planning: "Tämänhetkinen suunnitelma"
-    dates: "Päivämäärät"
-    dates_are_calculated_based_on_sub_elements: "Päivämäärät lasketaan alielementeistä."
-    delete_all: "Poista kaikki"
-    delete_thing: "Poista"
-    duration: "Kesto"
-    duration_days:
-      one: "päivä"
-      other: "%{count} päivää"
-    edit_color: "Muokkaa väriä"
-    edit_thing: "Muokkaa"
-    edit_timeline: "Muokkaa aikajanaraporttia %{timeline}"
-    delete_timeline: "Poista aikajanaraportti %{timeline}"
-    empty: "(tyhjä)"
-    enable_type_in_project: 'Ota käyttöön "%{type}"'
-    end: "Loppu"
-    errors:
-      not_implemented: "Aikajanaa ei voitu muodostaa koska se käyttää toimintoa jota ei ole vielä otettu käyttöön."
-      report_comparison: "Aikajanan voi tehdä määritetty vertailuja. Tarkista oikea kohta asetukset, nollaa se voi auttaa ratkaisemaan tämän ongelman."
-      report_epicfail: "Aikajana ei voi ladata koska odottamaton virhe."
-      report_timeout: "The timeline could not be loaded in a reasonable amount of time."
-    filter:
-      errors:
-        timeframe_start: "The timeframe start "
-        timeframe_end: "The timeframe end "
-        compare_to_relative: "The value of the relative comparison "
-        compare_to_absolute: "The value of the absolute comparison "
-        planning_element_time_relative_one: "The start for work packages in a certain timeframe "
-        planning_element_time_relative_two: "The end for work packages in a certain timeframe "
-        planning_element_time_absolute_one: "The start for work packages in a certain timeframe  "
-        planning_element_time_absolute_two: "The end for work packages in a certain timeframe  "
-      sort:
-        sortation: "Lajitteluperuste"
-        alphabet: "alphabet"
-        explicit_order: "explicit order"
-        project_sortation: "Projektien lajitteluperuste"
-        date: "date"
-        default: "oletus"
-      column:
-        assigned_to: "Työn suorittaja"
-        type: "Tyyppi"
-        due_date: "End date"
-        name: "Nimi"
-        status: "Tila"
-        start_date: "Aloituspäivä"
-      columns: "Sarakkeet"
-      comparisons: "Comparisons"
-      comparison:
-        absolute: "Absolute"
-        none: "Ei mitään"
-        relative: "Relative"
-        compare_relative_prefix: "Compare current planning to"
-        compare_relative_suffix: "sitten"
-        compare_absolute: "Compare current planning to %{date}"
-      time_relative:
-        days: "päivää"
-        weeks: "viikkoa"
-        months: "kuukautta"
-      exclude_own_work_packages: "Hide work packages from this project"
-      exclude_reporters: "Hide other projects"
-      exclude_empty: "Hide empty projects"
-      grouping: "Grouping"
-      grouping_hide_group: "Hide group \"%{group}\""
-      grouping_one: "First grouping criterion"
-      grouping_one_phrase: "Is a subproject of"
-      grouping_other: "Muut"
-      hide_chart: "Hide chart"
-      noneElement: "(none)"
-      noneSelection: "(none)"
-      outline: "Initial outline expansion"
-      parent: "Show subprojects of"
-      work_package_responsible: "Näytä kaikki vastuuhenkilön tehtävät"
-      work_package_assignee: "Show work packages with assignee"
-      types: "Näytä tyypit"
-      status: "Näytä tila"
-      project_time_filter: "Projects with a work package of a certain type in a certain timeframe"
-      project_time_filter_timeframe: "Timeframe"
-      project_time_filter_historical_from: "from"
-      project_time_filter_historical_to: "to"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago, %{end_label} %{endspan}%{endspanunit} from now"
-      project_filters: "Filter projects"
-      project_responsible: "Näytä vastuuhenkilön projektit"
-      project_status: "Näytä projekti tila"
-      timeframe: "Näytä aikataulu"
-      timeframe_end: "to"
-      timeframe_start: "from"
-      timeline: "General Settings"
-      zoom: "Zoom factor"
-    history: "Historia"
-    new_color: "New color"
-    new_association: "New dependency"
-    new_work_package: "Uusi tehtävä"
-    new_reporting: "New reporting"
-    new_timeline: "Uusi aikajana-raportti"
-    no_projects_for_reporting_available: "Ei ole hankkeita joihin raportointi yhdistys voi olla luotu."
-    no_right_to_view_timeline: "Sinulla ei ole tarvittavaa lupaa tarkastella toisiinsa aikajanalla."
-    no_timeline_for_id: "There is no timeline with ID %{id}."
-    notice_successful_deleted_all_elements: "Poistettu onnistuneesti kaikki elementit"
-    outline: "Nollaa hahmotelma"
-    outlines:
-      aggregation: "Näyttää koosteita vain"
-      level1: "Laajenna taso 1"
-      level2: "Laajenna taso 2"
-      level3: "Laajenna taso 3"
-      level4: "Laajenna taso 4"
-      level5: "Laajenna taso 5"
-      all: "Näytä kaikki"
-    reporting_for_project:
-      show: "Status reported to project: %{title}"
-      edit_delete: "status report for project: %{title}"
-      history: "History for status for project: %{title}"
-    reporting:
-      delete: "Delete status: %{comment}"
-      edit: "Edit status: %{comment}"
-      show: "Status: %{comment}"
-    planning_element_update: "Update: %{title}"
-    type_could_not_be_saved: "Type could not be saved"
-    reporting_could_not_be_saved: "Raportointi ei voitu tallenneta"
-    properties: "Ominaisuudet"
-    really_delete_color: >
-      Oletko varma, että haluat poistaa seuraava väri? Tyypit käyttää tätä väri ei poisteta.
-    really_delete_reporting: >
-      Oletko varma, että haluat poistaa seuraavat raportointia? Edellisen raportoinnin statukset poistetaan, liian.
-    start: "Aloita"
-    timeline: "Timeline report"
-    timelines: "Aikajanaraportit"
-    settings: "Aikataulut"
-    vertical_work_package: "Vertical work packages"
-    you_are_viewing_the_selected_timeline: "Sinä olet katselu valittu aikajana raportti"
-    zoom:
-      in: "Lähennä"
-      out: "Loitonna"
-      days: "Päivää"
-      weeks: "Viikkoa"
-      months: "Kuukautta"
-      quarters: "Quarters"
-      years: "Vuotta"
   title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
   title_enterprise_upgrade: "Upgrade to unlock more users."
   tooltip_user_default_timezone: >
@@ -2990,9 +2946,9 @@ fi:
       title: "Delete the work package"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
@@ -3018,6 +2974,7 @@ fi:
       code_409: "Could not update the resource because of conflicting modifications."
       code_429: "Too many requests. Please try again later."
       code_500: "Tapahtui sisäinen virhe."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:

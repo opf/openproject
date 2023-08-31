@@ -3,11 +3,11 @@ id:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        auth_source: 'koneksi LDAP'
+        ldap_auth_source: 'LDAP connection'
         sync_users: 'Sinkronkan pengguna'
       ldap_groups/synchronized_filter:
         filter_string: 'penyaring LDAP'
-        auth_source: 'koneksi LDAP'
+        ldap_auth_source: 'LDAP connection'
         group_name_attribute: "Atribut nama grup"
         sync_users: 'Sinkronkan pengguna'
         base_dn: "Cari basis DN"
@@ -51,21 +51,17 @@ id:
         info: "Catatan: Grup OpenProject itu sendiri dan anggota yang ditambahkan di luar sinkronisasi LDAP ini tidak akan dihapus."
         verification: "Masukkan nama grup %{name} untuk memverifikasi penghapusan."
       help_text_html: |
-        This module allows you to set up a synchronization between LDAP and OpenProject groups.
-        It depends on LDAP groups need to use the <em>groupOfNames / memberOf</em> attribute set to be working with OpenProject.
-        <br/>
-        Groups are synchronized hourly through a cron job.
-        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please see our documentation on this topic</a>.
-      no_results: 'No synchronized groups found.'
-      no_members: 'This group has no synchronized members yet.'
-      plural: 'Synchronized LDAP groups'
+        Modul ini memungkinkan Anda mengatur sinkronisasi antara grup LDAP dan OpenProject.  Itu tergantung pada grup LDAP yang perlu menggunakan atribut <em>groupOfNames / memberOf</em> yang disetel untuk bekerja dengan OpenProject.  <br/> Grup disinkronkan setiap jam melalui tugas cron.  <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Lihat dokumentasi kami tentang topik ini</a>.
+      no_results: 'Tidak ditemukan grup tersinkronisasi.'
+      no_members: 'Grup ini belum memiliki anggota yang disinkronkan.'
+      plural: 'Grup LDAP tersinkronisasi'
       singular: 'Grup LDAP tersinkronisasi'
       form:
-        auth_source_text: 'Select which LDAP connection should be used.'
+        auth_source_text: 'Pilih koneksi LDAP mana yang harus digunakan.'
         sync_users_text: >
-          If you enable this option, found users will also be automatically created in OpenProject. Without it, only existing accounts in OpenProject will be added to groups.
-        dn_text: 'Enter the full DN of the group in LDAP'
-        group_text: 'Select an existing OpenProject group that members of the LDAP group shall be synchronized with'
+          Jika Anda mengaktifkan opsi ini, pengguna yang ditemukan juga akan dibuat secara otomatis di OpenProject.  Tanpanya, hanya akun yang ada di OpenProject yang akan ditambahkan ke grup.
+        dn_text: 'Masukkan DN lengkap grup di LDAP'
+        group_text: 'Pilih grup OpenProject yang ada yang akan disinkronkan dengan anggota grup LDAP'
       upsale:
-        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
+        description: 'Manfaatkan grup LDAP tersinkronisasi untuk mengelola pengguna, mengubah izin mereka, dan memfasilitasi pengelolaan pengguna di seluruh grup.'
 

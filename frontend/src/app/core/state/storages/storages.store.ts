@@ -27,14 +27,14 @@
 //++
 
 import { EntityStore, StoreConfig } from '@datorama/akita';
-import { CollectionState, createInitialCollectionState } from 'core-app/core/state/collection-store';
+import { ResourceState, createInitialResourceState } from 'core-app/core/state/resource-store';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 
-export interface StoragesState extends CollectionState<IStorage> {}
+export interface StoragesState extends ResourceState<IStorage> {}
 
 @StoreConfig({ name: 'storages' })
 export class StoragesStore extends EntityStore<StoragesState> {
   constructor() {
-    super(createInitialCollectionState());
+    super(createInitialResourceState());
   }
 }

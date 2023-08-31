@@ -5,7 +5,10 @@ import {
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { take } from 'rxjs/operators';
+import {
+  map,
+  take,
+} from 'rxjs/operators';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
@@ -17,16 +20,19 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 import { TimeEntryModalOptions } from 'core-app/shared/components/time_entries/edit/edit.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class TimeEntryCreateService {
-  constructor(readonly opModalService:OpModalService,
+  constructor(
+    readonly opModalService:OpModalService,
     readonly injector:Injector,
     readonly halResource:HalResourceService,
     readonly apiV3Service:ApiV3Service,
     readonly schemaCache:SchemaCacheService,
     protected halEditing:HalResourceEditingService,
-    readonly i18n:I18nService) {
+    readonly i18n:I18nService,
+  ) {
   }
 
   public create(
@@ -37,7 +43,7 @@ export class TimeEntryCreateService {
     return new Promise<{ entry:TimeEntryResource, action:'create' }>((resolve, reject) => {
       void this
         .createNewTimeEntry(date, wp)
-        .then((changeset) => {
+        .subscribe((changeset) => {
           this.opModalService.show(
             TimeEntryCreateModalComponent,
             this.injector,
@@ -53,14 +59,15 @@ export class TimeEntryCreateService {
                   reject();
                 }
               });
-            });
+          });
         });
     });
   }
 
-  public createNewTimeEntry(date:Moment, wp?:WorkPackageResource):Promise<ResourceChangeset> {
+  public createNewTimeEntry(date:Moment, wp?:WorkPackageResource, ongoing = false):Observable<ResourceChangeset> {
     const payload:any = {
       spentOn: date.format('YYYY-MM-DD'),
+      ongoing,
     };
 
     if (wp) {
@@ -77,8 +84,9 @@ export class TimeEntryCreateService {
       .time_entries
       .form
       .post(payload)
-      .toPromise()
-      .then((form) => this.fromCreateForm(form));
+      .pipe(
+        map((form) => this.fromCreateForm(form)),
+      );
   }
 
   public fromCreateForm(form:FormResource):ResourceChangeset {

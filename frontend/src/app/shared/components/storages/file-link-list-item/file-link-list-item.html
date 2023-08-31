@@ -1,7 +1,6 @@
 <spot-tooltip
   [disabled]="!disabled"
   [alignment]="tooltipAllignment"
-  [light]="true"
   class="spot-list--item-floating-wrapper op-file-list--item-floating-wrapper"
   [ngClass]="{ 'spot-list--item-floating-wrapper_disabled op-file-list--item-floating-wrapper__disabled': disabled }"
 >
@@ -29,8 +28,7 @@
         <span
           class="spot-icon spot-icon_{{fileLinkIcon.icon}} op-files-tab--icon op-files-tab--icon_{{fileLinkIcon.clazz}}"
         ></span>
-
-        <span [textContent]="fileLink.originData.name"></span>
+        <span class="ellipsis" [textContent]="fileLink.originData.name"></span>
       </div>
 
       <span

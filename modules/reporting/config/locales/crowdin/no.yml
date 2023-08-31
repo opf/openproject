@@ -81,6 +81,9 @@
   units: "Enheter"
   validation_failure_date: "er ikke en gyldig dato"
   validation_failure_integer: "er ikke et gyldig heltall"
+  export:
+    cost_reports:
+      title: "Din XLS-eksport av kostnadsrapporter"
   reporting:
     group_by:
       selected_columns: "Valgte kolonner"

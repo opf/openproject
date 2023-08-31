@@ -26,6 +26,8 @@ ca:
         position: "Posició"
         remaining_hours: "Hores restants"
         remaining_time: "Hores restants"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Punts d'història"
         backlogs_work_package_type: "Tipus de backlog"
     errors:
@@ -35,9 +37,6 @@ ca:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "només pot contenir els IDs dels paquets de treball del sprint actual."
               must_block_at_least_one_work_package: "ha de contenir l'ID d'almenys un tiquet."
-            parent_id:
-              parent_child_relationship_across_projects: "no és vàlid perquè el paquet de treball '%{work_package_name}' és una tasca de la llista de pendents i per tant no pot tenir un pare fora el projecte actual."
-              type_must_be_one_of_the_following: "El tipus ha de ser un dels següents: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "ha de ser la mateixa que la versió de la història pare."
         sprint:
@@ -78,7 +77,6 @@ ca:
     x_more: "%{count} més..."
   backlogs_active: "actiu"
   backlogs_any: "qualsevol"
-  backlogs_card_specification: "Tipus d'etiqueta per a impressió de targetes"
   backlogs_inactive: "El projecte no mostra cap activitat"
   backlogs_points_burn_direction: "Punts de progrés positius/negatius"
   backlogs_product_backlog: "Llista de pendents del producte"

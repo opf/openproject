@@ -57,4 +57,4 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render partial: 'no_default_notice', locals: { project: @project } %>
 <% end %>
 
-<%= rails_cell ::Bim::IfcModels::TableCell, @ifc_models %>
+<%= render ::Bim::IfcModels::TableComponent.new(rows: @ifc_models) %>

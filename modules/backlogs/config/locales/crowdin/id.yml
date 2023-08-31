@@ -26,6 +26,8 @@ id:
         position: "Posisi"
         remaining_hours: "Waktu tersisa"
         remaining_time: "Jam tersisa"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Cerita poin"
         backlogs_work_package_type: "Jenis jaminan tersimpan"
     errors:
@@ -35,9 +37,6 @@ id:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "hanya bisa berisi ID paket kerja dalam sprint saat ini."
               must_block_at_least_one_work_package: "harus berisi ID minimal satu tiket."
-            parent_id:
-              parent_child_relationship_across_projects: "tidak valid karena paket kerja '%{work_package_name}' adalah tugas backlog dan oleh karena itu tidak dapat memiliki orang tua di luar proyek saat ini."
-              type_must_be_one_of_the_following: "Jenis harus menjadi salah satu dari berikut ini:%{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "harus sesuai dengan versi orang tua."
         sprint:
@@ -78,7 +77,6 @@ id:
     x_more: "%{count} lebih ..."
   backlogs_active: "aktif"
   backlogs_any: "Apa saja"
-  backlogs_card_specification: "Jenis label untuk pencetakan kartu "
   backlogs_inactive: "Proyek tidak menunjukkan aktivitas"
   backlogs_points_burn_direction: "Poin terbakar habis / turun"
   backlogs_product_backlog: "Backlog produk"

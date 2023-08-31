@@ -74,7 +74,7 @@
     &-actions
       grid-area: actions
       display: flex
-      justify-content: end
+      justify-content: flex-end
 
     &-id
       @include text-shortener()
@@ -98,10 +98,6 @@
 
 .wp-relations--icon
   color: var(--content-icon-link-color)
-
-// Toggle description icon color when expanded
-.wp-relations-controls-section.-expanded .wp-relations--description-icon
-  color: var(--content-icon-link-pressed-color)
 
 .wp-relations-create-button
   margin: 0.25rem 0
@@ -136,7 +132,7 @@
 .wp-relation--description-read-value,
 .wp-relation--description-textarea
   min-height: 60px
-  font-size: 0.875rem
+  font-size: var(--body-font-size)
   line-height: var(--base-line-height)
   padding-top: 10px
 
@@ -145,6 +141,8 @@
 
 .wp-relations-create--form
   display: flex
+  align-items: center
+  justify-content: space-between
 
   .wp-relations-input-section
     margin-right: 10px

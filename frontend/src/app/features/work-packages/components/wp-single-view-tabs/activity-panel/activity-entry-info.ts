@@ -28,6 +28,7 @@
 
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import * as moment from 'moment-timezone';
 
 export class ActivityEntryInfo {
   public date = this.activityDate(this.activity);

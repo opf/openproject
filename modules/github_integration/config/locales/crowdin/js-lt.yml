@@ -39,3 +39,13 @@ lt:
       tab_prs:
         empty: 'Dar nėra susietų įtraukimo užklausų (PR). Susiekite esamą PR naudojant kodą <code>OP#%{wp_id}</code> PR aprašyme arba sukurkite naują PR.'
       github_actions: Veiksmai
+      pull_requests:
+        message: "Pakeitimo užklausa #%{pr_number} %{pr_link} skirta %{repository_link} autoriaus %{github_user_link} buvo %{pr_state}."
+        merged_message: "Pakeitimo užklausą #%{pr_number} %{pr_link} skirtą %{repository_link} naudotojas %{github_user_link}  %{pr_state}."
+        referenced_message: "Pakeitimo užklausa #%{pr_number} %{pr_link} skirta %{repository_link} autoriaus %{github_user_link} turi nuorodą į šį paketą."
+        states:
+          opened: 'atidarė'
+          closed: 'uždarė'
+          draft: 'sukūrė juodraštį'
+          merged: 'suliejo'
+          ready_for_review: 'pažymėjo paruoštu peržiūrai'

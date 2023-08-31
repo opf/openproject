@@ -30,6 +30,7 @@ source 'https://rubygems.org'
 
 ruby '~> 3.2.1'
 
+gem 'ox'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.4.0'
@@ -41,7 +42,7 @@ gem 'ffi', '~> 1.15'
 
 gem 'rdoc', '>= 2.4.2'
 
-gem 'doorkeeper', '~> 5.5.0'
+gem 'doorkeeper', '~> 5.6.6'
 # Maintain our own omniauth due to relative URL root issues
 # see upstream PR: https://github.com/omniauth/omniauth/pull/903
 gem 'omniauth', git: 'https://github.com/opf/omniauth', ref: 'fe862f986b2e846e291784d2caa3d90a658c67f0'
@@ -50,7 +51,7 @@ gem 'request_store', '~> 1.5.0'
 gem 'warden', '~> 1.2'
 gem 'warden-basic_auth', '~> 0.2.1'
 
-gem 'will_paginate', '~> 3.3.0'
+gem 'will_paginate', '~> 4.0.0'
 
 gem 'friendly_id', '~> 5.5.0'
 
@@ -69,7 +70,7 @@ gem 'addressable', '~> 2.8.0'
 gem "auto_strip_attributes", "~> 2.5"
 
 # Provide timezone info for TZInfo used by AR
-gem 'tzinfo-data', '~> 1.2022.1'
+gem 'tzinfo-data', '~> 1.2023.1'
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
@@ -78,7 +79,7 @@ gem 'htmldiff'
 gem 'stringex', '~> 2.8.5'
 
 # CommonMark markdown parser with GFM extension
-gem 'commonmarker', '~> 0.23.7'
+gem 'commonmarker', '~> 0.23.9'
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -90,9 +91,9 @@ gem 'escape_utils', '~> 1.3'
 # Syntax highlighting used in html-pipeline with rouge
 gem 'rouge', '~> 4.1.0'
 # HTML sanitization used for html-pipeline
-gem 'sanitize', '~> 6.0.1'
+gem 'sanitize', '~> 6.0.2'
 # HTML autolinking for mails and urls (replaces autolink)
-gem 'rinku', '~> 2.0.4'
+gem 'rinku', '~> 2.0.4', require: %w[rinku rails_rinku]
 # Version parsing with semver
 gem 'semantic', '~> 1.6.1'
 
@@ -102,7 +103,7 @@ gem 'svg-graph', '~> 2.2.0'
 
 gem 'date_validator', '~> 0.12.0'
 gem 'email_validator', '~> 2.2.3'
-gem 'json_schemer', '~> 0.2.18'
+gem 'json_schemer', '~> 1.0.1'
 gem 'ruby-duration', '~> 3.2.0'
 
 # `config/initializers/mail_starttls_patch.rb` has also been patched to
@@ -113,13 +114,10 @@ gem 'mail', '= 2.8.1'
 # provide compatible filesystem information for available storage
 gem 'sys-filesystem', '~> 1.4.0', require: false
 
-# Faster posix-compliant spawns for 8.0. conversions with pandoc
-gem 'posix-spawn', '~> 0.3.13', require: false
-
 gem 'bcrypt', '~> 3.1.6'
 
 gem 'multi_json', '~> 1.15.0'
-gem 'oj', '~> 3.14.0'
+gem 'oj', '~> 3.15.0'
 
 gem 'daemons'
 gem 'delayed_cron_job', '~> 0.9.0'
@@ -154,13 +152,10 @@ gem 'structured_warnings', '~> 0.4.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 13.0.0', require: false
 
-gem 'prawn', '~> 2.2'
-gem 'prawn-markup', '~> 0.3.0'
+gem 'prawn', '~> 2.4'
+gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: 'cc286655dfa2ea2b30bf2a149063f42f7081aa3d'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
-
-gem 'cells-erb', '~> 0.1.0'
-gem 'cells-rails', '~> 0.1.4'
 
 gem 'meta-tags', '~> 2.18.0'
 
@@ -172,7 +167,7 @@ group :production do
   gem 'dalli', '~> 3.2.0'
 end
 
-gem 'i18n-js', '~> 3.9.0'
+gem 'i18n-js', '~> 4.2.3'
 gem 'rails-i18n', '~> 7.0.0'
 
 gem 'sprockets', '~> 3.7.2' # lock sprockets below 4.0
@@ -182,7 +177,7 @@ gem 'puma', '~> 6.1'
 gem 'puma-plugin-statsd', '~> 2.0'
 gem 'rack-timeout', '~> 0.6.3', require: "rack/timeout/base"
 
-gem 'nokogiri', '~> 1.14.0'
+gem 'nokogiri', '~> 1.15.1'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
@@ -192,31 +187,39 @@ gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
 gem 'aws-sdk-s3', '~> 1.91'
 
-gem 'openproject-token', '~> 2.2.0'
+gem 'openproject-token', '~> 3.0.1'
 
 gem 'plaintext', '~> 0.3.2'
 
 gem 'rest-client', '~> 2.0'
 
-gem 'ruby-progressbar', '~> 1.12.0', require: false
+gem 'ruby-progressbar', '~> 1.13.0', require: false
 
 gem 'mini_magick', '~> 4.12.0', require: false
 
 gem 'validate_url'
 
+# ActiveRecord extension which adds typecasting to store accessors
+gem "store_attribute", "~> 1.0"
+
 # Appsignal integration
 gem "appsignal", "~> 3.0", require: false
 
 gem 'view_component'
+# Lookbook
+gem 'lookbook', '~> 2.0.5'
+
+gem 'turbo-rails', "~> 1.1"
 
 group :test do
   gem 'launchy', '~> 2.5.0'
-  gem 'rack-test', '~> 2.0.0'
+  gem 'rack-test', '~> 2.1.0'
   gem 'shoulda-context', '~> 2.0'
 
   # Test prof provides factories from code
   # and other niceties
   gem 'test-prof', '~> 1.2.0'
+  gem 'turbo_tests', github: "crohr/turbo_tests", ref: "fix/runtime-info"
 
   gem 'rack_session_access'
   gem 'rspec', '~> 3.12.0'
@@ -227,16 +230,22 @@ group :test do
   gem 'retriable', '~> 3.1.1'
   gem 'rspec-retry', '~> 0.6.1'
 
+  # Modify ENV
+  gem 'climate_control'
+
   # XML comparison tests
   gem 'compare-xml', '~> 0.66', require: false
+
+  # PDF Export tests
+  gem 'pdf-inspector', '~> 1.2'
 
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.38.0'
+  gem 'capybara', '~> 3.39.0'
   gem 'capybara-screenshot', '~> 1.0.17'
-  gem 'selenium-webdriver', '~> 4.0'
-  gem 'webdrivers', '~> 5.2.0'
+  gem 'cuprite', '~> 0.14.3'
+  gem 'selenium-webdriver', '~> 4.11.0'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
@@ -245,7 +254,7 @@ group :test do
   gem 'webmock', '~> 3.12', require: false
 
   # Mock selenium requests through proxy (for feature tests)
-  gem 'puffing-billy', '~> 3.0.0'
+  gem 'puffing-billy', '~> 3.1.0'
   gem 'table_print', '~> 1.5.6'
 
   gem 'equivalent-xml', '~> 0.6'
@@ -256,7 +265,7 @@ group :test do
 end
 
 group :ldap do
-  gem 'net-ldap', '~> 0.17.0'
+  gem 'net-ldap', '~> 0.18.0'
 end
 
 group :development do
@@ -267,11 +276,10 @@ group :development do
   gem 'spring'
   gem 'spring-commands-rspec'
 
-  # Gems for living styleguide
-  gem 'livingstyleguide', '~> 2.1.0'
-  gem 'sassc-rails'
-
   gem 'colored2'
+
+  # git hooks manager
+  gem 'lefthook', require: false
 end
 
 group :development, :test do
@@ -299,11 +307,8 @@ group :development, :test do
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
 
-  # git hooks manager
-  gem 'lefthook', require: false
-
   # Brakeman scanner
-  gem 'brakeman', '~> 5.4.0'
+  gem 'brakeman', '~> 6.0.0'
 end
 
 gem 'bootsnap', '~> 1.16.0', require: false
@@ -314,7 +319,7 @@ gem 'grape_logging', '~> 1.8.4'
 gem 'roar', '~> 1.2.0'
 
 # CORS for API
-gem 'rack-cors', '~> 1.1.1'
+gem 'rack-cors', '~> 2.0.0'
 
 # Gmail API
 gem 'google-apis-gmail_v1', require: false
@@ -325,11 +330,11 @@ gem 'disposable', '~> 0.6.2'
 
 platforms :mri, :mingw, :x64_mingw do
   group :postgres do
-    gem 'pg', '~> 1.4.0'
+    gem 'pg', '~> 1.5.0'
   end
 
   # Support application loading when no database exists yet.
-  gem 'activerecord-nulldb-adapter', '~> 0.8.0'
+  gem 'activerecord-nulldb-adapter', '~> 0.9.0'
 
   # Have application level locks on the database to have a mutex shared between workers/hosts.
   # We e.g. employ this to safeguard the creation of journals.
@@ -347,3 +352,7 @@ gemfiles.each do |file|
   # don't use eval_gemfile(file) here as it will break dependabot!
   send(:eval_gemfile, file) if File.readable?(file)
 end
+
+gem "openproject-primer_view_components", '~>0.7.0'
+gem "openproject-octicons", '~>19.6.7'
+gem "openproject-octicons_helper", '~>19.6.7'

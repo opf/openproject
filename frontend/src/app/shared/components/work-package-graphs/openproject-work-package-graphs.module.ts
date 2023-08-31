@@ -37,9 +37,9 @@ import { WpGraphConfigurationFiltersTabInnerComponent } from 'core-app/shared/co
 import { WpGraphConfigurationSettingsTabInnerComponent } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/settings-tab-inner.component';
 import { WorkPackageEmbeddedGraphComponent } from 'core-app/shared/components/work-package-graphs/embedded/wp-embedded-graph.component';
 import { WorkPackageOverviewGraphComponent } from 'core-app/shared/components/work-package-graphs/overview/wp-overview-graph.component';
-import { ChartsModule } from 'ng2-charts';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   imports: [
@@ -49,7 +49,7 @@ import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproje
 
     OpenprojectWorkPackagesModule,
 
-    ChartsModule,
+    NgChartsModule,
     OpenprojectTabsModule,
   ],
   declarations: [

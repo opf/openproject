@@ -26,6 +26,8 @@ uk:
         position: "Позиція"
         remaining_hours: "Залишилися години"
         remaining_time: "Залишилися години"
+        derived_remaining_hours: "Отриманий залишок годин"
+        derived_remaining_time: "Отриманий залишок годин"
         story_points: "Точки історії"
         backlogs_work_package_type: "Тип Backlog-у"
     errors:
@@ -35,9 +37,6 @@ uk:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "може містити лише ідентифікатори робочих пакетів у поточному спринті."
               must_block_at_least_one_work_package: "повинен містити ідентифікатор принаймні одного ticket-а."
-            parent_id:
-              parent_child_relationship_across_projects: "є недійсним, оскільки робочий пакет '%{work_package_name}' є завданням backlog-у і тому не може мати батька поза поточним проектом."
-              type_must_be_one_of_the_following: "Тип має бути одним з наступних: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "має бути така сама як батьківська версія історії."
         sprint:
@@ -78,7 +77,6 @@ uk:
     x_more: "%{count} більше..."
   backlogs_active: "активний"
   backlogs_any: "будь-який"
-  backlogs_card_specification: "Типи міток для друку карт"
   backlogs_inactive: "Проект не показує активності"
   backlogs_points_burn_direction: "Бали спалюються вгору/вниз"
   backlogs_product_backlog: "Backlog продукту"

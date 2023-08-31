@@ -30,7 +30,7 @@ import {
   Component, ElementRef, Injector, OnInit,
 } from '@angular/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { State } from 'reactivestates';
+import { State } from '@openproject/reactivestates';
 import { combineLatest } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { States } from 'core-app/core/states/states.service';

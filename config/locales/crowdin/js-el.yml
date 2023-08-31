@@ -65,6 +65,8 @@ el:
     button_confirm: "Επιβεβαίωση"
     button_continue: "Συνέχεια"
     button_copy: "Αντιγραφή"
+    button_copy_to_clipboard: "Αντιγραφή στο πρόχειρο"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Προσαρμοσμένα πεδία"
     button_delete: "Διαγραφή"
@@ -105,7 +107,7 @@ el:
       remove_from_list: 'Αφαίρεση κάρτας από τη λίστα'
     caption_rate_history: "Ιστορικό αμοιβής"
     clipboard:
-      browser_error: "Ο περιηγητής σας δεν υποστηρίζει αντιγραφή από το clipboard. Παρακαλούμε αντιγράψτε το επιλεγμένο κείμενο χειροκίνητα."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Αντιγράφηκε επιτυχώς στο πρόχειρο!"
     chart:
       type: 'Τύπος διαγράμματος'
@@ -227,7 +229,7 @@ el:
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Γίνετε ήρωας!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
@@ -293,6 +295,34 @@ el:
           one: "Πρώτο κριτήριο ταξινόμησης"
           two: "Δεύτερο κριτήριο ταξινόμησης"
           three: "Τρίτο κριτήριο ταξινόμησης"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "όχι"
     general_text_yes: "ναι"
     general_text_No: "Όχι"
@@ -311,11 +341,22 @@ el:
           learn_about: "Μάθετε περισσότερα για τις νέες λειτουργίες"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to calendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Ενεργοποίηση"
     label_assignee: 'Ανάθεση σε'
     label_add_column_after: "Προσθήκη στήλης μετά"
@@ -492,7 +533,7 @@ el:
     label_remove_all_files: Διαγράψτε όλα τα αρχεία
     label_add_description: "Προσθέστε περιγραφή για το αρχείο %{file}"
     label_upload_notification: "Μεταφόρτωση αρχείων..."
-    label_work_package_upload_notification: "Μεταφόρτωση αρχείων για το Πακέτο εργασίας #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Μεταφόρτωση αρχείων για το Πακέτο εργασίας #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} προστέθηκε από %{author}"
     label_files_to_upload: "Τα αρχεία αυτά θα μεταφορτωθούν:"
     label_rejected_files: "Δεν ήταν δυνατή η μεταφόρτωση αυτών των αρχείων:"
@@ -725,6 +766,14 @@ el:
     time_entry:
       work_package_required: 'Πρέπει πρώτα να επιλεγεί ένα πακέτο εργασίας.'
       title: 'Καταγραφή χρόνου'
+      tracking: 'Παρακολούθηση χρόνου'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Ταυτοποίηση δύο παραγόντων'
     watchers:
@@ -783,7 +832,8 @@ el:
     autocompleter:
       placeholder: "Πληκτρολογήστε για αναζήτηση"
       notFoundText: "No items found"
-      typeToSearchText: "Πληκτρολογήστε για αναζήτηση"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Επιλογή σήμανσης'
       select_branch: 'Επιλογή κλάδου'
@@ -801,63 +851,6 @@ el:
       activate_no: 'ενεργοποιήστε για να αφαιρέσετε την ταξινόμηση'
     text_work_packages_destroy_confirmation: "Είστε βέβαιοι ότι θέλετε να διαγράψετε το(-α) επιλεγμένο(-α) πακέτο(-α) εργασίας;"
     text_query_destroy_confirmation: "Είστε σίγουροι ότι θέλετε να διαγράψετε την επιλεγμένη προβολή;"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Διάγραμμα Gantt'
-      labels:
-        title: 'Διαμόρφωση ετικέτας'
-        bar: 'Ετικέτες μπάρας'
-        left: 'Αριστερά'
-        right: 'Δεξιά'
-        farRight: 'Πολύ δεξιά'
-        showNone: '-- Χωρίς ετικέτας --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Εμφάνιση διαγράμματος Gantt'
-      button_deactivate: 'Απόκρυψη διαγράμματος Gantt'
-      cancel: Ακύρωση
-      change: "Αλλαγή στο σχεδιασμό"
-      due_date: "Ημερομηνία λήξης"
-      empty: "(άδειο)"
-      error: "Παρουσιάστηκε σφάλμα."
-      errors:
-        not_implemented: "Το χρονοδιάγραμμα δεν μπόρεσε να επεξεργαστεί γιατί χρησιμοποιεί μια λειτουργία που δεν μπορεί να εφαρμοστεί ακόμη."
-        report_comparison: "Το χρονοδιάγραμμα δεν θα μπορούσε να αποδώσει τις διαμορφωμένες συγκρίσεις. Ελέγξτε την κατάλληλη ενότητα στη διαμόρφωση, επαναφέροντας την μπορεί να βοηθήσει στην επίλυση αυτού του προβλήματος."
-        report_epicfail: "Το χρονοδιάγραμμα δεν ήταν δυνατό να φορτωθεί λόγω απροσδόκητου σφάλματος."
-        report_timeout: "Το χρονοδιάγραμμα δεν ήταν δυνατό να φορτωθεί μέσα σε ένα λογικό χρονικό πλαίσιο."
-      filter:
-        grouping_other: "Άλλο"
-        noneSelection: "(κανένα)"
-      name: "Όνομα"
-      outline: "Επαναφορά Περιγράμματος"
-      outlines:
-        aggregation: "Εμφάνιση συναθροίσεων μόνο"
-        level1: "Επίπεδο επέκτασης 1"
-        level2: "Επίπεδο επέκτασης 2"
-        level3: "Επίπεδο επέκτασης 3"
-        level4: "Επίπεδο επέκτασης 4"
-        level5: "Επίπεδο επέκτασης 5"
-        all: "Εμφάνιση όλων"
-      project_status: "Κατάσταση έργου"
-      really_close_dialog: "Είστε βέβαιοι ότι θέλετε να κλείσετε αυτό το παράθυρο διαλόγου και να χάσετε όλα τα δεδομένα που εισάγατε;"
-      responsible: "Υπεύθυνος"
-      save: Αποθήκευση
-      start_date: "Ημερομηνία έναρξης"
-      tooManyProjects: "Περισσότερα από %{count} έργα. Παρακαλούμε χρησιμοποιήστε ένα καλύτερο φίλτρο!"
-      selection_mode:
-        notification: 'Κάντε κλικ σε οποιοδήποτε πακέτο εργασίας για να δημιουργήσετε τη συσχέτιση. Πατήστε το πλήκτρο escape για ακύρωση.'
-      zoom:
-        in: "Μεγέθυνση"
-        out: "Σμίκρυνση"
-        auto: "Αυτόματη μεγέθυνση"
-        days: "Ημέρες"
-        weeks: "Εβδομάδες"
-        months: "Μήνες"
-        quarters: "Τρίμηνα"
-        years: "Χρόνια"
-        slider: "Slider μεγέθυνσης"
-        description: >
-          Επιλέξτε το αρχικό επίπεδο μεγέθυνσης που θα πρέπει να εμφανίζεται όταν η αυτόματη μεγέθυνση δεν είναι διαθέσιμη.
     tl_toolbar:
       zooms: "Επίπεδο μεγέθυνσης"
       outlines: "Επίπεδο Ιεραρχίας"
@@ -918,8 +911,15 @@ el:
       message_work_package_read_only: "Το πακέτο εργασίας είναι κλειδωμένο σε αυτή την κατάσταση. Κανένα χαρακτηριστικό εκτός από την κατάσταση δεν μπορεί να αλλαχθεί."
       message_work_package_status_blocked: "Η κατάσταση του πακέτου εργασίας δεν είναι εγγράψιμη λόγω κλειστής κατάστασης και εκχωρημένης έκδοσης."
       placeholder_filter_by_text: "Θέμα, περιγραφή, σχόλια, ..."
+      baseline:
+        addition_label: 'Added to view within the comparison time period'
+        removal_label: 'Removed from view within the comparison time period'
+        modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Φιλτράρισμα πακέτων εργασίας'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Πατήστε εδώ για να προσθέσετε ένα καινούργιο πακέτο εργασίας σε αυτή τη λίστα'
       create:
@@ -1080,6 +1080,7 @@ el:
         save_as: "Αποθήκευση ως"
         export: "Εξαγωγή"
         visibility_settings: "Ρυθμίσεις ορατότητας"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Μετονομασία προβολής"
         delete: "Διαγραφή"
       filter: "Φίλτρο"
@@ -1156,10 +1157,11 @@ el:
       button_deactivate: 'Απενεργοποίηση λειτουργίας zen'
     global_search:
       all_projects: "Σε όλα τα έργα"
-      search: "Αναζήτηση"
       close_search: "Κλείσιμο αναζήτησης"
-      current_project: "Σε αυτό το έργο"
       current_project_and_all_descendants: "Σε αυτό το έργο + υποέργα"
+      current_project: "Σε αυτό το έργο"
+      recently_viewed: "Recently viewed"
+      search: "Αναζήτηση"
       title:
         all_projects: "όλα τα έργα"
         project_and_subprojects: "και όλα τα υποέργα"
@@ -1248,6 +1250,38 @@ el:
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
       no_results: 'No project matches your search criteria.'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: 'Εκκαθάριση'
+      apply: 'Εφαρμογή'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
+      show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
+      time: 'Ώρα'
+      from: 'Από'
+      to: 'Έως'
+      drop_down:
+        none: '-'
+        yesterday: 'χθες'
+        last_working_day: 'last working day'
+        last_week: 'προηγούμενη εβδομάδα'
+        last_month: 'τελευταίος μήνα'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
+      legends:
+        changes_since: 'Changes since'
+        changes_between: 'Changes between'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
+        in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'Η φόρμα υποβλήθηκε με επιτυχία'
       load_error_message: 'There was an error loading the form'

@@ -3,9 +3,20 @@ cs:
   permission_view_file_links: "Zobrazit odkazy na soubor"
   permission_manage_file_links: "Správa odkazů souborů"
   permission_manage_storages_in_project: "Spravovat úložiště souborů v projektu"
+  permission_read_files: "Číst soubory"
+  permission_write_files: "Zapisovat soubory"
+  permission_create_files: "Vytvořit soubory"
+  permission_delete_files: "Odstranit soubory"
+  permission_share_files: "Sdílet soubory"
   project_module_storages: "Úložiště souborů"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Not authorized for external connection to storage."
+        not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
+      file_link: "File"
       storages/storage: "Úložiště"
     attributes:
       storages/storage:
@@ -28,6 +39,9 @@ cs:
                 Zdá se, že aplikace "OpenProject integration" není nainstalována. Prosím nainstalujte ji a zkuste to znovu.
               authorization_header_missing: >
                 is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
+            password:
+              invalid_password: "není platné."
+              unknown_error: "could not be validated. Please check your storage connection and try again."
         storages/file_link:
           attributes:
             origin_id:
@@ -36,22 +50,45 @@ cs:
     errors:
       too_many_elements_created_at_once: "Příliš mnoho prvků vytvořených najednou. Očekáváno nanejvýš %{max} , získáno %{actual}."
   storages:
+    unknown_storage: "Unknown storage"
     buttons:
       done_continue_setup: "Hotovo. Pokračovat v nastavení"
+      done_complete_setup: "Hotovo, kompletní nastavení"
+      edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Nahradit OpenProject OAuth"
       replace_provider_type_oauth: "Nahradit %{provider_type} OAuth"
       save_and_continue_setup: "Uložit a pokračovat v nastavení"
       save_and_complete_setup: "Uložit a dokončit nastavení"
+      select_folder: "Vyberte složku"
+      configure: "Konfigurace"
     page_titles:
+      managed_project_folders:
+        title: "Automatically managed project folders"
+        subtitle: >
+          Let OpenProject create folders per project automatically. This is recommended as it ensures that every team member always has the correct access permissions.
       project_settings:
         index: "Úložiště souborů v tomto projektu"
         new: "Přidat úložiště souborů k tomuto projektu"
+        edit: "Upravit úložiště souborů pro tento projekt"
+        delete: "Odstranit úložiště souborů"
+        members_connection_status: "Members connection status"
+      project_storage_members:
+        title: "Members connection status"
+        subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
     instructions:
       type: "Ujistěte se prosím, že máte oprávnění administrace v Nextcloud instanci a máte nainstalovanou následující aplikaci:"
       type_link_text: "„Integration OpenProject“"
       name: "Dejte svému úložišti jméno, aby uživatelé mohli rozlišovat mezi více úložišti."
       host: "Přidejte prosím adresu hostitele vašeho úložiště obsahující https://. Nemělo by být delší než 255 znaků."
-      no_storage_set_up: "There are no file storages set up yet."
+      managed_project_folders_application_password: >
+        Zkopírovat tuto hodnotu z:
+      no_storage_set_up: "Dosud nejsou nastaveny žádné úložiště souborů."
+      no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
+      automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
+      empty_project_folder_validation: "Výběr složky je povinný pro pokračování."
+      not_logged_into_storage: "Pro výběr složky projektu se prosím nejprve přihlaste"
+      existing_manual_folder: >
+        You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "Pro nastavení dalších úložišť souborů navštivte prosím"
       setting_up_additional_storages_non_admin: "Administrátoři mohou nastavit další úložiště souborů v administraci / Úložiště souborů."
       setting_up_storages: "Pro nastavení úložišť souborů navštivte prosím"
@@ -60,26 +97,51 @@ cs:
       copy_from: "Zkopírovat tuto hodnotu z"
       nextcloud:
         integration: "Nextcloud Administrace / OpenProject"
+    help_texts:
+      project_folder: >
+        The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     delete_warning:
       storage: >
         Jste si jisti, že chcete smazat toto úložiště? Toto také odstraní úložiště ze všech projektů, kde je použito. Dále také smaže všechny odkazy z pracovních balíčků do souborů, které jsou uloženy v úložišti.
       project_storage: >
-        Jste si jisti, že chcete odstranit úložiště souborů z tohoto projektu? Tímto také odstraníte všechny odkazy na soubory uložené v tomto úložišti pro tento projekt.
+        Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:
+      project_storage_delete_result_1: "Odstraňte všechny odkazy z pracovních balíčků tohoto projektu do souborů a složek tohoto úložiště."
+      project_storage_delete_result_2: "In case this storage has an automatically managed project folder, this and its files will be deleted forever."
+      input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
+      irreversible_notice: "Smazání úložiště souborů je nevratná akce."
+    label_active: "Aktivní"
+    label_inactive: "Neaktivní"
     label_creator: "Vytvořil"
     label_file_link: "Odkaz na soubor"
     label_file_links: "Odkazy na soubor"
     label_name: "Název:"
     label_host: "URL adresa hostitele"
+    label_managed_project_folders:
+      automatically_managed_folders: "Automatically managed folders"
+      application_password: "Heslo aplikace"
+    label_managed_project_folders_breadcrumb: "Automatically managed project folders"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
     label_oauth_application_details: "Podrobnosti OAuth aplikace"
     label_oauth_client_details: "Podrobnosti OAuth klienta"
     label_provider_type: "Typ poskytovatele"
+    label_project_folder: "Složka projektu"
     label_new_storage: "Nové úložiště"
+    label_existing_manual_folder: "Existing folder with manually managed permissions"
+    label_no_specific_folder: "Žádná specifická složka"
+    label_automatic_folder: "New folder with automatically managed permissions"
+    label_no_selected_folder: "Žádná vybraná složka"
     label_storage: "Úložiště"
     label_storages: "Úložiště"
-    no_results: "No storages set up yet."
+    label_status: "Status"
+    label_files: "Files"
+    member_connection_status:
+      connected: "Connected"
+      connected_no_permissions: "User role has no storages permissions"
+      not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
+    no_results: "Zatím nejsou nastaveny žádné úložiště."
+    members_no_results: "No members to display."
     provider_types:
       label: "Typ poskytovatele"
       nextcloud:
@@ -89,4 +151,5 @@ cs:
     confirm_replace_oauth_application: "Jste si jisti? Všichni uživatelé se budou muset znovu autorizovat proti OpenProject."
     confirm_replace_oauth_client: "Jste si jisti? Všichni uživatelé budou muset znovu autorizovat proti úložišti."
     oauth_client_details_missing: "Chcete-li dokončit nastavení, přidejte prosím přihlašovací údaje OAuth klienta z vašeho úložiště."
+    automatically_managed_project_folder_missing: "To complete the setup, please configure automatically managed project folders for your storage."
     notice_oauth_application_replaced: "OpenProject OAuth aplikace byla úspěšně nahrazena."

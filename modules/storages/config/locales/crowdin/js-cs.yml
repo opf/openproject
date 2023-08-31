@@ -3,10 +3,10 @@ cs:
   js:
     storages:
       link_files_in_storage: "Prolinkovat soubory v"
-      link_existing_files: "Link existing files"
+      link_existing_files: "Odkaz na existující soubory"
       upload_files: "Nahrát soubory"
       drop_files: "Přetáhněte soubory pro jejich nahrání na %{name}."
-      drop_or_click_files: "Drop files here or click to upload them to %{name}."
+      drop_or_click_files: "Přetáhněte soubory sem nebo klikněte pro jejich nahrání do %{name}."
       login: "%{storageType} přihlášení"
       login_to: "Přihlásit se k %{storageType}"
       no_connection: "Žádné připojení %{storageType}"
@@ -15,6 +15,7 @@ cs:
       choose_location: "Vyberte lokalitu"
       types:
         nextcloud: "Nextcloud"
+        default: "Úložiště"
       information:
         connection_error: >
           Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
@@ -30,9 +31,16 @@ cs:
           A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
         directory_not_writeable: "Nemáte oprávnění přidávat soubory do této složky."
         dragging_many_files: "The upload to %{storageType} supports only one file at once."
+        dragging_folder: "The upload to %{storageType} does not support folders."
         empty_folder: "Tato složka je prázdná."
         empty_folder_location_hint: "Klikněte na tlačítko níže pro nahrání souboru do tohoto umístění."
         file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
+        project_folder_no_access: >
+          Nemáte přístup ke složce projektu. Obraťte se na svého administrátora pro získání přístupu nebo nahrajte soubor do jiného umístění.
+        managed_project_folder_not_available: >
+          The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
+        managed_project_folder_no_access: >
+          You have no access yet to the managed project folder. Please wait a bit and try again.
         upload_keep_both: "Zachovat obojí"
         upload_replace: "Nahradit"
       file_links:

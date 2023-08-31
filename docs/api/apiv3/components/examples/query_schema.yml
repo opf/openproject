@@ -225,6 +225,12 @@ value:
     type: String
     writable: true
     deprecated: true
+  timestamps:
+    hasDefault: true
+    name: Timestamps
+    required: false
+    type: "[]Timestamp"
+    writable: true
   updatedAt:
     hasDefault: false
     name: Updated on

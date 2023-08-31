@@ -1,0 +1,34 @@
+<section
+  data-augmented-model-wrapper
+  data-activation-selector=".log-response-<%= id %>-modal--activation-link"
+  data-modal-class-name="webhooks--response-body-modal"
+>
+  <a class="log-response-<%= id %>-modal--activation-link" title="<%= title %>">
+    <%= helpers.op_icon('icon-info1') %>
+    <%= t(:button_show) %>
+  </a>
+  <div class="modal-delivery-element">
+    <div class="spot-modal--header">
+     <h1 class="spot-subheader-big"> <%= title %> </h1>
+    </div>
+    <div class="spot-divider"></div>
+    <div class="spot-modal--body spot-container">
+      <h2 class="spot-subheader-extra-small">Headers</h2>
+      <pre class="webhooks--response-headers"><%- response_headers.each do |k, v| -%><strong><%=h k -%></strong>:  <span><%=h v -%></span><br/><%- end -%></pre>
+        <div class="spot-divider"></div>
+      <h2 class="spot-subheader-extra-small">Response body</h2>
+      <pre class="webhooks--response-body"><%= response_body %></pre>
+    </div>
+    <div class="spot-action-bar hidden-for-mobile">
+      <div class="spot-action-bar--right">
+        <button
+          class="button button_no-margin spot-action-bar--action spot-modal--cancel-button"
+          title="<%= t(:button_close) %>"
+          dynamic-content-modal-close-button
+        >
+          <%= t(:button_close) %>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

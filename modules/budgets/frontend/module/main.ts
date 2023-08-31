@@ -26,7 +26,7 @@
 
 import { Injector, NgModule } from '@angular/core';
 import { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
-import { multiInput } from 'reactivestates';
+import { multiInput } from '@openproject/reactivestates';
 import { PlannedCostsFormAugment } from 'core-app/features/plugins/linked/budgets/augment/planned-costs-form';
 import { CostBudgetSubformAugmentService } from 'core-app/features/plugins/linked/budgets/augment/cost-budget-subform.augment.service';
 import { CostSubformAugmentService } from './augment/cost-subform.augment.service';

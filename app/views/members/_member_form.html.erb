@@ -29,8 +29,12 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= labelled_tabular_form_for(:member, url: main_app.project_members_path,
                               method: :post,
-                              html: { id: "members_add_form", class: "form -vertical -bordered -medium-compressed" }) do |f| %>
-    <a title="<%= t('js.close_form_title') %>" class="hide-member-form-button form--close icon-context icon-close"></a>
+                              html: { id: "members_add_form",
+                                      class: "form -vertical -bordered -medium-compressed"},
+                              data: { 'members-form-target': 'addMemberForm' }) do |f| %>
+    <a title="<%= t('js.close_form_title') %>"
+       class="hide-member-form-button form--close icon-context icon-close"
+       data-action="members-form#hideAddMemberForm"></a>
     <div id="new-member-message"></div>
     <div class="grid-block">
       <div class="grid-content medium-5 small-12 collapse -flex">
@@ -56,7 +60,15 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
       <div class="grid-content medium-8 small-12 -flex -with-button">
         <div class="form--field">
-          <%= styled_label_tag :member_role_ids, t(:label_role_search) %>
+          <%= styled_label_tag :member_role_ids do %>
+            <%= content_tag :span, t(:label_role_search) %>
+            <%= angular_component_tag 'attribute-help-text',
+                                      inputs: {
+                                        attribute: 'members',
+                                        attributeScope: 'Project'
+                                      }
+            %>
+          <% end %>
           <div class="form--field-container">
             <div class="form--select-container -auto">
               <% options = roles.collect { |obj| [obj.name, obj.id] } %>

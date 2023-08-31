@@ -5,8 +5,8 @@ lt:
       remove: 'Išimti valdiklį'
       configure: 'Valdiklio nustatymai'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
-        link: 'Enterprise edition.'
+        text: "Kai kurie valdikliai, pavyzdžiui darbo paketų grafo valdiklis, galimi tik Enterprise versijoje."
+        link: 'Enterprise versija.'
       widgets:
         custom_text:
           title: 'Pritaikytas tekstas'

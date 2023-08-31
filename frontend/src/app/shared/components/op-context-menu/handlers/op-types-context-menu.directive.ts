@@ -47,11 +47,15 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
 
   @Input('dropdownActive') active:boolean;
 
-  constructor(readonly elementRef:ElementRef,
+  public isOpen = false;
+
+  constructor(
+    readonly elementRef:ElementRef,
     readonly opContextMenu:OPContextMenuService,
     readonly browserDetector:BrowserDetector,
     readonly wpCreate:WorkPackageCreateService,
-    readonly $state:StateService) {
+    readonly $state:StateService,
+  ) {
     super(elementRef, opContextMenu);
   }
 
@@ -69,13 +73,19 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
   }
 
   protected open(evt:JQuery.TriggeredEvent) {
-    this
-      .wpCreate
-      .getEmptyForm(this.projectIdentifier)
-      .then((form) => {
-        this.buildItems(form.schema.type.allowedValues);
-        this.opContextMenu.show(this, evt);
-      });
+    this.isOpen = !this.isOpen;
+    if (this.isOpen) {
+      void this
+        .wpCreate
+        .getEmptyForm(this.projectIdentifier)
+        .then((form) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          this.buildItems(form.schema.type.allowedValues as TypeResource[]);
+          this.opContextMenu.show(this, evt);
+        });
+    } else {
+      this.opContextMenu.close();
+    }
   }
 
   public get locals():{ showAnchorRight?:boolean, contextMenuId?:string, items:OpContextMenuItem[] } {
@@ -93,6 +103,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
       ariaLabel: type.name,
       class: Highlighting.inlineClass('type', type.id!),
       onClick: ($event:JQuery.TriggeredEvent) => {
+        this.isOpen = false;
         if (isClickedWithModifier($event)) {
           return false;
         }

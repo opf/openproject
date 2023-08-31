@@ -1,6 +1,9 @@
 #English strings go here
 hu:
+  label_calendar: "Naptár"
   label_calendar_plural: "Naptárak"
+  label_new_calendar: "New calendar"
   permission_view_calendar: "Naptárak megtekintése"
   permission_manage_calendars: "Naptárak kezelése"
-  project_module_calendar_view: "Naptár"
+  permission_share_calendars: "Subscribe to iCalendars"
+  project_module_calendar_view: "Naptárak"

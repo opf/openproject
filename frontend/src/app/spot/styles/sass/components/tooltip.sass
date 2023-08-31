@@ -9,7 +9,6 @@
     pointer-events: none
     // This keeps the element rendered in the DOM and thus readable by screen readers
     opacity: 0.001
-    width: 80%
 
     transition-property: transform, opacity
     transition-timing-function: ease
@@ -20,8 +19,8 @@
     height: auto
 
     box-shadow: $spot-shadow-light-low
-    background: $spot-color-basic-gray-1
-    color: $spot-color-basic-white
+    color: $spot-color-basic-gray-1
+    background: $spot-color-main-light
     border-radius: 5px
 
     display: flex
@@ -99,6 +98,6 @@
   &:hover &--body_bottom-center
       transform: translateX(-50%) translateY(0)
 
-  &_light &--body
-    color: $spot-color-basic-gray-1
-    background: $spot-color-main-light
+  &_dark &--body
+    background: $spot-color-basic-gray-1
+    color: $spot-color-basic-white

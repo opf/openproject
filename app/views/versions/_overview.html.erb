@@ -65,6 +65,9 @@ See COPYRIGHT and LICENSE files for more details.
                    t(:label_x_open_work_packages_abbr, count: version.open_issues_count),
                    project_work_packages_open_version_path(version)) %>
     (<%= '%0.0f' % (version.open_issues_count.to_f / version.work_packages.count * 100) %>%)
+    <% if version.projects.archived.exists? %>
+      <%= op_icon('icon-warning', title: I18n.t('versions.overview.work_packages_in_archived_projects')) %>
+    <% end %>
   </p>
 <% else %>
   <%= no_results_box %>

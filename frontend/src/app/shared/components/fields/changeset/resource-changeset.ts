@@ -26,19 +26,27 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { input, InputState } from 'reactivestates';
+import {
+  input,
+  InputState,
+} from '@openproject/reactivestates';
 import { take } from 'rxjs/operators';
 
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { ChangeItem, ChangeMap, Changeset } from 'core-app/shared/components/fields/changeset/changeset';
+import {
+  ChangeItem,
+  ChangeMap,
+  Changeset,
+} from 'core-app/shared/components/fields/changeset/changeset';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { SchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { IHalOptionalTitledLink } from 'core-app/core/state/hal-resource';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { firstValueFrom } from 'rxjs';
 
 export const PROXY_IDENTIFIER = '__is_changeset_proxy';
 
@@ -76,9 +84,11 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * */
   protected schemaCache:SchemaCacheService;
 
-  constructor(pristineResource:T,
+  constructor(
+    pristineResource:T,
     public readonly state?:InputState<ResourceChangeset<T>>,
-    loadedForm:FormResource|null = null) {
+    loadedForm:FormResource|null = null,
+  ) {
     this.updatePristineResource(pristineResource);
 
     this.schemaCache = (pristineResource.injector).get(SchemaCacheService);
@@ -143,11 +153,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       return this.updateForm();
     }
 
-    return this
-      .form$
-      .values$()
-      .pipe(take(1))
-      .toPromise();
+    return firstValueFrom(this.form$.values$());
   }
 
   /**
@@ -162,6 +168,12 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   protected updateForm():Promise<FormResource> {
     const payload = this.buildPayloadFromChanges();
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (!this.pristineResource.$links.update) {
+      return Promise.reject();
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const promise = this.pristineResource
       .$links
       .update(payload)
@@ -171,7 +183,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
         this.setNewDefaults(form);
         this.push();
         return form;
-      });
+      }) as Promise<FormResource>;
 
     this.form$.putFromPromiseIfPristine(() => promise);
     return promise;

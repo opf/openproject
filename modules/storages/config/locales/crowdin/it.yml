@@ -3,9 +3,20 @@ it:
   permission_view_file_links: "Visualizza link ai file"
   permission_manage_file_links: "Gestire link ai file"
   permission_manage_storages_in_project: "Gestisci archivi di file nel progetto"
+  permission_read_files: "Leggi file"
+  permission_write_files: "Scrivi file"
+  permission_create_files: "Crea file"
+  permission_delete_files: "Elimina file"
+  permission_share_files: "Condividi file"
   project_module_storages: "Archivi file"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Nessuna autorizzazione per la connessione esterna all'archiviazione."
+        not_found: "Impossibile trovare la risorsa richiesta nell'archivio file esterno."
   activerecord:
     models:
+      file_link: "File"
       storages/storage: "Archivio"
     attributes:
       storages/storage:
@@ -28,6 +39,9 @@ it:
                 non è installata l'app "Integrazione OpenProject". Installala e riprova.
               authorization_header_missing: >
                 non è completamente configurato. L'istanza Nextcloud non riceve l'intestazione "Authorization", che è necessaria per l'autorizzazione basata su un token Bearer delle richieste API. Controlla la configurazione del server HTTP.
+            password:
+              invalid_password: "non è valido."
+              unknown_error: "non piò essere convalidato. Controlla la connessione dell'archiviazione e riprova."
         storages/file_link:
           attributes:
             origin_id:
@@ -36,22 +50,45 @@ it:
     errors:
       too_many_elements_created_at_once: "Troppi elementi creati contemporaneamente. Massimo atteso: %{max}, effettivi: %{actual}."
   storages:
+    unknown_storage: "Archivio sconosciuto"
     buttons:
       done_continue_setup: "Fatto. Continua la configurazione"
+      done_complete_setup: "Fatto, configurazione completa"
+      edit_automatically_managed_project_folders: "Modifica cartelle di progetto gestite automaticamente"
       replace_openproject_oauth: "Sostituisci OpenProject OAuth"
       replace_provider_type_oauth: "Sostituisci %{provider_type} OAuth"
       save_and_continue_setup: "Salva e continua la configurazione"
       save_and_complete_setup: "Salva e completa la configurazione"
+      select_folder: "Seleziona cartella"
+      configure: "Configura"
     page_titles:
+      managed_project_folders:
+        title: "Cartelle di progetto gestite automaticamente"
+        subtitle: >
+          Consenti a OpenProject di creare automaticamente cartelle per progetto. Questa impostazione è consigliata in quanto garantisce che ogni membro del team abbia sempre le autorizzazioni di accesso corrette.
       project_settings:
         index: "File di archiviazione disponibili in questo progetto"
         new: "Aggiungi un archivio file al progetto"
+        edit: "Modifica l'archiviazione dei file per questo progetto"
+        delete: "Elimina archivio file"
+        members_connection_status: "Stato della connessione dei membri"
+      project_storage_members:
+        title: "Stato della connessione dei membri"
+        subtitle: "Controlla lo stato della connessione per lo spazio di archiviazione %{storage_name_link} di tutti i membri del progetto."
     instructions:
       type: "Assicurati di disporre dei privilegi di amministrazione nella tua istanza Nextcloud e di aver installato la seguente applicazione prima di eseguire l'installazione:"
       type_link_text: "“Integrazione OpenProject”"
       name: "Dai al tuo archivio un nome in modo che gli utenti lo possano distinguere tra più archivi."
       host: "Aggiungi l'indirizzo host del tuo spazio di archiviazione incluso https://. Non dovrebbe essere più lungo di 255 caratteri."
+      managed_project_folders_application_password: >
+        Copia questo valore da:
       no_storage_set_up: "Ancora nessuna archiviazione di file configurata."
+      no_specific_folder: "Di default, ogni utente inizierà alla propria cartella home, al caricamento di un file."
+      automatic_folder: "Questa operazione creerà automaticamente una cartella principale per questo progetto e gestirà le autorizzazioni di accesso per ciascun membro del progetto."
+      empty_project_folder_validation: "Selezionare una cartella è obbligatorio per procedere."
+      not_logged_into_storage: "Per selezionare la cartella di un progetto, sei prim pregato di accedere"
+      existing_manual_folder: >
+        Puoi designare una cartella esistente come la cartella di root per questo progetto. Le autorizzazioni, tuttavia, non sono gestite automaticamente: l'amministratore necessita di assicurarsi manualmente che gli utenti rilevanti abbiano accesso. La cartella selezionata è utilizzabile per svariati progetti.
       setting_up_additional_storages: "Per impostare ulteriori archivi file, visita"
       setting_up_additional_storages_non_admin: "Gli amministratori possono impostare ulteriori archivi file in Amministrazione / Archivi file."
       setting_up_storages: "Per impostare archivi file, visita"
@@ -60,26 +97,51 @@ it:
       copy_from: "Copia questo valore da"
       nextcloud:
         integration: "Nextcloud Administration / OpenProject"
+    help_texts:
+      project_folder: >
+        La cartella del progetto è la cartella predefinita per il caricamento dei file per questo progetto. Gli utenti possono, comunque, caricare i file in altre posizioni.
     delete_warning:
       storage: >
         Vuoi davvero eliminare questo archivio? Ciò eliminerà anche lo spazio di archiviazione da tutti i progetti in cui viene utilizzato. Inoltre, eliminerà anche tutti i collegamenti dalle macro-attività ai file archiviati in tale archivio.
       project_storage: >
-        Vuoi davvero rimuovere questo archivio di file da questo progetto? Ciò rimuoverà anche tutti i collegamenti ai file archiviati in questo archivio per questo progetto.
+        Vuoi davvero eliminare %{file_storage} da questo progetto? Per confermare questa azione, inserisci il nome dell'archivio nel campo sottostante. Ciò facendo:
+      project_storage_delete_result_1: "Rimuovi tutti i collegamenti dalle macro-attività di questo progetto ai file e alle cartelle di tale archivio."
+      project_storage_delete_result_2: "Nel caso in cui questo archivio abbia una cartella di progetto gestita automaticamente, questa e i suoi file verranno eliminati per sempre."
+      input_delete_confirmation: "Inserisci il nome del file di archiviazione %{file_storage} per confermare l'eliminazione."
+      irreversible_notice: "L'eliminazione di un file di archiviazione è un'azione irreversibile."
+    label_active: "Attivo"
+    label_inactive: "Inattivo"
     label_creator: "Autore"
     label_file_link: "Link del File"
     label_file_links: "Link dei File"
     label_name: "Nome"
     label_host: "URL dell'host"
+    label_managed_project_folders:
+      automatically_managed_folders: "Cartelle gestite automaticamente"
+      application_password: "Password applicazione"
+    label_managed_project_folders_breadcrumb: "Cartelle di progetto gestite automaticamente"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
     label_oauth_application_details: "Dettagli applicazione OAuth"
     label_oauth_client_details: "Dettagli client OAuth"
     label_provider_type: "Tipo di fonte"
+    label_project_folder: "Cartella del progetto"
     label_new_storage: "Nuovo archivio"
+    label_existing_manual_folder: "Cartella esistente con autorizzazioni gestite manualmente"
+    label_no_specific_folder: "Nessuna cartella specifica"
+    label_automatic_folder: "Nuova cartella con i permessi gestiti automaticamente"
+    label_no_selected_folder: "Nessuna cartella selezionata"
     label_storage: "Archivio"
     label_storages: "Archivi"
+    label_status: "Stato"
+    label_files: "File"
+    member_connection_status:
+      connected: "Connesso"
+      connected_no_permissions: "Il ruolo utente non ha permessi di archiviazione"
+      not_connected: "Non collegata. L'utente deve accedere all'archivio tramite la scheda %{files_label} di una macro-attività per connettersi."
     no_results: "Ancora nessun'archiviazione configurata."
+    members_no_results: "Nessun membro da visualizzare."
     provider_types:
       label: "Tipo di fonte"
       nextcloud:
@@ -89,4 +151,5 @@ it:
     confirm_replace_oauth_application: "Procedere? Tutti gli utenti dovranno autorizzarsi nuovamente con OpenProject."
     confirm_replace_oauth_client: "Procedere? Tutti gli utenti dovranno autorizzarsi nuovamente con l'archivio."
     oauth_client_details_missing: "Per completare la configurazione, aggiungi le credenziali del client OAuth dal tuo archivio."
+    automatically_managed_project_folder_missing: "Per completare la configurazione, configura le cartelle di progetto gestite automaticamente per il tuo spazio di archiviazione."
     notice_oauth_application_replaced: "L'applicazione OpenProject OAuth è stata sostituita correttamente."

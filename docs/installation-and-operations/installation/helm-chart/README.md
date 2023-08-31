@@ -8,9 +8,9 @@ sidebar_navigation:
 
 ## Basic commands
 
-```bash
+```shell
 helm repo add openproject https://charts.openproject.org
-helm upgrade --install my-openproject openproject/openproject
+helm upgrade --create-namespace --namespace openproject --install my-openproject openproject/openproject
 ```
 
 ## Introduction
@@ -26,12 +26,60 @@ This chart bootstraps an OpenProject instance, optionally with a PostgreSQL data
 
 You can install the chart with the release name `my-openproject` in its own namespace like this:
 
-```bash
+```shell
 helm upgrade --create-namespace --namespace openproject --install my-openproject openproject/openproject
 ```
 
 The namespace is optional, but using it does make it easier to manage the resources
 created for OpenProject.
+
+
+
+## Configuration
+
+Configuration of the chart takes place through defined values, and a catch-all entry `environment` to provide all possible variables through ENV that OpenProject supports. To get more information about the possible values, please see [our guide on environment variables](../../configuration/environment/).
+
+
+
+### Available OpenProject specific helm values
+
+We try to map the most common options to chart values directly for ease of use. The most common ones are listed here, feel free to extend available values [through a pull request](https://github.com/opf/helm-charts/).
+
+
+
+**OpenProject image and version**
+
+By default, the helm chart will target the latest stable major release. You can define a custom [supported docker tag](https://hub.docker.com/r/openproject/community/) using `image.tag`. Override container registry and repository using `image.registry` and `image.repository`, respectively.
+
+
+
+**HTTPS mode**
+
+Regardless of the TLS mode of ingress, OpenProject needs to be told whether it's expected to run and return HTTPS responses (or generate correct links in mails, background jobs, etc.). If you're not running https, then set `openproject.https=false`.
+
+
+
+**Seed locale** (13.0+)
+
+By default, demo data and global names for types, statuses, etc. will be in English. If you wish to set a custom locale, set `openproject.seed_locale=XX`, where XX can be a two-character ISO code. For currently supported values, see the `OPENPROJECT_AVAILABLE__LANGUAGES` default value in the [environment guide](../../configuration/environment/).
+
+
+
+**Admin user** (13.0+)
+
+By default, OpenProject generates an admin user with password `admin` which is required to change after first interactive login.
+If you're operating an automated deployment with fresh databases for testing, this default approach might not be desirable.
+
+You can customize the password as well as name, email, and whether a password change is enforced on first login with these variables:
+
+```ruby
+openproject.admin_user.password="my-secure-password"
+openproject.admin_user.password_reset="false"
+openproject.admin_user.name="Firstname Lastname"
+openproject.admin_user.mail="admin@example.com"
+```
+
+
 
 ## Updating the configuration
 
@@ -40,7 +88,7 @@ You can use `helm upgrade` to set individual values.
 
 For instance:
 
-```
+```shell
 helm upgrade --reuse-values --namespace openproject my-openproject --set environment.OPENPROJECT_IMPRESSUM__LINK=https://www.openproject.org/legal/imprint/ --set environment.OPENPROJECT_APP__TITLE='My OpenProject'
 ```
 
@@ -50,7 +98,7 @@ Find out more about the [configuration](../../configuration/environment/) sectio
 
 To uninstall the release with the name my-openproject do the following:
 
-```bash
+```shell
 helm uninstall --namespace openproject my-openproject
 ```
 
@@ -73,7 +121,7 @@ This can happen when using **minikube**. By default, it initialises the cluster 
 
 Either increase the cluster's resources to have at least 4 CPUs or install the OpenProject helm chart with a reduced CPU limit by adding the following option to the install command:
 
-```
+```shell
 --set resources.limits.cpu=2
 ```
 

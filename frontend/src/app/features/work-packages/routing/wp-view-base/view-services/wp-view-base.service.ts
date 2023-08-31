@@ -29,7 +29,7 @@
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import {
   combine, deriveRaw, input, State,
-} from 'reactivestates';
+} from '@openproject/reactivestates';
 import { map, mapTo, take } from 'rxjs/operators';
 import { merge, Observable } from 'rxjs';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';

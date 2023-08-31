@@ -18,11 +18,11 @@ import { Injector } from '@angular/core';
 
 import { OpenProject } from 'core-app/core/setup/globals/openproject';
 import * as TLodash from 'lodash';
-import * as TMoment from 'moment';
 import { GlobalI18n } from 'core-app/core/i18n/i18n.service';
 import { Dragula } from 'dragula';
 import { Screenfull } from 'screenfull';
 import { ErrorReporterBase } from 'core-app/core/errors/error-reporter-base';
+import { I18n } from 'i18n-js';
 
 declare module 'observable-array';
 declare module 'dom-autoscroller';
@@ -30,14 +30,13 @@ declare module 'core-vendor/enjoyhint';
 
 declare global {
   const _:typeof TLodash;
-  const moment:typeof TMoment;
-  const I18n:GlobalI18n;
+  const I18n:I18n;
   const dragula:Dragula;
 }
 
 declare global {
   interface Window {
-    I18n:GlobalI18n;
+    I18n:I18n;
     appBasePath:string;
     ng2Injector:Injector;
     OpenProject:OpenProject;

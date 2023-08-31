@@ -65,6 +65,8 @@ uk:
     button_confirm: "Підтвердити"
     button_continue: "Продовжити"
     button_copy: "Копіювати"
+    button_copy_to_clipboard: "Копіювати в буфер обміну"
+    button_copy_link_to_clipboard: "Копіювати посилання в буфер обміну"
     button_copy_to_other_project: "Копіювати в інший проєкт"
     button_custom-fields: "Індивідуальні поля"
     button_delete: "Видалити"
@@ -105,7 +107,7 @@ uk:
       remove_from_list: 'Вилучити зі списку'
     caption_rate_history: "Історія рейтингу"
     clipboard:
-      browser_error: "Ваш браузер не підтримує копіювання до буфера обміну. Потрібно скопіювати виділений текст вручну."
+      browser_error: "Ваш браузер не підтримує копіювання в буфер обміну. Скопіюйте вручну: %{content}"
       copied_successful: "Скопійовано в буфер обміну!"
     chart:
       type: 'Тип графіка'
@@ -228,7 +230,7 @@ uk:
           quick_overview: "Отримайте стислий огляд управління проєктами й командної роботи у версії OpenProject Enterprise."
         upsale:
           become_hero: "Стань героєм!"
-          enterprise_info_html: "%{feature_title} – це доповнення версії Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
+          enterprise_info_html: "%{feature_title} – це доповнення версії Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
           upgrade_info: "Перейдіть на платний план, щоб активувати його та почати використовувати його у своїй команді."
           benefits:
             description: "Які переваги локальної версії Enterprise?"
@@ -294,6 +296,34 @@ uk:
           one: "Перший критерій впорядкування"
           two: "Другий критерій впорядкування"
           three: "Третій критерій впорядкування"
+    gantt_chart:
+      label: 'Діаграма Ганта'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Конфігурація мітки'
+        bar: 'Панель міток'
+        left: 'Зліва'
+        right: 'Справа'
+        farRight: 'У правому кінці'
+        description: >
+          Виберіть атрибути, які потрібно постійно відображати у відповідних положеннях діаграми Ганта. Зверніть увагу, що під час наведення вказівника на елемент, замість цих атрибутів з’являтиметься його мітка.
+      button_activate: 'Показати діаграму Ганта'
+      button_deactivate: 'Сховати діаграму Ганта'
+      filter:
+        noneSelection: "(немає)"
+      selection_mode:
+        notification: 'Натисніть будь-який виділений пакет робіт, щоб створити зв’язок. Натисніть клавішу Escape, щоб скасувати.'
+      zoom:
+        in: "Збільшити масштаб"
+        out: "Зменшити масштаб"
+        auto: "Автомасштабування"
+        days: "Днів"
+        weeks: "Тижнів"
+        months: "Місяців"
+        quarters: "Кварталів"
+        years: "Років"
+        description: >
+          Виберіть початкове значення масштабу, коли функція автомасштабування недоступна.
     general_text_no: "ні"
     general_text_yes: "так"
     general_text_No: "Ні"
@@ -312,11 +342,22 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                Випуск містить нові й поліпшені функції. <br><ul class="%{list_styling_class}"> <li>Додавайте файли з пакетів робіт у файлове сховище Nextcloud і зв’язуйте їх.</li> <li> Реагуйте на зміни в проєкті, відстежуючи виконані в ньому дії.</li> <li>Додавайте офіційні свята (неробочі дні) для цілого екземпляра.</li> <li>Архівуйте проєкти без прав адміністратора.</li> <li>Використовуйте новий типовий фільтр для прострочених пакетів робіт.
+                Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"> <li>Порівняння базових значень для зручного відстеження змін.</li> <li>Експорт звітів про плани робіт у форматі PDF.</li> <li>Підписки на календарі проєкту за URL-адресою (iCalendar).</li> <li>Папки проєкту із шаблонами для інтеграції Nextcloud.</li> <li>Локалізовані дані для заповнення бази даних.</li> <li>Список глобальних модулів на нових сторінках індексу.</li> </ul>
+    ical_sharing_modal:
+      title: "Підписатися на календар"
+      inital_setup_error_message: "Під час отримання даних сталася помилка."
+      description: "За допомогою URL-адреси (iCalendar) ви можете підписатися на цей календар у зовнішньому клієнті й переглядати звідти актуальну інформацію про пакети робіт."
+      warning: "Не передавайте нікому цю URL-адресу. Будь-хто із цим посиланням зможе переглянути інформацію про пакети робіт без облікового запису або пароля."
+      token_name_label: "Де ви використовуватимете його?"
+      token_name_placeholder: "Введіть ім’я, наприклад «Телефон»"
+      token_name_description_text: "Якщо ви підписані на цей календар із кількох пристроїв, це ім’я допоможе вам розрізняти їх у своєму списку <a href=\"my/access_token\", target=\"_blank\">маркерів доступу</a>."
+      copy_url_label: "Копіювати URL"
+      ical_generation_error_text: "Під час створення URL-адреси календаря сталася помилка."
+      success_message: "URL-адресу «%{name}» скопійовано в буфер обміну. Вставте її в клієнт свого календаря, що завершити створення підписки."
     label_activate: "Активувати"
     label_assignee: 'Виконавець'
     label_add_column_after: "Додати стовпець після"
@@ -328,7 +369,7 @@ uk:
     label_add_row_before: "Додати рядок перед"
     label_add_selected_columns: "Додати вибрані стовпці"
     label_added_by: "додав(-ла)"
-    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
+    label_added_time_by: "Додано користувачем <a href=\"%{authorLink}\">%{author}</a> о %{age}"
     label_ago: "днів тому"
     label_all: "всі"
     label_all_work_packages: "всі пакети в роботі"
@@ -493,7 +534,7 @@ uk:
     label_remove_all_files: Видалити всі файли
     label_add_description: "Додати опис для %{file}"
     label_upload_notification: "Завантаження файлів ..."
-    label_work_package_upload_notification: "Завантаження файлів для пакета робіт #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Завантаження файлів для пакета робіт #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} додано користувачем %{author}"
     label_files_to_upload: "Ці файли будуть завантажені на сервер:"
     label_rejected_files: "Ці файли не можуть бути завантажені на сервер:"
@@ -669,7 +710,7 @@ uk:
         Виберіть проект, щоб створити робочий пакет, щоб побачити всі атрибути. Ви можете вибирати лише проекти, які мають вказаний вище тип активації.
       details_activity: 'Докладно про дії в проєкті'
       context: 'Контекст проекту'
-      click_to_switch_to_project: 'Project: %{projectname}'
+      click_to_switch_to_project: 'Проєкт: %{projectname}'
       confirm_template_load: 'Перемикання шаблону перезавантажить сторінку, і ви втратите всі дані, введені в цю форму. Продовжити?'
       use_template: "Використовувати шаблон"
       no_template_selected: "(Немає)"
@@ -728,6 +769,14 @@ uk:
     time_entry:
       work_package_required: 'Спочатку потрібно вибрати пакет робіт.'
       title: 'Час журналу'
+      tracking: 'Відстеження часу'
+      stop: 'Зупинити'
+    timer:
+      start_new_timer: 'Запустити новий таймер'
+      timer_already_running: 'Щоб запустити новий таймер, спочатку зупиніть поточний:'
+      timer_already_stopped: 'Для цього пакета робіт немає активного таймера. Ви зупинили його в іншому вікні?'
+      tracking_time: 'Відстеження часу'
+      button_stop: 'Зупинити поточний таймер'
     two_factor_authentication:
       label_two_factor_authentication: 'Двофакторна аутентифікація'
     watchers:
@@ -786,7 +835,8 @@ uk:
     autocompleter:
       placeholder: "Введіть для пошуку"
       notFoundText: "Елементів не знайдено"
-      typeToSearchText: "Введіть для пошуку"
+      project:
+        placeholder: "Виберіть проєкт"
     repositories:
       select_tag: 'Виберіть мітку'
       select_branch: 'Виберіть гілку'
@@ -804,63 +854,6 @@ uk:
       activate_no: 'активувати, щоб видалити сортування'
     text_work_packages_destroy_confirmation: "Ви впевнені у тому, що хочете видалити вибрані робочі пакети?"
     text_query_destroy_confirmation: "Ви дійсно бажаєте видалити вибраний вигляд?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Діаграма Ганта'
-      labels:
-        title: 'Конфігурація мітки'
-        bar: 'смуга міток'
-        left: 'Ліворуч'
-        right: 'Зправа'
-        farRight: 'Далі вправо'
-        showNone: '- Немає мітки -'
-        description: >
-          Оберіть атрибути, які потрібно постійно відображати у відповідних положеннях діаграми Ганта. Зверніть увагу, що під час наведення на елемент, замість цих атрибутів буде відображено його мітки.
-      button_activate: 'Показати діаграму Ганта'
-      button_deactivate: 'Сховати діаграму Ганта'
-      cancel: Скасувати
-      change: "Зміна планування"
-      due_date: "Дата закінчення"
-      empty: "(порожній)"
-      error: "Сталася помилка."
-      errors:
-        not_implemented: "Часова шкала не може бути відображена, оскільки вона використовує функцію, яка ще не реалізована."
-        report_comparison: "Часова шкала не може відобразити налаштовані порівняння. Будь ласка, перевірте відповідний розділ в конфігурації, скинувши його можна допомогти вирішити цю проблему."
-        report_epicfail: "Часова шкала не може бути завантажена через несподівану помилку."
-        report_timeout: "Часова шкала не може бути завантажена в розумний період часу."
-      filter:
-        grouping_other: "Інше"
-        noneSelection: "(нічого)"
-      name: "Ім’я"
-      outline: "Скинути виділення"
-      outlines:
-        aggregation: "Показати тільки агрегати"
-        level1: "Розширити рівень 1"
-        level2: "Розширити рівень 2"
-        level3: "Розширити рівень 3"
-        level4: "Розширити рівень 4"
-        level5: "Розширити рівень 5"
-        all: "Показати все"
-      project_status: "Статус Проекту"
-      really_close_dialog: "Ви дійсно хочете закрити діалог і втратити введені дані?"
-      responsible: "Надійний"
-      save: Зберегти
-      start_date: "Початок"
-      tooManyProjects: "Більше, ніж %{count} проект(-и,-ів). Будь ласка, використайте точніший фільтр!"
-      selection_mode:
-        notification: 'Натисніть будь-який виділений робочий пакет, щоб створити відношення. Натисніть клавішу Escape, щоб скасувати.'
-      zoom:
-        in: "Збільшити масштаб"
-        out: "Зменшити масштаб"
-        auto: "Автозбільшення"
-        days: "Днів"
-        weeks: "Тижня"
-        months: "Місяців"
-        quarters: "Приміщенням"
-        years: "Років"
-        slider: "Повзунок масштабування"
-        description: >
-          Виберіть початковий рівень масштабування, який має відображатися, коли функція автоматичного масштабування недоступна.
     tl_toolbar:
       zooms: "Рівень масштабування"
       outlines: "Рівень ієрархії"
@@ -921,8 +914,15 @@ uk:
       message_work_package_read_only: "Робочий пакет заблоковано в цьому статусі. Атрибут, відмінний від статусу, може бути змінений."
       message_work_package_status_blocked: "Пакет робіт недоступний для запису, оскільки призначено закритий статус або закриту версію."
       placeholder_filter_by_text: "Тема, опис, коментарі, ..."
+      baseline:
+        addition_label: 'Додано до подання з періодом для порівняння'
+        removal_label: 'Вилучено з подання з періодом для порівняння'
+        modification_label: 'Змінено в межах періоду для порівняння'
+        column_incompatible: 'Цей стовпець не відображає зміни в режимі перегляду вихідного рівня.'
       filters:
         title: 'Фільтрувати пакети робіт'
+        baseline_incompatible: 'Цей атрибут фільтра не враховується в режимі перегляду вихідного рівня.'
+        baseline_warning: 'Режим перегляду вихідного рівня ввімкнено, але деякі з активних фільтрів не включено в порівняння.'
       inline_create:
         title: 'Клацніть тут, щоб додати до цього списку новий пакет робіт'
       create:
@@ -1083,6 +1083,7 @@ uk:
         save_as: "Зберегти як"
         export: "Експортувати"
         visibility_settings: "Налаштування видимості"
+        share_calendar: "Підписатися на календар"
         page_settings: "Перейменувати режим перегляду"
         delete: "Видалити"
       filter: "Фільтр"
@@ -1163,10 +1164,11 @@ uk:
       button_deactivate: 'Деактивуйте режим дзен'
     global_search:
       all_projects: "У всіх проектах"
-      search: "Пошук"
       close_search: "Закрити пошук"
-      current_project: "У цьому проекті"
       current_project_and_all_descendants: "У цьому проекті + підпроекти"
+      current_project: "У цьому проекті"
+      recently_viewed: "Нещодавно переглянуті"
+      search: "Пошук"
       title:
         all_projects: "всі проекти"
         project_and_subprojects: "і всі підпроекти"
@@ -1255,6 +1257,38 @@ uk:
         current_project: 'Це поточний проєкт, який зараз відкрито.'
         does_not_match_search: 'Проєкт не відповідає критеріям пошуку.'
       no_results: 'Жоден проєкт не відповідає вашим критеріям пошуку.'
+    baseline:
+      toggle_title: 'Вихідний рівень'
+      clear: 'Очистити'
+      apply: 'Застосувати'
+      header_description: 'Виділяйте зміни, внесені в цей список із будь-якого моменту часу в минулому.'
+      enterprise_header_description: 'Виділяйте зміни, внесені в цей список із будь-якого моменту часу в минулому за допомогою версії Enterprise Edition.'
+      show_changes_since: 'Показувати зміни з'
+      baseline_comparison: 'Порівняння з вихідним рівнем'
+      help_description: 'Контрольний часовий пояс для вихідного рівня.'
+      time_description: 'За вашим місцевим часом: %{datetime}'
+      time: 'Час'
+      from: 'Від'
+      to: 'Кому:'
+      drop_down:
+        none: '-'
+        yesterday: 'вчора'
+        last_working_day: 'останній робочий день'
+        last_week: 'ост. тиждень'
+        last_month: 'останній місяць'
+        a_specific_date: 'конкретна дата'
+        between_two_specific_dates: 'період між двома конкретними датами'
+      legends:
+        changes_since: 'Зміни з'
+        changes_between: 'Зміни в період'
+        now_meets_filter_criteria: 'Тепер відповідає критеріям фільтра'
+        no_longer_meets_filter_criteria: 'Більше не відповідає критеріям фільтра'
+        maintained_with_changes: 'Збережено зі змінами'
+        in_your_timezone: 'За вашим місцевим часовим поясом:'
+      icon_tooltip:
+        added: 'Додано до подання з періодом для порівняння'
+        removed: 'Вилучено з подання з періодом для порівняння'
+        changed: 'Збережено зі змінами'
     forms:
       submit_success_message: 'Форму надіслано'
       load_error_message: 'Сталася помилка під час завантаження форми'

@@ -7,19 +7,14 @@ import { CurrentUserService } from './current-user.service';
 import { CurrentUserStore } from './current-user.store';
 import { CurrentUserQuery } from './current-user.query';
 import { ErrorReporterBase } from 'core-app/core/errors/error-reporter-base';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 
 export function bootstrapModule(injector:Injector):void {
   const currentUserService = injector.get(CurrentUserService);
 
   (window.ErrorReporter as ErrorReporterBase)
     .addHook(
-      () => currentUserService
-        .user$
-        .pipe(
-          take(1),
-        )
-        .toPromise()
+      () => firstValueFrom(currentUserService.user$)
         .then(({ id }) => ({ user: id || 'anon' })),
     );
 

@@ -3,9 +3,20 @@ ro:
   permission_view_file_links: "Vizualizați link-urile fișierului"
   permission_manage_file_links: "Gestionează link-urile fișierelor"
   permission_manage_storages_in_project: "Gestionați stocarea fișierelor în proiect"
+  permission_read_files: "Read files"
+  permission_write_files: "Write files"
+  permission_create_files: "Create files"
+  permission_delete_files: "Delete files"
+  permission_share_files: "Share files"
   project_module_storages: "Stocuri de fișiere"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Not authorized for external connection to storage."
+        not_found: "The requested resource could not be found at the external file storage."
   activerecord:
     models:
+      file_link: "File"
       storages/storage: "Depozitare"
     attributes:
       storages/storage:
@@ -28,6 +39,9 @@ ro:
                 pare să nu aibă aplicația "OpenProject integration". Vă rugăm să o instalați mai întâi și apoi să încercați din nou.
               authorization_header_missing: >
                 nu este complet configurat. Instanța Nextcloud nu primește headerul de "Autorizare", care este necesar pentru un token purtător pe baza autorizării cererilor API. Vă rugăm să verificaţi de două ori configuraţia serverului HTTP.
+            password:
+              invalid_password: "is not valid."
+              unknown_error: "could not be validated. Please check your storage connection and try again."
         storages/file_link:
           attributes:
             origin_id:
@@ -36,22 +50,45 @@ ro:
     errors:
       too_many_elements_created_at_once: "Prea multe elemente create simultan. Se așteaptă cel mult %{max} , a luat %{actual}."
   storages:
+    unknown_storage: "Unknown storage"
     buttons:
       done_continue_setup: "Terminat. Continuă configurarea"
+      done_complete_setup: "Done, complete setup"
+      edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Înlocuiește OpenProject OAuth"
       replace_provider_type_oauth: "Înlocuiește %{provider_type} OAuth"
       save_and_continue_setup: "Salvează și continuă configurarea"
       save_and_complete_setup: "Salvează și finalizează configurarea"
+      select_folder: "Select folder"
+      configure: "Configure"
     page_titles:
+      managed_project_folders:
+        title: "Automatically managed project folders"
+        subtitle: >
+          Let OpenProject create folders per project automatically. This is recommended as it ensures that every team member always has the correct access permissions.
       project_settings:
         index: "Stocare de fișiere disponibile în acest proiect"
         new: "Adaugă un fișier de stocare în acest proiect"
+        edit: "Edit the file storage to this project"
+        delete: "Delete file storage"
+        members_connection_status: "Members connection status"
+      project_storage_members:
+        title: "Members connection status"
+        subtitle: "Check the connection status for the storage %{storage_name_link} of all project members."
     instructions:
       type: "Asigurați-vă că aveți drepturi de administrare în instanța Nextcloud și că aveți următoarea aplicație instalată înainte de a face configurarea:"
       type_link_text: "Integrare OpenProject”"
       name: "Dați un nume stocării pentru ca utilizatorii să poată diferenția între mai multe spațiul de stocare."
       host: "Vă rugăm să adăugați adresa de găzduire a spațiului de stocare, inclusiv https://. Nu trebuie să fie mai lungă de 255 de caractere."
+      managed_project_folders_application_password: >
+        Copy this value from:
       no_storage_set_up: "Nu există încă nici un fișier de stocare configurat."
+      no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
+      automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
+      empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
+      not_logged_into_storage: "To select a project folder, please first login"
+      existing_manual_folder: >
+        You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "Pentru a configura fişiere de stocare suplimentare, vă rugăm să vizitaţi"
       setting_up_additional_storages_non_admin: "Administratorii pot configura fişiere de stocare suplimentare în Administrare / Stocare fişiere."
       setting_up_storages: "Pentru configurarea fișierelor, vă rugăm să vizitați"
@@ -60,26 +97,51 @@ ro:
       copy_from: "Copiază această valoare de la"
       nextcloud:
         integration: "Administrare Nextcloud / OpenProject"
+    help_texts:
+      project_folder: >
+        The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     delete_warning:
       storage: >
         Sunteţi sigur că doriţi să ştergeţi acest stocare? Acest lucru va şterge şi stocarea din toate proiectele în care este folosit. În plus, va șterge toate link-urile din pachetele de lucru către fișierele care sunt stocate în stocare.
       project_storage: >
-        Ești sigur că vrei să ștergi această stocare de fișiere din acest proiect? Acest lucru va elimina, de asemenea, toate link-urile către fișierele stocate în această stocare pentru acest proiect.
+        Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:
+      project_storage_delete_result_1: "Remove all links from work packages of this project to files and folders of that storage."
+      project_storage_delete_result_2: "In case this storage has an automatically managed project folder, this and its files will be deleted forever."
+      input_delete_confirmation: "Enter the file storage name %{file_storage} to confirm deletion."
+      irreversible_notice: "Deleting a file storage is an irreversible action."
+    label_active: "Active"
+    label_inactive: "Inactive"
     label_creator: "Creator"
     label_file_link: "Link-ul fișierului"
     label_file_links: "Link-uri fișier"
     label_name: "Nume"
     label_host: "URL Gazdă"
+    label_managed_project_folders:
+      automatically_managed_folders: "Automatically managed folders"
+      application_password: "Application password"
+    label_managed_project_folders_breadcrumb: "Automatically managed project folders"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Ecran Nextcloud"
     label_oauth_application_details: "Detalii aplicație OAuth"
     label_oauth_client_details: "Detalii client OAuth"
     label_provider_type: "Tip flux"
+    label_project_folder: "Project folder"
     label_new_storage: "Stocare nouă"
+    label_existing_manual_folder: "Existing folder with manually managed permissions"
+    label_no_specific_folder: "No specific folder"
+    label_automatic_folder: "New folder with automatically managed permissions"
+    label_no_selected_folder: "No selected folder"
     label_storage: "Depozitare"
     label_storages: "Depozite"
+    label_status: "Status"
+    label_files: "Files"
+    member_connection_status:
+      connected: "Connected"
+      connected_no_permissions: "User role has no storages permissions"
+      not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
     no_results: "Nu sunt încă setate stocări."
+    members_no_results: "No members to display."
     provider_types:
       label: "Tip furnizor"
       nextcloud:
@@ -89,4 +151,5 @@ ro:
     confirm_replace_oauth_application: "Ești sigur? Toți utilizatorii vor trebui să autorizeze din nou împotriva OpenProject."
     confirm_replace_oauth_client: "Ești sigur? Toți utilizatorii vor trebui să autorizeze din nou împotriva stocării."
     oauth_client_details_missing: "Pentru a finaliza configurarea, vă rugăm să adăugați credențialele clientului OAuth din spațiul de stocare."
+    automatically_managed_project_folder_missing: "To complete the setup, please configure automatically managed project folders for your storage."
     notice_oauth_application_replaced: "Aplicația OpenProject OAuth a fost înlocuită cu succes."

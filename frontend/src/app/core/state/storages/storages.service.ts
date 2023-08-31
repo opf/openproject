@@ -28,19 +28,22 @@
 
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
-import { forkJoin, Observable } from 'rxjs';
+import {
+  forkJoin,
+  Observable,
+} from 'rxjs';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { StoragesStore } from 'core-app/core/state/storages/storages.store';
-import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
+import { insertCollectionIntoState } from 'core-app/core/state/resource-store';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import {
-  CollectionStore,
-  ResourceCollectionService,
-} from 'core-app/core/state/resource-collection.service';
+  ResourceStore,
+  ResourceStoreService,
+} from 'core-app/core/state/resource-store.service';
 
 @Injectable()
-export class StoragesResourceService extends ResourceCollectionService<IStorage> {
+export class StoragesResourceService extends ResourceStoreService<IStorage> {
   updateCollection(key:string, storageLinks:IHalResourceLink[]):Observable<IStorage[]> {
     return forkJoin(storageLinks.map((link) => this.http.get<IStorage>(link.href)))
       .pipe(
@@ -51,7 +54,7 @@ export class StoragesResourceService extends ResourceCollectionService<IStorage>
       );
   }
 
-  protected createStore():CollectionStore<IStorage> {
+  protected createStore():ResourceStore<IStorage> {
     return new StoragesStore();
   }
 

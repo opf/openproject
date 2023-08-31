@@ -54,6 +54,8 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { StateService } from '@uirouter/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import { WorkPackageViewBaselineService } from '../wp-view-base/view-services/wp-view-baseline.service';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'wp-list-view',
@@ -86,6 +88,8 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   /** Whether we should render a blocked view */
   showResultOverlay$ = this.wpViewFilters.incomplete$;
 
+  public baselineEnabled:boolean;
+
   /** */
   readonly wpTableConfiguration:WorkPackageTableConfigurationObject = {
     dragAndDropEnabled: true,
@@ -104,6 +108,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     readonly cdRef:ChangeDetectorRef,
     readonly elementRef:ElementRef,
     private ngZone:NgZone,
+    readonly wpTableBaseline:WorkPackageViewBaselineService,
   ) {
     super();
   }
@@ -111,12 +116,16 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   ngOnInit() {
     // Mark tableInformationLoaded when initially loading done
     this.setupInformationLoadedListener();
-
-    this.querySpace.query.values$().pipe(
+    const statesCombined = combineLatest([
+      this.querySpace.query.values$(),
+      this.wpTableBaseline.live$(),
+    ]);
+    statesCombined.pipe(
       this.untilDestroyed(),
-    ).subscribe((query) => {
+    ).subscribe(([query]) => {
       // Update the visible representation
       this.updateViewRepresentation(query);
+      this.baselineEnabled = this.wpTableBaseline.isActive();
       this.noResults = query.results.total === 0;
       this.cdRef.detectChanges();
     });

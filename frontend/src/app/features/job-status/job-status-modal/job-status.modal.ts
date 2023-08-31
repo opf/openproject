@@ -11,35 +11,16 @@ import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpResponse,
-} from '@angular/common/http';
-import {
-  Observable,
-  timer,
-} from 'rxjs';
-import {
-  switchMap,
-  takeWhile,
-} from 'rxjs/operators';
-import {
-  LoadingIndicatorService,
-  withDelayedLoadingIndicator,
-} from 'core-app/core/loading-indicator/loading-indicator.service';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Observable, retry, timer } from 'rxjs';
+import { switchMap, takeWhile } from 'rxjs/operators';
+import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import {
-  JobStatusEnum,
-  JobStatusInterface,
-} from 'core-app/features/job-status/job-status.interface';
+import { JobStatusEnum, JobStatusInterface } from 'core-app/features/job-status/job-status.interface';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { EXTERNAL_REQUEST_HEADER } from 'core-app/features/hal/http/openproject-header-interceptor';
-import {
-  DomSanitizer,
-  SafeHtml,
-} from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './job-status.modal.html',
@@ -87,7 +68,8 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
 
   @ViewChild('downloadLink') private downloadLink:ElementRef<HTMLInputElement>;
 
-  constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+  constructor(
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
     readonly elementRef:ElementRef,
@@ -96,10 +78,11 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
     readonly loadingIndicator:LoadingIndicatorService,
     readonly toastService:ToastService,
     readonly sanitization:DomSanitizer,
-    readonly httpClient:HttpClient) {
+    readonly httpClient:HttpClient,
+  ) {
     super(locals, cdRef, elementRef);
 
-    this.jobId = locals.jobId;
+    this.jobId = locals.jobId as string;
   }
 
   ngOnInit() {
@@ -108,17 +91,33 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
   }
 
   private listenOnJobStatus() {
+    this.loadingIndicator.indicator('modal').start();
     timer(0, 2000)
       .pipe(
         switchMap(() => this.performRequest()),
+        retry({
+          count: 10,
+          delay: (error:HttpErrorResponse) => {
+            // Example for catching specific error code as well
+            if ([502, 503, 504].includes(error.status)) {
+              return timer(2000);
+            }
+
+            // eslint-disable-next-line @typescript-eslint/no-throw-literal
+            throw error;
+          },
+        }),
         takeWhile((response) => !!response.body && this.continuedStatus(response.body), true),
         this.untilDestroyed(),
-        withDelayedLoadingIndicator(this.loadingIndicator.getter('modal')),
-      ).subscribe(
-        (response) => this.onResponse(response),
-        (error) => this.handleError(error),
-        () => { this.isLoading = false; },
-      );
+      )
+      .subscribe({
+        next: (response) => this.onResponse(response),
+        error: (error:HttpErrorResponse) => this.handleError(error),
+        complete: () => {
+          this.loadingIndicator.indicator('modal').stop();
+          this.isLoading = false;
+        },
+      });
   }
 
   private iconForStatus():string|null {
@@ -148,9 +147,10 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
     const { body } = response;
 
     if (!body) {
-      throw new Error(response as any);
+      throw new Error(response?.statusText || 'Internal Error');
     }
 
+    // eslint-disable-next-line no-multi-assign
     const status = this.status = body.status;
 
     this.message = body.message
@@ -215,9 +215,9 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
     return this
       .httpClient
       .get<JobStatusInterface>(
-      this.jobUrl,
-      { observe: 'response', responseType: 'json' },
-    );
+        this.jobUrl,
+        { observe: 'response', responseType: 'json' },
+      );
   }
 
   private handleError(error:HttpErrorResponse) {

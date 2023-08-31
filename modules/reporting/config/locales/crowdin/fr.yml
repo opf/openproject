@@ -81,6 +81,9 @@ fr:
   units: "Unités"
   validation_failure_date: "n'est pas une date valide"
   validation_failure_integer: "n'est pas un nombre entier valide"
+  export:
+    cost_reports:
+      title: "Exportation XLS de vos rapports de coûts"
   reporting:
     group_by:
       selected_columns: "Colonnes sélectionnées"

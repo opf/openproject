@@ -1,6 +1,6 @@
 <ng-container *ngIf="(board$ | async) as board">
   <div
-    *ngIf="!eeShowBanners || board.isFree"
+    *ngIf="!needEnterpriseEdition"
     class="boards-list--container"
     [ngClass]="{ '-free' : board.isFree }"
     #container
@@ -13,9 +13,8 @@
          class="boards-list--item"
          wp-isolated-query-space
          cdkDrag
-         vsDragScroll
          [cdkDragData]="boardWidget"
-         [vsDragScrollContainer]="_container">
+    >
       <span *ngIf="board.editable"
             class="boards-list-item-handle icon icon-drag-handle"
             cdkDragHandle></span>
@@ -42,7 +41,7 @@
   </div>
 
   <op-enterprise-banner
-    *ngIf="eeShowBanners"
+    *ngIf="needEnterpriseEdition"
     [moreInfoLink]="text.more_info_link"
     [leftMargin]="true"
     [linkMessage]="text.upgrade_to_ee_text"

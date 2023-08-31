@@ -3,11 +3,11 @@ ko:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        auth_source: 'LDAP 연결'
+        ldap_auth_source: 'LDAP 연결'
         sync_users: '사용자 동기화'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP 필터'
-        auth_source: 'LDAP 연결'
+        ldap_auth_source: 'LDAP 연결'
         group_name_attribute: "그룹 이름 특성"
         sync_users: '사용자 동기화'
         base_dn: "기본 DN 검색"

@@ -34,6 +34,7 @@ import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { EstimatedTimeDisplayField } from 'core-app/shared/components/fields/display/field-types/estimated-time-display-field.module';
+import * as moment from 'moment-timezone';
 
 export class WorkPackageSpentTimeDisplayField extends EstimatedTimeDisplayField {
   public text = {

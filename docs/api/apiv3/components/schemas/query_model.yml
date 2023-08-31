@@ -9,8 +9,7 @@ properties:
     type: integer
     description: Query id
     readOnly: true
-    minimum: 0
-    exclusiveMinimum: true
+    exclusiveMinimum: 0
   name:
     type: string
     description: Query name
@@ -43,6 +42,11 @@ properties:
     description: Which zoom level should the timeline be rendered in?
     readOnly: true
     deprecated: true
+  timestamps:
+    type: array
+    description: Timestamps to filter by when showing changed attributes
+      on work packages.
+    readOnly: false
   highlightingMode:
     type: string
     description: Which highlighting mode should the table have?

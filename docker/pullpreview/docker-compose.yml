@@ -13,6 +13,8 @@ volumes:
 x-defaults: &defaults
   build:
     context: .
+    args:
+      OPENPROJECT_ANGULAR_UGLIFY: "false"
   restart: unless-stopped
   env_file:
     - .env.pullpreview
@@ -69,14 +71,3 @@ services:
     command: "./docker/prod/worker --seed --set attachment_max_size=262144,host_name=${PULLPREVIEW_PUBLIC_DNS}"
     depends_on:
       - db
-
-  storybook:
-    build:
-      context: .
-      dockerfile: Dockerfile-storybook
-      target: prod
-    restart: unless-stopped
-    ports:
-      - "8080:8080"
-    volumes:
-      - "caddy_data:/data"

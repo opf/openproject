@@ -1,5 +1,5 @@
 <!-- Standard Ruby view, please see the controller for comments -->
-<% html_title t(:label_administration), t("project_module_storages"), @object.name, "#{t("storages.provider_types.#{@object.provider_type}.name")} #{t("storages.label_oauth_application_details")}" %>
+<% html_title t(:label_administration), t("project_module_storages"), @object.name, "#{t("storages.provider_types.#{@object.short_provider_type}.name")} #{t("storages.label_oauth_application_details")}" %>
 <% local_assigns[:additional_breadcrumb] = [
   link_to(@object.name, admin_settings_storage_path(@object)),
   t("storages.label_oauth_breadcrumb.openproject")
@@ -8,7 +8,7 @@
 
 <div class="op-toast -warning">
   <div class="op-toast--content">
-    <p>
+    <p class="-with-inline-links">
       <%= t('repositories.storage.oauth_application_details') %>
       <a
         href="<%= File.join(@oauth_application.integration.host, 'settings/admin/openproject') %>"
@@ -45,9 +45,9 @@
                              clipboard-target="#client_id">
           </copy-to-clipboard>
           <button class="client-id-copy-button button -without-button-styling"
-                  title="<%= t(:label_copy_to_clipboard) %>">
+                  title="<%= t(:button_copy_to_clipboard) %>">
             <%= op_icon('icon-copy') %>
-            <span class="hidden-for-sighted"><%= t(:label_copy_to_clipboard) %></span>
+            <span class="hidden-for-sighted"><%= t(:button_copy_to_clipboard) %></span>
           </button>
         </div>
       </div>
@@ -74,9 +74,9 @@
                              clipboard-target="#secret">
           </copy-to-clipboard>
           <button class="secret-copy-button button -without-button-styling"
-                  title="<%= t(:label_copy_to_clipboard) %>">
+                  title="<%= t(:button_copy_to_clipboard) %>">
             <%= op_icon('icon-copy') %>
-            <span class="hidden-for-sighted"><%= t(:label_copy_to_clipboard) %></span>
+            <span class="hidden-for-sighted"><%= t(:button_copy_to_clipboard) %></span>
           </button>
         </div>
       </div>

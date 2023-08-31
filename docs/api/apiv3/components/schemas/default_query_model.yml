@@ -23,6 +23,7 @@ example:
   timelineZoomLevel: days
   timelineLabels: {}
   highlightingMode: inline
+  timestamps: ["P0D"]
   showHierarchies: true
   starred: false
   _embedded:

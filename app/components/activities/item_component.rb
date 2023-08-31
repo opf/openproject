@@ -41,7 +41,7 @@ class Activities::ItemComponent < ViewComponent::Base
   end
 
   def project_suffix
-    return if project_activity?
+    return if activity?(Project)
     return if activity_is_from_current_project?
 
     kind = activity_is_from_subproject? ? 'subproject' : 'project'
@@ -54,38 +54,37 @@ class Activities::ItemComponent < ViewComponent::Base
   end
 
   def display_details?
-    return false if @event.journal.initial?
+    return false if @event.journal.initial? && @event.journal.journable_type != 'TimeEntry'
 
     rendered_details.present?
   end
 
   def rendered_details
-    @rendered_details ||=
-      @event.journal
-        .details
-        .filter_map { |detail| @event.journal.render_detail(detail, activity_page: @activity_page) }
+    filter_details.filter_map { |detail| @event.journal.render_detail(detail, activity_page: @activity_page) }
   end
 
   def comment
-    return unless work_package_activity?
+    return unless activity?(WorkPackage)
 
     @event.event_description
   end
 
   def description
-    return if work_package_activity?
+    return if activity?(WorkPackage) || activity?(TimeEntry)
 
     @event.event_description
   end
 
-  private
+  def time_entry_url
+    return unless activity?(TimeEntry)
 
-  def work_package_activity?
-    @event.journal.journable_type == "WorkPackage"
+    @event.event_url
   end
 
-  def project_activity?
-    @event.journal.journable_type == 'Project'
+  private
+
+  def activity?(type)
+    @event.journal.journable_type == type.to_s
   end
 
   def activity_is_from_current_project?
@@ -94,5 +93,21 @@ class Activities::ItemComponent < ViewComponent::Base
 
   def activity_is_from_subproject?
     @current_project && (@event.project != @current_project)
+  end
+
+  def filter_details
+    details = @event.journal.details
+
+    details.delete(:user_id) if details[:logged_by_id] == details[:user_id]
+    delete_detail(details, :work_package_id)
+    delete_detail(details, :comments)
+    delete_detail(details, :activity_id)
+    delete_detail(details, :spent_on)
+
+    details
+  end
+
+  def delete_detail(details, field)
+    details.delete(field) if details[field] && details[field].first.nil?
   end
 end

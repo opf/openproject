@@ -39,3 +39,13 @@ nl:
       tab_prs:
         empty: 'Er zijn nog geen pull requests gekoppeld. Koppel een bestaande PR door de code <code>OP#%{wp_id}</code> in de PR-beschrijving te gebruiken of maak een nieuwe PR.'
       github_actions: Acties
+      pull_requests:
+        message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}."
+        merged_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
+        referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
+        states:
+          opened: 'geopend'
+          closed: 'gesloten'
+          draft: 'drafted'
+          merged: 'samengevoegd'
+          ready_for_review: 'gemarkeerd als klaar voor review'

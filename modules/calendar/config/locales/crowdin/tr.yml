@@ -1,6 +1,9 @@
 #English strings go here
 tr:
+  label_calendar: "Takvim"
   label_calendar_plural: "Takvimler"
+  label_new_calendar: "Yeni takvim"
   permission_view_calendar: "Takvimleri görüntüle"
   permission_manage_calendars: "Takvimleri yönet"
-  project_module_calendar_view: "Takvim"
+  permission_share_calendars: "iCalendars'a abone olun"
+  project_module_calendar_view: "Takvimler"

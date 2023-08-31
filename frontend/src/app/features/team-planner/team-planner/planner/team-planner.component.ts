@@ -120,17 +120,17 @@ import { ResourceApi } from '@fullcalendar/resource';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import {
   EffectCallback,
-  EffectHandler,
+  registerEffectCallbacks,
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import {
   addBackgroundEvents,
   removeBackgroundEvents,
 } from 'core-app/features/team-planner/team-planner/planner/background-events';
+import * as moment from 'moment-timezone';
 
 export type TeamPlannerViewOptionKey = 'resourceTimelineWorkWeek'|'resourceTimelineWeek'|'resourceTimelineTwoWeeks';
 export type TeamPlannerViewOptions = { [K in TeamPlannerViewOptionKey]:RawOptionsFromRefiners<Required<ViewOptionRefiners>> };
 
-@EffectHandler
 @Component({
   selector: 'op-team-planner',
   templateUrl: './team-planner.component.html',
@@ -329,7 +329,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       {
         field: 'title',
         headerContent: {
-          html: `<span aria-label="${this.text.assignee}" class="spot-icon spot-icon_user"></span> <span class="hidden-for-mobile">${this.text.assignee}</span>`,
+          html: `<span class="spot-link spot-link_inactive"><span aria-label="${this.text.assignee}" class="spot-icon spot-icon_user"></span><span class="hidden-for-mobile">${this.text.assignee}</span></span>`,
         },
       },
     ],
@@ -398,6 +398,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   ngOnInit():void {
+    registerEffectCallbacks(this, this.untilDestroyed());
     this.initializeCalendar();
     this.projectIdentifier = this.currentProject.identifier || undefined;
 
@@ -413,7 +414,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     this.params$
       .pipe(this.untilDestroyed())
       .subscribe((params) => {
-        this.principalsResourceService.fetchPrincipals(params).subscribe();
+        this.principalsResourceService.requireCollection(params).subscribe();
       });
 
     combineLatest([
@@ -469,10 +470,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   private initializeCalendar() {
-    void Promise.all([
-      this.configuration.initialized,
-      this.weekdayService.loadWeekdays().toPromise(),
-    ])
+    void this.weekdayService.loadWeekdays()
+      .toPromise()
       .then(() => {
         this.calendarOptions$.next(
           this.workPackagesCalendar.calendarOptions({

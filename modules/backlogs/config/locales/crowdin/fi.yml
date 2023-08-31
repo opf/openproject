@@ -26,6 +26,8 @@ fi:
         position: "Sijainti"
         remaining_hours: "Jäljellä olevat tunnit"
         remaining_time: "Jäljellä olevat tunnit"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Tarinapisteet"
         backlogs_work_package_type: "Työjonon tyyppi"
     errors:
@@ -35,9 +37,6 @@ fi:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "voi sisältää vain tässä sprintissä mukana olevia typaketteja."
               must_block_at_least_one_work_package: "vähintään yhden tehtävän ID-mainittava."
-            parent_id:
-              parent_child_relationship_across_projects: "ei kelpaa, koska työpaketti \"%{work_package_name}\" on työjonossa ja siksi sillä ei voi olla edeltäjää nykyisen projektin ulkopuolella."
-              type_must_be_one_of_the_following: "Tyypin on oltava jokin seuraavista: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
         sprint:
@@ -78,7 +77,6 @@ fi:
     x_more: "%{count} lisää..."
   backlogs_active: "aktiivinen"
   backlogs_any: "kaikki"
-  backlogs_card_specification: "Otsikoiden tyypit kortin tulostuksessa"
   backlogs_inactive: "Projektissa ei ole toimintaa"
   backlogs_points_burn_direction: "Pisteiden poltto ylös/alas"
   backlogs_product_backlog: "Tuotteen työjono"

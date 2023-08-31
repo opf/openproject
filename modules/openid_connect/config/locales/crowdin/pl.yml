@@ -9,7 +9,7 @@ pl:
         identifier: Identyfikator
         secret: Tajny klucz
         scope: Zakres
-        limit_self_registration: Limit self registration
+        limit_self_registration: Ogranicz samodzielną rejestrację
   openid_connect:
     menu_title: Dostawcy OpenID
     providers:
@@ -19,5 +19,9 @@ pl:
       plural: Dostawcy OpenID
       singular: Dostawca OpenID
     setting_instructions:
+      azure_graph_api: >
+        Użyj punktu końcowego graph.microsoft.com userinfo, aby zażądać danych użytkownika. Powinno to być ustawienie domyślne, chyba że masz starszą aplikację Azure.
+      azure_tenant_html: >
+        Ustaw dzierżawcę punktu końcowego Azure. Pozwoli to kontrolować, kto uzyskuje dostęp do wystąpienia OpenProject. Aby uzyskać więcej informacji, zapoznaj się z <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">naszym przewodnikiem użytkownika na temat Azure OpenID Connect</a>.
       limit_self_registration: >
-        If enabled users can only register using this provider if the self registration setting allows for it.
+        Gdy ta opcja jest włączona, użytkownicy mogą rejestrować się przy użyciu tego dostawcy tylko wtedy, gdy pozwala na to ustawienie samodzielnej rejestracji.

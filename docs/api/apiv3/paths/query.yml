@@ -1,6 +1,11 @@
 # /api/v3/queries/{id}
 ---
 delete:
+  summary: Delete query
+  operationId: Delete_query
+  tags:
+  - Queries
+  description: Delete the query identified by the id parameter
   parameters:
   - description: Query id
     example: '1'
@@ -49,122 +54,141 @@ delete:
 
         **Required permission:** view work package in queries project
       headers: {}
+get:
+  summary: View query
+  operationId: View_query
   tags:
   - Queries
-  description: Delete the query identified by the id parameter
-  operationId: Delete_query
-  summary: Delete query
-get:
+  description: Retrieve an individual query as identified by the id parameter. Then
+    end point accepts a number of parameters that can be used to override the resources'
+    persisted parameters.
   parameters:
-    - description: Query id
+    - name: id
+      description: Query id
       example: '1'
       in: path
-      name: id
       required: true
       schema:
         type: integer
-    - description: |-
+    - name: filters
+      description: |-
         JSON specifying filter conditions.
         The filters provided as parameters are not applied to the query but are instead used to override the query's persisted filters.
         All filters also accepted by the work packages endpoint are accepted. If no filter is to be applied, the client should send an empty array (`[]`).
       example: '[{ "assignee": { "operator": "=", "values": ["1", "5"] }" }]'
       in: query
-      name: filters
       required: false
       schema:
         default: '[{ "status_id": { "operator": "o", "values": null }}]'
         type: string
-    - description: Page number inside the queries' result collection of work packages.
+    - name: offset
+      description: Page number inside the queries' result collection of work packages.
       example: '25'
       in: query
-      name: offset
       required: false
       schema:
         default: 1
         type: integer
-    - description: Number of elements to display per page for the queries' result collection
+    - name: pageSize
+      description: Number of elements to display per page for the queries' result collection
         of work packages.
       example: '25'
       in: query
-      name: pageSize
       required: false
       schema:
         type: integer
-    - description: Selected columns for the table view.
+    - name: columns
+      description: Selected columns for the table view.
       example: "[]"
       in: query
-      name: columns
       required: false
       schema:
         default: "['type', 'priority']"
         type: string
-    - description: JSON specifying sort criteria. The sort criteria is applied to the
+    - name: sortBy
+      description: JSON specifying sort criteria. The sort criteria is applied to the
         query's result collection of work packages overriding the query's persisted
         sort criteria.
       example: '[["status", "asc"]]'
       in: query
-      name: sortBy
       required: false
       schema:
         default: '[["id", "asc"]]'
         type: string
-    - description: The column to group by. The grouping criteria is applied to the to
+    - name: groupBy
+      description: The column to group by. The grouping criteria is applied to the to
         the query's result collection of work packages overriding the query's persisted
         group criteria.
       example: status
       in: query
-      name: groupBy
       required: false
       schema:
         type: string
-    - description: Indicates whether properties should be summed up if they support
+    - name: showSums
+      description: Indicates whether properties should be summed up if they support
         it. The showSums parameter is applied to the to the query's result collection
         of work packages overriding the query's persisted sums property.
       example: true
       in: query
-      name: showSums
       required: false
       schema:
         default: false
         type: boolean
-    - description: Indicates whether the timeline should be shown.
+    - name: timestamps
+      description: >
+        Indicates the timestamps to filter by when showing changed attributes
+        on work packages. Values can be either ISO8601 dates, ISO8601 durations and the
+        following relative date keywords: "oneDayAgo@HH:MM+HH:MM", "lastWorkingDay@HH:MM+HH:MM",
+        "oneWeekAgo@HH:MM+HH:MM", "oneMonthAgo@HH:MM+HH:MM".
+        The first "HH:MM" part represents the zero paded hours and minutes.
+        The last "+HH:MM" part represents the timezone offset from UTC associated with the time,
+        the offset can be positive or negative e.g."oneDayAgo@01:00+01:00", "oneDayAgo@01:00-01:00".
+        Values older than 1 day are accepted only with valid Enterprise Token available.
+
+      example: '2023-01-01,P-1Y,PT0S,lastWorkingDay@12:00'
+      in: query
+      required: false
+      schema:
+        default: 'PT0S'
+        type: string
+    - name: timelineVisible
+      description: Indicates whether the timeline should be shown.
       example: true
       in: query
-      name: timelineVisible
       required: false
       schema:
         default: false
         type: boolean
-    - description: Overridden labels in the timeline view
+    - name: timelineLabels
+      description: Overridden labels in the timeline view
       example: "{}"
       in: query
-      name: timelineLabels
       required: false
       schema:
         default: "{}"
         type: string
-    - description: Highlighting mode for the table view.
+    - name: highlightingMode
+      description: Highlighting mode for the table view.
       example: inline
       in: query
-      name: highlightingMode
       required: false
       schema:
         default: inline
         type: string
-    - description: Highlighted attributes mode for the table view when `highlightingMode`
+    - name: highlightedAttributes
+      description: Highlighted attributes mode for the table view when `highlightingMode`
         is `inline`. When set to `[]` all highlightable attributes will be returned
         as `highlightedAttributes`.
       example: "[]"
       in: query
-      name: highlightedAttributes
       required: false
       schema:
         default: "['type', 'priority']"
         type: string
-    - description: Indicates whether the hierarchy mode should be enabled.
+    - name: showHierarchies
+      description: Indicates whether the hierarchy mode should be enabled.
       example: true
       in: query
-      name: showHierarchies
       required: false
       schema:
         default: true
@@ -198,14 +222,14 @@ get:
 
         **Required permission:** view work package in queries project
       headers: {}
+patch:
+  summary: Edit Query
+  operationId: Edit_Query
   tags:
   - Queries
-  description: Retrieve an individual query as identified by the id parameter. Then
-    end point accepts a number of parameters that can be used to override the resources'
-    persisted parameters.
-  operationId: View_query
-  summary: View query
-patch:
+  description: |-
+    When calling this endpoint the client provides a single object, containing the properties and links that it wants to change, in the body.
+    Note that it is only allowed to provide properties or links supporting the **write** operation.
   parameters:
   - description: Query id
     example: '1'
@@ -214,6 +238,11 @@ patch:
     required: true
     schema:
       type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/query_update_form.yml'
   responses:
     '200':
       content:
@@ -380,20 +409,3 @@ patch:
 
         * the client provides a link to an invalid resource (`ResourceTypeMismatch`)
       headers: {}
-  tags:
-  - Queries
-  description: |-
-    When calling this endpoint the client provides a single object, containing the properties and links that it wants to change, in the body.
-    Note that it is only allowed to provide properties or links supporting the **write** operation.
-  operationId: Edit_Query
-  requestBody:
-    content:
-      application/json:
-        schema:
-          example:
-            name: New query name
-          properties:
-            name:
-              type: string
-          type: object
-  summary: Edit Query

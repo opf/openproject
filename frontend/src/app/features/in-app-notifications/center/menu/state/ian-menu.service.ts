@@ -26,7 +26,6 @@ import {
   map,
   switchMap,
 } from 'rxjs/operators';
-import { collectionKey } from 'core-app/core/state/collection-store';
 import { combineLatest } from 'rxjs';
 
 @Injectable()
@@ -43,10 +42,7 @@ export class IanMenuService {
   projectsForNotifications$ = this
     .projectsFilter$
     .pipe(
-      switchMap((filterParams) => {
-        const key = collectionKey(filterParams);
-        return this.projectsResourceService.collection(key);
-      }),
+      switchMap((filterParams) => this.projectsResourceService.collection(filterParams)),
     );
 
   notificationsByProject$ = combineLatest([

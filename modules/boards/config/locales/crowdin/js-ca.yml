@@ -7,7 +7,7 @@ ca:
       label_unnamed_list: 'Llista sense nom'
       label_board_type: 'Tipus de taulell'
       upsale:
-        teaser_text: 'T''agradaria automatitzar els teus processos de treball amb taulells? Els taulells avançats són un add-on de l''edició Enterprise. Si us plau, actualitza a un pla de pagament.'
+        teaser_text: 'T''agradaria automatitzar els teus processos de treball amb taulells? Els taulells avançats són una extensió de l''edició Enterprise. Si us plau, actualitza a un pla de pagament.'
         upgrade: 'Actualitzeu ara'
       lists:
         delete: 'Suprimeix la llista'

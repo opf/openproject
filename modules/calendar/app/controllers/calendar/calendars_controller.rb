@@ -29,17 +29,41 @@
 module ::Calendar
   class CalendarsController < ApplicationController
     before_action :find_optional_project
-    before_action :authorize
+    before_action :build_calendar_view, only: %i[new]
+    before_action :authorize, except: %i[index new create]
+    before_action :authorize_global, only: %i[index new create]
 
     before_action :find_calendar, only: %i[destroy]
     menu_item :calendar_view
 
+    include Layout
+    include PaginationHelper
+    include SortHelper
+
     def index
       @views = visible_views
+      render 'index', locals: { menu_name: project_or_global_menu }
     end
 
     def show
       render layout: 'angular/angular'
+    end
+
+    def new; end
+
+    def create
+      service_result = create_service_class.new(user: User.current)
+                                           .call(calendar_view_params)
+
+      @view = service_result.result
+
+      if service_result.success?
+        flash[:notice] = I18n.t(:notice_successful_create)
+        redirect_to project_calendar_path(@project, @view.query)
+      else
+        @errors = service_result.errors
+        render action: :new
+      end
     end
 
     def destroy
@@ -54,13 +78,29 @@ module ::Calendar
 
     private
 
+    def build_calendar_view
+      @view = Query.new
+    end
+
+    def create_service_class
+      Calendar::Views::GlobalCreateService
+    end
+
+    def calendar_view_params
+      params.require(:query).permit(:name, :public, :starred).merge(project_id: @project&.id)
+    end
+
     def visible_views
-      Query
-        .visible(current_user)
-        .joins(:views)
-        .where('views.type' => 'work_packages_calendar')
-        .where('queries.project_id' => @project.id)
-        .order('queries.name ASC')
+      base_query = Query
+                     .visible(current_user)
+                     .joins(:views, :project)
+                     .where('views.type' => 'work_packages_calendar')
+
+      if @project
+        base_query = base_query.where('queries.project_id' => @project.id)
+      end
+
+      base_query.order('queries.name ASC')
     end
 
     def find_calendar

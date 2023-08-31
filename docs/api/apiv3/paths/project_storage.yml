@@ -1,0 +1,38 @@
+# /api/v3/project_storage/{id}
+---
+get:
+  summary: Gets a project storage
+  operationId: get_project_storage
+  tags:
+    - File Links
+  description: |-
+    Gets a project storage resource. This resource contains all data that is applicable on the relation between a
+    storage and a project.
+  parameters:
+    - name: id
+      description: Project storage id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1337
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/project_storage_model.yml'
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the project storage does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view file links

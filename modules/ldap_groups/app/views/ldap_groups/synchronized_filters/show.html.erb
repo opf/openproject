@@ -1,78 +1,66 @@
 <% html_title(t(:label_administration), t('ldap_groups.synchronized_filters.plural'), h(@filter.name)) -%>
 
 <%= error_messages_for @filter %>
+<% blocked = @filter.seeded_from_env? %>
 
 <%= breadcrumb_toolbar(h(@filter.name)) do %>
-  <li class="toolbar-item">
-    <%= link_to({ action: :edit },
-                class: 'button') do %>
-      <%= op_icon('button--icon icon-edit') %>
-      <span class="button--text"><%= t(:button_edit) %></span>
-    <% end %>
-  </li>
-  <li class="toolbar-item">
-    <%= link_to({ action: :destroy_info },
-                class: 'button -danger') do %>
-      <%= op_icon('button--icon icon-delete') %>
-      <span class="button--text"><%= t(:button_delete) %></span>
-    <% end %>
-  </li>
+  <% unless blocked %>
+    <li class="toolbar-item">
+      <%= link_to({ action: :edit },
+                  class: 'button') do %>
+        <%= op_icon('button--icon icon-edit') %>
+        <span class="button--text"><%= t(:button_edit) %></span>
+      <% end %>
+    </li>
+    <li class="toolbar-item">
+      <%= link_to({ action: :destroy_info },
+                  class: 'button -danger') do %>
+        <%= op_icon('button--icon icon-delete') %>
+        <span class="button--text"><%= t(:button_delete) %></span>
+      <% end %>
+    </li>
+  <% end %>
 <% end %>
 
-<section class="admin--edit-section">
-    <div class="attributes-key-value">
-      <div class="attributes-key-value--key"><%= @filter.class.human_attribute_name(:name) %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value">
-          <span><%= @filter.name %></span>
-        </div>
-      </div>
-      <div class="attributes-key-value--key"><%= @filter.class.human_attribute_name(:group_name_attribute) %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value">
-          <span><%= @filter.group_name_attribute %></span>
-        </div>
-      </div>
-      <div class="attributes-key-value--key"><%= @filter.class.human_attribute_name(:base_dn) %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value">
-          <%= @filter.used_base_dn %>
-        </div>
-      </div>
-      <div class="attributes-key-value--key"><%= @filter.class.human_attribute_name(:sync_users) %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value">
-          <% if @filter.sync_users %>
-            <%= checked_image @filter.sync_users %>
-          <% else %>
-            <%= t(:general_text_no) %>
-          <% end %>
-        </div>
-      </div>
-      <div class="attributes-key-value--key"><%= @filter.class.human_attribute_name(:filter_string) %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value">
-          <code><%= @filter.filter_string %></code>
-        </div>
-      </div>
-      <div class="attributes-key-value--key"><%= t('ldap_groups.synchronized_groups.plural') %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value">
-          <%= @filter.groups.count %>
-        </div>
-      </div>
+<% if blocked %>
+  <div class="op-toast -warning">
+    <div class="op-toast--content">
+      <%= t(:label_seeded_from_env_warning) %>
     </div>
+  </div>
+<% end %>
+
+
+<section class="admin--edit-section">
+  <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+    component.with_attribute(key: @filter.class.human_attribute_name(:name),
+                             value: @filter.name)
+    component.with_attribute(key: @filter.class.human_attribute_name(:group_name_attribute),
+                             value: @filter.group_name_attribute)
+    component.with_attribute(key: @filter.class.human_attribute_name(:base_dn),
+                             value: @filter.used_base_dn)
+    component.with_attribute(key: @filter.class.human_attribute_name(:sync_users),
+                             value: if @filter.sync_users
+                               checked_image @filter.sync_users
+                             else
+                               t(:general_text_no)
+                             end)
+    component.with_attribute(key: @filter.class.human_attribute_name(:filter_string),
+                             value: @filter.filter_string)
+    component.with_attribute(key: t('ldap_groups.synchronized_groups.plural'),
+                             value: @filter.groups.count)
+  end %>
 </section>
 
 <section class="admin--edit-section">
-<%= toolbar(title: t('ldap_groups.synchronized_groups.plural')) do %>
-  <li class="toolbar-item">
-    <%= link_to({ action: :synchronize },
-                class: 'button') do %>
-      <span class="button--text"><%= t('ldap_groups.label_synchronize') %></span>
-    <% end %>
-  </li>
-<% end %>
-  <%= rails_cell ::LdapGroups::SynchronizedGroups::TableCell, @filter.groups, show_inline_create: false, deletable: false %>
+  <%= toolbar(title: t('ldap_groups.synchronized_groups.plural')) do %>
+    <li class="toolbar-item">
+      <%= link_to({ action: :synchronize },
+                  class: 'button') do %>
+        <span class="button--text"><%= t('ldap_groups.label_synchronize') %></span>
+      <% end %>
+    </li>
+  <% end %>
+  <%= render ::LdapGroups::SynchronizedGroups::TableComponent.new(rows: @filter.groups, show_inline_create: false, deletable: false) %>
 </section>
 

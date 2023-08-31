@@ -26,6 +26,8 @@ bg:
         position: "Position"
         remaining_hours: "Оставащи часове"
         remaining_time: "Remaining hours"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Точки на история"
         backlogs_work_package_type: "Backlog type"
     errors:
@@ -35,9 +37,6 @@ bg:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "can only contain IDs of work packages in the current sprint."
               must_block_at_least_one_work_package: "must contain the ID of at least one ticket."
-            parent_id:
-              parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and therefore cannot have a parent outside of the current project."
-              type_must_be_one_of_the_following: "Type must be one of the following: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "трябва да бъде същата като версията на родителската история."
         sprint:
@@ -78,7 +77,6 @@ bg:
     x_more: "%{count} more..."
   backlogs_active: "Активен"
   backlogs_any: "всякакви"
-  backlogs_card_specification: "Видове етикети за печат на карти"
   backlogs_inactive: "Проектът не показва активност"
   backlogs_points_burn_direction: "Точки на изгаряне нагоре/надолу"
   backlogs_product_backlog: "Натрупване на продукти"

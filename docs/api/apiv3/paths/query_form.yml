@@ -1,0 +1,25 @@
+# /api/v3/query/{id}/form
+---
+post:
+  summary: Query Update Form
+  operationId: Query_Update_Form
+  tags:
+  - Queries
+  description: ''
+  parameters:
+  - description: Query id
+    example: 1
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/query_update_form.yml'
+  responses:
+    '200':
+      description: OK
+      headers: {}

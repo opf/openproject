@@ -7,46 +7,48 @@ module OpenProject::Bim::Patches::WorkPackageBoardSeederPatch
     def seed_data!
       super
 
-      if OpenProject::Configuration.bim? && project_has_data_for?(key, 'boards.bcf')
+      return unless OpenProject::Configuration.bim?
+
+      if board_data = project_data.lookup('boards.bcf')
         print_status '    ↳ Creating demo BCF board' do
-          seed_bcf_board
+          seed_bcf_board(board_data)
+          Setting.boards_demo_data_available = 'true'
         end
       end
     end
 
-    def seed_bcf_board
-      board = ::Boards::Grid.new(project:)
+    def seed_bcf_board(board_data)
+      widgets = seed_bcf_board_widgets
+      board =
+        ::Boards::Grid.new(
+          project:,
+          name: board_data.lookup('name'),
+          options: { 'type' => 'action', 'attribute' => 'status', 'highlightingMode' => 'type' },
+          widgets:,
+          column_count: widgets.count,
+          row_count: 1
+        )
+      board.save!
+    end
 
-      board.name = project_data_for(key, 'boards.bcf.name')
-      board.options = { 'type' => 'action', 'attribute' => 'status', 'highlightingMode' => 'type' }
-
-      board.widgets = seed_bcf_board_queries.each_with_index.map do |query, i|
+    def seed_bcf_board_widgets
+      seed_bcf_board_queries.each_with_index.map do |query, i|
         Grids::Widget.new start_row: 1, end_row: 2,
                           start_column: i + 1, end_column: i + 2,
                           options: { query_id: query.id,
                                      filters: [{ status: { operator: '=', values: query.filters[0].values } }] },
                           identifier: 'work_package_query'
       end
-
-      board.column_count = board.widgets.count
-      board.row_count = 1
-
-      board.save!
-
-      Setting.boards_demo_data_available = 'true'
     end
 
     def seed_bcf_board_queries
-      admin = User.admin.first
-      status_names = ['New', 'In progress', 'Resolved', 'Closed']
-      statuses = Status.where(name: status_names).to_a
-
-      if statuses.size < status_names.size
-        raise StandardError.new "Not all statuses needed for seeding a BCF board are present. Check that they get seeded."
-      end
-
-      statuses.to_a.map do |status|
-        Query.new_default(project:, user: admin).tap do |query|
+      statuses(
+        :default_status_new,
+        :default_status_in_progress,
+        :default_status_resolved,
+        :default_status_closed
+      ).map do |status|
+        Query.new_default(project:, user: admin_user).tap do |query|
           # Make it public so that new members can see it too
           query.public = true
 

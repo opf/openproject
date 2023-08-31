@@ -28,19 +28,35 @@
 
 module API::V3::StorageFiles
   class StorageFilesRepresenter < ::API::Decorators::Single
+    def initialize(model, storage, current_user:)
+      super(model, current_user:)
+
+      @storage = storage
+    end
+
     link :self do
       { href: "#{::API::V3::URN_PREFIX}storages:storage_files:no_link_provided" }
     end
 
     collection :files,
                getter: ->(*) do
-                 represented.files.map { |file| API::V3::StorageFiles::StorageFileRepresenter.new(file, current_user:) }
+                 represented.files.map do |file|
+                   API::V3::StorageFiles::StorageFileRepresenter.new(file, @storage, current_user:)
+                 end
                end,
                exec_context: :decorator
 
     property :parent,
-             getter: ->(*) { API::V3::StorageFiles::StorageFileRepresenter.new(represented.parent, current_user:) },
+             getter: ->(*) { API::V3::StorageFiles::StorageFileRepresenter.new(represented.parent, @storage, current_user:) },
              exec_context: :decorator
+
+    collection :ancestors,
+               getter: ->(*) do
+                 represented.ancestors.map do |file|
+                   API::V3::StorageFiles::StorageFileRepresenter.new(file, @storage, current_user:)
+                 end
+               end,
+               exec_context: :decorator
 
     def _type
       'StorageFiles'

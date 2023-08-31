@@ -36,14 +36,11 @@ import { BoardsRootComponent } from 'core-app/features/boards/boards-root/boards
 import { BoardInlineAddAutocompleterComponent } from 'core-app/features/boards/board/inline-add/board-inline-add-autocompleter.component';
 import { BoardsToolbarMenuDirective } from 'core-app/features/boards/board/toolbar-menu/boards-toolbar-menu.directive';
 import { BoardConfigurationModalComponent } from 'core-app/features/boards/board/configuration-modal/board-configuration.modal';
-import { BoardsIndexPageComponent } from 'core-app/features/boards/index-page/boards-index-page.component';
 import { BoardsMenuComponent } from 'core-app/features/boards/boards-sidebar/boards-menu.component';
-import { NewBoardModalComponent } from 'core-app/features/boards/new-board-modal/new-board-modal.component';
 import { AddListModalComponent } from 'core-app/features/boards/board/add-list-modal/add-list-modal.component';
 import { BoardHighlightingTabComponent } from 'core-app/features/boards/board/configuration-modal/tabs/highlighting-tab.component';
 import { AddCardDropdownMenuDirective } from 'core-app/features/boards/board/add-card-dropdown/add-card-dropdown-menu.directive';
 import { BoardFilterComponent } from 'core-app/features/boards/board/board-filter/board-filter.component';
-import { DragScrollModule } from 'cdk-drag-scroll';
 import { BoardListMenuComponent } from 'core-app/features/boards/board/board-list/board-list-menu.component';
 import { VersionBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/version/version-board-header.component';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -63,11 +60,10 @@ import { TileViewComponent } from './tile-view/tile-view.component';
     OpSharedModule,
     OpenprojectWorkPackagesModule,
     OpenprojectModalModule,
-    DragScrollModule,
     OpenprojectAutocompleterModule,
 
     // Dynamic Module for actions
-    DynamicModule.withComponents([VersionBoardHeaderComponent]),
+    DynamicModule,
 
     // Routes for /boards
     UIRouterModule.forChild({
@@ -76,7 +72,6 @@ import { TileViewComponent } from './tile-view/tile-view.component';
     }),
   ],
   declarations: [
-    BoardsIndexPageComponent,
     BoardPartitionedPageComponent,
     BoardListContainerComponent,
     BoardListComponent,
@@ -87,7 +82,6 @@ import { TileViewComponent } from './tile-view/tile-view.component';
     BoardConfigurationModalComponent,
     BoardsToolbarMenuDirective,
     BoardsMenuButtonComponent,
-    NewBoardModalComponent,
     AddListModalComponent,
     AddCardDropdownMenuDirective,
     BoardListMenuComponent,

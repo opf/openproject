@@ -9,9 +9,9 @@ keywords: general settings
 
 You can configure general system settings in OpenProject. Under System settings on the tab **General** you can configure the following options.
 
-1. **Application title**: This title will be displayed on the [application start page](../../../user-guide/start-page).
+1. **Application title**: This title will be displayed on the [application start page](../../../user-guide/home/).
 
-2. **Object per page options** define the options of how many objects  (for example work packages or news entries) you can have displayed on one page. This is used for the pagination in the work package list. You can enter several values, separated by coma. Please note that the higher value you set, the more work packages will be initially loaded and therefore it might take longer time to load a work package page.
+2. **Object per page options** define the options of how many objects  (for example work packages or news entries) you can have displayed on one page. This is used for the pagination in the work package table. You can enter several values, separated by coma. Please note that the higher value you set, the more work packages will be initially loaded and therefore it might take longer time to load a work package page.
 
 3. **Days displayed on project activity** determines how far back the project activities will be traced and displayed in the project's [Activity](../../../user-guide/activity).
 
@@ -29,7 +29,7 @@ You can configure general system settings in OpenProject. Under System settings 
 
 10. **Max number of diff lines displayed** defines the maximum number of lines displayed when comparing (diff) two versions in a repository.
 
-11. **Display security badge** enables to display a badge with your installation status in the [Information administration panel](../../information), and on the [start page](../../../user-guide/start-page). It is displayed to administrators only.
+11. **Display security badge** enables to display a badge with your installation status in the [Information administration panel](../../information), and on the [start page](../../../user-guide/home/). It is displayed to administrators only.
 
     *Note: if enabled, this will display a badge with your installation status in the* [Information](https://qa.openproject-edge.com/admin/info) *administration panel, and on the home page. It is displayed to administrators only.*
 
@@ -37,7 +37,7 @@ You can configure general system settings in OpenProject. Under System settings 
 
 ## Welcome block text
 
-Create a welcome text block to display the most important information to users on your [application start page](../../../user-guide/start-page).
+Create a welcome text block to display the most important information to users on your [application start page](../../../user-guide/home/).
 
 1. Insert a **welcome block title**.
 

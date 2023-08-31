@@ -28,6 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <div id="errorExplanation"
+     data-members-form-target="errorExplanation"
      class="op-toast errorExplanation -error <%= local_assigns[:classes] || '' %>"
      tabindex="0"
      role="alert">
@@ -36,9 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
       <p>
         <strong><%= error_message %></strong>
       </p>
-      <p>
-        <%= content_for :error_details %>
-      </p>
+      <%= content_for :error_details %>
     <% else %>
       <%= error_message %>
     <% end %>

@@ -80,7 +80,7 @@ ko:
       buttons:
         upgrade: "지금 업그레이드"
         contact: "당사에 데모 요청하기"
-      enterprise_info_html: "- Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> 추가 기능입니다."
+      enterprise_info_html: "- Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> 추가 기능입니다."
       upgrade_info: "활성화하고 팀에서 사용하려면 유료 플랜으로 업그레이드하세요."
     journal_aggregation:
       explanation:
@@ -99,15 +99,14 @@ ko:
     edit: "%{attribute_caption}에 대한 도움말 텍스트 편집"
     enterprise:
       description: '작업 패키지 및 프로젝트의 특성(사용자 지정 필드 포함)에 대한 추가 정보를 제공합니다. 사용자가 프로젝트 및 작업 패키지의 입력 필드 옆에 있는 물음표 기호를 클릭하면 도움말 텍스트가 표시됩니다.'
-  auth_sources:
-    index:
-      no_results_content_title: 사용인증 모드가 없습니다.
-      no_results_content_text: 새 사용인증 모드 생성
   background_jobs:
     status:
       error_requeue: "작업 중에 오류가 발생했지만 다시 시도 중입니다. 오류 메시지: %{message}"
       cancelled_due_to: "오류로 인해 작업이 취소되었습니다: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP 오류: %{error_message}"
+    ldap_auth_failed: "LDAP 서버에서 인증할 수 없습니다."
+    back_to_index: '연결 목록으로 돌아가려면 여기를 클릭하세요.'
     technical_warning_html: |
       이 LDAP 양식을 사용하려면 LDAP / Active Directory 설정에 대한 기술 지식이 필요합니다.
       <br/>
@@ -169,10 +168,21 @@ ko:
     index:
       no_results_title_text: 색깔이 없습니다.
       no_results_content_text: 새 색깔 생성
-    label_no_color: '색상 없음'
+      label_new_color: "새로운 색상"
+    new:
+      label_new_color: "새로운 색상"
+    edit:
+      label_edit_color: "색상 편집"
+    form:
+      label_new_color: "새로운 색상"
+      label_edit_color: "색상 편집"
+    label_no_color: "색상 없음"
+    label_properties: "속성"
+    label_really_delete_color: >
+      다음 색상을 삭제하시겠습니까? 이 색상을 사용하는 유형은 삭제되지 않습니다.
   custom_actions:
     actions:
-      name: '작업'
+      name: "작업"
       add: '작업 추가'
       assigned_to:
         executing_user_value: '(실행 사용자에게 할당)'
@@ -198,8 +208,6 @@ ko:
       no_results_content_text: 새 사용자 필드 생성
   concatenation:
     single: '또는'
-  documentation:
-    see_more_link: 자세한 내용은 이 주제에 대한 저희의 문서를 참고하십시오.
   global_search:
     overwritten_tabs:
       wiki_pages: "위키"
@@ -232,7 +240,7 @@ ko:
       failed_text: "프로젝트 %{name} 삭제 요청이 실패했습니다. 프로젝트가 보관되었습니다."
       completed: "프로젝트 %{name} 삭제가 완료되었습니다."
       completed_text: "프로젝트 '%{name}' 삭제 요청이 완료되었습니다."
-      completed_text_children: "Additionally, the following subprojects have been deleted:"
+      completed_text_children: "또한 다음 하위 프로젝트가 삭제되었습니다."
     index:
       open_as_gantt: 'Gantt 보기로 열기'
       open_as_gantt_title: "이 버튼을 사용하여 이 페이지에 표시되는 프로젝트에 대한 작업 패키지를 필터링하는 Gantt 보기를 생성하세요."
@@ -253,6 +261,8 @@ ko:
         no_results_title_text: 사용 가능한 사용자 필드가 없습니다.
       types:
         no_results_title_text: 사용 가능한 타입이 없습니다.
+        form:
+          enable_type_in_project: '유형 "%{type}" 사용'
       versions:
         no_results_title_text: 프로젝트에 버전이 없습니다.
         no_results_content_text: 새 버전 생성
@@ -269,11 +279,24 @@ ko:
       notice_reset_token: "새로운 %{type} 토큰이 생성되었습니다. 액세스 토큰:"
       token_value_warning: "참고: 이번에만 이 토큰이 표시됩니다. 지금 이 토큰을 복사해야 합니다."
       no_results_title_text: 가능한 접근 토큰이 없습니다.
+      notice_api_token_revoked: "API 토큰이 삭제되었습니다. 새 토큰을 만들려면 API 섹션의 링크를 사용하세요."
+      notice_rss_token_revoked: "RSS 토큰이 삭제되었습니다. 새 토큰을 만들려면 RSS 섹션의 링크를 사용하세요."
+      notice_ical_token_revoked: "\"%{project_name}\" 프로젝트의 \"%{calendar_name}\" 캘린더에 대한 iCalendar 토큰 \"%{token_name}\"이(가) 취소되었습니다. 이 토큰이 포함된 iCalendar URL이 이제 유효하지 않습니다."
   news:
     index:
       no_results_title_text: 보고할 소식이 없습니다.
       no_results_content_text: 소식 항목 추가
   users:
+    sessions:
+      session_name: "%{os_name}의 %{browser_name} %{browser_version}"
+      browser: '브라우저'
+      device: '장치/OS'
+      unknown_browser: '알 수 없는 브라우저'
+      unknown_os: '알 수 없는 운영 체제'
+      current: '현재 세션'
+      title: '세션 관리'
+      instructions: '사용자 계정에 로그인한 장치의 목록입니다. 알지 못하거나 더 이상 액세스할 수 없는 세션을 취소하세요.'
+      may_not_delete_current: '현재 세션을 삭제할 수 없습니다.'
     groups:
       member_in_these_groups: '이 사용자는 현재 다음 그룹의 멤버입니다:'
       no_results_title_text: 이 사용자는 현재 어떤 그룹의 멤버도 아닙니다.
@@ -314,6 +337,12 @@ ko:
     index:
       no_results_title_text: 작업 패키지 상태가 없습니다.
       no_results_content_text: 새 상태 추가
+  themes:
+    light: "라이트"
+    light_high_contrast: "라이트 하이 콘트라스트"
+    dark: "다크"
+    dark_dimmed: "다크 딤드"
+    dark_high_contrast: "다크 하이 콘트라스트"
   types:
     index:
       no_results_title_text: 타입이 없습니다.
@@ -333,6 +362,7 @@ ko:
         다양한 유형을 구분합니다. 따라서 진한 색상을 사용하는 것이 좋습니다.
   versions:
     overview:
+      work_packages_in_archived_projects: "해당 버전은 이 버전에 할당된 작업 패키지가 아직 있는 보관된 프로젝트와 공유됩니다. 이러한 버전은 카운트되지만, 링크된 보기에 나타나지는 않습니다."
       no_results_title_text: 이 버전에 할당된 작업 패키지가 없습니다.
   wiki:
     page_not_editable_index: 요청한 페이지가 (아직) 존재하지 않습니다. 모든 위키 페이지의 색인으로 리디렉션되었습니다.
@@ -417,12 +447,12 @@ ko:
       attribute_help_text:
         attribute_name: '특성'
         help_text: '도움말 텍스트'
-      auth_source:
+      ldap_auth_source:
         account: "계정"
-        attr_firstname: "성 속성"
-        attr_lastname: "이름 속성"
+        attr_firstname: "이름 특성"
+        attr_lastname: "성 특성"
         attr_login: "사용자 이름 특성"
-        attr_mail: "이메일 속성"
+        attr_mail: "이메일 특성"
         base_dn: "기본 DN"
         host: "호스트"
         onthefly: "자동 사용자 생성"
@@ -483,6 +513,15 @@ ko:
           true: "공개"
           false: "비공개"
         queries: "쿼리"
+        status_code: '프로젝트 상태'
+        status_explanation: '프로젝트 상태 설명'
+        status_codes:
+          not_started: '시작되지 않음'
+          on_track: '정상 상태'
+          at_risk: '위험 상태'
+          off_track: '비정상 상태'
+          finished: '마침'
+          discontinued: '중단됨'
         templated: "템플릿 프로젝트"
         templated_value:
           true: "템플릿으로 표시됨"
@@ -490,16 +529,6 @@ ko:
         types: "유형"
         versions: "버전"
         work_packages: "작업 패키지"
-      projects/status:
-        code: '상태'
-        explanation: '상태 설명'
-        codes:
-          not_started: '시작되지 않음'
-          on_track: '정상 상태'
-          at_risk: '위험 상태'
-          off_track: '비정상 상태'
-          finished: '마침'
-          discontinued: '중단됨'
       query:
         column_names: "컬럼"
         relations_to_type_column: "%{type}에 대한 관계"
@@ -516,6 +545,7 @@ ko:
         hours: "시간"
         spent_on: "날짜"
         type: "타입"
+        ongoing: "진행 중"
       type:
         description: "설명의 기본 텍스트"
         attribute_groups: ''
@@ -525,7 +555,7 @@ ko:
         color: "색상"
       user:
         admin: "관리자"
-        auth_source: "인증모드"
+        ldap_auth_source: "LDAP 연결"
         current_password: "기존 비밀번호"
         force_password_change: "다음 로그인 암호 변경 적용"
         language: "언어"
@@ -646,7 +676,7 @@ ko:
           "보안 컨텍스트"를 제공하지 않습니다. HTTPS 또는 localhost 같은 루프백 주소를 사용하세요.
         wrong_length: "너무 짧습니다 (최소 %{count} 자 이상이어야 합니다)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "제공된 SSL 인증서가 유효하지 않습니다: %{additional_message}"
@@ -690,6 +720,11 @@ ko:
           overlaps: '오버랩'
           outside: '- 그리드의 외부에 있습니다.'
           end_before_start: '종료 값은 시작 값보다 커야 합니다.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "- 필수입니다. 이름을 선택하세요."
+              not_unique: "- 사용 중입니다. 다른 이름을 선택하세요."
         notifications:
           at_least_one_channel: '알림을 보낼 채널을 하나 이상 지정해야 합니다.'
           attributes:
@@ -737,6 +772,10 @@ ko:
               format: "%{message}"
             sort_criteria:
               invalid: "열로 정렬할 수 없습니다: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "타임스탬프에 잘못된 값이 포함되어 있습니다: %{values}"
+              forbidden: "타임스탬프에 금지된 값이 포함되어 있습니다: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "은(는) %{group_by} 에 의해 그룹과 상호배타적입니다. 당신은 둘 다 활성화할 수 없습니다."
           filters:
@@ -793,6 +832,7 @@ ko:
               not_allowed_to_view: "- 이 리소스를 볼 수 없습니다."
               locked: "- 잠겨 있습니다."
         wiki_page:
+          error_conflict: "위키 페이지를 편집하는 동안 다른 사용자에 의해 업데이트되었습니다."
           attributes:
             slug:
               undeducible: "제목 '%{title}'에서 유추해낼 수 없습니다."
@@ -858,7 +898,7 @@ ko:
                 description: "비밀번호와 비밀번호 확인 필드가 일치하지 해야 합니다."
             status:
               invalid_on_create: "은(는) 새 사용자에 대해 유효한 상태가 아닙니다."
-            auth_source:
+            ldap_auth_source:
               error_not_found: "찾을 수 없음"
         member:
           principal_blank: "하나 이상의 사용자 또는 그룹을 선택 하십시오."
@@ -869,6 +909,7 @@ ko:
             principal:
               unassignable: "프로젝트에 할당할 수 없습니다."
         version:
+          undeletable_archived_projects: "첨부된 작업 패키지가 있으므로 이 버전은 삭제할 수 없습니다."
           undeletable_work_packages_attached: "첨부된 작업 패키지가 있으므로 이 버전은 삭제할 수 없습니다."
         status:
           readonly_default_exlusive: "- 기본값으로 표시된 상태에 대해 활성화할 수 없습니다."
@@ -904,16 +945,30 @@ ko:
       work_package: "작업 패키지"
       'doorkeeper/application': "OAuth 애플리케이션"
   errors:
-    header_invalid_fields: "다음 필드에 문제가 있습니다."
+    header_invalid_fields:
+      other: "다음 필드에 문제가 있습니다."
+    header_additional_invalid_fields:
+      other: "또한 다음 필드에 문제가 있습니다."
     field_erroneous_label: "이 필드는 유효 하지 않습니다: %{full_errors} \n유효한 값을 입력 해 주십시오."
   activity:
     item:
       created_by_on: "%{datetime}, %{user} 님이 생성함"
+      created_by_on_time_entry: "%{datetime}, %{user} 님이 시간 기록함"
       created_on: "%{datetime} 생성함"
+      created_on_time_entry: "%{datetime}, 시간 기록함"
       updated_by_on: "%{datetime}, %{user} 님이 업데이트함"
+      updated_by_on_time_entry: "%{datetime}, %{user} 님이 기록한 시간을 업데이트함"
       updated_on: "%{datetime} 업데이트함"
+      updated_on_time_entry: "%{datetime}, 기록한 시간을 업데이트함"
       parent_without_of: "하위 프로젝트"
       parent_no_longer: "더 이상 다음의 하위 프로젝트 아님"
+      time_entry:
+        hour:
+          other: "%{count} 시간"
+        hour_html:
+          other: "<i>%{count}시간</i>"
+        updated: "%{old_value}에서 %{value}(으)로 변경됨"
+        logged_for: "기록함 -"
     filter:
       changeset: "변경 집합"
       message: "포럼"
@@ -1030,6 +1085,8 @@ ko:
   button_configure: "구성"
   button_continue: "계속"
   button_copy: "복사"
+  button_copy_to_clipboard: "클립보드 복사"
+  button_copy_link_to_clipboard: "클립보드에 링크 복사"
   button_copy_and_follow: "복사하고 따라가기"
   button_create: "만들기"
   button_create_and_continue: "만들고 계속하기"
@@ -1159,7 +1216,7 @@ ko:
       - "10월"
       - "11월"
       - "12월"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - ':년'
       - ':월'
@@ -1192,61 +1249,6 @@ ko:
     units:
       hour:
         other: "시간"
-  default_activity_development: "개발"
-  default_activity_management: "관리"
-  default_activity_other: "기타"
-  default_activity_specification: "사양"
-  default_activity_support: "지원"
-  default_activity_testing: "테스팅"
-  default_color_black: "검은색"
-  default_color_blue: "파란색"
-  default_color_blue_dark: "파란색(진함)"
-  default_color_blue_light: "파란색(밝음)"
-  default_color_green_dark: "녹색(진함)"
-  default_color_green_light: "녹색(밝음)"
-  default_color_grey_dark: "회색(진함)"
-  default_color_grey_light: "회색(밝음)"
-  default_color_grey: "회색"
-  default_color_magenta: "심홍색"
-  default_color_orange: "주황색"
-  default_color_red: "빨강"
-  default_color_white: "흰색"
-  default_color_yellow: "노란색"
-  default_status_closed: "닫음"
-  default_status_confirmed: "확인됨"
-  default_status_developed: "개발됨"
-  default_status_in_development: "개발 중"
-  default_status_in_progress: "진행 중"
-  default_status_in_specification: "사양 내"
-  default_status_in_testing: "테스트 중"
-  default_status_new: "새로 만들기"
-  default_status_on_hold: "보류 중"
-  default_status_rejected: "거부됨"
-  default_status_scheduled: "예약됨"
-  default_status_specified: "지정됨"
-  default_status_tested: "테스트됨"
-  default_status_test_failed: "테스트 실패"
-  default_status_to_be_scheduled: "계획 예정"
-  default_priority_low: "낮음"
-  default_priority_normal: "보통"
-  default_priority_high: "높음"
-  default_priority_immediate: "즉시"
-  default_role_anonymous: "익명"
-  default_role_developer: "개발자"
-  default_role_project_admin: "프로젝트 관리자"
-  default_role_project_creator_and_staff_manager: "스태프 및 프로젝트 관리자"
-  default_role_non_member: "멤버 없음"
-  default_role_reader: "참관자"
-  default_role_member: "멤버"
-  default_type: "작업 패키지"
-  default_type_bug: "버그"
-  default_type_deliverable: "출시 가능"
-  default_type_epic: "에픽"
-  default_type_feature: "기능"
-  default_type_milestone: "마일스톤"
-  default_type_phase: "단계"
-  default_type_task: "일감"
-  default_type_user_story: "사용자 이야기"
   description_active: "활성?"
   description_attachment_toggle: "첨부 파일 표시/숨기기"
   description_autocomplete: >
@@ -1293,9 +1295,10 @@ ko:
   error_can_not_archive_project: "이 프로젝트는 보관할 수 없습니다: %{errors}"
   error_can_not_delete_entry: "항목을 삭제할 수 없습니다."
   error_can_not_delete_custom_field: "사용자 지정 필드를 삭제할 수 없습니다."
+  error_can_not_delete_in_use_archived_undisclosed: '보관된 프로젝트에는 작업 패키지도 있습니다. 어떤 프로젝트가 영향을 받는지 확인하려면 관리자에게 삭제를 수행하도록 요청해야 합니다.'
+  error_can_not_delete_in_use_archived_work_packages: '보관된 프로젝트에 작업 패키지도 있습니다. 해당 작업 패키지의 특성을 변경하려면 먼저 다음 프로젝트를 다시 활성화해야 합니다: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: '이 유형에는 작업 패키지가 포함되어 있으며 삭제할 수 없습니다. 영향을 받는 모든 작업 패키지는 <a target="_blank" href="%{url}">이 보기</a>에서 볼 수 있습니다.'
-    archived_projects: '보관된 프로젝트에 작업 패키지도 있습니다. 해당 작업 패키지의 유형을 변경하려면 먼저 다음 프로젝트를 다시 활성화해야 합니다: %{archived_projects}'
   error_can_not_delete_standard_type: "표준 유형은 삭제할 수 없습니다."
   error_can_not_invite_user: "사용자에게 초대장을 보내지 못했습니다."
   error_can_not_remove_role: "이 역할은 현재 사용 중이며 삭제할 수 없습니다."
@@ -1304,12 +1307,13 @@ ko:
   error_can_not_unarchive_project: "이 프로젝트를 보관 취소할 수 없습니다: %{errors}"
   error_check_user_and_role: "사용자 및 역할을 선택하세요."
   error_code: "오류 %{code}"
+  error_color_could_not_be_saved: "색상을 저장할 수 없습니다."
   error_cookie_missing: 'OpenProject 쿠키가 없습니다. 이 응용 프로그램은 쿠키 없이 제대로 작동하지 않으므로, 쿠키를 활성화해야 합니다.'
   error_custom_option_not_found: "존재하지 않는 옵션입니다."
   error_enterprise_activation_user_limit: "사용자 계정을 활성화할 수 없습니다(사용자 제한에 도달함). 액세스하려면 관리자에게 문의하세요."
   error_enterprise_token_invalid_domain: "Enterprise Edition이 활성화되지 않았습니다. 해당 Enterprise 토큰의 도메인(%{actual})이 시스템의 호스트 이름(%{expected})과 일치하지 않습니다."
   error_failed_to_delete_entry: '항목 삭제에 실패하였습니다.'
-  error_in_dependent: "종속 개체를 변경하려는 중에 오류가 발생했습니다: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "종속 개체를 변경하려는 중에 오류가 발생했습니다: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "종속 개체를 생성하려는 중에 오류가 발생했습니다: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "선택된 값이 유효하지 않습니다."
   error_journal_attribute_not_present: "저널에 %{attribute} 특성이 없습니다."
@@ -1328,6 +1332,7 @@ ko:
   error_password_change_failed: '암호를 변경하려는 중에 오류가 발생했습니다.'
   error_scm_command_failed: "리포지토리에 액세스하는 중에 오류가 발생했습니다. %{value}"
   error_scm_not_found: "항목 또는 수정 사항을 리포지토리에서 찾지 못했습니다."
+  error_type_could_not_be_saved: "유형을 저장할 수 없습니다."
   error_unable_delete_status: "하나 이상의 작업 패키지에 의해 사용되므로 작업 패키지 상태를 삭제할 수 없습니다."
   error_unable_delete_default_status: "기본 작업 패키지 상태를 삭제할 수 없습니다. 현재 상태를 삭제하기 전에 다른 기본 작업 패키지 상태를 선택하세요."
   error_unable_to_connect: "연결할 수 없습니다(%{value})."
@@ -1364,11 +1369,14 @@ ko:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "설명이 첨부된 PDF"
-      pdf_with_descriptions_and_attachments: "PDF와 설명 및 첨부 파일"
-      pdf_with_attachments: "PDF와 첨부 파일"
+      pdf_overview_table: "PDF 테이블"
+      pdf_report_with_images: "이미지가 포함된 PDF 보고서"
+      pdf_report: "PDF 보고서"
     image:
       omitted: "이미지를 내보내지 못했습니다."
+    units:
+      hours: 시간
+      days: 일
   extraction:
     available:
       pdftotext: "Pdftotext 사용 가능(선택적)"
@@ -1414,6 +1422,25 @@ ko:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "변경 사항이 취소되었습니다."
+    caused_changes:
+      dates_changed: "변경된 날짜"
+      system_update: "OpenProject 업데이트"
+    cause_descriptions:
+      work_package_predecessor_changed_times: 이전 %{link}에 대한 변경 사항 기준
+      work_package_parent_changed_times: 부모 %{link}에 대한 변경 사항 기준
+      work_package_children_changed_times: 자식 %{link}에 대한 변경 사항 기준
+      work_package_related_changed_times: 관련 %{link}에 대한 변경 사항 기준
+      unaccessable_work_package_changed: 관련 작업 패키지에 대한 변경 사항 기준
+      working_days_changed:
+        changed: "근무일에 대한 변경 사항 기준(%{changes})"
+        days:
+          working: "%{day}은(는) 이제 근무일입니다."
+          non_working: "%{day}은(는) 이제 휴무일입니다."
+        dates:
+          working: "%{date}은(는) 이제 근무일입니다."
+          non_working: "%{date}은(는) 이제 휴무일입니다."
+      system_update:
+        file_links_journal: '활동에 파일 링크 추가됨'
   links:
     configuration_guide: '구성 가이드'
     get_in_touch: "질문이 있으신가요? 문의해 주세요."
@@ -1438,6 +1465,33 @@ ko:
         action: "액션"
         expiration: "만료"
       indefinite_expiration: "사용 안 함"
+      simple_revoke_confirmation: "이 토큰을 취소하시겠습니까?"
+      api:
+        title: "API"
+        text_hint: "API 토큰을 사용하면 타사 애플리케이션이 REST API를 통해 이 OpenProject 인스턴스와 통신할 수 있습니다."
+        static_token_name: "API 토큰"
+        disabled_text: "관리자가 API 토큰을 활성화하지 않았습니다. 이 기능을 사용하려면 관리자에게 문의하세요."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar 토큰을 사용하면 사용자가 <a href=\"%{path}\" target=\"_blank\">OpenProject 캘린더를 구독</a>하고 외부 클라이언트의 최신 작업 패키지 정보를 볼 수 있습니다."
+        disabled_text: "관리자가 iCalendar 구독을 활성화하지 않았습니다. 이 기능을 사용하려면 관리자에게 문의하세요."
+        empty_text_hint: "iCalendar 토큰을 추가하려면 프로젝트의 캘린더 모듈 내에서 새 캘린더 또는 기존 캘린더를 구독하세요. 필요한 권한이 있어야 합니다."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth 토큰을 사용하면 타사 애플리케이션이 이 OpenProject 인스턴스와 연결할 수 있습니다."
+        empty_text_hint: "사용자를 위해 구성되고 활성화된 타사 애플리케이션 액세스가 없습니다. 이 기능을 활성화하려면 관리자에게 문의하세요."
+      rss:
+        title: "RSS"
+        text_hint: "RSS 토큰을 사용하면 외부 RSS 리더를 통해 이 OpenProject 인스턴스의 최신 변경 사항을 확인할 수 있습니다."
+        static_token_name: "RSS 토큰"
+        disabled_text: "관리자가 RSS 토큰을 활성화하지 않았습니다. 이 기능을 사용하려면 관리자에게 문의하세요."
+      storages:
+        title: "파일 저장소"
+        text_hint: "파일 저장소 토큰은 이 OpenProject 인스턴스를 외부 파일 저장소에 연결합니다."
+        empty_text_hint: "사용자 계정에 연결된 저장소 액세스 권한이 없습니다."
+        revoke_token: "이 토큰을 제거하시겠습니까? %{storage}에서 다시 로그인해야 합니다."
+        removed: "파일 저장소 토큰이 제거되었습니다."
+        failed: "오류가 발생하여 토큰을 제거할 수 없습니다. 나중에 다시 시도하세요."
   notifications:
     send_notifications: "이 작업에 대한 알림 보내기"
     work_packages:
@@ -1480,6 +1534,7 @@ ko:
   label_age: "기간"
   label_ago: "일 전"
   label_all: "모두"
+  label_all_projects: "모든 프로젝트"
   label_all_time: "모든 시간"
   label_all_words: "모든 단어"
   label_all_open_wps: "모두 열림"
@@ -1488,8 +1543,15 @@ ko:
   label_api_access_key: "API 액세스 키"
   label_api_access_key_created_on: "API 액세스 키가 %{value} 전에 생성되었습니다."
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "\"%{project_name}\"의 \"%{calendar_name}\"에 대한 iCalendar 토큰 \"%{token_name}\""
+  label_ical_access_key_not_present: "iCalendar 토큰이 없습니다."
+  label_ical_access_key_generation_hint: "캘린더 구독 시 자동으로 생성됩니다."
+  label_ical_access_key_latest: "최신"
+  label_ical_access_key_revoke: "취소"
   label_applied_status: "적용된 상태"
   label_archive_project: "프로젝트 아카이브하기"
+  label_archived_projects: "보관된 프로젝트"
   label_ascending: "오름차순"
   label_assigned_to_me_work_packages: "내게 할당된 작업 패키지"
   label_associated_revisions: "연결된 수정"
@@ -1498,9 +1560,9 @@ ko:
   label_attachment_plural: "파일"
   label_attribute: "특성"
   label_attribute_plural: "특성"
-  label_auth_source: "인증모드"
-  label_auth_source_new: "새 인증 모드"
-  label_auth_source_plural: "인증 모드"
+  label_ldap_auth_source_new: "새로운 LDAP 연결"
+  label_ldap_auth_source: "LDAP 연결"
+  label_ldap_auth_source_plural: "LDAP 연결"
   label_authentication: "인증"
   label_available_project_work_package_categories: '사용 가능한 작업 패키지 카테고리'
   label_available_project_work_package_types: '사용 가능한 작업 패키지 유형'
@@ -1523,6 +1585,7 @@ ko:
   label_bulk_edit_selected_work_packages: "선택된 작업 패키지 일괄 편집"
   label_bundled: '(번들)'
   label_calendar: "달력"
+  label_calendars_and_dates: "캘린더와 날짜"
   label_calendar_show: "달력 표시"
   label_category: "카테고리"
   label_consent_settings: "사용자 동의"
@@ -1558,8 +1621,8 @@ ko:
   label_confirmation: "확인"
   label_contains: "포함"
   label_content: "내용"
+  label_color_plural: "색상"
   label_copied: "복사됨"
-  label_copy_to_clipboard: "클립보드 복사"
   label_copy_same_as_target: "대상과 같음"
   label_copy_source: "소스"
   label_copy_target: "대상"
@@ -1576,6 +1639,7 @@ ko:
   label_database_version: "PostgreSQL 버전"
   label_date: "날짜"
   label_date_and_time: "날짜 및 시간"
+  label_date_format: "날짜 형식"
   label_date_from: "시작"
   label_date_from_to: "%{start}부터 %{end}까지"
   label_date_to: "끝"
@@ -1586,6 +1650,7 @@ ko:
   label_deleted: "삭제됨"
   label_deleted_custom_field: "(삭제된 사용자 지정 필드)"
   label_deleted_custom_option: "(삭제된 옵션)"
+  label_empty_element: "(비어 있음)"
   label_missing_or_hidden_custom_option: "(값이 없거나 액세스 권한이 없음)"
   label_descending: "내림차순"
   label_details: "세부 정보"
@@ -1618,16 +1683,20 @@ ko:
   label_enterprise: "엔터프라이즈"
   label_enterprise_active_users: "예약 활성 사용자 %{current}/%{limit}명"
   label_enterprise_edition: "Enterprise Edition"
+  label_enterprise_support: "엔터프라이즈 지원"
   label_environment: "환경"
   label_estimates_and_time: "견적 및 시간"
   label_equals: "일치함"
   label_everywhere: "어디에 있든지"
   label_example: "예"
+  label_experimental: "실험"
+  label_i_am_member: "멤버입니다"
   label_import: "가져오기"
   label_export_to: "다음에서도 사용 가능:"
   label_expanded_click_to_collapse: "확장되었습니다. 축소하려면 클릭하세요."
   label_f_hour: "%{value}시간"
   label_f_hour_plural: "%{value}시간"
+  label_favoured: "호감"
   label_feed_plural: "피드"
   label_feeds_access_key: "RSS 액세스 키"
   label_feeds_access_key_created_on: "RSS 액세스 키가 %{value} 전에 생성되었습니다."
@@ -1659,6 +1728,7 @@ ko:
   label_hierarchy_leaf: "계층 구조 리프"
   label_home: "홈"
   label_subject_or_id: "제목 또는 ID"
+  label_calendar_subscriptions: "캘린더 구독"
   label_impressum: "법적 고지"
   label_in: "-"
   label_in_less_than: "보다 작음"
@@ -1680,6 +1750,7 @@ ko:
   label_journal: "기록일지"
   label_journal_diff: "설명 비교"
   label_language: "언어"
+  label_languages: "언어"
   label_jump_to_a_project: "프로젝트로 이동..."
   label_keyword_plural: '키워드'
   label_language_based: "사용자 언어에 따름"
@@ -1701,6 +1772,7 @@ ko:
   label_logged_as: "로그인한 계정:"
   label_login: "로그인"
   label_custom_logo: "사용자 정의 로고"
+  label_custom_export_logo: "사용자 지정 내보내기 로고"
   label_custom_favicon: "사용자 지정 favicon"
   label_custom_touch_icon: "사용자 지정 터치 아이콘"
   label_logout: "로그아웃"
@@ -1737,6 +1809,7 @@ ko:
   label_more_than_ago: "일 이상 전"
   label_move_work_package: "작업 패키지 이동"
   label_my_account: "내 계정"
+  label_my_activity: "내 활동"
   label_my_account_data: "내 계정 데이터"
   label_my_projects: "내 프로젝트"
   label_my_queries: "내 사용자 지정 쿼리"
@@ -1787,7 +1860,6 @@ ko:
   label_password_rule_special: "특수 문자"
   label_password_rule_uppercase: "대문자"
   label_path_encoding: "경로 인코딩"
-  label_pdf_with_descriptions: "설명이 포함된 PDF"
   label_per_page: "페이지당"
   label_people: "사용자"
   label_permissions: "권한"
@@ -1809,7 +1881,6 @@ ko:
   label_principal_search: "기존 사용자 또는 그룹 추가"
   label_privacy_policy: "데이터 프라이버시 및 보안 정책"
   label_product_version: "제품 버전"
-  label_professional_support: "전문적 지원"
   label_profile: "프로필"
   label_project_activity: "프로젝트 활동"
   label_project_attribute_plural: "프로젝트 특성"
@@ -1821,7 +1892,8 @@ ko:
   label_project_new: "새 프로젝트"
   label_project_plural: "프로젝트"
   label_project_settings: "프로젝트 설정"
-  label_project_storage_plural: "저장소"
+  label_project_storage_plural: "파일 저장소"
+  label_project_storage_project_folder: "파일 저장소: 프로젝트 폴더"
   label_projects_storage_information: "%{count} 개의 프로젝트가 %{storage} 디스크 스토리지를 사용 중"
   label_project_view_all: "모든 프로젝트 보기"
   label_project_show_details: "프로젝트 세부 정보 표시"
@@ -1872,7 +1944,7 @@ ko:
   label_role_search: "새 멤버에게 역할 할당"
   label_scm: "SCM"
   label_search: "검색"
-  label_send_information: "사용자에게 계정 정보 보내기"
+  label_send_information: "사용자에게 새 자격 증명 보내기"
   label_send_test_email: "테스트 이메일 보내기"
   label_setting_plural: "설정"
   label_system_settings: "시스템 설정"
@@ -1909,6 +1981,7 @@ ko:
   label_this_week: "이번 주"
   label_this_year: "올해"
   label_time_entry_plural: "소비한 시간"
+  label_title: "제목"
   label_projects_menu: "프로젝트"
   label_today: "오늘"
   label_top_menu: "상단 메뉴"
@@ -1940,6 +2013,7 @@ ko:
   label_user_plural: "사용자"
   label_user_search: "사용자 검색"
   label_user_settings: "사용자 설정"
+  label_users_settings: "사용자 설정"
   label_version_new: "새 버전"
   label_version_plural: "버전"
   label_version_sharing_descendants: "하위 프로젝트 포함"
@@ -2011,10 +2085,7 @@ ko:
   label_global_role: "글로벌 역할"
   label_not_changeable: "(변경할 수 없음)"
   label_global: "글로벌"
-  auth_source:
-    using_abstract_auth_source: "추상 인증 소스를 사용할 수 없습니다."
-    ldap_error: "LDAP 오류: %{error_message}"
-    ldap_auth_failed: "LDAP 서버에서 인증할 수 없습니다."
+  label_seeded_from_env_warning: 이 레코드는 설정/환경 변수를 통해 생성되었습니다. UI를 통해 편집할 수 없습니다.
   macro_execution_error: "매크로 %{macro_name} 실행 중에 오류 발생"
   macro_unavailable: "매크로 %{macro_name}은(는) 표시할 수 없습니다."
   macros:
@@ -2057,6 +2128,7 @@ ko:
       mentioned_by: '%{user} 님이 코멘트에서 회원님을 멘션했습니다.'
       more_to_see:
         other: '알림이 있는 작업 패키지가 %{count}개 더 있습니다.'
+      open_in_browser: '브라우저에서 열기'
       reason:
         watched: '지켜봄'
         assigned: '할당됨'
@@ -2081,6 +2153,10 @@ ko:
   mail_body_incoming_email_error_in_reply_to: "%{received_at}, %{from_email} 작성함"
   mail_body_incoming_email_error_logs: "로그"
   mail_body_lost_password: "암호를 변경하려면 다음 링크를 클릭하세요."
+  mail_password_change_not_possible:
+    title: "암호를 변경할 수 없음"
+    body: "%{app_title}의 계정이 외부 인증 공급자(%{name})에 연결되었습니다."
+    subtext: "외부 계정의 암호는 애플리케이션에서 변경할 수 없습니다. 인증 공급자의 암호 분실 기능을 사용하십시오."
   mail_body_register: "%{app_title}입니다. 다음 링크를 클릭하여 계정을 활성화하세요:"
   mail_body_register_header_title: "프로젝트 멤버 초대 이메일"
   mail_body_register_user: "%{name}님께, "
@@ -2200,7 +2276,7 @@ ko:
   present_access_key_value: "당신의 %{key_name} : %{value}"
   notice_automatic_set_of_standard_type: "자동으로 표준 유형을 설정합니다."
   notice_logged_out: "로그아웃했습니다."
-  notice_wont_delete_auth_source: 사용자가 사용 중인 인증 모드는 삭제할 수 없습니다.
+  notice_wont_delete_auth_source: 사용자가 사용 중인 LDAP 연결은 삭제할 수 없습니다.
   notice_project_cannot_update_custom_fields: "프로젝트의 사용 가능한 사용자 지정 필드를 업데이트할 수 없습니다. 프로젝트가 유효하지 않습니다: %{errors}"
   notice_attachment_migration_wiki_page: >
     이 페이지는 OpenProject 업데이트 중에 자동으로 생성되었습니다. 이 페이지에는 %{container_type} "%{container_name}"과(와) 이전에 연결된 모든 첨부 파일이 포함되어 있습니다.
@@ -2233,7 +2309,8 @@ ko:
   permission_add_messages: "메시지 게시"
   permission_add_project: "프로젝트 만들기"
   permission_archive_project: "프로젝트 보관"
-  permission_manage_user: "사용자 생성 및 편집"
+  permission_create_user: "사용자 만들기"
+  permission_manage_user: "사용자 편집"
   permission_manage_placeholder_user: "플레이스홀더 사용자 생성, 수정, 제거"
   permission_add_subprojects: "하위 프로젝트 만들기"
   permission_add_work_package_watchers: "주시자 추가"
@@ -2324,7 +2401,7 @@ ko:
       archived: "보관됨"
   project_module_activity: "활동"
   project_module_forums: "포럼"
-  project_module_work_package_tracking: "작업 패키지 추적"
+  project_module_work_package_tracking: "작업 패키지"
   project_module_news: "뉴스"
   project_module_repository: "리포지토리"
   project_module_wiki: "위키"
@@ -2496,7 +2573,7 @@ ko:
   setting_consent_decline_mail: "동의 연락처 메일 주소"
   setting_cross_project_work_package_relations: "교차 프로젝트 작업 패키지 관계 허용"
   setting_first_week_of_year: "1년의 첫 주 기준"
-  setting_date_format: "날짜 형식"
+  setting_date_format: "날짜"
   setting_default_language: "기본 언어"
   setting_default_projects_modules: "새 프로젝트에 대해 기본적으로 활성화된 모듈"
   setting_default_projects_public: "새 프로젝트는 기본적으로 공용입니다."
@@ -2508,6 +2585,7 @@ ko:
   setting_enabled_scm: "활성화된 SCM"
   setting_enabled_projects_columns: "프로젝트 목록에 표시"
   setting_feeds_enabled: "피드 사용"
+  setting_ical_enabled: "iCalendar 구독 활성화"
   setting_feeds_limit: "피드 콘텐츠 제한"
   setting_file_max_size_displayed: "인라인에 표시되는 텍스트 파일의 최대 크기"
   setting_host_name: "호스트 이름"
@@ -2558,9 +2636,9 @@ ko:
   setting_start_of_week: "주의 시작:"
   setting_sys_api_enabled: "리포지토리 관리 웹 서비스 사용"
   setting_sys_api_description: "리포지토리 관리 웹 서비스는 리포지토리에 액세스하기 위한 통합 및 사용자 인증을 제공합니다."
-  setting_time_format: "시간 형식"
+  setting_time_format: "시간"
   setting_accessibility_mode_for_anonymous: "익명 사용자에 대해 접근성 모드 사용"
-  setting_user_format: "사용자 표시 형식"
+  setting_user_format: "사용자 이름 형식"
   setting_user_default_timezone: "사용자의 기본 표준 시간대"
   setting_users_deletable_by_admins: "관리자가 삭제 가능한 사용자 계정"
   setting_users_deletable_by_self: "자신의 계정을 삭제하도록 허용된 사용자"
@@ -2569,29 +2647,22 @@ ko:
   setting_welcome_on_homescreen: "홈 화면에 환영 블록 표시"
   setting_work_package_list_default_highlighting_mode: "기본 강조 표시 모드"
   setting_work_package_list_default_highlighted_attributes: "기본 인라인 강조 표시 특성"
+  setting_working_days: "근무일"
   settings:
-    general: "일반"
-    other: "기타"
-    passwords: "암호"
-    session: "세션"
-    brute_force_prevention: "자동화된 사용자 차단"
     attachments:
       whitelist_text_html: >
         업로드된 파일의 유효한 파일 확장명 및/또는 MIME 형식 목록을 정의합니다. <br/> 파일 확장명(예: <code>%{ext_example}</code>) 또는 MIME 형식(예: <code>%{mime_example}</code>)을 입력합니다. <br/> 모든 파일 형식을 업로드할 수 있도록 허용하려면 비워 둡니다. 여러 값이 허용됩니다(각 값에 대해 한 줄).
-    notifications:
-      events_explanation: '이메일을 보낼 이벤트를 관리합니다. 작업 패키지에 대한 알림은 각 사용자에 대해 구체적으로 구성할 수 있으므로 작업 패키지는 이 목록에 포함되지 않습니다.'
-      delay_minutes_explanation: "인앱 알림이 구성된 사용자가 메일이 전송되기 전에 애플리케이션 내에서 알림을 확인할 수 있도록 이메일 전송이 지연될 수 있습니다. 애플리케이션 내에서 알림을 읽은 사용자는 이미 읽은 알림에 대한 이메일을 받지 않습니다."
-    display:
+    brute_force_prevention: "자동화된 사용자 차단"
+    date_format:
       first_date_of_week_and_year_set: >
-        "%{day_of_week_setting_name}"이나 "%{first_week_setting_name}" 중 하나가 설정되었다면, 프론트엔드 충돌을 방지하기 위해 나머지 하나도 설정되어야 합니다.
-      first_week_of_year_text: >
-        1년의 첫째 주에 포함될 1월 날짜를 선택하십시오. 이 값은 첫째 요일과 함께 1년의 총 주일 수를 결정합니다.
-    projects:
-      section_new_projects: "새 프로젝트의 설정"
-      section_project_overview: "프로젝트 개요 목록의 설정"
-    user:
-      default_preferences: "기본 설정"
-      deletion: "삭제"
+        "%{day_of_week_setting_name}" 또는 "%{first_week_setting_name}" 옵션 중 하나가 설정되었다면, 프론트엔드에서의 충돌을 방지하기 위해 나머지 하나도 설정해야 합니다.
+      first_week_of_year_text_html: >
+        해당 연도의 첫 번째 주에 포함된 1월의 날짜를 선택하세요. 이 값은 주의 첫째 날과 함께 1년의 총 주 수를 결정합니다. 자세한 내용은 이 항목에 대한 <a href="%{link}" target="_blank">문서</a>를 참조하세요.
+    experimental:
+      save_confirmation: 주의! 데이터 손실 위험! OpenProject 설치를 중단하고 일부 데이터를 손실해도 괜찮을 경우에만 실험적 기능을 활성화하세요.
+      warning_toast: 기능 플래그는 아직 개발 중인 기능을 활성화하는 설정이며, 테스트 목적으로만 사용해야 합니다. 중요한 데이터가 있는 OpenProject 설치에서는 절대 활성화하지 말아야 합니다. 이러한 기능은 데이터를 손상시킬 가능성이 매우 높습니다. 사용 시 책임은 사용자에게 있습니다.
+      feature_flags: 기능 플래그
+    general: "일반"
     highlighting:
       mode_long:
         inline: "특성을 인라인으로 강조 표시"
@@ -2599,6 +2670,25 @@ ko:
         status: "상태별 전체 행"
         type: "유형별 전체 행"
         priority: "우선 순위별 전체 행"
+    icalendar:
+      enable_subscriptions_text_html: 필요한 권한이 있는 사용자가 OpenProject 캘린더를 구독하고 외부 캘린더 클라이언트를 통해 작업 패키지 정보에 액세스하도록 허용합니다. <strong>참고:</strong> 활성화하기 전에 <a href="%{link}" target="_blank">iCalendar 구독</a>에 대해 읽고 잠재적인 보안 위험을 파악하세요.
+    language_name_being_default: '%{language_name}(기본값)'
+    notifications:
+      events_explanation: '이메일을 보낼 이벤트를 관리합니다. 작업 패키지에 대한 알림은 각 사용자에 대해 구체적으로 구성할 수 있으므로 작업 패키지는 이 목록에 포함되지 않습니다.'
+      delay_minutes_explanation: "인앱 알림이 구성된 사용자가 메일이 전송되기 전에 애플리케이션 내에서 알림을 확인할 수 있도록 이메일 전송이 지연될 수 있습니다. 애플리케이션 내에서 알림을 읽은 사용자는 이미 읽은 알림에 대한 이메일을 받지 않습니다."
+    other: "기타"
+    passwords: "암호"
+    projects:
+      section_new_projects: "새 프로젝트의 설정"
+      section_project_overview: "프로젝트 개요 목록의 설정"
+    session: "세션"
+    user:
+      default_preferences: "기본 설정"
+      display_format: "표시 형식"
+      deletion: "삭제"
+    working_days:
+      section_work_week: "근무 주"
+      section_holidays_and_closures: "공휴일 및 휴업일"
   text_formatting:
     markdown: 'Markdown'
     plain: '일반 텍스트'
@@ -2631,18 +2721,18 @@ ko:
     사용자 지정 필드를 사용하는 경우: 사용자 지정 필드는 프로젝트별로 활성화해야 함을 유의하세요.
   text_custom_field_hint_activate_per_project_and_type: >
     사용자 지정 필드는 작업 패키지 유형 및 프로젝트별로 활성화해야 합니다.
-  text_wp_custom_field_html: >
-    Enterprise Edition은 작업 패키지의 사용자 지정 필드에 대해 다음과 같은 기타 추가 기능을 추가합니다. <br> <ul> <li><b>목록 또는 사용자 유형의 사용자 지정 필드에서 다중 선택 허용</b></li> </ul>
   text_wp_status_read_only_html: >
     Enterprise Edition은 작업 패키지의 상태 필드에 대해 다음과 같은 기타 추가 기능을 추가합니다. <br> <ul> <li><b>특정 상태에 대해 작업 패키지를 읽기 전용으로 표시 허용</b></li> </ul>
   text_project_custom_field_html: >
     Enterprise Edition은 프로젝트의 사용자 지정 필드에 대해 다음과 같은 기타 추가 기능을 추가합니다: <br> <ul> <li><b>프로젝트 목록에 프로젝트에 대한 사용자 지정 필드를 추가하여 프로젝트 포트폴리오 보기 만들기</b></li> </ul>
   text_custom_logo_instructions: >
     투명한 배경에 흰색 로고가 권장됩니다. 기존 디스플레이와 레티나 디스플레이 둘 다에서 최상의 결과를 위해 이미지의 크기는 460px x 60px여야 합니다.
+  text_custom_export_logo_instructions: >
+    PDF 내보내기에서 표시되는 로고입니다. PNG 또는 JPEG 이미지 파일이어야 합니다. 투명 또는 흰색 바탕에 검은색 또는 컬러 로고를 사용하는 것이 좋습니다.
   text_custom_favicon_instructions: >
-    페이지 제목 옆의 브라우저 창/탭에 나타나는 작은 아이콘입니다. 투명한 배경을 가진 32x32 제곱 픽셀 크기 PNG 이미지 파일이어야 합니다.
+    페이지 제목 옆의 브라우저 창/탭에 나타나는 작은 아이콘입니다. 투명한 배경을 가진 정사각형 32x32 픽셀 크기의 PNG 이미지 파일이어야 합니다.
   text_custom_touch_icon_instructions: >
-    홈 화면에 북마크를 추가하면 휴대폰 또는 태블릿에 표시되는 아이콘입니다. 180x180 제곱 픽셀 크기의 PNG 이미지 파일이어야 합니다. 이미지의 배경이 투명하지 않은지 확인하세요. 그렇지 않으면 iOS에서 제대로 표시되지 않습니다.
+    홈 화면에 북마크를 추가하면 휴대폰 또는 태블릿에 표시되는 아이콘입니다. 정사각형 180x180 픽셀 크기의 PNG 이미지 파일이어야 합니다. 이미지의 배경이 투명하지 않은지 확인하세요. 그렇지 않으면 iOS에서 제대로 표시되지 않습니다.
   text_database_allows_tsv: "데이터베이스에서 TSVector 허용(옵션)"
   text_default_administrator_account_changed: "기본 관리자 계정 변경됨"
   text_default_encoding: "기본: UTF-8"
@@ -2668,12 +2758,16 @@ ko:
   text_work_packages_destroy_confirmation: "선택한 작업 패키지를 삭제하시겠습니까?"
   text_work_packages_ref_in_commit_messages: "커밋 메시지의 작업 패키지 참조 또는 수정"
   text_journal_added: "%{label} %{value} 추가됨"
+  text_journal_attachment_added: "%{label} %{value}이(가) 첨부 파일로 추가됨"
+  text_journal_attachment_deleted: "%{label} %{old}이(가) 첨부 파일로 제거됨"
   text_journal_changed_plain: "%{label}이(가) %{old}에서 %{linebreak}%{new}(으)로 변경되었습니다."
   text_journal_changed_no_detail: "%{label} 업데이트됨"
   text_journal_changed_with_diff: "%{label} 변경됨(%{link})"
   text_journal_deleted: "%{label} 삭제됨(%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} 삭제됨(%{link})"
+  text_journal_file_link_added: "%{value}(%{storage})에 대한 %{label} 링크 추가됨"
+  text_journal_file_link_deleted: "%{old}(%{storage})에 대한 %{label} 링크 제거됨"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label}이(가) %{value}(으)로 설정됨"
   text_journal_set_with_diff: "%{label} 설정됨(%{link})"
@@ -2719,6 +2813,11 @@ ko:
   text_zoom_in: "확대"
   text_zoom_out: "축소"
   text_setup_mail_configuration: "이메일 공급자 구성"
+  help_texts:
+    views:
+      project: "%{plural}은(는) 항상 프로젝트에 연결되어 있습니다. %{singular}을(를) 생성한 후 다른 프로젝트의 작업 패키지를 여기에 추가할 수 있습니다."
+      public: "다른 사용자가 이 보기에 액세스할 수 있도록 하려면 이 보기를 게시하십시오. '공용 보기 관리' 권한을 가진 사용자는 공용 쿼리를 수정 또는 제거할 수 있습니다. 이는 해당 보기에서 작업 패키지 결과의 표시 여부에 영향을 주지 않기 때문에 사용자의 권한에 따라 다른 결과가 표시될 수 있습니다."
+      favoured: "이 보기를 즐겨찾기로 표시하고 왼쪽의 저장된 보기 사이드바에 추가하세요."
   time:
     am: "오전"
     formats:
@@ -2731,152 +2830,6 @@ ko:
     show: "시간 범위 표시"
     end: "끝"
     start: "시작"
-  timelines:
-    admin_menu:
-      color: "색상"
-      colors: "색상"
-    associations: "종속성"
-    button_delete_all: "모두 삭제"
-    change: "계획에서 변경"
-    children: "자식 요소"
-    color_could_not_be_saved: "색상을 저장할 수 없습니다."
-    current_planning: "현재 계획"
-    dates: "날짜"
-    dates_are_calculated_based_on_sub_elements: "날짜는 하위 요소에 따라 계산됩니다."
-    delete_all: "모두 삭제"
-    delete_thing: "삭제"
-    duration: "기간"
-    duration_days:
-      other: "1일\n%{count}일"
-    edit_color: "색상 편집"
-    edit_thing: "편집"
-    edit_timeline: "타임라인 보고서 %{timeline} 편집"
-    delete_timeline: "타임라인 보고서 %{timeline} 삭제"
-    empty: "(비어 있음)"
-    enable_type_in_project: '유형 "%{type}" 사용'
-    end: "끝"
-    errors:
-      not_implemented: "아직 구현되지 않은 기능을 사용하기 때문에 타임라인을 렌더링할 수 없습니다."
-      report_comparison: "타임라인은 구성된 비교를 렌더링할 수 없습니다. 구성에서 적절한 섹션을 확인하세요. 이를 재설정하면 이 문제가 해결될 수 있습니다."
-      report_epicfail: "예기치 않은 오류로 인해 타임라인을 로드할 수 없습니다."
-      report_timeout: "적절한 시간에 타임라인을 로드할 수 없습니다."
-    filter:
-      errors:
-        timeframe_start: "시간 범위 시작 "
-        timeframe_end: "시간 범위 끝 "
-        compare_to_relative: "상대 비교 값 "
-        compare_to_absolute: "절대 비교 값 "
-        planning_element_time_relative_one: "특정 시간 범위에서 작업 패키지의 시작 "
-        planning_element_time_relative_two: "특정 시간 범위에서 작업 패키지의 끝 "
-        planning_element_time_absolute_one: "특정 시간 범위에서 작업 패키지의 시작  "
-        planning_element_time_absolute_two: "특정 시간 범위에서 작업 패키지의 끝  "
-      sort:
-        sortation: "정렬 기준"
-        alphabet: "알파벳"
-        explicit_order: "명시적 순서"
-        project_sortation: "프로젝트 정렬 기준"
-        date: "날짜"
-        default: "기본값"
-      column:
-        assigned_to: "담당자"
-        type: "타입"
-        due_date: "종료 날짜"
-        name: "이름"
-        status: "상태"
-        start_date: "시작 날짜"
-      columns: "컬럼"
-      comparisons: "비교"
-      comparison:
-        absolute: "절대"
-        none: "없음"
-        relative: "상대"
-        compare_relative_prefix: "현재 계획 비교 대상"
-        compare_relative_suffix: "전"
-        compare_absolute: "%{date}과(와) 현재 계획 비교"
-      time_relative:
-        days: "일"
-        weeks: "주"
-        months: "개월"
-      exclude_own_work_packages: "이 프로젝트에서 작업 패키지 숨기기"
-      exclude_reporters: "다른 프로젝트 숨기기"
-      exclude_empty: "빈 프로젝트 숨기기"
-      grouping: "그룹화"
-      grouping_hide_group: "그룹 \"%{group}\" 숨기기"
-      grouping_one: "첫 번째 그룹화 기준"
-      grouping_one_phrase: "다음의 하위 프로젝트임"
-      grouping_other: "기타"
-      hide_chart: "차트 숨기기"
-      noneElement: "(없음)"
-      noneSelection: "(없음)"
-      outline: "초기 윤곽 확장"
-      parent: "다음의 하위 프로젝트 표시"
-      work_package_responsible: "담당하는 작업 패키지 표시"
-      work_package_assignee: "작업 패키지와 담당자 표시"
-      types: "유형 표시"
-      status: "상태 표시"
-      project_time_filter: "특정 시간 범위에서 특정 유형의 작업 패키지가 있는 프로젝트"
-      project_time_filter_timeframe: "시간 범위"
-      project_time_filter_historical_from: "시작"
-      project_time_filter_historical_to: "끝"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} 전, 앞으로 %{end_label} %{endspan}%{endspanunit} 후"
-      project_filters: "프로젝트 필터링"
-      project_responsible: "담당하는 프로젝트 표시"
-      project_status: "프로젝트 상태 표시"
-      timeframe: "시간 범위 표시"
-      timeframe_end: "끝"
-      timeframe_start: "시작"
-      timeline: "일반 설정"
-      zoom: "확대/축소 비율"
-    history: "기록"
-    new_color: "새 색상"
-    new_association: "새 종속성"
-    new_work_package: "새 작업 패키지"
-    new_reporting: "새 보고"
-    new_timeline: "새 타임라인 보고서"
-    no_projects_for_reporting_available: "보고 연결을 만들 수 있는 프로젝트가 없습니다."
-    no_right_to_view_timeline: "연결된 타임라인을 보는 데 필요한 권한이 없습니다."
-    no_timeline_for_id: "ID가 %{id}인 타임라인이 없습니다."
-    notice_successful_deleted_all_elements: "모든 요소 삭제함"
-    outline: "윤곽 재설정"
-    outlines:
-      aggregation: "집계만 표시"
-      level1: "확장 수준 1"
-      level2: "확장 수준 2"
-      level3: "확장 수준 3"
-      level4: "확장 수준 4"
-      level5: "확장 수준 5"
-      all: "모두 표시"
-    reporting_for_project:
-      show: "프로젝트에 보고된 상태: %{title}"
-      edit_delete: "프로젝트에 대한 상태 보고서: %{title}"
-      history: "프로젝트의 상태에 대한 기록: %{title}"
-    reporting:
-      delete: "상태 삭제: %{comment}"
-      edit: "상태 편집: %{comment}"
-      show: "상태: %{comment}"
-    planning_element_update: "업데이트: %{title}"
-    type_could_not_be_saved: "유형을 저장할 수 없습니다."
-    reporting_could_not_be_saved: "보고를 저장할 수 없습니다."
-    properties: "속성"
-    really_delete_color: >
-      다음 색상을 삭제하시겠습니까? 이 색상을 사용하는 유형은 삭제되지 않습니다.
-    really_delete_reporting: >
-      다음 보고를 삭제하시겠습니까? 이전 보고 상태도 삭제됩니다.
-    start: "시작"
-    timeline: "타임라인 보고서"
-    timelines: "타임라인 보고서"
-    settings: "타임라인"
-    vertical_work_package: "세로 작업 패키지"
-    you_are_viewing_the_selected_timeline: "선택한 타임라인 보고서를 보고 있습니다."
-    zoom:
-      in: "확대"
-      out: "축소"
-      days: "일"
-      weeks: "주"
-      months: "개월"
-      quarters: "분기"
-      years: "년"
   title_remove_and_delete_user: 초대받은 사용자를 프로젝트에서 제거하고 해당 사용자를 삭제하세요.
   title_enterprise_upgrade: "더 많은 사용자를 잠금 해제하려면 업그레이드하세요."
   tooltip_user_default_timezone: >
@@ -2965,9 +2918,9 @@ ko:
       title: "작업 패키지 삭제"
   working_days:
     info: >
-      <b>근무 주의 일부로 간주되는 요일 정의</b><br/> 선택하지 않은 요일은 작업 패키지를 예약할 때 건너뜁니다(일 수에 포함되지 않음). 작업 패키지 수준에서 재정의할 수 있습니다.
+      선택하지 않은 요일은 작업 패키지를 예약할 때 건너뜁니다(일 수에 포함되지 않음). 작업 패키지 수준에서 재정의할 수 있습니다.
     instance_wide_info: >
-      <b>특정 휴무일(공휴일 및 휴무일)</b><br/> 아래 목록에 추가된 날짜는 휴무일로 간주되고 작업 패키지를 예약할 때 건너뜁니다.
+      아래 목록에 추가된 날짜는 휴무로 간주되며 작업 패키지를 예약할 때 건너뜁니다.
     change_button: "근무일 변경"
     warning: >
       근무일 또는 휴무일로 간주되는 요일을 변경하면 이 인스턴스의 모든 프로젝트에 있는 모든 작업 패키지의 시작 날짜 및 완료 날짜에 영향을 미칠 수 있습니다. <br/> 변경 사항 적용 버튼을 클릭한 후에만 변경 사항이 적용됩니다.
@@ -2993,6 +2946,7 @@ ko:
       code_409: "수정 사항이 출동하여 리소스를 업데이트할 수 없습니다."
       code_429: "너무 많은 요청이 들어왔습니다. 나중에 다시 시도해주십시오."
       code_500: "내부 오류가 발생하였습니다."
+      code_500_outbound_request_failure: "다른 리소스에 대한 아웃바운드 요청이 실패했으며 상태 코드는 %{status_code}입니다."
       not_found:
         work_package: "원하는 작업 패키지를 찾을 수 없거나 삭제되었습니다."
       expected:

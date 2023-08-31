@@ -28,54 +28,55 @@
 
 .attributes-key-value
   display: flex
-  flex-wrap: wrap
+  // flex-wrap: wrap
   font-size: 0.875rem
-
-.attributes-key-value--key
-  @extend .form--label
-  display: flex
-  flex: 1 0 35%
-  max-width: 35%
   margin-bottom: 0.1875rem
-  padding: 0.375rem 0
-  font-weight: bold
-  // Ensure that the text is shortened while the help icon will be displayed
-  // The flex and max-width of wp-replacement-label and attribute-help-text
-  // are tuned to:
-  // * have the label be displayed in total if there is enough place (safari
-  //   tends to sometimes fall back to ellipsis too early, e.g. for 'Category')
-  // * Have the label grow to the full width if necessary and only apply ellipsis
-  //   after that.
-  // * have the attribute-help-text positioned as far to the left as possible so to be
-  //   right after the label.
-  // It is unclear why in `flex: 100 0 auto` the 100 seems to be doing the trick (MAGIC NUMBER).
-  // It does not work with e.g. 1000 or 10
-  > wp-replacement-label
-    @include text-shortener
-    padding-right: $spot-spacing-0_5
-    flex: 1 1 auto
-    max-width: 100%
-  > attribute-help-text
-    flex: 100 0 auto
+  line-height: 1.5em
 
-.attributes-key-value--value-container
-  display: flex
-  flex: 1 0 65%
-  max-width: 65%
-  margin-bottom: 0.1875rem
-  padding: 0.375rem 0
-  align-self: center
-  height: 100%
+  &--key
+    @extend .form--label
+    display: flex
+    flex-basis: 140px
+    flex-grow: 1
+    padding: 0.375rem 0
+    font-weight: bold
+    overflow-wrap: break-word
+    hyphens: auto
 
-  p
-    font-size: $form-label-fontsize
-    word-wrap: break-word
+    @media screen and (min-width: $breakpoint-md)
+      flex-basis: 200px
 
-  &.not-editable
-    padding: 6px
+    @media screen and (min-width: $breakpoint-lg)
+      flex-basis: 240px
 
-.attributes-key-value--value
-  @include grid-visible-overflow
+    > wp-replacement-label
+      padding-right: $spot-spacing-0_5
+      flex: 1 1 auto
+      max-width: 100%
+
+    > attribute-help-text
+      flex: 100 0 auto
+
+  &--value-container
+    display: flex
+    flex-basis: 260px
+    flex-grow: 1000000
+    flex-shrink: 1
+    margin-bottom: 0.1875rem
+    padding: 0.375rem 0
+    height: 100%
+    overflow: hidden
+
+    p
+      font-size: $form-label-fontsize
+      word-wrap: break-word
+
+    &.not-editable
+      padding: 6px
+
+  &--value
+    @include grid-visible-overflow
+    word-wrap: anywhere
 
 // Alternative implementation to the one above.
 // It's main advantage is that it can act on the whole of the key/value-pairs.

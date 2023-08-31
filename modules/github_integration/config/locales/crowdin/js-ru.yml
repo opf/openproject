@@ -39,3 +39,13 @@ ru:
       tab_prs:
         empty: 'Запросов на слияние пока нет. Привяжите существующее PR с помощью кода <code>OP#%{wp_id}</code> в описании PR или создайте новый PR.'
       github_actions: Действия
+      pull_requests:
+        message: "Запрос на извлечение #%{pr_number} %{pr_link} для %{repository_link} автором %{github_user_link} был %{pr_state}."
+        merged_message: "Запрос на слияние #%{pr_number} %{pr_link} для %{repository_link} был %{pr_state} от %{github_user_link}."
+        referenced_message: "Запрос на извлечение #%{pr_number} %{pr_link} для %{repository_link} автором %{github_user_link} ссылается на этот пакет работ."
+        states:
+          opened: 'открыт'
+          closed: 'закрыт'
+          draft: 'составлен'
+          merged: 'объединен'
+          ready_for_review: 'отмечен как готовый к просмотру'

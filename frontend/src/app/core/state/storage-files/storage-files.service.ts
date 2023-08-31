@@ -41,6 +41,7 @@ import { HttpClient } from '@angular/common/http';
 import { ID, QueryEntity } from '@datorama/akita';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import isDefinedEntity from 'core-app/core/state/is-defined-entity';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Injectable()
 export class StorageFilesResourceService {
@@ -48,15 +49,18 @@ export class StorageFilesResourceService {
 
   private readonly query = new QueryEntity(this.store);
 
-  constructor(private readonly httpClient:HttpClient) {}
+  constructor(
+    private readonly httpClient:HttpClient,
+    private readonly apiV3Service:ApiV3Service,
+  ) {}
 
   files(link:IHalResourceLink):Observable<IStorageFiles> {
     const value = this.store.getValue().files[link.href];
     if (value !== undefined) {
-      return combineLatest([this.lookupMany(value.files), this.lookup(value.parent)])
+      return combineLatest([this.lookupMany(value.files), this.lookup(value.parent), this.lookupMany(value.ancestors)])
         .pipe(
-          map(([files, parent]):IStorageFiles => ({
-            files, parent, _type: 'StorageFiles', _links: { self: link },
+          map(([files, parent, ancestors]):IStorageFiles => ({
+            files, parent, ancestors, _type: 'StorageFiles', _links: { self: link },
           })),
           take(1),
         );
@@ -65,6 +69,10 @@ export class StorageFilesResourceService {
     return this.httpClient
       .get<IStorageFiles>(link.href)
       .pipe(tap((storageFiles) => this.insert(storageFiles, link.href)));
+  }
+
+  file(href:string):Observable<IStorageFile> {
+    return this.httpClient.get<IStorageFile>(href);
   }
 
   uploadLink(link:IPrepareUploadLink):Observable<IUploadLink> {
@@ -87,10 +95,11 @@ export class StorageFilesResourceService {
   }
 
   private insert(storageFiles:IStorageFiles, link:string):void {
-    this.store.upsertMany([...storageFiles.files, storageFiles.parent]);
+    this.store.upsertMany([...storageFiles.files, storageFiles.parent, ...storageFiles.ancestors]);
 
     const fileIds = storageFiles.files.map((file) => file.id);
     const parentId = storageFiles.parent.id;
+    const ancestorIds = storageFiles.ancestors.map((file) => file.id);
 
     this.store.update(({ files }) => ({
       files: {
@@ -98,6 +107,7 @@ export class StorageFilesResourceService {
         [link]: {
           files: fileIds,
           parent: parentId,
+          ancestors: ancestorIds,
         },
       },
     }));

@@ -15,6 +15,7 @@ it:
       choose_location: "Scegli posizione"
       types:
         nextcloud: "Nextcloud"
+        default: "Archivio"
       information:
         connection_error: >
           Alcune impostazioni %{storageType} non funzionano. Contatta l'amministratore %{storageType}.
@@ -30,9 +31,16 @@ it:
           Un file con il nome "%{fileName}" esiste già nella posizione in cui stai tentando di caricare questo file. Cosa ti piacerebbe fare?
         directory_not_writeable: "Non hai l'autorizzazione ad aggiungere file a questa cartella."
         dragging_many_files: "Il caricamento su %{storageType} supporta soltanto un file per volta."
+        dragging_folder: "Il caricamento in %{storageType} non supporta le cartelle."
         empty_folder: "Questa cartella è vuota."
         empty_folder_location_hint: "Clicca sul pulsante in basso per caricare il file in questa posizione."
         file_not_selectable_location: "Impossibile selezionare un file durante la scelta di una posizione."
+        project_folder_no_access: >
+          Non hai accesso alla cartella del progetto. Sei pregato di contattare il tuo amministratore per ottenere l'accesso o caricare il file in un'altra posizione.
+        managed_project_folder_not_available: >
+          La cartella del progetto gestita automaticamente non è stata ancora trovata. Attendi un po', ricarica la pagina per recuperare i dati più recenti e riprova.
+        managed_project_folder_no_access: >
+          Non hai ancora accesso alla cartella del progetto gestito. Aspetta un po' e riprova.
         upload_keep_both: "Mantieni entrambi"
         upload_replace: "Sostituisci"
       file_links:

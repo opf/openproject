@@ -65,6 +65,8 @@ th:
     button_confirm: "ยืนยัน"
     button_continue: "Continue"
     button_copy: "คัดลอก"
+    button_copy_to_clipboard: "คัดลอกไปยังคลิปบอร์ด"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "ฟิลด์ที่กำหนดเอง"
     button_delete: "ลบ"
@@ -105,7 +107,7 @@ th:
       remove_from_list: 'Remove card from list'
     caption_rate_history: "Rate history"
     clipboard:
-      browser_error: "เบราเซอร์ของคุณไม่รองรับการคัดลอกไปยังคลิปบอร์ด กรุณาคัดลอกข้อความที่เลือกด้วยตนเอง"
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
@@ -228,7 +230,7 @@ th:
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Become a hero!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
@@ -294,6 +296,34 @@ th:
           one: "First sorting criteria"
           two: "Second sorting criteria"
           three: "Third sorting criteria"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "ไม่ใช่"
     general_text_yes: "ใช่"
     general_text_No: "ไม่ใช่"
@@ -312,11 +342,22 @@ th:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to calendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "เปิดใช้งาน"
     label_assignee: 'ผู้ได้รับมอบหมาย'
     label_add_column_after: "Add column after"
@@ -493,7 +534,7 @@ th:
     label_remove_all_files: ลบไฟล์ทั้งหมด
     label_add_description: "เพิ่มคำอธิบายสำหรับ %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "These files will be uploaded:"
     label_rejected_files: "These files cannot be uploaded:"
@@ -725,6 +766,14 @@ th:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'เวลาที่ถูกบันทึก'
+      tracking: 'ติดตามเวลาที่ใช้'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
@@ -783,7 +832,8 @@ th:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "ไม่พบรายการ "
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Select tag'
       select_branch: 'Select branch'
@@ -801,63 +851,6 @@ th:
       activate_no: 'activate to remove the sort'
     text_work_packages_destroy_confirmation: "คุณแน่ใจหรือไม่ว่าจะลบชุดภารกิจที่เลือก ?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt chart'
-      labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
-        showNone: '-- No label --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
-      cancel: ยกเลิก
-      change: "การเปลี่ยนแปลงในการวางแผน"
-      due_date: "Finish date"
-      empty: "(ว่าง)"
-      error: "An error has occurred."
-      errors:
-        not_implemented: "ไม่สามารถร่างแผนภูมิเวลา (timeline) ได้เนื่องจากใช้คุณลักษณะที่ยังไม่ได้มีการนำมาใช้ในระบบ"
-        report_comparison: "แผนภูมิเวลาไม่สามารถร่างการเปรียบเทียบที่กำหนดไว้ กรุณาตรวจสอบส่วนต่างๆ ในการตั้งค่าให้เหมาะสม หรือลองรีเซตค่าใหม่เพื่อแก้ไขปัญหา"
-        report_epicfail: "พบข้อผิดพลาด ไม่สามารถโหลดแผนภูมิเวลา ได้"
-        report_timeout: "ไม่สามารถโหลดแผนภูมิเวลาในระยะเวลาที่เหมาะสมได้"
-      filter:
-        grouping_other: "อื่น ๆ"
-        noneSelection: "(ไม่มี)"
-      name: "ชื่อ"
-      outline: "ตั้งค่าโครงร่างใหม่"
-      outlines:
-        aggregation: "แสดงรวมเท่านั้น"
-        level1: "ขยายระดับ 1"
-        level2: "ขยายระดับ 2"
-        level3: "ขยายระดับ 3"
-        level4: "ขยายระดับ 4"
-        level5: "ขยายระดับ 5"
-        all: "แสดงทั้งหมด"
-      project_status: "สถานะของโครงการ"
-      really_close_dialog: "Do you really want to close the dialog and lose the entered data?"
-      responsible: "รับผิดชอบ"
-      save: บันทึก
-      start_date: "วันเริ่มต้น"
-      tooManyProjects: "พบมากกว่า %{count} โครงการ กรุณาใช้ตัวกรองที่ดีกว่านี้ !"
-      selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
-      zoom:
-        in: "ขยาย"
-        out: "ซูมออก"
-        auto: "Auto zoom"
-        days: "วัน"
-        weeks: "สัปดาห์"
-        months: "เดือน"
-        quarters: "ไตรมาส"
-        years: "ปี"
-        slider: "ขยายแถบเลื่อน"
-        description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
     tl_toolbar:
       zooms: "ระดับการย่อ/ขยาย"
       outlines: "ระดับของ Hierarchy"
@@ -918,8 +911,15 @@ th:
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "Subject, description, comments, ..."
+      baseline:
+        addition_label: 'Added to view within the comparison time period'
+        removal_label: 'Removed from view within the comparison time period'
+        modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'กรองชุดภารกิจ'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Click here to add a new work package to this list'
       create:
@@ -1080,6 +1080,7 @@ th:
         save_as: "บันทึกเป็น"
         export: "Export"
         visibility_settings: "Visibility settings"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Rename view"
         delete: "ลบ"
       filter: "ตัวกรอง"
@@ -1154,10 +1155,11 @@ th:
       button_deactivate: 'Deactivate zen mode'
     global_search:
       all_projects: "In all projects"
-      search: "ค้นหา"
       close_search: "Close search"
-      current_project: "In this project"
       current_project_and_all_descendants: "In this project + subprojects"
+      current_project: "In this project"
+      recently_viewed: "Recently viewed"
+      search: "ค้นหา"
       title:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"
@@ -1246,6 +1248,38 @@ th:
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
       no_results: 'No project matches your search criteria.'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: 'ล้างข้อมูล'
+      apply: 'นำไปใช้'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
+      show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
+      time: 'Time'
+      from: 'จาก'
+      to: 'ถึงวันที่'
+      drop_down:
+        none: '-'
+        yesterday: 'เมื่อวานนี้'
+        last_working_day: 'last working day'
+        last_week: 'สัปดาห์ที่แล้ว'
+        last_month: 'เดือนก่อน'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
+      legends:
+        changes_since: 'Changes since'
+        changes_between: 'Changes between'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
+        in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'ส่งแบบฟอร์มเรียบร้อยแล้ว'
       load_error_message: 'เกิดข้อผิดพลาดในการโหลดแบบฟอร์ม'

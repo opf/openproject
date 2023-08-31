@@ -2,9 +2,10 @@
 fr:
   permission_view_team_planner: "Voir le planificateur d'équipe"
   permission_manage_team_planner: "Gérer le planificateur d'équipe"
-  project_module_team_planner_view: "Planificateur d'équipe"
+  project_module_team_planner_view: "Planificateurs d'équipe"
   team_planner:
     label_team_planner: "Planificateur d'équipe"
+    label_new_team_planner: "Nouveau planificateur d'équipe"
     label_create_new_team_planner: "Créer un nouveau planificateur d'équipe"
     label_team_planner_plural: "Planificateurs d'équipe"
     label_assignees: "Responsables"

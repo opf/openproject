@@ -126,8 +126,15 @@ get:
         type: string
     - description: |-
         In order to perform a [baseline comparison](/docs/api/baseline-comparisons), you may provide one or several timestamps
-        in ISO-8601 format as comma-separated list. The timestamps may be absolute or relative. Usually, the first timestamp
-        is the baseline date, the last timestamp is the current date.
+        in ISO-8601 format as comma-separated list. The timestamps may be absolute or relative,
+        such as ISO8601 dates, ISO8601 durations and the following relative date keywords: "oneDayAgo@HH:MM+HH:MM",
+        "lastWorkingDay@HH:MM+HH:MM", "oneWeekAgo@HH:MM+HH:MM", "oneMonthAgo@HH:MM+HH:MM".
+        The first "HH:MM" part represents the zero paded hours and minutes.
+        The last "+HH:MM" part represents the timezone offset from UTC associated with the time,
+        the offset can be positive or negative e.g."oneDayAgo@01:00+01:00", "oneDayAgo@01:00-01:00".
+
+        Usually, the first timestamp is the baseline date, the last timestamp is the current date.
+        Values older than 1 day are accepted only with valid Enterprise Token available.
       example: '2022-01-01T00:00:00Z,PT0S'
       in: query
       name: timestamps

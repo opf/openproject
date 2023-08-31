@@ -65,6 +65,8 @@ tr:
     button_confirm: "Onaylamak"
     button_continue: "Devam et"
     button_copy: "Kopyalamak"
+    button_copy_to_clipboard: "Panoya kopyala"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Başka bir projeye kopyala"
     button_custom-fields: "Özel Alanlar"
     button_delete: "silmek"
@@ -105,7 +107,7 @@ tr:
       remove_from_list: 'Kartı listeden çıkar'
     caption_rate_history: "Hız tarihi"
     clipboard:
-      browser_error: "Tarayıcınız panoya kopyalamayı desteklemiyor. Lütfen seçilen metni manuel olarak kopyalayın."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Panoya başarıyla kopyalandı!"
     chart:
       type: 'Grafik tipi'
@@ -228,7 +230,7 @@ tr:
           quick_overview: "OpenProject Enterprise sürümü ile proje yönetimi ve ekip işbirliğine hızlı bir genel bakış elde edin."
         upsale:
           become_hero: "Kahraman olun!"
-          enterprise_info_html: "%{feature_title}, bir Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> eklentisidir."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Etkinleştirmek ve ekibinizde kullanmaya başlamak için lütfen ücretli bir plana yükseltin."
           benefits:
             description: "Enterprise şirket içi sürümünün avantajları nelerdir?"
@@ -293,6 +295,34 @@ tr:
           one: "İlk sıralama ölçütü"
           two: "İkinci sıralama ölçütü"
           three: "Üçüncü sıralama ölçütleri"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "hayır"
     general_text_yes: "evet"
     general_text_No: "Hayır"
@@ -311,11 +341,22 @@ tr:
           learn_about: "Yeni özellikler hakkında daha fazla bilgi edinin"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                Sürüm, çeşitli yeni özellikler ve geliştirmeler içeriyor: <br> <ul class="%{list_styling_class}"> <li>İş paketlerindeki dosyaları yükleyin ve Nextcloud dosya depolama alanınıza bağlayın.</li> <li>Takip tarihi proje aktivite takibi ile proje değişiklikleri.</li> <li>Örnek genelinde resmi tatiller (çalışılmayan günler) ekleyin.</li> <li>Yönetici olmayanlar tarafından proje arşivleyin.</li> <li>Gecikmiş iş paketleri için yeni varsayılan filtre .</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to calendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Etkinleştir"
     label_assignee: 'Atanan'
     label_add_column_after: "Sonrasına sütun ekle"
@@ -725,6 +766,14 @@ tr:
     time_entry:
       work_package_required: 'Önce bir iş paketi seçilmesini gerektirir.'
       title: 'Zaman kaydet'
+      tracking: 'Zaman takibi'
+      stop: 'Dur'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'İki faktörlü kimlik doğrulama'
     watchers:
@@ -783,7 +832,8 @@ tr:
     autocompleter:
       placeholder: "Aramak için metni yazın"
       notFoundText: "Hiçbir öge bulunamadı"
-      typeToSearchText: "Aramak için metni yazın"
+      project:
+        placeholder: "Proje seçin"
     repositories:
       select_tag: 'Etiket seç'
       select_branch: 'Branş seç'
@@ -801,63 +851,6 @@ tr:
       activate_no: 'sıralamayı kaldırmak için etkinleştir'
     text_work_packages_destroy_confirmation: "Seçilen çalışma paket(ler) ini silmek istediğinizden emin misiniz?"
     text_query_destroy_confirmation: "Seçilen görünümü silmek istediğinizden emin misiniz?"
-    timelines:
-      quarter_label: 'Ç%{quarter_number}'
-      gantt_chart: 'Gantt görünümü'
-      labels:
-        title: 'Etiket yapılandırma'
-        bar: 'Çubuk etiketleri'
-        left: 'Sol'
-        right: 'Sağ'
-        farRight: 'Uzak sağ'
-        showNone: '-- Etiketsiz --'
-        description: >
-          Her zaman Gantt şemasının ilgili konumlarında gösterilmesini istediğiniz nitelikleri seçin. Bir öğenin üzerine gelindiğinde, bu nitelikler yerine tarih etiketlerinin gösterileceğini unutmayın.
-      button_activate: 'İş-Zaman çizelgesi göster'
-      button_deactivate: 'İş-Zaman çizelgesi gizle.'
-      cancel: İptal etmek
-      change: "Planlama değişikliği"
-      due_date: "Bitiş tarihi"
-      empty: "(boş)"
-      error: "Bir hata oluştu."
-      errors:
-        not_implemented: "Zaman çizelgesi, henüz uygulanmayan bir özellik kullandığından oluşturulamadı."
-        report_comparison: "Zaman çizelgesi, yapılandırılmış karşılaştırmaları işleyemedi. Lütfen konfigürasyonda uygun bölümü kontrol edin, bu sorunu sıfırlamak, bu sorunu çözmenize yardımcı olabilir."
-        report_epicfail: "Beklenmeyen bir hata nedeniyle zaman çizelgesi yüklenemedi."
-        report_timeout: "Zaman çizelgesi makul bir süre içinde yüklenemedi."
-      filter:
-        grouping_other: "Diğer"
-        noneSelection: "(yok)"
-      name: "İsim"
-      outline: "Anahat Sıfırla"
-      outlines:
-        aggregation: "Sadece toplu gösterimler"
-        level1: "Düzey 1 genişletin"
-        level2: "Düzey 2 genişletin"
-        level3: "Düzey 3 genişletin"
-        level4: "Seviye 4 genişletin"
-        level5: "Seviye 5 genişletin"
-        all: "Tümünü göster"
-      project_status: "Proje Durumu"
-      really_close_dialog: "Pencerenin kapanmasını ve girilen verilerinizin kaybolmasını istiyor musunuz?"
-      responsible: "Sorumlu"
-      save: Kaydet
-      start_date: "Başlangıç tarihi"
-      tooManyProjects: "%{count} saysından çok proje mevcut. Lütfen daha iyi bir filtre kullanın!"
-      selection_mode:
-        notification: 'İlişki oluşturmak için vurgulanan bir iş paket''ine tıklayın. İptal etmek için escape tuşuna basın.'
-      zoom:
-        in: "Yakınlaştır"
-        out: "Uzaklaştır"
-        auto: "Otomatik yakınlaştırma"
-        days: "Gün"
-        weeks: "Hafta"
-        months: "Ay"
-        quarters: "Üç aylık"
-        years: "Yıl"
-        slider: "Yakınlaştırma kaydırıcısı"
-        description: >
-          Otomatik zoom mevcut olmadığında gösterilmesi gereken ilk yakınlaştırma seviyesini seçin.
     tl_toolbar:
       zooms: "Yakınlaştırma düzeyi"
       outlines: "Hiyerarşi düzeyi"
@@ -918,8 +911,15 @@ tr:
       message_work_package_read_only: "İş paketi bu durum içinde kilitli. Durumu haricinde başka bir özelliği değiştirilemez."
       message_work_package_status_blocked: "İş paketi durumu, kapalı durum ve kapalı sürüm tahsis edildiğinden dolayı yazılamaz."
       placeholder_filter_by_text: "Konu, açıklama, yorumlar, ..."
+      baseline:
+        addition_label: 'Added to view within the comparison time period'
+        removal_label: 'Removed from view within the comparison time period'
+        modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'İş paketlerini filtrele'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Listeden yeni bir iş paketi eklemek için buraya tıklayınız'
       create:
@@ -1080,6 +1080,7 @@ tr:
         save_as: "Farklı Kaydet"
         export: "Dışarı aktar"
         visibility_settings: "Görünürlük ayarları"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Görünümü yeniden isimlendir"
         delete: "Sil"
       filter: "Filtre"
@@ -1156,10 +1157,11 @@ tr:
       button_deactivate: 'Zen modunu devre dışı bırak'
     global_search:
       all_projects: "Tüm projelerde"
-      search: "Ara"
       close_search: "Aramayı kapat"
-      current_project: "Bu projede"
       current_project_and_all_descendants: "Bu projede + alt projelerde"
+      current_project: "Bu projede"
+      recently_viewed: "Recently viewed"
+      search: "Ara"
       title:
         all_projects: "tüm projeler"
         project_and_subprojects: "ve tüm alt projeler"
@@ -1248,6 +1250,38 @@ tr:
         current_project: 'Bu, içinde bulunduğunuz mevcut projedir.'
         does_not_match_search: 'Proje arama kriterleriyle eşleşmiyor.'
       no_results: 'Arama kriterleriniz ile eşleşen proje yok'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: 'Temizle'
+      apply: 'Uygula'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
+      show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
+      time: 'Saat'
+      from: 'Başlangıç'
+      to: 'Bitiş'
+      drop_down:
+        none: '-'
+        yesterday: 'dün'
+        last_working_day: 'last working day'
+        last_week: 'geçen hafta'
+        last_month: 'geçen ay'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
+      legends:
+        changes_since: 'Changes since'
+        changes_between: 'Changes between'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
+        in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'Form başarıyla gönderildi'
       load_error_message: 'Form yüklenirken bir hata oluştu'

@@ -36,21 +36,28 @@ See COPYRIGHT and LICENSE files for more details.
     <legend class="form--fieldset-legend"><%= t(:'settings.user.default_preferences')%></legend>
 
     <div class="form--field" id="setting_default_language">
-      <%= setting_select :default_language, all_lang_options_for_select(false), container_class: '-slim' %>
+      <%= setting_select :default_language, all_lang_options_for_select, container_class: '-slim' %>
     </div>
 
-    <%=
-      cell(
-          Settings::TimeZoneSettingCell,
+    <%= render Settings::TimeZoneSettingComponent.new(
           "user_default_timezone",
           container_class: "-slim",
           title: I18n.t("tooltip_user_default_timezone")
-      )
+        )
     %>
 
     <div class="form--field">
       <%= setting_check_box :default_auto_hide_popups, label: 'activerecord.attributes.user_preference.auto_hide_popups' %>
     </div>
+  </fieldset>
+
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= t(:'settings.user.display_format')%></legend>
+
+    <div class="form--field">
+      <%= setting_select :user_format, @options[:user_format], container_class: '-slim' %>
+    </div>
+
   </fieldset>
 
   <fieldset class="form--fieldset">
@@ -71,7 +78,7 @@ See COPYRIGHT and LICENSE files for more details.
       <%= setting_check_box :consent_required %>
     </div>
 
-    <%= rails_cell Settings::TextSettingCell, I18n.locale, name: "consent_info" %>
+    <%= render Settings::TextSettingComponent.new(I18n.locale, name: "consent_info") %>
 
     <div class="form--field">
       <%= setting_block("consent_time") do %>

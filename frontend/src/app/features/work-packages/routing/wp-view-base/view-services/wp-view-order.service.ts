@@ -28,7 +28,7 @@
 
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
-import { InputState } from 'reactivestates';
+import { InputState } from '@openproject/reactivestates';
 import { States } from 'core-app/core/states/states.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -43,6 +43,7 @@ import { CausedUpdatesService } from 'core-app/features/boards/board/caused-upda
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class WorkPackageViewOrderService extends WorkPackageQueryStateService<QueryOrder> {
@@ -186,10 +187,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
       this.positions.putValue({});
     }
 
-    return this.positions
-      .values$()
-      .pipe(take(1))
-      .toPromise();
+    return firstValueFrom(this.positions.values$());
   }
 
   public valueFromQuery(query:QueryResource) {

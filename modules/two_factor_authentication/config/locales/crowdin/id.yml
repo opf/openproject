@@ -68,8 +68,8 @@ id:
       delete_all_are_you_sure: 'Apakah Anda yakin Anda ingin menghapus semua 2FA perangkat untuk pengguna ini?'
       button_delete_all_devices: 'Menghapus perangkat terdaftar 2FA'
       button_register_mobile_phone_for_user: 'Daftar ponsel'
-      text_2fa_enabled: 'Setelah setiap login, user ini akan diminta untuk memasukkan tanda OTP dari perangkat nya 2FA default.'
-      text_2fa_disabled: "Pengguna tidak mengatur perangkat 2FA melalui 'Halaman akun saya'"
+      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from their default 2FA device.'
+      text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
     upsale:
       title: 'Autentikasi dua faktor'
       description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'

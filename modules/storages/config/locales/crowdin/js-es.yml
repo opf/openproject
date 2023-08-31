@@ -15,6 +15,7 @@ es:
       choose_location: "Seleccionar ubicación"
       types:
         nextcloud: "Nextcloud"
+        default: "Almacén"
       information:
         connection_error: >
           Algunos ajustes dé %{storageType} no funcionan. Póngase en contacto con el administrador de %{storageType}.
@@ -30,9 +31,16 @@ es:
           Ya existe un archivo con el nombre "%{fileName}" en la ubicación donde está intentando subir este archivo. ¿Qué quiere hacer?
         directory_not_writeable: "No tiene permiso para añadir archivos en esta carpeta."
         dragging_many_files: "La carga a %{storageType} solo admite un archivo a la vez."
+        dragging_folder: "La carga a %{storageType} no admite carpetas."
         empty_folder: "Esta carpeta está vacía."
         empty_folder_location_hint: "Haga clic en el botón de abajo para subir el archivo a esta ubicación."
         file_not_selectable_location: "No es posible seleccionar un archivo en el proceso de seleccionar una ubicación."
+        project_folder_no_access: >
+          No tiene acceso a la carpeta del proyecto. Póngase en contacto con su administrador para obtener acceso o cargue el archivo en otra ubicación.
+        managed_project_folder_not_available: >
+          Todavía no se ha encontrado la carpeta de proyecto administrada automáticamente. Espere un poco, vuelva a cargar la página para obtener los datos más recientes e inténtelo de nuevo.
+        managed_project_folder_no_access: >
+          Aún no tiene acceso a la carpeta del proyecto administrada. Espere un poco e inténtalo de nuevo.
         upload_keep_both: "Mantener ambos"
         upload_replace: "Sustituir"
       file_links:

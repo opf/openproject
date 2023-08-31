@@ -65,6 +65,8 @@ it:
     button_confirm: "Conferma"
     button_continue: "Continua"
     button_copy: "Copia"
+    button_copy_to_clipboard: "Copia negli appunti"
+    button_copy_link_to_clipboard: "Copia link negli appunti"
     button_copy_to_other_project: "Copia su altro progetto"
     button_custom-fields: "Campo personalizzato"
     button_delete: "Cancella"
@@ -105,7 +107,7 @@ it:
       remove_from_list: 'Rimuovi la carta dall''elenco'
     caption_rate_history: "Cronologia tariffe"
     clipboard:
-      browser_error: "Il tuo browser non supporta la copia negli appunti. Copia il testo selezionato manualmente."
+      browser_error: "Il tuo browser non supporta la copia negli appunti. Copia manualmente: %{content}"
       copied_successful: "Copia negli appunti completata con successo!"
     chart:
       type: 'Tipo di grafico'
@@ -228,7 +230,7 @@ it:
           quick_overview: "Veloce panoramica sulla gestione dei progetti e il lavoro di squadra nell'edizione OpenProject Enterprise."
         upsale:
           become_hero: "Diventa un eroe!"
-          enterprise_info_html: "%{feature_title} è un'<span class='spot-icon spot-icon_enterprise-addons'></span>aggiunta Enterprise."
+          enterprise_info_html: "%{feature_title} è un componente aggiuntivo per Imprese <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
           upgrade_info: "Esegui l'upgrade a un piano a pagamento per attivarlo e iniziare a usarlo nel tuo team."
           benefits:
             description: "Quali sono i benefici dell'edizione Enterprise in sede?"
@@ -294,6 +296,34 @@ it:
           one: "Primo criterio di ordinamento"
           two: "Secondo criterio di ordinamento"
           three: "Terzo criterio di ordinamento"
+    gantt_chart:
+      label: 'Diagramma di Gantt'
+      quarter_label: 'T%{quarter_number}'
+      labels:
+        title: 'Configurazione etichetta'
+        bar: 'Etichette di barra'
+        left: 'Sinistra'
+        right: 'Destra'
+        farRight: 'Estrema destra'
+        description: >
+          Seleziona gli attributi che desideri mostrare nelle rispettive posizioni del diagramma di Gantt in ogni momento. Nota che al passaggio del mouse su un elemento, verranno visualizzate le etichette delle date anziché questi attributi.
+      button_activate: 'Mostra diagramma di Gantt'
+      button_deactivate: 'Nascondi diagramma di Gantt'
+      filter:
+        noneSelection: "(nessuno)"
+      selection_mode:
+        notification: 'Clicca su qualsiasi macro-attività evidenziata per creare una relazione. Premi ESC per annullare.'
+      zoom:
+        in: "Zoom avanti"
+        out: "Zoom indietro"
+        auto: "Zoom automatico"
+        days: "Giorni"
+        weeks: "Settimane"
+        months: "Mesi"
+        quarters: "Trimestri"
+        years: "Anni"
+        description: >
+          Seleziona il livello di zoom iniziale da mostrare quando lo zoom automatico non è disponibile.
     general_text_no: "no"
     general_text_yes: "si"
     general_text_No: "No"
@@ -312,11 +342,22 @@ it:
           learn_about: "Scopri di più sulle nuove funzionalità"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                La versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Carica e collega i file dai pacchetti di lavoro al tuo archivio di file Nextcloud.</li> <li>Follow-up su modifiche al progetto con il monitoraggio delle attività del progetto.</li> <li>Aggiungi giorni festivi a livello di istanza (giorni non lavorativi).</li> <li>Archivia i progetti da non amministratori.</li> <li>Nuovo filtro predefinito per macro-attività scadute.</li> </ul>
+                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Confronto di base per un facile monitoraggio delle modifiche.</li> <li>Esportazione PDF per report sui piani di lavoro.< /li> <li>Iscrizioni ai calendari di progetto tramite URL (iCalendar).</li> <li>Cartelle di progetto con modelli di documenti per l'integrazione Nextcloud.</li> <li>Seeding localizzato di tutti i dati iniziali.</li> <li>I moduli globali sono elencati nelle nuove pagine indice.</li> </ul>
+    ical_sharing_modal:
+      title: "Iscriviti al calendario"
+      inital_setup_error_message: "Si è verificato un errore recuperando i dati."
+      description: "Puoi utilizzare l'URL (iCalendar) per iscriverti a questo calendario su un client esterno e per visualizzare le informazioni sul pacchetto di lavoro aggiornate da lì."
+      warning: "Sei pregato di non condividerlo con altri utenti. Chiunque abbia questo link potrà visualizzare i dettagli del pacchetto di lavoro senza un profilo o una password."
+      token_name_label: "Dove lo userai?"
+      token_name_placeholder: "Digita un nome, ad esempio \"Telefono\""
+      token_name_description_text: "Se ti iscrivi a questo calendario da più dispositivi, questo nome ti aiuterà a distinguerli nel tuo elenco di <a href=\"my/access_token\", target=\"_blank\">token di accesso</a>."
+      copy_url_label: "Copia URL"
+      ical_generation_error_text: "Si è verificato un errore nella creazione dell'URL del calendario."
+      success_message: "L'URL \"%{name}\" è stato copiato con successo negli appunti. Incollalo nel tuo client di calendario per completare l'iscrizione."
     label_activate: "Attiva"
     label_assignee: 'Assegnatario'
     label_add_column_after: "Aggiungi colonna dopo"
@@ -493,7 +534,7 @@ it:
     label_remove_all_files: Elimina tutti i file
     label_add_description: "Aggiunge una descrizione per %{file}"
     label_upload_notification: "Caricamento dei file..."
-    label_work_package_upload_notification: "Caricamento dei file per la macro-attività #%{id}: %{subject} in corso" #%{id}: %{subject} in corso"
+    label_work_package_upload_notification: "Caricamento dei file per la macro-attività #%{id}: %{subject} in corso"
     label_wp_id_added_by: "#%{id} aggiunto da%{author}"
     label_files_to_upload: "Verranno caricati questi files:"
     label_rejected_files: "Questi file non possono essere caricati:"
@@ -667,7 +708,7 @@ it:
         Scegli un progetto per creare una macro-attività e vederne tutti gli attributi. Puoi selezionare solo progetti che hanno il tipo sopra indicato attivato.
       details_activity: 'Attività dei dettagli del progetto'
       context: 'Contesto del progetto'
-      click_to_switch_to_project: 'Project: %{projectname}'
+      click_to_switch_to_project: 'Progetto: %{projectname}'
       confirm_template_load: 'Cambiare il modello ricaricherà la pagina e perderai tutti gli input in questo modulo. Continuare?'
       use_template: "Utilizza modello"
       no_template_selected: "(Nessuno)"
@@ -726,6 +767,14 @@ it:
     time_entry:
       work_package_required: 'Richiede prima di selezionare una macro-attività.'
       title: 'Registra l''orario effettuato'
+      tracking: 'Monitoraggio tempi'
+      stop: 'Interrompi'
+    timer:
+      start_new_timer: 'Avvia nuovo timer'
+      timer_already_running: 'Per avviare un nuovo timer, devi prima interrompere il timer corrente:'
+      timer_already_stopped: 'Nessun timer attivo per questa macro-attività, lo hai interrotto in un''altra finestra?'
+      tracking_time: 'Monitoraggio tempo'
+      button_stop: 'Interrompi il timer corrente'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticazione due fattori'
     watchers:
@@ -784,7 +833,8 @@ it:
     autocompleter:
       placeholder: "Digita per cercare"
       notFoundText: "Nessun elemento trovato"
-      typeToSearchText: "Digita per cercare"
+      project:
+        placeholder: "Seleziona progetto"
     repositories:
       select_tag: 'Selezionare tag'
       select_branch: 'Selezionare ramo'
@@ -802,63 +852,6 @@ it:
       activate_no: 'attivalo per rimuovere l''ordinamento'
     text_work_packages_destroy_confirmation: "Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?"
     text_query_destroy_confirmation: "Sei sicuro di voler eliminare la vista selezionata?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Diagramma di Gantt'
-      labels:
-        title: 'Configurazione etichetta'
-        bar: 'Etichette di barra'
-        left: 'Sinistra'
-        right: 'Destra'
-        farRight: 'Estrema destra'
-        showNone: '-- Nessuna etichetta --'
-        description: >
-          Seleziona gli attributi che desideri mostrare nelle rispettive posizioni del diagramma di Gantt in ogni momento. Nota che al passaggio del mouse su un elemento, verranno visualizzate le etichette delle date anziché questi attributi.
-      button_activate: 'Mostra Diagramma di Gantt'
-      button_deactivate: 'Nascondi Diagramma di Gantt'
-      cancel: Annulla
-      change: "Cambiare nella pianificazione"
-      due_date: "Data di fine"
-      empty: "(vuoto)"
-      error: "Si è verificato un errore."
-      errors:
-        not_implemented: "Non è stato possibile renderizzare la cronologia perché utilizza una funzionalità che non è stata ancora implementata."
-        report_comparison: "La cronologia non può renderizzare i confronti configurati. Per favore controlla la sezione appropriata nella configurazione, un reset può aiutare a risolvere questo problema."
-        report_epicfail: "Non è stato possibile caricare la cronologia a causa di un errore inaspettato."
-        report_timeout: "Non è stato possibile caricare la cronologia in un lasso ti tempo ragionevole."
-      filter:
-        grouping_other: "Altro"
-        noneSelection: "(nessuno)"
-      name: "Nome"
-      outline: "Reimposta le scale"
-      outlines:
-        aggregation: "Visualizza solo le aggregazioni"
-        level1: "Espandi livello 1"
-        level2: "Espandi livello 2"
-        level3: "Espandi livello 3"
-        level4: "Espandi livello 4"
-        level5: "Espandi livello 5"
-        all: "Mostra tutti"
-      project_status: "Stato del progetto"
-      really_close_dialog: "Vuoi davvero chiudere la finestra di dialogo e perdere i dati inseriti?"
-      responsible: "Responsabile"
-      save: Salva
-      start_date: "Data di inizio"
-      tooManyProjects: "Più di %{count} Progetti. Si prega di utilizzare uno o più filtri!"
-      selection_mode:
-        notification: 'Clicca su qualsiasi macro-attività evidenziata per creare una relazione. Premi ESC per annullare.'
-      zoom:
-        in: "Zoom avanti"
-        out: "Zoom indietro"
-        auto: "Zoom automatico"
-        days: "Giorni"
-        weeks: "Settimane"
-        months: "Mesi"
-        quarters: "Trimestri"
-        years: "Anni"
-        slider: "cursore di zoom"
-        description: >
-          Seleziona il livello di zoom iniziale da mostrare quando lo zoom automatico non è disponibile.
     tl_toolbar:
       zooms: "Livello di zoom"
       outlines: "Livello della gerarchia"
@@ -919,8 +912,15 @@ it:
       message_work_package_read_only: "Il pacchetto di lavoro è bloccato in questo stato. Nessun attributo eccetto lo stato può essere alterato."
       message_work_package_status_blocked: "Lo stato della macro-attività non è scrivibile a causa dello stato chiuso e della versione chiusa assegnata."
       placeholder_filter_by_text: "Oggetto, descrizione, commenti, ..."
+      baseline:
+        addition_label: 'Aggiunto per la visualizzazione entro il periodo di confronto'
+        removal_label: 'Rimosso dalla vista entro il periodo di confronto'
+        modification_label: 'Modificato entro il periodo di confronto'
+        column_incompatible: 'Questa colonna non mostra le modifiche nella modalità Base di riferimento.'
       filters:
         title: 'Filtra le macro-attività'
+        baseline_incompatible: 'Questo attributo del filtro non viene preso in considerazione nella modalità Base di riferimento.'
+        baseline_warning: 'La modalità di base di riferimento è attiva, ma alcuni dei tuoi filtri attivi non sono inclusi nel confronto.'
       inline_create:
         title: 'Clicca qui per aggiungere un nuovo work package a questa lista'
       create:
@@ -1081,6 +1081,7 @@ it:
         save_as: "Salva come"
         export: "Esporta"
         visibility_settings: "Impostazioni di visibilità"
+        share_calendar: "Iscriviti al calendario"
         page_settings: "Rinomina vista"
         delete: "Cancella"
       filter: "Filtro"
@@ -1157,10 +1158,11 @@ it:
       button_deactivate: 'Disattiva modalità zen'
     global_search:
       all_projects: "In tutti progetti"
-      search: "Cerca"
       close_search: "Chiudi ricerca"
-      current_project: "In questo progetto"
       current_project_and_all_descendants: "In questo progetto + sottoprogetti"
+      current_project: "In questo progetto"
+      recently_viewed: "Visualizzati di recente"
+      search: "Cerca"
       title:
         all_projects: "tutti i progetti"
         project_and_subprojects: "e tutti i sottoprogetti"
@@ -1249,6 +1251,38 @@ it:
         current_project: 'Questo è il progetto corrente in cui ti trovi.'
         does_not_match_search: 'Il progetto non corrisponde ai criteri di ricerca.'
       no_results: 'Nessun progetto corrisponde ai tuoi criteri di ricerca'
+    baseline:
+      toggle_title: 'Base di riferimento'
+      clear: 'Pulisci'
+      apply: 'Applica'
+      header_description: 'Evidenzia le modifiche apportate a questo elenco da qualsiasi punto nel passato.'
+      enterprise_header_description: 'Evidenzia le modifiche apportate a questo elenco da qualsiasi punto nel passato con l''edizione Imprese.'
+      show_changes_since: 'Mostra le modifiche da'
+      baseline_comparison: 'Confronto della base di riferimento'
+      help_description: 'Fuso orario di riferimento per la base di riferimento.'
+      time_description: 'Nella tua ora locale: %{datetime}'
+      time: 'Tempo'
+      from: 'Da'
+      to: 'A'
+      drop_down:
+        none: '-'
+        yesterday: 'ieri'
+        last_working_day: 'ultimo giorno lavorativo'
+        last_week: 'ultima settimana'
+        last_month: 'il mese scorso'
+        a_specific_date: 'una data specifica'
+        between_two_specific_dates: 'tra due date specifiche'
+      legends:
+        changes_since: 'Modifiche dal'
+        changes_between: 'Modifiche tra'
+        now_meets_filter_criteria: 'Ora soddisfa i criteri del filtro'
+        no_longer_meets_filter_criteria: 'Non soddisfa più i criteri del filtro'
+        maintained_with_changes: 'Mantenuto con le modifiche'
+        in_your_timezone: 'Nel tuo fuso orario locale:'
+      icon_tooltip:
+        added: 'Aggiunto alla visualizzazione entro il periodo di confronto'
+        removed: 'Rimosso dalla visualizzazione entro il periodo di confronto'
+        changed: 'Mantenuto con modifiche'
     forms:
       submit_success_message: 'Il modulo è stato inviato correttamente'
       load_error_message: 'Si è verificato un errore caricando il modulo'

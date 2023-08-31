@@ -1,8 +1,0 @@
-#English strings go here
-lol:
-  js:
-    calendar:
-      create_new: 'crwdns810802:0crwdne810802:0'
-      title: 'crwdns810804:0crwdne810804:0'
-      too_many: 'crwdns810806:0%{count}crwdnd810806:0%{max}crwdne810806:0'
-      unsaved_title: 'crwdns810808:0crwdne810808:0'

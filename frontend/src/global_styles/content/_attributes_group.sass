@@ -30,7 +30,6 @@
   margin-top: 1.6875rem
   position: relative
 
-
 .attributes-group--header
   @include grid-block
   margin: 0 0 0.5rem 0
@@ -71,10 +70,14 @@
 // HACK. TODO: Remove H3 element rules in various places.
 .attributes-group--header-text,
 #content h3.attributes-group--header-text
-  font-size: 1rem
+  font-size: var(--body-font-size)
   font-weight: bold
   text-transform: uppercase
   // properties to reset h3
   margin: 0
   padding: 0
   border: 0
+
+.attributes-group--attributes
+  display: flex
+  flex-direction: column

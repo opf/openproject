@@ -35,12 +35,12 @@ module Storages::Storages
       super(service_call)
 
       storage = service_call.result
-      if storage.provider_type == 'nextcloud'
+      if storage.provider_type_nextcloud?
         application = storage.oauth_application
         persist_service_result = ::OAuth::PersistApplicationService
          .new(application, user:)
          .call({
-                 name: "#{storage.name} (#{I18n.t("storages.provider_types.#{storage.provider_type}.name")})",
+                 name: "#{storage.name} (#{I18n.t("storages.provider_types.#{storage.short_provider_type}.name")})",
                  redirect_uri: File.join(storage.host, "index.php/apps/integration_openproject/oauth-redirect")
                })
         service_call.add_dependent!(persist_service_result)

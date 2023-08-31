@@ -6,12 +6,20 @@
                               :second,
                               :first,
                               selected_values),
-                          { class: 'form--select -slim' }]
+                          {
+                            class: 'form--select -slim',
+                            'data-project-target': 'filterValueSelect',
+                            'data-filter-name': filter.name
+                          }]
        if multi_value
          select_options.third[:multiple] = true
        end %>
     <%= select_tag *select_options %>
-    <a href="" class="form-label no-decoration-on-hover -transparent multi-select-toggle" tabindex="0">
+    <a href=""
+       class="form-label no-decoration-on-hover -transparent multi-select-toggle"
+       tabindex="0"
+       data-action="click->project#toggleMultiSelect"
+       data-project-filter-name-param="<%= filter.name %>">
       <span class="icon-context icon-button <%= multi_value ? 'icon-minus2' : 'icon-add' %> icon4" title="<%= t(:label_enable_multi_select) %>">
         <span class="hidden-for-sighted"><%= t(:label_enable_multi_select) %></span>
       </span>

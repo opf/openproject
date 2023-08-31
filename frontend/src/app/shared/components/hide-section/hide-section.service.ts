@@ -28,7 +28,7 @@
 
 import { GonService } from 'core-app/core/gon/gon.service';
 import { Injectable } from '@angular/core';
-import { input } from 'reactivestates';
+import { input } from '@openproject/reactivestates';
 
 export interface HideSectionDefinition {
   key:string;

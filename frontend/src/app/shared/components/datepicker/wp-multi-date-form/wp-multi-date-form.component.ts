@@ -48,6 +48,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import flatpickr from 'flatpickr';
 import {
+  debounce,
   debounceTime,
   filter,
   map,
@@ -58,6 +59,7 @@ import {
   merge,
   Observable,
   Subject,
+  timer,
 } from 'rxjs';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
@@ -196,7 +198,7 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
 
       // The duration field is special in how it handles focus transitions
       // For start/due we just toggle here
-      if (field !== 'duration') {
+      if (update !== null && field !== 'duration') {
         this.toggleCurrentActivatedField();
       }
 
@@ -210,7 +212,7 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
     .durationChanges$
     .pipe(
       this.untilDestroyed(),
-      debounceTime(500),
+      debounce((value) => (value ? timer(500) : timer(0))),
       map((value) => (value === '' ? null : Math.abs(parseInt(value, 10)))),
       filter((val) => val === null || !Number.isNaN(val)),
       filter((val) => val !== this.duration),
@@ -414,6 +416,7 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
   handleDurationFocusOut():void {
     setTimeout(() => {
       this.durationFocused = false;
+      this.cdRef.detectChanges();
     });
   }
 

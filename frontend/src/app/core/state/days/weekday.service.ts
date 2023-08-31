@@ -12,17 +12,17 @@ import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import {
   extendCollectionElementsWithId,
   insertCollectionIntoState,
-} from 'core-app/core/state/collection-store';
+} from 'core-app/core/state/resource-store';
 import { WeekdayStore } from 'core-app/core/state/days/weekday.store';
 import { IWeekday } from 'core-app/core/state/days/weekday.model';
 import {
-  CollectionStore,
-  ResourceCollectionService,
-} from 'core-app/core/state/resource-collection.service';
+  ResourceStore,
+  ResourceStoreService,
+} from 'core-app/core/state/resource-store.service';
 
 @Injectable()
-export class WeekdayResourceService extends ResourceCollectionService<IWeekday> {
-  require():Observable<IWeekday[]> {
+export class WeekdayResourceService extends ResourceStoreService<IWeekday> {
+  requireCollection():Observable<IWeekday[]> {
     return this
       .query
       .selectHasCache()
@@ -44,15 +44,11 @@ export class WeekdayResourceService extends ResourceCollectionService<IWeekday> 
       );
   }
 
-  protected createStore():CollectionStore<IWeekday> {
+  protected createStore():ResourceStore<IWeekday> {
     return new WeekdayStore();
   }
 
   protected basePath():string {
-    return this
-      .apiV3Service
-      .days
-      .week
-      .path;
+    return this.apiV3Service.days.week.path;
   }
 }

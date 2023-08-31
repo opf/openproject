@@ -3,6 +3,13 @@ require:
   - rubocop-rspec
   - ./lib_static/rubocop/cop/open_project/no_do_end_block_with_rspec_capybara_matcher_in_expect.rb
   - ./lib_static/rubocop/cop/open_project/use_service_result_factory_methods.rb
+  - rubocop-capybara
+  - rubocop-factory_bot
+
+<% if File.exist?('.rubocop-local.yml') %>
+inherit_from:
+  - .rubocop-local.yml
+<% end %>
 
 inherit_mode:
   merge:
@@ -15,6 +22,9 @@ AllCops:
   NewCops: enable
   Exclude:
     - '**/node_modules/**/*'
+
+FactoryBot/SyntaxMethods:
+  Enabled: true
 
 Gemspec/RequiredRubyVersion:
   Exclude:
@@ -210,6 +220,10 @@ RSpec/DescribeMethod:
 RSpec/FilePath:
   SpecSuffixOnly: true
 
+# Prevent  "fit" or similar to be committed
+RSpec/Focus:
+  Enabled: true
+
 # We use let!() to ensure dependencies are created
 # instead of let() and referencing them explicitly
 RSpec/LetSetup:
@@ -223,18 +237,19 @@ RSpec/NamedSubject:
 
 RSpec/ContextWording:
   Prefixes:
+    - and
     - as
     - for
+    - having
     - if
     - 'on'
     - to
     - unless
+    - via
     - when
     - with
+    - within
     - without
-
-RSpec/FactoryBot/SyntaxMethods:
-  Enabled: true
 
 Style/Alias:
   Enabled: false

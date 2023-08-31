@@ -1,0 +1,51 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Components/Toast" />
+
+# Toast
+
+> Example: A success toast 
+
+Toasts are small generally one-line messages that appear to inform the user of the result of an action, or an update to the current view.
+
+## Structure and Options
+
+The toast consists of:
+
+- An optional icon
+- A text
+- A close button
+
+There are four types of toasts, each with a specific icon and colour associated with it:
+
+An **Information** toast is blue (background: Feedback/Info/Light, stroke: Feedback/Info/Dark) and provides the user with helpful information about the current view. 
+
+> Eg: a blue notification toast (as it exists today)
+
+A **Success** toast is green (background: Feedback/Success/Light, stroke: Feedback/Success/Dark)and indicates to the user that an action has been successfully carried out.
+
+> Eg: a green success toast (as it exists today)
+
+A **Warning** toast is orange (background: Feedback/Warning/Light, stroke: Feedback/Warning/Dark) and indicates that there are potential risks or possibility of error.
+
+> Eg: an orange toast (is this used somewhere?)
+
+An **Error** toast is red (background: Feedback/Error/Light, stroke: Feedback/Error/Dark) and indicates that something did not not go as expected, and that there is a problem.
+
+> Eg: a red toast (as it exists today, when moving an WP in GANTT view is not possible)
+
+##  Behaviour
+
+The toast appears either as result of user action (a work package attribute is modified, for example) or a background action (there are new notifications).
+
+The text is generally merely informational, although there might sometimes be a link with an approproate action.
+
+> Eg. Blue notification toast with "Load new notifications" link.
+
+Toasts generally disappear automatically; they must be manually closed by the user. The only exception is the Success toast, which _can_ disappear automatically, if the user has enabled this in their account settings.
+
+Ideally, only one toast should be visible at any time. Hoever, there are circumstances where multiple toasts might be generated and visible to the user; in this case, the toasts must "pile" vertically with a 1 rem (?) spacing between them.
+
+## Margins and Spacing
+
+The toast has a height of 2.5 rem, with a 0.5 rem padding on all sides, and a 0.5 rem spacing between the icon, text and the close button.

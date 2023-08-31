@@ -16,11 +16,11 @@ export function boardTourSteps(edition:'basic'|'enterprise', project:ProjectName
 
   return [
     {
-      'next .board-view-menu-item': I18n.t('js.onboarding.steps.boards.overview'),
+      'next #boards-wrapper>.boards-menu-item': I18n.t('js.onboarding.steps.boards.overview'),
       showSkip: false,
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },
       onNext() {
-        jQuery('.board-view-menu-item ~ .toggler')[0].click();
+        jQuery('#boards-wrapper>.boards-menu-item ~ .toggler')[0].click();
         waitForElement(
           '.op-sidemenu--item-action',
           '#main-menu',

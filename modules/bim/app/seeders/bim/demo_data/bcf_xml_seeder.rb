@@ -28,18 +28,17 @@
 module Bim
   module DemoData
     class BcfXmlSeeder < ::Seeder
-      attr_reader :project, :key
+      attr_reader :project, :project_data
 
-      def initialize(project, key)
+      def initialize(project, project_data)
+        super()
         @project = project
-        @key = key
+        @project_data = project_data
       end
 
       def seed_data!
-        filename = project_data_for(key, 'bcf_xml_file')
-        return unless filename.present?
-
-        user = User.admin.active.first
+        filename = project_data.lookup('bcf_xml_file')
+        return if filename.blank?
 
         print_status '    ↳ Import BCF XML file'
 
@@ -49,8 +48,8 @@ module Bim
           non_members_action: 'anonymize'
         }
 
-        bcf_xml_file = File.new(File.join(Rails.root, 'modules/bim/files', filename))
-        importer = ::OpenProject::Bim::BcfXml::Importer.new(bcf_xml_file, project, current_user: user)
+        bcf_xml_file = Rails.root.join('modules/bim/files', filename).to_s
+        importer = ::OpenProject::Bim::BcfXml::Importer.new(bcf_xml_file, project, current_user: admin_user)
         importer.import!(import_options).flatten
       end
     end

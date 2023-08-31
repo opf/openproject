@@ -69,8 +69,8 @@ sk:
       delete_all_are_you_sure: 'Naozaj chcete odstrániť všetky 2FA zariadenia pre tohto užívateľa?'
       button_delete_all_devices: 'Odstrániť zaregistrované 2FA zariadenia'
       button_register_mobile_phone_for_user: 'Registrovať mobilný telefón'
-      text_2fa_enabled: 'Po každom prihlásení bude užívateľ požiadaný, aby zadal token OTP zo svojho predvoleného zariadenia 2FA.'
-      text_2fa_disabled: "Používateľ neurčil zariadenie 2FA prostredníctvom svojej stránky \"Môj účet\""
+      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from their default 2FA device.'
+      text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
     upsale:
       title: 'Dvojfaktorové overenie (2FA)'
       description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'

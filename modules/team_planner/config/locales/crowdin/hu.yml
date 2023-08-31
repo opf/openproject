@@ -2,9 +2,10 @@
 hu:
   permission_view_team_planner: "Csoport tervező megtekintése"
   permission_manage_team_planner: "Csoport tervező kezelése"
-  project_module_team_planner_view: "Csoport tervező"
+  project_module_team_planner_view: "Csoport tervezők"
   team_planner:
     label_team_planner: "Csoport tervező"
+    label_new_team_planner: "New team planner"
     label_create_new_team_planner: "Új csoport tervező létrehozása"
     label_team_planner_plural: "Csoport tervezők"
     label_assignees: "Megbízottak"

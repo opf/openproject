@@ -6,3 +6,31 @@
   boards:
     label_board: "Tavle"
     label_boards: "Tavler"
+    label_create_new_board: "Opprett ny tavle"
+    label_board_type: "Tavletype"
+    board_types:
+      free: Enkel
+      action: "Handlingstavle (%{attribute})"
+    board_type_attributes:
+      assignee: Deltaker
+      status: Status
+      version: Versjon
+      subproject: Underprosjekt
+      subtasks: Foreldre-barn
+      basic: Enkel
+    board_type_descriptions:
+      basic: >
+        Start fra bunn med en tom tavle. Legg til oppgaver og kolonner på denne tavlen.
+      status: >
+        Grunnleggende kanban-stil tavle med kolonner for status, slik som Å Gjøre, Underveis, Ferdig.
+      assignee: >
+        Tavle med automatiserte kolonner basert på tildelte brukere. Ideelt for utsendelse av arbeidspakker.
+      version: >
+        Tavle med automatiserte kolonner basert på versjonsattributt. Ideelt for planlegging av produktutvikling.
+      subproject: >
+        Tavle med automatiserte kolonner for underprosjekter. Å dra arbeidspakker til andre lister oppdaterer (under)prosjekter tilsvarende.
+      subtasks: >
+        Tavle med automatiserte kolonner for underprosjekter. Å dra oppgaver til andre lister oppdaterer overordnet prosjekt tilsvarende.
+    upsale:
+      teaser_text: 'Ønsker du å automatisere dine arbeidsflyter med Tavler? Avanserte tavler er et Enterprise add-on. Vennligst oppgrader til et betalt abonnement.'
+      upgrade: 'Oppgrader nå'

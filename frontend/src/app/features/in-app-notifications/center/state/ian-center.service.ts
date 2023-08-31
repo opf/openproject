@@ -66,7 +66,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import {
   InAppNotificationsResourceService,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
-import { mapHALCollectionToIDCollection } from 'core-app/core/state/collection-store';
+import { mapHALCollectionToIDCollection } from 'core-app/core/state/resource-store';
 import { INotificationPageQueryParameters } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
 import {
   IAN_FACET_FILTERS,
@@ -271,12 +271,16 @@ export class IanCenterService extends UntilDestroyedMixin {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  openSplitScreen(wpId:string|null, tabIdentifier:string = 'activity'):void {
+  openSplitScreen(workPackageId:string|null, tabIdentifier:string = 'activity'):void {
     void this.state.go(
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
       `${this.state.current.data.baseRoute}.details.tabs`,
-      { workPackageId: wpId, tabIdentifier },
+      { workPackageId, tabIdentifier },
     );
+  }
+
+  openFullView(workPackageId:string|null):void {
+    void this.state.go('work-packages.show', { workPackageId });
   }
 
   goToCenter():void {

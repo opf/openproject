@@ -9,7 +9,7 @@ ko:
         identifier: 식별자
         secret: 비밀번호
         scope: 범위
-        limit_self_registration: Limit self registration
+        limit_self_registration: 자체 등록 제한
   openid_connect:
     menu_title: OpenID 공급자
     providers:
@@ -19,5 +19,9 @@ ko:
       plural: OpenID 공급자
       singular: OpenID 공급자
     setting_instructions:
+      azure_graph_api: >
+        graph.microsoft.com userinfo 엔드포인트를 사용하여 사용자 데이터를 요청합니다. 이전 Azure 애플리케이션이 없는 경우 이것이 기본값이어야 합니다.
+      azure_tenant_html: >
+        Azure 엔드포인트의 테넌트를 설정합니다. 이것은 OpenProject 인스턴스에 액세스할 수 있는 사용자를 제어합니다. 자세한 내용은 <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">Azure OpenID 연결의 사용자 가이드</a>를 참조하세요.
       limit_self_registration: >
-        If enabled users can only register using this provider if the self registration setting allows for it.
+        활성화되면, 사용자는 자체 등록 설정에서 허용하는 경우에만 이 공급자를 사용하여 등록할 수 있습니다.

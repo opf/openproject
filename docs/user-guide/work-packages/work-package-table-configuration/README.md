@@ -1,27 +1,27 @@
 ---
 sidebar_navigation:
   title: Configure work package table
-  priority: 700
+  priority: 950
 description: How to configure the work package list in OpenProject.
-keywords: work packages table configuration, work package list, columns, filter, group
+keywords: work packages table configuration, work package table, columns, filter, group
 ---
 
 # Work package table configuration
 
-| Topic                                                                               | Content                                                                          |
-|-------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
-| [Add or remove columns](#add-or-remove-columns-in-the-work-package-table)           | How to add or remove columns in the work package table.                          |
-| [Filter work packages](#filter-work-packages)                                       | How to filter in the work package table.                                         |
-| [Sort the work package list](#sort-the-work-package-list)                           | How to sort within the work package table.                                       |
-| [Display settings](#flat-list-hierarchy-mode-and-group-by)                          | Get to know the flat list, the hierarchy mode, the group by and the sum feature. |
-| [Attribute highlighting (Enterprise add-on)](#attribute-highlighting-enterprise-add-on) | How to highlight certain attributes in the work package table.                   |
-| [Save work package views](#save-work-package-views)                                 | How to save a new work package view and how to change existing ones.             |
+| Topic                                                        | Content                                                      |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Add or remove columns](#add-or-remove-columns-in-the-work-package-table) | How to add or remove columns in the work package table.      |
+| [Filter work packages](#filter-work-packages)                | How to filter in the work package table.                     |
+| [Sort the work package table](#sort-the-work-package-table)  | How to sort within the work package table.                   |
+| [Display settings](#flat-list-hierarchy-mode-and-group-by)   | Get to know the flat list, the hierarchy mode, the group by and the sum feature. |
+| [Attribute highlighting (Enterprise add-on)](#attribute-highlighting-enterprise-add-on) | How to highlight certain attributes in the work package table. |
+| [Save work package views](#save-work-package-views)          | How to save a new work package view and how to change existing ones. |
 
-You can configure the work package table view in OpenProject to display the information that you need in the list.
+You can configure the work package table view in OpenProject to display the information that you need in the table.
 
 You can change the header in the table and add or remove columns, filter and group work packages or sort them according to specific criteria. Also, you can change between a flat list view, a hierarchy view and a grouped view.
 
-Save the view to have it available directly from your project menu. A work package view is the sum of all modifications you made to the default list (e.g. filters you set). 
+Save the view to have it available directly from your project menu. A work package view is the sum of all modifications you made to the default table (e.g. filters you set). 
 
 
 
@@ -32,7 +32,7 @@ To open the work package table configuration, open the **Settings** icon with th
 
 ## Add or remove columns in the work package table
 
-To configure the view of the work package table and have different attributes displayed in the list you can add or remove columns in the work package list.
+To configure the view of the work package table and have different attributes displayed in the table you can add or remove columns in the work package table.
 
 First, [open the work package table configuration](#work-package-table-configuration).
 
@@ -42,7 +42,7 @@ You can add columns by typing the name of the attribute which you would like to 
 
 You can remove columns by clicking the **x** icon.
 
-You order the attributes in the list with drag and drop.
+You order the attributes via drag and drop.
 
 ![columns](1566395294543.png)
 
@@ -52,7 +52,7 @@ Clicking the **Apply** button will save your changes and adapt the table accordi
 
 ## Filter work packages
 
-In the work package list there will soon be quite a lot of work packages in a project. To filter the work packages in the list, click on the **Filter** button on top of the work packages view. The number next to it tells you how many filter criteria you have applied to a list.
+To filter the work packages in the table, click on the **Filter** button on top of the work packages view. The number next to it tells you how many filter criteria you have applied to a table.
 
 In this example one filter criterion is applied: Status = open.
 
@@ -65,13 +65,28 @@ To add a filter criterion, choose one from the drop-down list next to **+ Add fi
 You can add as many filter criteria as needed. 
 Also, you can filter by [custom fields](../../../system-admin-guide/custom-fields) if you set this in the custom field configuration.
 
-> **Good to know**: Filtering a work packages list will temporarily change the default work package type and default status to the values used in the filters to make newly created work packages visible in the list.
+> **Good to know**: Filtering a work package table will temporarily change the default work package type and default status to the values used in the filters to make newly created work packages visible in the table.
+
+### Filter operators
+
+Different attributes offer different filter criteria but most selection attributes like Assignee offer these:
+
+- **is (OR)**: returns all work packages that match any one of the entered values
+- **is not**: returns all work packaged that do not match any of the entered values
+- **is not empty**: returns all work packages for which the attribute has a value
+- **is empty**: returns all work packages for which the attribute does not have a value
+
+Multi-select attributes also have one extra options:
+
+- **is (AND)**: returns all work packages that match _all_ of the entered values.
+
+Other attributes like Status might offer additional criteria like _open_ or _closed_. Required attributes might only offer two options, _is (OR)_ and _is not_, since they cannot be empty.
 
 
 ### Filter by text
 If you want to search for specific text in the subject, description or comments of a work package, type in the **Filter by text** the expression you want to filter for.
 
-The results will be displayed accordingly in the work package list.
+The results will be displayed accordingly in the work package table.
 
 ![filter-text](filter-text.png)
 
@@ -84,12 +99,12 @@ If you only select work packages without children, no work packages will be show
 
 ### Include/exclude work packages from a specific project or subproject
 
-It is possible to display the work packages from more than one project. To include, or exclude such work packages, use the **Include projects** button on top of the work packages list view, where you can select/unselect the appropriate projects and sub-projects you want to add.
+It is possible to display the work packages from more than one project. To include, or exclude such work packages, use the **Include projects** button on top of the work package table view, where you can select/unselect the appropriate projects and sub-projects you want to add.
 To automatically include all sub-projects for each project you chose to select, check the **Include all sub-projects** box at the bottom of the dialog.
 
 ![work-package-filter-include-projects](work-package-filter-include-projects.png)
 
-To view all work packages across all projects you could select everything, or use the [global work package list](../../projects/#global-work-packages-list).
+To view all work packages across all projects you could select everything, or use the [global work package tables](../../projects/#global-work-package-tables).
 
 ### Filter by ID or work package name
 
@@ -131,19 +146,19 @@ It will then display the corresponding work package with the attachment.
 
 ![openproject-search-work-package-attachments](openproject-search-work-package-attachments.png)
 
-## Sort the work package list
+## Sort the work package table
 
-### Automatic sorting of the work package list
-By default, the work package list will be sorted by work package ID. 
+### Automatic sorting of the work package table
+By default, the work package table will be sorted by work package ID. 
 
 <div class="glossary">
 The **ID** is unique for a work package within OpenProject. It will be set automatically from the system. With the ID you can reference a specific work package in OpenProject. 
 </div>
-To sort the work package list view, open the [work package table configuration](#work-package-table-configuration) and select the tab **Sort by**. You can sort by up to three attributes, either ascending or descending.
+To sort the work package table view, open the [work package table configuration](#work-package-table-configuration) and select the tab **Sort by**. You can sort by up to three attributes, either ascending or descending.
 
 ![work-package-table-configuration](work-package-table-configuration-4874227.png)
 
-Clicking the blue **Apply** button will save your changes and display the results accordingly in the list view.
+Clicking the blue **Apply** button will save your changes and display the results accordingly in the table view.
 
 ![sort-work-packages](sort-work-packages.png)
 
@@ -157,11 +172,11 @@ The same filter applied in the hierarchy mode.
 
 ![sort-hierarchy-mode](sort-hierarchy-mode.png)
 
-### Manual sorting of the work package list
+### Manual sorting of the work package table
 
-You can sort the work package list manually, using the icon with the 6 dots on the left of each work package to drag and drop it. 
+You can sort the work package table manually, using the icon with the 6 dots on the left of each work package to drag and drop it. 
 
-Moving a work package will change its attributes, depending on the kind of list displayed, e.g. hierarchy changes or priority.
+Moving a work package will change its attributes, depending on the kind of table displayed, e.g. hierarchy changes or priority.
 
 To keep the sorting it is necessary to [save the work package view](#save-work-package-views). 
 Please note: This has no effect on the "All open" view; you have to save your sorting with another name.
@@ -169,35 +184,35 @@ Please note: This has no effect on the "All open" view; you have to save your so
 
 ## Flat list, Hierarchy mode and Group by
 
-You have three different options to display results in the work package list.
+You have three different options to display results in the work package table.
 
 * A **Flat list** (default), which contains all work packages in a list no matter how their parent-child-relation is.
 * A **Hierarchy**, which will display the filtered results within the parent-child-relation.
-* **Group by** will group the list according to a defined attribute.
+* **Group by** will group the table according to a defined attribute.
 
 To display the work package table you have to choose one of these options.
 
-To switch between the different criteria, open the [work package table configuration](#work-package-table-configuration) and open the tab **Display settings**. Choose how to display the work packages in the list and click the blue **Apply** button.
+To switch between the different criteria, open the [work package table configuration](#work-package-table-configuration) and open the tab **Display settings**. Choose how to display the work packages in the table and click the blue **Apply** button.
 
 ![display-settings](image-20210426164224748.png)
 
 
 
-When you group the work package list by an attribute or by project a **button to collapse groups** shows up:
+When you group the work package table by an attribute or by project a **button to collapse groups** shows up:
 ![collapse-button](collapse-all-expand-all.png)
 
 Use it to quickly collapse or expand all groups at the same time. Find out [here](../../gantt-chart/#aggregation-by-project) how to use this feature for a **quick overview of several projects** at once.
 
-### Display sums in work package list
+### Display sums in work package table
 
-To display the sums of eligible work package attributes, go to the work package table configuration and click on the tab **Display settings** (see screenshot above). When you tick the box next to **Display sums** the sums of Estimated time and Remaining hours as well as custom fields of the type Integer or Float will be displayed at the bottom of the work package list. 
-If you group the work package list, sums will be shown for each group.
+To display the sums of eligible work package attributes, go to the work package table configuration and click on the tab **Display settings** (see screenshot above). When you tick the box next to **Display sums** the sums of Estimated time and Remaining hours as well as custom fields of the type Integer or Float will be displayed at the bottom of the work package table. 
+If you group the work package table, sums will be shown for each group.
 
 ## Attribute highlighting (Enterprise add-on)
 
-You can highlight attributes in the work package list to emphasize the importance of certain attributes and have important topics at a glance.
+You can highlight attributes in the work package table to emphasize the importance of certain attributes and have important topics at a glance.
 
-The following attributes can be highlighted in the list:
+The following attributes can be highlighted in the table:
 
 * Priority
 * Status
@@ -218,14 +233,14 @@ You can configure the colors for attribute highlighting in the system administra
 
 When you have configured your work package table, you can save the views to access them again and share them with your team.
 
-1. Press the **Settings icon** with the three dots on the top right of the work packages list.
+1. Press the **Settings icon** with the three dots on the top right corner of the work package table.
 2. Choose **Save as...**
 
 ![Work-packages-save-view](Work-packages-save-view.png)
 
 3. Enter a **Name** for your saved view (according to the criteria you have chosen in your work package table configuration).
 
-   In this example, the list was filtered for work packages assigned to me which have a high priority.
+   In this example, the table was filtered for work packages assigned to me which have a high priority.
 
    **Public views:** Check the public checkbox if you want to have this work package view accessible also for other users from this project.
 

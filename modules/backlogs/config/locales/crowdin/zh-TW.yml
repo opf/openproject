@@ -26,6 +26,8 @@ zh-TW:
         position: "位置"
         remaining_hours: "剩餘時數"
         remaining_time: "剩餘時數"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "需求重要性"
         backlogs_work_package_type: "待辦項目類型"
     errors:
@@ -35,9 +37,6 @@ zh-TW:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "只可以在現在進度中包含工作項目的 IDs"
               must_block_at_least_one_work_package: "必須包含至少一個項目的 ID"
-            parent_id:
-              parent_child_relationship_across_projects: "是不正確的，因為這個工作項目 '%{work_package_name}' 是一個待辦任務，它不可以擁有一個在目前的專案以外的上層項目"
-              type_must_be_one_of_the_following: "類型必須是以下其中一種: %{type_names}"
             version_id:
               task_version_must_be_the_same_as_story_version: "必須與\"父\"直屬故事的版本相同。"
         sprint:
@@ -78,7 +77,6 @@ zh-TW:
     x_more: "還有 %{count} 個 ..."
   backlogs_active: "啟用"
   backlogs_any: "任何"
-  backlogs_card_specification: "卡片印製的標籤類型"
   backlogs_inactive: "專案顯示沒有活動"
   backlogs_points_burn_direction: "重要性 增加/減少"
   backlogs_product_backlog: "產品待辦事項"

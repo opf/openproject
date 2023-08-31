@@ -27,24 +27,20 @@
 #++
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
-  class FilesQuery < Storages::Peripherals::StorageInteraction::StorageQuery
-    include API::V3::Utilities::PathHelper
-
-    def initialize(base_uri:, token:, retry_proc:)
-      super()
-      @uri = base_uri
-      @token = token
-      @retry_proc = retry_proc
-      @base_path = api_v3_paths.join_uri_path(@uri.path, "remote.php/dav/files", escape_whitespace(token.origin_user_id))
+  class FilesQuery
+    def initialize(storage)
+      @uri = URI(storage.host).normalize
+      @oauth_client = storage.oauth_client
     end
 
-    def query(parent)
-      http = Net::HTTP.new(@uri.host, @uri.port)
-      http.use_ssl = @uri.scheme == 'https'
+    # rubocop:disable Metrics/AbcSize
+    def call(user:, folder:)
+      result = Util.token(user:, oauth_client: @oauth_client) do |token|
+        base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files")
+        @location_prefix = Util.join_uri_path(base_path, token.origin_user_id.gsub(' ', '%20'))
 
-      result = @retry_proc.call(@token) do |token|
-        response = http.propfind(
-          "#{@base_path}#{requested_folder(parent)}",
+        response = Util.http(@uri).propfind(
+          Util.join_uri_path(base_path, CGI.escapeURIComponent(token.origin_user_id), requested_folder(folder)),
           requested_properties,
           {
             'Depth' => '1',
@@ -52,22 +48,29 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           }
         )
 
-        response.is_a?(Net::HTTPSuccess) ? ServiceResult.success(result: response.body) : error(response)
+        case response
+        when Net::HTTPSuccess
+          ServiceResult.success(result: response.body)
+        when Net::HTTPNotFound
+          Util.error(:not_found)
+        when Net::HTTPUnauthorized
+          Util.error(:not_authorized)
+        else
+          Util.error(:error)
+        end
       end
 
       storage_files(result)
     end
 
-    private
+    # rubocop:enable Metrics/AbcSize
 
-    def escape_whitespace(value)
-      value.gsub(' ', '%20')
-    end
+    private
 
     def requested_folder(folder)
       return '' if folder.nil?
 
-      escape_whitespace(folder)
+      Util.escape_path(folder)
     end
 
     # rubocop:disable Metrics/AbcSize
@@ -88,25 +91,8 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         end
       end.to_xml
     end
+
     # rubocop:enable Metrics/AbcSize
-
-    def error(response)
-      case response
-      when Net::HTTPNotFound
-        error_result(:not_found)
-      when Net::HTTPUnauthorized
-        error_result(:not_authorized)
-      else
-        error_result(:error)
-      end
-    end
-
-    def error_result(code, log_message = nil, data = nil)
-      ServiceResult.failure(
-        result: code, # This is needed to work with the ConnectionManager token refresh mechanism.
-        errors: Storages::StorageError.new(code:, log_message:, data:)
-      )
-    end
 
     def storage_files(response)
       response.map do |xml|
@@ -119,25 +105,44 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
             storage_file(file_element)
           end
 
-        ::Storages::StorageFiles.new(files, parent)
+        ::Storages::StorageFiles.new(files, parent, ancestors(parent.location))
       end
     end
 
+    def ancestors(parent_location)
+      path = parent_location.split('/')
+      return [] if path.count == 0
+
+      path.take(path.count - 1).reduce([]) do |list, item|
+        last = list.last
+        prefix = last.nil? || last.location[-1] != '/' ? '/' : ''
+        location = "#{last&.location}#{prefix}#{item}"
+        list.append(forge_ancestor(location))
+      end
+    end
+
+    # The ancestors are simply derived objects from the parents location string. Until we have real information
+    # from the nextcloud API about the path to the parent, we need to derive name, location and forge an ID.
+    def forge_ancestor(location)
+      ::Storages::StorageFile.new(id: Digest::SHA256.hexdigest(location), name: name(location), location:)
+    end
+
+    def name(location)
+      location == '/' ? location : CGI.unescape(location.split('/').last)
+    end
+
     def storage_file(file_element)
-      location = name(file_element)
-      name = location == '/' ? location : CGI.unescape(location.split('/').last)
+      location = location(file_element)
 
       ::Storages::StorageFile.new(
-        id(file_element),
-        name,
-        size(file_element),
-        mime_type(file_element),
-        nil,
-        last_modified_at(file_element),
-        created_by(file_element),
-        nil,
-        location,
-        permissions(file_element)
+        id: id(file_element),
+        name: name(location),
+        size: size(file_element),
+        mime_type: mime_type(file_element),
+        last_modified_at: last_modified_at(file_element),
+        created_by_name: created_by(file_element),
+        location:,
+        permissions: permissions(file_element)
       )
     end
 
@@ -149,14 +154,14 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         .first
     end
 
-    def name(element)
+    def location(element)
       texts = element
                 .xpath('d:href')
                 .map(&:inner_text)
 
       return nil if texts.empty?
 
-      element_name = texts.first.delete_prefix(@base_path)
+      element_name = texts.first.delete_prefix(@location_prefix)
 
       return element_name if element_name == '/'
 

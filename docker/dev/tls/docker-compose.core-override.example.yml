@@ -1,0 +1,25 @@
+services:
+  backend:
+    # The backend container needs some variables to be configured properly
+    environment:
+      OPENPROJECT_CLI_PROXY: '${OPENPROJECT_DEV_URL}'
+      OPENPROJECT_DEV_EXTRA_HOSTS: '${OPENPROJECT_DEV_HOST}'
+      OPENPROJECT_HTTPS: true
+    networks:
+      - external
+
+  frontend:
+    networks:
+      - external
+    # Those label interpreted by traefik to create the correct HTTP router
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.openproject.rule=Host(`${OPENPROJECT_DEV_HOST}`)"
+      - "traefik.http.routers.openproject.entrypoints=websecure"
+
+# You need to define the same external network
+# that is defined in the TLS proxy compose file
+networks:
+  external:
+    name: gateway
+    external: true

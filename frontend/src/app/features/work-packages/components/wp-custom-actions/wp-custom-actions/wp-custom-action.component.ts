@@ -50,21 +50,23 @@ export class WpCustomActionComponent {
 
   @Input() action:CustomActionResource;
 
-  constructor(private halResourceService:HalResourceService,
+  constructor(
+    private halResourceService:HalResourceService,
     private apiV3Service:ApiV3Service,
     private wpSchemaCacheService:SchemaCacheService,
     private wpActivity:WorkPackagesActivityService,
     private notificationService:WorkPackageNotificationService,
     private halEditing:HalResourceEditingService,
-    private halEvents:HalEventsService) {
+    private halEvents:HalEventsService,
+  ) {
   }
 
   private fetchAction() {
     if (this.action.href === null) return;
 
-    void this.halResourceService.get<CustomActionResource>(this.action.href)
-      .toPromise()
-      .then((action) => {
+    void this.halResourceService
+      .get<CustomActionResource>(this.action.href)
+      .subscribe((action) => {
         this.action = action;
       });
   }
@@ -80,7 +82,7 @@ export class WpCustomActionComponent {
       lockVersion: this.workPackage.lockVersion,
       _links: {
         workPackage: {
-          href: this.workPackage.href,
+          href: this.workPackage.previewPath(),
         },
       },
     };

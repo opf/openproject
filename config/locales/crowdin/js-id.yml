@@ -65,6 +65,8 @@ id:
     button_confirm: "Konfirmasi"
     button_continue: "Lanjut"
     button_copy: "Salin"
+    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Isian kustom"
     button_delete: "Hapus"
@@ -105,7 +107,7 @@ id:
       remove_from_list: 'Remove card from list'
     caption_rate_history: "Histori rate"
     clipboard:
-      browser_error: "Browser Anda tidak mendukung menyalin ke clipboard. Harap menyalin teks yang dipilih secara manual."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
@@ -125,7 +127,7 @@ id:
       errors:
         could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
     description_available_columns: "Kolom tersedia"
-    description_current_position: "You are here: "
+    description_current_position: "Kamu di sini:"
     description_select_work_package: "Select work package #%{id}"
     description_selected_columns: "Kolom dipilih"
     description_subwork_package: "Child of work package #%{id}"
@@ -228,7 +230,7 @@ id:
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Menjadi seorang pahlawan!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Tingkatkan ke paket berbayar untuk mengaktifkan dan mulai menggunakannya di tim Anda."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
@@ -260,7 +262,7 @@ id:
         add_non_working_day: "Non-working day"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
         change_button: "Save and reschedule"
-        change_title: "Change working days"
+        change_title: "Ubah hari kerja"
         removed_title: "You will remove the following days from the non-working days list:"
         change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
         warning: >
@@ -294,6 +296,34 @@ id:
           one: "Kriteria penyortiran pertama"
           two: "Kriteria penyortiran kedua"
           three: "Kriteria penyortiran ketiga"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "no"
     general_text_yes: "yes"
     general_text_No: "No"
@@ -312,11 +342,22 @@ id:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to calendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Aktifkan"
     label_assignee: 'Pelimpahan'
     label_add_column_after: "Add column after"
@@ -493,7 +534,7 @@ id:
     label_remove_all_files: Hapus semua file
     label_add_description: "Tambahkan deskripsi untuk %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Upload file untuk Work package #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Upload file untuk Work package #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "Upload file berikut:"
     label_rejected_files: "File ini tidak bisa di-upload:"
@@ -557,7 +598,7 @@ id:
         commented: 'commented'
         processed: 'processed'
         prioritized: 'prioritized'
-        dateAlert: 'Date alert'
+        dateAlert: 'Peringatan tanggal'
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
@@ -594,13 +635,13 @@ id:
           message: 'There are new notifications.'
           link_text: 'Click here to load them'
       menu:
-        accountable: 'Accountable'
+        accountable: 'Akuntabel'
         by_project: 'Unread by project'
         by_reason: 'Reason'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
         watched: 'Pemantau'
-        date_alert: 'Date alert'
+        date_alert: 'Peringatan tanggal'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
@@ -622,7 +663,7 @@ id:
             title: 'Mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: 'Pelimpahan'
-          responsible: 'Accountable'
+          responsible: 'Akuntabel'
           watched: 'Pemantau'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
@@ -668,7 +709,7 @@ id:
       context: 'Konteks proyek'
       click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
-      use_template: "Use template"
+      use_template: "Gunakan templat"
       no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
@@ -725,6 +766,14 @@ id:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'Catatan waktu'
+      tracking: 'Time tracking'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Autentikasi dua faktor'
     watchers:
@@ -783,7 +832,8 @@ id:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Pilih tag'
       select_branch: 'Pilih cabang'
@@ -801,63 +851,6 @@ id:
       activate_no: 'aktifkan untuk menghapus urutan'
     text_work_packages_destroy_confirmation: "Yakin akan menghapus?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Bagan Gantt'
-      labels:
-        title: 'Label configuration'
-        bar: 'Label batang'
-        left: 'Kiri'
-        right: 'Kanan'
-        farRight: 'Jauh sekali'
-        showNone: '-- Tidak ada label --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
-      cancel: Batal
-      change: "Perubahan dalam perencanaan"
-      due_date: "Finish date"
-      empty: "(kosong)"
-      error: "An error has occurred."
-      errors:
-        not_implemented: "Timeline tidak bisa dirender karena syarat fitur yang digunakan belum diimplementasikan."
-        report_comparison: "Timeline tidak bisa merender komparasi yang dikonfigurasikan. Periksa di bagian konfigurasi, cara resetting mungkin bisa memecahkan masalah ini."
-        report_epicfail: "Error : Timeline tidak dapat dibuka karena ada kesalahan."
-        report_timeout: "Timeline tidak dapat dibuka untuk sementara waktu."
-      filter:
-        grouping_other: "Lainnya"
-        noneSelection: "(kosong)"
-      name: "Nama"
-      outline: "Reset Outline"
-      outlines:
-        aggregation: "Hanya tampilkan agregasi"
-        level1: "Buka level 1"
-        level2: "Buka level 2"
-        level3: "Buka level 3"
-        level4: "Buka level 4"
-        level5: "Buka level 5"
-        all: "Tampilkan semua"
-      project_status: "Project status"
-      really_close_dialog: "Apakah Anda benar-benar ingin menutup dialog dan kehilangan data yang dimasukkan?"
-      responsible: "Penanggung jawab"
-      save: Simpan
-      start_date: "Tanggal start"
-      tooManyProjects: "Lebih dari %{count} proyek. Silakan gunakan filter lebih baik!"
-      selection_mode:
-        notification: 'Klik pada bagian terang paket kerja untuk membuat relasi. Tekan escape untuk membatalkan.'
-      zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Zoom otomatis"
-        days: "Hari"
-        weeks: "Minggu"
-        months: "Bulan"
-        quarters: "Kuartal"
-        years: "Tahun"
-        slider: "Zoom slider"
-        description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
     tl_toolbar:
       zooms: "Zoom level"
       outlines: "Hierarchy level"
@@ -918,8 +911,15 @@ id:
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "Subject, description, comments, ..."
+      baseline:
+        addition_label: 'Added to view within the comparison time period'
+        removal_label: 'Removed from view within the comparison time period'
+        modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filter Paket-Penugasan'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Click here to add a new work package to this list'
       create:
@@ -955,7 +955,7 @@ id:
         createdAt: "Dibuat"
         description: "Deskripsi"
         date: "Tanggal"
-        dueDate: "Finish date"
+        dueDate: "Tanggal selesai"
         duration: "Durasi"
         estimatedTime: "Estimasi Waktu"
         spentTime: "Durasi"
@@ -978,7 +978,7 @@ id:
         created_by_me: "Created by me"
         assigned_to_me: "Assigned to me"
         recently_created: "Recently created"
-        all_open: "All open"
+        all_open: "Semua terbuka"
         summary: "Ringkasan"
       jump_marks:
         pagination: "Jump to table pagination"
@@ -1080,6 +1080,7 @@ id:
         save_as: "Simpan sebagai"
         export: "Ekspor"
         visibility_settings: "Seting penampakan"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Rename view"
         delete: "Hapus"
       filter: "Filter"
@@ -1154,10 +1155,11 @@ id:
       button_deactivate: 'Menonaktifkan modus zen'
     global_search:
       all_projects: "In all projects"
-      search: "Cari"
       close_search: "Close search"
-      current_project: "In this project"
       current_project_and_all_descendants: "In this project + subprojects"
+      current_project: "In this project"
+      recently_viewed: "Recently viewed"
+      search: "Cari"
       title:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"
@@ -1193,7 +1195,7 @@ id:
           title: 'Grup'
           description: 'Permissions based on the assigned role in the selected project'
         placeholder:
-          title: 'Placeholder user'
+          title: 'Pengguna placeholder'
           title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'Has no access to the project and no emails are sent out.'
           description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
@@ -1237,7 +1239,7 @@ id:
       clear_selection: 'Clear selection'
       apply: 'Apply'
       selected_filter:
-        all: 'All projects'
+        all: 'Semua proyek'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
       include_subprojects: 'Include all sub-projects'
@@ -1246,6 +1248,38 @@ id:
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
       no_results: 'No project matches your search criteria.'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: 'Clear'
+      apply: 'Apply'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
+      show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
+      time: 'Waktu'
+      from: 'Dari'
+      to: 'Ke'
+      drop_down:
+        none: 'Hapus nilai'
+        yesterday: 'kemarin'
+        last_working_day: 'last working day'
+        last_week: 'minggu lalu'
+        last_month: 'bulan lalu'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
+      legends:
+        changes_since: 'Changes since'
+        changes_between: 'Changes between'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
+        in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

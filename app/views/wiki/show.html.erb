@@ -28,38 +28,31 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= call_hook :wiki_navigation %>
-<% if @content.version != @page.content.version %>
-  <% title = link_to(h(@page.title), {action: 'show', id: @page, project_id: @page.project}).html_safe %>
-<% else %>
+<% if @page.current_version? %>
   <% title = h(@page.title) %>
+<% else %>
+  <% title = link_to(@page.title, { action: 'show', id: @page, project_id: @page.project }) %>
 <% end %>
 
 <%# Set meta tags %>
 <% title "#{t(:project_module_wiki)} | #{title}" %>
-<% @formatted_text = format_text (@content || @page.content), :text, attachments: @page.attachments  %>
+<% @formatted_text = format_text @page, :text, attachments: @page.attachments  %>
 <% description strip_tags(@formatted_text) %>
-
-<% content_for :header_tags do %>
-  <meta name="required_script" content="print_handler" />
-<% end %>
-
 
 <%= toolbar title: title, html: {class: '-with-dropdown'} do %>
   <% if @editable %>
-    <% if User.current.allowed_to? :edit_wiki_pages, @project %>
-      <% if @page %>
-        <li class="toolbar-item">
-            <%= link_to({controller: '/wiki', action: 'new_child', project_id: @project.identifier, id: @page},
-                { class: 'button -alt-highlight',
-                  aria: {label: t('wiki.index.no_results_content_text')},
-                  title: t('wiki.index.no_results_content_text')}) do %>
-              <%= op_icon('button--icon icon-add') %>
-              <span class="button--text"><%= t(:create_new_page) %></span>
-            <% end %>
-        </li>
-      <% end %>
+    <% if @page && User.current.allowed_to?(:edit_wiki_pages, @project) %>
+      <li class="toolbar-item">
+          <%= link_to({controller: '/wiki', action: 'new_child', project_id: @project.identifier, id: @page},
+              { class: 'button -alt-highlight',
+                aria: {label: t('wiki.index.no_results_content_text')},
+                title: t('wiki.index.no_results_content_text')}) do %>
+            <%= op_icon('button--icon icon-add') %>
+            <span class="button--text"><%= t(:create_new_page) %></span>
+          <% end %>
+      </li>
     <% end %>
-    <% if @content.version == @page.content.version %>
+    <% if @page.current_version? %>
       <li class="toolbar-item">
         <%= link_to_if_authorized({ action: 'edit', id: @page },
                                   { aria: { label: t(:button_edit) },
@@ -70,10 +63,10 @@ See COPYRIGHT and LICENSE files for more details.
         <% end %>
       </li>
     <% end %>
-    <li class="toolbar-item hidden-for-mobile">
-      <%= watcher_link(@page, User.current) %>
+    <li class="toolbar-item hidden-for-tablet">
+      <%= watcher_link(@page.object, User.current) %>
     </li>
-    <% if @content.version != @page.content.version %>
+    <% unless @page.current_version? %>
       <li class="toolbar-item  hidden-for-mobile">
         <%= link_to(t(:label_history), {action: 'history', id: @page}, class: 'button icon-wiki') %>
       </li>
@@ -89,7 +82,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% if @editable %>
         <%= li_unless_nil(link_to_if_authorized(t(:button_lock), {action: 'protect', id: @page, protected: 1}, method: :post, class: 'icon-context icon-locked')) if !@page.protected? %>
         <%= li_unless_nil(link_to_if_authorized(t(:button_unlock), {action: 'protect', id: @page, protected: 0}, method: :post, class: 'icon-context icon-unlocked')) if @page.protected? %>
-        <% if @content.version == @page.content.version %>
+        <% if @page.current_version? %>
           <%= li_unless_nil(link_to_if_authorized(t(:button_rename),
                                                   {action: 'rename', id: @page},
                                                   class: 'icon-context icon-rename')) %>
@@ -98,12 +91,20 @@ See COPYRIGHT and LICENSE files for more details.
                                                   class: 'icon-context icon-link')) %>
         <% end %>
         <%= li_unless_nil(link_to_if_authorized(t(:button_delete), {action: 'destroy', id: @page}, method: :delete, data: { confirm: t(:text_are_you_sure) }, class: 'icon-context icon-delete')) %>
-        <%= li_unless_nil(link_to_if_authorized(t(:button_rollback), {action: 'edit', id: @page, version: @content.version }, class: 'icon-context icon-cancel')) if @content.version < @page.content.version %>
+        <%= li_unless_nil(link_to_if_authorized(t(:button_rollback), {action: 'edit', id: @page, version: @page.version }, class: 'icon-context icon-cancel')) unless @page.current_version? %>
       <% end %>
       <%= li_unless_nil(link_to_if_authorized(t(:label_history), {action: 'history', id: @page}, class: 'icon-context icon-activity-history')) %>
       <%= li_unless_nil(link_to_if_authorized(t(:button_manage_menu_entry), {controller: '/wiki_menu_items', action: 'edit', project_id: @project.identifier, id: @page}, class: 'icon-context icon-settings')) %>
       <li>
-        <%= link_to t(:button_print), '', title: t('wiki.print_hint'), class: 'icon-context icon-print op-wiki-context-print' %>
+        <%= link_to t(:button_print),
+                    '',
+                    title: t('wiki.print_hint'),
+                    class: 'icon-context icon-print',
+                    data: {
+                      controller: 'print',
+                      action: 'print#triggerPrint'
+                    }
+        %>
       </li>
       <% if User.current.allowed_to?(:export_wiki_pages, @project) %>
         <section data-augmented-model-wrapper
@@ -128,16 +129,16 @@ See COPYRIGHT and LICENSE files for more details.
   <hr />
   <div class="wiki-version--details">
     <div>
-      <%= link_to(t(:label_previous), { action: 'show', id: @page, project_id: @page.project, version: (@content.version - 1) }, class: 'button navigate-left') if @content.version > 1 %>
-      <span><%= "#{Version.model_name.human} #{@content.version}/#{@page.content.version}" %> &#x2014;</span>
-      <span><em><%= @content.author ? link_to_user(@content.author) : t(:label_user_anonymous) %></em> &#x2014; <%= format_time(@content.updated_at) %></span>
-      <%= link_to(t(:label_next), { action: 'show', id: @page, project_id: @page.project, version: (@content.version + 1) }, class: 'button navigate-right') if @content.version < @page.content.version %>
+      <%= link_to(t(:label_previous), { action: 'show', id: @page, project_id: @page.project, version: (@page.version - 1) }, class: 'button navigate-left') if @page.version > 1 %>
+      <span><%= "#{Version.model_name.human} #{@page.version}/#{@page.latest_version}" %> &#x2014;</span>
+      <span><em><%= @page.author ? link_to_user(@page.author) : t(:label_user_anonymous) %></em> &#x2014; <%= format_time(@page.updated_at) %></span>
+      <%= link_to(t(:label_next), { action: 'show', id: @page, project_id: @page.project, version: (@page.version + 1) }, class: 'button navigate-right') unless @page.current_version? %>
     </div>
     <hr />
   </div>
 <% end %>
 
-<%= render(partial: "wiki/content", locals: {content: @content}) %>
+<%= render(partial: "wiki/text", locals: { page: @page }) %>
 
 <% resource = ::API::V3::WikiPages::WikiPageRepresenter.new(@page, current_user: current_user, embed_links: true) %>
 <%= list_attachments(resource) %>

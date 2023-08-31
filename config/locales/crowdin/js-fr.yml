@@ -65,6 +65,8 @@ fr:
     button_confirm: "Confirmer"
     button_continue: "Continuer"
     button_copy: "Copier"
+    button_copy_to_clipboard: "Copier dans le presse-papier"
+    button_copy_link_to_clipboard: "Copier le lien dans le presse-papiers"
     button_copy_to_other_project: "Copier vers un autre projet"
     button_custom-fields: "Champs personnalisés"
     button_delete: "Supprimer"
@@ -105,7 +107,7 @@ fr:
       remove_from_list: 'Supprimer la carte de la liste'
     caption_rate_history: "Historique des tarifs"
     clipboard:
-      browser_error: "Votre navigateur ne prend pas en charge la copie dans le presse-papier. Veuillez copier manuellement le texte sélectionné."
+      browser_error: "Votre navigateur ne prend pas en charge la copie dans le presse-papiers. Veuillez effectuer la copie manuellement : %{content}"
       copied_successful: "Copie réussie dans le presse-papiers !"
     chart:
       type: 'Type de graphique'
@@ -127,7 +129,7 @@ fr:
     description_available_columns: "Colonnes disponibles"
     description_current_position: "Vous êtes ici :"
     description_select_work_package: "Sélectionner le lot de travaux #%{id}"
-    description_selected_columns: "Colonnes Sélectionnées"
+    description_selected_columns: "Colonnes sélectionnées"
     description_subwork_package: "Enfant du lot de travaux #%{id}"
     editor:
       preview: 'Basculer en mode aperçu'
@@ -228,7 +230,7 @@ fr:
           quick_overview: "Obtenez un aperçu rapide de la gestion de projets et de la collaboration en équipe avec la version Entreprise d'OpenProject."
         upsale:
           become_hero: "Devenez un héros !"
-          enterprise_info_html: "%{feature_title} est un <span class='spot-icon spot-icon_enterprise-addons'></span>add-on Entreprise."
+          enterprise_info_html: "%{feature_title} est un module de la version <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>Enterprise."
           upgrade_info: "Veuillez passer à une offre payante pour l'activer et commencer à l'utiliser dans votre équipe."
           benefits:
             description: "Quels sont les avantages de l'édition Entreprise autohébergée ?"
@@ -294,6 +296,34 @@ fr:
           one: "Premier critère de tri"
           two: "Second critère de tri"
           three: "Troisième critère de tri"
+    gantt_chart:
+      label: 'Diagramme de Gantt'
+      quarter_label: 'T%{quarter_number}'
+      labels:
+        title: 'Configuration du libellé'
+        bar: 'Libellés des barres'
+        left: 'Gauche'
+        right: 'Droite'
+        farRight: 'Extrême droite'
+        description: >
+          Sélectionnez les attributs que vous voulez afficher dans les positions respectives du diagramme de Gantt en permanence. Notez que lorsque vous survolez un élément avec la souris, ses libellés de date seront affichés à la place de ces attributs.
+      button_activate: 'Afficher le diagramme de Gantt'
+      button_deactivate: 'Masquer le diagramme de Gantt'
+      filter:
+        noneSelection: "(aucun)"
+      selection_mode:
+        notification: 'Cliquez sur n’importe quel lot de travaux mis en évidence afin de créer la relation. Appuyez sur Échap pour annuler.'
+      zoom:
+        in: "Zoomer"
+        out: "Dézoomer"
+        auto: "Zoom automatique"
+        days: "Jours"
+        weeks: "Semaines"
+        months: "Mois"
+        quarters: "Trimestres"
+        years: "Années"
+        description: >
+          Sélectionnez le niveau de zoom initial qui devrait être affiché lorsque le zoom automatique n'est pas disponible.
     general_text_no: "non"
     general_text_yes: "oui"
     general_text_No: "Non"
@@ -312,14 +342,25 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Téléversez et liez des fichiers depuis des lots de travaux vers votre espace de stockage Nextcloud.</li> <li>Suivez les modifications du projet avec le suivi des activités du projet.</li> <li>Ajoutez des jours fériés à l'échelle de l'instance (jours non travaillés)</li> <li>Projets d'archives par les non-administrateurs.</li> <li>Nouveau filtre par défaut pour les lots de travaux en retard.</li> </ul>
+                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Comparaison des données de référence pour faciliter le suivi des modifications.</li> <li>Exportation PDF des rapports sur les plans de travail.</li> <li>L'abonnement aux calendriers des projets via une adresse URL (iCalendar).</li> <li>Dossiers de projet avec des modèles de documents pour l'intégration de Nextcloud.</li> <li>Seeding localisé de toutes les données de démarrage.</li> <li>Les modules globaux sont répertoriés sur de nouvelles pages d'index.</li> </ul>
+    ical_sharing_modal:
+      title: "S'abonner au calendrier"
+      inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."
+      description: "Vous pouvez utiliser l'URL (iCalendar) pour vous abonner à ce calendrier dans un client externe et afficher les informations mises à jour du lot de travaux à partir de là."
+      warning: "Veillez à ne pas partager pas cette adresse URL avec d'autres utilisateurs. Quiconque disposant de ce lien sera en mesure de voir les détails du lot de travaux sans nécessité d'avoir un compte ou de saisir un mot de passe."
+      token_name_label: "Où comptez-vous l'utiliser ?"
+      token_name_placeholder: "Saisissez un nom, par exemple « Téléphone »"
+      token_name_description_text: "Si vous vous abonnez à ce calendrier à partir de plusieurs appareils, ce nom vous aidera à les distinguer dans votre liste de <a href=\"my/access_token\", target=\"_blank\">jetons d'accès</a>."
+      copy_url_label: "Copier l'URL"
+      ical_generation_error_text: "Une erreur s'est produite lors de la génération de l'URL du calendrier."
+      success_message: "L'adresse URL « %{name} » a été copiée avec succès dans votre presse-papiers. Collez-la dans votre client de calendrier pour compléter l'abonnement."
     label_activate: "Activer"
     label_assignee: 'Responsable'
-    label_add_column_after: "Ajouter une colonne au-dessus"
+    label_add_column_after: "Ajouter une colonne après"
     label_add_column_before: "Ajouter une colonne avant"
     label_add_columns: "Ajouter des colonnes"
     label_add_comment: "Ajouter un commentaire"
@@ -328,7 +369,7 @@ fr:
     label_add_row_before: "Ajouter une ligne avant"
     label_add_selected_columns: "Ajouter les colonnes sélectionnées"
     label_added_by: "Ajouté par"
-    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
+    label_added_time_by: "Ajouté par <a href=\"%{authorLink}\">%{author}</a> le %{age}"
     label_ago: "il y a quelques jours"
     label_all: "tous"
     label_all_work_packages: "tous les lots de travaux"
@@ -493,7 +534,7 @@ fr:
     label_remove_all_files: Supprimer tous les fichiers
     label_add_description: "Ajouter une description pour %{file}"
     label_upload_notification: "Chargement des fichiers..."
-    label_work_package_upload_notification: "Transfert en cours des fichiers pour le lot de travaux #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Transfert en cours des fichiers pour le lot de travaux #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} ajouté par %{author}"
     label_files_to_upload: "Ces fichiers vont être transférés:"
     label_rejected_files: "Ces fichiers ne peuvent pas être transférés:"
@@ -667,7 +708,7 @@ fr:
         Veuillez choisir un projet pour créer le lot de travaux et voir tous les attributs. Vous pouvez seulement sélectionner des projets ayant le type ci-dessus activé.
       details_activity: 'Activité des détails du projet'
       context: 'Contexte du projet'
-      click_to_switch_to_project: 'Project: %{projectname}'
+      click_to_switch_to_project: 'Projet : %{projectname}'
       confirm_template_load: 'Changer de modèle rechargera la page et vous perdrez toutes les entrées de ce formulaire. Continuer ?'
       use_template: "Utiliser le modèle"
       no_template_selected: "(aucun)"
@@ -726,6 +767,14 @@ fr:
     time_entry:
       work_package_required: 'Nécessite d''abord la sélection d''un lot de travaux.'
       title: 'Consigner temps'
+      tracking: 'Suivi du temps'
+      stop: 'Arrêter'
+    timer:
+      start_new_timer: 'Démarrer une nouvelle minuterie'
+      timer_already_running: 'Pour démarrer une nouvelle minuterie, vous devez d''abord arrêter la minuterie actuelle :'
+      timer_already_stopped: 'Aucune minuterie active pour ce lot de travaux, l''avez-vous arrêtée dans une autre fenêtre ?'
+      tracking_time: 'Temps de suivi'
+      button_stop: 'Arrêter la minuterie actuelle'
     two_factor_authentication:
       label_two_factor_authentication: 'Authentification à deux facteurs'
     watchers:
@@ -784,7 +833,8 @@ fr:
     autocompleter:
       placeholder: "Taper pour rechercher"
       notFoundText: "Aucun élément trouvé"
-      typeToSearchText: "Taper pour rechercher"
+      project:
+        placeholder: "Sélectionnez le projet"
     repositories:
       select_tag: 'Sélectionner une étiquette'
       select_branch: 'Sélectionner une branche'
@@ -802,63 +852,6 @@ fr:
       activate_no: 'activer pour supprimer le tri'
     text_work_packages_destroy_confirmation: "Êtes-vous sûr de vouloir supprimer le(s) lot(s) de travaux sélectionné(s) ?"
     text_query_destroy_confirmation: "Êtes-vous sûr de vouloir supprimer la vue sélectionnée ?"
-    timelines:
-      quarter_label: 'T%{quarter_number}'
-      gantt_chart: 'Diagramme de Gantt'
-      labels:
-        title: 'Configuration du label'
-        bar: 'Libellés des barres'
-        left: 'Gauche'
-        right: 'Droite'
-        farRight: 'Extrême droite'
-        showNone: '-- Aucune étiquette --'
-        description: >
-          Sélectionnez les attributs que vous voulez afficher à tout moment dans les positions respectives du diagramme de Gantt. Notez que, quand vous passez le curseur sur un élément, ses libellés de date seront affichés à la place de ces attributs.
-      button_activate: 'Afficher le diagramme de Gantt'
-      button_deactivate: 'Masquer le diagramme de Gantt'
-      cancel: Annuler
-      change: "Changement dans la planification"
-      due_date: "Date de fin"
-      empty: "(vide)"
-      error: "Une erreur s'est produite."
-      errors:
-        not_implemented: "La Chronologie ne peut être affiché parce qu’il utilise une fonctionnalité qui n'est pas encore implémentée."
-        report_comparison: "La vue Chronologique ne peut afficher les comparaisons configurées. Veuillez consulter la section appropriée dans la configuration, réinitialiser peut aider à résoudre ce problème."
-        report_epicfail: "La vue Chronologique ne peut pas être chargé à cause d'une erreur inattendue."
-        report_timeout: "La vue Chronologique ne peut être chargé dans un laps de temps raisonnable."
-      filter:
-        grouping_other: "Autre"
-        noneSelection: "(none)"
-      name: "Nom"
-      outline: "Réinitialiser l'aperçu"
-      outlines:
-        aggregation: "Ne montrer que les agrégations"
-        level1: "Étendre niveau 1"
-        level2: "Étendre niveau 2"
-        level3: "Étendre 3 niveaux"
-        level4: "Déplier 4 niveaux"
-        level5: "Déplier 5 niveaux"
-        all: "Afficher tout"
-      project_status: "État du projet"
-      really_close_dialog: "Voulez-vous vraiment fermer la boîte de dialogue et perdre les données saisies ?"
-      responsible: "Responsable"
-      save: Enregistrer
-      start_date: "Date de début"
-      tooManyProjects: "Plus de %{count} projets. Veuillez essayez un meilleur filtre !"
-      selection_mode:
-        notification: 'Cliquez sur n’importe quel lot de travaux mis en évidence afin de créer la relation. Appuyez sur Échap pour annuler.'
-      zoom:
-        in: "Zoomer"
-        out: "Dézoomer"
-        auto: "Zoom automatique"
-        days: "Jours"
-        weeks: "Semaines"
-        months: "Mois"
-        quarters: "Trimestres"
-        years: "Années"
-        slider: "Curseur de zoom"
-        description: >
-          Sélectionnez le niveau de zoom initial qui doit être indiqué lorsque le zoom automatique n’est pas disponible.
     tl_toolbar:
       zooms: "Niveau de zoom"
       outlines: "Niveau de hiérarchie"
@@ -919,8 +912,15 @@ fr:
       message_work_package_read_only: "Paquet de travail est verrouillé. Aucun attribut autre que l’État ne peut être modifié."
       message_work_package_status_blocked: "Le statut du lot de travail n'est pas modifiable en raison de la fermeture du statut et de la version assignés."
       placeholder_filter_by_text: "Objet, description, commentaires, ..."
+      baseline:
+        addition_label: 'Ajouté à la vue dans la période de temps de comparaison'
+        removal_label: 'Retiré de la vue pendant la période de temps de comparaison'
+        modification_label: 'Modifié dans la période de temps de comparaison'
+        column_incompatible: 'Cette colonne n''affiche pas les changements en mode Référence.'
       filters:
         title: 'Filtrer les lots de travaux'
+        baseline_incompatible: 'Cet attribut de filtre n''est pas pris en compte en mode Référence.'
+        baseline_warning: 'Le mode Référence est activé, mais certains de vos filtres actifs ne sont pas inclus dans la comparaison.'
       inline_create:
         title: 'Cliquez ici pour ajouter un nouveau lot de travaux à cette liste'
       create:
@@ -997,8 +997,8 @@ fr:
         hierarchy_disabled_by_group_by: "Le mode hiérarchie est désactivé, car les résultats sont groupés par %{column}."
         sort_ascending: "Trier par ordre croissant"
         sort_descending: "Trier par ordre décroissant"
-        move_column_left: "Déplacer la colonne de gauche"
-        move_column_right: "Déplacer le colonne de droite"
+        move_column_left: "Déplacer la colonne à gauche"
+        move_column_right: "Déplacer la colonne à droite"
         hide_column: "Masquer la colonne"
         insert_columns: "Insérer des colonnes"
         filters: "Filtres"
@@ -1021,7 +1021,7 @@ fr:
         configure_button: 'Configurer le tableau du lot de travaux'
         summary: "Tableau avec lignes de lots de travaux et colonnes d’attributs de lots de travaux."
         text_inline_edit: "La plupart des cellules de ce tableau sont des boutons qui activent la fonctionnalité d'édition en ligne de l’attribut."
-        text_sort_hint: "Avec les liens dans les en-têtes de tableau vous pouvez trier, regrouper, réorganiser, supprimer et ajouter des colonnes."
+        text_sort_hint: "Avec les liens dans les entêtes de tableau, vous pouvez trier, regrouper, réorganiser, supprimer et ajouter des colonnes."
         text_select_hint: "Les boîtes de sélection doivent être ouvertes avec la touche « ALT » et les flèches directionelles."
       table_configuration:
         button: 'Configurer ce tableau du lot de travaux'
@@ -1050,7 +1050,7 @@ fr:
           automatic: 'Automatique'
           manually: 'Manuellement'
           warning: 'Vous perdrez votre tri précédent lors de l''activation du mode de tri automatique.'
-        columns_help_text: "Utilisez le champ de saisie ci-dessus pour ajouter des colonnes à votre vue table. Vous pouvez glisser-déposer les colonnes pour les réorganiser."
+        columns_help_text: "Utilisez le champ de saisie ci-dessus pour ajouter des colonnes à votre vue de tableau. Vous pouvez glisser-déposer les colonnes pour les réorganiser."
         upsale:
           attribute_highlighting: 'Vous avez besoin de lots de travaux qui sortent du lot ?'
           relation_columns: 'Besoin de voir les relations sur la liste des lots de travaux ?'
@@ -1081,6 +1081,7 @@ fr:
         save_as: "Enregistrer sous"
         export: "Exporter"
         visibility_settings: "Paramètres de visibilité"
+        share_calendar: "S'abonner au calendrier"
         page_settings: "Renommer la vue"
         delete: "Supprimer"
       filter: "Filtrer"
@@ -1157,10 +1158,11 @@ fr:
       button_deactivate: 'Désactiver le mode zen'
     global_search:
       all_projects: "Pour tous les projets"
-      search: "Recherche"
       close_search: "Fermer la recherche"
-      current_project: "Pour ce projet"
       current_project_and_all_descendants: "Dans ce projet + sous-projets"
+      current_project: "Pour ce projet"
+      recently_viewed: "Consultés récemment"
+      search: "Recherche"
       title:
         all_projects: "tous les projets"
         project_and_subprojects: "et tous les sous-projets"
@@ -1249,6 +1251,38 @@ fr:
         current_project: 'Ceci est le projet dans lequel vous vous trouvez actuellement.'
         does_not_match_search: 'Le projet ne correspond pas aux critères de recherche.'
       no_results: 'Aucun projet ne correspond à vos critères de recherche.'
+    baseline:
+      toggle_title: 'Référence'
+      clear: 'Effacer'
+      apply: 'Appliquer'
+      header_description: 'Mettre en évidence les modifications apportées à cette liste depuis n''importe quel point dans le passé.'
+      enterprise_header_description: 'Mettre en évidence les modifications apportées à cette liste depuis n''importe quel point dans le passé avec la version Enterprise.'
+      show_changes_since: 'Afficher les modifications depuis'
+      baseline_comparison: 'Comparaison de Référence'
+      help_description: 'Fuseau horaire de référence pour la Référence.'
+      time_description: 'Dans votre fuseau horaire : %{datetime}'
+      time: 'Heure'
+      from: 'De'
+      to: 'À'
+      drop_down:
+        none: '-'
+        yesterday: 'hier'
+        last_working_day: 'dernier jour ouvrable'
+        last_week: 'la semaine dernière'
+        last_month: 'le mois dernier'
+        a_specific_date: 'une date spécifique'
+        between_two_specific_dates: 'entre deux dates spécifiques'
+      legends:
+        changes_since: 'Modifications depuis le'
+        changes_between: 'Modifications entre'
+        now_meets_filter_criteria: 'Répond désormais aux critères de filtrage'
+        no_longer_meets_filter_criteria: 'Ne répond plus aux critères de filtrage'
+        maintained_with_changes: 'Maintenu avec les modifications'
+        in_your_timezone: 'Dans votre fuseau horaire local :'
+      icon_tooltip:
+        added: 'Ajouté à la vue dans la période de temps de comparaison'
+        removed: 'Retiré de la vue pendant la période de temps de comparaison'
+        changed: 'Maintenu avec des modifications'
     forms:
       submit_success_message: 'Le formulaire a bien été envoyé'
       load_error_message: 'Une erreur s''est produite lors du chargement du formulaire'

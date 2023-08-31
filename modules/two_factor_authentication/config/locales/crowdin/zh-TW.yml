@@ -68,8 +68,8 @@ zh-TW:
       delete_all_are_you_sure: '確實要刪除此使用者的所有2FA 設備嗎？'
       button_delete_all_devices: '刪除已註冊的2FA 設備'
       button_register_mobile_phone_for_user: '註冊手機'
-      text_2fa_enabled: '每次登錄時, 都會要求該使用者從預設的2FA 設備中取得 OTP 密碼。'
-      text_2fa_disabled: "使用者沒有透過【我的帳戶】頁面進行建立一個2FA設備的動作。"
+      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from their default 2FA device.'
+      text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
     upsale:
       title: '雙重身分驗證'
       description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'

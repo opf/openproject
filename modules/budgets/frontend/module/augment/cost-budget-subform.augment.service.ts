@@ -28,6 +28,7 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { finalize } from 'rxjs/operators';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 
 @Injectable()
@@ -75,6 +76,9 @@ export class CostBudgetSubformAugmentService {
    * Refreshes the given row after updating values
    */
   public refreshRow(el:JQuery, row_identifier:string):void {
+    const form = el.parents('form').first();
+    form.find(':submit').attr('disabled', 'disabled');
+
     const row = el.find(`#${row_identifier}`);
     const request = this.buildRefreshRequest(row, row_identifier);
 
@@ -86,6 +90,11 @@ export class CostBudgetSubformAugmentService {
           headers: { Accept: 'application/json' },
           withCredentials: true,
         },
+      )
+      .pipe(
+        finalize(() => {
+          form.find(':submit').attr('disabled', null);
+        }),
       )
       .subscribe(
         (data:any) => {

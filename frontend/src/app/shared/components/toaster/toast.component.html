@@ -1,17 +1,13 @@
 <div class="op-toast -{{ type }}" tabindex="0">
   <div class="op-toast--content" role="alert" aria-atomic="true">
     <ng-container *ngIf="type === 'loading'">
+      <p [textContent]="toast.message"></p>
       <div
         *ngIf="(loading$ | async)"
-        class="loading-indicator -small"
+        class="op-loading-indicator op-loading-indicator_embedded"
       >
-        <div class="block-1"></div>
-        <div class="block-2"></div>
-        <div class="block-3"></div>
-        <div class="block-4"></div>
-        <div class="block-5"></div>
+        <div></div><div></div>
       </div>
-      <p [textContent]="toast.message"></p>
     </ng-container>
     <p *ngIf="type !== 'loading'">
       <span [textContent]="toast.message"></span>
@@ -59,7 +55,7 @@
       [title]="text.close_popup"
       (click)="remove()"
     >
-      <span class="spot-icon spot-icon_close"></span>
+      <span class="spot-icon spot-icon_1 spot-icon_close"></span>
     </button>
   </div>
 </div>

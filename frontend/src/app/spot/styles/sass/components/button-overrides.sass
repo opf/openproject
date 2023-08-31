@@ -1,0 +1,14 @@
+.button:not(.button_flex)
+  .spot-icon
+    // Add rules for using new spot icons boxed within the old buttons
+    // prevent icon box to inflate button height
+    margin-top: -1rem
+    margin-bottom: -1rem
+    position: relative
+    top: 0.33em
+
+    &:not(:last-child)
+      margin-right: 0.25rem
+
+    &:not(:first-child)
+      margin-left: 0.25rem

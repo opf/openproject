@@ -32,7 +32,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { States } from 'core-app/core/states/states.service';
 import { Injector } from '@angular/core';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
-import { MultiInputState } from 'reactivestates';
+import { MultiInputState } from '@openproject/reactivestates';
 
 export class TimeEntryCacheService extends StateCacheService<TimeEntryResource> {
   @InjectField() readonly states:States;

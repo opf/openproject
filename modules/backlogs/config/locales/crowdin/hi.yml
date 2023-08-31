@@ -26,6 +26,8 @@ hi:
         position: "स्थिति"
         remaining_hours: "बाकी बचे घंटे"
         remaining_time: "बाकी बचे घंटे"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "कहानी अंक"
         backlogs_work_package_type: "बैकलॉग प्रकार"
     errors:
@@ -35,9 +37,6 @@ hi:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "वर्तमान स्प्रिंट में केवल कार्य पैकेजों की आईडी हो सकती है।"
               must_block_at_least_one_work_package: "कम से कम एक टिकट की आईडी होनी चाहिए।"
-            parent_id:
-              parent_child_relationship_across_projects: "अमान्य है क्योंकि वर्क पैकेज '%{work_package_name}' एक बैकलॉग टास्क है और इसलिए मौजूदा प्रोजेक्ट के बाहर पैरेंट नहीं हो सकता है |"
-              type_must_be_one_of_the_following: "प्रकार निम्न में से एक होना चाहिए:"
             version_id:
               task_version_must_be_the_same_as_story_version: "मूल कहानी के संस्करण के समान होना चाहिए।"
         sprint:
@@ -78,7 +77,6 @@ hi:
     x_more: "%{count}और..."
   backlogs_active: "सक्रिय"
   backlogs_any: "कोई"
-  backlogs_card_specification: "कार्ड छपाई के लिए लेबल प्रकार"
   backlogs_inactive: "परियोजना गतिविधि नहीं दिखा रही है।"
   backlogs_points_burn_direction: "Points burn up/down"
   backlogs_product_backlog: "Product backlog"
@@ -92,7 +90,7 @@ hi:
   backlogs_story: "कहानी"
   backlogs_story_type: "Story types"
   backlogs_task: "कार्य"
-  backlogs_task_type: "Task type"
+  backlogs_task_type: "कार्य प्रकार"
   backlogs_velocity_missing: "No velocity could be calculated for this project"
   backlogs_velocity_varies: "Velocity varies significantly over sprints"
   backlogs_wiki_template: "Template for sprint wiki page"

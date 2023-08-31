@@ -1,7 +1,6 @@
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import { Component } from '@angular/core';
-import { ChartType } from 'chart.js';
 import { WpGraphConfigurationService } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service';
 import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
 import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
@@ -9,8 +8,9 @@ import { QuerySpacedTabComponent } from 'core-app/shared/components/work-package
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 
 interface OpChartType {
-  identifier:ChartType;
+  identifier:string;
   label:string;
+  indexAxis?:'x'|'y';
 }
 
 @Component({
@@ -81,13 +81,13 @@ export class WpGraphConfigurationSettingsTabInnerComponent extends QuerySpacedTa
 
   private initializeAvailableChartType() {
     this.availableChartTypes = _.sortBy([
-      { identifier: 'horizontalBar' as ChartType, label: this.I18n.t('js.chart.types.horizontal_bar') },
-      { identifier: 'bar' as ChartType, label: this.I18n.t('js.chart.types.bar') },
-      { identifier: 'line' as ChartType, label: this.I18n.t('js.chart.types.line') },
-      { identifier: 'pie' as ChartType, label: this.I18n.t('js.chart.types.pie') },
-      { identifier: 'doughnut' as ChartType, label: this.I18n.t('js.chart.types.doughnut') },
-      { identifier: 'radar' as ChartType, label: this.I18n.t('js.chart.types.radar') },
-      { identifier: 'polarArea' as ChartType, label: this.I18n.t('js.chart.types.polar_area') },
+      { identifier: 'horizontalBar', label: this.I18n.t('js.chart.types.horizontal_bar') },
+      { identifier: 'bar', label: this.I18n.t('js.chart.types.bar') },
+      { identifier: 'line', label: this.I18n.t('js.chart.types.line') },
+      { identifier: 'pie', label: this.I18n.t('js.chart.types.pie') },
+      { identifier: 'doughnut', label: this.I18n.t('js.chart.types.doughnut') },
+      { identifier: 'radar', label: this.I18n.t('js.chart.types.radar') },
+      { identifier: 'polarArea', label: this.I18n.t('js.chart.types.polar_area') },
     ], 'label');
 
     this.currentChartType = this.availableChartTypes.find((type) => type.identifier === this.wpGraphConfiguration.configuration.chartType) || this.availableChartTypes[0];

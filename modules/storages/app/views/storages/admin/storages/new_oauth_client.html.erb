@@ -1,10 +1,10 @@
 <!-- Standard Ruby view, please see the controller for comments -->
-<% html_title t(:label_administration), t("project_module_storages"), @storage.name, "#{t("storages.provider_types.#{@storage.provider_type}.name")} #{t("storages.label_oauth_client_details")}" %>
+<% html_title t(:label_administration), t("project_module_storages"), @storage.name, "#{t("storages.provider_types.#{@storage.short_provider_type}.name")} #{t("storages.label_oauth_client_details")}" %>
 <% local_assigns[:additional_breadcrumb] = [
   link_to(@storage.name, admin_settings_storage_path(@storage)),
-  t("storages.label_oauth_breadcrumb.#{@storage.provider_type}")
+  t("storages.label_oauth_breadcrumb.#{@storage.short_provider_type}")
 ] %>
-<%= toolbar title: "#{t("storages.provider_types.#{@storage.provider_type}.name")} #{t("storages.label_oauth_client_details")}" %>
+<%= toolbar title: "#{t("storages.provider_types.#{@storage.short_provider_type}.name")} #{t("storages.label_oauth_client_details")}" %>
 
 <%= labelled_tabular_form_for @oauth_client, url: admin_settings_storage_oauth_client_path do |f| -%>
   <fieldset class="form--fieldset">
@@ -16,7 +16,7 @@
                        container_class: '-wide' %>
       <span class="form--field-instructions">
       <%= "#{t("storages.instructions.copy_from")}: " %>
-        <%= link_to "#{t("storages.instructions.#{@storage.provider_type}.integration")}",
+        <%= link_to "#{t("storages.instructions.#{@storage.short_provider_type}.integration")}",
                     File.join(@storage.host, "settings/admin/openproject").to_s,
                     target: "_blank" %>
     </span>
@@ -29,7 +29,7 @@
                        container_class: '-wide' %>
       <span class="form--field-instructions">
       <%= "#{t("storages.instructions.copy_from")}: " %>
-        <%= link_to "#{t("storages.instructions.#{@storage.provider_type}.integration")}",
+        <%= link_to "#{t("storages.instructions.#{@storage.short_provider_type}.integration")}",
                     File.join(@storage.host, "settings/admin/openproject").to_s,
                     target: "blank" %>
     </span>
@@ -39,7 +39,8 @@
   <% if @storage.oauth_client %>
     <%= styled_button_tag t(:button_replace), class: "-highlight -with-icon icon-checkmark" %>
   <% else %>
-    <%= styled_button_tag t("storages.buttons.save_and_complete_setup"), class: "-highlight -with-icon icon-checkmark" %>
+    <% label_action = @storage.automatic_management_unspecified? ? 'continue' : 'complete' %>
+    <%= styled_button_tag t("storages.buttons.save_and_#{label_action}_setup"), class: "-highlight -with-icon icon-checkmark" %>
   <% end %>
 <% end %>
 

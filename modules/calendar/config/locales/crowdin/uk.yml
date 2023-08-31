@@ -1,6 +1,9 @@
 #English strings go here
 uk:
+  label_calendar: "Календар"
   label_calendar_plural: "Календарі"
+  label_new_calendar: "Новий календар"
   permission_view_calendar: "Перегляд календарів"
   permission_manage_calendars: "Керувати календарями"
-  project_module_calendar_view: "Календар"
+  permission_share_calendars: "Створення підписок на iCalendars"
+  project_module_calendar_view: "Календарі"

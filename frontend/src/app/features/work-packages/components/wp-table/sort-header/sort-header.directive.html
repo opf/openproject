@@ -36,7 +36,6 @@
   </span>
 
   <span class="draggable-table--sort-header"
-        [attr.title]="text.sortColumn"
         *ngSwitchCase="'sort'">
   </span>
 
@@ -51,6 +50,13 @@
        id="{{ headerColumn.id }}">{{headerColumn.name}}</a>
 
     <a *ngIf="!sortable">{{headerColumn.name}}</a>
+
+    <span
+      *ngIf="baselineIncompatible"
+      [attr.title]="text.baselineIncompatible"
+      class="spot-icon spot-icon_1_25 spot-icon_warning"
+    >
+    </span>
 
     <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
              icon-title="{{ text.openMenu }}"

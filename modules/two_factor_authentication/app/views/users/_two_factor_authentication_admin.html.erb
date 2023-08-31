@@ -2,34 +2,25 @@
 <% default_device = @user.otp_devices.get_default %>
 
 <section class="admin--edit-section">
-    <%= rails_cell ::Components::OnOffStatusCell,
-                   {
-                     is_on: default_device.present?,
-                     on_text: t('two_factor_authentication.label_2fa_enabled'),
-                     on_description: t('two_factor_authentication.admin.text_2fa_enabled'),
-                     off_text: t('two_factor_authentication.label_2fa_disabled'),
-                     off_description: t('two_factor_authentication.admin.text_2fa_disabled')
-                   }%>
+  <%= render ::Components::OnOffStatusComponent.new({
+               is_on: default_device.present?,
+               on_text: t('two_factor_authentication.label_2fa_enabled'),
+               on_description: t('two_factor_authentication.admin.text_2fa_enabled'),
+               off_text: t('two_factor_authentication.label_2fa_disabled'),
+               off_description: t('two_factor_authentication.admin.text_2fa_disabled')
+             })%>
 </section>
 
 <section class="admin--edit-section">
 <% if default_device.present? %>
-    <div class="attributes-key-value">
-      <div class="attributes-key-value--key"><%= t('two_factor_authentication.label_default_device') %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value">
-          <span><%= default_device.identifier %></span>
-        </div>
-      </div>
-      <% if default_device.phone_number.present? %>
-          <div class="attributes-key-value--key"><%= ::TwoFactorAuthentication::Device::Sms.human_attribute_name(:phone_number) %></div>
-          <div class="attributes-key-value--value-container">
-            <div class="attributes-key-value--value">
-              <span><%= default_device.phone_number %></span>
-            </div>
-          </div>
-      <% end %>
-    </div>
+  <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+    component.with_attribute(key: t('two_factor_authentication.label_default_device'),
+                             value: default_device.identifier)
+    if default_device.phone_number.present?
+      component.with_attribute(key: ::TwoFactorAuthentication::Device::Sms.human_attribute_name(:phone_number),
+                               value: default_device.phone_number)
+    end
+  end %>
 <% end %>
 </section>
 
@@ -56,6 +47,6 @@
       <% end %>
   <% end %>
 
-  <%= rails_cell ::TwoFactorAuthentication::Devices::TableCell, devices, admin_table: true || @user != User.current %>
+  <%= render ::TwoFactorAuthentication::Devices::TableComponent.new(rows: devices, admin_table: true || @user != User.current) %>
   </div>
 </section>

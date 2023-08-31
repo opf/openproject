@@ -38,8 +38,3 @@ export interface LocationData {
   location:string;
   files:IStorageFile[];
 }
-
-export interface FileUploadResponse {
-  file_name:string;
-  file_id:number;
-}

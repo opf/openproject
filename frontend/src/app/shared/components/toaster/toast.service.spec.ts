@@ -32,6 +32,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
+import { Observable, of } from 'rxjs';
+import { HttpEvent } from '@angular/common/http';
 
 describe('ToastService', () => {
   let toastService:ToastService;
@@ -80,23 +82,22 @@ describe('ToastService', () => {
   });
 
   it('should be able to create upload messages with uploads', () => {
-    const toaster = toastService.addAttachmentUpload('uploading...', [0, 1, 2] as any);
+    const uploadData:[File, Observable<HttpEvent<unknown>>][] = [
+      [new File([], '1'), of()],
+      [new File([], '2'), of()],
+      [new File([], '3'), of()],
+    ];
+    const toaster = toastService.addUpload('uploading...', uploadData);
     expect(toaster).toEqual({
       message: 'uploading...',
       type: 'upload',
-      data: [0, 1, 2],
+      data: uploadData,
     });
-  });
-
-  it('should throw an Error if trying to create an upload with uploads = null', () => {
-    expect(() => {
-      toastService.addAttachmentUpload('themUploads', null as any);
-    }).toThrow();
   });
 
   it('should throw an Error if trying to create an upload without uploads', () => {
     expect(() => {
-      toastService.addAttachmentUpload('themUploads', []);
+      toastService.addUpload('themUploads', []);
     }).toThrow();
   });
 

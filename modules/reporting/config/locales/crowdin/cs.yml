@@ -81,6 +81,9 @@ cs:
   units: "Jednotky"
   validation_failure_date: "není platné datum"
   validation_failure_integer: "není platné číslo"
+  export:
+    cost_reports:
+      title: "Váš export XLS zprávy o nákladech"
   reporting:
     group_by:
       selected_columns: "Vybrané sloupce"

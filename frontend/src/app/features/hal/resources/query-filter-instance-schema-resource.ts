@@ -31,9 +31,10 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { QueryOperatorResource } from 'core-app/features/hal/resources/query-operator-resource';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
-import { SchemaAttributeObject, SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 import { SchemaDependencyResource } from 'core-app/features/hal/resources/schema-dependency-resource';
+import { SchemaAttributeObject } from 'core-app/features/hal/resources/schema-attribute-object';
 
 export interface QueryFilterInstanceSchemaResourceLinks {
   self:HalLink;

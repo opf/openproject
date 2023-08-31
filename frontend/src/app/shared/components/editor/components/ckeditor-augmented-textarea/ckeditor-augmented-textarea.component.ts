@@ -27,7 +27,8 @@
 //++
 
 import {
-  Component, ElementRef, OnInit, ViewChild,
+  ChangeDetectionStrategy,
+  Component, ElementRef, Input, OnInit, ViewChild,
 } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -41,30 +42,39 @@ import {
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 import { OpCkeditorComponent } from 'core-app/shared/components/editor/components/ckeditor/op-ckeditor.component';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin'; import {
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import {
   ICKEditorContext,
   ICKEditorInstance,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
+import { fromEvent } from 'rxjs';
+import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 export const ckeditorAugmentedTextareaSelector = 'ckeditor-augmented-textarea';
 
 @Component({
   selector: ckeditorAugmentedTextareaSelector,
   templateUrl: './ckeditor-augmented-textarea.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin implements OnInit {
-  public textareaSelector:string;
+  @Input() public textareaSelector:string;
 
-  public previewContext:string;
+  @Input() public previewContext:string;
+
+  @Input() public macros:boolean;
+
+  @Input() public resource?:object;
+
+  @Input() public editorType:ICKEditorType = 'full';
 
   // Which template to include
-  public $element:JQuery;
+  public element:HTMLElement;
 
-  public formElement:JQuery;
+  public formElement:HTMLFormElement;
 
-  public wrappedTextArea:JQuery;
-
-  public $attachmentsElement:JQuery;
+  public wrappedTextArea:HTMLTextAreaElement;
 
   // Remember if the user changed
   public changed = false;
@@ -73,11 +83,11 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   public initialContent:string;
 
-  public resource?:HalResource;
+  public readOnly = false;
+
+  public halResource?:HalResource&{ attachments:AttachmentCollectionResource };
 
   public context:ICKEditorContext;
-
-  public macros:boolean;
 
   public text = {
     attachments: this.I18n.t('js.label_attachments'),
@@ -88,10 +98,8 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   private attachments:HalResource[];
 
-  private isEditing = false;
-
   constructor(
-    protected elementRef:ElementRef,
+    readonly elementRef:ElementRef<HTMLElement>,
     protected pathHelper:PathHelperService,
     protected halResourceService:HalResourceService,
     protected Notifications:ToastService,
@@ -99,107 +107,116 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     protected states:States,
   ) {
     super();
+    populateInputsFromDataset(this);
   }
 
   ngOnInit() {
-    this.$element = jQuery(this.elementRef.nativeElement);
-
-    // Parse the attribute explicitly since this is likely a bootstrapped element
-    this.textareaSelector = this.$element.attr('textarea-selector')!;
-    this.previewContext = this.$element.attr('preview-context')!;
-    this.macros = this.$element.attr('macros') !== 'false';
-    const editorType = (this.$element.attr('editor-type') || 'full') as ICKEditorType;
+    this.element = this.elementRef.nativeElement;
 
     // Parse the resource if any exists
-    const source = this.$element.data('resource');
-    this.resource = source ? this.halResourceService.createHalResource(source, true) : undefined;
+    this.halResource = this.resource ? this.halResourceService.createHalResource(this.resource, true) : undefined;
 
-    this.formElement = this.$element.closest('form');
-    this.wrappedTextArea = this.formElement.find(this.textareaSelector);
-    this.wrappedTextArea
-      .removeAttr('required')
-      .hide();
-    this.initialContent = this.wrappedTextArea.val() as string;
+    this.formElement = this.element.closest<HTMLFormElement>('form') as HTMLFormElement;
+    this.wrappedTextArea = this.formElement.querySelector(this.textareaSelector) as HTMLTextAreaElement;
+    this.wrappedTextArea.style.display = 'none';
+    this.wrappedTextArea.required = false;
+    this.initialContent = this.wrappedTextArea.value;
+    this.readOnly = this.wrappedTextArea.disabled;
 
-    this.$attachmentsElement = this.formElement.find('#attachments_fields');
     this.context = {
-      type: editorType,
-      resource: this.resource,
+      type: this.editorType,
+      resource: this.halResource,
       previewContext: this.previewContext,
     };
-    if (!this.macros) {
+    if (!this.macros || this.readOnly) {
       this.context.macros = 'none';
     }
+
+    this.registerFormSubmitListener();
   }
 
-  ngOnDestroy() {
-    super.ngOnDestroy();
-    this.formElement.off('submit.ckeditor');
+  private registerFormSubmitListener():void {
+    fromEvent(this.formElement, 'submit')
+      .pipe(
+        this.untilDestroyed(),
+      )
+      .subscribe(() => {
+        this.saveForm();
+      });
   }
 
   public markEdited() {
     window.OpenProject.pageWasEdited = true;
   }
 
+  public saveForm():void {
+    this.syncToTextarea();
+    window.OpenProject.pageIsSubmitted = true;
+    this.formElement.submit();
+  }
+
   public setup(editor:ICKEditorInstance) {
     // Have a hacky way to access the editor from outside of angular.
     // This is e.g. employed to set the text from outside to reuse the same editor for different languages.
-    this.$element.data('editor', editor);
+    jQuery(this.element).data('editor', editor);
 
-    if (this.resource && this.resource.attachments) {
+    if (this.readOnly) {
+      editor.enableReadOnlyMode('wrapped-text-area-disabled');
+    }
+
+    if (this.halResource?.attachments) {
       this.setupAttachmentAddedCallback(editor);
       this.setupAttachmentRemovalSignal(editor);
     }
 
-    // Listen for form submission to set textarea content
-    this.formElement.on('submit.ckeditor change.ckeditor', () => {
-      try {
-        const data = this.ckEditorInstance.getRawData();
-        this.wrappedTextArea.val(data);
-      } catch (e) {
-        console.error(`Failed to save CKEditor body to textarea: ${e}.`);
-        this.Notifications.addError(e || this.I18n.t('js.error.internal'));
-
-        // Avoid submission of the form
-        return false;
-      }
-
-      this.addUploadedAttachmentsToForm();
-
-      // Continue with submission
-      return true;
-    });
-
     this.setLabel();
-
     return editor;
+  }
+
+  private syncToTextarea() {
+    try {
+      this.wrappedTextArea.value = this.ckEditorInstance.getRawData();
+    } catch (e) {
+      const message = (e as Error)?.message || (e as object).toString();
+      console.error(`Failed to save CKEditor body to textarea: ${message}.`);
+      this.Notifications.addError(message || this.I18n.t('js.error.internal'));
+      throw e;
+    }
   }
 
   private setupAttachmentAddedCallback(editor:ICKEditorInstance) {
     editor.model.on('op:attachment-added', () => {
-      this.states.forResource(this.resource!)!.putValue(this.resource);
+      this.states.forResource(this.halResource as HalResource)?.putValue(this.halResource);
     });
   }
 
   private setupAttachmentRemovalSignal(editor:ICKEditorInstance) {
-    this.attachments = _.clone(this.resource!.attachments.elements);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+    this.attachments = _.clone((this.halResource as HalResource).attachments.elements);
 
-    this.states.forResource(this.resource!)!.changes$()
+    this
+      .states
+      .forResource(this.halResource as HalResource)
+      ?.changes$()
       .pipe(
         takeUntil(componentDestroyed(this)),
         filter((resource) => !!resource),
-      ).subscribe((resource) => {
-        const missingAttachments = _.differenceBy(this.attachments,
-          resource!.attachments.elements,
-          (attachment:HalResource) => attachment.id);
+      )
+      .subscribe((resource:HalResource&{ attachments:AttachmentCollectionResource }) => {
+        const missingAttachments = _.differenceBy(
+          this.attachments,
+          resource.attachments.elements,
+          (attachment:HalResource) => attachment.id,
+        );
 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return
         const removedUrls = missingAttachments.map((attachment) => attachment.downloadLocation.href);
 
         if (removedUrls.length) {
           editor.model.fire('op:attachment-removed', removedUrls);
         }
 
-        this.attachments = _.clone(resource!.attachments.elements);
+        this.attachments = _.clone(resource.attachments.elements);
       });
   }
 
@@ -207,36 +224,13 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     const textareaId = this.textareaSelector.substring(1);
     const label = jQuery(`label[for=${textareaId}]`);
 
-    const ckContent = this.$element.find('.ck-content');
+    const ckContent = this.element.querySelector('.ck-content') as HTMLElement;
 
-    ckContent.attr('aria-label', null);
-    ckContent.attr('aria-labelledby', textareaId);
+    ckContent.removeAttribute('aria-label');
+    ckContent.setAttribute('aria-labelledby', textareaId);
 
-    label.click(() => {
-      ckContent.focus();
-    });
-  }
-
-  private addUploadedAttachmentsToForm() {
-    if (!this.resource || !this.resource.attachments || this.resource.id) {
-      return;
-    }
-
-    const takenIds = this.$attachmentsElement.find("input[type='file']").map((index, input) => {
-      const match = /attachments\[(\d+)\]\[(?:file|id)\]/.exec((input.getAttribute('name') || ''));
-
-      if (match) {
-        return parseInt(match[1]);
-      }
-      return 0;
-    });
-
-    const maxValue:number = takenIds.toArray().sort().pop() || 0;
-
-    const addedAttachments = this.resource.attachments.elements || [];
-
-    jQuery.each(addedAttachments, (index:number, attachment:HalResource) => {
-      this.$attachmentsElement.append(`<input type="hidden" name="attachments[${maxValue + index + 1}][id]" value="${attachment.id}">`);
-    });
+    fromEvent(label, 'click')
+      .pipe(this.untilDestroyed())
+      .subscribe(() => ckContent.focus());
   }
 }

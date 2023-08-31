@@ -1,0 +1,36 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ListStories from './List.stories';
+
+<Meta of={ListStories} />
+
+# List
+
+Lists are simply a collection of components in a vertical list. They can be used inside modals like dropdowns, within a small scrollable module, or anywhere else a series of items needs to be presented.
+
+This component does not have a Figma object associated with it, since a group of elements itself is the list. This component represents lists that are interactive (checkboxes and drop down selections), or when the list is generated as a result of interaction. The items in the list are all individual components (or list primitives).
+
+This list is not to be confused with a standard HTML list element, which generates a bullet list of text. For this, a component is not needed in the Design System.
+
+<Canvas of={ListStories.WithLinks} />
+
+# Behaviour
+
+Items are displayed stacked vertically. The behaviour of each individual element is inherited from properties of that element.
+
+Lists also allow nesting. Each nested item has an additional 16px padding to the left in relation to its parent.
+
+The dimensions of the list are defined by the dimensions of the containing element, and its overflow rules.
+
+# Actions
+
+List items have a primary action attached to them. This can be linking somewhere, a button listener, or acting
+as a label for a checkbox.
+
+<Canvas of={ListStories.WithCheckboxes} />
+
+# Compact
+
+The compact version makes the items a little bit less tall.
+
+<Canvas of={ListStories.Compact} />

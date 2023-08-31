@@ -26,6 +26,8 @@ hr:
         position: "Pozicija"
         remaining_hours: "Preostalo vrijeme"
         remaining_time: "Preostalo vrijeme"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Točke priče"
         backlogs_work_package_type: "Backlog tip"
     errors:
@@ -35,9 +37,6 @@ hr:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "može sadržavati samo ID-ove radnih paketa u aktualnom periodu razvoja."
               must_block_at_least_one_work_package: "mora sadržavati najamanje jedan ID tiketa za postupak blokiranja radnog paketa."
-            parent_id:
-              parent_child_relationship_across_projects: "je neispravan zato što radni paket %{work_package_name} je backlog zadatak i kao takav ne može imati nadređenog izvan trenutnog projekta."
-              type_must_be_one_of_the_following: "Tip mora biti jedan od sljedećih: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
         sprint:
@@ -78,7 +77,6 @@ hr:
     x_more: "%{count} više..."
   backlogs_active: "aktivno"
   backlogs_any: "bilo koji"
-  backlogs_card_specification: "Tipovi oznaka za ispis kartica"
   backlogs_inactive: "Projekt trenutno nema aktivnosti"
   backlogs_points_burn_direction: "Burn točke gore/dole"
   backlogs_product_backlog: "Backlog produkta"

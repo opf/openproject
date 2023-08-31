@@ -65,6 +65,8 @@ pt:
     button_confirm: "Confirmar"
     button_continue: "Continuar"
     button_copy: "Copiar"
+    button_copy_to_clipboard: "Copiar para a área de transferência"
+    button_copy_link_to_clipboard: "Copiar link para área de transferência"
     button_copy_to_other_project: "Copiar para outro projeto"
     button_custom-fields: "Campos personalizados"
     button_delete: "Excluir"
@@ -105,7 +107,7 @@ pt:
       remove_from_list: 'Remover cartão da lista'
     caption_rate_history: "Taxa histórica"
     clipboard:
-      browser_error: "Seu navegador não suporta copiar para a área de transferência. Por favor, copie o texto selecionado manualmente."
+      browser_error: "Seu navegador não dá suporte a copiar para a área de transferência. Copie-o manualmente: %{content}"
       copied_successful: "Copiado com sucesso para área de transferência!"
     chart:
       type: 'Tipo de gráfico'
@@ -227,7 +229,7 @@ pt:
           quick_overview: "Obtenha uma visão geral da gestão de projetos e colaboração entre equipes com o OpenProject edição Enterprise."
         upsale:
           become_hero: "Torne-se um herói!"
-          enterprise_info_html: "%{feature_title} é um complemento Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span>."
+          enterprise_info_html: "%{feature_title} é um complemento do <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> Enterprise."
           upgrade_info: "Faça o upgrade para um plano pago para ativar e começar a usá-lo em sua equipe."
           benefits:
             description: "Quais os benefícios da edição Enterprise Edition local?"
@@ -293,6 +295,34 @@ pt:
           one: "Primeiro critério de ordenação"
           two: "Segundo critério de ordenação"
           three: "Terceiro critério de ordenação"
+    gantt_chart:
+      label: 'Diagrama de Gantt'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Configuração de rótulos'
+        bar: 'Rótulos de barra'
+        left: 'Esquerda'
+        right: 'Direita'
+        farRight: 'Extrema direita'
+        description: >
+          Selecione os atributos que você deseja que sejam exibidos nas respectivas posições do diagrama de Gantt em todos os momentos. esteja ciente de que ao passar sobre um elemento, seus marcadores de data serão exibidos ao invés destes atributos.
+      button_activate: 'Exibir diagrama de Gantt'
+      button_deactivate: 'Ocultar diagrama de Gantt'
+      filter:
+        noneSelection: "(nenhum)"
+      selection_mode:
+        notification: 'Clique em qualquer pacote de trabalho destacado para criar a relação. Pressione ESC para cancelar.'
+      zoom:
+        in: "Aumentar zoom"
+        out: "Diminuir zoom"
+        auto: "Zoom automático"
+        days: "Dias"
+        weeks: "Semanas"
+        months: "Meses"
+        quarters: "Trimestres"
+        years: "Anos"
+        description: >
+          Selecione o nível de zoom inicial que deve ser exibido quando o zoom automático não estiver disponível.
     general_text_no: "não"
     general_text_yes: "sim"
     general_text_No: "Não"
@@ -311,11 +341,22 @@ pt:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                A versão contém vários recursos novos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Carregue e vincule arquivos de pacotes de trabalho a seu armazenamento de arquivos Nextcloud.</li> <li>Acompanhamento de alterações de projeto com controle da atividade do projeto.</li> <li>Adicione feriados públicos em toda a instância (dias não úteis).</li> <li>Arquive projetos por são administradores.</li > <li>Novo filtro padrão para pacotes de trabalho vencidos.</li> </ul>
+                A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Comparação de linha de base para facilitar o monitoramento de alterações.</li> <li>Exportação de PDF para relatórios sobre planos de trabalho.</li> <li>Assine os calendários do projeto via URL (iCalendar).</li> <li>Pastas de projeto com modelos de documentos para a integração Nextcloud.</li> <li>Criação de seed localizada de todos os dados seed.</li> <li>Módulos globais são listados em novas páginas de índice.</li> </ul>
+    ical_sharing_modal:
+      title: "Assinar calendário"
+      inital_setup_error_message: "Ocorreu um erro ao buscar dados."
+      description: "Você pode usar a URL (iCalendar) para assinar este calendário em um cliente externo e exibir informações atualizadas do pacote de trabalho a partir dele."
+      warning: "Não compartilhe este URL com outros usuários. Qualquer pessoa com este link poderá visualizar os detalhes do pacote de trabalho sem uma conta ou senha."
+      token_name_label: "Onde você usará isto?"
+      token_name_placeholder: "Digite um nome, por ex.: \"Telefone\""
+      token_name_description_text: "Se você assinar este calendário em vários dispositivos, este nome ajudará na distinção entre eles em sua lista de <a href=\"my/access_token\", target=\"_blank\">tokens de acesso</a>."
+      copy_url_label: "Copiar URL"
+      ical_generation_error_text: "Ocorreu um erro ao gerar o URL do calendário."
+      success_message: "O URL \"%{name}\" foi copiado com sucesso para sua área de transferência. Cole-o em seu cliente de calendário para concluir a assinatura."
     label_activate: "Ativar"
     label_assignee: 'Atribuído para'
     label_add_column_after: "Adicionar coluna depois"
@@ -327,7 +368,7 @@ pt:
     label_add_row_before: "Adicionar linha antes"
     label_add_selected_columns: "Adicionar colunas selecionadas"
     label_added_by: "adicionado por"
-    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
+    label_added_time_by: "Adicionado por <a href=\"%{authorLink}\">%{author}</a> em %{age}"
     label_ago: "dias atrás"
     label_all: "todos"
     label_all_work_packages: "todos pacotes de trabalho"
@@ -492,7 +533,7 @@ pt:
     label_remove_all_files: Excluir todos os arquivos
     label_add_description: "Adicionar uma descrição para %{file}"
     label_upload_notification: "Enviando arquivos..."
-    label_work_package_upload_notification: "Enviando arquivos para o pacote de trabalho #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Enviando arquivos para o pacote de trabalho #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} adicionado por %{author}"
     label_files_to_upload: "Estes arquivos serão enviados:"
     label_rejected_files: "Estes arquivos não podem ser enviados:"
@@ -666,7 +707,7 @@ pt:
         Por favor, escolha o projeto onde vai criar o pacote de trabalho para visualizar todos os atributos. Você pode selecionar somente projetos que possuam o tipo acima ativado.
       details_activity: 'Atividade de detalhes do projeto'
       context: 'Contexto do projeto'
-      click_to_switch_to_project: 'Project: %{projectname}'
+      click_to_switch_to_project: 'Projeto: %{projectname}'
       confirm_template_load: 'Mudar o modelo irá recarregar a página e todos os dados inseridos nesse formulário serão perdidos. Continuar?'
       use_template: "Usar modelo"
       no_template_selected: "(Nenhum)"
@@ -725,6 +766,14 @@ pt:
     time_entry:
       work_package_required: 'É necessário selecionar primeiro um pacote de trabalho.'
       title: 'Registro de tempo'
+      tracking: 'Controle de tempo'
+      stop: 'Parar'
+    timer:
+      start_new_timer: 'Iniciar novo temporizador'
+      timer_already_running: 'Para iniciar um novo temporizador, primeiro você deve interromper o temporizador atual:'
+      timer_already_stopped: 'Nenhum temporizador ativo para este pacote de trabalho, você o interrompeu em outra janela?'
+      tracking_time: 'Monitorando tempo'
+      button_stop: 'Interromper temporizador atual'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticação de dois fatores'
     watchers:
@@ -783,7 +832,8 @@ pt:
     autocompleter:
       placeholder: "Escreva para pesquisar"
       notFoundText: "Nenhum item encontrado"
-      typeToSearchText: "Escreva para pesquisar"
+      project:
+        placeholder: "Selecionar projeto"
     repositories:
       select_tag: 'Selecionar marca'
       select_branch: 'Selecionar ramificação'
@@ -801,63 +851,6 @@ pt:
       activate_no: 'ative para remover a ordenação'
     text_work_packages_destroy_confirmation: "Tem certeza que deseja excluir o(s) pacote(s) de trabalho selecionado(s)?"
     text_query_destroy_confirmation: "Tem certeza que deseja excluir a visão selecionada?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gráfico de Gantt'
-      labels:
-        title: 'Configuração de rótulos'
-        bar: 'Barra de rótulos'
-        left: 'Esquerda'
-        right: 'Direita'
-        farRight: 'Extrema direita'
-        showNone: '-- Sem rótulo --'
-        description: >
-          Selecione os atributos que você deseja que sejam exibidos nas respectivas posições do gráfico de Gantt em todos os momentos. esteja ciente de que ao passar sobre um elemento, seus marcadores de data serão exibidos ao invés destes atributos.
-      button_activate: 'Exibir gráfico de Gantt'
-      button_deactivate: 'Ocultar gráfico de Gantt'
-      cancel: Cancelar
-      change: "Modificar no planejamento"
-      due_date: "Data de conclusão"
-      empty: "(vazio)"
-      error: "Ocorreu um erro."
-      errors:
-        not_implemented: "O cronograma não poderá ser processado porque ele usa um recurso que ainda não foi implementado."
-        report_comparison: "O cronograma não pode processar as comparações configuradas. Por favor, verifique a seção apropriada na configuração, redefina-a, pois pode ajudar a resolver este problema."
-        report_epicfail: "O cronograma não pôde ser carregado devido a um erro inesperado."
-        report_timeout: "O cronograma não pôde ser carregado em uma quantidade razoável de tempo."
-      filter:
-        grouping_other: "Outro"
-        noneSelection: "(nenhum)"
-      name: "Nome"
-      outline: "Redefinir o contorno"
-      outlines:
-        aggregation: "Mostrar somente agregações"
-        level1: "Expandir nível 1"
-        level2: "Expandir nível 2"
-        level3: "Expandir nível 3"
-        level4: "Expandir nível 4"
-        level5: "Expandir nível 5"
-        all: "Mostrar todos"
-      project_status: "Situação do projeto"
-      really_close_dialog: "Você realmente quer fechar a caixa de diálogo e perder os dados inseridos?"
-      responsible: "Responsável"
-      save: Salvar
-      start_date: "Data de início"
-      tooManyProjects: "Mais de %{count} projetos. Por favor, use um filtro melhor!"
-      selection_mode:
-        notification: 'Clique em qualquer pacote de trabalho destacado para criar a relação. Pressione ESC para cancelar.'
-      zoom:
-        in: "Aumentar zoom"
-        out: "Diminuir zoom"
-        auto: "Zoom automático"
-        days: "Dias"
-        weeks: "Semanas"
-        months: "Meses"
-        quarters: "Trimestres"
-        years: "Anos"
-        slider: "Controle deslizante de zoom"
-        description: >
-          Selecione o nível de zoom inicial que deve ser exibido quando o zoom automático não estiver disponível.
     tl_toolbar:
       zooms: "Nível de zoom"
       outlines: "Nível de hierarquia"
@@ -918,8 +911,15 @@ pt:
       message_work_package_read_only: "Pacote de trabalho está bloqueado na presente situação. Nenhum atributo que não seja a situação pode ser alterado."
       message_work_package_status_blocked: "A situação do pacote de trabalho não é gravável devido a situação fechada e a versão fechada."
       placeholder_filter_by_text: "Assunto, descrição, comentários, ..."
+      baseline:
+        addition_label: 'Adicionado à exibição dentro do período de comparação'
+        removal_label: 'Removido da exibição dentro do período de comparação'
+        modification_label: 'Modificado dentro do período de comparação'
+        column_incompatible: 'Esta coluna não exibe alterações no modo de linha base.'
       filters:
         title: 'Filtrar pacotes de trabalho'
+        baseline_incompatible: 'Este atributo de filtro não é levado em consideração no modo de linha base.'
+        baseline_warning: 'O modo de linha base está ativado, mas alguns de seus filtros ativos não foram incluídos na comparação.'
       inline_create:
         title: 'Clique aqui para adicionar um novo pacote de trabalho a esta lista'
       create:
@@ -1080,6 +1080,7 @@ pt:
         save_as: "Salvar como"
         export: "Exportar"
         visibility_settings: "Configurações de visibilidade"
+        share_calendar: "Assinar calendário"
         page_settings: "Renomear exibição"
         delete: "Excluir"
       filter: "Filtro"
@@ -1156,10 +1157,11 @@ pt:
       button_deactivate: 'Desativar modo zen'
     global_search:
       all_projects: "Em todos os projetos"
-      search: "Pesquisar"
       close_search: "Fechar pesquisa"
-      current_project: "Neste projeto"
       current_project_and_all_descendants: "Neste projeto + subprojetos"
+      current_project: "Neste projeto"
+      recently_viewed: "Visualizado recentemente"
+      search: "Pesquisar"
       title:
         all_projects: "todos os projetos"
         project_and_subprojects: "e todos os subprojetos"
@@ -1248,6 +1250,38 @@ pt:
         current_project: 'Este é o projeto atual em que você está.'
         does_not_match_search: 'O projeto não corresponde ao critério de pesquisa'
       no_results: 'Nenhum projeto corresponde ao seu critério de busca.'
+    baseline:
+      toggle_title: 'Linha base'
+      clear: 'Limpar'
+      apply: 'Aplicar'
+      header_description: 'Destaque as alterações realizadas nesta lista desde qualquer ponto no passado.'
+      enterprise_header_description: 'Destaque as alterações realizadas nesta lista desde qualquer ponto no passado com a edição Enterprise.'
+      show_changes_since: 'Exibir alterações desde'
+      baseline_comparison: 'Comparação de linha base'
+      help_description: 'Fuso horário de referência para a linha base.'
+      time_description: 'Em seu horário local: %{datetime}'
+      time: 'Horário'
+      from: 'De'
+      to: 'Para'
+      drop_down:
+        none: '-'
+        yesterday: 'ontem'
+        last_working_day: 'último dia útil'
+        last_week: 'última semana'
+        last_month: 'último mês'
+        a_specific_date: 'uma data específica '
+        between_two_specific_dates: 'entre suas datas específicas'
+      legends:
+        changes_since: 'Alterações desde'
+        changes_between: 'Alterações entre'
+        now_meets_filter_criteria: 'Agora atende aos critérios de filtro'
+        no_longer_meets_filter_criteria: 'Não atende mais aos critérios de filtro'
+        maintained_with_changes: 'Mantido com alterações'
+        in_your_timezone: 'Em seu fuso horário:'
+      icon_tooltip:
+        added: 'Adicionado à exibição dentro do período de comparação'
+        removed: 'Removido da exibição dentro do período de comparação'
+        changed: 'Mantido com modificações'
     forms:
       submit_success_message: 'O formulário foi enviado com sucesso'
       load_error_message: 'Ocorreu um erro ao carregar o formulário'

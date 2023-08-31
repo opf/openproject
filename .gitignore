@@ -36,7 +36,7 @@
 /.bundle
 
 # Ignore all logfiles and tempfiles.
-/log/*.log
+*.log
 npm-debug.log*
 /tmp
 *.swp
@@ -64,7 +64,7 @@ npm-debug.log*
 # Generated files
 /app/assets/javascripts/editor/*
 /app/assets/javascripts/locales/*.*
-/frontend/src/locales/*.js
+/frontend/src/locales/*
 /modules/*/frontend/module/module
 /config/additional_environment.rb
 /config/configuration.yml
@@ -95,6 +95,7 @@ npm-debug.log*
 /.rvmrc*
 /.ruby-gemset
 /.foreman
+/.overmind.env
 .DS_Store
 *.icloud
 .rspec
@@ -133,10 +134,15 @@ structure.sql
 /.envrc
 /.direnv
 
-# lefthook.yml user override
+# local user override
 lefthook-local.yml
+.rubocop-local.yml
+
 frontend/package-lock.json
 
 # Testing and nextcloud infrastructure
 acme.json
 .env.test
+
+# Generated seeders crowdin source file
+**/config/locales/en.seeders.yml

@@ -26,6 +26,8 @@ sv:
         position: "Position"
         remaining_hours: "Återstående timmar"
         remaining_time: "Återstående timmar"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Berättelsepoäng"
         backlogs_work_package_type: "Typ av backlogg"
     errors:
@@ -35,9 +37,6 @@ sv:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "kan endast innehålla ID:n för arbetspaket i den aktuella sprinten."
               must_block_at_least_one_work_package: "måste innehålla ID för minst ett arbetspaket."
-            parent_id:
-              parent_child_relationship_across_projects: "är ogiltig eftersom arbetspaketet '%{work_package_name}' är en backlog aktivitet och kan därför inte ha en förälder utanför det aktuella projektet."
-              type_must_be_one_of_the_following: "Typen måste vara en av följande: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "måste vara samma som föräldraberättelsens version."
         sprint:
@@ -78,7 +77,6 @@ sv:
     x_more: "%{count} mer..."
   backlogs_active: "aktiv"
   backlogs_any: "någon"
-  backlogs_card_specification: "Typ av etikett för kortutskrift"
   backlogs_inactive: "Projektet visar ingen aktivitet"
   backlogs_points_burn_direction: "Burn up/-down poäng"
   backlogs_product_backlog: "Produktbacklog"

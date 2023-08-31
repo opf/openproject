@@ -40,6 +40,8 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 export class WorkPackageSettingsButtonComponent {
   @Input() hideTableOptions = false;
 
+  @Input() showCalendarSharingOption = false;
+
   public text = {
     more_actions: this.I18n.t('js.button_more_actions'),
   };

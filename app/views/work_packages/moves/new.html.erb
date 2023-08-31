@@ -44,7 +44,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= styled_form_tag({action: 'create'},
                     id: 'move_form',
-                    data: { 'refresh-url': url_for(action: 'new'), 'input-selector': '[name="new_project_id"],[name="new_type_id"]' },
+                    data: {
+                      'controller': 'refresh-on-form-changes',
+                      'refresh-on-form-changes-target': 'form',
+                      'refresh-on-form-changes-refresh-url-value': url_for(action: 'new')
+                    },
                     class: '-wide-labels augment--refresh-on-form-changes') do %>
   <% @work_packages.each do |wp| %>
     <%= hidden_field_tag 'ids[]', wp.id %>
@@ -64,6 +68,8 @@ See COPYRIGHT and LICENSE files for more details.
                                                 name: 'new_project_id',
                                                 value: @target_project,
                                                 appendTo: 'body',
+                                                hiddenFieldAction: 'change->refresh-on-form-changes#triggerReload',
+                                                clearable: false,
                                               },
                                               id: 'new_project_id',
                                               class: 'remote-field--input',
@@ -78,7 +84,10 @@ See COPYRIGHT and LICENSE files for more details.
               <div class="form--field-container">
                 <%= styled_select_tag("new_type_id",
                        content_tag('option', t(:label_no_change_option), value: '') +
-                       options_from_collection_for_select(@types, "id", "name", @target_type&.id)) %>
+                       options_from_collection_for_select(@types, "id", "name", @target_type&.id),
+                       data: {
+                         'action': 'change->refresh-on-form-changes#triggerReload'
+                       }) %>
               </div>
             </div>
             <div class="form--field">

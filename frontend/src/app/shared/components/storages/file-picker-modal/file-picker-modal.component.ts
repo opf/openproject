@@ -29,7 +29,9 @@
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject,
 } from '@angular/core';
-import { take } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -41,15 +43,14 @@ import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.mod
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { SortFilesPipe } from 'core-app/shared/components/storages/pipes/sort-files.pipe';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
-import { isDirectory } from 'core-app/shared/components/storages/functions/storages.functions';
+import { isDirectory, storageLocaleString } from 'core-app/shared/components/storages/functions/storages.functions';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import {
   StorageFileListItem,
 } from 'core-app/shared/components/storages/storage-file-list-item/storage-file-list-item';
 import {
   FilePickerBaseModalComponent,
-} from 'core-app/shared/components/storages/file-picker-base-modal.component.ts/file-picker-base-modal.component';
-import { HttpErrorResponse } from '@angular/common/http';
+} from 'core-app/shared/components/storages/file-picker-base-modal/file-picker-base-modal.component';
 
 @Component({
   templateUrl: 'file-picker-modal.component.html',
@@ -58,8 +59,14 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class FilePickerModalComponent extends FilePickerBaseModalComponent {
   public readonly text = {
     header: this.i18n.t('js.storages.file_links.select'),
+    alertNoAccess: this.i18n.t('js.storages.files.project_folder_no_access'),
+    alertNoManagedProjectFolder: this.i18n.t('js.storages.files.managed_project_folder_not_available'),
+    alertNoAccessToManagedProjectFolder: this.i18n.t('js.storages.files.managed_project_folder_no_access'),
     content: {
       empty: this.i18n.t('js.storages.files.empty_folder'),
+      emptyHint: this.i18n.t('js.storages.files.empty_folder_location_hint'),
+      noConnection: (storageType:string) => this.i18n.t('js.storages.no_connection', { storageType }),
+      noConnectionHint: (storageType:string) => this.i18n.t('js.storages.information.connection_error', { storageType }),
     },
     buttons: {
       submit: (count:number):string => this.i18n.t('js.storages.file_links.selection', { count }),
@@ -77,6 +84,30 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
 
   public get selectedFileCount():number {
     return this.selection.size;
+  }
+
+  public get storageType():string {
+    return this.i18n.t(storageLocaleString(this.storage._links.type.href));
+  }
+
+  public get alertText():Observable<string> {
+    return this.showAlert
+      .pipe(
+        map((alert) => {
+          switch (alert) {
+            case 'noAccess':
+              return this.text.alertNoAccess;
+            case 'managedFolderNoAccess':
+              return this.text.alertNoAccessToManagedProjectFolder;
+            case 'managedFolderNotFound':
+              return this.text.alertNoManagedProjectFolder;
+            case 'none':
+              return '';
+            default:
+              throw new Error('unknown alert type');
+          }
+        }),
+      );
   }
 
   public showSelectAll = false;
@@ -113,7 +144,7 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
     this.fileLinksResourceService.addFileLinks(
       this.locals.collectionKey as string,
       this.locals.addFileLinksHref as string,
-      this.storageLink,
+      this.storage._links.self,
       files,
     ).subscribe(
       (fileLinks) => { this.toastService.addSuccess(this.text.toast.successFileLinksCreated(fileLinks.count)); },

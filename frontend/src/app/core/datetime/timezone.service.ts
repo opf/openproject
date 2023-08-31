@@ -34,18 +34,6 @@ import {
   Moment,
 } from 'moment';
 
-declare module 'moment' {
-  interface Moment {
-    tz():string|undefined;
-
-    tz(timezone:string, keepLocalTime?:boolean):Moment;
-
-    zoneAbbr():string;
-
-    zoneName():string;
-  }
-}
-
 @Injectable({ providedIn: 'root' })
 export class TimezoneService {
   constructor(
@@ -60,18 +48,20 @@ export class TimezoneService {
   }
 
   /**
+   * Returns the user's configured timezone or guesses it through moment
+   */
+  public userTimezone():string {
+    return this.configurationService.isTimezoneSet() ? this.configurationService.timezone() : moment.tz.guess();
+  }
+
+  /**
    * Takes a utc date time string and turns it into
    * a local date time moment object.
    */
   public parseDatetime(datetime:string, format?:string):Moment {
-    const d = moment.utc(datetime, format);
-
-    if (this.configurationService.isTimezoneSet()) {
-      d.local();
-      d.tz(this.configurationService.timezone());
-    }
-
-    return d;
+    return moment
+      .utc(datetime, format)
+      .tz(this.userTimezone());
   }
 
   public parseDate(date:Date|string, format?:string):Moment {
@@ -111,8 +101,8 @@ export class TimezoneService {
     return date.diff(today, 'days');
   }
 
-  public formattedTime(datetimeString:string):string {
-    return this.parseDatetime(datetimeString).format(this.getTimeFormat());
+  public formattedTime(datetimeString:string, format?:string):string {
+    return this.parseDatetime(datetimeString).format(format || this.getTimeFormat());
   }
 
   public formattedDatetime(datetimeString:string):string {
@@ -142,7 +132,7 @@ export class TimezoneService {
   }
 
   public toISODuration(input:string|number, unit:'hours'|'days'):string {
-    return moment.duration(input, unit).toIsoString();
+    return moment.duration(input, unit).toISOString();
   }
 
   public formattedDuration(durationString:string, unit:'hour'|'days' = 'hour'):string {

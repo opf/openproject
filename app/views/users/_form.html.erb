@@ -29,10 +29,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= error_messages_for_contract @user, @errors %>
 
-<% content_for :header_tags do %>
-  <meta name="required_script" content="admin_users" />
-<% end %>
-
 <section class="form--section">
   <%= render partial: 'users/form/basic_attributes', locals: { f: f } %>
 

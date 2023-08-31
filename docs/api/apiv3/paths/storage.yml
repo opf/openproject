@@ -1,7 +1,7 @@
 # /api/v3/storages/{id}
 ---
 get:
-  summary: Gets a storage.
+  summary: Get a storage
   operationId: get_storage
   tags:
     - File links
@@ -38,7 +38,7 @@ get:
         **Required permission:** view file links
         
 patch:
-  summary: Updates a storage.
+  summary: Update a storage
   operationId: update_storage
   tags:
     - File links
@@ -93,7 +93,7 @@ patch:
         **Required permission:** view file links
 
 delete:
-  summary: Deletes a storage.
+  summary: Delete a storage
   operationId: delete_storage
   tags:
     - File links

@@ -36,12 +36,10 @@
     align-items: center
     grid-template: "icon text" "button button" / auto 1fr
 
-    &-icon
+    .info-icon-box
       color: #9A9A9A
       grid-area: icon
-      width: 3.375rem
-      height: 3.375rem
-      font-size: 1.75rem
+      font-size: 3.375rem
       margin-right: $spot-spacing-0_5
 
     .text-box
@@ -59,7 +57,7 @@
     .button-box
       grid-area: button
       display: flex
-      justify-content: end
+      justify-content: flex-end
 
     &-button
       margin: $spot-spacing-0_75 0 0
@@ -68,10 +66,6 @@
         margin-right: $spot-spacing-0_5
 
   &--icon
-    width: $spot-spacing-1_5
-    height: $spot-spacing-1_5
-    flex-shrink: 0
-
     &:not(:first-child)
       margin-left: $spot-spacing-0_5
 

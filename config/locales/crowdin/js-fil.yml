@@ -65,6 +65,8 @@ fil:
     button_confirm: "Kumpirmahin"
     button_continue: "Magpatuloy"
     button_copy: "Kopyahin"
+    button_copy_to_clipboard: "Kopyahin sa clipboard"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Mga pasadyang patlang"
     button_delete: "Burahin"
@@ -105,7 +107,7 @@ fil:
       remove_from_list: 'Remove card from list'
     caption_rate_history: "Rate history"
     clipboard:
-      browser_error: "Ang iyong browser ay hindi suporta ang pagkokopya sa clipboard. Mangayaring kopyahin ng manu-mano ang napiling teksto."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
@@ -228,7 +230,7 @@ fil:
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Maging isang bayani!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
@@ -294,6 +296,34 @@ fil:
           one: "Ang unang pamantayang pagkasunod-sunod"
           two: "Ang pangalawang pamantayang pagkasunod-sunod"
           three: "Ang pangatlong pamantayang pagkasunod-sunod"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "hindi"
     general_text_yes: "oo"
     general_text_No: "Hindi"
@@ -312,11 +342,22 @@ fil:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to calendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Aktibo"
     label_assignee: 'Naitalaga'
     label_add_column_after: "Add column after"
@@ -493,7 +534,7 @@ fil:
     label_remove_all_files: Burahin ang lahat ang mga file
     label_add_description: "Magdagdag ng deskripsyon para sa %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Pag-upload ng mga file para sa Work package #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Pag-upload ng mga file para sa Work package #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "Itong mga file ay naka-upload:"
     label_rejected_files: "Itong mga fike ay hindi ma-upload:"
@@ -726,6 +767,14 @@ fil:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'Ang oras ng tala'
+      tracking: 'Time tracking'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Ang dalwang-Dahilan sa authentication'
     watchers:
@@ -784,7 +833,8 @@ fil:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Pumiling ng tag'
       select_branch: 'Pumili ng sangay'
@@ -802,63 +852,6 @@ fil:
       activate_no: 'aktibk upang alisin ang pagsaayos'
     text_work_packages_destroy_confirmation: "Sigurado ka ba na gusto mong burahin ang napiling work package?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt tsart'
-      labels:
-        title: 'Label configuration'
-        bar: 'Mga label ng bar'
-        left: 'Kaliwa'
-        right: 'Kanan'
-        farRight: 'Dulong kanan'
-        showNone: '-- Walang label --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
-      cancel: Kanselahin
-      change: "Baguhin ang pagpaplano"
-      due_date: "Finish date"
-      empty: "(walang laman)"
-      error: "Isang mali ang naganap."
-      errors:
-        not_implemented: "Ang timeline ay hindi dapat naka-render dahil ito ay gumagamit ng tampok na hindi pa naipapatupad."
-        report_comparison: "Ang timeline ay dapathindi naka-render ang nakaayos na paghahambing na ito. Mangyaring suriin ang nararapat na seksyon sa kumpigurasyo, pag-resetting ay maaring makatulog sa pag resolba ng problema."
-        report_epicfail: "Ang timeline ay hindi maipupuno sa kadahilanang may di inaasahang pagkakamali."
-        report_timeout: "Ang timeline ay hindi maipupuno dahil sa isang makatwirang halaga ng oras."
-      filter:
-        grouping_other: "Iba pa"
-        noneSelection: "(wala)"
-      name: "Pangalan"
-      outline: "I-reset ang balangkas"
-      outlines:
-        aggregation: "Ipakita lamang ang mga pinagsama-sama"
-        level1: "Palawakin ang ika-1 na antas"
-        level2: "Palawakin ang ika-2 antas"
-        level3: "Palawakin ang ika-3 na antas"
-        level4: "Palawakin ang ika-4 na antas"
-        level5: "Palawakin ang ika-5 na antas"
-        all: "Ipakita ang lahat"
-      project_status: "Estado ng proyekto"
-      really_close_dialog: "Sigurado ka na ba na gusto mong isara ang dialogo at mawala lahat ang ipanasok na data?"
-      responsible: "Responsable"
-      save: I-save
-      start_date: "Petsa ng pagsimula"
-      tooManyProjects: "Higit sa %{count} mga Proyekto. Mangyaring gumamit ng mas magandang filter!"
-      selection_mode:
-        notification: 'Pumindot sa kahit anong naka-highlight na work package upang lumikha ng kaugnayan. Pindutin ang escape upang kanselahin.'
-      zoom:
-        in: "Palakihin"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Mga araw"
-        weeks: "Mga linggo"
-        months: "Mga buwan"
-        quarters: "Mga quarter"
-        years: "Mga taon"
-        slider: "Zoom Slider"
-        description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
     tl_toolbar:
       zooms: "Zoom level"
       outlines: "Hierarchy level"
@@ -919,8 +912,15 @@ fil:
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "Subject, description, comments, ..."
+      baseline:
+        addition_label: 'Added to view within the comparison time period'
+        removal_label: 'Removed from view within the comparison time period'
+        modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'I-filter ang mga package na gawain'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Pindutin dito upang magdagdag ng bagong work package sa listahan na ito'
       create:
@@ -1081,6 +1081,7 @@ fil:
         save_as: "I-save bilang"
         export: "I-export"
         visibility_settings: "Ang mga setting ng katanyagan"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Rename view"
         delete: "Burahin"
       filter: "Salain"
@@ -1157,10 +1158,11 @@ fil:
       button_deactivate: 'I-deactive ang zen mode'
     global_search:
       all_projects: "In all projects"
-      search: "Hanapin"
       close_search: "Close search"
-      current_project: "In this project"
       current_project_and_all_descendants: "In this project + subprojects"
+      current_project: "In this project"
+      recently_viewed: "Recently viewed"
+      search: "Hanapin"
       title:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"
@@ -1249,6 +1251,38 @@ fil:
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
       no_results: 'No project matches your search criteria.'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: 'Linisin'
+      apply: 'Ilagay'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
+      show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
+      time: 'Oras'
+      from: 'Mula sa'
+      to: 'Sa'
+      drop_down:
+        none: '-'
+        yesterday: 'kahapon'
+        last_working_day: 'last working day'
+        last_week: 'huling semana'
+        last_month: 'huling buwan'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
+      legends:
+        changes_since: 'Changes since'
+        changes_between: 'Changes between'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
+        in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

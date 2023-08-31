@@ -26,6 +26,8 @@ ja:
         position: "位置"
         remaining_hours: "残り時間"
         remaining_time: "残り時間"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "ストーリーポイント"
         backlogs_work_package_type: "バックログの種類"
     errors:
@@ -35,9 +37,6 @@ ja:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "では現在のスプリント内の作業項目IDのみを含めることができます。"
               must_block_at_least_one_work_package: "は少なくとも 1つのチケットIDを含める必要があります。"
-            parent_id:
-              parent_child_relationship_across_projects: "は無効です。作業項目'%{work_package_name}'はバックログタスクで、現在のプロジェクト外の親を持つことはできません。"
-              type_must_be_one_of_the_following: "型は次のいずれかである必要があります: %{type_names}"
             version_id:
               task_version_must_be_the_same_as_story_version: "親ストーリーのバージョンと同じでなければなりません。"
         sprint:
@@ -78,7 +77,6 @@ ja:
     x_more: "残%{count}件..."
   backlogs_active: "アクティブ"
   backlogs_any: "全て"
-  backlogs_card_specification: "カード印刷用ラベルの種類"
   backlogs_inactive: "プロジェクトの活動がありません。"
   backlogs_points_burn_direction: "ポイントのバーンアップ/バーンダウン"
   backlogs_product_backlog: "プロダクトバックログ"

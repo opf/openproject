@@ -29,11 +29,6 @@ et:
   default_doc_category_tech: "Tehniline dokumentatsioon"
   default_doc_category_user: "Kasutaja dokumentatsioon"
   enumeration_doc_categories: "Dokumentide kategooriad"
-  enumeration:
-    document_category:
-      documentation: Documentation
-      specification: Spetsifikatsioon
-      other: Muu
   documents:
     label_attachment_author: "Attachment author"
   label_document_added: "Dokument on lisatud"

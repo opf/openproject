@@ -45,9 +45,15 @@ See COPYRIGHT and LICENSE files for more details.
       %>
   </div>
   <%= f.hidden_field :lock_version %>
-  <% path = send("preview_#{content_type}_path", content.meeting) %>
 
   <p><%= f.text_field :journal_notes, label: :comments %></p>
-  <p><%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark button--save-agenda' %>
-  <%= link_to t(:button_cancel), "#", data: { 'content-type': content_type }, class: 'button -with-icon icon-cancel button--cancel-agenda' %>
+  <%= styled_button_tag t(:button_save),
+                        class: '-highlight -with-icon icon-checkmark button--save-agenda',
+                        data: { disable_with: I18n.t(:label_loading) } %>
+  <%= link_to t(:button_cancel),
+              "#",
+              data: {
+                action: 'meeting-content#cancelEditState'
+              },
+              class: 'button -with-icon icon-cancel button--cancel-agenda' %>
 <% end %>

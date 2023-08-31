@@ -65,6 +65,8 @@ hu:
     button_confirm: "Jóváhagy"
     button_continue: "Folytatás"
     button_copy: "Másol"
+    button_copy_to_clipboard: "Másolás a vágólapra"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Másolás másik projektbe"
     button_custom-fields: "Választható mezők"
     button_delete: "Törlés"
@@ -105,7 +107,7 @@ hu:
       remove_from_list: 'Kártya eltávolítása a listából'
     caption_rate_history: "Díj előzmények"
     clipboard:
-      browser_error: "A böngésző nem támogatja a vágólapra másolást. Kérjük, másolja a kijelölt szöveget manuálisan."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "A vágólapra másolás sikeres!"
     chart:
       type: 'Diagram típus'
@@ -228,7 +230,7 @@ hu:
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Legyél egy hős!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Kérjük, válasszon egy fizetős csomagot az aktiváláshoz, hogy mihamarabb használhassa a csapatában."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
@@ -294,6 +296,34 @@ hu:
           one: "Első rendezési feltétel"
           two: "Második rendezési feltétel"
           three: "Harmadik rendezési feltétel"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "nem"
     general_text_yes: "igen"
     general_text_No: "Nem"
@@ -312,11 +342,22 @@ hu:
           learn_about: "Tudjon meg többet az új funkciókról"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to calendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Aktivál"
     label_assignee: 'Megbízott'
     label_add_column_after: "Oszlop hozzáadása utána"
@@ -493,7 +534,7 @@ hu:
     label_remove_all_files: Összes fájl törlése
     label_add_description: "Adjon meg leírást a %{file} fájlhoz"
     label_upload_notification: "Fájl feltöltése folyamatban"
-    label_work_package_upload_notification: "Fájlok feltöltése a #%{id}: %{subject} feladatcsoporthoz" #%{id}: %{subject} feladatcsoporthoz"
+    label_work_package_upload_notification: "Fájlok feltöltése a #%{id}: %{subject} feladatcsoporthoz"
     label_wp_id_added_by: "%{id} hozzáadva %{author} által"
     label_files_to_upload: "Ezek a fájlok kerülnek feltöltésre:"
     label_rejected_files: "Ezeket a fájlokat nem lehet felölteni:"
@@ -726,6 +767,14 @@ hu:
     time_entry:
       work_package_required: 'Először ki kell választania egy munkacsomagot.'
       title: 'Eltöltött idő rögzítése'
+      tracking: 'Munkaidő követése'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Kétlépcsős hitelesítés'
     watchers:
@@ -784,7 +833,8 @@ hu:
     autocompleter:
       placeholder: "Gépeljen a kereséshez"
       notFoundText: "Nem található elem"
-      typeToSearchText: "Gépeljen a kereséshez"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Címke kiválasztása'
       select_branch: 'Branch kiválasztása'
@@ -802,63 +852,6 @@ hu:
       activate_no: 'aktiválva a rendezés törlése'
     text_work_packages_destroy_confirmation: "Biztosan törli a kijelölt feladatcsoportot?"
     text_query_destroy_confirmation: "Biztosan törli a kijelölt megjelenítést?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt-diagram'
-      labels:
-        title: 'Címke konfiguráció'
-        bar: 'Oszlop címkék'
-        left: 'Bal'
-        right: 'Jobb'
-        farRight: 'Jobb szélen'
-        showNone: '--Nincs címke--'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Gannt diagramm megtekintése'
-      button_deactivate: 'Gannt diagramm elrejtése'
-      cancel: Mégsem
-      change: "A tervezés módosítása"
-      due_date: "Befejezési dátum"
-      empty: "(üres)"
-      error: "Hiba történt."
-      errors:
-        not_implemented: "Az ütemterv nem jeleníthető meg, mert egy olyan tulajdonságot használ, amely még nincs beépítve."
-        report_comparison: "Az ütemterv nem nyújthatja a beállított összehasonlításokat. Kérjük, ellenőrizze a megfelelő részben a konfigurációt, az alaphelyzetbe állitása segíthet megoldani ezt a problémát."
-        report_epicfail: "Váratlan hiba miatt nem lehet betölteni az ütemtervet."
-        report_timeout: "Az ütemtervet nem lehetett betölteni az ésszerű idő alatt."
-      filter:
-        grouping_other: "Egyéb"
-        noneSelection: "(nincs)"
-      name: "Név"
-      outline: "A vázlat alaphelyzetbe állitása"
-      outlines:
-        aggregation: "Csak az összesítések megjelenítése"
-        level1: "Az 1-es szint kibontása"
-        level2: "A 2-es szint kibontása"
-        level3: "A 3-as szint kibontása"
-        level4: "A 4-es szint kibontása"
-        level5: "Az 5-ös szint kibontása"
-        all: "Minden megjelenítése"
-      project_status: "Projekt állapot"
-      really_close_dialog: "Igazán akar zárja be a párbeszédpanelt, és elveszíteni a bevitt adatokat?"
-      responsible: "Felelős"
-      save: Mentés
-      start_date: "Indulási dátum"
-      tooManyProjects: "Több mint %{count} projekt. Kérjük, használjon jobb szűrési beállításokat!"
-      selection_mode:
-        notification: 'Klikkeljen valamelyik feladatcsoportra a kapcsolat létrehozásához. Visszavonás az Esc megnyomásával.'
-      zoom:
-        in: "Nagyítás"
-        out: "Kicsinyítés"
-        auto: "Automatikus nagyítás"
-        days: "Nap"
-        weeks: "Hetek"
-        months: "Hónap"
-        quarters: "Negyedek"
-        years: "Évek"
-        slider: "Nagyítás/kicsinyítés"
-        description: >
-          Válassza ki a megjelenítendő kezdeti nagyítási szintet, ha az automatikus nagyítás nem áll rendelkezésre.
     tl_toolbar:
       zooms: "Nagyítási szint"
       outlines: "Hierarchia szint"
@@ -919,8 +912,15 @@ hu:
       message_work_package_read_only: "Ez Feladatcsomag ebben a státuszban zárolt. Nem lehet más attribútum segítségével megváltoztatni."
       message_work_package_status_blocked: "A munkacsomag állapota nem írható, mivel a zárt állapotot és a zárt verziót hozzárendelték."
       placeholder_filter_by_text: "Tárgy, leírás, kommentek"
+      baseline:
+        addition_label: 'Added to view within the comparison time period'
+        removal_label: 'Removed from view within the comparison time period'
+        modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'A feladatcsoportok szűrése'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Ide kattintva adhatsz új munkacsomagot a listához'
       create:
@@ -1081,6 +1081,7 @@ hu:
         save_as: "Mentés másként"
         export: "Exportálás"
         visibility_settings: "Láthatósági beállítások"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Nézet átnevezése"
         delete: "Törlés"
       filter: "Szűrő"
@@ -1157,10 +1158,11 @@ hu:
       button_deactivate: 'Zen mód kikapcsolása'
     global_search:
       all_projects: "Az összes projektben"
-      search: "Keresés"
       close_search: "Keresés bezárása"
-      current_project: "Ebben a projektben"
       current_project_and_all_descendants: "Ebben a projektben + alprojektekben"
+      current_project: "Ebben a projektben"
+      recently_viewed: "Recently viewed"
+      search: "Keresés"
       title:
         all_projects: "minden projekt"
         project_and_subprojects: "az összes alprojektben"
@@ -1249,6 +1251,38 @@ hu:
         current_project: 'Ez a jelenlegi projekt, amiben vagyunk.'
         does_not_match_search: 'Project does not match the search criteria.'
       no_results: 'No project matches your search criteria.'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: 'Törlés'
+      apply: 'Alkalmaz'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
+      show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
+      time: 'Idő'
+      from: 'tól'
+      to: 'címzett'
+      drop_down:
+        none: '-'
+        yesterday: 'tegnap'
+        last_working_day: 'last working day'
+        last_week: 'múlt héten'
+        last_month: 'A múlt hónap'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
+      legends:
+        changes_since: 'Changes since'
+        changes_between: 'Changes between'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
+        in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'Jelentés sikeresen elküldve'
       load_error_message: 'Hiba történt az eredmény betöltésekor.'

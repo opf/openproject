@@ -155,6 +155,40 @@ See COPYRIGHT and LICENSE files for more details.
   </section>
 <% end %>
 
+<%= form_for @custom_style, url: custom_style_path, html: { multipart: true, class: "form -vertical" } do |f| %>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t(:label_custom_export_logo) %></legend>
+
+      <% if @custom_style.id && @custom_style.export_logo.present? %>
+        <div>
+          <%= tag('img', src: custom_style_export_logo_path(digest: @custom_style.digest, filename: @custom_style.export_logo_identifier), class: 'custom-export-logo-preview') %>
+          <%= link_to t(:button_delete),
+                      custom_style_export_logo_delete_path,
+                      method: :delete,
+                      class: 'icon icon-delete confirm-form-submit' %>
+        </div>
+      <% end %>
+
+      <div class="grid-block">
+        <div class="form--field -required">
+          <div class="attachment_field form--field-container -vertical -shrink">
+            <div class="form--file-container">
+              <%= f.file_field :export_logo, required: true, class: "attachment_choose_file", size: "15" %>
+            </div>
+          </div>
+          <div class="form--field-instructions">
+            <%= t('text_custom_export_logo_instructions') %>
+          </div>
+        </div>
+      </div>
+
+      <%= styled_button_tag t(@custom_style.export_logo.present? ? :button_replace : :button_upload), class: "button #{@custom_style.export_logo.blank? ? '-with-icon icon-add' : ''}" %>
+
+    </fieldset>
+  </section>
+<% end %>
+
 <%= form_tag update_design_colors_path, method: :post, class: "form" do %>
   <section class="form--section">
     <fieldset class="form--fieldset -collapsible <%= 'collapsed' if @current_theme.present?  %> ">
@@ -196,7 +230,7 @@ See COPYRIGHT and LICENSE files for more details.
     var computedStyle = getComputedStyle(document.documentElement);
 
     document
-      .querySelectorAlt('.design-color--variable-input')
+      .querySelectorAll('.design-color--variable-input')
       .forEach(function(el) {
       if (!el.value || el.value === '') {
         el.placeholder = computedStyle.getPropertyValue('--' + el.dataset.variableName).trim();

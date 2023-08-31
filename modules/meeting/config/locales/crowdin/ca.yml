@@ -29,6 +29,7 @@ ca:
         participants: "Participants"
         participants_attended: "Assistents"
         participants_invited: "Convidats"
+        project: "Project"
         start_time: "Hora"
         start_time_hour: "Hora d'inici"
     errors:
@@ -61,6 +62,13 @@ ca:
   label_meeting_agenda_close: "Tanca l'agenda per començar l'acta"
   label_meeting_date_time: "Data/Hora"
   label_meeting_diff: "Diferència"
+  label_upcoming_meetings: "Upcoming meetings"
+  label_past_meetings: "Past meetings"
+  label_involvement: "Involvement"
+  label_upcoming_invitations: "Upcoming invitations"
+  label_past_invitations: "Past invitations"
+  label_attendee: "Attendee"
+  label_author: "Creator"
   label_notify: "Envia per revisar"
   label_icalendar: "Envia iCalendar"
   label_version: "Versió"
@@ -85,7 +93,7 @@ ca:
   text_duration_in_hours: "Duració en hores"
   text_in_hours: "en hores"
   text_meeting_agenda_for_meeting: 'agenda per la reunió "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Segur que vols tancar aquesta agenda?"
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting agenda?"
   text_meeting_agenda_open_are_you_sure: "Això sobreescriurà tots els canvis a l'acte! Vols continuar?"
   text_meeting_minutes_for_meeting: 'actes per la reunió "%{meeting}"'
   text_review_meeting_agenda: "%{author} ha afegit el %{link} per a revisió."

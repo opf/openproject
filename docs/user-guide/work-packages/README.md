@@ -29,14 +29,15 @@ Work packages can be displayed in a projects timeline, e.g. as a milestone or a 
 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
-| [Work packages views](work-package-views)                    | What is the difference between the work packages views: list view, split screen view, details view? |
-| [Create a work package](create-work-package)                 | How to create a new work package in OpenProject              |
-| [Set and change dates and duration](set-change-dates)                     | How to set and change the start date, finish date and duration of a work package |
-| [Edit work package](edit-work-package)                       | How to edit a work package in OpenProject                    |
-| [Copy, move, delete](copy-move-delete)                       | How to copy, move, delete a work package                     |
-| [Work package table configuration](work-package-table-configuration) | How to configure the work package table (columns, filters, group by, etc.) |
-| [Exporting](exporting)                                       | How to export work packages for other tools such as Microsoft Excel |
-| [Work package relations and hierarchies](work-package-relations-hierarchies) | How to create work package relations and hierarchies         |
+| [Work packages views](work-package-views)                    | What is the difference between the work packages views: table view, split screen view, details view? |
+| [Create a work package](create-work-package)                 | How to create a new work package in OpenProject.             |
+| [Set and change dates and duration](set-change-dates)        | How to set and change the start date, finish date and duration of a work package. |
+| [Baseline comparison](baseline-comparison)                   | How to track work package changes over time.                 |
+| [Edit work package](edit-work-package)                       | How to edit a work package in OpenProject.                   |
+| [Copy, move, delete](copy-move-delete)                       | How to copy, move, delete a work package.                    |
+| [Work package table configuration](work-package-table-configuration) | How to configure the work package table (columns, filters, group by, etc.). |
+| [Export work packages](exporting)                            | How to export work packages for other tools such as Microsoft Excel. |
+| [Work package relations and hierarchies](work-package-relations-hierarchies) | How to create work package relations and hierarchies.        |
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Work-Packages.mp4" type="video/mp4" controls="" style="width:100%"></video>
 

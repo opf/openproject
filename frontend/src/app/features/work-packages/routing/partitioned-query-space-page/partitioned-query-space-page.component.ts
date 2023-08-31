@@ -48,6 +48,8 @@ import { InviteUserModalComponent } from 'core-app/features/invite-user-modal/in
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { UIRouterGlobals } from '@uirouter/core';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { firstValueFrom } from 'rxjs';
 
 export interface DynamicComponentDefinition {
   component:ComponentType<any>;
@@ -82,6 +84,8 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   @InjectField() opModalService:OpModalService;
 
   @InjectField() uiRouterGlobals:UIRouterGlobals;
+
+  @InjectField() configuration:ConfigurationService;
 
   text:{ [key:string]:string } = {
     jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),
@@ -261,9 +265,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
       promise = this.loadFirstPage();
     } else {
       const pagination = this.wpListService.getPaginationInfo();
-      promise = this.wpListService
-        .loadQueryFromExisting(query, pagination, this.projectIdentifier)
-        .toPromise();
+      promise = firstValueFrom(this.wpListService.loadQueryFromExisting(query, pagination, this.projectIdentifier));
     }
 
     return promise;
@@ -271,7 +273,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   protected loadFirstPage():Promise<QueryResource> {
     if (this.currentQuery) {
-      return this.wpListService.reloadQuery(this.currentQuery, this.projectIdentifier).toPromise();
+      return firstValueFrom(this.wpListService.reloadQuery(this.currentQuery, this.projectIdentifier));
     }
     return this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
   }

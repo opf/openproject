@@ -2,9 +2,10 @@
 pl:
   permission_view_team_planner: "Wyświetlanie planisty zespołu"
   permission_manage_team_planner: "Zarządzanie planistą zespołu"
-  project_module_team_planner_view: "Planista zespołu"
+  project_module_team_planner_view: "Planiści zespołu"
   team_planner:
     label_team_planner: "Planista zespołu"
+    label_new_team_planner: "Nowy planista zespołu"
     label_create_new_team_planner: "Utwórz nowego planistę zespołu"
     label_team_planner_plural: "Planiści zespołu"
     label_assignees: "Przypisane osoby"

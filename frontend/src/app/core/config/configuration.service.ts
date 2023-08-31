@@ -25,10 +25,11 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
+
 import { Injectable } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ConfigurationResource } from 'core-app/features/hal/resources/configuration-resource';
 import * as moment from 'moment';
+
+import { ConfigurationResource } from 'core-app/features/hal/resources/configuration-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Injectable({ providedIn: 'root' })
@@ -38,16 +39,12 @@ export class ConfigurationService {
   // but could easily be stored in localStorage
   private configuration:ConfigurationResource;
 
-  public initialized:Promise<boolean>;
-
   public constructor(
-    readonly I18n:I18nService,
-    readonly apiV3Service:ApiV3Service,
-  ) {
-    this.initialized = this
-      .loadConfiguration()
-      .then(() => true)
-      .catch(() => false);
+    private readonly apiV3Service:ApiV3Service,
+  ) { }
+
+  public initialize():Promise<void> {
+    return this.loadConfiguration();
   }
 
   public commentsSortedInDescendingOrder():boolean {
@@ -64,6 +61,10 @@ export class ConfigurationService {
 
   public isTimezoneSet():boolean {
     return !!this.timezone();
+  }
+
+  public isDefaultTimezoneSet():boolean {
+    return !!this.defaultTimezone();
   }
 
   public timezone():string {
@@ -102,6 +103,10 @@ export class ConfigurationService {
     return this.systemPreference('timeFormat');
   }
 
+  public defaultTimezone():string {
+    return this.systemPreference('userDefaultTimezone');
+  }
+
   public startOfWeekPresent():boolean {
     return !!this.systemPreference('startOfWeek');
   }
@@ -127,7 +132,7 @@ export class ConfigurationService {
       .configuration
       .get()
       .toPromise()
-      .then((configuration) => {
+      .then((configuration:ConfigurationResource) => {
         this.configuration = configuration;
       });
   }

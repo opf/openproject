@@ -8,7 +8,9 @@
     value_format = 'between-dates'
   end
 %>
-<div class="advanced-filters--filter-value <%= value_visibility %> <%= value_format %>">
+<div class="advanced-filters--filter-value <%= value_visibility %> <%= value_format %>"
+     data-project-target="filterValueContainer"
+     data-filter-name="<%= filter.name %>">
   <%= render partial: 'projects/filters/date/days',
              locals: { filter: filter,
                        value: value_format == 'days' ? filter.values.first : '' } %>

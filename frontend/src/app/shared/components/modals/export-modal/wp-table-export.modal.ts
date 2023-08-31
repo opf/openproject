@@ -14,6 +14,9 @@ import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
+import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 
 interface ExportLink extends HalLink {
   identifier:string;
@@ -48,6 +51,7 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
     readonly cdRef:ChangeDetectorRef,
     readonly httpClient:HttpClient,
     readonly wpTableColumns:WorkPackageViewColumnsService,
+    readonly opStaticQueries:StaticQueriesService,
     readonly loadingIndicator:LoadingIndicatorService,
     readonly toastService:ToastService,
   ) {
@@ -76,7 +80,7 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
       return {
         identifier: link.identifier,
         label: link.title,
-        url: this.addColumnsToHref(format.href as string),
+        url: this.addColumnsAndTitleToHref(format.href as string),
       };
     });
   }
@@ -122,7 +126,7 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
     this.toastService.addError(error.message || this.I18n.t('js.error.internal'));
   }
 
-  private addColumnsToHref(href:string) {
+  private addColumnsAndTitleToHref(href:string) {
     const columns = this.wpTableColumns.getColumns();
 
     const columnIds = columns.map((column) => column.id);
@@ -132,7 +136,22 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
     url.removeSearch('columns[]');
     url.addSearch('columns[]', columnIds);
 
+    // Add the query title for the export
+    const query = this.querySpace.query.value;
+    if (query) {
+      url.removeSearch('title');
+      url.addSearch('title', this.queryTitle(query));
+    }
+
     return url.toString();
+  }
+
+  private queryTitle(query:QueryResource):string {
+    return isPersistedResource(query) ? query.name : this.staticQueryName(query);
+  }
+
+  protected staticQueryName(query:QueryResource):string {
+    return this.opStaticQueries.getStaticName(query);
   }
 
   protected get afterFocusOn():HTMLElement {

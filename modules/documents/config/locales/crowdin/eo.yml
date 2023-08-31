@@ -29,11 +29,6 @@ eo:
   default_doc_category_tech: "Teknika dokumentado"
   default_doc_category_user: "Dokumentado por la uzanto"
   enumeration_doc_categories: "Kategorioj de dokumentoj"
-  enumeration:
-    document_category:
-      documentation: Dokumentado
-      specification: Specifo
-      other: Aliaj
   documents:
     label_attachment_author: "Aŭtoro de la kunsendaĵo"
   label_document_added: "Dokumento aldonita"

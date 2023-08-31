@@ -42,10 +42,7 @@
       margin-top: $spot-spacing-1
 
     > .spot-icon
-      width: $spot-spacing-1-5
-      height: $spot-spacing-1-5
       margin-right: $spot-spacing-0-5
-      font-size: 1rem
 
     &-button
       font-weight: normal
@@ -61,6 +58,10 @@
       *
         color: var(--header-item-font-color)
 
+  &--subheader
+    padding-left: $spot-spacing-1
+
+
   &--body
     @include styled-scroll-bar
 
@@ -69,9 +70,6 @@
     flex-grow: 1
     flex-shrink: 1
     overflow-y: auto
-
-    &_no-scroll
-      overflow: visible
 
     &:focus
       outline-style: none

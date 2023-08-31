@@ -43,6 +43,7 @@ import { IProjectAutocompleteItem } from 'core-app/shared/components/autocomplet
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'op-filter-project',
@@ -86,11 +87,13 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
 
     // The project autocompleter does not return HalResources, but most filters want them.
     // Here we change from one to the other
-    const projects = await this.apiV3Service.projects.list({
-      filters: [
-        ['id', '=', val.map((p:HalResource|IProjectAutocompleteItem) => String(p.id) || '')],
-      ],
-    }).toPromise();
+    const projects = await firstValueFrom(
+      this.apiV3Service.projects.list({
+        filters: [
+          ['id', '=', val.map((p:HalResource|IProjectAutocompleteItem) => String(p.id) || '')],
+        ],
+      }),
+    );
 
     this.filter.values = projects.elements;
     this.filterChanged.emit(this.filter);

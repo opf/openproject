@@ -29,11 +29,6 @@ zh-TW:
   default_doc_category_tech: "技術文件"
   default_doc_category_user: "使用者文件"
   enumeration_doc_categories: "文件類別"
-  enumeration:
-    document_category:
-      documentation: 說明文件
-      specification: 技術規格
-      other: 其他
   documents:
     label_attachment_author: "附件作者"
   label_document_added: "文件已新增"

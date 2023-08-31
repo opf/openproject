@@ -3,11 +3,11 @@ sv:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        auth_source: 'LDAP-anslutning'
+        ldap_auth_source: 'LDAP connection'
         sync_users: 'Synkronisera användare'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP-filter'
-        auth_source: 'LDAP-anslutning'
+        ldap_auth_source: 'LDAP connection'
         group_name_attribute: "Attribut för gruppnamn"
         sync_users: 'Synkronisera användare'
         base_dn: "Sök bas DN:"
@@ -61,10 +61,10 @@ sv:
       plural: 'Synkroniserade LDAP-grupper'
       singular: 'Synkroniserad LDAP-grupp'
       form:
-        auth_source_text: 'Select which LDAP connection should be used.'
+        auth_source_text: 'Välj vilken LDAP-uppkoppling som ska användas'
         sync_users_text: >
-          If you enable this option, found users will also be automatically created in OpenProject. Without it, only existing accounts in OpenProject will be added to groups.
-        dn_text: 'Enter the full DN of the group in LDAP'
+          Om du sätter på det här valet så kommer hittade användare också att bli automatiskt skapade i OpenProject. Utan det så kommer endast existerande konto i OpenProject att bli tillagda till grupper.
+        dn_text: 'Skriv in hela DN''en av gruppen i LDAP'
         group_text: 'Välj en befintlig OpenProject-grupp som medlemmar i LDAP-gruppen ska synkroniseras med'
       upsale:
         description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'

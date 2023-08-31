@@ -1,8 +1,8 @@
 #English strings go here
 ka:
-  label_avatar: "Avatar"
-  label_avatar_plural: "Avatars"
-  label_current_avatar: "Current Avatar"
+  label_avatar: "ავატარი"
+  label_avatar_plural: "პროფილის ფოტოები"
+  label_current_avatar: "აქტუალური ავატარი"
   label_choose_avatar: "Choose Avatar from file"
   message_avatar_uploaded: "Avatar changed successfully."
   error_image_upload: "Error saving the image."
@@ -14,8 +14,8 @@ ka:
   wrong_file_format: "Allowed formats are jpg, png, gif"
   empty_file_error: "Please upload a valid image (jpg, png, gif)"
   avatars:
-    label_avatar: "Avatar"
-    label_gravatar: 'Gravatar'
+    label_avatar: "ავატარი"
+    label_gravatar: 'გრავატარი'
     label_current_avatar: 'Current avatar'
     label_local_avatar: 'Custom avatar'
     text_current_avatar: |

@@ -1,0 +1,164 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2023 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+
+/*
+  FORMS (taken from Foundation for Apps)
+  -----
+
+  Our form styles include basic resets for text fields, select menus, and so on, along with some of our own custom components.
+
+  Includes:
+   - Text fields
+   - Text areas
+   - Select menus
+   - Checkboxes and radio buttons
+   - Range slider
+   - Progress bars and meters
+
+// Basic form variables
+$form-fontsize: 0.875rem !default
+$form-padding: 0.5rem !default
+
+// Text fields
+$input-color: #000 !default
+$input-border: 1px solid #ccc !default
+$input-border-hover: 1px solid #bbb !default
+$input-border-focus: 1px solid #999 !default
+
+// Labels
+$form-label-margin: 0.5rem !default
+$form-label-color: #333 !default
+
+// Inline labels
+$inlinelabel-color: #333 !default
+$inlinelabel-background: #eee !default
+$inlinelabel-border: $input-border !default
+
+// Select menus
+$select-arrow: true !default
+$select-arrow-color: #000 !default
+
+// Text fields
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+#{$text-input-selectors}
+  $top-padding: get-side($form-padding, top)
+  $bottom-padding: get-side($form-padding, bottom)
+  $height: ($form-fontsize * 1.4) + $top-padding + $bottom-padding
+
+  @include no-appearance
+  display: block
+  width: 100%
+  height: $height
+  padding: $form-padding
+  margin: 0 0 1rem 0
+  border: $input-border
+  border-radius: 2px
+  background-color: transparent
+  color: $input-color
+  font-size: $form-fontsize
+  -webkit-font-smoothing: antialiased
+  vertical-align: middle
+
+  label > &
+    margin-top: $form-label-margin
+
+// Inline labels
+// Inline labels allow you to prefix or postfix special labels to inputs
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+.inline-label
+  display: flex
+  flex-flow: row nowrap
+  align-items: stretch
+  margin-bottom: 1rem
+
+  // Imitates the top margin on normal inputs
+  label > &
+    margin-top: $form-label-margin
+
+  // Inputs stretch all the way out
+  > input, > select
+    flex: 1 1 auto
+    margin: 0
+
+  // Inline labels and buttons shrink
+  > .form-label
+    flex: 0 0 auto
+    background: $inlinelabel-background
+    color: $inlinelabel-color
+    border: $inlinelabel-border
+    padding: 0 $form-padding
+    display: flex
+    align-items: center
+
+    &:first-child
+      border-right: 0
+    &:last-child
+      border-left: 0
+
+  // Buttons also shrink
+  > a,
+  > button,
+  > input[type="button"],
+  > input[type="submit"]
+    flex: 0 0 auto
+    display: flex
+    align-items: center
+    padding-top: 0
+    padding-bottom: 0
+    margin: 0
+    border-radius: 0
+
+
+// Text areas
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+textarea
+  height: auto
+  width: 100%
+  min-height: 50px
+
+
+// Select menus
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+select
+  $top-padding: get-side($form-padding, top)
+  $bottom-padding: get-side($form-padding, bottom)
+  $height: ($form-fontsize * 1.4) + $top-padding + $bottom-padding
+
+  @include no-appearance
+  display: block
+  width: 100%
+  height: $height
+  padding: $form-padding
+  border-radius: 0
+  border: $input-border
+
+  @if $select-arrow
+    background: transparent url(image-triangle($select-arrow-color)) right 10px center no-repeat
+    background-size: 8px 8px
+    padding-right: rem-calc(18px) + $form-padding

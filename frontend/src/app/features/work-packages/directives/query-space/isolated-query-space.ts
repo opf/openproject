@@ -4,7 +4,7 @@ import {
   InputState,
   State,
   StatesGroup,
-} from 'reactivestates';
+} from '@openproject/reactivestates';
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
@@ -57,7 +57,7 @@ export class IsolatedQuerySpace extends StatesGroup {
   ));
 
   // Subject used to unregister all listeners of states above.
-  stopAllSubscriptions = new Subject();
+  stopAllSubscriptions = new Subject<void>();
 
   // Required work packages to be rendered by hierarchy mode + relation columns
   additionalRequiredWorkPackages = input<null>();

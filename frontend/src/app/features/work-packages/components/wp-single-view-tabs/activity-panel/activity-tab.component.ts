@@ -26,7 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+} from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { trackByProperty } from 'core-app/shared/helpers/angular/tracking-functions';
 import { ActivityPanelBaseController } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-base.controller';
@@ -37,7 +41,7 @@ import { ActivityPanelBaseController } from 'core-app/features/work-packages/com
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageActivityTabComponent extends ActivityPanelBaseController {
-  public workPackage:WorkPackageResource;
+  @Input() public workPackage:WorkPackageResource;
 
   public tabName = this.I18n.t('js.work_packages.tabs.activity');
 

@@ -44,12 +44,48 @@ module Storages::Storages
     validates :name, presence: true, length: { maximum: 255 }
 
     attribute :provider_type
-    validates :provider_type, inclusion: { in: ->(*) { Storages::Storage::PROVIDER_TYPES } }
+    validates :provider_type, inclusion: { in: Storages::Storage::PROVIDER_TYPES }
 
     attribute :host
     validates :host, url: { message: I18n.t('activerecord.errors.messages.invalid_url') }, length: { maximum: 255 }
     # Check that a host actually is a storage server.
     # But only do so if the validations above for URL were successful.
     validates :host, secure_context_uri: true, nextcloud_compatible_host: true, unless: -> { errors.include?(:host) }
+
+    attribute :provider_fields
+    attribute :automatically_managed
+
+    attribute :username
+    validates :username, presence: true, if: :nextcloud_storage_automatically_managed?
+    validates :username, absence: true,
+                         unless: -> { nextcloud_storage_automatically_managed? || nextcloud_default_storage_username? }
+
+    attribute :password
+    validates :password, presence: true, if: :nextcloud_storage_automatically_managed?
+    validates :password, absence: true, unless: :nextcloud_storage_automatically_managed?
+
+    validate do
+      if nextcloud_storage_automatically_managed? && errors.exclude?(:password)
+        NextcloudApplicationCredentialsValidator.new(self).call
+      end
+    end
+
+    private
+
+    def nextcloud_storage_automatically_managed?
+      return false unless nextcloud_storage?
+
+      @model.automatically_managed?
+    end
+
+    def nextcloud_default_storage_username?
+      return false unless nextcloud_storage?
+
+      @model.username == @model.provider_fields_defaults[:username]
+    end
+
+    def nextcloud_storage?
+      @model.is_a?(Storages::NextcloudStorage)
+    end
   end
 end

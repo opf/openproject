@@ -10,6 +10,8 @@ import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class BoardAssigneeActionService extends CachedBoardActionService {
@@ -108,16 +110,15 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
       });
   }
 
-  protected loadUncached():Promise<HalResource[]> {
+  protected loadUncached():Observable<HalResource[]> {
     return this
       .apiV3Service
       .projects
       .id(this.currentProject.identifier!)
       .available_assignees
       .get()
-      .toPromise()
-      .then(
-        (collection:CollectionResource<UserResource>) => [this.unassignedUser].concat(collection.elements),
+      .pipe(
+        map((collection:CollectionResource<UserResource>) => [this.unassignedUser].concat(collection.elements) as HalResource[]),
       );
   }
 }

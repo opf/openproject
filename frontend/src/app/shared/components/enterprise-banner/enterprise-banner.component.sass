@@ -7,7 +7,6 @@
     line-height: 24px
     display: grid
     grid-template-columns: auto auto 1fr
-    margin-top: 10px
     align-items: center
 
   &--title
@@ -26,11 +25,19 @@
 
   &--buttons
     display: flex
-    justify-content: end
+    justify-content: flex-end
+    align-items: center
+
+    a.button
+      text-decoration: none
 
   &--info-button
-    padding-top: $spot-spacing-1_25
+    padding-top: $spot-spacing-1
     padding-right: $spot-spacing-1_5
+    display: flex
+    justify-content: center
+    align-items: center
+    text-decoration: none
 
     .spot-icon:before
       padding-right: 0.875rem
@@ -42,4 +49,4 @@
     padding: $spot-spacing-0_5 $spot-spacing-0_5
     cursor: pointer
     display: flex
-    justify-content: end
+    justify-content: flex-end

@@ -65,6 +65,8 @@ ca:
     button_confirm: "Confirmar"
     button_continue: "Continua"
     button_copy: "Copiar"
+    button_copy_to_clipboard: "Copiar al porta-retalls"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copia a un altre projecte"
     button_custom-fields: "Camps personalitzats"
     button_delete: "Esborrar"
@@ -105,7 +107,7 @@ ca:
       remove_from_list: 'Suprimeix la targeta de la llista'
     caption_rate_history: "Història d'índex"
     clipboard:
-      browser_error: "El teu navegador no permet copiar al porta-retalls. Si us plau, copia el text seleccionat manualment."
+      browser_error: "El teu navegador no permet copiar al porta-retalls. Si us plau, copia-ho manualment: %{content}"
       copied_successful: "S'ha copiat correctament al porta-retalls!"
     chart:
       type: 'Tipus de gràfica'
@@ -228,7 +230,7 @@ ca:
           quick_overview: "Obté una visió general ràpida de la gestió de projectes i col·laboració d'equips amb l'edició Enterprise d'OpenProject."
         upsale:
           become_hero: "Sigues un heroi!"
-          enterprise_info_html: "%{feature_title} és un add-on de l'edició Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
+          enterprise_info_html: "%{feature_title} és una extensió de l'edició Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'>."
           upgrade_info: "Si us plau, actualitza a una versió de pagament per tal d'activar i començar a utilitzar-la en el teu equip."
           benefits:
             description: "Quins són els beneficis de l'edició Enterprise on-premises?"
@@ -236,7 +238,7 @@ ca:
             high_security_text: "Inici de sessió únic (SAML, OpenID Conenct, CAS), grups LDAP."
             installation: "Suport d'instal·lació"
             installation_text: "Enginyers de programari amb experiència et guien durant tot el procés d'instal·lació i configuració de la teva pròpia estructura."
-            premium_features: "Enterprise add-ons"
+            premium_features: "Extensions Enterprise"
             premium_features_text: "Taulells \"agile\", tema personalitzat i logotip, gràfiques, fluxos de treball amb accions personalitzades, cerca de text completa per a fitxers adjunt en paquets de treball i la selecció múltiple de camps personalitzats."
             professional_support: "Suport professional"
             professional_support_text: "Obté un suport de confiança i d'alt nivell dels nostres enginyers de suport sèniors amb experiència en manegar OpenProject en ambients empresarials crítics."
@@ -249,7 +251,7 @@ ca:
           link_quote: "Obtenir un pressupost"
           more_info: "Més informació"
           text: >
-            L'edició Enterprise d'OpenProject es construeix a sobre de l'edició Community. Inclou Enterprise add-ons i suport professional pensat especialment per a organitzacions de més de 10 usuaris que manegin projectes empresarialment crítics amb OpenProject.
+            L'edició Enterprise d'OpenProject es construeix a sobre de l'edició Community. Inclou extensions Enterprise i suport professional pensat especialment per a organitzacions de més de 10 usuaris que manegin projectes empresarialment crítics amb OpenProject.
           unlimited: "Il·limitat"
           you_contribute: "Els desenvolupadors també han de pagar les seves factures. Actualitzant a l'edició Enterprise, donaràs suport aquesta comunitat de codi obert i contribuiràs al seu desenvolupament, manteniment i millora continua."
       working_days:
@@ -294,6 +296,34 @@ ca:
           one: "Primer criteri d'ordenació"
           two: "Segon criteri d'ordenació"
           three: "Tercer criteri d'ordenació"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "no"
     general_text_yes: "sí"
     general_text_No: "No"
@@ -312,11 +342,22 @@ ca:
           learn_about: "Més informació sobre les noves funcions"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                Aquesta versió inclou noves funcionalitats i millores: <br><ul class="%{list_styling_class}"><li>Càrrega i enllaç de fitxers des dels paquets de treball al teu emmagatzematge de fitxers Nextcloud.</li> <li>Segueix els canvis en projectes en el seguiment d'activitat de projecte.</li> <li>Afegeix dies no laborables per a tothom a la teva instància.</li> <li>Arxiva projectes encara que no siguis un administrador.</li> <li>Nou filtre per defecte per a paquets de treball vençuts.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to calendar"
+      inital_setup_error_message: "S'ha produït un error en carregar les dades."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      copy_url_label: "Copia l'URL"
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Activar"
     label_assignee: 'Assignat a'
     label_add_column_after: "Afegir una columna després"
@@ -328,7 +369,7 @@ ca:
     label_add_row_before: "Afegir una fila abans"
     label_add_selected_columns: "Afegir columnes seleccionades"
     label_added_by: "afegit per"
-    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
+    label_added_time_by: "Afegit per <a href=%{authorLink}>%{author}</a> el %{age}"
     label_ago: "dies abans"
     label_all: "tot"
     label_all_work_packages: "tots els paquets de treball"
@@ -493,7 +534,7 @@ ca:
     label_remove_all_files: Elimina tots els fitxers
     label_add_description: "Afegiu una descripció per a %{file}"
     label_upload_notification: "Carregant fitxers..."
-    label_work_package_upload_notification: "Carregant fitxers del paquet de treball #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Carregant fitxers del paquet de treball #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} afegit per %{author}"
     label_files_to_upload: "Es carregaran aquests fitxers:"
     label_rejected_files: "Aquests fitxers no es poden carregar:"
@@ -667,7 +708,7 @@ ca:
         Si us plau, selecciona un projecte on crear el paquet de treball per a veure tots els atributs. Només pots seleccionar projectes que tinguin activat la classe indicada anteriorment.
       details_activity: 'Detalls de l''activitat del projecte'
       context: 'Context del projecte'
-      click_to_switch_to_project: 'Project: %{projectname}'
+      click_to_switch_to_project: 'Projecte: %{projectname}'
       confirm_template_load: 'Canviar la plantilla tornarà a carregar la pàgina i perdràs totes les dades del formulari. Continuar?'
       use_template: "Utilitzar plantilla"
       no_template_selected: "(Cap)"
@@ -726,6 +767,14 @@ ca:
     time_entry:
       work_package_required: 'Requereix seleccionar un paquet de treball primer.'
       title: 'Registrar temps'
+      tracking: 'Seguiment de temps'
+      stop: 'Aturar'
+    timer:
+      start_new_timer: 'Iniciar nou temporitzador'
+      timer_already_running: 'Per començar un nou temporitzador, has de parar el temporitzador actual:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Seguiment de temps'
+      button_stop: 'Aturar el temporitzador actual'
     two_factor_authentication:
       label_two_factor_authentication: 'Autentificació en dos passos'
     watchers:
@@ -784,7 +833,8 @@ ca:
     autocompleter:
       placeholder: "Escriviu per cercar"
       notFoundText: "Elements no trobats"
-      typeToSearchText: "Escriviu per cercar"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Seleccionar l''etiqueta'
       select_branch: 'Seleccionar branca'
@@ -802,68 +852,11 @@ ca:
       activate_no: 'activeu per desactivar l''ordenació'
     text_work_packages_destroy_confirmation: "¿Estàs segur que vols eliminar el(s) paquet(s) de treball seleccionat(s)?"
     text_query_destroy_confirmation: "Estàs segur que vols eliminar la vista seleccionada?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Diagrama de Gantt'
-      labels:
-        title: 'Configuració d''etiquetes'
-        bar: 'Etiquetes de barres'
-        left: 'Esquerra'
-        right: 'Dreta'
-        farRight: 'Extrem dret'
-        showNone: '-- Sense etiqueta --'
-        description: >
-          Selecciona els atributs que vols que es mostrin en les posicions corresponents del diagrama de Gantt en tot moment. Tingui en compte que, en mantenir el ratolí sobre un element, es mostraran les etiquetes de data en lloc d'aquests atributs.
-      button_activate: 'Mostra el diagrama de Gantt'
-      button_deactivate: 'Amaga el diagrama de Gantt'
-      cancel: Cancel·la
-      change: "Canvi en la planificació"
-      due_date: "Data final"
-      empty: "(buit)"
-      error: "S'ha produït un error."
-      errors:
-        not_implemented: "La línia temporal no es pot renderitzar perquè utilitza una característica encara no implementada."
-        report_comparison: "La línia temporal no pot renderitzar les comparacions configurades. Consulteu la secció adequada a la configuració, reiniciar-la podria resoldre aquest problema."
-        report_epicfail: "No es pot carregar la línia temporal a causa d'un error inesperat."
-        report_timeout: "No s'ha pogut carregar la línia temporal en una quantitat raonable de temps."
-      filter:
-        grouping_other: "Altres"
-        noneSelection: "(cap)"
-      name: "Nom"
-      outline: "Reinicia l'esquema"
-      outlines:
-        aggregation: "Mostrar només agregacions"
-        level1: "Amplia el nivell 1"
-        level2: "Amplia el nivell 2"
-        level3: "Amplia el nivell 3"
-        level4: "Amplia el nivell 4"
-        level5: "Amplia el nivell 5"
-        all: "Mostrar tots"
-      project_status: "Estat del projecte"
-      really_close_dialog: "Realment vols tancar el diàleg i perdre les dades introduïdes?"
-      responsible: "Responsable"
-      save: Desa
-      start_date: "Data d'inici"
-      tooManyProjects: "Més de %{count} projectes. Si us plau, utilitzeu un filtre millor!"
-      selection_mode:
-        notification: 'Faci clic en qualsevol paquet de treball ressaltat per a crear la relació. Cliqui Esc per a cancel·lar.'
-      zoom:
-        in: "Ampliar"
-        out: "Allunyar"
-        auto: "Zoom automàtic"
-        days: "Dies"
-        weeks: "Setmanes"
-        months: "Mesos"
-        quarters: "Quadrimestres"
-        years: "Anys"
-        slider: "Control de zoom"
-        description: >
-          Seleccioni el nivell inicial de zoom que s'ha de mostrar quan el zoom automàtic no estigui disponible.
     tl_toolbar:
       zooms: "Nivell de zoom"
       outlines: "Nivell de jerarquia"
     upsale:
-      ee_only: 'Add-on de l''edició Enterprise'
+      ee_only: 'Extensió de l''edició Enterprise'
     wiki_formatting:
       strong: "Negreta"
       italic: "Cursiva"
@@ -919,8 +912,15 @@ ca:
       message_work_package_read_only: "El paquet de treball està bloquejat en aquest estat. Cap atribut excepte l'estat es pot modificar."
       message_work_package_status_blocked: "L'estat del paquet de treball no permet l'escriptura perquè el seu estat i versió estan tancats."
       placeholder_filter_by_text: "Assumpte, descripció, comentaris, ..."
+      baseline:
+        addition_label: 'Afegit a la vista en el període de temps de la comparació'
+        removal_label: 'Eliminat de la vista en el període de temps de la comparació'
+        modification_label: 'Modificat dins del període de temps de la comparació'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filtrar paquets de treball'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
+        baseline_warning: 'La base de referència està activat però alguns dels teus filtres actius no estan actius en la comparació.'
       inline_create:
         title: 'Fes clic aquí per afegir un nou paquet de treball a aquesta llista'
       create:
@@ -1081,6 +1081,7 @@ ca:
         save_as: "Desa com a"
         export: "Exporta"
         visibility_settings: "Configuració de visibilitat"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Reanomena la vista"
         delete: "Elimina"
       filter: "Filtre"
@@ -1157,10 +1158,11 @@ ca:
       button_deactivate: 'Desactiva el mode zen'
     global_search:
       all_projects: "En tots els projectes"
-      search: "Cercar"
       close_search: "Tanca la cerca"
-      current_project: "En aquest projecte"
       current_project_and_all_descendants: "En aquest projecte + subprojectes"
+      current_project: "En aquest projecte"
+      recently_viewed: "Vist recentment"
+      search: "Cercar"
       title:
         all_projects: "tots els projectes"
         project_and_subprojects: "i tots els subprojectes"
@@ -1197,7 +1199,7 @@ ca:
           description: 'Permisos basats en el rol assignat en el projecte seleccionat'
         placeholder:
           title: 'Usuari de marcador de posició'
-          title_no_ee: 'Usuari de marcador de posició (add-on només de l''edició Enterprise)'
+          title_no_ee: 'Usuari de marcador de posició (extensió només de l''edició Enterprise)'
           description: 'No té accés al projecte i no s''han enviat els correus electrònics.'
           description_no_ee: 'No tens accés al projecte i per tant, no s''han enviat els correus electrònics. <br>Fes una ullada a <a href="%{eeHref}" target="_blank">l''edició Enterprise</a>'
       principal:
@@ -1249,6 +1251,38 @@ ca:
         current_project: 'Aquest és el projecte actual.'
         does_not_match_search: 'El projecte no coincideix amb la cerca.'
       no_results: 'Cap projecte s''ajusta a la teva cerca.'
+    baseline:
+      toggle_title: 'Base de referència'
+      clear: 'Esborra'
+      apply: 'Aplica'
+      header_description: 'Destaca canvis efectuats en aquesta llista des de qualsevol punt del passat.'
+      enterprise_header_description: 'Destaca canvis efectuats en aquesta llista des de qualsevol punt del passat amb l''edició Enterprise.'
+      show_changes_since: 'Mostra canvis des de'
+      baseline_comparison: 'Comparació en base de referència'
+      help_description: 'Zona de temporal de referència per aquesta base de referència.'
+      time_description: 'En el temps local: %{datetime}'
+      time: 'Hora'
+      from: 'Des de'
+      to: 'Fins'
+      drop_down:
+        none: '-'
+        yesterday: 'ahir'
+        last_working_day: 'últim dia laboral'
+        last_week: 'la setmana passada'
+        last_month: 'el mes passat'
+        a_specific_date: 'data específica'
+        between_two_specific_dates: 'entre dues dates específiques'
+      legends:
+        changes_since: 'Canvis des de'
+        changes_between: 'Changes between'
+        now_meets_filter_criteria: 'Ara compleix els criteris del filtre'
+        no_longer_meets_filter_criteria: 'Ja no compleix els criteris del filtre'
+        maintained_with_changes: 'Mantingut amb canvis'
+        in_your_timezone: 'En la teva zona horària:'
+      icon_tooltip:
+        added: 'Afegit a la vista en el període de temps de la comparació'
+        removed: 'Eliminat de la vista en el període de temps de la comparació'
+        changed: 'Mantingut amb canvis'
     forms:
       submit_success_message: 'El formulari s''ha sotmès correctament'
       load_error_message: 'S''ha produït un error en carregar el formulari'

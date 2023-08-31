@@ -27,10 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% content_for :header_tags do %>
-  <meta name="required_script" content="new_user" />
-<% end %>
-
 <% html_title t(:label_administration), t("label_user_new") %>
 <% local_assigns[:additional_breadcrumb] = t(:label_user_new) %>
 
@@ -41,8 +37,13 @@ See COPYRIGHT and LICENSE files for more details.
 <%= labelled_tabular_form_for @user,
                               url: { action: "create" },
                               html: { class: nil, autocomplete: 'off' },
+                              data: {
+                                controller: 'admin--users',
+                                'application-target': 'dynamic',
+                                'admin--users-password-auth-selected-value': @user.ldap_auth_source_id.blank?,
+                              },
                               as: :user do |f| %>
-  <%= render partial: 'simple_form', locals: { f: f, auth_sources: @auth_sources, user: @user } %>
+  <%= render partial: 'simple_form', locals: { f: f, auth_sources: @ldap_auth_sources, user: @user } %>
 
   <p>
     <%= styled_button_tag t(:button_create), class: '-highlight -with-icon icon-checkmark' %>

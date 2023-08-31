@@ -29,11 +29,6 @@ sl:
   default_doc_category_tech: "Tehnična dokumentacija"
   default_doc_category_user: "Uporabniška dokumentacija"
   enumeration_doc_categories: "Kategorije dokumentov"
-  enumeration:
-    document_category:
-      documentation: Dokumentacija
-      specification: Specifikacija
-      other: Drugo
   documents:
     label_attachment_author: "Avtor priloge"
   label_document_added: "Dokument dodan"

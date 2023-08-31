@@ -29,6 +29,7 @@
 import { DatePicker } from 'core-app/shared/components/datepicker/datepicker';
 import { DateOption } from 'flatpickr/dist/types/options';
 import { DayElement } from 'flatpickr/dist/types/instance';
+import * as moment from 'moment-timezone';
 
 /**
  * Map the date to the internal format,

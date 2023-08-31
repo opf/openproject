@@ -80,7 +80,7 @@ fr:
       buttons:
         upgrade: "Passer au plan supérieur"
         contact: "Contactez-nous pour une démo"
-      enterprise_info_html: "est un <span class='spot-icon spot-icon_enterprise-addons'></span> add-on Entreprise."
+      enterprise_info_html: "est un module de la version <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>Enterprise."
       upgrade_info: "Veuillez passer à un plan payant pour l'activer et commencer à l'utiliser dans votre équipe."
     journal_aggregation:
       explanation:
@@ -99,15 +99,14 @@ fr:
     edit: "Modifier le texte d’aide pour %{attribute_caption}"
     enterprise:
       description: 'Fournissez des informations supplémentaires pour les attributs (y compris les champs personnalisés) des lots de travaux et des projets. Les textes d''aide sont affichés lorsque les utilisateurs cliquent sur le symbole point d''interrogation à côté des champs de saisie dans les projets et les lots de travaux.'
-  auth_sources:
-    index:
-      no_results_content_title: Il n'y a actuellement aucun mode d'authentification.
-      no_results_content_text: Créer un nouveau mode d'authentification
   background_jobs:
     status:
       error_requeue: "La tâche a rencontré une erreur mais réessaie. L'erreur était : %{message}"
       cancelled_due_to: "La tâche a été annulée en raison d'une erreur : %{message}"
   ldap_auth_sources:
+    ldap_error: "Erreur LDAP : %{error_message}"
+    ldap_auth_failed: "Authentification impossible sur le serveur LDAP."
+    back_to_index: 'Cliquez ici pour revenir à la liste des connexions.'
     technical_warning_html: |
       Ce formulaire LDAP nécessite une connaissance technique de votre configuration LDAP / Active Directory.
       <br/>
@@ -169,10 +168,21 @@ fr:
     index:
       no_results_title_text: Aucune couleur pour le moment.
       no_results_content_text: Créer une nouvelle couleur
-    label_no_color: 'Aucune couleur'
+      label_new_color: "Nouvelle couleur"
+    new:
+      label_new_color: "Nouvelle couleur"
+    edit:
+      label_edit_color: "Modifier la couleur"
+    form:
+      label_new_color: "Nouvelle couleur"
+      label_edit_color: "Modifier la couleur"
+    label_no_color: "Aucune couleur"
+    label_properties: "Propriétés"
+    label_really_delete_color: >
+      Voulez-vous vraiment supprimer la couleur suivante ? Les types utilisant cette couleur ne seront pas supprimés.
   custom_actions:
     actions:
-      name: 'Actions'
+      name: "Actions"
       add: 'Ajouter une action'
       assigned_to:
         executing_user_value: '(assigner à l’utilisateur exécutant)'
@@ -198,8 +208,6 @@ fr:
       no_results_content_text: Créer un nouveau champ personnalisé
   concatenation:
     single: 'ou'
-  documentation:
-    see_more_link: Pour plus d'informations, consultez notre documentation sur ce sujet.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -232,7 +240,7 @@ fr:
       failed_text: "La demande de suppression du projet %{name} a échoué. Le projet a été archivé."
       completed: "Suppression du projet %{name} terminée"
       completed_text: "La demande de suppression du projet '%{name}' a été terminée."
-      completed_text_children: "Additionally, the following subprojects have been deleted:"
+      completed_text_children: "De plus, les sous-projets suivants ont été supprimés :"
     index:
       open_as_gantt: 'Ouvrir comme vue Gantt'
       open_as_gantt_title: "Utilisez ce bouton pour générer une vue Gantt qui filtre les lots de travaux des projets visibles sur cette page."
@@ -253,6 +261,8 @@ fr:
         no_results_title_text: Il n'y a actuellement aucun champ personnalisé disponible.
       types:
         no_results_title_text: Il n'y a actuellement aucun type disponible.
+        form:
+          enable_type_in_project: 'Autorise le type « %{type} »'
       versions:
         no_results_title_text: Aucune version du projet pour le moment.
         no_results_content_text: Créer une nouvelle version
@@ -269,11 +279,24 @@ fr:
       notice_reset_token: "Un nouveau jeton de %{type} a été généré. Votre jeton d’accès est :"
       token_value_warning: "Note : Ceci est la seule fois où vous verrez ce jeton, veuillez le copier maintenant."
       no_results_title_text: Aucun jeton d'accès disponible pour le moment.
+      notice_api_token_revoked: "Le jeton d'API a été supprimé. Pour créer un nouveau jeton, veuillez utiliser le lien dans la section API."
+      notice_rss_token_revoked: "Le jeton d'API a été supprimé. Pour créer un nouveau jeton, veuillez utiliser le lien dans la section RSS."
+      notice_ical_token_revoked: "Le jeton iCalendar « %{token_name} » pour le calendrier « %{calendar_name} » du projet « %{project_name} » a été révoqué. L'URL iCalendar liée à ce jeton est maintenant invalide."
   news:
     index:
       no_results_title_text: Il n'y a actuellement aucune actualité à publier.
       no_results_content_text: Ajouter une actualité
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} sur %{os_name}"
+      browser: 'Navigateur'
+      device: 'Dispositif/système d''exploitation'
+      unknown_browser: 'navigateur inconnu'
+      unknown_os: 'système d''exploitation inconnu'
+      current: 'Session en cours'
+      title: 'Gestion de session'
+      instructions: 'Cette liste répertorie tous les appareils qui se sont connectés à votre compte. Révoquez toutes les sessions que vous ne reconnaissez pas ou auxquelles vous n''avez plus accès.'
+      may_not_delete_current: 'Vous ne pouvez pas supprimer votre session actuelle.'
     groups:
       member_in_these_groups: 'Cet utilisateur est actuellement membre des groupes suivants :'
       no_results_title_text: Cet utilisateur n'est actuellement membre d'aucun groupe.
@@ -315,6 +338,12 @@ fr:
     index:
       no_results_title_text: Aucun statut de lots de travaux pour le moment.
       no_results_content_text: Ajouter un nouveau statut
+  themes:
+    light: "Clair"
+    light_high_contrast: "Clair avec contraste élevé"
+    dark: "Sombre"
+    dark_dimmed: "Sombre atténué"
+    dark_high_contrast: "Sombre avec contraste élevé"
   types:
     index:
       no_results_title_text: Il n'y a actuellement aucun type.
@@ -334,6 +363,7 @@ fr:
         dans les graphiques de Gantt ou les tables des lots de travaux. Il est donc recommandé d'utiliser une couleur forte.
   versions:
     overview:
+      work_packages_in_archived_projects: "La version est partagée avec les projets archivés qui ont encore des lots de travaux assignés à cette version. Ils sont comptés, mais n'apparaîtront pas dans les vues liées."
       no_results_title_text: Il n'y a actuellement aucun lot de travaux assigné à cette version.
   wiki:
     page_not_editable_index: La page demandée n'existe pas (encore). Vous avez été redirigé vers l'index de toutes les pages du wiki.
@@ -419,15 +449,15 @@ fr:
       attribute_help_text:
         attribute_name: 'Attribut'
         help_text: 'Texte d’aide'
-      auth_source:
+      ldap_auth_source:
         account: "Compte"
-        attr_firstname: "Attribut Prénom (Firstname)"
-        attr_lastname: "Attribut Nom de famille (Lastname)"
-        attr_login: "Attribut nom d'utilisateur"
-        attr_mail: "Attribut Courriel (Email)"
+        attr_firstname: "Attribut Prénom"
+        attr_lastname: "Attribut Nom"
+        attr_login: "Attribut Nom d'utilisateur"
+        attr_mail: "Attribut Adresse électronique"
         base_dn: "DN de base"
         host: "Hôte"
-        onthefly: "Création automatique d'un utilisateur"
+        onthefly: "Création automatique des utilisateurs"
         port: "Port"
         tls_certificate_string: "Certificat SSL du serveur LDAP"
       changeset:
@@ -485,6 +515,15 @@ fr:
           true: "public"
           false: "privé"
         queries: "Requêtes"
+        status_code: 'État du projet'
+        status_explanation: 'Description du statut du projet'
+        status_codes:
+          not_started: 'Non démarré'
+          on_track: 'Sur la bonne voie'
+          at_risk: 'À risque'
+          off_track: 'Sur la mauvaise voie'
+          finished: 'Terminé'
+          discontinued: 'Interrompu'
         templated: "Modèle de projet"
         templated_value:
           true: "marqué comme modèle"
@@ -492,16 +531,6 @@ fr:
         types: "Types"
         versions: "Versions"
         work_packages: "Lots de Travaux"
-      projects/status:
-        code: 'Statut'
-        explanation: 'Description du statut'
-        codes:
-          not_started: 'Non démarré'
-          on_track: 'Sur la bonne voie'
-          at_risk: 'À risque'
-          off_track: 'Sur la mauvaise voie'
-          finished: 'Terminé'
-          discontinued: 'Interrompu'
       query:
         column_names: "Colonnes"
         relations_to_type_column: "Relations avec %{type}"
@@ -518,6 +547,7 @@ fr:
         hours: "Heures"
         spent_on: "date"
         type: "Type"
+        ongoing: "En cours"
       type:
         description: "Texte par défaut pour la description"
         attribute_groups: ''
@@ -527,7 +557,7 @@ fr:
         color: "Couleur"
       user:
         admin: "Administrateur"
-        auth_source: "Mode d'authentification"
+        ldap_auth_source: "Connexion LDAP"
         current_password: "Mot de passe actuel"
         force_password_change: "Obliger l'utilisateur à changer de mot de passe à la prochaine connexion"
         language: "Langue"
@@ -648,7 +678,7 @@ fr:
           ne fournit pas de « Contexte sécurisé ». Utilisez soit HTTPS, soit une adresse de bouclage, comme localhost.
         wrong_length: "est de mauvaise longueur (devrait être %{count} caractères)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "Le certificat SSL fourni est invalide : %{additional_message}"
@@ -692,6 +722,11 @@ fr:
           overlaps: 'superposition.'
           outside: 'est hors de la grille.'
           end_before_start: 'la valeur finale doit être supérieure à la valeur de départ.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "est obligatoire. Veuillez sélectionner un nom."
+              not_unique: "est déjà utilisé. Veuillez choisir un autre nom."
         notifications:
           at_least_one_channel: 'Au moins un canal pour envoyer des notifications doit être spécifié.'
           attributes:
@@ -739,6 +774,10 @@ fr:
               format: "%{message}"
             sort_criteria:
               invalid: "Impossible de trier par colonne : %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Les horodatages contiennent des valeurs non valides : %{values}"
+              forbidden: "Les horodatages contiennent des valeurs interdites : %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "est mutuellement exclusif avec grouper par '%{group_by}'. Vous ne pouvez pas activer les deux."
           filters:
@@ -795,6 +834,7 @@ fr:
               not_allowed_to_view: "n'est pas autorisé à consulter cette ressource."
               locked: "est verrouillé."
         wiki_page:
+          error_conflict: "La page du wiki a été mise à jour par quelqu'un d'autre pendant que vous y apportiez des modifications."
           attributes:
             slug:
               undeducible: "ne peut être retiré du titre '%{title}'."
@@ -861,8 +901,8 @@ fr:
                 description: "La confirmation du mot de passe doit correspondre à celui saisi dans le champ “Nouveau mot de passe”."
             status:
               invalid_on_create: "n’est pas un statut valide pour les nouveaux utilisateurs."
-            auth_source:
-              error_not_found: "non trouvé"
+            ldap_auth_source:
+              error_not_found: "introuvable"
         member:
           principal_blank: "Veuillez choisir au moins un utilisateur ou un groupe."
           role_blank: "doit être assigné."
@@ -872,6 +912,7 @@ fr:
             principal:
               unassignable: "ne peut pas être assigné à un projet."
         version:
+          undeletable_archived_projects: "La version ne peut pas être supprimée, car des lots de travaux y sont attachés."
           undeletable_work_packages_attached: "La version ne peut pas être supprimée car des lots de travaux y sont attachés."
         status:
           readonly_default_exlusive: "ne peut pas être activé pour les statuts qui sont marqués par défaut."
@@ -910,16 +951,34 @@ fr:
       work_package: "Lot de travaux"
       'doorkeeper/application': "Application OAuth"
   errors:
-    header_invalid_fields: "Des problèmes ont été rencontrés avec les champs suivants :"
+    header_invalid_fields:
+      one: "Une erreur s'est produite avec le champ suivant :"
+      other: "Des erreurs se sont produites avec les champs suivants :"
+    header_additional_invalid_fields:
+      one: "De plus, une erreur s'est produite avec le champ suivant :"
+      other: "De plus, des erreurs se sont produites avec les champs suivants :"
     field_erroneous_label: "Ce champ n'est pas valide : %{full_errors}\nVeuillez saisir une valeur correcte."
   activity:
     item:
       created_by_on: "créé par %{user} le %{datetime}"
+      created_by_on_time_entry: "temps enregistré par %{user} le %{datetime}"
       created_on: "créé le %{datetime}"
+      created_on_time_entry: "temps enregistré le %{datetime}"
       updated_by_on: "mis à jour par %{user} le %{datetime}"
+      updated_by_on_time_entry: "temps enregistré mis à jour par %{user} le %{datetime}"
       updated_on: "mis à jour le %{datetime}"
+      updated_on_time_entry: "temps enregistré mis à jour le %{datetime}"
       parent_without_of: "Sous-projet"
       parent_no_longer: "Plus de sous-projet de"
+      time_entry:
+        hour:
+          one: "%{count} heure"
+          other: "%{count} heures"
+        hour_html:
+          one: "<i>%{count} heure</i>"
+          other: "<i>%{count} heures</i>"
+        updated: "modifié de %{old_value} à %{value}"
+        logged_for: "Connecté(e) pendant"
     filter:
       changeset: "Révisions"
       message: "Forums"
@@ -1036,6 +1095,8 @@ fr:
   button_configure: "Configurer"
   button_continue: "Continuer"
   button_copy: "Copier"
+  button_copy_to_clipboard: "Copier dans le presse-papier"
+  button_copy_link_to_clipboard: "Copier le lien dans le presse-papiers"
   button_copy_and_follow: "Copier et suivre"
   button_create: "Créer"
   button_create_and_continue: "Créer et continuer"
@@ -1165,7 +1226,7 @@ fr:
       - "Octobre"
       - "Novembre"
       - "Décembre"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - ':année'
       - :mois
@@ -1210,61 +1271,6 @@ fr:
       hour:
         one: "heure"
         other: "heures"
-  default_activity_development: "Développement"
-  default_activity_management: "Gestion"
-  default_activity_other: "Autre"
-  default_activity_specification: "Spécification"
-  default_activity_support: "Support"
-  default_activity_testing: "Test"
-  default_color_black: "Noir"
-  default_color_blue: "Bleu"
-  default_color_blue_dark: "Bleu (foncé)"
-  default_color_blue_light: "Bleu (clair)"
-  default_color_green_dark: "Vert (foncé)"
-  default_color_green_light: "Vert (clair)"
-  default_color_grey_dark: "Gris (foncé)"
-  default_color_grey_light: "Gris (clair)"
-  default_color_grey: "Gris"
-  default_color_magenta: "Magenta"
-  default_color_orange: "Orange"
-  default_color_red: "Rouge"
-  default_color_white: "Blanc"
-  default_color_yellow: "Jaune"
-  default_status_closed: "Clôturé"
-  default_status_confirmed: "Confirmé"
-  default_status_developed: "Développé"
-  default_status_in_development: "En développement"
-  default_status_in_progress: "En cours"
-  default_status_in_specification: "En cous de spécification"
-  default_status_in_testing: "En test"
-  default_status_new: "nouveau"
-  default_status_on_hold: "En attente"
-  default_status_rejected: "rejeté"
-  default_status_scheduled: "Planifié"
-  default_status_specified: "Spécifié"
-  default_status_tested: "Testé"
-  default_status_test_failed: "Test échoué"
-  default_status_to_be_scheduled: "À planifier"
-  default_priority_low: "Basse"
-  default_priority_normal: "Normal"
-  default_priority_high: "Haut"
-  default_priority_immediate: "Immédiat"
-  default_role_anonymous: "Anonyme"
-  default_role_developer: "Développeur"
-  default_role_project_admin: "Administrateur du projet"
-  default_role_project_creator_and_staff_manager: "Personnel et gestionnaire de projets"
-  default_role_non_member: "Non membre"
-  default_role_reader: "Lecteur"
-  default_role_member: "Membre"
-  default_type: "Lot de Travaux"
-  default_type_bug: "Bug"
-  default_type_deliverable: "Livrable"
-  default_type_epic: "Epic"
-  default_type_feature: "Fonctionnalité"
-  default_type_milestone: "Étape"
-  default_type_phase: "Phase"
-  default_type_task: "Tâche"
-  default_type_user_story: "Récit utilisateur"
   description_active: "Actif ?"
   description_attachment_toggle: "Afficher/Masquer les pièces jointes"
   description_autocomplete: >
@@ -1311,9 +1317,10 @@ fr:
   error_can_not_archive_project: "Ce projet ne peut être archivé : %{errors}"
   error_can_not_delete_entry: "Impossible de supprimer l’élément"
   error_can_not_delete_custom_field: "Impossible de supprimer le champ personnalisé"
+  error_can_not_delete_in_use_archived_undisclosed: 'Des lots de travaux sont également repris dans les projets archivés. Vous devez demander à un administrateur d''effectuer la suppression pour voir quels projets sont affectés.'
+  error_can_not_delete_in_use_archived_work_packages: 'Il y a aussi des lots de travaux dans les projets archivés. Vous devez d''abord réactiver les projets suivants avant de pouvoir modifier l''attribut des lots de travaux respectifs : %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Ce type contient des lots de travaux et ne peut pas être supprimé. Vous pouvez voir tous les lots de travaux concernés dans <a target="_blank" href="%{url}">cette vue</a>.'
-    archived_projects: 'Il y a aussi des lots de travaux dans les projets archivés. Vous devez d''abord réactiver les projets suivants avant de pouvoir modifier le type des lots de travaux respectifs : %{archived_projects}'
   error_can_not_delete_standard_type: "Les types standards ne peuvent pas être supprimés."
   error_can_not_invite_user: "Échec de l'envoi de l'invitation à l'utilisateur."
   error_can_not_remove_role: "Ce rôle est utilisé et ne peut être supprimé."
@@ -1322,12 +1329,13 @@ fr:
   error_can_not_unarchive_project: "Ce projet ne peut être désarchivé : %{errors}"
   error_check_user_and_role: "Veuillez choisir un utilisateur et un rôle."
   error_code: "Erreur %{code}"
+  error_color_could_not_be_saved: "La couleur n'a pas pu être enregistrée"
   error_cookie_missing: 'Le cookie OpenProject est manquant. Assurez-vous que les cookies sont activés, sans quoi cette application ne fonctionnera pas correctement.'
   error_custom_option_not_found: "L'option n'existe pas."
   error_enterprise_activation_user_limit: "Votre compte n'a pas pu être activé (limite d'utilisateurs atteinte). Veuillez contacter votre administrateur pour obtenir l'accès."
   error_enterprise_token_invalid_domain: "La version Entreprise n'est pas active. Le domaine de votre jeton Entreprise (%{actual}) ne correspond pas au nom d'hôte du système (%{expected})."
   error_failed_to_delete_entry: 'Échec lors de la suppression de cette entrée.'
-  error_in_dependent: "Erreur lors de la tentative de modification de l'objet dépendant : %{dependent_class} #%{related_id} - %{related_subject} : %{error}" #%{related_id} - %{related_subject} : %{error}"
+  error_in_dependent: "Erreur lors de la tentative de modification de l'objet dépendant : %{dependent_class} #%{related_id} - %{related_subject} : %{error}"
   error_in_new_dependent: "Erreur lors de la tentative de création d'un objet dépendant : %{dependent_class} - %{related_subject} : %{error}"
   error_invalid_selected_value: "Valeur sélectionnée invalide."
   error_journal_attribute_not_present: "Le journal ne contient pas l’attribut %{attribute}."
@@ -1346,6 +1354,7 @@ fr:
   error_password_change_failed: 'Une erreur s''est produite en essayant de changer le mot de passe.'
   error_scm_command_failed: "Une erreur s'est produite en essayant d'accéder au dépôt: %{value}"
   error_scm_not_found: "L'entrée ou la révision n'a pas été trouvée dans le dépôt."
+  error_type_could_not_be_saved: "Le type n'a pas pu être enregistré"
   error_unable_delete_status: "Le statut de lot de travaux ne peut pas être supprimé tant qu'il est utilisé par au moins un lot de travaux."
   error_unable_delete_default_status: "Impossible de supprimer le statut par défaut des lots de travaux. Veuillez sélectionner un autre statut par défaut avant de supprimer l'actuel."
   error_unable_to_connect: "Impossible de se connecter (%{value})"
@@ -1382,11 +1391,14 @@ fr:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF avec descriptions"
-      pdf_with_descriptions_and_attachments: "PDF avec descriptions et pièces jointes"
-      pdf_with_attachments: "PDF avec pièces jointes"
+      pdf_overview_table: "Tableau PDF"
+      pdf_report_with_images: "Rapport PDF avec images"
+      pdf_report: "Rapport PDF"
     image:
       omitted: "Image non exportée."
+    units:
+      hours: h
+      days: j
   extraction:
     available:
       pdftotext: "Pdftotext disponible (optionnel)"
@@ -1432,6 +1444,25 @@ fr:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Les modifications ont été retirées."
+    caused_changes:
+      dates_changed: "Dates modifiées"
+      system_update: "Mise à jour OpenProject"
+    cause_descriptions:
+      work_package_predecessor_changed_times: par changement vers le prédécesseur %{link}
+      work_package_parent_changed_times: par changement vers le parent %{link}
+      work_package_children_changed_times: par changement vers l'enfant %{link}
+      work_package_related_changed_times: par changement vers %{link} connexe
+      unaccessable_work_package_changed: par changement vers un lot de travaux connexe
+      working_days_changed:
+        changed: "par changement vers des jours ouvrables (%{changes})"
+        days:
+          working: "%{day} est maintenant un jour ouvrable"
+          non_working: "%{day} est maintenant un jour non ouvrable"
+        dates:
+          working: "%{date} est maintenant un jour ouvrable"
+          non_working: "%{date} est maintenant un jour non ouvrable"
+      system_update:
+        file_links_journal: 'a ajouté des liens de fichiers aux activités'
   links:
     configuration_guide: 'Guide de configuration'
     get_in_touch: "Vous avez des questions ? Contactez-nous."
@@ -1456,6 +1487,33 @@ fr:
         action: "Action"
         expiration: "Expiration"
       indefinite_expiration: "Jamais"
+      simple_revoke_confirmation: "Voulez-vous vraiment révoquer ce jeton ?"
+      api:
+        title: "API"
+        text_hint: "Les jetons d'API permettent aux applications tierces de communiquer avec cette instance OpenProject via les API REST."
+        static_token_name: "Jeton d'API"
+        disabled_text: "Les jetons d'API ne sont pas activés par l'administrateur. Veuillez contacter votre administrateur pour utiliser cette fonctionnalité."
+      ical:
+        title: "iCalendar"
+        text_hint: "Les jetons iCalendar permettent aux utilisateurs de <a href=\"%{path}\" target=\"_blank\">s'abonner aux calendriers OpenProject</a> et d'afficher des informations à jour sur les lots de travaux provenant de clients externes."
+        disabled_text: "Les abonnements iCalendar ne sont pas activés par l'administrateur. Veuillez contacter votre administrateur pour utiliser cette fonctionnalité."
+        empty_text_hint: "Pour ajouter un jeton iCalendar, abonnez-vous à un nouveau calendrier ou à un calendrier existant depuis le module Calendrier d'un projet. Vous devez avoir les autorisations nécessaires."
+      oauth:
+        title: "OAuth"
+        text_hint: "Les jetons OAuth permettent à des applications tierces de se connecter à cette instance OpenProject."
+        empty_text_hint: "Il n'y a pas d'accès à des applications tierces configuré et actif pour vous. Veuillez contacter votre administrateur pour activer cette fonctionnalité."
+      rss:
+        title: "RSS"
+        text_hint: "Les jetons RSS permettent aux utilisateurs de suivre les derniers changements de cette instance OpenProject via un lecteur RSS externe."
+        static_token_name: "Jeton RSS"
+        disabled_text: "Les jetons RSS ne sont pas activés par l'administrateur. Veuillez contacter votre administrateur pour utiliser cette fonctionnalité."
+      storages:
+        title: "Espaces de stockage des fichiers"
+        text_hint: "Les jetons de stockage de fichiers connectent cette instance OpenProject à une solution de stockage de fichiers externe."
+        empty_text_hint: "Il n'y a pas d'accès à l'espace de stockage lié à votre compte."
+        revoke_token: "Voulez-vous vraiment supprimer ce jeton ? Vous devrez vous reconnecter sur %{storage}"
+        removed: "Jeton de stockage de fichiers supprimé avec succès"
+        failed: "Une erreur s'est produite et le jeton n'a pas pu être supprimé. Veuillez réessayer plus tard."
   notifications:
     send_notifications: "Envoyer des notifications pour cette action"
     work_packages:
@@ -1498,6 +1556,7 @@ fr:
   label_age: "Âge"
   label_ago: "il y a quelques jours"
   label_all: "tous"
+  label_all_projects: "Tous les projets"
   label_all_time: "tout le temps"
   label_all_words: "Tous les mots"
   label_all_open_wps: "Tous les ouverts"
@@ -1506,8 +1565,15 @@ fr:
   label_api_access_key: "Clé d'accès API"
   label_api_access_key_created_on: "Clé d'accès API créé il y a %{value}"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "Jeton iCalendar « %{token_name} » pour « %{calendar_name} » dans « %{project_name} »"
+  label_ical_access_key_not_present: "Jeton(s) iCalendar absent(s)."
+  label_ical_access_key_generation_hint: "Généré automatiquement lors de l'abonnement à un calendrier."
+  label_ical_access_key_latest: "Dernier"
+  label_ical_access_key_revoke: "Révoquer"
   label_applied_status: "Statut appliqué"
   label_archive_project: "Archiver le projet"
+  label_archived_projects: "Projets archivés"
   label_ascending: "Croissant"
   label_assigned_to_me_work_packages: "Lots de Travaux m'étant assignés"
   label_associated_revisions: "Révisions associées"
@@ -1516,9 +1582,9 @@ fr:
   label_attachment_plural: "Fichiers"
   label_attribute: "Attribut"
   label_attribute_plural: "Attributs"
-  label_auth_source: "Mode d'authentification"
-  label_auth_source_new: "Nouveau mode d'authentification"
-  label_auth_source_plural: "Modes d'authentification"
+  label_ldap_auth_source_new: "Nouvelle connexion LDAP"
+  label_ldap_auth_source: "Connexion LDAP"
+  label_ldap_auth_source_plural: "Connexions LDAP"
   label_authentication: "Authentification"
   label_available_project_work_package_categories: 'Catégories de lots de travaux disponibles'
   label_available_project_work_package_types: 'Types de paquet de travail disponible'
@@ -1541,6 +1607,7 @@ fr:
   label_bulk_edit_selected_work_packages: "Edition en masse des Lots de Travaux selectionnés"
   label_bundled: '(Inclus)'
   label_calendar: "Calendrier"
+  label_calendars_and_dates: "Calendriers et dates"
   label_calendar_show: "Afficher le calendrier"
   label_category: "Catégorie"
   label_consent_settings: "Accord de l'utilisateur"
@@ -1576,8 +1643,8 @@ fr:
   label_confirmation: "Confirmation"
   label_contains: "contenus"
   label_content: "Contenu"
+  label_color_plural: "Couleurs"
   label_copied: "copié"
-  label_copy_to_clipboard: "Copier dans le presse-papier"
   label_copy_same_as_target: "similaire à la cible"
   label_copy_source: "Source"
   label_copy_target: "Cible"
@@ -1594,6 +1661,7 @@ fr:
   label_database_version: "Version de PostgreSQL"
   label_date: "date"
   label_date_and_time: "Date et heure"
+  label_date_format: "Format de date"
   label_date_from: "De"
   label_date_from_to: "De %{start} à %{end}"
   label_date_to: "À"
@@ -1604,6 +1672,7 @@ fr:
   label_deleted: "supprimé"
   label_deleted_custom_field: "(champs personnalisés supprimés)"
   label_deleted_custom_option: "(option supprimée)"
+  label_empty_element: "(vide)"
   label_missing_or_hidden_custom_option: "(valeur manquante ou manque d'autorisations d'accès)"
   label_descending: "Décroissant"
   label_details: "Détails"
@@ -1636,16 +1705,20 @@ fr:
   label_enterprise: "Entreprise"
   label_enterprise_active_users: "%{current}/%{limit} utilisateurs actifs inscrits"
   label_enterprise_edition: "Version Entreprise"
+  label_enterprise_support: "Assistance Enterprise"
   label_environment: "Environement"
   label_estimates_and_time: "Estimations et temps"
   label_equals: "est"
   label_everywhere: "partout"
   label_example: "Exemple"
+  label_experimental: "Expérimental"
+  label_i_am_member: "Je suis membre"
   label_import: "Importer"
   label_export_to: "Aussi disponible en :"
   label_expanded_click_to_collapse: "Déplié. Cliquez pour replier"
   label_f_hour: "%{value} heure"
   label_f_hour_plural: "%{value} heures"
+  label_favoured: "Favoris"
   label_feed_plural: "Fluxs"
   label_feeds_access_key: "Clé d'accès RSS"
   label_feeds_access_key_created_on: "Clé d'accès RSS créé il y a %{value}"
@@ -1677,6 +1750,7 @@ fr:
   label_hierarchy_leaf: "Feuille de hiérarchie"
   label_home: "Accueil"
   label_subject_or_id: "Objet ou ID"
+  label_calendar_subscriptions: "Abonnements au calendrier"
   label_impressum: "Mentions légales"
   label_in: "dans"
   label_in_less_than: "dans moins de"
@@ -1698,6 +1772,7 @@ fr:
   label_journal: "Journal"
   label_journal_diff: "Comparaison de description"
   label_language: "Langue"
+  label_languages: "Langues"
   label_jump_to_a_project: "Aller à un projet…"
   label_keyword_plural: 'Mots clés'
   label_language_based: "Basé sur le langage de l'utilisateur"
@@ -1719,6 +1794,7 @@ fr:
   label_logged_as: "Connecté en tant que"
   label_login: "Connexion"
   label_custom_logo: "Logo personnalisé"
+  label_custom_export_logo: "Logo d'exportation personnalisé"
   label_custom_favicon: "Favicon personnalisé"
   label_custom_touch_icon: "Icône de contact personnalisé"
   label_logout: "Déconnexion"
@@ -1755,6 +1831,7 @@ fr:
   label_more_than_ago: "il y a plus de quelques jours"
   label_move_work_package: "Déplacer le Lot de Travaux"
   label_my_account: "Mon compte"
+  label_my_activity: "Mon activité"
   label_my_account_data: "Info sur mon compte"
   label_my_projects: "Mes projets"
   label_my_queries: "Mes requêtes personnalisées"
@@ -1805,7 +1882,6 @@ fr:
   label_password_rule_special: "Caractères spéciaux"
   label_password_rule_uppercase: "Majuscules"
   label_path_encoding: "Encodage du chemin d'accès"
-  label_pdf_with_descriptions: "PDF avec Descriptions"
   label_per_page: "Par page"
   label_people: "Participants"
   label_permissions: "Autorisations"
@@ -1827,7 +1903,6 @@ fr:
   label_principal_search: "Ajouter des utilisateurs ou groupes existant"
   label_privacy_policy: "Politique de confidentialité et de sécurité des données"
   label_product_version: "Version du produit"
-  label_professional_support: "Support professionnel"
   label_profile: "Profil"
   label_project_activity: "Activité du projet"
   label_project_attribute_plural: "Attributs du projet"
@@ -1839,7 +1914,8 @@ fr:
   label_project_new: "Nouveau projet"
   label_project_plural: "Projets"
   label_project_settings: "Paramètres du projet"
-  label_project_storage_plural: "Stockages"
+  label_project_storage_plural: "Espaces de stockage des fichiers"
+  label_project_storage_project_folder: "Espaces de stockage des fichiers : dossiers du projet"
   label_projects_storage_information: "%{count} projets utilisant %{storage} d'espace disque"
   label_project_view_all: "Afficher tous les projets"
   label_project_show_details: "Afficher les détails du projet"
@@ -1890,7 +1966,7 @@ fr:
   label_role_search: "Assigner un rôle aux nouveaux membres"
   label_scm: "SCM"
   label_search: "Recherche"
-  label_send_information: "Envoyer informations du compte à l'utilisateur"
+  label_send_information: "Envoyer de nouveaux identifiants à l'utilisateur"
   label_send_test_email: "Envoyer un courriel de test"
   label_setting_plural: "Paramètres"
   label_system_settings: "Paramètres système"
@@ -1927,6 +2003,7 @@ fr:
   label_this_week: "cette semaine"
   label_this_year: "cette année"
   label_time_entry_plural: "Temps passé"
+  label_title: "Titre"
   label_projects_menu: "Projets"
   label_today: "aujourd'hui"
   label_top_menu: "Menu du haut"
@@ -1958,6 +2035,7 @@ fr:
   label_user_plural: "Utilisateurs"
   label_user_search: "Recherche d'Utilisateurs"
   label_user_settings: "Paramètres de l'utilisateur"
+  label_users_settings: "Paramètres des utilisateurs"
   label_version_new: "Nouvelle version"
   label_version_plural: "Versions"
   label_version_sharing_descendants: "Avec sous-projets"
@@ -2029,10 +2107,7 @@ fr:
   label_global_role: "Rôle global"
   label_not_changeable: "(non modifiable)"
   label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "Impossible d'utiliser une source d'authentification abstraite."
-    ldap_error: "Erreur LDAP : %{error_message}"
-    ldap_auth_failed: "Ne peut s'authentifier sur le serveur LDAP."
+  label_seeded_from_env_warning: Cet enregistrement a été créé grâce à une variable paramètre/environnement. Il n'est pas modifiable via l'interface utilisateur.
   macro_execution_error: "Erreur lors de l'exécution de la macro %{macro_name}"
   macro_unavailable: "La macro %{macro_name} ne peut être affichée."
   macros:
@@ -2076,6 +2151,7 @@ fr:
       more_to_see:
         one: 'Il y a encore 1 lot de travaux avec des notifications.'
         other: 'Il y a encore %{count} lots de travaux avec des notifications.'
+      open_in_browser: 'Ouvrir dans le navigateur'
       reason:
         watched: 'Surveillé'
         assigned: 'Assigné'
@@ -2100,6 +2176,10 @@ fr:
   mail_body_incoming_email_error_in_reply_to: "Le %{received_at} %{from_email} a écrit"
   mail_body_incoming_email_error_logs: "Journaux"
   mail_body_lost_password: "Pour changer votre mot de passe, cliquez sur le lien suivant:"
+  mail_password_change_not_possible:
+    title: "Modification du mot de passe impossible"
+    body: "Votre compte sur %{app_title} est connecté à un fournisseur d'authentification externe (%{name})."
+    subtext: "Les mots de passe pour le compte externe ne peuvent pas être modifiés dans l'application. Veuillez utiliser la fonctionnalité de réinitialisation de mot de passe de votre fournisseur d'authentification."
   mail_body_register: "Bienvenue sur %{app_title}. Veuillez activer votre compte en cliquant sur ce lien :"
   mail_body_register_header_title: "E-mail d'invitation du membre du projet"
   mail_body_register_user: "Chère/cher %{name}, "
@@ -2220,7 +2300,7 @@ fr:
   present_access_key_value: "Votre %{key_name} est : %{value}"
   notice_automatic_set_of_standard_type: "Fixer le type standard automatiquement."
   notice_logged_out: "Vous avez été déconnecté."
-  notice_wont_delete_auth_source: Cette méthode d'authentification ne peut être supprimée tant qu'elle est utilisée par un utilisateur.
+  notice_wont_delete_auth_source: La connexion LDAP ne peut pas être supprimée tant que des utilisateurs l'utilisent.
   notice_project_cannot_update_custom_fields: "Vous ne pouvez pas mettre à jour les champs personnalisés disponibles du projet. Le projet n’est pas valide : %{errors}"
   notice_attachment_migration_wiki_page: >
     Cette page a été générée automatiquement durant la mise à jour de OpenProject. Il contient toutes les pièces jointes précédemment associées à la %{container_type} « %{container_name} ».
@@ -2254,7 +2334,8 @@ fr:
   permission_add_messages: "Poster des messages"
   permission_add_project: "Créer un projet"
   permission_archive_project: "Archiver le projet"
-  permission_manage_user: "Créer et éditer des utilisateurs"
+  permission_create_user: "Créer des utilisateurs"
+  permission_manage_user: "Modifier les utilisateurs"
   permission_manage_placeholder_user: "Créer, modifier et supprimer des utilisateurs fictifs"
   permission_add_subprojects: "Créer des sous-projets"
   permission_add_work_package_watchers: "Ajouter des observateurs"
@@ -2345,7 +2426,7 @@ fr:
       archived: "Archivé"
   project_module_activity: "Activité"
   project_module_forums: "Forums"
-  project_module_work_package_tracking: "Suivi des lots de travaux"
+  project_module_work_package_tracking: "Lots de Travaux"
   project_module_news: "Actualités"
   project_module_repository: "Référentiel"
   project_module_wiki: "Wiki"
@@ -2448,8 +2529,8 @@ fr:
       update_timeout: "Garder les dernières informations de l'espace disque requis pour un dépôt pendant N minutes.\nEtant donné que l'opération de comptabilisation de l'espace disque requis pour un dépôt peut être coûteuse, augmentez cette valeur pour réduire l'impact sur les performances."
       oauth_application_details: "La valeur secrète du client ne sera plus accessible après la fermeture de cette fenêtre. Veuillez copier ces valeurs dans les paramètres d'intégration Nextcloud OpenProject :"
       oauth_application_details_link_text: "Aller à la page des paramètres"
-      setup_documentation_details: "Si vous avez besoin d'aide pour configurer un nouveau stockage de fichiers, veuillez vérifier la documentation : "
-      setup_documentation_details_link_text: "Configuration du stockage des fichiers"
+      setup_documentation_details: "Si vous avez besoin d'aide pour configurer un nouvel espace de stockage des fichiers, veuillez consulter la documentation : "
+      setup_documentation_details_link_text: "Configuration de l'espace de stockage des fichiers"
       show_warning_details: "Pour utiliser ce stockage de fichiers, n'oubliez pas d'activer le module et le stockage spécifique dans les paramètres du projet de chaque projet souhaité."
     subversion:
       existing_title: "Dépôt Subversion existant"
@@ -2519,7 +2600,7 @@ fr:
   setting_consent_decline_mail: "Adresse mail de contact de l'accord"
   setting_cross_project_work_package_relations: "Autoriser les relations entre lots de travaux de projets différents"
   setting_first_week_of_year: "La première semaine de l'année contient"
-  setting_date_format: "Format de date"
+  setting_date_format: "date"
   setting_default_language: "Langage par défaut"
   setting_default_projects_modules: "Modules activés par défaut pour les nouveaux projets"
   setting_default_projects_public: "Les nouveaux projets sont publics par défaut"
@@ -2531,6 +2612,7 @@ fr:
   setting_enabled_scm: "Permettre SCM"
   setting_enabled_projects_columns: "Visible dans la liste des projets"
   setting_feeds_enabled: "Permettre les flux"
+  setting_ical_enabled: "Activer les abonnements iCalendar"
   setting_feeds_limit: "Limite du contenu du flux"
   setting_file_max_size_displayed: "Taille maximale de l'affichage du fichers texte inline"
   setting_host_name: "Nom d'hôte"
@@ -2581,9 +2663,9 @@ fr:
   setting_start_of_week: "La semaine commence le"
   setting_sys_api_enabled: "Activer le service web de gestion de dépôt"
   setting_sys_api_description: "Le service web de gestion de dépôt fournit l'intégration et l'autorisation d'accès aux dépôts."
-  setting_time_format: "Format d'heure"
+  setting_time_format: "Heure"
   setting_accessibility_mode_for_anonymous: "Activer le mode d'accessibilité pour les utilisateurs anonymes"
-  setting_user_format: "Utilisateur affiche format"
+  setting_user_format: "Format du nom d'utilisateur"
   setting_user_default_timezone: "Fuseau horaire par défaut des utilisateurs"
   setting_users_deletable_by_admins: "Comptes utilisateurs effaçables par admins"
   setting_users_deletable_by_self: "Utilisateurs autorisés à supprimer leur compte"
@@ -2592,29 +2674,22 @@ fr:
   setting_welcome_on_homescreen: "Afficher le bloc de bienvenue sur l'écran d'accueil"
   setting_work_package_list_default_highlighting_mode: "Mode de surbrillance par défaut"
   setting_work_package_list_default_highlighted_attributes: "Attributs en ligne mis en surbrillance par défaut"
+  setting_working_days: "Jours ouvrés"
   settings:
-    general: "Général"
-    other: "Autre"
-    passwords: "Mots de passe"
-    session: "Session"
-    brute_force_prevention: "Blocage d'utilisateur automatique (pour éviter les pirates)"
     attachments:
       whitelist_text_html: >
         Définissez une liste d'extensions de fichiers et/ou de types MIME valides pour les fichiers téléversés. <br/> Entrez les extensions de fichier (par exemple, <code>%{ext_example}</code>) ou les types mime (par exemple, <code>%{mime_example}</code>). <br/> Laissez vide pour permettre le téléversement de tout type de fichier. Plusieurs valeurs autorisées (une ligne pour chaque valeur).
-    notifications:
-      events_explanation: 'Définit pour quel événement un e-mail est envoyé. Les lots de travaux sont exclus de cette liste car les notifications pour ceux-ci peuvent être configurées spécifiquement pour chaque utilisateur.'
-      delay_minutes_explanation: "L'envoi d'e-mails peut être retardé pour permettre aux utilisateurs ayant des notifications configurées dans l'application de confirmer la notification dans l'application avant l'envoi. Les utilisateurs qui lisent une notification dans l'application ne recevront pas d'e-mail pour la notification déjà lue."
-    display:
+    brute_force_prevention: "Blocage d'utilisateur automatique (pour éviter les pirates)"
+    date_format:
       first_date_of_week_and_year_set: >
-        Si une des options « %{day_of_week_setting_name} » ou « %{first_week_setting_name} » sont définies, l'autre doit être réglé aussi bien pour éviter les incohérences dans le frontend.
-      first_week_of_year_text: >
-        Sélectionnez la date de janvier qui se trouve dans la première semaine de l'année. Cette valeur ainsi que le premier jour de la semaine déterminent le nombre total de semaines dans une année.
-    projects:
-      section_new_projects: "Paramètres pour les nouveaux projets"
-      section_project_overview: "Paramètres de la liste des projets"
-    user:
-      default_preferences: "Préférences par défaut"
-      deletion: "Suppression"
+        Si l'option « %{day_of_week_setting_name} » ou « %{first_week_setting_name} » est définie, l'autre option doit également être réglée pour éviter les incohérences dans le frontend.
+      first_week_of_year_text_html: >
+        Sélectionnez la date de janvier contenue dans la première semaine de l'année. Cette valeur ainsi que le premier jour de la semaine détermine le nombre total de semaines dans une année. Pour en savoir plus, consultez notre <a href="%{link}" target="_blank">documentation</a> à ce sujet.
+    experimental:
+      save_confirmation: Attention ! Risque de perte de données ! Activez les fonctionnalités expérimentales uniquement si vous pouvez vous permettre de perturber votre installation OpenProject et de perdre vos données.
+      warning_toast: Les indicateurs de fonctionnalités sont des paramètres qui permettent d'activer des fonctionnalités qui sont encore en cours de développement. Elles ne doivent être utilisées qu'à des fins de test. Elles ne seront jamais activées sur les installations OpenProject contenant des données importantes. Ces fonctionnalités vont très probablement corrompre vos données. Utilisez-les à vos propres risques.
+      feature_flags: Indicateurs de fonctionnalités
+    general: "Général"
     highlighting:
       mode_long:
         inline: "Mettre en surbrillance le(s) attribut(s) en ligne"
@@ -2622,6 +2697,25 @@ fr:
         status: "Ligne entière par Statut"
         type: "Ligne entière par Type"
         priority: "Ligne entière par Priorité"
+    icalendar:
+      enable_subscriptions_text_html: Permet aux utilisateurs disposant des autorisations nécessaires de s'abonner aux calendriers OpenProject et d'accéder aux informations du lot de travaux par le biais d'un client de calendrier externe. <strong>Note :</strong> veuillez lire les abonnements à <a href="%{link}" target="_blank">iCalendar</a> pour comprendre les risques potentiels de sécurité avant de l'activer.
+    language_name_being_default: '%{language_name} (par défaut)'
+    notifications:
+      events_explanation: 'Définit pour quel événement un e-mail est envoyé. Les lots de travaux sont exclus de cette liste car les notifications pour ceux-ci peuvent être configurées spécifiquement pour chaque utilisateur.'
+      delay_minutes_explanation: "L'envoi d'e-mails peut être retardé pour permettre aux utilisateurs ayant des notifications configurées dans l'application de confirmer la notification dans l'application avant l'envoi. Les utilisateurs qui lisent une notification dans l'application ne recevront pas d'e-mail pour la notification déjà lue."
+    other: "Autre"
+    passwords: "Mots de passe"
+    projects:
+      section_new_projects: "Paramètres pour les nouveaux projets"
+      section_project_overview: "Paramètres de la liste des projets"
+    session: "Session"
+    user:
+      default_preferences: "Préférences par défaut"
+      display_format: "Format d'affichage"
+      deletion: "Suppression"
+    working_days:
+      section_work_week: "Semaine de travail"
+      section_holidays_and_closures: "Vacances et fermetures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Texte brut'
@@ -2654,18 +2748,18 @@ fr:
     Lorsque vous utilisez des champs personnalisés : n’oubliez pas que les champs personnalisés doivent être activés par projet également.
   text_custom_field_hint_activate_per_project_and_type: >
     Les champs personnalisés doivent être activés par type de lot de travaux et par projet.
-  text_wp_custom_field_html: >
-    L'édition Entreprise ajoutera ces add-ons supplémentaires pour les champs personnalisés des lots de travaux : <br> <ul> <li><b>Autoriser la sélection multiple pour les champs personnalisés de type Liste ou Utilisateur</b></li> </ul>
   text_wp_status_read_only_html: >
     L'édition Entreprise ajoutera ces add-ons supplémentaires pour les champs de statut des lots de travaux : <br> <ul> <li><b>Permet de marquer les lots de travaux en lecture seule pour des statuts spécifiques</b></li> </ul>
   text_project_custom_field_html: >
     L'édition Entreprise ajoutera ces add-ons supplémentaires pour les champs personnalisés des projets : <br> <ul> <li><b>Ajouter des champs personnalisés pour les projets à votre liste de projets pour créer une vue du portefeuille de projets</b></li> </ul>
   text_custom_logo_instructions: >
     Un logo blanc sur fond transparent est recommandé. Pour obtenir les meilleurs résultats sur les deux, affichage classique et retina, assurez-vous que les dimensions de votre image soient de 460px par 60px.
+  text_custom_export_logo_instructions: >
+    Il s'agit du logo qui apparaît dans vos exportations PDF. Il doit s'agir d'un fichier image PNG ou JPEG. Un logo noir ou coloré sur fond transparent ou blanc est recommandé.
   text_custom_favicon_instructions: >
-    Il s’agit de la petite icône qui apparaît dans votre fenêtre/onglet de navigateur à côté du titre de la page. Il doit être un carré de 32 par 32 pixels au format d'image PNG avec un fond transparent.
+    Il s'agit de la petite icône qui apparaît dans la fenêtre/onglet de votre navigateur à côté du titre de la page. Il doit s'agir d'une image PNG carrée de 32 pixels x 32 pixels avec un fond transparent.
   text_custom_touch_icon_instructions: >
-    Il s’agit de l’icône qui apparaît dans votre mobile ou tablette lorsque vous placez un marque-page sur votre écran d’accueil. Il doit être un carré de 180 par 180 pixels au format d'image PNG. S’il vous plaît assurez-vous que l'arrière-plan de l’image ne soit pas transparente sinon il aura un mauvais affichage sur iOS.
+    Il s'agit de l'icône qui apparaît dans votre appareil mobile ou tablette lorsque vous placez un signet sur votre écran d'accueil. Il doit s'agir d'une image PNG carrée de 180 pixels x 180 pixels. Veuillez vous assurer que l'arrière-plan de l'image n'est pas transparent, sans quoi son apparence sera peu adaptée sur iOS.
   text_database_allows_tsv: "La base de données permet TSVector (facultatif)"
   text_default_administrator_account_changed: "Changement du compte Administrateur par defaut"
   text_default_encoding: "Défaut: UTF-8"
@@ -2691,12 +2785,16 @@ fr:
   text_work_packages_destroy_confirmation: "Êtes-vous sûr de vouloir supprimer le(s) lot(s) de travaux sélectionné(s) ?"
   text_work_packages_ref_in_commit_messages: "Referencer et réparer les Lot(s) de Travaux dans les messages « commit »"
   text_journal_added: "%{label} %{value} ajouté"
+  text_journal_attachment_added: "%{label} %{value} ajouté en pièce jointe"
+  text_journal_attachment_deleted: "%{label} %{old} supprimé en tant que pièce jointe"
   text_journal_changed_plain: "%{label} changé de %{old} %{linebreak}à %{new}"
   text_journal_changed_no_detail: "%{label} mis à jour"
   text_journal_changed_with_diff: "%{label} changé (%{link})"
   text_journal_deleted: "%{label} supprimé (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} supprimé (%{link})"
+  text_journal_file_link_added: "Lien %{label} vers %{value} (%{storage}) ajouté"
+  text_journal_file_link_deleted: "Lien %{label} vers %{old} (%{storage}) supprimé"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} mis à %{value}"
   text_journal_set_with_diff: "%{label} mis (%{link})"
@@ -2742,6 +2840,11 @@ fr:
   text_zoom_in: "Zoomer"
   text_zoom_out: "Dézoomer"
   text_setup_mail_configuration: "Configurer votre fournisseur de messagerie"
+  help_texts:
+    views:
+      project: "%{plural} sont encore joints à un projet. Après avoir créé un %{singular}, vous pouvez y ajouter des lots de travaux d'autres projets."
+      public: "Publiez cette vue pour permettre à d'autres utilisateurs d'accéder à votre vue. Les utilisateurs ayant la permission « Gérer les vues publiques » peuvent modifier ou supprimer la requête publique. Cela n'affecte pas la visibilité des lots de travaux dans cette vue et les utilisateurs peuvent voir des résultats différents en fonction de leurs permissions."
+      favoured: "Marquez cette vue comme favorite et ajoutez-la à la barre latérale des vues enregistrées sur la gauche."
   time:
     am: "matin"
     formats:
@@ -2754,153 +2857,6 @@ fr:
     show: "Afficher période"
     end: "pour"
     start: "de"
-  timelines:
-    admin_menu:
-      color: "Couleur"
-      colors: "Couleurs"
-    associations: "Dépendances"
-    button_delete_all: "Tout supprimer"
-    change: "Changement dans la planification"
-    children: "Éléments enfants"
-    color_could_not_be_saved: "La couleur n'a pas pu être enregistrée"
-    current_planning: "Planification actuelle"
-    dates: "Dates"
-    dates_are_calculated_based_on_sub_elements: "Les dates sont calculées sur la base des sous-éléments."
-    delete_all: "Tout supprimer"
-    delete_thing: "Supprimer"
-    duration: "Durée"
-    duration_days:
-      one: "un jour"
-      other: "%{count} jours"
-    edit_color: "Éditer la couleur"
-    edit_thing: "Éditer"
-    edit_timeline: "Éditer la ligne du temps %{timeline}"
-    delete_timeline: "Supprimer la ligne du temps %{timeline}"
-    empty: "(vide)"
-    enable_type_in_project: 'Autorise le type « %{type} »'
-    end: "Fin"
-    errors:
-      not_implemented: "La Chronologie ne peut être affiché parce qu’il utilise une fonctionnalité qui n'est pas encore implémentée."
-      report_comparison: "La vue Chronologique ne peut afficher les comparaisons configurées. Veuillez consulter la section appropriée dans la configuration, réinitialiser peut aider à résoudre ce problème."
-      report_epicfail: "La vue Chronologique ne peut pas être chargé à cause d'une erreur inattendue."
-      report_timeout: "La vue Chronologique ne peut être chargé dans un laps de temps raisonnable."
-    filter:
-      errors:
-        timeframe_start: "Début de l'échéancier"
-        timeframe_end: "Fin de l'échéancier"
-        compare_to_relative: "La valeur de la comparaison relative "
-        compare_to_absolute: "La valeur de la comparaison absolue "
-        planning_element_time_relative_one: "Le démarrage des Lots de Travaux dans un certain délai  "
-        planning_element_time_relative_two: "La fin des Lots de Travaux dans un certain délai  "
-        planning_element_time_absolute_one: "Le début pour les lots de travaux dans un certain laps de temps  "
-        planning_element_time_absolute_two: "La fin pour les lots de travaux dans un certain laps de temps  "
-      sort:
-        sortation: "Trier par"
-        alphabet: "ordre alphabetique"
-        explicit_order: "ordre explicite"
-        project_sortation: "Trier les projets par"
-        date: "date"
-        default: "défaut"
-      column:
-        assigned_to: "Assigné à"
-        type: "Type"
-        due_date: "Échéance"
-        name: "Nom"
-        status: "Statut"
-        start_date: "Date de début"
-      columns: "Colonnes"
-      comparisons: "Comparaisons"
-      comparison:
-        absolute: "Absolue"
-        none: "Aucun"
-        relative: "Relatif"
-        compare_relative_prefix: "Comparer le planning actuel à"
-        compare_relative_suffix: "Il y a"
-        compare_absolute: "Comparer le planning actuel à  %{date}"
-      time_relative:
-        days: "jours"
-        weeks: "semaines"
-        months: "mois"
-      exclude_own_work_packages: "Masquer les lots de travaux de ce projet"
-      exclude_reporters: "Masquer les autres projets"
-      exclude_empty: "Masquer les projets vides"
-      grouping: "Regroupement"
-      grouping_hide_group: "Masquer le groupe « %{group} »"
-      grouping_one: "Premier critère de groupement"
-      grouping_one_phrase: "Est un sous-projet de"
-      grouping_other: "Autre"
-      hide_chart: "Masquer le graphique"
-      noneElement: "(none)"
-      noneSelection: "(none)"
-      outline: "Expansion de ligne par défaut"
-      parent: "Afficher sous-projets de"
-      work_package_responsible: "Afficher les lots de travaux avec le responsable"
-      work_package_assignee: "Afficher les Lots de Travaux assignés à"
-      types: "Afficher types"
-      status: "Afficher statut"
-      project_time_filter: "Projets avec un Lot de Travaux d'un certain type en un certain laps de temps"
-      project_time_filter_timeframe: "Période"
-      project_time_filter_historical_from: "de"
-      project_time_filter_historical_to: "pour"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago, %{end_label} %{endspan}%{endspanunit} from now"
-      project_filters: "Filtrer les projets"
-      project_responsible: "Afficher les projets avec le responsable"
-      project_status: "Afficher statut du projet"
-      timeframe: "Afficher période"
-      timeframe_end: "pour"
-      timeframe_start: "de"
-      timeline: "Rapport de l'échéancier"
-      zoom: "Facteur de zoom"
-    history: "Historique"
-    new_color: "Nouvelle couleur"
-    new_association: "Nouvelle dépendance"
-    new_work_package: "Nouveau Lot de Travaux"
-    new_reporting: "Nouveau rapport"
-    new_timeline: "Nouvelle ligne du temps"
-    no_projects_for_reporting_available: "Il n'y a pas de projets pour lesquels une association de rapport peut être créée."
-    no_right_to_view_timeline: "Vous n'avez pas les permissions nécessaires pour consulter la ligne du temps référencée."
-    no_timeline_for_id: "Il n'y a pas de la ligne du temps avec l'ID %{id}."
-    notice_successful_deleted_all_elements: "Tous les éléments ont été supprimés avec succès"
-    outline: "Réinitialiser l'aperçu"
-    outlines:
-      aggregation: "Ne montrer que les agrégations"
-      level1: "Étendre niveau 1"
-      level2: "Étendre niveau 2"
-      level3: "Étendre 3 niveaux"
-      level4: "Déplier 4 niveaux"
-      level5: "Déplier 5 niveaux"
-      all: "Afficher tout"
-    reporting_for_project:
-      show: "État rapporté au projet : %{title}"
-      edit_delete: "rapport d'état pour le projet : %{title}"
-      history: "Historique d'état pour le projet : %{title}"
-    reporting:
-      delete: "Supprimer l'état : %{comment}"
-      edit: "Modifier l'état : %{comment}"
-      show: "État : %{comment}"
-    planning_element_update: "Mis à jour: %{title}"
-    type_could_not_be_saved: "Le type n'a pas pu être sauvegardé"
-    reporting_could_not_be_saved: "Le rapport n'a pas pu être enregistré"
-    properties: "Propriétés"
-    really_delete_color: >
-      Êtes-vous sûr de vouloir supprimer la couleur suivante ? Les types utilisant cette couleur ne seront pas supprimés.
-    really_delete_reporting: >
-      Voulez-vous vraiment supprimer le rapport suivant ? Les rapports d'état précédents seront également supprimés.
-    start: "Début"
-    timeline: "Ligne du temps"
-    timelines: "Lignes du temps"
-    settings: "Chronologie"
-    vertical_work_package: "Lots de Travaux verticaux"
-    you_are_viewing_the_selected_timeline: "Vous visualisez la ligne du temps selectionnée"
-    zoom:
-      in: "Zoomer"
-      out: "Dézoomer"
-      days: "Jours"
-      weeks: "Semaines"
-      months: "Mois"
-      quarters: "Trimestres"
-      years: "Années"
   title_remove_and_delete_user: Retirer du projet l'utilisateur invité et le supprimer.
   title_enterprise_upgrade: "Mettre à niveau pour débloquer plus d'utilisateurs."
   tooltip_user_default_timezone: >
@@ -2989,9 +2945,9 @@ fr:
       title: "Supprimer le lot de travaux"
   working_days:
     info: >
-      <b>Définir les jours considérés comme une partie de la semaine de travail</b><br/> Les jours qui ne sont pas sélectionnés sont ignorés lors de la planification des lots de travaux (et non inclus dans le nombre de jours). Ils peuvent être remplacés au niveau du lot de travaux.
+      Les jours qui ne sont pas sélectionnés sont ignorés lors de la planification des lots de travaux (et non inclus dans le nombre de jours). Ils peuvent être remplacés au niveau du lot de travaux.
     instance_wide_info: >
-      <b>Les jours spécifiques non prestés (jours fériés et fermetures)</b><br/> Les dates ajoutées à la liste ci-dessous sont considérées comme non ouvrables et ignorées lors de la planification des lots de travaux.
+      Les dates ajoutées à la liste ci-dessous sont considérées comme non fonctionnelles et ignorées lors de la planification des lots de travaux.
     change_button: "Changer les jours ouvrables"
     warning: >
       La modification des jours de la semaine qui sont considérés comme des jours travaillés ou des jours non travaillés peut affecter les jours de début et de fin de tous les lots de travaux de tous les projets dans ce cas. <br/> Veuillez noter que les modifications ne sont appliquées qu'après que vous ayez cliqué sur le bouton appliquer les modifications.
@@ -3017,6 +2973,7 @@ fr:
       code_409: "Impossible de mettre à jour la ressource en raison de modifications conflictuelles."
       code_429: "Trop de demandes, Veuillez réessayer ultérieurement."
       code_500: "Une erreur interne s'est produite."
+      code_500_outbound_request_failure: "Une requête sortante vers une autre ressource a échoué avec le code de statut %{status_code}."
       not_found:
         work_package: "Le lot de travaux que vous cherchez est introuvable ou a été supprimé."
       expected:

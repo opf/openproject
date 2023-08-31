@@ -3,15 +3,16 @@ require 'net/ldap/dn'
 
 module LdapGroups
   class SynchronizedFilter < ApplicationRecord
-    belongs_to :auth_source
+    belongs_to :ldap_auth_source
 
     has_many :groups,
              class_name: '::LdapGroups::SynchronizedGroup',
              foreign_key: 'filter_id',
              dependent: :destroy
 
+    validates_presence_of :name
     validates_presence_of :filter_string
-    validates_presence_of :auth_source
+    validates_presence_of :ldap_auth_source
     validate :validate_filter_syntax
     validate :validate_base_dn
 
@@ -20,7 +21,14 @@ module LdapGroups
     end
 
     def used_base_dn
-      base_dn.presence || auth_source.base_dn
+      base_dn.presence || ldap_auth_source.base_dn
+    end
+
+    def seeded_from_env?
+      return false if ldap_auth_source.nil?
+
+      ldap_auth_source&.seeded_from_env? &&
+        Setting.seed_ldap.dig(ldap_auth_source.name, 'groupfilter', name)
     end
 
     private
@@ -32,9 +40,9 @@ module LdapGroups
     end
 
     def validate_base_dn
-      return unless base_dn.present? && auth_source.present?
+      return unless base_dn.present? && ldap_auth_source.present?
 
-      unless base_dn.end_with?(auth_source.base_dn)
+      unless base_dn.end_with?(ldap_auth_source.base_dn)
         errors.add :base_dn, :must_contain_base_dn
       end
     end

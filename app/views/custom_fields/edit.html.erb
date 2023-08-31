@@ -27,7 +27,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render :partial => 'custom_fields_header' %>
+<% content_controller 'admin--custom-fields',
+                      dynamic: true,
+                      'admin--custom-fields-format-value': @custom_field.field_format
+%>
 
 <% html_title t(:label_administration), "#{t(:label_edit)} #{CustomField.model_name.human} #{h @custom_field.name}" %>
 

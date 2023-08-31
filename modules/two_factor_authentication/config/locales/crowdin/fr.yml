@@ -68,8 +68,8 @@ fr:
       delete_all_are_you_sure: 'Êtes-vous sûr de vouloir supprimer tous les appareils 2FA pour cet utilisateur?'
       button_delete_all_devices: 'Supprimer les dispositifs 2FA inscrits'
       button_register_mobile_phone_for_user: 'Enregistrer un téléphone mobile'
-      text_2fa_enabled: 'Lors de chaque connexion, cet utilisateur sera demandé d’entrer un jeton OTP de son appareil 2FA par défaut.'
-      text_2fa_disabled: "L’utilisateur n’a pas défini un appareil 2FA via sa page \"Mon compte\""
+      text_2fa_enabled: 'Lors de chaque connexion, cet utilisateur sera invité à entrer un jeton OTP depuis son appareil 2FA par défaut.'
+      text_2fa_disabled: "L'utilisateur n'a configuré aucun appareil 2FA sur sa page « Mon compte »"
     upsale:
       title: 'Authentification à deux facteurs'
       description: 'Renforcez la sécurité de votre instance OpenProject en offrant (ou en forçant) une authentification à deux facteurs à tous les membres du projet.'

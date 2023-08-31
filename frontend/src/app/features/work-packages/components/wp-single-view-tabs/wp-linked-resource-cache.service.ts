@@ -27,13 +27,17 @@
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { input, InputState } from 'reactivestates';
+import { input, InputState } from '@openproject/reactivestates';
 import {
   filter,
   map,
   take,
 } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import {
+  firstValueFrom,
+  Observable,
+  of,
+} from 'rxjs';
 
 interface CacheInput<T> {
   id:string;
@@ -90,12 +94,7 @@ export abstract class WorkPackageLinkedResourceCache<T> {
   }
 
   public require(workPackage:WorkPackageResource, force = false):Promise<T> {
-    return this
-      .requireAndStream(workPackage, force)
-      .pipe(
-        take(1),
-      )
-      .toPromise();
+    return firstValueFrom(this.requireAndStream(workPackage, force));
   }
 
   public clear(workPackageId:string|null) {

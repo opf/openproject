@@ -90,12 +90,10 @@ $nm-color-success-background: #d8fdd1
 
   li
     list-style-type: none
-    flex-grow: 1
 
   .toolbar-item
-    margin: 0 10px 10px 0
-    // spacing between nav items
-    flex-grow: 1
+    margin-right: 10px
+    margin-bottom: 5px
 
     // hide right margin for e.g., conditional buttons
     &.-no-spacing
@@ -103,6 +101,9 @@ $nm-color-success-background: #d8fdd1
 
     &.-no-grow
       flex-grow: 0
+
+    a.button
+      text-decoration: none
 
     .button
       overflow: hidden
@@ -204,7 +205,6 @@ $nm-color-success-background: #d8fdd1
 .title-container
   flex: 1 1
   white-space: nowrap
-  margin-bottom: 10px
   max-width: 100%
   // margin-bottom of toolbar buttons
 
@@ -224,8 +224,8 @@ $nm-color-success-background: #d8fdd1
     color: var(--toolbar-title-color)
     line-height: 34px
     height: 34px
-    @include breakpoint(medium down)
-      font-size: var(--h2-font-size)
+    @media screen and (max-width: $breakpoint-md)
+      font-size: 1.5rem
 
     &:focus, &:hover
       outline: 1px solid #ddd
@@ -242,7 +242,7 @@ $nm-color-success-background: #d8fdd1
     -moz-margin: 10px 0
     margin: 9px 0
     color: var(--toolbar-title-color)
-    font-size: var(--h2-font-size)
+    font-size: 1.5rem
     height: 36px
     line-height: 36px
     width: calc(100% + 2px)
@@ -284,7 +284,7 @@ $nm-color-success-background: #d8fdd1
   .toolbar-input-group--affix
     background: var(--toolbar-item--bg-color)
     border: 1px solid var(--toolbar-item--border-color)
-    color: $inlinelabel-color
+    color: var(--body-font-color)
     border-radius: 2px
     white-space: nowrap
 

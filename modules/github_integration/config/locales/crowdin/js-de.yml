@@ -39,3 +39,13 @@ de:
       tab_prs:
         empty: 'Es sind noch keine Pull-Requests verknüpft. Verknüpfen Sie eine existierende PR mit dem Code <code>OP#%{wp_id}</code> in der PR-Beschreibung oder erstellen Sie einen neuen PR.'
       github_actions: Aktionen
+      pull_requests:
+        message: "Pull-Request #%{pr_number} %{pr_link} für %{repository_link} verfasst von %{github_user_link} wurde %{pr_state}."
+        merged_message: "Pull Request #%{pr_number} %{pr_link} für %{repository_link} wurde %{pr_state} von %{github_user_link}."
+        referenced_message: "Pull-Request #%{pr_number} %{pr_link} für %{repository_link} verfasst von %{github_user_link} hat dieses Arbeitspaket verknüpft."
+        states:
+          opened: 'geöffnet'
+          closed: 'geschlossen'
+          draft: 'entworfen'
+          merged: 'zusammengeführt'
+          ready_for_review: 'als bereit zur Einsicht markiert'

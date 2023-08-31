@@ -44,10 +44,6 @@ OpenProject::Application.routes.draw do
 
         resources :tasks,            controller: :rb_tasks,            only: %i[create update]
 
-        resources :export_card_configurations, controller: :rb_export_card_configurations, only: %i[index show] do
-          resources :stories, controller: :rb_stories, only: [:index]
-        end
-
         resources :stories, controller: :rb_stories, only: %i[create update]
       end
 

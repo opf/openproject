@@ -26,6 +26,8 @@ si:
         position: "තත්ත්වය"
         remaining_hours: "ඉතිරි පැය"
         remaining_time: "ඉතිරි පැය"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "කතන්දර කරුණු"
         backlogs_work_package_type: "බැක්ලොග් වර්ගය"
     errors:
@@ -35,9 +37,6 @@ si:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "පමණක් වත්මන් ස්ප්රින්ට් වැඩ පැකේජ IDS අඩංගු විය හැක."
               must_block_at_least_one_work_package: "අවම වශයෙන් එක් ටිකට් පතක හැඳුනුම්පත අඩංගු විය යුතුය."
-            parent_id:
-              parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and therefore cannot have a parent outside of the current project."
-              type_must_be_one_of_the_following: "වර්ගය පහත සඳහන් එකක් විය යුතුය: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "මව් කතාවේ අනුවාදයට සමාන විය යුතුය."
         sprint:
@@ -78,7 +77,6 @@ si:
     x_more: "%{count} තවත්..."
   backlogs_active: "ක්රියාකාරී"
   backlogs_any: "ඔනෑම"
-  backlogs_card_specification: "කාඩ් මුද්රණය සඳහා ලේබල් වර්ග"
   backlogs_inactive: "ව්යාපෘතිය කිසිදු ක්රියාකාරකමක් පෙන්වයි"
   backlogs_points_burn_direction: "ලකුණු ඉහළ/පහළ පිළිස්සීම"
   backlogs_product_backlog: "නිෂ්පාදන බැක්ලොග්"

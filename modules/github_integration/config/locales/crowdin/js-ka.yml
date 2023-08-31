@@ -25,17 +25,27 @@ ka:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull requests"
+        title: "პულის მოთხოვნები"
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Git-ის სნიპეტები
+          description: Git-ის სნიპეტების ბუფერში კოპირება
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          branch_name: ბრენჩის სახელი
+          commit_message: კომიტის შეტყობინება
+          cmd: ახალი ბრენჩის შექმნა ცარიელი კომიტით
+          title: სწრაფი სნიპეტები Git-სთვის
+          copy_success: '✅ დაკოპირდა!'
+          copy_error: '❌ კოპირების შეცდომა!'
       tab_prs:
-        empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
-      github_actions: Actions
+        empty: 'Pull მოთხოვნები ჯერ არ არსებობს. მიამაგრეთ არსებული PR კოდით  <code>OP#%{wp_id}</code> PR-ის აღწერაში ან ახალი PR შექმენით.'
+      github_actions: ქმედებები
+      pull_requests:
+        message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}."
+        merged_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
+        referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
+        states:
+          opened: 'ღიაა'
+          closed: 'დახურულია'
+          draft: 'შედგენილია'
+          merged: 'შერწყმულია'
+          ready_for_review: 'marked ready for review'

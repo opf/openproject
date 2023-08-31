@@ -2,9 +2,10 @@
 ar:
   permission_view_team_planner: "عرض مخطط الفريق"
   permission_manage_team_planner: "إدارة مخطط الفريق"
-  project_module_team_planner_view: "مخطط الفريق"
+  project_module_team_planner_view: "مخططي الفريق"
   team_planner:
     label_team_planner: "مخطط الفريق"
+    label_new_team_planner: "New team planner"
     label_create_new_team_planner: "إنشاء مخطط فريق جديد"
     label_team_planner_plural: "مخططي الفريق"
     label_assignees: "المعينون"

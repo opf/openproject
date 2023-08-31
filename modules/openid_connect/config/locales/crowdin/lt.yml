@@ -9,7 +9,7 @@ lt:
         identifier: Identifikatorius
         secret: Paslaptis
         scope: Apimtis
-        limit_self_registration: Limit self registration
+        limit_self_registration: Riboti savarankišką registraciją
   openid_connect:
     menu_title: OpenID tiekėjai
     providers:
@@ -19,5 +19,9 @@ lt:
       plural: OpenID tiekėjai
       singular: OpenID tiekėjas
     setting_instructions:
+      azure_graph_api: >
+        Naudotojo duomenų atsiuntimui naudoti graph.microsoft.com. Tai turėtų būti numatyta parinktis, nebent jūs turite senesnę azure aplikaciją.
+      azure_tenant_html: >
+        Nustatykite jūsų Azure savininką. Tai valdys, kas turi prieigą prie OpenProject. Daugiau informacijos rasite <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">mūsų Azure OpenID prisijungmo naudotojo vadove</a>.
       limit_self_registration: >
-        If enabled users can only register using this provider if the self registration setting allows for it.
+        Įjungus, naudotojai gali registruotis naudodami šį tiekėją, tik jei savarankiškos registracijos nustatymas tai leidžia.

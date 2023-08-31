@@ -46,13 +46,14 @@
   .title-container_editable
     margin-left: -7px
 
-  @media only screen and (max-width: 679px)
+  @media only screen and (max-width: $breakpoint-sm)
     .work-packages-partitioned-page--content-left,
     .work-packages-partitioned-page--content-right
       min-width: initial
       max-width: 100vw
       max-height: 100%
-
+      
+  @media only screen and (max-width: $breakpoint-md)
     .toolbar
       display: grid
       grid-template-columns: 1fr auto

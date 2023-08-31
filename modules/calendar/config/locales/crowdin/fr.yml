@@ -1,6 +1,9 @@
 #English strings go here
 fr:
+  label_calendar: "Calendrier"
   label_calendar_plural: "Calendriers"
+  label_new_calendar: "Nouveau calendrier"
   permission_view_calendar: "Voir les calendriers"
   permission_manage_calendars: "Gérer les calendriers"
-  project_module_calendar_view: "Calendrier"
+  permission_share_calendars: "S'abonner à iCalendars"
+  project_module_calendar_view: "Calendriers"

@@ -22,14 +22,4 @@
 sv:
   project_module_github: "GitHub"
   permission_show_github_content: "Show GitHub content"
-  github_integration:
-    pull_request_opened_comment: >
-      **PR öppnad:** Dra begäran %{pr_number} [%{pr_title}](%{pr_url}) för [%{repository}](%{repository_url}) har öppnats av [%{github_user}](%{github_user_url}).
-    pull_request_closed_comment: >
-      **PR Stängde:** Dra begäran %{pr_number} [%{pr_title}](%{pr_url}) för [%{repository}](%{repository_url}) har stängts av [%{github_user}](%{github_user_url}).
-    pull_request_merged_comment: >
-      **PR-sammanslagning:** Dra begäran %{pr_number} [%{pr_title}](%{pr_url}) för [%{repository}](%{repository_url}) har slagits samman av [%{github_user}](%{github_user_url}).
-    pull_request_referenced_comment: >
-      **Refererad i PR:** [%{github_user}](%{github_user_url}) refererade till detta arbetspaket i Pull-begäran %{pr_number} [%{pr_title}](%{pr_url}) på [%{repository}](%{repository_url}).
-    pull_request_ready_for_review_comment: >
-      **PR Ready for Review:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) was marked as ready for review by [%{github_user}](%{github_user_url}).
+

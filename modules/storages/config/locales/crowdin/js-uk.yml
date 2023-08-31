@@ -15,6 +15,7 @@ uk:
       choose_location: "Виберіть папку"
       types:
         nextcloud: "Nextcloud"
+        default: "Сховище"
       information:
         connection_error: >
           Деякі налаштування сховища %{storageType} не працюють. Зверніться до адміністратора %{storageType}.
@@ -30,9 +31,16 @@ uk:
           Файл із назвою «%{fileName}» уже існує в папці, у яку ви намагаєтеся вивантажити його. Що потрібно зробити?
         directory_not_writeable: "У вас немає дозволу на додання файлів у цю папку."
         dragging_many_files: "У сховище %{storageType} можна вивантажувати тільки один файл за раз."
+        dragging_folder: "У сховище %{storageType} не можна передавати папки."
         empty_folder: "Ця папка пуста."
         empty_folder_location_hint: "Натисніть кнопку нижче, щоб вивантажити файл у цю папку."
         file_not_selectable_location: "Неможливо вибрати файл під час вибору папки."
+        project_folder_no_access: >
+          У вас немає доступу до папки проєкту. Зверніться до свого адміністратора або передайте файл в інше розташування.
+        managed_project_folder_not_available: >
+          Папку проєкту з автоматичним керуванням поки не знайдено. Трохи зачекайте, перезапустіть сторінку, отримайте найновіші дані й повторіть спробу.
+        managed_project_folder_no_access: >
+          У вас немає доступу до керованої папки проєкту. Трохи зачекайте й повторіть спробу.
         upload_keep_both: "Зберегти обидва"
         upload_replace: "Замінити"
       file_links:
@@ -61,7 +69,7 @@ uk:
           other: "Створено посилання на %{count} файлу"
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+            Неможливо передати ваш файл (%{fileName}). Переконайтеся, що у вас установлено останню версію додатка Nextcloud OpenProject Integration, і зверніться до свого адміністратора, щоб дізнатися більше.
           403: >
             Ваш файл (%{fileName}) не можна вивантажити через системні обмеження. Щоб дізнатися більше, зверніться до адміністратора.
           413: >

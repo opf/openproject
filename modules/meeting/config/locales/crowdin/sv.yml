@@ -29,6 +29,7 @@ sv:
         participants: "Deltagare"
         participants_attended: "Deltagare"
         participants_invited: "Inbjudna"
+        project: "Projekt"
         start_time: "Tid"
         start_time_hour: "Starttid"
     errors:
@@ -61,6 +62,13 @@ sv:
   label_meeting_agenda_close: "Stäng agendan för att påbörja protokollet"
   label_meeting_date_time: "Datum/tid"
   label_meeting_diff: "Skillnad"
+  label_upcoming_meetings: "Uppkommande möten"
+  label_past_meetings: "Tidigare möten"
+  label_involvement: "Involvering"
+  label_upcoming_invitations: "Uppkommande inbjudningar"
+  label_past_invitations: "Tidigare inbjudningar"
+  label_attendee: "Attendee"
+  label_author: "Creator"
   label_notify: "Skicka för granskning"
   label_icalendar: "Skicka iCalendar"
   label_version: "Version"
@@ -85,7 +93,7 @@ sv:
   text_duration_in_hours: "Varaktighet i timmar"
   text_in_hours: "i timmar"
   text_meeting_agenda_for_meeting: 'agenda för mötet "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the agenda?"
+  text_meeting_closing_are_you_sure: "Är du säker på att du vill stänga möteskalendern?"
   text_meeting_agenda_open_are_you_sure: "Detta kommer att skriva över alla ändringar i anteckningarna! Vill du fortsätta?"
   text_meeting_minutes_for_meeting: 'protokollet för mötet "%{meeting}"'
   text_review_meeting_agenda: "%{author} har lagt upp %{link} för granskning."

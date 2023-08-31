@@ -82,21 +82,7 @@ import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/tim
 
     OpenprojectAttachmentsModule,
 
-    DynamicModule.withComponents([
-      WidgetCustomTextComponent,
-      WidgetDocumentsComponent,
-      WidgetMembersComponent,
-      WidgetNewsComponent,
-      WidgetWpTableQuerySpaceComponent,
-      WidgetWpGraphComponent,
-      WidgetWpCalendarComponent,
-      WidgetWpOverviewComponent,
-      WidgetProjectDescriptionComponent,
-      WidgetProjectDetailsComponent,
-      WidgetProjectStatusComponent,
-      WidgetSubprojectsComponent,
-      WidgetTimeEntriesCurrentUserComponent,
-      WidgetTimeEntriesProjectComponent]),
+    DynamicModule,
 
     // Support for inline editig fields
     OpenprojectFieldsModule,

@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Set and change dates and duration
-  priority: 890
+  priority: 970
 description: How to use the date picker to set and update the start date, finish date and duration of a work packages
 keywords: date picker start finish dates duration change modify update relations work package
 ---
@@ -31,7 +31,7 @@ You can open the date picker for a work package from a number of different place
 
 - By clicking on the date field in the work package [details view](../work-package-views/#full-screen-view) 
 - By clicking the the date field in the work package [split screen view](../work-package-views/#split-screen-view) (from any other view, including [notification center](../../notifications), [team planner](../../team-planner/), [boards](../../agile-boards)...)
-- By clicking the start date, finish date or duration fields in [list view](../work-package-views/#list-view)
+- By clicking the start date, finish date or duration fields in [table view](../work-package-views/#table-view)
 
 
 ### Using the date picker
@@ -46,7 +46,7 @@ You can also click on the **Today** link below the start and finish date fields 
 
 A more intuitive way to select start and end dates is to simply click on two different dates in the mini calendars below. Two calendar months are displayed for better visibility.
 
-Start by clicking on a start date. This will enter the selected date as the start date, mark it with a dark color on the mini calendar below and move the focus to the finish date field. Hovering on different finish dates will give you a preview of the date range for the work packakge if you click this second date. Once you have decided on a finish date, click on it. This will enter the finish date in the date field and mark that date with another dark color. The dates in between will be highlighted with a lighter colour.
+Start by clicking on a start date. This will enter the selected date as the start date, mark it with a dark color on the mini calendar below and move the focus to the finish date field. Hovering on different finish dates will give you a preview of the date range for the work package if you click this second date. Once you have decided on a finish date, click on it. This will enter the finish date in the date field and mark that date with another dark color. The dates in between will be highlighted with a lighter colour.
 
 To confirm the selected dates, click on the **Save** button. The green message on top of the work package indicates a successful update.
 
@@ -62,7 +62,12 @@ Date changes are documented in the work package [Activity](../../activity/).
 
 - The date picker allows you to pick start and finish dates in the opposite order. Clicking on a start date and then moving backwards to click on an earlier date will then use that first date as the finish date and the second (earlier) date as the start date. 
 
-- Once you have selected your start and finish dates, you can adjust either field without resetting the other one by clicking on a new date near the previously selected date. This, however, depends on which date field is in focus. For example, clicking on a new start date that is 2 days earlier when the start date field is in focus simply replaces the original start date (conserving the finish date). However, clicking on that same date when the finish date field is in focus clears the finish date and uses the clicked date as the new start date. A second click then allows to select the new finish date. This should feel quite intuitive when you use it.
+- For a work package that already has a start and finish date, it is possible to adjust just the finish date: click on the finish date field and then click on a new date. As long as this date is after the start date, the finish date will update accordingly. If the date you pick is earlier than the start date, the original start date will then be cleared and a click on a second date will define the other end of the new range.
+
+- It is possible to set only one of the two dates. To do this, click on the field you would like to set (start date is selected by default, but you can change this manually to finish date) and click on a date. Then save without selecting a second date. Alternatively, if a a range is already selected, simply remove one of the dates and save.
+
+
+**Note**: The precedes-follows relation can constrain or affect the dates of work packages. For more information, see [Moving related work packages](../work-package-relations-hierarchies#moving-related-work-packages).
 
 ### One-day events
 
@@ -82,7 +87,7 @@ Certain work package types (such as Milestones) can only span one day and thus h
 
 Starting with OpenProject 12.3, it is possible to manually input a duration for a work package and decide whether this duration should include working days only or all calendar days. 
 
-> **Note:** Working dates are currently defined by the administrator of your OpenProject instance. By default, they are Monday to Friday, with Saturday and Sunday considered non-working. If you are an administrator, please read our [admin guide on working days](../../../system-admin-guide/working-days/)
+> **Note:** Working dates are currently defined by the administrator of your OpenProject instance. By default, they are Monday to Friday, with Saturday and Sunday considered non-working. If you are an administrator, please read our [admin guide on working days](../../../system-admin-guide/calendars-and-dates/#working-days)
 >
 > **When upgrading to 12.3 from a previous version:** Please note that this switch will be set to ***off*** for all existing work packages so as to preserve start and finish dates. However, the switch will be ***on*** by default for new work packages.
 
@@ -113,10 +118,6 @@ Changing the duration when both start and finish dates are already set will then
 - *If the Working days only switch is **on***, the finish date is automatically set to Monday, 17 October, 2022 (since Saturday and Sunday are not working days)
 - *If the Working days only switch is **off***, the finish date is automatically set to Saturday, 15 October, 2022 (since all calendar days are included)
 
-Changing the start and finish dates will also affect duration. In our example, if you change the start date to *Monday, 10 October 2022* without changing the finish date of *Friday, 14 October 2022*, the duration is automatically updated to 5 days.
-
-![A duration of 5 days automatically derived from the start and finish dates](datepicker-5-days.png)
-
 ### Duration when only one date exists
 
 A work package cannot have only one date *and* a duration; the other date is automatically derived. This derived date can either be the start date or the finish date.
@@ -134,7 +135,6 @@ Setting only duration without start or finish dates is especially useful when yo
 > **Pro tip:** This feature makes it possible to automatically derive an estimated start or finish date for entire project. 
 >
 > To do so, create a series of work packages that represent the main phases and set the approximate duration for each. Link them all using follow/precedes relationships. Now, when you set a start date on the first work package in the series, the start and end dates for all other work packages will be derived.
-
 
 
 ## Scheduling mode
@@ -193,4 +193,4 @@ This warning banner is displayed on work packages whose start and end dates affe
 
 The information and warning banners also feature a **Show Relations** button. Clicking on this will open a new tab that displays work packages with direct relations to the current work package in [Gantt view](../../gantt-chart), in hierarchy mode. 
 
-> **Info**: This preview is intended to give a quick overview of only _direct_ relations that might affect scheduling options for the current work package. It does not show second-level relations (and above). To get a full overview, please use the project work package [list view](../work-package-views/#list-view) or [Gantt view](../../gantt-chart) with your desired [filter/view configuration](../work-package-table-configuration/).
+> **Info**: This preview is intended to give a quick overview of only _direct_ relations that might affect scheduling options for the current work package. It does not show second-level relations (and above). To get a full overview, please use the project work package [table view](../work-package-views/#table-view) or [Gantt view](../../gantt-chart) with your desired [filter/view configuration](../work-package-table-configuration/).

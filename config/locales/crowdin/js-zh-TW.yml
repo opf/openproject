@@ -65,6 +65,8 @@ zh-TW:
     button_confirm: "確認"
     button_continue: "繼續"
     button_copy: "複製"
+    button_copy_to_clipboard: "複製到剪貼簿"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "複製到其他專案"
     button_custom-fields: "自訂欄位"
     button_delete: "删除"
@@ -105,7 +107,7 @@ zh-TW:
       remove_from_list: '從清單列表中移除'
     caption_rate_history: "Rate history"
     clipboard:
-      browser_error: "您的瀏覽器不支援複製到剪貼簿。請手動複製選取的文字。"
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "已成功複製到剪貼簿"
     chart:
       type: '圖表類型'
@@ -227,7 +229,7 @@ zh-TW:
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "成為英雄!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
@@ -293,6 +295,34 @@ zh-TW:
           one: "第一個排序條件"
           two: "第二個排序條件"
           three: "第三個排序條件"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "否"
     general_text_yes: "是"
     general_text_No: "否"
@@ -311,11 +341,22 @@ zh-TW:
           learn_about: "瞭解更多新功能的資訊"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to calendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "啟用"
     label_assignee: '負責執行者'
     label_add_column_after: "在後面增加一欄"
@@ -492,7 +533,7 @@ zh-TW:
     label_remove_all_files: 刪除所有檔案
     label_add_description: "添加 %{file} 的說明"
     label_upload_notification: "上傳檔案中..."
-    label_work_package_upload_notification: "上傳檔案到工作包 #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "上傳檔案到工作包 #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} 被 %{author} 新增"
     label_files_to_upload: "將上傳這些檔案:"
     label_rejected_files: "不能上傳這些檔案:"
@@ -713,7 +754,7 @@ zh-TW:
         reset_title: "重設表單配置"
         confirm_reset: >
           警告: 確實要重置表單配置嗎？這將重置屬性到其預設組, 並禁用所有自訂欄位。
-        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
+        upgrade_to_ee: "升級至地端企業版"
         upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
         more_information: "更多資訊"
         nevermind: "無視"
@@ -724,6 +765,14 @@ zh-TW:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: '日誌的時間'
+      tracking: '時間追蹤'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: '雙重身分驗證'
     watchers:
@@ -782,7 +831,8 @@ zh-TW:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: '選擇標籤'
       select_branch: '選擇分支'
@@ -800,63 +850,6 @@ zh-TW:
       activate_no: '啟動以移除排序'
     text_work_packages_destroy_confirmation: "你確定要刪除選定的工作項目嗎？"
     text_query_destroy_confirmation: "確實要刪除所選視圖嗎？"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: '甘特圖'
-      labels:
-        title: '標籤配置'
-        bar: '列標籤'
-        left: '左'
-        right: '右'
-        farRight: '最右'
-        showNone: '-- 沒有標籤 --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: '檢視甘特圖'
-      button_deactivate: '隱藏甘特圖'
-      cancel: 取消
-      change: "更改計劃"
-      due_date: "完成日期"
-      empty: "(空)"
-      error: "發生錯誤。"
-      errors:
-        not_implemented: "不會呈現時間軸，因為它使用了一種尚未實現的功能。"
-        report_comparison: "時間表無法呈現配置的比較。請檢查配置中的相應部分, 重置它可以協助解決此問題。"
-        report_epicfail: "由於出現意外錯誤, 無法載入時間表。"
-        report_timeout: "無法在合理的時間內載入時間表。"
-      filter:
-        grouping_other: "其他"
-        noneSelection: "（無）"
-      name: "名稱"
-      outline: "重置大綱"
-      outlines:
-        aggregation: "僅顯示聚合"
-        level1: "展開第1層"
-        level2: "展開第2層"
-        level3: "展開第3層"
-        level4: "展開第4層"
-        level5: "展開第5層"
-        all: "顯示全部"
-      project_status: "專案狀態"
-      really_close_dialog: "您真的要關閉對話視窗並放棄輸入的資料嗎？"
-      responsible: "責任歸屬者"
-      save: 儲存
-      start_date: "起始日期"
-      tooManyProjects: "超過 %{count} 個專案. 請使用更好的篩選條件."
-      selection_mode:
-        notification: '按一下任何標示的工作項目來建立關聯。按 ESC 取消。'
-      zoom:
-        in: "放大"
-        out: "縮小"
-        auto: "自動縮放"
-        days: "日"
-        weeks: "週"
-        months: "月"
-        quarters: "季"
-        years: "年"
-        slider: "縮放滑動器"
-        description: >
-          選擇自動縮放無法接通應顯示的初始縮放級別。
     tl_toolbar:
       zooms: "縮放等級"
       outlines: "層次結構級別"
@@ -917,8 +910,15 @@ zh-TW:
       message_work_package_read_only: "工作包被鎖定在此狀態。任何屬性以外的狀態都不能更改。"
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "主旨, 描述, 評論 ..."
+      baseline:
+        addition_label: 'Added to view within the comparison time period'
+        removal_label: 'Removed from view within the comparison time period'
+        modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: '篩選的工作項目'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: '點擊添加新的工作項目到此清單'
       create:
@@ -1079,6 +1079,7 @@ zh-TW:
         save_as: "保存為"
         export: "匯出"
         visibility_settings: "可見度設定"
+        share_calendar: "Subscribe to calendar"
         page_settings: "重新命名視圖"
         delete: "删除"
       filter: "篩選器"
@@ -1153,10 +1154,11 @@ zh-TW:
       button_deactivate: '停用 zen 模式'
     global_search:
       all_projects: "在所有的專案"
-      search: "搜尋"
       close_search: "關閉搜尋"
-      current_project: "對現在的專案"
       current_project_and_all_descendants: "對現在的專案和子專案"
+      current_project: "對現在的專案"
+      recently_viewed: "Recently viewed"
+      search: "搜尋"
       title:
         all_projects: "所有專案"
         project_and_subprojects: "和所有的子專案"
@@ -1245,6 +1247,38 @@ zh-TW:
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
       no_results: 'No project matches your search criteria.'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: '清除'
+      apply: '套用'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
+      show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
+      time: '時間'
+      from: '寄件者'
+      to: '到'
+      drop_down:
+        none: '-'
+        yesterday: '昨天'
+        last_working_day: 'last working day'
+        last_week: '上週'
+        last_month: '上個月'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
+      legends:
+        changes_since: 'Changes since'
+        changes_between: 'Changes between'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
+        in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: '檔案已成功提交'
       load_error_message: 'There was an error loading the form'

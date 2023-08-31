@@ -31,15 +31,43 @@
 # WorkPackages in the project.
 # See also: file_link.rb and storage.rb
 class Storages::ProjectStorage < ApplicationRecord
-  # set table name explicitly (would be guessed from model class name and be
-  # project_storages otherwise)
-  self.table_name = 'projects_storages'
-
   # ProjectStorage sits between Project and Storage.
   belongs_to :project, touch: true
   belongs_to :storage, touch: true, class_name: 'Storages::Storage'
   belongs_to :creator, class_name: 'User'
 
+  has_many :last_project_folders,
+           class_name: 'Storages::LastProjectFolder',
+           dependent: :destroy
+
   # There should be only one ProjectStorage per project and storage.
   validates :project, uniqueness: { scope: :storage }
+
+  enum project_folder_mode: {
+    inactive: 'inactive',
+    manual: 'manual',
+    automatic: 'automatic'
+  }.freeze, _prefix: 'project_folder'
+
+  scope :automatic, -> { where(project_folder_mode: 'automatic') }
+
+  def project_folder_path
+    "#{storage.group_folder}/#{project.name.gsub('/', '|')} (#{project.id})/"
+  end
+
+  def project_folder_path_escaped
+    escape_path(project_folder_path)
+  end
+
+  def file_inside_project_folder?(escaped_file_path)
+    escaped_file_path.match?(%r|^/#{project_folder_path_escaped}|)
+  end
+
+  private
+
+  def escape_path(path)
+    ::Storages::Peripherals::StorageInteraction::Nextcloud::Util.escape_path(
+      path
+    )
+  end
 end

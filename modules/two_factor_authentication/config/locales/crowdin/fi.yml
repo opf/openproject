@@ -68,8 +68,8 @@ fi:
       delete_all_are_you_sure: 'Haluatko varmasti poistaa kaikki tämän käyttäjän 2FA-laitteet?'
       button_delete_all_devices: 'Poista rekisteröidyt 2FA-laitteet'
       button_register_mobile_phone_for_user: 'Rekisteröi matkapuhelin'
-      text_2fa_enabled: 'Jokaisen sisäänkirjautumisen yhteydessä tätä käyttäjää pyydetään syöttämään OTP-tunniste hänen oletusarvoisesta 2FA-laitteestaan.'
-      text_2fa_disabled: "Käyttäjä ei ole asettanut tunnistuslaitetta tiliasetuksissa"
+      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from their default 2FA device.'
+      text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
     upsale:
       title: 'Kaksivaiheinen tunnistautuminen'
       description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'

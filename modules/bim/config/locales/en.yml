@@ -2,6 +2,7 @@
 en:
   bim:
     label_bim: 'BIM'
+
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'Failed imports of BCF topics'
@@ -138,4 +139,3 @@ en:
   extraction:
     available:
       ifc_convert: "IFC conversion pipeline available"
-

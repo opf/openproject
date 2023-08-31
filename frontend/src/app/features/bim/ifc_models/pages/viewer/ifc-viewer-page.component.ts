@@ -99,12 +99,12 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent i
     {
       component: BcfImportButtonComponent,
       show: ():boolean => this.ifcData.allowed('manage_bcf'),
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
     },
     {
       component: BcfExportButtonComponent,
       show: ():boolean => this.ifcData.allowed('manage_bcf'),
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
     },
     {
       component: WorkPackageFilterButtonComponent,
@@ -112,11 +112,11 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent i
     },
     {
       component: BcfViewToggleButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
     },
     {
       component: ZenModeButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
     },
     {
       component: BimManageIfcModelsButtonComponent,
@@ -126,7 +126,7 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent i
     },
     {
       component: WorkPackageSettingsButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
       show: ():boolean => this.authorisationService.can('query', 'updateImmediately'),
       inputs: {
         hideTableOptions: true,

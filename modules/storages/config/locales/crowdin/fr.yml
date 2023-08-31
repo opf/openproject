@@ -3,9 +3,20 @@ fr:
   permission_view_file_links: "Voir les liens des fichiers"
   permission_manage_file_links: "Gérer les liens de fichiers"
   permission_manage_storages_in_project: "Gérer les stockages de fichiers dans le projet"
+  permission_read_files: "Lire les fichiers"
+  permission_write_files: "Écrire des fichiers"
+  permission_create_files: "Créer des fichiers"
+  permission_delete_files: "Supprimer des fichiers"
+  permission_share_files: "Partage des fichiers"
   project_module_storages: "Stockages de fichiers"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Non autorisé pour la connexion externe à l'espace de stockage."
+        not_found: "La ressource demandée n'a pas pu être retrouvée dans l'espace de stockage de fichiers externe."
   activerecord:
     models:
+      file_link: "Fichier"
       storages/storage: "Stockage"
     attributes:
       storages/storage:
@@ -28,6 +39,9 @@ fr:
                 semble ne pas avoir installé l'application "Intégration OpenProject" . Veuillez d'abord l'installer puis réessayer.
               authorization_header_missing: >
                 n'est pas entièrement configuré. L'instance Nextcloud ne reçoit pas l'en-tête "Authorization", ce qui est nécessaire pour une autorisation basée sur un jeton Bearer des requêtes API. Veuillez vérifier la configuration de votre serveur HTTP.
+            password:
+              invalid_password: "n'est pas valide."
+              unknown_error: "n'a pas pu être validé. Veuillez vérifier votre connexion à l'espace de stockage et réessayez."
         storages/file_link:
           attributes:
             origin_id:
@@ -36,22 +50,45 @@ fr:
     errors:
       too_many_elements_created_at_once: "Trop d'éléments créés à la fois. %{max} attendu au maximum, obtenu %{actual}."
   storages:
+    unknown_storage: "Espace de stockage inconnu"
     buttons:
       done_continue_setup: "Terminé. Poursuivre la configuration"
+      done_complete_setup: "Configuration terminée."
+      edit_automatically_managed_project_folders: "Modifier les dossiers de projet gérés automatiquement"
       replace_openproject_oauth: "Remplacer OAuth OpenProject"
       replace_provider_type_oauth: "Remplacer OAuth %{provider_type}"
       save_and_continue_setup: "Enregistrer et continuer la configuration"
       save_and_complete_setup: "Enregistrer et terminer la configuration"
+      select_folder: "Sélectionner un dossier"
+      configure: "Configurer"
     page_titles:
+      managed_project_folders:
+        title: "Répertoires de projet gérés automatiquement"
+        subtitle: >
+          Laisser OpenProject créer automatiquement des dossiers par projet. Cette option est recommandée, car elle garantit que chaque membre de l'équipe dispose toujours des autorisations d'accès correctes.
       project_settings:
         index: "Stockages de fichiers disponibles dans ce projet"
         new: "Ajouter un stockage de fichiers à ce projet"
+        edit: "Modifier l'espace de stockage de fichiers pour ce projet"
+        delete: "Supprimer l'espace de stockage de fichiers"
+        members_connection_status: "Statut de connexion des membres"
+      project_storage_members:
+        title: "Statut de connexion des membres"
+        subtitle: "Vérifiez l'état de la connexion pour l'espace de stockage %{storage_name_link} de tous les membres du projet."
     instructions:
       type: "Veuillez vous assurer que vous avez les privilèges d'administration dans votre instance Nextcloud et que l'application suivante est installée avant de procéder à l'installation :"
       type_link_text: "« Intégration OpenProject »"
       name: "Donnez à votre stockage un nom pour que les utilisateurs puissent se différencier entre plusieurs stockages."
       host: "Veuillez ajouter l'adresse d'hôte de votre stockage, y compris le https://. Il ne doit pas dépasser 255 caractères."
-      no_storage_set_up: "Aucun stockage de fichiers configuré pour le moment."
+      managed_project_folders_application_password: >
+        Copier cette valeur depuis :
+      no_storage_set_up: "Aucun espace de stockage de fichiers n'a été configuré pour le moment."
+      no_specific_folder: "Par défaut, chaque utilisateur démarrera dans son propre dossier d'accueil lorsqu'il téléversera un fichier."
+      automatic_folder: "Cela créera automatiquement un dossier racine pour ce projet et gérera les autorisations d'accès pour chaque membre du projet."
+      empty_project_folder_validation: "La sélection d'un dossier est nécessaire pour continuer."
+      not_logged_into_storage: "Pour sélectionner un dossier de projet, veuillez d'abord vous connecter"
+      existing_manual_folder: >
+        Vous pouvez désigner un dossier existant comme dossier racine pour ce projet. Les permissions ne sont cependant pas gérées automatiquement, l'administrateur doit s'assurer manuellement que les utilisateurs pertinents y ont accès. Le dossier sélectionné peut être utilisé par plusieurs projets.
       setting_up_additional_storages: "Pour configurer des stockages de fichiers supplémentaires, veuillez visiter"
       setting_up_additional_storages_non_admin: "Les administrateurs peuvent configurer des stockages de fichiers supplémentaires dans Administration / Stockages de fichiers."
       setting_up_storages: "Pour configurer des stockages de fichiers, veuillez visiter"
@@ -60,26 +97,51 @@ fr:
       copy_from: "Copier cette valeur depuis"
       nextcloud:
         integration: "Administration Nextcloud / OpenProject"
+    help_texts:
+      project_folder: >
+        Le dossier de projet est le dossier par défaut pour les téléversements de fichiers pour ce projet. Les utilisateurs peuvent néanmoins encore téléverser des fichiers vers d'autres emplacements.
     delete_warning:
       storage: >
         Voulez-vous vraiment supprimer ce stockage ? Cela supprimera également le stockage de tous les projets où il est utilisé. De plus, il supprimera également tous les liens des lots de travaux vers les fichiers stockés dans ce stockage.
       project_storage: >
-        Voulez-vous vraiment supprimer ce stockage de fichier de ce projet ? Cela supprimera aussi tous les liens vers des fichiers stockés dans ce stockage pour ce projet.
+        Voulez-vous vraiment supprimer %{file_storage} de ce projet ? Pour confirmer cette action, veuillez introduire le nom de l'espace de stockage dans le champ ci-dessous, cela permettra de :
+      project_storage_delete_result_1: "Supprimer tous les liens des lots de travaux de ce projet vers les fichiers et dossiers de cet espace de stockage."
+      project_storage_delete_result_2: "Si cet espace de stockage a un dossier de projet géré automatiquement, lui et ses fichiers seront définitivement supprimés."
+      input_delete_confirmation: "Saisissez le nom de l'espace de stockage des fichiers %{file_storage} pour confirmer la suppression."
+      irreversible_notice: "La suppression d'un espace de stockage de fichiers est une action irréversible."
+    label_active: "Actif"
+    label_inactive: "Inactif"
     label_creator: "Créateur"
     label_file_link: "Lien du fichier"
     label_file_links: "Liens de fichier"
     label_name: "Nom"
     label_host: "URL de l'hôte"
+    label_managed_project_folders:
+      automatically_managed_folders: "Dossiers gérés automatiquement"
+      application_password: "Mot de passe de l'application"
+    label_managed_project_folders_breadcrumb: "Répertoires de projet gérés automatiquement"
     label_oauth_breadcrumb:
       openproject: "OAuth OpenProject"
       nextcloud: "OAuth Nextcloud"
     label_oauth_application_details: "Détails de l'application OAuth"
     label_oauth_client_details: "Détails du client OAuth"
     label_provider_type: "Type de fournisseur"
+    label_project_folder: "Dossier du projet"
     label_new_storage: "Nouveau stockage"
+    label_existing_manual_folder: "Répertoire existant avec permissions gérées manuellement"
+    label_no_specific_folder: "Aucun dossier spécifique"
+    label_automatic_folder: "Nouveau dossier avec permissions gérées automatiquement"
+    label_no_selected_folder: "Aucun dossier sélectionné"
     label_storage: "Stockage"
     label_storages: "Stockages"
-    no_results: "Aucun stockage configuré pour le moment."
+    label_status: "Statut"
+    label_files: "Fichiers"
+    member_connection_status:
+      connected: "Connecté"
+      connected_no_permissions: "Le rôle d'utilisateur n'a pas d'autorisations de stockage"
+      not_connected: "Non connecté. L'utilisateur doit se connecter à l'espace de stockage via l'onglet %{files_label} d'un lot de travaux pour se connecter."
+    no_results: "Aucun espace de stockage n'est configuré pour le moment."
+    members_no_results: "Aucun membre à afficher."
     provider_types:
       label: "Type de fournisseur"
       nextcloud:
@@ -89,4 +151,5 @@ fr:
     confirm_replace_oauth_application: "Êtes-vous sûr ? Tous les utilisateurs devront réautoriser OpenProject."
     confirm_replace_oauth_client: "Êtes-vous sûr ? Tous les utilisateurs devront réautoriser sur le stockage."
     oauth_client_details_missing: "Pour terminer la configuration, veuillez ajouter les identifiants du client OAuth depuis votre espace de stockage."
+    automatically_managed_project_folder_missing: "Pour terminer la configuration, veuillez configurer les dossiers de projet gérés automatiquement pour votre espace de stockage."
     notice_oauth_application_replaced: "L'application OAuth OpenProject a bien été remplacée."

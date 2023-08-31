@@ -12,6 +12,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class WorkPackageCardDragAndDropService {
@@ -81,12 +82,7 @@ export class WorkPackageCardDragAndDropService {
         const wpId:string = card.dataset.workPackageId!;
         const toIndex = findIndex(card);
 
-        const workPackage = await this
-          .apiV3Service
-          .work_packages
-          .id(wpId)
-          .get()
-          .toPromise();
+        const workPackage = await firstValueFrom(this.apiV3Service.work_packages.id(wpId).get());
         const result = await this.addWorkPackageToQuery(workPackage, toIndex);
 
         if (card.parentElement) {

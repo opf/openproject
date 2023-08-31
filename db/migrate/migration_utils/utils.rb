@@ -47,5 +47,24 @@ module Migration
         remove_index table_name, name: index_name
       end
     end
+
+    ##
+    # Executes the given SQL query while passing in sanitized parameters.
+    #
+    # @param query [String] SQL query including parameter references like `:param`
+    # @param params [Hash] Hash containing values for referenced parameters
+    #
+    # @raise [ActiveRecord::ActiveRecordError] If the query fails
+    # @return [PG::Result]
+    #
+    # Example:
+    #
+    #   execute_sql "select id from users where mail = :email", email: params[:email]
+    #
+    def execute_sql(query, params = {})
+      query = ActiveRecord::Base.sanitize_sql [query, params]
+
+      ActiveRecord::Base.connection.execute query
+    end
   end
 end

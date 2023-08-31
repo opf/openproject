@@ -81,6 +81,9 @@ it:
   units: "Unità di misura"
   validation_failure_date: "non è una data valida"
   validation_failure_integer: "non è un numero intero valido"
+  export:
+    cost_reports:
+      title: "Esportazione XLS dei report sui costi"
   reporting:
     group_by:
       selected_columns: "Colonne selezionate"

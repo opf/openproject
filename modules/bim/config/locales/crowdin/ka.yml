@@ -6,11 +6,11 @@ ka:
     label_bcf: 'BCF'
     label_imported_failed: 'Failed imports of BCF topics'
     label_imported_successfully: 'Successfully imported BCF topics'
-    issues: "Issues"
+    issues: "შენიშვნები"
     recommended: 'recommended'
     not_recommended: 'not recommended'
     no_viewpoints: 'No viewpoints'
-    new_badge: "New"
+    new_badge: "ახალი"
     exceptions:
       file_invalid: "BCF file invalid"
     x_bcf_issues:
@@ -19,8 +19,8 @@ ka:
       other: '%{count} BCF issues'
     bcf_xml:
       xml_file: 'BCF XML File'
-      import_title: 'Import'
-      export: 'Export'
+      import_title: 'შემოტანა'
+      export: 'გატანა'
       import_update_comment: '(Updated in BCF import)'
       import_failed: 'Cannot import BCF file: %{error}'
       import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
@@ -77,9 +77,9 @@ ka:
       bim/ifc_models/ifc_model: "IFC model"
     attributes:
       bim/ifc_models/ifc_model:
-        ifc_attachment: "IFC file"
+        ifc_attachment: "IFC ფაილი"
         is_default: "Default model"
-        attachments: "IFC file"
+        attachments: "IFC ფაილი"
     errors:
       models:
         bim/ifc_models/ifc_model:
@@ -115,10 +115,10 @@ ka:
     no_results: "No IFC models have been uploaded in this project."
     conversion_status:
       label: 'Processing?'
-      pending: 'Pending'
+      pending: 'დარჩენილია'
       processing: 'Processing'
       completed: 'Completed'
-      error: 'Error'
+      error: 'შეცდომა'
     processing_notice:
       processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'
     flash_messages:
@@ -131,4 +131,3 @@ ka:
   extraction:
     available:
       ifc_convert: "IFC conversion pipeline available"
-

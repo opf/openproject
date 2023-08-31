@@ -1,67 +1,74 @@
 <!-- Standard Ruby view, please see the controller for comments -->
 
 <!-- We want to hide client_secret from the user while allowing the user to edit the other attributes -->
-<% content_for :header_tags do %>
-  <meta name="required_script" content="storage_form"/>
-<% end %>
-
 <% html_title t(:label_administration), t("project_module_storages"), t('label_edit_x', x: @object.name) %>
 <% local_assigns[:additional_breadcrumb] = @object.name %>
 <%= toolbar title: t('label_edit_x', x: @object.name) %>
 
-<%= labelled_tabular_form_for @object, url: admin_settings_storage_path(@object) do |f| -%>
+<%= labelled_tabular_form_for @object, url: admin_settings_storage_path(@object), as: :storages_storage do |f| -%>
   <%= render partial: 'form', locals: { f: f } %>
   <%= styled_button_tag t(:button_save), class: "-highlight -with-icon icon-checkmark" %>
 <% end %>
 
 <% if @object.oauth_application %>
-  <fieldset class="form--fieldset">
-    <legend class="form--fieldset-legend">OpenProject <%= t(:'storages.label_oauth_application_details') %></legend>
-    <div class="attributes-key-value">
-      <div class="attributes-key-value--key">OpenProject <%= Storages::Admin::LABEL_OAUTH_CLIENT_ID %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><%= @object.oauth_application.uid %></span>
-        </div>
-      </div>
-      <div class="attributes-key-value--key">OpenProject <%= Storages::Admin::LABEL_OAUTH_CLIENT_SECRET %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span>●●●●●●●●●●●●●●●●</span>
-        </div>
-      </div>
-    </div>
+  <%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
+    <% component.with_header(title: "OpenProject #{t(:'storages.label_oauth_application_details')}") %>
+
+    <% component.with_attributes([
+      { key: "OpenProject #{Storages::Admin::LABEL_OAUTH_CLIENT_ID}", value: @object.oauth_application.uid },
+      { key: "OpenProject #{Storages::Admin::LABEL_OAUTH_CLIENT_SECRET}", value: "●●●●●●●●●●●●●●●●" },
+    ]) %>
 
     <%= link_to(t("storages.buttons.replace_openproject_oauth"),
                 replace_oauth_application_admin_settings_storage_path(@object),
                 method: :delete,
                 data: { confirm: t(:'storages.confirm_replace_oauth_application') },
                 class: 'button -with-icon icon-reload') %>
-  </fieldset>
+  <% end %>
 <% end %>
 
-<fieldset class="form--fieldset">
-  <legend class="form--fieldset-legend"><%= t("storages.provider_types.#{@object.provider_type}.name") %> <%= t(:'storages.label_oauth_client_details') %></legend>
+<%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
+  <% component.with_header(title: "#{t("storages.provider_types.#{@object.short_provider_type}.name")} #{t(:'storages.label_oauth_client_details')}") %>
+
   <% if @object.oauth_client %>
-    <div class="attributes-key-value">
-      <div class="attributes-key-value--key"><%= t("storages.provider_types.#{@object.provider_type}.name") %> <%= Storages::Admin::LABEL_OAUTH_CLIENT_ID %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><%= @object.oauth_client.client_id %></span>
-        </div>
-      </div>
-      <div class="attributes-key-value--key"><%= t("storages.provider_types.#{@object.provider_type}.name") %> <%= Storages::Admin::LABEL_OAUTH_CLIENT_SECRET %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><%= short_secret(@object.oauth_client.client_secret) %></span>
-        </div>
-      </div>
-    </div>
-    <%= link_to(t("storages.buttons.replace_provider_type_oauth", provider_type: t("storages.provider_types.#{@object.provider_type}.name")),
+    <% component.with_attributes([
+      { key: "#{t("storages.provider_types.#{@object.short_provider_type}.name")} #{Storages::Admin::LABEL_OAUTH_CLIENT_ID}",
+        value: @object.oauth_client.client_id },
+      { key: "#{t("storages.provider_types.#{@object.short_provider_type}.name")} #{Storages::Admin::LABEL_OAUTH_CLIENT_SECRET}",
+        value: short_secret(@object.oauth_client.client_secret) },
+    ]) %>
+
+    <%= link_to(t("storages.buttons.replace_provider_type_oauth", provider_type: t("storages.provider_types.#{@object.short_provider_type}.name")),
                 new_admin_settings_storage_oauth_client_path(@object),
                 data: { confirm: t(:'storages.confirm_replace_oauth_client') },
                 class: 'button -with-icon icon-reload') %>
   <% else %>
     <%= link_to(t("js.label_create"), new_admin_settings_storage_oauth_client_path(@object), class: 'button -with-icon icon-add') %>
   <% end %>
-</fieldset>
+<% end %>
+
+
+<%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
+  <% component.with_header(title: t("storages.page_titles.managed_project_folders.title")) %>
+
+  <% if @object.automatic_management_unspecified? %>
+    <%= link_to(t("storages.buttons.configure"), new_admin_settings_storage_automatically_managed_project_folders_path(@object), class: 'button -with-icon icon-add') %>
+  <% else %>
+    <% component.with_attribute(
+      key: t(:"storages.label_managed_project_folders.automatically_managed_folders"),
+      value: @object.automatically_managed? ? t(:"storages.label_active") : t(:"storages.label_inactive")
+    ) %>
+
+    <% if @object.automatically_managed? %>
+      <% component.with_attribute(
+        key: t(:"storages.label_managed_project_folders.application_password"),
+        value: "●●●●●●●●●●●●●●●●"
+      ) %>
+    <% end %>
+
+    <%= link_to(t("storages.buttons.edit_automatically_managed_project_folders"),
+                edit_admin_settings_storage_automatically_managed_project_folders_path(@object),
+                class: 'button -with-icon icon-edit') %>
+  <% end %>
+<% end %>
+

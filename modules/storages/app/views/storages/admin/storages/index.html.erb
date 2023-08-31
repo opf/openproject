@@ -28,4 +28,4 @@
   </div>
 </div>
 
-<%= rails_cell ::Storages::StoragesTableCell, @storages %>
+<%= render(::Storages::Admin::TableComponent.new(rows: @storages)) %>

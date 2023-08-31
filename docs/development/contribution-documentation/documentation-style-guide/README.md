@@ -111,7 +111,7 @@ The OpenProject documentation should be as clear and easy to understand as possi
 
 - Write in US English with US grammar.  
 
-  
+We aim to use fair language on our language and documentation and choose gender-neutral terms whenever possible. If this is not possible due to the language, e.g. German, we use : to be as inclusive as possible. Please refer to the [fair language guide](../../translate-openproject/fair-language/) for more specific instructions. 
 
 ## Capitalization
 
@@ -191,7 +191,7 @@ In these cases, use `<` customize `>` to call out where a reader must replace te
 
 For example:
 
-```
+```shell
 cp <your_source_directory> <your_destination_directory>
 ```
 
@@ -382,7 +382,7 @@ Use these terms when referring to OpenProject’s main application elements:
 
 All project menu items are spelled as in the application in bold, e.g.
 
-- In the project menu, select **Work packages** to open your work package list.
+- In the project menu, select **Work packages** to open your work package table.
 
   
 
@@ -459,7 +459,7 @@ At the moment it is not possible for external contributors to upload videos to t
 
 Use alert boxes to call attention to information. The alert boxes in the OpenProject documentation have a specific format. Please use the following to be consistent:
 
-```
+```markdown
 > **Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/#create-a-new-account).
 ```
 

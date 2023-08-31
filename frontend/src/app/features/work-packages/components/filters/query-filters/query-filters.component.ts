@@ -28,9 +28,11 @@
 
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnChanges,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -44,6 +46,9 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
+import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
+import { combineLatestWith } from 'rxjs';
+import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
 
 const ADD_FILTER_SELECT_INDEX = -1;
 
@@ -52,7 +57,7 @@ const ADD_FILTER_SELECT_INDEX = -1;
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './query-filters.component.html',
 })
-export class QueryFiltersComponent extends UntilDestroyedMixin implements OnChanges {
+export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit, OnChanges {
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
   @Input() public filters:QueryFilterInstanceResource[];
@@ -68,6 +73,8 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnChan
 
   public focusElementIndex = 0;
 
+  public baselineIncompatibleFilters:string[] = [];
+
   public trackByName = trackByName;
 
   public text = {
@@ -79,14 +86,33 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnChan
     button_delete: this.I18n.t('js.button_delete'),
     please_select: this.I18n.t('js.placeholders.selection'),
     filter_by_text: this.I18n.t('js.work_packages.label_filter_by_text'),
+    baseline_warning: this.I18n.t('js.work_packages.filters.baseline_warning'),
   };
 
   constructor(
     readonly wpTableFilters:WorkPackageViewFiltersService,
+    readonly wpTableBaseline:WorkPackageViewBaselineService,
     readonly wpFiltersService:WorkPackageFiltersService,
     readonly I18n:I18nService,
+    readonly cdRef:ChangeDetectorRef,
   ) {
     super();
+  }
+
+  ngOnInit():void {
+    this.wpTableFilters.live$()
+      .pipe(
+        combineLatestWith(this.wpTableBaseline.live$()),
+        this.untilDestroyed(),
+      )
+      .subscribe(([filters]) => {
+        if (this.wpTableBaseline.isActive()) {
+          this.baselineIncompatibleFilters = this.wpTableBaseline.detectIncompatibleFilters(filters);
+        } else {
+          this.baselineIncompatibleFilters = [];
+        }
+        this.cdRef.detectChanges();
+      });
   }
 
   ngOnChanges() {
@@ -154,15 +180,11 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnChan
 
   public isFilterAvailable(filter:QueryFilterResource):boolean {
     return (this.wpTableFilters.availableFilters.some((availableFilter) => availableFilter.id === filter.id)
-     && !(this.wpTableFilters.hidden.includes(filter.id) || filter.isTemplated()));
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      && !(this.wpTableFilters.hidden.includes(filter.id) || filter.isTemplated()));
   }
 
   public onOpen() {
-    setTimeout(() => {
-      const component = this.ngSelectComponent as any;
-      if (component && component.dropdownPanel) {
-        component.dropdownPanel._updatePosition();
-      }
-    }, 25);
+    repositionDropdownBugfix(this.ngSelectComponent);
   }
 }

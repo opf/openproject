@@ -1,0 +1,31 @@
+import { Canvas, Meta, ArgsTable } from '@storybook/blocks';
+
+import { SpotDropModalComponent } from '../drop-modal.component';
+import * as DropModalStories from './DropModal.stories';
+
+<Meta of={DropModalStories} />
+
+# Drop Modal
+
+Drop modals are in-between dropdowns and modals. In fact, on mobile they're indistinguishable from a normal spot-modal.
+The key difference however, is that they're tied to a specific context. On desktop views, the modal will open
+in-context, meaning that it will attach to the button or input field that opened the modal.
+
+<Canvas
+  of={DropModalStories.Default}
+  height="400px"
+  layout="centered"
+/>
+
+## Usage
+
+To use drop-modals, make sure to also add the drop-modal portal to the base of your application HTML:
+
+```
+<spot-drop-modal-portal></spot-drop-modal-portal>
+```
+
+Even though drop-modals look like they are attached to an element, they're actually rendered in this portal to make sure
+they're not cut off my scrolling context or `overflow: visible` rules on parent elements.
+
+<ArgsTable of={SpotDropModalComponent} />

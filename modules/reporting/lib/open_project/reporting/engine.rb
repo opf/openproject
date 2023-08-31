@@ -37,7 +37,7 @@ module OpenProject::Reporting
     register 'openproject-reporting',
              author_url: 'https://www.openproject.org',
              bundled: true do
-      view_actions = %i[index show drill_down available_values display_report_list]
+      view_actions = %i[index show drill_down available_values]
       edit_actions = %i[create update rename destroy]
 
       # register reporting_module including permissions
@@ -58,20 +58,38 @@ module OpenProject::Reporting
         end
       end
 
+      should_render = Proc.new do
+        (User.current.logged? || !Setting.login_required?) &&
+          (
+            User.current.allowed_to_globally?(:view_time_entries) ||
+              User.current.allowed_to_globally?(:view_own_time_entries) ||
+              User.current.allowed_to_globally?(:view_cost_entries) ||
+              User.current.allowed_to_globally?(:view_own_cost_entries)
+          )
+      end
+
       # menu extensions
       menu :top_menu,
            :cost_reports_global,
            { controller: '/cost_reports', action: 'index', project_id: nil },
            caption: :cost_reports_title,
-           if: Proc.new {
-             (User.current.logged? || !Setting.login_required?) &&
-               (
-               User.current.allowed_to_globally?(:view_time_entries) ||
-                 User.current.allowed_to_globally?(:view_own_time_entries) ||
-                 User.current.allowed_to_globally?(:view_cost_entries) ||
-                 User.current.allowed_to_globally?(:view_own_cost_entries)
-             )
-           }
+           icon: 'cost-reports',
+           if: should_render
+
+      menu :global_menu,
+           :cost_reports_global,
+           { controller: '/cost_reports', action: 'index', project_id: nil },
+           after: :news,
+           caption: :cost_reports_title,
+           icon: 'cost-reports',
+           if: should_render
+
+      menu :global_menu,
+           :cost_reports_global_report_menu,
+           { controller: '/cost_reports', action: 'index', project_id: nil },
+           parent: :cost_reports_global,
+           partial: 'cost_reports/report_menu',
+           if: should_render
 
       menu :project_menu,
            :costs,
@@ -79,7 +97,7 @@ module OpenProject::Reporting
            after: :news,
            caption: :cost_reports_title,
            if: Proc.new { |project| project.module_enabled?(:costs) },
-           icon: 'icon2 icon-cost-reports'
+           icon: 'cost-reports'
 
       menu :project_menu,
            :costs_menu,
@@ -106,7 +124,6 @@ module OpenProject::Reporting
     end
 
     patches %i[CustomFieldsController]
-    patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :BasicData, :SettingSeeder
   end
 end

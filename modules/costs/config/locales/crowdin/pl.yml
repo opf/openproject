@@ -82,7 +82,7 @@ pl:
   label_costlog: "Zarejestrowane koszty jednostkowe"
   label_cost_plural: "Koszty"
   label_cost_type_plural: "Rodzaje kosztów"
-  label_cost_type_specific: "Typ kosztu #%{id}: %{name}" #%{id}: %{name}"
+  label_cost_type_specific: "Typ kosztu #%{id}: %{name}"
   label_costs_per_page: "Kosztów na stronę"
   label_currency: "Waluta"
   label_currency_format: "Format waluty"

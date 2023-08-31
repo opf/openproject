@@ -88,6 +88,8 @@ export class QueryResource extends HalResource {
 
   public timelineLabels:TimelineLabels;
 
+  public timestamps:string[];
+
   public showHierarchies:boolean;
 
   public public:boolean;
@@ -117,6 +119,7 @@ export class QueryResource extends HalResource {
 
 export interface QueryResourceLinks {
   updateImmediately?(attributes:any):Promise<any>;
+  icalUrl(payload:unknown):Promise<{ icalUrl:{ href:string } }>;
 }
 
 export interface QueryResource extends QueryResourceLinks {}

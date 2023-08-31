@@ -27,10 +27,11 @@
 #++
 
 class Storages::StorageFiles
-  attr_reader :files, :parent
+  attr_reader :files, :parent, :ancestors
 
-  def initialize(files, parent = nil)
+  def initialize(files, parent, ancestors)
     @files = files
     @parent = parent
+    @ancestors = ancestors
   end
 end

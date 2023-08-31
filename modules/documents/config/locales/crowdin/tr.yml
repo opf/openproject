@@ -29,11 +29,6 @@ tr:
   default_doc_category_tech: "Teknik belgeler"
   default_doc_category_user: "Kullanıcı belgeleri"
   enumeration_doc_categories: "Belge kategorileri"
-  enumeration:
-    document_category:
-      documentation: Belgeleme
-      specification: Şartname
-      other: Diğer
   documents:
     label_attachment_author: "Ek yazar"
   label_document_added: "Belge eklendi"

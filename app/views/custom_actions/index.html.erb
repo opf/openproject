@@ -12,5 +12,5 @@
 <% end %>
 
 <section class="admin--edit-section">
-  <%= rails_cell ::CustomActions::TableCell, @custom_actions %>
+  <%= render(::CustomActions::TableComponent.new(rows: @custom_actions)) %>
 </section>

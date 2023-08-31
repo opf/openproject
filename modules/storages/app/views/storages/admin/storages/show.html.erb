@@ -60,95 +60,62 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 <% end %>
 
-<div class="attributes-group">
-  <div class="attributes-group--header">
-    <div class="attributes-group--header-container">
-      <h3 class="attributes-group--header-text"><%= t(:label_general) %></h3>
-    </div>
-  </div>
+<%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
+  <% component.with_header(title: t(:label_general)) %>
 
-  <div class="attributes-key-value">
-    <div class="attributes-key-value--key"><%= t(:'storages.label_name') %></div>
-    <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -text"><span><%= @object.name %></span></div>
-    </div>
-
-    <div class="attributes-key-value--key"><%= t(:'storages.label_provider_type') %></div>
-    <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -text">
-        <span><%= t(:"storages.provider_types.#{@object.provider_type}.name") %></span>
-      </div>
-    </div>
-
-    <div class="attributes-key-value--key"><%= t(:'storages.label_host') %></div>
-    <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -text">
-        <span><%= link_to @object.host, @object.host %></span>
-      </div>
-    </div>
-
-    <div class="attributes-key-value--key"><%= t(:'storages.label_creator') %></div>
-    <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -text">
-        <span><%= @object.creator.name %></span>
-      </div>
-    </div>
-
-    <div class="attributes-key-value--key"><%= Storages::ProjectStorage.human_attribute_name(:created_at) %></div>
-    <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -text">
-        <span><%= format_time(@object.created_at) %></span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<% if @object.oauth_application %>
-  <div class="attributes-group">
-    <div class="attributes-group--header">
-      <div class="attributes-group--header-container">
-        <h3 class="attributes-group--header-text">OpenProject <%= t(:'storages.label_oauth_application_details') %></h3>
-      </div>
-    </div>
-    <div class="attributes-key-value">
-      <div class="attributes-key-value--key">OpenProject <%= Storages::Admin::LABEL_OAUTH_CLIENT_ID %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><%= @object.oauth_application.uid %></span>
-        </div>
-      </div>
-      <div class="attributes-key-value--key">OpenProject <%= Storages::Admin::LABEL_OAUTH_CLIENT_SECRET %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span>●●●●●●●●●●●●●●●●</span>
-        </div>
-      </div>
-    </div>
-  </div>
+  <% component.with_attributes([
+      { key: t(:'storages.label_name'), value: @object.name },
+      { key: t(:'storages.label_provider_type'), value: t(:"storages.provider_types.#{@object.short_provider_type}.name") },
+      { key: t(:'storages.label_host'), value: link_to(@object.host, @object.host) },
+      { key: t(:'storages.label_creator'), value: @object.creator.name },
+      { key: Storages::ProjectStorage.human_attribute_name(:created_at), value: format_time(@object.created_at) }
+  ]) %>
 <% end %>
 
-<div class="attributes-group">
-  <div class="attributes-group--header">
-    <div class="attributes-group--header-container">
-      <h3 class="attributes-group--header-text"><%= t("storages.provider_types.#{@object.provider_type}.name") %> <%= t(:'storages.label_oauth_client_details') %></h3>
-    </div>
-  </div>
-  <% if @object.oauth_client %>
-    <div class="attributes-key-value">
-      <div class="attributes-key-value--key"><%= t("storages.provider_types.#{@object.provider_type}.name") %> <%= Storages::Admin::LABEL_OAUTH_CLIENT_ID %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><%= @object.oauth_client.client_id %></span>
-        </div>
-      </div>
-      <div class="attributes-key-value--key"><%= t("storages.provider_types.#{@object.provider_type}.name") %> <%= Storages::Admin::LABEL_OAUTH_CLIENT_SECRET %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><%= short_secret(@object.oauth_client.client_secret) %></span>
-        </div>
-      </div>
-    </div>
-  <% else %>
-    <%= t("storages.oauth_client_details_missing") %>
+<% if @object.oauth_application %>
+  <%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
+    <% component.with_header(title: "OpenProject #{t(:'storages.label_oauth_application_details')}") %>
+
+    <% component.with_attributes([
+      { key: "OpenProject #{Storages::Admin::LABEL_OAUTH_CLIENT_ID}", value: @object.oauth_application.uid },
+      { key: "OpenProject #{Storages::Admin::LABEL_OAUTH_CLIENT_SECRET}", value: "●●●●●●●●●●●●●●●●" },
+    ]) %>
   <% end %>
-</div>
+<% end %>
+
+<%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
+  <% component.with_header(title: "#{t("storages.provider_types.#{@object.short_provider_type}.name")} #{t(:'storages.label_oauth_client_details')}") %>
+
+  <% if @object.oauth_client %>
+    <% component.with_attributes([
+      { key: "#{t("storages.provider_types.#{@object.short_provider_type}.name")} #{Storages::Admin::LABEL_OAUTH_CLIENT_ID}",
+        value: @object.oauth_client.client_id },
+      { key: "#{t("storages.provider_types.#{@object.short_provider_type}.name")} #{Storages::Admin::LABEL_OAUTH_CLIENT_SECRET}",
+        value: short_secret(@object.oauth_client.client_secret) },
+    ]) %>
+  <% else %>
+    <% t(:'storages.oauth_client_details_missing') %>
+  <% end %>
+<% end %>
+
+
+<%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
+  <% component.with_header(title: t("storages.page_titles.managed_project_folders.title")) %>
+
+  <% if @object.automatic_management_unspecified? %>
+    <%= t("storages.automatically_managed_project_folder_missing") %>
+  <% else %>
+    <% component.with_attribute(
+      key: t(:"storages.label_managed_project_folders.automatically_managed_folders"),
+      value: @object.automatically_managed? ? t(:"storages.label_active") : t(:"storages.label_inactive")
+    ) %>
+
+    <% if @object.automatically_managed? %>
+      <% component.with_attribute(
+        key: t(:"storages.label_managed_project_folders.application_password"),
+        value: "●●●●●●●●●●●●●●●●"
+      ) %>
+    <% end %>
+  <% end %>
+<% end %>
+

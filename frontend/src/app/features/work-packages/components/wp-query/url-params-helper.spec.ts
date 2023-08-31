@@ -209,6 +209,7 @@ describe('UrlParamsHelper', () => {
           },
         ],
         filters: [filter1, filter2],
+        timestamps: ['PT0S'],
       };
 
       additional = {
@@ -244,6 +245,7 @@ describe('UrlParamsHelper', () => {
         'highlightedAttributes[]': ['a', 'b'],
         offset: 10,
         pageSize: 100,
+        timestamps: 'PT0S',
       };
 
       expect(_.isEqual(v3Params, expected)).toBeTruthy();
@@ -278,6 +280,7 @@ describe('UrlParamsHelper', () => {
         groupBy: '',
         timelineZoomLevel: 0,
         highlightingMode: 'inline',
+        timestamps: ['PT0S'],
         sums: false,
       };
 
@@ -301,8 +304,8 @@ describe('UrlParamsHelper', () => {
         showHierarchies: false,
         highlightingMode: 'inline',
         includeSubprojects: false,
-
         sortBy: '[]',
+        timestamps: 'PT0S',
       };
 
       expect(_.isEqual(v3Params, expected)).toBeTruthy();

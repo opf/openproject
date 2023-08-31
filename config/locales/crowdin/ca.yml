@@ -49,7 +49,7 @@ ca:
         main-menu-border-color: "Vora del menú principal"
       custom_colors: "Colors personalitzats"
       customize: "Personalitza la teva instal·lació d'OpenProject amb el teu propi logotip i colors."
-      enterprise_notice: "Com un \"Gràcies!\" especial per la contribució financera al desenvolupament d'OpenProject, aquest petit add-on només està disponible pels subscriptors de l'edició Enterprise."
+      enterprise_notice: "Com un \"Gràcies!\" especial per la contribució financera al desenvolupament d'OpenProject, aquesta petita extensió només està disponible pels subscriptors de l'edició Enterprise."
       enterprise_more_info: "Nota: el logotip utilitzat serà accessible públicament."
       manage_colors: "Edita les opcions de selecció de colors"
       instructions:
@@ -72,7 +72,7 @@ ca:
       replace_token: "Substitueix el teu token de suport actual"
       order: "Ordena l'edició Enterpise on-premises"
       paste: "Enganxa el teu token de suport de l'edició Enterprise"
-      required_for_feature: "Aquest add-om només està disponible amb un token de suport de l'edició Enterprise."
+      required_for_feature: "Aquesta extensió només està disponible amb un token de suport de l'edició Enterprise."
       enterprise_link: "Per a més informació, cliqueu aquí."
       start_trial: 'Inicia la prova gratuïta'
       book_now: 'Reserva ara'
@@ -80,7 +80,7 @@ ca:
       buttons:
         upgrade: "Actualitza ara"
         contact: "Contacta amb nosaltres per una demostració"
-      enterprise_info_html: "és un add-on de l'edició Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
+      enterprise_info_html: "és una extensió de l'edició Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'>."
       upgrade_info: "Si us plau, actualitza a una versió de pagament per tal d'activar i començar a utilitzar aquesta funcionalitat en el teu equip."
     journal_aggregation:
       explanation:
@@ -99,15 +99,14 @@ ca:
     edit: "Edita el text d'ajuda per a %{attribute_caption}"
     enterprise:
       description: 'Proveeix informació addicional pels atributs (inclosos camps personalitzats) dels paquets de treball o projectes. Els texts d''ajuda es mostren quan l''usuari fa clic al signe d''interrogació al costat dels valors de camp en projectes i paquets de treball.'
-  auth_sources:
-    index:
-      no_results_content_title: Actualment no hi ha cap mode d'autenticació.
-      no_results_content_text: Crea un nou mode d'autenticació
   background_jobs:
     status:
       error_requeue: "La tasca ha produït un error, però s'està reintentant. L'error era: %{message}"
       cancelled_due_to: "La feina s'ha cancel·lat a causa d'un error: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    back_to_index: 'Click here to go back to the list of connection.'
     technical_warning_html: |
       Aquest formulari LDAP requereix coneixement tècnic sobre la teva configuració LDAP / Directori actiu.
       <br/>
@@ -166,10 +165,21 @@ ca:
     index:
       no_results_title_text: Actualment no hi ha cap color.
       no_results_content_text: Crea un nou color
-    label_no_color: 'Sense color'
+      label_new_color: "Nou color"
+    new:
+      label_new_color: "Nou color"
+    edit:
+      label_edit_color: "Edita el color"
+    form:
+      label_new_color: "Nou color"
+      label_edit_color: "Edita el color"
+    label_no_color: "Sense color"
+    label_properties: "Propietats"
+    label_really_delete_color: >
+      Estàs segur que vols eliminar el següent color? Els tipus amb aquest color no s'eliminaràn.
   custom_actions:
     actions:
-      name: 'Accions'
+      name: "Accions"
       add: 'Afegeix una acció'
       assigned_to:
         executing_user_value: '(Assigna-ho a l''usuari que ho està executant)'
@@ -195,8 +205,6 @@ ca:
       no_results_content_text: Crea un camp personalitzat nou
   concatenation:
     single: 'o'
-  documentation:
-    see_more_link: Per més informació, si us plau, veu la nostra documentació en relació amb aquest tòpic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -250,6 +258,8 @@ ca:
         no_results_title_text: Actualment no hi ha cap camp personalitzat disponible.
       types:
         no_results_title_text: Actualment no hi ha cap classe disponible.
+        form:
+          enable_type_in_project: 'Activar tipus "%{type}"'
       versions:
         no_results_title_text: Actualment no hi ha cap versió per al projecte.
         no_results_content_text: Crear una nova versió
@@ -266,11 +276,24 @@ ca:
       notice_reset_token: "S'ha generat un nou token %{type}. El teu token d'accés és:"
       token_value_warning: "Nota: Aquesta és la única vegada que veuràs aquest token, assegura't de copiar-lo ara."
       no_results_title_text: Actualment no hi ha cap token d'accés disponible.
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Actualment no hi ha cap novetat per a informar.
       no_results_content_text: Afegir una notícia
   users:
+    sessions:
+      session_name: "%{browser_name}%{browser_version} en %{os_name}"
+      browser: 'Navegador'
+      device: 'Dispositiu / Sistema Operatiu'
+      unknown_browser: 'navegador desconegut'
+      unknown_os: 'sistema operatiu desconegut'
+      current: 'Sessió actual'
+      title: 'Gestió de sessions'
+      instructions: 'Aquesta és una llista de dispositius que s’han registrat al vostre compte. Revoca qualsevol sessió que no coneguis.'
+      may_not_delete_current: 'No pots eliminar la sessió actual.'
     groups:
       member_in_these_groups: 'Aquest usuari és actualment membre dels següents grups:'
       no_results_title_text: Aquest usuari no és actualment membre de cap grup.
@@ -312,6 +335,12 @@ ca:
     index:
       no_results_title_text: Actualment no hi ha cap estat de paquet de treball.
       no_results_content_text: Afegir un nou estat
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
   types:
     index:
       no_results_title_text: Actualment no hi ha cap tipus.
@@ -330,6 +359,7 @@ ca:
         El color seleccionat distingeix direfents tipus als diagrames Gantt o a les taules de paquets de treballs. Així doncs recomanem de fer servir un color fort.
   versions:
     overview:
+      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
       no_results_title_text: Actualment no hi ha cap paquet de treball assignat a aquesta versió.
   wiki:
     page_not_editable_index: La pàgina sol·licitada no existeix (encara). Se t'ha redirigit a la pàgina índex de totes les pàgines wiki.
@@ -415,17 +445,17 @@ ca:
       attribute_help_text:
         attribute_name: 'Atribut'
         help_text: 'Text d''ajuda'
-      auth_source:
-        account: "Compte"
-        attr_firstname: "Atribut Nom"
-        attr_lastname: "Atribut Cognom"
-        attr_login: "Atribut Nom d'usuari"
-        attr_mail: "Atribut de Correu electrònic"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Firstname attribute"
+        attr_lastname: "Lastname attribute"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
         base_dn: "Base DN"
-        host: "Servidor"
-        onthefly: "Creació d'usuari automàtica"
+        host: "Host"
+        onthefly: "Automatic user creation"
         port: "Port"
-        tls_certificate_string: "Servidor LDAP del certificat SSL"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repositori"
       comment:
@@ -481,6 +511,15 @@ ca:
           true: "públic"
           false: "privat"
         queries: "Consultes"
+        status_code: 'Estat del projecte'
+        status_explanation: 'Descripció de l''estat del projecte'
+        status_codes:
+          not_started: 'No començat'
+          on_track: 'Pel bon camí'
+          at_risk: 'En risc'
+          off_track: 'Pel mal camí'
+          finished: 'Acabat'
+          discontinued: 'Discontinuat'
         templated: "Plantilla de projecte"
         templated_value:
           true: "marca com a plantilla"
@@ -488,16 +527,6 @@ ca:
         types: "Tipus"
         versions: "Versions"
         work_packages: "Paquets de treball"
-      projects/status:
-        code: 'Estat'
-        explanation: 'Descripció de l''estat'
-        codes:
-          not_started: 'No començat'
-          on_track: 'Pel bon camí'
-          at_risk: 'En risc'
-          off_track: 'Pel mal camí'
-          finished: 'Acabat'
-          discontinued: 'Discontinuat'
       query:
         column_names: "Columnes"
         relations_to_type_column: "Relacions a %{type}"
@@ -514,6 +543,7 @@ ca:
         hours: "Hores"
         spent_on: "Data"
         type: "Tipus"
+        ongoing: "En curs"
       type:
         description: "Text per defecte per la descripció"
         attribute_groups: ''
@@ -523,7 +553,7 @@ ca:
         color: "Color"
       user:
         admin: "Administrador"
-        auth_source: "Mode d'autenticació"
+        ldap_auth_source: "LDAP connection"
         current_password: "Contrassenya actual"
         force_password_change: "Forçar el canvi de contrasenya en el proper inici de sessió"
         language: "Idioma"
@@ -644,10 +674,10 @@ ca:
           no està proveint un "Context Segur". Utilitza HTTPS o bé una adreça de retroalimentació, com un host local.
         wrong_length: "la longitud és incorrecta (haurien de ser %{count} caràcters)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "El certificat SSL proporcionat és invàlid: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -688,6 +718,11 @@ ca:
           overlaps: 'superposició.'
           outside: 'és fora de la graella.'
           end_before_start: 'el valor final ha de ser major que el valor inicial.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "és obligatori. Si us plau, selecciona un nom."
+              not_unique: "ja està en ús. Si us plau, selecciona un altre nom."
         notifications:
           at_least_one_channel: 'És necessari d''especificar almenys un canal per enviar notificacions.'
           attributes:
@@ -735,6 +770,10 @@ ca:
               format: "%{message}"
             sort_criteria:
               invalid: "No es pot ordenar per columna: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "La marca horària conté valors invàlids: %{values}"
+              forbidden: "La marca horària conté valors prohibits: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "és mútuament exclusiu amb el grup per \"%{group_by}\". No pots activar els dos."
           filters:
@@ -791,6 +830,7 @@ ca:
               not_allowed_to_view: "no està permès veure aquest recurs."
               locked: "està bloquejat."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "no pot ser deduït del títol \"%{title}\"."
@@ -857,8 +897,8 @@ ca:
                 description: "'Confirmació de la contrasenya' ha de coincidir amb la introduïda al camp 'Nova contrasenya'."
             status:
               invalid_on_create: "no és un valor vàlid per a nous usuaris."
-            auth_source:
-              error_not_found: "no trobat"
+            ldap_auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Trieu com a mínim un usuari o grup."
           role_blank: "s'ha d'assignar."
@@ -868,6 +908,7 @@ ca:
             principal:
               unassignable: "no pot ser assignat a un projecte."
         version:
+          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "La versió no es pot eliminar, ja que té paquets de treball adjunts."
         status:
           readonly_default_exlusive: "no pot ser activat per estats que estan marcats per defecte."
@@ -906,16 +947,34 @@ ca:
       work_package: "Paquet de treball"
       'doorkeeper/application': "Aplicació OAuth"
   errors:
-    header_invalid_fields: "S'han detectat problemes en els camps següents:"
+    header_invalid_fields:
+      one: "There was a problem with the following field:"
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      one: "Additionally, there was a problem with the following field:"
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "Aquest camp no és vàlid: %{full_errors} si us plau, introduïu un valor correcte."
   activity:
     item:
       created_by_on: "creat per %{user} el %{datetime}"
+      created_by_on_time_entry: "temps registrat per %{user} el %{datetime}"
       created_on: "creat el %{datetime}"
+      created_on_time_entry: "time logged on %{datetime}"
       updated_by_on: "actualitzat per %{user} el %{datetime}"
+      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "actualitzat el %{datetime}"
+      updated_on_time_entry: "logged time updated on %{datetime}"
       parent_without_of: "Subprojecte"
       parent_no_longer: "Ja no és subprojecte de"
+      time_entry:
+        hour:
+          one: "%{count} hora"
+          other: "%{count} hores"
+        hour_html:
+          one: "%{count} hora</i>"
+          other: "%{count} hores</i>"
+        updated: "canviat de %{old_value} a %{value}"
+        logged_for: "Registrat per"
     filter:
       changeset: "Conjunt de canvis"
       message: "Fòrums"
@@ -1032,6 +1091,8 @@ ca:
   button_configure: "Configurar"
   button_continue: "Continua"
   button_copy: "Copiar"
+  button_copy_to_clipboard: "Copiar al porta-retalls"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Copiar i continuar"
   button_create: "Crear"
   button_create_and_continue: "Crear i continuar"
@@ -1161,7 +1222,7 @@ ca:
       - "Octubre"
       - "Novembre"
       - "Desembre"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - :any
       - :mes
@@ -1206,61 +1267,6 @@ ca:
       hour:
         one: "hora"
         other: "hores"
-  default_activity_development: "Desenvolupament"
-  default_activity_management: "Administració"
-  default_activity_other: "Altres"
-  default_activity_specification: "Especificació"
-  default_activity_support: "Suport"
-  default_activity_testing: "Proves"
-  default_color_black: "Negre"
-  default_color_blue: "Blau"
-  default_color_blue_dark: "Blau (fosc)"
-  default_color_blue_light: "Blau (clar)"
-  default_color_green_dark: "Verd (fosca)"
-  default_color_green_light: "Verd (clar)"
-  default_color_grey_dark: "Gris (fosc)"
-  default_color_grey_light: "Gris (clar)"
-  default_color_grey: "Gris"
-  default_color_magenta: "Magenta"
-  default_color_orange: "Taronja"
-  default_color_red: "Vermell"
-  default_color_white: "Blanc"
-  default_color_yellow: "Groc"
-  default_status_closed: "Tancat"
-  default_status_confirmed: "Confirmat"
-  default_status_developed: "Desenvolupat"
-  default_status_in_development: "En desenvolupament"
-  default_status_in_progress: "En progrés"
-  default_status_in_specification: "En l'especificació"
-  default_status_in_testing: "En proves"
-  default_status_new: "Nou"
-  default_status_on_hold: "En espera"
-  default_status_rejected: "Rebutjat"
-  default_status_scheduled: "Programat"
-  default_status_specified: "Especificat"
-  default_status_tested: "Provat"
-  default_status_test_failed: "Ha fallat la prova"
-  default_status_to_be_scheduled: "Per planificar"
-  default_priority_low: "Baixa"
-  default_priority_normal: "Normal"
-  default_priority_high: "Alta"
-  default_priority_immediate: "Immediata"
-  default_role_anonymous: "Anònim"
-  default_role_developer: "Desenvolupador"
-  default_role_project_admin: "Administrador del projecte"
-  default_role_project_creator_and_staff_manager: "Personal i cap de projecte"
-  default_role_non_member: "No membre"
-  default_role_reader: "Lector"
-  default_role_member: "Membre"
-  default_type: "Paquet de treball"
-  default_type_bug: "Error"
-  default_type_deliverable: "Lliurable"
-  default_type_epic: "Èpica"
-  default_type_feature: "Característica"
-  default_type_milestone: "Fita"
-  default_type_phase: "Fase"
-  default_type_task: "Tasca"
-  default_type_user_story: "Història d'usuari"
   description_active: "Actiu?"
   description_attachment_toggle: "Mostra o amaga els fitxers adjunts"
   description_autocomplete: >
@@ -1295,11 +1301,11 @@ ca:
   ee:
     upsale:
       form_configuration:
-        description: "Personalitza la configuració del formulari amb aquests add-ons extres:"
+        description: "Personalitza la configuració del formulari amb aquestes extensions addicionals:"
         add_groups: "Afegir un nou atribut de grups"
         rename_groups: "Reanomena els atributs de grups"
       project_filters:
-        description_html: "Filtrar i ordenar camps personalitzats és un add-on de l'edició Enterprise."
+        description_html: "Filtrar i ordenar camps personalitzats és una extensió de l'edició Enterprise."
   enumeration_activities: "Activitats de rastrejament del temps"
   enumeration_work_package_priorities: "Prioritats dels paquets de treball"
   enumeration_reported_project_statuses: "Estats de projecte notificats"
@@ -1307,9 +1313,10 @@ ca:
   error_can_not_archive_project: "Aquest projecte no es pot arxivar: %{errors}"
   error_can_not_delete_entry: "No s'ha pogut esborrar l'entrada"
   error_can_not_delete_custom_field: "No s'ha pogut suprimir el camp personalitat"
+  error_can_not_delete_in_use_archived_undisclosed: 'There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.'
+  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Aquest tipus conté paquets de treball i no es pot eliminar. Pots veure tots els paquets de treball afectats a <a target="_blank" href="%{url}">aquesta vista</a>.'
-    archived_projects: 'També hi ha paquets de treball en projectes arxivats. Primer has de reactivar els següents projectes, abans de que pugui canviar-se el tipus dels respectius paquets de treball: %{archived_projects}'
   error_can_not_delete_standard_type: "No es poden suprimir els tipus estàndard."
   error_can_not_invite_user: "Error en enviar la invitació a l'usuari."
   error_can_not_remove_role: "Aquest rol s'està utilitzant i no es pot suprimir."
@@ -1318,13 +1325,14 @@ ca:
   error_can_not_unarchive_project: "Aquest projecte no es pot desarxivar: %{errors}"
   error_check_user_and_role: "Trieu un usuari i un rol."
   error_code: "Error %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'La cookie d''OpenProject no s''ha trobat. Assegureu-vos que les cookies estan habilitades, ja que aquesta aplicació no pot funcionar correctament sense.'
   error_custom_option_not_found: "L'opció no existeix."
   error_enterprise_activation_user_limit: "El teu compte no s'ha pogut activar (límit d'usuaris assolit). Si us plau, contacte amb el teu administrador per obtenir accés."
   error_enterprise_token_invalid_domain: "L'edició Enterprise no està activa. El domini del token Enterprise (%{actual}) no concorda amb el nom d'allotjament del sistema (%{expected})."
   error_failed_to_delete_entry: 'Error a l''eliminar aquesta entrada.'
-  error_in_dependent: "Error en intentar alterar objectes dependents: %{dependent_class} #%{related_id} -%{related_subject}: %{error}" #%{related_id} -%{related_subject}: %{error}"
-  error_in_new_dependent: "Error en intentar crear objectes dependents: %{dependent_class} #%{related_id} -%{related_subject}: %{error}" #%{related_id} -%{related_subject}: %{error}"
+  error_in_dependent: "Error en intentar alterar objectes dependents: %{dependent_class} #%{related_id} -%{related_subject}: %{error}"
+  error_in_new_dependent: "Error en intentar crear objectes dependents: %{dependent_class} #%{related_id} -%{related_subject}: %{error}"
   error_invalid_selected_value: "Valor seleccionat invàlid."
   error_journal_attribute_not_present: "El diari no conté l'atribut %{attribute}."
   error_pdf_export_too_many_columns: "Masses columnes seleccionades per a l'exportació PDF. Si us plau, redueix el nombre de columnes."
@@ -1342,6 +1350,7 @@ ca:
   error_password_change_failed: 'Hi ha hagut un error l''intentar canviar la contrasenya.'
   error_scm_command_failed: "S'ha produït un error en intentar accedir al repositori: %{value}"
   error_scm_not_found: "No s'ha trobat l'entrada o la revisió en el repositori."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "No es pot suprimir l'estat del paquet de treball ja que és utilitzat per almenys un paquet de treball."
   error_unable_delete_default_status: "No es pot suprimir l'estat per defecte del paquet de treball. Seleccioneu un altre estat de paquet de treball per defecte abans de suprimir l'actual."
   error_unable_to_connect: "No s'ha pogut connectar (%{value})"
@@ -1378,11 +1387,14 @@ ca:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF amb descripcions"
-      pdf_with_descriptions_and_attachments: "PDF amb descripcions i fitxers adjunts"
-      pdf_with_attachments: "PDF amb fitxers adjunts"
+      pdf_overview_table: "PDF - Taula"
+      pdf_report_with_images: "PDF - Report amb imatges"
+      pdf_report: "PDF - Report"
     image:
       omitted: "Imatge no exportada."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext disponible (opcional)"
@@ -1428,6 +1440,25 @@ ca:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "S'han retractat els canvis."
+    caused_changes:
+      dates_changed: "Les dates han canviat"
+      system_update: "OpenProject update"
+    cause_descriptions:
+      work_package_predecessor_changed_times: per canvis en el predecessor %{link}
+      work_package_parent_changed_times: per canvis en el pare %{link}
+      work_package_children_changed_times: per canvis en el fill %{link}
+      work_package_related_changed_times: per canvis en el relacionat %{link}
+      unaccessable_work_package_changed: per canvis a un paquet de treball relacionat
+      working_days_changed:
+        changed: "per canvis en els dies laborals (%{changes})"
+        days:
+          working: "%{day} és ara laboral"
+          non_working: "%{day} és ara no laboral"
+        dates:
+          working: "%{date} és ara laboral"
+          non_working: "%{date} és ara no laboral"
+      system_update:
+        file_links_journal: 'added File links to Activities'
   links:
     configuration_guide: 'Guia de configuració'
     get_in_touch: "Tens preguntes? Posa't en contacte amb nosaltres."
@@ -1437,7 +1468,7 @@ ca:
   menus:
     admin:
       mail_notification: "Notificacions de correu electrònic"
-      mails_and_notifications: "Correus electrònics i notificacions"
+      mails_and_notifications: "Emails and notifications"
       aggregation: 'Agregació'
       api_and_webhooks: "API i webhooks"
     quick_add:
@@ -1452,6 +1483,33 @@ ca:
         action: "Acció"
         expiration: "Caduca"
       indefinite_expiration: "Mai"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: "iCalendar tokens allow users to <a href=\"%{path}\" target=\"_blank\">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients."
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
   notifications:
     send_notifications: "Envia una notificació per aquesta acció"
     work_packages:
@@ -1494,6 +1552,7 @@ ca:
   label_age: "Edat"
   label_ago: "dies abans"
   label_all: "tot"
+  label_all_projects: "All projects"
   label_all_time: "tot el temps"
   label_all_words: "Totes les paraules"
   label_all_open_wps: "Tots els oberts"
@@ -1502,8 +1561,15 @@ ca:
   label_api_access_key: "Clau d'accés API"
   label_api_access_key_created_on: "Clau d'accés API creada fa %{value}"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar roken \"%{token_name}\" per \"%{calendar_name}\" en \"%{project_name}\""
+  label_ical_access_key_not_present: "Token/s iCalendar no present."
+  label_ical_access_key_generation_hint: "Generat automàticament en subscriure't a un calendari."
+  label_ical_access_key_latest: "úlitma"
+  label_ical_access_key_revoke: "Revoca"
   label_applied_status: "Estat aplicat"
   label_archive_project: "Arxiva el projecte"
+  label_archived_projects: "Archived projects"
   label_ascending: "Ascendent"
   label_assigned_to_me_work_packages: "Paquets de treball assignats a mi"
   label_associated_revisions: "Revisions associades"
@@ -1512,9 +1578,9 @@ ca:
   label_attachment_plural: "Arxius"
   label_attribute: "Atribut"
   label_attribute_plural: "Atributs"
-  label_auth_source: "Mode d'autenticació"
-  label_auth_source_new: "Nou mode d'autenticació"
-  label_auth_source_plural: "Modes d'autenticació"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autenticació"
   label_available_project_work_package_categories: 'Categories de paquet de treball disponibles'
   label_available_project_work_package_types: 'Classes de paquet de treball disponibles'
@@ -1537,6 +1603,7 @@ ca:
   label_bulk_edit_selected_work_packages: "Edició massiva de paquets de treball"
   label_bundled: '(Integrat)'
   label_calendar: "Calendari"
+  label_calendars_and_dates: "Calendaris i dates"
   label_calendar_show: "Mostreu el calendari"
   label_category: "Categoria"
   label_consent_settings: "Consentiment d'usuari"
@@ -1572,8 +1639,8 @@ ca:
   label_confirmation: "Confirmació"
   label_contains: "conté"
   label_content: "Contingut"
+  label_color_plural: "Colors"
   label_copied: "copiat"
-  label_copy_to_clipboard: "Copiar al porta-retalls"
   label_copy_same_as_target: "El mateix que l'objectiu"
   label_copy_source: "Origen"
   label_copy_target: "Destí"
@@ -1590,6 +1657,7 @@ ca:
   label_database_version: "Versió PostgreSQL"
   label_date: "Data"
   label_date_and_time: "Data i hora"
+  label_date_format: "Format de data"
   label_date_from: "De"
   label_date_from_to: "Des de %{start} a %{end}"
   label_date_to: "Fins"
@@ -1600,6 +1668,7 @@ ca:
   label_deleted: "suprimit"
   label_deleted_custom_field: "(camp personalitzat suprimit)"
   label_deleted_custom_option: "(opció eliminada)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(valor absent o manca de permisos per accedir)"
   label_descending: "Descendent"
   label_details: "Detalls"
@@ -1632,16 +1701,20 @@ ca:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} usuaris actius registrats"
   label_enterprise_edition: "Edició Enterprise."
+  label_enterprise_support: "Suport Enterprise"
   label_environment: "Entorn"
   label_estimates_and_time: "Estimacions i temps"
   label_equals: "és"
   label_everywhere: "a tot arreu"
   label_example: "Exemple"
+  label_experimental: "Experimental"
+  label_i_am_member: "I am member"
   label_import: "Importació"
   label_export_to: "També disponible en:"
   label_expanded_click_to_collapse: "Desplegat. Fes clic per col·lapsar"
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} hores"
+  label_favoured: "Favoured"
   label_feed_plural: "Canals"
   label_feeds_access_key: "Clau d'accés RSS"
   label_feeds_access_key_created_on: "Clau d'accés RSS creada fa %{value}"
@@ -1673,6 +1746,7 @@ ca:
   label_hierarchy_leaf: "Branca de jerarquia"
   label_home: "Inici"
   label_subject_or_id: "Subjecte o ID"
+  label_calendar_subscriptions: "Calendar subscriptions"
   label_impressum: "Avís legal"
   label_in: "en"
   label_in_less_than: "en menys de"
@@ -1694,6 +1768,7 @@ ca:
   label_journal: "Diari"
   label_journal_diff: "Descripció de comparació"
   label_language: "Idioma"
+  label_languages: "Idiomes"
   label_jump_to_a_project: "Anar al projecte..."
   label_keyword_plural: 'Paraules clau'
   label_language_based: "Basat en l'idioma de l'usuari"
@@ -1715,6 +1790,7 @@ ca:
   label_logged_as: "Connectat com a"
   label_login: "Iniciar sessió"
   label_custom_logo: "Logotips personalitzats"
+  label_custom_export_logo: "Exportar logo personalitzat"
   label_custom_favicon: "Favicon personalitzat"
   label_custom_touch_icon: "Icona \"touch\" personalitzada"
   label_logout: "Tancar sessió"
@@ -1751,6 +1827,7 @@ ca:
   label_more_than_ago: "fa més dies"
   label_move_work_package: "Moure el paquet de treball"
   label_my_account: "El meu compte"
+  label_my_activity: "La meva activitat"
   label_my_account_data: "Dades del meu compte"
   label_my_projects: "Els meus projectes"
   label_my_queries: "Les meves consultes personalitzades"
@@ -1801,7 +1878,6 @@ ca:
   label_password_rule_special: "Caràcters especials"
   label_password_rule_uppercase: "Majúscules"
   label_path_encoding: "Codificació de les rutes"
-  label_pdf_with_descriptions: "PDF amb descripcions"
   label_per_page: "Per pàgina"
   label_people: "Persones"
   label_permissions: "Permisos"
@@ -1823,7 +1899,6 @@ ca:
   label_principal_search: "Afegir usuaris o grups existents"
   label_privacy_policy: "Privacitat de dades i política de seguretat"
   label_product_version: "Versió del producte"
-  label_professional_support: "Suport professional"
   label_profile: "Perfil"
   label_project_activity: "Activitat del projecte"
   label_project_attribute_plural: "Atributs de projecte"
@@ -1835,7 +1910,8 @@ ca:
   label_project_new: "Nou projecte"
   label_project_plural: "Projectes"
   label_project_settings: "Configuració del projecte"
-  label_project_storage_plural: "Emmagatzematges"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} projectes utilitzen %{storage} d'emmagatzematge a disc"
   label_project_view_all: "Veure tots els projectes"
   label_project_show_details: "Mostra detalls del projecte"
@@ -1886,7 +1962,7 @@ ca:
   label_role_search: "Assignar rols als nous membres"
   label_scm: "SCM"
   label_search: "Cercar"
-  label_send_information: "Envia la informació del compte a l'usuari"
+  label_send_information: "Envia noves credencials a l'usuari"
   label_send_test_email: "Enviar correu electrònic de prova"
   label_setting_plural: "Configuració"
   label_system_settings: "Configuració del Sistema"
@@ -1923,6 +1999,7 @@ ca:
   label_this_week: "aquesta setmana"
   label_this_year: "aquest any"
   label_time_entry_plural: "Temps utilitzat"
+  label_title: "Title"
   label_projects_menu: "Projectes"
   label_today: "avui"
   label_top_menu: "Menú superior"
@@ -1954,6 +2031,7 @@ ca:
   label_user_plural: "Usuaris"
   label_user_search: "Cercar per usuari"
   label_user_settings: "Configuració de l'usuari"
+  label_users_settings: "Configuració d'usuaris"
   label_version_new: "Nova versió"
   label_version_plural: "Versions"
   label_version_sharing_descendants: "Amb subprojectes"
@@ -2025,10 +2103,7 @@ ca:
   label_global_role: "Rol global"
   label_not_changeable: "(no variable)"
   label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "No podeu utilitzar una font d'autenticació abstracte."
-    ldap_error: "Error LDAP: %{error_message}"
-    ldap_auth_failed: "No s'ha pogut autenticar en el servidor de LDAP."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Error en l'execució de la macro %{macro_name}"
   macro_unavailable: "No es pot mostrar la macro %{macro_name}."
   macros:
@@ -2072,6 +2147,7 @@ ca:
       more_to_see:
         one: 'Hi ha un paquet de treball més amb notificacions.'
         other: 'Hi han %{count} paquets de treball més amb notificacions.'
+      open_in_browser: 'Obre al navegador'
       reason:
         watched: 'Observat'
         assigned: 'Assignat'
@@ -2096,6 +2172,10 @@ ca:
   mail_body_incoming_email_error_in_reply_to: "A les %{received_at}%{from_email} ha escrit"
   mail_body_incoming_email_error_logs: "Registres"
   mail_body_lost_password: "Per a canviar la teva contrasenya, fes clic a l'enllaç següent:"
+  mail_password_change_not_possible:
+    title: "Password change not possible"
+    body: "Your account at %{app_title} is connected to an external authentication provider (%{name})."
+    subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
   mail_body_register: "Benvingut/da a %{app_title}. Si us plau activa el teu compte fent clic a aquest enllaç:"
   mail_body_register_header_title: "Correu electrònic d'invitació de membre del projecte"
   mail_body_register_user: "Benvolgut/da %{name},"
@@ -2211,7 +2291,7 @@ ca:
   present_access_key_value: "El teu %{key_name} és: %{value}"
   notice_automatic_set_of_standard_type: "Establir tipus estàndard automàticament."
   notice_logged_out: "S'ha tancat la sessió."
-  notice_wont_delete_auth_source: El mode d'autenticació no es pot suprimir mentre encara hi ha usuaris utilitzant-lo.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "No pots actualitzar els camps personalitzats disponibles del projecte. El projecte no és vàlid: %{errors}"
   notice_attachment_migration_wiki_page: >
     Aquesta pàgina s'ha generat automàticament durant l'actualització d'OpenProject. Compte tots els fitxers adjunts que anteriorment estaven associats amb el %{container_type} "%{container_name}".
@@ -2245,7 +2325,8 @@ ca:
   permission_add_messages: "Publicar missatges"
   permission_add_project: "Crear un projecte"
   permission_archive_project: "Arxiva el projecte"
-  permission_manage_user: "Crear i editar usuaris"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Crea, edita i elimina usuaris de marcador de posició"
   permission_add_subprojects: "Crear subprojectes"
   permission_add_work_package_watchers: "Afegir observadors"
@@ -2336,7 +2417,7 @@ ca:
       archived: "Arxivat"
   project_module_activity: "Activitat"
   project_module_forums: "Fòrums"
-  project_module_work_package_tracking: "Paquet de treball de seguiment"
+  project_module_work_package_tracking: "Paquets de treball"
   project_module_news: "Notícies"
   project_module_repository: "Repositori"
   project_module_wiki: "Wiki"
@@ -2508,7 +2589,7 @@ ca:
   setting_consent_decline_mail: "Adreça de correu electrònic de consentiment"
   setting_cross_project_work_package_relations: "Permetre les relacions creuades entre projectes pels paquets de treball"
   setting_first_week_of_year: "La primera setmana de l'any conté"
-  setting_date_format: "Format de data"
+  setting_date_format: "Data"
   setting_default_language: "Idioma per defecte"
   setting_default_projects_modules: "Mòduls activats per defecte en els projectes nous"
   setting_default_projects_public: "Els projectes nous són públics per defecte"
@@ -2520,6 +2601,7 @@ ca:
   setting_enabled_scm: "Activar SCM"
   setting_enabled_projects_columns: "Visible en la llista de projectes"
   setting_feeds_enabled: "Habilita els canals"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Límit de contingut del canals"
   setting_file_max_size_displayed: "Mida màxima dels fitxers de text mostrats en línia"
   setting_host_name: "Nom del servidor"
@@ -2570,9 +2652,9 @@ ca:
   setting_start_of_week: "La setmana comença en"
   setting_sys_api_enabled: "Activar el servei web de gestió del repositori"
   setting_sys_api_description: "La gestió del repositori per servei web proporciona integració i autorització d'usuaris per l'accés a repositoris."
-  setting_time_format: "Format d'hora"
+  setting_time_format: "Hora"
   setting_accessibility_mode_for_anonymous: "Activar el mode d'accessibilitat per a usuaris anònims"
-  setting_user_format: "Format de com mostrar l'usuari"
+  setting_user_format: "Format de nom d'usuari"
   setting_user_default_timezone: "Zona horària per defecte de l'usuari"
   setting_users_deletable_by_admins: "Comptes d'usuari esborrables pels administradors"
   setting_users_deletable_by_self: "Els usuaris poden suprimir els seus comptes"
@@ -2581,29 +2663,22 @@ ca:
   setting_welcome_on_homescreen: "Mostrar el bloc de benvinguda a la pàgina d'inici"
   setting_work_package_list_default_highlighting_mode: "Mètode de destacament per defecte"
   setting_work_package_list_default_highlighted_attributes: "Atributs de destacament en línia per defecte"
+  setting_working_days: "Dies laborals"
   settings:
-    general: "General"
-    other: "Altres"
-    passwords: "Contrasenyes"
-    session: "Sessió"
-    brute_force_prevention: "Bloqueig automàtic d'usuari"
     attachments:
       whitelist_text_html: >
         Defineix una llista vàlida d'extensions de fitxers i/o classes MIME per carregar fitxers. <br/>Introdueïx extensions de fitxers (ex. <code>%{ext_example}</code>) o classes MIME (ex. <code>%{mime_example}</code>). <br/> Deixa el camp buit per permetre qualsevol classe de fitxer. Es permeten múltiples valors (una línia per cada valor).
-    notifications:
-      events_explanation: 'Controla per a quins esdeveniments s''envien correus electrònics. Els paquets de treball estan exclosos d''aquesta llista, ja que les seves notificacions poden ser configurades específicament per a cada usuari.'
-      delay_minutes_explanation: "L'enviada de correus electrònics pot ser endarrerida per permetre als usuaris amb notificacions dins l'aplicació confirmar la notificació dins de l'aplicació abans que s'enviï. Els usuaris que han llegit la notificació a l'aplicació no rebran el correu electrònic, ja que ja han llegit la notificació."
-    display:
+    brute_force_prevention: "Bloqueig automàtic d'usuari"
+    date_format:
       first_date_of_week_and_year_set: >
-        Si alguna de les opcions "%{day_of_week_setting_name}" o "%{first_week_setting_name}" estan configurades, l'altre ha d'estar també configurada per evitar inconsistències en l'aplicació.
-      first_week_of_year_text: >
-        Selecciona la data de gener que està continguda dins la primera setmana de l'any. Aquest valor conjuntament amb el primer dia de la setmana estipula el nombre total de setmanes de l'any.
-    projects:
-      section_new_projects: "Configuració per a projectes nous"
-      section_project_overview: "Configuracions per a la llista de visió general del projecte"
-    user:
-      default_preferences: "Preferències per defecte"
-      deletion: "Eliminació"
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    experimental:
+      save_confirmation: Alerta! Risc de pèrdua de dades! Només activa les funcions experimentals si no t'importà desconfigurar la teva instal·lació d'OpenProject o perdre dades.
+      warning_toast: Els marcadors de funcions són una funcionalitat que activa funcions que encara estan en desenvolupament. Només s'han d'utilitzar per a realitzar tests. No s'han d'activar mai a instal·lacions d'OpenProject amb dades importants. Aquestes funcions poden, molt probablement, corrompre les teves dades. Utilitza-les sota el teu propi risc.
+      feature_flags: Marcadors de funcions
+    general: "General"
     highlighting:
       mode_long:
         inline: "Atribut(s) de destacament en línia"
@@ -2611,6 +2686,25 @@ ca:
         status: "Fila sencera per Estat"
         type: "Fila sencera per Classe"
         priority: "Fila sencera per Prioritat"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: '%{language_name} (default)'
+    notifications:
+      events_explanation: 'Controla per a quins esdeveniments s''envien correus electrònics. Els paquets de treball estan exclosos d''aquesta llista, ja que les seves notificacions poden ser configurades específicament per a cada usuari.'
+      delay_minutes_explanation: "L'enviada de correus electrònics pot ser endarrerida per permetre als usuaris amb notificacions dins l'aplicació confirmar la notificació dins de l'aplicació abans que s'enviï. Els usuaris que han llegit la notificació a l'aplicació no rebran el correu electrònic, ja que ja han llegit la notificació."
+    other: "Altres"
+    passwords: "Contrasenyes"
+    projects:
+      section_new_projects: "Configuració per a projectes nous"
+      section_project_overview: "Configuracions per a la llista de visió general del projecte"
+    session: "Sessió"
+    user:
+      default_preferences: "Preferències per defecte"
+      display_format: "Format the visualització"
+      deletion: "Eliminació"
+    working_days:
+      section_work_week: "Setmana laboral"
+      section_holidays_and_closures: "Vacances i tancaments"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Text sense format'
@@ -2643,14 +2737,14 @@ ca:
     Mentre utilitzes camps personalitzats: Tingues en compte que els camps personalitzats s'han d'activar per projecte també.
   text_custom_field_hint_activate_per_project_and_type: >
     Els camps personalitzats han d'activar-se per classe de paquet de treball i per projecte.
-  text_wp_custom_field_html: >
-    L'edició Enterprise afegirà add-ons extra pels camps personalitzats de paquets de treball: <br> <ul> <li><b>Permet múltiple selecció dels camps personalitzats pels estils Llista o Usuari</b></li> </ul>
   text_wp_status_read_only_html: >
-    L'edició Enterprise afegirà add-ons extra pels estats de paquets de treball: <br> <ul> <li><b>Permet marcar paquets de treball com a només lectura per a estats específics</b></li> </ul>
+    L'edició Enterprise afegirà extensions addicionals pels estats de paquets de treball: <br> <ul> <li><b>Permet marcar paquets de treball com a només lectura per a estats específics</b></li> </ul>
   text_project_custom_field_html: >
-    L'edició Enterprise afegirà add-ons extra pels camps personalitzats de projectes: <br> <ul> <li><b>Afegeix camps personalitzats pels teus projectes a la teva llista de projectes per crear una vista de cartera de projectes</b></li> </ul>
+    L'edició Enterprise afegirà extensions addicionals pels camps personalitzats de projectes: <br> <ul> <li><b>Afegeix camps personalitzats pels teus projectes a la teva llista de projectes per crear una vista de cartera de projectes</b></li> </ul>
   text_custom_logo_instructions: >
     Es recomana un logo blanc amb fons transparent. Per a un millor resultat tant en pantalles retina o convencionals assegura't que la teva imatge té unes dimensions de 460px per 60px.
+  text_custom_export_logo_instructions: >
+    Aquest és logotip que apareix en les teves exportacions PDF. Necessita ser una imatge en format PNG o JPG. Es recomana un logotip negre o de color amb fons transparent o blanc.
   text_custom_favicon_instructions: >
     Aquest és la icona petita que apareix a la pantalla del navegador just al costat del títol de la pàgina. Ha de ser un PNG de 32 per 32 píxels amb un fons transparent.
   text_custom_touch_icon_instructions: >
@@ -2680,12 +2774,16 @@ ca:
   text_work_packages_destroy_confirmation: "¿Estàs segur que vols eliminar el(s) paquet(s) de treball seleccionat(s)?"
   text_work_packages_ref_in_commit_messages: "Referència i arregla els paquets de treball en els missatges dels commits"
   text_journal_added: "S'ha afegit %{label} %{value}"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label} ha canviat de %{old} %{linebreak}a %{new}"
   text_journal_changed_no_detail: "S'ha actualitzat %{label}"
   text_journal_changed_with_diff: "%{label} canviat (%{link})"
   text_journal_deleted: "%{label} s'ha suprimit (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} suprimit (%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} s'ha establert a %{value}"
   text_journal_set_with_diff: "%{label} canviat (%{link})"
@@ -2731,6 +2829,11 @@ ca:
   text_zoom_in: "Ampliar"
   text_zoom_out: "Allunyar"
   text_setup_mail_configuration: "Configura el teu proveïdor de correu electrònic"
+  help_texts:
+    views:
+      project: "%{plural} are always attached to a project. After creating a %{singular} you can add work packages from other projects to it."
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "AM"
     formats:
@@ -2743,153 +2846,6 @@ ca:
     show: "Mostra el esquema temporal"
     end: "a"
     start: "de"
-  timelines:
-    admin_menu:
-      color: "Color"
-      colors: "Colors"
-    associations: "Dependències"
-    button_delete_all: "Esborrar tot"
-    change: "Canvi en la planificació"
-    children: "Elements fill"
-    color_could_not_be_saved: "No s'ha pogut desar el color"
-    current_planning: "Planificació actual"
-    dates: "Dates"
-    dates_are_calculated_based_on_sub_elements: "El Càlcul de les dates es basa en els sotselements."
-    delete_all: "Esborrar tot"
-    delete_thing: "Esborrar"
-    duration: "Durada"
-    duration_days:
-      one: "Un dia"
-      other: "%{count} dies"
-    edit_color: "Editar el color"
-    edit_thing: "Editar"
-    edit_timeline: "Editar l'informe de terminis %{timeline}"
-    delete_timeline: "Esborrar l'informe de terminis %{timeline}"
-    empty: "(buit)"
-    enable_type_in_project: 'Permetre classe "%{type}"'
-    end: "Fi"
-    errors:
-      not_implemented: "La línea de temps no es pot renderitzar perquè utilitza una característica encara no implementada."
-      report_comparison: "La línia de temps no pot renderitzar les comparacions configurades. Consulteu la secció adequada a la configuració, reiniciar-la podria resoldre aquest problema."
-      report_epicfail: "No es pot carregar la línia de temps degut a un error inesperat."
-      report_timeout: "No s'ha pogut carregar la línia de temps en una quantitat raonable de temps."
-    filter:
-      errors:
-        timeframe_start: "L'inici del termini "
-        timeframe_end: "La fi del termini "
-        compare_to_relative: "El valor de la comparació relativa "
-        compare_to_absolute: "El valor de la comparació absoluta "
-        planning_element_time_relative_one: "L'inici per a paquets de treball en un període de temps determinat "
-        planning_element_time_relative_two: "La fi per a paquets de treball en un període de temps determinat "
-        planning_element_time_absolute_one: "L'inici per a paquets de treball en un període de temps determinat  "
-        planning_element_time_absolute_two: "La fi per a paquets de treball en un període de temps determinat  "
-      sort:
-        sortation: "Ordena per"
-        alphabet: "alfabet"
-        explicit_order: "ordre explícita"
-        project_sortation: "Classificar projectes mitjançant"
-        date: "data"
-        default: "per defecte"
-      column:
-        assigned_to: "Assignat a"
-        type: "Classe"
-        due_date: "Data de fi"
-        name: "Nom"
-        status: "Estat"
-        start_date: "Data d'inici"
-      columns: "Columnes"
-      comparisons: "Comparacions"
-      comparison:
-        absolute: "Absolut"
-        none: "Cap"
-        relative: "Relatiu"
-        compare_relative_prefix: "Comparar l'actual planificació amb"
-        compare_relative_suffix: "fa"
-        compare_absolute: "Comparar la planificació actual a %{date}"
-      time_relative:
-        days: "dies"
-        weeks: "setmanes"
-        months: "mesos"
-      exclude_own_work_packages: "Amagar els paquets de treball d'aquest projecte"
-      exclude_reporters: "Amaga altres projectes"
-      exclude_empty: "Amaga projectes buits"
-      grouping: "Agrupació"
-      grouping_hide_group: "Amagar el grup \"%{group}\""
-      grouping_one: "Primer criteri d'agrupació"
-      grouping_one_phrase: "És un subprojecte de"
-      grouping_other: "Altres"
-      hide_chart: "Amaga gràfic"
-      noneElement: "(cap)"
-      noneSelection: "(cap)"
-      outline: "Expansió de l'esquema inicial"
-      parent: "Mostra els subprojectes de"
-      work_package_responsible: "Mostra els paquets de treball amb responsable"
-      work_package_assignee: "Mostra els paquest de treball amb assignat"
-      types: "Mostra el tipus"
-      status: "Mostra l'estat"
-      project_time_filter: "Projectes amb un paquet de treball d'un cert tipus en un període de temps determinat"
-      project_time_filter_timeframe: "Marc temporal"
-      project_time_filter_historical_from: "de"
-      project_time_filter_historical_to: "a"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} fa %{end_label} %{endspan}%{endspanunit} des d'ara"
-      project_filters: "Filtrar projectes"
-      project_responsible: "Mostrar projectes amb responsable"
-      project_status: "Mostra l'estat del projecte"
-      timeframe: "Mostra el calendari"
-      timeframe_end: "a"
-      timeframe_start: "de"
-      timeline: "Configuració general"
-      zoom: "Factor de zoom"
-    history: "Història"
-    new_color: "Nou color"
-    new_association: "Nova dependència"
-    new_work_package: "Paquet de treball nou"
-    new_reporting: "Nou informe"
-    new_timeline: "Nou informe de terminis"
-    no_projects_for_reporting_available: "No hi ha cap projecte pel qual es pot crear una associació d'informes."
-    no_right_to_view_timeline: "No tens permisos suficients per a veure el termini enllaçat."
-    no_timeline_for_id: "No hi ha termini amb ID %{id}."
-    notice_successful_deleted_all_elements: "Suprimits amb èxit tots els elements"
-    outline: "Restablir el marc"
-    outlines:
-      aggregation: "Mostrar només agregacions"
-      level1: "Ampliar el nivell 1"
-      level2: "Ampliar el nivell 2"
-      level3: "Ampliar el nivell 3"
-      level4: "Ampliar el nivell 4"
-      level5: "Ampliar el nivell 5"
-      all: "Mostrar tots"
-    reporting_for_project:
-      show: "Estat informat al projecte: %{title}"
-      edit_delete: "informe d'estat per al projecte: %{title}"
-      history: "Historial de l'estat del projecte: %{title}"
-    reporting:
-      delete: "Suprimir l'estat: %{comment}"
-      edit: "Editar l'estat: %{comment}"
-      show: "Estat: %{comment}"
-    planning_element_update: "Actualitzat: %{title}"
-    type_could_not_be_saved: "No s'han pogut desar el tipus"
-    reporting_could_not_be_saved: "No s'ha pogut desar l'informe"
-    properties: "Propietats"
-    really_delete_color: >
-      Estàs segur que vols eliminar el següent color? Els tipus amb aquest color no s'eliminaràn.
-    really_delete_reporting: >
-      Estàs segur que vols eliminar el següent informe? Els informes d'estat anteriors també seran eliminats.
-    start: "Inici"
-    timeline: "Informe de terminis"
-    timelines: "Cronologia d'informes"
-    settings: "Línies temporals"
-    vertical_work_package: "Paquets de treball vertical"
-    you_are_viewing_the_selected_timeline: "Estàs visualitzant l'informe de terminis seleccionat"
-    zoom:
-      in: "Ampliar"
-      out: "Allunyar"
-      days: "Dies"
-      weeks: "Setmanes"
-      months: "Mesos"
-      quarters: "Quatrimestres"
-      years: "Anys"
   title_remove_and_delete_user: Eliminar l'usuari convidat del projecte i suprimir l'usuari.
   title_enterprise_upgrade: "Actualitza per desbloquejar més usuaris."
   tooltip_user_default_timezone: >
@@ -2979,9 +2935,9 @@ ca:
       title: "Suprimir el paquet de treball"
   working_days:
     info: >
-      <b>Defineix els dies que es consideren part de la setmana laboral</b><br/> Els dies no seleccionats seran omesos en planificar paquets de treball (i no seran inclosos en contar dies). Aquests poden ser substituïts directament als paquets de treball.
+      Els dies que no estan seleccionats s'ometen en planificar paquets de treball (i no inclosos en contar els dies). Aquests poden ser substituïts directament als paquets de treball.
     instance_wide_info: >
-      <b>Dies no laborals no especificats (vacances i dies de tancament)</b><br/> Les dates afegides a la llista de sota es consideraran dies no laboral i s'ometran en planificar paquets de treball.
+      Les dates afegides a la llista de sota són considerades com a no laborals i omeses en programar paquets de treball.
     change_button: "Canvia els dies laborals"
     warning: >
       Canviar quins dies de la setmana es consideren laborables i quins no pot afectar les dates d'inici i final de tots els paquets de treball en tots els projectes d'aquesta instància. <br/>Si us plau, tingues en compte que els canvis només s'apliquen després de fer clic al botó d'aplicar els canvis.
@@ -3007,6 +2963,7 @@ ca:
       code_409: "No s'ha pogut actualitzar el recurs a causa de modificacions en conflicte."
       code_429: "Masses demandes. Si us plau, prova-ho de nou més tard."
       code_500: "S'ha produït un error intern."
+      code_500_outbound_request_failure: "Hi ha un error en una petició sortint a un altre recurs amb el codi d'estat %{status_code}."
       not_found:
         work_package: "No s'ha pogut trobar o s'ha eliminat el paquet de treball que estàs buscant."
       expected:

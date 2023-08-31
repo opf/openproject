@@ -41,15 +41,15 @@ import {
 import { Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 
+import { States } from 'core-app/core/states/states.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { States } from 'core-app/core/states/states.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
-import { UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { OpUploadService } from 'core-app/core/upload/upload.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
@@ -68,8 +68,6 @@ export const attachmentsSelector = 'op-attachments';
 })
 export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @HostBinding('attr.data-qa-selector') public qaSelector = 'op-attachments';
-
-  @HostBinding('id.attachments_fields') public hostId = true;
 
   @HostBinding('class.op-file-section') public className = true;
 
@@ -96,7 +94,7 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
   };
 
   private get attachmentsSelfLink():string {
-    const attachments = this.resource.attachments as unknown & { href:string };
+    const attachments = this.resource.attachments as unknown&{ href:string };
     return attachments.href;
   }
 
@@ -123,9 +121,10 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
     public elementRef:ElementRef,
     protected readonly I18n:I18nService,
     protected readonly states:States,
+    protected readonly toastService:ToastService,
+    private readonly uploadService:OpUploadService,
     protected readonly halResourceService:HalResourceService,
     protected readonly attachmentsResourceService:AttachmentsResourceService,
-    protected readonly toastService:ToastService,
     protected readonly timezoneService:TimezoneService,
     protected readonly cdRef:ChangeDetectorRef,
   ) {
@@ -151,7 +150,7 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
 
     // ensure collection is loaded to the store
     if (!isNewResource(this.resource)) {
-      this.attachmentsResourceService.requireCollection(this.attachmentsSelfLink);
+      this.attachmentsResourceService.requireCollection(this.attachmentsSelfLink).subscribe();
     }
 
     const compareCreatedAtTimestamps = (a:IAttachment, b:IAttachment):number => {
@@ -196,8 +195,7 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
     const fileList = this.filePicker.nativeElement.files;
     if (fileList === null) return;
 
-    const files:UploadFile[] = Array.from(fileList);
-    this.uploadFiles(files);
+    this.uploadFiles(Array.from(fileList));
     // reset file input, so that selecting the same file again triggers a change
     this.filePicker.nativeElement.value = '';
   }
@@ -208,15 +206,7 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
     // eslint-disable-next-line no-param-reassign
     event.dataTransfer.dropEffect = 'copy';
 
-    const dfFiles = event.dataTransfer.files;
-    const length:number = dfFiles ? dfFiles.length : 0;
-
-    const files:UploadFile[] = [];
-    for (let i = 0; i < length; i++) {
-      files.push(dfFiles[i]);
-    }
-
-    this.uploadFiles(files);
+    this.uploadFiles(Array.from(event.dataTransfer.files));
     this.draggingOverDropZone = false;
     this.dragging = 0;
   }
@@ -233,12 +223,12 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
     this.draggingOverDropZone = false;
   }
 
-  protected uploadFiles(files:UploadFile[]):void {
-    let uploadFiles = files || [];
+  protected uploadFiles(files:File[]):void {
+    let filesWithoutFolders = files || [];
     const countBefore = files.length;
-    uploadFiles = this.filterFolders(uploadFiles);
+    filesWithoutFolders = this.filterFolders(filesWithoutFolders);
 
-    if (uploadFiles.length === 0) {
+    if (filesWithoutFolders.length === 0) {
       // If we filtered all files as directories, show a notice
       if (countBefore > 0) {
         this.toastService.addNotice(this.text.foldersWarning);
@@ -249,7 +239,7 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
 
     this
       .attachmentsResourceService
-      .attachFiles(this.resource, uploadFiles)
+      .attachFiles(this.resource, filesWithoutFolders)
       .subscribe();
   }
 
@@ -258,7 +248,7 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
    * or empty file sizes.
    * @param files
    */
-  protected filterFolders(files:UploadFile[]):UploadFile[] {
+  protected filterFolders(files:File[]):File[] {
     return files.filter((file) => {
       // Folders never have a mime type
       if (file.type !== '') {

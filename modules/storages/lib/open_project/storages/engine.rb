@@ -32,6 +32,9 @@
 # gets loaded.
 module OpenProject::Storages
   class Engine < ::Rails::Engine
+    def self.permissions
+      @permissions ||= Storages::GroupFolderPropertiesSyncService::PERMISSIONS_KEYS
+    end
     # engine name is used as a default prefix for module tables when generating
     # tables with the rails command.
     # It may also be used in other places, please investigate.
@@ -42,7 +45,58 @@ module OpenProject::Storages
 
     initializer 'openproject_storages.feature_decisions' do
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
-      OpenProject::FeatureDecisions.add :legacy_upload_preparation
+    end
+
+    initializer 'openproject_storages.event_subscriptions' do
+      Rails.application.config.after_initialize do
+        [
+          OpenProject::Events::MEMBER_CREATED,
+          OpenProject::Events::MEMBER_UPDATED,
+          OpenProject::Events::MEMBER_DESTROYED,
+          OpenProject::Events::PROJECT_UPDATED,
+          OpenProject::Events::PROJECT_RENAMED,
+          OpenProject::Events::PROJECT_ARCHIVED,
+          OpenProject::Events::PROJECT_UNARCHIVED
+        ].each do |event|
+          OpenProject::Notifications.subscribe(event) do |_payload|
+            ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+          end
+        end
+
+        OpenProject::Notifications.subscribe(
+          OpenProject::Events::OAUTH_CLIENT_TOKEN_CREATED
+        ) do |payload|
+          if payload[:integration_type] == 'Storages::Storage'
+            ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+          end
+        end
+        OpenProject::Notifications.subscribe(
+          OpenProject::Events::ROLE_UPDATED
+        ) do |payload|
+          if payload[:permissions_diff]&.intersect?(OpenProject::Storages::Engine.permissions)
+            ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+          end
+        end
+        OpenProject::Notifications.subscribe(
+          OpenProject::Events::ROLE_DESTROYED
+        ) do |payload|
+          if payload[:permissions]&.intersect?(OpenProject::Storages::Engine.permissions)
+            ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+          end
+        end
+
+        [
+          OpenProject::Events::PROJECT_STORAGE_CREATED,
+          OpenProject::Events::PROJECT_STORAGE_UPDATED,
+          OpenProject::Events::PROJECT_STORAGE_DESTROYED
+        ].each do |event|
+          OpenProject::Notifications.subscribe(event) do |payload|
+            if payload[:project_folder_mode] == :automatic
+              ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+            end
+          end
+        end
+      end
     end
 
     # For documentation see the definition of register in "ActsAsOpEngine"
@@ -66,8 +120,14 @@ module OpenProject::Storages
                    dependencies: %i[view_file_links],
                    contract_actions: { file_links: %i[manage] }
         permission :manage_storages_in_project,
-                   { 'storages/admin/projects_storages': %i[index new create destroy] },
+                   { 'storages/admin/project_storages': %i[index members new edit update create destroy destroy_info
+                                                           set_permissions],
+                     'storages/project_settings/project_storage_members': %i[index] },
                    dependencies: %i[]
+
+        OpenProject::Storages::Engine.permissions.each do |p|
+          permission(p, {}, dependencies: %i[])
+        end
       end
 
       # Menu extensions
@@ -78,17 +138,42 @@ module OpenProject::Storages
            { controller: '/storages/admin/storages', action: :index },
            if: Proc.new { User.current.admin? },
            caption: :project_module_storages,
-           icon: 'icon2 icon-hosting'
+           icon: 'hosting'
 
       menu :project_menu,
-           :settings_projects_storages,
-           { controller: '/storages/admin/projects_storages', action: 'index' },
+           :settings_project_storages,
+           { controller: '/storages/admin/project_storages', action: 'index' },
            caption: :project_module_storages,
            parent: :settings
+
+      configure_menu :project_menu do |menu, project|
+        if project.present? &&
+          User.current.logged? &&
+          User.current.member_of?(project) &&
+          User.current.allowed_to?(:view_file_links, project)
+          project.project_storages.each do |project_storage|
+            storage = project_storage.storage
+            href = if project_storage.project_folder_inactive?
+                     storage.host
+                   else
+                     ::Storages::Peripherals::StorageUrlHelper.storage_url_open_file(storage, project_storage.project_folder_id)
+                   end
+
+            menu.push(
+              :"storage_#{storage.id}",
+              href,
+              caption: storage.name,
+              before: :members,
+              icon: "#{storage.short_provider_type}-circle",
+              icon_after: "external-link",
+              skip_permissions_check: true
+            )
+          end
+        end
+      end
     end
 
     patch_with_namespace :Principals, :ReplaceReferencesService
-    patch_with_namespace :BasicData, :RoleSeeder
 
     # This hook is executed when the module is loaded.
     config.to_prepare do
@@ -111,6 +196,11 @@ module OpenProject::Storages
         ::Queries::Register.register(::Queries::Storages::FileLinks::FileLinkQuery) do
           filter ::Queries::Storages::FileLinks::Filter::StorageFilter
         end
+
+        ::Queries::Register.register(::Queries::Storages::ProjectStorages::ProjectStoragesQuery) do
+          filter ::Queries::Storages::ProjectStorages::Filter::StorageIdFilter
+          filter ::Queries::Storages::ProjectStorages::Filter::ProjectIdFilter
+        end
       end
     end
 
@@ -120,12 +210,24 @@ module OpenProject::Storages
       "#{root}/storages"
     end
 
+    add_api_path :project_storages do
+      "#{root}/project_storages"
+    end
+
+    add_api_path :project_storage do |id|
+      "#{root}/project_storages/#{id}"
+    end
+
     add_api_path :storage do |storage_id|
       "#{storages}/#{storage_id}"
     end
 
     add_api_path :storage_files do |storage_id|
       "#{storage(storage_id)}/files"
+    end
+
+    add_api_path :storage_file do |storage_id, file_id|
+      "#{storage_files(storage_id)}/#{file_id}"
     end
 
     add_api_path :prepare_upload do |storage_id|
@@ -155,6 +257,7 @@ module OpenProject::Storages
     # Add api endpoints specific to this module
     add_api_endpoint 'API::V3::Root' do
       mount ::API::V3::Storages::StoragesAPI
+      mount ::API::V3::ProjectStorages::ProjectStoragesAPI
       mount ::API::V3::FileLinks::FileLinksAPI
     end
 
@@ -162,6 +265,11 @@ module OpenProject::Storages
       mount ::API::V3::FileLinks::WorkPackagesFileLinksAPI
     end
 
-    add_cron_jobs { CleanupUncontaineredFileLinksJob }
+    add_cron_jobs do
+      [
+        Storages::CleanupUncontaineredFileLinksJob,
+        Storages::ManageNextcloudIntegrationCronJob
+      ]
+    end
   end
 end

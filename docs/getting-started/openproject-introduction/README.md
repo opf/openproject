@@ -58,22 +58,22 @@ The following sections provide links to the documentation for each project phase
 
 OpenProject supports the initial set-up and configuration of a project structure.
 
-| Features                   | Documentation for                                            |
-| -------------------------- | ------------------------------------------------------------ |
-| [Create a new project](../projects/#create-a-new-project)       | Create and set up a new project in OpenProject              |
-| [Set up a project structure](../../user-guide/projects/#project-structure) | Create a project hierarchy to structure your work in OpenProject |
-| [Project settings](../../user-guide/projects/#project-settings)            | Create first ideas, tasks, rough milestones.                 |
-| [Add members](../invite-members/)            | Invite your team to collaborate in OpenProject.              |
+| Features                                                     | Documentation for                                            |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Create a new project](../projects/#create-a-new-project)    | Create and set up a new project in OpenProject.              |
+| [Set up a project structure](../../user-guide/projects/#project-structure) | Create a project hierarchy to structure your work in OpenProject. |
+| [Project settings](../../user-guide/projects/#project-settings) | Create first ideas, tasks, rough milestones.                 |
+| [Add members](../invite-members/)                            | Invite your team to collaborate in OpenProject.              |
 
 ### Project definition and planning
 
 Create a project overview with more detailed information, set up your project plan, structure your work, create a roadmap.
 
-| Features            | Documentation for                                            |
-| ------------------- | ------------------------------------------------------------ |
-| [Global projects overview](../../user-guide/)    | Create a project overview with important project information. |
-| [Structure your work](../work-packages-introduction/) | Create work packages and structure your work                 |
-| [Roadmap planning](../gantt-chart-introduction/)    | Create a roadmap for your project.                           |
+| Features                                              | Documentation for                                            |
+| ----------------------------------------------------- | ------------------------------------------------------------ |
+| [Global projects overview](../../user-guide/)         | Create a project overview with important project information. |
+| [Structure your work](../work-packages-introduction/) | Create work packages and structure your work.                |
+| [Roadmap planning](../gantt-chart-introduction/)      | Create a roadmap for your project.                           |
 
 ### Project launch or execution
 
@@ -91,12 +91,12 @@ Manage all project activities, such as tasks, deliverables, risks, features, bug
 
 Create and manage project budgets, track and evaluate time and costs. Have custom reports for accurate, current insight into project performance and allocated resources.
 
-| Features                | Documentation for                                            |
-| ----------------------- | ------------------------------------------------------------ |
-| [Dashboard](../../user-guide/start-page/)               | Visualize your progress within a project or project overarching. |
-| [Budgets](../../user-guide/budgets/)                 | Create and manage budgets in your project.                   |
-| [Time tracking](../../user-guide/time-and-costs/time-tracking/)           | Track time for any work within your project.                 |
-| [Track unit costs](../../user-guide/time-and-costs/cost-tracking/)        | Track unit costs for your project.                           |
+| Features                                                              | Documentation for                                            |
+|-----------------------------------------------------------------------| ------------------------------------------------------------ |
+| [Dashboard](../../user-guide/home/)                                   | Visualize your progress within a project or project overarching. |
+| [Budgets](../../user-guide/budgets/)                                  | Create and manage budgets in your project.                   |
+| [Time tracking](../../user-guide/time-and-costs/time-tracking/)       | Track time for any work within your project.                 |
+| [Track unit costs](../../user-guide/time-and-costs/cost-tracking/)    | Track unit costs for your project.                           |
 | [Time and cost reporting](../../user-guide/time-and-costs/reporting/) | Have accurate detailed reports of current spent time and costs within your project. |
 
 ### Project close

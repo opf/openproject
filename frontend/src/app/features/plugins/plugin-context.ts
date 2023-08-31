@@ -15,7 +15,6 @@ import { ExternalRelationQueryConfigurationService } from 'core-app/features/wor
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
 import { EditorMacrosService } from 'core-app/shared/components/modals/editor/editor-macros.service';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -26,6 +25,7 @@ import { DynamicContentModalComponent } from '../../shared/components/modals/mod
 import { PasswordConfirmationModalComponent } from '../../shared/components/modals/request-for-confirmation/password-confirmation.modal';
 import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
+import { HttpClient } from '@angular/common/http';
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
@@ -49,7 +49,6 @@ export class OpenProjectPluginContext {
     i18n: this.injector.get<I18nService>(I18nService),
     notifications: this.injector.get<ToastService>(ToastService),
     opModalService: this.injector.get<OpModalService>(OpModalService),
-    opFileUpload: this.injector.get<OpenProjectFileUploadService>(OpenProjectFileUploadService),
     displayField: this.injector.get<DisplayFieldService>(DisplayFieldService),
     editField: this.injector.get<EditFieldService>(EditFieldService),
     macros: this.injector.get<EditorMacrosService>(EditorMacrosService),
@@ -60,6 +59,7 @@ export class OpenProjectPluginContext {
     apiV3Service: this.injector.get<ApiV3Service>(ApiV3Service),
     configurationService: this.injector.get<ConfigurationService>(ConfigurationService),
     attachmentsResourceService: this.injector.get(AttachmentsResourceService),
+    http: this.injector.get(HttpClient),
   };
 
   public readonly helpers = {

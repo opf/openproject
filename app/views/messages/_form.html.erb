@@ -32,7 +32,12 @@ See COPYRIGHT and LICENSE files for more details.
 <% resource = message_attachment_representer(representer_object) %>
 
 <div class="form--field -required">
-  <%= f.text_field :subject, required: true, container_class: '-wide', autofocus: true %>
+  <%= f.text_field :subject,
+                   required: true,
+                   container_class: '-wide',
+                   autofocus: true,
+                   data: { 'forum-messages-target': 'subject' }
+  %>
 </div>
 <% unless replying %>
   <div class="form--field">

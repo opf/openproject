@@ -27,9 +27,9 @@ zh-TW:
       add_card: '新增卡片'
       error_attribute_not_writable: "無法移動該工作項目, %{attribute} 不可寫入"
       error_loading_the_list: "列表讀取錯誤: %{error_message}"
-      error_permission_missing: "The permission to create public queries is missing"
-      error_cannot_move_into_self: "You can not move a work package into its own column."
-      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
+      error_permission_missing: "缺少建立公開查詢的權限"
+      error_cannot_move_into_self: "不可將任務移至自己的欄位"
+      text_hidden_list_warning: "因權限限制，清單無法全部顯示，請聯絡管理員。"
       click_to_remove_list: "移除列表"
       board_type:
         text: '看板類型'
@@ -37,8 +37,8 @@ zh-TW:
         select_board_type: '選擇您需要的看板類型'
         free_text: >
           從空白看板開始使用，添加新的卡片和列表到這個看板
-        action: 'Action board'
-        action_by_attribute: 'Action board (%{attribute})'
+        action: '行動項看板'
+        action_by_attribute: '行動項看板 (%{attribute})'
         action_text: >
           A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
         action_text_subprojects: >
@@ -56,7 +56,7 @@ zh-TW:
           status: 狀態
           version: 版本
           subproject: 子專案
-          subtasks: parent-child
+          subtasks: 父-子
         board_type_title:
           assignee: 負責執行者
           status: 狀態
@@ -64,23 +64,22 @@ zh-TW:
           subproject: 子專案
           subtasks: Parent-child
           basic: 基本
-        select_attribute: "Action attribute"
+        select_attribute: "動作屬性"
       add_list_modal:
         labels:
           assignee: 選擇使用者至新的指派列表
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          status: 依選擇狀態新增清單
+          version: 依選擇版本新增清單
+          subproject: 依選擇子專案新增清單
+          subtasks: 依選擇任務新增清單
         warning:
           status: |
-            There is currently no status available. <br>
-            Either there are none or they have all already been added to the board.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
-          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+            目前無可用狀態
+          assignee: 沒有任何符合您設定篩選值的人員
+          no_member: 此專案目前沒有任何可以加入的人員
+          add_members: <a href="%{link}">新增人員至此專案</a> 來再次選擇使用者。
       configuration_modal:
-        title: 'Configure this board'
+        title: '設定此看板'
         display_settings:
-          card_mode: "Display as cards"
-          table_mode: "Display as table"
+          card_mode: "顯示為卡片"
+          table_mode: "顯示為預覽圖"

@@ -58,7 +58,7 @@ export class OpInviteUserModalAugmentService {
     }
   }
 
-  private spawnModal(event:ClickEvent) {
+  private spawnModal(event:MouseEvent) {
     event.preventDefault();
 
     this.opModalService.show(
@@ -67,9 +67,9 @@ export class OpInviteUserModalAugmentService {
       { projectId: this.currentProjectService.id },
     ).subscribe((modal) => modal
       .closingEvent
-      .subscribe((modal:InviteUserModalComponent) => {
+      .subscribe((instance:InviteUserModalComponent) => {
         // Just reload the page for now if we saved anything
-        if (modal.data) {
+        if (instance.data) {
           window.location.reload();
         }
       }));

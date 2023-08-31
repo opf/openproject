@@ -26,6 +26,8 @@ sk:
         position: "Pozícia"
         remaining_hours: "Zvyšné hodiny"
         remaining_time: "Zvyšné hodiny"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "História bodov"
         backlogs_work_package_type: "Typ oneskorenia"
     errors:
@@ -35,9 +37,6 @@ sk:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "môže obsahovať iba ID pracovných balíčkov v aktuálnom šprinte."
               must_block_at_least_one_work_package: "musí obsahovať ID najmenej jedného pracovného balíčku."
-            parent_id:
-              parent_child_relationship_across_projects: "je neplatný, pretože pracovný balíček '%{work_package_name}' je nevyriešená úloha a preto nemôže byť nadradeným mimo súčasného projektu."
-              type_must_be_one_of_the_following: "Typ musí byť jedným z nasledujúcich: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "musí byť rovnaká ako verzia nadradeného článku."
         sprint:
@@ -78,7 +77,6 @@ sk:
     x_more: "ďalších %{count}..."
   backlogs_active: "aktívne"
   backlogs_any: "akékoľvek"
-  backlogs_card_specification: "Typy štítkov pre tlač karty"
   backlogs_inactive: "Projekt nevykazuje žiadne činnosti"
   backlogs_points_burn_direction: "Burnup/-down body"
   backlogs_product_backlog: "Nevyriešený produkt"

@@ -42,6 +42,7 @@ import {
   Observable,
   of,
 } from 'rxjs';
+import { Moment } from 'moment';
 
 @Injectable({ providedIn: 'root' })
 export class WeekdayService {
@@ -57,7 +58,7 @@ export class WeekdayService {
    * @param date The iso day number (1-7) or a date instance
    * @return {boolean} whether the given iso day is working or not
    */
-  public isNonWorkingDay(date:Date|number):boolean {
+  public isNonWorkingDay(date:Moment|Date|number):boolean {
     const isoDayOfWeek = (typeof date === 'number') ? date : moment(date).isoWeekday();
     return !!(this.weekdays || []).find((wd) => wd.day === isoDayOfWeek && !wd.working);
   }
@@ -73,7 +74,7 @@ export class WeekdayService {
 
     return this
       .weekdaysService
-      .require()
+      .requireCollection()
       .pipe(
         take(1),
         tap((weekdays) => {

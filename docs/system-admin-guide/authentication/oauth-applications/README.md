@@ -54,7 +54,7 @@ The authentication endpoints of OpenProject OAuth2 server are:
 
 ## **Authorization code flow** example
 
-### Requesting authorization code
+### Request authorization code
 
 Request an authorization code. Please adopt the following URL replacing:
 
@@ -76,7 +76,7 @@ In this example we skip that server side implementation and just
 copy the value of the `code` parameter from the URL that you see 
 in your browser.
 
-### Requesting API token
+### Request API token
 
 With the authorization code that you obtained above you can now 
 request an API token.
@@ -89,7 +89,7 @@ We do this manually in the command line using cURL. Please replace:
  * `<Authentication code>` with the code you obtained above,
  * and `<Redirect URI>` with the redirect URI as configured above.
 
-```
+```shell
 $ curl --request POST \
   --url 'https://example.com/oauth/token' \
   --header 'content-type: application/x-www-form-urlencoded' \
@@ -102,7 +102,7 @@ $ curl --request POST \
 
 The response will look like this:
 
-```
+```json
 {
   "access_token": "Ize6vvCIeENQ_suzd9kBJ6BxDNpxcumfTfweZQaOoJc",
   "token_type": "Bearer",
@@ -113,23 +113,20 @@ The response will look like this:
 }
 ```
 
-The response contains the bearer token ("access_token") and 
-a refresh token that you will need when working with the API. 
+The response contains the bearer token ("access_token") and a refresh token that you will need when working with the API. 
 Please copy the tokens for reference.
 
 
-### Performing a request to the OpenProject API with OAuth token
+### Perform a request to the OpenProject API with OAuth token
 
-With the token that you obtained above you can now make API 
-calls to the OpenProject instance on behalf of the current user.
+With the token that you obtained above you can now make API calls to the OpenProject instance on behalf of the current user.
 
-For example, the following cURL command fetches all projects 
-from the API V3. Please replace:
+For example, the following cURL command fetches all projects from the API V3. Please replace:
                                                                   
  * `example.com` with the IP/host name of your OpenProject instance, and
  * `<Token>` with the bearer token you obtained above.
 
-```
+```shell
 $ curl --request GET 'https://example.com/api/v3/projects' \
   --header 'Authorization: Bearer <Token>'`
 ```
@@ -164,5 +161,5 @@ API request will return an error message.
 By default, the OpenProject API is _not_ responding with any CORS headers.
 If you want to allow cross-domain AJAX calls against your OpenProject instance, you need to enable CORS headers being returned.
 
-Please see [our API settings documentation](../../../system-admin-guide/system-settings/api-settings/) on
+Please see [our API settings documentation](../../../system-admin-guide/api-and-webhooks/) on
 how to selectively enable CORS.

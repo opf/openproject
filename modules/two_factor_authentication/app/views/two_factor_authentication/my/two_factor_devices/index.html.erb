@@ -1,4 +1,3 @@
-<%= render partial: '/two_factor_authentication/header_tags' %>
 <% html_title(t(:label_my_account), t('two_factor_authentication.label_two_factor_authentication')) -%>
 
 <% if @has_remember_token_for_user %>
@@ -45,7 +44,7 @@
 
 <section class="account--section">
   <h2><%= t 'two_factor_authentication.label_devices' %></h2>
-  <%= rails_cell ::TwoFactorAuthentication::Devices::TableCell, @two_factor_devices, admin_table: false %>
+  <%= render ::TwoFactorAuthentication::Devices::TableComponent.new(rows: @two_factor_devices, admin_table: false) %>
 </section>
 
 <section class="account--section">

@@ -26,6 +26,8 @@ sl:
         position: "Položaj"
         remaining_hours: "Preostale ure"
         remaining_time: "Preostale ure"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Točke v zgodbi"
         backlogs_work_package_type: "Tip opravila na čakanju"
     errors:
@@ -35,9 +37,6 @@ sl:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "lahko vsebuje samo ID-je delovnih paketov iz trenutnega teka."
               must_block_at_least_one_work_package: "vsebovati mora ID vsaj enega zahtevka."
-            parent_id:
-              parent_child_relationship_across_projects: "je neveljaven, ker je delovni paket '%{work_package_name}' opravilo zaostankov in zato ne more imeti nadrejenega zunaj trenutnega projekta."
-              type_must_be_one_of_the_following: "Dovoljeni tipi so sledeči: %{type_names}"
             version_id:
               task_version_must_be_the_same_as_story_version: "mora biti enako različici nadrejene zgodbe."
         sprint:
@@ -78,7 +77,6 @@ sl:
     x_more: "%{count} več..."
   backlogs_active: "aktiven"
   backlogs_any: "katerikoli"
-  backlogs_card_specification: "Vrste nalepk za tiskanje kartic"
   backlogs_inactive: "Na projektu ni aktivnosti"
   backlogs_points_burn_direction: "Točke gorijo gor/dol"
   backlogs_product_backlog: "Zaostanki produkta"

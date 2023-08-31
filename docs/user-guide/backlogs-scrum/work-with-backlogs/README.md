@@ -10,18 +10,18 @@ keywords: backlogs, scrum, agile, burndown
 
 The starting point for effective work in Scrum teams is a well-maintained and prioritized product backlog as well as the creation of sprint backlogs. In OpenProject, you can easily record and specify requirements represented by user stories. Moreover, you can respond to inquiries and sort them by priority for implementation.
 
-Moreover, please note that the backlogs module is not available in the accessibility mode, since it uses drag&drop functionalities which are not accessible. If you use the accessibility mode you can however perform the same actions (like viewing and editing work packages such as user stories and epics) from the work package list view.
+Moreover, please note that the backlogs module is not available in the accessibility mode, since it uses drag&drop functionalities which are not accessible. If you use the accessibility mode you can however perform the same actions (like viewing and editing work packages such as user stories and epics) from the work package table view.
 
-| Topic                                               | Content                                                         |
-|-----------------------------------------------------|-----------------------------------------------------------------|
-| [Create a new backlog](#create-a-new-backlog)       | How to create a new product backlog or sprint.                  |
+| Topic                                               | Content                                                      |
+| --------------------------------------------------- | ------------------------------------------------------------ |
+| [Create a new backlog](#create-a-new-backlog)       | How to create a new product backlog or sprint.               |
 | [Create a new user story](#create-a-new-user-story) | How to create a new user story, epic, bug in the backlogs view. |
-| [Prioritize user stories](#prioritize-user-stories) | How to prioritize user stories in the backlogs view.            |
-| [Story points](#working-with-story-points)          | Estimate user stories and document story points.                |
-| [Sprint duration](#editing-sprint-duration)         | How to edit sprint duration.                                    |
-| [Burndown chart](#burndown-chart)                   | How to view the burndown chart.                                 |
-| [Print story cards](#print-story-cards)             | How to print story cards for a physical task board.             |
-| [Sprint wiki](#sprint-wiki)                         | How to create a sprint wiki to document sprint information.     |
+| [Prioritize user stories](#prioritize-user-stories) | How to prioritize user stories in the backlogs view.         |
+| [Story points](#working-with-story-points)          | Estimate user stories and document story points.             |
+| [Sprint duration](#edit-sprint-duration)            | How to edit sprint duration.                                 |
+| [Burndown chart](#burndown-chart)                   | How to view the burndown chart.                              |
+| [Print story cards](#print-story-cards)             | How to print story cards for a physical task board.          |
+| [Sprint wiki](#sprint-wiki)                         | How to create a sprint wiki to document sprint information.  |
 
 ## Create a new backlog
 
@@ -85,7 +85,7 @@ In the same way, you can also edit the name, start and end date and status of a 
 
 ![User-guide-backlogs-edit-story-points](User-guide-backlogs-edit-story-points.png)
 
-## Editing sprint duration
+## Edit sprint duration
 
 Moreover, you can adjust the start and end date of a backlog in the backlogs view. Clicking on the date opens a calendar where you can make your changes.
 

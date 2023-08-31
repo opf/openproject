@@ -3,9 +3,20 @@ de:
   permission_view_file_links: "Datei-Links anzeigen"
   permission_manage_file_links: "Datei-Links verwalten"
   permission_manage_storages_in_project: "Datei-Speicher im Projekt verwalten"
+  permission_read_files: "Dateien lesen"
+  permission_write_files: "Dateien schreiben"
+  permission_create_files: "Dateien erstellen"
+  permission_delete_files: "Dateien löschen"
+  permission_share_files: "Dateien freigeben"
   project_module_storages: "Datei-Speicher"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Nicht autorisiert für externe Verbindung zum Speicher."
+        not_found: "Die angeforderte Ressource konnte im externen Dateispeicher nicht gefunden werden."
   activerecord:
     models:
+      file_link: "Datei"
       storages/storage: "Speicher"
     attributes:
       storages/storage:
@@ -28,6 +39,9 @@ de:
                 scheint die App "OpenProject Integration" nicht installiert zu haben. Bitte installieren Sie diese zuerst und versuchen es danach erneut.
               authorization_header_missing: >
                 ist nicht vollständig eingerichtet. Die Nextcloud-Instanz erhält nicht den HTTP "Authorization" Header. Dieser ist jedoch für eine auf Bearer-Token basierende Autorisierung von API-Anfragen notwendig. Bitte überprüfen Sie die HTTP-Server-Konfiguration Ihres Nextcloud-Servers.
+            password:
+              invalid_password: "ist ungültig."
+              unknown_error: "konnte nicht überprüft werden. Bitte überprüfen Sie Ihre Verbindung zum Dateispeicher und versuchen Sie es erneut."
         storages/file_link:
           attributes:
             origin_id:
@@ -36,22 +50,45 @@ de:
     errors:
       too_many_elements_created_at_once: "Zu viele Elemente gleichzeitig erstellt. Maximal %{max} erwartet, %{actual} bekommen."
   storages:
+    unknown_storage: "Unbekannter Speicher"
     buttons:
       done_continue_setup: "Fertig. Setup fortsetzen"
+      done_complete_setup: "Fertig, Einrichtung abgeschlossen"
+      edit_automatically_managed_project_folders: "Automatisch verwaltete Projektordner bearbeiten"
       replace_openproject_oauth: "OpenProject OAuth ersetzen"
       replace_provider_type_oauth: "Ersetze %{provider_type} OAuth"
       save_and_continue_setup: "Speichern und Setup fortsetzen"
       save_and_complete_setup: "Speichern und Setup abschließen"
+      select_folder: "Ordner auswählen"
+      configure: "Konfigurieren"
     page_titles:
+      managed_project_folders:
+        title: "Automatisch verwaltete Projektordner"
+        subtitle: >
+          Lassen Sie OpenProject Ordner pro Projekt automatisch erstellen. Dies wird empfohlen, da mit dieser Option jedes Teammitglied immer über die richtigen Zugriffsrechte verfügt.
       project_settings:
         index: "Dateispeicher in diesem Projekt verfügbar"
         new: "Einen Datei-Speicher zum Projekt hinzufügen"
+        edit: "Dateispeicher in diesem Projekt bearbeiten"
+        delete: "Dateispeicher löschen"
+        members_connection_status: "Verbindungsstatus der Mitglieder"
+      project_storage_members:
+        title: "Verbindungsstatus der Mitglieder"
+        subtitle: "Überprüfen Sie den Verbindungsstatus für den Speicher- %{storage_name_link} aller Projektmitglieder."
     instructions:
       type: "Bitte stellen Sie sicher, dass Sie Administrationsrechte in Ihrer Nextcloud-Instanz haben und die folgende Anwendung vor dem Setup installiert wurde:"
       type_link_text: "„OpenProject Integration“"
       name: "Geben Sie Ihrem Speicher einen Namen, damit Benutzer zwischen mehreren Speichern unterscheiden können."
       host: "Bitte ergänzen Sie die Host-Adresse Ihres Speichers (einschließlich https://). Sie sollte nicht länger als 255 Zeichen sein."
+      managed_project_folders_application_password: >
+        Diesen Wert kopieren von:
       no_storage_set_up: "Es sind noch keine Dateispeicher eingerichtet."
+      no_specific_folder: "Standardmäßig startet jeder Benutzer in seinem eigenen Home-Ordner, wenn er eine Datei hochlädt."
+      automatic_folder: "Dies wird automatisch einen Stammordner für dieses Projekt erstellen und die Zugriffsberechtigungen für jedes Projektmitglied verwalten."
+      empty_project_folder_validation: "Die Auswahl eines Ordners ist zwingend erforderlich, um fortzufahren."
+      not_logged_into_storage: "Bitte melden Sie sich zunächst an, um einen Projektordner auszuwählen"
+      existing_manual_folder: >
+        Sie können einen existierenden Ordner als Hauptordner für dieses Projekt definieren. Die Berechtigungen werden jedoch nicht automatisch verwaltet, der Administrator muss manuell sicherstellen, dass relevante Benutzer Zugriff haben. Der ausgewählte Ordner kann von mehreren Projekten verwendet werden.
       setting_up_additional_storages: "Um zusätzliche Datei-Speicher einzurichten, besuchen Sie bitte"
       setting_up_additional_storages_non_admin: "Administratoren können zusätzliche Datei-Speicher in Administration / Datei-Speicher einrichten."
       setting_up_storages: "Zum Einrichten von Dateispeichern besuchen Sie bitte"
@@ -60,26 +97,51 @@ de:
       copy_from: "Diesen Wert kopieren von"
       nextcloud:
         integration: "Nextcloud Administration / OpenProject"
+    help_texts:
+      project_folder: >
+        Der Projektordner ist der Standardordner für Datei-Uploads für dieses Projekt. Benutzer können trotzdem Dateien an andere Orte hochladen.
     delete_warning:
       storage: >
         Sind Sie sicher, dass Sie diesen Speicher löschen möchten? Dies löscht den Speicher auch aus allen Projekten, in denen er verwendet wird. Außerdem werden alle Links von Arbeitspaketen zu Dateien gelöscht, die in diesem Speicher gespeichert sind.
       project_storage: >
-        Sind Sie sicher, dass Sie diesen Datei-Speicher aus diesem Projekt entfernen möchten? Dies wird auch alle Links zu Dateien entfernen, die für dieses Projekt in diesem Speicher gespeichert sind.
+        Sind Sie sicher, dass Sie %{file_storage} aus diesem Projekt löschen möchten? Um diese Aktion zu bestätigen, geben Sie bitte den Namen in das untenstehende Feld ein:
+      project_storage_delete_result_1: "Entfernen Sie alle Links von Arbeitspaketen dieses Projekts zu Dateien und Ordnern dieses Speichers."
+      project_storage_delete_result_2: "Falls dieser Speicher einen automatisch verwalteten Projektordner hat, werden dieser und seine Dateien unwiderbringlich gelöscht."
+      input_delete_confirmation: "Geben Sie den Namen %{file_storage} ein, um mit der Löschung fortzufahren."
+      irreversible_notice: "Die Löschung des Projekts kann nicht rückgängig gemacht werden."
+    label_active: "Aktiv"
+    label_inactive: "Inaktiv"
     label_creator: "Ersteller"
     label_file_link: "Datei-Link"
     label_file_links: "Datei-Links"
     label_name: "Name"
     label_host: "Host-URL"
+    label_managed_project_folders:
+      automatically_managed_folders: "Automatisch verwaltete Projektordner"
+      application_password: "Anwendungspasswort"
+    label_managed_project_folders_breadcrumb: "Automatisch verwaltete Projektordner"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
     label_oauth_application_details: "OAuth Anwendungsdetails"
     label_oauth_client_details: "OAuth-Client-Details"
     label_provider_type: "Anbieter-Typ"
+    label_project_folder: "Projektordner"
     label_new_storage: "Neuer Speicher"
+    label_existing_manual_folder: "Vorhandener Ordner mit manuell verwalteten Berechtigungen"
+    label_no_specific_folder: "Kein spezifischer Ordner"
+    label_automatic_folder: "Neuer Ordner mit automatisch verwalteten Berechtigungen"
+    label_no_selected_folder: "Kein ausgewählter Ordner"
     label_storage: "Speicher"
     label_storages: "Speicher"
+    label_status: "Status"
+    label_files: "Dateien"
+    member_connection_status:
+      connected: "Verbunden"
+      connected_no_permissions: "Benutzerrolle hat keine Speicherberechtigungen"
+      not_connected: "Nicht verbunden. Der Benutzer sollte sich in den Speicher über den Tab %{files_label} eines zu verbindenden Arbeitspakets einloggen."
     no_results: "Noch keine Speicher eingerichtet."
+    members_no_results: "Keine Mitglieder zum Anzeigen."
     provider_types:
       label: "Anbieter-Typ"
       nextcloud:
@@ -89,4 +151,5 @@ de:
     confirm_replace_oauth_application: "Sind Sie sicher? Alle Benutzer müssen sich erneut gegen OpenProject autorisieren."
     confirm_replace_oauth_client: "Sind Sie sicher? Alle Benutzer müssen sich erneut gegen den Daten-Speicher autorisieren."
     oauth_client_details_missing: "Um das Setup abzuschließen, fügen Sie bitte die OAuth Client-Anmeldedaten aus Ihrem Speicher hinzu."
+    automatically_managed_project_folder_missing: "Um die Einrichtung abzuschließen, konfigurieren Sie bitte die automatish verwalteten Projektordner für Ihren Speicher."
     notice_oauth_application_replaced: "Die OpenProject OAuth-Anwendung wurde erfolgreich ersetzt."

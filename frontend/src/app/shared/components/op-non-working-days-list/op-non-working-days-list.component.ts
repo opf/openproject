@@ -19,6 +19,7 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
 import {
   EventInput,
   CalendarOptions,
+  EventSourceFuncArg,
 } from '@fullcalendar/core';
 import listPlugin from '@fullcalendar/list';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -29,6 +30,7 @@ import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { ConfirmDialogOptions } from '../modals/confirm-dialog/confirm-dialog.modal';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import * as moment from 'moment-timezone';
 
 export const nonWorkingDaysListSelector = 'op-non-working-days-list';
 
@@ -74,18 +76,17 @@ export class OpNonWorkingDaysListComponent implements OnInit {
 
   datepickerOpened = false;
 
-  selectedNonWorkingDayName:string = '';
+  selectedNonWorkingDayName= '';
 
   calendarOptions:CalendarOptions = {
     plugins: [listPlugin],
     initialView: 'listYear',
     contentHeight: 'auto',
     headerToolbar: {
-      right: 'prev,next',
+      right: '',
       center: '',
-      left: 'title',
+      left: 'prev,next,title',
     },
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     events: this.calendarEventsFunction.bind(this),
     eventDidMount: (evt:CalendarViewEvent) => {
       const { el, event } = evt;
@@ -177,9 +178,9 @@ export class OpNonWorkingDaysListComponent implements OnInit {
   }
 
   public calendarEventsFunction(
-    fetchInfo:{ start:Date },
+    fetchInfo:EventSourceFuncArg,
     successCallback:(events:EventInput[]) => void,
-    failureCallback:(error:unknown) => void,
+    failureCallback:(error:Error) => void,
   ):void|PromiseLike<EventInput[]> {
     this.dayService.requireNonWorkingYear$(fetchInfo.start)
       .subscribe(

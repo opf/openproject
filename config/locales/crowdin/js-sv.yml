@@ -65,6 +65,8 @@ sv:
     button_confirm: "Bekräfta"
     button_continue: "Fortsätt"
     button_copy: "Kopiera"
+    button_copy_to_clipboard: "Kopiera till Urklipp"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Anpassade fält"
     button_delete: "Ta bort"
@@ -105,7 +107,7 @@ sv:
       remove_from_list: 'Ta bort kort från listan'
     caption_rate_history: "Historiska timpriser"
     clipboard:
-      browser_error: "Din webbläsare stöder inte kopiera till Urklipp. Vänligen kopiera den markerade texten manuellt."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Typ av diagram'
@@ -227,7 +229,7 @@ sv:
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Bli en hjälte!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Vänligen uppgradera till en betalplan för att aktivera och börja använda den i ditt team."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
@@ -293,6 +295,34 @@ sv:
           one: "Första sorteringskriteriet"
           two: "Andra sorteringskriteriet"
           three: "Tredje sorteringskriteriet"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "nej"
     general_text_yes: "ja"
     general_text_No: "Nej"
@@ -311,11 +341,22 @@ sv:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to calendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Aktivera"
     label_assignee: 'Tilldelad till'
     label_add_column_after: "Lägg till kolumn efter"
@@ -492,7 +533,7 @@ sv:
     label_remove_all_files: Ta bort alla filer
     label_add_description: "Lägga till en beskrivning för %{file}"
     label_upload_notification: "Laddar upp fil(er)..."
-    label_work_package_upload_notification: "Ladda upp filer för arbetspaket #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Ladda upp filer för arbetspaket #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} tillagd av %{author}"
     label_files_to_upload: "Dessa filer kommer att laddas upp:"
     label_rejected_files: "Dessa filer går inte att ladda upp:"
@@ -725,6 +766,14 @@ sv:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'Logga tid'
+      tracking: 'Tidredovisning'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Tvåfaktorsautentisering'
     watchers:
@@ -783,7 +832,8 @@ sv:
     autocompleter:
       placeholder: "Skriv för att söka"
       notFoundText: "No items found"
-      typeToSearchText: "Skriv för att söka"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Välj etikett'
       select_branch: 'Välj gren'
@@ -801,63 +851,6 @@ sv:
       activate_no: 'aktivera för att ta bort sortering'
     text_work_packages_destroy_confirmation: "Är du säker du vill ta bort det valda arbetspaket(paketen)?"
     text_query_destroy_confirmation: "Är du säker på att du vill ta bort den markerade vyn?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt-schema'
-      labels:
-        title: 'Etikettsinställning'
-        bar: 'Bar etiketter'
-        left: 'Vänster'
-        right: 'Höger'
-        farRight: 'Längst till höger'
-        showNone: '-- Ingen etikett --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Visa Gantt-schema'
-      button_deactivate: 'Dölj Gantt-schema'
-      cancel: Avbryt
-      change: "Ändra i planeringen"
-      due_date: "Slutdatum"
-      empty: "(tom)"
-      error: "Ett fel har inträffat."
-      errors:
-        not_implemented: "Tidslinjen kan inte skapas eftersom den använder en funktion som inte har implementerats ännu."
-        report_comparison: "Tidslinjen kunde inte återge de konfigurerade jämförelserna. Kontrollera vänligen lämpligt avsnitt i konfiguration. Att återställa konfigurationen kan lösa detta problem."
-        report_epicfail: "Tidslinjen kunde inte hämtas på grund av ett oväntat fel."
-        report_timeout: "Tidslinjen kunde inte laddas på en rimlig tid."
-      filter:
-        grouping_other: "Andra"
-        noneSelection: "(ingen)"
-      name: "Namn"
-      outline: "Återställa disposition"
-      outlines:
-        aggregation: "Visa endast aggregeringar"
-        level1: "Expandera nivå 1"
-        level2: "Expandera nivå 2"
-        level3: "Expandera nivå 3"
-        level4: "Expandera nivå 4"
-        level5: "Expandera nivå 5"
-        all: "Visa alla"
-      project_status: "Projektstatus"
-      really_close_dialog: "Vill du verkligen stänga dialogrutan och förlora inmatad data?"
-      responsible: "Ansvarig"
-      save: Spara
-      start_date: "Startdatum"
-      tooManyProjects: "Mer än %{count} projekt. Var god och använd ett bättre filter!"
-      selection_mode:
-        notification: 'Klicka på ett markerat arbetspaket för att skapa relationen. Tryck på escape för att avbryta.'
-      zoom:
-        in: "Zooma in"
-        out: "Zooma ut"
-        auto: "Autozoom"
-        days: "Dagar"
-        weeks: "Veckor"
-        months: "Månader"
-        quarters: "Kvartal"
-        years: "År"
-        slider: "Zoomreglaget"
-        description: >
-          Välj den initiala zoomnivån som ska visas när autozoom inte är tillgänglig.
     tl_toolbar:
       zooms: "Zoomnivå"
       outlines: "Hierarkinivå"
@@ -918,8 +911,15 @@ sv:
       message_work_package_read_only: "Arbetspaketet är låst i denna status. Inget annat attribut än status kan ändras."
       message_work_package_status_blocked: "Status för arbetspaketet är inte skrivbar på grund av stängd status och stängd version tilldelas."
       placeholder_filter_by_text: "Ämne, beskrivning, kommentarer, ..."
+      baseline:
+        addition_label: 'Added to view within the comparison time period'
+        removal_label: 'Removed from view within the comparison time period'
+        modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filtrera arbetspaket'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Klicka här för att lägga till ett nytt arbetspaket till listan'
       create:
@@ -1080,6 +1080,7 @@ sv:
         save_as: "Spara som"
         export: "Exportera"
         visibility_settings: "Synlighet inställningar"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Byt namn på vyn"
         delete: "Ta bort"
       filter: "Filter"
@@ -1156,10 +1157,11 @@ sv:
       button_deactivate: 'Inaktivera avskalat läge'
     global_search:
       all_projects: "I alla projekt"
-      search: "Sök"
       close_search: "Stäng sökning"
-      current_project: "I detta projekt"
       current_project_and_all_descendants: "I detta projekt + delprojekt"
+      current_project: "I detta projekt"
+      recently_viewed: "Recently viewed"
+      search: "Sök"
       title:
         all_projects: "alla projekt"
         project_and_subprojects: "och alla delprojekt"
@@ -1248,6 +1250,38 @@ sv:
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
       no_results: 'No project matches your search criteria.'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: 'Rensa'
+      apply: 'Tilldela'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
+      show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
+      time: 'Tid'
+      from: 'Från'
+      to: 'Till'
+      drop_down:
+        none: '-'
+        yesterday: 'igår'
+        last_working_day: 'last working day'
+        last_week: 'förra veckan'
+        last_month: 'förra månaden'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
+      legends:
+        changes_since: 'Changes since'
+        changes_between: 'Changes between'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
+        in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

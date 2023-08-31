@@ -33,16 +33,40 @@ module OpenProject::Calendar
                    dependencies: %i[view_work_packages],
                    contract_actions: { calendar: %i[read] }
         permission :manage_calendars,
-                   { 'calendar/calendars': %i[index show new destroy] },
+                   { 'calendar/calendars': %i[index show new create destroy] },
                    dependencies: %i[view_calendar add_work_packages edit_work_packages save_queries manage_public_queries],
                    contract_actions: { calendar: %i[create update destroy] }
+        permission :share_calendars,
+                   dependencies: %i[view_calendar],
+                   contract_actions: { calendar: %i[read] }
       end
+
+      should_render = Proc.new do
+          (User.current.logged? || !Setting.login_required?) &&
+          User.current.allowed_to_globally?(:view_calendar)
+      end
+
+      menu :top_menu,
+           :calendar_view, { controller: '/calendar/calendars', action: 'index', project_id: nil },
+           context: :modules,
+           caption: :label_calendar_plural,
+           icon: 'calendar',
+           after: :work_packages,
+           if: should_render
+
+      menu :global_menu,
+           :calendar_view,
+           { controller: '/calendar/calendars', action: 'index', project_id: nil },
+           caption: :label_calendar_plural,
+           icon: 'calendar',
+           after: :work_packages,
+           if: should_render
 
       menu :project_menu,
            :calendar_view,
            { controller: '/calendar/calendars', action: 'index' },
            caption: :label_calendar_plural,
-           icon: 'icon2 icon-calendar',
+           icon: 'calendar',
            after: :work_packages
 
       menu :project_menu,
@@ -56,5 +80,17 @@ module OpenProject::Calendar
 
     add_view :WorkPackagesCalendar,
              contract_strategy: 'Calendar::Views::ContractStrategy'
+
+    initializer 'calendar.register_mimetypes' do
+      # next if defined? Mime::XLS
+
+      Mime::Type.register('text/calendar', :ics)
+    end
+
+    initializer 'calendar.configuration' do
+      ::Settings::Definition.add 'ical_enabled',
+                                 default: true,
+                                 format: :boolean
+    end
   end
 end

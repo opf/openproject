@@ -20,55 +20,81 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+@keyframes rotate-milestone
+  0%
+    rotate: 45deg
+    transform: scale(100%)
+  50%
+    transform: scale(130%)
+  60%
+    rotate: 1080deg
+    transform: scale(110%)
+  100%
+    rotate: 945deg
+
+@keyframes rotate-linestone
+  0%
+    rotate: 45deg
+    transform: scale(50%)
+  35%
+    transform: scale(50%)
+    border-width: 4px
+    border-radius: 10px
+  60%
+    rotate: 1080deg
+    transform: scale(160%)
+    border-width: 0
+  100%
+    rotate: 945deg
+    border-width: 0
+    border-radius: 10px
+
+
+$loading-indicator-bg-color: var(--body-background)
+$loading-indicator-width: 150px
+$loading-indicator-height: 80px
+
 .loading-indicator--background
   @include overlay-background
-  background: var(--loading-indicator-bg-color)
-  opacity: var(--loading-indicator-bg-opacity)
+  background: $loading-indicator-bg-color
+  opacity: 0.8
 
 // Ensure loading indicator is rendered correctly in each location
 .loading-indicator--location
   position: relative
 
-.loading-indicator
-  margin: 80px auto
-  width: 100px
-  height: 50px
-  text-align: center
-  font-size: 10px
+.op-loading-indicator
+  background-color: transparent
+  width: $loading-indicator-width
+  height: $loading-indicator-height
+  overflow: hidden
+  position: relative
+  margin: 0
+  left: calc(50% - ($loading-indicator-width / 2))
+  top: 33%
 
-  [class^='block-']
-    background-color: var(--loading-indicator-spinner-color)
-    height: 100%
-    width: 6px
-    display: inline-block
-    animation: block-waveStretchDelay 1.2s infinite ease-in-out
-    margin: 0 1px
-    
-  .block-1
-    animation-delay: -1.2s
-  .block-2
-    animation-delay: -1.1s
-  .block-3
-    animation-delay: -1s
-  .block-4
-    animation-delay: -0.9s
-  .block-5
-    animation-delay: -0.8s
+  div
+    &:nth-of-type(1)
+      border: solid 4px #a3eea8
+      background-color: transparent
+      width: 32px
+      height: 32px
+      border-radius: 5px
+      position: absolute
+      top: 24px
+      left: 60px
+      animation: rotate-linestone 4s ease-in-out infinite
 
-  &.-compact
-    margin: 20px auto
+    &:nth-of-type(2)
+      background-color: #35C53F
+      width: 32px
+      height: 32px
+      border-radius: 5px
+      position: absolute
+      top: 24px
+      left: 60px
+      animation: rotate-milestone 4s ease-in-out infinite
 
-  &.-small
-    width: 40px
-    height: 24px
-    margin: 0
-    text-align: left
-
-    [class^='block-']
-      width: 4px
-
-@keyframes block-waveStretchDelay
-  0%, 40%, 100%
-    transform: scaleY(0.4)
-  20%
-    transform: scaleY(1)
+  &_embedded
+    top: 0
+    left: 0

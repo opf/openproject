@@ -1,5 +1,11 @@
 import {
-  AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output,
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
 } from '@angular/core';
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { WorkPackageViewPaginationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
@@ -11,11 +17,15 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { WorkPackageEmbeddedBaseComponent } from 'core-app/features/work-packages/components/wp-table/embedded/wp-embedded-base.component';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import {
-  distinctUntilChanged, map, take, withLatestFrom,
+  distinctUntilChanged,
+  map,
+  take,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'wp-embedded-table',
@@ -77,15 +87,16 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
         this.untilDestroyed(),
         withLatestFrom(this.querySpace.query.values$()),
       ).subscribe(([_, query]) => {
-        const pagination = this.wpTablePagination.paginationObject;
-        const params = this.urlParamsHelper.buildV3GetQueryFromQueryResource(query, pagination);
+      const pagination = this.wpTablePagination.paginationObject;
+      const params = this.urlParamsHelper.buildV3GetQueryFromQueryResource(query, pagination);
 
-        this.loadingIndicator = this
+      this.loadingIndicator = firstValueFrom(
+        this
           .wpListService
-          .loadQueryFromExisting(query, params, this.queryProjectScope)
-          .toPromise()
-          .then((query) => this.initializeStates(query));
-      });
+          .loadQueryFromExisting(query, params, this.queryProjectScope),
+      )
+        .then((query) => this.initializeStates(query));
+    });
   }
 
   public async openConfigurationModal(onUpdated:() => void):Promise<void> {
@@ -116,26 +127,27 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       });
   }
 
-  private loadForm(query:QueryResource):Promise<QueryFormResource|void> {
-    if (this.formPromise) {
-      return this.formPromise;
+  private loadForm(query:QueryResource):Promise<QueryFormResource|undefined> {
+    if (!this.formPromise) {
+      this.formPromise = firstValueFrom(
+        this
+          .apiv3Service
+          .withOptionalProject(this.projectIdentifier)
+          .queries
+          .form
+          .load(query),
+      )
+        .then(([form, _]) => {
+          this.wpStatesInitialization.updateStatesFromForm(query, form);
+          return form;
+        })
+        .catch(() => undefined);
     }
 
-    return this.formPromise = this
-      .apiv3Service
-      .withOptionalProject(this.projectIdentifier)
-      .queries
-      .form
-      .load(query)
-      .toPromise()
-      .then(([form, _]) => {
-        this.wpStatesInitialization.updateStatesFromForm(query, form);
-        return form;
-      })
-      .catch(() => this.formPromise = undefined);
+    return this.formPromise;
   }
 
-  public loadQuery(visible = true, firstPage = false):Promise<QueryResource|void> {
+  public loadQuery(visible = true, firstPage = false):Promise<QueryResource> {
     // Ensure we are loading the form.
     this.formPromise = undefined;
 
@@ -143,7 +155,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       const query = this.loadedQuery;
       this.loadedQuery = undefined;
       this.initializeStates(query);
-      return Promise.resolve(this.loadedQuery!);
+      return Promise.resolve(query);
     }
 
     // HACK: Decrease loading time of queries when results are not needed.
@@ -184,7 +196,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       this.loadingIndicator = promise;
     }
 
-    return promise;
+    return promise as Promise<QueryResource>;
   }
 
   handleWorkPackageClicked(event:{ workPackageId:string; double:boolean }) {

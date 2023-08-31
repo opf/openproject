@@ -29,21 +29,35 @@ module OpenProject::TeamPlanner
              name: 'OpenProject Team Planner' do
       project_module :team_planner_view, dependencies: :work_package_tracking do
         permission :view_team_planner,
-                   { 'team_planner/team_planner': %i[index show] },
+                   { 'team_planner/team_planner': %i[index show overview] },
                    dependencies: %i[view_work_packages],
                    contract_actions: { team_planner: %i[read] }
         permission :manage_team_planner,
-                   { 'team_planner/team_planner': %i[index show new destroy] },
+                   { 'team_planner/team_planner': %i[index show new create destroy] },
                    dependencies: %i[view_team_planner add_work_packages edit_work_packages save_queries manage_public_queries],
                    contract_actions: { team_planner: %i[create update destroy] }
       end
+
+      should_render_global_menu_item = Proc.new do
+          (User.current.logged? || !Setting.login_required?) &&
+          User.current.allowed_to_globally?(:view_team_planner)
+      end
+
+      menu :global_menu,
+           :team_planners,
+           { controller: '/team_planner/team_planner', action: :overview },
+           caption: :'team_planner.label_team_planner_plural',
+           before: :boards,
+           after: :calendar_view,
+           icon: 'team-planner',
+           if: should_render_global_menu_item
 
       menu :project_menu,
            :team_planner_view,
            { controller: '/team_planner/team_planner', action: :index },
            caption: :'team_planner.label_team_planner_plural',
            after: :work_packages,
-           icon: 'icon2 icon-team-planner'
+           icon: 'team-planner'
 
       menu :project_menu,
            :team_planner_menu,
@@ -52,6 +66,15 @@ module OpenProject::TeamPlanner
            partial: 'team_planner/team_planner/menu',
            last: true,
            caption: :'team_planner.label_team_planner_plural'
+
+      menu :top_menu,
+           :team_planners, { controller: '/team_planner/team_planner', action: :overview },
+           context: :modules,
+           caption: :'team_planner.label_team_planner_plural',
+           before: :boards,
+           after: :calendar_view,
+           icon: 'team-planner',
+           if: should_render_global_menu_item
     end
 
     add_view :TeamPlanner,

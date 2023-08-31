@@ -3,9 +3,20 @@ ru:
   permission_view_file_links: "Просмотр ссылок на файл"
   permission_manage_file_links: "Управление ссылками файлов"
   permission_manage_storages_in_project: "Управление файловыми хранилищами в проекте"
+  permission_read_files: "Чтение файлов"
+  permission_write_files: "Записать файлы"
+  permission_create_files: "Создать файлы"
+  permission_delete_files: "Удалить файлы"
+  permission_share_files: "Поделиться файлами"
   project_module_storages: "Файловые хранилища"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Не авторизован для внешнего подключения к хранилищу."
+        not_found: "Запрошенный ресурс во внешнем файловом хранилище найти не удалось."
   activerecord:
     models:
+      file_link: "Файл"
       storages/storage: "Хранилище"
     attributes:
       storages/storage:
@@ -28,6 +39,9 @@ ru:
                 похоже, что приложение "Интеграция с OpenProject" не установлено. Сначала установите его и повторите попытку.
               authorization_header_missing: >
                 не полностью настроено. Экземпляр Nextcloud не получает заголовок "Authorization", который необходим для подтверждения запросов API на основе токена Bearer. Пожалуйста, проверьте конфигурацию HTTP сервера.
+            password:
+              invalid_password: "недействителен."
+              unknown_error: "не удалось пройти проверку. Пожалуйста, проверьте подключение к вашему хранилищу и повторите попытку."
         storages/file_link:
           attributes:
             origin_id:
@@ -36,22 +50,45 @@ ru:
     errors:
       too_many_elements_created_at_once: "Слишком много элементов, созданных сразу. Ожидалось %{max} максимум - получено %{actual}."
   storages:
+    unknown_storage: "Неизвестное хранилище"
     buttons:
       done_continue_setup: "Готово. Продолжить установку"
+      done_complete_setup: "Готово, завершить установку"
+      edit_automatically_managed_project_folders: "Редактировать автоматически управляемые папки проекта"
       replace_openproject_oauth: "Заменить OAuth OpenProject"
       replace_provider_type_oauth: "Заменить %{provider_type} OAuth"
       save_and_continue_setup: "Сохранить и продолжить установку"
       save_and_complete_setup: "Сохранить и завершить установку"
+      select_folder: "Выберите папку"
+      configure: "Настроить"
     page_titles:
+      managed_project_folders:
+        title: "Автоматически управляемые папки проектов"
+        subtitle: >
+          Пусть OpenProject создает папки для каждого проекта автоматически. Это рекомендуется для того, чтобы каждый член команды всегда имел правильные права доступа.
       project_settings:
         index: "Файловые хранилища, доступные в этом проекте"
         new: "Добавить хранилище файлов в этот проект"
+        edit: "Редактировать хранилище файлов для этого проекта"
+        delete: "Удалить хранилище файлов"
+        members_connection_status: "Статус подключения участников"
+      project_storage_members:
+        title: "Статус подключения участников"
+        subtitle: "Проверьте статус подключения для хранилища %{storage_name_link} всех участников проекта."
     instructions:
       type: "Перед установкой убедитесь, что у вас есть права администрирования в вашем экземпляре Nextcloud и что перед установкой установлено следующее приложение:"
       type_link_text: "«Интеграционный OpenProject»"
       name: "Дайте вашему хранилищу имя, чтобы пользователи могли различать между несколькими хранилищами."
       host: "Пожалуйста, добавьте адрес вашего хранилища, включая https://. Он не должен быть длиннее 255 символов."
+      managed_project_folders_application_password: >
+        Скопировать это значение из:
       no_storage_set_up: "Нет настроенных хранилищ файлов."
+      no_specific_folder: "По умолчанию каждый пользователь при загрузке файла начинает работу со своей собственной домашней папки."
+      automatic_folder: "Это автоматически создаст корневую папку для этого проекта и будет управлять правами доступа для каждого участника проекта."
+      empty_project_folder_validation: "Выбор папки является обязательным для продолжения."
+      not_logged_into_storage: "Чтобы выбрать папку проекта, сначала войдите"
+      existing_manual_folder: >
+        Вы можете назначить существующую папку в качестве корневой папки для этого проекта. Однако разрешения не управляются автоматически, администратору необходимо вручную обеспечить доступ соответствующим пользователям. Выбранная папка может использоваться несколькими проектами.
       setting_up_additional_storages: "Для настройки дополнительных файловых хранилищ посетите"
       setting_up_additional_storages_non_admin: "Администраторы могут настроить дополнительные файловые хранилища в Администрировании / Файловых хранилищах."
       setting_up_storages: "Для настройки файловых хранилищ посетите"
@@ -60,26 +97,51 @@ ru:
       copy_from: "Скопировать это значение из"
       nextcloud:
         integration: "Администрирование NextCloud / OpenProject"
+    help_texts:
+      project_folder: >
+        Папка проекта является папкой по умолчанию для загрузки файлов для этого проекта. Тем не менее, пользователи по-прежнему могут загружать файлы в другие места.
     delete_warning:
       storage: >
         Вы уверены, что хотите удалить это хранилище? Это также удалит хранилище из всех проектов, где оно используется. Кроме того, будут удалены все ссылки из пакетов работ на файлы, хранящиеся в этом хранилище.
       project_storage: >
-        Вы уверены, что хотите удалить это хранилище файлов из проекта? Это также удалит все ссылки на файлы, хранящиеся в этом хранилище для этого проекта.
+        Вы уверены, что хотите удалить %{file_storage} из этого проекта? Для подтверждения этого действия, пожалуйста, введите имя хранилища в поле ниже, это позволит:
+      project_storage_delete_result_1: "Удалить все ссылки из пакетов работ этого проекта в файлы и папки этого хранилища."
+      project_storage_delete_result_2: "В случае, если хранилище имеет автоматически управляемую папку проекта, она и ее файлы будут удалены навсегда."
+      input_delete_confirmation: "Введите имя хранилища файлов %{file_storage} для подтверждения удаления."
+      irreversible_notice: "Удаление хранилища файлов является необратимым действием."
+    label_active: "Активный"
+    label_inactive: "Неактивный"
     label_creator: "Создатель"
     label_file_link: "Ссылка на файл"
     label_file_links: "Ссылки на файл"
     label_name: "Имя"
     label_host: "URL хоста"
+    label_managed_project_folders:
+      automatically_managed_folders: "Автоматически управляемые папки"
+      application_password: "Пароль приложения"
+    label_managed_project_folders_breadcrumb: "Автоматически управляемые папки проектов"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
     label_oauth_application_details: "Подробности приложения OAuth"
     label_oauth_client_details: "Детали клиента OAuth"
     label_provider_type: "Тип поставщика"
+    label_project_folder: "Папка проекта"
     label_new_storage: "Новое хранилище"
+    label_existing_manual_folder: "Существующая папка с разрешениями, управляемыми вручную"
+    label_no_specific_folder: "Нет конкретной папки"
+    label_automatic_folder: "Новая папка с автоматически управляемыми правами"
+    label_no_selected_folder: "Папка не выбрана"
     label_storage: "Хранилище"
     label_storages: "Хранилища"
+    label_status: "Статус"
+    label_files: "Файлы"
+    member_connection_status:
+      connected: "Подключено"
+      connected_no_permissions: "Роль пользователя не имеет разрешения на хранение"
+      not_connected: "Не подключено. Пользователь должен войти в хранилище через вкладку %{files_label} пакета работ для подключения."
     no_results: "Хранилища еще не настроены."
+    members_no_results: "Нет участников для отображения."
     provider_types:
       label: "Тип поставщика"
       nextcloud:
@@ -89,4 +151,5 @@ ru:
     confirm_replace_oauth_application: "Вы уверены? Всем пользователям придется снова авторизоваться в OpenProject."
     confirm_replace_oauth_client: "Вы уверены? Все пользователи должны будут снова авторизоваться на хранилище."
     oauth_client_details_missing: "Чтобы завершить установку, пожалуйста, добавьте учетные данные клиента OAuth из вашего хранилища."
+    automatically_managed_project_folder_missing: "Для завершения установки, пожалуйста, настройте автоматически управляемые папки проекта для вашего хранилища."
     notice_oauth_application_replaced: "Приложение OpenProject OAuth успешно заменено."

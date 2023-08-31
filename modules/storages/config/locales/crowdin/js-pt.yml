@@ -15,6 +15,7 @@ pt:
       choose_location: "Escolher localização"
       types:
         nextcloud: "Nextcloud"
+        default: "Armazenamento"
       information:
         connection_error: >
           Algumas configurações de %{storageType} não estão funcionando. Entre em contato com seu administrador de %{storageType}.
@@ -30,9 +31,16 @@ pt:
           Já existe um arquivo com o nome "%{fileName}" na localização para onde você está tentando enviar este arquivo. O que você deseja fazer?
         directory_not_writeable: "Você não possui permissão para adicionar arquivos a esta pasta."
         dragging_many_files: "O carregamento para %{storageType} só dá suporte a um arquivo por vez."
+        dragging_folder: "O upload para %{storageType} não dá suporte a pastas."
         empty_folder: "Esta pasta está vazia."
         empty_folder_location_hint: "Clique no botão abaixo para carregar o arquivo para esta localização."
         file_not_selectable_location: "Não é possível selecionar um arquivo no processo de escolha de uma localização."
+        project_folder_no_access: >
+          Você não tem acesso à pasta do projeto. Por favor, entre em contato com o administrador para obter acesso ou envie o arquivo em outro local.
+        managed_project_folder_not_available: >
+          A pasta do projeto gerenciado automaticamente ainda não foi encontrada. Aguarde um pouco, recarregue a página para obter os dados mais recentes e tente novamente.
+        managed_project_folder_no_access: >
+          Você ainda não possui acesso à pasta do projeto gerenciado. Aguarde um pouco e tente novamente.
         upload_keep_both: "Manter ambos"
         upload_replace: "Substituir"
       file_links:

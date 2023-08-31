@@ -8,8 +8,7 @@ properties:
     type: integer
     description: Identifier of this post
     readOnly: true
-    minimum: 0
-    exclusiveMinimum: true
+    exclusiveMinimum: 0
   subject:
     type: string
     description: The post's subject

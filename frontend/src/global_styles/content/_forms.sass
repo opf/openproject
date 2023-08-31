@@ -27,11 +27,13 @@
 //++
 
 $form--field-types: (text-field, text-area, select, check-box, radio-button, range-field, search, file, date-picker)
+$base-line-height: 1.5
+$form-label-color: var(--body-font-color)
 
 %input-style
   border: var(--content-form-input-border)
   border-radius: 2px
-  font-size: 0.9rem
+  font-size: var(--body-font-size)
 
   &:hover, &:focus
     border: var(--content-form-input-hover-border)
@@ -76,7 +78,7 @@ form
   &.-bordered
     padding: 30px 20px
     background-color: var(--content-form-bg-color)
-    border: var(--content-form-border)
+    border: 1px solid var(--content-default-border-color)
 
     &.-compressed
       padding: 10px 20px 0 20px
@@ -225,11 +227,11 @@ hr
 
 %form--fieldset-legend-or-section-title
   color: #4d4d4d
-  font-size: 1rem
+  font-size: var(--body-font-size)
   font-weight: bold
   line-height: 1.8
   text-transform: uppercase
-  border-bottom: 1px solid $gray
+  border-bottom: 1px solid var(--gray)
 
 // HACK. TODO: Remove fieldset element rules in various places.
 .form--fieldset,
@@ -261,14 +263,15 @@ fieldset.form--fieldset
       @include icon-mixin-arrow-down1
       padding: 0.625rem 0.25rem 0 0.25rem
 
-#sidebar .form--fieldset-legend
+#main-menu .form--fieldset-legend
   color: var(--main-menu-fieldset-header-color)
+  margin-bottom: 1rem
 
 .form--toolbar
   float: right
   text-align: right
   color: #4d4d4d
-  font-size: 1rem
+  font-size: var(--body-font-size)
   font-style: italic
   line-height: 1.8
   margin-top: -1.8rem
@@ -316,6 +319,9 @@ fieldset.form--fieldset
   // to the container because it's duplicated there.
   &.-visible-overflow .form--field-container
     overflow: visible
+
+  &.-align-start
+    align-items: start
 
   &.-vertical,
   .form.-vertical &
@@ -403,6 +409,10 @@ fieldset.form--fieldset
   &.-bold
     font-weight: bold
 
+  &.-flex
+    display: flex
+    align-items: center
+
   &.-top
     align-self: flex-start
     line-height: 2.15rem
@@ -420,22 +430,33 @@ fieldset.form--fieldset
   flex-grow: 2
   align-items: stretch
 
+  .option-label .option-label--select
+    margin-left: $spot-spacing-1
+
   &.-wrap-around
     display: flex
     flex-wrap: wrap
+
+  &.-with-children-spacing
+    > *:not(:last-child)
+      margin-right: 0.5rem
 
   &.-vertical
     display: block
 
   &.-horizontal
     flex-direction: column
-    
-    @include breakpoint(1080px up)
+
+    @include breakpoint(lg)
       flex-direction: row
       flex-wrap: wrap
 
       > *:last-child
         margin-right: auto
+
+  &.-enterprise-restricted
+    flex-direction: column
+    align-items: start
 
   .form--field.-visible-overflow &
     overflow: visible
@@ -507,6 +528,18 @@ fieldset.form--fieldset
   &.-labeled-checkbox
     margin-left: 25px
 
+  &.-with-bottom-spacing
+    margin-bottom: 1rem
+
+.form--field-error
+  @extend %form--field-after-container
+  font-style: italic
+  max-width: 500px
+  color: var(--content-form-error-color)
+
+  &.-with-bottom-spacing
+    margin-bottom: 1rem
+
 .form--inline-instructions
   font-style: italic
   display: inline
@@ -569,8 +602,8 @@ fieldset.form--fieldset
 #{$text-input-selectors},
 select
   line-height: 100%
-  margin-bottom: 0rem
-  font-size: 0.9rem
+  margin-bottom: 0
+  font-size: var(--body-font-size)
 
   &:hover, &:focus, &:active
     border-color: #999
@@ -733,7 +766,7 @@ input[readonly].-clickable
 .form--matrix-header-row
   font-weight: bold
   border-bottom: var(--content-form-input-border)
-  background-color: $gray-light
+  background-color: var(--gray-light)
 
 .form--matrix-header-cell
   padding: 0 1rem
@@ -741,7 +774,7 @@ input[readonly].-clickable
 .form--matrix-row
 
   &:nth-child(odd)
-    background-color: $gray-light
+    background-color: var(--gray-light)
 
   &:nth-child(even)
     background-color: white
@@ -828,16 +861,26 @@ input[readonly].-clickable
     top: -1px
     position: relative
 
+.form--label-with-radio-button
+  display: block
+  clear: both
+  line-height: $base-line-height
+  padding: 0 2rem 0 0
+
+  & > .form--radio-button-container
+    display: block
+    float: left
+    padding-right: 0.5rem
+
 .form--field-affix
   flex: 0 0 auto
   display: flex
   font-size: 0.9rem
-  background: $inlinelabel-background
-  color: $inlinelabel-color
+  background: #EEEEEE
+  color: var(--body-font-color)
   border: var(--content-form-input-border)
-  // OR $inlinelabel-border
   border-radius: 2px
-  padding: 0 $form-padding
+  padding: 0 0.5rem
   margin-bottom: 0rem
   align-items: center
   line-height: 1
@@ -891,10 +934,10 @@ input[readonly].-clickable
   margin: 0
   @include grid-layout(3)
 
-  @include breakpoint(large)
+  @media screen and (max-width: $breakpoint-lg)
     @include grid-layout(4)
 
-  @include breakpoint(xlarge)
+  @media screen and (max-width: $breakpoint-xl)
     @include grid-layout(6)
 
   li, div

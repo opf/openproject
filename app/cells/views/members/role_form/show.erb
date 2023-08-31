@@ -5,6 +5,7 @@
       method="post"
       id="<%= row.roles_css_id %>-form"
       class="<%= row.toggle_item_class_name %>"
+      data-members-form-target="membershipEditForm"
       style="display:none"
       accept-charset="UTF-8"
 >
@@ -21,7 +22,8 @@
     <%= submit_tag t(:button_change), class: "button -highlight -small" %>
     <%= link_to t(:button_cancel),
                 '#',
-                data: { 'toggle-target': ".#{row.toggle_item_class_name}" },
+                "data-action": "members-form#toggleMembershipEdit",
+                "data-members-form-toggling-class-param": row.toggle_item_class_name,
                 class: 'button -small toggle-membership-button' %>
   </p>
 </form>

@@ -123,7 +123,7 @@ If you are using the Enterprise cloud, you can easily upgrade or downgrade the n
 
 ### How can I change the day my week starts with, etc.?
 
-You can do this as a system administrator in the [System settings](../system-admin-guide/system-settings/display-settings/#time-and-date-formatting).
+You can do this as a system administrator in the [System settings](../system-admin-guide/calendars-and-dates).
 
 ### How can I add a RACI matrix in OpenProject?
 
@@ -135,7 +135,7 @@ On a work package level you could use "Assignee" for "Responsible", "Accountable
 
 To create and print/export reports you can...
 
-- use the [global work packages list](../user-guide/projects/#global-work-packages-list): Filter for e.g. phases and milestones (which would make sense to use in your projects in this case). Then use the [export feature](../user-guide/work-packages/exporting/#exporting-work-packages). This will give you an overview over all projects' work packages (or all projects' milestones and phases, respectively).
+- use the [global work packages list](../user-guide/projects/#global-work-package-tables): Filter for e.g. phases and milestones (which would make sense to use in your projects in this case). Then use the [export feature](../user-guide/work-packages/exporting/). This will give you an overview over all projects' work packages (or all projects' milestones and phases, respectively).
 - use the [Wiki module](../user-guide/wiki) to document your project reports. The Wiki pages is optimized for being printed using your browser's print feature. You could even insert a work packages list there. If you want to use the Wiki we suggest setting it up in a (global) parent project.
 
 The projects overview is not optimized for export via PDF, yet. Nevertheless, you can try to use your browser's print feature.
@@ -209,6 +209,10 @@ A (very rough) diagram can be found on [https://www.openproject.org/hosting/](ht
 ### Can I set up an entity-relationship diagram in OpenProject?
 
 No, currently we do not have an entity-relationship diagram for OpenProject.
+
+### Can I edit the Home page?
+
+Only the welcome block/text can be edited, the rest cannot. However, you can [change the theme and logo](../system-admin-guide/design) of your OpenProject instance if you use Enterprise on-premises or Enterprise cloud.
 
 ## FAQ regarding OpenProject BIM edition
 

@@ -1,26 +1,69 @@
 @import "src/assets/sass/helpers"
 
+// The attribute groups for work packages are a bit different thant on other pages:
+//
+// In summary, we get the following:
+//
+// Parent < 800px: 1 Column view where only the long text fields have labels on top
+// Parent > 800px: 2 Column view where all fields have left-right labels, and long text fields span both columns
+//
+// More specifically:
+// 
+// Requirements for the attribute sections in the WP view
+//   * Number of columns: min 1, max 2.
+//   * Min-width: 400px, max-width: not wider than the parent.
+//   * When two-columns are shown, each column has 50% width of the parent.
+//   * We cannot use breakpoints, since the width of the parent can be changed
+//     dynamically by sliding the sidemenu or split view.
+//   * Some attributes span 2 columns, like long text fields.
+//   * Labels should be left-right, except for long text fields when the layout
+//     is in single-column mode.
+//   * Labels should be a fixed 140px wide, all having the same width
 .wp-attribute-group
   display: flex
   flex-direction: row
   flex-wrap: wrap
 
-  // We want a margin between items, but don't know if any one item is on the right,
+  // We want a margin between items, but not between items and the parent box.
+  // 
+  // We don't know if any one item is on the right,
   // the left, or spanning both columns. The easy way to get a gutter is to give
   // *all* elements margins on both sides, and then negating this margin on the parent.
   // This also explains all of the + and - xrem calc() values below.
   margin: 0 -1 * $spot-spacing-1_5
   width: calc(100% + #{$spot-spacing-3})
-
+  
   &--attribute
-    flex-basis: calc(100% - #{$spot-spacing-3})
-    flex-grow: 0
-    flex-shrink: 0
-    margin: 0 $spot-spacing-1_5
-
-    @media screen and (min-width: 92rem), print
-      flex-basis: calc(50% - #{$spot-spacing-3})
-      min-width: 25rem
+    flex-basis: 400px
+    flex-grow: 1
+    flex-shrink: 1
+    min-width: calc(50% - 3rem)
+    max-width: calc(100% - 3rem)
+    margin: 0 1.5rem
 
     &_span-all
       flex-basis: calc(100% - #{$spot-spacing-3})
+      flex-shrink: 0
+      flex-wrap: wrap
+
+    &-key
+      flex-basis: 140px
+
+      @media screen and (min-width: $breakpoint-md)
+        // The reason we add this is because the base `attributes-key-value--key` class will override this at this
+        // breakpoint, since it will always stay single column. However, for work package attributes we go double column
+        // and thus want the labels to stay smaller
+        flex-basis: 140px
+
+    &-value-container
+      flex-basis: 260px
+
+    &_span-all &-value-container
+      flex-shrink: 0
+      // This is a magic number that was obtained by trial and error
+      // The goal is to have span-all containers move to label-on-top
+      // right as the layout goes from 2-column to 1-column.
+      // There problably is some calculation by which you can derive this,
+      // but I'm currently too lazy to figure it out
+      flex-basis: 708px
+      max-width: 100%

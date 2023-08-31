@@ -2,74 +2,82 @@
 lt:
   js:
     storages:
-      link_files_in_storage: "Link files in %{storageType}"
-      link_existing_files: "Link existing files"
-      upload_files: "Upload files"
-      drop_files: "Drop files here to upload them to %{name}."
-      drop_or_click_files: "Drop files here or click to upload them to %{name}."
-      login: "%{storageType} login"
-      login_to: "Login to %{storageType}"
-      no_connection: "No %{storageType} connection"
-      open_storage: "Open %{storageType}"
-      select_location: "Select location"
-      choose_location: "Choose location"
+      link_files_in_storage: "Susieti failus %{storageType}"
+      link_existing_files: "Susieti esamus failus"
+      upload_files: "Įkelti failus"
+      drop_files: "Įkelkite failus čia, norėdami įkelti juos į %{name}."
+      drop_or_click_files: "Įkelkite failus čia arba spauskite pele, norėdami įkelti juos į %{name}."
+      login: "%{storageType} prisijungimas"
+      login_to: "Prisijungti prie %{storageType}"
+      no_connection: "Nėra %{storageType} jungties"
+      open_storage: "Atverti %{storageType}"
+      select_location: "Pažymėti vietą"
+      choose_location: "Parinkite vietą"
       types:
         nextcloud: "Nextcloud"
+        default: "Saugykla"
       information:
         connection_error: >
-          Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
-        live_data_error: "Error fetching file details"
+          Kai kurie %{storageType} nustatymai neveikia. Prašome susisiekti su jūsų %{storageType} administratoriumi.
+        live_data_error: "Klaida ištraukiant failo detales"
         live_data_error_description: >
-          Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
-        no_file_links: "In order to link files to this work package please do it via %{storageType}."
+          Dalies %{storageType} duomenų nepavyko ištraukti. Prašome pabandyti iš naujo įkelti šį puslapį arba susisiekti su jūsų %{storageType} administratoriumi.
+        no_file_links: "Norėdami susieti failus su šiuo darbo paketu, prašome daryti tai per %{storageType}."
         not_logged_in: >
-          To add a link, see or upload files related to this work package, please login to %{storageType}.
+          Norėdami pridėti nuorodą, žiūrėti ar įkelkiti failus, susijusius su šiuo darbo paketu, prašome prisijungti prie %{storageType}.
       files:
-        already_existing_header: "This file already exists"
+        already_existing_header: "Toks failas jau yra"
         already_existing_body: >
-          A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
-        directory_not_writeable: "You do not have permission to add files to this folder."
-        dragging_many_files: "The upload to %{storageType} supports only one file at once."
-        empty_folder: "This folder is empty."
-        empty_folder_location_hint: "Click the button below to upload the file to this location."
-        file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
-        upload_keep_both: "Keep both"
+          Failas pavadinimu „%{fileName}“ jau yra vietoje, į kurią bandote jį įkelti. Ką norėtumėte padaryti?
+        directory_not_writeable: "Jūs neturite teisių pridėti failų į šį aplanką."
+        dragging_many_files: "Įkėlimas į %{storageType} galimas tik po vieną failą vienu metu."
+        dragging_folder: "Įkėlimas į %{storageType} nepalaiko aplankų."
+        empty_folder: "Šis aplankas yra tuščias."
+        empty_folder_location_hint: "Spauskite mygtuką žemiau, jei norite įkelti failą į šią vietą."
+        file_not_selectable_location: "Vietos pasirinkimo metu negalima parinkti failo."
+        project_folder_no_access: >
+          Jūs neturite prieigos prie projekto aplanko. Prašome susisiekti su jūsų administratoriumi ir gauti prieigą ar įkelti failą į kitą vietą.
+        managed_project_folder_not_available: >
+          Automatiškai tvarkomas projekto aplankas dar nerastas. Prašome truputį palaukti, iš naujo įkelti puslapį, kad atsisiųstumėte naujausius duomenis, ir pabandyti dar kartą.
+        managed_project_folder_no_access: >
+          Jūs dar neturite prieigos prie tvarkomo projekto aplanko. Prašome truputį palaukti ir bandyti dar kartą.
+        upload_keep_both: "Pasilikti abu"
         upload_replace: "Pakeisti"
       file_links:
         empty: >
-          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
-        download: "Download %{fileName}"
-        no_permission: "You have no permission to see this file."
-        open: "Open file on storage"
-        open_location: "Open file in location"
-        remove: "Remove file link"
+          Šio metu nėra failų, susietų su šiuo darbo paketu. Pradėkite susieti failus naudodami veiksmą apačioje arba iš %{storageType}.
+        download: "Atsisiųsti %{fileName}"
+        no_permission: "Jūs neturite teisės žiūrėti šį failą."
+        open: "Atverti failą saugykloje"
+        open_location: "Atverti failą vietoje"
+        remove: "Pašalinti failo nuorodą"
         remove_confirmation: >
-          Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
-        remove_short: "Remove link"
-        select: "Select files"
+          Ar tikrai norite atsieti failą nuo šio darbo paketo? Atsiejimas neįtakoja originalaus failo, tik pašalina jungtį su dabartiniu darbo paketu.
+        remove_short: "Pašalinti nuorodą"
+        select: "Pasirinkite failus"
         select_all: "Pasirinkti viską"
         selection:
           zero: "Pasirinkite failus susiejimui"
-          one: "Link 1 file"
-          few: "Link %{count} files"
-          many: "Link %{count} files"
-          other: "Link %{count} files"
+          one: "Susieti 1 failą"
+          few: "Susieti %{count} failus"
+          many: "Susieti %{count} failų"
+          other: "Susieti %{count} failus"
         success_create:
-          one: "Successfully created 1 file link."
-          few: "Successfully created %{count} file links."
-          many: "Successfully created %{count} file links."
-          other: "Successfully created %{count} file links."
+          one: "Sėkmingai sukurta 1 failo nuoroda"
+          few: "Sėkmingai sukurtos %{count} failų nuorodos."
+          many: "Sėkmingai sukurta %{count} failų nuorodų."
+          other: "Sėkmingai sukurtos %{count} failų nuorodos."
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+            Jūsų failo (%{fileName}) nepavyko įkelti. Prašome patikrinti, kad įdiegta paskutinė Nextcloud aplikacijos „OpenProject Integration“ versija ir susisiekti su jūsų administratoriumi, kad gautumėte daugiau informacijos.
           403: >
-            Your file (%{fileName}) could not be uploaded due to system restrictions. Please contact your administrator for more information.
+            Jūsų failas (%{fileName}) negalėjo būti įkeltas dėl sistemos apribojimų. Prašome susiekti su jūsų administratoriumi, kad gautumėte daugiau informacijos.
           413: >
-            Your file (%{fileName}) is bigger than what OpenProject can upload to %{storageType}. You can upload it directly to %{storageType} first and then link the file.
+            Jūsų failas (%{fileName}) per didelis, kad OpenProject galėtų įkelti jį į %{storageType}. Jūs galite įkelti tiesiai į %{storageType} ir tada susieti failą.
           507: >
-            Your file (%{fileName}) is bigger than the storage quota allows. Contact your administrator to modify this quota.
+            Jūsų failas (%{fileName}) yra didesnis nei leidžia saugyklos apribojimai. Susisiekite su jūsų administratoriumi, kad padidintumėte šį apribojimą.
         link_uploaded_file_error: >
-          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
-        not_allowed_tooltip: "Please log in to Nextcloud to access this file"
-        already_linked_file: "This file is already linked to this work package."
-        already_linked_directory: "This directory is already linked to this work package."
+          Susiejant neseniai įkeltą failą „%{fileName}“ su darbo paketu %{workPackageId} įvyko klaida.
+        not_allowed_tooltip: "Prašome prisijungti prie Nextcloud, kad pasiektumėte failą"
+        already_linked_file: "Šis failas jau susietas su šiuo darbo paketu."
+        already_linked_directory: "Šis aplankas jau susietas su šiuo darbo paketu."

@@ -9,7 +9,7 @@
   <div class="spot-divider"></div>
 
   <div class="spot-modal--body spot-container">
-    <ul *ngIf="exportOptions" class="op-export-options" [ngClass]="{'-hidden': isLoading}">
+    <ul *ngIf="exportOptions" class="op-export-options op-export-options-grid" [ngClass]="{'-hidden': isLoading}">
       <li
         *ngFor="let option of exportOptions"
         class="op-export-options--option"

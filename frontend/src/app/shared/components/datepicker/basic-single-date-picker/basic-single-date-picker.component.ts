@@ -56,7 +56,6 @@ import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import { populateInputsFromDataset } from '../../dataset-inputs';
-import { SpotDropModalTeleportationService } from 'core-app/spot/components/drop-modal/drop-modal-teleportation.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
 
 export const opBasicSingleDatePickerSelector = 'op-basic-single-date-picker';

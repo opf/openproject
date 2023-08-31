@@ -1,5 +1,8 @@
 import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -30,6 +33,7 @@ export function initializeServices(injector:Injector) {
     CommonModule,
     OpSharedModule,
     OpenprojectModalModule,
+    FormsModule,
     NgSelectModule,
     ReactiveFormsModule,
     TextFieldModule,

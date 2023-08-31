@@ -48,4 +48,4 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 <% end %>
 
-<%= rails_cell ::Statuses::TableCell, @statuses %>
+<%= render ::Statuses::TableComponent.new(rows: @statuses) %>

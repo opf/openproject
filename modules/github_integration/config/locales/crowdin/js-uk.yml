@@ -37,5 +37,15 @@ uk:
           copy_success: '✅ Скопійовано!'
           copy_error: '❌ Не скопійовано!'
       tab_prs:
-        empty: 'Немає прив’язаних запитів на включення. Прив''яжіть наявний PR за допомогою коду <code>OP#%{wp_id}</code> в описі PR або створіть новий PR.'
+        empty: 'Немає прив’язаних запитів на включення. Прив’яжіть наявний PR за допомогою коду <code>OP#%{wp_id}</code> в описі PR або створіть новий PR.'
       github_actions: Дії
+      pull_requests:
+        message: "Запит на отримання даних #%{pr_number} %{pr_link} для %{repository_link} від користувача %{github_user_link} %{pr_state}."
+        merged_message: "Запит на отримання даних #%{pr_number} %{pr_link} для %{repository_link} %{pr_state} користувачем %{github_user_link}."
+        referenced_message: "Запит на отримання даних #%{pr_number} %{pr_link} для %{repository_link} від %{github_user_link} посилається на цей пакет робіт."
+        states:
+          opened: 'відкрито'
+          closed: 'зачинено'
+          draft: 'складено'
+          merged: 'об’єднано'
+          ready_for_review: 'позначено як готовий до перегляду'

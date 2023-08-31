@@ -220,7 +220,7 @@ describe('Capabilities service', () => {
       };
 
       service
-        .require(params)
+        .requireCollection(params)
         .subscribe((caps) => {
           expect(caps.length).toEqual(1);
         });
@@ -234,7 +234,7 @@ describe('Capabilities service', () => {
       };
 
       service
-        .require(params)
+        .requireCollection(params)
         .subscribe((caps) => {
           expect(caps.length).toEqual(1);
         });
@@ -244,7 +244,7 @@ describe('Capabilities service', () => {
       };
 
       service
-        .require(params)
+        .requireCollection(params)
         .subscribe((caps) => {
           expect(caps.length).toEqual(2);
         });
@@ -254,7 +254,7 @@ describe('Capabilities service', () => {
       };
 
       service
-        .require(params)
+        .requireCollection(params)
         .subscribe((caps) => {
           expect(caps.length).toEqual(1);
         });

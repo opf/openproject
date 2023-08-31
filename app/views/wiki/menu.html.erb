@@ -1,0 +1,12 @@
+<%= turbo_frame_tag "wiki_main_menu" do %>
+  <div class="menu-wiki-pages-tree tree-menu--container"
+       data-controller="menus--subtree"
+       data-application-target="dynamic"
+       data-menus--subtree-selected-value="<%= @page&.slug %>">
+    <% cache([@project, @project.wiki]) do %>
+      <% pages = @project.wiki.pages.order(Arel.sql('title')).includes(:project)
+         pages_by_parent_id = pages.group_by(&:parent_id) %>
+      <%= render_page_hierarchy(pages_by_parent_id, nil, timestamp: false) %>
+    <% end %>
+  </div>
+<% end %>

@@ -35,10 +35,6 @@ export interface WikiPageResourceLinks {
 
 class WikiPageBaseResource extends HalResource {
   public $links:WikiPageResourceLinks;
-
-  private attachmentsBackend = false;
 }
 
 export const WikiPageResource = Attachable(WikiPageBaseResource);
-
-export type WikiPageResource = HalResource;

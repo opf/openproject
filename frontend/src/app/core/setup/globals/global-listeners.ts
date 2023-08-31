@@ -26,7 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { refreshOnFormChanges } from 'core-app/core/setup/globals/global-listeners/refresh-on-form-changes';
 import { registerRequestForConfirmation } from 'core-app/core/setup/globals/global-listeners/request-for-confirmation';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { scrollHeaderOnMobile } from 'core-app/core/setup/globals/global-listeners/top-menu-scroll';
@@ -37,22 +36,49 @@ import { dangerZoneValidation } from 'core-app/core/setup/globals/global-listene
 import { setupServerResponse } from 'core-app/core/setup/globals/global-listeners/setup-server-response';
 import { listenToSettingChanges } from 'core-app/core/setup/globals/global-listeners/settings';
 import { detectOnboardingTour } from 'core-app/core/setup/globals/onboarding/onboarding_tour_trigger';
-import { performAnchorHijacking } from './global-listeners/link-hijacking';
+import {
+  openExternalLinksInNewTab,
+  performAnchorHijacking,
+} from './global-listeners/link-hijacking';
 import { fixFragmentAnchors } from 'core-app/core/setup/globals/global-listeners/fix-fragment-anchors';
 
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
  */
 export function initializeGlobalListeners():void {
-  jQuery(document.documentElement)
-    .on('click', (evt:any) => {
-      const target = jQuery(evt.target) as JQuery;
+  document
+    .documentElement
+    .addEventListener('click', (evt:MouseEvent) => {
+      const target = evt.target as HTMLElement;
+
+      // Avoid defaulting clicks on elements already removed from DOM
+      if (!document.contains(target)) {
+        evt.preventDefault();
+        return;
+      }
+
+      // Avoid handling clicks on anything other than a
+      const linkElement = target.closest<HTMLAnchorElement>('a');
+      if (!linkElement) {
+        return;
+      }
+
+      const callbacks = [
+        openExternalLinksInNewTab,
+        performAnchorHijacking,
+      ];
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const fn of callbacks) {
+        if (fn.call(linkElement, evt, linkElement)) {
+          evt.preventDefault();
+          break;
+        }
+      }
 
       // Prevent angular handling clicks on href="#..." links from other libraries
       // (especially jquery-ui and its datepicker) from routing to <base url>/#
-      performAnchorHijacking(evt, target);
-
-      return true;
+      performAnchorHijacking(evt, linkElement);
     });
 
   // Jump to the element given by location.hash, if present
@@ -100,8 +126,6 @@ export function initializeGlobalListeners():void {
       evt.preventDefault();
       return false;
     });
-
-  refreshOnFormChanges();
 
   // Allow forms with [request-for-confirmation]
   // to show the password confirmation dialog

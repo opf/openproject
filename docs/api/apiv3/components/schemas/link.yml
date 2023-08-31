@@ -2,15 +2,16 @@
 ---
 type: object
 required:
-- href
+  - href
 properties:
   href:
-    type: string
-    nullable: true
+    type:
+      - 'string'
+      - 'null'
     description: URL to the referenced resource (might be relative)
   title:
     type: string
-    description: "\tRepresentative label for the resource"
+    description: Representative label for the resource
   templated:
     type: boolean
     default: false
@@ -24,7 +25,8 @@ properties:
     description: The payload to send in the request to achieve the desired result
   identifier:
     type: string
-    description: "\tAn optional unique identifier to the link object"
+    description: An optional unique identifier to the link object
+
 example:
-  href: "/api/v3/work_packages"
+  href: '/api/v3/work_packages'
   method: POST

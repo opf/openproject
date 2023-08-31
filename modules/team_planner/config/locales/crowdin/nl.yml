@@ -2,9 +2,10 @@
 nl:
   permission_view_team_planner: "Bekijk team planner"
   permission_manage_team_planner: "Teamplanner beheren"
-  project_module_team_planner_view: "Team planner"
+  project_module_team_planner_view: "Team planners"
   team_planner:
     label_team_planner: "Team planner"
+    label_new_team_planner: "Nieuwe teamplanner"
     label_create_new_team_planner: "Maak een nieuwe teamplanner"
     label_team_planner_plural: "Team planners"
     label_assignees: "Toegewezen personen"

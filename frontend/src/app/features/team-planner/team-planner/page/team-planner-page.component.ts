@@ -20,6 +20,7 @@ import { OpProjectIncludeComponent } from 'core-app/shared/components/project-in
 import {
   EffectCallback,
   EffectHandler,
+  registerEffectCallbacks,
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import {
   teamPlannerEventAdded,
@@ -30,7 +31,6 @@ import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 
-@EffectHandler
 @Component({
   templateUrl: '../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
   styleUrls: [
@@ -90,7 +90,7 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
     },
     {
       component: WorkPackageSettingsButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
       show: ():boolean => this.authorisationService.can('query', 'updateImmediately'),
       inputs: {
         hideTableOptions: true,
@@ -100,6 +100,8 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
 
   public ngOnInit():void {
     super.ngOnInit();
+
+    registerEffectCallbacks(this, this.untilDestroyed());
 
     this.wpTableFilters.hidden.push(
       'assignee',

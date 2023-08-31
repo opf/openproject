@@ -1,22 +1,33 @@
 # Schema: CollectionModel
 ---
 type: object
+required:
+  - _type
+  - total
+  - count
+  - _links
 properties:
+  _type:
+    type: string
+    enum:
+      - Collection
   total:
     type: integer
-    description: The total amount of elements available in the collection
-  pageSize:
-    type: integer
-    description: Amount of elements that a response will hold
+    description: The total amount of elements available in the collection.
+    minimum: 0
   count:
     type: integer
-    description: Actual amount of elements in this response
-  offset:
-    type: integer
-    description: The page number that is requested from paginated collection
-  groups:
+    description: Actual amount of elements in this response.
+    minimum: 0
+  _links:
     type: object
-    description: Summarized information about aggregation groups
-  totalSums:
-    type: object
-    description: Aggregations of supported values for elements of the collection
+    required:
+      - self
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This collection resource.
+              
+              **Resource**: Collection

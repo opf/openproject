@@ -37,6 +37,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { CopyProjectComponent } from 'core-app/features/projects/components/copy-project/copy-project.component';
 import { ProjectsComponent } from './components/projects/projects.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -44,6 +45,7 @@ import { ProjectsComponent } from './components/projects/projects.component';
     OpSharedModule,
     ReactiveFormsModule,
 
+    NgSelectModule,
     OpenprojectHalModule,
     OpenprojectFieldsModule,
     UIRouterModule.forChild({

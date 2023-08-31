@@ -29,16 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title(t(:label_calendar_plural)) -%>
 <%= toolbar title: t(:label_calendar_plural) do %>
-  <% if current_user.allowed_to?(:manage_calendars, @project) %>
-    <li class="toolbar-item">
-      <%= link_to new_project_calendars_path(@project),
-                  class: 'button -alt-highlight',
-                  title: t('js.calendar.create_new') do %>
-        <%= op_icon('button--icon icon-add') %>
-        <span class="button--text"><%= t(:label_calendar) %></span>
-      <% end %>
-    </li>
-  <% end %>
+  <%= render Calendar::AddButtonComponent.new(current_project: @project) %>
 <% end %>
 
-<%= rails_cell ::Calendar::TableCell, @views, current_user: current_user %>
+<%= render ::Calendar::TableComponent.new(rows: @views, current_project: @project, current_user: current_user) %>

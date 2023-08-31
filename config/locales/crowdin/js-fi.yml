@@ -65,6 +65,8 @@ fi:
     button_confirm: "Vahvista"
     button_continue: "Jatka"
     button_copy: "Kopioi"
+    button_copy_to_clipboard: "Kopioi leikepöydälle"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Mukautetut kentät"
     button_delete: "Poista"
@@ -105,7 +107,7 @@ fi:
       remove_from_list: 'Poista listalta'
     caption_rate_history: "Tuntihinnan historia"
     clipboard:
-      browser_error: "Selaimesi ei tue kopiointia leikepöydälle. Kopioi valittu teksti manuaalisesti."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Kaaviotyyppi'
@@ -228,7 +230,7 @@ fi:
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Ryhdy sankariksi!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
@@ -294,6 +296,34 @@ fi:
           one: "Ensimmäinen lajitteluperuste"
           two: "Toinen lajitteluperuste"
           three: "Kolmas lajitteluperuste"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "ei"
     general_text_yes: "kyllä"
     general_text_No: "Ei"
@@ -312,11 +342,22 @@ fi:
           learn_about: "Lisätietoja uusista ominaisuuksista"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to calendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Aktivoi"
     label_assignee: 'Työn suorittaja'
     label_add_column_after: "Add column after"
@@ -493,7 +534,7 @@ fi:
     label_remove_all_files: Poista kaikki tiedostot
     label_add_description: "Lisää kuvaus tiedostolle %{file}"
     label_upload_notification: "Siirretään tiedostoa..."
-    label_work_package_upload_notification: "Lisätään tiedostoja tehtävään #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Lisätään tiedostoja tehtävään #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} lisännyt %{author}"
     label_files_to_upload: "Nämä tiedostot lähetetään:"
     label_rejected_files: "Näitä tiedostoja ei voida lähettää:"
@@ -726,6 +767,14 @@ fi:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'Kirjaa työaika'
+      tracking: 'Työajanseuranta'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Kaksivaiheinen tunnistautuminen'
     watchers:
@@ -784,7 +833,8 @@ fi:
     autocompleter:
       placeholder: "Haku"
       notFoundText: "No items found"
-      typeToSearchText: "Haku"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Valitse tunniste'
       select_branch: 'Valitse haara'
@@ -802,63 +852,6 @@ fi:
       activate_no: 'activate to remove the sort'
     text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt-kaavio'
-      labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Vasen'
-        right: 'Oikea'
-        farRight: 'Far right'
-        showNone: '-- No label --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Näytä gantt kaavio'
-      button_deactivate: 'Hide Gantt chart'
-      cancel: Peruuta
-      change: "Muuta suunnittelussa"
-      due_date: "Päättymispäivä"
-      empty: "(tyhjä)"
-      error: "On tapahtunut virhe."
-      errors:
-        not_implemented: "Aikajanaa ei voitu muodostaa koska se käyttää toimintoa jota ei ole vielä otettu käyttöön."
-        report_comparison: "Aikajanan voi tehdä määritetty vertailuja. Tarkista oikea kohta asetukset, nollaa se voi auttaa ratkaisemaan tämän ongelman."
-        report_epicfail: "Aikajana ei voi ladata koska odottamaton virhe."
-        report_timeout: "The timeline could not be loaded in a reasonable amount of time."
-      filter:
-        grouping_other: "Muut"
-        noneSelection: "(none)"
-      name: "Nimi"
-      outline: "Nollaa hahmotelma"
-      outlines:
-        aggregation: "Näyttää koosteita vain"
-        level1: "Laajenna taso 1"
-        level2: "Laajenna taso 2"
-        level3: "Laajenna taso 3"
-        level4: "Laajenna taso 4"
-        level5: "Laajenna taso 5"
-        all: "Näytä kaikki"
-      project_status: "Projektin tila"
-      really_close_dialog: "Haluatko varmasti sulkea ikkunan ja menettää syötetyt tiedot?"
-      responsible: "Vastuullinen"
-      save: Tallenna
-      start_date: "Aloituspäivä"
-      tooManyProjects: "Projekteja löytyi useampia kuin %{count}. Käytäthän parempaa suodatinta rajaukseen!"
-      selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
-      zoom:
-        in: "Lähennä"
-        out: "Loitonna"
-        auto: "Auto zoom"
-        days: "Päivää"
-        weeks: "Viikkoa"
-        months: "Kuukautta"
-        quarters: "Quarters"
-        years: "Vuotta"
-        slider: "Lähennyksen säätö"
-        description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
     tl_toolbar:
       zooms: "Lähennyksen taso"
       outlines: "Hierarkian taso"
@@ -919,8 +912,15 @@ fi:
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "Aihe, kuvaus, kommentit, ..."
+      baseline:
+        addition_label: 'Added to view within the comparison time period'
+        removal_label: 'Removed from view within the comparison time period'
+        modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filter work packages'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Klikkaa lisätäksesi tehtävä luetteloon'
       create:
@@ -1081,6 +1081,7 @@ fi:
         save_as: "Tallenna nimellä"
         export: "Vie"
         visibility_settings: "Näkyvyysasetukset"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Nimeä näkymä"
         delete: "Poista"
       filter: "Suodata"
@@ -1157,10 +1158,11 @@ fi:
       button_deactivate: 'Sulje koko näyttö'
     global_search:
       all_projects: "Kaikista projekteista"
-      search: "Haku"
       close_search: "Close search"
-      current_project: "Tästä projektista"
       current_project_and_all_descendants: "Tästä projektista + aliprojekteista"
+      current_project: "Tästä projektista"
+      recently_viewed: "Recently viewed"
+      search: "Haku"
       title:
         all_projects: "kaikki projektit"
         project_and_subprojects: "and all subprojects"
@@ -1249,6 +1251,38 @@ fi:
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
       no_results: 'No project matches your search criteria.'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: 'Tyhjennä'
+      apply: 'Ota käyttöön'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
+      show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
+      time: 'Aika'
+      from: 'Alkaen'
+      to: 'Päättyen'
+      drop_down:
+        none: '-'
+        yesterday: 'eilen'
+        last_working_day: 'last working day'
+        last_week: 'viime viikolla'
+        last_month: 'viime kuussa'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
+      legends:
+        changes_since: 'Changes since'
+        changes_between: 'Changes between'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
+        in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

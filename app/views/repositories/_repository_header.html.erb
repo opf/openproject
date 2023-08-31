@@ -27,10 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% content_for :header_tags do %>
-  <meta name="required_script" content="repository_navigation" />
-<% end %>
-
 <persistent-toggle data-identifier="repository.checkout_instructions"></persistent-toggle>
 <%= toolbar title: t('repositories.named_repository',
                      vendor_name: @repository.class.vendor_name) do %>
@@ -48,9 +44,9 @@ See COPYRIGHT and LICENSE files for more details.
                        clipboard-target="#repository-checkout-url">
     </copy-to-clipboard>
     <button class="repository-checkout-copy-button toolbar-input--affix toolbar-input-group--affix -append"
-            title="<%= t(:label_copy_to_clipboard) %>">
+            title="<%= t(:button_copy_to_clipboard) %>">
       <%= op_icon('icon-copy') %>
-      <span class="hidden-for-sighted"><%= t(:label_copy_to_clipboard) %></span>
+      <span class="hidden-for-sighted"><%= t(:button_copy_to_clipboard) %></span>
     </button>
   </li>
   <li class="toolbar-item -icon-only">

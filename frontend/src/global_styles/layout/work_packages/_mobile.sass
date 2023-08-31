@@ -25,7 +25,7 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
-@media screen and (max-width: 1248px), print
+@media screen and (max-width: $breakpoint-xl), print
   .router--work-packages-base
 
     // ------------- FULL SCREEN -------------------
@@ -70,22 +70,14 @@
         .work-packages-full-view--resizer
           display: none
 
-@include breakpoint(1248px down)
+@media screen and (max-width: $breakpoint-xl)
   .router--work-packages-base
     // --------------- ALL WP VIEWS ---------------
     .toolbar-container
       padding-right: 0
 
-    .attributes-key-value--key,
-    .attributes-key-value--value-container
-      margin-bottom: 20px
-
       .inplace-editing--container
         border: none
-
-    .attributes-key-value--key
-      flex-basis: 30% !important
-      padding: 0 !important
 
     .work-packages--panel-inner > .attributes-group:first-child
       .attributes-group--header
@@ -111,7 +103,7 @@
       font-size: 1rem
 
 
-@include breakpoint(680px down)
+@media screen and (max-width: $breakpoint-sm)
   .router--work-packages-full-view
     #content
       position: relative

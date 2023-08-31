@@ -29,11 +29,6 @@ el:
   default_doc_category_tech: "Τεχνική τεκμηρίωση"
   default_doc_category_user: "Τεκμηρίωση χρήστη"
   enumeration_doc_categories: "Κατηγορίες εγγράφων"
-  enumeration:
-    document_category:
-      documentation: Τεκμηρίωση
-      specification: Προδιαγραφές
-      other: Άλλο
   documents:
     label_attachment_author: "Συγγραφέας συνημμένου"
   label_document_added: "Έγγραφο προστέθηκε"

@@ -15,36 +15,28 @@
                     configuration_link[:href],
                     target: '_blank' %>
       </p>
-      <div class="attributes-key-value">
-        <div class="attributes-key-value--key"><%= t('two_factor_authentication.settings.label_active_strategies') %></div>
-        <div class="attributes-key-value--value-container">
-          <div class="attributes-key-value--value">
-            <%= t(:label_none) if configuration['active_strategies'].empty? %>
-            <% configuration['active_strategies'].each do |key| %>
-              <span>
-                <%= t("two_factor_authentication.strategies.#{key}") %>
-              </span>
-              <br/>
-            <% end %>
-          </div>
-        </div>
-        <div class="attributes-key-value--key"><%= t('two_factor_authentication.settings.label_enforced') %></div>
-        <div class="attributes-key-value--value-container">
-          <div class="attributes-key-value--value">
-            <span><%= !!configuration['enforced'] %></span>
-          </div>
-        </div>
-        <div class="attributes-key-value--key"><%= t('two_factor_authentication.settings.label_remember') %></div>
-        <div class="attributes-key-value--value-container">
-          <div class="attributes-key-value--value">
-            <% if configuration['allow_remember_for_days'].to_i == 0 %>
-              <span><%= t(:label_disabled) %></span>
-            <% else %>
-              <span><%= configuration['allow_remember_for_days'] %> (<%= t(:label_day_plural) %>)</span>
-            <% end %>
-          </div>
-        </div>
-      </div>
+      <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+        component.with_attribute(key: t('two_factor_authentication.settings.label_active_strategies'),
+                                 value: if configuration['active_strategies'].empty?
+                                          t(:label_none)
+                                        else
+                                          configuration['active_strategies'].join(content_tag(:br)) do |key|
+                                            content_tag(:span) do
+                                              t("two_factor_authentication.strategies.#{key}")
+                                            end
+                                          end
+                                        end)
+
+        component.with_attribute(key: t('two_factor_authentication.settings.label_enforced'),
+                                 value: !!configuration['enforced'])
+
+        component.with_attribute(key: t('two_factor_authentication.settings.label_remember'),
+                                 value: if configuration['allow_remember_for_days'].to_i == 0
+                                          t(:label_disabled)
+                                        else
+                                          "#{configuration['allow_remember_for_days']} (#{t(:label_day_plural)})"
+                                        end)
+      end %>
     </fieldset>
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= t(:label_setting_plural) %></legend>

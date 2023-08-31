@@ -1,42 +1,54 @@
-<!-- Standard Ruby view, please see the controller for comments -->
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2023 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
 <% html_title t(:label_administration), t("project_module_storages") %>
 <% local_assigns[:additional_breadcrumb] = t('storages.label_new_storage') %>
 <%= toolbar title: t("storages.page_titles.project_settings.new") %>
 
-<%= labelled_tabular_form_for @project_storage, url: project_settings_projects_storages_path do |f| -%>
-  <%= error_messages_for_contract @project_storage, @errors %>
-
-  <section class="form--section">
-    <% if @available_storages.any? %>
-      <div class="form--field -required">
-        <%= f.select :storage_id,
-            @available_storages.map { |storage| ["#{storage.name} (#{storage.provider_type})", storage.id] },
-                     selected: @available_storages.first.id.to_s,
-                     container_class: '-slim' %>
-        <% if User.current.admin? %>
-          <span class="form--field-instructions">
-            <%= t(:"storages.instructions.setting_up_additional_storages")  %>
-            <%= link_to "#{t(:label_administration)} / #{t(:project_module_storages)}", controller: '/storages/admin/storages', action: :index %>.
-          </span>
-        <% end %>
-      </div>
-      <%= styled_button_tag t(:button_add), class: "-highlight -with-icon icon-checkmark" %>
+<section class="form--section">
+  <% if @available_storages.any? %>
+    <% if @project_storage.storage.blank? %>
+      <%= labelled_tabular_form_for @project_storage,
+                                    url: new_project_settings_project_storage_path,
+                                    html: { method: :get } do |f| -%>
+        <%= render partial: '/storages/project_settings/storage_select_form',
+                   locals: { f: f, available_storages: @available_storages, submit_button_label: t('button_continue') }
+        %>
+      <% end %>
     <% else %>
-      <div class="op-toast -info">
-        <div class="op-toast--content">
-          <p>
-            <strong><%= t(:'storages.instructions.all_available_storages_already_added') %></strong>
-          </p>
-          <p>
-            <% if User.current.admin? %>
-              <%= t(:"storages.instructions.setting_up_additional_storages") %>
-              <%= link_to "#{t(:label_administration)} / #{t(:project_module_storages)}", controller: '/storages/admin/storages', action: :index %>.
-            <% else %>
-              <%= t(:"storages.instructions.setting_up_additional_storages_non_admin") %>
-            <% end %>
-          </p>
-        </div>
-      </div>
+      <%= labelled_tabular_form_for @project_storage, url: project_settings_project_storages_path do |f| -%>
+        <%= render partial: '/storages/project_settings/project_folder_form',
+                   locals: { f: f, submit_button_label: t('button_add') }
+        %>
+      <% end %>
     <% end %>
-  </section>
-<% end %>
+  <% else %>
+    <%= render partial: '/storages/project_settings/toast_all_available_storages_already_added' %>
+  <% end %>
+</section>

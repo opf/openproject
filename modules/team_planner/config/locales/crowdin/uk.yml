@@ -2,9 +2,10 @@
 uk:
   permission_view_team_planner: "Перегляд командного планувальника"
   permission_manage_team_planner: "Керування командним планувальником"
-  project_module_team_planner_view: "Командний планувальник"
+  project_module_team_planner_view: "Командні планувальники"
   team_planner:
     label_team_planner: "Командний планувальник"
+    label_new_team_planner: "Новий командний планувальник"
     label_create_new_team_planner: "Створити новий командний планувальник"
     label_team_planner_plural: "Командні планувальники"
     label_assignees: "Виконавці"

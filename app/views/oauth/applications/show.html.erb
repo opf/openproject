@@ -49,85 +49,60 @@ See COPYRIGHT and LICENSE files for more details.
   </li>
 <% end %>
 
-<div class="attributes-group">
-  <div class="attributes-group--header">
-    <div class="attributes-group--header-container">
-      <h3 class="attributes-group--header-text"><%= t(:label_details) %></h3>
-    </div>
-  </div>
+<%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
+  <% component.with_header(title: t(:label_details)) %>
 
-  <div class="attributes-key-value">
-    <div class="attributes-key-value--key"><%= @application.class.human_attribute_name :uid %></div>
-    <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -text">
-        <span><%= @application.uid %></span>
-      </div>
-    </div>
-    <% if flash[:_application_secret] %>
-    <div class="attributes-key-value--key"><%= @application.class.human_attribute_name :secret %></div>
-    <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -text">
-          <p>
-            <code><%= flash[:_application_secret] %></code>
-            <br/>
-            <strong><%= t 'oauth.client_secret_notice' %></strong>
-          </p>
-      </div>
-    </div>
-    <% end %>
-    <% if user_id = @application.client_credentials_user_id %>
-      <div class="attributes-key-value--key"><%= t 'oauth.client_credentials_impersonation_set_to' %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <p>
-            <%= link_to_user User.find_by(id: user_id) %>
-            <br/>
-            <strong><%= t('oauth.client_credentials_impersonation_warning') %></strong>
-          </p>
-        </div>
-      </div>
-    <% end %>
-    <div class="attributes-key-value--key"><%= @application.class.human_attribute_name :scopes %></div>
-    <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -text">
-        <span><%= oauth_scope_translations(@application) %></span>
-      </div>
-    </div>
-    <div class="attributes-key-value--key"><%= @application.class.human_attribute_name :confidential %></div>
-    <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -text">
-        <span>
-          <%= @application.confidential? ? t(:general_text_Yes) : t(:general_text_No) %>
-        </span>
-      </div>
-    </div>
-    <div class="attributes-key-value--key"><%= @application.class.human_attribute_name :redirect_uri %></div>
-    <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -text">
-        <span>
-          <%= safe_join @application.redirect_uri.split("\n"), '<br/>'.html_safe %>
-        </span>
-      </div>
-    </div>
-    <% if !@application.client_credentials_user_id %>
-      <div class="attributes-key-value--key"><%= I18n.t(:'doorkeeper.auth_url') %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span>
-            <%= oauth_authorization_url %>
-          </span>
-        </div>
-      </div>
-    <% end %>
+  <% component.with_attribute(
+    key: @application.class.human_attribute_name(:uid),
+    value: @application.uid
+  ) %>
 
-    <div class="attributes-key-value--key"><%= I18n.t(:'doorkeeper.access_token_url') %></div>
-    <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -text">
-        <span>
-          <%= oauth_token_url %>
-        </span>
-      </div>
-    </div>
-  </div>
-</div>
+  <% if flash[:_application_secret] %>
+    <% component.with_attribute(
+      key: @application.class.human_attribute_name(:secret)
+    ) do %>
+      <p>
+        <code><%= flash[:_application_secret] %></code>
+        <br/>
+        <strong><%= t 'oauth.client_secret_notice' %></strong>
+      </p>
+    <% end %>
+  <% end %>
 
+  <% if user_id = @application.client_credentials_user_id %>
+    <% component.with_attribute(
+      key: t('oauth.client_credentials_impersonation_set_to')
+    ) do %>
+      <%= link_to_user User.find_by(id: user_id) %>
+      <br/>
+      <strong><%= t('oauth.client_credentials_impersonation_warning') %></strong>
+    <% end %>
+  <% end %>
+
+  <% component.with_attribute(
+    key: @application.class.human_attribute_name(:scopes),
+    value: oauth_scope_translations(@application)
+  ) %>
+
+  <% component.with_attribute(
+    key: @application.class.human_attribute_name(:confidential),
+    value: @application.confidential? ? t(:general_text_Yes) : t(:general_text_No)
+  ) %>
+
+  <% component.with_attribute(
+    key: @application.class.human_attribute_name(:redirect_uri),
+    value: safe_join(@application.redirect_uri.split("\n"), '<br/>'.html_safe)
+  ) %>
+
+  <% if !@application.client_credentials_user_id %>
+    <% component.with_attribute(
+      key: I18n.t(:'doorkeeper.auth_url'),
+      value: oauth_authorization_url
+    ) %>
+  <% end %>
+
+  <% component.with_attribute(
+    key: I18n.t(:'doorkeeper.access_token_url'),
+    value: oauth_token_url
+  ) %>
+<% end %>

@@ -5,6 +5,7 @@ sv:
   project_module_team_planner_view: "Team planerare"
   team_planner:
     label_team_planner: "Team planerare"
+    label_new_team_planner: "Ny teamplanerare"
     label_create_new_team_planner: "Skapa ny teamplanerare"
     label_team_planner_plural: "Team planerare"
     label_assignees: "Utförare"

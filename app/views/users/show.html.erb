@@ -26,13 +26,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <% content_for :header_tags do %>
   <%= call_hook :users_show_head %>
 <% end %>
+<% local_assigns[:additional_breadcrumb] = @user.name %>
 <% html_title t(:label_administration), t(:label_user_plural) -%>
-<%= toolbar title: "#{avatar @user} #{h(@user.name)}".html_safe do %>
-  <% if User.current.admin? %>
+<%= breadcrumb_toolbar "#{avatar @user} #{h(@user.name)}".html_safe do %>
+  <% if User.current.allowed_to_globally?(:manage_user) %>
     <li class="toolbar-item">
       <%= link_to edit_user_path(@user), class: 'button', accesskey: accesskey(:edit) do %>
         <%= op_icon('button--icon icon-edit') %>
@@ -40,24 +40,35 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     </li>
   <% end %>
+  <% if User.current.allowed_to_globally?(:create_user) %>
+    <li class="toolbar-item hidden-for-tablet">
+      <%= form_for(@user, html: { class: 'toolbar-item' },
+                 url: { action: :resend_invitation },
+                 method: :post) do |_form| %>
+        <button class="button" title="<%= t(:tooltip_resend_invitation) %>">
+          <%= op_icon('button--icon icon-mail1') %>
+          <span class="button--text"><%= t(:label_send_invitation) %></span>
+        </button>
+      <% end %>
+    </li>
+  <% end %>
 <% end %>
-
-<div class="grid-block medium-up-2">
+<div class="grid-block grid-block_double-column">
   <div class="grid-content">
     <%= call_hook :view_account_left_top, user: @user %>
-    <ul>
-      <% unless @user.pref.hide_mail %>
-        <li><%= User.human_attribute_name(:mail) %>: <%= mail_to(h(escape_javascript(@user.mail)), nil, encode: 'javascript') %></li>
-      <% end %>
-      <% @user.visible_custom_field_values.each do |custom_value| %>
-        <% if !custom_value.value.blank? %>
-          <li><%=h custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
+    <% if visible_user_information?(@user) %>
+      <ul>
+        <% if @user.pref.can_expose_mail? %>
+          <li><%= User.human_attribute_name(:mail) %>: <%= mail_to(h(escape_javascript(@user.mail)), nil, encode: 'javascript') %></li>
         <% end %>
-      <% end %>
-    </ul>
-
+        <% @user.visible_custom_field_values.each do |custom_value| %>
+          <% if custom_value.value.present? %>
+            <li><%=h custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
+          <% end %>
+        <% end %>
+      </ul>
+    <% end %>
     <%= call_hook :view_account_left_middle, user: @user %>
-
     <% unless @memberships.empty? %>
       <h3><%=t(:label_project_plural)%></h3>
       <ul>
@@ -71,7 +82,6 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
     <%= call_hook :view_account_left_bottom, user: @user %>
   </div>
-
   <div class="grid-content">
     <% unless @events.empty? %>
       <h3>
@@ -81,11 +91,9 @@ See COPYRIGHT and LICENSE files for more details.
         <%=t(:label_reported_work_packages)%>: <%= @user.reported_work_package_count %>
       </p>
       <%= render(Activities::DaysComponent.new(events: @events, display_user: false, header_tag: 'h4', activity_page: @activity_page))  %>
-
       <%= other_formats_links do |f| %>
         <%= f.link_to 'Atom', url: {controller: '/activities', action: 'index', id: nil, user_id: @user, key: User.current.rss_key} %>
       <% end %>
-
       <% content_for :header_tags do %>
         <%= auto_discovery_link_tag(:atom, controller: '/activities', action: 'index', user_id: @user, format: :atom, key: User.current.rss_key) %>
       <% end %>
@@ -93,5 +101,4 @@ See COPYRIGHT and LICENSE files for more details.
     <%= call_hook :view_account_right_bottom, user: @user %>
   </div>
 </div>
-
 <% html_title h(@user.name) %>

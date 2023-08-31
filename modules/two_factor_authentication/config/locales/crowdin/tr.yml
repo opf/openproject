@@ -69,8 +69,8 @@ tr:
       delete_all_are_you_sure: 'Bu kullanıcı için tüm 2FA cihazlarını silmek istediğinize emin misiniz?'
       button_delete_all_devices: 'Kayıtlı 2FA cihazlarını sil'
       button_register_mobile_phone_for_user: 'Cep telefonunu kaydet'
-      text_2fa_enabled: 'Her oturum açıldığında, bu kullanıcıdan varsayılan 2FA cihazından bir OTP belirteci girmesi istenir.'
-      text_2fa_disabled: "Kullanıcı, 'Hesabım sayfam' üzerinden bir 2FA cihazı kurmadı"
+      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from their default 2FA device.'
+      text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
     upsale:
       title: 'İki faktörlü kimlik doğrulama'
       description: 'Tüm proje üyelerine iki faktörlü kimlik doğrulama sunarak (veya zorunlu kılarak) OpenProject bulut sunucunuzun güvenliğini güçlendirin.'

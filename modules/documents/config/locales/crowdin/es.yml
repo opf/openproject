@@ -29,11 +29,6 @@ es:
   default_doc_category_tech: "Documentación técnica"
   default_doc_category_user: "Documentación para el usuario"
   enumeration_doc_categories: "Categorías de documentos"
-  enumeration:
-    document_category:
-      documentation: Documentación
-      specification: Especificación
-      other: Otros
   documents:
     label_attachment_author: "Autor del archivo adjunto"
   label_document_added: "Documento agregado"

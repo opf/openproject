@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Edit work packages
-  priority: 900
+  priority: 980
 description: How to edit work packages in OpenProject.
 keywords: edit work packages
 ---
@@ -17,7 +17,7 @@ keywords: edit work packages
 
 ## Update a work package
 
-To edit a work package, double-click in the row of a work package in the [list view](../../work-packages/work-package-views/#list-view) or open the [split screen view](../../work-packages/work-package-views/#split-screen-view) to see the details.
+To edit a work package, double-click in the row of a work package in the [table view](../../work-packages/work-package-views/#table-view) or open the [split screen view](../../work-packages/work-package-views/#split-screen-view) to see the details.
 
 In the work package details, you can click in any field to update it, e.g. change the description, status, priority, assignee, or add a comment. 
 
@@ -69,6 +69,11 @@ You can mention and notify team members via [@notification](../../notifications/
 
 ![comment-work-packages](comment-work-packages.png)
 
+### Emojis
+Starting with OpenProject 13.0 you can add emojis to all text editors. Type a colon and a letter, e.g. **:a** into the text editor and get a suggested list of emojis you can use.
+
+![openproject_user_guide_wp_comment_emojis](openproject_user_guide_wp_comment_emojis.png)
+
 ## Watchers
 
 ### How to add watchers to a work package
@@ -92,13 +97,13 @@ The user will no longer get notifications in OpenProject about changes to this w
 
 ## Export work packages
 
-To export the work packages, choose **Export ...** in the settings menu on the top right of the work package list (or Gantt chart) view.
+To export the work packages, choose **Export ...** in the settings menu on the top right of the work package table (or Gantt chart) view.
 
 Please see [this separate guide](../exporting) for more information on exporting work packages.
 
 ## Bulk edit work packages
 
-To make a bulk update and edit several work packages at once, navigate to the work packages list view.
+To make a bulk update and edit several work packages at once, navigate to the work packages table view.
 Highlight all work packages which you want to edit.
 Tip: **keep the Ctrl. button pressed** in order to select and edit several work packages at once.
 

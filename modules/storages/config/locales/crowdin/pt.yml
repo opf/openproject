@@ -3,9 +3,20 @@ pt:
   permission_view_file_links: "Exibir vínculos de arquivos"
   permission_manage_file_links: "Gerenciar vínculos de arquivos"
   permission_manage_storages_in_project: "Gerenciar armazenamentos de arquivos no projeto"
+  permission_read_files: "Ler arquivos"
+  permission_write_files: "Escrever arquivos"
+  permission_create_files: "Criar arquivos"
+  permission_delete_files: "Excluir arquivos"
+  permission_share_files: "Compartilhar arquivos"
   project_module_storages: "Armazenamento de arquivos"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "Não possui autorização para conexão externa ao armazenamento."
+        not_found: "O recurso solicitado não pôde ser encontrado no armazenamento externo de arquivos."
   activerecord:
     models:
+      file_link: "Arquivo"
       storages/storage: "Armazenamento"
     attributes:
       storages/storage:
@@ -28,6 +39,9 @@ pt:
                 Parece não possui o aplicativo "OpenProject integration" instalado. Instale-o primeiro e depois tente novamente.
               authorization_header_missing: >
                 se não totalmente configurado. A instância Nextcloud não recebe o cabeçalho "Autorização", que é necessário para um token Bearer com base na autorização de solicitações de API. Verifique novamente suas configurações de servidor HTTP.
+            password:
+              invalid_password: "não é válido."
+              unknown_error: "não foi possível validar. ,Verifique sua conexão com o armazenamento e tente novamente."
         storages/file_link:
           attributes:
             origin_id:
@@ -36,22 +50,45 @@ pt:
     errors:
       too_many_elements_created_at_once: "Muitos elementos criados ao mesmo tempo. Esperado %{max} no máximo, obteve %{actual}."
   storages:
+    unknown_storage: "Armazenamento desconhecido"
     buttons:
       done_continue_setup: "Concluído. Continuar configuração"
+      done_complete_setup: "Pronto, concluir configuração"
+      edit_automatically_managed_project_folders: "Editar pastas do projeto gerenciadas automaticamente"
       replace_openproject_oauth: "Substituir OAuth OpenProject"
       replace_provider_type_oauth: "Substituir OAuth %{provider_type}"
       save_and_continue_setup: "Salvar e continuar configuração"
       save_and_complete_setup: "Salvar e concluir configuração"
+      select_folder: "Selecionar pastas"
+      configure: "Configurar"
     page_titles:
+      managed_project_folders:
+        title: "Pastas do projeto gerenciadas automaticamente"
+        subtitle: >
+          Deixe o OpenProject criar pastas por projeto automaticamente. Esta ação é recomendada, pois garante que cada membro da equipe sempre tenha as permissões de acesso corretas.
       project_settings:
         index: "Armazenamento de arquivos disponíveis neste projeto"
         new: "Adicionar um armazenamento de arquivos a este projeto"
+        edit: "Editar o armazenamento de arquivos para este projeto"
+        delete: "Excluir armazenamento de arquivos"
+        members_connection_status: "Status da conexão dos membros"
+      project_storage_members:
+        title: "Status da conexão dos membros"
+        subtitle: "Verifique o status da conexão para o armazenamento %{storage_name_link} de todos os membros do projeto"
     instructions:
       type: "Certifique-se de ter privilégios de administração em sua instância Nextcloud e de ter o seguinte aplicativo instalado antes de realizar a configuração:"
       type_link_text: "“Integração OpenProject”"
       name: "Dê um nome a seu armazenamento para que os usuários possam diferenciar vários armazenamentos."
       host: "Adicione o endereço do host de seu armazenamento incluindo o  https://. Ele não deve ter mais de 255 caracteres."
+      managed_project_folders_application_password: >
+        Copiar este valor de:
       no_storage_set_up: "Ainda não há armazenamento de arquivos configurado."
+      no_specific_folder: "Por padrão, cada usuário iniciará em sua própria pasta pessoal quando fizer upload de um arquivo."
+      automatic_folder: "Isto irá criar automaticamente uma pasta raiz para este projeto e gerenciará as permissões de acesso para cada membro do projeto."
+      empty_project_folder_validation: "Selecionar uma pasta é obrigatório para continuar."
+      not_logged_into_storage: "Para selecionar uma pasta de projeto, primeiro faça login"
+      existing_manual_folder: >
+        Você pode designar uma pasta existente como a pasta raiz desse projeto. No entanto, as permissões não são gerenciadas automaticamente; o administrador precisa garantir manualmente que os usuários relevantes tenham acesso. A pasta selecionada pode ser usada por vários projetos.
       setting_up_additional_storages: "Para configurar armazenamentos de arquivos adicionais, por favor visite"
       setting_up_additional_storages_non_admin: "Os administradores podem configurar armazenamentos adicionais em Administração/Armazenamento de arquivos."
       setting_up_storages: "Para configurar armazenamentos de arquivos, visite"
@@ -60,26 +97,51 @@ pt:
       copy_from: "Copiar este valor de"
       nextcloud:
         integration: "Administração de Nextcloud / OpenProject"
+    help_texts:
+      project_folder: >
+        A pasta do projeto é a pasta padrão para uploads de arquivos para esse projeto. No entanto, os usuários ainda podem carregar arquivos em outros locais.
     delete_warning:
       storage: >
         Tem certeza de que deseja excluir este armazenamento? Isso também excluirá o armazenamento de todos os projetos em que for usado. Além disso, também excluirá todos os vínculos de pacotes de trabalho para arquivos armazenados nesse armazenamento.
       project_storage: >
-        Tem certeza de que deseja remover este armazenamento de arquivos deste projeto? Isso também removerá todos os vínculos para arquivos armazenados neste armazenamento para este projeto.
+        Tem certeza de que deseja excluir %{file_storage} deste projeto? Para confirmar esta ação, introduza o nome do armazenamento no campo abaixo, isto irá:
+      project_storage_delete_result_1: "Remover todos os links dos pacotes de trabalho deste projeto para arquivos e pastas desse armazenamento."
+      project_storage_delete_result_2: "Caso este armazenamento tenha uma pasta de projeto gerenciado automaticamente, este e seus arquivos serão excluídos para sempre."
+      input_delete_confirmation: "Insira o nome do armazenamento de arquivos %{file_storage} para confirmar a exclusão."
+      irreversible_notice: "Excluir um armazenamento de arquivos é uma ação irreversível."
+    label_active: "Ativo"
+    label_inactive: "Inativo"
     label_creator: "Criador"
     label_file_link: "Vínculo do arquivo"
     label_file_links: "Vínculos dos arquivos"
     label_name: "Nome"
     label_host: "URL do host"
+    label_managed_project_folders:
+      automatically_managed_folders: "Pastas gerenciadas automaticamente"
+      application_password: "Senha do aplicativo"
+    label_managed_project_folders_breadcrumb: "Pastas do projeto gerenciadas automaticamente"
     label_oauth_breadcrumb:
       openproject: "OAuth OpenProject"
       nextcloud: "OAuth Nextcloud"
     label_oauth_application_details: "Detalhes do aplicativo OAuth"
     label_oauth_client_details: "Detalhes do cliente OAuth"
     label_provider_type: "Tipo de provedor"
+    label_project_folder: "Pasta do projeto"
     label_new_storage: "Novo armazenamento"
+    label_existing_manual_folder: "Pasta existente com permissões gerenciadas manualmente"
+    label_no_specific_folder: "Nenhuma pasta específica"
+    label_automatic_folder: "Nova pasta com permissões gerenciadas automaticamente"
+    label_no_selected_folder: "Nenhuma pasta selecionada"
     label_storage: "Armazenamento"
     label_storages: "Armazenamentos"
+    label_status: "Status"
+    label_files: "Arquivos"
+    member_connection_status:
+      connected: "Conectado"
+      connected_no_permissions: "A função de usuário não tem permissões de armazenamento"
+      not_connected: "Não conectado. O usuário deve fazer login no armazenamento através da aba %{files_label} de um pacote de trabalho para se conectar."
     no_results: "Ainda não há armazenamento configurado."
+    members_no_results: "Nenhum membro para exibir."
     provider_types:
       label: "Tipo de provedor"
       nextcloud:
@@ -89,4 +151,5 @@ pt:
     confirm_replace_oauth_application: "Tem certeza? Todos os usuários terão que autorizar novamente com o OpenProject."
     confirm_replace_oauth_client: "Tem certeza? Todos os usuários terão que autorizar novamente no armazenamento."
     oauth_client_details_missing: "Para concluir a configuração, adicione as credenciais do cliente OAuth do seu armazenamento."
+    automatically_managed_project_folder_missing: "Para concluir o ajuste, configure as pastas do projeto gerenciado automaticamente para o seu armazenamento."
     notice_oauth_application_replaced: "O aplicativo OAuth OpenProject foi substituído com sucesso."

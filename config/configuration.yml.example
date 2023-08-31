@@ -139,7 +139,6 @@
 #       - settings
 #       - ldap_authentication
 #       - colors
-#       - export_card_configurations
 #       - plugins
 #       - info
 #
@@ -153,7 +152,6 @@
 #   blacklisted_routes:
 #     - 'admin/info'
 #     - 'admin/plugins'
-#     - 'export_card_configurations'
 #     - 'colors'
 #     - 'settings'
 #     - 'admin/enumerations'
@@ -238,16 +236,9 @@ default:
   # use memcache for performance, memcached must be installed
   # rails_cache_store: :memcache
 
-  # defines where session data is stored
-  # possible values are :cookie_store, :cache_store, :active_record_store
-  session_store: :cache_store
-
   # Default comment sorting for new users
   # Note, does not change saved preferences of existing users
   # default_comment_sort_order: 'asc'
-
-  # If the session store is :active_record_store, the following configuration settings
-  # are available
 
   # Delete old sessions for the same user when logging in
   # Disabled by default to allow multiple concurrent sessions.

@@ -29,6 +29,7 @@ pt:
         participants: "Participantes"
         participants_attended: "Presentes"
         participants_invited: "Convidados"
+        project: "Projeto"
         start_time: "Horário"
         start_time_hour: "Horário de início"
     errors:
@@ -61,6 +62,13 @@ pt:
   label_meeting_agenda_close: "Fechar a agenda para iniciar a Ata"
   label_meeting_date_time: "Data/Horário"
   label_meeting_diff: "Diferenças"
+  label_upcoming_meetings: "Próximas reuniões"
+  label_past_meetings: "Reuniões anteriores"
+  label_involvement: "Envolvimento"
+  label_upcoming_invitations: "Próximos convites"
+  label_past_invitations: "Convites anteriores"
+  label_attendee: "Participante"
+  label_author: "Criador"
   label_notify: "Enviar para revisão"
   label_icalendar: "Enviar iCalendar"
   label_version: "Versão"
@@ -85,7 +93,7 @@ pt:
   text_duration_in_hours: "Duração em horas"
   text_in_hours: "em horas"
   text_meeting_agenda_for_meeting: 'agenda para a reunião "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Tem certeza de que deseja encerrar a agenda?"
+  text_meeting_closing_are_you_sure: "Você tem certeza de que deseja encerar a pauta da reunião?"
   text_meeting_agenda_open_are_you_sure: "Esta ação sobrepões todas as alterações nos minutos! Pretende continuar?"
   text_meeting_minutes_for_meeting: 'ata da reunião "%{meeting}"'
   text_review_meeting_agenda: "%{author} marcou o %{link} para revisão."

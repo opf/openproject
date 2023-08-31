@@ -29,7 +29,10 @@
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Injectable } from '@angular/core';
-import { RelationsStateValue, WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
+import {
+  RelationsStateValue,
+  WorkPackageRelationsService,
+} from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
@@ -42,14 +45,16 @@ import { WorkPackageViewColumnsService } from './wp-view-columns.service';
 
 @Injectable()
 export class WorkPackageViewAdditionalElementsService {
-  constructor(readonly querySpace:IsolatedQuerySpace,
+  constructor(
+    readonly querySpace:IsolatedQuerySpace,
     readonly wpTableHierarchies:WorkPackageViewHierarchiesService,
     readonly wpTableColumns:WorkPackageViewColumnsService,
     readonly notificationService:WorkPackageNotificationService,
     readonly halResourceService:HalResourceService,
     readonly apiV3Service:ApiV3Service,
     readonly schemaCache:SchemaCacheService,
-    readonly wpRelations:WorkPackageRelationsService) {
+    readonly wpRelations:WorkPackageRelationsService,
+  ) {
   }
 
   public initialize(query:QueryResource, results:WorkPackageCollectionResource):void {
@@ -105,7 +110,10 @@ export class WorkPackageViewAdditionalElementsService {
       return Promise.resolve([]);
     }
 
-    const ids = _.flatten(rows.map((el) => el.ancestorIds));
+    const resultIds = rows.map((el:WorkPackageResource) => (el.id as string|number).toString());
+    const ids = _.flatten(rows.map((el) => el.ancestorIds))
+      .filter((id) => !resultIds.includes(id));
+
     return Promise.resolve(ids);
   }
 

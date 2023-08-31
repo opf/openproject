@@ -1,6 +1,9 @@
 #English strings go here
 nl:
+  label_calendar: "Kalender"
   label_calendar_plural: "Agenda's"
+  label_new_calendar: "Nieuwe kalender"
   permission_view_calendar: "Bekijk agenda's"
   permission_manage_calendars: "Agenda's beheren"
-  project_module_calendar_view: "Agenda"
+  permission_share_calendars: "Abonneren op iCalendars"
+  project_module_calendar_view: "Agenda's"

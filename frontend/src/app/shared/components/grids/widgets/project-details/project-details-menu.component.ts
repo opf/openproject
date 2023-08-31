@@ -26,7 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+} from '@angular/core';
 import { WidgetAbstractMenuComponent } from 'core-app/shared/components/grids/widgets/menu/widget-abstract-menu.component';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
@@ -34,6 +37,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'op-widget-project-details-menu',
@@ -49,10 +53,11 @@ export class WidgetProjectDetailsMenuComponent extends WidgetAbstractMenuCompone
   private capabilityPromise:Promise<boolean>;
 
   ngOnInit():void {
-    this.capabilityPromise = this.currentUser
-      .hasCapabilities$('activities/read', this.currentProject.id)
-      .pipe(take(1))
-      .toPromise();
+    this.capabilityPromise = firstValueFrom(
+      this.currentUser
+        .hasCapabilities$('activities/read', this.currentProject.id)
+        .pipe(take(1)),
+    );
   }
 
   public get menuItems() {

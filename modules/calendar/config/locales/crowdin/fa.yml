@@ -1,6 +1,9 @@
 #English strings go here
 fa:
+  label_calendar: "Calendar"
   label_calendar_plural: "Calendars"
+  label_new_calendar: "New calendar"
   permission_view_calendar: "View calendars"
   permission_manage_calendars: "Manage calendars"
-  project_module_calendar_view: "Calendar"
+  permission_share_calendars: "Subscribe to iCalendars"
+  project_module_calendar_view: "Calendars"

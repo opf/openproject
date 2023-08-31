@@ -40,7 +40,7 @@ import {
 import { StateService, Transition, TransitionService } from '@uirouter/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { EditableAttributeFieldComponent } from 'core-app/shared/components/fields/edit/field/editable-attribute-field.component';
-import { input } from 'reactivestates';
+import { input } from '@openproject/reactivestates';
 import { filter, map, take } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
@@ -55,6 +55,7 @@ import { EditingPortalService } from 'core-app/shared/components/fields/edit/edi
 import { EditFormRoutingService } from 'core-app/shared/components/fields/edit/edit-form/edit-form-routing.service';
 import { ResourceChangesetCommit } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { GlobalEditFormChangesTrackerService } from 'core-app/shared/components/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'edit-form,[edit-form]',
@@ -186,14 +187,13 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
   }
 
   public waitForField(name:string):Promise<EditableAttributeFieldComponent> {
-    return this.registeredFields
+    return firstValueFrom(this.registeredFields
       .values$()
       .pipe(
         filter((keys) => keys.indexOf(name) >= 0),
         take(1),
         map(() => this.fields[name]),
-      )
-      .toPromise();
+      ));
   }
 
   public start() {

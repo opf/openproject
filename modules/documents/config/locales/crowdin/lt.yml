@@ -29,11 +29,6 @@ lt:
   default_doc_category_tech: "Techninė dokumentacija"
   default_doc_category_user: "Vartotojo dokumentacija"
   enumeration_doc_categories: "Dokumentų kategorijos"
-  enumeration:
-    document_category:
-      documentation: Dokumentacija
-      specification: Specifikacija
-      other: Kita
   documents:
     label_attachment_author: "Priedo autorius"
   label_document_added: "Dokumentas pridėtas"

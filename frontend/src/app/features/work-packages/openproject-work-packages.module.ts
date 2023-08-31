@@ -180,11 +180,21 @@ import { OpenprojectStoragesModule } from 'core-app/shared/components/storages/o
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
+import { ProjectStoragesResourceService } from 'core-app/core/state/project-storages/project-storages.service';
+import { OpBaselineModalComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-modal/baseline-modal.component';
+import { OpBaselineComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline/baseline.component';
+import { OpBaselineLoadingComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-loading/baseline-loading.component';
+import { OpBaselineLegendsComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-legends/baseline-legends.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { WorkPackageTimerButtonComponent } from 'core-app/features/work-packages/components/wp-timer-button/wp-timer-button.component';
+import { OpenprojectTimeEntriesModule } from 'core-app/shared/components/time_entries/openproject-time-entries.module';
+import { RecentItemsService } from 'core-app/core/recent-items.service';
 
 @NgModule({
   imports: [
     // Commons
     OpSharedModule,
+    NgSelectModule,
     // Display + Edit field functionality
     OpenprojectFieldsModule,
     // CKEditor
@@ -199,6 +209,8 @@ import { StorageFilesResourceService } from 'core-app/core/state/storage-files/s
     OpenprojectModalModule,
 
     OpenprojectAutocompleterModule,
+
+    OpenprojectTimeEntriesModule,
 
     OpWpTabsModule,
 
@@ -238,6 +250,9 @@ import { StorageFilesResourceService } from 'core-app/core/state/storage-files/s
     StorageFilesResourceService,
 
     StoragesResourceService,
+    ProjectStoragesResourceService,
+
+    RecentItemsService,
   ],
   declarations: [
     // Routing
@@ -336,6 +351,7 @@ import { StorageFilesResourceService } from 'core-app/core/state/storage-files/s
     WorkPackageRelationQueryComponent,
     WorkPackageFormAttributeGroupComponent,
     BackButtonComponent,
+    WorkPackageTimerButtonComponent,
 
     // Activity Tab
     NewestActivityOnOverviewComponent,
@@ -407,6 +423,12 @@ import { StorageFilesResourceService } from 'core-app/core/state/storage-files/s
 
     // Notifications
     WorkPackageMarkNotificationButtonComponent,
+
+    // Timestamps
+    OpBaselineModalComponent,
+    OpBaselineComponent,
+    OpBaselineLoadingComponent,
+    OpBaselineLegendsComponent,
   ],
   exports: [
     WorkPackagesTableComponent,

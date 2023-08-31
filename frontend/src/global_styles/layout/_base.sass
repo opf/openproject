@@ -53,7 +53,7 @@
   height: calc(100vh - var(--header-height))
   overflow-y: auto
   overflow-x: hidden
-  background-color: #fff
+  background-color: var(--body-background)
   position: relative
 
   &.nosidebar
@@ -64,12 +64,15 @@
     padding:    0
 
 #content
-  padding: 0
   padding: 10px 20px
   margin: 0
   width: 100%
   z-index: 10
-  background-color: $body-background
+  background-color: var(--body-background)
+
+  &.api-docs
+    height: 100%
+    padding: 0
 
 .content-overlay
   display: none

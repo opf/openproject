@@ -70,7 +70,7 @@ es:
       button_delete_all_devices: 'Eliminar dispositivos 2FA registrados'
       button_register_mobile_phone_for_user: 'Registrar teléfono móvil'
       text_2fa_enabled: 'Después de cada inicio de sesión, se le pedirá a este usuario que ingrese un token OTP desde su dispositivo 2FA predeterminado.'
-      text_2fa_disabled: "El usuario no configuró un dispositivo 2FA a través de su página 'Mi cuenta'"
+      text_2fa_disabled: "El usuario no configuró un dispositivo 2FA a través de su página «Mi cuenta»"
     upsale:
       title: 'Autenticación de dos factores'
       description: 'Fortalezca la seguridad de su instancia de OpenProject ofreciendo (o aplicando) reconocimiento de dos factores a todos los miembros del proyecto.'

@@ -34,7 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
 <div class="menu-blocks--container" data-qa-selector="menu-blocks--container">
   <% @menu_nodes.each do |menu_node| -%>
     <%= link_to menu_node.url, { class: 'menu-block', 'data-qa-selector': 'menu-block' } do %>
-      <%= op_icon('menu-block--icon ' + (menu_node.icon || '').gsub(/icon2/, "icon3")) %>
+      <%= op_icon("menu-block--icon icon3 icon-#{(menu_node.icon || '')}") %>
       <span class="menu-block--title"> <%= menu_node.caption %> </span>
     <% end %>
   <% end %>

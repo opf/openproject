@@ -41,9 +41,7 @@ The specifics of working of the selected version control client may vary. Please
 If you choose to use Tortoise SVN, you will find a good guide [here](https://tortoisesvn.net/docs/release/TortoiseSVN_en/tsvn-dug.html).
 For Git, we recommend the [Pro Git guide](https://git-scm.com/book/en/v2).
 
-The specifics of working of the selected version control client may vary. Please refer to the documentation of your version control software client for more information. If you choose to use Tortoise SVN, you will find a good guide [here](https://tortoisesvn.net/docs/release/TortoiseSVN_en/tsvn-dug.html).
-
-## Referencing work packages
+## Reference work packages
 
 In the commit message you can reference a workpackage ID (e.g. #1234). In the repository settings (Administration -> System settings -> Repository) you can define keywords that change the status of the referenced work package (e.g. fixes #1234 or closes #1234).
 

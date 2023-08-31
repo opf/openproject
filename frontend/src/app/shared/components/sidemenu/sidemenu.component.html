@@ -4,11 +4,11 @@
   type="button"
   (click)="toggleCollapsed()"
 >
-  <span class="icon3 icon-small"
+  {{ title }}
+  <span class="icon-small"
         [ngClass]="collapsed ? 'icon-arrow-down1' : 'icon-arrow-up1'"
         aria-hidden="true">
   </span>
-  {{ title }}
 </button>
 
 <div

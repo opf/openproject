@@ -65,6 +65,8 @@ si:
     button_confirm: "තහවුරු කරන්න"
     button_continue: "ඉදිරියට යන්න"
     button_copy: "පිටපත් කරන්න"
+    button_copy_to_clipboard: "පසුරු පුවරුවට පිටපත් කරන්න"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "අභිරුචි ක්ෂේත්ර"
     button_delete: "මකන්න"
@@ -105,7 +107,7 @@ si:
       remove_from_list: 'ලැයිස්තුවෙන් කාඩ් ඉවත් කරන්න'
     caption_rate_history: "Rate history"
     clipboard:
-      browser_error: "ඔබගේ බ්රව්සරය පසුරු පුවරුවට පිටපත් කිරීමට සහාය නොදක්වයි. කරුණාකර තෝරාගත් පෙළ අතින් පිටපත් කරන්න."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'සටහන වර්ගය'
@@ -228,7 +230,7 @@ si:
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "වීරයෙක් වෙන්න!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
@@ -294,6 +296,34 @@ si:
           one: "පළමු තෝරා බේරා ගැනීමේ නිර්ණායක"
           two: "දෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
           three: "තෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "නැත"
     general_text_yes: "ඔව්"
     general_text_No: "නැත"
@@ -312,11 +342,22 @@ si:
           learn_about: "නව විශේෂාංග ගැන වැඩි විස්තර දැනගන්න"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to calendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "සක්රිය කරන්න"
     label_assignee: 'අස්ගිනී'
     label_add_column_after: "පසු තීරුව එකතු කරන්න"
@@ -493,7 +534,7 @@ si:
     label_remove_all_files: සියලුම ගොනු මකන්න
     label_add_description: "%{file}සඳහා විස්තරයක් එක් කරන්න"
     label_upload_notification: "ගොනු උඩුගත කිරීම..."
-    label_work_package_upload_notification: "වැඩ පැකේජය සඳහා ගොනු උඩුගත කිරීම #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "වැඩ පැකේජය සඳහා ගොනු උඩුගත කිරීම #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} විසින් එකතු කරන ලද %{author}"
     label_files_to_upload: "මෙම ගොනු උඩුගත කරනු ඇත:"
     label_rejected_files: "මෙම ගොනු උඩුගත කළ නොහැක:"
@@ -726,6 +767,14 @@ si:
     time_entry:
       work_package_required: 'පළමුව වැඩ පැකේජයක් තෝරා ගැනීම අවශ්ය වේ.'
       title: 'ලොග් වේලාව'
+      tracking: 'ෙසොයා ගැනීෙම්'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
@@ -784,7 +833,8 @@ si:
     autocompleter:
       placeholder: "සෙවීමට ටයිප් කරන්න"
       notFoundText: "No items found"
-      typeToSearchText: "සෙවීමට ටයිප් කරන්න"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'ටැගය තෝරන්න'
       select_branch: 'ශාඛාව තෝරන්න'
@@ -802,63 +852,6 @@ si:
       activate_no: 'වර්ග කිරීම ඉවත් කිරීමට සක්රිය'
     text_work_packages_destroy_confirmation: "ඔබ තෝරාගත් වැඩ පැකේජය (න්) මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?"
     text_query_destroy_confirmation: "තෝරාගත් දර්ශනය මකා දැමීමට ඔබට අවශ්යද?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'ගැන්ට් සටහන'
-      labels:
-        title: 'ලේබල් වින්යාසය'
-        bar: 'බාර් ලේබල්'
-        left: 'වම'
-        right: 'අයිතිය'
-        farRight: 'ඈත හරි'
-        showNone: '— ලේබලයක් නැත —'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Gantt සටහන පෙන්වන්න'
-      button_deactivate: 'Gantt සටහන සඟවන්න'
-      cancel: අවලංගු කරන්න
-      change: "සැලසුම්කරණය වෙනස් කිරීම"
-      due_date: "අවසන් දිනය"
-      empty: "(හිස්)"
-      error: "දෝෂයක් සිදුවී ඇත."
-      errors:
-        not_implemented: "එය තවමත් ක්රියාත්මක කර නොමැති අංගයක් භාවිතා කරන නිසා කාල නියමය ඉටු කළ නොහැකි විය."
-        report_comparison: "කාලසටහනට වින්යාසගත කළ සැසඳීම් කළ නොහැකි විය. කරුණාකර වින්යාසයේ සුදුසු කොටස පරීක්ෂා කරන්න, එය නැවත සකස් කිරීම මෙම ගැටළුව විසඳීමට උපකාරී වේ."
-        report_epicfail: "අනපේක්ෂිත දෝෂයක් හේතුවෙන් කාල නියමය පැටවිය නොහැකි විය."
-        report_timeout: "කාල නියමය සාධාරණ කාලයක් තුළ පටවා ගත නොහැකි විය."
-      filter:
-        grouping_other: "වෙනත්"
-        noneSelection: "(කිසිවක් නැත)"
-      name: "නම"
-      outline: "දළ සටහන යළි පිහිටුවන්න"
-      outlines:
-        aggregation: "සමුච්චයන් පමණක් පෙන්වන්න"
-        level1: "1 මට්ටම පුළුල් කරන්න"
-        level2: "2 මට්ටම පුළුල් කරන්න"
-        level3: "3 මට්ටම පුළුල් කරන්න"
-        level4: "4 මට්ටම පුළුල් කරන්න"
-        level5: "5 වන මට්ටම පුළුල් කරන්න"
-        all: "සියල්ල පෙන්වන්න"
-      project_status: "ව්යාපෘති තත්ත්වය"
-      really_close_dialog: "ඔබට ඇත්තටම සංවාදය වසා දමා ඇතුළත් කළ දත්ත අහිමි කිරීමට අවශ්යද?"
-      responsible: "වගකිව යුතු"
-      save: සුරකින්න
-      start_date: "ආරම්භක දිනය"
-      tooManyProjects: "ව්යාපෘති %{count} කට වඩා. කරුණාකර වඩා හොඳ පෙරණයක් භාවිතා කරන්න!"
-      selection_mode:
-        notification: 'සම්බන්ධතාවය නිර්මාණය කිරීම සඳහා ඕනෑම උද්දීපනය කළ වැඩ පැකේජයක් මත ක්ලික් කරන්න. අවලංගු කිරීමට මාධ්ය ගැලවීම.'
-      zoom:
-        in: "විශාලනය"
-        out: "විශාලනය"
-        auto: "වාහන විශාලනය"
-        days: "දින"
-        weeks: "සති"
-        months: "මාස"
-        quarters: "නිල නිවාස"
-        years: "අවුරුදු"
-        slider: "විශාලන කීරීම"
-        description: >
-          ස්වයංසූම් ලබා ගත නොහැකි විට පෙන්විය යුතු ආරම්භක විශාලන මට්ටම තෝරන්න.
     tl_toolbar:
       zooms: "විශාලන මට්ටම"
       outlines: "ධූරාවලිය මට්ටම"
@@ -919,8 +912,15 @@ si:
       message_work_package_read_only: "වැඩ පැකේජය මෙම තත්වය තුළ අගුලු දමා ඇත. තත්වය හැර වෙනත් කිසිදු ගුණාංගයක් වෙනස් කළ නොහැක."
       message_work_package_status_blocked: "සංවෘත තත්ත්වය සහ සංවෘත අනුවාදය පවරා ඇති නිසා වැඩ පැකේජ තත්ත්වය ලිවිය නොහැකි ය."
       placeholder_filter_by_text: "විෂය, විස්තරය, අදහස්,..."
+      baseline:
+        addition_label: 'Added to view within the comparison time period'
+        removal_label: 'Removed from view within the comparison time period'
+        modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'පෙරහන් වැඩ පැකේජ'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'මෙම ලැයිස්තුවට නව වැඩ පැකේජයක් එක් කිරීමට මෙහි ක්ලික් කරන්න'
       create:
@@ -1081,6 +1081,7 @@ si:
         save_as: "ලෙස සුරකින්න"
         export: "අපනයන"
         visibility_settings: "දෘශ්යතා සැකසුම්"
+        share_calendar: "Subscribe to calendar"
         page_settings: "දැක්ම නැවත නම්"
         delete: "මකන්න"
       filter: "පෙරහන්"
@@ -1157,10 +1158,11 @@ si:
       button_deactivate: 'සෙන් මාදිලිය අක්රිය'
     global_search:
       all_projects: "සියලු ව්යාපෘති"
-      search: "සොයන්න"
       close_search: "සෙවුම වසන්න"
-      current_project: "මෙම ව්යාපෘතියේ"
       current_project_and_all_descendants: "මෙම ව්යාපෘතිය+උප ව්යාපෘති"
+      current_project: "මෙම ව්යාපෘතියේ"
+      recently_viewed: "Recently viewed"
+      search: "සොයන්න"
       title:
         all_projects: "සියලු ව්යාපෘති"
         project_and_subprojects: "සහ සියළු උප ව්යාපෘති"
@@ -1249,6 +1251,38 @@ si:
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
       no_results: 'No project matches your search criteria.'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: 'පැහැදිලි'
+      apply: 'අයදුම් කරන්න'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
+      show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
+      time: 'Time'
+      from: 'සිට'
+      to: 'කිරීමට'
+      drop_down:
+        none: '-'
+        yesterday: 'ඊයේ'
+        last_working_day: 'last working day'
+        last_week: 'පසුගිය සතියේ'
+        last_month: 'පසුගිය මාසයේ'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
+      legends:
+        changes_since: 'Changes since'
+        changes_between: 'Changes between'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
+        in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

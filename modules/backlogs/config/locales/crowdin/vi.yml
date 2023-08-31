@@ -26,6 +26,8 @@ vi:
         position: "Vị trí"
         remaining_hours: "Số giờ còn lại"
         remaining_time: "Số giờ còn lại"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Điểm câu chuyện"
         backlogs_work_package_type: "Loại Backlog"
     errors:
@@ -35,9 +37,6 @@ vi:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "chỉ có thể chứa ID của các gói công việc trong sprint hiện tại.\n"
               must_block_at_least_one_work_package: "bắt buộc phải chứa ID của ít nhất một việc"
-            parent_id:
-              parent_child_relationship_across_projects: "không hợp lệ vì gói công việc '%{work_package_name}' là một nhiệm vụ tồn đọng và do đó không thể có một phần tử cha bên ngoài dự án hiện tại."
-              type_must_be_one_of_the_following: "Phải là một trong những loại sau: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "phải giống với phiên bản của bảng cha."
         sprint:
@@ -78,7 +77,6 @@ vi:
     x_more: "%{count} thêm..."
   backlogs_active: "hoạt động"
   backlogs_any: "bất kỳ"
-  backlogs_card_specification: "Các loại nhãn để in thẻ"
   backlogs_inactive: "Dự án không có hoạt động nào"
   backlogs_points_burn_direction: "Điểm ghi lên / xuống"
   backlogs_product_backlog: "Product backlog"

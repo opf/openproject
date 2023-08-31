@@ -36,6 +36,7 @@ value:
   sums: false
   starred: false
   hidden: false
+  timestamps: ["PT0S"]
   projections:
     - _type: QueryProjection::Table
       showHierarchies: true

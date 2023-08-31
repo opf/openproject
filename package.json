@@ -18,7 +18,6 @@
     "webfonts-generator": "^0.4.0"
   },
   "dependencies": {
-    "@fullcalendar/core": "^6.0.2",
-    "@fullcalendar/list": "^6.0.2"
+    "terser-webpack-plugin": "^5.3.9"
   }
 }

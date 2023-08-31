@@ -34,7 +34,7 @@ import {
   debounceTime, distinctUntilChanged, map, tap,
 } from 'rxjs/operators';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { input } from 'reactivestates';
+import { input } from '@openproject/reactivestates';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 
@@ -74,9 +74,7 @@ export class WorkPackageFilterByTextInputComponent extends UntilDestroyedMixin {
         }),
       )
       .subscribe((upstreamTerm:string) => {
-        console.log(`upstream ${upstreamTerm} ${(this.searchTerm as any).timestampOfLastValue}`);
         if (!this.searchTerm.value || this.searchTerm.isValueOlderThan(500)) {
-          console.log(`Upstream value setting to ${upstreamTerm}`);
           this.searchTerm.putValue(upstreamTerm);
         }
       });

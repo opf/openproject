@@ -81,6 +81,9 @@ fi:
   units: "Yksiköt"
   validation_failure_date: "ei ole kelvollinen päivämäärä"
   validation_failure_integer: "ei ole kelvollinen kokonaisluku"
+  export:
+    cost_reports:
+      title: "Your Cost Reports XLS export"
   reporting:
     group_by:
       selected_columns: "Valitut sarakkeet"

@@ -27,17 +27,28 @@
 //++
 
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageViewPaginationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
-import { WorkPackageViewPagination } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-pagination';
-import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { combineLatest } from 'rxjs';
+
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import {
+  WorkPackageViewPaginationService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
+import {
+  WorkPackageViewPagination,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-pagination';
+import {
+  WorkPackageViewSortByService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { TablePaginationComponent } from 'core-app/shared/components/table-pagination/table-pagination.component';
-import { IPaginationOptions, PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
+import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 
 @Component({
   templateUrl: '../../../../../shared/components/table-pagination/table-pagination.component.html',
@@ -45,22 +56,19 @@ import { IPaginationOptions, PaginationService } from 'core-app/shared/component
   selector: 'wp-table-pagination',
 })
 export class WorkPackageTablePaginationComponent extends TablePaginationComponent implements OnInit, OnDestroy {
-  constructor(protected paginationService:PaginationService,
+  constructor(
+    protected paginationService:PaginationService,
     protected cdRef:ChangeDetectorRef,
     protected wpTablePagination:WorkPackageViewPaginationService,
     readonly querySpace:IsolatedQuerySpace,
     readonly wpTableSortBy:WorkPackageViewSortByService,
-    readonly I18n:I18nService) {
+    readonly I18n:I18nService,
+  ) {
     super(paginationService, cdRef, I18n);
   }
 
   ngOnInit() {
-    this.paginationService
-      .loadPaginationOptions()
-      .then((paginationOptions:IPaginationOptions) => {
-        this.perPageOptions = paginationOptions.perPageOptions;
-        this.cdRef.detectChanges();
-      });
+    super.ngOnInit();
 
     this.wpTablePagination
       .live$()

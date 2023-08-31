@@ -27,7 +27,7 @@ Please follow the steps listed below according to your Linux distribution.
 
 ### Debian / Ubuntu
 
-```bash
+```shell
 sudo apt-get update
 sudo apt-get install --only-upgrade openproject
 sudo openproject configure
@@ -37,21 +37,21 @@ sudo openproject configure
 
 On Ubuntu 22.04., you might see warnings like these:
 
-> W: https://dl.packager.io/srv/deb/opf/openproject/stable/12/ubuntu/dists/22.04/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.
+> W: https://dl.packager.io/srv/deb/opf/openproject/stable/13/ubuntu/dists/22.04/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.
 
 This message is due to Ubuntu 22.04 switching to a more secure way of adding repository sources, which is not yet supported by the repository provider. There is ongoing work on this item, the message is for information only.
 
 If you get an error like the following:
 
-> E: Repository 'https://dl.packager.io/srv/deb/opf/openproject/stable/12/ubuntu 22.04 InRelease' changed its 'Origin' value from '' to 'https://packager.io/gh/opf/openproject'
-> E: Repository 'https://dl.packager.io/srv/deb/opf/openproject/stable/12/ubuntu 22.04 InRelease' changed its 'Label' value from '' to 'Ubuntu 22.04 packages for opf/openproject'
+> E: Repository 'https://dl.packager.io/srv/deb/opf/openproject/stable/13/ubuntu 22.04 InRelease' changed its 'Origin' value from '' to 'https://packager.io/gh/opf/openproject'
+> E: Repository 'https://dl.packager.io/srv/deb/opf/openproject/stable/13/ubuntu 22.04 InRelease' changed its 'Label' value from '' to 'Ubuntu 22.04 packages for opf/openproject'
 
 These two messages messages are expected, due to a change in Origin and Label repository metadata, to better explain what the repository is about. You should allow the change, and/or run `sudo apt-get update --allow-releaseinfo-change` for the update to go through.
 
 
 ### CentOS / RHEL
 
-```bash
+```shell
 sudo yum update
 sudo yum install openproject
 sudo openproject configure
@@ -59,7 +59,7 @@ sudo openproject configure
 
 ### SuSE
 
-```bash
+```shell
 sudo zypper refresh openproject
 sudo zypper update openproject
 sudo openproject configure
@@ -72,17 +72,15 @@ This means that if you want to switch from (e.g.) OpenProject 11.x to 12.x, you 
 
 The necessary steps are the same as setting up the package source for the first time. You can also check the [installation guide](../../installation/packaged) for more information. Please follow the link below to see the appropriate steps for your Linux distribution.
 
-| Distribution (64 bits only)                 |
-| ------------------------------------------- |
-| [Ubuntu 20.04 Focal](../../installation/packaged/#ubuntu-2004)          |
-| [Ubuntu 18.04 Bionic Beaver](../../installation/packaged/#ubuntu-1804)  |
-| [Ubuntu 16.04 Xenial Xerus](../../installation/packaged/#ubuntu-1604)   |
-| [Debian 11 Bullseye](../../installation/packaged/#debian-11)            |
-| [Debian 10 Buster](../../installation/packaged/#debian-10)              |
-| [Debian 9 Stretch](../../installation/packaged/#debian-9)               |
-| [CentOS/RHEL 8.x](../../installation/packaged/#centos-8--rhel-8)        |
-| [CentOS/RHEL 7.x](../../installation/packaged/#centos-7--rhel-7)        |
-| [Suse Linux Enterprise Server 12](../../installation/packaged/#sles-12) |
+| Distribution (64 bits only)                                              |
+|--------------------------------------------------------------------------|
+| [Ubuntu 22.04 Jammy Jellyfish](../../installation/packaged/#ubuntu-2204) |
+| [Ubuntu 20.04 Focal](../../installation/packaged/#ubuntu-2004)           |
+| [Debian 11 Bullseye](../../installation/packaged/#debian-11)             |
+| [Debian 10 Buster](../../installation/packaged/#debian-10)               |
+| [CentOS/RHEL 8.x](../../installation/packaged/#centos-8--rhel-8)         |
+| [CentOS/RHEL 7.x](../../installation/packaged/#centos-7--rhel-7)         |
+| [Suse Linux Enterprise Server 12](../../installation/packaged/#sles-12)  |
 
 After following the steps to update the package source, updating the openproject package and running `openproject configure`, your system will be up to date.
 
@@ -104,7 +102,7 @@ Note that this still takes previous values into consideration. Values that shoul
 
 When using the Compose-based docker installation, you can simply do the following:
 
-```bash
+```shell
 docker-compose pull
 docker-compose up -d
 ```
@@ -117,14 +115,14 @@ When using the all-in-one docker container, you need to perform the following st
 
 1. First, pull the latest version of the image:
 
-```bash
+```shell
 docker pull openproject/community:VERSION
 # e.g. docker pull openproject/community:10
 ```
 
 Then stop and remove your existing container (we assume that you are running with the recommended production setup here):
 
-```bash
+```shell
 docker stop openproject
 docker rm openproject
 ```
@@ -132,7 +130,7 @@ docker rm openproject
 Finally, re-launch the container in the same way you launched it previously.
 This time, it will use the new image:
 
-```
+```shell
 docker run -d ... openproject/community:VERSION
 ```
 
@@ -147,7 +145,7 @@ You can extract your data from the existing container and mount it in a new one 
 
 You can copy the data from the container using `docker cp` like this:
 
-```
+```shell
 # Find out the container name with `docker ps`, we use `openproject-community1` here.
 # The target folder should be what ever persistent volume you have on the system, e.g. `/volume1`.
 docker cp openproject-community1:/var/openproject/assets /volume1/openproject/assets
@@ -156,7 +154,7 @@ docker cp openproject-community1:/var/openproject/pgdata /volume1/openproject/pg
 
 Make sure the folders have the correct owner so the new container can read and write them.
 
-```
+```shell
 sudo chown -R 102 /volume1/openproject/*
 ```
 
@@ -218,7 +216,7 @@ As has been reported from the community, [there appear to be issues with NPM lef
 
 To ensure the package's node_modules folder matches your local version, we recommend you simply remove `/opt/openproject/frontend/node_modules` entirely **before** installing the package
 
-```
+```shell
 rm -rf /opt/openproject/frontend/node_modules
 # Continue with the installation steps described below
 ```

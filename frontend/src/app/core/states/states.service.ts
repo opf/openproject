@@ -1,4 +1,9 @@
-import { InputState, multiInput, MultiInputState, StatesGroup } from 'reactivestates';
+import {
+  InputState,
+  multiInput,
+  MultiInputState,
+  StatesGroup,
+} from '@openproject/reactivestates';
 import { Subject } from 'rxjs';
 import { TypeResource } from 'core-app/features/hal/resources/type-resource';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';

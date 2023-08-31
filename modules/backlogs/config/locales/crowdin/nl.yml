@@ -26,6 +26,8 @@ nl:
         position: "Positie"
         remaining_hours: "Resterende uren"
         remaining_time: "Resterende uren"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Verhaal punten"
         backlogs_work_package_type: "Backlog type"
     errors:
@@ -35,9 +37,6 @@ nl:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "kan alleen ID's bevatten van werkpakketten in de huidige sprint."
               must_block_at_least_one_work_package: "het moet de ID bevatten van ten minste één ticket."
-            parent_id:
-              parent_child_relationship_across_projects: "is ongeldig omdat het werkpakket '%{work_package_name}' een backlogtaak is en vandaar kan geen ouder buiten het huidige project hebben."
-              type_must_be_one_of_the_following: "Het type moet een van de volgende zijn: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "moet hetzelfde zijn als de ouder verhaalversie."
         sprint:
@@ -78,7 +77,6 @@ nl:
     x_more: "%{count} meer..."
   backlogs_active: "actief"
   backlogs_any: "elke"
-  backlogs_card_specification: "Typen labels voor het afdrukken van kaarten"
   backlogs_inactive: "Het project toont geen activiteit"
   backlogs_points_burn_direction: "Punten gaan omhoog / omlaag"
   backlogs_product_backlog: "Product backlog"

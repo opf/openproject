@@ -3,9 +3,20 @@ ko:
   permission_view_file_links: "파일 링크 보기"
   permission_manage_file_links: "파일 링크 관리"
   permission_manage_storages_in_project: "프로젝트의 파일 저장소 관리"
+  permission_read_files: "파일 읽기"
+  permission_write_files: "파일 쓰기"
+  permission_create_files: "파일 만들기"
+  permission_delete_files: "파일 삭제"
+  permission_share_files: "파일 공유"
   project_module_storages: "파일 저장소"
+  errors:
+    attributes:
+      storage_error:
+        not_authorized: "저장소에 대한 외부 연결이 승인되지 않았습니다."
+        not_found: "요청한 리소스를 외부 파일 저장소에서 찾을 수 없습니다."
   activerecord:
     models:
+      file_link: "파일"
       storages/storage: "저장소"
     attributes:
       storages/storage:
@@ -28,6 +39,9 @@ ko:
                 "OpenProject Integration" 앱이 설치되지 않은 것 같습니다. 먼저 설치한 후 다시 시도하세요.
               authorization_header_missing: >
                 완전히 설정되지 않았습니다. Nextcloud 인스턴스는 API 요청에 대한 Bearer 토큰 기반 인증에 필요한 "Authorization" 헤더를 수신하지 않습니다. HTTP 서버 구성을 다시 확인하세요.
+            password:
+              invalid_password: "- 유효하지 않습니다."
+              unknown_error: "- 유효성을 검사할 수 없습니다. 저장소 연결을 확인하고 다시 시도하세요."
         storages/file_link:
           attributes:
             origin_id:
@@ -36,22 +50,45 @@ ko:
     errors:
       too_many_elements_created_at_once: "한 번에 너무 많은 요소가 생성되었습니다. 최대 개수는 %{max}개이지만 %{actual}개가 있습니다."
   storages:
+    unknown_storage: "알 수 없는 저장소"
     buttons:
       done_continue_setup: "완료. 설정을 계속하세요."
+      done_complete_setup: "완료, 설정 완료"
+      edit_automatically_managed_project_folders: "자동으로 관리되는 프로젝트 폴더 편집"
       replace_openproject_oauth: "OpenProject OAuth 바꾸기"
       replace_provider_type_oauth: "%{provider_type} OAuth 바꾸기"
       save_and_continue_setup: "저장하고 설정 계속하기"
       save_and_complete_setup: "저장하고 설정 완료"
+      select_folder: "폴더 선택"
+      configure: "구성"
     page_titles:
+      managed_project_folders:
+        title: "자동으로 관리되는 프로젝트 폴더"
+        subtitle: >
+          OpenProject가 프로젝트별 폴더를 자동으로 생성하도록 합니다. 각 팀원이 항상 올바른 액세스 권한을 갖도록 보장하므로 권장됩니다.
       project_settings:
         index: "이 프로젝트에서 사용 가능한 파일 저장소"
         new: "이 프로젝트에 파일 저장소 추가"
+        edit: "이 프로젝트에 대한 파일 저장소 편집"
+        delete: "파일 저장소 삭제"
+        members_connection_status: "멤버 연결 상태"
+      project_storage_members:
+        title: "멤버 연결 상태"
+        subtitle: "모든 프로젝트 멤버의 저장소 %{storage_name_link}에 대한 연결 상태를 확인하세요."
     instructions:
       type: "설정을 수행하기 전에 Nextcloud 인스턴스에서 관리 권한이 있고 다음 애플리케이션이 설치되어 있는지 확인하세요."
       type_link_text: "“Integration OpenProject”"
       name: "사용자가 여러 저장소 간에 구별할 수 있도록 저장소에 이름을 지정하세요."
       host: "https://를 포함하여 저장소의 호스트 주소를 추가하세요. 255자 이하여야 합니다."
+      managed_project_folders_application_password: >
+        다음에서 이 값 복사:
       no_storage_set_up: "아직 파일 저장소가 설정되지 않았습니다."
+      no_specific_folder: "기본적으로 각 사용자는 파일을 업로드할 때 고유한 홈 폴더에서 시작합니다."
+      automatic_folder: "이렇게 하면 이 프로젝트의 루트 폴더가 자동으로 생성되고 각 프로젝트 멤버의 액세스 권한이 관리됩니다."
+      empty_project_folder_validation: "계속하려면 폴더 선택이 필수적입니다."
+      not_logged_into_storage: "프로젝트 폴더를 선택하려면 먼저 로그인하세요"
+      existing_manual_folder: >
+        기존 폴더를 이 프로젝트의 루트 폴더로 지정할 수 있습니다. 그러나 권한은 자동으로 관리되지 않으며, 관리자는 관련 사용자에게 액세스 권한이 있는지 수동으로 확인해야 합니다. 선택한 폴더는 여러 프로젝트에서 사용할 수 있습니다.
       setting_up_additional_storages: "추가 파일 저장소를 설정하려면 다음을 방문하세요:"
       setting_up_additional_storages_non_admin: "관리자는 관리/파일 저장소에서 추가 파일 저장소를 설정할 수 있습니다."
       setting_up_storages: "파일 저장소를 설정하려면 다음을 방문하세요:"
@@ -60,26 +97,51 @@ ko:
       copy_from: "다음에서 이 값 복사:"
       nextcloud:
         integration: "Nextcloud 관리/OpenProject"
+    help_texts:
+      project_folder: >
+        프로젝트 폴더는 이 프로젝트에 대한 파일 업로드의 기본 폴더입니다. 사용자는 다른 위치에 파일을 계속 업로드할 수 있습니다.
     delete_warning:
       storage: >
         이 저장소를 삭제하시겠습니까? 이렇게 하면 이 저장소가 사용되는 모든 프로젝트에서도 삭제됩니다. 또한 해당 저장소에 저장된 파일에 대한 모든 링크도 작업 패키지에서 삭제합니다.
       project_storage: >
-        이 프로젝트에서 해당 파일 저장소를 제거하시겠습니까? 이렇게 하면 이 프로젝트에서는 해당 저장소에 저장된 파일에 대한 모든 링크도 제거됩니다.
+        이 프로젝트에서 %{file_storage}을(를) 삭제하시겠습니까? 이 작업을 확인하려면 아래 필드에 저장소 이름을 입력하세요. 이렇게 하면 다음이 허용됩니다.
+      project_storage_delete_result_1: "이 프로젝트의 작업 패키지에서 해당 저장소의 파일 및 폴더에 대한 모든 링크를 제거합니다."
+      project_storage_delete_result_2: "이 저장소에 자동으로 관리되는 프로젝트 폴더가 있는 경우 이 폴더와 해당 파일이 영구적으로 삭제됩니다."
+      input_delete_confirmation: "파일 저장소 이름 %{file_storage}을(를) 입력하여 삭제를 확인합니다."
+      irreversible_notice: "파일 저장소를 삭제하면 되돌릴 수 없습니다."
+    label_active: "활성"
+    label_inactive: "비활성"
     label_creator: "생성자"
     label_file_link: "파일 링크"
     label_file_links: "파일 링크"
     label_name: "이름"
     label_host: "호스트 URL"
+    label_managed_project_folders:
+      automatically_managed_folders: "자동으로 관리되는 폴더"
+      application_password: "애플리케이션 암호"
+    label_managed_project_folders_breadcrumb: "자동으로 관리되는 프로젝트 폴더"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
     label_oauth_application_details: "OAuth 애플리케이션 세부 정보"
     label_oauth_client_details: "OAuth 클라이언트 세부 정보"
     label_provider_type: "공급자 유형"
+    label_project_folder: "프로젝트 폴더"
     label_new_storage: "새로운 저장소"
+    label_existing_manual_folder: "수동으로 관리되는 권한이 있는 기존 폴더"
+    label_no_specific_folder: "특정 폴더 없음"
+    label_automatic_folder: "자동으로 관리되는 권한이 있는 새 폴더"
+    label_no_selected_folder: "선택된 폴더 없음"
     label_storage: "저장소"
     label_storages: "저장소"
+    label_status: "상태"
+    label_files: "파일"
+    member_connection_status:
+      connected: "연결됨"
+      connected_no_permissions: "사용자 역할에 저장소 권한이 없습니다"
+      not_connected: "연결되지 않았습니다. 사용자는 작업 패키지의 %{files_label} 탭에서 저장소에 로그인해야 연결할 수 있습니다."
     no_results: "아직 저장소가 설정되지 않았습니다."
+    members_no_results: "표시할 멤버가 없습니다."
     provider_types:
       label: "공급자 유형"
       nextcloud:
@@ -89,4 +151,5 @@ ko:
     confirm_replace_oauth_application: "계속하시겠습니까? 모든 사용자는 OpenProject에 대해 다시 권한을 부여해야 합니다."
     confirm_replace_oauth_client: "계속하시겠습니까? 모든 사용자는 저장소에 대해 다시 권한을 부여해야 합니다."
     oauth_client_details_missing: "설정을 완료하려면 저장소에서 OAuth 클라이언트 자격 증명을 추가하세요."
+    automatically_managed_project_folder_missing: "설정을 완료하려면 저장소에 대해 자동으로 관리되는 프로젝트 폴더를 구성하세요."
     notice_oauth_application_replaced: "OpenProject OAuth 애플리케이션이 성공적으로 교체되었습니다."

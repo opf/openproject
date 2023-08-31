@@ -7,8 +7,8 @@ ka:
       label_unnamed_list: 'Unnamed list'
       label_board_type: 'Board type'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-        upgrade: 'Upgrade now'
+        teaser_text: 'გნებავთ თქვენი საწარმოო პროცესების ავტომატიზაცია Boards-ით? დამატებითი დაფები საწარმოო ვერსიის მოდულია. გადადით ფასიან ვერსიაზე.'
+        upgrade: 'ახლავე განაახლე'
       lists:
         delete: 'Delete list'
       version:
@@ -20,11 +20,11 @@ ka:
         unlock_version: 'Unlock version'
         edit_version: 'Edit version'
         show_version: 'Show version'
-        locked: 'Locked'
-        closed: 'Closed'
+        locked: 'ჩაკეტილია'
+        closed: 'დახურვა'
       new_board: 'New board'
       add_list: 'Add list to board'
-      add_card: 'Add card'
+      add_card: 'ბარათის დამატება'
       error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."
       error_loading_the_list: "Error loading the list: %{error_message}"
       error_permission_missing: "The permission to create public queries is missing"
@@ -33,7 +33,7 @@ ka:
       click_to_remove_list: "Click to remove this list"
       board_type:
         text: 'Board type'
-        free: 'basic'
+        free: 'ძირითადი'
         select_board_type: 'Please choose the type of board you need.'
         free_text: >
           Start from scratch with a blank board. Manually add cards and columns to this board.
@@ -52,18 +52,18 @@ ka:
         action_text_version: >
           Board with automated columns based on the version attribute. Ideal for planning product development.
         action_type:
-          assignee: assignee
-          status: status
-          version: version
+          assignee: შემსრულებელი
+          status: სტატუსი
+          version: ვერსია
           subproject: subproject
           subtasks: parent-child
         board_type_title:
-          assignee: Assignee
-          status: Status
-          version: Version
+          assignee: დასაქმებული
+          status: სტატუსი
+          version: ვერსია
           subproject: Subproject
-          subtasks: Parent-child
-          basic: Basic
+          subtasks: მშობელი-შვილი
+          basic: ძირითადი
         select_attribute: "Action attribute"
       add_list_modal:
         labels:

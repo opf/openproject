@@ -31,6 +31,10 @@ module Queries::Storages::WorkPackages::Filter::StoragesFilterMixin
     :list
   end
 
+  def human_name
+    ::Storages::Storage.human_attribute_name(name)
+  end
+
   # Returns the model class for which the filter will apply.
   #
   # Used in the where and joins clauses.

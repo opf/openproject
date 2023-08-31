@@ -4,6 +4,8 @@ import { StatusResource } from 'core-app/features/hal/resources/status-resource'
 import { CachedBoardActionService } from 'core-app/features/boards/board/board-actions/cached-board-action.service';
 import { StatusBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/status/status-board-header.component';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class BoardStatusActionService extends CachedBoardActionService {
@@ -27,32 +29,17 @@ export class BoardStatusActionService extends CachedBoardActionService {
     return StatusBoardHeaderComponent;
   }
 
-  public addInitialColumnsForAction(board:Board):Promise<Board> {
-    return this
-      .loadValues()
-      .toPromise()
-      .then((results) => Promise.all<unknown>(
-        results.map((status:StatusResource) => {
-          if (status.isDefault) {
-            return this.addColumnWithActionAttribute(board, status);
-          }
-
-          return Promise.resolve(board);
-        }),
-      )
-        .then(() => board));
-  }
-
   public warningTextWhenNoOptionsAvailable():Promise<string> {
     return Promise.resolve(this.I18n.t('js.boards.add_list_modal.warning.status'));
   }
 
-  protected loadUncached():Promise<StatusResource[]> {
+  protected loadUncached():Observable<StatusResource[]> {
     return this
       .apiV3Service
       .statuses
       .get()
-      .toPromise()
-      .then((collection) => collection.elements);
+      .pipe(
+        map((collection) => collection.elements),
+      );
   }
 }

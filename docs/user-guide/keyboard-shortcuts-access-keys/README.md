@@ -80,3 +80,13 @@ OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance you
 - Safari: Ctrl + Opt + &lt;access key number&gt;
 
 ------
+
+## Save text in rich editor
+
+To quickly save changes in a rich text editor (for example a work package description or a comment) you can use this shortcut.
+
+| Shortcut (Windows / Linux) | Shortcut (Mac) | Action                                                       |
+| -------------------------- | -------------- | ------------------------------------------------------------ |
+| CTRL + ENTER               | CMD + ENTER    | **Save changes.** <br />For inline-editable fields, save the field and close it.<br />For pages with a full WYSIWYG (meetings, wiki pages), submit the form. |
+
+Please also refer to documentation  on [working in Rich text editor in OpenProject](../wysiwyg).

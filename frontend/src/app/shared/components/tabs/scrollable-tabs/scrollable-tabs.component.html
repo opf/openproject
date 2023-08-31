@@ -22,8 +22,10 @@
           *ngIf="!tab.route"
           [href]="tab.path"
           class="op-tab-row--link"
+          role="tab"
           [class.op-tab-row--link_selected]="tab.id === currentTabId"
           [class.op-tab-row--link_disabled]="tab.disable !== undefined"
+          [attr.aria-selected]="tab.id === currentTabId"
           (click)="clickTab(tab, $event)"
           [attr.title]="tabTitle(tab)"
           [textContent]="tab.name"
@@ -33,21 +35,22 @@
           *ngIf="tab.route"
           [uiSref]="tab.route"
           [uiParams]="tab.routeParams"
+          [attr.aria-selected]="tab.id === currentTabId"
+          role="tab"
           class="op-tab-row--link"
           uiSrefActive="op-tab-row--link_selected"
           (click)="clickTab(tab, $event)"
           [attr.title]="tabTitle(tab)"
           [class.op-tab-row--link_disabled]="tab.disable !== undefined"
           href=""
-          role="button"
         >
           <span [textContent]="tab.name"></span>
-          <op-tab-count
-            *ngIf="tab.counter && tab.showCountAsBubble"
-            [count]="tab.counter(injector) | async"
-            [attr.data-qa-selector]="'tab-counter-' + tab.name"
-          ></op-tab-count>
-          <ng-container *ngIf="tab.counter(injector) | async as tabCounter">
+          <ng-container *ngIf="counter(tab) | async as tabCounter">
+            <op-tab-count
+              *ngIf="tab.showCountAsBubble"
+              [count]="tabCounter"
+              [attr.data-qa-selector]="'tab-counter-' + tab.name"
+            ></op-tab-count>
             <span
               *ngIf="tabCounter > 0 && !tab.showCountAsBubble"
               data-qa-selector="tab-count"

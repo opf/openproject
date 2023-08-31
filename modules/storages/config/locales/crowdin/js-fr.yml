@@ -15,6 +15,7 @@ fr:
       choose_location: "Choisir emplacement"
       types:
         nextcloud: "Nextcloud"
+        default: "Stockage"
       information:
         connection_error: >
           Certains paramètres de %{storageType} ne fonctionnent pas. Veuillez contacter votre administrateur %{storageType}.
@@ -30,9 +31,16 @@ fr:
           Un fichier avec le nom « %{fileName} » existe déjà à l'emplacement où vous essayez de téléverser ce fichier. Que voulez-vous faire ?
         directory_not_writeable: "Vous n'avez pas la permission d'ajouter des fichiers à ce dossier."
         dragging_many_files: "Le téléversement vers %{storageType} ne supporte qu'un seul fichier à la fois."
+        dragging_folder: "Le téléversement vers %{storageType} ne prend pas en charge les dossiers."
         empty_folder: "Ce dossier est vide."
         empty_folder_location_hint: "Cliquez sur le bouton ci-dessous pour téléverser le fichier à cet endroit."
         file_not_selectable_location: "La sélection d'un fichier est impossible pendant le processus de sélection d'un emplacement."
+        project_folder_no_access: >
+          Vous n'avez pas accès au dossier du projet. Veuillez contacter votre administrateur pour avoir accès ou téléverser le fichier vers un autre endroit.
+        managed_project_folder_not_available: >
+          Le dossier de projet géré automatiquement n'a pas encore été trouvé. Veuillez patienter, rechargez la page pour récupérer les données les plus récentes, puis réessayez.
+        managed_project_folder_no_access: >
+          Vous n'avez pas encore accès au dossier de projet géré. Veuillez patienter un peu avant de réessayer.
         upload_keep_both: "Garder les deux"
         upload_replace: "Remplacer"
       file_links:
@@ -57,7 +65,7 @@ fr:
           other: "%{count} liens de fichier ont été créés avec succès."
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+            Votre fichier (%{fileName}) n'a pas pu être téléversé. Veuillez vérifier que la dernière version de l'application Nextcloud « OpenProject Integration » est installée et contactez votre administrateur pour obtenir plus d'informations.
           403: >
             Votre fichier (%{fileName}) n'a pas pu être téléversé en raison de restrictions du système. Veuillez contacter votre administrateur pour obtenir plus d'informations.
           413: >

@@ -39,3 +39,13 @@ ko:
       tab_prs:
         empty: '아직 연결된 끌어오기 요청이 없습니다. 끌어오기 요청 설명란에서 코드 <code>OP#%{wp_id}</code>(을)를 사용하여 기존 끌어오기 요청을 연결하거나 새 끌어오기 요청을 만드십시오.'
       github_actions: 작업
+      pull_requests:
+        message: "%{github_user_link} 님이 작성한 %{repository_link}에 대한 풀 리퀘스트 #%{pr_number}은(는) %{pr_state} 상태입니다."
+        merged_message: "%{repository_link}에 대한 풀 리퀘스트 #%{pr_number} %{pr_link}은(는) %{github_user_link}에 의해 %{pr_state} 상태가 되었습니다."
+        referenced_message: "%{github_user_link} 님이 작성한 %{repository_link}에 대한 풀 리퀘스트 #%{pr_number}은(는) 이 작업 패키지를 참조했습니다."
+        states:
+          opened: '열림'
+          closed: '닫음'
+          draft: '드래프트'
+          merged: '합병됨'
+          ready_for_review: '검토 준비 표시됨'

@@ -37,6 +37,8 @@
 # Additional attributes and constraints are defined in
 # db/migrate/20220113144323_create_storage.rb "migration".
 class Storages::Storage < ApplicationRecord
+  self.inheritance_column = :provider_type
+
   # One Storage can have multiple FileLinks, representing external files.
   #
   # FileLink deletion is done:
@@ -48,16 +50,16 @@ class Storages::Storage < ApplicationRecord
   # Basically every OpenProject object has a creator
   belongs_to :creator, class_name: 'User'
   # A project manager can enable/disable Storages per project.
-  has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
+  has_many :project_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
   # We can get the list of projects with this Storage enabled.
-  has_many :projects, through: :projects_storages
+  has_many :projects, through: :project_storages
   # The OAuth client credentials that OpenProject will use to obtain user specific
   # access tokens from the storage server, i.e a Nextcloud serer.
   has_one :oauth_client, as: :integration, dependent: :destroy
   has_one :oauth_application, class_name: '::Doorkeeper::Application', as: :integration, dependent: :destroy
 
   PROVIDER_TYPES = [
-    PROVIDER_TYPE_NEXTCLOUD = 'nextcloud'.freeze
+    PROVIDER_TYPE_NEXTCLOUD = 'Storages::NextcloudStorage'.freeze
   ].freeze
 
   # Uniqueness - no two storages should  have the same host.
@@ -66,15 +68,38 @@ class Storages::Storage < ApplicationRecord
 
   # Creates a scope of all storages, which belong to a project the user is a member
   # and has the permission ':view_file_links'
-  scope :visible, ->(user = User.current) {
+  scope :visible, ->(user = User.current) do
     if user.allowed_to_globally?(:manage_storages_in_project)
       all
     else
       where(
-        projects_storages: ::Storages::ProjectStorage.where(
+        project_storages: ::Storages::ProjectStorage.where(
           project: Project.allowed_to(user, :view_file_links)
         )
       )
     end
-  }
+  end
+
+  scope :not_enabled_for_project, ->(project) do
+    where.not(id: project.project_storages.pluck(:storage_id))
+  end
+
+  def self.shorten_provider_type(provider_type)
+    case /Storages::(?'provider_name'.*)Storage/.match(provider_type)
+    in provider_name:
+      provider_name.downcase
+    else
+      raise ArgumentError,
+            "Unknown provider_type! Given: #{provider_type}. " \
+            "Expected the following signature: Storages::{Name of the provider}Storage"
+    end
+  end
+
+  def short_provider_type
+    @short_provider_type ||= self.class.shorten_provider_type(provider_type)
+  end
+
+  def provider_type_nextcloud?
+    provider_type == ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+  end
 end

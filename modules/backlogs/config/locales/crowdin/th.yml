@@ -26,6 +26,8 @@ th:
         position: "ตำแหน่ง"
         remaining_hours: "Remaining hours"
         remaining_time: "Remaining hours"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "Story Points"
         backlogs_work_package_type: "Backlog type"
     errors:
@@ -35,9 +37,6 @@ th:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "can only contain IDs of work packages in the current sprint."
               must_block_at_least_one_work_package: "must contain the ID of at least one ticket."
-            parent_id:
-              parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and therefore cannot have a parent outside of the current project."
-              type_must_be_one_of_the_following: "Type must be one of the following: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
         sprint:
@@ -78,7 +77,6 @@ th:
     x_more: "%{count} more..."
   backlogs_active: "ใช้งานอยู่"
   backlogs_any: "any"
-  backlogs_card_specification: "Label types for card printing"
   backlogs_inactive: "Project shows no activity"
   backlogs_points_burn_direction: "Points burn up/down"
   backlogs_product_backlog: "Product backlog"

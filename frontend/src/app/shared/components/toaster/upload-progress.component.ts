@@ -44,6 +44,7 @@ import {
   HttpProgressEvent,
 } from '@angular/common/http';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
@@ -114,6 +115,10 @@ export class UploadProgressComponent extends UntilDestroyedMixin implements OnIn
               this.value = 100;
               this.completed = true;
               this.uploadSuccess.emit();
+              break;
+            case HttpEventType.DownloadProgress:
+            case HttpEventType.ResponseHeader:
+              /* do nothing */
               break;
             default:
               console.warn(`unknown event type: ${evt.type}`);

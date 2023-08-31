@@ -40,14 +40,16 @@ import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.mod
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { SortFilesPipe } from 'core-app/shared/components/storages/pipes/sort-files.pipe';
-import { isDirectory } from 'core-app/shared/components/storages/functions/storages.functions';
+import { isDirectory, storageLocaleString } from 'core-app/shared/components/storages/functions/storages.functions';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import {
   StorageFileListItem,
 } from 'core-app/shared/components/storages/storage-file-list-item/storage-file-list-item';
 import {
   FilePickerBaseModalComponent,
-} from 'core-app/shared/components/storages/file-picker-base-modal.component.ts/file-picker-base-modal.component';
+} from 'core-app/shared/components/storages/file-picker-base-modal/file-picker-base-modal.component';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   templateUrl: 'location-picker-modal.component.html',
@@ -58,9 +60,14 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
 
   public readonly text = {
     header: this.i18n.t('js.storages.select_location'),
+    alertNoAccess: this.i18n.t('js.storages.files.project_folder_no_access'),
+    alertNoManagedProjectFolder: this.i18n.t('js.storages.files.managed_project_folder_not_available'),
+    alertNoAccessToManagedProjectFolder: this.i18n.t('js.storages.files.managed_project_folder_no_access'),
     content: {
       empty: this.i18n.t('js.storages.files.empty_folder'),
       emptyHint: this.i18n.t('js.storages.files.empty_folder_location_hint'),
+      noConnection: (storageType:string) => this.i18n.t('js.storages.no_connection', { storageType }),
+      noConnectionHint: (storageType:string) => this.i18n.t('js.storages.information.connection_error', { storageType }),
     },
     buttons: {
       submit: this.i18n.t('js.storages.choose_location'),
@@ -74,8 +81,12 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
     },
   };
 
-  public get location():string {
-    return this.currentDirectory.id as string;
+  public get location():IStorageFile {
+    return this.currentDirectory;
+  }
+
+  public get storageType():string {
+    return this.i18n.t(storageLocaleString(this.storage._links.type.href));
   }
 
   public get filesAtLocation():IStorageFile[] {
@@ -88,6 +99,26 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
     }
 
     return this.currentDirectory.permissions.some((value) => value === 'writeable');
+  }
+
+  public get alertText():Observable<string> {
+    return this.showAlert
+      .pipe(
+        map((alert) => {
+          switch (alert) {
+            case 'noAccess':
+              return this.text.alertNoAccess;
+            case 'managedFolderNoAccess':
+              return this.text.alertNoAccessToManagedProjectFolder;
+            case 'managedFolderNotFound':
+              return this.text.alertNoManagedProjectFolder;
+            case 'none':
+              return '';
+            default:
+              throw new Error('unknown alert type');
+          }
+        }),
+      );
   }
 
   constructor(

@@ -15,6 +15,7 @@ de:
       choose_location: "Speicherort wählen"
       types:
         nextcloud: "Nextcloud"
+        default: "Speicher"
       information:
         connection_error: >
           Einige %{storageType} Einstellungen funktionieren nicht. Bitte kontaktieren Sie Ihren %{storageType} Administrator.
@@ -30,9 +31,16 @@ de:
           Eine Datei mit dem Namen „%{fileName}“ existiert bereits an dem Ort, an dem Sie versuchen, diese Datei hochzuladen. Was möchten Sie tun?
         directory_not_writeable: "Sie haben keine Berechtigung, Dateien zu diesem Ordner hinzuzufügen."
         dragging_many_files: "Das Hochladen auf %{storageType} unterstützt nur eine Datei auf einmal."
+        dragging_folder: "Der Upload an %{storageType} unterstützt keine Ordner."
         empty_folder: "Dieser Ordner ist leer."
         empty_folder_location_hint: "Klicken Sie auf die Schaltfläche unten, um die Datei an diesen Ort hochzuladen."
         file_not_selectable_location: "Die Auswahl einer Datei ist nicht möglich, wenn Sie einen Speicherort auswählen."
+        project_folder_no_access: >
+          Sie haben keinen Zugriff auf den Projektordner. Bitte wenden Sie sich an Ihren Administrator, um Zugang zu erhalten, oder laden Sie die Datei an einem anderen Ort hoch.
+        managed_project_folder_not_available: >
+          Der automatisch verwaltete Projektordner wurde noch nicht gefunden. Bitte warten Sie, laden Sie die Seite neu, um die neuesten Daten abzurufen und versuchen Sie es erneut.
+        managed_project_folder_no_access: >
+          Sie haben noch keinen Zugriff auf den verwalteten Projektordner. Bitte warten Sie ein wenig und versuchen Sie es erneut.
         upload_keep_both: "Beide behalten"
         upload_replace: "Ersetzen"
       file_links:

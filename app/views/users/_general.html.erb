@@ -40,10 +40,17 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= labelled_tabular_form_for @user,
                               url: { controller: '/users',
-                                        action: "update",
-                                        tab: nil },
-                              html: { method: :put,
-                                         autocomplete: 'off' },
+                                     action: "update",
+                                     tab: nil },
+                              html: {
+                                method: :put,
+                                autocomplete: 'off'
+                              },
+                              data: {
+                                controller: 'admin--users',
+                                'application-target': 'dynamic',
+                                'admin--users-password-auth-selected-value': @user.ldap_auth_source_id.blank?,
+                              },
                               as: :user do |f| %>
   <%= render partial: 'form', locals: { f: f } %>
 

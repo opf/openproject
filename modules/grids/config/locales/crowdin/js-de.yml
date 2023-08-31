@@ -20,7 +20,7 @@ de:
           add: 'Mitglied'
           too_many: 'Zeigt %{count} von %{total} Mitgliedern an.'
         news:
-          title: 'Nachrichten'
+          title: 'Neuigkeiten'
           at: 'um'
           no_results: 'Nichts Neues zu berichten.'
         project_description:

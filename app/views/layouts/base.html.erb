@@ -44,6 +44,8 @@ See COPYRIGHT and LICENSE files for more details.
   data-relative_url_root="<%= root_path %>"
   data-overflowing-identifier=".__overflowing_body"
   data-rendered-at="<%= Time.zone.now.iso8601 %>"
+  data-controller="application"
+  <%= user_theme_data_attributes %>
 >
 <%= render partial: 'warning_bar/warning_bar' %>
 <noscript>
@@ -91,7 +93,12 @@ See COPYRIGHT and LICENSE files for more details.
   <div id="main"
        class="<%= initial_classes %>">
     <% if (side_displayed && show_decoration) %>
-      <div id="main-menu" class="main-menu">
+      <div
+        id="main-menu"
+        class="main-menu"
+        data-controller="menus--main"
+        data-application-target="dynamic"
+      >
         <h1 class="hidden-for-sighted"><%= t(:label_main_menu) %></h1>
         <main-menu-resizer></main-menu-resizer>
         <div id="menu-sidebar">
@@ -99,7 +106,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%= content_for :main_menu %>
           <%= call_hook :view_layouts_base_main_menu %>
           <!-- Sidebar -->
-          <div id="sidebar">
+          <div id="sidebar" data-menus--main-target="sidebar">
             <%= content_for :sidebar %>
             <%= call_hook :view_layouts_base_sidebar %>
           </div>
@@ -123,14 +130,17 @@ See COPYRIGHT and LICENSE files for more details.
           <%= render partial: '/onboarding/configuration_modal' %>
         </section>
       <% end %>
-      <div id="content" class="<%= initial_classes %>">
+      <%= content_tag :div,
+                      id: 'content',
+                      class: initial_classes,
+                      data: stimulus_content_data do %>
         <h1 class="hidden-for-sighted"><%= t(:label_content) %></h1>
         <%= content_for :content_body %>
-        <% unless local_assigns[:no_action_menu] %>
+        <% unless local_assigns[:no_layout_yield] %>
           <%= yield %>
         <% end %>
         <%= call_hook :view_layouts_base_content %>
-      </div>
+      <% end %>
     </main>
   </div>
   <div id="ajax-indicator" style="display:none;"><span><%= t(:label_loading) %></span></div>

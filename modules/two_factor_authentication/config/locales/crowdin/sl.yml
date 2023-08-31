@@ -68,8 +68,8 @@ sl:
       delete_all_are_you_sure: 'Ali ste prepričani, da želite izbrisati vse naprave 2FA za tega uporabnika?'
       button_delete_all_devices: 'Izbrišite registrirane 2FA naprave'
       button_register_mobile_phone_for_user: 'Registrirajte mobilni telefon'
-      text_2fa_enabled: 'Ob vsaki prijavi bo moral ta uporabnik vnesti žeton OTP iz svoje privzete naprave 2FA.'
-      text_2fa_disabled: "Uporabnik ni nastavil naprave 2FA preko strani »Moj račun«"
+      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from their default 2FA device.'
+      text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
     upsale:
       title: 'Dvofaktorna avtentikacija'
       description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'

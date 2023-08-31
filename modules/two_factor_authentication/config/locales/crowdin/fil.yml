@@ -69,8 +69,8 @@ fil:
       delete_all_are_you_sure: 'Sigurado kaba na nais mong burahin ang lahat ng 2FA na mga aparato para sa gumagamit na ito?'
       button_delete_all_devices: 'Burahin ang nakarehistro na 2FA na mga aparato'
       button_register_mobile_phone_for_user: 'Ang mobile na telepono ay irehistro'
-      text_2fa_enabled: 'Sa bawat pag-login, ang gumagamit na ito ay hinihiling na ipasok ang OTP na token mula sa kanyang default na 2FA aparato.'
-      text_2fa_disabled: "Ang gumagamit ay hindi nag-set up ng 2FA mula sa kanyang 'Aking account sa pahina'"
+      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from their default 2FA device.'
+      text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
     upsale:
       title: 'Ang dalwang-Dahilan sa authentication'
       description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'

@@ -2,7 +2,7 @@
   @include spot-caption()
 
   display: flex
-  align-items: baseline
+  align-items: center
 
   &--crumb
     display: flex
@@ -13,7 +13,9 @@
     > .spot-icon
       width: $spot-spacing-1_5
       height: $spot-spacing-1_5
-      color: var(--primary-color)
+
+      &:not(.spot-breadcrumbs--crumb-divider)
+        color: var(--primary-color)
 
     &_collapsed:before
       content: '...'
@@ -24,12 +26,15 @@
 
     &-action-item
       flex-shrink: 1
-      white-space: nowrap
       overflow: hidden
-      text-overflow: ellipsis
 
       &:not(:first-child)
         margin-left: $spot-spacing-0_25
+
+      &-text
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
 
       &-dots
         display: none
@@ -58,7 +63,7 @@
       &_parent
         flex-shrink: 0
 
-      &-action-item-text
+      :not(&_last) > &-action-item-text
         display: none
 
       &-action-item-dots

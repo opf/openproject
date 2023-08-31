@@ -65,6 +65,8 @@ ro:
     button_confirm: "Confirmă"
     button_continue: "Continuaţi"
     button_copy: "Copiere"
+    button_copy_to_clipboard: "Copiere în clipboard"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copiază în alt proiect"
     button_custom-fields: "Câmpuri personalizate"
     button_delete: "Ștergere"
@@ -105,7 +107,7 @@ ro:
       remove_from_list: 'Alegeți intervalul din listă'
     caption_rate_history: "Istoricul ratei"
     clipboard:
-      browser_error: "Browser-ul nu acceptă copierea în ecranul tampon. Vă rugăm să copiaţi textul selectat manual."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Copiat cu succes în clipboard!"
     chart:
       type: 'Tipul de diagramă'
@@ -227,7 +229,7 @@ ro:
           quick_overview: "Obțineți o imagine de ansamblu rapidă a gestionării proiectelor și a colaborării în echipă cu OpenProject Enterprise edition."
         upsale:
           become_hero: "Deveniți un erou!"
-          enterprise_info_html: "%{feature_title} este un Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Vă rugăm să treceți la un plan plătit pentru a-l activa și a începe să îl utilizați în echipa dumneavoastră."
           benefits:
             description: "Care sunt avantajele ediției Enterprise on-premise?"
@@ -293,6 +295,34 @@ ro:
           one: "Primul criteriu de sortare"
           two: "Al doilea criteriu de sortare"
           three: "Al treilea criteriu de sortare"
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "nu"
     general_text_yes: "da"
     general_text_No: "Nu"
@@ -311,11 +341,22 @@ ro:
           learn_about: "Aflați mai multe despre noile caracteristici"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_5':
+          '13_0':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                Versiunea conţine diverse caracteristici noi şi îmbunătăţiri: <br> <ul class="%{list_styling_class}"> <li>Încărcaţi şi conectaţi fişiere din pachetele de lucru la spaţiul de stocare al fişierului Nextcloud.</li> <li>Monitorizarea schimbărilor de proiect în urmărirea activității proiectului.</li> <li>Adaugă sărbători publice pentru o anumită instanță (zile nelucrătoare).</li> <li>Proiecte arhivate altele decât administratorii.</li> <li>Un filtru nou implicit pentru pachetele de lucru restante.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to calendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Activare"
     label_assignee: 'Executant'
     label_add_column_after: "Adauga o coloana dupa"
@@ -492,7 +533,7 @@ ro:
     label_remove_all_files: Ştergeţi toate fişierele
     label_add_description: "Adăugați o descriere pentru %{file}"
     label_upload_notification: "Se încarcă fișierele..."
-    label_work_package_upload_notification: "Fişierele pentru pachetul de lucru #%{id}: %{subject} sunt în curs de încărcare" #%{id}: %{subject} sunt în curs de încărcare"
+    label_work_package_upload_notification: "Fişierele pentru pachetul de lucru #%{id}: %{subject} sunt în curs de încărcare"
     label_wp_id_added_by: "#%{id} adaugat de %{author}"
     label_files_to_upload: "Următoarele fişiere vor fi încărcate:"
     label_rejected_files: "Următoarele fişiere nu pot fi încărcate:"
@@ -726,6 +767,14 @@ ro:
     time_entry:
       work_package_required: 'Necesită să se selecteze mai întâi un pachet de lucru.'
       title: 'Consum timp'
+      tracking: 'Monitorizare efort'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Autentificare cu doi factori'
     watchers:
@@ -784,7 +833,8 @@ ro:
     autocompleter:
       placeholder: "Introduceți textul de căutat"
       notFoundText: "Niciun articol găsit"
-      typeToSearchText: "Introduceți textul de căutat"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Selectare etichetă'
       select_branch: 'Selectare ramură'
@@ -802,63 +852,6 @@ ro:
       activate_no: 'activați pentru a înlătura sortarea'
     text_work_packages_destroy_confirmation: "Sunteți sigur că doriți ștergerea pachetelor de lucru selectate?"
     text_query_destroy_confirmation: "Sunteți sigur că doriți să ștergeți vizualizarea selectată?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Grafic Gantt'
-      labels:
-        title: '-- Fără etichetă --'
-        bar: 'Etichete de bare'
-        left: 'Stânga'
-        right: 'Dreapta'
-        farRight: 'Extrema dreaptă'
-        showNone: '-- Fără etichetă --'
-        description: >
-          Selectați atributele pe care doriți să le afișați în pozițiile respective ale graficului Gantt tot timpul. Țineți cont că atunci când planează deasupra unui element, etichetele sale vor fi afișate în locul acestor atribute.
-      button_activate: 'Grafic Gantt'
-      button_deactivate: 'Grafic Gantt'
-      cancel: Anulare
-      change: "Schimbare în planificare"
-      due_date: "Data de finalizare"
-      empty: "(gol)"
-      error: "A apărut o eroare."
-      errors:
-        not_implemented: "Planificările nu pot fi afișate deoarece utilizează o funcționalitate care nu este încă implementată."
-        report_comparison: "Planificările nu au putut afișa comparațiile configurate. Verificați secțiunea corespunzătoare din configurare, resetarea acesteia poate ajuta la rezolvarea problemei."
-        report_epicfail: "Planificările nu au putut fi încărcate din cauza unei erori neașteptate."
-        report_timeout: "Planificările nu au putut fi încărcate într-un interval de timp rezonabil."
-      filter:
-        grouping_other: "Altele"
-        noneSelection: "(nimic)"
-      name: "Nume"
-      outline: "Resetare contur"
-      outlines:
-        aggregation: "Afișare doar a agregărilor"
-        level1: "Afișare level 1"
-        level2: "Afișare level 2"
-        level3: "Afișare level 3"
-        level4: "Afișare level 4"
-        level5: "Afișare level 5"
-        all: "Afișare completă"
-      project_status: "Stare proiect"
-      really_close_dialog: "Sunteți sigur că doriți să închideți formularul și să pierdeți datele introduse?"
-      responsible: "Responsabil"
-      save: Salvare
-      start_date: "Data de început"
-      tooManyProjects: "Mai mult de %{count} proiecte. Vă rugăm să folosiţi un filtru potrivit!"
-      selection_mode:
-        notification: 'Faceți click pe oricare dintre pachetele de lucru pentru a crea o legătură. Apăsați Escape pentru a anula.'
-      zoom:
-        in: "Mărire"
-        out: "Micșorare"
-        auto: "Mărire"
-        days: "Zile"
-        weeks: "Săptămâni"
-        months: "Luni"
-        quarters: "Trimestre"
-        years: "Ani"
-        slider: "Selector de orizont de timp"
-        description: >
-          Selectați nivelul inițial de zoom care trebuie afișat atunci când funcția de zoom automat nu este disponibilă.
     tl_toolbar:
       zooms: "Orizont de timp"
       outlines: "Nivel ierarhic"
@@ -919,8 +912,15 @@ ro:
       message_work_package_read_only: "Pachetul de lucru este blocat în acest statut. Niciun alt atribut în afară de status nu poate fi modificat."
       message_work_package_status_blocked: "Starea pachetului de lucru nu poate fi scrisă din cauza statutului închis și a versiunii închise care au fost atribuite."
       placeholder_filter_by_text: "Subiect, descriere, comentarii, ..."
+      baseline:
+        addition_label: 'Added to view within the comparison time period'
+        removal_label: 'Removed from view within the comparison time period'
+        modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This column does not show changes in Baseline mode.'
       filters:
         title: 'Filtrare pachete de lucru'
+        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Click aici pentru a adăuga un nou pachet de lucru în listă'
       create:
@@ -1081,6 +1081,7 @@ ro:
         save_as: "Salvare ca"
         export: "Exportare"
         visibility_settings: "Setări de vizibilitate"
+        share_calendar: "Subscribe to calendar"
         page_settings: "Redenumire"
         delete: "Ștergere"
       filter: "Filtrare"
@@ -1159,10 +1160,11 @@ ro:
       button_deactivate: 'Dezactivați modul zen'
     global_search:
       all_projects: "In toate proiectele"
-      search: "Căutare"
       close_search: "Inchide cautarea"
-      current_project: "In acest proiect"
       current_project_and_all_descendants: "In acest proiect + subproiecte"
+      current_project: "In acest proiect"
+      recently_viewed: "Recently viewed"
+      search: "Căutare"
       title:
         all_projects: "toate proiectele"
         project_and_subprojects: "si toate subproiectele"
@@ -1251,6 +1253,38 @@ ro:
         current_project: 'Acesta este proiectul curent în care vă aflați.'
         does_not_match_search: 'Proiectul nu corespunde criteriilor de căutare.'
       no_results: 'Niciun proiect nu corespunde criteriilor de căutare.'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: 'Inițializare'
+      apply: 'Salvare'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
+      show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
+      time: 'Ora'
+      from: 'Din'
+      to: 'La'
+      drop_down:
+        none: '-'
+        yesterday: 'ieri'
+        last_working_day: 'last working day'
+        last_week: 'săptămâna trecută'
+        last_month: 'luna trecută'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
+      legends:
+        changes_since: 'Changes since'
+        changes_between: 'Changes between'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
+        in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'Formularul a fost trimis cu succes'
       load_error_message: 'A apărut o eroare la încărcarea formularului'

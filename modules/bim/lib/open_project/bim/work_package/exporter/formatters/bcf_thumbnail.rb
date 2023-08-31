@@ -1,6 +1,6 @@
 module OpenProject::Bim::WorkPackage::Exporter::Formatters
   class BcfThumbnail < ::Exports::Formatters::Default
-    def self.apply?(name)
+    def self.apply?(name, _export_format)
       name.to_sym == :bcf_thumbnail
     end
 

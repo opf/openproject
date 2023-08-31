@@ -27,15 +27,14 @@
 //++
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
-import { InputState } from 'reactivestates';
+import { InputState } from '@openproject/reactivestates';
 
 export class SchemaResource extends HalResource {
   public get state():InputState<this> {
     return this.states.schemas.get(this.href as string) as any;
   }
 
-  public get availableAttributes() {
+  public get availableAttributes():string[] {
     return _.keys(this.$source).filter((name) => name.indexOf('_') !== 0);
   }
 
@@ -53,18 +52,4 @@ export class SchemaResource extends HalResource {
 
     return match;
   }
-}
-
-export class SchemaAttributeObject<T = HalResource> {
-  public type:string;
-
-  public name:string;
-
-  public required:boolean;
-
-  public hasDefault:boolean;
-
-  public writable:boolean;
-
-  public allowedValues:T[] | CollectionResource<T>;
 }

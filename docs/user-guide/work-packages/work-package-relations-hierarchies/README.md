@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Work package relations and hierarchies
-  priority: 600
+  priority: 940
 description: How to add or configure work package relations.
 keywords: relations, hierarchies, child, parent, blocked, includes, part of
 ---
@@ -15,9 +15,9 @@ Relations indicate any functional or timely relation (e.g. follows or proceeds, 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [Work packages relations](#work-package-relations)           | How can I set a relation between two work packages and which relations can I set? |
-| [Display relations in work package list](#display-relations-in-work-package-list-enterprise-add-on) | How can I display the relations between two work packages in the work package list? |
+| [Display relations in work package table](#display-relations-in-a-work-package-table-enterprise-add-on) | How can I display the relations between two work packages in the work package table? |
 | [Work package hierarchies](#work-package-hierarchies)        | What are work package hierarchies? Learn about parent and children work packages. |
-| [Adding a child work package](#adding-a-child-work-package)  | What are the possibilities to add children work packages?    |
+| [Add a child work package](#add-a-child-work-package)        | What are the possibilities to add children work packages?    |
 | [Change the parent work package](#change-the-parent-work-package) | How can I change a work package's parent?                    |
 | [Display work package hierarchies](#display-work-package-hierarchies) | Where can I find out about a work package's children and parent? |
 
@@ -35,20 +35,25 @@ Work package relations indicate that work packages address a similar topic or cr
 You can select one of the following relations:
 
 - **Related to** - This option adds a link from the work package A to work package B, so that project members can immediately see the connection, even if the work packages are not members of the same hierarchy. 
-- **Duplicates / Duplicated by** - This option indicates that the work package A duplicates a work package B in one way or another, for example both address the same task. This can be useful if you have the same work package that needs to be a part of a closed and public projects at the same time. The connection in this case is only semantic, the changes you make in work package A will need to be adapted in work package B manually. However, this does not affect the status, so if you change the status of workpackage A the status of workpackage B will change automatically to the same. 
+- **Duplicates / Duplicated by** - This option indicates that the work package A duplicates a work package B in one way or another, for example both address the same task. This can be useful if you have the same work package that needs to be a part of a closed and public projects at the same time. The connection in this case is only semantic, the changes you make in work package A will need to be adapted in work package B manually. However, this does not affect the status, so if you change the status of work package A the status of work package B will change automatically to the same. 
 - **Blocks / Blocked by** - This option defines status change restrictions between two work packages. If you set a work package A to be blocking work package B, the status of work package B cannot be set to closed or resolved until the work package A is closed.
-- **Precedes / Follows** - Defines a chronologically relation between two work packages. For example, if you set a work package A to precede a work package B, you will not be able to change the start date of B to be earlier than the day after the finish date of A. In addition, when you move the finish date of A, the start and finish date of B will be updated as well.
+- **Precedes / Follows** - Defines a chronological relation between two work packages. For example, if you set a work package A to precede a work package B, the start date of B has to be at least a day after the finish date of A.
   Please note: If work package B is in [manual scheduling mode](../../gantt-chart/scheduling/#manual-scheduling-mode), changing the finish date of work package A will have no effect on work package B.
 - **Includes / Part of** - Defines if work package A includes or is part of work package B. This relation type can be used for example when you have a roll-out work package and work packages which should be shown as included without using hierarchical relationships. There is no additional effect.
 - **Requires / Required by** - Defines if work package A requires or is required by work package B. There is no additional effect.
 
 The selected relation status will be automatically displayed in the work package that you enter. For example if you select "Blocks" in the current work package A and specify work package B, work package B will automatically show that it is "Blocked by" A.
 
+### Moving related work packages
+The precedes/follows relation is the only one that can constrain or affect the dates of work packages. 
 
+Work packages in a precedes/follows relationship do not need to immediately follow one other; there can be a gap. In this case, you can move either forwards or backwards in time without affecting the other as long as the finish date of the predecessor is before the start date of follower.
 
-## Display relations in work package list (Enterprise add-on)
+A follower cannot be moved to start before the finish date of its predecessor. However, a predecessor can indeed be moved to start or finish _after_ the start date of its follower. When this happens, the follower will be pushed into the future such that it starts the day after the new finish date of the predecessor.
 
-As a user of [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) or [Enterprise cloud](https://www.openproject.org/hosting/) you can display relations as columns in the work package list.
+## Display relations in a work package table (Enterprise add-on)
+
+As a user of [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) or [Enterprise cloud](https://www.openproject.org/hosting/) you can display relations as columns in the work package tables.
 
 This is useful if you want to get an overview of certain types of relationships between work packages. You can for example see which work packages are blocking other work packages.
 
@@ -66,15 +71,15 @@ You can click on the number to display the work packages which have the relation
 
 Work packages can be structured hierarchically, e.g. in order to break down a large work package into several smaller tasks. This means that there's a parent work package that has at least one child work package.
 
-## Adding a child work package
+## Add a child work package
 
 There are **three ways to add or create a child work package**:
 
 1. Adding or creating a child in the *Relations* tab in a work package's details view
-2. Right-clicking on a work package in the work package list and select "Create new child"
-3. Right-clicking on a work package in the work package list and select "Indent hierarchy" to add it as the child of the work package above it.
+2. Right-clicking on a work package in the work package table and select "Create new child"
+3. Right-clicking on a work package in the work package table and select "Indent hierarchy" to add it as the child of the work package above it.
 
-### Adding a child in the *Relations* tab in a work package's details view
+### Add a child in the *Relations* tab in a work package's details view
 
 Open a work package and select the tab *Relations*. Click on *+ Create new child* to create a child work package. Alternatively, you can assign an existing child work package with *+ Add existing child*.
 
@@ -99,7 +104,7 @@ Note that only the children are shown in the relations tab and the parent isn't.
 
 ![work package relations](image-20200129145033802.png)
 
-Hierarchies can also be displayed from the work package list view.
+Hierarchies can also be displayed from the work package table view.
 To display work package hierarchies make sure the *Subject* column is displayed. You can activate or deactivate the hierarchy by pressing the icon next to the Subject.
 
 ![User guide display hierarchy](User-guide-display-hierarchy.png)

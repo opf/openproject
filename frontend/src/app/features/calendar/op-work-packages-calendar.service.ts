@@ -22,7 +22,10 @@ import { splitViewRoute } from 'core-app/features/work-packages/routing/split-vi
 import { StateService } from '@uirouter/angular';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { Observable } from 'rxjs';
+import {
+  firstValueFrom,
+  Observable,
+} from 'rxjs';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -141,11 +144,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   }
 
   async requireNonWorkingDays(date:Date|string) {
-    this.nonWorkingDays = await this
-      .dayService
-      .requireNonWorkingYear$(date)
-      .pipe(take(1))
-      .toPromise();
+    this.nonWorkingDays = await firstValueFrom(this.dayService.requireNonWorkingYear$(date));
   }
 
   isNonWorkingDay(date:Date|string):boolean {
@@ -187,11 +186,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
       // such filter exists yet, we need to add it to the existing filter set.
       // In order to do both, we first need to fetch the query as we cannot signal
       // to the backend yet to only add this one filter but leave the rest unchanged.
-      const initialQuery = await this
-        .apiV3Service
-        .queries
-        .find({ pageSize: 0 }, queryId)
-        .toPromise();
+      const initialQuery = await firstValueFrom(this.apiV3Service.queries.find({ pageSize: 0 }, queryId));
 
       queryProps = this.generateQueryProps(
         initialQuery,

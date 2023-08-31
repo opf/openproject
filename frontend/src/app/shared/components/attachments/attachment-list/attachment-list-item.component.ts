@@ -74,7 +74,7 @@ export class OpAttachmentListItemComponent extends UntilDestroyedMixin implement
     dragHint: this.I18n.t('js.attachments.draggable_hint'),
     deleteTitle: this.I18n.t('js.attachments.delete'),
     deleteConfirmation: this.I18n.t('js.attachments.delete_confirmation'),
-    removeFile: (arg:unknown):string => this.I18n.t('js.label_remove_file', arg),
+    removeFile: (arg:object):string => this.I18n.t('js.label_remove_file', arg),
   };
 
   public get deleteIconTitle():string {
@@ -103,15 +103,10 @@ export class OpAttachmentListItemComponent extends UntilDestroyedMixin implement
   ngOnInit():void {
     this.fileIcon = getIconForMimeType(this.attachment.contentType);
 
-    const authorId = idFromLink(this.attachment._links.author.href);
-
-    if (!this.principalsResourceService.exists(authorId)) {
-      this.principalsResourceService.fetchUser(authorId).subscribe();
-    }
+    const href = this.attachment._links.author.href;
+    this.author$ = this.principalsResourceService.requireEntity(href);
 
     this.timestampText = this.timezoneService.parseDatetime(this.attachment.createdAt).fromNow();
-
-    this.author$ = this.principalsResourceService.lookup(authorId).pipe(first());
 
     combineLatest([
       this.author$,

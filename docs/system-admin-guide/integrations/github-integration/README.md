@@ -30,7 +30,7 @@ Pull request activities will also show up in the Activity tab when the pull requ
 
 ![Github comments on work package](workpackage-github-comments.png)
 
-## Creating a pull request
+## Create a pull request
 
 As pull requests are based on branches, a new branch needs to be created first. For that, open the GitHub tab in your OpenProject work package detail view. Click on 'Git snippets' to extend the menu. First, copy the branch name by clicking the corresponding button.
 

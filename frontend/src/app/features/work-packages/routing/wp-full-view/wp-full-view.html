@@ -19,11 +19,17 @@
         </div>
       </div>
       <ul id="toolbar-items" class="toolbar-items hide-when-print">
-        <li class="toolbar-item hidden-for-mobile">
+        <li class="toolbar-item hidden-for-tablet">
           <wp-create-button
             [allowed]="['work_package.addChild', 'work_package.copy']"
             [stateName$]="stateName$">
           </wp-create-button>
+        </li>
+        <li class="toolbar-item hidden-for-tablet" *ngIf="displayTimerButton">
+          <op-wp-timer-button
+            [workPackage]="workPackage"
+          >
+          </op-wp-timer-button>
         </li>
         <li class="toolbar-item" *ngIf="displayWatchButton">
           <wp-watcher-button [workPackage]="workPackage"
@@ -36,7 +42,7 @@
             data-qa-selector="mark-notification-read-button"
           ></op-work-package-mark-notification-button>
         </li>
-        <li class="toolbar-item hidden-for-mobile">
+        <li class="toolbar-item hidden-for-tablet">
           <zen-mode-toggle-button>
           </zen-mode-toggle-button>
         </li>

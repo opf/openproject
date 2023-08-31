@@ -1,6 +1,5 @@
 <spot-drop-modal
   [opened]="opened"
-  alignment="bottom-right"
   (closed)="opened = false"
   class="op-project-list-modal"
 >
@@ -19,6 +18,7 @@
       [textContent]="count"
     >
     </span>
+    <span class="spot-icon spot-icon_dropdown"></span>
   </button>
 
   <ng-container slot="body">

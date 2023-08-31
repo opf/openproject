@@ -46,18 +46,16 @@ See COPYRIGHT and LICENSE files for more details.
       <div class="form--field">
         <%= setting_check_box :email_login, title: I18n.t("tooltip.setting_email_login") %>
       </div>
+
+      <%= render Settings::NumericSettingComponent.new("invitation_expiration_days", unit: "days") %>
     </fieldset>
 
-    <% if OpenProject::Configuration.registration_footer.blank? %>
-      <%= rails_cell Settings::NumericSettingCell, "invitation_expiration_days", unit: "days" %>
-
-      <fieldset class="form--fieldset">
-        <fieldset id="registration_footer" class="form--fieldset">
-          <legend class="form--fieldset-legend"><%= I18n.t(:setting_registration_footer) %></legend>
-          <%= rails_cell Settings::TextSettingCell, I18n.locale, name: "registration_footer" %>
-        </fieldset>
+    <fieldset class="form--fieldset">
+      <fieldset id="registration_footer" class="form--fieldset">
+        <legend class="form--fieldset-legend"><%= I18n.t(:setting_registration_footer) %></legend>
+        <%= render Settings::TextSettingComponent.new(I18n.locale, name: "registration_footer") %>
       </fieldset>
-    <% end %>
+    </fieldset>
 
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= I18n.t(:passwords, scope: [:settings]) %></legend>
@@ -127,7 +125,6 @@ See COPYRIGHT and LICENSE files for more details.
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= I18n.t(:other, scope: [:settings]) %></legend>
       <div class="form--field -wide-label"><%= setting_check_box :log_requesting_user %></div>
-      <div class="form--field -wide-label"><%= setting_check_box :rest_api_enabled %></div>
     </fieldset>
   </section>
   <% unless OpenProject::Configuration.disable_password_login? %>

@@ -26,6 +26,8 @@ ar:
         position: "الموقع"
         remaining_hours: "الساعات المتبقية"
         remaining_time: "الساعات المتبقية"
+        derived_remaining_hours: "Derived remaining hours"
+        derived_remaining_time: "Derived remaining hours"
         story_points: "نقاط القصة"
         backlogs_work_package_type: "نوع الأعمال المتراكمة غير المنجزة"
     errors:
@@ -35,9 +37,6 @@ ar:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "يمكن أن تحتوي فقط على الهويات المعرّفة لمجموعات العمل في السباق الحالي."
               must_block_at_least_one_work_package: "يجب أن يحتوي على الأقل على الهوية المعرّفة لبطاقة واحدة."
-            parent_id:
-              parent_child_relationship_across_projects: "هو غير صالح لأن مجموعة العمل '%{work_package_name}' هي مهمة عمل متراكم غير منجز ولذلك لا يمكن أن يكون أحد الأصول خارج المشروع الحالي."
-              type_must_be_one_of_the_following: "النوع يجب أن يكون أحد الأنواع التالية: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "يجب أن يكون نفس نسخة القصة الأصلية."
         sprint:
@@ -78,7 +77,6 @@ ar:
     x_more: "%{count} أكثر..."
   backlogs_active: "نشِط"
   backlogs_any: "أي"
-  backlogs_card_specification: "أنواع الملصقات لطباعة البطاقة"
   backlogs_inactive: "لا يُظهر المشروع أي نشاط"
   backlogs_points_burn_direction: "نقاط الاستهلاك الإيجابي/ السلبي"
   backlogs_product_backlog: "عمل المنتج المتراكم غير المنجز"

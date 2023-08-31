@@ -29,11 +29,6 @@ ar:
   default_doc_category_tech: "التوثيق التقني"
   default_doc_category_user: "توثيق المستخدم"
   enumeration_doc_categories: "فئات الوثائق"
-  enumeration:
-    document_category:
-      documentation: التوثيق
-      specification: المواصفة
-      other: أخرى
   documents:
     label_attachment_author: "مؤلف مرفق"
   label_document_added: "تم إضافة وثيقة"

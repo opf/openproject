@@ -81,6 +81,9 @@ uk:
   units: "Одиниці"
   validation_failure_date: "є недійсною датою"
   validation_failure_integer: "не є дійсним цілим числом"
+  export:
+    cost_reports:
+      title: "Експорт звітів про витрати у форматі XLS"
   reporting:
     group_by:
       selected_columns: "Вибрані стовпці"

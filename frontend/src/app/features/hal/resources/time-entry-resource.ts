@@ -28,7 +28,7 @@
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
-import { InputState } from 'reactivestates';
+import { InputState } from '@openproject/reactivestates';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import Formattable = api.v3.Formattable;
 
@@ -42,6 +42,8 @@ export class TimeEntryResource extends HalResource {
   workPackage:WorkPackageResource;
 
   spentOn:string;
+
+  ongoing:boolean;
 
   public get state():InputState<this> {
     return this.states.timeEntries.get(this.id as string) as unknown as InputState<this>;

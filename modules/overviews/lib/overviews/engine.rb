@@ -10,7 +10,7 @@ module Overviews
                   { controller: '/overviews/overviews', action: 'show' },
                   caption: :'overviews.label',
                   first: true,
-                  icon: 'icon2 icon-info1')
+                  icon: 'info1')
       end
     end
 
@@ -29,8 +29,6 @@ module Overviews
         end
       end
     end
-
-    patch_with_namespace :OpenProject, :TextFormatting, :Formats, :Markdown, :TextileConverter
 
     initializer 'overviews.conversion' do
       require Rails.root.join('config/constants/ar_to_api_conversions')

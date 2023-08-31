@@ -23,15 +23,7 @@ export const parameters = {
     storySort: {
       method: 'alphabetical',
       order: [
-        'Design System',
-        'Devices and Accessibility',
-        'Styles',
-        [
-          'Typography',
-          'Colors',
-          'Spacings',
-          'Shadows',
-        ],
+        'OpenProject Angular SPOT components',
         'Blocks',
         // TODO: Add manual sort order for components and patterns 
       ],

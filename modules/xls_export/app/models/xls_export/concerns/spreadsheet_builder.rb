@@ -55,13 +55,13 @@ module XlsExport
 
       def column_values(object)
         columns.collect do |column|
-          format_attribute(object, column[:name])
+          format_attribute(object, column[:name], :csv)
         end
       end
 
       def set_column_format_options!(spreadsheet)
         columns.each_with_index do |column, i|
-          options = formatter_for(column[:name])
+          options = formatter_for(column[:name], :csv)
                       .format_options
 
           spreadsheet.add_format_option_to_column i, options

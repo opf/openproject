@@ -115,9 +115,15 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
 
   @Input() public apiFilters:ApiV3ListFilter[] = [];
 
+  @Input() public placeholder:string = this.I18n.t('js.autocompleter.project.placeholder');
+
   @Input() public appendTo = '';
 
   @Input() public isInlineContext = false;
+
+  @Input() public hiddenFieldAction = '';
+
+  @Input() public clearable?:boolean = true;
 
   dataLoaded = false;
 

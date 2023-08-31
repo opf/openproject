@@ -30,8 +30,17 @@ module API::V3::StorageFiles
   class StorageFileRepresenter < ::API::Decorators::Single
     include API::Decorators::DateProperty
 
+    def initialize(model, storage, current_user:)
+      super(model, current_user:)
+
+      @storage_id = storage.id
+    end
+
     link :self do
-      { href: "#{::API::V3::URN_PREFIX}storages:storage_file:no_link_provided" }
+      {
+        href: api_v3_paths.storage_file(@storage_id, represented.id),
+        title: represented.name
+      }
     end
 
     property :id

@@ -70,4 +70,13 @@
       </div>
     </li>
   </ul>
+
+  <div
+    *ngIf="baselineIncompatibleFilters.length > 0"
+    class="op-toast -warning">
+    <div class="op-toast--content">
+      <p [textContent]="text.baseline_warning">
+      </p>
+    </div>
+  </div>
 </fieldset>

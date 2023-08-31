@@ -9,15 +9,25 @@
       font-weight: 400
       overflow: hidden
       text-overflow: ellipsis
+      display: inline-flex
+      align-items: center
 
     &-action
-      display: block
+      display: flex
+      align-items: center
       height: 32px
       line-height: 32px
       text-decoration: none
-      padding: 0px 13px 0px 10px
+      padding: 0 13px 0 10px
       font-weight: 400
       color: var(--context-menu-unselected-font-color)
+
+      .spot-icon
+        &.trailing-icon
+          margin-left: auto
+
+        &:first-child
+          margin-right: 0.75rem
 
       &:focus
         background-color: #f0f0f0

@@ -1,3 +1,5 @@
 # .git-blame-ignore-revs
 # lint with rubocop --autocorrect (safe cops only)
 48a4f1b6adb1e847a90a61f2ab277f28bcd77608
+# Update copyright information for 2023
+21a696ef9b170e14ad2daf53364a4c2113822c2f

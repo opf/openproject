@@ -22,14 +22,4 @@
 uk:
   project_module_github: "GitHub"
   permission_show_github_content: "Показати контент GitHub"
-  github_integration:
-    pull_request_opened_comment: >
-      **Відкрито PR:** запит на включення %{pr_number} [%{pr_title}](%{pr_url}) для [%{repository}](%{repository_url}) відкрито користувачем [%{github_user}](%{github_user_url}).
-    pull_request_closed_comment: >
-      **Закрито PR:** запит на включення %{pr_number} [%{pr_title}](%{pr_url}) для [%{repository}](%{repository_url}) закрито користувачем [%{github_user}](%{github_user_url}).
-    pull_request_merged_comment: >
-      **Об’єднано PR:** запит на включення %{pr_number} [%{pr_title}](%{pr_url}) для [%{repository}](%{repository_url}) об’єднано користувачем [%{github_user}](%{github_user_url}).
-    pull_request_referenced_comment: >
-      **Додано посилання в PR:** [%{github_user}](%{github_user_url}) посилається на цей пакет робіт у запиті на включення %{pr_number} [%{pr_title}](%{pr_url}) на [%{repository}](%{repository_url}).
-    pull_request_ready_for_review_comment: >
-      **Готово для перевірки PR:** запит на включення %{pr_number} [%{pr_title}](%{pr_url}) для [%{repository}](%{repository_url}) позначено як готовий до перевірки користувачем [%{github_user}](%{github_user_url}).
+

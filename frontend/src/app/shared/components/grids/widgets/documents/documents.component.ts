@@ -46,8 +46,7 @@ export class WidgetDocumentsComponent extends AbstractWidgetComponent implements
   ngOnInit() {
     this.halResource
       .get<CollectionResource>(this.documentsUrl)
-      .toPromise()
-      .then((collection) => {
+      .subscribe((collection) => {
         this.entries = collection.elements as DocumentResource[];
         this.entriesLoaded = true;
 

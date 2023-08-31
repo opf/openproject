@@ -1,18 +1,13 @@
 .spot-link
   @include unset-button-styles
-  display: inline
+  display: inline-flex
+  align-items: center
   color: var(--content-link-color)
   text-decoration: none
   cursor: pointer
 
   &:focus
     @include spot-focus
-
-  &:hover,
-  &:active,
-  &:focus
-    color: var(--content-link-hover-active-color)
-    text-decoration: underline
 
   &_danger
     color: $spot-color-danger
@@ -25,16 +20,14 @@
   &_inactive
     pointer-events: none
     cursor: default
+    color: inherit
 
   .spot-icon
-    width: $spot-spacing-1_5
-    height: $spot-spacing-1_5
-
     &:first-child:not(:last-child)
-        margin-right: $spot-spacing-0_25
+      margin-right: $spot-spacing-0_25
 
     &:last-child:not(:first-child)
-        margin-left: $spot-spacing-0_25
+      margin-left: $spot-spacing-0_25
 
   // Ensure op-icon within a link gets inline-block
   // to avoid it receiving any text-decoration on hover

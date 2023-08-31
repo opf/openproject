@@ -32,6 +32,12 @@ class Queries::TimeEntries::TimeEntryQuery < Queries::BaseQuery
   end
 
   def default_scope
-    TimeEntry.visible(User.current)
+    if filters.detect { |f| f.class.key == :ongoing }
+      TimeEntry.visible_ongoing(User.current)
+    else
+      TimeEntry
+        .not_ongoing
+        .visible(User.current)
+    end
   end
 end

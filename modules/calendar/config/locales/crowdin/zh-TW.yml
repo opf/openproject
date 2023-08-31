@@ -1,6 +1,9 @@
 #English strings go here
 zh-TW:
-  label_calendar_plural: "Calendars"
-  permission_view_calendar: "View calendars"
-  permission_manage_calendars: "Manage calendars"
+  label_calendar: "行事曆"
+  label_calendar_plural: "行事曆"
+  label_new_calendar: "New calendar"
+  permission_view_calendar: "檢視行事曆"
+  permission_manage_calendars: "管理行事曆"
+  permission_share_calendars: "訂閱行事曆(iCalendars格式)"
   project_module_calendar_view: "行事曆"

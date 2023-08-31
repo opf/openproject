@@ -1,8 +1,0 @@
-#English strings go here
-lol:
-  permission_show_board_views: "crwdns547433:0crwdne547433:0"
-  permission_manage_board_views: "crwdns547435:0crwdne547435:0"
-  project_module_board_view: "crwdns547437:0crwdne547437:0"
-  boards:
-    label_board: "crwdns547439:0crwdne547439:0"
-    label_boards: "crwdns547441:0crwdne547441:0"

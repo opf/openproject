@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { Injectable } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
@@ -50,25 +51,25 @@ export class WorkPackageContextMenuHelperService {
       text: I18n.t('js.work_packages.bulk_actions.edit'),
       key: 'edit',
       link: 'update',
-      href: `${this.PathHelper.staticBase}/work_packages/bulk/edit`,
+      href: this.PathHelper.workPackagesBulkEditPath(),
     },
     {
       text: I18n.t('js.work_packages.bulk_actions.move'),
       key: 'move',
       link: 'move',
-      href: `${this.PathHelper.staticBase}/work_packages/move/new`,
+      href: this.PathHelper.workPackagesBulkMovePath(),
     },
     {
       text: I18n.t('js.work_packages.bulk_actions.copy'),
       key: 'copy',
       link: 'copy',
-      href: `${this.PathHelper.staticBase}/work_packages/move/new?copy=true`,
+      href: this.PathHelper.workPackagesBulkCopyPath(),
     },
     {
       text: I18n.t('js.work_packages.bulk_actions.delete'),
       key: 'delete',
       link: 'delete',
-      href: `${this.PathHelper.staticBase}/work_packages/bulk?_method=delete`,
+      href: this.PathHelper.workPackagesBulkDeletePath(),
     },
   ];
 
@@ -94,11 +95,24 @@ export class WorkPackageContextMenuHelperService {
         key: allowedAction.key,
         text: allowedAction.text,
         icon: allowedAction.icon,
-        link: allowedAction.link ? workPackage[allowedAction.link].href : undefined,
+        link: this.linkForAction(workPackage, allowedAction),
       });
     });
 
     return singularPermittedActions;
+  }
+
+  public linkForAction(workPackage:WorkPackageResource, action:WorkPackageAction):string|undefined {
+    let link:string|undefined;
+    switch (action.key) {
+      case 'copy_link_to_clipboard':
+        link = this.PathHelper.workPackageShortPath(workPackage.id as string);
+        break;
+      default:
+        link = action.link ? (workPackage[action.link] as HalLink).href as string : undefined;
+    }
+
+    return link;
   }
 
   public getIntersectOfPermittedActions(workPackages:any) {
@@ -139,14 +153,14 @@ export class WorkPackageContextMenuHelperService {
     const allowedActions:WorkPackageAction[] = [];
 
     _.each(actions, (action) => {
-      if (action.link && workPackage.hasOwnProperty(action.link)) {
+      if (action.link && workPackage[action.link] !== undefined) {
         action.text = action.text || I18n.t(`js.button_${action.key}`);
         allowedActions.push(action);
       }
     });
 
-    _.each(this.HookService.call('workPackageTableContextMenu'), (action) => {
-      if (workPackage.hasOwnProperty(action.link)) {
+    _.each(this.HookService.call('workPackageTableContextMenu'), (action:WorkPackageAction) => {
+      if (workPackage[action.link as string] !== undefined) {
         const index = action.indexBy ? action.indexBy(allowedActions) : allowedActions.length;
         allowedActions.splice(index, 0, action);
       }

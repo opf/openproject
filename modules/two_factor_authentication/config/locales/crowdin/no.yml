@@ -69,8 +69,8 @@
       delete_all_are_you_sure: 'Er du sikker på at du vil slette alle 2FA-enheter for denne brukeren?'
       button_delete_all_devices: 'Slett registrerte 2FA-enheter'
       button_register_mobile_phone_for_user: 'Registrer mobiltelefon'
-      text_2fa_enabled: 'Ved hver pålogging vil denne brukeren bli bedt om å legge inn et OTP-token fra sin standard 2FA-enhet.'
-      text_2fa_disabled: "Brukeren har ikke satt opp en 2FA-enhet via hans «Min konto side»"
+      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from their default 2FA device.'
+      text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
     upsale:
       title: 'Tofaktorautentisering'
       description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'

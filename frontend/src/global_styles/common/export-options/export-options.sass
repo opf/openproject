@@ -24,3 +24,14 @@
     &-label
       display: block
       padding: 10px 0 0 0
+
+  &.op-export-options-grid
+    display: grid
+    grid-template-columns: 1fr 1fr 1fr
+
+    @media screen and (max-width: 480px)
+      grid-template-columns: 1fr 1fr
+
+    @media screen and (max-width: 320px)
+      grid-template-columns: 1fr
+

@@ -5,6 +5,7 @@ ko:
   project_module_team_planner_view: "팀 플래너"
   team_planner:
     label_team_planner: "팀 플래너"
+    label_new_team_planner: "새 팀 플래너"
     label_create_new_team_planner: "새로운 팀 플래너 만들기"
     label_team_planner_plural: "팀 플래너"
     label_assignees: "담당자"

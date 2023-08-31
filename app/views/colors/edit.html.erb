@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{t("timelines.admin_menu.color")} #{h @color.name}" %>
+<% html_title t(:label_administration), "#{t('.label_edit_color')} #{h @color.name}" %>
 <% local_assigns[:additional_breadcrumb] = @color.name %>
 
 <%= labelled_tabular_form_for @color,

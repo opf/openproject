@@ -25,15 +25,32 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
+$button--text-icon-spacing: 0.65em
+
+/// Taken from Foundation for Apps
+%button
+  display: inline-block
+  border: 0
+  text-align: center
+  line-height: 1.25rem
+  cursor: pointer
+  -webkit-appearance: none
+  -webkit-font-smoothing: antialiased
+  transition: background 0.25s ease-out
+  vertical-align: middle
+  padding: 0.375rem 0.5rem
+  margin: 0 1rem 1rem 0
+  font-size: 0.875rem
+  border-radius: 2px
+
 
 .button,
 a.button
   @extend %button
-  @include button-size(medium)
-  @include button-expand(false)
-  @include button-style(var(--button--background-color), var(--button--background-hover-color), var(--button--font-color), var(--button-style))
+  @include button-style(var(--button--background-color), var(--button--background-hover-color), var(--button--font-color))
   border: 1px solid var(--button--border-color)
 
+  position: relative
   transition-property: background, border
   transition-duration: 0.25s
   transition-timing-function: ease-out
@@ -42,12 +59,9 @@ a.button
   &.-disabled
     @include button-disabled
 
-  &:hover
-    text-decoration: none
-
   &.-with-icon
     &::before
-      padding: 0 var(--button--text-icon-spacing) 0 0
+      padding: 0 $button--text-icon-spacing 0 0
 
   &.-danger
     background: var(--content-form-danger-zone-bg-color)
@@ -60,29 +74,29 @@ a.button
       padding-left: 0px
 
   &.-highlight
-    @include button-style(var(--button--highlight-background-color), var(--button--highlight-background-hover-color), var(--button--highlight-font-color), var(--button-style))
-    @include button-style(var(--button--highlight-background-color), var(--button--highlight-background-hover-color), var(--button--highlight-font-color), var(--button-style))
+    @include button-style(var(--button--highlight-background-color), var(--button--highlight-background-hover-color), var(--button--highlight-font-color))
+    @include button-style(var(--button--highlight-background-color), var(--button--highlight-background-hover-color), var(--button--highlight-font-color))
     border-color: var(--button--highlight-background-color)
 
     &:hover, &:focus
       border-color: var(--button--highlight-background-hover-color)
 
   &.-highlight-inverted
-    @include button-style(#fff, #f2f2f2, var(--content-link-color), var(--button-style))
-    @include button-style(#fff, #f2f2f2, var(--content-link-color), var(--button-style))
+    @include button-style(#fff, #f2f2f2, var(--content-link-color))
+    @include button-style(#fff, #f2f2f2, var(--content-link-color))
     border-color: var(--content-link-color)
 
 
   &.-alt-highlight
-    @include button-style(var(--button--alt-highlight-background-color), var(--button--alt-highlight-background-hover-color), var(--button--alt-highlight-font-color), var(--button-style))
-    @include button-style(var(--button--alt-highlight-background-color), var(--button--alt-highlight-background-hover-color), var(--button--alt-highlight-font-color), var(--button-style))
+    @include button-style(var(--button--alt-highlight-background-color), var(--button--alt-highlight-background-hover-color), var(--button--alt-highlight-font-color))
+    @include button-style(var(--button--alt-highlight-background-color), var(--button--alt-highlight-background-hover-color), var(--button--alt-highlight-font-color))
     border-color: var(--button--alt-highlight-background-color)
 
     &:hover, &:focus
       border-color: var(--button--alt-highlight-background-hover-color)
 
   &.-active
-    @include button-style(var(--button--active-background-color), var(--button--active-background-color), var(--button--active-font-color), var(--button-style))
+    @include button-style(var(--button--active-background-color), var(--button--active-background-color), var(--button--active-font-color))
     border-color: var(--button--active-border-color)
     box-shadow: 0 0 3px var(--button--active-border-color) inset
 
@@ -129,20 +143,9 @@ a.button
   &_no-margin
     margin: 0
 
-  .spot-icon
-    // Add rules for using new spot icons boxed within the old buttons
-    font-size: 0.875rem
-    width: 1.5rem
-    height: 1.5rem
-    // prevent icon box to inflate button height
-    margin-top: -1rem
-    margin-bottom: -1rem
-
-    &:not(:last-child)
-      margin-right: 0.25rem
-
-    &:not(:first-child)
-      margin-left: 0.25rem
+  &_flex
+    display: inline-flex
+    align-items: center
 
 .button--icon
   @include icon-common
@@ -154,7 +157,7 @@ a.button
 .button--text + .button--icon,
 .op-icon--wrapper + .button--text,
 .button--text + .op-icon--wrapper
-  margin: 0 0 0 var(--button--text-icon-spacing)
+  margin: 0 0 0 $button--text-icon-spacing
 
 // Hack as Lato font on Win Chrome draws about a pixel too high
 html.-browser-windows.-browser-chrome
@@ -174,7 +177,7 @@ html.-browser-windows.-browser-chrome
 .toolbar-item
   .button[class*='icon-']
     &:before
-      margin-right: var(--button--text-icon-spacing)
+      margin-right: $button--text-icon-spacing
 
 // Button class to use as a link-like submit button
 .button--link
@@ -192,7 +195,7 @@ html.-browser-windows.-browser-chrome
   &:hover
     text-decoration: underline
 
-  &:disabled, &:disabled:hover
+  &[disabled], &[disabled]:hover
     cursor: not-allowed
     background: none
     color: var(--gray-dark)

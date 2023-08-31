@@ -21,13 +21,13 @@ The rake task `redmine:email:receive_imap` fetches emails via IMAP and parses th
 
 IMAP:
 
-```bash
+```shell
 openproject run bundle exec rake redmine:email:receive_imap host='imap.gmail.com' username='test_user' password='password' port=993 ssl=true ssl_verification=true allow_override=type,project project=test_project
 ```
 
 Gmail:
 
-```bash
+```shell
 openproject run bundle exec rake redmine:email:receive_gmail credentials='/path/to/credentials.json' user_id='test_user' query='is:unread label:openproject' allow_override=type,project
 ```
 
@@ -230,5 +230,5 @@ By returning an email with error details, you can theoretically be leaking infor
 
 If you'd like to disable the reporting of errors to the sender, please set `report_incoming_email_errors=false`:
 
-- In a packaged installation, run `openproject config:get OPENPROJECT_REPORT__INCOMING__EMAIL__ERRORS=false` and restart the openproject service.
+- In a packaged installation, run `openproject config:set OPENPROJECT_REPORT__INCOMING__EMAIL__ERRORS=false` and restart the openproject service.
 - In a docker system, add the ENV `OPENPROJECT_REPORT__INCOMING__EMAIL__ERRORS=false`

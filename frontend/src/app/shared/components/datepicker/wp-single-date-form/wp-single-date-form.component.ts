@@ -68,6 +68,8 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { DateModalSchedulingService } from '../services/date-modal-scheduling.service';
+import * as moment from 'moment-timezone';
+
 
 @Component({
   selector: 'op-wp-single-date-form',

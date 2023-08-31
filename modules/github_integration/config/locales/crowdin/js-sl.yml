@@ -39,3 +39,13 @@ sl:
       tab_prs:
         empty: 'Zaenkrat še ni povezanih pull zahtev. Poveži obstoječ PR z uporabo kode <code>OP#%{wp_id}</code> v PR opisu ali pa kreiraj nov PR.'
       github_actions: Akcije
+      pull_requests:
+        message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}."
+        merged_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
+        referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
+        states:
+          opened: 'Odprto'
+          closed: 'zaprto'
+          draft: 'pozvan'
+          merged: 'združeno'
+          ready_for_review: 'označeno kot pripravljeno za pregled'

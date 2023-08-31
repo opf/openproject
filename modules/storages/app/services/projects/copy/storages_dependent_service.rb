@@ -27,7 +27,9 @@
 #++
 
 module Projects::Copy
-  class StoragesDependentService < ::Copy::Dependency
+  class StoragesDependentService < Dependency
+    using Storages::Peripherals::ServiceResultRefinements
+
     def self.human_name
       I18n.t(:label_project_storage_plural)
     end
@@ -38,23 +40,21 @@ module Projects::Copy
 
     protected
 
+    # rubocop:disable Metrics/AbcSize
     def copy_dependency(*)
-      source.projects_storages.find_each do |project_storage|
-        create_project_storage(project_storage)
+      state.copied_project_storages = source.project_storages.each_with_object([]) do |source_project_storage, array|
+        project_storage_copy =
+          ::Storages::ProjectStorages::CreateService
+            .new(user: User.current)
+            .call(storage_id: source_project_storage.storage_id,
+                  project_id: target.id,
+                  project_folder_mode: 'inactive')
+            .on_failure { |r| add_error!(source_project_storage.class.to_s, r.to_active_model_errors) }
+            .result
+
+        array << { source: source_project_storage, target: project_storage_copy }
       end
     end
-
-    def create_project_storage(project_storage)
-      attributes = project_storage
-        .attributes.dup.except('id', 'project_id', 'created_at', 'updated_at')
-        .merge('project_id' => target.id)
-
-      service_result = ::Storages::ProjectStorages::CreateService
-        .new(user: User.current)
-        .call(attributes)
-
-      copied_storage = service_result.result
-      copied_storage.save
-    end
+    # rubocop:enable Metrics/AbcSize
   end
 end

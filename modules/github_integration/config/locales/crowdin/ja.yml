@@ -22,14 +22,4 @@
 ja:
   project_module_github: "GitHub"
   permission_show_github_content: "GitHub コンテンツを表示する"
-  github_integration:
-    pull_request_opened_comment: >
-      **PR オープン:** [%{repository}](%{repository_url}) へのプルリクエスト %{pr_number} [%{pr_title}](%{pr_url}) が [%{github_user}](%{github_user_url}) によってオープンされました。
-    pull_request_closed_comment: >
-      **PR クローズ:** [%{repository}](%{repository_url}) へのプルリクエスト %{pr_number} [%{pr_title}](%{pr_url}) が [%{github_user}](%{github_user_url}) によってクローズされました。
-    pull_request_merged_comment: >
-      **PR マージ:** [%{repository}](%{repository_url}) へのプルリクエスト %{pr_number} [%{pr_title}](%{pr_url}) が [%{github_user}](%{github_user_url}) によってマージされました。
-    pull_request_referenced_comment: >
-      **PR で参照:** [%{github_user}](%{github_user_url}) がこのワークパッケージを [%{repository}](%{repository_url}) のプルリクエスト %{pr_number} [%{pr_title}](%{pr_url}) で参照しました。
-    pull_request_ready_for_review_comment: >
-      **PR レビューの準備完了:** [%{repository}](%{repository_url}) へのプルリクエスト %{pr_number} [%{pr_title}](%{pr_url}) が [%{github_user}](%{github_user_url}) によってレビューの準備ができたことを示すマークが付きました。
+

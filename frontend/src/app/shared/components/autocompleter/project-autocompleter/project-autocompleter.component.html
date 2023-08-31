@@ -8,8 +8,10 @@
   [focusDirectly]="focusDirectly"
   [openDirectly]="openDirectly"
   [labelForId]="labelForId"
+  [placeholder]="placeholder"
 
   [dropdownPosition]="dropdownPosition"
+  [clearable]="clearable"
 
   [appendTo]="appendTo"
 
@@ -47,5 +49,6 @@
   #hiddenInput
   [name]="name"
   type="hidden"
+  [attr.data-action]="hiddenFieldAction"
   [value]="plainValue"
 />

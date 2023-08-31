@@ -38,7 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
     </li>
   <% end %>
   <% if authorize_for(:budgets, :copy) %>
-    <li class="toolbar-item hidden-for-mobile">
+    <li class="toolbar-item hidden-for-tablet">
       <%= link_to({ controller: 'budgets', action: 'copy', id: @budget }, class: 'button') do %>
         <%= op_icon('button--icon icon-copy') %>
         <span class="button--text"><%= t(:button_copy) %></span>
@@ -62,42 +62,16 @@ See COPYRIGHT and LICENSE files for more details.
     <%= t(:label_updated_time, value: distance_of_time_in_words(Time.now, @budget.updated_at)) + '.' if @budget.created_at != @budget.updated_at %>
   </p>
 
-  <div class="attributes-group">
-    <div class="attributes-key-value">
-      <div class="attributes-key-value--key"><%= Budget.human_attribute_name(:type) %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><%= @budget.type_label %></span>
-        </div>
-      </div>
-      <div class="attributes-key-value--key"><%= Budget.human_attribute_name(:fixed_date) %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><%= format_date(@budget.fixed_date) %></span>
-        </div>
-      </div>
-      <div class="attributes-key-value--key"><%= Budget.human_attribute_name(:budget_ratio) %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span>
-            <%= extended_progress_bar(@budget.budget_ratio,
-                                      :width => '80px',
-                                      :legend => @budget.budget_ratio) %>
-          </span>
-        </div>
-      </div>
-      <% unless format_text(@budget, :description, :attachments => @budget.attachments).empty? %>
-        <div class="attributes-key-value--key"><%= Budget.human_attribute_name(:description) %></div>
-        <div class="attributes-key-value--value-container">
-          <div class="attributes-key-value--value -text">
-            <div class="op-uc-container">
-              <%= format_text @budget, :description, :attachments => @budget.attachments %>
-            </div>
-          </div>
-        </div>
-      <% end %>
-    </div>
-  </div>
+  <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+    component.with_attribute(key: Budget.human_attribute_name(:type), value: @budget.type_label)
+    component.with_attribute(key: Budget.human_attribute_name(:fixed_date), value: format_date(@budget.fixed_date))
+    component.with_attribute(key: Budget.human_attribute_name(:budget_ratio),
+                             value: extended_progress_bar(@budget.budget_ratio, :width => '80px', :legend => @budget.budget_ratio))
+    component.with_attribute(key: Budget.human_attribute_name(:description),
+                             value: content_tag(:div, class: "op-uc-container") do
+                               format_text @budget, :description, :attachments => @budget.attachments
+                             end)
+  end %>
 
   <% resource = budget_attachment_representer(@budget) %>
   <%= list_attachments(resource) %>

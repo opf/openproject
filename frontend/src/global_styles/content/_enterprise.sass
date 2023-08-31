@@ -18,6 +18,10 @@
     box-shadow: 4px 4px 10px rgb(0 0 0 / 15%)
     border-radius: 25px
 
+  a.button,
+  a.button--link
+    text-decoration: none
+
 .upsale-actions
   display: flex
   flex-wrap: wrap
@@ -35,14 +39,29 @@
 
 .widget-box--blocks--upsale-buttons
   display: flex
-  justify-content: end
+  justify-content: flex-end
+
+  a.button,
+  a.button--link
+    text-decoration: none
+    margin: 0.625rem 0.625rem 0 0
 
 .widget-box--blocks--upsale-info-button
-  margin: 0.5rem 1rem 0 0
+  display: flex
+  justify-content: center
+  align-items: center
+
+.upsale-icon
+  &_highlighted
+    color: $spot-color-feedback-warning-dark
 
 .widget-box--blocks--upsale-title
   font-weight: 400
   font-size: 20px
+  margin-top: 10px
+  display: flex
+
+.widget-box--blocks--upsale-text
   line-height: 24px
   margin-top: 10px
 
@@ -54,9 +73,6 @@
   width: 200px
   margin: auto
 
-.enterprise-addons--button-icon
-  font-size: 1rem !important
-
 // There is a breadcrumb at the top of some of the Enterprise pages showing some spacing,
 // but for some other pages without a breadcrumb, there is no space at the top of of the page.
 // Therefore, we are just hiding the breadcrumb on top of these pages.
@@ -65,10 +81,7 @@
     display: block
     visibility: hidden
 
-.spot-icon_enterprise-addons
-  color: $spot-color-feedback-warning-dark
-
-@media screen and (max-width: 679px)
+@media screen and (max-width: $breakpoint-sm)
   .upsale-notification
     max-width: none
 

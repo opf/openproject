@@ -74,9 +74,9 @@ import {
   contentTabsSelector,
 } from 'core-app/shared/components/tabs/content-tabs/content-tabs.component';
 import {
-  CopyToClipboardDirective,
+  CopyToClipboardComponent,
   copyToClipboardSelector,
-} from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.directive';
+} from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.component';
 import {
   GlobalSearchInputComponent,
   globalSearchSelector,
@@ -220,10 +220,20 @@ import {
   opBasicSingleDatePickerSelector,
 } from 'core-app/shared/components/datepicker/basic-single-date-picker/basic-single-date-picker.component';
 import { SpotDropModalPortalComponent, spotDropModalPortalComponentSelector } from 'core-app/spot/components/drop-modal/drop-modal-portal.component';
+import { StaticAttributeHelpTextComponent, staticAttributeHelpTextSelector } from 'core-app/shared/components/attribute-help-texts/static-attribute-help-text.component';
+import {
+  StorageLoginButtonComponent,
+  opStorageLoginButtonSelector,
+} from 'core-app/shared/components/storages/storage-login-button/storage-login-button.component';
+import {
+  TimerAccountMenuComponent,
+  timerAccountSelector,
+} from 'core-app/shared/components/time_entries/timer/timer-account-menu.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
   { selector: attributeHelpTextSelector, cls: AttributeHelpTextComponent },
+  { selector: staticAttributeHelpTextSelector, cls: StaticAttributeHelpTextComponent },
   { selector: wpEmbeddedTableMacroSelector, cls: EmbeddedTablesMacroComponent, embeddable: true },
   { selector: colorsAutocompleterSelector, cls: ColorsAutocompleterComponent },
   { selector: zenModeComponentSelector, cls: ZenModeButtonComponent },
@@ -248,7 +258,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: autocompleteSelectDecorationSelector, cls: AutocompleteSelectDecorationComponent },
   { selector: contentTabsSelector, cls: ContentTabsComponent },
   { selector: globalSearchTitleSelector, cls: GlobalSearchTitleComponent },
-  { selector: copyToClipboardSelector, cls: CopyToClipboardDirective },
+  { selector: copyToClipboardSelector, cls: CopyToClipboardComponent },
   { selector: mainMenuResizerSelector, cls: MainMenuResizerComponent },
   { selector: mainMenuToggleSelector, cls: MainMenuToggleComponent },
   { selector: globalSearchSelector, cls: GlobalSearchInputComponent },
@@ -279,6 +289,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: opModalOverlaySelector, cls: OpModalOverlayComponent },
   { selector: spotDropModalPortalComponentSelector, cls: SpotDropModalPortalComponent },
   { selector: spotSwitchSelector, cls: SpotSwitchComponent },
+  { selector: opStorageLoginButtonSelector, cls: StorageLoginButtonComponent },
 
   { selector: opModalSingleDatePickerSelector, cls: OpModalSingleDatePickerComponent, embeddable: true },
   { selector: opBasicSingleDatePickerSelector, cls: OpBasicSingleDatePickerComponent, embeddable: true },
@@ -286,4 +297,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   // It is important to initialize the remoteFieldUpdaterSelector after the datepickers,
   // because we need to access the input field of the datepickers inside the remoteFieldUpdaterSelector
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
+
+  { selector: timerAccountSelector, cls: TimerAccountMenuComponent },
 ];

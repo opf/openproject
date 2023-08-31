@@ -44,6 +44,7 @@ import {
   triggerEditingEvent,
 } from 'core-app/shared/components/editable-toolbar-title/editable-toolbar-title.component';
 import { QuerySharingModalComponent } from 'core-app/shared/components/modals/share-modal/query-sharing.modal';
+import { QueryGetIcalUrlModalComponent } from 'core-app/shared/components/modals/get-ical-url-modal/query-get-ical-url.modal';
 import { WpTableExportModalComponent } from 'core-app/shared/components/modals/export-modal/wp-table-export.modal';
 import { SaveQueryModalComponent } from 'core-app/shared/components/modals/save-modal/save-query.modal';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
@@ -57,11 +58,14 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
 
   @Input() public hideTableOptions:boolean;
 
+  @Input() public showCalendarSharingOption:boolean;
+
   private form:QueryFormResource;
 
   private loadingPromise:PromiseLike<any>;
 
-  constructor(readonly elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef,
     readonly opContextMenu:OPContextMenuService,
     readonly opModalService:OpModalService,
     readonly wpListService:WorkPackagesListService,
@@ -69,7 +73,8 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
     readonly states:States,
     readonly injector:Injector,
     readonly querySpace:IsolatedQuerySpace,
-    readonly I18n:I18nService) {
+    readonly I18n:I18nService,
+  ) {
     super(elementRef, opContextMenu);
   }
 
@@ -266,6 +271,20 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
           if (this.allowQueryAction($event, 'delete')
             && window.confirm(this.I18n.t('js.text_query_destroy_confirmation'))) {
             this.wpListService.delete();
+          }
+
+          return true;
+        },
+      },
+      {
+        // Calendar sharing modal
+        hidden: !this.showCalendarSharingOption,
+        disabled: this.authorisationService.cannot('query', 'icalUrl'),
+        linkText: this.I18n.t('js.toolbar.settings.share_calendar'),
+        icon: 'icon-link', // TODO: find sharing icons
+        onClick: () => {
+          if (this.authorisationService.can('query', 'icalUrl')) {
+            this.opModalService.show(QueryGetIcalUrlModalComponent, this.injector);
           }
 
           return true;

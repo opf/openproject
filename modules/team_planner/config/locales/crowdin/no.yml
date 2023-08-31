@@ -5,6 +5,7 @@
   project_module_team_planner_view: "Teamplanlegger"
   team_planner:
     label_team_planner: "Teamplanlegger"
+    label_new_team_planner: "Ny teamplanlegger"
     label_create_new_team_planner: "Opprett ny teamplanlegger"
     label_team_planner_plural: "Teamplanlegger"
     label_assignees: "Tildelt"

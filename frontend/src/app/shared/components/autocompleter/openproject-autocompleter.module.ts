@@ -53,7 +53,7 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
     FormsModule,
     ReactiveFormsModule,
 
-    DynamicModule.withComponents(OPENPROJECT_AUTOCOMPLETE_COMPONENTS),
+    DynamicModule,
     OpenprojectPrincipalRenderingModule,
     InviteUserButtonModule,
   ],

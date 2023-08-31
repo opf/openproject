@@ -27,7 +27,7 @@ ka:
     error_invalid_backup_code: 'Invalid 2FA backup code'
     channel_unavailable: "The delivery channel %{channel} is unavailable."
     no_valid_phone_number: "No valid phone number exists."
-    label_pwd_confirmation: "Password"
+    label_pwd_confirmation: "პაროლი"
     notice_pwd_confirmation: "You need to confirm your password upon making changes to these settings."
     label_device_type: "Device type"
     label_default_device: "Default 2FA device"
@@ -69,8 +69,8 @@ ka:
       delete_all_are_you_sure: 'Are you sure you want to delete all 2FA devices for this user?'
       button_delete_all_devices: 'Delete registered 2FA devices'
       button_register_mobile_phone_for_user: 'Register mobile phone'
-      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from his default 2FA device.'
-      text_2fa_disabled: "The user did not set up a 2FA device through his 'My account page'"
+      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from their default 2FA device.'
+      text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
     upsale:
       title: 'Two-factor authentication'
       description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
@@ -148,7 +148,7 @@ ka:
       active_session_notice: >
         Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
       other_active_session_notice: Your account has an active remember cookie on another session.
-      label: 'Remember'
+      label: 'დამახსოვრება'
       clear_cookie: 'Click here to remove all remembered 2FA sessions.'
       cookie_removed: 'All remembered 2FA sessions have been removed.'
       dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
@@ -160,15 +160,15 @@ ka:
   notice_account_otp_send_failed: "Your one-time password could not be sent."
   notice_account_has_no_phone: "No cell phone number is associated with your account."
   label_expiration_hint: "%{date} or on logout"
-  label_actions: 'Actions'
+  label_actions: 'ქმედებები'
   label_confirmed: 'Confirmed'
-  button_continue: 'Continue'
+  button_continue: 'გაგრძელება'
   button_make_default: 'Mark as default'
   label_unverified_phone: "Cell phone not yet verified"
   notice_phone_number_format: "Please enter the number in the following format: +XX XXXXXXXX."
   text_otp_not_receive: "Other verification methods"
   text_send_otp_again: "Resend one-time password by:"
-  button_resend_otp_form: "Resend"
+  button_resend_otp_form: "თავიდან გაგზავნა"
   button_otp_by_voice: "Voice call"
   button_otp_by_sms: "SMS"
   label_otp_channel: "Delivery channel"

@@ -28,32 +28,31 @@
 
 class MeetingsController < ApplicationController
   around_action :set_time_zone
-  before_action :find_project, only: %i[index new create]
+  before_action :find_optional_project, only: %i[index new create]
+  before_action :build_meeting, only: %i[new create]
   before_action :find_meeting, except: %i[index new create]
   before_action :convert_params, only: %i[create update]
-  before_action :authorize
+  before_action :authorize, except: %i[index new create]
+  before_action :authorize_global, only: %i[index new create]
 
   helper :watchers
   helper :meeting_contents
+  include MeetingsHelper
+  include Layout
   include WatchersHelper
   include PaginationHelper
+  include SortHelper
 
   menu_item :new_meeting, only: %i[new create]
 
   def index
-    scope = @project.meetings
+    @query = load_query
+    @meetings = load_meetings(@query)
+    render 'index', locals: { menu_name: project_or_global_menu }
+  end
 
-    # from params => today's page otherwise => first page as fallback
-    tomorrows_meetings_count = scope.from_tomorrow.count
-    @page_of_today = 1 + (tomorrows_meetings_count / per_page_param)
-
-    page = params['page'] ? page_param : @page_of_today
-
-    @meetings = scope.with_users_by_date
-                .page(page)
-                .per_page(per_page_param)
-
-    @meetings_by_start_year_month_date = Meeting.group_by_time(@meetings)
+  current_menu_item :index do
+    :meetings
   end
 
   def show
@@ -119,6 +118,33 @@ class MeetingsController < ApplicationController
 
   private
 
+  def load_query
+    query = ParamsToQueryService.new(
+      Meeting,
+      current_user
+    ).call(params)
+
+    query = apply_default_filter_if_none_given(query)
+
+    if @project
+      query.where("project_id", '=', @project.id)
+    end
+
+    query
+  end
+
+  def apply_default_filter_if_none_given(query)
+    return query if query.filters.any?
+
+    query.where("time", "=", Queries::Meetings::Filters::TimeFilter::FUTURE_VALUE)
+  end
+
+  def load_meetings(query)
+    query
+      .results
+      .paginate(page: page_param, per_page: per_page_param)
+  end
+
   def set_time_zone(&)
     zone = User.current.time_zone
     if zone.nil?
@@ -130,11 +156,16 @@ class MeetingsController < ApplicationController
     Time.use_zone(zone, &)
   end
 
-  def find_project
-    @project = Project.find(params[:project_id])
+  def build_meeting
     @meeting = Meeting.new
     @meeting.project = @project
     @meeting.author = User.current
+  end
+
+  def global_upcoming_meetings
+    projects = Project.allowed_to(User.current, :view_meetings)
+
+    Meeting.where(project: projects).from_today
   end
 
   def find_meeting
@@ -158,7 +189,10 @@ class MeetingsController < ApplicationController
   end
 
   def meeting_params
-    params.require(:meeting).permit(:title, :location, :start_time, :duration, :start_date, :start_time_hour,
-                                    participants_attributes: %i[email name invited attended user user_id meeting id])
+    if params[:meeting].present?
+      params.require(:meeting).permit(:title, :location, :start_time,
+                                      :duration, :start_date, :start_time_hour,
+                                      participants_attributes: %i[email name invited attended user user_id meeting id])
+    end
   end
 end

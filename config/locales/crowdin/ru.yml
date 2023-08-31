@@ -80,7 +80,7 @@ ru:
       buttons:
         upgrade: "Обновить сейчас"
         contact: "Свяжитесь с нами для демо"
-      enterprise_info_html: "%{feature_title} является корпоративным <span class='spot-icon spot-icon_enterprise-addons'></span> дополнением."
+      enterprise_info_html: "является дополнением Корпоративной версии <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
       upgrade_info: "Пожалуйста, перейдите на платный тарифный план, чтобы активировать его и начать использовать в вашей команде."
     journal_aggregation:
       explanation:
@@ -99,15 +99,14 @@ ru:
     edit: "Редактировать текст справки для %{attribute_caption}"
     enterprise:
       description: 'Предоставьте дополнительную информацию для атрибутов (включая пользовательские поля) пакетов работ и проектов. Текст справки отображается, когда пользователи нажимают на знак вопроса рядом с полями ввода в проектах и пакетах работ.'
-  auth_sources:
-    index:
-      no_results_content_title: На данный момент способы аутентификации отсутствуют.
-      no_results_content_text: Создать новый способ аутентификации
   background_jobs:
     status:
       error_requeue: "Осуществляется повторный запуск задания, т.к. предыдущий завершился с ошибкой: %{message}"
       cancelled_due_to: "Задание было отменено из-за ошибки: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-ошибка: %{error_message}"
+    ldap_auth_failed: "Не удалось авторизоваться на LDAP-сервере."
+    back_to_index: 'Нажмите здесь, чтобы вернуться к списку подключений.'
     technical_warning_html: |
       Эта LDAP форма требует технических знаний по LDAP / Active Directory.
       <br/>
@@ -168,10 +167,21 @@ ru:
     index:
       no_results_title_text: На данный момент цветов нет.
       no_results_content_text: Создать новый цвет
-    label_no_color: 'Нет цвета'
+      label_new_color: "Новый цвет"
+    new:
+      label_new_color: "Новый цвет"
+    edit:
+      label_edit_color: "Изменить цвет"
+    form:
+      label_new_color: "Новый цвет"
+      label_edit_color: "Изменить цвет"
+    label_no_color: "Нет цвета"
+    label_properties: "Свойства"
+    label_really_delete_color: >
+      Вы уверены, что хотите удалить этот цвет? Типы, использующие этот цвет, не будут удалены.
   custom_actions:
     actions:
-      name: 'Действия'
+      name: "Действия"
       add: 'Добавить действие'
       assigned_to:
         executing_user_value: '(назначить пользователю-исполнителю)'
@@ -197,8 +207,6 @@ ru:
       no_results_content_text: Создать новое настраиваемое поле
   concatenation:
     single: 'или'
-  documentation:
-    see_more_link: Для получения дополнительной информации смотрите нашу документацию по этой теме.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -252,6 +260,8 @@ ru:
         no_results_title_text: Нет доступных настраиваемых полей.
       types:
         no_results_title_text: На данный момент доступных типов нет.
+        form:
+          enable_type_in_project: 'Разрешить тип «%{type}»'
       versions:
         no_results_title_text: На данный момент этапы в проекте отсутствуют.
         no_results_content_text: Создать новую версию
@@ -268,11 +278,24 @@ ru:
       notice_reset_token: "Новый маркер %{type} создан. Ваш маркер доступа:"
       token_value_warning: "Примечание: Этот маркер вам больше никогда показан не будет, убедитесь что запомнили его."
       no_results_title_text: На данный момент маркеры доступа отсутствуют.
+      notice_api_token_revoked: "API токен был удален. Чтобы создать новый токен, пожалуйста, используйте ссылку в разделе API."
+      notice_rss_token_revoked: "Ключ RSS был удален. Чтобы создать новый токен, пожалуйста, используйте ссылку в разделе RSS."
+      notice_ical_token_revoked: "токен iCalendar \"%{token_name}\" для календаря \"%{calendar_name}\" проекта \"%{project_name}\" был отозван. URL-адрес iCalendar с этим токеном недействителен."
   news:
     index:
       no_results_title_text: На данный момент новостей для отчета нет.
       no_results_content_text: Добавить новость
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} на %{os_name}"
+      browser: 'Браузер'
+      device: 'Устройство / ОС'
+      unknown_browser: 'неизвестный браузер'
+      unknown_os: 'неизвестная операционная система'
+      current: 'Текущая сессия'
+      title: 'Управление сессиями'
+      instructions: 'Это список устройств, с которых входили в ваш аккаунт. Закройте все подозрительные сеансы.'
+      may_not_delete_current: 'Вы не можете удалить ваш текущий сеанс.'
     groups:
       member_in_these_groups: 'Этот пользователь в настоящее время является членом следующих групп:'
       no_results_title_text: Этот пользователь в настоящее время не является членом какой-либо группы.
@@ -314,6 +337,12 @@ ru:
     index:
       no_results_title_text: В данный момент статусы пакетов работ отсутствуют.
       no_results_content_text: Добавить новый статус
+  themes:
+    light: "Светлая"
+    light_high_contrast: "Светлый высокий контраст"
+    dark: "Тёмная"
+    dark_dimmed: "Тёмная затемненная"
+    dark_high_contrast: "Темный высокий контраст"
   types:
     index:
       no_results_title_text: В данный момент типы отсутствуют.
@@ -333,6 +362,7 @@ ru:
         в диаграммах Ганта или таблицах пакетов работ. Поэтому рекомендуется использовать насыщенный цвет.
   versions:
     overview:
+      work_packages_in_archived_projects: "Версия предоставляется совместно с архивированными проектами, которым все еще назначены рабочие пакеты для этой версии. Они учитываются, но не отображаются в связанных представлениях."
       no_results_title_text: В настоящее время пакетов работ для этой версии нет.
   wiki:
     page_not_editable_index: Запрошенная страница (пока) не существует. Вы были перенаправлены на индекс всех вики-страниц.
@@ -420,13 +450,13 @@ ru:
       attribute_help_text:
         attribute_name: 'Атрибут'
         help_text: 'Текст справки'
-      auth_source:
-        account: "Учетная запись"
+      ldap_auth_source:
+        account: "Аккаунт"
         attr_firstname: "Атрибут имени"
-        attr_lastname: "Атрибут фамилии"
-        attr_login: "Атрибут имени пользователя"
-        attr_mail: "Атрибуты e-mail"
-        base_dn: "Корневой элемент(Base DN)"
+        attr_lastname: "Атрибут Фамилия"
+        attr_login: "Имя пользователя"
+        attr_mail: "Атрибут Email"
+        base_dn: "Базовый DN"
         host: "Хост"
         onthefly: "Автоматическое создание пользователя"
         port: "Порт"
@@ -486,6 +516,15 @@ ru:
           true: "публичный"
           false: "приватный"
         queries: "Запросы"
+        status_code: 'Статус проекта'
+        status_explanation: 'Описание статуса проекта'
+        status_codes:
+          not_started: 'Не начат'
+          on_track: 'По плану'
+          at_risk: 'Под угрозой'
+          off_track: 'Приостановлен'
+          finished: 'Завершен'
+          discontinued: 'Прекращен'
         templated: "Проект шаблона"
         templated_value:
           true: "помечено как шаблон"
@@ -493,16 +532,6 @@ ru:
         types: "Типы"
         versions: "Этапы"
         work_packages: "Задачи"
-      projects/status:
-        code: 'Статус'
-        explanation: 'Описание статуса'
-        codes:
-          not_started: 'Не запущен'
-          on_track: 'В работе'
-          at_risk: 'Под угрозой'
-          off_track: 'Приостановлен'
-          finished: 'Завершен'
-          discontinued: 'Работы прекращены'
       query:
         column_names: "Столбцы"
         relations_to_type_column: "Отношения к %{type}"
@@ -519,6 +548,7 @@ ru:
         hours: "Часы"
         spent_on: "Дата"
         type: "Тип"
+        ongoing: "В процессе"
       type:
         description: "Текст для описания по умолчанию"
         attribute_groups: ''
@@ -528,7 +558,7 @@ ru:
         color: "Цвет"
       user:
         admin: "Администратор"
-        auth_source: "Способ аутентификации"
+        ldap_auth_source: "Подключение к LDAP"
         current_password: "Текущий пароль"
         force_password_change: "Принудительное изменение пароля при следующем входе"
         language: "Язык"
@@ -649,7 +679,7 @@ ru:
           не предоставляет "Secure Context". Используйте HTTPS или обратный адрес, например localhost.
         wrong_length: "неправильная длина (должно быть %{count} знаков)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "Указанный сертификат SSL недействителен: %{additional_message}"
@@ -693,6 +723,11 @@ ru:
           overlaps: 'перекрытие.'
           outside: 'за пределами сетки.'
           end_before_start: 'конечное значение должно быть больше начального.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "является обязательным. Пожалуйста, выберите имя."
+              not_unique: "уже используется. Пожалуйста, выберите другое имя."
         notifications:
           at_least_one_channel: 'Нужно указать хотя бы один канал для отправки уведомлений.'
           attributes:
@@ -740,6 +775,10 @@ ru:
               format: "%{message}"
             sort_criteria:
               invalid: "Невозможно отсортировать по столбцу: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Временные метки содержат недопустимые значения: %{values}"
+              forbidden: "Временные метки содержат запрещенные значения: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "является взаимоисключающим при группировке «%{group_by}». Вы не можете активировать оба."
           filters:
@@ -796,6 +835,7 @@ ru:
               not_allowed_to_view: "у Вас нет разрешений для просматра этого ресурса."
               locked: "заблокирован."
         wiki_page:
+          error_conflict: "Когда вы редактировали wiki-страницу, кто-то обновил её."
           attributes:
             slug:
               undeducible: "не может быть вычтено из заголовка '%{title}'."
@@ -864,7 +904,7 @@ ru:
                 description: "«Подтвержденный пароль» должен совпадать с введенным «новым паролем»."
             status:
               invalid_on_create: "не является допустимым статусом для новых пользователей."
-            auth_source:
+            ldap_auth_source:
               error_not_found: "не найдено"
         member:
           principal_blank: "Пожалуйста, выберите по крайней мере одного пользователя или группу."
@@ -875,6 +915,7 @@ ru:
             principal:
               unassignable: "не может быть присвоен проекту."
         version:
+          undeletable_archived_projects: "Версия не может быть удалена, так как она имеет связанные с ней пакеты работ."
           undeletable_work_packages_attached: "Версия не может быть удалена, так как имеет пакеты работ, прикрепленные к ней."
         status:
           readonly_default_exlusive: "не может быть активирован для статусов, отмеченных по умолчанию."
@@ -919,16 +960,42 @@ ru:
       work_package: "Пакет работ"
       'doorkeeper/application': "Приложение OAuth"
   errors:
-    header_invalid_fields: "Были проблемы со следующими полями:"
+    header_invalid_fields:
+      one: "Возникла проблема со следующим полем:"
+      few: "Возникли проблемы со следующими полями:"
+      many: "Проблемы возникли со следующими полями:"
+      other: "Проблемы со следующими полями:"
+    header_additional_invalid_fields:
+      one: "Кроме того, возникла проблема со следующим полем:"
+      few: "Кроме того, были проблемы со следующими полями:"
+      many: "Кроме того, были проблемы со следующими полями:"
+      other: "Кроме того, были проблемы с полями:"
     field_erroneous_label: "Значение этого поля неверно: %{full_errors}. Пожалуйста, введите верное значение."
   activity:
     item:
       created_by_on: "создано %{user} %{datetime}"
+      created_by_on_time_entry: "время зарегистрировано %{user} %{datetime}"
       created_on: "создано %{datetime}"
+      created_on_time_entry: "время входа в систему %{datetime}"
       updated_by_on: "обновлено %{user} %{datetime}"
+      updated_by_on_time_entry: "зарегистрированное время, обновленное %{user} в %{datetime}"
       updated_on: "обновлено %{datetime}"
+      updated_on_time_entry: "зарегистрированное время обновлено в %{дата-время}"
       parent_without_of: "Подпроект"
       parent_no_longer: "Больше не подпроект"
+      time_entry:
+        hour:
+          one: "%{count} час"
+          few: "%{count} часов"
+          many: "%{count} часов"
+          other: "%{count} часов"
+        hour_html:
+          one: "<i>%{count} час</i>"
+          few: "<i>%{count} часов</i>"
+          many: "<i>%{count} часов</i>"
+          other: "<i>%{count} часов</i>"
+        updated: "изменено с %{old_value} на %{value}"
+        logged_for: "Зарегистрирован для"
     filter:
       changeset: "Наборы изменений"
       message: "Форумы"
@@ -1045,6 +1112,8 @@ ru:
   button_configure: "Настройка"
   button_continue: "Продолжить"
   button_copy: "Копировать"
+  button_copy_to_clipboard: "Копировать в буфер обмена"
+  button_copy_link_to_clipboard: "Копировать ссылку в буфер обмена"
   button_copy_and_follow: "Скопировать и продолжить"
   button_create: "Создать"
   button_create_and_continue: "Создать и продолжить"
@@ -1174,7 +1243,7 @@ ru:
       - "Октябрь"
       - "Ноябрь"
       - "Декабрь"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - ':год'
       - ':месяц'
@@ -1243,61 +1312,6 @@ ru:
         few: "час"
         many: "час"
         other: "час"
-  default_activity_development: "Разработка"
-  default_activity_management: "Управление"
-  default_activity_other: "Другие"
-  default_activity_specification: "Спецификация"
-  default_activity_support: "Поддержка"
-  default_activity_testing: "Проверка"
-  default_color_black: "Чёрный"
-  default_color_blue: "Cиний"
-  default_color_blue_dark: "Темно-синий"
-  default_color_blue_light: "Свтло-синий"
-  default_color_green_dark: "Темно-зеленый"
-  default_color_green_light: "Светло-зеленый"
-  default_color_grey_dark: "Темно-серый"
-  default_color_grey_light: "Светло-серый"
-  default_color_grey: "Серый"
-  default_color_magenta: "Пурпурный"
-  default_color_orange: "Оранжевый"
-  default_color_red: "Красный"
-  default_color_white: "Белый"
-  default_color_yellow: "Жёлтый"
-  default_status_closed: "закрыто"
-  default_status_confirmed: "Подтвержден"
-  default_status_developed: "Разработан"
-  default_status_in_development: "В разработке"
-  default_status_in_progress: "В процессе"
-  default_status_in_specification: "В спецификации"
-  default_status_in_testing: "В тестировании"
-  default_status_new: "Новое"
-  default_status_on_hold: "В ожидании"
-  default_status_rejected: "отклонено"
-  default_status_scheduled: "Запланировано"
-  default_status_specified: "Указанный"
-  default_status_tested: "Протестирован"
-  default_status_test_failed: "Тест не пройден"
-  default_status_to_be_scheduled: "Планируется"
-  default_priority_low: "Низкое"
-  default_priority_normal: "Обычное"
-  default_priority_high: "Высокое"
-  default_priority_immediate: "Срочно"
-  default_role_anonymous: "Анонимно"
-  default_role_developer: "Разработчик"
-  default_role_project_admin: "Администратор проекта"
-  default_role_project_creator_and_staff_manager: "Персонал и менеджер проектов"
-  default_role_non_member: "Не участник"
-  default_role_reader: "Читатель"
-  default_role_member: "Участник"
-  default_type: "Пакет работ"
-  default_type_bug: "Ошибка"
-  default_type_deliverable: "Готово к предоставлению"
-  default_type_epic: "Эпический"
-  default_type_feature: "Функция"
-  default_type_milestone: "Ключевой момент"
-  default_type_phase: "Фаза"
-  default_type_task: "Задание"
-  default_type_user_story: "Описание пользователя"
   description_active: "Активно?"
   description_attachment_toggle: "Показать/скрыть вложения"
   description_autocomplete: >
@@ -1344,9 +1358,10 @@ ru:
   error_can_not_archive_project: "Этот проект невозможно заархивировать: %{errors}"
   error_can_not_delete_entry: "Не удается удалить содержимое"
   error_can_not_delete_custom_field: "Не удается удалить настраиваемое поле"
+  error_can_not_delete_in_use_archived_undisclosed: 'Есть также пакеты работ в архивных проектах. Вам нужно попросить администратора выполнить удаление, чтобы увидеть, какие проекты затронуты.'
+  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Этот тип содержит пакеты работ и не может быть удален. Вы можете увидеть все затрагиваемые пакеты работ в <a target="_blank" href="%{url}">этом представлении</a>.'
-    archived_projects: 'Также существуют пакеты работ в архивных проектах. Вам нужно сначала активировать следующие проекты, прежде чем вы сможете изменить тип соответствующих пакетов работ: %{archived_projects}'
   error_can_not_delete_standard_type: "Стандартные типы не могут быть удалены."
   error_can_not_invite_user: "Не удалось отправить приглашение пользователю."
   error_can_not_remove_role: "Эта роль используется и не может быть удалена."
@@ -1355,12 +1370,13 @@ ru:
   error_can_not_unarchive_project: "Этот проект невозможно разархивировать: %{errors}"
   error_check_user_and_role: "Пожалуйста, выберите пользователя и роль."
   error_code: "Ошибка %{code}"
+  error_color_could_not_be_saved: "Цвет не может быть сохранен"
   error_cookie_missing: 'Отсутствуют cookie OpenProject. Пожалуйста, убедитесь, что Cookie разрешены. Без них приложение не будет функционировать должным образом.'
   error_custom_option_not_found: "Параметр не существует."
   error_enterprise_activation_user_limit: "Ваша учетная запись не может быть активирована (достигнут предел пользователя). Обратитесь к администратору для получения доступа."
   error_enterprise_token_invalid_domain: "Версия Enterprise не активна. Домен вашего токена предприятия (%{actual}) не соответствует названию системного имени (%{expected})."
   error_failed_to_delete_entry: 'Не удалось удалить эту запись.'
-  error_in_dependent: "Ошибка при попытке изменить зависимый объект: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Ошибка при попытке изменить зависимый объект: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Ошибка при создании зависимого объекта: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Выбранное значение недопустимо."
   error_journal_attribute_not_present: "Журнал не содержит атрибут %{attribute}."
@@ -1379,6 +1395,7 @@ ru:
   error_password_change_failed: 'Произошла ошибка при попытке изменить пароль.'
   error_scm_command_failed: "Произошла ошибка при попытке доступа к хранилищу: %{value}"
   error_scm_not_found: "Ни статья, ни ее исправленная версия в репозитории не найдены."
+  error_type_could_not_be_saved: "Тип не может быть сохранён"
   error_unable_delete_status: "Статус пакета работ удалить нельзя, так как он используется по крайней мере одним рабочим пакетом."
   error_unable_delete_default_status: "Не удается удалить статус работы пакета по умолчанию. Пожалуйста, выберите другой статус работы пакета по умолчанию перед удалением текущего."
   error_unable_to_connect: "Не удается подключиться (%{value})"
@@ -1415,11 +1432,14 @@ ru:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF с описанием"
-      pdf_with_descriptions_and_attachments: "PDF с описанием и вложениями"
-      pdf_with_attachments: "PDF с вложениями"
+      pdf_overview_table: "PDF таблица"
+      pdf_report_with_images: "PDF отчёт с изображениями"
+      pdf_report: "PDF отчёт"
     image:
       omitted: "Изображение не экспортировано."
+    units:
+      hours: ч
+      days: д
   extraction:
     available:
       pdftotext: "Pdftotext доступно (опционально)"
@@ -1465,6 +1485,25 @@ ru:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Изменения отменены."
+    caused_changes:
+      dates_changed: "Даты изменены"
+      system_update: "Обновление OpenProject"
+    cause_descriptions:
+      work_package_predecessor_changed_times: внесением изменений в предшественника %{link}
+      work_package_parent_changed_times: внесением изменений в родительский %{link}
+      work_package_children_changed_times: внесением изменений в дочерний элемент %{link}
+      work_package_related_changed_times: внесением изменений в связанный элемент %{link}
+      unaccessable_work_package_changed: внесением изменений в связанный пакет работ
+      working_days_changed:
+        changed: "внесением изменений в рабочие дни (%{changes})"
+        days:
+          working: "%{day} сейчас рабочий"
+          non_working: "%{day} теперь нерабочий"
+        dates:
+          working: "%{date} сейчас рабочий"
+          non_working: "%{day} теперь нерабочий"
+      system_update:
+        file_links_journal: 'добавлены ссылки на файлы для действий'
   links:
     configuration_guide: 'Руководство по конфигурации'
     get_in_touch: "У вас есть вопросы? Свяжитесь с нами."
@@ -1474,7 +1513,7 @@ ru:
   menus:
     admin:
       mail_notification: "Уведомления по электронной почте"
-      mails_and_notifications: "Электронные письма и уведомления"
+      mails_and_notifications: "Письма и уведомления"
       aggregation: 'Агрегация'
       api_and_webhooks: "API и вебхуки"
     quick_add:
@@ -1489,6 +1528,33 @@ ru:
         action: "Действие"
         expiration: "Срок действия"
       indefinite_expiration: "Никогда"
+      simple_revoke_confirmation: "Вы уверены, что хотите отменить этот токен?"
+      api:
+        title: "API"
+        text_hint: "Маркеры API позволяют приложениям общаться с этим экземпляром OpenProject через REST API."
+        static_token_name: "API-токен"
+        disabled_text: "Маркеры API не включены администратором. Пожалуйста, обратитесь к администратору для использования этой функции."
+      ical:
+        title: "iCalendar"
+        text_hint: "Токены iCalendar позволяют пользователям <a href=\"%{path}\" target=\"_blank\"> подписываться на календари OpenProject</a> и просматривать актуальную информацию о рабочих пакетах от внешних клиентов."
+        disabled_text: "Подписки на iCalendar не включены администратором. Обратитесь к администратору для использования этой функции."
+        empty_text_hint: "Чтобы добавить токен iCalendar, подпишитесь на новый или существующий календарь из модуля календаря проекта. Вы должны иметь необходимые разрешения."
+      oauth:
+        title: "OAuth"
+        text_hint: "Токены OAuth позволяют сторонним приложениям подключаться к этому экземпляру OpenProject."
+        empty_text_hint: "Для вас не настроен и не активирован доступ к сторонним приложениям. Пожалуйста, свяжитесь с вашим администратором, чтобы активировать эту функцию."
+      rss:
+        title: "RSS"
+        text_hint: "Токены RSS позволяют пользователям следить за последними изменениями в этом экземпляре OpenProject через внешний RSS-трекер."
+        static_token_name: "Токен RSS"
+        disabled_text: "Токены RSS не включены администратором. Пожалуйста, обратитесь к администратору, чтобы использовать эту функцию."
+      storages:
+        title: "Файловые хранилища"
+        text_hint: "Токены хранения файлов подключают этот экземпляр OpenProject к внешнему хранилищу файлов."
+        empty_text_hint: "Нет доступа к хранилищу, связанному с вашей учетной записью."
+        revoke_token: "Вы действительно хотите удалить этот токен?  Вам нужно будет снова войти в систему на %{storage}"
+        removed: "Токен хранилища файлов успешно удален"
+        failed: "Произошла ошибка, и токен не удалось удалить.  Пожалуйста, повторите попытку позже."
   notifications:
     send_notifications: "Отправить уведомления для этого действия"
     work_packages:
@@ -1531,6 +1597,7 @@ ru:
   label_age: "Возраст"
   label_ago: "дней назад"
   label_all: "все"
+  label_all_projects: "Все проекты"
   label_all_time: "все время"
   label_all_words: "Все слова"
   label_all_open_wps: "Все открытые"
@@ -1539,8 +1606,15 @@ ru:
   label_api_access_key: "Ключ доступа к API"
   label_api_access_key_created_on: "Ключ доступа к API, созданный %{value} назад"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "токен iCalendar \"%{token_name}\" для \"%{calendar_name}\" в \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar токен(ы) не представлены."
+  label_ical_access_key_generation_hint: "Автоматически генерируется при подписке на календарь."
+  label_ical_access_key_latest: "последний"
+  label_ical_access_key_revoke: "Отозвать"
   label_applied_status: "Прикладной статус"
   label_archive_project: "Архивировать проект"
+  label_archived_projects: "Архивные проекты"
   label_ascending: "По возрастанию"
   label_assigned_to_me_work_packages: "Переданные мне пакеты работ"
   label_associated_revisions: "Связанные изменения"
@@ -1549,9 +1623,9 @@ ru:
   label_attachment_plural: "Файлы"
   label_attribute: "Атрибут"
   label_attribute_plural: "Атрибуты"
-  label_auth_source: "Способ аутентификации"
-  label_auth_source_new: "Новый режим аутентификации"
-  label_auth_source_plural: "Режимы аутентификации"
+  label_ldap_auth_source_new: "Новое LDAP соединение"
+  label_ldap_auth_source: "Подключение к LDAP"
+  label_ldap_auth_source_plural: "Соединения LDAP"
   label_authentication: "Аутентификация"
   label_available_project_work_package_categories: 'Доступные категории рабочих пакетов'
   label_available_project_work_package_types: 'Доступные типы пакетов работ'
@@ -1574,6 +1648,7 @@ ru:
   label_bulk_edit_selected_work_packages: "Массовое изменение выбранных пакетов работ"
   label_bundled: '(В комплекте)'
   label_calendar: "Календарь"
+  label_calendars_and_dates: "Календари и даты"
   label_calendar_show: "Показать календарь"
   label_category: "Категория"
   label_consent_settings: "Согласие пользователя"
@@ -1609,8 +1684,8 @@ ru:
   label_confirmation: "Подтверждение"
   label_contains: "содержит"
   label_content: "Содержание"
+  label_color_plural: "Цвета"
   label_copied: "Скопировано"
-  label_copy_to_clipboard: "Копировать в буфер обмена"
   label_copy_same_as_target: "Так, как намечено"
   label_copy_source: "Источник"
   label_copy_target: "Цель"
@@ -1627,6 +1702,7 @@ ru:
   label_database_version: "Версия PostgreSQL"
   label_date: "Дата"
   label_date_and_time: "Дата и время"
+  label_date_format: "Формат даты"
   label_date_from: "От"
   label_date_from_to: "C %{start} по %{end}"
   label_date_to: "Кому"
@@ -1637,6 +1713,7 @@ ru:
   label_deleted: "﻿Удалено"
   label_deleted_custom_field: "(удалено настраиваемое поле)"
   label_deleted_custom_option: "(удалённая опция)"
+  label_empty_element: "(пусто)"
   label_missing_or_hidden_custom_option: "(отсутствует значение или недостаточно прав для доступа)"
   label_descending: "По убыванию"
   label_details: "Детали"
@@ -1669,16 +1746,20 @@ ru:
   label_enterprise: "Предприятие"
   label_enterprise_active_users: "%{current}/%{limit} забронировано активных пользователей"
   label_enterprise_edition: "Корпоративная версия"
+  label_enterprise_support: "Поддержка корпоративной версии"
   label_environment: "Переменные среды"
   label_estimates_and_time: "Оценки и время"
   label_equals: "—"
   label_everywhere: "везде"
   label_example: "Пример"
+  label_experimental: "Экспериментально"
+  label_i_am_member: "Я участник"
   label_import: "Импорт"
   label_export_to: "Скачать как:"
   label_expanded_click_to_collapse: "Развернуто. Кликните для сворачивания"
   label_f_hour: "%{value} часов"
   label_f_hour_plural: "%{value} часов"
+  label_favoured: "Избранное"
   label_feed_plural: "Ленты"
   label_feeds_access_key: "Ключ доступа к RSS"
   label_feeds_access_key_created_on: "Ключ доступа RSS, созданный %{value} назад"
@@ -1710,6 +1791,7 @@ ru:
   label_hierarchy_leaf: "Уровень иерархии"
   label_home: "Главная"
   label_subject_or_id: "Тема или ID"
+  label_calendar_subscriptions: "Подписки на календарь"
   label_impressum: "Правовое уведомление"
   label_in: "в"
   label_in_less_than: "менее чем"
@@ -1731,6 +1813,7 @@ ru:
   label_journal: "Журнал"
   label_journal_diff: "Описание сравнения"
   label_language: "Язык"
+  label_languages: "Языки"
   label_jump_to_a_project: "Перейти к проекту..."
   label_keyword_plural: 'Ключевые слова'
   label_language_based: "Основанный на языке пользователя"
@@ -1752,6 +1835,7 @@ ru:
   label_logged_as: "Войти в систему как"
   label_login: "Войти"
   label_custom_logo: "Свой логотип"
+  label_custom_export_logo: "Пользовательский логотип экспорта"
   label_custom_favicon: "Пользовательские иконки"
   label_custom_touch_icon: "Пользовательский значок логотипа"
   label_logout: "Выход"
@@ -1788,6 +1872,7 @@ ru:
   label_more_than_ago: "больше, чем дней назад"
   label_move_work_package: "Переместить пакет работ"
   label_my_account: "Моя учетная запись"
+  label_my_activity: "Моя активность"
   label_my_account_data: "Данные моей учетной записи"
   label_my_projects: "Мои проекты"
   label_my_queries: "Мои пользовательские запросы"
@@ -1838,7 +1923,6 @@ ru:
   label_password_rule_special: "Специальные символы"
   label_password_rule_uppercase: "Верхний регистр"
   label_path_encoding: "Кодирование пути"
-  label_pdf_with_descriptions: "PDF с описанием"
   label_per_page: "Постранично"
   label_people: "Люди"
   label_permissions: "Разрешения"
@@ -1860,7 +1944,6 @@ ru:
   label_principal_search: "Добавление существующих пользователей или групп"
   label_privacy_policy: "Политика конфиденциальности данных и безопасности"
   label_product_version: "Версия продукта"
-  label_professional_support: "Профессиональная поддержка"
   label_profile: "Профиль"
   label_project_activity: "Деятельность"
   label_project_attribute_plural: "Атрибуты проекта"
@@ -1872,7 +1955,8 @@ ru:
   label_project_new: "Новый проект"
   label_project_plural: "Проекты"
   label_project_settings: "Настройки проекта"
-  label_project_storage_plural: "Хранилища"
+  label_project_storage_plural: "Файловые хранилища"
+  label_project_storage_project_folder: "Файловые хранилища: Папки проекта"
   label_projects_storage_information: "%{count} проектов используют %{storage} дискового пространства"
   label_project_view_all: "Просмотреть все проекты"
   label_project_show_details: "Показать детали проекта"
@@ -1923,7 +2007,7 @@ ru:
   label_role_search: "Назначить роль для новых участников"
   label_scm: "SCM"
   label_search: "Поиск"
-  label_send_information: "Отправить сведения об учетной записи"
+  label_send_information: "Отправить новые учетные данные пользователю"
   label_send_test_email: "Отправить тестовое сообщение"
   label_setting_plural: "Настройки"
   label_system_settings: "Настройки системы"
@@ -1960,6 +2044,7 @@ ru:
   label_this_week: "на этой неделе"
   label_this_year: "в этом году"
   label_time_entry_plural: "Затраченное время"
+  label_title: "Заголовок"
   label_projects_menu: "Проекты"
   label_today: "Сегодня"
   label_top_menu: "Верхнее меню"
@@ -1991,6 +2076,7 @@ ru:
   label_user_plural: "Пользователи"
   label_user_search: "Найти пользователя"
   label_user_settings: "Настройки пользователя"
+  label_users_settings: "Настройки пользователей"
   label_version_new: "Новый этап"
   label_version_plural: "Этапы"
   label_version_sharing_descendants: "С подпроэктами"
@@ -2062,10 +2148,7 @@ ru:
   label_global_role: "Глобальная роль"
   label_not_changeable: "(неизменяемая)"
   label_global: "Глобальная"
-  auth_source:
-    using_abstract_auth_source: "Нельзя использовать абстрактную аутентификацию."
-    ldap_error: "LDAP-ошибка: %{error_message}"
-    ldap_auth_failed: "Не удалось проверить подлинность через LDAP-сервер."
+  label_seeded_from_env_warning: Эта запись была создана с помощью параметра / переменной среды. Она не может редактироваться через пользовательский интерфейс.
   macro_execution_error: "Ошибка при выполнении макроса %{macro_name}"
   macro_unavailable: "Макрос %{macro_name} не может быть отображен."
   macros:
@@ -2111,6 +2194,7 @@ ru:
         few: 'Есть еще %{count} пакетов работ с уведомлениями.'
         many: 'Есть еще %{count} пакетов работ с уведомлениями.'
         other: 'Есть еще %{count} пакетов работ с уведомлениями.'
+      open_in_browser: 'Открыть в браузере'
       reason:
         watched: 'Просмотрено'
         assigned: 'Назначено'
@@ -2135,6 +2219,10 @@ ru:
   mail_body_incoming_email_error_in_reply_to: "%{received_at} %{from_email} написал"
   mail_body_incoming_email_error_logs: "Журналы"
   mail_body_lost_password: "Чтобы изменить пароль, щёлкните по следующей ссылке:"
+  mail_password_change_not_possible:
+    title: "Не удалось изменить пароль"
+    body: "Ваша учетная запись на %{app_title} подключена к внешнему поставщику аутентификации (%{name})."
+    subtext: "Пароли внешней учетной записи не могут быть изменены в приложении. Пожалуйста, используйте функцию утери пароля вашего поставщика аутентификации."
   mail_body_register: "Добро пожаловать в %{app_title}. Пожалуйста, активируйте свою учетную запись, перейдя по ссылке:"
   mail_body_register_header_title: "Приглашение участника проекта по электронной почте"
   mail_body_register_user: "Уважаемый, %{name},"
@@ -2254,7 +2342,7 @@ ru:
   present_access_key_value: "Ваш ключ %{key_name}: %{value}"
   notice_automatic_set_of_standard_type: "Установить стандартный тип автоматически."
   notice_logged_out: "Вы вышли из системы."
-  notice_wont_delete_auth_source: Способ проверки подлинности нельзя удалить, пока есть пользователи его использующие.
+  notice_wont_delete_auth_source: Соединение LDAP не может быть удалено, пока есть пользователи, использующие его.
   notice_project_cannot_update_custom_fields: "Не удается обновить имеющиеся настраиваемые поля проекта. Этот проект является недопустимым: %{errors}"
   notice_attachment_migration_wiki_page: >
     Эта страница была автоматически создана во время обновления OpenProject. Она содержит все вложения, ранее связанные с %{container_type} «%{container_name}».
@@ -2290,7 +2378,8 @@ ru:
   permission_add_messages: "Написать сообщения"
   permission_add_project: "Создать проект"
   permission_archive_project: "Архивировать проект"
-  permission_manage_user: "Создание и редактирование пользователей"
+  permission_create_user: "Создать пользователей"
+  permission_manage_user: "Изменить пользователей"
   permission_manage_placeholder_user: "Создавать, редактировать и удалять пользователей-заполнителей"
   permission_add_subprojects: "Создать подпроект"
   permission_add_work_package_watchers: "Добавить наблюдателей"
@@ -2381,7 +2470,7 @@ ru:
       archived: "Архивирован"
   project_module_activity: "Деятельность"
   project_module_forums: "Форумы"
-  project_module_work_package_tracking: "Отслеживание пакета работ"
+  project_module_work_package_tracking: "Комплекс работ"
   project_module_news: "Новости"
   project_module_repository: "Репозиторий"
   project_module_wiki: "Wiki"
@@ -2553,7 +2642,7 @@ ru:
   setting_consent_decline_mail: "Контактный почтовый адрес для согласия"
   setting_cross_project_work_package_relations: "Разрешить перектестные связи пакетов работ проекта"
   setting_first_week_of_year: "Первая неделя в году содержит"
-  setting_date_format: "Формат даты"
+  setting_date_format: "Дата"
   setting_default_language: "Язык по умолчанию"
   setting_default_projects_modules: "По умолчанию доступные в новых проектах модули"
   setting_default_projects_public: "По умолчанию новые проекты видимы всем"
@@ -2565,6 +2654,7 @@ ru:
   setting_enabled_scm: "Вклченные SCM (системы управления исходным кодом)"
   setting_enabled_projects_columns: "Видимый в списке проектов"
   setting_feeds_enabled: "Включить новостные ленты"
+  setting_ical_enabled: "Включить подписку на iCalendar"
   setting_feeds_limit: "Предел содержимого новостной ленты"
   setting_file_max_size_displayed: "Максимальная длина  строки текстовых файлов"
   setting_host_name: "Имя компьютера в сети"
@@ -2615,9 +2705,9 @@ ru:
   setting_start_of_week: "Начало недели в"
   setting_sys_api_enabled: "Разрешить веб-сервис управления репоторием"
   setting_sys_api_description: "Веб-сервис управления репозиторием обеспечивает интеграцию и авторизацию пользователя для доступа к репозиторию."
-  setting_time_format: "Формат времени"
+  setting_time_format: "Время"
   setting_accessibility_mode_for_anonymous: "Разрешить режим доступа людей с ограниченными возможностями для анонимных пользователей"
-  setting_user_format: "Формат имён пользователей"
+  setting_user_format: "Формат имени пользователя"
   setting_user_default_timezone: "Часовой пояс пользователя по умолчанию"
   setting_users_deletable_by_admins: "Учётные записи пользователей могут быть удалены администратором"
   setting_users_deletable_by_self: "Пользователи могут удалять свои учётные записи"
@@ -2626,36 +2716,48 @@ ru:
   setting_welcome_on_homescreen: "Показывать приветствие на домашней странице"
   setting_work_package_list_default_highlighting_mode: "Способ выделения по умолчанию"
   setting_work_package_list_default_highlighted_attributes: "Выделенные встроенные атрибуты по умолчанию"
+  setting_working_days: "Рабочие дни"
   settings:
-    general: "Общие"
-    other: "Другие"
-    passwords: "Пароли"
-    session: "Сессия"
-    brute_force_prevention: "Автоматическое блокирование пользователя"
     attachments:
       whitelist_text_html: >
         Определите список допустимых расширений файлов и/или mime типов для загруженных файлов. <br/> Введите расширения файлов (например, <code>%{ext_example}</code>) или mime типы (e. ., <code>%{mime_example}</code>). <br/> Оставьте пустым, чтобы разрешить загрузку любого типа файла. Допустимы несколько значений (одна строка для каждого значения).
-    notifications:
-      events_explanation: 'Регулирует, по каким событиям отправляется письмо. Пакеты работ исключаются из этого списка, поскольку уведомления для них могут быть настроены специально для каждого пользователя.'
-      delay_minutes_explanation: "Отправка электронной почты может быть отложена для разрешения пользователям с настроенными в приложении уведомлениями подтвердить уведомление внутри приложения перед отправкой почты. Пользователи, которые прочитали уведомление в приложении, не будут получать по электронной почте уже прочитанное уведомление."
-    display:
+    brute_force_prevention: "Автоматическое блокирование пользователя"
+    date_format:
       first_date_of_week_and_year_set: >
         Если параметры "%{day_of_week_setting_name}" или "%{first_week_setting_name}" заданы,  должны быть заданы и другие тоже во избежание несоответствий в интерфейсе.
-      first_week_of_year_text: >
-        Выберите дату января, которая содержится в первой неделе года. Она вместе с первым днем недели определяет общее количество недель в году.
-    projects:
-      section_new_projects: "Настройки для новых проектов"
-      section_project_overview: "Настройки списка обзоров проекта"
-    user:
-      default_preferences: "Предпочтения по умолчанию"
-      deletion: "Удаление"
+      first_week_of_year_text_html: >
+        Выберите дату января, которая содержится в первой неделе года. Это значение вместе с первым днем недели определяет общее количество недель в году. Для получения дополнительной информации, пожалуйста, ознакомьтесь с нашей <a href="%{link}" target="_blank">документацией</a> по этой теме.
+    experimental:
+      save_confirmation: Внимание! Риск потери данных! Активируйте экспериментальные функции, только если вы не возражаете против взлома вашей установки OpenProject и потери всех содержащихся в ней данных.
+      warning_toast: Флаги функций - это настройки, активирующие функции, которые все еще находятся в стадии разработки. Они должны использоваться только в целях тестирования. Они никогда не должны активироваться на установках OpenProject, содержащих важные данные. Эти функции с большой вероятностью повредят ваши данные. Используйте их на свой страх и риск.
+      feature_flags: Флаги функций
+    general: "Общие"
     highlighting:
       mode_long:
         inline: "Выделите один или несколько встроенных атрибутов"
-        none: "Без подсветки"
+        none: "Без выделения"
         status: "Вся строка по статусу"
         type: "Вся строка по типу"
         priority: "Вся строка по приоритету"
+    icalendar:
+      enable_subscriptions_text_html: Позволяет пользователям с необходимыми разрешениями подписаться на календари OpenProject и получить доступ к информации о комплексе работ через внешний клиент календаря. <strong>Примечание:</strong> Пожалуйста, прочтите о <a href="%{link}" target="_blank">подписках на iCalendar</a> для понимания потенциальных рисков безопасности, прежде чем включить это.
+    language_name_being_default: '%{language_name} (по умолчанию)'
+    notifications:
+      events_explanation: 'Регулирует, по каким событиям отправляется письмо. Пакеты работ исключаются из этого списка, поскольку уведомления для них могут быть настроены специально для каждого пользователя.'
+      delay_minutes_explanation: "Отправка электронной почты может быть отложена для разрешения пользователям с настроенными в приложении уведомлениями подтвердить уведомление внутри приложения перед отправкой почты. Пользователи, которые прочитали уведомление в приложении, не будут получать по электронной почте уже прочитанное уведомление."
+    other: "Другие"
+    passwords: "Пароли"
+    projects:
+      section_new_projects: "Настройки для новых проектов"
+      section_project_overview: "Настройки списка обзоров проекта"
+    session: "Сессия"
+    user:
+      default_preferences: "Предпочтения по умолчанию"
+      display_format: "Формат отображения"
+      deletion: "Удаление"
+    working_days:
+      section_work_week: "Рабочая неделя"
+      section_holidays_and_closures: "Праздничные и нерабочие дни"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Обычный текст'
@@ -2688,18 +2790,18 @@ ru:
     Помните, что настраиваемые поля тоже нужно включать в каждом проекте по отдельности.
   text_custom_field_hint_activate_per_project_and_type: >
     Настраиваемые поля нужно включать для каждого типа комплекса работ и для каждого проекта в отдельности.
-  text_wp_custom_field_html: >
-    Корпоративная версия добавит эти дополнительные дополнения для пользовательских полей рабочих пакетов: <br> <ul> <li> <b> Разрешить множественный выбор для пользовательских полей типа Список или Пользователь </b> </li> </ul>
   text_wp_status_read_only_html: >
     Корпоративная версия добавит эти дополнительные дополнения для полей статусов пакетов работ: <br> <ul> <li><b>Разрешить помечать пакеты работ только для чтения в определенные статусы</b></li> </ul>
   text_project_custom_field_html: >
     Корпоративная версия добавит эти дополнительные дополнения для пользовательских полей проектов: <br> <ul> <li><b>Добавить пользовательские поля для проектов в ваш список проектов, чтобы создать представление портфолио проекта</b></li> </ul>
   text_custom_logo_instructions: >
     Рекомендуется использовать белый логотип с прозрачным фоном. Для оптимального отображения на обычных и retina-дисплеях размер картинки должен быть 460 на 110 пикселей.
+  text_custom_export_logo_instructions: >
+    Это логотип, который отображается при экспорте в формате PDF. Это должен быть файл изображения в формате PNG или JPEG. Рекомендуется использовать черный или цветной логотип на прозрачном или белом фоне.
   text_custom_favicon_instructions: >
-    Это крошечные значок, который появляется в вашем окне/вкладке браузера рядом с названием страницы. Это должно быть квадратное PNG изображение размером 32 на 32 пикселя с прозрачным фоном.
+    Это крошечный значок, который появляется в окне / вкладке вашего браузера рядом с заголовком страницы. Это должен быть файл изображения в формате PNG размером 32 на 32 пикселя с прозрачным фоном.
   text_custom_touch_icon_instructions: >
-    Это значок появится в вашем мобильном телефоне или планшете, когда вы установите закладку на вашем домашнем экране. Это должно быть PNG изображение размером 180 х 180 пикселей. Убедитесь, что фоновый рисунок не является прозрачным, иначе это будет выглядеть плохо на iOS.
+    Это значок, который появляется на вашем мобильном устройстве или планшете, когда вы размещаете закладку на своем рабочем столе. Это должен быть файл изображения в формате PNG размером 180 на 180 пикселей в квадрате. Пожалуйста, убедитесь, что фон изображения не прозрачный, иначе это будет плохо смотреться на iOS.
   text_database_allows_tsv: "База данных позволяет TSVector (опционально)"
   text_default_administrator_account_changed: "Первоначальная учетная запись администратора была изменена"
   text_default_encoding: "По-умолчанию: UTF-8"
@@ -2725,12 +2827,16 @@ ru:
   text_work_packages_destroy_confirmation: "Вы уверены, что хотите удалить выбранные пакет(-ы) работ?"
   text_work_packages_ref_in_commit_messages: "Привязка и фиксация пакетов работ в сообщениях коммитов"
   text_journal_added: "%{label} %{value} добавлено"
+  text_journal_attachment_added: "%{label} %{value} добавлено как вложение"
+  text_journal_attachment_deleted: "%{label} %{old} удален как вложение"
   text_journal_changed_plain: "%{label} изменено с %{old} %{linebreak}на %{new}"
   text_journal_changed_no_detail: "%{label} обновлено"
   text_journal_changed_with_diff: "%{label} изменена (%{link})"
   text_journal_deleted: "%{label} удалена (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} удалена (%{link})"
+  text_journal_file_link_added: "%{label} ссылка на %{value} (%{storage}) добавлена"
+  text_journal_file_link_deleted: "%{label} ссылка на %{old} (%{storage}) удалена"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} присвоено значение %{value}"
   text_journal_set_with_diff: "%{label} установлена (%{link})"
@@ -2776,6 +2882,11 @@ ru:
   text_zoom_in: "Увеличить"
   text_zoom_out: "Уменьшить"
   text_setup_mail_configuration: "Настройка поставщика услуг электронной почты"
+  help_texts:
+    views:
+      project: "%{plural} всегда прикреплены к проекту. После создания %{singular} вы можете добавить к нему пакеты работ из других проектов."
+      public: "Опубликуйте это представление, позволив другим пользователям получить доступ к вашему представлению. Пользователи с разрешением \"Управление общедоступными представлениями\" могут изменять или удалять общедоступный запрос. Это не влияет на видимость результатов рабочего пакета в этом представлении, и в зависимости от их разрешений пользователи могут видеть разные результаты."
+      favoured: "Отметить это представление как избранное и добавить в панель сохранённых представлений слева."
   time:
     am: "утра"
     formats:
@@ -2788,155 +2899,6 @@ ru:
     show: "Показать сроки"
     end: "до"
     start: "от"
-  timelines:
-    admin_menu:
-      color: "Цвет"
-      colors: "Цвета"
-    associations: "Связи"
-    button_delete_all: "Удалить всё"
-    change: "Изменения в планировании"
-    children: "Дочерние элементы"
-    color_could_not_be_saved: "Цвет не может быть сохранен"
-    current_planning: "Текущее планирование"
-    dates: "Даты"
-    dates_are_calculated_based_on_sub_elements: "Даты рассчитываются на основе вложенных элементов."
-    delete_all: "Удалить всё"
-    delete_thing: "Удалить"
-    duration: "Продолжительность"
-    duration_days:
-      one: "День"
-      few: "%{count} дней"
-      many: "%{count} дней"
-      other: "%{count} дней"
-    edit_color: "Изменить цвет"
-    edit_thing: "Правка"
-    edit_timeline: "Редактировать отчет по графику %{timeline}"
-    delete_timeline: "Удалить отчет графика  %{timeline}"
-    empty: "(пусто)"
-    enable_type_in_project: 'Разрешить тип «%{type}»'
-    end: "Конец"
-    errors:
-      not_implemented: "График не может быть отображен, так как использует ещё не реализованную функцию."
-      report_comparison: "Невозможно отобразить заданные сравнения в графике. Пожалуйста, проверьте соответствующий раздел в конфигурации, сброс может помочь в решении проблемы."
-      report_epicfail: "График не может быть загружен из-за неожиданной ошибки."
-      report_timeout: "График не может быть загружен в разумный период времени."
-    filter:
-      errors:
-        timeframe_start: "Сроки начала "
-        timeframe_end: "Сроки окончания "
-        compare_to_relative: "Значение относительного сравнения "
-        compare_to_absolute: "Значение абсолютного сопоставления "
-        planning_element_time_relative_one: "Запуск пакетов работ в определенные сроки  "
-        planning_element_time_relative_two: "Окончание пакетов работ в определенные сроки  "
-        planning_element_time_absolute_one: "Начало для пакетов работ в определенном тайм-фрейме  "
-        planning_element_time_absolute_two: "Конец для пакетов работ в определенном тайм-фрейме  "
-      sort:
-        sortation: "Сортировать по"
-        alphabet: "по алфавиту"
-        explicit_order: "явный порядок"
-        project_sortation: "Сортировать проекты по"
-        date: "дата"
-        default: "по умолчанию"
-      column:
-        assigned_to: "Назначенный"
-        type: "Тип"
-        due_date: "Дате окончания"
-        name: "Имя"
-        status: "Статус"
-        start_date: "Дата начала"
-      columns: "Столбцы"
-      comparisons: "Сравнения"
-      comparison:
-        absolute: "Абсолютно"
-        none: "Нет"
-        relative: "Относительно"
-        compare_relative_prefix: "Сравненит текущее планирование с"
-        compare_relative_suffix: "тому назад"
-        compare_absolute: "Сравнить текущее планирование с %{date}"
-      time_relative:
-        days: "дней"
-        weeks: "недели"
-        months: "месяцев"
-      exclude_own_work_packages: "Скрыть пакеты работ из этого проекта"
-      exclude_reporters: "Скрыть другие проекты"
-      exclude_empty: "Скрыть пустые проекты"
-      grouping: "Группировка"
-      grouping_hide_group: "Скрыть группу «%{group}»"
-      grouping_one: "Первый критерий группировки"
-      grouping_one_phrase: "Это подпроект"
-      grouping_other: "Другие"
-      hide_chart: "Скрыть диаграмму"
-      noneElement: "(нет)"
-      noneSelection: "(нет)"
-      outline: "Первоначальная схема детализации"
-      parent: "Показывать подпроекты"
-      work_package_responsible: "Показать пакеты работ с подотчетными"
-      work_package_assignee: "Показать пакеты работ с назначениями"
-      types: "Показать типы"
-      status: "Показать статус"
-      project_time_filter: "Проекты пакета работ определенного типа в определенные сроки"
-      project_time_filter_timeframe: "Срок"
-      project_time_filter_historical_from: "от"
-      project_time_filter_historical_to: "до"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan} %{startspanunit} назад, %{end_label} %{endspan} %{endspanunit} с этого момента"
-      project_filters: "Фильтр проектов"
-      project_responsible: "Показать проекты с подотчетными"
-      project_status: "Показать статус проекта"
-      timeframe: "Показать сроки"
-      timeframe_end: "до"
-      timeframe_start: "от"
-      timeline: "Общие настройки"
-      zoom: "Коэффициент масштабирования"
-    history: "История"
-    new_color: "Новый цвет"
-    new_association: "Новая зависимость"
-    new_work_package: "Новый пакет работ"
-    new_reporting: "Новые отчетности"
-    new_timeline: "Новый отчет по графику"
-    no_projects_for_reporting_available: "Нет проектов, для которых может быть создана ассоциация с отчетностью."
-    no_right_to_view_timeline: "Вы не имеете необходимых прав для просмотра связанной шкалы времени."
-    no_timeline_for_id: "Нет графика с ID %{id}."
-    notice_successful_deleted_all_elements: "Успешно удалены все элементы"
-    outline: "Сбросить схему"
-    outlines:
-      aggregation: "Показать только агрегации"
-      level1: "Развернуть уровень 1"
-      level2: "Развернуть уровень 2"
-      level3: "Развернуть уровень 3"
-      level4: "Развернуть уровень 4"
-      level5: "Развернуть уровень 5"
-      all: "Показывать всё"
-    reporting_for_project:
-      show: "Отрапортован статус проекта: %{title}"
-      edit_delete: "отчет о состоянии проекта: %{title}"
-      history: "История статусов проекта: %{title}"
-    reporting:
-      delete: "Удалить статус: %{comment}"
-      edit: "Редактировать статус: %{comment}"
-      show: "Статус: %{comment}"
-    planning_element_update: "Последняя сводка: %{title}"
-    type_could_not_be_saved: "Тип не может быть сохранен"
-    reporting_could_not_be_saved: "Отчетность не может быть сохранена"
-    properties: "Свойства"
-    really_delete_color: >
-      Вы действительно хотите удалить этот цвет? Типы, использующие этот цвет удалены не будут.
-    really_delete_reporting: >
-      Вы уверены, вы хотите удалить следующие отчетности? Предыдущие отчетные статусы будут удалены тоже.
-    start: "Начать"
-    timeline: "Отчет по графику"
-    timelines: "Отчеты по графикам"
-    settings: "Графики"
-    vertical_work_package: "Вертикальные пакеты работ"
-    you_are_viewing_the_selected_timeline: "Вы просматриваете выбранный отчет по графику"
-    zoom:
-      in: "Увеличить"
-      out: "Уменьшить"
-      days: "Дни"
-      weeks: "Недели"
-      months: "Месяцы"
-      quarters: "Кварталы"
-      years: "Годы"
   title_remove_and_delete_user: Исключить из проекта приглашенного пользователя и удалить его.
   title_enterprise_upgrade: "Обновление для разблокировки большего числа пользователей."
   tooltip_user_default_timezone: >
@@ -3027,9 +2989,9 @@ ru:
       title: "Удалить пакет работ"
   working_days:
     info: >
-      <b>Определить дни, которые считаются частью рабочей недели</b><br/> Невыбранные дни пропускаются при планировании пактов работ (и не включаются в подсчет дней). Они могут быть переопределены на уровне пакетов работ.
+      Невыбранные дни пропускаются при планировании пакетов работ (и не включаются в подсчет дней). Они могут быть переопределены на уровне пакетов работ.
     instance_wide_info: >
-      <b>Конкретные нерабочие дни (праздничные дни и выходные)</b><br/> Даты, добавленные в список ниже, считаются нерабочими и не участвуют в планировании пакетов работ.
+      Даты, добавленные в список ниже, считаются нерабочими и пропускаются при планировании пакетов работ.
     change_button: "Изменить рабочие дни"
     warning: >
       Изменение того, какие дни недели считаются рабочими или нерабочими, может повлиять на дни начала и окончания всех рабочих пакетов во всех проектах в данной системе. <br/> Пожалуйста, обратите внимание, что изменения вступят в силу после того, как вы нажмете на кнопку применить.
@@ -3055,6 +3017,7 @@ ru:
       code_409: "Не удалось обновить ресурс из-за конфликтующих изменений."
       code_429: "Слишком много запросов. Пожалуйста, повторите попытку позже."
       code_500: "Произошла внутренняя ошибка."
+      code_500_outbound_request_failure: "Исходящий запрос к другому ресурсу не удался с кодом статуса %{status_code}."
       not_found:
         work_package: "Пакет работ, который вы ищете, не найден или был удален."
       expected:
@@ -3201,14 +3164,14 @@ ru:
       label_refresh_token: "Токен обновления"
     errors:
       oauth_authorization_code_grant_had_errors: "OAuth2 вернул ошибку"
-      oauth_reported: "Поставщик OAuth2 сообщил"
+      oauth_reported: "Источник OAuth2 сообщил"
       oauth_returned_error: "OAuth2 вернул ошибку"
       oauth_returned_json_error: "OAuth2 вернул ошибку JSON"
       oauth_returned_http_error: "OAuth2 вернул ошибку сети"
       oauth_returned_standard_error: "OAuth2 вернул внутреннюю ошибку"
       wrong_token_type_returned: "OAuth2 вернул неверный тип токена, ожидая AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 сообщил об ошибке. Обратитесь к системному администратору."
-      oauth_client_not_found: "OAuth2 клиент не найден в точке 'callback' (redirect_uri)."
+      oauth_client_not_found: "OAuth2 'state' не найден в конечной точке 'callback' (redirect_uri)."
       refresh_token_called_without_existing_token: >
         Внутренняя ошибка: Обнаружен refresh_token без ранее существующего токена.
       refresh_token_updated_failed: "Ошибка при обновлении OAuthClientToken"
@@ -3216,7 +3179,7 @@ ru:
         Эта ошибка появляется после того, как вы обновили client_id и client_secret в OpenProject, но не обновили поле 'Return URI' в OAuth2 провайдере.
       oauth_code_not_present: "OAuth2 'code' не найден в конечной точке 'callback' (redirect_uri)."
       oauth_code_not_present_explanation: >
-        Эта ошибка появляется если вы выбрали неправильный response_type в OAuth2 провайдере. Response_type должен быть 'code' или аналогичным.
+        Эта ошибка появляется, если вы выбрали неправильный response_type в OAuth2 провайдере. Response_type должен быть 'code' или аналогичным.
       oauth_state_not_present: "OAuth2 'state' не найден в конечной точке 'callback' (redirect_uri)."
       oauth_state_not_present_explanation: >
         OAuth2 'state' используется для указания OpenProject где продолжить после успешной авторизации OAuth2. Отсутствие 'state' - внутренняя ошибка, которая может появиться при настройке. Обратитесь к системному администратору.
@@ -3233,7 +3196,7 @@ ru:
   http:
     request:
       failed_authorization: "Запрос стороны сервера не смог авторизоваться."
-      missing_authorization: "Запрос на стороне сервера не удался из-за отсутствия информации о авторизации."
+      missing_authorization: "Запрос на стороне сервера не удался из-за отсутствия информации об авторизации."
     response:
       unexpected: "Получен неожиданный ответ."
   you: вы
