@@ -85,6 +85,13 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQu
     context 'with outbound request not authorized',
             vcr: 'nextcloud/files_info_query_unauthorized' do
       context 'with an array of file ids' do
+        before do
+          token = build_stubbed(:oauth_client_token, oauth_client: storage.oauth_client)
+          allow(Storages::Peripherals::StorageInteraction::Nextcloud::Util)
+            .to receive(:token)
+            .and_yield(token)
+        end
+
         it 'must return an error when called' do
           subject.call(user:, file_ids:).match(
             on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" },
