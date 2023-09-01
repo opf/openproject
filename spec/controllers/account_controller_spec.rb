@@ -316,7 +316,7 @@ RSpec.describe AccountController,
       shared_let(:admin) { create(:admin) }
 
       it 'calls reset_session' do
-        expect(@controller).to receive(:reset_session).once
+        expect(controller).to receive(:reset_session).once
 
         login_as admin
         get :logout
@@ -418,7 +418,7 @@ RSpec.describe AccountController,
       end
 
       it 'does not login the user' do
-        expect(@controller.send(:current_user).anonymous?).to be_truthy
+        expect(controller.send(:current_user).anonymous?).to be_truthy
       end
     end
 
