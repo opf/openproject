@@ -34,11 +34,12 @@ RSpec.describe Authentication::OmniauthService do
       provider: 'google',
       uid: '123545',
       info: { name: 'foo',
-              email: 'foo@bar.com',
+              email: auth_email,
               first_name: 'foo',
               last_name: 'bar' }
     )
   end
+  let(:auth_email) { 'foo@bar.com' }
   let(:controller) { double('Controller', session: session_stub) }
   let(:session_stub) { [] }
 
@@ -127,27 +128,51 @@ RSpec.describe Authentication::OmniauthService do
 
     context 'with an active user remapped',
             with_settings: { oauth_allow_remapping_of_existing_users?: true } do
-      let!(:user) { create(:user, identity_url: 'foo', login: 'foo@bar.com') }
+      let!(:user) { create(:user, identity_url: 'foo', login: auth_email.downcase) }
 
-      it 'does not call register user service and logs in the user' do
-        allow(Users::RegisterUserService).to receive(:new)
+      shared_examples_for 'a successful remapping of foo' do
+        before do
+          allow(Users::RegisterUserService).to receive(:new)
+          allow(OpenProject::OmniAuth::Authorization)
+            .to(receive(:after_login!))
+            .with(user, auth_hash, instance)
+        end
 
-        expect(OpenProject::OmniAuth::Authorization)
-          .to(receive(:after_login!))
-          .with(user, auth_hash, instance)
+        it 'does not call register user service and logs in the user' do
+          aggregate_failures 'Service call' do
+            expect(call).to be_success
+            expect(call.result).to eq user
+            expect(call.result.firstname).to eq 'foo'
+            expect(call.result.lastname).to eq 'bar'
+            expect(call.result.login).to eq auth_email
+            expect(call.result.mail).to eq auth_email
+          end
 
-        expect(call).to be_success
-        expect(call.result).to eq user
-        expect(call.result.firstname).to eq 'foo'
-        expect(call.result.lastname).to eq 'bar'
-        expect(call.result.mail).to eq 'foo@bar.com'
+          user.reload
 
-        user.reload
-        expect(user.firstname).to eq 'foo'
-        expect(user.lastname).to eq 'bar'
-        expect(user.identity_url).to eq 'google:123545'
+          aggregate_failures 'User attributes' do
+            expect(user.firstname).to eq 'foo'
+            expect(user.lastname).to eq 'bar'
+            expect(user.identity_url).to eq 'google:123545'
+          end
 
-        expect(Users::RegisterUserService).not_to have_received(:new)
+          aggregate_failures 'Message expectations' do
+            expect(OpenProject::OmniAuth::Authorization)
+              .to(have_received(:after_login!))
+
+            expect(Users::RegisterUserService).not_to have_received(:new)
+          end
+        end
+      end
+
+      context 'with an all lower case login on the IdP side' do
+        it_behaves_like 'a successful remapping of foo'
+      end
+
+      context 'with a partially upper case login on the IdP side' do
+        let(:auth_email) { 'FoO@Bar.COM' }
+
+        it_behaves_like 'a successful remapping of foo'
       end
     end
 
