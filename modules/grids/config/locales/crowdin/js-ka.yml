@@ -11,7 +11,7 @@ ka:
         custom_text:
           title: 'Custom text'
         documents:
-          title: 'Documents'
+          title: 'დოკუმენტები'
           no_results: 'No documents yet.'
         members:
           title: 'წევრები'
@@ -33,7 +33,7 @@ ka:
           title: 'Project status'
           not_started: 'Not started'
           on_track: 'გეგმის მიხედვით'
-          off_track: 'Off track'
+          off_track: 'შეჩერებულია'
           at_risk: 'რისკის ქვეშ'
           not_set: 'არ არის დაყენებული'
           finished: 'დასრულებულია'
