@@ -13,23 +13,23 @@ OpenProject 5.0.5 contains several bug fixes:
 
   - An error which prevented a user from adding or removing watchers to
     a work package has been fixed
-    ([#22215](https://community.openproject.org/work_packages/22215/activity)).
+    ([#22215](https://community.openproject.org/work_packages/22215)).
   - The watch button on wiki pages, forums and news pages has been fixed
-    ([#22086](https://community.openproject.org/work_packages/22086/activity)).
+    ([#22086](https://community.openproject.org/work_packages/22086)).
   - The progress bars (e.g. in roadmap, budgets) are displayed properly
     again
-    ([#22225](https://community.openproject.org/work_packages/22225/activity)).
+    ([#22225](https://community.openproject.org/work_packages/22225)).
   - The “watch all” / “hide empty” button on the work package page has
     been renamed to be more descriptive
-    ([#22221](https://community.openproject.org/work_packages/22221/activity)).
+    ([#22221](https://community.openproject.org/work_packages/22221)).
   - Several design bugs have been fixed
-    ([#22209](https://community.openproject.org/work_packages/22209/activity),
-    [#22200](https://community.openproject.org/work_packages/22200/activity)).
+    ([#22209](https://community.openproject.org/work_packages/22209),
+    [#22200](https://community.openproject.org/work_packages/22200)).
   - The accessibility has been improved in several places.
 
 Additionally, OpenProject 5.0.5 includes a performance improvement for
 the work package full screen view
-([#21750](https://community.openproject.org/work_packages/21750/activity)).
+([#21750](https://community.openproject.org/work_packages/21750)).
 
 New translations have been added to OpenProject. Thanks to everyone who
 helped to translate and proof read OpenProject!

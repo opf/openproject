@@ -32,7 +32,7 @@ RSpec.describe API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:project) { build_stubbed(:project) }
-  let(:bool_cf) { build_stubbed(:bool_wp_custom_field) }
+  let(:bool_cf) { build_stubbed(:boolean_wp_custom_field) }
   let(:filter) do
     Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field! custom_field: bool_cf,
                                                                         context: project

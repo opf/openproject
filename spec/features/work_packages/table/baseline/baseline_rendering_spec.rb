@@ -35,9 +35,9 @@ RSpec.describe 'baseline rendering',
   shared_let(:list_wp_custom_field) { create(:list_wp_custom_field) }
   shared_let(:multi_list_wp_custom_field) { create(:list_wp_custom_field, multi_value: true) }
   shared_let(:version_wp_custom_field) { create(:version_wp_custom_field) }
-  shared_let(:bool_wp_custom_field) { create(:bool_wp_custom_field) }
+  shared_let(:bool_wp_custom_field) { create(:boolean_wp_custom_field) }
   shared_let(:user_wp_custom_field) { create(:user_wp_custom_field) }
-  shared_let(:int_wp_custom_field) { create(:int_wp_custom_field) }
+  shared_let(:int_wp_custom_field) { create(:integer_wp_custom_field) }
   shared_let(:float_wp_custom_field) { create(:float_wp_custom_field) }
   shared_let(:string_wp_custom_field) { create(:string_wp_custom_field) }
   shared_let(:date_wp_custom_field) { create(:date_wp_custom_field) }
@@ -363,6 +363,13 @@ RSpec.describe 'baseline rendering',
                                            'Version A',
                                            'Version B'
                                          ]
+
+      # Shows changes even if columns not showing
+      query.column_names -= %w[start_date due_date]
+      query.save!
+      wp_table.visit_query(query)
+
+      baseline.expect_icon wp_milestone_date_changed, 'changed'
 
       # show icons on work package single card
       display_representation.switch_to_card_layout

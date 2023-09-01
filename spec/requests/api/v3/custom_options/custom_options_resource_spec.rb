@@ -152,7 +152,7 @@ RSpec.describe 'API v3 Custom Options resource', :aggregate_failures do
     end
 
     describe 'TimeEntryCustomField' do
-      shared_let(:custom_field) { create(:list_time_entry_custom_field) }
+      shared_let(:custom_field) { create(:time_entry_custom_field, :list) }
       shared_let(:custom_option) { create(:custom_option, custom_field:) }
 
       context 'when being allowed with log_time' do
@@ -197,7 +197,7 @@ RSpec.describe 'API v3 Custom Options resource', :aggregate_failures do
     end
 
     describe 'UserCustomField' do
-      shared_let(:custom_field) { create(:list_user_custom_field) }
+      shared_let(:custom_field) { create(:user_custom_field, :list) }
       shared_let(:custom_option) { create(:custom_option, custom_field:) }
       let(:permissions) { [] }
 
@@ -208,7 +208,7 @@ RSpec.describe 'API v3 Custom Options resource', :aggregate_failures do
     end
 
     describe 'GroupCustomField' do
-      shared_let(:custom_field) { create(:list_group_custom_field) }
+      shared_let(:custom_field) { create(:group_custom_field, :list) }
       shared_let(:custom_option) { create(:custom_option, custom_field:) }
       let(:permissions) { [] }
 

@@ -39,7 +39,6 @@ import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import {
   baselineFilterFromValue,
   getPartsFromTimestamp,
@@ -91,7 +90,6 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
     readonly wpTableBaseline:WorkPackageViewBaselineService,
     readonly querySpace:IsolatedQuerySpace,
     readonly schemaCache:SchemaCacheService,
-    readonly wpTableColumns:WorkPackageViewColumnsService,
     readonly timezoneService:TimezoneService,
     readonly configuration:ConfigurationService,
     readonly cdRef:ChangeDetectorRef,
@@ -207,7 +205,7 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
     const results = this.querySpace.results.value;
     if (baselineIsActive && results && results.elements.length > 0) {
       results.elements.forEach((workPackage:WorkPackageResource) => {
-        state = getBaselineState(workPackage, this.schemaCache, this.wpTableColumns);
+        state = getBaselineState(workPackage, this.schemaCache);
         if (state === 'added') {
           this.numAdded += 1;
         } else if (state === 'removed') {

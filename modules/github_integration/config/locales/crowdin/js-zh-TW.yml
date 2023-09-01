@@ -40,12 +40,12 @@ zh-TW:
         empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
       github_actions: 操作
       pull_requests:
-        message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}."
-        merged_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
-        referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
+        message: "由 %{github_user_link} 創作的 %{repository_link} 的拉取請求 #%{pr_number} %{pr_link} 已被%{pr_state}。"
+        merged_message: "%{repository_link} 的拉取請求 #%{pr_number} %{pr_link} 已被%{github_user_link} %{pr_state}。"
+        referenced_message: "由 %{github_user_link} 創作的 %{repository_link} 的拉取請求 #%{pr_number} %{pr_link} 引用了此工作包。"
         states:
-          opened: 'opened'
+          opened: '已打開'
           closed: '已關閉'
-          draft: 'drafted'
-          merged: 'merged'
-          ready_for_review: 'marked ready for review'
+          draft: '草稿'
+          merged: '已合併'
+          ready_for_review: '標記為已準備審核'

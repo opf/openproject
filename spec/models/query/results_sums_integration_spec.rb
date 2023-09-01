@@ -124,7 +124,7 @@ RSpec.describe Query::Results, 'sums' do
            overridden_costs: 300)
   end
   let(:int_cf) do
-    create(:int_wp_custom_field)
+    create(:integer_wp_custom_field)
   end
   let(:float_cf) do
     create(:float_wp_custom_field)

@@ -5,7 +5,7 @@ fa:
   project_module_team_planner_view: "برنامه ریزهای تیم"
   team_planner:
     label_team_planner: "برنامه ریز تیم"
-    label_new_team_planner: "New team planner"
+    label_new_team_planner: "برنامه ریز تیم جدید"
     label_create_new_team_planner: "ایجاد برنامه ریز جدید تیم"
     label_team_planner_plural: "برنامه ریزهای تیم"
     label_assignees: "نمایندگان"

@@ -22,7 +22,7 @@ We ship a custom version of pgloader (named `pgloader-ccl`), which embeds some m
 
 ### Ubuntu 18.04
 
-```
+```shell
 wget -qO- https://dl.packager.io/srv/opf/pgloader-ccl/key | sudo apt-key add -
 sudo wget -O /etc/apt/sources.list.d/pgloader-ccl.list \
   https://dl.packager.io/srv/opf/pgloader-ccl/master/installer/ubuntu/18.04.repo
@@ -32,7 +32,7 @@ sudo apt-get install pgloader-ccl
 
 ### Ubuntu 16.04
 
-```
+```shell
 wget -qO- https://dl.packager.io/srv/opf/pgloader-ccl/key | sudo apt-key add -
 sudo wget -O /etc/apt/sources.list.d/pgloader-ccl.list \
   https://dl.packager.io/srv/opf/pgloader-ccl/master/installer/ubuntu/16.04.repo
@@ -42,7 +42,7 @@ sudo apt-get install pgloader-ccl
 
 ### Debian 9
 
-```
+```shell
 wget -qO- https://dl.packager.io/srv/opf/pgloader-ccl/key | sudo apt-key add -
 sudo wget -O /etc/apt/sources.list.d/pgloader-ccl.list \
   https://dl.packager.io/srv/opf/pgloader-ccl/master/installer/debian/9.repo
@@ -52,7 +52,7 @@ sudo apt-get install pgloader-ccl
 
 ### CentOS / RHEL 7
 
-```
+```shell
 sudo wget -O /etc/yum.repos.d/pgloader-ccl.repo \
   https://dl.packager.io/srv/opf/pgloader-ccl/master/installer/el/7.repo
 sudo yum install pgloader-ccl
@@ -60,7 +60,7 @@ sudo yum install pgloader-ccl
 
 ### SuSE Enterprise Linux 12
 
-```
+```shell
 sudo wget -O /etc/zypp/repos.d/pgloader-ccl.repo \
   https://dl.packager.io/srv/opf/pgloader-ccl/master/installer/sles/12.repo
 sudo zypper install pgloader-ccl
@@ -72,31 +72,31 @@ If you have not yet installed and set up a PostgreSQL installation database, ple
 
 OpenProject requires at least PostgreSQL 9.5 installed. Please check [www.postgresql.org/download](https://www.postgresql.org/download/) if your distributed package is too old.
 
-```bash
+```shell
 [root@host] apt-get install postgresql postgresql-contrib libpq-dev
 ```
 
 Once installed, switch to the PostgreSQL system user.
 
-```bash
+```shell
 [root@host] su - postgres
 ```
 
 Then, as the PostgreSQL user, create the system user for OpenProject. This will prompt you for a password. We are going to assume in the following guide that password were 'openproject'. Of course, please choose a strong password and replace the values in the following guide with it!
 
-```bash
+```shell
 [postgres@host] createuser -P -d openproject
 ```
 
 Next, create the database owned by the new user
 
-```bash
+```shell
 [postgres@host] createdb -O openproject openproject
 ```
 
 Lastly, exit the system user
 
-```bash
+```shell
 [postgres@host] exit
 # You will be root again now.
 ```
@@ -105,7 +105,7 @@ Lastly, exit the system user
 
 The following command saves the current MySQL `DATABASE_URL` as `MYSQL_DATABASE_URL` in the OpenProject configuration:
 
-```bash
+```shell
 openproject config:set MYSQL_DATABASE_URL="$(openproject config:get DATABASE_URL)"
 openproject config:get MYSQL_DATABASE_URL
 
@@ -119,7 +119,7 @@ This will be used later by the migration script.
 
 Form the `DATABASE_URL` string to match your selected password and add it to the openproject configuration:
 
-```bash
+```shell
 openproject config:set DATABASE_URL="postgresql://openproject:<PASSWORD>@localhost/openproject"
 ```
 
@@ -128,7 +128,7 @@ openproject config:set DATABASE_URL="postgresql://openproject:<PASSWORD>@localho
 
 You can use this command to escape any characters in the password:
 
-```bash
+```shell
 openproject run ruby -r cgi -e "puts CGI.escape('your-password-here');"
 ```
 
@@ -137,7 +137,7 @@ openproject run ruby -r cgi -e "puts CGI.escape('your-password-here');"
 
 You are now ready to migrate from MySQL to PostgreSQL. The OpenProject packages embed a migration script that can be launched as follows:
 
-```
+```shell
 sudo openproject run ./docker/mysql-to-postgres/bin/migrate-mysql-to-postgres
 ```
 
@@ -163,7 +163,7 @@ The following is an exemplary removal of an installed version MySQL 5.7.
 
 After you migrated your data, all you need to do is run through the configuration process of the packaged installation to remove the MySQL configuration
 
-```bash
+```shell
 openproject reconfigure
 ```
 

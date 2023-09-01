@@ -39,6 +39,9 @@ zh-CN:
     models:
       budget: "预算"
       material_budget_item: "单位"
+  activity:
+    filter:
+      budget: "预算"
   attributes:
     budget: "预算"
   button_add_budget_item: "添加计划成本"
@@ -63,7 +66,7 @@ zh-CN:
   label_example_placeholder: '例如，%{decimal}'
   label_view_all_budgets: "查看所有预算"
   label_yes: "是"
-  notice_budget_conflict: "工作包必须具有相同的项目。"
+  notice_budget_conflict: "工作包必须属于同一个项目。"
   notice_no_budgets_available: "无可用预算。"
   permission_edit_budgets: "编辑预算"
   permission_view_budgets: "查看预算"

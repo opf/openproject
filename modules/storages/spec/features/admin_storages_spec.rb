@@ -242,4 +242,44 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
     # Also check that there are no more OAuthClient instances anymore
     expect(OAuthClient.all.count).to eq(0)
   end
+
+  describe 'configuration checks' do
+    let!(:configured_storage) do
+      storage = create(:storage)
+      create(:oauth_application, integration: storage)
+      create(:oauth_client, integration: storage)
+      storage
+    end
+    let!(:unconfigured_storage) { create(:storage) }
+
+    it 'reports storages that are not configured correctly' do
+      visit admin_settings_storages_path
+
+      aggregate_failures 'storages view with configuration checks' do
+        configured_storage_table_row = page.find_by_id("storages_nextcloud_storage_#{configured_storage.id}")
+        unconfigured_storage_table_row = page.find_by_id("storages_nextcloud_storage_#{unconfigured_storage.id}")
+
+        expect(configured_storage_table_row).not_to have_css('.octicon-alert-fill')
+        expect(unconfigured_storage_table_row).to have_css('.octicon-alert-fill')
+      end
+
+      aggregate_failures 'individual storage view' do
+        within "#storages_nextcloud_storage_#{configured_storage.id}" do
+          page.find('td.buttons .icon-edit').click
+        end
+
+        expect(page).not_to have_css('.flash.flash-error')
+
+        within('.op-breadcrumb') do
+          click_link 'File storages'
+        end
+
+        within "#storages_nextcloud_storage_#{unconfigured_storage.id}" do
+          page.find('td.buttons .icon-edit').click
+        end
+
+        expect(page).to have_css('.flash.flash-error', text: 'The setup of this storage is incomplete.')
+      end
+    end
+  end
 end

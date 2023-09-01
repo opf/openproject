@@ -1,0 +1,8 @@
+#English strings go here
+zh-CN:
+  js:
+    calendar:
+      create_new: '创建新日历'
+      title: '日历'
+      too_many: '总共有 %{count} 个工作包，但只能显示 %{max} 个。'
+      unsaved_title: '未命名日历'

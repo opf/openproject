@@ -116,7 +116,7 @@ If you have created backup codes before, they will be invalidated and will no lo
 
 Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard. Common examples are Google Authenticator or Authy.
 
-Click the grey **Register device** button to register an authentication app. Open your app and follow the instructions to add a new application. The easiest way is to scan the barcode. Otherwise, you can register the application manually by entering the displayed details.
+Click the grey **Register device** button to register an authentication app. Open your app and follow the instructions to add a new application. The easiest way is to scan the QR code. Otherwise, you can register the application manually by entering the displayed details.
 
 Click the blue **Continue** button to finish the registration.
 
@@ -131,7 +131,7 @@ Access tokens allow you to grant external applications access to resources in Op
 ### API
 API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs. If you have not yet created an API token, this list will be empty. You may need admin privileges to be able to create an API.
 
-You can enable an API token under [*Administration -> API and webhooks*](../../system-admin-guide/api-and-webhooks/). Please not that you can only create a single API token.
+You can enable an API token under [*Administration -> API and webhooks*](../../system-admin-guide/api-and-webhooks/). Please note that you can only create a single API token.
 ### iCalendar
 iCalendar tokens allow users to subscribe to OpenProject calendars and view up-to-date work package information from external clients. 
 This list will be empty if you have no calendar subscriptions yet. Once you [subscribe to a calendar](../../user-guide/calendar/#subscribe-to-a-calendar), a list of all the calendars that you have subscribed to will appear here. The name of the calendar is clickable and will lead you directly to the respective calendar in OpenProject. 

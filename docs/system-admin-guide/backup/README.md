@@ -48,7 +48,7 @@ a logged-in user's desktop.
 
 As a system administrator you can skip this period by running the following rake task on the server's terminal:
 
-```
+```shell
 sudo openproject run rake backup:allow_now
 ```
 

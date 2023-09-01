@@ -100,6 +100,8 @@ nl:
     help_texts:
       project_folder: >
         The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
+    configuration_checks:
+      incomplete: "The setup of this storage is incomplete."
     delete_warning:
       storage: >
         Weet u zeker dat u deze opslag wilt verwijderen? Dit zal ook de opslag verwijderen uit alle projecten waar het wordt gebruikt. Bovendien zal het alle links van werkpakketten naar bestanden die in die opslag zijn opgeslagen verwijderen.

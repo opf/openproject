@@ -8,7 +8,7 @@ sidebar_navigation:
 
 ## Basic commands
 
-```bash
+```shell
 helm repo add openproject https://charts.openproject.org
 helm upgrade --create-namespace --namespace openproject --install my-openproject openproject/openproject
 ```
@@ -26,7 +26,7 @@ This chart bootstraps an OpenProject instance, optionally with a PostgreSQL data
 
 You can install the chart with the release name `my-openproject` in its own namespace like this:
 
-```bash
+```shell
 helm upgrade --create-namespace --namespace openproject --install my-openproject openproject/openproject
 ```
 
@@ -72,7 +72,7 @@ If you're operating an automated deployment with fresh databases for testing, th
 
 You can customize the password as well as name, email, and whether a password change is enforced on first login with these variables:
 
-```
+```ruby
 openproject.admin_user.password="my-secure-password"
 openproject.admin_user.password_reset="false"
 openproject.admin_user.name="Firstname Lastname"
@@ -88,7 +88,7 @@ You can use `helm upgrade` to set individual values.
 
 For instance:
 
-```
+```shell
 helm upgrade --reuse-values --namespace openproject my-openproject --set environment.OPENPROJECT_IMPRESSUM__LINK=https://www.openproject.org/legal/imprint/ --set environment.OPENPROJECT_APP__TITLE='My OpenProject'
 ```
 
@@ -98,7 +98,7 @@ Find out more about the [configuration](../../configuration/environment/) sectio
 
 To uninstall the release with the name my-openproject do the following:
 
-```bash
+```shell
 helm uninstall --namespace openproject my-openproject
 ```
 
@@ -121,7 +121,7 @@ This can happen when using **minikube**. By default, it initialises the cluster 
 
 Either increase the cluster's resources to have at least 4 CPUs or install the OpenProject helm chart with a reduced CPU limit by adding the following option to the install command:
 
-```
+```shell
 --set resources.limits.cpu=2
 ```
 

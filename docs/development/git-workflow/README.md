@@ -51,37 +51,37 @@ For contributing source code, please follow the git workflow below:
 - Use GitHub UI to fork the [OpenProject repository](https://github.com/opf/openproject).
 - Clone your fork to your development machine:
 
-```
+```shell
 git clone git@github.com/<username>/openproject
 ```
 
 Make sure you're on the right branch. The main development branch is `dev`:
 
-```
+```shell
 git checkout dev
 ```
 
 Add the original OpenProject repository as a remote, so you can fetch changes:
 
-```
+```shell
 git remote add upstream git@github.com:opf/openproject
 ```
 
 Update your local git branch to the core branch
 
-```
+```shell
 git pull upstream/dev
 ```
 
 Create a feature branch:
 
-```
+```shell
 git checkout -b feature/<short description of your feature>
 ```
 
 Make your changes, then push the branch into your **own** repository:
 
-```
+```shell
 git push origin <your feature branch>
 ```
 

@@ -46,7 +46,7 @@ RSpec.describe Project, 'customizable' do
       .and_return(available_custom_fields)
   end
   let(:custom_values) { [] }
-  let(:bool_custom_field) { build_stubbed(:bool_project_custom_field) }
+  let(:bool_custom_field) { build_stubbed(:boolean_project_custom_field) }
   let(:text_custom_field) { build_stubbed(:text_project_custom_field) }
   let(:list_custom_field) { build_stubbed(:list_project_custom_field) }
 

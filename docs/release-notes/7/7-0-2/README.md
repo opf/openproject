@@ -17,18 +17,18 @@ We recommend the update to the current version.
 ## Bug fixes (6)
 
   - \[Firefox only\] Work packages subject only show three dots
-    ([#25520](https://community.openproject.com/work_packages/25520))
+    ([#25520](https://community.openproject.com/wp/25520))
   - Work packages in list cannot be selected next to subject (in
     hierarchy mode)
-    ([#25493](https://community.openproject.com/work_packages/25493))
+    ([#25493](https://community.openproject.com/wp/25493))
   - “View” link on repository page links to landing page
-    ([#25487](https://community.openproject.com/work_packages/25487))
+    ([#25487](https://community.openproject.com/wp/25487))
   - Custom colors for work package loading animation
-    ([#25481](https://community.openproject.com/work_packages/25481))
+    ([#25481](https://community.openproject.com/wp/25481))
   - Invalid SQL statement produced by watchers filter
-    ([#25480](https://community.openproject.com/work_packages/25480))
+    ([#25480](https://community.openproject.com/wp/25480))
   - Selectable versions for version filter not sorted
-    ([#25465](https://community.openproject.com/work_packages/25465))
+    ([#25465](https://community.openproject.com/wp/25465))
 
 Thanks a lot to the community, in particular to Peter Spiess-Knafl for
 reporting bugs!

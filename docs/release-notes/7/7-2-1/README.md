@@ -14,7 +14,7 @@ OpenProject 7.2.1 contains several bug fixes.
 
   - Wrong query results were shown when switching away from a timeline
     query
-    \[[#26086](https://community.openproject.com/projects/openproject/work_packages/26086)\]
+    \[[#26086](https://community.openproject.com/wp/26086)\]
   - Cost reports with custom field of type list were rendered using
     their internal ID, not their option text
     \[[#26050](https://community.openproject.com/wp/26050)\]
@@ -25,11 +25,11 @@ OpenProject 7.2.1 contains several bug fixes.
 ## Visual changes
 
   - The subject in work package show view was misaligned
-    \[[#26073](https://community.openproject.com/projects/openproject/work_packages/26073)\]
+    \[[#26073](https://community.openproject.com/wp/26073)\]
   - Additional parent elements in the work package table are rendered
     only with a different font color, no longer with a opaque background
     color
-    \[[#26052](https://community.openproject.com/projects/openproject/work_packages/26052)\]
+    \[[#26052](https://community.openproject.com/wp/26052)\]
 
 Thanks a lot to the community, in particular to Mark Brown for reporting
 bugs!

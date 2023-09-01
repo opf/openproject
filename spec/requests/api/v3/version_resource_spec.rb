@@ -41,7 +41,7 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
   let(:permissions) { %i[view_work_packages manage_versions] }
   let(:project) { create(:project, public: false) }
   let(:other_project) { create(:project, public: false) }
-  let!(:int_cf) { create(:int_version_custom_field) }
+  let!(:int_cf) { create(:version_custom_field, :integer) }
   let(:version_in_project) { build(:version, project:, custom_field_values: { int_cf.id => 123 }) }
   let(:version_in_other_project) do
     build(:version,
@@ -131,8 +131,8 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
              custom_field_values: { int_cf.id => 123,
                                     list_cf.id => list_cf.custom_options.first.id })
     end
-    let!(:int_cf) { create(:int_version_custom_field) }
-    let!(:list_cf) { create(:list_version_custom_field) }
+    let!(:int_cf) { create(:version_custom_field, :integer) }
+    let!(:list_cf) { create(:version_custom_field, :list) }
     let(:body) do
       {
         name: 'New name',
@@ -268,8 +268,8 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
 
   describe 'POST api/v3/versions' do
     let(:path) { api_v3_paths.versions }
-    let!(:int_cf) { create(:int_version_custom_field) }
-    let!(:list_cf) { create(:list_version_custom_field) }
+    let!(:int_cf) { create(:version_custom_field, :integer) }
+    let!(:list_cf) { create(:version_custom_field, :list) }
     let(:body) do
       {
         name: 'New version',

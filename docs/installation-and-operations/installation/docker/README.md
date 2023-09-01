@@ -22,25 +22,25 @@ OpenProject with Docker can be launched in two ways:
 
 First, you must clone the [openproject-deploy](https://github.com/opf/openproject-deploy/tree/stable/13/compose) repository:
 
-```bash
+```shell
 git clone https://github.com/opf/openproject-deploy --depth=1 --branch=stable/13 openproject
 ```
 
 Then, change into the compose folder, this folder will be the location where you enter all following commands:
 
-```bash
+```shell
 cd openproject/compose
 ```
 
 Make sure you are using the latest version of the Docker images:
 
-```bash
+```shell
 docker-compose pull
 ```
 
 Launch the containers:
 
-```bash
+```shell
 OPENPROJECT_HTTPS=false docker-compose up -d
 ```
 
@@ -50,13 +50,13 @@ After a while, OpenProject should be up and running on `http://localhost:8080`. 
 
 You can stop the Compose stack by running:
 
-```
+```shell
 docker-compose stop
 ```
 
 You can stop and remove all containers by running:
 
-```
+```shell
 docker-compose down
 ```
 
@@ -80,7 +80,7 @@ In order to install or change to BIM inside a Docker environment, please navigat
 The fastest way to get an OpenProject instance up and running is to run the
 following command:
 
-```bash
+```shell
 docker run -it -p 8080:80 \
   -e OPENPROJECT_SECRET_KEY_BASE=secret \
   -e OPENPROJECT_HOST__NAME=localhost:8080 \
@@ -111,7 +111,7 @@ the logs to your terminal, which helps with debugging if anything goes wrong.
 For normal usage you probably want to start it in the background, which can be
 achieved with the `-d` flag:
 
-```bash
+```shell
 docker run -d -p 8080:80 \
   -e OPENPROJECT_SECRET_KEY_BASE=secret \
   -e OPENPROJECT_HOST__NAME=localhost:8080 \
@@ -140,7 +140,7 @@ You can use the following commands to create the local directories where the
 data will be stored across container restarts, and start the container with
 those directories mounted:
 
-```bash
+```shell
 sudo mkdir -p /var/lib/openproject/{pgdata,assets} 
 
 docker run -d -p 8080:80 --name openproject \
@@ -160,19 +160,19 @@ you will otherwise be vulnerable to [HOST header injections](https://portswigger
 
 Since we named the container, you can now stop it by running:
 
-```bash
+```shell
 docker stop openproject
 ```
 
 And start it again:
 
-```bash
+```shell
 docker start openproject
 ```
 
 If you want to destroy the container, run the following commands
 
-```bash
+```shell
 docker stop openproject
 docker rm openproject
 ```
@@ -247,7 +247,7 @@ Let's assume we want OpenProject to be accessed under https://openproject.exampl
 
 The **apache** configuration for this looks as follows.
 
-```
+```apache
 <VirtualHost *:80>
     ServerName openproject.example.com
 
@@ -280,7 +280,7 @@ The **apache** configuration for this looks as follows.
 
 The **nginx** counterpart can be seen below.
 
-```
+```nginx
 server {
     listen 80;
 
@@ -317,13 +317,13 @@ under the *subdirectory* `/openproject`.
 If you want to run OpenProject in a subdirectory on your server, first you will
 need to configure OpenProject accordingly by adding the following options to the `docker run` call:
 
-```
+```shell
 -e OPENPROJECT_RAILS__RELATIVE__URL__ROOT=/openproject
 ```
 
 The **apache** configuration for this configuration then looks like this:
 
-```
+```apache
 <VirtualHost *:80>
     ServerName example.com
 
@@ -356,7 +356,7 @@ The **apache** configuration for this configuration then looks like this:
 
 The equivalent **nginx** configuration looks as follows.
 
-```
+```nginx
 server {
     listen 80;
 
@@ -396,7 +396,7 @@ The docker image itself does not support plugins. But you can create your own do
 **2. Create the file `Gemfile.plugins`** in that folder. In the file you declare the plugins you want to install.
 For instance:
 
-```
+```ruby
 group :opf_plugins do
   gem "openproject-slack", git: "https://github.com/opf/openproject-slack.git", branch: "release/12.0"
 end
@@ -404,7 +404,7 @@ end
 
 **3. Create the `Dockerfile`** in the same folder. The contents have to look like this:
 
-```
+```dockerfile
 FROM openproject/community:13
 
 # If installing a local plugin (using `path:` in the `Gemfile.plugins` above),
@@ -428,7 +428,7 @@ All the Dockerfile does is copy your custom plugins gemfile into the image, inst
 
 To actually build the docker image run:
 
-```
+```shell
 docker build -t openproject-with-slack .
 ```
 
@@ -440,7 +440,7 @@ You can run the image just like the normal OpenProject image (as shown earlier).
 You just have to use your chosen tag instead of `openproject/community:13`.
 To just give it a quick try you can run this:
 
-```
+```shell
 docker run -p 8080:80 --rm -it openproject-with-slack
 ```
 
@@ -455,7 +455,7 @@ The installation works the same as described above. The only difference is that 
 
 On a system that has access to the internet run the following.
 
-```
+```shell
 docker pull openproject/community:13 && docker save openproject/community:13 | gzip > openproject-12.tar.gz
 ```
 
@@ -471,7 +471,7 @@ This could be sftp, scp or even via a USB stick in case of a truly air-gapped sy
 
 Once the file is on the system you can load it like this:
 
-```
+```shell
 gunzip openproject-12.tar.gz && docker load -i openproject-12.tar
 ```
 
@@ -496,7 +496,7 @@ For more advanced setups and more information please consult the [docker swarm d
 
 First [initialize your swarm](https://docs.docker.com/get-started/swarm-deploy/) on the host you wish to be the swarm manager.
 
-```bash
+```shell
 docker swarm init
 # You may need or want to specify the advertise address.
 # Say your node manager host's IP is 10.0.2.77:
@@ -512,7 +512,7 @@ To add worker nodes run `docker swarm join-token worker`.
 This will print the necessary command (which includes the join token) which you need to run
 on the host you wish to add as a worker node. For instance:
 
-```bash
+```shell
 docker swarm join --token SWMTKN-1-2wnvro17w7w2u7878yflajyjfa93e8b2x58g9c04lavcee93eb-abig91iqb6e5vmupfvq2f33ni 10.0.2.77:2377
 ```
 
@@ -560,7 +560,7 @@ x-op-app: &app
 As you can see it already mounts a local directory by default.
 You can either change this to a path in your mounted NFS folder or just create a symlink:
 
-```
+```shell
 ln -s /mnt/openproject/assets /var/openproject/assets
 ```
 
@@ -647,13 +647,13 @@ on what you can configure and how.
 
 Once you made any necessary adjustments to the `openproject-stack.yml` you are ready to launch the stack.
 
-```bash
+```shell
 docker stack deploy -c openproject-stack.yml openproject
 ```
 
 Once this has finished you should see something like this when running `docker service ls`:
 
-```bash
+```shell
 docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
 kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest           
@@ -690,13 +690,13 @@ Also at least 2 worker (`openproject_worker`) replicas make sense to handle the 
 If you find that it takes too long for those tasks (such as sending emails or work package exports) to complete
 you may want to increase this number further.
 
-```bash
+```shell
 docker service scale openproject_proxy=2 openproject_web=6 openproject_worker=2
 ```
 
 This will take a moment to converge. Once done you should see something like the following when listing the services using `docker service ls`:
 
-```bash
+```shell
 docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
 kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest           

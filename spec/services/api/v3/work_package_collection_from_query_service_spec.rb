@@ -190,7 +190,7 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
       context 'work_packages' do
         it "has the query's work_package results set" do
           expect(subject.work_packages)
-            .to match_array([work_package])
+            .to contain_exactly(work_package)
         end
       end
 
@@ -267,7 +267,7 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
             query.display_sums = true
 
             custom_fields = [build_stubbed(:text_wp_custom_field),
-                             build_stubbed(:int_wp_custom_field)]
+                             build_stubbed(:integer_wp_custom_field)]
 
             allow(WorkPackageCustomField)
               .to receive(:summable)

@@ -14,10 +14,10 @@ description: |-
 
   The filter syntax is a JSON object that can be passed as a GET parameter to the endpoints as an URL-encoded JSON string looks like the following:
 
-  ```json
+  ```json5
   [
     { "<filter name>": { "operator": "<operator>", "values": [<value>, ...] } },
-    ...
+    // ...
   ]
   ```
 

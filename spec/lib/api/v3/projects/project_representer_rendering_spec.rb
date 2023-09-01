@@ -76,7 +76,7 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
     end
   end
 
-  let(:int_custom_field) { build_stubbed(:int_project_custom_field, visible: false) }
+  let(:int_custom_field) { build_stubbed(:integer_project_custom_field, visible: false) }
   let(:version_custom_field) { build_stubbed(:version_project_custom_field, visible: true) }
   let(:int_custom_value) do
     CustomValue.new(custom_field: int_custom_field,
@@ -643,7 +643,7 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
 
   describe '.checked_permissions' do
     it 'lists add_work_packages' do
-      expect(described_class.checked_permissions).to match_array([:add_work_packages])
+      expect(described_class.checked_permissions).to contain_exactly(:add_work_packages)
     end
   end
 end

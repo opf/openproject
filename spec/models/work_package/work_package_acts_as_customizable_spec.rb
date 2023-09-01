@@ -75,6 +75,56 @@ RSpec.describe WorkPackage, 'acts_as_customizable' do
     end
   end
 
+  describe '#custom_field_values' do
+    subject(:work_package) do
+      setup_custom_field(custom_field)
+      new_work_package
+    end
+
+    context 'with a multi-value list custom field without default value' do
+      let(:custom_field) { create(:wp_custom_field, :multi_list) }
+
+      it 'returns an array with a CustomValue with nil value' do
+        expect(work_package.custom_field_values)
+          .to match([
+                      an_instance_of(CustomValue).and(having_attributes(value: nil, custom_field_id: custom_field.id))
+                    ])
+      end
+    end
+
+    context 'with a multi-value list custom field with default value of 1 option' do
+      let(:custom_field) { create(:wp_custom_field, :multi_list, default_options: ['B']) }
+
+      it 'returns an array with a CustomValue whose value is the stringified id of the default custom option' do
+        option_b = custom_field.custom_options.find_by(value: 'B')
+        expect(work_package.custom_field_values)
+          .to match([
+                      an_instance_of(CustomValue).and(having_attributes(value: option_b.id.to_s,
+                                                                        custom_field_id: custom_field.id))
+                    ])
+      end
+    end
+
+    context 'with a multi-value list custom field with default value of multiple options' do
+      let(:custom_field) { create(:wp_custom_field, :multi_list, default_options: ['D', 'B', 'F']) }
+
+      it 'returns an array with CustomValues whose values are the stringified ids of the default custom options' do
+        option_d = custom_field.custom_options.find_by(value: 'D')
+        option_b = custom_field.custom_options.find_by(value: 'B')
+        option_f = custom_field.custom_options.find_by(value: 'F')
+        expect(work_package.custom_field_values)
+          .to match([
+                      an_instance_of(CustomValue).and(having_attributes(value: option_b.id.to_s,
+                                                                        custom_field_id: custom_field.id)),
+                      an_instance_of(CustomValue).and(having_attributes(value: option_d.id.to_s,
+                                                                        custom_field_id: custom_field.id)),
+                      an_instance_of(CustomValue).and(having_attributes(value: option_f.id.to_s,
+                                                                        custom_field_id: custom_field.id))
+                    ])
+      end
+    end
+  end
+
   describe '#custom_field_:id' do
     let(:included_cf) { build(:work_package_custom_field) }
     let(:other_cf) { build(:work_package_custom_field) }
