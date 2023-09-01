@@ -719,7 +719,7 @@ RSpec.describe AccountController,
           it "notifies the admins about the issue" do
             perform_enqueued_jobs
 
-            mail = ActionMailer::Base.deliveries.detect { |mail| mail.to.first == admin.mail }
+            mail = ActionMailer::Base.deliveries.detect { |m| m.to.first == admin.mail }
             expect(mail).to be_present
             expect(mail.subject).to match /limit reached/
             expect(mail.body.parts.first.to_s).to match /new user \(#{params[:user][:mail]}\)/
