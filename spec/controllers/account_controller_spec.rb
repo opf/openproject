@@ -30,24 +30,26 @@ require 'spec_helper'
 
 RSpec.describe AccountController,
                skip_2fa_stage: true do
-  class UserHook < OpenProject::Hook::ViewListener
-    attr_reader :registered_user, :first_login_user
+  let(:user_hook_class) do
+    Class.new(OpenProject::Hook::ViewListener) do
+      attr_reader :registered_user, :first_login_user
 
-    def user_registered(context)
-      @registered_user = context[:user]
-    end
+      def user_registered(context)
+        @registered_user = context[:user]
+      end
 
-    def user_first_login(context)
-      @first_login_user = context[:user]
-    end
+      def user_first_login(context)
+        @first_login_user = context[:user]
+      end
 
-    def reset!
-      @registered_user = nil
-      @first_login_user = nil
+      def reset!
+        @registered_user = nil
+        @first_login_user = nil
+      end
     end
   end
 
-  let(:hook) { UserHook.instance }
+  let(:hook) { user_hook_class.instance }
   let(:user) { build_stubbed(:user) }
 
   before do
