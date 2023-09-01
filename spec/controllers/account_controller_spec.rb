@@ -58,7 +58,7 @@ RSpec.describe AccountController,
     hook.reset!
   end
 
-  context 'GET #login' do
+  describe 'GET #login' do
     let(:setup) {}
     let(:params) { {} }
 
@@ -128,7 +128,7 @@ RSpec.describe AccountController,
     end
   end
 
-  context 'POST #login' do
+  describe 'POST #login' do
     shared_let(:admin) { create(:admin) }
 
     describe 'wrong password' do
@@ -312,7 +312,7 @@ RSpec.describe AccountController,
       end
     end
 
-    context 'GET #logout' do
+    describe 'GET #logout' do
       shared_let(:admin) { create(:admin) }
 
       it 'calls reset_session' do
@@ -578,7 +578,7 @@ RSpec.describe AccountController,
     end
   end
 
-  context 'GET #register' do
+  describe 'GET #register' do
     context 'with self registration on',
             with_settings: { self_registration: Setting::SelfRegistration.automatic } do
       context 'and password login enabled' do
@@ -633,7 +633,7 @@ RSpec.describe AccountController,
   end
 
   # See integration/account_test.rb for the full test
-  context 'POST #register' do
+  describe 'POST #register' do
     context 'with self registration on automatic',
             with_settings: { self_registration: Setting::SelfRegistration.automatic } do
       before do
@@ -938,48 +938,106 @@ RSpec.describe AccountController,
     end
   end
 
-  context 'POST activate' do
-    let!(:admin) { create(:admin) }
-    let(:user) { create(:user, status:) }
-    let(:status) { -1 }
+  describe 'POST #activate' do
+    describe 'account activation' do
+      shared_examples 'account activation' do
+        let(:token) { Token::Invitation.create user: }
 
-    let(:token) { Token::Invitation.create!(user_id: user.id) }
+        let(:activation_params) do
+          {
+            token: token.value
+          }
+        end
 
-    before do
-      allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
+        context 'with an expired token' do
+          before do
+            token.update_column :expires_on, 1.day.ago
 
-      post :activate, params: { token: token.value }
-    end
+            post :activate, params: activation_params
+          end
 
-    shared_examples "activation is blocked due to user limit" do
-      it "does not activate the user" do
-        expect(user.reload).not_to be_active
+          it 'fails and shows an expiration warning' do
+            expect(subject).to redirect_to('/')
+            expect(flash[:warning]).to include 'expired'
+          end
+
+          it 'deletes the old token and generates a new one' do
+            old_token = Token::Invitation.find_by(id: token.id)
+            new_token = Token::Invitation.find_by(user_id: token.user.id)
+
+            expect(old_token).to be_nil
+            expect(new_token).to be_present
+
+            expect(new_token).not_to be_expired
+          end
+
+          it 'sends out a new activation email' do
+            new_token = Token::Invitation.find_by(user_id: token.user.id)
+
+            perform_enqueued_jobs
+
+            mail = ActionMailer::Base.deliveries.last
+            expect(mail.parts.first.body.raw_source).to include "activate?token=#{new_token.value}"
+          end
+        end
       end
 
-      it "redirects back to the login page and shows the user limit error" do
-        expect(response).to redirect_to(signin_path)
-        expect(flash[:error]).to match /user limit reached.*contact.*admin/i
+      context 'with an invited user' do
+        it_behaves_like 'account activation' do
+          let(:user) { create(:user, status: 4) }
+        end
       end
 
-      it "notifies the admins about the issue" do
-        perform_enqueued_jobs
-
-        mail = ActionMailer::Base.deliveries.detect { |mail| mail.to.first == admin.mail }
-        expect(mail).to be_present
-        expect(mail.subject).to match /limit reached/
+      context 'with a registered user' do
+        it_behaves_like 'account activation' do
+          let(:user) { create(:user, status: 2) }
+        end
       end
     end
 
-    context 'registered user' do
-      let(:status) { User.statuses[:registered] }
+    describe 'user limit' do
+      let!(:admin) { create(:admin) }
+      let(:user) { create(:user, status:) }
+      let(:status) { -1 }
 
-      it_behaves_like "activation is blocked due to user limit"
-    end
+      let(:token) { Token::Invitation.create!(user_id: user.id) }
 
-    context 'invited user' do
-      let(:status) { User.statuses[:invited] }
+      before do
+        allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
 
-      it_behaves_like "activation is blocked due to user limit"
+        post :activate, params: { token: token.value }
+      end
+
+      shared_examples "activation is blocked due to user limit" do
+        it "does not activate the user" do
+          expect(user.reload).not_to be_active
+        end
+
+        it "redirects back to the login page and shows the user limit error" do
+          expect(response).to redirect_to(signin_path)
+          expect(flash[:error]).to match /user limit reached.*contact.*admin/i
+        end
+
+        it "notifies the admins about the issue" do
+          perform_enqueued_jobs
+
+          mail = ActionMailer::Base.deliveries.detect { |m| m.to.first == admin.mail }
+          expect(mail).to be_present
+          expect(mail.subject).to match /limit reached/
+        end
+      end
+
+      context 'with an invited user' do
+        let(:status) { User.statuses[:invited] }
+
+        it_behaves_like "activation is blocked due to user limit"
+      end
+
+      context 'with a registered user' do
+        let(:status) { User.statuses[:registered] }
+
+        it_behaves_like "activation is blocked due to user limit"
+      end
     end
   end
 
@@ -1054,62 +1112,6 @@ RSpec.describe AccountController,
 
         expect(response.body).to have_text "Create a new account"
         expect(response.body).to have_text "This field is invalid: Email can't be blank."
-      end
-    end
-  end
-
-  describe 'POST #activate' do
-    shared_examples 'account activation' do
-      let(:token) { Token::Invitation.create user: }
-
-      let(:activation_params) do
-        {
-          token: token.value
-        }
-      end
-
-      context 'with an expired token' do
-        before do
-          token.update_column :expires_on, 1.day.ago
-
-          post :activate, params: activation_params
-        end
-
-        it 'fails and shows an expiration warning' do
-          expect(subject).to redirect_to('/')
-          expect(flash[:warning]).to include 'expired'
-        end
-
-        it 'deletes the old token and generates a new one' do
-          old_token = Token::Invitation.find_by(id: token.id)
-          new_token = Token::Invitation.find_by(user_id: token.user.id)
-
-          expect(old_token).to be_nil
-          expect(new_token).to be_present
-
-          expect(new_token).not_to be_expired
-        end
-
-        it 'sends out a new activation email' do
-          new_token = Token::Invitation.find_by(user_id: token.user.id)
-
-          perform_enqueued_jobs
-
-          mail = ActionMailer::Base.deliveries.last
-          expect(mail.parts.first.body.raw_source).to include "activate?token=#{new_token.value}"
-        end
-      end
-    end
-
-    context 'with an invited user' do
-      it_behaves_like 'account activation' do
-        let(:user) { create(:user, status: 4) }
-      end
-    end
-
-    context 'with an registered user' do
-      it_behaves_like 'account activation' do
-        let(:user) { create(:user, status: 2) }
       end
     end
   end
