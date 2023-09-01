@@ -48,8 +48,9 @@ module OpenProject
 
     MEMBER_CREATED = 'member_created'.freeze
     MEMBER_UPDATED = 'member_updated'.freeze
-    # Called like this for historic reasons, should be called 'member_destroyed'
-    MEMBER_DESTROYED = 'member_removed'.freeze
+    MEMBER_DESTROYED = 'member_destroyed'.freeze
+
+    OAUTH_CLIENT_TOKEN_CREATED = 'oauth_client_token_created'.freeze
 
     TIME_ENTRY_CREATED = "time_entry_created".freeze
 
@@ -58,8 +59,17 @@ module OpenProject
     PROJECT_CREATED = "project_created".freeze
     PROJECT_UPDATED = "project_updated".freeze
     PROJECT_RENAMED = "project_renamed".freeze
+    PROJECT_ARCHIVED = "project_archived".freeze
+    PROJECT_UNARCHIVED = "project_unarchived".freeze
+
+    PROJECT_STORAGE_CREATED = "project_storage_created".freeze
+    PROJECT_STORAGE_UPDATED = "project_storage_updated".freeze
+    PROJECT_STORAGE_DESTROYED = "project_storage_destroyed".freeze
+
+    ROLE_UPDATED = "role_updated".freeze
+    ROLE_DESTROYED = "role_destroyed".freeze
 
     WATCHER_ADDED = 'watcher_added'.freeze
-    WATCHER_REMOVED = 'watcher_removed'.freeze
+    WATCHER_DESTROYED = 'watcher_destroyed'.freeze
   end
 end

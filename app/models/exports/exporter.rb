@@ -63,12 +63,12 @@ module Exports
 
     protected
 
-    def formatter_for(attribute)
-      ::Exports::Register.formatter_for(model, attribute)
+    def formatter_for(attribute, export_format)
+      ::Exports::Register.formatter_for(model, attribute, export_format)
     end
 
-    def format_attribute(object, attribute, **options)
-      formatter = formatter_for(attribute)
+    def format_attribute(object, attribute, export_format, **options)
+      formatter = formatter_for(attribute, export_format)
       formatter.format(object, **options)
     end
   end

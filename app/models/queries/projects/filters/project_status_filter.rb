@@ -33,21 +33,17 @@ module Queries
         include ProjectStatusHelper
 
         def allowed_values
-          @allowed_values ||= ::Projects::Status.codes.map do |code, id|
+          @allowed_values ||= Project.status_codes.map do |code, id|
             [project_status_name_for_code(code), id.to_s]
           end
         end
 
-        def left_outer_joins
-          :status
+        def type
+          :list_optional
         end
 
         def where
-          operator_strategy.sql_for_field(values, ::Projects::Status.table_name, :code)
-        end
-
-        def type
-          :list_optional
+          operator_strategy.sql_for_field(values, model.table_name, :status_code)
         end
 
         def self.key

@@ -131,7 +131,7 @@ module OpenProject
               label: 'links.get_in_touch'
             },
             glossary: {
-              href: 'https://www.openproject.org/docs/',
+              href: 'https://www.openproject.org/docs/glossary/',
               label: 'homescreen.links.glossary'
             },
             shortcuts: {
@@ -142,9 +142,9 @@ module OpenProject
               href: 'https://community.openproject.com/projects/openproject/forums',
               label: 'homescreen.links.forums'
             },
-            professional_support: {
+            enterprise_support_as_community: {
               href: 'https://www.openproject.org/pricing/#support',
-              label: :label_professional_support
+              label: :label_enterprise_support
             },
             website: {
               href: 'https://www.openproject.org',
@@ -207,8 +207,8 @@ module OpenProject
             security_badge_documentation: {
               href: 'https://www.openproject.org/docs/system-admin-guide/information/#security-badge'
             },
-            display_settings_documentation: {
-              href: 'https://www.openproject.org/docs/system-admin-guide/system-settings/display-settings/'
+            date_format_settings_documentation: {
+              href: 'https://www.openproject.org/docs/system-admin-guide/calendars-and-dates/#date-format'
             },
             chargebee: {
               href: 'https://js.chargebee.com/v2/chargebee.js'
@@ -228,10 +228,31 @@ module OpenProject
             pricing: {
               href: 'https://www.openproject.org/pricing/'
             },
+            form_configuration: {
+              href: 'https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on'
+            },
+            attribute_highlighting: {
+              href: 'https://www.openproject.org/docs/user-guide/work-packages/work-package-table-configuration/#attribute-highlighting-enterprise-add-on'
+            },
+            boards: {
+              href: 'https://www.openproject.org/docs/user-guide/agile-boards/#action-boards-enterprise-add-on'
+            },
+            custom_field_projects: {
+              href: 'https://www.openproject.org/docs/system-admin-guide/custom-fields/custom-fields-projects/'
+            },
+            custom_field_multiselect: {
+              href: 'https://www.openproject.org/docs/system-admin-guide/custom-fields/#create-a-multi-select-custom-field'
+            },
+            status_read_only: {
+              href: 'https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-status/#create-a-new-work-package-status'
+            },
             storage_docs: {
               setup: {
                 href: 'https://www.openproject.org/docs/system-admin-guide/integrations/nextcloud/'
               }
+            },
+            ical_docs: {
+              href: 'https://www.openproject.org/docs/user-guide/calendar/#subscribe-to-a-calendar'
             }
           }
         end

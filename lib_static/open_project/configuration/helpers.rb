@@ -181,6 +181,10 @@ module OpenProject
         Integer(ENV['STATSD_PORT'].presence || statsd['port'].presence)
       end
 
+      def lookbook_enabled?
+        self['lookbook_enabled']
+      end
+
       private
 
       ##

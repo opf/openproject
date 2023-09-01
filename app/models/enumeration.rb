@@ -41,7 +41,7 @@ class Enumeration < ApplicationRecord
   validates :name,
             uniqueness: { scope: %i(type project_id),
                           case_sensitive: false }
-  validates :name, length: { maximum: 30 }
+  validates :name, length: { maximum: 256 }
 
   scope :shared, -> { where(project_id: nil) }
   scope :active, -> { where(active: true) }

@@ -30,6 +30,13 @@ module Admin::Settings
   class UsersSettingsController < ::Admin::SettingsController
     menu_item :user_settings
 
+    def show
+      @options = {}
+      @options[:user_format] = User::USER_FORMATS_STRUCTURE.keys.map { |f| [User.current.name(f), f.to_s] }
+
+      respond_to :html
+    end
+
     def default_breadcrumb
       t(:label_user_settings)
     end

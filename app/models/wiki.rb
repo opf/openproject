@@ -99,10 +99,7 @@ class Wiki < ApplicationRecord
       project = Project.find_by(identifier: project_identifier) || Project.find_by(name: project_identifier)
     end
     if project && project.wiki
-      page = project.wiki.find_page(title)
-      if page && page.content
-        page
-      end
+      project.wiki.find_page(title)
     end
   end
 

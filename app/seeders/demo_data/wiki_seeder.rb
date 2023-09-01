@@ -26,19 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 module DemoData
   class WikiSeeder < Seeder
-    attr_reader :project, :key
+    attr_reader :project, :project_data
 
-    def initialize(project, key)
+    def initialize(project, project_data)
+      super()
       @project = project
-      @key = key
+      @project_data = project_data
     end
 
     def seed_data!
-      text = project_data_for(key, 'wiki')
+      text = project_data.lookup('wiki')
 
-      return if text.is_a?(String) && text.start_with?("translation missing")
-
-      user = User.admin.first
+      return if text.blank?
 
       if text.is_a? String
         text = [{ title: "Wiki", content: text }]
@@ -49,34 +48,27 @@ module DemoData
       Array(text).each do |data|
         create_wiki_page!(
           data,
-          project:,
-          user:
+          project:
         )
       end
-
-      puts
     end
 
-    def create_wiki_page!(data, project:, user:, parent: nil)
-      wiki_page = WikiPage.create!(
+    def create_wiki_page!(data, project:, parent: nil)
+      WikiPage.create!(
         wiki: project.wiki,
         title: data[:title],
-        parent:
+        parent:,
+        author: admin_user,
+        text: data[:content]
       )
 
       print_status '.'
-      WikiContent.create!(
-        page: wiki_page,
-        author: user,
-        text: data[:content]
-      )
 
       if data[:children]
         Array(data[:children]).each do |child_data|
           create_wiki_page!(
             child_data,
             project:,
-            user:,
             parent: wiki_page
           )
         end

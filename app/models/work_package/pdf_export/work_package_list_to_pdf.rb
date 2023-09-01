@@ -28,27 +28,30 @@
 
 # Exporter for work package table.
 #
-# It can optionally export a work package with
-# - description, or with
-# - attached images, or with
-# - description and attached images.
+# It can optionally export a work package details list with
+# - title
+# - attribute table
+# - description with optional embedded images
 #
-# When exporting with attached images then the memory consumption can quickly
+# When exporting with embedded images then the memory consumption can quickly
 # grow beyond limits. Therefore we create multiple smaller PDFs that we finally
 # merge do one file.
 
-require 'mini_magick'
 require 'open3'
 
 class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::QueryExporter
   include WorkPackage::PDFExport::Common
-  include WorkPackage::PDFExport::Formattable
   include WorkPackage::PDFExport::Attachments
+  include WorkPackage::PDFExport::OverviewTable
+  include WorkPackage::PDFExport::SumsTable
+  include WorkPackage::PDFExport::WorkPackageDetail
+  include WorkPackage::PDFExport::TableOfContents
+  include WorkPackage::PDFExport::Page
+  include WorkPackage::PDFExport::Style
+  include WorkPackage::PDFExport::Cover
 
   attr_accessor :pdf,
                 :options
-
-  WORK_PACKAGES_PER_BATCH = 100
 
   def self.key
     :pdf
@@ -57,21 +60,20 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   def initialize(object, options = {})
     super
 
-    @cell_padding = options.delete(:cell_padding)
-    prepare_batch! if batch_supported?
+    @total_page_nr = nil
+    @page_count = 0
+    @work_packages_per_batch = 100
     setup_page!
   end
 
   def export!
-    return render_batched! if batch_supported?
-
     file = render_work_packages query.results.work_packages
     success(file)
   rescue Prawn::Errors::CannotFit
     error(I18n.t(:error_pdf_export_too_many_columns))
   rescue StandardError => e
-    Rails.logger.error { "Failed to generated PDF export: #{e} #{e.message}." }
-    error(I18n.t(:error_pdf_failed_to_export, error: e.message))
+    Rails.logger.error { "Failed to generated PDF export: #{e}." }
+    error(I18n.t(:error_pdf_failed_to_export, error: e.message[0..300]))
   end
 
   private
@@ -79,244 +81,168 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   def setup_page!
     self.pdf = get_pdf(current_language)
 
-    configure_page_size
-    configure_markup
+    configure_page_size!(wants_report? ? :portrait : :landscape)
   end
 
-  def prepare_batch!
-    total_wp_count = query.results.work_packages.count
-    @work_packages_per_batch = 100
-    @batches_count = total_wp_count.fdiv(@work_packages_per_batch).ceil
-    @batch_files = []
-    @page_count = -1
-  end
-
-  def render_batched!
-    (1..@batches_count).each do |batch_index|
-      @batch_files << run_batch!(batch_index)
+  def render_work_packages(work_packages, filename: "pdf_export")
+    @id_wp_meta_map, flat_list = build_meta_infos_map(work_packages)
+    file = render_work_packages_pdfs(flat_list, filename)
+    if wants_total_page_nrs?
+      @total_page_nr = @page_count
+      @page_count = 0
+      setup_page! # clear current pdf
+      file = render_work_packages_pdfs(flat_list, filename)
     end
-
-    merged_pdf_file = merge_pdfs
-
-    delete_tmp_files
-
-    success(merged_pdf_file)
+    file
   end
 
-  def on_first_render
+  def wants_total_page_nrs?
+    true
+  end
+
+  def with_cover?
+    wants_report?
+  end
+
+  def render_work_packages_pdfs(work_packages, filename)
+    write_cover_page! if with_cover?
     write_title!
-    write_headers!
+    write_work_packages_toc! work_packages, @id_wp_meta_map if wants_report?
+    write_work_packages_overview! work_packages unless wants_report?
+    write_work_packages_sums! work_packages if with_sums_table? && wants_report?
+    if should_be_batched?(work_packages)
+      render_batched(work_packages, filename)
+    else
+      render_pdf(work_packages, filename)
+    end
   end
 
-  def delete_tmp_files
-    @batch_files.each(&:delete)
+  def render_batched(work_packages, filename)
+    @batches_count = work_packages.length.fdiv(@work_packages_per_batch).ceil
+    batch_files = []
+    (0..(@batches_count - 1)).each do |batch_index|
+      batch_work_packages = work_packages.slice(batch_index * @work_packages_per_batch, @work_packages_per_batch)
+      unless batch_work_packages.nil?
+        batch_files.push render_pdf(batch_work_packages, "pdf_batch_#{batch_index}.pdf")
+        setup_page!
+      end
+    end
+    merge_batched_pdfs(batch_files, filename)
   end
 
-  def configure_page_size
-    pdf.options[:page_size] = 'EXECUTIVE'
-    pdf.options[:page_layout] = :landscape
-  end
+  def merge_batched_pdfs(batch_files, filename)
+    return batch_files[0] if batch_files.length == 1
 
-  def merge_pdfs
-    merged_pdf = Tempfile.new
+    merged_pdf = Tempfile.new(filename)
+
     # We use the command line tool "pdfunite" for concatenating the PDFs.
     # That tool comes with the system package "poppler-utils" which we
     # fortunately already have installed for text extraction purposes.
-    Open3.capture2e("pdfunite", *@batch_files.map(&:path), merged_pdf.path)
+    Open3.capture2e("pdfunite", *batch_files.map(&:path), merged_pdf.path)
 
     merged_pdf
   end
 
-  def run_batch!(batch_index)
-    first = batch_index == 1
+  def batch_supported?
+    return @batch_supported if defined?(@batch_supported)
 
-    # We need to clear the page after the first one
-    setup_page!
-
-    batch_file = render_work_packages(
-      work_packages_batch(batch_index),
-      first:,
-      filename: "pdf_batch_#{batch_index}"
-    ) do
-      write_footers!
-    end
-
-    @page_count += pdf.page_count
-    batch_file.close
-    batch_file
+    @batch_supported =
+      begin
+        _, status = Open3.capture2e('pdfunite', '-h')
+        status.success?
+      rescue StandardError => e
+        Rails.logger.error "Failed to test pdfunite version: #{e.message}"
+        false
+      end
   end
 
-  def render_work_packages(work_packages, first: true, filename: "pdf_export")
-    @resized_image_paths = []
-
-    on_first_render if first
-    write_work_packages! work_packages
-
-    yield if block_given?
-
+  def render_pdf(work_packages, filename)
+    write_work_packages_details!(work_packages, @id_wp_meta_map) if wants_report?
+    write_after_pages!
     file = Tempfile.new(filename)
     pdf.render_file(file.path)
-
+    @page_count += pdf.page_count
     delete_all_resized_images
-
+    file.close
     file
+  end
+
+  def write_after_pages!
+    write_headers!
+    write_footers!
+  end
+
+  def init_meta_infos_map_nodes(work_packages)
+    infos_map = {}
+    work_packages.each do |work_package|
+      infos_map[work_package.id] = { level_path: [], level: 0, children: [], work_package: }
+    end
+    infos_map
+  end
+
+  def link_meta_infos_map_nodes(infos_map, work_packages)
+    work_packages.reject { |wp| wp.parent_id.nil? }.each do |work_package|
+      parent = infos_map[work_package.parent_id]
+      infos_map[work_package.id][:parent] = parent
+      parent[:children].push(infos_map[work_package.id]) if parent
+    end
+    infos_map
+  end
+
+  def fill_meta_infos_map_nodes(node, level_path, flat_list)
+    node[:level_path] = level_path
+    flat_list.push(node[:work_package]) unless node[:work_package].nil?
+    index = 1
+    node[:children].each do |sub|
+      fill_meta_infos_map_nodes(sub, level_path + [index], flat_list)
+      index += 1
+    end
+  end
+
+  def build_flat_meta_infos_map(work_packages)
+    infos_map = {}
+    work_packages.each_with_index do |work_package, index|
+      infos_map[work_package.id] = { level_path: [index + 1], level: 0, children: [], work_package: }
+    end
+    [infos_map, work_packages.to_a]
+  end
+
+  def build_meta_infos_map(work_packages)
+    return build_flat_meta_infos_map(work_packages) unless query.show_hierarchies
+
+    # build a quick access map for the hierarchy tree
+    infos_map = init_meta_infos_map_nodes work_packages
+    # connect parent and children (only wp available in the query)
+    infos_map = link_meta_infos_map_nodes infos_map, work_packages
+    # recursive travers creating level index path e.g. [1, 2, 1] from root nodes
+    root_nodes = infos_map.values.select { |node| node[:parent].nil? }
+    flat_list = []
+    fill_meta_infos_map_nodes({ children: root_nodes }, [], flat_list)
+    [infos_map, flat_list]
+  end
+
+  def should_be_batched?(work_packages)
+    batch_supported? && wants_report? && with_images? && (work_packages.length > @work_packages_per_batch)
   end
 
   def project
     query.project
   end
 
-  def write_title!
-    pdf.title = heading
-    pdf.font style: :bold, size: 11
-    pdf.text heading
-    pdf.move_down 20
-  end
-
   def title
-    "#{heading}.pdf"
+    # <project>_<querytitle>_<YYYY-MM-DD>_<HH-MM>.pdf
+    build_pdf_filename(project ? "#{project}_#{heading}" : heading)
   end
 
   def heading
-    title = query.new_record? ? I18n.t(:label_work_package_plural) : query.name
-
-    if project
-      "#{project} - #{title}"
-    else
-      title
-    end
+    query.name || I18n.t(:label_work_package_plural)
   end
 
-  def write_footers!
-    @page_count += 1
-    pdf.number_pages format_date(Date.today),
-                     at: [pdf.bounds.left, 0],
-                     style: :italic
-
-    pdf.number_pages "<page>",
-                     start_count_at: @page_count,
-                     at: [pdf.bounds.right - 25, 0],
-                     style: :italic
+  def footer_title
+    heading
   end
 
-  def column_widths
-    widths = column_objects.map do |col|
-      if col.name == :subject || text_column?(col)
-        4.0
-      else
-        1.0
-      end
-    end
-    ratio = pdf.bounds.width / widths.sum
-
-    widths.map { |w| w * ratio }
-  end
-
-  def formattable_colspan
-    column_objects.size
-  end
-
-  def text_column?(column)
-    column.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn) &&
-      %w(string text).include?(column.custom_field.field_format)
-  end
-
-  def write_headers!
-    pdf.font style: :normal, size: 8
-    pdf.table([data_headers], column_widths:)
-  end
-
-  def data_headers
-    column_objects.map(&:caption).map do |caption|
-      pdf.make_cell caption, font_style: :bold, background_color: 'CCCCCC'
-    end
-  end
-
-  def write_work_packages!(work_packages)
-    pdf.font style: :normal, size: 8
-    previous_group = nil
-
-    work_packages.each do |work_package|
-      previous_group = write_group_header!(work_package, previous_group)
-
-      write_attributes!(work_package)
-
-      if options[:show_descriptions]
-        write_formattable! work_package,
-                           markdown: work_package.description,
-                           label: WorkPackage.human_attribute_name(:description)
-      end
-
-      if options[:show_attachments] && work_package.attachments.exists?
-        write_attachments!(work_package)
-      end
-    end
-  end
-
-  def work_packages_batch(batch_index)
-    query
-      .results
-      .work_packages
-      .page(batch_index)
-      .per_page(@work_packages_per_batch)
-  end
-
-  def write_attributes!(work_package)
-    values = columns.map do |column|
-      make_column_value work_package, column[:name]
-    end
-
-    pdf.table([values], column_widths:)
-  end
-
-  def write_attachments!(work_package)
-    attachments = make_attachments_cells(work_package.attachments)
-
-    pdf.table([attachments], width: pdf.bounds.width) if attachments.any?
-  end
-
-  def write_group_header!(work_package, previous_group)
-    if query.grouped? && (group = query.group_by_column.value(work_package)) != previous_group
-      label = make_group_label(group)
-      group_cell = pdf.make_cell(label,
-                                 font_style: :bold,
-                                 colspan: column_objects.size,
-                                 background_color: 'DDDDDD')
-
-      pdf.table([[group_cell]], column_widths:)
-
-      group
-    else
-      previous_group
-    end
-  end
-
-  def make_column_value(work_package, column)
-    formatter = formatter_for(column)
-
-    pdf.make_cell formatter.format(work_package),
-                  padding: cell_padding
-  end
-
-  def make_group_label(group)
-    if group.blank?
-      I18n.t(:label_none_parentheses)
-    elsif group.is_a? Array
-      group.join(', ')
-    else
-      group.to_s
-    end
-  end
-
-  def batch_supported?
-    return @batch_supported if defined?(@batch_supported)
-
-    @batch_supported = begin
-      _, status = Open3.capture2e('pdfunite', '-h')
-      status.success?
-    rescue StandardError => e
-      Rails.logger.error "Failed to test pdfunite version: #{e.message}"
-      false
-    end
+  def with_images?
+    options[:show_images]
   end
 end

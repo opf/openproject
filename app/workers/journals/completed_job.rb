@@ -39,7 +39,7 @@ class Journals::CompletedJob < ApplicationJob
 
     def aggregated_event(journal)
       case journal.journable_type
-      when WikiContent.name
+      when WikiPage.name
         OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY
       when WorkPackage.name
         OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY

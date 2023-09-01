@@ -117,12 +117,12 @@ module AuthSourceSSO
   def find_user_from_auth_source(login)
     User
       .by_login(login)
-      .where.not(auth_source_id: nil)
+      .where.not(ldap_auth_source_id: nil)
       .first
   end
 
   def create_user_from_auth_source(login, save:)
-    attrs = AuthSource.find_user(login)
+    attrs = LdapAuthSource.find_user(login)
     return unless attrs
 
     attrs[:login] = login
@@ -143,7 +143,7 @@ module AuthSourceSSO
     call.on_success do
       logger.info(
         "User '#{user.login}' created from external auth source: " +
-          "#{user.auth_source.type} - #{user.auth_source.name}"
+          "#{user.ldap_auth_source.type} - #{user.ldap_auth_source.name}"
       )
     end
 

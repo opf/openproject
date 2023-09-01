@@ -23,9 +23,7 @@ class PermittedParams
       keys = Settings::Definition.all.keys
 
       restrictions.select(&:applicable?).each do |restriction|
-        restricted_keys = restriction.restricted_keys
-
-        keys.delete_if { |key| restricted_keys.include? key }
+        keys -= restriction.restricted_keys
       end
 
       keys
@@ -56,7 +54,7 @@ class PermittedParams
 
       add_restriction!(
         keys: %i(registration_footer),
-        condition: -> { OpenProject::Configuration.registration_footer.present? }
+        condition: -> { !Setting.registration_footer_writable? }
       )
     end
 

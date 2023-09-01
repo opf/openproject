@@ -20,6 +20,14 @@ OpenProject::Inflector.rule do |basename, abspath|
     "#{default_inflect($1, abspath)}API"
   when 'api'
     'API'
+  when /(.*)_ical_(.*)/i
+    "#{default_inflect($1, abspath)}ICal#{default_inflect($2, abspath)}"
+  when /\Aical_(.*)\z/
+    "ICal#{default_inflect($1, abspath)}"
+  when /\A(.*)_ical\z/
+    "#{default_inflect($1, abspath)}ICal"
+  when 'ical'
+    'ICal'
   when /\Aar_(.*)\z/
     "AR#{default_inflect($1, abspath)}"
   when /\Aoauth_(.*)\z/
@@ -53,7 +61,8 @@ OpenProject::Inflector.inflection(
   'pop3' => 'POP3',
   'cors' => 'CORS',
   'openid_connect' => 'OpenIDConnect',
-  'pdf_export' => 'PDFExport'
+  'pdf_export' => 'PDFExport',
+  'ical' => 'ICal'
 )
 
 Rails.autoloaders.each do |autoloader|

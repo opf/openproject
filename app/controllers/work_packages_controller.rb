@@ -45,7 +45,7 @@ class WorkPackagesController < ApplicationController
     respond_to do |format|
       format.html do
         render :index,
-               locals: { query: @query, project: @project, menu_name: project_or_wp_query_menu },
+               locals: { query: @query, project: @project, menu_name: project_or_global_menu },
                layout: 'angular/angular'
       end
 
@@ -63,7 +63,7 @@ class WorkPackagesController < ApplicationController
     respond_to do |format|
       format.html do
         render :show,
-               locals: { work_package:, menu_name: project_or_wp_query_menu },
+               locals: { work_package:, menu_name: project_or_global_menu },
                layout: 'angular/angular'
       end
 
@@ -145,7 +145,8 @@ class WorkPackagesController < ApplicationController
   end
 
   def load_and_validate_query
-    @query ||= retrieve_query
+    @query ||= retrieve_query(@project)
+    @query.name = params[:title] if params[:title].present?
 
     unless @query.valid?
       # Ensure outputting an html response

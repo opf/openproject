@@ -40,9 +40,13 @@ module Redmine
     def self.all_languages
       @@all_languages ||= Rails.root.glob('config/locales/**/*.yml')
           .map { |f| f.basename.to_s.split('.').first }
-          .reject! { |l| /\Ajs-/.match(l.to_s) }
+          .reject! { |l| l.start_with?('js-') }
           .uniq
-          .map(&:to_sym)
+          .sort
+    end
+
+    def self.valid_languages
+      all_languages & (Setting.available_languages + [Setting.default_language])
     end
 
     def l_or_humanize(s, options = {})
@@ -152,7 +156,7 @@ module Redmine
     end
 
     def valid_languages
-      all_languages & Setting.available_languages.map(&:to_sym)
+      Redmine::I18n.valid_languages
     end
 
     def all_languages

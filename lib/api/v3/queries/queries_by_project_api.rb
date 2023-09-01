@@ -42,8 +42,7 @@ module API
 
           namespace :default do
             get do
-              query = Query.new_default(name: 'default',
-                                        user: current_user,
+              query = Query.new_default(user: current_user,
                                         project: @project)
 
               query_representer_response(query, params)

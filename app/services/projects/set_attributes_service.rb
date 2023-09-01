@@ -31,12 +31,9 @@ module Projects
     private
 
     def set_attributes(params)
-      attributes = params.dup
-      status_attributes = attributes.delete(:status) || {}
+      ret = super(params.except(:status_code))
 
-      ret = super(attributes)
-
-      update_status(status_attributes)
+      set_status_code(params[:status_code]) if status_code_provided?(params)
 
       ret
     end
@@ -71,41 +68,29 @@ module Projects
         .distinct
     end
 
-    def update_status(attributes)
-      with_hack_around_faulty_enum(attributes) do |safe_attributes|
-        if model.status
-          model.status.attributes = safe_attributes
-        else
-          model.build_status(safe_attributes)
-        end
-      end
+    def status_code_provided?(params)
+      params.key?(:status_code)
     end
 
-    # Hack around ArgumentError on faulty enum values
-    # https://github.com/rails/rails/issues/13971
-    def with_hack_around_faulty_enum(attributes)
-      faulty_code = if faulty_code?(attributes)
-                      attributes.delete(:code)
-                    end
-
-      yield(attributes)
-
-      if faulty_code
+    def set_status_code(status_code)
+      if faulty_code?(status_code)
         # set an arbitrary status code first to get rails internal into correct state
-        model.status.code = first_not_set_code
+        model.status_code = first_not_set_code
         # hack into rails internals to set faulty code
-        code_attributes = model.status.instance_variable_get(:@attributes)['code']
-        code_attributes.instance_variable_set(:@value_before_type_cast, faulty_code)
-        code_attributes.instance_variable_set(:@value, faulty_code)
+        code_attributes = model.instance_variable_get(:@attributes)['status_code']
+        code_attributes.instance_variable_set(:@value_before_type_cast, status_code)
+        code_attributes.instance_variable_set(:@value, status_code)
+      else
+        model.status_code = status_code
       end
     end
 
-    def faulty_code?(attributes)
-      attributes && attributes[:code] && Projects::Status.codes.keys.exclude?(attributes[:code].to_s)
+    def faulty_code?(status_code)
+      status_code && Project.status_codes.keys.exclude?(status_code.to_s)
     end
 
     def first_not_set_code
-      (Projects::Status.codes.keys - [model.status.code]).first
+      (Project.status_codes.keys - [model.status_code]).first
     end
   end
 end

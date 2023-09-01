@@ -72,13 +72,16 @@ module API
 
           def eager_loader_classes_all
             [
-              ::API::V3::WorkPackages::EagerLoading::HistoricAttributes,
               ::API::V3::WorkPackages::EagerLoading::Hierarchy,
               ::API::V3::WorkPackages::EagerLoading::Ancestor,
               ::API::V3::WorkPackages::EagerLoading::Project,
               ::API::V3::WorkPackages::EagerLoading::Checksum,
               ::API::V3::WorkPackages::EagerLoading::CustomValue,
-              ::API::V3::WorkPackages::EagerLoading::CustomAction
+              ::API::V3::WorkPackages::EagerLoading::CustomAction,
+              # Have the historic attributes last as they require the custom values
+              # to be loaded first in order to create the diffs between the current
+              # and the historic values without loading the custom fields (JournableDiffer).
+              ::API::V3::WorkPackages::EagerLoading::HistoricAttributes
             ]
           end
 

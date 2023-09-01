@@ -37,8 +37,6 @@ class MembersController < ApplicationController
   search_for User, :search_in_project
   search_options_for User, lambda { |*| { project: @project } }
 
-  include CellsHelper
-
   def index
     set_index_data!
   end
@@ -131,13 +129,13 @@ class MembersController < ApplicationController
       project: @project,
       available_roles: roles,
       authorize_update: authorize_for('members', 'update'),
-      is_filtered: Members::UserFilterCell.filtered?(params)
+      is_filtered: Members::UserFilterComponent.filtered?(params)
     }
   end
 
   def members_filter_options(roles)
     groups = Group.all.sort
-    status = Members::UserFilterCell.status_param(params)
+    status = Members::UserFilterComponent.status_param(params)
 
     {
       groups:,
@@ -149,7 +147,7 @@ class MembersController < ApplicationController
   end
 
   def suggest_invite_via_email?(user, query, principals)
-    user.allowed_to_globally?(:manage_user) &&
+    user.allowed_to_globally?(:create_user) &&
       query =~ mail_regex &&
       principals.none? { |p| p.mail == query || p.login == query } &&
       query # finally return email
@@ -184,13 +182,13 @@ class MembersController < ApplicationController
     filters = params.slice(:name, :group_id, :role_id, :status)
     filters[:project_id] = @project.id.to_s
 
-    @members_query = Members::UserFilterCell.query(filters)
+    @members_query = Members::UserFilterComponent.query(filters)
   end
 
   def create_members
     overall_result = nil
 
-    with_new_member_params do |member_params|
+    each_new_member_param do |member_params|
       service_call = Members::CreateService
                        .new(user: current_user)
                        .call(member_params)
@@ -205,7 +203,7 @@ class MembersController < ApplicationController
     overall_result
   end
 
-  def with_new_member_params
+  def each_new_member_param
     user_ids = user_ids_for_new_members(params[:member])
 
     group_ids = Group.where(id: user_ids).pluck(:id)
@@ -224,8 +222,8 @@ class MembersController < ApplicationController
   def invite_new_users(user_ids)
     user_ids.map do |id|
       if id.to_i == 0 && id.present? # we've got an email - invite that user
-        # Only users with the manage_member permission can add users.
-        if current_user.allowed_to_globally?(:manage_user)
+        # Only users with the create_user permission can add users.
+        if current_user.allowed_to_globally?(:create_user)
           # The invitation can pretty much only fail due to the user already
           # having been invited. So look them up if it does.
           user = UserInvitation.invite_new_user(email: id) ||
@@ -276,7 +274,7 @@ class MembersController < ApplicationController
   end
 
   def no_create_errors?(members)
-    members.present? && members.map(&:errors).select(&:any?).empty?
+    members.present? && members.map(&:errors).none?(&:any?)
   end
 
   def sort_by_groups_last(members)

@@ -37,14 +37,17 @@ class Query < ApplicationRecord
   belongs_to :user
   has_many :views,
            dependent: :destroy
+  has_many :ical_token_query_assignments
+  has_many :ical_tokens,
+           through: :ical_token_query_assignments,
+           class_name: 'Token::ICal'
+  # no `dependent: :destroy` as the ical_tokens are destroyed in the following before_destroy callback
+  # dependent: :destroy is not possible as this would only delete the ical_token_query_assignments
+  before_destroy :destroy_ical_tokens
 
   serialize :filters, Queries::WorkPackages::FilterSerializer
   serialize :column_names, Array
   serialize :sort_criteria, Array
-
-  validates :name,
-            presence: true,
-            length: { maximum: 255 }
 
   validates :include_subprojects,
             inclusion: [true, false]
@@ -54,6 +57,7 @@ class Query < ApplicationRecord
   validate :validate_sort_criteria
   validate :validate_group_by
   validate :validate_show_hierarchies
+  validate :validate_timestamps
 
   include Scopes::Scoped
   scopes :visible,
@@ -142,6 +146,13 @@ class Query < ApplicationRecord
     end
   end
 
+  def validate_timestamps
+    forbidden_timestamps = timestamps - allowed_timestamps
+    if forbidden_timestamps.any?
+      errors.add :timestamps, :forbidden, values: forbidden_timestamps.join(", ")
+    end
+  end
+
   def hidden
     views.empty?
   end
@@ -166,6 +177,7 @@ class Query < ApplicationRecord
     valid_group_by_subset!
     valid_sort_criteria_subset!
     valid_column_subset!
+    valid_timestamps_subset!
   end
 
   def add_filter(field, operator, values)
@@ -183,6 +195,14 @@ class Query < ApplicationRecord
     filter.context = self
 
     filter
+  end
+
+  # Removes the filter with the given name
+  # from the query without persisting the change.
+  #
+  # @param [String] name the filter to remove
+  def remove_filter(name)
+    filters.delete_if { |f| f.field.to_s == name.to_s }
   end
 
   def normalized_name
@@ -251,7 +271,7 @@ class Query < ApplicationRecord
     column_list = if has_default_columns?
                     column_list = Setting.work_package_list_default_columns.dup.map(&:to_sym)
                     # Adds the project column by default for cross-project lists
-                    column_list += [:project] if project.nil? && !column_list.include?(:project)
+                    column_list += [:project] if project.nil? && column_list.exclude?(:project)
                     column_list
                   else
                     column_names
@@ -275,7 +295,7 @@ class Query < ApplicationRecord
   end
 
   def has_column?(column)
-    column_names && column_names.include?(column.name)
+    column_names&.include?(column.name)
   end
 
   def has_default_columns?
@@ -416,6 +436,10 @@ class Query < ApplicationRecord
     end
   end
 
+  def allowed_timestamps
+    Timestamp.allowed(timestamps)
+  end
+
   def valid_filter_subset!
     filters.each(&:valid_values!).select! do |filter|
       filter.available? && filter.valid?
@@ -440,5 +464,15 @@ class Query < ApplicationRecord
     available_names = displayable_columns.map(&:name).map(&:to_sym)
 
     self.column_names &= available_names
+  end
+
+  def valid_timestamps_subset!
+    self.timestamps &= allowed_timestamps
+  end
+
+  # dependent::destroy does not work for has_many :through associations
+  # only the ical_token_query_assignments would be destroyed
+  def destroy_ical_tokens
+    ical_tokens.each(&:destroy)
   end
 end

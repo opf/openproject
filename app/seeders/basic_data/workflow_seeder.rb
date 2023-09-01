@@ -27,63 +27,51 @@
 #++
 module BasicData
   class WorkflowSeeder < Seeder
+    self.needs = [
+      BasicData::RoleSeeder,
+      BasicData::StatusSeeder,
+      BasicData::TypeSeeder
+    ]
+
     def seed_data!
-      colors = Color.all
-      colors = colors.map { |c| { c.name => c.id } }.reduce({}, :merge)
-
-      if WorkPackage.where(type_id: nil).any? || Journal::WorkPackageJournal.where(type_id: nil).any?
-        # Fixes work packages that do not have a type yet. They receive the standard type.
-        #
-        # This can happen when an existing database, having timelines planning elements,
-        # gets migrated. During the migration, the existing planning elements are converted
-        # to work_packages. Because the existence of a standard type cannot be guaranteed
-        # during the migration, such work packages receive a type_id of nil.
-        #
-        # Because all work packages that do not have a type yet should always have had one
-        # (from todays standpoint). The assignment is done covertedly.
-
-        WorkPackage.transaction do
-          green_color = colors[I18n.t(:default_color_green_light)]
-          standard_type = Type.find_or_create_by(is_standard: true,
-                                                 name: 'none',
-                                                 position: 0,
-                                                 color_id: green_color,
-                                                 is_default: true,
-                                                 is_in_roadmap: true,
-                                                 is_milestone: false)
-
-          [WorkPackage, Journal::WorkPackageJournal].each do |klass|
-            klass.where(type_id: nil).update_all(type_id: standard_type.id)
-          end
-        end
-      end
-
-      if Type.where(is_standard: false).any? || Status.any? || Workflow.any?
-        puts '   *** Skipping types, statuses and workflows as there are already some configured'
-      elsif Role.where(name: I18n.t(:default_role_member)).empty? ||
-            Role.where(name: I18n.t(:default_role_project_admin)).empty?
-
-        puts '   *** Skipping types, statuses and workflows as the required roles do not exist'
+      if any_types_or_statuses_or_workflows_already_configured?
+        print_status '   *** Skipping types, statuses and workflows as there are already some configured'
       else
-        member = Role.where(name: I18n.t(:default_role_member)).first
-        manager = Role.where(name: I18n.t(:default_role_project_admin)).first
+        seed_statuses
+        seed_types
+        seed_workflows
+      end
+    end
 
-        puts '   ↳ Types'
-        type_seeder_class.new.seed!
+    private
 
-        puts '   ↳ Statuses'
-        status_seeder_class.new.seed!
+    def any_types_or_statuses_or_workflows_already_configured?
+      Type.where(is_standard: false).any? || Status.any? || Workflow.any?
+    end
 
-        # Workflow - Each type has its own workflow
-        workflows.each do |type_id, statuses_for_type|
-          statuses_for_type.each do |old_status|
-            statuses_for_type.each do |new_status|
-              [manager.id, member.id].each do |role_id|
-                Workflow.create type_id:,
-                                role_id:,
-                                old_status_id: old_status.id,
-                                new_status_id: new_status.id
-              end
+    def seed_statuses
+      print_status '   ↳ Statuses'
+      BasicData::StatusSeeder.new(seed_data).seed!
+    end
+
+    def seed_types
+      print_status '   ↳ Types'
+      BasicData::TypeSeeder.new(seed_data).seed!
+    end
+
+    def seed_workflows
+      member = seed_data.find_reference(:default_role_member)
+      project_admin = seed_data.find_reference(:default_role_project_admin)
+
+      # Workflow - Each type has its own workflow
+      workflows.each do |type, statuses|
+        statuses.each do |old_status|
+          statuses.each do |new_status|
+            [member, project_admin].each do |role|
+              Workflow.create type:,
+                              role:,
+                              old_status:,
+                              new_status:
             end
           end
         end
@@ -91,15 +79,11 @@ module BasicData
     end
 
     def workflows
-      raise NotImplementedError
-    end
-
-    def type_seeder_class
-      raise NotImplementedError
-    end
-
-    def status_seeder_class
-      raise NotImplementedError
+      seed_data.lookup(:workflows).map do |workflow_data|
+        type = seed_data.find_reference(workflow_data['type'])
+        statuses = seed_data.find_references(workflow_data['statuses'])
+        [type, statuses]
+      end
     end
   end
 end

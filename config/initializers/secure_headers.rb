@@ -28,10 +28,14 @@ Rails.application.config.after_initialize do
     default_src = %w('self') + OpenProject::Configuration.remote_storage_hosts
 
     # Allow requests to CLI in dev mode
-    connect_src = default_src
+    connect_src = default_src + [OpenProject::Configuration.enterprise_trial_creation_host]
 
     # Rules for media (e.g. video sources)
     media_src = default_src
+
+    if OpenProject::Configuration.appsignal_frontend_key
+      connect_src += ['https://appsignal-endpoint.net']
+    end
 
     # Add proxy configuration for Angular CLI to csp
     if FrontendAssetHelper.assets_proxied?

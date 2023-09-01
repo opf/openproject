@@ -106,6 +106,10 @@ module API
           index :activity
           show :activity
 
+          def self.api_spec
+            "#{root}/spec.json"
+          end
+
           index :attachment
           show :attachment
 
@@ -327,6 +331,10 @@ module API
 
           def self.query_order(id)
             "#{query(id)}/order"
+          end
+
+          def self.query_ical_url(id)
+            "#{query(id)}/ical_url"
           end
 
           def self.query_column(name)
@@ -551,7 +559,7 @@ module API
           end
 
           def self.timestamps_to_param_value(timestamps)
-            Array(timestamps).map { |timestamp| Timestamp.parse(timestamp).absolute.iso8601 }.join(",")
+            Array(timestamps).map { |timestamp| Timestamp.parse(timestamp).absolute }.join(",")
           end
 
           def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil,
@@ -585,14 +593,6 @@ module API
             root_url = OpenProject::StaticRouting::StaticUrlHelpers.new.root_url
 
             root_url.gsub(duplicate_regexp, '') + send(path, arguments)
-          end
-
-          def self.join_uri_path(uri, *parts)
-            # We use `File.join` to ensure single `/` in between every part. This API will break if executed on a
-            # Windows context, as it used `\` as file separators. But we anticipate that OpenProject
-            # Server is not run on a Windows context.
-            # URI::join cannot be used, as it behaves very different for the path parts depending on trailing slashes.
-            File.join(uri.to_s, *parts)
           end
         end
 

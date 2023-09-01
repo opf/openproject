@@ -29,6 +29,7 @@
 require 'digest/sha1'
 
 class User < Principal
+  CURRENT_USER_LOGIN_ALIAS = 'me'.freeze
   USER_FORMATS_STRUCTURE = {
     firstname_lastname: %i[firstname lastname],
     firstname: [:firstname],
@@ -54,7 +55,13 @@ class User < Principal
      inverse_of: :user
   has_one :rss_token, class_name: '::Token::RSS', dependent: :destroy
   has_one :api_token, class_name: '::Token::API', dependent: :destroy
-  belongs_to :auth_source, optional: true
+
+  # everytime a user subscribes to a calendar, a new ical_token is generated
+  # unlike on other token types, all previously generated ical_tokens are kept
+  # in order to keep all previously generated ical urls valid and usable
+  has_many :ical_tokens, class_name: '::Token::ICal', dependent: :destroy
+
+  belongs_to :ldap_auth_source, optional: true
 
   # Authorized OAuth grants
   has_many :oauth_grants,
@@ -128,7 +135,7 @@ class User < Principal
   auto_strip_attributes :login, nullify: false
   auto_strip_attributes :mail, nullify: false
 
-  validate :login_is_not_special_value
+  validate :login_is_not_aliased_value
   validate :password_meets_requirements
 
   after_save :update_password
@@ -150,7 +157,7 @@ class User < Principal
 
   # create new password if password was set
   def update_password
-    if password && auth_source_id.blank?
+    if password && ldap_auth_source_id.blank?
       new_password = passwords.build(type: UserPassword.active_type.to_s)
       new_password.plain_password = password
       new_password.save
@@ -204,9 +211,9 @@ class User < Principal
 
     return nil if !user.active? || OpenProject::Configuration.disable_password_login?
 
-    if user.auth_source
+    if user.ldap_auth_source
       # user has an external authentication method
-      return nil unless user.auth_source.authenticate(user.login, password)
+      return nil unless user.ldap_auth_source.authenticate(user.login, password)
     else
       # authentication with local password
       return nil unless user.check_password?(password)
@@ -233,7 +240,7 @@ class User < Principal
   def self.try_authentication_and_create_user(login, password)
     return nil if OpenProject::Configuration.disable_password_login?
 
-    attrs = AuthSource.authenticate(login, password)
+    attrs = LdapAuthSource.authenticate(login, password)
     return unless attrs
 
     call = Users::CreateService
@@ -319,8 +326,8 @@ class User < Principal
   # If +update_legacy+ is set, will automatically save legacy passwords using the current
   # format.
   def check_password?(clear_password, update_legacy: true)
-    if auth_source_id.present?
-      auth_source.authenticate(login, clear_password)
+    if ldap_auth_source.present?
+      ldap_auth_source.authenticate(login, clear_password)
     else
       return false if current_password.nil?
 
@@ -332,9 +339,8 @@ class User < Principal
   def change_password_allowed?
     return false if uses_external_authentication? ||
                     OpenProject::Configuration.disable_password_login?
-    return true if auth_source_id.blank?
 
-    auth_source.allow_password_changes?
+    ldap_auth_source_id.blank?
   end
 
   # Is the user authenticated via an external authentication source via OmniAuth?
@@ -578,9 +584,9 @@ class User < Principal
 
   protected
 
-  # Login must not be special value 'me'
-  def login_is_not_special_value
-    if login.present? && login == 'me'
+  # Login must not be aliased value 'me'
+  def login_is_not_aliased_value
+    if login.present? && login.to_s == CURRENT_USER_LOGIN_ALIAS
       errors.add(:login, :invalid)
     end
   end

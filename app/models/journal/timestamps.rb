@@ -70,9 +70,7 @@ module Journal::Timestamps
       timestamp = timestamp.to_time if timestamp.kind_of? Timestamp
       timestamp = timestamp.in_time_zone if timestamp.kind_of? DateTime
 
-      where(id: where(created_at: (..timestamp)) \
-          .select("distinct on (journable_type, journable_id) id") \
-          .reorder(:journable_type, :journable_id, created_at: :desc))
+      where(['validity_period @> timestamp with time zone ?', timestamp])
     end
   end
 end

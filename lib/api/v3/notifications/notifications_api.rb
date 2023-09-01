@@ -60,7 +60,7 @@ module API
             end
           end
 
-          get &::API::V3::Utilities::Endpoints::Index
+          get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex
             .new(model: Notification, scope: -> { notification_scope })
             .mount
 

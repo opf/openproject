@@ -26,86 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 module BasicData
-  class TypeSeeder < Seeder
-    def seed_data!
-      Type.transaction do
-        data.each do |attributes|
-          Type.create!(attributes)
-        end
-      end
-    end
+  class TypeSeeder < ModelSeeder
+    self.model_class = Type
+    self.seed_data_model_key = 'types'
+    self.needs = [
+      BasicData::ColorSeeder,
+      BasicData::ColorSchemeSeeder
+    ]
 
-    def applicable
-      Type.all.any?
-    end
-
-    def not_applicable_message
-      'Skipping types - already exists/configured'
-    end
-
-    ##
-    # Returns the data of all types to seed.
-    #
-    # @return [Array<Hash>] List of attributes for each type.
-    def data
-      colors = Color.pluck(:name, :id).to_h
-
-      type_table.map do |_name, (position, is_default, color_name, is_in_roadmap, is_milestone, type_name)|
-        {
-          name: I18n.t(type_name),
-          position:,
-          is_default:,
-          color_id: colors.fetch(color_name),
-          is_in_roadmap:,
-          is_milestone:,
-          description: type_description(type_name)
-        }
-      end
-    end
-
-    def type_names
-      raise NotImplementedError
-    end
-
-    def type_table
-      raise NotImplementedError
-    end
-
-    def type_description(type_name)
-      return '' if demo_data_for('type_configuration').nil?
-
-      demo_data_for('type_configuration').each do |entry|
-        if entry[:type] && I18n.t(entry[:type]) === I18n.t(type_name)
-          return entry[:description] || ''
-        else
-          return ''
-        end
-      end
-    end
-
-    def set_attribute_groups_for_type(type)
-      return if demo_data_for('type_configuration').nil?
-
-      demo_data_for('type_configuration').each do |entry|
-        if entry[:form_configuration] && I18n.t(entry[:type]) === type.name
-
-          entry[:form_configuration].each do |form_config_attr|
-            groups = type.default_attribute_groups
-            query_association = 'query_' + find_query_by_name(form_config_attr[:query_name]).to_s
-            groups.unshift([form_config_attr[:group_name], [query_association.to_sym]])
-
-            type.attribute_groups = groups
-          end
-
-          type.save!
-        end
-      end
-    end
-
-    private
-
-    def find_query_by_name(name)
-      Query.find_by(name:).id
+    def model_attributes(type_data)
+      {
+        name: type_data['name'],
+        description: '',
+        is_default: true?(type_data['is_default']),
+        color_id: color_id(type_data['color_name']),
+        is_in_roadmap: true?(type_data['is_in_roadmap']),
+        is_milestone: true?(type_data['is_milestone']),
+        position: type_data['position']
+      }
     end
   end
 end

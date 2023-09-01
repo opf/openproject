@@ -128,9 +128,7 @@ class CustomFieldsController < ApplicationController
   end
 
   def get_custom_field_params
-    custom_field_params = permitted_params.custom_field
-
-    custom_field_params
+    permitted_params.custom_field
   end
 
   def find_custom_option

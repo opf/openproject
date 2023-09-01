@@ -65,7 +65,7 @@ module API::V3::WorkPackages::EagerLoading
     # work package of the collection (the full path could then be e.g. _embedded/elements/5/_embedded/attributesAtTimestamp)
     #
     # Attributes are:
-    #   * those associated with the timestamp functionality, e.g. the whether the work package existed.
+    #   * those associated with the timestamp functionality, e.g. whether the work package existed.
     #   * the timestamp the work package is at. Mostly necessary in case the work package did not exist at that time as a
     #     stand-in work package is created in this case.
     #   * stand-in blank values for custom values/fields which are currently not used and thus do not need to be loaded.
@@ -105,7 +105,7 @@ module API::V3::WorkPackages::EagerLoading
     end
 
     def override_attributes(work_package, source)
-      work_package.attributes = source.attributes.except('timestamp')
+      work_package.attributes = source.attributes.except('timestamp', 'journal_id')
       work_package.clear_changes_information
       work_package.readonly!
     end
@@ -114,6 +114,7 @@ module API::V3::WorkPackages::EagerLoading
       work_package.matches_filters_at_timestamp = source.matches_query_filters_at_timestamps.include?(timestamp)
       work_package.exists_at_timestamp = source.exists_at_timestamps.include?(timestamp)
       work_package.attributes_changed_to_baseline = source.changed_at_timestamp(timestamp)
+      work_package.exists_at_current_timestamp = source.exists_at_timestamps.include?(source.current_timestamp)
       work_package.with_query = source.query.present?
     end
   end
@@ -127,10 +128,12 @@ module API::V3::WorkPackages::EagerLoading
 
       attr_writer :with_query,
                   :exists_at_timestamp,
-                  :matches_filters_at_timestamp
+                  :matches_filters_at_timestamp,
+                  :exists_at_current_timestamp
 
       def with_query?; @with_query; end
       def exists_at_timestamp?; @exists_at_timestamp; end
+      def exists_at_current_timestamp?; @exists_at_current_timestamp; end
       def matches_filters_at_timestamp?; @matches_filters_at_timestamp; end
     end
 
@@ -154,16 +157,6 @@ module API::V3::WorkPackages::EagerLoading
 
     def timestamp
       new_record? ? @timestamp : Timestamp.parse(__getobj__.timestamp)
-    end
-
-    # Since custom fields are currently never displayed in the attributesByTimestamp,
-    # for which this object is used, simply short circuit the loading of the custom field information.
-    def available_custom_fields
-      WorkPackageCustomField.none
-    end
-
-    def define_all_custom_field_accessors
-      nil
     end
   end
 end

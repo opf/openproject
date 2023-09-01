@@ -41,8 +41,12 @@ class EnterpriseToken < ApplicationRecord
       Authorization::EnterpriseService.new(current).call(action).result
     end
 
+    def active?
+      current && !current.expired?
+    end
+
     def show_banners?
-      OpenProject::Configuration.ee_manager_visible? && (!current || current.expired?)
+      OpenProject::Configuration.ee_manager_visible? && !active?
     end
 
     def set_current_token
@@ -97,7 +101,7 @@ class EnterpriseToken < ApplicationRecord
   def invalid_domain?
     return false unless token_object&.validate_domain?
 
-    token_object.domain != Setting.host_name
+    !token_object.valid_domain?(Setting.host_name)
   end
 
   private

@@ -212,7 +212,8 @@ class ApplicationController < ActionController::Base
   end
 
   def reset_i18n_fallbacks
-    return if I18n.fallbacks.defaults == (fallbacks = [I18n.default_locale] + Setting.available_languages.map(&:to_sym))
+    fallbacks = [I18n.default_locale] + Redmine::I18n.valid_languages.map(&:to_sym)
+    return if I18n.fallbacks.defaults == fallbacks
 
     I18n.fallbacks = nil
     I18n.fallbacks.defaults = fallbacks
@@ -302,10 +303,10 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
-  def find_model_object
+  def find_model_object(object_id = :id)
     model = self.class._model_object
     if model
-      @object = model.find(params[:id])
+      @object = model.find(params[object_id])
       instance_variable_set('@' + controller_name.singularize, @object) if @object
     end
   rescue ActiveRecord::RecordNotFound

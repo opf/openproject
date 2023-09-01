@@ -39,6 +39,8 @@ class AttributeHelpText::Project < AttributeHelpText
       attributes[field.attribute_name] = field.name
     end
 
+    attributes['members'] = I18n.t(:label_member_plural)
+
     attributes
   end
 

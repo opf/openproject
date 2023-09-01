@@ -79,7 +79,7 @@ module Redmine # :nodoc:
     @deferred_plugins   = {}
 
     cattr_accessor :public_directory
-    self.public_directory = File.join(Rails.root, 'public', 'plugin_assets')
+    self.public_directory = Rails.public_path.join('plugin_assets')
 
     class << self
       attr_reader :registered_plugins, :deferred_plugins
@@ -260,6 +260,10 @@ module Redmine # :nodoc:
     end
     alias :add_menu_item :menu
 
+    def configure_menu(menu_name, &)
+      Redmine::MenuManager.map(menu_name, &)
+    end
+
     # Removes +item+ from the given +menu+.
     def delete_menu_item(menu_name, item)
       hide_menu_item(menu_name, item)
@@ -375,7 +379,7 @@ module Redmine # :nodoc:
 
     # Returns +true+ if the plugin can be configured.
     def configurable?
-      settings && settings.is_a?(Hash) && settings[:partial].present?
+      settings.is_a?(Hash) && settings[:partial].present?
     end
 
     def mirror_assets
@@ -383,7 +387,7 @@ module Redmine # :nodoc:
       destination = public_directory
       return unless File.directory?(source)
 
-      source_files = Dir[source + '/**/*']
+      source_files = Dir["#{source}/**/*"]
       source_dirs = source_files.select { |d| File.directory?(d) }
       source_files -= source_dirs
 

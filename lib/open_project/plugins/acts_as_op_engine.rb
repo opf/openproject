@@ -62,13 +62,6 @@ module OpenProject::Plugins
           app.config.i18n.load_path += Dir[config.root.join('config', 'locales', 'crowdin', '*.{rb,yml}').to_s]
         end
 
-        current_engine = self
-        config.to_prepare do
-          pathname = current_engine.root.join("app/cells/views")
-
-          ::RailsCell.view_paths << pathname.to_path if pathname.exist?
-        end
-
         # adds our factories to factory girl's load path
         initializer "#{engine_name}.register_factories", after: 'factory_bot.set_factory_paths' do |_app|
           FactoryBot.definition_file_paths << File.expand_path("#{root}/spec/factories") if defined?(FactoryBot)

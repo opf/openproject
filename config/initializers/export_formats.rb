@@ -6,8 +6,11 @@ OpenProject::Application.configure do |application|
 
       single WorkPackage, WorkPackage::PDFExport::WorkPackageToPdf
 
-      formatter WorkPackage, WorkPackage::Exports::Formatters::Costs
       formatter WorkPackage, WorkPackage::Exports::Formatters::EstimatedHours
+      formatter WorkPackage, WorkPackage::Exports::Formatters::Hours
+      formatter WorkPackage, WorkPackage::Exports::Formatters::Days
+      formatter WorkPackage, WorkPackage::Exports::Formatters::Currency
+      formatter WorkPackage, WorkPackage::Exports::Formatters::Costs
       formatter WorkPackage, Exports::Formatters::CustomField
 
       list Project, Projects::Exports::CSV

@@ -30,6 +30,8 @@ class Journal < ApplicationRecord
   self.table_name = 'journals'
   self.ignored_columns += ['activity_type']
 
+  WorkingDayUpdate = Struct.new(:working_days, :non_working_days, keyword_init: true)
+
   include ::JournalChanges
   include ::JournalFormatter
   include ::Acts::Journalized::FormatHooks
@@ -41,12 +43,32 @@ class Journal < ApplicationRecord
   register_journal_formatter :schedule_manually, OpenProject::JournalFormatter::ScheduleManually
   register_journal_formatter :ignore_non_working_days, OpenProject::JournalFormatter::IgnoreNonWorkingDays
   register_journal_formatter :active_status, OpenProject::JournalFormatter::ActiveStatus
+  register_journal_formatter :project_status_code, OpenProject::JournalFormatter::ProjectStatusCode
   register_journal_formatter :template, OpenProject::JournalFormatter::Template
   register_journal_formatter :visibility, OpenProject::JournalFormatter::Visibility
   register_journal_formatter :subproject_named_association, OpenProject::JournalFormatter::SubprojectNamedAssociation
+  register_journal_formatter :time_entry_hours, OpenProject::JournalFormatter::TimeEntryHours
+  register_journal_formatter :wiki_diff, OpenProject::JournalFormatter::WikiDiff
+  register_journal_formatter :time_entry_named_association, OpenProject::JournalFormatter::TimeEntryNamedAssociation
+  register_journal_formatter :cause, OpenProject::JournalFormatter::Cause
+  register_journal_formatter :file_link, OpenProject::JournalFormatter::FileLink
+
+  # Attributes related to the cause are stored in a JSONB column so we can easily add new relations and related
+  # attributes without a heavy database migration. Fields will be prefixed with `cause_` but are stored in the JSONB
+  # hash without that prefix
+  store_accessor :cause, %i[type work_package_id changed_days], prefix: true
+  VALID_CAUSE_TYPES = %w[
+    work_package_predecessor_changed_times
+    work_package_parent_changed_times
+    work_package_children_changed_times
+    work_package_related_changed_times
+    working_days_changed
+    system_update
+  ].freeze
 
   # Make sure each journaled model instance only has unique version ids
   validates :version, uniqueness: { scope: %i[journable_id journable_type] }
+  validates :cause_type, inclusion: { in: VALID_CAUSE_TYPES, allow_blank: true }
 
   belongs_to :user
   belongs_to :journable, polymorphic: true
@@ -54,6 +76,7 @@ class Journal < ApplicationRecord
 
   has_many :attachable_journals, class_name: 'Journal::AttachableJournal', dependent: :delete_all
   has_many :customizable_journals, class_name: 'Journal::CustomizableJournal', dependent: :delete_all
+  has_many :storable_journals, class_name: 'Journal::StorableJournal', dependent: :delete_all
 
   has_many :notifications, dependent: :destroy
 
@@ -61,7 +84,7 @@ class Journal < ApplicationRecord
   # logs like the history on issue#show
   scope :changing, -> { where(['version > 1']) }
 
-  scope :for_wiki_content, -> { where(journable_type: "WikiContent") }
+  scope :for_wiki_page, -> { where(journable_type: "WikiPage") }
   scope :for_work_package, -> { where(journable_type: "WorkPackage") }
 
   # In conjunction with the included Comparable module, allows comparison of journal records
@@ -123,7 +146,15 @@ class Journal < ApplicationRecord
     (!notes || notes&.empty?) && get_changes.empty?
   end
 
+  def has_cause?
+    cause_type.present?
+  end
+
   private
+
+  def has_file_links?
+    journable.respond_to?(:file_links)
+  end
 
   def predecessor
     @predecessor ||= if initial?

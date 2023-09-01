@@ -34,8 +34,8 @@ module OpenProject
 
         ##
         # Take note when projects are renamed and check for associated managed repositories
-        OpenProject::Notifications.subscribe('project_renamed') do |payload|
-          repository = payload[:project].repository
+        OpenProject::Notifications.subscribe(OpenProject::Events::PROJECT_RENAMED) do |payload|
+          repository = payload[:project]&.repository
 
           if repository&.managed?
             ::SCM::RelocateRepositoryJob.perform_later(repository)

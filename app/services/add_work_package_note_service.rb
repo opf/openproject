@@ -42,13 +42,20 @@ class AddWorkPackageNoteService
 
   def call(notes, send_notifications: nil)
     Journal::NotificationConfiguration.with send_notifications do
-      work_package.add_journal(user, notes)
+      work_package.add_journal(user:, notes:)
 
       success, errors = validate_and_yield(work_package, user) do
         work_package.save_journals
       end
 
-      journal = work_package.journals.last if success
+      if success
+        # In test environment, because of the difference in the way of handling transactions,
+        # the journal needs to be actively loaded without SQL caching in place.
+        journal = Journal.connection.uncached do
+          work_package.journals.last
+        end
+      end
+
       ServiceResult.new(success:, result: journal, errors:)
     end
   end

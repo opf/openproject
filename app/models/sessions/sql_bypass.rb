@@ -43,16 +43,7 @@ module Sessions
       # @return [Hash] The saved session data (user_id, updated_at, etc.) or nil if no session was found.
       def lookup_data(session_id)
         rack_session = Rack::Session::SessionId.new(session_id)
-        if Rails.application.config.session_store == ActionDispatch::Session::ActiveRecordStore
-          find_by_session_id(rack_session.private_id)&.data
-        else
-          session_store = Rails.application.config.session_store.new nil, {}
-          _id, data = session_store.instance_eval do
-            find_session({}, rack_session)
-          end
-
-          data.presence
-        end
+        find_by_session_id(rack_session.private_id)&.data
       end
 
       def connection_pool

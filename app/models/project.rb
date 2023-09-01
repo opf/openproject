@@ -83,11 +83,10 @@ class Project < ApplicationRecord
                           -> { order("#{CustomField.table_name}.position") },
                           join_table: :custom_fields_projects,
                           association_foreign_key: 'custom_field_id'
-  has_one :status, class_name: 'Projects::Status', dependent: :destroy
   has_many :budgets, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
-  has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
-  has_many :storages, through: :projects_storages
+  has_many :project_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
+  has_many :storages, through: :project_storages
 
   acts_as_customizable
   acts_as_searchable columns: %W(#{table_name}.name #{table_name}.identifier #{table_name}.description),
@@ -107,7 +106,9 @@ class Project < ApplicationRecord
   register_journal_formatted_fields(:template, 'templated')
   register_journal_formatted_fields(:plaintext, 'identifier')
   register_journal_formatted_fields(:plaintext, 'name')
+  register_journal_formatted_fields(:diff, 'status_explanation')
   register_journal_formatted_fields(:diff, 'description')
+  register_journal_formatted_fields(:project_status_code, 'status_code')
   register_journal_formatted_fields(:visibility, 'public')
   register_journal_formatted_fields(:subproject_named_association, 'parent_id')
   register_journal_formatted_fields(:custom_field, /custom_fields_\d+/)
@@ -149,8 +150,6 @@ class Project < ApplicationRecord
 
   friendly_id :identifier, use: :finders
 
-  delegate :explanation, to: :status, allow_nil: true, prefix: true
-
   scope :has_module, ->(mod) {
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])
   }
@@ -158,9 +157,21 @@ class Project < ApplicationRecord
   scope :visible, ->(user = User.current) { where(id: Project.visible_by(user)) }
   scope :newest, -> { order(created_at: :desc) }
   scope :active, -> { where(active: true) }
+  scope :archived, -> { where(active: false) }
+  scope :with_member, ->(user = User.current) { where(id: user.memberships.select(:project_id)) }
+  scope :without_member, ->(user = User.current) { where.not(id: user.memberships.select(:project_id)) }
 
   scopes :activated_time_activity,
          :visible_with_activated_time_activity
+
+  enum status_code: {
+    on_track: 0,
+    at_risk: 1,
+    off_track: 2,
+    not_started: 3,
+    finished: 4,
+    discontinued: 5
+  }
 
   def visible?(user = User.current)
     active? and (public? or user.admin? or user.member_of?(self))
@@ -201,12 +212,6 @@ class Project < ApplicationRecord
   # +user+ has the given +permission+
   def self.allowed_to(user, permission)
     Authorization.projects(permission, user)
-  end
-
-  def reload(*args)
-    @all_work_package_custom_fields = nil
-
-    super
   end
 
   # Returns a :conditions SQL string that can be used to find the issues associated with this project.

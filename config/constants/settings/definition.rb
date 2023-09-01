@@ -140,7 +140,7 @@ module Settings
       },
       available_languages: {
         format: :array,
-        default: %w[en de fr es pt pt-BR it zh-CN ko ru].freeze,
+        default: %w[en de fr es pt it zh-CN ko ru].freeze,
         allowed: -> { Redmine::I18n.all_languages }
       },
       avatar_link_expiry_seconds: {
@@ -273,12 +273,6 @@ module Settings
       cross_project_work_package_relations: {
         default: true
       },
-      # Allow in-context translations to be loaded with CSP
-      crowdin_in_context_translations: {
-        description: 'Add crowdin in-context translations helper',
-        default: true,
-        writable: false
-      },
       database_cipher_key: {
         description: 'Encryption key for repository credentials',
         format: :string,
@@ -311,7 +305,8 @@ module Settings
         writable: false
       },
       default_language: {
-        default: 'en'
+        default: 'en',
+        allowed: -> { Redmine::I18n.all_languages }
       },
       default_projects_modules: {
         default: %w[calendar board_view work_package_tracking news costs wiki],
@@ -417,7 +412,7 @@ module Settings
       },
       enabled_projects_columns: {
         default: %w[project_status public created_at latest_activity_at required_disk_space],
-        allowed: -> { Projects::TableCell.new(nil, current_user: User.admin.first).all_columns.map(&:first).map(&:to_s) }
+        allowed: -> { Projects::TableComponent.new(current_user: User.admin.first).all_columns.map(&:first).map(&:to_s) }
       },
       enabled_scm: {
         default: %w[subversion git]
@@ -595,6 +590,11 @@ module Settings
       login_required: {
         default: false
       },
+      lookbook_enabled: {
+        description: 'Enable the Lookbook component documentation tool. Discouraged for production environments.',
+        default: -> { Rails.env.development? },
+        format: :boolean
+      },
       lost_password: {
         description: 'Activate or deactivate lost password form',
         default: true
@@ -730,8 +730,7 @@ module Settings
       registration_footer: {
         default: {
           'en' => ''
-        },
-        writable: false
+        }
       },
       remote_storage_upload_host: {
         format: :string,
@@ -809,6 +808,32 @@ module Settings
         default: "https://releases.openproject.com/v1/check.svg",
         writable: false
       },
+      seed_admin_user_password: {
+        description: 'Password to set for the initially created admin user (Login remains "admin").',
+        default: 'admin',
+        writable: false
+      },
+      seed_admin_user_mail: {
+        description: 'E-mail to set for the initially created admin user.',
+        default: 'admin@example.net',
+        writable: false
+      },
+      seed_admin_user_name: {
+        description: 'Name to set for the initially created admin user.',
+        default: 'OpenProject Admin',
+        writable: false
+      },
+      seed_admin_user_password_reset: {
+        description: 'Whether to force a password reset for the initially created admin user.',
+        default: true,
+        writable: false
+      },
+      seed_ldap: {
+        description: 'Provide an LDAP connection and sync settings through ENV',
+        writable: false,
+        default: nil,
+        format: :hash
+      },
       self_registration: {
         default: 2
       },
@@ -833,11 +858,6 @@ module Settings
       session_cookie_name: {
         description: 'Set session cookie name',
         default: '_open_project_session',
-        writable: false
-      },
-      session_store: {
-        description: 'Where to store session data',
-        default: :active_record_store,
         writable: false
       },
       session_ttl_enabled: {
@@ -970,6 +990,13 @@ module Settings
       users_deletable_by_admins: {
         default: false
       },
+      user_default_theme: {
+        default: 'light',
+        format: :string,
+        allowed: -> do
+          UserPreferences::Schema.schema.dig('definitions', 'UserPreferences', 'properties', 'theme', 'enum')
+        end
+      },
       users_deletable_by_self: {
         default: false
       },
@@ -1010,7 +1037,7 @@ module Settings
         default: 10
       },
       work_package_list_default_highlighted_attributes: {
-        default: [],
+        default: ["status", "priority", "due_date"],
         allowed: -> {
           Query.available_columns(nil).select(&:highlightable).map(&:name).map(&:to_s)
         }
@@ -1018,8 +1045,8 @@ module Settings
       work_package_list_default_highlighting_mode: {
         format: :string,
         default: 'inline',
-        allowed: -> { Query::QUERY_HIGHLIGHTING_MODES },
         writable: true
+        allowed: -> { Query::QUERY_HIGHLIGHTING_MODES.map(&:to_s) },
       },
       work_package_list_default_columns: {
         default: %w[id subject type status assigned_to priority],
@@ -1104,17 +1131,24 @@ module Settings
     end
 
     def override_value(other_value)
-      self.value = coerce(other_value, format)
-      self.writable = false
-      raise ArgumentError, "Value for #{name} must be one of #{allowed.join(', ')} but is #{value}" unless valid?
+      self.value = coerce(other_value)
+      if valid_for?(value)
+        self.writable = false
+      else
+        raise ArgumentError, "Value for #{name} must be one of #{allowed.join(', ')} but is #{value}"
+      end
     end
 
-    def valid?
+    def valid_for?(value)
+      return true if allowed.nil?
+
       # TODO: it would make sense to also check the type of the value (e.g. boolean).
       # But as using e.g. 0 for a boolean is quite common, that would break.
-      !allowed ||
-        (format == :array && (value - allowed).empty?) ||
+      if format == :array
+        (value - allowed).empty?
+      else
         allowed.include?(value)
+      end
     end
 
     def allowed
@@ -1410,7 +1444,7 @@ module Settings
       end
     end
 
-    def coerce(value, format)
+    def coerce(value)
       case format
       when :hash
         (self.value || {}).deep_merge value.deep_stringify_keys

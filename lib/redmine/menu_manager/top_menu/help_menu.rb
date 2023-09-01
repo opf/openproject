@@ -98,7 +98,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
     end
     result << static_link_item(:shortcuts)
     result << static_link_item(:forums)
-    result << static_link_item(:professional_support)
+    result << static_link_item(:enterprise_support_as_community)
     result << content_tag(:hr, '', class: 'op-menu--separator')
   end
 

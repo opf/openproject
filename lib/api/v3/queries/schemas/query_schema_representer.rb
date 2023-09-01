@@ -122,6 +122,12 @@ module API
                  has_default: true,
                  deprecated: true
 
+          schema :timestamps,
+                 type: '[]Timestamp',
+                 required: false,
+                 writable: true,
+                 has_default: true
+
           schema :highlighting_mode,
                  type: 'String',
                  required: false,

@@ -42,9 +42,10 @@ module Projects
     attribute :parent do
       validate_parent_assignable
     end
-    attribute :status do
+    attribute :status_code do
       validate_status_code_included
     end
+    attribute :status_explanation
     attribute :templated do
       validate_templated_set_by_admin
     end
@@ -68,7 +69,7 @@ module Projects
     delegate :assignable_versions, to: :model
 
     def assignable_status_codes
-      Projects::Status.codes.keys
+      Project.status_codes.keys
     end
 
     private
@@ -94,7 +95,7 @@ module Projects
     end
 
     def validate_status_code_included
-      errors.add :status, :inclusion if model.status&.code && !Projects::Status.codes.keys.include?(model.status.code.to_s)
+      errors.add :status, :inclusion if model.status_code && Project.status_codes.keys.exclude?(model.status_code.to_s)
     end
 
     def validate_templated_set_by_admin

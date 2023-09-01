@@ -41,7 +41,7 @@ class ProjectsController < ApplicationController
   include ProjectsHelper
 
   current_menu_item :index do
-    :list_projects
+    :projects
   end
 
   def index
@@ -56,17 +56,13 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        render layout: 'no_menu'
+        render layout: 'global'
       end
 
       format.any(*supported_export_formats) do
         export_list(request.format.symbol)
       end
     end
-  end
-
-  current_menu_item :index do
-    :list_projects
   end
 
   def new
@@ -107,12 +103,6 @@ class ProjectsController < ApplicationController
     authorize
   rescue ActiveRecord::RecordNotFound
     render_404
-  end
-
-  def redirect_work_packages_or_overview
-    return if redirect_to_project_menu_item(@project, :work_packages)
-
-    redirect_to project_overview_path(@project)
   end
 
   def hide_project_in_layout

@@ -28,8 +28,10 @@
 
 class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
   include WorkPackage::PDFExport::Common
-  include WorkPackage::PDFExport::Formattable
   include WorkPackage::PDFExport::Attachments
+  include WorkPackage::PDFExport::WorkPackageDetail
+  include WorkPackage::PDFExport::Page
+  include WorkPackage::PDFExport::Style
 
   attr_accessor :pdf, :columns
 
@@ -44,264 +46,46 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
   def initialize(work_package, _options = {})
     super
 
-    self.pdf = get_pdf(current_language)
     self.columns = ::Query.available_columns(work_package.project)
-
-    configure_markup
+    setup_page!
   end
 
   def export!
-    write_attributes!
-    write_changesets!
-    write_history!
-    write_attachments!
-    write_footers!
-
+    render_work_package
     success(pdf.render)
+  rescue StandardError => e
+    Rails.logger.error { "Failed to generated PDF export: #{e} #{e.message}}." }
+    error(I18n.t(:error_pdf_failed_to_export, error: e.message))
   end
 
-  def make_attribute_row(first_attribute, second_attribute)
-    [
-      make_attribute_cells(
-        first_attribute,
-        label_options: {
-          borders: [:left], font_style: :bold, padding: cell_padding
-        },
-        value_options: {
-          borders: [], padding: cell_padding
-        }
-      ),
-      make_attribute_cells(
-        second_attribute,
-        label_options: {
-          borders: [:left], font_style: :bold, padding: cell_padding
-        },
-        value_options: {
-          borders: [:right], padding: cell_padding
-        }
-      )
-    ]
-      .flatten
+  def setup_page!
+    self.pdf = get_pdf(current_language)
+    @page_count = 0
+    configure_page_size!(:portrait)
   end
 
-  def make_attribute_cells(attribute, label_options: {}, value_options: {})
-    label = pdf.make_cell(
-      WorkPackage.human_attribute_name(attribute) + ':',
-      label_options
-    )
-
-    column = columns.find { |col| col.name == attribute.to_sym }
-    formatter = formatter_for(column.name)
-    value_content = formatter.format(work_package)
-    value = pdf.make_cell(value_content.to_s, value_options)
-
-    [label, value]
-  end
-
-  def make_attributes
-    attrs = [
-      %i[status priority],
-      %i[author category],
-      %i[created_at assigned_to],
-      %i[updated_at due_date]
-    ]
-
-    attrs.map do |first, second|
-      make_attribute_row first, second
-    end
-  end
-
-  def make_plain_custom_fields
-    work_package.custom_field_values.each do |custom_value|
-      next if custom_value.custom_field.formattable?
-
-      cf = custom_value.custom_field
-      name = cf.name || Array(cf.name_translations.first).last || '?'
-
-      label = pdf.make_cell "#{name}:",
-                            borders: [:left], font_style: :bold,
-                            padding: cell_padding
-      value = pdf.make_cell show_value(custom_value),
-                            colspan: 3,
-                            borders: [:right],
-                            padding: cell_padding
-      yield [label, value]
-    end
-  end
-
-  def show_changesets?
-    work_package.changesets.any? &&
-      User.current.allowed_to?(:view_changesets, work_package.project)
-  end
-
-  def newline!
-    pdf.move_down 4
-  end
-
-  def max_width
-    pdf.bounds.width
-  end
-
-  def column_widths
-    [0.2, 0.3, 0.2, 0.3].map do |factor|
-      max_width * factor
-    end
-  end
-
-  def formattable_colspan
-    3
-  end
-
-  def write_footers!
-    pdf.number_pages format_date(Date.today),
-                     at: [pdf.bounds.left, 0],
-                     style: :italic
-
-    pdf.number_pages "<page>/<total>",
-                     at: [pdf.bounds.right - 25, 0],
-                     style: :italic
-  end
-
-  def write_title!
-    pdf.title = heading
-    pdf.font style: :bold, size: 11
-    pdf.text "#{heading}: #{work_package.subject}"
-    pdf.move_down 20
+  def render_work_package
+    write_title!
+    write_work_package_detail_content!(work_package)
+    write_headers!
+    write_footers!
   end
 
   def heading
-    "#{work_package.project} - ##{work_package.type} #{work_package.id}"
+    "#{work_package.type} ##{work_package.id} - #{work_package.subject}"
+  end
+
+  def footer_title
+    work_package.project.name
   end
 
   def title
-    "#{heading}.pdf"
+    # <project>_<type>_<ID>_<subject><YYYY-MM-DD>_<HH-MM>.pdf
+    build_pdf_filename([work_package.project, work_package.type,
+                        "##{work_package.id}", work_package.subject].join('_'))
   end
 
-  def write_attributes!
-    write_title!
-
-    data = make_attributes
-
-    data.first.each { |cell| cell.borders << :top } # top horizontal line
-    data.last.each { |cell| cell.borders << :bottom } # horizontal line after main attrs
-
-    # Render plain custom values
-    make_plain_custom_fields { |row| data << row }
-
-    pdf.font style: :normal, size: 9
-    pdf.table(data, column_widths:)
-
-    # Render formattable custom values
-    work_package.custom_field_values
-                .select { |cv| cv.custom_field.formattable? }
-                .each do |custom_value|
-      write_formattable! work_package,
-                         markdown: custom_value.value,
-                         label: custom_value.custom_field.name
-    end
-
-    write_formattable! work_package,
-                       markdown: work_package.description,
-                       label: WorkPackage.human_attribute_name(:description)
-  end
-
-  def write_changesets!
-    if show_changesets?
-      newline!
-
-      pdf.font style: :bold, size: 9
-      pdf.text I18n.t(:label_associated_revisions)
-      pdf.stroke do
-        pdf.horizontal_rule
-      end
-      newline!
-
-      work_package.changesets.each do |changeset|
-        pdf.font style: :bold, size: 8
-        pdf.text(format_time(changeset.committed_on) + ' - ' + changeset.author.to_s)
-        newline!
-
-        if changeset.comments.present?
-          pdf.font style: :normal, size: 8
-          pdf.text changeset.comments.to_s
-        end
-
-        newline!
-      end
-    end
-  end
-
-  def write_history!
-    pdf.move_down(pdf.font_size * 2)
-
-    pdf.font style: :bold, size: 9
-    pdf.text I18n.t(:label_history)
-    pdf.stroke do
-      pdf.horizontal_rule
-    end
-
-    newline!
-
-    work_package.journals.includes(:user).order("#{Journal.table_name}.created_at ASC").each do |journal|
-      next if journal.initial?
-
-      pdf.font style: :bold, size: 8
-      pdf.text(format_time(journal.created_at) + ' - ' + journal.user.name)
-      newline!
-
-      pdf.font style: :italic, size: 8
-      journal.details.each do |detail|
-        text = journal
-          .render_detail(detail, html: false, only_path: false)
-          .gsub(/\((https?[^)]+)\)$/, "(<link href='\\1'>\\1</link>)")
-
-        pdf.text('- ' + text, inline_format: true)
-        newline!
-      end
-
-      if journal.notes?
-        newline! unless journal.details.empty?
-
-        pdf.font style: :normal, size: 8
-
-        pdf.markup(format_text(journal.notes.to_s, object: work_package, format: :html))
-      end
-
-      newline!
-    end
-  end
-
-  def write_attachments!
-    if work_package.attachments.any?
-      pdf.move_down(pdf.font_size * 2)
-
-      pdf.font style: :bold, size: 9
-      pdf.text I18n.t(:label_attachment_plural)
-      pdf.stroke do
-        pdf.horizontal_rule
-      end
-      newline!
-
-      pdf.font style: :normal, size: 8
-
-      data = work_package.attachments.map do |attachment|
-        [
-          attachment.filename,
-          number_to_human_size(attachment.filesize, precision: 3),
-          format_date(attachment.created_at),
-          attachment.author.name
-        ]
-      end
-
-      table_width = max_width
-      pdf.table(data, width: table_width - 1) do
-        cells.padding = [2, 5, 2, 5]
-        cells.borders = []
-
-        column(0).width = (table_width * 0.5).to_i
-        column(1).align = :right
-        column(3).align = :right
-      end
-    end
+  def with_images?
+    true
   end
 end

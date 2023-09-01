@@ -30,26 +30,16 @@ module Redmine::MenuManager
   def self.map(menu_name, &menu_builder)
     @menu_builder_queues ||= {}
     current_queue = @menu_builder_queues[menu_name.to_sym] ||= []
-
-    if menu_builder
-      current_queue.push menu_builder
-    else
-      MapDeferrer.new current_queue
-    end
+    current_queue.push menu_builder
   end
 
   def self.loose(menu_name, &menu_builder)
     @temp_menu_builder_queues ||= {}
     current_queue = @temp_menu_builder_queues[menu_name.to_sym] ||= []
-
-    if menu_builder
-      current_queue.push menu_builder
-    else
-      MapDeferrer.new current_queue
-    end
+    current_queue.push menu_builder
   end
 
-  def self.items(menu_name)
+  def self.items(menu_name, project = nil)
     items = {}
 
     mapper = Mapper.new(menu_name.to_sym, items)
@@ -59,7 +49,7 @@ module Redmine::MenuManager
     @temp_menu_builder_queues = {}
 
     potential_items.each do |menu_builder|
-      menu_builder.call(mapper)
+      menu_builder.call(mapper, project)
     end
 
     items[menu_name.to_sym] || Redmine::MenuManager::TreeNode.new(:root, {})

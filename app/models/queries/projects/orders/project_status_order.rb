@@ -33,15 +33,11 @@ class Queries::Projects::Orders::ProjectStatusOrder < Queries::Orders::Base
     :project_status
   end
 
-  def left_outer_joins
-    :status
-  end
-
   private
 
   def order
     with_raise_on_invalid do
-      model.order(Arel.sql("project_statuses.code").send(direction))
+      model.order(Arel.sql("status_code").send(direction))
     end
   end
 end

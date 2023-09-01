@@ -62,8 +62,8 @@ class PermittedParams
     params.require(:attribute_help_text).permit(*self.class.permitted_attributes[:attribute_help_text])
   end
 
-  def auth_source
-    params.require(:auth_source).permit(*self.class.permitted_attributes[:auth_source])
+  def ldap_auth_source
+    params.require(:ldap_auth_source).permit(*self.class.permitted_attributes[:ldap_auth_source])
   end
 
   def forum
@@ -210,7 +210,7 @@ class PermittedParams
                            change_password_allowed,
                            additional_params = [])
 
-    additional_params << :auth_source_id unless external_authentication
+    additional_params << :ldap_auth_source_id unless external_authentication
 
     if current_user.admin?
       additional_params << :force_password_change if change_password_allowed
@@ -253,15 +253,7 @@ class PermittedParams
   def wiki_page
     permitted = permitted_attributes(:wiki_page)
 
-    params.require(:content).require(:page).permit(*permitted)
-  end
-
-  def wiki_content
-    params.require(:content).permit(*self.class.permitted_attributes[:wiki_content])
-  end
-
-  def wiki_page_with_content
-    wiki_page.merge(wiki_content)
+    params.require(:page).permit(*permitted)
   end
 
   def pref
@@ -424,7 +416,7 @@ class PermittedParams
           attribute_name
           help_text
         ),
-        auth_source: %i(
+        ldap_auth_source: %i(
           name
           host
           port
@@ -609,8 +601,6 @@ class PermittedParams
           title
           parent_id
           redirect_existing_links
-        ),
-        wiki_content: %i(
           text
           lock_version
           journal_notes

@@ -67,6 +67,9 @@ module API
                  exec_context: :decorator,
                  render_nil: true
 
+        property :user_default_timezone,
+                 render_nil: true
+
         property :start_of_week,
                  getter: ->(*) {
                    Setting.start_of_week.to_i if Setting.start_of_week.present?

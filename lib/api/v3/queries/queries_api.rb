@@ -87,8 +87,7 @@ module API
             end
 
             get do
-              @query = Query.new_default(name: 'default',
-                                         user: current_user)
+              @query = Query.new_default(user: current_user)
 
               authorize_by_policy(:show)
 
@@ -158,6 +157,8 @@ module API
                             })
                        .mount
             end
+
+            mount API::V3::Queries::ICalUrl::QueryIcalUrlAPI
 
             mount API::V3::Queries::Order::QueryOrderAPI
           end

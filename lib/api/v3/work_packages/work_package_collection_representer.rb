@@ -50,7 +50,7 @@ module API
           @timestamps = timestamps
           @query = query
 
-          if timestamps.present? && (timestamps.count > 1 or timestamps.first.historic?)
+          if timestamps_active?
             query_params[:timestamps] ||= API::V3::Utilities::PathHelper::ApiV3Path.timestamps_to_param_value(timestamps)
           end
 
@@ -145,7 +145,15 @@ module API
                      rep_class = element_decorator.custom_field_class(all_fields)
 
                      represented.map do |model|
-                       rep_class.send(:new, model, current_user:, timestamps:, query:)
+                       # In case the work package is no longer visible (moved to a project the user
+                       # lacks permission in) we treat it as if the work package were deleted.
+                       representer = if model.visible?(current_user)
+                                       rep_class
+                                     else
+                                       WorkPackageDeletedRepresenter
+                                     end
+
+                       representer.send(:new, model, current_user:, timestamps:, query:)
                      end
                    },
                    exec_context: :decorator,
@@ -177,10 +185,6 @@ module API
 
         def schemas
           schemas = schema_pairs.map do |project, type, available_custom_fields|
-            # This hack preloads the custom fields for a project so that they do not have to be
-            # loaded again later on
-            project.instance_variable_set(:@all_work_package_custom_fields, all_cfs_of_project[project.id])
-
             Schema::TypedWorkPackageSchema.new(project:, type:, custom_fields: available_custom_fields)
           end
 
@@ -198,15 +202,19 @@ module API
         end
 
         def schema_pairs
-          @schema_pairs ||= represented
-            .map { |work_package| [work_package.project, work_package.type, work_package.available_custom_fields] }
-            .uniq
-        end
+          @schema_pairs ||= begin
+            work_packages = if timestamps_active?
+                              represented
+                                .flat_map(&:at_timestamps)
+                            else
+                              represented
+                            end
 
-        def all_cfs_of_project
-          @all_cfs_of_project ||= represented
-                                  .group_by(&:project_id)
-                                  .transform_values { |wps| wps.map(&:available_custom_fields).flatten.uniq }
+            work_packages
+              .select(&:persisted?)
+              .uniq { |work_package| [work_package.project_id, work_package.type_id] }
+              .map { |work_package| [work_package.project, work_package.type, work_package.available_custom_fields] }
+          end
         end
 
         def paged_models(models)
@@ -220,9 +228,8 @@ module API
         def representation_formats
           formats = [
             representation_format_pdf,
-            representation_format_pdf_attachments,
-            representation_format_pdf_description,
-            representation_format_pdf_description_attachments,
+            representation_format_pdf_report_with_images,
+            representation_format_pdf_report,
             representation_format_xls,
             representation_format_xls_descriptions,
             representation_format_xls_relations,
@@ -255,30 +262,24 @@ module API
 
         def representation_format_pdf
           representation_format 'pdf',
+                                i18n_key: 'pdf_overview_table',
                                 mime_type: 'application/pdf'
         end
 
-        def representation_format_pdf_attachments
-          representation_format 'pdf',
-                                i18n_key: 'pdf_with_attachments',
-                                mime_type: 'application/pdf',
-                                url_query_extras: 'show_attachments=true'
-        end
-
-        def representation_format_pdf_description
+        def representation_format_pdf_report_with_images
           representation_format 'pdf-with-descriptions',
                                 format: 'pdf',
-                                i18n_key: 'pdf_with_descriptions',
+                                i18n_key: 'pdf_report_with_images',
                                 mime_type: 'application/pdf',
-                                url_query_extras: 'show_descriptions=true'
+                                url_query_extras: 'show_images=true&show_report=true'
         end
 
-        def representation_format_pdf_description_attachments
-          representation_format 'pdf-with-descriptions',
+        def representation_format_pdf_report
+          representation_format 'pdf-descr',
                                 format: 'pdf',
-                                i18n_key: 'pdf_with_descriptions_and_attachments',
+                                i18n_key: 'pdf_report',
                                 mime_type: 'application/pdf',
-                                url_query_extras: 'show_descriptions=true&show_attachments=true'
+                                url_query_extras: 'show_report=true'
         end
 
         def representation_format_xls
@@ -310,6 +311,10 @@ module API
         def representation_format_atom
           representation_format 'atom',
                                 mime_type: 'application/atom+xml'
+        end
+
+        def timestamps_active?
+          timestamps.present? && timestamps.any?(&:historic?)
         end
 
         attr_reader :project,

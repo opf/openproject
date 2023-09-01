@@ -68,9 +68,9 @@ module Users
         { class: News, column: :description },
         { class: Journal::NewsJournal, column: :description },
         { class: Project, column: :description },
-        { class: Projects::Status, column: :explanation },
-        { class: WikiContent, column: :text },
-        { class: Journal::WikiContentJournal, column: :text }
+        { class: Project, column: :status_explanation },
+        { class: WikiPage, column: :text },
+        { class: Journal::WikiPageJournal, column: :text }
       ]
     end
 
@@ -99,17 +99,14 @@ module Users
     end
 
     def rewrite(from, to)
-      # If we have only one replacement configured for this instance of the service, we do it ourselves.
-      # Otherwise, we instantiate instances of the service's class for every class for which replacements
-      # are to be carried out.
-      # That way, instance variables can be used which prevents having method interfaces with 4 or 5 parameters.
-      if replacements.length == 1
+      replacements.each do |replacement|
+        focus_on_replacement(replacement)
         rewrite_column(from, to)
-      else
-        replacements.map do |replacement|
-          self.class.new(replacement[:class]).call(from:, to:)
-        end
       end
+    end
+
+    def focus_on_replacement(replacement)
+      self.replacements = [replacement]
     end
 
     def rewrite_column(from, to)

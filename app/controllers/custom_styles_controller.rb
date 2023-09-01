@@ -30,8 +30,8 @@ class CustomStylesController < ApplicationController
   layout 'admin'
   menu_item :custom_style
 
-  before_action :require_admin, except: %i[logo_download favicon_download touch_icon_download]
-  skip_before_action :check_if_login_required, only: %i[logo_download favicon_download touch_icon_download]
+  before_action :require_admin, except: %i[logo_download export_logo_download favicon_download touch_icon_download]
+  skip_before_action :check_if_login_required, only: %i[logo_download export_logo_download favicon_download touch_icon_download]
 
   def show
     @custom_style = CustomStyle.current || CustomStyle.new
@@ -65,6 +65,10 @@ class CustomStylesController < ApplicationController
     file_download(:logo_path)
   end
 
+  def export_logo_download
+    file_download(:export_logo_path)
+  end
+
   def favicon_download
     file_download(:favicon_path)
   end
@@ -75,6 +79,10 @@ class CustomStylesController < ApplicationController
 
   def logo_delete
     file_delete(:remove_logo)
+  end
+
+  def export_logo_delete
+    file_delete(:remove_export_logo)
   end
 
   def favicon_delete
@@ -134,7 +142,10 @@ class CustomStylesController < ApplicationController
   end
 
   def custom_style_params
-    params.require(:custom_style).permit(:logo, :remove_logo, :favicon, :remove_favicon, :touch_icon, :remove_touch_icon)
+    params.require(:custom_style).permit(:logo, :remove_logo,
+                                         :export_logo, :remove_export_logo,
+                                         :favicon, :remove_favicon,
+                                         :touch_icon, :remove_touch_icon)
   end
 
   def file_download(path_method)

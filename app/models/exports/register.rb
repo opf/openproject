@@ -75,8 +75,8 @@ module Exports
         singles[model.to_s].detect { |exporter| exporter.key == format }
       end
 
-      def formatter_for(model, attribute)
-        formatter = formatters[model.to_s].find { |f| f.apply? attribute } || ::Exports::Formatters::Default
+      def formatter_for(model, attribute, export_format)
+        formatter = formatters[model.to_s].find { |f| f.apply? attribute, export_format } || ::Exports::Formatters::Default
         formatter.new(attribute)
       end
     end

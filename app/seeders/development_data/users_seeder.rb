@@ -54,7 +54,7 @@
 module DevelopmentData
   class UsersSeeder < Seeder
     def seed_data!
-      puts 'Seeding development users ...'
+      print_status 'Seeding development users ...'
       user_names.each do |login|
         user = new_user login.to_s
 
@@ -64,9 +64,9 @@ module DevelopmentData
         end
 
         unless user.save! validate: false
-          puts "Seeding #{login} user failed:"
+          print_status "Seeding #{login} user failed:"
           user.errors.full_messages.each do |msg|
-            puts "  #{msg}"
+            print_status "  #{msg}"
           end
         end
       end
@@ -101,7 +101,7 @@ module DevelopmentData
         user.lastname = 'DEV user'
         user.mail = "#{login}@example.net"
         user.status = User.statuses[:active]
-        user.language = I18n.locale
+        user.language = I18n.locale.to_s
         user.force_password_change = false
         user.notification_settings.build(assignee: true, responsible: true, mentioned: true, watched: true)
       end

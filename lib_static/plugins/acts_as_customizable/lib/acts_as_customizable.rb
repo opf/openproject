@@ -64,6 +64,10 @@ module Redmine
           base.extend HumanAttributeName
         end
 
+        def customizable?
+          true
+        end
+
         def available_custom_fields
           self.class.available_custom_fields(self)
         end
@@ -113,13 +117,10 @@ module Redmine
               existing_cvs = custom_values.select { |v| v.custom_field_id == custom_field.id }
 
               if existing_cvs.empty?
-                new_value = custom_values.build(customized: self,
-                                                custom_field:,
-                                                value: custom_field.default_value)
-                existing_cvs.push new_value
+                build_default_custom_values(custom_field)
+              else
+                existing_cvs
               end
-
-              existing_cvs
             end
         end
 
@@ -279,10 +280,10 @@ module Redmine
           end
         end
 
-        def method_missing(method, *args)
+        def method_missing(method, *)
           for_custom_field_accessor(method) do |custom_field|
             add_custom_field_accessors(custom_field)
-            return send method, *args
+            return send(method, *)
           end
 
           super
@@ -307,6 +308,24 @@ module Redmine
         attr_accessor :custom_value_destroyed
 
         private
+
+        def build_default_custom_values(custom_field)
+          if custom_field.multi_value? && custom_field.default_value.present?
+            custom_field.default_value.map do |value|
+              build_custom_value(custom_field, value:)
+            end
+          elsif custom_field.multi_value? && custom_field.default_value.blank?
+            build_custom_value(custom_field, value: nil)
+          else
+            build_custom_value(custom_field, value: custom_field.default_value)
+          end
+        end
+
+        def build_custom_value(custom_field, value:)
+          custom_values.build(customized: self,
+                              custom_field:,
+                              value:)
+        end
 
         def for_custom_field_accessor(method_symbol)
           match = /\Acustom_field_(?<id>\d+)=?\z/.match(method_symbol.to_s)
@@ -408,6 +427,10 @@ module Redmine
             end
           end
         end
+      end
+
+      def customizable?
+        false
       end
     end
   end

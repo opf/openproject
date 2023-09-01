@@ -140,21 +140,26 @@ class WorkPackage < ApplicationRecord
 
   acts_as_searchable columns: ['subject',
                                "#{table_name}.description",
-                               "#{Journal.table_name}.notes"],
+                               {
+                                 name: "#{Journal.table_name}.notes",
+                                 scope: -> { Journal.for_work_package.where("journable_id = #{table_name}.id") }
+                               }],
                      tsv_columns: [
                        {
                          table_name: Attachment.table_name,
                          column_name: 'fulltext',
-                         normalization_type: :text
+                         normalization_type: :text,
+                         scope: -> { Attachment.where(container_type: name).where("container_id = #{table_name}.id") }
                        },
                        {
                          table_name: Attachment.table_name,
                          column_name: 'file',
-                         normalization_type: :filename
+                         normalization_type: :filename,
+                         scope: -> { Attachment.where(container_type: name).where("container_id = #{table_name}.id") }
                        }
                      ],
-                     include: %i(project journals attachments),
-                     references: %i(projects journals attachments),
+                     include: %i(project journals),
+                     references: %i(projects),
                      date_column: "#{quoted_table_name}.created_at",
                      # sort by id so that limited eager loading doesn't break with postgresql
                      order_column: "#{table_name}.id"
@@ -444,8 +449,49 @@ class WorkPackage < ApplicationRecord
 
   # Overrides Redmine::Acts::Customizable::ClassMethods#available_custom_fields
   def self.available_custom_fields(work_package)
-    WorkPackage::AvailableCustomFields.for(work_package.project, work_package.type)
+    if work_package.project_id && work_package.type_id
+      RequestStore.fetch(available_custom_field_key(work_package)) do
+        available_custom_fields_from_db([work_package])
+      end
+    else
+      []
+    end
   end
+
+  def self.preload_available_custom_fields(work_packages)
+    custom_fields = available_custom_fields_from_db(work_packages)
+                    .select('array_agg(projects.id) available_project_ids',
+                            'array_agg(types.id) available_type_ids',
+                            'custom_fields.*')
+                    .group('custom_fields.id')
+
+    work_packages.each do |work_package|
+      RequestStore.store[available_custom_field_key(work_package)] = custom_fields
+                                                                       .select do |cf|
+        (cf.available_project_ids.include?(work_package.project_id) || cf.is_for_all?) &&
+        cf.available_type_ids.include?(work_package.type_id)
+      end
+    end
+  end
+
+  def self.available_custom_fields_from_db(work_packages)
+    WorkPackageCustomField
+      .left_joins(:projects, :types)
+      .where(projects: { id: work_packages.map(&:project_id).uniq },
+             types: { id: work_packages.map(&:type_id).uniq })
+      .or(WorkPackageCustomField
+            .left_joins(:projects, :types)
+            .references(:projects, :types)
+            .where(is_for_all: true)
+            .where(types: { id: work_packages.map(&:type_id).uniq }))
+      .distinct
+  end
+  private_class_method :available_custom_fields_from_db
+
+  def self.available_custom_field_key(work_package)
+    :"#work_package_custom_fields_#{work_package.project_id}_#{work_package.type_id}"
+  end
+  private_class_method :available_custom_field_key
 
   def custom_field_cache_key
     [project_id, type_id]
@@ -580,7 +626,7 @@ class WorkPackage < ApplicationRecord
   private_class_method :count_and_group_by
 
   def set_attachments_error_details
-    if invalid_attachment = attachments.detect { |a| !a.valid? }
+    if invalid_attachment = attachments.detect(&:invalid?)
       errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
     end
   end

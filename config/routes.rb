@@ -84,6 +84,7 @@ OpenProject::Application.routes.draw do
     get '/account/activate', action: 'activate'
 
     match '/login', action: 'login',  as: 'signin', via: %i[get post]
+    get '/login/internal', action: 'internal_login', as: 'internal_signin'
     get '/logout', action: 'logout', as: 'signout'
 
     get '/sso', action: 'auth_source_sso_failed', as: 'sso_failure'
@@ -128,6 +129,10 @@ OpenProject::Application.routes.draw do
 
   get 'custom_style/:digest/logo/:filename' => 'custom_styles#logo_download',
       as: 'custom_style_logo',
+      constraints: { filename: /[^\/]*/ }
+
+  get 'custom_style/:digest/export_logo/:filename' => 'custom_styles#export_logo_download',
+      as: 'custom_style_export_logo',
       constraints: { filename: /[^\/]*/ }
 
   get 'custom_style/:digest/favicon/:filename' => 'custom_styles#favicon_download',
@@ -222,6 +227,7 @@ OpenProject::Application.routes.draw do
         post '/new' => 'wiki#create', as: 'create'
         get :export
         get '/index' => 'wiki#index'
+        get :menu
       end
 
       member do
@@ -237,6 +243,7 @@ OpenProject::Application.routes.draw do
         post :protect
         get :select_main_menu_item, to: 'wiki_menu_items#select_main_menu_item'
         post :replace_main_menu_item, to: 'wiki_menu_items#replace_main_menu_item'
+        get :menu
       end
     end
 
@@ -261,7 +268,11 @@ OpenProject::Application.routes.draw do
       get '(/*state)' => 'work_packages#show', on: :member, as: ''
     end
 
-    resources :activity, :activities, only: :index, controller: 'activities'
+    resources :activity, :activities, only: :index, controller: 'activities' do
+      collection do
+        get :menu
+      end
+    end
 
     resources :forums do
       member do
@@ -324,7 +335,6 @@ OpenProject::Application.routes.draw do
     collection do
       get :plugins
       get :info
-      post :force_user_language
       post :test_email
     end
   end
@@ -334,6 +344,7 @@ OpenProject::Application.routes.draw do
     resources :enumerations
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
+    delete 'design/export_logo' => 'custom_styles#export_logo_delete', as: 'custom_style_export_logo_delete'
     delete 'design/favicon' => 'custom_styles#favicon_delete', as: 'custom_style_favicon_delete'
     delete 'design/touch_icon' => 'custom_styles#touch_icon_delete', as: 'custom_style_touch_icon_delete'
     get 'design/upsale' => 'custom_styles#upsale', as: 'custom_style_upsale'
@@ -365,7 +376,7 @@ OpenProject::Application.routes.draw do
       end
     end
 
-    resources :auth_sources, :ldap_auth_sources do
+    resources :ldap_auth_sources do
       member do
         get :test_connection
       end
@@ -393,6 +404,8 @@ OpenProject::Application.routes.draw do
       resource :work_packages, controller: '/admin/settings/work_packages_settings', only: %i[show update]
       resource :working_days, controller: '/admin/settings/working_days_settings', only: %i[show update]
       resource :users, controller: '/admin/settings/users_settings', only: %i[show update]
+      resource :date_format, controller: '/admin/settings/date_format_settings', only: %i[show update]
+      resource :icalendar, controller: '/admin/settings/icalendar_settings', only: %i[show update]
 
       # Redirect /settings to general settings
       get '/', to: redirect('/admin/settings/general')
@@ -452,9 +465,13 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  resources :activity, :activities, only: :index, controller: 'activities'
+  resources :activity, :activities, only: :index, controller: 'activities' do
+    collection do
+      get :menu
+    end
+  end
 
-  resources :users, except: :edit do
+  resources :users, constraints: { id: /(\d+|me)/ }, except: :edit do
     resources :memberships, controller: 'users/memberships', only: %i[update create destroy]
 
     member do
@@ -528,6 +545,9 @@ OpenProject::Application.routes.draw do
   scope 'my' do
     get '/deletion_info' => 'users#deletion_info', as: 'delete_my_account_info'
     post '/oauth/revoke_application/:application_id' => 'oauth/grants#revoke_application', as: 'revoke_my_oauth_application'
+    delete '/storage_token/:id' => 'my#delete_storage_token', as: 'storage_token_delete'
+
+    resources :sessions, controller: 'my/sessions', as: 'my_sessions', only: %i[index show destroy]
   end
 
   scope controller: 'my' do
@@ -543,7 +563,10 @@ OpenProject::Application.routes.draw do
     patch '/my/settings', action: 'update_settings'
 
     post '/my/generate_rss_key', action: 'generate_rss_key'
+    delete '/my/revoke_rss_key', action: 'revoke_rss_key'
     post '/my/generate_api_key', action: 'generate_api_key'
+    delete '/my/revoke_api_key', action: 'revoke_api_key'
+    delete '/my/revoke_ical_token', action: 'revoke_ical_token'
     get '/my/access_token', action: 'access_token'
   end
 
@@ -572,6 +595,7 @@ OpenProject::Application.routes.draw do
     get 'callback', controller: 'oauth_clients', action: :callback
   end
 
-  # Routes for design related documentation and examples pages
-  get '/design/styleguide' => redirect('/assets/styleguide.html')
+  if OpenProject::Configuration.lookbook_enabled?
+    mount Lookbook::Engine, at: "/lookbook"
+  end
 end

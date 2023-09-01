@@ -42,13 +42,6 @@ module Projects
       ret
     end
 
-    def persist(service_result)
-      # Needs to take place before awesome_nested_set reloads the model (in case the parent changes)
-      persist_status
-
-      super
-    end
-
     def after_perform(service_call)
       touch_on_custom_values_update
       notify_on_identifier_renamed
@@ -81,10 +74,6 @@ module Projects
       return unless memoized_changes['parent_id']
 
       WorkPackage.update_versions_from_hierarchy_change(model)
-    end
-
-    def persist_status
-      model.status.save if model.status.changed?
     end
 
     def handle_archiving

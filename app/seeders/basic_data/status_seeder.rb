@@ -26,25 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 module BasicData
-  class StatusSeeder < Seeder
-    def seed_data!
-      Status.transaction do
-        data.each do |attributes|
-          Status.create!(attributes)
-        end
-      end
-    end
+  class StatusSeeder < ModelSeeder
+    self.model_class = Status
+    self.seed_data_model_key = 'statuses'
+    self.attribute_names_for_lookups = %i[name is_closed is_default]
+    self.needs = [
+      BasicData::ColorSeeder,
+      BasicData::ColorSchemeSeeder
+    ]
 
-    def applicable
-      Status.all.any?
-    end
-
-    def not_applicable_message
-      'Skipping statuses - already exists/configured'
-    end
-
-    def data
-      raise NotImplementedError
+    def model_attributes(status_data)
+      {
+        name: status_data['name'],
+        color_id: color_id(status_data['color_name']),
+        is_closed: true?(status_data['is_closed']),
+        is_default: true?(status_data['is_default']),
+        position: status_data['position']
+      }
     end
   end
 end

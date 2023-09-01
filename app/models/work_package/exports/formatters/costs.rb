@@ -28,8 +28,8 @@
 module WorkPackage::Exports
   module Formatters
     class Costs < ::Exports::Formatters::Default
-      def self.apply?(column)
-        column.is_a? ::Costs::QueryCurrencyColumn
+      def self.apply?(name, export_format)
+        %i[material_costs labor_costs overall_costs].include?(name.to_sym) && export_format == :csv
       end
 
       def format_options

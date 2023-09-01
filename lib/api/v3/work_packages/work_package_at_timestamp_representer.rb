@@ -51,9 +51,17 @@ module API
           priority
           type
           version
+          parent
         ].freeze
 
+        SUPPORTED_CUSTOM_PROPERTIES = [/^custom_field_\d+$/].freeze
+
         SUPPORTED_PROPERTIES = (SUPPORTED_NON_LINK_PROPERTIES + SUPPORTED_LINK_PROPERTIES).freeze
+
+        ALL_SUPPORTED_PROPERTIES = (SUPPORTED_PROPERTIES + SUPPORTED_CUSTOM_PROPERTIES).freeze
+
+        STATIC_NON_LINK_PROPERTIES = %w[_meta].freeze
+        STATIC_LINK_PROPERTIES = ['links', :schema, :self].freeze
 
         def initialize(model, current_user:)
           super(model, current_user:, embed_links:, timestamps: [model.timestamp])
@@ -70,18 +78,33 @@ module API
         end
 
         def compile_links_for(configs, *args)
-          super(configs.select { |config| rendered_properties.include?(config.first[:rel]) },
+          super(configs.select { |config| rendered_properties_for_links.include?(config.first[:rel]) },
                 *args)
         end
 
         def rendered_properties
           @rendered_properties ||= begin
-            properties = (changed_properties_as_api_name & SUPPORTED_PROPERTIES) + ['_meta']
+            properties = changed_properties_as_api_name.select(&method(:property_supported?)) + STATIC_NON_LINK_PROPERTIES
 
             if represented.exists_at_timestamp?
-              properties + ["links", :self]
+              properties + STATIC_LINK_PROPERTIES
             else
               properties
+            end
+          end
+        end
+
+        # This separate property list is a workaround and ideally it is not required.
+        # The reason is that names in the representable_map are underscored "custom_fields_1",
+        # the :rel names in the config from the compile_links_for method are lower camel-cased "customField1".
+        # The rendered_properties method contains the underscored names and the rendered_properties_for_links
+        # contains the lower camel-cased names.
+        def rendered_properties_for_links
+          @rendered_properties_for_links ||= rendered_properties.map do |property|
+            if property.starts_with?("custom_field_")
+              API::Utilities::PropertyNameConverter.from_ar_name(property)
+            else
+              property
             end
           end
         end
@@ -90,17 +113,25 @@ module API
           # This conversion is good enough for the set of supported properties as it
           # * Converts assigned_to_id to assignee
           # * does not mess with `start_date` and `due_date`
-          represented
-            .attributes_changed_to_baseline
-            .flat_map do |property|
-            if property.ends_with?('_id')
-              API::Utilities::PropertyNameConverter.from_ar_name(property)
-            elsif %w[start_date due_date].include?(property)
-              ['date', property]
-            else
-              property
+          if represented.exists_at_current_timestamp?
+            represented
+              .attributes_changed_to_baseline
+              .flat_map do |property|
+              if property.ends_with?('_id')
+                API::Utilities::PropertyNameConverter.from_ar_name(property)
+              elsif %w[start_date due_date].include?(property)
+                ['date', property]
+              else
+                property
+              end
             end
+          else
+            SUPPORTED_PROPERTIES
           end
+        end
+
+        def property_supported?(property)
+          ALL_SUPPORTED_PROPERTIES.any? { _1.is_a?(Regexp) ? property =~ _1 : property == _1 }
         end
       end
     end

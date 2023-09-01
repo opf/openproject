@@ -28,47 +28,42 @@
 
 # Seeds the minimum data required to run OpenProject (BasicDataSeeder, AdminUserSeeder)
 # as well as optional demo data (DemoDataSeeder) to give a user some orientation.
-
 class RootSeeder < Seeder
-  include Redmine::I18n
-
   def initialize(seed_development_data: Rails.env.development?)
-    require 'basic_data_seeder'
-    require 'demo_data_seeder'
-    require 'development_data_seeder'
+    super()
 
     @seed_development_data = seed_development_data
 
-    rails_engines.each { |engine| load_engine_seeders! engine }
+    load_available_seeders
+  end
+
+  # Returns the demo data in the default language.
+  def seed_data
+    @seed_data ||= begin
+      raise 'cannot generate demo seed data without setting locale first' unless @locale_set
+
+      Source::SeedDataLoader.get_data
+    end
   end
 
   def seed_data!
     reset_active_record!
-    set_locale!
-    prepare_seed!
-
-    do_seed!
+    set_locale! do
+      prepare_seed! do
+        do_seed!
+      end
+    end
   end
 
   def do_seed!
     ActiveRecord::Base.transaction do
       # Basic data needs be seeded before anything else.
       seed_basic_data
-
-      puts '*** Seeding admin user'
-      AdminUserSeeder.new.seed!
-
-      puts '*** Seeding demo data'
-      DemoDataSeeder.new.seed!
-
-      if seed_development_data?
-        seed_development_data
-      end
-
-      rails_engines.each do |engine|
-        puts "*** Loading #{engine.engine_name} seed data"
-        engine.load_seed
-      end
+      seed_admin_user
+      seed_demo_data
+      seed_development_data if seed_development_data?
+      seed_plugins_data
+      seed_env_data
     end
   end
 
@@ -76,13 +71,22 @@ class RootSeeder < Seeder
     @seed_development_data
   end
 
-  def rails_engines
-    ::Rails::Engine.subclasses.map(&:instance)
+  private
+
+  # Load all seeders so that they can be discovered when doing
+  # `Seeder.subclasses`.
+  def load_available_seeders
+    load_engine_seeders(Rails)
+    rails_engines.each { |engine| load_engine_seeders engine }
   end
 
-  def load_engine_seeders!(engine)
-    Dir[engine.root.join('app/seeders/**/*.rb')]
+  def load_engine_seeders(engine)
+    engine.root.glob('app/seeders/**/*.rb')
       .each { |file| require file }
+  end
+
+  def rails_engines
+    ::Rails::Engine.subclasses.map(&:instance)
   end
 
   ##
@@ -98,32 +102,52 @@ class RootSeeder < Seeder
   end
 
   def set_locale!
-    # willfully ignoring Redmine::I18n and it's
-    # #set_language_if_valid here as it
-    # would mean to circumvent the default settings
-    # for valid_languages.
-    desired_lang = ENV.fetch('OPENPROJECT_SEED_LOCALE', :en).to_sym
-
-    if all_languages.include?(desired_lang)
-      I18n.locale = desired_lang
-      puts "*** Seeding for locale: '#{I18n.locale}'"
-    else
-      raise "Locale #{desired_lang} is not supported"
+    I18n.with_locale(desired_lang) do
+      print_status "*** Seeding for locale: '#{I18n.locale}'"
+      @locale_set = true
+      yield
     end
+  ensure
+    @locale_set = false
   end
 
   def prepare_seed!
     # Disable mail delivery for the duration of this task
+    previous_perform_deliveries = ActionMailer::Base.perform_deliveries
     ActionMailer::Base.perform_deliveries = false
 
     # Avoid asynchronous DeliverWorkPackageCreatedJob
+    previous_delay_jobs = Delayed::Worker.delay_jobs
     Delayed::Worker.delay_jobs = false
+
+    yield
+  ensure
+    ActionMailer::Base.perform_deliveries = previous_perform_deliveries
+    Delayed::Worker.delay_jobs = previous_delay_jobs
   end
 
-  private
+  def seed_basic_data
+    print_status "*** Seeding basic data for #{OpenProject::Configuration['edition']} edition"
+    ::Standard::BasicDataSeeder.new(seed_data).seed!
+  end
+
+  def seed_admin_user
+    print_status '*** Seeding admin user'
+    AdminUserSeeder.new(seed_data).seed!
+  end
+
+  def seed_demo_data
+    print_status '*** Seeding demo data'
+    DemoDataSeeder.new(seed_data).seed!
+  end
+
+  def seed_env_data
+    print_status '*** Seeding data from environment variables'
+    EnvDataSeeder.new(seed_data).seed!
+  end
 
   def seed_development_data
-    puts '*** Seeding development data'
+    print_status '*** Seeding development data'
     require 'factory_bot'
     # Load FactoryBot factories
     begin
@@ -132,11 +156,20 @@ class RootSeeder < Seeder
       raise e unless e.message.downcase.include? "factory already registered"
     end
 
-    DevelopmentDataSeeder.new.seed!
+    DevelopmentDataSeeder.new(seed_data).seed!
   end
 
-  def seed_basic_data
-    puts "*** Seeding basic data for #{OpenProject::Configuration['edition']} edition"
-    ::StandardSeeder::BasicDataSeeder.new.seed!
+  def seed_plugins_data
+    rails_engines.each do |engine|
+      print_status "*** Loading #{engine.engine_name} seed data"
+      engine.load_seed
+    end
+  end
+
+  def desired_lang
+    desired_lang = ENV.fetch('OPENPROJECT_SEED_LOCALE', Setting.default_language)
+    raise "Locale #{desired_lang} is not supported" if Redmine::I18n.all_languages.exclude?(desired_lang)
+
+    desired_lang
   end
 end

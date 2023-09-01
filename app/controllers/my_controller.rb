@@ -36,6 +36,8 @@ class MyController < ApplicationController
   before_action :require_login
   before_action :set_current_user
   before_action :check_password_confirmation, only: %i[update_account]
+  before_action :set_grouped_ical_tokens, only: %i[access_token]
+  before_action :set_ical_token, only: %i[revoke_ical_token]
 
   menu_item :account,             only: [:account]
   menu_item :settings,            only: [:settings]
@@ -76,7 +78,26 @@ class MyController < ApplicationController
   end
 
   # Administer access tokens
-  def access_token; end
+  def access_token
+    @storage_tokens = OAuthClientToken
+                        .preload(:oauth_client)
+                        .joins(:oauth_client)
+                        .where(user: @user, oauth_client: { integration_type: 'Storages::Storage' })
+  end
+
+  def delete_storage_token
+    token = OAuthClientToken
+      .preload(:oauth_client)
+      .joins(:oauth_client)
+      .where(user: @user, oauth_client: { integration_type: 'Storages::Storage' }).find_by(id: params[:id])
+
+    if token&.destroy
+      flash[:info] = I18n.t('my.access_tokens.storages.removed')
+    else
+      flash[:error] = I18n.t('my.access_tokens.storages.failed')
+    end
+    redirect_to action: :access_token
+  end
 
   # Configure user's in app notifications
   def notifications
@@ -99,9 +120,7 @@ class MyController < ApplicationController
   def generate_rss_key
     token = Token::RSS.create!(user: current_user)
     flash[:info] = [
-      # rubocop:disable Rails/OutputSafety
       t('my.access_token.notice_reset_token', type: 'RSS').html_safe,
-      # rubocop:enable Rails/OutputSafety
       content_tag(:strong, token.plain_value),
       t('my.access_token.token_value_warning')
     ]
@@ -112,18 +131,47 @@ class MyController < ApplicationController
     redirect_to action: 'access_token'
   end
 
+  def revoke_rss_key
+    current_user.rss_token.destroy
+    flash[:info] = t('my.access_token.notice_rss_token_revoked')
+  rescue StandardError => e
+    Rails.logger.error "Failed to revoke rss token ##{current_user.id}: #{e}"
+    flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
+  ensure
+    redirect_to action: 'access_token'
+  end
+
   # Create a new API key
   def generate_api_key
     token = Token::API.create!(user: current_user)
     flash[:info] = [
-      # rubocop:disable Rails/OutputSafety
       t('my.access_token.notice_reset_token', type: 'API').html_safe,
-      # rubocop:enable Rails/OutputSafety
       content_tag(:strong, token.plain_value),
       t('my.access_token.token_value_warning')
     ]
   rescue StandardError => e
     Rails.logger.error "Failed to reset user ##{current_user.id} API key: #{e}"
+    flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
+  ensure
+    redirect_to action: 'access_token'
+  end
+
+  def revoke_api_key
+    current_user.api_token.destroy
+    flash[:info] = t('my.access_token.notice_api_token_revoked')
+  rescue StandardError => e
+    Rails.logger.error "Failed to revoke api token ##{current_user.id}: #{e}"
+    flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
+  ensure
+    redirect_to action: 'access_token'
+  end
+
+  def revoke_ical_token
+    message = ical_destroy_info_message
+    @ical_token.destroy
+    flash[:info] = message
+  rescue StandardError => e
+    Rails.logger.error "Failed to revoke all ical tokens for ##{current_user.id}: #{e}"
     flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
   ensure
     redirect_to action: 'access_token'
@@ -165,7 +213,7 @@ class MyController < ApplicationController
   helper_method :has_tokens?
 
   def has_tokens?
-    Setting.feeds_enabled? || Setting.rest_api_enabled?
+    Setting.feeds_enabled? || Setting.rest_api_enabled? || current_user.ical_tokens.any?
   end
 
   def user_params
@@ -189,5 +237,25 @@ class MyController < ApplicationController
 
   def get_current_layout
     @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
+  end
+
+  def set_ical_token
+    @ical_token = current_user.ical_tokens.find(params[:id])
+  end
+
+  def set_grouped_ical_tokens
+    @ical_tokens_grouped_by_query = current_user.ical_tokens
+      .joins(ical_token_query_assignment: { query: :project })
+      .select("tokens.*, ical_token_query_assignments.query_id")
+      .group_by(&:query_id)
+  end
+
+  def ical_destroy_info_message
+    t(
+      'my.access_token.notice_ical_token_revoked',
+      token_name: @ical_token.ical_token_query_assignment.name,
+      calendar_name: @ical_token.query.name,
+      project_name: @ical_token.query.project.name
+    )
   end
 end

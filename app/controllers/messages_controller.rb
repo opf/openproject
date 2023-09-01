@@ -42,18 +42,18 @@ class MessagesController < ApplicationController
   def show
     @topic = @message.root
 
-    page = params[:page]
+    @offset = params[:page]
     # Find the page of the requested reply
-    if params[:r] && page.nil?
+    if params[:r] && @offset.nil?
       offset = @topic.children.where(["#{Message.table_name}.id < ?", params[:r].to_i]).count
-      page = 1 + (offset / REPLIES_PER_PAGE)
+      @offset = 1 + (offset / REPLIES_PER_PAGE)
     end
 
     @replies = @topic
                .children
                .includes(:author, :attachments, forum: :project)
                .order(created_at: :asc)
-               .page(page)
+               .page(@offset)
                .per_page(per_page_param)
 
     @reply = Message.new(subject: "RE: #{@message.subject}", parent: @topic, forum: @topic.forum)

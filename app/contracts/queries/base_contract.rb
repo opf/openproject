@@ -47,6 +47,7 @@ module Queries
 
     attribute :column_names # => columns
     attribute :filters
+    attribute :timestamps
 
     attribute :sort_criteria # => sortBy
     attribute :group_by # => groupBy
@@ -59,6 +60,11 @@ module Queries
 
     validate :validate_project
     validate :user_allowed_to_make_public
+    validate :timestamps_are_parsable
+
+    validates :name,
+              presence: true,
+              length: { maximum: 255 }
 
     def validate_project
       errors.add :project, :error_not_found if project_id.present? && !project_visible?
@@ -79,6 +85,14 @@ module Queries
 
       if model.public && may_not_manage_queries?
         errors.add :public, :error_unauthorized
+      end
+    end
+
+    def timestamps_are_parsable
+      invalid_timestamps = model.timestamps.reject(&:valid?)
+
+      if invalid_timestamps.any?
+        errors.add :timestamps, :invalid, values: invalid_timestamps.join(", ")
       end
     end
   end

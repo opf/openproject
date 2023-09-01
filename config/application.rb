@@ -32,6 +32,8 @@ require 'rails/all'
 require 'active_support'
 require 'active_support/dependencies'
 require 'core_extensions'
+require "view_component"
+require "primer/view_components/engine"
 
 # Silence deprecations early on for testing on CI and production
 ActiveSupport::Deprecation.silenced =
@@ -118,6 +120,13 @@ module OpenProject
     config.paths.add Rails.root.join('lib').to_s, eager_load: true
     config.paths.add Rails.root.join('lib/constraints').to_s, eager_load: true
 
+    # Add lookbook preview paths when enabled
+    if OpenProject::Configuration.lookbook_enabled?
+      config.paths.add Primer::ViewComponents::Engine.root.join('app/components').to_s, eager_load: true
+      config.paths.add Rails.root.join("lookbook/previews").to_s, eager_load: true
+      config.paths.add Primer::ViewComponents::Engine.root.join('previews').to_s, eager_load: true
+    end
+
     # Constants in lib_static should only be loaded once and never be unloaded.
     # That directory contains configurations and patches to rails core functionality.
     config.autoload_once_paths << Rails.root.join('lib_static').to_s
@@ -142,6 +151,9 @@ module OpenProject
 
     # Enable serialization of types [Symbol, Date, Time]
     config.active_record.yaml_column_permitted_classes = [Symbol, Date, Time, ActiveSupport::HashWithIndifferentAccess]
+
+    # Include tstzrange columns in the list of time zone aware types
+    ActiveRecord::Base.time_zone_aware_types += [:tstzrange]
 
     # Activate being able to specify the format in which full_message works.
     # Doing this, it is e.g. possible to avoid having the format of '%{attribute} %{message}' which

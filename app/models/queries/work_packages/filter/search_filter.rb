@@ -72,23 +72,21 @@ class Queries::WorkPackages::Filter::SearchFilter <
   end
 
   def custom_field_configurations
-    custom_fields =
-      if context&.project
-        context.project.all_work_package_custom_fields.select do |custom_field|
-          %w(text string).include?(custom_field.field_format) &&
-            custom_field.is_filter == true &&
-            custom_field.searchable == true
-        end
-      else
-        ::WorkPackageCustomField
-          .filter
-          .for_all
-          .where(field_format: %w(text string),
-                 is_filter: true,
-                 searchable: true)
-      end
+    # Does not remove custom fields that are not marked as filters
+    # as the intend of this filter is to search and it is used in the
+    # search context. Thus, only the searchable flag is of interest.
+    custom_fields = if context&.project
+                      context
+                        .project
+                        .all_work_package_custom_fields
+                    else
+                      ::WorkPackageCustomField
+                    end
 
-    custom_fields.map do |custom_field|
+    custom_fields
+      .where(field_format: %w(text string),
+             searchable: true)
+      .map do |custom_field|
       Queries::WorkPackages::Filter::FilterConfiguration.new(
         Queries::WorkPackages::Filter::CustomFieldFilter,
         custom_field.column_name,

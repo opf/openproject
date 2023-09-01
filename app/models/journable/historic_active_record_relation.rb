@@ -61,7 +61,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
       instance_variable_set key, relation.instance_variable_get(key)
     end
 
-    self.timestamp = timestamp
+    self.timestamp = Array(timestamp)
     readonly!
     instance_variable_set :@table, model.journal_class.arel_table
   end
@@ -105,10 +105,11 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     relation = self
 
     relation = switch_to_journals_database_table(relation)
+    relation = substitute_join_tables_in_where_clause(relation)
     relation = substitute_database_table_in_where_clause(relation)
     relation = add_timestamp_condition(relation)
     relation = add_join_on_journables_table_with_created_at_column(relation)
-    relation = add_join_projects_on_journables(relation)
+    relation = add_join_projects_on_work_package_journals(relation)
     relation = select_columns_from_the_appropriate_tables(relation)
 
     # Based on the previous modifications, build the algebra object.
@@ -160,7 +161,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   # - `updated_at`
   #
   # When asking for `WorkPackage.at_timestamp(...).where(id: 123)`, we are expecting `id` to refer
-  # to the id of the work pacakge, not of the journalized table entry.
+  # to the id of the work package, not of the journalized table entry.
   #
   # Also, the `created_at` and `updated_at` columns are not included in the journalized table.
   # We gather the `updated_at` from the `journals` mapping table, and the `created_at` from the
@@ -202,12 +203,49 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     end
   end
 
+  # Additional table joins can appear in the where clause, such as the custom_values table join.
+  # We need to substitute the table name ("custom_values") with the journalized table name
+  # ("customized_journals") in order to retrieve historic data from the journalized table.
+
+  def substitute_join_tables_in_where_clause(relation)
+    relation.where_clause.instance_variable_get(:@predicates).each do |predicate|
+      substitute_custom_values_join_in_predicate(predicate)
+    end
+    relation
+  end
+
+  # For simplicity's sake we replace the "custom_values" join only when the predicate is a String.
+  # This is the way we are receiving the predicate from the `Queries::WorkPackages::Filter::CustomFieldFilter`
+  # The joins are defined in the `Queries::WorkPackages::Filter::CustomFieldContext#where_subselect_joins`
+  # method. If we ever change that method to use Arel, we will need to implement the substitution
+  # for Arel objects as well.
+  def substitute_custom_values_join_in_predicate(predicate)
+    if predicate.is_a? String
+      predicate.gsub! /JOIN (?<!_)#{CustomValue.table_name}/, "JOIN #{Journal::CustomizableJournal.table_name}"
+      predicate.gsub! "JOIN \"#{CustomValue.table_name}\"", "JOIN \"#{Journal::CustomizableJournal.table_name}\""
+
+      customized_type = /custom_values.customized_type = 'WorkPackage'/
+      customized_id   = /custom_values.customized_id = work_packages.id/
+
+      # The customizable_journals table has no direct relation to the work_packages table,
+      # but it has to the journals table. We join it to the journals table instead.
+      journal_id = "customizable_journals.journal_id = journals.id"
+
+      predicate.gsub! /#{customized_type}.*AND #{customized_id}/m, journal_id
+    end
+  end
+
   # Add a timestamp condition: Select the work package journals that are the
   # current ones at the given timestamp.
   #
   def add_timestamp_condition(relation)
     relation.joins_values = [journals_join_statement] + relation.joins_values
-    relation.merge(Journal.where(journable_type: model.name).at_timestamp(timestamp))
+
+    timestamp_condition = timestamp.map do |t|
+      Journal.where(journable_type: model.name).at_timestamp(t)
+    end.reduce(&:or)
+
+    relation.merge(timestamp_condition)
   end
 
   def journals_join_statement
@@ -220,29 +258,32 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   #
   def add_join_on_journables_table_with_created_at_column(relation)
     relation \
-        .joins("INNER JOIN (SELECT id, created_at#{', project_id' if include_projects?(relation)} " \
+        .joins("INNER JOIN (SELECT id, created_at " \
                "FROM \"#{model.table_name}\") AS journables " \
                "ON \"journables\".\"id\" = \"journals\".\"journable_id\"")
   end
 
-  # Join the projects table on journables if :project is in the includes.
+  # Join the projects table on work_package_journals if :project is in the includes.
   # It is needed when projects are filtered by id, and has to be done manually
   # as eager_loading is disabled.
+  # It needs to be `work_package_journals` and not `journables` (the subselect of the work_packages table)
+  # because the journables table will contain the current project and not the project the work package was
+  # in at the time of the journal.
   # Does not work yet for other includes.
   #
-  def add_join_projects_on_journables(relation)
-    if include_projects?(relation)
+  def add_join_projects_on_work_package_journals(relation)
+    if include_projects?
       relation
         .except(:includes, :eager_load, :preload)
         .joins('LEFT OUTER JOIN "projects" ' \
-               'ON "projects"."id" = "journables"."project_id"')
+               'ON "projects"."id" = "work_package_journals"."project_id"')
     else
       relation
     end
   end
 
-  def include_projects?(relation)
-    include_values = relation.values.fetch(:includes, [])
+  def include_projects?
+    include_values = values.fetch(:includes, [])
     include_values.include?(:project)
   end
 
@@ -252,7 +293,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   # - the `work_package_journals` table (data)
   # - the `journals` table
   #
-  # Also, add the `timestamp` as column so that we have it as attribute in our model.
+  # Also, add the `timestamp` and `journal_id` as column so that we have it as attribute in our model.
   #
   def select_columns_from_the_appropriate_tables(relation)
     if relation.select_values.count == 0
@@ -275,7 +316,8 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
       "journals.journable_id as id",
       "journables.created_at as created_at",
       "journals.updated_at as updated_at",
-      "'#{timestamp}' as timestamp"
+      "CASE #{timestamp_case_when_statements} END as timestamp",
+      "journals.id as journal_id"
     ] + \
     model.column_names_missing_in_journal.collect do |missing_column_name|
       "null as #{missing_column_name}"
@@ -324,8 +366,9 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
 
   # Replace table names in sql strings, e.g.
   #
-  #     "work_package.id" => "journals.journable_id"
+  #     "work_package.id"      => "journals.journable_id"
   #     "work_package.subject" => "work_package_journals.subject"
+  #     "custom_values.*"      => "customizable_journals.*"
   #
   def gsub_table_names_in_sql_string!(sql_string)
     sql_string.gsub! /(?<!_)#{model.table_name}\.updated_at/, "journals.updated_at"
@@ -336,6 +379,25 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     sql_string.gsub! "\"#{model.table_name}\".\"id\"", "\"journals\".\"journable_id\""
     sql_string.gsub! /(?<!_)#{model.table_name}\./, "#{model.journal_class.table_name}."
     sql_string.gsub! "\"#{model.table_name}\".", "\"#{model.journal_class.table_name}\"."
+    sql_string.gsub! /(?<!_)#{CustomValue.table_name}\./, "#{Journal::CustomizableJournal.table_name}."
+    sql_string.gsub! "\"#{CustomValue.table_name}\".", "\"#{Journal::CustomizableJournal.table_name}\"."
+  end
+
+  def timestamp_case_when_statements
+    timestamp
+      .map do |timestamp|
+      comparison_time = case timestamp
+                        when Timestamp
+                          timestamp.to_time
+                        when DateTime
+                          timestamp.in_time_zone
+                        else
+                          raise NotImplementedError, "Unknown timestamp type: #{timestamp.class}"
+                        end
+
+      "WHEN \"journals\".\"validity_period\" @> timestamp with time zone '#{comparison_time}' THEN '#{timestamp}'"
+    end
+      .join(" ")
   end
 
   class NotImplementedError < StandardError; end
