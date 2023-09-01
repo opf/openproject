@@ -31,7 +31,6 @@ module Meetings
     include ApplicationHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
-    include API::V3::Utilities::DateTimeFormatter
 
     def initialize(meeting:)
       super
