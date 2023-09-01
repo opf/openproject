@@ -566,6 +566,25 @@ RSpec.describe AccountController,
     end
   end
 
+  describe 'POST #lost_password' do
+    context 'when the user has been invited but not yet activated' do
+      shared_let(:admin) { create(:admin, status: :invited) }
+      shared_let(:token) { create(:recovery_token, user: admin) }
+
+      context 'with a valid token' do
+        before do
+          allow(controller).to receive(:allow_lost_password_recovery).and_return(true)
+
+          post :lost_password, params: { token: token.value }
+        end
+
+        it 'redirects to the login page' do
+          expect(response).to redirect_to '/login'
+        end
+      end
+    end
+  end
+
   shared_examples 'registration disabled' do
     it 'redirects to back the login page' do
       expect(response).to redirect_to signin_path
