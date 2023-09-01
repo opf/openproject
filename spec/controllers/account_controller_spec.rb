@@ -59,45 +59,46 @@ RSpec.describe AccountController,
   end
 
   describe 'GET #login' do
-    let(:setup) {}
     let(:params) { {} }
 
-    before do
-      setup
+    context 'when the user is not already logged in' do
+      before do
+        get :login, params:
+      end
 
-      get :login, params:
+      it 'renders the view' do
+        expect(response).to render_template 'login'
+        expect(response).to be_successful
+      end
     end
 
-    it 'renders the view' do
-      expect(response).to render_template 'login'
-      expect(response).to be_successful
-    end
+    context 'when the user is already logged in' do
+      before do
+        login_as user
 
-    context 'user already logged in' do
-      let(:setup) { login_as user }
+        get :login, params:
+      end
 
       it 'redirects to home' do
         expect(response)
           .to redirect_to my_page_path
       end
-    end
 
-    context 'user already logged in and back url present' do
-      let(:setup) { login_as user }
-      let(:params) { { back_url: "/projects" } }
+      context 'and a valid back url is present' do
+        let(:params) { { back_url: "/projects" } }
 
-      it 'redirects to back_url value' do
-        expect(response)
-          .to redirect_to projects_path
+        it 'redirects to back_url value' do
+          expect(response)
+            .to redirect_to projects_path
+        end
       end
-    end
 
-    context 'user already logged in and invalid back url present' do
-      let(:setup) { login_as user }
-      let(:params) { { back_url: 'http://test.foo/work_packages/show/1' } }
+      context 'and an invalid back url present' do
+        let(:params) { { back_url: 'http://test.foo/work_packages/show/1' } }
 
-      it 'redirects to home' do
-        expect(response).to redirect_to my_page_path
+        it 'redirects to home' do
+          expect(response).to redirect_to my_page_path
+        end
       end
     end
   end
