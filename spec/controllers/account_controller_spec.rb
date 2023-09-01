@@ -242,13 +242,12 @@ RSpec.describe AccountController,
       end
 
       context 'with a relative url root' do
-        before do
-          @old_relative_url_root = OpenProject::Configuration['rails_relative_url_root']
+        around do |example|
+          old_relative_url_root = OpenProject::Configuration['rails_relative_url_root']
           OpenProject::Configuration['rails_relative_url_root'] = '/openproject'
-        end
-
-        after do
-          OpenProject::Configuration['rails_relative_url_root'] = @old_relative_url_root
+          example.run
+        ensure
+          OpenProject::Configuration['rails_relative_url_root'] = old_relative_url_root
         end
 
         it 'redirects to the same subdirectory with an absolute path' do
