@@ -84,7 +84,7 @@ module Storages
                 id: json[:id],
                 name: json[:name],
                 size: json[:size],
-                mime_type: json.dig(:file, :mimeType) || 'application/x-op-directory',
+                mime_type: mime_type(json),
                 created_at: DateTime.parse(json.dig(:fileSystemInfo, :createdDateTime)),
                 last_modified_at: DateTime.parse(json.dig(:fileSystemInfo, :lastModifiedDateTime)),
                 created_by_name: json.dig(:createdBy, :user, :displayName),
@@ -96,7 +96,7 @@ module Storages
           end
 
           def mime_type(json)
-            json.dig(:file, :mimeType) || json.key?(:folder) ? 'application/x-op-directory' : nil
+            json.dig(:file, :mimeType) || (json.key?(:folder) ? 'application/x-op-directory' : nil)
           end
 
           def using_user_token(user, &block)
