@@ -36,7 +36,7 @@ class Meeting::StartTime < ApplicationForm
       label: "Start time",
       leading_visual: { icon: :clock },
       required: true,
-      autofocus: true
+      caption: Time.zone.to_s
     )
   end
 

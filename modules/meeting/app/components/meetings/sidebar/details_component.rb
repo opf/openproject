@@ -31,6 +31,7 @@ module Meetings
     include ApplicationHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
+    include API::V3::Utilities::DateTimeFormatter
 
     def initialize(meeting:)
       super
@@ -88,6 +89,9 @@ module Meetings
         flex.with_row(mt: 2) do
           time_partial
         end
+        flex.with_row(mt: 2) do
+          duration_partial
+        end
         if @meeting.location.present?
           flex.with_row(mt: 2) do
             location_partial
@@ -114,8 +118,24 @@ module Meetings
           end
           flex.with_column(ml: 2) do
             render(Primer::Beta::Text.new(color: :subtle, font_size: :small)) do
-              "#{number_with_delimiter @meeting.duration} h"
+              Time.zone.to_s
             end
+          end
+        end
+      end
+    end
+
+    def duration_partial
+      duration = Duration.new(seconds: @meeting.duration * 3600)
+
+      meeting_attribute_row(:stopwatch) do
+        if duration.hours > 0
+          render(Primer::Beta::Text.new) do
+            "#{duration.hours}h #{duration.minutes}min"
+          end
+        else
+          render(Primer::Beta::Text.new) do
+            "#{duration.minutes}min"
           end
         end
       end
