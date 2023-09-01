@@ -316,10 +316,12 @@ RSpec.describe AccountController,
       shared_let(:admin) { create(:admin) }
 
       it 'calls reset_session' do
-        expect(controller).to receive(:reset_session).once
-
+        allow(controller).to receive(:reset_session)
         login_as admin
+
         get :logout
+
+        expect(controller).to have_received(:reset_session).once
         expect(response).to be_redirect
       end
 
