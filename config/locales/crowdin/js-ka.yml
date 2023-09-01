@@ -24,7 +24,7 @@ ka:
     ajax:
       hide: "დამალვა"
       loading: "ჩატვირთვა…"
-      updating: "Updating…"
+      updating: "მიმდინარეობს განახლება…"
     attachments:
       delete: "Delete attachment"
       delete_confirmation: |
@@ -60,7 +60,7 @@ ka:
     button_cancel: "გაუქმება"
     button_close: "დახურვა"
     button_change_project: "Change project"
-    button_check_all: "Check all"
+    button_check_all: "ყველას მონიშვნა"
     button_configure-form: "Configure form"
     button_confirm: "დადასტურება"
     button_continue: "გაგრძელება"
@@ -150,7 +150,7 @@ ka:
           include_parent: 'Include parent'
           text: '[Placeholder] Links to child pages of'
           page: 'ვიკი გვერდი'
-          this_page: 'this page'
+          this_page: 'ეს გვერდი'
           hint: |
             Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
         code_block:
@@ -210,7 +210,7 @@ ka:
             label_domain: "დომენი"
             label_subscriber: "Subscriber"
             label_maximum_users: "Maximum active users"
-            label_starts_at: "Starts at"
+            label_starts_at: "იწყება"
             label_expires_at: "Expires at"
             receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
             taken_domain: There can only be one active trial per domain.
@@ -224,7 +224,7 @@ ka:
           resend_warning: "Could not resend email."
           session_timeout: "Your session timed out. Please try to reload the page or resend email."
           status_label: "სტატუსი:"
-          status_confirmed: "confirmed"
+          status_confirmed: "დადასტურებულია"
           status_waiting: "email sent - waiting for confirmation"
           test_ee: "Test the Enterprise edition 14 days for free"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
@@ -252,7 +252,7 @@ ka:
           more_info: "More information"
           text: >
             The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
-          unlimited: "Unlimited"
+          unlimited: "შეუზღუდავი"
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
       working_days:
         calendar:
@@ -304,7 +304,7 @@ ka:
         bar: 'Bar labels'
         left: 'მარცხნივ'
         right: 'მარჯვნივ'
-        farRight: 'Far right'
+        farRight: 'შორი მარჯვენა'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Show Gantt chart'
@@ -316,7 +316,7 @@ ka:
       zoom:
         in: "გადიდება"
         out: "დაპატარავება"
-        auto: "Auto zoom"
+        auto: "ავტომატური გადიდება"
         days: "დღე"
         weeks: "კვირა"
         months: "თვე"
@@ -374,7 +374,7 @@ ka:
     label_all: "ყველა"
     label_all_work_packages: "all work packages"
     label_and: "და"
-    label_ascending: "Ascending"
+    label_ascending: "ზრდადობით"
     label_author: "Author: %{user}"
     label_avatar: "ავატარი"
     label_between: "მითითებულ დროის შუალედში"
@@ -396,7 +396,7 @@ ka:
     label_cancel_comment: "Cancel comment"
     label_closed_work_packages: "დახურულია"
     label_collapse: "ჩახურვა"
-    label_collapsed: "collapsed"
+    label_collapsed: "ჩახურული"
     label_collapse_all: "Collapse all"
     label_comment: "კომენტარი"
     label_committed_at: "%{committed_revision_link} at %{date}"
@@ -421,7 +421,7 @@ ka:
     label_group: 'ჯგუფი'
     label_group_by: "დაჯგუფება"
     label_group_plural: "ჯგუფები"
-    label_hide_attributes: "Show less"
+    label_hide_attributes: "ნაკლების ჩვენება"
     label_hide_column: "Hide column"
     label_hide_project_menu: "Collapse project menu"
     label_in: "სად"
@@ -455,12 +455,12 @@ ka:
     label_not_contains: "doesn't contain"
     label_not_equals: "არაა"
     label_on: "დრო"
-    label_open_menu: "Open menu"
+    label_open_menu: "მენიუს გახსნა"
     label_open_context_menu: "Open context menu"
     label_open_work_packages: "გახსნა"
     label_password: "პაროლი"
     label_previous: "წინა"
-    label_per_page: "Per page:"
+    label_per_page: "თითოეულ გვერდზე:"
     label_please_wait: "Please wait"
     label_project: "პროექტი"
     label_project_list: "Projects list"
@@ -482,9 +482,9 @@ ka:
     label_show_attributes: "Show all attributes"
     label_show_in_menu: "Show view in menu"
     label_sort_by: "დალაგება"
-    label_sorted_by: "sorted by"
+    label_sorted_by: "დალაგებულია"
     label_sort_higher: "აწევა"
-    label_sort_lower: "Move down"
+    label_sort_lower: "ქვემოთ ჩატანა"
     label_sorting: "დალაგება"
     label_spent_time: "Spent time"
     label_star_query: "რჩეულია"
@@ -492,9 +492,9 @@ ka:
     label_public_query: "საჯარო"
     label_sum: "ჯამი"
     label_sum_for: "ჯამი"
-    label_total_sum: "Total sum"
+    label_total_sum: "სულ ჯამი"
     label_subject: "თემა"
-    label_this_week: "this week"
+    label_this_week: "ამ კვირაში "
     label_today: "დღეს"
     label_time_entry_plural: "Spent time"
     label_up: "ზემოთ"
@@ -589,14 +589,14 @@ ka:
       title: "Notifications"
       no_unread: "No unread notifications"
       reasons:
-        mentioned: 'mentioned'
+        mentioned: 'მოხსენიებულები'
         watched: 'მეთვალყურე'
         assigned: 'შემსრულებელი'
         responsible: 'accountable'
         created: 'შეიქმნა'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
+        scheduled: 'დაგეგმილია'
+        commented: 'დაკომენტარებულია'
+        processed: 'დამუშავებულია'
         prioritized: 'prioritized'
         dateAlert: 'Date alert'
       date_alerts:
@@ -640,13 +640,13 @@ ka:
         by_project: 'Unread by project'
         by_reason: 'მიზეზი'
         inbox: 'შემომავალი'
-        mentioned: 'Mentioned'
+        mentioned: 'მოხსენიებულები'
         watched: 'მეთვალყურე'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
-        notify_me: "Notify me"
+        notify_me: "შემატყობინე"
         reminders:
           no_notification: No notification
           timeframes:
@@ -656,12 +656,12 @@ ka:
               P3D: 3 days before
               P7D: a week before
             overdue:
-              P1D: every day
+              P1D: ყოველდღე
               P3D: every 3 days
               P7D: every week
         reasons:
           mentioned:
-            title: 'Mentioned'
+            title: 'მოხსენიებულები'
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: 'დასაქმებული'
           responsible: 'Accountable'
@@ -745,7 +745,7 @@ ka:
         title: 'Email reminders'
         pause:
           label: 'Temporarily pause daily email reminders'
-          first_day: 'First day'
+          first_day: 'პირველი დღე'
           last_day: 'ბოლო დღე'
     text_are_you_sure: "დარწმუნებული ბრძანდებით?"
     text_data_lost: "All entered data will be lost."
@@ -759,7 +759,7 @@ ka:
         upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
         upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
         more_information: "More information"
-        nevermind: "Nevermind"
+        nevermind: "გადავიფიქრე"
       edit:
         form_configuration: "Form Configuration"
         projects: "პროექტები"
@@ -801,7 +801,7 @@ ka:
       relation_type: "relation type"
     relations_hierarchy:
       parent_headline: "მშობელი"
-      hierarchy_headline: "Hierarchy"
+      hierarchy_headline: "იერარქია"
       children_headline: "შვილები"
     relation_buttons:
       set_parent: "Set parent"
@@ -860,12 +860,12 @@ ka:
     wiki_formatting:
       strong: "ძლიერი"
       italic: "დახრილი"
-      underline: "Underline"
+      underline: "ხაზგასმული"
       deleted: "წაშლილია"
       code: "Inline Code"
-      heading1: "Heading 1"
-      heading2: "Heading 2"
-      heading3: "Heading 3"
+      heading1: "სათაური 1"
+      heading2: "სათაური 2"
+      heading3: "სათაური 3"
       unordered_list: "Unordered List"
       ordered_list: "Ordered List"
       quote: "ციტატა"
@@ -876,8 +876,8 @@ ka:
     work_packages:
       bulk_actions:
         move: 'Bulk change of project'
-        edit: 'Bulk edit'
-        copy: 'Bulk copy'
+        edit: 'მასობრივი ჩასწორება'
+        copy: 'მასობრივი კოპირება'
         delete: 'Bulk delete'
       button_clear: "გასუფთავება"
       comment_added: "The comment was successfully added."
@@ -1030,8 +1030,8 @@ ka:
         embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "ნაგულისხმევი"
         display_settings: 'Display settings'
-        default_mode: "Flat list"
-        hierarchy_mode: "Hierarchy"
+        default_mode: "ბრტყელი სია"
+        hierarchy_mode: "იერარქია"
         hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
         display_sums_hint: "Display sums of all summable attributes in a row below the table results."
         show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
@@ -1047,7 +1047,7 @@ ka:
           type: 'ტიპი'
         sorting_mode:
           description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
+          automatic: 'ავტომატური'
           manually: 'ხელით'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
         columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
@@ -1060,7 +1060,7 @@ ka:
       tabs:
         overview: მიმოხილვა
         activity: აქტივობა
-        relations: Relations
+        relations: ურთიერთობები
         watchers: მეთვალყურეები
         files: ფაილები
       time_relative:
@@ -1076,7 +1076,7 @@ ka:
         display_sums: "Display sums"
         display_hierarchy: "Display hierarchy"
         hide_hierarchy: "Hide hierarchy"
-        hide_sums: "Hide sums"
+        hide_sums: "ჯამების დამალვა"
         save: "შენახვა"
         save_as: "შენახვა, როგორც"
         export: "გატანა"
@@ -1266,9 +1266,9 @@ ka:
       to: 'ვის'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: 'გუშინ'
         last_working_day: 'last working day'
-        last_week: 'last week'
+        last_week: 'ბოლო კვირას'
         last_month: 'last month'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
