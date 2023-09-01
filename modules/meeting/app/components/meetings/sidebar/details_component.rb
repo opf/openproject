@@ -145,14 +145,22 @@ module Meetings
       if @meeting.location.include?("http")
         meeting_attribute_row(:link) do
           render(Primer::Beta::Link.new(href: @meeting.location, target: "_blank")) do
-            @meeting.location
+            truncated_location
           end
         end
       else
         meeting_attribute_row(:location) do
           render(Primer::Beta::Text.new) do
-            @meeting.location
+            truncated_location
           end
+        end
+      end
+    end
+
+    def truncated_location
+      render(Primer::Beta::Truncate.new) do |component|
+        component.with_item(max_width: 250) do
+          @meeting.location
         end
       end
     end
