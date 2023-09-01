@@ -430,7 +430,7 @@ RSpec.describe AccountController,
       end
 
       it 'is not found' do
-        expect(response.status).to eq 404
+        expect(response).to have_http_status :not_found
       end
     end
 
@@ -519,7 +519,7 @@ RSpec.describe AccountController,
       end
 
       it 'renders 404' do
-        expect(response.status).to eq 404
+        expect(response).to have_http_status :not_found
       end
     end
 
@@ -559,7 +559,7 @@ RSpec.describe AccountController,
       end
 
       it 'is not found' do
-        expect(response.status).to eq 404
+        expect(response).to have_http_status :not_found
       end
     end
   end
@@ -916,7 +916,7 @@ RSpec.describe AccountController,
           end
 
           it 'is not found' do
-            expect(response.status).to eq 404
+            expect(response).to have_http_status :not_found
           end
         end
 
