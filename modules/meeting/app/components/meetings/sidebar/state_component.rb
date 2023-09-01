@@ -64,7 +64,7 @@ module Meetings
           open_description_partial
         end
         if edit_enabled?
-          flex.with_row(mt: 2) do
+          flex.with_row(mt: 3) do
             open_actions_partial
           end
         end
@@ -78,7 +78,7 @@ module Meetings
             render(Primer::Beta::Octicon.new(icon: "issue-opened"))
           end
           flex.with_column do
-            render(Primer::Beta::Text.new) { "Open" }
+            render(Primer::Beta::Text.new) { t("label_meeting_state_open") }
           end
         end
       end
@@ -86,7 +86,7 @@ module Meetings
 
     def open_description_partial
       render(Primer::Beta::Text.new(color: :subtle)) do
-        "This meeting is open. You can add/remove agenda items and edit them as you please. After the meeting is over, close it to lock it."
+        t("text_meeting_open_description")
       end
     end
 
@@ -106,7 +106,7 @@ module Meetings
                      type: :submit
                    )) do |button|
               button.with_leading_visual_icon(icon: :lock)
-              "Close meeting"
+              t("label_meeting_close_action")
             end
           end
         end
@@ -122,7 +122,7 @@ module Meetings
           closed_description_partial
         end
         if edit_enabled?
-          flex.with_row(mt: 2) do
+          flex.with_row(mt: 3) do
             closed_actions_partial
           end
         end
@@ -136,7 +136,7 @@ module Meetings
             render(Primer::Beta::Octicon.new(icon: "issue-closed"))
           end
           flex.with_column do
-            render(Primer::Beta::Text.new) { "closed" }
+            render(Primer::Beta::Text.new) { t("label_meeting_state_closed") }
           end
         end
       end
@@ -144,7 +144,7 @@ module Meetings
 
     def closed_description_partial
       render(Primer::Beta::Text.new(color: :subtle)) do
-        "This meeting is closed. You cannot add/remove agenda items anymore."
+        t("text_meeting_closed_description")
       end
     end
 
@@ -164,7 +164,7 @@ module Meetings
                      type: :submit
                    )) do |button|
               button.with_leading_visual_icon(icon: :unlock)
-              "Reopen meeting"
+              t("label_meeting_reopen_action")
             end
           end
         end

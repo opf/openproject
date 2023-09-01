@@ -32,8 +32,8 @@ class Meeting::StartTime < ApplicationForm
       name: :start_time_hour,
       type: "time",
       value: @initial_value,
-      placeholder: "Start time",
-      label: "Start time",
+      placeholder: Meeting.human_attribute_name(:start_time),
+      label: Meeting.human_attribute_name(:start_time),
       leading_visual: { icon: :clock },
       required: true,
       caption: Time.zone.to_s

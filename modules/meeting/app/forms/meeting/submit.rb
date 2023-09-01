@@ -28,6 +28,6 @@
 
 class Meeting::Submit < ApplicationForm
   form do |meeting_form|
-    meeting_form.submit(name: :submit, label: "Save", scheme: :primary)
+    meeting_form.submit(name: :submit, label: I18n.t("button_save"), scheme: :primary)
   end
 end

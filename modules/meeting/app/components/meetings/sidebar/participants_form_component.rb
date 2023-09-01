@@ -77,8 +77,12 @@ module Meetings
 
     def header_partial
       flex_layout(justify_content: :flex_end) do |flex|
-        flex.with_column(mr: 3) { "Invited" }
-        flex.with_column(mr: 1) { "Attended" }
+        flex.with_column(style: "width: 90px;", text_align: :center) do
+          render(Primer::Beta::Text.new(font_weight: :emphasized)) { t("description_invite").capitalize }
+        end
+        flex.with_column(style: "width: 90px;", text_align: :center) do
+          render(Primer::Beta::Text.new(font_weight: :emphasized)) { t("description_attended").capitalize }
+        end
       end
     end
 
@@ -88,25 +92,33 @@ module Meetings
           flex.with_row do
             hidden_field_tag "meeting[participants_attributes][][user_id]", user.id
           end
-          flex.with_row(mb: 2, pb: 1, border: :bottom) do
-            if @meeting.participants.present? && participant = @meeting.participants.detect { |p| p.user_id == user.id }
-              flex_layout do |flex|
-                flex.with_row do
-                  hidden_field_tag "meeting[participants_attributes][][id]", participant.id
-                end
-                flex.with_row do
-                  exisiting_participant_form_partial(participant)
-                end
-              end
-            else
-              new_participant_form_partial(user)
-            end
-          end
+          participant_form_partial(user, flex)
+        end
+      end
+    end
+
+    def participant_form_partial(user, flex)
+      flex.with_row(mb: 2, pb: 1, border: :bottom) do
+        if @meeting.participants.present? && participant = @meeting.participants.detect { |p| p.user_id == user.id }
+          exisiting_participant_form_partial(participant)
+        else
+          new_participant_form_partial(user)
         end
       end
     end
 
     def exisiting_participant_form_partial(participant)
+      flex_layout do |flex|
+        flex.with_row do
+          hidden_field_tag "meeting[participants_attributes][][id]", participant.id
+        end
+        flex.with_row do
+          exisiting_participant_form_checkboxes_partial(participant)
+        end
+      end
+    end
+
+    def exisiting_participant_form_checkboxes_partial(participant)
       flex_layout(align_items: :center) do |flex|
         flex.with_column(flex: 1) do
           render(Users::AvatarComponent.new(
@@ -116,10 +128,10 @@ module Meetings
                    }
                  ))
         end
-        flex.with_column(ml: 4, mr: 5) do
+        flex.with_column(style: "width: 90px;", text_align: :center) do
           invited_participant_checkbox_partial(participant)
         end
-        flex.with_column(mx: 4) do
+        flex.with_column(style: "width: 90px;", text_align: :center) do
           attended_participant_checkbox_partial(participant)
         end
       end
@@ -169,10 +181,10 @@ module Meetings
                    }
                  ))
         end
-        flex.with_column(ml: 4, mr: 5) do
+        flex.with_column(style: "width: 90px;", text_align: :center) do
           invited_user_checkbox_partial(user)
         end
-        flex.with_column(mx: 4) do
+        flex.with_column(style: "width: 90px;", text_align: :center) do
           attended_user_checkbox_partial(user)
         end
       end
@@ -213,10 +225,10 @@ module Meetings
     def form_actions_partial
       component_collection do |collection|
         collection.with_component(Primer::ButtonComponent.new(data: { 'close-dialog-id': "edit-participants-dialog" })) do
-          "Cancel"
+          t("button_cancel")
         end
         collection.with_component(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) do
-          "Save"
+          t("button_save")
         end
       end
     end

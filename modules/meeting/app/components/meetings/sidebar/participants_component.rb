@@ -78,7 +78,7 @@ module Meetings
     def title_partial
       flex_layout(align_items: :center) do |flex|
         flex.with_column(mr: 2) do
-          render(Primer::Beta::Heading.new(tag: :h4)) { "Participants" }
+          render(Primer::Beta::Heading.new(tag: :h4)) { Meeting.human_attribute_name(:participants) }
         end
         flex.with_column do
           render(Primer::Beta::Counter.new(count: @meeting.invited_or_attended_participants.count, scheme: :primary))
@@ -88,10 +88,10 @@ module Meetings
 
     def dialog_wrapper_partial
       render(Primer::Alpha::Dialog.new(
-               id: "edit-participants-dialog", title: "Participants",
+               id: "edit-participants-dialog", title: Meeting.human_attribute_name(:participants),
                size: :medium_portrait
              )) do |dialog|
-        dialog.with_show_button(icon: :gear, 'aria-label': "Manage participants", scheme: :invisible)
+        dialog.with_show_button(icon: :gear, 'aria-label': t("label_meeting_manage_participants"), scheme: :invisible)
         render(Meetings::Sidebar::ParticipantsFormComponent.new(meeting: @meeting))
       end
     end
@@ -100,7 +100,7 @@ module Meetings
       count = @meeting.invited_or_attended_participants.count
 
       if count == 0
-        render(Primer::Beta::Text.new(color: :subtle)) { "No participants" }
+        render(Primer::Beta::Text.new(color: :subtle)) { t("label_meeting_no_participants") }
       elsif count <= max_initially_shown_participants
         unsplit_participant_list
       elsif count > max_initially_shown_participants
@@ -136,7 +136,8 @@ module Meetings
         flex_layout do |flex|
           flex.with_row do
             component.with_summary(size: :small, scheme: :link) do
-              "Show/hide #{@meeting.invited_or_attended_participants.count - max_initially_shown_participants} more"
+              t('label_meeting_show_hide_participants',
+                count: @meeting.invited_or_attended_participants.count - max_initially_shown_participants).to_s
             end
           end
           flex.with_row do
@@ -166,15 +167,18 @@ module Meetings
                                               font_size: :normal, muted: false
                                             }))
         end
-        if participant.invited?
-          flex.with_column(ml: 1) do
-            render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { "Invited" }
-          end
+        participant_state_partial(participant, flex)
+      end
+    end
+
+    def participant_state_partial(participant, flex)
+      if participant.attended?
+        flex.with_column(ml: 1) do
+          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("description_attended").capitalize }
         end
-        if participant.attended?
-          flex.with_column(ml: 1) do
-            render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { "Attended" }
-          end
+      elsif participant.invited?
+        flex.with_column(ml: 1) do
+          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("description_invite").capitalize }
         end
       end
     end
@@ -188,7 +192,7 @@ module Meetings
                data: { 'show-dialog-id': "edit-participants-dialog" }
              )) do |button|
         button.with_leading_visual_icon(icon: "person-add")
-        "Add participants"
+        t("label_meeting_add_participants")
       end
     end
   end

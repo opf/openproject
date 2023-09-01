@@ -60,7 +60,7 @@ module Meetings
     def heading_partial
       flex_layout(align_items: :center, justify_content: :space_between) do |flex|
         flex.with_column(flex: 1) do
-          render(Primer::Beta::Heading.new(tag: :h4)) { "Meeting details" }
+          render(Primer::Beta::Heading.new(tag: :h4)) { t("label_meeting_details") }
         end
         if edit_enabled?
           flex.with_column do
@@ -72,10 +72,10 @@ module Meetings
 
     def dialog_wrapper_partial
       render(Primer::Alpha::Dialog.new(
-               id: "edit-meeting-details-dialog", title: "Meeting details",
+               id: "edit-meeting-details-dialog", title: t("label_meeting_details"),
                size: :medium_portrait
              )) do |dialog|
-        dialog.with_show_button(icon: :pencil, 'aria-label': "Edit meeting details", scheme: :invisible)
+        dialog.with_show_button(icon: :pencil, 'aria-label': t("label_meeting_details_edit"), scheme: :invisible)
         render(Meetings::Sidebar::DetailsFormComponent.new(meeting: @meeting))
       end
     end

@@ -120,8 +120,7 @@ module MeetingAgendaItems
                classes: "handle",
                style: "cursor: move;",
                size: :small,
-               icon: :grabber,
-               'aria-label': "Drag agenda item"
+               icon: :grabber
              ))
     end
 
@@ -203,18 +202,15 @@ module MeetingAgendaItems
 
     def actions_partial
       render(Primer::Alpha::ActionMenu.new) do |menu|
-        menu.with_show_button(icon: "kebab-horizontal", 'aria-label': "Agenda item actions", scheme: :invisible)
+        menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("label_agenda_item_actions"), scheme: :invisible)
         edit_action_item(menu)
-        move_action_item(menu, :top, "Move to top", "move-to-top") unless @meeting_agenda_item.first?
-        move_action_item(menu, :up, "Move up", "chevron-up") unless @meeting_agenda_item.first?
-        move_action_item(menu, :down, "Move down", "chevron-down") unless @meeting_agenda_item.last?
-        move_action_item(menu, :bottom, "Move to bottom", "move-to-bottom") unless @meeting_agenda_item.last?
+        move_actions(menu)
         delete_action_item(menu)
       end
     end
 
     def edit_action_item(menu)
-      menu.with_item(label: "Edit",
+      menu.with_item(label: t("label_edit"),
                      href: edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
                      content_arguments: {
                        data: { 'turbo-stream': true }
@@ -223,12 +219,19 @@ module MeetingAgendaItems
       end
     end
 
+    def move_actions(menu)
+      move_action_item(menu, :top, t("label_agenda_item_move_to_top"), "move-to-top") unless @meeting_agenda_item.first?
+      move_action_item(menu, :up, t("label_agenda_item_move_up"), "chevron-up") unless @meeting_agenda_item.first?
+      move_action_item(menu, :down, t("label_agenda_item_move_down"), "chevron-down") unless @meeting_agenda_item.last?
+      move_action_item(menu, :bottom, t("label_agenda_item_move_to_bottom"), "move-to-bottom") unless @meeting_agenda_item.last?
+    end
+
     def delete_action_item(menu)
-      menu.with_item(label: "Remove",
+      menu.with_item(label: t("text_destroy"),
                      scheme: :danger,
                      href: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
                      form_arguments: {
-                       method: :delete, data: { confirm: "Are you sure?", 'turbo-stream': true }
+                       method: :delete, data: { confirm: t("text_are_you_sure"), 'turbo-stream': true }
                      }) do |item|
         item.with_leading_visual_icon(icon: :trash)
       end

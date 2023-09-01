@@ -91,10 +91,10 @@ module Meetings
     def form_actions_partial
       component_collection do |collection|
         collection.with_component(Primer::ButtonComponent.new(data: { 'close-dialog-id': "edit-meeting-details-dialog" })) do
-          "Cancel"
+          t("button_cancel")
         end
         collection.with_component(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) do
-          "Submit"
+          t("button_save")
         end
       end
     end

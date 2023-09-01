@@ -56,10 +56,10 @@ module MeetingAgendaItems
       render(Primer::Alpha::ActionMenu.new) do |component|
         component.with_show_button(scheme: :primary, disabled: @disabled) do |button|
           button.with_leading_visual_icon(icon: :plus)
-          "Add"
+          t("button_add")
         end
         component.with_item(
-          label: "Agenda item",
+          label: t("activerecord.models.meeting_agenda_item", count: 1),
           tag: :a,
           content_arguments: {
             href: new_meeting_agenda_item_path(@meeting, type: "simple"),
@@ -67,7 +67,7 @@ module MeetingAgendaItems
           }
         )
         component.with_item(
-          label: "Work package",
+          label: t("activerecord.models.work_package", count: 1),
           tag: :a,
           content_arguments: {
             href: new_meeting_agenda_item_path(@meeting, type: "work_package"),

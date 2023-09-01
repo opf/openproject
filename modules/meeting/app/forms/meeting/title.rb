@@ -30,8 +30,8 @@ class Meeting::Title < ApplicationForm
   form do |meeting_form|
     meeting_form.text_field(
       name: :title,
-      placeholder: "Title",
-      label: "Title",
+      placeholder: Meeting.human_attribute_name(:title),
+      label: Meeting.human_attribute_name(:title),
       visually_hide_label: true,
       required: true,
       autofocus: true

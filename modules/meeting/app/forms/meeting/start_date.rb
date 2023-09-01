@@ -32,8 +32,8 @@ class Meeting::StartDate < ApplicationForm
       name: :start_date,
       type: "date",
       value: @initial_value,
-      placeholder: "Start date",
-      label: "Start date",
+      placeholder: Meeting.human_attribute_name(:start_date),
+      label: Meeting.human_attribute_name(:start_date),
       leading_visual: { icon: :calendar },
       required: true,
       autofocus: true

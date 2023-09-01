@@ -39,10 +39,16 @@ en:
         project: "Project"
         start_time: "Time"
         start_time_hour: "Starting time"
+      meeting_agenda_items:
+        title: "Title"
+        author: "Responsible"
+        duration_in_minutes: "Duration in minutes"
+        description: "Notes"
     errors:
       messages:
         invalid_time_format: "is not a valid time. Required format: HH:MM"
     models:
+      meeting_agenda_item: "Agenda item"
       meeting_agenda: "Agenda"
       meeting_minutes: "Minutes"
 
@@ -117,3 +123,31 @@ en:
   text_review_meeting_agenda: "%{author} has put the %{link} up for review."
   text_review_meeting_minutes: "%{author} has put the %{link} up for review."
   text_notificiation_invited: "This mail contains an ics entry for the meeting below:"
+
+  label_meeting_actions: "Meeting actions"
+  label_meeting_edit_title: "Edit meeting title"
+  label_meeting_delete: "Delete meeting"
+  label_meeting_created_by: "Created by"
+  label_meeting_last_updated: "Last updated"
+
+  label_agenda_item_actions: "Agenda items actions"
+  label_agenda_item_move_to_top: "Move to top"
+  label_agenda_item_move_to_bottom: "Move to bottom"
+  label_agenda_item_move_up: "Move up"
+  label_agenda_item_move_down: "Move down"
+
+  label_meeting_details: "Meeting details"
+  label_meeting_details_edit: "Edit meeting details"
+
+  label_meeting_state_open: "Open"
+  label_meeting_state_closed: "Closed"
+  label_meeting_reopen_action: "Reopen meeting"
+  label_meeting_close_action: "Close meeting"
+  text_meeting_open_description: "This meeting is open. You can add/remove agenda items and edit them as you please. After the meeting is over, close it to lock it."
+  text_meeting_closed_description: "This meeting is closed. You cannot add/remove agenda items anymore."
+
+  label_meeting_manage_participants: "Manage participants"
+  label_meeting_no_participants: "No participants"
+  label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_add_participants: "Add participants"
+

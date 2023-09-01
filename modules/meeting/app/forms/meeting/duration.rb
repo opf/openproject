@@ -34,8 +34,8 @@ class Meeting::Duration < ApplicationForm
       min: 0,
       max: 24,
       step: 0.05,
-      placeholder: "Duration in hours",
-      label: "Duration in hours",
+      placeholder: Meeting.human_attribute_name(:duration),
+      label: Meeting.human_attribute_name(:duration),
       visually_hide_label: false,
       required: true,
       leading_visual: { icon: :stopwatch }

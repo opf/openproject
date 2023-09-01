@@ -88,14 +88,14 @@ module Meetings
 
     def actions_partial
       render(Primer::Alpha::ActionMenu.new) do |menu|
-        menu.with_show_button(icon: "kebab-horizontal", 'aria-label': "Meeting actions")
+        menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("label_meeting_actions"))
         edit_action_item(menu) if edit_enabled?
         delete_action_item(menu) if delete_enabled?
       end
     end
 
     def edit_action_item(menu)
-      menu.with_item(label: "Edit title",
+      menu.with_item(label: t("label_meeting_edit_title"),
                      href: edit_meeting_path(@meeting),
                      content_arguments: {
                        data: { 'turbo-stream': true }
@@ -105,11 +105,11 @@ module Meetings
     end
 
     def delete_action_item(menu)
-      menu.with_item(label: "Delete meeting",
+      menu.with_item(label: t("label_meeting_delete"),
                      scheme: :danger,
                      href: meeting_path(@meeting),
                      form_arguments: {
-                       method: :delete, data: { confirm: "Are you sure?" }
+                       method: :delete, data: { confirm: t("text_are_you_sure") }
                      }) do |item|
         item.with_leading_visual_icon(icon: :trash)
       end
@@ -118,13 +118,13 @@ module Meetings
     def meta_info_partial
       flex_layout(align_items: :center) do |flex|
         flex.with_column(mr: 1) do
-          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { "Created by" }
+          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("label_meeting_created_by") }
         end
         flex.with_column(mr: 1) do
           author_link_partial
         end
         flex.with_column(mr: 1) do
-          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { "Last updated" }
+          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("label_meeting_last_updated") }
         end
         flex.with_column do
           render(Primer::Beta::RelativeTime.new(font_size: :small, color: :subtle, datetime: last_updated_at))
@@ -188,7 +188,7 @@ module Meetings
                href: cancel_edit_meeting_path(@meeting),
                data: { 'turbo-stream': true }
              )) do |_c|
-        "Cancel"
+        t("button_cancel")
       end
     end
   end

@@ -174,7 +174,7 @@ module MeetingAgendaItems
                }
              )) do |component|
         component.with_leading_visual_icon(icon: :plus)
-        "Notes"
+        MeetingAgendaItem.human_attribute_name(:description)
       end
     end
 
@@ -200,7 +200,7 @@ module MeetingAgendaItems
                href: @cancel_path,
                data: { 'turbo-stream': true }
              )) do |_c|
-        "Cancel"
+        t("button_cancel")
       end
     end
   end

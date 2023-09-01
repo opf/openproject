@@ -30,8 +30,8 @@ class MeetingAgendaItem::Duration < ApplicationForm
   form do |agenda_item_form|
     agenda_item_form.text_field(
       name: :duration_in_minutes,
-      placeholder: "Duration in minutes",
-      label: "Duration in minutes",
+      placeholder: MeetingAgendaItem.human_attribute_name(:duration_in_minutes),
+      label: MeetingAgendaItem.human_attribute_name(:duration_in_minutes),
       leading_visual: { icon: :stopwatch },
       visually_hide_label: true,
       type: :number,

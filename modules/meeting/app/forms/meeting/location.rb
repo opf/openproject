@@ -30,8 +30,8 @@ class Meeting::Location < ApplicationForm
   form do |meeting_form|
     meeting_form.text_field(
       name: :location,
-      placeholder: "Location",
-      label: "Location",
+      placeholder: Meeting.human_attribute_name(:location),
+      label: Meeting.human_attribute_name(:location),
       visually_hide_label: false,
       leading_visual: { icon: :link }
     )

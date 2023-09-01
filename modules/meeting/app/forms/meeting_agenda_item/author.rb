@@ -30,11 +30,12 @@ class MeetingAgendaItem::Author < ApplicationForm
   form do |agenda_item_form|
     agenda_item_form.select_list(
       name: :author_id,
-      label: "Responsible",
+      label: MeetingAgendaItem.human_attribute_name(:author),
       include_blank: false,
       visually_hide_label: true,
       disabled: @disabled
     ) do |user_select_list|
+      # TODO: Clarify scoping!
       User.active
         .order(:id)
         .map { |user| [user.name, user.id] }
