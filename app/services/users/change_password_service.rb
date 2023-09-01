@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -40,9 +42,11 @@ module Users
         current_user.password = params[:new_password]
         current_user.password_confirmation = params[:new_password_confirmation]
         current_user.force_password_change = false
+        current_user.activate if current_user.invited?
 
         if current_user.save
           invalidate_recovery_tokens
+          invalidate_invitation_tokens
 
           log_success
           ::ServiceResult.new success: true,
@@ -62,6 +66,10 @@ module Users
 
     def invalidate_recovery_tokens
       Token::Recovery.where(user: current_user).delete_all
+    end
+
+    def invalidate_invitation_tokens
+      Token::Invitation.where(user: current_user).delete_all
     end
 
     def invalidate_session_result
