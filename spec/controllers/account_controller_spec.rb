@@ -456,7 +456,7 @@ RSpec.describe AccountController,
         allow(LdapAuthSource).to receive(:authenticate).and_return(authenticate ? user_attributes : nil)
 
         # required so that the register view can be rendered
-        allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
+        allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false) # rubocop:disable RSpec/AnyInstance
       end
 
       context 'with user limit reached' do
@@ -503,7 +503,7 @@ RSpec.describe AccountController,
     let(:admin) { create(:admin, force_password_change: true) }
 
     before do
-      allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
+      allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false) # rubocop:disable RSpec/AnyInstance
     end
 
     describe "Missing flash data for user initiated password change" do
@@ -767,7 +767,7 @@ RSpec.describe AccountController,
         end
 
         it "doesn't activate the user but sends out a token instead" do
-          expect(User.find_by_login('register')).not_to be_active
+          expect(User.find_by_login('register')).not_to be_active # rubocop:disable Rails/DynamicFindBy
           token = Token::Invitation.last
           expect(token.user.mail).to eq('register@example.com')
           expect(token).not_to be_expired
@@ -813,7 +813,7 @@ RSpec.describe AccountController,
         end
 
         it "doesn't activate the user" do
-          expect(User.find_by_login('register')).not_to be_active
+          expect(User.find_by_login('register')).not_to be_active # rubocop:disable Rails/DynamicFindBy
         end
 
         it 'calls the user_registered callback' do
@@ -874,7 +874,7 @@ RSpec.describe AccountController,
     context 'with on-the-fly registration',
             with_settings: { self_registration: Setting::SelfRegistration.disabled } do
       before do
-        allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
+        allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false) # rubocop:disable RSpec/AnyInstance
         allow(LdapAuthSource).to receive(:authenticate).and_return(login: 'foo',
                                                                    lastname: 'Smith',
                                                                    ldap_auth_source_id: 66)
@@ -899,7 +899,7 @@ RSpec.describe AccountController,
                }
           expect(response).to redirect_to home_path(first_time_user: true)
 
-          user = User.find_by_login('foo')
+          user = User.find_by_login('foo') # rubocop:disable Rails/DynamicFindBy
 
           expect(user).to be_an_instance_of(User)
           expect(user.ldap_auth_source_id).to be 66
