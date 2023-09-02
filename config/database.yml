@@ -39,7 +39,7 @@ development:
   encoding: unicode
   database: openproject_development
   pool: 5
-  username: openproject_development
+  username: postgres
   password:
 
 # Warning: The database defined as "test" will be erased and
@@ -50,5 +50,5 @@ test:
   encoding: unicode
   database: openproject_test
   pool: 5
-  username: openproject_test
+  username: postgres
   password:
