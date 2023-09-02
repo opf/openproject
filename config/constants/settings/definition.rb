@@ -1045,7 +1045,7 @@ module Settings
       work_package_list_default_highlighting_mode: {
         format: :string,
         default: 'inline',
-        writable: true
+        writable: true,
         allowed: -> { Query::QUERY_HIGHLIGHTING_MODES.map(&:to_s) },
       },
       work_package_list_default_columns: {
