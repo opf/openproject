@@ -31,7 +31,7 @@ production:
   encoding: unicode
   database: openproject
   pool: 20
-  username: postgres
+  username: openproject
   password:
 
 development:
