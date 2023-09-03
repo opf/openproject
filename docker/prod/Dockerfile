@@ -171,8 +171,7 @@ COPY lib ./lib
 
 RUN bundle config unset deployment && bundle install --quiet --deployment --path vendor/bundle --no-cache \
   --with="$RAILS_GROUPS" --without="test development" --jobs=8 --retry=3 && \
-  rm -rf vendor/bundle/ruby/*/cache && rm -rf vendor/bundle/ruby/*/gems/*/spec && rm -rf vendor/bundle/ruby/*/gems/*/test && \
-  bundle config set deployment
+  rm -rf vendor/bundle/ruby/*/cache && rm -rf vendor/bundle/ruby/*/gems/*/spec && rm -rf vendor/bundle/ruby/*/gems/*/test
 
 # Finally, copy over the whole thing
 COPY . .
