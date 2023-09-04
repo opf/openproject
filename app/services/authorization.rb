@@ -42,9 +42,9 @@ module Authorization
   # Returns all roles a user has in a certain project, for a specific entity or globally
   def roles(user, context = nil)
     if context.is_a?(Project)
-      Authorization::UserProjectRolesQuery.query(user, project)
+      Authorization::UserProjectRolesQuery.query(user, context)
     elsif Member.can_be_member_of?(context)
-      Authorization::UserEntityRolesQuery.query(user, entity)
+      Authorization::UserEntityRolesQuery.query(user, context)
     else
       Authorization::UserGlobalRolesQuery.query(user)
     end
