@@ -34,9 +34,8 @@ RSpec.describe Authorization::UserEntityRolesQuery do
   let(:work_package) { build(:work_package, project:) }
   let(:work_package2) { build(:work_package, project:) }
   let(:role) { build(:role) }
-  # TODO: Make those work package roles
-  let(:wp_role) { build(:role) }
-  let(:other_wp_role) { build(:role) }
+  let(:wp_role) { build(:work_package_role) }
+  let(:other_wp_role) { build(:work_package_role) }
   let(:non_member) { build(:non_member) }
   let(:member) { build(:member, project:, roles: [wp_role], principal: user, entity: work_package) }
   let(:project_member) { build(:member, project:, roles: [role], principal: user) }

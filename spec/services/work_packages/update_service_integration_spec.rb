@@ -163,8 +163,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
     end
 
     describe 'memberships' do
-      # TODO: Change to Work Package role after PR has been merged
-      let(:wp_role) { create(:role, permissions: [:view_work_packages]) }
+      let(:wp_role) { create(:work_package_role, permissions: [:view_work_packages]) }
       let(:other_user) { create(:user) }
       let!(:membership) do
         create(:member, project:, entity: work_package, principal: other_user, roles: [wp_role])
@@ -178,7 +177,6 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
       end
 
       describe 'when the work package has descendents' do
-        # TODO: Change to Work Package role after PR has been merged
         let!(:child_membership) do
           create(:member, project:, entity: child_work_package, principal: other_user, roles: [wp_role])
         end
