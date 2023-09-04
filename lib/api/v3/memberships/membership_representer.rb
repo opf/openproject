@@ -92,9 +92,9 @@ module API
         date_time_property :created_at
         date_time_property :updated_at
 
-        self.to_eager_load = %i[principal
-                                project
-                                roles]
+        self.to_eager_load = [:principal,
+                              { project: :enabled_modules },
+                              { member_roles: :role }]
 
         def _type
           'Membership'
