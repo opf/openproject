@@ -95,7 +95,7 @@ module Redmine # :nodoc:
         end
       end
     end
-    def_field :description, :url, :author, :author_url, :version, :settings, :bundled
+    def_field :gem_name, :url, :author, :author_url, :version, :settings, :bundled
     attr_reader :id
 
     # Plugin constructor
@@ -133,15 +133,21 @@ module Redmine # :nodoc:
     def name(*args)
       name = args.empty? ? instance_variable_get("@name") : instance_variable_set("@name", *args)
 
-      case name
-      when Symbol
-        ::I18n.t(name)
-      when NilClass
-        # Default name if it was not provided during registration
-        id.to_s.humanize
-      else
-        name
-      end
+      return ::I18n.t(name) if name.is_a?(Symbol)
+      return name if name
+
+      translated_name = ::I18n.t("plugin_#{id}.name", default: nil)
+      translated_name || gemspec&.summary || id.to_s.humanize
+    end
+
+    def description(*args)
+      description = args.empty? ? instance_variable_get("@description") : instance_variable_set("@description", *args)
+
+      description || ::I18n.t("plugin_#{id}.description", default: gemspec&.description)
+    end
+
+    def gemspec
+      Gem.loaded_specs[gem_name]
     end
 
     # returns an array of all dependencies we know of for plugin id
@@ -201,8 +207,8 @@ module Redmine # :nodoc:
     #   # Requires OpenProject between 1.1.0 and 1.1.5 or higher
     #   requires_openproject ">= 1.1.0", "<= 1.1.5"
 
-    def requires_openproject(*args)
-      required_version = Gem::Requirement.new(*args)
+    def requires_openproject(*)
+      required_version = Gem::Requirement.new(*)
       op_version = Gem::Version.new(OpenProject::VERSION.to_semver)
 
       unless required_version.satisfied_by? op_version
@@ -362,9 +368,9 @@ module Redmine # :nodoc:
     #   Meeting.find_events('scrums', User.current, 5.days.ago, Date.today, project: foo) # events for project foo only
     #
     # Note that :view_scrums permission is required to view these events in the activity view.
-    def activity_provider(*args)
+    def activity_provider(*)
       ActiveSupport::Deprecation.warn('Use ActsAsOpEngine#activity_provider instead.')
-      OpenProject::Activity.register(*args)
+      OpenProject::Activity.register(*)
     end
 
     # Registers a wiki formatter.

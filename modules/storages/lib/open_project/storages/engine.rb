@@ -105,8 +105,7 @@ module OpenProject::Storages
     register 'openproject-storages',
              author_url: 'https://www.openproject.org',
              bundled: true,
-             settings: {},
-             name: 'OpenProject Storages' do
+             settings: {} do
       # Defines permission constraints used in the module (controller, etc.)
       # Permissions documentation: https://www.openproject.org/docs/development/concepts/permissions/#definition-of-permissions
       project_module :storages,

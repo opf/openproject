@@ -25,8 +25,7 @@ module OpenProject::TeamPlanner
     register 'openproject-team_planner',
              author_url: 'https://www.openproject.org',
              bundled: true,
-             settings: {},
-             name: 'OpenProject Team Planner' do
+             settings: {} do
       project_module :team_planner_view, dependencies: :work_package_tracking, enterprise_feature: true do
         permission :view_team_planner,
                    { 'team_planner/team_planner': %i[index show upsale overview] },
@@ -39,8 +38,8 @@ module OpenProject::TeamPlanner
       end
 
       should_render_global_menu_item = Proc.new do
-          (User.current.logged? || !Setting.login_required?) &&
-          User.current.allowed_to_globally?(:view_team_planner)
+        (User.current.logged? || !Setting.login_required?) &&
+        User.current.allowed_to_globally?(:view_team_planner)
       end
 
       menu :global_menu,
