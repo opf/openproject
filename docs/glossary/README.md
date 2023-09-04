@@ -168,9 +168,11 @@ A forum in OpenProject is defined as a module used to display forums and forum m
 
 ### Gantt chart
 
-The Gantt chart in OpenProject displays the work packages in a timeline. You can collaboratively create and manage your project plan. Have your project timelines available for all team [members](#member), and share up-to-date information with stakeholders. You can add start and finish dates and adapt it with drag and drop in the Gantt chart. Also, you can add dependencies, predecessor or follower within the Gantt chart.
+The Gantt chart in OpenProject displays the work packages in a timeline. You can collaboratively create and manage your project plan. Have your project timelines available for all team [members](#member), and share up-to-date information with stakeholders. You can add start and finish dates and adapt it with drag and drop in the Gantt chart. Also, you can add dependencies, predecessor or follower within the Gantt chart. [Read more about how to activate and work with Gantt charts in OpenProject](https://www.openproject.org/docs/user-guide/gantt-chart/)
 
-[Read more about how to activate and work with Gantt charts in OpenProject](https://www.openproject.org/docs/user-guide/gantt-chart/)
+### Global modules
+
+In OpenProject, global modules are defined as a menu to access all [modules](#module) for *all* your projects. With global modules you can easily see all your project-overarching information at one place, e.g. for work packages, boards, calendars or meetings. To access the Global modules side menu, simply navigate to your [home page](#home-page) by clicking on the logo in the header, or use the grid icon in the top right corner. [Read more about global modules in OpenProject](https://www.openproject.org/docs/user-guide/home/global-modules/)
 
 ### Group
 
@@ -180,7 +182,7 @@ A Group in OpenProject is defined as a list of users which can be added as a mem
 
 ### Home page
 
-In the OpenProject application, the home page is defined as a start page for your instance, where you get an overview about important information. From the home page you can access all global modules of OpenProject. To get to the OpenProject application home page, click on the logo in the header of the application. [Read more about the OpenProject application home page](https://www.openproject.org/docs/user-guide/home/#application-home-page)
+In the OpenProject application, the home page is defined as a start page for your instance, where you get an overview about important information. From the home page you can access all global [modules](#module) of OpenProject. To get to the OpenProject application home page, click on the logo in the header of the application. [Read more about the OpenProject application home page](https://www.openproject.org/docs/user-guide/home/#application-home-page)
 
 ### Hybrid project management
 
@@ -336,7 +338,11 @@ The time tracking button in OpenProject is a feature to track time spent on work
 
 ### User
 
-In OpenProject, a user is defined as a person who uses OpenProject, described by an identifier. New users can be created in the admin settings. Users can become project [members](#member) by either assigning them a role and adding them via the [project settings](#project-settings). Or by adding them to a project by the system admin at: Administration --> Users and permissions --> Users. Then clicking on the username and navigating to the tab "Projects". 
+In OpenProject, a user is defined as a person who uses OpenProject, described by an identifier. New users can be created in the admin settings. Users can become project [members](#member) by either assigning them a role and adding them via the [project settings](#project-settings). Or by adding them to a project by the system admin at: Administration --> Users and permissions --> Users. Then clicking on the username and navigating to the tab "Projects".
+
+### User guide
+
+The OpenProject [user guide](https://www.openproject.org/docs/user-guide/) is an in-depth guide of all features in OpenProject. It offers users detailed information about how to use OpenProject's features, [modules](#module), [integrations](#integration) and more. For more technical information on how to configure your OpenProject instance, see our [system admin guide](https://www.openproject.org/docs/system-admin-guide/). 
 
 ## V
 
