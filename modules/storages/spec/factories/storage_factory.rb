@@ -66,8 +66,8 @@ FactoryBot.define do
 
     after(:create) do |storage, evaluator|
       create(:oauth_client,
-             client_id: ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_ID', nil),
-             client_secret: ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_SECRET', nil),
+             client_id: ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_ID', 'MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_ID'),
+             client_secret: ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_SECRET', 'MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_SECRET'),
              integration: storage)
 
       create(:oauth_application,
