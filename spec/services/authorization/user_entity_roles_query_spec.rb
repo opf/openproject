@@ -33,9 +33,14 @@ RSpec.describe Authorization::UserEntityRolesQuery do
   let(:project) { build(:project, public: false) }
   let(:work_package) { build(:work_package, project:) }
   let(:work_package2) { build(:work_package, project:) }
+  let(:role) { build(:role) }
+  # TODO: Make those work package roles
   let(:wp_role) { build(:role) }
+  let(:other_wp_role) { build(:role) }
   let(:non_member) { build(:non_member) }
   let(:member) { build(:member, project:, roles: [wp_role], principal: user, entity: work_package) }
+  let(:project_member) { build(:member, project:, roles: [role], principal: user) }
+  let(:other_member) { build(:member, project:, roles: [other_wp_role], principal: user, entity: work_package2) }
 
   describe '.query' do
     before do
@@ -53,13 +58,33 @@ RSpec.describe Authorization::UserEntityRolesQuery do
       end
 
       it 'returns the work package role' do
-        expect(described_class.query(user, work_package)).to match [wp_role]
+        expect(described_class.query(user, work_package)).to contain_exactly(wp_role)
+      end
+
+      context 'when the user also has a membership with a different role on another work package' do
+        before do
+          other_member.save!
+        end
+
+        it 'does not include the second role' do
+          expect(described_class.query(user, work_package)).not_to include(other_wp_role)
+        end
+      end
+
+      context 'when the user also has a membership with a different role on the project' do
+        before do
+          project_member.save!
+        end
+
+        it 'does not include the second role' do
+          expect(described_class.query(user, work_package)).not_to include(role)
+        end
       end
     end
 
-    context 'without the user being member in the project' do
+    context 'without the user being member in the work package' do
       it 'is empty' do
-        expect(described_class.query(user, project)).to be_empty
+        expect(described_class.query(user, work_package)).to be_empty
       end
     end
   end
