@@ -27,9 +27,6 @@ import { CreateAutocompleterComponent } from 'core-app/shared/components/autocom
 import { OpAutocompleterFooterTemplateDirective } from 'core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive';
 import { OpSearchHighlightDirective } from 'core-app/shared/directives/search-highlight.directive';
 import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-elements.helper';
-import {
-  OpBasicRangeDatePickerComponent
-} from 'core-app/shared/components/datepicker/basic-range-date-picker/basic-range-date-picker.component';
 
 export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   CreateAutocompleterComponent,
@@ -65,4 +62,7 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   declarations: OPENPROJECT_AUTOCOMPLETE_COMPONENTS,
 })
 export class OpenprojectAutocompleterModule {
+  constructor(injector:Injector) {
+    registerCustomElement('opce-autocompleter', OpAutocompleterComponent, { injector });
+  }
 }

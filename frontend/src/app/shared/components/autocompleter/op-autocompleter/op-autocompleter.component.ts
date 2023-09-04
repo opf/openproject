@@ -52,10 +52,8 @@ import { OpAutocompleterOptionTemplateDirective } from './directives/op-autocomp
 import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
-export const opAutocompleterSelector = 'op-autocompleter';
-
 @Component({
-  selector: opAutocompleterSelector,
+  selector: 'op-autocompleter',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './op-autocompleter.component.html',
   styleUrls: ['./op-autocompleter.component.sass'],

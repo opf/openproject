@@ -229,10 +229,6 @@ import {
   TimerAccountMenuComponent,
   timerAccountSelector,
 } from 'core-app/shared/components/time_entries/timer/timer-account-menu.component';
-import {
-  OpAutocompleterComponent,
-  opAutocompleterSelector,
-} from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -242,7 +238,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: colorsAutocompleterSelector, cls: ColorsAutocompleterComponent },
   { selector: zenModeComponentSelector, cls: ZenModeButtonComponent },
   { selector: attachmentsSelector, cls: OpAttachmentsComponent, embeddable: true },
-  { selector: opAutocompleterSelector, cls: OpAutocompleterComponent },
   { selector: usersAutocompleterSelector, cls: UserAutocompleterComponent },
   { selector: membersAutocompleterSelector, cls: MembersAutocompleterComponent },
   { selector: globalSearchTabsSelector, cls: GlobalSearchTabsComponent },
