@@ -737,7 +737,8 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
         expect(last_response.status).to eq(422)
 
         error_message = "For property 'user' a link like '/api/v3/groups/:id' or " +
-                        "'/api/v3/users/:id' or '/api/v3/placeholder_users/:id' is expected, but got '#{api_v3_paths.role(other_user.id)}'."
+                        "'/api/v3/users/:id' or '/api/v3/placeholder_users/:id' is expected, " +
+                        "but got '#{api_v3_paths.role(other_user.id)}'."
 
         expect(last_response.body)
           .to be_json_eql(error_message.to_json)
@@ -1203,7 +1204,8 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
       end
       let(:principal) { group }
       let(:users) do
-        create_list(:user, 2, notification_settings: [build(:notification_setting, membership_added: true, membership_updated: true)])
+        create_list(:user, 2,
+                    notification_settings: [build(:notification_setting, membership_added: true, membership_updated: true)])
       end
       let(:another_role) { create(:role) }
       let(:other_member) do
