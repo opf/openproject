@@ -1,4 +1,4 @@
-import { Injector, NgModule } from '@angular/core';
+import { Inject, Injector, NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   FormsModule,
@@ -65,4 +65,7 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   declarations: OPENPROJECT_AUTOCOMPLETE_COMPONENTS,
 })
 export class OpenprojectAutocompleterModule {
+  constructor(injector:Injector) {
+    registerCustomElement('opce-autocompleter', OpAutocompleterComponent, { injector });
+  }
 }

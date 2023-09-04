@@ -242,7 +242,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: colorsAutocompleterSelector, cls: ColorsAutocompleterComponent },
   { selector: zenModeComponentSelector, cls: ZenModeButtonComponent },
   { selector: attachmentsSelector, cls: OpAttachmentsComponent, embeddable: true },
-  { selector: opAutocompleterSelector, cls: OpAutocompleterComponent },
   { selector: usersAutocompleterSelector, cls: UserAutocompleterComponent },
   { selector: membersAutocompleterSelector, cls: MembersAutocompleterComponent },
   { selector: globalSearchTabsSelector, cls: GlobalSearchTabsComponent },
