@@ -39,8 +39,6 @@
 class Storages::Storage < ApplicationRecord
   self.inheritance_column = :provider_type
 
-  include ::Storages::Common::ConfigurationChecks
-
   # One Storage can have multiple FileLinks, representing external files.
   #
   # FileLink deletion is done:
@@ -82,6 +80,10 @@ class Storages::Storage < ApplicationRecord
     end
   end
 
+  scope :configured, -> do
+    subclasses.map { |clazz| clazz.configured.to_a }.flatten
+  end
+
   scope :not_enabled_for_project, ->(project) do
     where.not(id: project.project_storages.pluck(:storage_id))
   end
@@ -95,6 +97,14 @@ class Storages::Storage < ApplicationRecord
             "Unknown provider_type! Given: #{provider_type}. " \
             "Expected the following signature: Storages::{Name of the provider}Storage"
     end
+  end
+
+  def configured?
+    configuration_checks.values.all?
+  end
+
+  def configuration_checks
+    raise NotImplementedError
   end
 
   def short_provider_type
