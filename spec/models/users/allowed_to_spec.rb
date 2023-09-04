@@ -36,8 +36,7 @@ RSpec.describe User, 'allowed_to?' do
   let(:work_package) { build(:work_package, project:) }
   let(:role) { build(:role) }
   let(:role2) { build(:role) }
-  # TODO: Replace with WorkPackage role
-  let(:wp_role) { build(:role) }
+  let(:wp_role) { build(:work_package_role) }
   let(:wp_member) { build(:member, project:, entity: work_package, roles: [wp_role], principal: user) }
   let(:anonymous_role) { build(:anonymous_role) }
   let(:member) { build(:member, project:, roles: [role], principal: user) }
