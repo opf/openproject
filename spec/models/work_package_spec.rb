@@ -69,7 +69,7 @@ RSpec.describe WorkPackage do
     it { is_expected.to have_and_belong_to_many(:changesets) }
     it { is_expected.to have_and_belong_to_many(:github_pull_requests) }
     it { is_expected.to have_many(:members).dependent(:destroy) }
-    it { is_expected.to have_many(:principals).through(:members) }
+    it { is_expected.to have_many(:member_principals).through(:members).class_name('Principal').source(:principal) }
   end
 
   describe '.new' do
