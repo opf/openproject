@@ -116,6 +116,11 @@ Rails.application.reloader.to_prepare do
                      dependencies: :view_members,
                      contract_actions: { members: %i[create update destroy] }
 
+      map.permission :add_work_package_members,
+                     {},
+                     permissible_on: :project,
+                     require: :member
+
       map.permission :view_members,
                      { members: [:index] },
                      permissible_on: :project,
