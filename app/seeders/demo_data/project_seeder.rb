@@ -32,7 +32,8 @@ module DemoData
     alias_method :project_data, :seed_data
 
     self.needs = WorkPackageSeeder.needs + [
-      BasicData::RoleSeeder
+      BasicData::ProjectRoleSeeder,
+      BasicData::GlobalRoleSeeder
     ]
 
     def seed_data!

@@ -40,9 +40,9 @@ module OpenProject
       # permissions.
       def initialize(name,
                      hash,
+                     permissible_on:,
                      public: false,
                      require: nil,
-                     global: false,
                      enabled: true,
                      project_module: nil,
                      contract_actions: [],
@@ -51,7 +51,7 @@ module OpenProject
         @name = name
         @public = public
         @require = require
-        @global = global
+        @permissible_on = Array(permissible_on)
         @enabled = enabled
         @project_module = project_module
         @contract_actions = contract_actions
@@ -71,8 +71,16 @@ module OpenProject
         @public
       end
 
+      def work_package?
+        @permissible_on.include? :work_package
+      end
+
+      def project?
+        @permissible_on.include? :project
+      end
+
       def global?
-        @global
+        @permissible_on.include? :global
       end
 
       def grant_to_admin?

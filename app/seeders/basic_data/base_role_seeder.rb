@@ -26,14 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 module BasicData
-  class RoleSeeder < ModelSeeder
-    self.model_class = Role
-    self.seed_data_model_key = 'roles'
+  class BaseRoleSeeder < ModelSeeder
     self.needs = []
 
     def model_attributes(role_data)
       {
-        type: type(role_data['global']),
+        type:,
         name: role_data['name'],
         position: role_data['position'],
         permissions: role_data['permissions'].uniq,
@@ -43,8 +41,8 @@ module BasicData
 
     private
 
-    def type(global_value)
-      true?(global_value) ? 'GlobalRole' : 'Role'
+    def type
+      model_class.to_s
     end
 
     def builtin(value)
@@ -74,7 +72,9 @@ module BasicData
       when Array
         value
       when :all_assignable_permissions
-        Roles::CreateContract.new(Role.new, nil).assignable_permissions.map(&:name)
+        Roles::CreateContract.new(model_class.new, nil)
+                             .assignable_permissions
+                             .map(&:name)
       end
     end
 

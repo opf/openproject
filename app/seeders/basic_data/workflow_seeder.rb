@@ -28,7 +28,8 @@
 module BasicData
   class WorkflowSeeder < Seeder
     self.needs = [
-      BasicData::RoleSeeder,
+      BasicData::ProjectRoleSeeder,
+      BasicData::GlobalRoleSeeder,
       BasicData::StatusSeeder,
       BasicData::TypeSeeder
     ]

@@ -1,6 +1,6 @@
 def mock_global_permissions(permissions)
   mapped = permissions.map do |name, options|
-    mock_permissions(name, options.merge(global: true))
+    mock_permissions(name, options.merge(permissible_on: :global))
   end
 
   mapped_modules = permissions.map do |_, options|
@@ -22,9 +22,9 @@ def mock_permissions(name, options = {})
   OpenProject::AccessControl::Permission.new(
     name,
     { does_not: :matter },
+    permissible_on: :project,
     project_module: 'Foo',
     public: false,
-    global: false,
     **options
   )
 end

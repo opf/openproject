@@ -25,38 +25,9 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-
-module OpenProject
-  module AccessControl
-    class Mapper
-      def permission(name, hash, **)
-        mapped_permissions << Permission.new(name, hash, project_module: @project_module, **)
-      end
-
-      def project_module(name, options = {})
-        options[:dependencies] = Array(options[:dependencies]) if options[:dependencies]
-        mapped_modules << { name:, order: 0 }.merge(options)
-
-        if block_given?
-          @project_module = name
-          yield self
-          @project_module = nil
-        else
-          project_modules_without_permissions << name
-        end
-      end
-
-      def mapped_modules
-        @mapped_modules ||= []
-      end
-
-      def mapped_permissions
-        @permissions ||= []
-      end
-
-      def project_modules_without_permissions
-        @project_modules_without_permissions ||= []
-      end
-    end
+module BasicData
+  class WorkPackageRoleSeeder < BaseRoleSeeder
+    self.model_class = WorkPackageRole
+    self.seed_data_model_key = 'work_package_roles'
   end
 end
