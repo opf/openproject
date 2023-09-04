@@ -131,21 +131,21 @@ RSpec.describe UsersHelper do
     end
 
     context 'when user has a custom field with a present value' do
-      let(:custom_field) { create(:string_user_custom_field) }
+      let(:custom_field) { create(:user_custom_field, :string) }
       let(:user) { build(:user, custom_values: [build(:custom_value, custom_field:, value: 'Hello')]) }
 
       it { is_expected.to be(true) }
     end
 
     context 'when user has a custom field with a blank value' do
-      let(:custom_field) { create(:string_user_custom_field) }
+      let(:custom_field) { create(:user_custom_field, :string) }
       let(:user) { build(:user, custom_values: [build(:custom_value, custom_field:, value: '  ')]) }
 
       it { is_expected.to be(false) }
     end
 
     context 'when user has a non-visible custom field with a present value' do
-      let(:custom_field) { create(:string_user_custom_field, visible: false) }
+      let(:custom_field) { create(:user_custom_field, :string, visible: false) }
       let(:user) { build(:user, custom_values: [build(:custom_value, custom_field:, value: 'Hello')]) }
 
       it { is_expected.to be(false) }

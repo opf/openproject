@@ -33,10 +33,10 @@ RSpec.describe API::V3::Users::UpdateFormAPI, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:text_custom_field) do
-    create(:string_user_custom_field)
+    create(:user_custom_field, :string)
   end
   shared_let(:list_custom_field) do
-    create(:list_user_custom_field)
+    create(:user_custom_field, :list)
   end
   shared_let(:user) do
     create(:user,

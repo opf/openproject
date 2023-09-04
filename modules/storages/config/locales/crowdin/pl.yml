@@ -50,6 +50,7 @@ pl:
     errors:
       too_many_elements_created_at_once: "Zbyt wiele elementów utworzonych jednocześnie. Oczekiwano co najwyżej %{max} , otrzymano %{actual}."
   storages:
+    default_name: "My storage"
     unknown_storage: "Nieznany magazyn"
     buttons:
       done_continue_setup: "Gotowe. Kontynuuj konfigurację"
@@ -97,9 +98,18 @@ pl:
       copy_from: "Skopiuj tę wartość z"
       nextcloud:
         integration: "Administracja Nextcloud / OpenProject"
+      one_drive:
+        integration: "OneDrive/Sharepoint"
+        oauth_client_id: >
+          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+        oauth_client_secret: >
+          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
+        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
     help_texts:
       project_folder: >
         Folder projektu jest domyślnym folderem do przesyłania plików tego projektu. Użytkownicy mogą jednak przesyłać pliki do innych lokalizacji.
+    configuration_checks:
+      incomplete: "The setup of this storage is incomplete."
     delete_warning:
       storage: >
         Czy na pewno chcesz usunąć ten magazyn? Spowoduje to również jego usunięcie z wszystkich projektów, w których jest używany. Ponadto usunięte zostaną wszystkie linki z pakietów roboczych do plików, które są przechowywane w tym magazynie.
@@ -123,6 +133,7 @@ pl:
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
+      one_drive: "OneDrive OAuth"
     label_oauth_application_details: "Szczegóły aplikacji OAuth"
     label_oauth_client_details: "Szczegóły klienta OAuth"
     label_provider_type: "Typ dostawcy"
@@ -147,7 +158,9 @@ pl:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "np. Nextcloud"
-        default_name: "Mój Nextcloud"
+      one_drive:
+        name: "OneDrive/Sharepoint"
+        name_placeholder: "e.g. OneDrive"
     confirm_replace_oauth_application: "Na pewno? Wszyscy użytkownicy będą musieli dokonać ponownej autoryzacji w stosunku do OpenProject."
     confirm_replace_oauth_client: "Na pewno? Wszyscy użytkownicy będą musieli ponownie autoryzować swoje magazyny pamięci."
     oauth_client_details_missing: "Aby zakończyć konfigurację, dodaj poświadczenia klienta OAuth ze swojego magazynu pamięci."

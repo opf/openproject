@@ -26,8 +26,8 @@ cs:
         position: "Pozice"
         remaining_hours: "Zbývající hodiny"
         remaining_time: "Zbývající hodiny"
-        derived_remaining_hours: "Derived remaining hours"
-        derived_remaining_time: "Derived remaining hours"
+        derived_remaining_hours: "Odvozené zbývající hodiny"
+        derived_remaining_time: "Odvozené zbývající hodiny"
         story_points: "Body příběhu"
         backlogs_work_package_type: "Typ nevyřízené položky"
     errors:

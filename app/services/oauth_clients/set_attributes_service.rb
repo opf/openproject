@@ -28,4 +28,19 @@
 
 # See also: create_service.rb for comments
 class OAuthClients::SetAttributesService < BaseServices::SetAttributes
+  private
+
+  def set_attributes(params)
+    super(replace_client_secret_with_nil(params))
+  end
+
+  def replace_client_secret_with_nil(params)
+    cloned_param = params.clone
+
+    if cloned_param[:client_secret] == ''
+      cloned_param.merge!(client_secret: nil)
+    end
+
+    cloned_param
+  end
 end

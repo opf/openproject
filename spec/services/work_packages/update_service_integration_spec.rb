@@ -167,7 +167,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
           .to be_success
 
         expect(TimeEntry.where(id: time_entries.map(&:id)).pluck(:project_id).uniq)
-          .to match_array [target_project.id]
+          .to contain_exactly(target_project.id)
       end
     end
 
@@ -424,9 +424,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
         .to eql(sibling2_attributes[:due_date])
 
       expect(subject.all_results)
-        .to match_array([work_package,
-                         parent_work_package,
-                         grandparent_work_package])
+        .to contain_exactly(work_package, parent_work_package, grandparent_work_package)
     end
   end
 
@@ -493,9 +491,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
 
       # Returns changed work packages
       expect(subject.all_results)
-        .to match_array([work_package,
-                         parent_work_package,
-                         grandparent_work_package])
+        .to contain_exactly(work_package, parent_work_package, grandparent_work_package)
     end
   end
 
@@ -560,9 +556,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
 
       # Returns changed work packages
       expect(subject.all_results)
-        .to match_array([work_package,
-                         parent_work_package,
-                         grandparent_work_package])
+        .to contain_exactly(work_package, parent_work_package, grandparent_work_package)
     end
   end
 
@@ -591,9 +585,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
 
       # Returns changed work packages
       expect(subject.all_results)
-        .to match_array([work_package,
-                         parent_work_package,
-                         grandparent_work_package])
+        .to contain_exactly(work_package, parent_work_package, grandparent_work_package)
     end
   end
 
@@ -794,13 +786,8 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
 
       # Returns changed work packages
       expect(subject.all_results)
-        .to match_array([work_package,
-                         following_parent_work_package,
-                         following_work_package,
-                         following2_parent_work_package,
-                         following2_work_package,
-                         following3_parent_work_package,
-                         following3_work_package])
+        .to contain_exactly(work_package, following_parent_work_package, following_work_package, following2_parent_work_package,
+                            following2_work_package, following3_parent_work_package, following3_work_package)
     end
     # rubocop:enable RSpec/ExampleLength
     # rubocop:enable RSpec/MultipleExpectations
@@ -851,8 +838,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
         .to eq(expected_child_dates)
 
       expect(subject.all_results.uniq)
-        .to match_array([work_package,
-                         parent_work_package])
+        .to contain_exactly(work_package, parent_work_package)
     end
   end
 
@@ -957,9 +943,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
         .to eql new_sibling_attributes[:due_date]
 
       expect(subject.all_results.uniq)
-        .to match_array([work_package,
-                         former_parent_work_package,
-                         new_parent_work_package])
+        .to contain_exactly(work_package, former_parent_work_package, new_parent_work_package)
     end
   end
 
@@ -1039,8 +1023,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
         .to eql new_parent_predecessor_attributes[:due_date] + 4.days
 
       expect(subject.all_results.uniq)
-        .to match_array([work_package,
-                         new_parent_work_package])
+        .to contain_exactly(work_package, new_parent_work_package)
     end
   end
 
@@ -1112,8 +1095,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
         .to eql sibling_attributes[:due_date]
 
       expect(subject.all_results.uniq)
-        .to match_array([work_package,
-                         parent_work_package])
+        .to contain_exactly(work_package, parent_work_package)
     end
   end
 
@@ -1138,10 +1120,10 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
         .to be_failure
 
       expect(result.errors.symbols_for(:attachments))
-        .to match_array [:does_not_exist]
+        .to contain_exactly(:does_not_exist)
 
       expect(work_package.attachments.reload)
-        .to match_array [old_attachment]
+        .to contain_exactly(old_attachment)
 
       expect(other_users_attachment.reload.container)
         .to be_nil
@@ -1152,7 +1134,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
         .to be_success
 
       expect(work_package.attachments.reload)
-        .to match_array [new_attachment]
+        .to contain_exactly(new_attachment)
 
       expect(new_attachment.reload.container)
         .to eql work_package
@@ -1169,7 +1151,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
         .to be_empty
 
       expect(Attachment.all)
-        .to match_array [other_users_attachment]
+        .to contain_exactly(other_users_attachment)
     end
     # rubocop:enable RSpec/ExampleLength
   end
@@ -1241,7 +1223,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
              due_date: Time.zone.today + 5.days)
     end
     let!(:custom_field) do
-      create(:int_wp_custom_field, is_required: true, is_for_all: true, default_value: nil).tap do |cf|
+      create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
         project.types.first.custom_fields << cf
         project.work_package_custom_fields << cf
       end
@@ -1283,7 +1265,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
   describe 'updating an invalid work package' do
     # The work package does not have a required custom field set.
     let(:custom_field) do
-      create(:int_wp_custom_field, is_required: true, is_for_all: true, default_value: nil).tap do |cf|
+      create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
         project.types.first.custom_fields << cf
         project.work_package_custom_fields << cf
       end
@@ -1316,13 +1298,13 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
     let(:project_types) { [type, new_type] }
     let(:new_type) { create(:type) }
     let!(:custom_field_of_current_type) do
-      create(:int_wp_custom_field, default_value: nil).tap do |cf|
+      create(:integer_wp_custom_field, default_value: nil) do |cf|
         type.custom_fields << cf
         project.work_package_custom_fields << cf
       end
     end
     let!(:custom_field_of_new_type) do
-      create(:int_wp_custom_field, default_value: 8).tap do |cf|
+      create(:integer_wp_custom_field, default_value: 8) do |cf|
         new_type.custom_fields << cf
         project.work_package_custom_fields << cf
       end

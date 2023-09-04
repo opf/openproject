@@ -41,19 +41,27 @@ pt:
           name: Especificação
         item_2:
           name: Outro
-      roles:
+      work_package_roles:
         item_0:
-          name: Não membro
+          name: Work Package Editor
         item_1:
-          name: Anônimo
+          name: Work Package Commenter
         item_2:
-          name: Membro
+          name: Work Package Viewer
+      project_roles:
+        item_0:
+          name: Non member
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Member
         item_3:
-          name: Leitor
+          name: Reader
         item_4:
-          name: Administrador do projeto
-        item_5:
-          name: Equipe e gerente de projetos
+          name: Project admin
+      global_roles:
+        item_0:
+          name: Staff and projects manager
     standard:
       priorities:
         item_0:

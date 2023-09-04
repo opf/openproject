@@ -16,7 +16,7 @@ table, multi-select custom fields and much more.
 ## New integrated Gantt chart / timeline
 
 OpenProject 7.0 introduces a new Gantt chart which is integrated in the
-work package table ([#13785](https://community.openproject.com/projects/openproject/work_packages/13785/activity)).
+work package table ([#13785](https://community.openproject.com/wp/13785)).
 
 The new timeline is much more interactive and user-friendly than the old
 timeline.
@@ -27,7 +27,7 @@ timeline.
 
 You can display hierarchies on the work package table and collapse and
 expand them
-([#24647](https://community.openproject.com/projects/openproject/work_packages/24647/activity)).
+([#24647](https://community.openproject.com/wp/24647)).
 
 
 
@@ -35,7 +35,7 @@ expand them
 
 With OpenProject 7.0 you can configure which attributes
 are displayed for a work package type
-([#24123](https://community.openproject.com/projects/openproject/work_packages/24123/activity)).
+([#24123](https://community.openproject.com/wp/24123)).
 
 You can therefore control which attributes are shown and which are
 hidden by default.
@@ -47,7 +47,7 @@ hidden by default.
 The work package table now supports filtering based on fixed dates. This
 affects all date attributes (e.g. start / due date, created on / updated
 on)
-([#22585](https://community.openproject.com/projects/telekom/work_packages/22585/activity)).
+([#22585](https://community.openproject.com/projects/telekom/work_packages/22585)).
 
 
 
@@ -56,7 +56,7 @@ on)
 The header navigation in OpenProject is updated and displays the current
 project. Additionally, the logo has been centered and existing menus
 have been reordered
-([#24465](https://community.openproject.com/projects/design/work_packages/24465/activity)).
+([#24465](https://community.openproject.com/projects/design/work_packages/24465)).
 
 
 
@@ -64,7 +64,7 @@ have been reordered
 
 As an administrator you can archive and delete projects right from the
 project settings
-([#24913](https://community.openproject.com/projects/openproject/work_packages/24913/activity)).
+([#24913](https://community.openproject.com/wp/24913)).
 
 
 
@@ -72,7 +72,7 @@ project settings
 
 With the zen mode on the work package table, you can maximize the
 available screen real estate by hiding the side and top navigation
-([#18216](https://community.openproject.com/projects/openproject/work_packages/18216/activity)).
+([#18216](https://community.openproject.com/wp/18216)).
 
 This provides a cleaner and larger user interface to work with.
 
@@ -83,7 +83,7 @@ This provides a cleaner and larger user interface to work with.
 Users of the OpenProject [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) 
 and [Enterprise cloud](https://www.openproject.org/hosting/) can create multi-select
 custom fields
-([#24793](https://community.openproject.com/projects/openproject/work_packages/24793/activity)).
+([#24793](https://community.openproject.com/wp/24793)).
 
 With these custom fields you can select multiple values for work package
 custom fields at once and also filter based on them.
@@ -96,8 +96,8 @@ Users of the OpenProject Enterprise cloud and Enterprise on-premises edition can
 their own company’s logo instead of the OpenProject logo.
 
 Additionally, you can change the colors by using a custom color scheme
-([#18099](https://community.openproject.com/projects/gmbh/work_packages/18099/activity),
-[#24460](https://community.openproject.com/projects/gmbh/work_packages/24460/activity)).
+([#18099](https://community.openproject.com/projects/gmbh/work_packages/18099),
+[#24460](https://community.openproject.com/projects/gmbh/work_packages/24460)).
 
 
 

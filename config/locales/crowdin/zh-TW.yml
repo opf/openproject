@@ -49,7 +49,7 @@ zh-TW:
         main-menu-border-color: "主功能表邊框"
       custom_colors: "自訂顏色"
       customize: "Customize your OpenProject installation with your own logo and colors."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_notice: "這個插件僅對企業版支持訂閱者開放，以感謝他們對開發 OpenProject 的贊助。"
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "編輯顏色選擇選項"
       instructions:
@@ -64,15 +64,15 @@ zh-TW:
         main-menu-bg-color: "左側選單的背景顏色"
       theme_warning: 改變佈景主題會覆蓋你的自訂樣式，你的變更將會遺失。你確定要繼續嗎？
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise edition"
-      add_token: "Upload an Enterprise edition support token"
+      upgrade_to_ee: "升級到企業版"
+      add_token: "上傳企業版支持令牌"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise edition token used?"
+        text: "您確定要刪除當前使用的企業版令牌嗎？"
         title: "刪除Token"
       replace_token: "替換當前 support token"
-      order: "Order Enterprise on-premises edition"
-      paste: "Paste your Enterprise edition support token"
-      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
+      order: "訂購本地部署版的 Enterprise edition"
+      paste: "貼上您的企業版支持令牌（support token）"
+      required_for_feature: "此功能僅限具啟用中的企業版支持令牌的訂閱者使用。"
       enterprise_link: "如需了解詳細信息，請點擊此處。"
       start_trial: '開始免費試用'
       book_now: '立即預約'
@@ -98,7 +98,7 @@ zh-TW:
     add_new: '新增說明文字'
     edit: "編輯 %{attribute_caption} 的說明文字"
     enterprise:
-      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+      description: '為工作包和項目的屬性（包括自定義字段）提供附加信息。當用戶點擊項目和工作包中輸入字段旁邊的問號符號時，會顯示幫助文本。'
   background_jobs:
     status:
       error_requeue: "作業出現錯誤但重試中.錯誤訊息%{message}"
@@ -137,7 +137,7 @@ zh-TW:
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: '連線加密'
-    encryption_details: 'LDAPS / STARTTLS options'
+    encryption_details: 'LDAPS / STARTTLS 選項'
     system_account: '系統帳戶'
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
@@ -151,16 +151,16 @@ zh-TW:
       plain: '無'
       simple_tls: 'LDAPS'
       start_tls: 'STARTTLS'
-      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
-      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
-      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
+      plain_description: "打開到LDAP服務器的非加密連接。不建議在生產環境中使用。"
+      simple_tls_description: "若要使用LDAPS。需要LDAP服務器上的單獨端口。此模式常被棄用，我們建議最好使用STARTTLS。"
+      start_tls_description: "連接到標準LDAP端口後發送STARTTLS命令。推薦用於加密連接。"
       section_more_info_link_html: >
         This section concerns the connection security of this LDAP authentication source. For more information, visit <a href="%{link}">the Net::LDAP documentation</a>.
     tls_options:
-      verify_peer: "Verify SSL certificate"
+      verify_peer: "驗證SSL證書"
       verify_peer_description_html: >
-        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
-      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
+        啓用對受信任鏈證書的嚴格SSL驗證。<br/> <strong>警告：</strong>取消選中此選項會禁用LDAP服務器證書的SSL驗證。這將使您的連接暴露於中間人攻擊。
+      tls_certificate_description: "如果LDAP服務器證書不在此系統的信任源中，您可以在此手動添加它。輸入PEM X509證書字符串。"
   forums:
     show:
       no_results_title_text: 論壇上目前沒有任何貼文。
@@ -240,7 +240,7 @@ zh-TW:
       failed_text: "刪除專案 %{name} 的請求失敗。該專案已封存。"
       completed: "專案 %{name} 已完成刪除"
       completed_text: "刪除專案 \"%{name}\" 的請求已經完成。"
-      completed_text_children: "Additionally, the following subprojects have been deleted:"
+      completed_text_children: "此外，下列子專案已被刪除："
     index:
       open_as_gantt: '以甘特圖打開'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
@@ -315,7 +315,7 @@ zh-TW:
     upsale:
       title: Placeholder users
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
+        佔位符用戶是一種將工作包分配給不屬於您項目的用戶的方法。它們在一系列場景中十分有用；例如，如果您需要跟蹤尚未命名或可用的資源的任務，或者如果您不想讓該人員訪問 OpenProject 但仍希望跟蹤分配給他們的任務。
   prioritiies:
     edit:
       priority_color_text: |
@@ -352,7 +352,7 @@ zh-TW:
       settings: "設定"
       form_configuration: "表單設置"
       more_info_text_html: >
-        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        企業版允許您使用以下附加組件自定義表單配置：<br> <ul class="%{list_styling_class}"> <li><b>添加新屬性組</b></li> <li><b>重命名屬性組</b></li> <li><b>添加相關工作包的表格</b></li> </ul>
       projects: "專案"
       enabled_projects: "已啟用的專案"
       edit_query: "編輯表格"
@@ -630,7 +630,7 @@ zh-TW:
         confirmation: "不吻合 %{attribute}。"
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "不存在"
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
+        error_enterprise_only: "%{action}僅在 OpenProject 企業版中可用"
         error_unauthorized: "無法被存取。"
         error_readonly: "被嘗試寫入但是無法寫入。"
         email: "不是一個有效的電子郵件地址。 "
@@ -674,7 +674,7 @@ zh-TW:
         unknown_property_nested: "具有未知路徑 '%{path}'"
         unremovable: "無法移除"
         url_not_secure_context: >
-          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
+          未提供「安全上下文」。使用 HTTPS 或環回地址，例如 localhost。
         wrong_length: "長度錯誤 (應該要有 %{count} 個字元)"
       models:
         ldap_auth_source:
@@ -711,7 +711,7 @@ zh-TW:
               fragment_present: '不能包含片段。'
               invalid_uri: '必須是有效的 uri。'
               relative_uri: '必須是絕對 uri。'
-              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
+              secured_uri: '未提供「安全上下文」。使用 HTTPS 或環回地址，例如 localhost。'
               forbidden_uri: '被伺服器禁止。'
             scopes:
               not_match_configured: "與可用的範圍不吻合。"
@@ -719,7 +719,7 @@ zh-TW:
           unreadable: "無法讀取，確定是一個 support token?"
         grids/grid:
           overlaps: '重疊'
-          outside: 'is outside of the grid.'
+          outside: '不在網格內。'
           end_before_start: '結束值必須大於開始值。'
         ical_token_query_assignment:
           attributes:
@@ -1284,11 +1284,11 @@ zh-TW:
   ee:
     upsale:
       form_configuration:
-        description: "Customize the form configuration with these additional add-ons:"
+        description: "使用以下附加組件自定義表單配置："
         add_groups: "增加新的屬性群組"
         rename_groups: "重新命名屬性群组"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
+        description_html: "自定義字段的過濾和排序是企業版附加組件。"
   enumeration_activities: "時間追蹤活動"
   enumeration_work_package_priorities: "工作項目優先等級"
   enumeration_reported_project_statuses: "報告的專案狀態"
@@ -1312,7 +1312,7 @@ zh-TW:
   error_cookie_missing: 'OpenProject的Cookie遺失了。請確保瀏覽器的Cookie已經啟用，否則本應用程式將無法正常做用。'
   error_custom_option_not_found: "選項不存在。"
   error_enterprise_activation_user_limit: "無法啟動您的帳戶 (已達到使用者限制)。請與管理員聯繫以獲取存取權限。"
-  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "企業版未啟用。您的企業版令牌的域名（%{actual}）與系統的主機名（%{expected}）不匹配。"
   error_failed_to_delete_entry: '刪除此項目失敗。'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
@@ -2155,9 +2155,9 @@ zh-TW:
   mail_body_incoming_email_error_logs: "日誌"
   mail_body_lost_password: "若要變更您的密碼，請按一下以下的連結:"
   mail_password_change_not_possible:
-    title: "Password change not possible"
-    body: "Your account at %{app_title} is connected to an external authentication provider (%{name})."
-    subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
+    title: "無法更改密碼"
+    body: "您的 %{app_title} 帳戶已關聯到外部身份驗證服務提供商 (%{name})。"
+    subtext: "無法在應用程序中更改外部帳戶的密碼。請使用您的身份驗證服務提供商的密碼丟失功能。"
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
@@ -2321,6 +2321,7 @@ zh-TW:
   permission_comment_news: "對新聞發表評論"
   permission_commit_access: "讀/寫 權限版本庫 (Commit)"
   permission_copy_projects: "複製專案"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "刪除監看者"
   permission_delete_work_packages: "刪除工作項目"
@@ -2507,7 +2508,7 @@ zh-TW:
       oauth_application_details_link_text: "Go to settings page"
       setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
       setup_documentation_details_link_text: "File Storages setup"
-      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
+      show_warning_details: "無法在應用程序中更改外部帳戶的密碼。請使用您的身份驗證服務提供商的密碼丟失功能。"
     subversion:
       existing_title: "現有的 Subversion 版本庫"
       existing_introduction: "如果你已經有一個現有的本機 Subversion 版本庫，你可以連結它以便在 OpenProject 中存取"
@@ -2600,7 +2601,7 @@ zh-TW:
   setting_work_package_list_default_columns: "預設顯示"
   setting_work_package_properties: "工作項目屬性"
   setting_work_package_startdate_is_adddate: "使用目前日期作為新工作項目的開始日期"
-  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
+  setting_work_packages_projects_export_limit: "工作包/專案導出限制"
   setting_journal_aggregation_time_minutes: "整合的用戶操作"
   setting_log_requesting_user: "對所有的請求紀錄使用者登入名稱和郵件地址"
   setting_login_required: "需要身份驗證"
@@ -2674,7 +2675,7 @@ zh-TW:
         type: "按類型劃分的整行"
         priority: "按優先順序的整個行"
     icalendar:
-      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: 允許具有必要權限的用戶通過外部日曆客戶端訂閱 OpenProject 日曆並訪問工作包信息。<strong>注意</strong>：在啓用此功能之前，請閱讀關於 <a href="%{link}" target="_blank">iCalendar 訂閱</a>的信息以瞭解潛在的安全風險。
     language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: '控制發送電子郵件的事件。工作包不包括在此列表中，因為可以為每個用戶專門配置它們的通知'
@@ -2725,9 +2726,9 @@ zh-TW:
   text_custom_field_hint_activate_per_project_and_type: >
     自訂欄位需要個別被工作項目類別和專案啟用。
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    企業版將為工作包的狀態字段添加以下其他附加組件：<br> <ul> <li><b>允許將工作包標記為特定狀態的只讀</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    企業版將為項目的自定義字段添加以下其他附加組件：<br> <ul> <li><b>在項目列表中添加項目自定義字段，以創建項目組合視圖</b></li> </ul>
   text_custom_logo_instructions: >
     建議使用背景透明的白色標誌。為了確保在一般及視網膜螢幕上有最佳效果，請確保您的圖片解析度在 460px X 60px。
   text_custom_export_logo_instructions: >
@@ -2893,14 +2894,14 @@ zh-TW:
   warning_user_limit_reached: >
     達到用戶限制。 您無法再激活任何用戶。 請<a href="%{upgrade_url}">升級您的計劃</a>或阻止會員以允許其他用戶。
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
+    您已達到用戶限制（%{current}/%{max} 活躍用戶）。請聯繫 sales@openproject.com 升級您的企業版計劃以添加額外用戶。
   warning_protocol_mismatch_html: >
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: 'HTTPS 模式設置不匹配'
       text_html: >
-        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
+        您的應用程序正在運行，並且 HTTPS 模式設置為 <code>%{set_protocol}</code>，但該請求是 <code>%{actual_protocol}</code> 請求。這將導致錯誤！您將需要設置以下配置值：<code>%{setting_value}</code>。要瞭解如何設置此配置，請參閱<a href="%{more_info_path}">安裝文檔</a>。
     hostname_mismatch:
       title: '主機名稱不匹配'
       text_html: >

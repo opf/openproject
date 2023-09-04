@@ -37,12 +37,14 @@ This will print a warning and then continue with the migration. You can manually
 
 
 
-        $> bundle exec rails runner "OpenProject::TextFormatting::Formats::Markdown::TextileConverter.new.run!"
+```shell
+$> bundle exec rails runner "OpenProject::TextFormatting::Formats::Markdown::TextileConverter.new.run!"
+```
 
 or in a packaged installation:
 
-```
-    $> openproject run bundle exec rails runner "OpenProject::TextFormatting::Formats::Markdown::TextileConverter.new.run!"
+```shell
+$> openproject run bundle exec rails runner "OpenProject::TextFormatting::Formats::Markdown::TextileConverter.new.run!"
 ```
 
 

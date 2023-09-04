@@ -57,15 +57,27 @@ class CustomValue < ApplicationRecord
   def strategy
     @strategy ||= begin
       format = custom_field&.field_format || 'empty'
-      OpenProject::CustomFieldFormat.find_by_name(format).formatter.new(self)
+      OpenProject::CustomFieldFormat.find_by_name(format).formatter.new(self) # rubocop:disable Rails/DynamicFindBy
     end
   end
 
   def default?
-    custom_field.cast_value(value) == custom_field.default_value
+    value_is_included_in_multi_value_default? \
+      || value_is_same_as_default?
   end
 
   protected
+
+  def value_is_included_in_multi_value_default?
+    return false unless custom_field.multi_value?
+
+    [custom_field.default_value, value].all?(&:blank?) \
+      || custom_field.default_value&.include?(custom_field.cast_value(value))
+  end
+
+  def value_is_same_as_default?
+    custom_field.cast_value(value) == custom_field.default_value
+  end
 
   def validate_presence_of_required_value
     errors.add(:value, :blank) if custom_field.required? && !strategy.value_present?

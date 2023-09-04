@@ -41,19 +41,27 @@ th:
           name: ข้อมูลจำเพาะ
         item_2:
           name: อื่น ๆ
-      roles:
+      work_package_roles:
         item_0:
-          name: ผู้ไม่ได้เป็นสมาชิก
+          name: Work Package Editor
         item_1:
-          name: ไม่ระบุชื่อ
+          name: Work Package Commenter
         item_2:
-          name: สมาชิก
+          name: Work Package Viewer
+      project_roles:
+        item_0:
+          name: Non member
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Member
         item_3:
           name: Reader
         item_4:
           name: Project admin
-        item_5:
-          name: พนักงานและผู้จัดการโครงการ
+      global_roles:
+        item_0:
+          name: Staff and projects manager
     standard:
       priorities:
         item_0:

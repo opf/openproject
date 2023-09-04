@@ -41,18 +41,26 @@ ka:
           name: Specification
         item_2:
           name: სხვა
-      roles:
+      work_package_roles:
+        item_0:
+          name: Work Package Editor
+        item_1:
+          name: Work Package Commenter
+        item_2:
+          name: Work Package Viewer
+      project_roles:
         item_0:
           name: Non member
         item_1:
           name: Anonymous
         item_2:
-          name: წევრი
+          name: Member
         item_3:
-          name: მკითხველი
+          name: Reader
         item_4:
           name: Project admin
-        item_5:
+      global_roles:
+        item_0:
           name: Staff and projects manager
     standard:
       priorities:
@@ -63,24 +71,24 @@ ka:
         item_2:
           name: მაღალი
         item_3:
-          name: Immediate
+          name: დაუყონებლივ
       statuses:
         item_0:
           name: ახალი
         item_1:
           name: In specification
         item_2:
-          name: Specified
+          name: მითითებული
         item_3:
-          name: Confirmed
+          name: დადასტურებულია
         item_4:
           name: To be scheduled
         item_5:
-          name: Scheduled
+          name: დაგეგმილია
         item_6:
           name: In progress
         item_7:
-          name: Developed
+          name: შემუშავებულია
         item_8:
           name: In testing
         item_9:
@@ -110,7 +118,7 @@ ka:
         item_0:
           name: ამოცანა
         item_1:
-          name: Milestone
+          name: ნიშანსვეტი
         item_2:
           name: ფაზები
         item_3:
@@ -164,7 +172,7 @@ ka:
               name: Basic board
               lists:
                 item_0:
-                  name: Wish list
+                  name: სურვილების სია
                 item_1:
                   name: Short list
                 item_2:
@@ -323,7 +331,7 @@ ka:
               name: Task board
               lists:
                 item_0:
-                  name: Wish list
+                  name: სურვილების სია
                 item_1:
                   name: Short list
                 item_2:

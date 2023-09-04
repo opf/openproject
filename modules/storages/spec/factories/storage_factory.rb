@@ -89,4 +89,10 @@ FactoryBot.define do
              origin_user_id: 'admin')
     end
   end
+
+  factory :one_drive_storage, class: '::Storages::OneDriveStorage' do
+    sequence(:name) { |n| "Storage #{n}" }
+    creator factory: :user
+    provider_type { Storages::Storage::PROVIDER_TYPE_ONE_DRIVE }
+  end
 end

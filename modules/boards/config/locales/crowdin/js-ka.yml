@@ -22,7 +22,7 @@ ka:
         show_version: 'Show version'
         locked: 'ჩაკეტილია'
         closed: 'დახურვა'
-      new_board: 'New board'
+      new_board: 'ახალი დაფა'
       add_list: 'Add list to board'
       add_card: 'ბარათის დამატება'
       error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."

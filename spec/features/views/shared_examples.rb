@@ -56,8 +56,6 @@ RSpec.shared_examples 'module specific query view management' do
       query_menu.expect_menu_entry 'My second query'
       query_menu.expect_menu_entry 'My first query'
 
-      module_page.expect_and_dismiss_toaster
-
       # Rename a query
       settings_menu.open_and_choose 'Rename view'
       expect(page).to have_focus_on('.editable-toolbar-title--input')

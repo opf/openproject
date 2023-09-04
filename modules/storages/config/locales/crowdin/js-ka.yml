@@ -41,7 +41,7 @@ ka:
           The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
         managed_project_folder_no_access: >
           You have no access yet to the managed project folder. Please wait a bit and try again.
-        upload_keep_both: "Keep both"
+        upload_keep_both: "ორივეს შენარჩუნება"
         upload_replace: "ჩანაცვლება"
       file_links:
         empty: >

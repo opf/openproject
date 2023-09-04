@@ -102,7 +102,7 @@ description: |-
 
   The following excerpt exemplifies the objects that can be found as a value of the `dependencies` property:
 
-  ```
+  ```json
   {
     "_type": "SchemaDependency",
     "on": "someProperty",

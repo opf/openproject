@@ -203,4 +203,22 @@ RSpec.describe(
     expect(page).to have_current_path project_settings_project_storages_path(project)
     expect(page).to have_text(I18n.t('storages.no_results'))
   end
+
+  describe 'configuration checks' do
+    let(:configured_storage) { storage }
+    let!(:unconfigured_storage) { create(:storage) }
+
+    it 'excludes storages that are not configured correctly' do
+      visit project_settings_project_storages_path(project)
+
+      page.find('.toolbar .button--icon.icon-add').click
+
+      aggregate_failures 'select field options' do
+        expect(page).to have_select('storages_project_storage_storage_id',
+                                    options: ["#{configured_storage.name} (#{configured_storage.short_provider_type})"])
+        expect(page).not_to have_select('storages_project_storage_storage_id',
+                                        options: ["#{unconfigured_storage.name} (#{unconfigured_storage.short_provider_type})"])
+      end
+    end
+  end
 end

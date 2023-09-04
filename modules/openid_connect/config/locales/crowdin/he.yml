@@ -5,7 +5,7 @@ he:
     attributes:
       openid_connect/provider:
         name: שם
-        display_name: Display name
+        display_name: שם תצוגה
         identifier: מזהה
         secret: Secret
         scope: Scope

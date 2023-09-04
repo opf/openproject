@@ -556,7 +556,7 @@ module Settings
         writable: false
       },
       ldap_users_disable_sync_job: {
-        description: 'Deactive user attributes synchronization from LDAP',
+        description: 'Deactivate user attributes synchronization from LDAP',
         default: false,
         writable: false
       },

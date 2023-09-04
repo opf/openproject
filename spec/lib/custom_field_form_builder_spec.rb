@@ -192,11 +192,11 @@ RSpec.describe CustomFieldFormBuilder do
 
     context 'for a list custom field' do
       let(:custom_field) do
-        build_stubbed(:list_wp_custom_field,
-                      custom_options: [custom_option])
+        create(:list_wp_custom_field,
+               custom_options: [custom_option])
       end
       let(:custom_option) do
-        build_stubbed(:custom_option, value: 'my_option')
+        create(:custom_option, value: 'my_option')
       end
 
       it_behaves_like 'wrapped in container', 'select-container' do
@@ -216,7 +216,7 @@ RSpec.describe CustomFieldFormBuilder do
 
       context 'which is required and has no default value' do
         before do
-          custom_field.is_required = true
+          custom_field.update(is_required: true)
         end
 
         it 'outputs element' do
@@ -233,8 +233,8 @@ RSpec.describe CustomFieldFormBuilder do
 
       context 'which is required and a default value' do
         before do
-          custom_field.is_required = true
-          custom_option.default_value = true
+          custom_field.update(is_required: true)
+          custom_option.update(default_value: true)
         end
 
         it 'outputs element' do

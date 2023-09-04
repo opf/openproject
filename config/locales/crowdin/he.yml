@@ -490,10 +490,10 @@ he:
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
       grids/grid:
-        page: "Page"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
-        widgets: "Widgets"
+        page: "דף"
+        row_count: "מספר שורות"
+        column_count: "מספר עמודות"
+        widgets: "ווידג'טים"
       relation:
         delay: "זמן המתנה"
         from: "חבילת עבודה"
@@ -2391,6 +2391,7 @@ he:
   permission_comment_news: "Comment news"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Copy projects"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Delete watchers"
   permission_delete_work_packages: "Delete work packages"

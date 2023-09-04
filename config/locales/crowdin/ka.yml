@@ -978,14 +978,14 @@ ka:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
-        logged_for: "Logged for"
+        logged_for: "რეგისტრაციის მიზეზი"
     filter:
-      changeset: "Changesets"
+      changeset: "ცვლილებები"
       message: "ფორუმები"
       news: "სიახლეები"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "დახარჯული დრო"
       wiki_edit: "ვიკი"
       work_package: "Work packages"
   #common attributes of all models
@@ -1002,7 +1002,7 @@ ka:
     comments: "კომენტარი"
     content: "შემცველობა"
     color: "ფერი"
-    created_at: "Created on"
+    created_at: "შექმნის დრო"
     custom_options: "Possible values"
     custom_values: "Custom fields"
     date: "თარიღი"
@@ -1015,7 +1015,7 @@ ka:
     due_date: "Finish date"
     estimated_hours: "Estimated time"
     estimated_time: "Estimated time"
-    firstname: "First name"
+    firstname: "სახელი"
     group: "ჯგუფი"
     groups: "ჯგუფები"
     id: "ID"
@@ -1034,14 +1034,14 @@ ka:
     responsible: "Accountable"
     role: "როლი"
     roles: "როლები"
-    start_date: "Start date"
+    start_date: "დაწყების თარიღი"
     status: "სტატუსი"
     subject: "საგანი"
     summary: "შეჯამება"
     title: "სათაური"
     type: "ტიპი"
-    updated_at: "Updated on"
-    updated_on: "Updated on"
+    updated_at: "განახლების თარიღი"
+    updated_on: "განახლების თარიღი"
     uploader: "ამტვირთავი"
     user: "მომხმარებელი"
     value: "მნიშვნელობა"
@@ -1077,7 +1077,7 @@ ka:
       limit_reached: You can only do %{limit} backups per day.
   button_add: "დამატება"
   button_add_comment: "Add comment"
-  button_add_member: Add member
+  button_add_member: წევრის დამატება
   button_add_watcher: "Add watcher"
   button_annotate: "კომენტარის დაწერა"
   button_apply: "გადატარება"
@@ -1107,7 +1107,7 @@ ka:
   button_duplicate: "დუბლირება"
   button_edit: "ჩასწორება"
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
-  button_expand_all: "Expand all"
+  button_expand_all: "ყველას გაშლა"
   button_filter: "ფილტრი"
   button_generate: "გენერაცია"
   button_list: "სია"
@@ -1278,12 +1278,12 @@ ka:
   description_available_columns: "Available Columns"
   description_choose_project: "პროექტები"
   description_compare_from: "Compare from"
-  description_compare_to: "Compare to"
+  description_compare_to: "შედარება"
   description_current_position: "You are here: "
   description_date_from: "Enter start date"
   description_date_to: "Enter end date"
   description_enter_number: "Enter number"
-  description_enter_text: "Enter text"
+  description_enter_text: "შეიყვანეთ ტექსტი"
   description_filter: "ფილტრი"
   description_filter_toggle: "Show/Hide filter"
   description_category_reassign: "Choose category"
@@ -1393,7 +1393,7 @@ ka:
       pdf: "PDF"
       pdf_overview_table: "PDF ცხრილი"
       pdf_report_with_images: "PDF Report with images"
-      pdf_report: "PDF Report"
+      pdf_report: "PDF ანგარიში"
     image:
       omitted: "Image not exported."
     units:
@@ -1544,7 +1544,7 @@ ka:
   label_add_edit_translations: "Add and edit translations"
   label_add_another_file: "Add another file"
   label_add_columns: "Add selected columns"
-  label_add_note: "Add a note"
+  label_add_note: "შენიშვნის დამატება"
   label_add_related_work_packages: "Add related work packages"
   label_add_subtask: "Add subtask"
   label_added: "დამატებულია"
@@ -1581,7 +1581,7 @@ ka:
   label_attachment_new: "ახალი ფაილი"
   label_attachment_plural: "ფაილები"
   label_attribute: "ატრიბუტი"
-  label_attribute_plural: "Attributes"
+  label_attribute_plural: "ატრიბუტები"
   label_ldap_auth_source_new: "New LDAP connection"
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
@@ -1594,7 +1594,7 @@ ka:
   label_api_documentation: "API documentation"
   label_backup: "მარქაფი"
   label_between: "მითითებულ დროის შუალედში"
-  label_blocked_by: "blocked by"
+  label_blocked_by: "დაბლოკილია"
   label_blocks: "ბლოკავს"
   label_blog: "ბლოგი"
   label_forums_locked: "ჩაკეტილია"
@@ -1623,7 +1623,7 @@ ka:
   label_changes_details: "Details of all changes"
   label_changeset: "ცვლილებები"
   label_changeset_id: "Changeset ID"
-  label_changeset_plural: "Changesets"
+  label_changeset_plural: "ცვლილებები"
   label_checked: "შემოწმებულია"
   label_check_uncheck_all_in_column: "Check/Uncheck all in column"
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
@@ -1656,7 +1656,7 @@ ka:
   label_custom_field_add_no_type: "Add this field to a work package type"
   label_custom_field_new: "New custom field"
   label_custom_field_plural: "Custom fields"
-  label_custom_field_default_type: "Empty type"
+  label_custom_field_default_type: "ცარიელი ტიპი"
   label_custom_style: "დიზაინი"
   label_database_version: "PostgreSQL version"
   label_date: "თარიღი"
@@ -1674,7 +1674,7 @@ ka:
   label_deleted_custom_option: "(deleted option)"
   label_empty_element: "(ცარიელი)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
-  label_descending: "Descending"
+  label_descending: "დაღმავალი"
   label_details: "დეტალები"
   label_development_roadmap: "Development roadmap"
   label_diff: "სხვაობა"
@@ -1690,26 +1690,26 @@ ka:
   label_downloads_abbr: "გადმ"
   label_duplicated_by: "duplicated by"
   label_duplicate: "დუბლირება"
-  label_duplicates: "duplicates"
+  label_duplicates: "დუბლიკატები"
   label_edit: "ჩასწორება"
-  label_edit_x: "Edit: %{x}"
+  label_edit_x: "ჩასწორება: %{x}"
   label_enable_multi_select: "Toggle multiselect"
   label_enabled_project_custom_fields: 'Enabled custom fields'
   label_enabled_project_modules: 'Enabled modules'
   label_enabled_project_activities: 'Enabled time tracking activities'
-  label_end_to_end: "end to end"
+  label_end_to_end: "ბოლოდან ბოლომდე"
   label_end_to_start: "end to start"
   label_enumeration_new: "New enumeration value"
   label_enumeration_value: "Enumeration value"
   label_enumerations: "Enumerations"
-  label_enterprise: "Enterprise"
+  label_enterprise: "საწარმო"
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "Enterprise edition"
   label_enterprise_support: "Enterprise support"
   label_environment: "Environment"
   label_estimates_and_time: "Estimates and time"
   label_equals: "არის"
-  label_everywhere: "everywhere"
+  label_everywhere: "ყველგან"
   label_example: "მაგალითი"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
@@ -1724,7 +1724,7 @@ ka:
   label_feeds_access_key_created_on: "RSS access key created %{value} ago"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "ფაილები"
-  label_filter_add: "Add filter"
+  label_filter_add: "ფილტრის დამატება"
   label_filter_plural: "ფილტრები"
   label_filters_toggle: "Show/hide filters"
   label_float: "მცურავი"
@@ -1779,8 +1779,8 @@ ka:
   label_last_activity: "Last activity"
   label_last_change_on: "Last change on"
   label_last_changes: "last %{count} changes"
-  label_last_login: "Last login"
-  label_last_month: "last month"
+  label_last_login: "ბოლო შესვლა"
+  label_last_month: "ბოლო თვე"
   label_last_n_days: "last %{count} days"
   label_last_week: "ბოლო კვირას"
   label_latest_revision: "Latest revision"
@@ -1789,7 +1789,7 @@ ka:
   label_less_or_equal: "<="
   label_less_than_ago: "less than days ago"
   label_list: "სია"
-  label_loading: "Loading..."
+  label_loading: "იტვირთება..."
   label_lock_user: 'მომხმარებლის დაბლოკვა'
   label_logged_as: "Logged in as"
   label_login: "შესვლა"
@@ -1803,7 +1803,7 @@ ka:
   label_managed_repositories_vendor: "Managed %{vendor} repositories"
   label_max_size: "Maximum size"
   label_me: "მე"
-  label_member_new: "New member"
+  label_member_new: "ახალი წევრი"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "წევრები"
   lable_membership_added: 'Member added'
@@ -1830,7 +1830,7 @@ ka:
   label_more: "კიდევ"
   label_more_than_ago: "more than days ago"
   label_move_work_package: "Move work package"
-  label_my_account: "My account"
+  label_my_account: "ჩემი ანგარიში"
   label_my_activity: "My activity"
   label_my_account_data: "My account data"
   label_my_projects: "My projects"
@@ -1841,7 +1841,7 @@ ka:
   label_new_features: "New features"
   label_new_statuses_allowed: "New statuses allowed"
   label_news_singular: "სიახლეები"
-  label_news_added: "News added"
+  label_news_added: "სიახლე დამატებულია"
   label_news_comment_added: "Comment added to a news"
   label_news_latest: "Latest news"
   label_news_new: "სიახლის დამატება"
@@ -1874,7 +1874,7 @@ ka:
   label_other: "სხვა"
   label_overall_activity: "Overall activity"
   label_overview: "მიმოხილვა"
-  label_page_title: "Page title"
+  label_page_title: "გვერდის სათაური"
   label_part_of: "ნაწილია"
   label_password_lost: "Forgot your password?"
   label_password_rule_lowercase: "დაბალი რეგისტრი"
@@ -1931,8 +1931,8 @@ ka:
   label_registration_automatic_activation: "automatic account activation"
   label_registration_manual_activation: "manual account activation"
   label_related_work_packages: "Related work packages"
-  label_relates: "related to"
-  label_relates_to: "related to"
+  label_relates: "მიეკუთვნება"
+  label_relates_to: "მიეკუთვნება"
   label_relation_delete: "Delete relation"
   label_relation_new: "New relation"
   label_release_notes: "Release notes"
@@ -1944,8 +1944,8 @@ ka:
   label_report_plural: "ანგარიშები"
   label_reported_work_packages: "Reported work packages"
   label_reporting: "ანგარიშები"
-  label_reporting_plural: "Reportings"
-  label_repository: "Repository"
+  label_reporting_plural: "ანგარიშები"
+  label_repository: "რეპოზიტორია"
   label_repository_root: "Repository root"
   label_repository_plural: "Repositories"
   label_required: 'აუცილებელია'
@@ -1978,10 +1978,10 @@ ka:
   label_sort_highest: "Move to top"
   label_sort_lower: "ქვემოთ ჩატანა"
   label_sort_lowest: "Move to bottom"
-  label_spent_time: "Spent time"
+  label_spent_time: "დახარჯული დრო"
   label_start_to_end: "start to end"
   label_start_to_start: "start to start"
-  label_statistics: "Statistics"
+  label_statistics: "სტატისტიკა"
   label_status: "სტატუსი"
   label_stay_logged_in: "Stay logged in"
   label_storage_free_space: "Remaining disk space"
@@ -1989,7 +1989,7 @@ ka:
   label_storage_group: "Storage filesystem %{identifier}"
   label_storage_for: "Encompasses storage for"
   label_string: "ტექსტი"
-  label_subproject: "Subproject"
+  label_subproject: "ქვეპროექტი"
   label_subproject_new: "New subproject"
   label_subproject_plural: "Subprojects"
   label_subtask_plural: "ქვეამოცანები"
@@ -1999,10 +1999,10 @@ ka:
   label_table_of_contents: "Table of contents"
   label_tag: "ჭდე"
   label_text: "გრძელი ტექსტი"
-  label_this_month: "this month"
+  label_this_month: "ეს თვე"
   label_this_week: "ამ კვირაში "
   label_this_year: "ამ წელში"
-  label_time_entry_plural: "Spent time"
+  label_time_entry_plural: "დახარჯული დრო"
   label_title: "სათაური"
   label_projects_menu: "პროექტები"
   label_today: "დღეს"
@@ -2040,7 +2040,7 @@ ka:
   label_version_plural: "ვერსიები"
   label_version_sharing_descendants: "With subprojects"
   label_version_sharing_hierarchy: "With project hierarchy"
-  label_version_sharing_none: "Not shared"
+  label_version_sharing_none: "გაზიარებული არაა"
   label_version_sharing_system: "With all projects"
   label_version_sharing_tree: "With project tree"
   label_videos: "ვიდეოები"
@@ -2056,17 +2056,17 @@ ka:
   label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Do not show this wikipage in project navigation"
   label_wiki_edit: "ვიკის ჩასწორება"
-  label_wiki_edit_plural: "Wiki edits"
+  label_wiki_edit_plural: "ვიკის ჩასწორებები"
   label_wiki_page_attachments: "Wiki page attachments"
   label_wiki_page_id: "Wiki page ID"
   label_wiki_navigation: "Wiki navigation"
   label_wiki_page: "ვიკი გვერდი"
-  label_wiki_page_plural: "Wiki pages"
+  label_wiki_page_plural: "ვიკის გვერდები"
   label_wiki_show_index_page_link: "Show submenu item 'Table of Contents'"
   label_wiki_show_menu_item: "Show as menu item in project navigation"
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
   label_wiki_show_submenu_item: "Show as submenu item of "
-  label_wiki_start: "Start page"
+  label_wiki_start: "საწყისი გვერდი"
   label_work_package: "Work package"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "New category"
@@ -2076,7 +2076,7 @@ ka:
   label_work_package_edit: "Edit work package %{name}"
   label_work_package_plural: "Work packages"
   label_work_package_status: "Work package status"
-  label_work_package_status_new: "New status"
+  label_work_package_status_new: "ახალი სტატუსი"
   label_work_package_status_plural: "Work package statuses"
   label_work_package_types: "Work package types"
   label_work_package_tracking: "Work package tracking"
@@ -2159,8 +2159,8 @@ ka:
         mentioned: 'მოხსენიებულები'
         subscribed: 'ყველა'
         prefix: 'Received because of the notification setting: %{reason}'
-        date_alert_start_date: 'Date alert'
-        date_alert_due_date: 'Date alert'
+        date_alert_start_date: 'გაფრთხილების თარიღი'
+        date_alert_due_date: 'გაფრთხილების თარიღი'
       see_all: 'ყველას ნახვა'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
@@ -2235,7 +2235,7 @@ ka:
   more_actions: "More functions"
   noscript_description: "You need to activate JavaScript in order to use OpenProject!"
   noscript_heading: "JavaScript disabled"
-  noscript_learn_more: "Learn more"
+  noscript_learn_more: "გაიგეთ მეტი"
   notice_accessibility_mode: The accessibility mode can be enabled in your [account settings](url).
   notice_account_activated: "Your account has been activated. You can now log in."
   notice_account_already_activated: The account has already been activated.
@@ -2329,7 +2329,7 @@ ka:
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
-  permission_add_work_package_notes: "Add notes"
+  permission_add_work_package_notes: "შენიშვნების დამატება"
   permission_add_work_packages: "Add work packages"
   permission_add_messages: "Post messages"
   permission_add_project: "Create project"
@@ -2345,6 +2345,7 @@ ka:
   permission_comment_news: "Comment news"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Copy projects"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Delete watchers"
   permission_delete_work_packages: "Delete work packages"
@@ -2399,7 +2400,7 @@ ka:
   permission_view_time_entries: "View spent time"
   permission_view_timelines: "View timelines"
   permission_view_wiki_edits: "View wiki history"
-  permission_view_wiki_pages: "View wiki"
+  permission_view_wiki_pages: "ვიკის ნახვა"
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
   placeholders:
@@ -2449,7 +2450,7 @@ ka:
     checkout:
       access:
         readwrite: 'Read + Write'
-        read: 'Read-only'
+        read: 'მხოლოდ-წასაკითხად'
         none: 'No checkout access, you may only view the repository through this application.'
       access_permission: 'Your permissions on this repository'
       url: "Checkout URL"
@@ -2503,7 +2504,7 @@ ka:
           Specify the path to your local Git repository ( e.g., %{example_path} ). You can also use remote repositories which are cloned to a local copy by using a value starting with http(s):// or file://.
         path_encoding: "Override Git path encoding (Default: UTF-8)"
       local_title: "Link existing local Git repository"
-      local_url: "Local URL"
+      local_url: "ლოკალური ბმული"
       local_introduction: "If you have an existing local Git repository, you can link it with OpenProject to access it from within the application."
       managed_introduction: "Let OpenProject create and integrate a local Git repository automatically."
       managed_title: "Git repository integrated into OpenProject"
@@ -2551,7 +2552,7 @@ ka:
     warnings:
       cannot_annotate: "This file cannot be annotated."
   scheduling:
-    activated: 'activated'
+    activated: 'გააქტიურებულია'
     deactivated: 'deactivated'
   search_input_placeholder: "Search ..."
   setting_apiv3_cors_enabled: "Enable CORS"
@@ -2571,7 +2572,7 @@ ka:
   setting_smtp_enable_starttls_auto: "Automatically use STARTTLS if available"
   setting_smtp_ssl: "Use SSL connection"
   setting_smtp_address: "SMTP server"
-  setting_smtp_port: "SMTP port"
+  setting_smtp_port: "SMTP პორტი"
   setting_smtp_authentication: "SMTP authentication"
   setting_smtp_user_name: "SMTP username"
   setting_smtp_password: "SMTP password"
@@ -2581,7 +2582,7 @@ ka:
   setting_app_title: "Application title"
   setting_attachment_max_size: "Attachment max. size"
   setting_autofetch_changesets: "Autofetch repository changes"
-  setting_autologin: "Autologin"
+  setting_autologin: "ავტომატური შესვლა"
   setting_available_languages: "Available languages"
   setting_bcc_recipients: "Blind carbon copy recipients (bcc)"
   setting_brute_force_block_after_failed_logins: "Block user after this number of failed login attempts"
@@ -2615,7 +2616,7 @@ ka:
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
-  setting_host_name: "Host name"
+  setting_host_name: "ჰოსტის სახელი"
   setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Calculate the work package done ratio with"
   setting_work_package_done_ratio_field: "Use the work package field"
@@ -2704,7 +2705,7 @@ ka:
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     other: "სხვა"
-    passwords: "Passwords"
+    passwords: "პაროლები"
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
@@ -2714,7 +2715,7 @@ ka:
       display_format: "Display format"
       deletion: "წაშლა"
     working_days:
-      section_work_week: "Work week"
+      section_work_week: "სამუშაო კვირა"
       section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
@@ -2930,7 +2931,7 @@ ka:
       title: 'Hostname setting mismatch'
       text_html: >
         Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
-  menu_item: "Menu item"
+  menu_item: "მენიუს ელემენტი"
   menu_item_setting: "Visibility"
   wiki_menu_item_for: "Menu item for wikipage \"%{title}\""
   wiki_menu_item_setting: "Visibility"
@@ -3075,11 +3076,11 @@ ka:
         client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
         register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
         default_scopes: ""
-    client_id: "Client ID"
+    client_id: "კლიენტის ID"
     client_secret_notice: >
       This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.
     authorization_dialog:
-      authorize: "Authorize"
+      authorize: "ავტორიზაცია"
       cancel: "Cancel and deny authorization."
       prompt_html: "Authorize <strong>%{application_name}</strong> to use your account <em>%{login}</em>?"
       title: "Authorize %{application_name}"
@@ -3109,7 +3110,7 @@ ka:
     my_registered_applications: "Registered OAuth applications"
   oauth_client:
     urn_connection_status:
-      connected: "Connected"
+      connected: "დაკავშირებულია"
       error: "შეცდომა"
       failed_authorization: "Authorization failed"
     labels:

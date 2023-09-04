@@ -33,7 +33,7 @@ ruby '~> 3.2.1'
 gem 'ox'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
-gem 'activerecord-import', '~> 1.4.0'
+gem 'activerecord-import', '~> 1.5.0'
 gem 'activerecord-session_store', '~> 2.0.0'
 gem 'rails', '~> 7.0', '>= 7.0.3.1'
 gem 'responders', '~> 3.0'
@@ -103,7 +103,7 @@ gem 'svg-graph', '~> 2.2.0'
 
 gem 'date_validator', '~> 0.12.0'
 gem 'email_validator', '~> 2.2.3'
-gem 'json_schemer', '~> 1.0.1'
+gem 'json_schemer', '~> 2.0.0'
 gem 'ruby-duration', '~> 3.2.0'
 
 # `config/initializers/mail_starttls_patch.rb` has also been patched to
@@ -117,19 +117,19 @@ gem 'sys-filesystem', '~> 1.4.0', require: false
 gem 'bcrypt', '~> 3.1.6'
 
 gem 'multi_json', '~> 1.15.0'
-gem 'oj', '~> 3.15.0'
+gem 'oj', '~> 3.16.0'
 
 gem 'daemons'
 gem 'delayed_cron_job', '~> 0.9.0'
 gem 'delayed_job_active_record', '~> 4.1.5'
 
-gem 'rack-protection', '~> 3.0.0'
+gem 'rack-protection', '~> 3.1.0'
 
 # Rack::Attack is a rack middleware to protect your web app from bad clients.
 # It allows whitelisting, blacklisting, throttling, and tracking based
 # on arbitrary properties of the request.
 # https://github.com/kickstarter/rack-attack
-gem 'rack-attack', '~> 6.6.0'
+gem 'rack-attack', '~> 6.7.0'
 
 # CSP headers
 gem 'secure_headers', '~> 6.5.0'
@@ -143,7 +143,7 @@ gem 'okcomputer', '~> 1.18.1'
 gem 'gon', '~> 6.4.0'
 
 # Lograge to provide sane and non-verbose logging
-gem 'lograge', '~> 0.12.0'
+gem 'lograge', '~> 0.13.0'
 
 # Structured warnings to selectively disable them in production
 gem 'structured_warnings', '~> 0.4.0'
@@ -257,7 +257,7 @@ group :test do
   gem 'webmock', '~> 3.12', require: false
 
   # Mock selenium requests through proxy (for feature tests)
-  gem 'puffing-billy', '~> 3.1.0'
+  gem 'puffing-billy', '~> 4.0.0'
   gem 'table_print', '~> 1.5.6'
 
   gem 'equivalent-xml', '~> 0.6'
@@ -318,7 +318,7 @@ end
 gem 'bootsnap', '~> 1.16.0', require: false
 
 # API gems
-gem 'grape', '~> 1.7.0'
+gem 'grape', '~> 1.8.0'
 gem 'grape_logging', '~> 1.8.4'
 gem 'roar', '~> 1.2.0'
 

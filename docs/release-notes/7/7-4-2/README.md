@@ -12,13 +12,13 @@
 
   - Enterprise LDAP group synchronization changed to
     allow *memberOf*  to yield members of an ldap group
-    [#](https://community.openproject.com/work_packages/24960 "In repository module (SVN) when clicking on a .js file representation is incorrect")[27271](https://community.openproject.com/wp/27271 "LDAP group synchronization with memberOf filter")
+    [#](https://community.openproject.com/wp/24960 "In repository module (SVN) when clicking on a .js file representation is incorrect")[27271](https://community.openproject.com/wp/27271 "LDAP group synchronization with memberOf filter")
 
 ## Bug fixes (5)
 
   - Invalid format render response when accessing a JavaScript file in
     the repository browser
-    [#24960](https://community.openproject.com/work_packages/24960 "In repository module (SVN) when clicking on a .js file representation is incorrect")
+    [#24960](https://community.openproject.com/wp/24960 "In repository module (SVN) when clicking on a .js file representation is incorrect")
   - Progress aggregation ignores multiple identical values in subtasks
     [#27262](https://community.openproject.com/wp/27262)
   - Paragraphs in work package description are collapsed

@@ -42,7 +42,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter,
            work_package_custom_fields: [custom_field])
   end
   let(:custom_field) do
-    create(:text_issue_custom_field, name: 'LongText')
+    create(:issue_custom_field, :text, name: 'LongText')
   end
   let(:type) { create(:type_standard, custom_fields: [custom_field]) }
 
