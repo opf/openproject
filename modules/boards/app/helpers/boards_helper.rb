@@ -8,7 +8,7 @@ module BoardsHelper
 
   def board_types
     [
-      build_board_type_attributes('basic', 'lists', false),
+      build_board_type_attributes('basic', 'lists'),
       build_board_type_attributes('status', 'status'),
       build_board_type_attributes('assignee', 'assignees'),
       build_board_type_attributes('version', 'version'),
