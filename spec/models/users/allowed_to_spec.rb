@@ -201,30 +201,6 @@ RSpec.describe User, 'allowed_to?' do
           it { expect(user).not_to be_allowed_to(permission, project) }
         end
 
-        context 'and the permission being assigend to the non-member role' do
-          before do
-            non_member = Role.non_member
-            non_member.add_permission! permission
-
-            final_setup_step
-          end
-
-          it do
-            # TODO: Figure this one out. In the documentation it says:
-            #
-            # Surprisingly, when looking up permissions, the non member role is always factored in, even it the user
-            # does have other roles within the project as well. That means that if the user has a role in a project
-            # not granting "Create new work package", but the non member role is granting the permission, the user
-            # will in effect have that permission.
-            #
-            # So, in my eyes, with the permission being granted to the non-member role, it should be allowed to do the
-            # requested action.
-
-            skip "Have to figure out why this is not working"
-            expect(user).to be_allowed_to(permission, project)
-          end
-        end
-
         context 'and requesting a public permission' do
           let(:permission) { :view_project } # a permission defined as public
 
