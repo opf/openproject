@@ -83,7 +83,7 @@ class WorkPackage < ApplicationRecord
         (#{visible_by_project_membership.to_sql})
         UNION
         (#{visible_by_work_package_membership.to_sql})
-      ) AS work_packages
+      ) AS "work_packages"
     SQL
   }
 
