@@ -20,6 +20,9 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 be:
+  plugin_openproject_backlogs:
+    name: "OpenProject Backlogs"
+    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
   activerecord:
     attributes:
       work_package:

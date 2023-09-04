@@ -413,7 +413,7 @@ class WikiController < ApplicationController
   end
 
   def default_breadcrumb
-    Wiki.name.humanize
+    Wiki.model_name.human
   end
 
   def show_local_breadcrumb

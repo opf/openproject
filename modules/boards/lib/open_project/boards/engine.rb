@@ -25,8 +25,7 @@ module OpenProject::Boards
     register 'openproject-boards',
              author_url: 'https://www.openproject.org',
              bundled: true,
-             settings: {},
-             name: 'OpenProject Boards' do
+             settings: {} do
       project_module :board_view, dependencies: :work_package_tracking, order: 80 do
         permission :show_board_views,
                    { 'boards/boards': %i[index show] },
