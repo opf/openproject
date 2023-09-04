@@ -33,7 +33,7 @@ We need to run the SimpleSAMLphp idP contained in the docker container. We only 
 
 Create a new folder `saml-idp`  and switch to it
 
-```bash
+```shell
 mkdir saml-idp && cd saml-idp
 ```
 
@@ -41,7 +41,7 @@ mkdir saml-idp && cd saml-idp
 
 Create a file `users.php` with the following content
 
-```bash
+```shell
 <?php
 $config = array(
 
@@ -74,7 +74,7 @@ $config = array(
 
 You can now run the docker container and the updated configuration with this command. 
 
-```bash
+```shell
 docker run \
 -p 8080:8080 \
 -p 8443:8443 \
@@ -90,7 +90,7 @@ kristophjunge/test-saml-idp
 
 If you're not using a development installation of OpenProject, you'll need to change the ENV variables slightly:
 
-```bash
+```shell
 docker run \
 -p 8080:8080 \
 -p 8443:8443 \

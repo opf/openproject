@@ -18,7 +18,7 @@ Encapsulate the implementation details in the subdomain service (e.g., login sho
 Encapsulate the implementation details in a component’s method or in a Presenter (service scoped/provided in the component). 
 
 #### Example
-```
+```javascript
 // Imperative programming
 const bestProducts = [];
 
@@ -59,7 +59,7 @@ Not capable of or susceptible to change. An immutable value can’t be changed, 
 Do not mutate objects, spread the word.
 *   Do not edit object’s, use the immutable alternatives:
 
-```
+```javascript
 const copy = {...originalObject}; 
 const add = {...originalObject, propertyToChange: 'new value'};
 const remove = {propertyToDelete, ...newObjectWithoutThePropertyToDelete}; 
@@ -67,7 +67,7 @@ const remove = {propertyToDelete, ...newObjectWithoutThePropertyToDelete};
 
 *   Avoid Array mutation methods (push, pop, shift, unshift, sort, reverse, splice, delete), use their immutable alternatives:
 
-```
+```javascript
 clone = x => [...x];
 push = y => x => [...x, y];
 pop = x => x.slice(0, -1);

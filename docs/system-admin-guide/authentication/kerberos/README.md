@@ -27,7 +27,7 @@ Create the service principal (e.g. using `kadmin`) and a keytab for OpenProject 
 
 
 
-```bash
+```shell
 # Assuming you're in the `kadmin.local` interactive command
 
 addprinc -randkey HTTP/openproject.example.com
@@ -40,7 +40,7 @@ This will output a keytab file for the realm selected by `kadmin` (in the above 
 
 You still need to make this file readable for Apache. For Debian/Ubuntu based systems, the Apache user and group is `www-data`. This will vary depending on your installation
 
-```bash
+```shell
 sudo chown www-data:www-data /etc/apache2/openproject.keytab
 sudo chmod 400 /etc/apache2/openproject.keytab
 ```
@@ -51,7 +51,7 @@ sudo chmod 400 /etc/apache2/openproject.keytab
 
 First, ensure that you install the `mod_auth_kerb` apache module. The command will vary depending on your installation. On Debian/Ubuntu based systems, use the following command to install:
 
-```bash
+```shell
 sudo apt install libapache2-mod-auth-gssapi
 ```
 
@@ -110,16 +110,16 @@ As the last step, you need to tell OpenProject to look for the `X-Authenticated-
 
 As with all the rest of the OpenProject configuration settings, the Kerberos header configuration can be provided via environment variables. For example:
 
-```bash
+```shell
 openproject config:set OPENPROJECT_AUTH__SOURCE__SSO_HEADER="X-Authenticated-User"
 openproject config:set OPENPROJECT_AUTH__SOURCE__SSO_SECRET="MyPassword"
 ```
 
 In case you want to make the header optional, i.e. the header may or may not be present for a subset of users going through Apache, you can set the following value:
 
-  ```bash
-  openproject config:set OPENPROJECT_AUTH__SOURCE__SSO_OPTIONAL=true
-  ```
+```shell
+openproject config:set OPENPROJECT_AUTH__SOURCE__SSO_OPTIONAL=true
+```
 
 Please note the differences between single underscores (`_`) and double underscores (`__`) in these environment variables, as the single underscore denotes namespaces.
 

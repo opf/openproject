@@ -26,7 +26,7 @@ After changing the file `/etc/openproject/conf.d/env`  the command `sudo openpro
 
 If you would like to change only one variable you are able to configure the environment variable by using the following command:
 
-```bash
+```shell
 sudo openproject config:set VARIABLE=value
 ```
 
@@ -89,7 +89,7 @@ Alternatively, you can also use an env file for docker-compose like so:
 
 First, add a `.env` file with some variable:
 
-```bash
+```shell
 OPENPROJECT_HTTPS="true"
 ```
 
@@ -124,7 +124,7 @@ x-op-app: &app
 
 Let's say you have a `.env.prod`  file with some production-specific configuration. Then, start the services with that special env file specified.
 
-```bash
+```shell
 docker-compose --env-file .env.prod up
 ```
 
@@ -150,7 +150,7 @@ Configuring OpenProject through environment variables is described in detail [in
 Environment variables can be either passed directly on the command-line to the
 Docker Engine, or via an environment file:
 
-```bash
+```shell
 docker run -d -e KEY1=VALUE1 -e KEY2=VALUE2 ...
 # or
 docker run -d --env-file path/to/file ...
@@ -181,7 +181,7 @@ In case of automated deployments, you might find it useful to seed an admin user
 
 
 
-```bash
+```shell
 OPENPROJECT_SEED_ADMIN_USER_PASSWORD="admin" # Password to set for the admin user
 OPENPROJECT_SEED_ADMIN_USER_PASSWORD_RESET="true" # Whether to force a password reset on first login (true/false)
 OPENPROJECT_SEED_ADMIN_USER_NAME="OpenProject Admin" # Name to assign to that user (First and lastnames will be split on the space character)
@@ -202,7 +202,7 @@ The name of the LDAP connection is derived from the ENV key behind `SEED_LDAP_`,
 
 The following options are possible
 
-```bash
+```shell
 # Host name of the connection
 OPENPROJECT_SEED_LDAP_EXAMPLE_HOST="localhost"
 # Port of the connection
@@ -242,7 +242,7 @@ OPENPROJECT_SEED_LDAP_EXAMPLE_ADMIN__MAPPING=""
 
 To define a synchronized LDAP filter (for automatic group creation and synchronization), you can add these values:
 
-```bash
+```shell
 # Define a filter called "examplefilter" with the following options
 # LDAP base to search for groups
 OPENPROJECT_SEED_LDAP_EXAMPLE_GROUPFILTER_EXAMPLEFILTER_BASE="ou=groups,dc=example,dc=com"
@@ -423,13 +423,13 @@ OPENPROJECT_FOG_DIRECTORY="uploads"
 
 You can migrate attachments between the available backends. One example would be that you change the configuration from the file storage to the fog storage. If you want to put all the present file-based attachments into the cloud, you will have to use the following rake task:
 
-```bash
+```shell
 rake attachments:copy_to[fog]
 ```
 
 It works the other way around too:
 
-```bash
+```shell
 rake attachments:copy_to[file]
 ```
 
@@ -667,7 +667,7 @@ If you would like to hide the homescreen links to the OpenProject community, you
 
 *default=true*
 
-```
+```yaml
 OPENPROJECT_SHOW__COMMUNITY__LINKS=false
 ```
 

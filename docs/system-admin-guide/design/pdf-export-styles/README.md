@@ -22,7 +22,7 @@ Properties to set borders
 Key: `border`
 
 Example:
-```yml
+```yaml
 border_color: F000FF
 border_color_top: 000FFF
 border_color_bottom: FFF000
@@ -58,7 +58,7 @@ Styling for the cover page of the PDF report export
 Key: `cover`
 
 Example:
-```yml
+```yaml
 cover:
   header: {}
   footer: {}
@@ -78,7 +78,7 @@ Styling for the cover page footer of the PDF report export
 Key: `cover_footer`
 
 Example:
-```yml
+```yaml
 footer:
   offset: 20
   size: 10
@@ -97,7 +97,7 @@ Styling for the cover page header of the PDF report export
 Key: `cover_header`
 
 Example:
-```yml
+```yaml
 header:
   logo_height: 25
   border: {}
@@ -118,7 +118,7 @@ Styling for the cover page header border of the PDF report export
 Key: `cover_header_border`
 
 Example:
-```yml
+```yaml
 border:
   color: d3dee3
   height: 1
@@ -140,7 +140,7 @@ Styling for the hero banner at the bottom at the cover page
 Key: `cover_hero`
 
 Example:
-```yml
+```yaml
 header:
   padding_right: 150
   padding_top: 120
@@ -164,7 +164,7 @@ Properties to set the font style
 Key: `font`
 
 Example:
-```yml
+```yaml
 font: OpenSans
 size: 10
 character_spacing: 0
@@ -201,7 +201,7 @@ Properties to set margins
 Key: `margin`
 
 Example:
-```yml
+```yaml
 margin: 10mm
 margin_top: 15mm
 ```
@@ -221,7 +221,7 @@ Styling a clickable link
 Key: `link`
 
 Example:
-```yml
+```yaml
 link:
   color: '000088'
 ```
@@ -237,7 +237,7 @@ Styling for content of work package description and long text custom fields
 Key: `markdown`
 
 Example:
-```yml
+```yaml
 markdown:
   font: {}
   header: {}
@@ -290,7 +290,7 @@ Styling to denote a paragraph as quote
 Key: `blockquote`
 
 Example:
-```yml
+```yaml
 blockquote:
   background_color: f4f9ff
   size: 14
@@ -320,7 +320,7 @@ Styling to denote a word or phrase as code
 Key: `code`
 
 Example:
-```yml
+```yaml
 code:
   font: Consolas
   color: '880000'
@@ -337,7 +337,7 @@ Styling to denote a paragraph as code
 Key: `codeblock`
 
 Example:
-```yml
+```yaml
 codeblock:
   background_color: F5F5F5
   font: Consolas
@@ -360,7 +360,7 @@ codeblock:
 Key: `header`
 
 Example:
-```yml
+```yaml
 header:
   styles:
     - bold
@@ -389,7 +389,7 @@ Tables without or empty header rows can be styled differently.
 Key: `headless_table`
 
 Example:
-```yml
+```yaml
 headless_table:
   auto_width: true
   cell:
@@ -411,7 +411,7 @@ Styling for horizontal lines
 Key: `hrule`
 
 Example:
-```yml
+```yaml
 hrule:
   line_width: 1
 ```
@@ -428,7 +428,7 @@ Styling of images
 Key: `image`
 
 Example:
-```yml
+```yaml
 image:
   max_width: 50mm
   margin: 2mm
@@ -451,7 +451,7 @@ image:
 Key: `ordered_list`
 
 Example:
-```yml
+```yaml
 ordered_list:
   spacing: 2mm
   point_inline: false
@@ -469,7 +469,7 @@ ordered_list:
 Key: `ordered_list_point`
 
 Example:
-```yml
+```yaml
 ordered_list_point:
   template: "<number>."
   alphabetical: false
@@ -492,7 +492,7 @@ A block of text
 Key: `paragraph`
 
 Example:
-```yml
+```yaml
 paragraph:
   align: justify
   padding_bottom: 2mm
@@ -509,7 +509,7 @@ paragraph:
 Key: `table`
 
 Example:
-```yml
+```yaml
 table:
   auto_width: true
   header:
@@ -534,7 +534,7 @@ table:
 Key: `task_list_point`
 
 Example:
-```yml
+```yaml
 task_list_point:
   checked: "☑"
   unchecked: "☐"
@@ -553,7 +553,7 @@ task_list_point:
 Key: `unordered_list`
 
 Example:
-```yml
+```yaml
 unordered_list:
   spacing: 1.5mm
   padding_top: 2mm
@@ -571,7 +571,7 @@ unordered_list:
 Key: `unordered_list_point`
 
 Example:
-```yml
+```yaml
 unordered_list_point:
   sign: "•"
   spacing: 0.75mm
@@ -590,7 +590,7 @@ Styling for the PDF table export
 Key: `overview`
 
 Example:
-```yml
+```yaml
 overview:
   group_heading: {}
   table: {}
@@ -608,7 +608,7 @@ Styling for the group lavel if grouping is activated
 Key: `group_heading`
 
 Example:
-```yml
+```yaml
 group_heading:
   size: 11
   styles:
@@ -626,7 +626,7 @@ group_heading:
 Key: `table`
 
 Example:
-```yml
+```yaml
 table:
   subject_indent: 0
   margin_bottom: 20
@@ -659,7 +659,7 @@ Properties to set paddings
 Key: `padding`
 
 Example:
-```yml
+```yaml
 padding: 10mm
 padding_top: 15mm
 ```
@@ -677,7 +677,7 @@ padding_top: 15mm
 Key: `page_footer`
 
 Example:
-```yml
+```yaml
 page_footer:
   offset: -30
   size: 8
@@ -694,7 +694,7 @@ page_footer:
 Key: `page_header`
 
 Example:
-```yml
+```yaml
 page_header:
   align: left
   offset: 20
@@ -714,7 +714,7 @@ The main page title heading
 Key: `page_heading`
 
 Example:
-```yml
+```yaml
 page_heading:
   size: 14
   styles:
@@ -734,7 +734,7 @@ Styling for logo image in the page header.
 Key: `page_logo`
 
 Example:
-```yml
+```yaml
 page_logo:
   height: 20
   align: right
@@ -753,7 +753,7 @@ Properties to set the basic page settings
 Key: `page`
 
 Example:
-```yml
+```yaml
 page:
   page_size: EXECUTIVE
   margin_top: 60
@@ -780,7 +780,7 @@ Styling for a table cell
 Key: `table_cell`
 
 Example:
-```yml
+```yaml
 table_cell:
   size: 9
   color: '000000'
@@ -801,7 +801,7 @@ Styling for a table header cell
 Key: `table_header`
 
 Example:
-```yml
+```yaml
 table_header:
   size: 9
   styles:
@@ -821,7 +821,7 @@ Styling for the table of content of the PDF report export
 Key: `toc`
 
 Example:
-```yml
+```yaml
 toc:
   subject_indent: 4
   indent_mode: stairs
@@ -856,7 +856,7 @@ Default styling for TOC items on all levels.<br/>use item_level_x` as key for TO
 Key: `item`
 
 Example:
-```yml
+```yaml
 item:
   size: 9
   color: '000000'
@@ -882,7 +882,7 @@ Key: `item_level_x`
 Key: `title`
 
 Example:
-```yml
+```yaml
 title:
   max_height: 30
   spacing: 10
@@ -902,7 +902,7 @@ title:
 Key: `subheading`
 
 Example:
-```yml
+```yaml
 subheading:
   max_height: 30
   size: 10
@@ -921,7 +921,7 @@ subheading:
 Key: `heading`
 
 Example:
-```yml
+```yaml
 heading:
   spacing: 10
   size: 32
@@ -942,7 +942,7 @@ Styling for the Work package section
 Key: `work_package`
 
 Example:
-```yml
+```yaml
 work_package:
   margin_bottom: 20
   subject: {}
@@ -972,7 +972,7 @@ Styling for the Work package attributes table
 Key: `attributes_table`
 
 Example:
-```yml
+```yaml
 attributes_table:
   margin_bottom: 10
   cell:
@@ -1002,7 +1002,7 @@ Label headline for work package description and long text custom fields
 Key: `markdown_label`
 
 Example:
-```yml
+```yaml
 markdown_label:
   size: 12
   styles:
@@ -1023,7 +1023,7 @@ Margins for work package description and long text custom fields
 Key: `markdown_margin`
 
 Example:
-```yml
+```yaml
 markdown_margin:
   margin_bottom: 16
 ```
@@ -1039,7 +1039,7 @@ Styling for the Work package subject headline
 Key: `subject`
 
 Example:
-```yml
+```yaml
 subject:
   size: 10
   styles:
@@ -1057,7 +1057,7 @@ subject:
 Key: `subject_level_x`
 
 Example:
-```yml
+```yaml
 subject_level_1:
   size: 14
   styles:

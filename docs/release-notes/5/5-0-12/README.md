@@ -18,10 +18,10 @@ OpenProject 5.0.12 contains several bug fixes:
     versions were displayed in a project. This has been
     fixed ([#22599](https://community.openproject.org/work_packages/22599)).
   - Several design issues have been resolved
-    ([#22564](https://community.openproject.org/work_packages/22564/activity),
-    [#22570](https://community.openproject.org/work_packages/22570/activity),
-    [#22571](https://community.openproject.org/work_packages/22571/activity),
-    [#20683](https://community.openproject.org/work_packages/20683/activity)).
+    ([#22564](https://community.openproject.org/work_packages/22564),
+    [#22570](https://community.openproject.org/work_packages/22570),
+    [#22571](https://community.openproject.org/work_packages/22571),
+    [#20683](https://community.openproject.org/work_packages/20683)).
 
 For further information on the release, please refer to the  
 [Changelog v.5.0.12](https://community.openproject.org/versions/800) 

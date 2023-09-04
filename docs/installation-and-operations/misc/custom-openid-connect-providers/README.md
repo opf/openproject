@@ -10,7 +10,7 @@ That means you will have to do it directly using the console on the server or vi
 
 First start the console.
 
-```
+```shell
 sudo openproject run console
 # if user the docker all-in-one container: docker exec -it openproject bundle exec rails console
 # if using docker-compose: docker-compose run --rm web bundle exec rails console
@@ -91,7 +91,7 @@ The variable names can be derived from the options seen above. All variables wil
 `OPENPROJECT_OPENID__CONNECT_` followed by the provider name. For instance the okta example from above would
 be defined via environment variables like this:
 
-```
+```shell
 OPENPROJECT_OPENID__CONNECT_OKTA_DISPLAY__NAME="Okta"
 OPENPROJECT_OPENID__CONNECT_OKTA_HOST="mypersonal.okta.com"
 OPENPROJECT_OPENID__CONNECT_OKTA_IDENTIFIER="<identifier or client id>"
@@ -112,7 +112,7 @@ There are a number of known providers where the endpoints are configured automat
 If you want to configure multiple connections using the same provider you can prefix an arbitrary name with the
 provider name followed by a period. For instance, if you want to configure 2 AzureAD connections and 1 Google connection it would look like this:
 
-```
+```ruby
 Setting.plugin_openproject_openid_connect = Hash(Setting.plugin_openproject_openid_connect || {}).deep_merge({
   "providers" => {
     "azure.dept1" =>  { "display_name"=>"Department 1","identifier"=>"...","secret"=>"..." },
@@ -128,7 +128,7 @@ At the time of writing the known providers are: `azure`, `google`, `okta`
 
 You can override the default attribute mapping for values derived from the userinfo endpoint. For example, let's map the OpenProject login to the claim `preferred_username` that is sent by many OIDC providers.
 
-```
+```ruby
 options = { 
   # ... other options
   attribute_map: {
@@ -270,7 +270,7 @@ Next, you will need to create or note down the client secret for that client.
 
 In OpenProject, these are the variables you will need to set. Please refer to the above documentation for the different ways you can configure these variables:
 
-```bash
+```shell
 # The name of the login button in OpenProject, you can freely set this to anything you like
 OPENPROJECT_OPENID__CONNECT_KEYCLOAK_DISPLAY__NAME="Keycloak"
 OPENPROJECT_OPENID__CONNECT_KEYCLOAK_HOST="<Hostname of the keycloak server>"
@@ -289,7 +289,7 @@ OPENPROJECT_OPENID__CONNECT_KEYCLOAK_END__SESSION__ENDPOINT="http://<Hostname of
 
 ### Azure with Microsoft Graph API
 
-The Azure integration for OpenProject uses the previous userinfo endpoints, which for some tenants results in not being able to access the user's email attribute. [See this bug report for more information](https://community.openproject.org/wp/45832). While our UI is still being extended to accept the new endpoints, you can manually configure Azure like follows.
+The Azure integration for OpenProject uses the previous userinfo endpoints, which for some tenants results in not being able to access the user's email attribute. [See this bug report for more information](https://community.openproject.org/projects/openproject/work_packages/45832). While our UI is still being extended to accept the new endpoints, you can manually configure Azure like follows.
 
 
 
@@ -307,7 +307,7 @@ Use our [Azure Active Directory guide](../../../system-admin-guide/authenticatio
 
 In OpenProject, these are the variables you will need to set. Please refer to the above documentation for the different ways you can configure these variables:
 
-```
+```shell
 openproject config:set OPENPROJECT_OPENID__CONNECT_AZURE_DISPLAY__NAME="Azure"
 openproject config:set OPENPROJECT_OPENID__CONNECT_AZURE_HOST="login.microsoftonline.com"
 openproject config:set OPENPROJECT_OPENID__CONNECT_AZURE_IDENTIFIER="https://<Your OpenProject hostname>"
@@ -332,7 +332,7 @@ A: This can happen if you previously created user accounts in OpenProject with t
 Spawn an interactive console in OpenProject. The following example shows the command for the packaged installation.
 See [our process control guide](../../../installation-and-operations/operation/control/) for information on other installation types.
 
-```bash
+```shell
 sudo openproject run console
 > Setting.oauth_allow_remapping_of_existing_users = true
 > exit

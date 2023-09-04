@@ -34,7 +34,7 @@ export class SchemaResource extends HalResource {
     return this.states.schemas.get(this.href as string) as any;
   }
 
-  public get availableAttributes() {
+  public get availableAttributes():string[] {
     return _.keys(this.$source).filter((name) => name.indexOf('_') !== 0);
   }
 

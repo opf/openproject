@@ -32,7 +32,7 @@ RSpec.describe CustomValue do
   shared_let(:version) { create(:version) }
 
   let(:format) { 'bool' }
-  let(:custom_field) { create(:custom_field, field_format: format) }
+  let(:custom_field) { create(:version_custom_field, field_format: format) }
   let(:custom_value) { create(:custom_value, custom_field:, value:, customized: version) }
 
   describe '#typed_value' do
@@ -94,6 +94,287 @@ RSpec.describe CustomValue do
 
       context 'for a date format', with_settings: { date_format: '%Y/%m/%d' } do
         it { expect(subject.formatted_value).to eq('2016/12/01') }
+      end
+    end
+  end
+
+  describe '#default?' do
+    shared_let(:project) { create(:project) }
+
+    RSpec::Matchers.define_negated_matcher :not_be_default, :be_default
+
+    shared_examples 'returns true for generated custom value' do
+      describe "for a generated custom value" do
+        it 'returns true' do
+          custom_values = project.custom_field_values
+
+          expect(custom_values.count).to eq(1)
+          expect(custom_values).to all(be_default)
+        end
+      end
+    end
+
+    shared_examples 'returns false for custom value with value' do |value:|
+      describe "for a custom value with #{value.inspect} value" do
+        it 'returns false' do
+          project.send(custom_field.attribute_setter, value)
+          custom_value = project.custom_values.last
+
+          expect(custom_value).to not_be_default
+        end
+      end
+    end
+
+    context 'for a boolean custom field without default value' do
+      shared_let(:custom_field) { create(:project_custom_field, :boolean) }
+
+      include_examples 'returns true for generated custom value'
+      include_examples 'returns false for custom value with value', value: false
+      include_examples 'returns false for custom value with value', value: true
+    end
+
+    context 'for a boolean custom field with default value' do
+      describe 'for a generated custom value' do
+        it 'returns true' do
+          create(:project_custom_field, :boolean, default_value: true)
+          create(:project_custom_field, :boolean, default_value: false)
+          # the admin interface saves default value as "1" (checked) or "0" (unchecked)
+          create(:project_custom_field, :boolean, default_value: '1')
+          create(:project_custom_field, :boolean, default_value: '0')
+
+          custom_values = project.custom_field_values
+
+          expect(custom_values).to all(be_default)
+        end
+      end
+    end
+
+    context "for a string custom field without default value" do
+      shared_let(:custom_field) { create(:project_custom_field, :string) }
+
+      include_examples 'returns true for generated custom value'
+      include_examples 'returns false for custom value with value', value: 'Hello world!'
+    end
+
+    context 'for a string custom field with default value' do
+      describe 'for a generated custom value' do
+        it 'returns true' do
+          create(:project_custom_field, :string, default_value: 'Hello world!')
+          create(:project_custom_field, :string, default_value: '')
+
+          custom_values = project.custom_field_values
+
+          expect(custom_values).to all(be_default)
+        end
+      end
+    end
+
+    context 'for a text custom field without default value' do
+      shared_let(:custom_field) { create(:project_custom_field, :text) }
+
+      include_examples 'returns true for generated custom value'
+      include_examples 'returns false for custom value with value', value: "Hello world!"
+      include_examples 'returns false for custom value with value', value: "Hello world!\nHello world!\nHello world!"
+    end
+
+    context 'for a text custom field with default value' do
+      describe 'for a generated custom value' do
+        it 'returns true' do
+          create(:project_custom_field, :text, default_value: 'Hello world!')
+          create(:project_custom_field, :text, default_value: '')
+
+          custom_values = project.custom_field_values
+
+          expect(custom_values).to all(be_default)
+        end
+      end
+    end
+
+    context 'for an integer custom field without default value' do
+      shared_let(:custom_field) { create(:project_custom_field, :integer) }
+
+      include_examples 'returns true for generated custom value'
+      include_examples 'returns false for custom value with value', value: 123
+      include_examples 'returns false for custom value with value', value: 0
+      include_examples 'returns false for custom value with value', value: -12
+    end
+
+    context 'for an integer custom field with default value' do
+      describe 'for a generated custom value' do
+        it 'returns true' do
+          create(:project_custom_field, :integer, default_value: 0)
+          create(:project_custom_field, :integer, default_value: 123)
+          create(:project_custom_field, :integer, default_value: '456')
+          create(:project_custom_field, :integer, default_value: -987)
+          create(:project_custom_field, :integer, default_value: '-678')
+
+          custom_values = project.custom_field_values
+
+          expect(custom_values).to all(be_default)
+        end
+      end
+    end
+
+    context 'for a float custom field without default value' do
+      shared_let(:custom_field) { create(:project_custom_field, :float) }
+
+      include_examples 'returns true for generated custom value'
+      include_examples 'returns false for custom value with value', value: 3.14
+      include_examples 'returns false for custom value with value', value: 0
+      include_examples 'returns false for custom value with value', value: -12
+    end
+
+    context 'for a float custom field with default value' do
+      describe 'for a generated custom value' do
+        it 'returns true' do
+          create(:project_custom_field, :float, default_value: 0.0)
+          create(:project_custom_field, :float, default_value: 12.3)
+          create(:project_custom_field, :float, default_value: '45.6')
+          create(:project_custom_field, :float, default_value: -98.7)
+          create(:project_custom_field, :float, default_value: '-67')
+
+          custom_values = project.custom_field_values
+
+          expect(custom_values).to all(be_default)
+        end
+      end
+    end
+
+    context 'for a date custom field' do
+      shared_let(:custom_field) { create(:project_custom_field, :date) }
+
+      include_examples 'returns true for generated custom value'
+      include_examples 'returns false for custom value with value', value: "2023-08-08"
+      include_examples 'returns false for custom value with value', value: Date.current
+    end
+
+    context 'for a list custom field without default value' do
+      shared_let(:custom_field) { create(:project_custom_field, :list) }
+
+      include_examples 'returns true for generated custom value'
+
+      describe "for a custom value with option 'B' selected" do
+        it 'returns false' do
+          project.send(custom_field.attribute_setter, custom_field.value_of('B'))
+          custom_value = project.custom_values.last
+
+          expect(custom_value).to not_be_default
+        end
+      end
+    end
+
+    context 'for a list custom field with default value' do
+      describe 'for a generated custom value' do
+        it 'returns true' do
+          create(:project_custom_field, :list, default_option: 'B')
+
+          custom_values = project.custom_field_values
+
+          expect(custom_values.count).to eq(ProjectCustomField.count)
+          expect(custom_values).to all(be_default)
+        end
+      end
+    end
+
+    context 'for a multi-value list custom field without default value' do
+      shared_let(:custom_field) { create(:project_custom_field, :multi_list) }
+
+      include_examples 'returns true for generated custom value'
+
+      describe "for a custom value with option 'B' and 'D' selected" do
+        it 'returns false' do
+          project.send(custom_field.attribute_setter, [custom_field.value_of('B'), custom_field.value_of('D')])
+          project.save!
+
+          expect(project.custom_values).to all(not_be_default)
+        end
+      end
+    end
+
+    context 'for a multi-value list custom field with default value' do
+      describe 'for a generated custom value' do
+        it 'returns true' do
+          create(:project_custom_field, :multi_list, default_options: ['B'])
+          create(:project_custom_field, :multi_list, default_options: ['G', 'B', 'C'])
+
+          custom_values = project.custom_field_values
+
+          # 1 CustomValue for each of the default options
+          expect(custom_values.count).to eq(4)
+          expect(custom_values).to all(be_default)
+        end
+      end
+    end
+
+    context 'for a version custom field' do
+      shared_let(:custom_field) { create(:project_custom_field, :version) }
+
+      include_examples 'returns true for generated custom value'
+
+      describe 'for a custom value with a version selected' do
+        let!(:version_turfu) { create(:version, name: 'turfu', project:) }
+
+        it 'returns false' do
+          project.send(custom_field.attribute_setter, version_turfu.id)
+          project.save!
+          custom_value = project.custom_values.last
+
+          expect(custom_value).to not_be_default
+        end
+      end
+    end
+
+    context 'for a multi version custom field' do
+      shared_let(:custom_field) { create(:project_custom_field, :multi_version) }
+
+      include_examples 'returns true for generated custom value'
+
+      describe 'for a custom value with multiple versions selected' do
+        let!(:version_ringbo) { create(:version, name: 'ringbo', project:) }
+        let!(:version_turfu) { create(:version, name: 'turfu', project:) }
+
+        it 'returns false' do
+          project.send(custom_field.attribute_setter, [version_ringbo.id, version_turfu.id])
+          project.save!
+
+          expect(project.custom_values).to all(not_be_default)
+        end
+      end
+    end
+
+    context 'for a user custom field' do
+      shared_let(:custom_field) { create(:project_custom_field, :user) }
+
+      include_examples 'returns true for generated custom value'
+
+      describe 'for a custom value with a user selected' do
+        let!(:alice) { create(:user, firstname: 'Alice', member_in_project: project) }
+
+        it 'returns false' do
+          project.send(custom_field.attribute_setter, alice.id)
+          project.save!
+          custom_value = project.custom_values.last
+
+          expect(custom_value).to not_be_default
+        end
+      end
+    end
+
+    context 'for a multi user custom field' do
+      shared_let(:custom_field) { create(:project_custom_field, :multi_user) }
+
+      include_examples 'returns true for generated custom value'
+
+      describe 'for a custom value with multiple users selected' do
+        let!(:alice) { create(:user, firstname: 'Alice', member_in_project: project) }
+        let!(:bob) { create(:user, firstname: 'Bob', member_in_project: project) }
+
+        it 'returns false' do
+          project.send(custom_field.attribute_setter, [alice.id, bob.id])
+          project.save!
+
+          expect(project.custom_values).to all(not_be_default)
+        end
       end
     end
   end

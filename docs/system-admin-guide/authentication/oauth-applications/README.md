@@ -89,7 +89,7 @@ We do this manually in the command line using cURL. Please replace:
  * `<Authentication code>` with the code you obtained above,
  * and `<Redirect URI>` with the redirect URI as configured above.
 
-```
+```shell
 $ curl --request POST \
   --url 'https://example.com/oauth/token' \
   --header 'content-type: application/x-www-form-urlencoded' \
@@ -102,7 +102,7 @@ $ curl --request POST \
 
 The response will look like this:
 
-```
+```json
 {
   "access_token": "Ize6vvCIeENQ_suzd9kBJ6BxDNpxcumfTfweZQaOoJc",
   "token_type": "Bearer",
@@ -126,7 +126,7 @@ For example, the following cURL command fetches all projects from the API V3. Pl
  * `example.com` with the IP/host name of your OpenProject instance, and
  * `<Token>` with the bearer token you obtained above.
 
-```
+```shell
 $ curl --request GET 'https://example.com/api/v3/projects' \
   --header 'Authorization: Bearer <Token>'`
 ```

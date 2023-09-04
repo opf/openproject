@@ -166,6 +166,9 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
   end
 
   def available_storages
-    Storages::Storage.visible.not_enabled_for_project(@project)
+    Storages::Storage
+      .visible
+      .not_enabled_for_project(@project)
+      .configured
   end
 end

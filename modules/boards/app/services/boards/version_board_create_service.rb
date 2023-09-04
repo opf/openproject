@@ -14,6 +14,10 @@ module Boards
 
     private
 
+    def column_count_for_board
+      [super, versions(params).count].max
+    end
+
     def create_queries(params)
       versions(params).map do |version|
         Queries::CreateService.new(user: User.current)

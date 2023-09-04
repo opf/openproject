@@ -53,10 +53,10 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
     described_class.create(time_entry, current_user: user, embed_links: true)
   end
   let(:user_custom_field) do
-    build_stubbed(:time_entry_custom_field, field_format: 'user')
+    build_stubbed(:time_entry_custom_field, :user)
   end
-  let(:test_custom_field) do
-    build_stubbed(:time_entry_custom_field, field_format: 'text')
+  let(:text_custom_field) do
+    build_stubbed(:time_entry_custom_field)
   end
 
   let(:hash) do
@@ -81,7 +81,7 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
         "raw" => "some comment"
       },
       "spentOn" => "2017-07-28",
-      test_custom_field.attribute_name(:camel_case) => {
+      text_custom_field.attribute_name(:camel_case) => {
         "raw" => "some text"
       }
     }
@@ -90,7 +90,7 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
   before do
     allow(time_entry)
       .to receive(:available_custom_fields)
-      .and_return([test_custom_field, user_custom_field])
+      .and_return([text_custom_field, user_custom_field])
   end
 
   describe '_links' do
@@ -171,7 +171,7 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
       it 'updates the custom value' do
         time_entry = representer.from_hash(hash)
 
-        expect(time_entry.custom_field_values.detect { |cv| cv.custom_field_id == test_custom_field.id }.value)
+        expect(time_entry.custom_field_values.detect { |cv| cv.custom_field_id == text_custom_field.id }.value)
           .to eql("some text")
       end
     end

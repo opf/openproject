@@ -35,9 +35,9 @@ RSpec.describe 'Project attributes activity', :js, :with_cuprite do
 
   let!(:list_project_custom_field) { create(:list_project_custom_field) }
   let!(:version_project_custom_field) { create(:version_project_custom_field) }
-  let!(:bool_project_custom_field) { create(:bool_project_custom_field) }
+  let!(:bool_project_custom_field) { create(:boolean_project_custom_field) }
   let!(:user_project_custom_field) { create(:user_project_custom_field) }
-  let!(:int_project_custom_field) { create(:int_project_custom_field) }
+  let!(:int_project_custom_field) { create(:integer_project_custom_field) }
   let!(:float_project_custom_field) { create(:float_project_custom_field) }
   let!(:text_project_custom_field) { create(:text_project_custom_field) }
   let!(:string_project_custom_field) { create(:string_project_custom_field) }

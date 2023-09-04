@@ -34,7 +34,7 @@ RSpec.describe 'Work package filtering by bool custom field', js: true do
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
   let!(:bool_cf) do
-    create(:bool_wp_custom_field).tap do |cf|
+    create(:boolean_wp_custom_field) do |cf|
       type.custom_fields << cf
       project.work_package_custom_fields << cf
     end
@@ -43,7 +43,7 @@ RSpec.describe 'Work package filtering by bool custom field', js: true do
   let!(:work_package_true) do
     create(:work_package,
            type:,
-           project:).tap do |wp|
+           project:) do |wp|
       wp.custom_field_values = { bool_cf.id => true }
       wp.save!
     end
@@ -51,7 +51,7 @@ RSpec.describe 'Work package filtering by bool custom field', js: true do
   let!(:work_package_false) do
     create(:work_package,
            type:,
-           project:).tap do |wp|
+           project:) do |wp|
       wp.custom_field_values = { bool_cf.id => false }
       wp.save!
     end

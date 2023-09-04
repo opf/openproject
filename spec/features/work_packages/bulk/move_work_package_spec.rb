@@ -146,7 +146,7 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
       end
 
       context 'when the target project has a type with a required field' do
-        let(:required_cf) { create(:int_wp_custom_field, is_required: true) }
+        let(:required_cf) { create(:integer_wp_custom_field, is_required: true) }
         let(:type2) { create(:type, name: 'Risk', custom_fields: [required_cf]) }
         let!(:project2) { create(:project, name: 'Target', types: [type2], work_package_custom_fields: [required_cf]) }
 
