@@ -32,8 +32,6 @@ There are multiple types of roles:
 - *Anonymous* roles that is a special role, similar to the *non member* role but applying to non-authenticated users.
 - All other roles, which are saved in the database and contain a user-defined set of permissions that this role will grant.
 
-**Surprisingly, when looking up permissions, the non member role is always factored in, even it the user does have other roles within the project as well. That means that if the user has a role in a project not granting "Create new work package", but the non member role is granting the permission, the user will in effect have that permission.**
-
 In the following screenshot, you can see the builtin, non-deletable roles *Non member* and *Anonymous*, as well as three additional, user-created roles.
 
 ![Overview of some of the roles](roles-administration.png)
