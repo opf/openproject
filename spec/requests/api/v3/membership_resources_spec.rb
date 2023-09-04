@@ -65,6 +65,15 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
            roles: [global_role])
   end
 
+  let(:work_package) { create(:work_package, project:) }
+  let(:work_package_member) do
+    create(:member,
+           user: current_user,
+           project:,
+           entity: work_package,
+           roles: [create(:work_package_role)])
+  end
+
   subject(:response) { last_response }
 
   shared_examples_for 'sends mails' do
@@ -85,7 +94,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
   end
 
   describe 'GET api/v3/memberships' do
-    let(:members) { [own_member, other_member, invisible_member, global_member] }
+    let(:members) { [own_member, other_member, invisible_member, global_member, work_package_member] }
     let(:filters) { nil }
     let(:path) { api_v3_paths.path_for(:memberships, filters:, sort_by: [%i(id asc)]) }
 
@@ -859,7 +868,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
         other_member.reload
 
         expect(other_member.roles)
-          .to match_array [another_role]
+          .to contain_exactly(another_role)
 
         # Assigning a new role also updates the member
         expect(other_member.updated_at > other_member_updated_at)
@@ -950,7 +959,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
 
       it 'updates the member and all inherited members but does not update memberships users have already had' do
         expect(other_member.reload.roles)
-          .to match_array [another_role]
+          .to contain_exactly(another_role)
 
         expect(other_member.updated_at > other_member_updated_at)
           .to be_truthy
@@ -958,7 +967,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
         last_user_member = Member.find_by(principal: users.last)
 
         expect(last_user_member.roles)
-          .to match_array [another_role]
+          .to contain_exactly(another_role)
 
         expect(last_user_member.updated_at > last_user_member_updated_at)
           .to be_truthy
@@ -966,7 +975,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
         first_user_member = Member.find_by(principal: users.first)
 
         expect(first_user_member.roles.uniq)
-          .to match_array [other_role, another_role]
+          .to contain_exactly(other_role, another_role)
 
         expect(first_user_member.updated_at)
           .to eql first_user_member_updated_at
@@ -1034,7 +1043,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
         it 'updates the member and all inherited members but does not update memberships users have already had' do
           # other member is the group member
           expect(other_member.reload.roles)
-            .to match_array [another_role]
+            .to contain_exactly(another_role)
 
           expect(other_member.updated_at > other_member_updated_at)
             .to be_truthy
@@ -1042,7 +1051,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
           last_user_member = Member.find_by(principal: users.last)
 
           expect(last_user_member.roles)
-            .to match_array [another_role]
+            .to contain_exactly(another_role)
 
           expect(last_user_member.updated_at > last_user_member_updated_at)
             .to be_truthy
@@ -1050,7 +1059,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
           first_user_member = Member.find_by(principal: users.first)
 
           expect(first_user_member.roles.uniq)
-            .to match_array [other_role, another_role]
+            .to contain_exactly(other_role, another_role)
 
           expect(first_user_member.updated_at)
             .to eql first_user_member_updated_at
@@ -1225,7 +1234,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
         first_user_member = Member.find_by(principal: users.first)
 
         expect(first_user_member.roles)
-          .to match_array [another_role]
+          .to contain_exactly(another_role)
 
         expect(first_user_member.updated_at > first_user_member_updated_at)
           .to be_truthy
