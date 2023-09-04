@@ -44,7 +44,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
   shared_let(:global_role) { create(:global_role) }
   let(:own_member) do
     create(:member,
-           roles: [create(:role, permissions:)],
+           roles: create_list(:role, 1, permissions:),
            project:,
            user: current_user)
   end
@@ -58,7 +58,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
   end
   let(:invisible_member) do
     create(:member,
-           roles: [create(:role)])
+           roles: create_list(:role, 1))
   end
   let(:global_member) do
     create(:global_member,
@@ -71,7 +71,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
            user: current_user,
            project:,
            entity: work_package,
-           roles: [create(:work_package_role)])
+           roles: create_list(:work_package_role, 1))
   end
 
   subject(:response) { last_response }
@@ -190,7 +190,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
       let(:group) { create(:group) }
       let(:group_member) do
         create(:member,
-               roles: [create(:role)],
+               roles: create_list(:role, 1),
                project:,
                principal: group)
       end
@@ -221,7 +221,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
       end
       let(:placeholder_member) do
         create(:member,
-               roles: [create(:role)],
+               roles: create_list(:role, 1),
                project:,
                principal: placeholder_user)
       end
@@ -270,7 +270,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
 
       let(:own_other_member) do
         create(:member,
-               roles: [create(:role, permissions:)],
+               roles: create_list(:role, 1, permissions:),
                project: other_project,
                user: current_user)
       end
@@ -299,7 +299,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
       let(:group) { create(:group) }
       let(:group_member) do
         create(:member,
-               roles: [create(:role)],
+               roles: create_list(:role, 1),
                principal: group,
                project:)
       end
@@ -511,7 +511,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
         create(:group, members: users)
       end
       let(:principal) { group }
-      let(:users) { [create(:user), create(:user)] }
+      let(:users) { create_list(:user, 2) }
       let(:principal_path) { api_v3_paths.group(group.id) }
       let(:body) do
         {
@@ -932,7 +932,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
         create(:group, member_in_project: project, member_through_role: other_role, members: users)
       end
       let(:principal) { group }
-      let(:users) { [create(:user), create(:user)] }
+      let(:users) { create_list(:user, 2) }
       let(:other_member) do
         Member.find_by(principal: group).tap do
           # Behaves as if the user had that role before the role's membership was created.
@@ -1115,7 +1115,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
         create(:project).tap do |p|
           create(:member,
                  project: p,
-                 roles: [create(:role, permissions: [:manage_members])],
+                 roles: create_list(:role, 1, permissions: [:manage_members]),
                  user: current_user)
         end
       end
@@ -1187,7 +1187,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
       end
 
       it 'deletes the member' do
-        expect(Member.exists?(other_member.id)).to be_falsey
+        expect(Member).not_to exist(other_member.id)
       end
 
       context 'for a non-existent version' do
@@ -1203,10 +1203,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
       end
       let(:principal) { group }
       let(:users) do
-        [
-          create(:user, notification_settings: [build(:notification_setting, membership_added: true, membership_updated: true)]),
-          create(:user, notification_settings: [build(:notification_setting, membership_added: true, membership_updated: true)])
-        ]
+        create_list(:user, 2, notification_settings: [build(:notification_setting, membership_added: true, membership_updated: true)])
       end
       let(:another_role) { create(:role) }
       let(:other_member) do
@@ -1228,7 +1225,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
       end
 
       it 'deletes the member but does not remove the previously assigned role' do
-        expect(Member.exists?(other_member.id)).to be_falsey
+        expect(Member).not_to exist(other_member.id)
         expect(Member.where(principal: users.last)).not_to be_exists
 
         first_user_member = Member.find_by(principal: users.first)
@@ -1252,7 +1249,7 @@ RSpec.describe 'API v3 memberships resource', content_type: :json do
       it_behaves_like 'unauthorized access'
 
       it 'does not delete the member' do
-        expect(Member.exists?(other_member.id)).to be_truthy
+        expect(Member).to exist(other_member.id)
       end
     end
   end
