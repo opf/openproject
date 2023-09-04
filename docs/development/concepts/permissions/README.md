@@ -94,8 +94,8 @@ When a set of records is to be returned, e.g. for an index action, it is best to
 |---------- | ------| ------ |
 | All projects a user is allowed a permission in | `Authorization.projects(permission, user)` | `Authorization.projects(:view_work_packages, User.current)` |
 | All users granted a permission in a project | `Authorization.users(permission, project: project)` | `Authorization.users(:view_work_packages, project: project)` |
-| All roles a user has in a project | `Authorization.roles(user, project:)` | `Authorization.roles(User.current, project: project)` |
-| All roles a user has for a specific resource | `Authorization.roles(user, entity:)` | `Authorization.roles(User.current, entity: work_package)` |
+| All roles a user has in a project | `Authorization.roles(user, project)` | `Authorization.roles(User.current, project: project)` |
+| All roles a user has for a specific resource | `Authorization.roles(user, entity:` | `Authorization.roles(User.current, entity: work_package)` |
 | All roles a user has globally | `Authorization.roles(user)` | `Authorization.roles(User.current)` |
 
 Most of the time, a developer will not witness those queries as they are the embedded deeply within the existing scopes. E.g. the `visible` scopes defined for most AR models, under the hood rely on `Authorization.projects(permission, user)` by checking that the `project_id` attribute of the record is within that set of projects.
