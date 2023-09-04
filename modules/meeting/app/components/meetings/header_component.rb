@@ -53,11 +53,11 @@ module Meetings
     private
 
     def edit_enabled?
-      User.current.allowed_to?(:edit_meetings, nil, global: true)
+      User.current.allowed_to?(:edit_meetings, @meeting.project)
     end
 
     def delete_enabled?
-      User.current.allowed_to?(:delete_meetings, nil, global: true)
+      User.current.allowed_to?(:delete_meetings, @meeting.project)
     end
 
     def show_partial

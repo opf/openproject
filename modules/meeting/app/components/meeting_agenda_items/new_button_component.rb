@@ -47,7 +47,7 @@ module MeetingAgendaItems
     end
 
     def render?
-      User.current.allowed_to?(:create_meeting_agendas, nil, global: true)
+      User.current.allowed_to?(:create_meeting_agendas, @meeting.project)
     end
 
     private

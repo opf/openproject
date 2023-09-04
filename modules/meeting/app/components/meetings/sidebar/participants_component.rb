@@ -59,7 +59,7 @@ module Meetings
     private
 
     def edit_enabled?
-      User.current.allowed_to?(:edit_meetings, nil, global: true)
+      User.current.allowed_to?(:edit_meetings, @meeting.project)
     end
 
     def heading_partial
