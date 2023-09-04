@@ -32,10 +32,12 @@ class Authorization::UserEntityRolesQuery < Authorization::UserRolesQuery
   end
 
   transformations.register users_members_join, :entity_restriction do |statement, _, entity|
-    statement
+    statement = statement
       .and(members_table[:entity_type].eq(entity.class.to_s))
       .and(members_table[:entity_id].eq(entity.id))
 
-    statement.and(members_table[:project_id].eq(entity.project.id)) if entity.respond_to?(:project)
+    statement = statement.and(members_table[:project_id].eq(entity.project_id)) if entity.respond_to?(:project_id)
+
+    statement
   end
 end
