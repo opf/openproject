@@ -34,16 +34,24 @@ module Storages::Admin
       row
     end
 
-    delegate :created_at, to: :storage
-
-    def name
-      link_to storage.name, admin_settings_storage_path(storage)
-    end
-
     # Delegate delegates the execution of certain methods to :storage.
     # https://www.rubydoc.info/gems/activesupport/Module:delegate
-    delegate :host, to: :storage
-    delegate :provider_type, to: :storage
+    delegate :created_at, :host, :provider_type, :configured?, to: :storage
+
+    def row_css_id
+      helpers.dom_id storage
+    end
+
+    def name
+      if configured?
+        storage.name
+      else
+        render(Primer::Beta::Octicon.new(:'alert-fill', size: :small, color: :severe)) +
+          content_tag(:span,
+                      storage.name,
+                      class: 'pl-2')
+      end
+    end
 
     def creator
       icon = helpers.avatar storage.creator, size: :mini
