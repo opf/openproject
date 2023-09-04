@@ -45,11 +45,12 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         service_result = begin
           response = Util.http(@uri).post(
             Util.join_uri_path(@uri.path, '/ocs/v2.php/apps/dav/api/v1/direct'),
-            { fileId: file_link.origin_id },
+            { fileId: file_link.origin_id }.to_json,
             {
               'Authorization' => "Bearer #{token.access_token}",
               'OCS-APIRequest' => 'true',
-              'Accept' => 'application/json'
+              'Accept' => 'application/json',
+              'Content-Type' => 'application/json'
             }
           )
           case response
