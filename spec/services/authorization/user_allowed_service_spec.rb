@@ -69,7 +69,7 @@ RSpec.describe Authorization::UserAllowedService do
 
         allow(Authorization)
           .to receive(:roles)
-          .with(user, project:, entity: nil)
+          .with(user, project)
           .and_return(user_roles_in_project)
       end
 
@@ -88,7 +88,7 @@ RSpec.describe Authorization::UserAllowedService do
         Array(context).each do |project|
           allow(Authorization)
             .to receive(:roles)
-            .with(user, project:, entity: nil)
+            .with(user, project)
             .and_return(user_roles_in_project)
         end
 
@@ -99,7 +99,7 @@ RSpec.describe Authorization::UserAllowedService do
           expect(Authorization)
             .to have_received(:roles)
             .once
-            .with(user, project:, entity: nil)
+            .with(user, project)
         end
       end
 
@@ -279,7 +279,7 @@ RSpec.describe Authorization::UserAllowedService do
         before do
           allow(Authorization)
             .to receive(:roles)
-            .with(user, project: nil, entity: nil)
+            .with(user, nil)
             .and_return(user_roles_in_project)
 
           allow(role)
@@ -307,7 +307,7 @@ RSpec.describe Authorization::UserAllowedService do
         before do
           allow(Authorization)
             .to receive(:roles)
-            .with(user, project: nil, entity: nil)
+            .with(user, nil)
             .and_return(user_roles_in_project)
 
           allow(role)

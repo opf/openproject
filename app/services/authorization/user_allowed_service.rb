@@ -90,7 +90,7 @@ class Authorization::UserAllowedService
     # unless the permission is explicitly flagged not to be granted to admins.
     return true if granted_to_admin?(action)
 
-    has_authorized_role?(action, entity:)
+    has_authorized_role?(action, entity)
   end
 
   def allowed_to_in_project?(action, project)
@@ -108,7 +108,7 @@ class Authorization::UserAllowedService
     # unless the permission is explicitly flagged not to be granted to admins.
     return true if granted_to_admin?(action)
 
-    has_authorized_role?(action, project:)
+    has_authorized_role?(action, project)
   end
 
   # Authorize if user is authorized on every element of the array
@@ -142,9 +142,9 @@ class Authorization::UserAllowedService
     user.admin? && OpenProject::AccessControl.grant_to_admin?(action)
   end
 
-  def has_authorized_role?(action, project: nil, entity: nil)
+  def has_authorized_role?(action, context = nil)
     project_role_cache
-      .fetch(project:, entity:)
+      .fetch(context)
       .any? do |role|
       role.allowed_to?(action)
     end

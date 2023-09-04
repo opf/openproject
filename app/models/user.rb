@@ -466,7 +466,7 @@ class User < Principal
 
   # Return user's roles for project
   def roles_for_project(project)
-    project_role_cache.fetch(project:)
+    project_role_cache.fetch(project)
   end
   alias :roles :roles_for_project
 

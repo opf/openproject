@@ -1228,7 +1228,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:setup) do
             allow(Authorization)
               .to receive(:roles)
-              .with(current_user, project:, entity: nil)
+              .with(current_user, project)
               .and_return(roles)
 
             allow(roles)
