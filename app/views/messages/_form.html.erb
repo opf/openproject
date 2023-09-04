@@ -49,7 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% end %>
 <% if !replying && !@message.new_record? && User.current.allowed_to?(:edit_messages, @project) %>
   <div class="form--field">
-    <%= f.select :forum_id, @project.forums.collect {|b| [b.name, b.id]}, label: Forum.name.humanize, container_class: '-wide' %>
+    <%= f.select :forum_id, @project.forums.collect {|b| [b.name, b.id]}, label: Forum.model_name.human, container_class: '-wide' %>
   </div>
 <% end %>
 
