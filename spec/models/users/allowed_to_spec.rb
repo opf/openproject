@@ -36,6 +36,7 @@ RSpec.describe User, 'allowed_to?' do
   let(:work_package) { build(:work_package, project:) }
   let(:role) { build(:role) }
   let(:role2) { build(:role) }
+  # TODO: Replace with WorkPackage role
   let(:wp_role) { build(:role) }
   let(:wp_member) { build(:member, project:, entity: work_package, roles: [wp_role], principal: user) }
   let(:anonymous_role) { build(:anonymous_role) }
@@ -483,10 +484,14 @@ RSpec.describe User, 'allowed_to?' do
   end
 
   shared_examples_for 'when inquiring for work_package' do
-    let(:permission) { :view_work_package }
+    let(:permission) { :view_work_packages }
+    before do
+      project.save!
+      work_package.save!
+    end
+
     context 'with the user being a member of the work package' do
       before do
-        work_package.save!
         wp_member.save!
       end
 
@@ -503,6 +508,7 @@ RSpec.describe User, 'allowed_to?' do
 
         context 'with a membership on the project granting the permission' do
           before do
+            role.save!
             member.save!
             role.add_permission!(permission)
           end
@@ -516,14 +522,24 @@ RSpec.describe User, 'allowed_to?' do
       context 'with the user being a member of the project the work package belongs to' do
         before do
           member.save!
-          role.add_permission!(permission)
         end
 
-        it { expect(user).to be_allowed_to(permission, work_package) }
+        context 'and the project role does not grant the permission' do
+          it { expect(user).not_to be_allowed_to(permission, work_package) }
+        end
+
+        context 'and the project role grants the permission' do
+          before do
+            role.add_permission!(permission)
+          end
+
+          it { expect(user).to be_allowed_to(permission, work_package) }
+        end
       end
 
-      context 'with the user being a member of another project' do
+      context 'with the user being a member of another project where the role grants the permission' do
         before do
+          role.save!
           member2.save!
           role.add_permission!(permission)
         end
