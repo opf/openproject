@@ -50,6 +50,7 @@ ru:
     errors:
       too_many_elements_created_at_once: "Слишком много элементов, созданных сразу. Ожидалось %{max} максимум - получено %{actual}."
   storages:
+    default_name: "My storage"
     unknown_storage: "Неизвестное хранилище"
     buttons:
       done_continue_setup: "Готово. Продолжить установку"
@@ -97,6 +98,13 @@ ru:
       copy_from: "Скопировать это значение из"
       nextcloud:
         integration: "Администрирование NextCloud / OpenProject"
+      one_drive:
+        integration: "OneDrive/Sharepoint"
+        oauth_client_id: >
+          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+        oauth_client_secret: >
+          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
+        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
     help_texts:
       project_folder: >
         Папка проекта является папкой по умолчанию для загрузки файлов для этого проекта. Тем не менее, пользователи по-прежнему могут загружать файлы в другие места.
@@ -125,6 +133,7 @@ ru:
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
+      one_drive: "OneDrive OAuth"
     label_oauth_application_details: "Подробности приложения OAuth"
     label_oauth_client_details: "Детали клиента OAuth"
     label_provider_type: "Тип поставщика"
@@ -149,7 +158,9 @@ ru:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "например,  Nextcloud"
-        default_name: "Мой Nextcloud"
+      one_drive:
+        name: "OneDrive/Sharepoint"
+        name_placeholder: "e.g. OneDrive"
     confirm_replace_oauth_application: "Вы уверены? Всем пользователям придется снова авторизоваться в OpenProject."
     confirm_replace_oauth_client: "Вы уверены? Все пользователи должны будут снова авторизоваться на хранилище."
     oauth_client_details_missing: "Чтобы завершить установку, пожалуйста, добавьте учетные данные клиента OAuth из вашего хранилища."

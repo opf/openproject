@@ -41,19 +41,27 @@ lt:
           name: Specifikacija
         item_2:
           name: Kita
-      roles:
+      work_package_roles:
         item_0:
-          name: Nėra narys
+          name: Work Package Editor
         item_1:
-          name: Anonimas
+          name: Work Package Commenter
         item_2:
-          name: Narys
+          name: Work Package Viewer
+      project_roles:
+        item_0:
+          name: Non member
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Member
         item_3:
-          name: Skaitytojas
+          name: Reader
         item_4:
-          name: Projekto administratorius
-        item_5:
-          name: Personalo ir projektų vadovas
+          name: Project admin
+      global_roles:
+        item_0:
+          name: Staff and projects manager
     standard:
       priorities:
         item_0:

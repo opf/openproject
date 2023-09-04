@@ -2342,6 +2342,7 @@ pt:
   permission_comment_news: "Comentar notícias"
   permission_commit_access: "Acesso de leitura/gravação para o repositório (commit)"
   permission_copy_projects: "Copiar projetos"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Criar backup"
   permission_delete_work_package_watchers: "Excluir observadores"
   permission_delete_work_packages: "Excluir pacotes de trabalho"

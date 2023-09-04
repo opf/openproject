@@ -2341,6 +2341,7 @@ nl:
   permission_comment_news: "Opmerking nieuws"
   permission_commit_access: "Lees/schrijf toegang tot opslagplaats (bevestig)"
   permission_copy_projects: "Kopiëren van projecten"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Back-up maken"
   permission_delete_work_package_watchers: "Kijkers verwijderen"
   permission_delete_work_packages: "Werkpakketten verwijderen"

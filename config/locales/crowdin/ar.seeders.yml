@@ -41,18 +41,26 @@ ar:
           name: مواصفات
         item_2:
           name: اخرى
-      roles:
+      work_package_roles:
         item_0:
-          name: من غير الأعضاء
+          name: Work Package Editor
         item_1:
-          name: مجهول
+          name: Work Package Commenter
         item_2:
-          name: عضو
+          name: Work Package Viewer
+      project_roles:
+        item_0:
+          name: Non member
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Member
         item_3:
-          name: القارئ
+          name: Reader
         item_4:
-          name: مدير المشروع
-        item_5:
+          name: Project admin
+      global_roles:
+        item_0:
           name: Staff and projects manager
     standard:
       priorities:

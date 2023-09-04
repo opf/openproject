@@ -50,6 +50,7 @@ es:
     errors:
       too_many_elements_created_at_once: "Se intentaron crear demasiados elementos a la vez. Se esperaban como máximo %{max}, pero se recibieron %{actual}."
   storages:
+    default_name: "My storage"
     unknown_storage: "Almacenamiento desconocido"
     buttons:
       done_continue_setup: "Hecho. Continuar configuración"
@@ -97,11 +98,18 @@ es:
       copy_from: "Copiar este valor de"
       nextcloud:
         integration: "Administración de Nextcloud / OpenProject"
+      one_drive:
+        integration: "OneDrive/Sharepoint"
+        oauth_client_id: >
+          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+        oauth_client_secret: >
+          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
+        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
     help_texts:
       project_folder: >
         La carpeta del proyecto es la carpeta predeterminada para la carga de archivos de este proyecto. No obstante, los usuarios pueden subir archivos a otras ubicaciones.
     configuration_checks:
-      incomplete: "The setup of this storage is incomplete."
+      incomplete: "La configuración de este almacenamiento está incompleta."
     delete_warning:
       storage: >
         ¿Seguro que quiere eliminar este almacén? También se eliminará de todos los proyectos donde se use. Además, se quitarán todos los enlaces de los paquetes de trabajo a los archivos guardados en ese almacén.
@@ -125,6 +133,7 @@ es:
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
+      one_drive: "OneDrive OAuth"
     label_oauth_application_details: "Detalles de aplicación OAuth"
     label_oauth_client_details: "Detalles del cliente OAuth"
     label_provider_type: "Tipo de proveedor"
@@ -149,7 +158,9 @@ es:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "e.g. Nextcloud"
-        default_name: "Mi Nextcloud"
+      one_drive:
+        name: "OneDrive/Sharepoint"
+        name_placeholder: "e.g. OneDrive"
     confirm_replace_oauth_application: "¿Estás seguro? Todos los usuarios tendrán que autorizar de nuevo contra OpenProject."
     confirm_replace_oauth_client: "¿Estás seguro? Todos los usuarios tendrán que autorizar de nuevo en el almacenamiento."
     oauth_client_details_missing: "Para completar la configuración, por favor agregue las credenciales del cliente OAuth desde su almacenamiento."

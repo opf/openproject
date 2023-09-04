@@ -41,19 +41,27 @@ ca:
           name: Especificació
         item_2:
           name: Altres
-      roles:
+      work_package_roles:
         item_0:
-          name: No membre
+          name: Work Package Editor
         item_1:
-          name: Anònim
+          name: Work Package Commenter
         item_2:
-          name: Membre
+          name: Work Package Viewer
+      project_roles:
+        item_0:
+          name: Non member
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Member
         item_3:
-          name: Lector
+          name: Reader
         item_4:
-          name: Administrador del projecte
-        item_5:
-          name: Personal i cap de projecte
+          name: Project admin
+      global_roles:
+        item_0:
+          name: Staff and projects manager
     standard:
       priorities:
         item_0:

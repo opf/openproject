@@ -2336,6 +2336,7 @@ ca:
   permission_comment_news: "Comentar noticies"
   permission_commit_access: "Accés de lectura/escriptura al repositori (commit)"
   permission_copy_projects: "Copiar projectes"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Crea una còpia de seguretat"
   permission_delete_work_package_watchers: "Suprimir observadors"
   permission_delete_work_packages: "Eliminar paquets de treball"

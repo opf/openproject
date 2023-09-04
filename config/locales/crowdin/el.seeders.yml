@@ -41,19 +41,27 @@ el:
           name: Προδιαγραφές
         item_2:
           name: Άλλο
-      roles:
+      work_package_roles:
         item_0:
-          name: Μη μέλη
+          name: Work Package Editor
         item_1:
-          name: Ανώνυμος
+          name: Work Package Commenter
         item_2:
-          name: Μέλος
+          name: Work Package Viewer
+      project_roles:
+        item_0:
+          name: Non member
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Member
         item_3:
-          name: Αναγνώστης
+          name: Reader
         item_4:
-          name: Διαχειριστής
-        item_5:
-          name: Προσωπικό και διαχειριστής έργων
+          name: Project admin
+      global_roles:
+        item_0:
+          name: Staff and projects manager
     standard:
       priorities:
         item_0:

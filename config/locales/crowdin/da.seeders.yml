@@ -41,18 +41,26 @@ da:
           name: Specifikation
         item_2:
           name: Andet
-      roles:
+      work_package_roles:
         item_0:
-          name: Ikke medlem
+          name: Work Package Editor
         item_1:
-          name: Anonymt
+          name: Work Package Commenter
         item_2:
-          name: Medlem
+          name: Work Package Viewer
+      project_roles:
+        item_0:
+          name: Non member
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Member
         item_3:
-          name: Læser
+          name: Reader
         item_4:
-          name: Projektadmin
-        item_5:
+          name: Project admin
+      global_roles:
+        item_0:
           name: Staff and projects manager
     standard:
       priorities:

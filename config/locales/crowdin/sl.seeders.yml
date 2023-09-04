@@ -41,18 +41,26 @@ sl:
           name: Specifikacija
         item_2:
           name: Drugo
-      roles:
+      work_package_roles:
         item_0:
-          name: Nečlan
+          name: Work Package Editor
         item_1:
-          name: Anonimno
+          name: Work Package Commenter
         item_2:
-          name: Član
+          name: Work Package Viewer
+      project_roles:
+        item_0:
+          name: Non member
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Member
         item_3:
-          name: Bralec
+          name: Reader
         item_4:
-          name: Skrbnik projekta
-        item_5:
+          name: Project admin
+      global_roles:
+        item_0:
           name: Staff and projects manager
     standard:
       priorities:

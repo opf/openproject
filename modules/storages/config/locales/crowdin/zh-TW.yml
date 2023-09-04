@@ -50,6 +50,7 @@ zh-TW:
     errors:
       too_many_elements_created_at_once: "一次創建的元素過多。最多應為 %{max} 個，實際為 %{actual} 個。"
   storages:
+    default_name: "My storage"
     unknown_storage: "不明的儲存區"
     buttons:
       done_continue_setup: "已完成。繼續設置"
@@ -97,6 +98,13 @@ zh-TW:
       copy_from: "Copy this value from"
       nextcloud:
         integration: "Nextcloud Administration / OpenProject"
+      one_drive:
+        integration: "OneDrive/Sharepoint"
+        oauth_client_id: >
+          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+        oauth_client_secret: >
+          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
+        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
     help_texts:
       project_folder: >
         The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
@@ -125,6 +133,7 @@ zh-TW:
     label_oauth_breadcrumb:
       openproject: "OpenProject 開放授權 (OAuth) "
       nextcloud: "NextCloud 開放授權 (OAuth) "
+      one_drive: "OneDrive OAuth"
     label_oauth_application_details: "OAuth application details"
     label_oauth_client_details: "OAuth client details"
     label_provider_type: "Provider type"
@@ -149,7 +158,9 @@ zh-TW:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "例如 Nextcloud"
-        default_name: "我的 Nextcloud"
+      one_drive:
+        name: "OneDrive/Sharepoint"
+        name_placeholder: "e.g. OneDrive"
     confirm_replace_oauth_application: "確定嗎？所有用戶都必須再次針對 OpenProject 授權。"
     confirm_replace_oauth_client: "確定嗎？所有用戶都必須再次針對存儲區授權。"
     oauth_client_details_missing: "要完成設置，請從您的存儲區中添加 OAuth 客戶端憑據。"

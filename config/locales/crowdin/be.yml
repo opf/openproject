@@ -2391,6 +2391,7 @@ be:
   permission_comment_news: "Comment news"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Copy projects"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Delete watchers"
   permission_delete_work_packages: "Delete work packages"

@@ -50,6 +50,7 @@ cs:
     errors:
       too_many_elements_created_at_once: "Příliš mnoho prvků vytvořených najednou. Očekáváno nanejvýš %{max} , získáno %{actual}."
   storages:
+    default_name: "My storage"
     unknown_storage: "Neznámé úložiště"
     buttons:
       done_continue_setup: "Hotovo. Pokračovat v nastavení"
@@ -97,6 +98,13 @@ cs:
       copy_from: "Zkopírovat tuto hodnotu z"
       nextcloud:
         integration: "Nextcloud Administrace / OpenProject"
+      one_drive:
+        integration: "OneDrive/Sharepoint"
+        oauth_client_id: >
+          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+        oauth_client_secret: >
+          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
+        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
     help_texts:
       project_folder: >
         The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
@@ -125,6 +133,7 @@ cs:
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
+      one_drive: "OneDrive OAuth"
     label_oauth_application_details: "Podrobnosti OAuth aplikace"
     label_oauth_client_details: "Podrobnosti OAuth klienta"
     label_provider_type: "Typ poskytovatele"
@@ -149,7 +158,9 @@ cs:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "e.g. Nextcloud"
-        default_name: "Můj Nextcloud"
+      one_drive:
+        name: "OneDrive/Sharepoint"
+        name_placeholder: "e.g. OneDrive"
     confirm_replace_oauth_application: "Jste si jisti? Všichni uživatelé se budou muset znovu autorizovat proti OpenProject."
     confirm_replace_oauth_client: "Jste si jisti? Všichni uživatelé budou muset znovu autorizovat proti úložišti."
     oauth_client_details_missing: "Chcete-li dokončit nastavení, přidejte prosím přihlašovací údaje OAuth klienta z vašeho úložiště."

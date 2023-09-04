@@ -50,6 +50,7 @@ pt:
     errors:
       too_many_elements_created_at_once: "Muitos elementos criados ao mesmo tempo. Esperado %{max} no máximo, obteve %{actual}."
   storages:
+    default_name: "My storage"
     unknown_storage: "Armazenamento desconhecido"
     buttons:
       done_continue_setup: "Concluído. Continuar configuração"
@@ -97,6 +98,13 @@ pt:
       copy_from: "Copiar este valor de"
       nextcloud:
         integration: "Administração de Nextcloud / OpenProject"
+      one_drive:
+        integration: "OneDrive/Sharepoint"
+        oauth_client_id: >
+          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+        oauth_client_secret: >
+          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
+        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
     help_texts:
       project_folder: >
         A pasta do projeto é a pasta padrão para uploads de arquivos para esse projeto. No entanto, os usuários ainda podem carregar arquivos em outros locais.
@@ -125,6 +133,7 @@ pt:
     label_oauth_breadcrumb:
       openproject: "OAuth OpenProject"
       nextcloud: "OAuth Nextcloud"
+      one_drive: "OneDrive OAuth"
     label_oauth_application_details: "Detalhes do aplicativo OAuth"
     label_oauth_client_details: "Detalhes do cliente OAuth"
     label_provider_type: "Tipo de provedor"
@@ -149,7 +158,9 @@ pt:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "Ex.: Nextcloud"
-        default_name: "Meu Nextcloud"
+      one_drive:
+        name: "OneDrive/Sharepoint"
+        name_placeholder: "e.g. OneDrive"
     confirm_replace_oauth_application: "Tem certeza? Todos os usuários terão que autorizar novamente com o OpenProject."
     confirm_replace_oauth_client: "Tem certeza? Todos os usuários terão que autorizar novamente no armazenamento."
     oauth_client_details_missing: "Para concluir a configuração, adicione as credenciais do cliente OAuth do seu armazenamento."

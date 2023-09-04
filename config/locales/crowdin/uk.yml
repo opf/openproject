@@ -2383,6 +2383,7 @@ uk:
   permission_comment_news: "Коментування новин"
   permission_commit_access: "Доступ для читання/запису до сховища (фіксація)"
   permission_copy_projects: "Копіювати проекти"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Створення резервних копій"
   permission_delete_work_package_watchers: "Видалення спостерігачів"
   permission_delete_work_packages: "Видалити робочі пакети"

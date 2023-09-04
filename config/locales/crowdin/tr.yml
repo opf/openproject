@@ -2341,6 +2341,7 @@ tr:
   permission_comment_news: "Haberlere yorum yazmak"
   permission_commit_access: "Depoya okuma / yazma erişimi (tamamlama)"
   permission_copy_projects: "Proje kopyalamak"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Yedek oluştur"
   permission_delete_work_package_watchers: "Takipçi sil"
   permission_delete_work_packages: "İş paketi silmek"

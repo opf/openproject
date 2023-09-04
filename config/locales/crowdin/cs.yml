@@ -2390,6 +2390,7 @@ cs:
   permission_comment_news: "Komentování novinek"
   permission_commit_access: "Čtěte/zapisovat přístup do repozitáře (commit)"
   permission_copy_projects: "Kopírovat projekty"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Vytvořit zálohu"
   permission_delete_work_package_watchers: "Smazat sledující uživatele"
   permission_delete_work_packages: "Odstranit pracovní balíčky"

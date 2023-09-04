@@ -41,18 +41,26 @@ si:
           name: පිරිවිතර
         item_2:
           name: වෙනත්
-      roles:
+      work_package_roles:
         item_0:
-          name: සාමාජික නොවන
+          name: Work Package Editor
         item_1:
-          name: නිර්නාමික
+          name: Work Package Commenter
         item_2:
-          name: සාමාජික
+          name: Work Package Viewer
+      project_roles:
+        item_0:
+          name: Non member
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Member
         item_3:
-          name: පාඨකයා
+          name: Reader
         item_4:
-          name: ව්යාපෘති පරිපාලක
-        item_5:
+          name: Project admin
+      global_roles:
+        item_0:
           name: Staff and projects manager
     standard:
       priorities:
