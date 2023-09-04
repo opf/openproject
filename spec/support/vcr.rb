@@ -36,8 +36,10 @@ VCR.configure do |config|
   end
 end
 
+VCR.turn_off!
+
 RSpec.configure do |config|
-  config.before(:suite) do
+  config.prepend_before(:suite) do
     # As we're using VCR to record and test remote HTTP requests,
     # we require specs to selectively enable recording of HTTP interations.
     # Otherwise, VCR would attempt to intercept all HTTP requests by default.
@@ -46,11 +48,8 @@ RSpec.configure do |config|
   end
 
   config.around(:example, :vcr) do |example|
-    VCR.configure do |c|
-      # Only enable VCR's webmock integration for tests tagged with :vcr otherwise interferes with WebMock
-      c.hook_into :webmock
-    end
-
+    # Only enable VCR's webmock integration for tests tagged with :vcr otherwise interferes with WebMock
+    VCR.configuration.hook_into :webmock
     VCR.turn_on!
     example.run
   ensure
