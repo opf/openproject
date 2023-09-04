@@ -55,13 +55,9 @@ module Meetings
     end
 
     def main_content_partial
-      flex_layout(direction: %i[column column column row row]) do |flex|
-        flex.with_box(flex: 1, mr: [0, 0, 0, 3, 3]) do
-          agenda_partial
-        end
-        flex.with_box(mt: [3, 3, 3, 0, 0], style: "width: 296px;") do
-          sidebar_partial
-        end
+      render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |component|
+        component.with_main() { agenda_partial }
+        component.with_sidebar(row_placement: :end, col_placement: :end, width: :wide) { sidebar_partial }
       end
     end
 
