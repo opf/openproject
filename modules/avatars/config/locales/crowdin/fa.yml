@@ -1,5 +1,9 @@
 #English strings go here
 fa:
+  plugin_openproject_avatars:
+    name: "Avatars"
+    description: >-
+      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
   label_avatar: "چهرک"
   label_avatar_plural: "چهرک‌ها"
   label_current_avatar: "چهرک کنونی"
@@ -35,6 +39,3 @@ fa:
       enable_gravatars: 'چهرکنماد (شناسایی چهرک جهانی) کاربر را کارآ کنید'
       gravatar_default: "انگاره فرتور چهرکنماد (عکس پیش‌فرض شناسایی چهرک جهانی)"
       enable_local_avatars: 'کاراندازی سفارشی سازی چهرکنماد (شناسایی چهرک جهانی)'
-
-
-

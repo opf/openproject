@@ -1,5 +1,8 @@
 #English strings go here
 ko:
+  plugin_openproject_storages:
+    name: "OpenProject Storages"
+    description: "Allows linking work packages to files in external storages, such as Nextcloud."
   permission_view_file_links: "파일 링크 보기"
   permission_manage_file_links: "파일 링크 관리"
   permission_manage_storages_in_project: "프로젝트의 파일 저장소 관리"

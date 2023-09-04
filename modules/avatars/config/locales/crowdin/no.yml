@@ -1,5 +1,9 @@
 #English strings go here
 "no":
+  plugin_openproject_avatars:
+    name: "Avatars"
+    description: >-
+      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
   label_avatar: "Profilbilde"
   label_avatar_plural: "Profilbilder"
   label_current_avatar: "Nåværende Profilbilde"
@@ -35,6 +39,3 @@
       enable_gravatars: 'Aktiver brukergravatarer'
       gravatar_default: "Standard Gravatar-bilde"
       enable_local_avatars: 'Aktiver brukerdefinerte profilbilder'
-
-
-
