@@ -5,7 +5,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ContentChild,
+  ContentChild, ElementRef,
   EventEmitter,
   HostBinding,
   Input,
@@ -50,9 +50,12 @@ import { OpAutocompleterHeaderTemplateDirective } from './directives/op-autocomp
 import { OpAutocompleterLabelTemplateDirective } from './directives/op-autocompleter-label-template.directive';
 import { OpAutocompleterOptionTemplateDirective } from './directives/op-autocompleter-option-template.directive';
 import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+
+export const opAutocompleterSelector = 'op-autocompleter';
 
 @Component({
-  selector: 'op-autocompleter',
+  selector: opAutocompleterSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './op-autocompleter.component.html',
   styleUrls: ['./op-autocompleter.component.sass'],
@@ -227,12 +230,14 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
   initialDebounce = true;
 
   constructor(
+    readonly elementRef:ElementRef,
     readonly opAutocompleterService:OpAutocompleterService,
     readonly cdRef:ChangeDetectorRef,
     readonly ngZone:NgZone,
     private readonly I18n:I18nService,
   ) {
     super();
+    populateInputsFromDataset(this);
   }
 
   ngOnInit() {
