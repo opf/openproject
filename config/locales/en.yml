@@ -1528,8 +1528,8 @@ en:
           non_working: "%{date} is now non-working"
       system_update:
         file_links_journal: >
-          From now on you will see links to files that are stored in external file storages mentioned here in the
-          Activity tab. The following additions of links actually already existed before this system migration:
+          From now on, activity related to file links (files stored in external storages) will appear here in the
+          Activity tab. The following represent activity concerning links that already existed:
 
 
   links:
