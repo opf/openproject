@@ -26,10 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require 'spec_helper'
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQuery,
-               :vcr do
+               :vcr, webmock: true do
   using Storages::Peripherals::ServiceResultRefinements
 
   let(:user) { create(:user) }
