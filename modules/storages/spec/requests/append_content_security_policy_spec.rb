@@ -31,7 +31,7 @@ require_module_spec_helper
 
 RSpec.describe 'Appendix of default CSP for external file storage hosts' do
   shared_let(:project) { create(:project) }
-  shared_let(:storage) { create(:storage) }
+  shared_let(:storage) { create(:nextcloud_storage) }
   shared_let(:project_storage) { create(:project_storage, project:, storage:) }
 
   describe 'GET /' do

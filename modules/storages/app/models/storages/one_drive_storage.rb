@@ -33,14 +33,6 @@ module Storages
     store_attribute :provider_fields, :tenant_id, :string, default: 'consumers'
     store_attribute :provider_fields, :drive_id, :string
 
-    scope :configured, -> do
-      if OpenProject::FeatureDecisions.storage_one_drive_integration_active?
-        where.associated(:oauth_client).where.not(storages: { name: nil })
-      else
-        none
-      end
-    end
-
     def configuration_checks
       { storage_oauth_client_configured: oauth_client.present? }
     end

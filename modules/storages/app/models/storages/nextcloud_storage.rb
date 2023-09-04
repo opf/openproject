@@ -55,11 +55,6 @@ class Storages::NextcloudStorage < Storages::Storage
     end
   end
 
-  scope :configured, -> do
-    where.associated(:oauth_client, :oauth_application)
-         .where("storages.host IS NOT NULL AND storages.name IS NOT NULL")
-  end
-
   def configuration_checks
     {
       storage_oauth_client_configured: oauth_client.present?,

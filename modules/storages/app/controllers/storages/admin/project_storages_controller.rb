@@ -67,7 +67,9 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
                               model: Storages::ProjectStorage.new,
                               contract_class: EmptyContract)
                          .call(project: @project,
-                               storage: @available_storages.find_by(id: params.dig(:storages_project_storage, :storage_id)))
+                               storage: @available_storages.find do |storage|
+                                 storage.id.to_s == params.dig(:storages_project_storage, :storage_id)
+                               end)
                          .result
     @last_project_folders = {}
 
@@ -169,6 +171,6 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
     Storages::Storage
       .visible
       .not_enabled_for_project(@project)
-      .configured
+      .select(&:configured?)
   end
 end

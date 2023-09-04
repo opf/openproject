@@ -80,10 +80,6 @@ class Storages::Storage < ApplicationRecord
     end
   end
 
-  scope :configured, -> do
-    subclasses.map { |clazz| clazz.configured.to_a }.flatten
-  end
-
   scope :not_enabled_for_project, ->(project) do
     where.not(id: project.project_storages.pluck(:storage_id))
   end
