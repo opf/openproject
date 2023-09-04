@@ -31,5 +31,9 @@
 module Storages
   module Errors
     class OperationNotSupported < StandardError; end
+
+    class MissingContract < StandardError; end
+
+    class ResolverStandardError < StandardError; end
   end
 end

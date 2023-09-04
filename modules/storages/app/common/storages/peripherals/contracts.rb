@@ -1,3 +1,5 @@
+# frozen_string_literal:true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,28 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_module_spec_helper
-require 'contracts/shared/model_contract_shared_context'
-require_relative 'shared_contract_examples'
-
-RSpec.describe Storages::Storages::CreateContract do
-  include_context 'ModelContract shared context'
-
-  it_behaves_like 'storage contract' do
-    let(:current_user) { create(:admin) }
-    let(:storage) do
-      Storages::NextcloudStorage.new(name: storage_name,
-                                     provider_type: storage_provider_type,
-                                     host: storage_host,
-                                     creator: storage_creator)
-    end
-    let(:contract) { described_class.new(storage, current_user) }
-
-    context 'when creator is not the current user' do
-      let(:storage_creator) { build_stubbed(:user) }
-
-      include_examples 'contract is invalid', creator: :invalid
+module Storages
+  module Peripherals
+    Contracts = Dry::Container::Namespace.new('contracts') do
+      register(:nextcloud, ::Storages::Storages::NextcloudContract)
+      register(:one_drive, ::Storages::Storages::OneDriveContract)
     end
   end
 end

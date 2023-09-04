@@ -33,7 +33,7 @@ module Storages::Common
     included do
       scope :configured, -> do
         where.associated(:oauth_client, :oauth_application)
-        .where("storages.host IS NOT NULL AND storages.name IS NOT NULL")
+             .where("storages.host IS NOT NULL AND storages.name IS NOT NULL")
       end
     end
 
@@ -42,9 +42,12 @@ module Storages::Common
     end
 
     def configuration_checks
-      { host_name_configured: (host.present? && name.present?),
-        openproject_oauth_application_configured: oauth_application.present?,
-        storage_oauth_client_configured: oauth_client.present? }
+      { storage_oauth_client_configured: oauth_client.present? }.tap do |configuration_checks|
+        if provider_type_nextcloud?
+          configuration_checks.merge!({ openproject_oauth_application_configured: oauth_application.present?,
+                                        host_name_configured: (host.present? && name.present?) })
+        end
+      end
     end
   end
 end

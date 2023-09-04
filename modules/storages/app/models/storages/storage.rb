@@ -61,11 +61,11 @@ class Storages::Storage < ApplicationRecord
   has_one :oauth_application, class_name: '::Doorkeeper::Application', as: :integration, dependent: :destroy
 
   PROVIDER_TYPES = [
-    PROVIDER_TYPE_NEXTCLOUD = 'Storages::NextcloudStorage'.freeze
+    PROVIDER_TYPE_NEXTCLOUD = 'Storages::NextcloudStorage'.freeze,
+    PROVIDER_TYPE_ONE_DRIVE = 'Storages::OneDriveStorage'.freeze
   ].freeze
 
-  # Uniqueness - no two storages should  have the same host.
-  validates_uniqueness_of :host
+  validates_uniqueness_of :host, allow_nil: true
   validates_uniqueness_of :name
 
   # Creates a scope of all storages, which belong to a project the user is a member
@@ -89,7 +89,7 @@ class Storages::Storage < ApplicationRecord
   def self.shorten_provider_type(provider_type)
     case /Storages::(?'provider_name'.*)Storage/.match(provider_type)
     in provider_name:
-      provider_name.downcase
+      provider_name.underscore
     else
       raise ArgumentError,
             "Unknown provider_type! Given: #{provider_type}. " \
@@ -103,5 +103,9 @@ class Storages::Storage < ApplicationRecord
 
   def provider_type_nextcloud?
     provider_type == ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+  end
+
+  def provider_type_one_drive?
+    provider_type == ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
   end
 end

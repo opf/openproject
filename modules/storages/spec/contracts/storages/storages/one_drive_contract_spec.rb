@@ -28,32 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  module Peripherals
-    class Registry
-      extend Dry::Container::Mixin
+require 'spec_helper'
+require_module_spec_helper
 
-      class Resolver < Dry::Container::Resolver
-        def call(container, key)
-          super
-        rescue Dry::Container::KeyError
-          case key.split('.')
-          in ['contracts', storage]
-            raise ::Storages::Errors::MissingContract, "No contract defined for provider: #{storage}"
-          in [_, storage, operation]
-            raise ::Storages::Errors::OperationNotSupported, "Operation #{operation} not support by provider: #{storage}"
-          else
-            raise ::Storages::Errors::ResolverStandardError, "Cannot resolve key #{key}."
-          end
-        end
-      end
+RSpec.describe Storages::Storages::NextcloudContract, :storage_server_helpers, webmock: true do
+  let(:current_user) { create(:admin) }
+  let(:storage) { build(:one_drive_storage) }
 
-      config.resolver = Resolver.new
+  # As the OneDriveContract is selected by the BaseContract to make writable attributes available,
+  # the BaseContract needs to be instantiated here.
+  subject { Storages::Storages::BaseContract.new(storage, current_user) }
+
+  describe 'when a host is set' do
+    before do
+      storage.host = "https://exmaple.com/"
     end
 
-    Registry.import StorageInteraction::Nextcloud::Queries
-    Registry.import StorageInteraction::Nextcloud::Commands
-
-    Registry.import Contracts
+    it 'must be invalid' do
+      expect(subject).not_to be_valid
+    end
   end
 end

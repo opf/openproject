@@ -71,7 +71,8 @@ RSpec.describe Storages::Storages::UpdateService, type: :model do
   it 'cannot update storage creator' do
     storage_creator = create(:admin, login: "storage_creator")
     storage = create(:nextcloud_storage, creator: storage_creator)
-    service = described_class.new(user: create(:admin), model: storage)
+    service = described_class.new(user: create(:admin),
+                                  model: storage)
 
     service_result = service.call(creator: create(:user, login: "impostor"))
 

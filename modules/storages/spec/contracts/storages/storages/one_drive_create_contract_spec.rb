@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,32 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  module Peripherals
-    class Registry
-      extend Dry::Container::Mixin
+require 'spec_helper'
+require_module_spec_helper
+require 'contracts/shared/model_contract_shared_context'
+require_relative 'shared_contract_examples'
 
-      class Resolver < Dry::Container::Resolver
-        def call(container, key)
-          super
-        rescue Dry::Container::KeyError
-          case key.split('.')
-          in ['contracts', storage]
-            raise ::Storages::Errors::MissingContract, "No contract defined for provider: #{storage}"
-          in [_, storage, operation]
-            raise ::Storages::Errors::OperationNotSupported, "Operation #{operation} not support by provider: #{storage}"
-          else
-            raise ::Storages::Errors::ResolverStandardError, "Cannot resolve key #{key}."
-          end
-        end
-      end
+RSpec.describe Storages::Storages::CreateContract do
+  include_context 'ModelContract shared context'
 
-      config.resolver = Resolver.new
+  let(:storage) do
+    build_stubbed(:one_drive_storage,
+                  creator: storage_creator,
+                  name: storage_name,
+                  provider_type: storage_provider_type)
+  end
+  let(:contract) { described_class.new(storage, current_user) }
+
+  it_behaves_like 'onedrive storage contract' do
+    context 'when creator is not the current user' do
+      let(:storage_creator) { build_stubbed(:user) }
+
+      include_examples 'contract is invalid', creator: :invalid
     end
-
-    Registry.import StorageInteraction::Nextcloud::Queries
-    Registry.import StorageInteraction::Nextcloud::Commands
-
-    Registry.import Contracts
   end
 end

@@ -201,7 +201,7 @@ class BaseContract < Disposable::Twin
     # but those attributes would also be duplicated so that performance suffers significantly.
     attributes = klass.send(attribute_to_collect).dup
 
-    while klass.superclass != ModelContract
+    while klass.superclass != ::BaseContract
       # Collect all the attribute_to_collect from ancestors
       klass = klass.superclass
 

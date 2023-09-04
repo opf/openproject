@@ -41,10 +41,15 @@ FactoryBot.define do
         username { 'OpenProject' }
         password { 'Password123' }
       end
-
       trait :as_not_automatically_managed do
         automatically_managed { false }
       end
     end
+  end
+
+  factory :one_drive_storage, class: '::Storages::OneDriveStorage' do
+    sequence(:name) { |n| "Storage #{n}" }
+    creator factory: :user
+    provider_type { Storages::Storage::PROVIDER_TYPE_ONE_DRIVE }
   end
 end

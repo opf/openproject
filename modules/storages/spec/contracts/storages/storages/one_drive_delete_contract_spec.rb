@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,32 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  module Peripherals
-    class Registry
-      extend Dry::Container::Mixin
+require 'spec_helper'
+require_module_spec_helper
+require 'contracts/shared/model_contract_shared_context'
 
-      class Resolver < Dry::Container::Resolver
-        def call(container, key)
-          super
-        rescue Dry::Container::KeyError
-          case key.split('.')
-          in ['contracts', storage]
-            raise ::Storages::Errors::MissingContract, "No contract defined for provider: #{storage}"
-          in [_, storage, operation]
-            raise ::Storages::Errors::OperationNotSupported, "Operation #{operation} not support by provider: #{storage}"
-          else
-            raise ::Storages::Errors::ResolverStandardError, "Cannot resolve key #{key}."
-          end
-        end
-      end
+RSpec.describe Storages::Storages::DeleteContract do
+  include_context 'ModelContract shared context'
 
-      config.resolver = Resolver.new
-    end
+  let(:storage) { create(:one_drive_storage) }
+  let(:contract) { described_class.new(storage, current_user) }
 
-    Registry.import StorageInteraction::Nextcloud::Queries
-    Registry.import StorageInteraction::Nextcloud::Commands
-
-    Registry.import Contracts
-  end
+  # Generic checks that the contract is valid for valid admin, but invalid otherwise
+  it_behaves_like 'contract is valid for active admins and invalid for regular users'
 end
