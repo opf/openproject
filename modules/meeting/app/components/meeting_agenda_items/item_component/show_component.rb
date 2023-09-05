@@ -220,10 +220,10 @@ module MeetingAgendaItems
     end
 
     def move_actions(menu)
-      move_action_item(menu, :top, t("label_agenda_item_move_to_top"), "move-to-top") unless @meeting_agenda_item.first?
-      move_action_item(menu, :up, t("label_agenda_item_move_up"), "chevron-up") unless @meeting_agenda_item.first?
-      move_action_item(menu, :down, t("label_agenda_item_move_down"), "chevron-down") unless @meeting_agenda_item.last?
-      move_action_item(menu, :bottom, t("label_agenda_item_move_to_bottom"), "move-to-bottom") unless @meeting_agenda_item.last?
+      move_action_item(menu, :highest, t("label_agenda_item_move_to_top"), "move-to-top") unless @meeting_agenda_item.first?
+      move_action_item(menu, :higher, t("label_agenda_item_move_up"), "chevron-up") unless @meeting_agenda_item.first?
+      move_action_item(menu, :lower, t("label_agenda_item_move_down"), "chevron-down") unless @meeting_agenda_item.last?
+      move_action_item(menu, :lowest, t("label_agenda_item_move_to_bottom"), "move-to-bottom") unless @meeting_agenda_item.last?
     end
 
     def delete_action_item(menu)
@@ -237,10 +237,10 @@ module MeetingAgendaItems
       end
     end
 
-    def move_action_item(menu, direction, label_text, icon)
+    def move_action_item(menu, move_to, label_text, icon)
       menu.with_item(label: label_text,
                      href: move_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item,
-                                                         direction:),
+                                                         move_to:),
                      form_arguments: {
                        method: :put, data: { 'turbo-stream': true }
                      }) do |item|

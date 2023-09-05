@@ -27,6 +27,7 @@
 #++
 
 class MeetingAgendaItemsController < ApplicationController
+  include AttachableServiceCall
   include OpTurbo::ComponentStream
   include AgendaComponentStreams
 
@@ -37,6 +38,7 @@ class MeetingAgendaItemsController < ApplicationController
 
   def new
     agenda_item_type = params[:type]&.to_sym
+
     update_new_component_via_turbo_stream(hidden: false, type: agenda_item_type)
     update_new_button_via_turbo_stream(disabled: true)
 
@@ -52,20 +54,22 @@ class MeetingAgendaItemsController < ApplicationController
 
   def create
     agenda_item_type = params[:type]&.to_sym
-    @meeting_agenda_item = @meeting.agenda_items.build(meeting_agenda_item_params)
-    @meeting_agenda_item.author = if meeting_agenda_item_params[:author_id].present?
-                                    User.find(meeting_agenda_item_params[:author_id])
-                                  else
-                                    User.current
-                                  end
 
-    if @meeting_agenda_item.save
-      update_list_via_turbo_stream(form_hidden: false, form_type: agenda_item_type) # enabel continue editing
+    call = ::MeetingAgendaItems::CreateService
+      .new(user: current_user)
+      .call(meeting_agenda_item_params.merge(meeting_id: @meeting.id))
+
+    @meeting_agenda_item = call.result
+
+    if call.success?
+      # enabel continue editing
+      update_list_via_turbo_stream(form_hidden: false, form_type: agenda_item_type)
       update_header_component_via_turbo_stream
     else
+      # show errors
       update_new_component_via_turbo_stream(
         hidden: false, meeting_agenda_item: @meeting_agenda_item, type: agenda_item_type
-      ) # show errors
+      )
     end
 
     respond_with_turbo_streams
@@ -84,53 +88,68 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def update
-    @meeting_agenda_item.update(meeting_agenda_item_params)
+    call = ::MeetingAgendaItems::UpdateService
+      .new(user: current_user, model: @meeting_agenda_item)
+      .call(meeting_agenda_item_params)
 
-    if @meeting_agenda_item.errors.any?
-      update_item_via_turbo_stream(state: :edit) # show errors
-    elsif @meeting_agenda_item.duration_in_minutes_previously_changed?
-      update_list_via_turbo_stream
+    if call.success?
+      if @meeting_agenda_item.duration_in_minutes_previously_changed?
+        # if duration was changed, all following items are affectected with their time-slot
+        # thus update the whole list to reflect the changes on the UI immediately
+        update_list_via_turbo_stream
+      else
+        update_item_via_turbo_stream
+      end
       update_header_component_via_turbo_stream
     else
-      update_item_via_turbo_stream
-      update_header_component_via_turbo_stream
+      # show errors
+      update_item_via_turbo_stream(state: :edit)
     end
 
     respond_with_turbo_streams
   end
 
   def destroy
-    @meeting_agenda_item.destroy!
+    call = ::MeetingAgendaItems::DeleteService
+      .new(user: current_user, model: @meeting_agenda_item)
+      .call
 
-    update_list_via_turbo_stream
-    update_header_component_via_turbo_stream
+    if call.success?
+      update_list_via_turbo_stream
+      update_header_component_via_turbo_stream
+    else
+      call_failure_response
+    end
 
     respond_with_turbo_streams
   end
 
   def drop
-    @meeting_agenda_item.insert_at(params[:position].to_i)
+    call = ::MeetingAgendaItems::UpdateService
+      .new(user: current_user, model: @meeting_agenda_item)
+      .call(position: params[:position].to_i)
 
-    update_list_via_turbo_stream
-    update_header_component_via_turbo_stream
+    if call.success?
+      update_list_via_turbo_stream
+      update_header_component_via_turbo_stream
+    else
+      call_failure_response
+    end
 
     respond_with_turbo_streams
   end
 
   def move
-    case params[:direction]
-    when 'top'
-      @meeting_agenda_item.move_to_top
-    when 'up'
-      @meeting_agenda_item.move_higher
-    when 'down'
-      @meeting_agenda_item.move_lower
-    when 'bottom'
-      @meeting_agenda_item.move_to_bottom
-    end
+    call = ::MeetingAgendaItems::UpdateService
+      .new(user: current_user, model: @meeting_agenda_item)
+      .call(move_to: params[:move_to]&.to_sym)
 
-    update_list_via_turbo_stream
-    update_header_component_via_turbo_stream
+    if call.success?
+      update_list_via_turbo_stream
+      update_header_component_via_turbo_stream
+    else
+      call_failure_response
+    end
 
     respond_with_turbo_streams
   end
@@ -159,5 +178,12 @@ class MeetingAgendaItemsController < ApplicationController
 
   def meeting_agenda_item_params
     params.require(:meeting_agenda_item).permit(:title, :duration_in_minutes, :description, :author_id, :work_package_id)
+  end
+
+  def call_failure_response
+    # A failure might imply that the meeting was already closed and the action was triggered from a stale browser window
+    # updating all components resolves the stale state of that window
+    update_all_via_turbo_stream
+    # TODO: show additional error message
   end
 end
