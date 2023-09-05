@@ -1,0 +1,11 @@
+<%= render(FormControl.new(input: @input)) do %>
+  <%= angular_component_tag 'opce-autocompleter',
+                            inputs: {
+                              inputName: builder.field_name(@input.name),
+                              bindValue: 'id',
+                              resource: 'work_packages',
+                              defaultData: 'true',
+                              searchKey: 'subjectOrId',
+                            }
+  %>
+<% end %>

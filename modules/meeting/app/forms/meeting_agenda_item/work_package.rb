@@ -28,26 +28,16 @@
 
 class MeetingAgendaItem::WorkPackage < ApplicationForm
   form do |agenda_item_form|
-    agenda_item_form.select_list(
+    agenda_item_form.autocompleter(
       name: :work_package_id,
-      label: "Work package",
-      include_blank: false,
+      label: WorkPackage.model_name.human,
       visually_hide_label: true,
-      disabled: @disabled
-    ) do |user_select_list|
-      WorkPackage.visible.with_status_open
-        .includes(:project)
-        .order(:id)
-        .each do |wp|
-          user_select_list.option(
-            label: "##{wp.id} #{wp.subject.truncate(50)} - #{wp.project.name.truncate(50)}",
-            value: wp.id
-          )
-        end
-    end
+      disabled: @disabled # TODO: not working yet
+    )
   end
 
   def initialize(disabled: false)
+    super()
     @disabled = disabled
   end
 end

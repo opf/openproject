@@ -84,6 +84,8 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   @Input() public name?:string;
 
+  @Input() public inputName?:string;
+
   @Input() public required?:boolean = false;
 
   @Input() public disabled?:string;
