@@ -2490,6 +2490,7 @@ en:
   permission_save_queries: "Save views"
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Select project modules"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Select types"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "View commit author statistics"
