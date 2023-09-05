@@ -1,7 +1,9 @@
 <%= render(FormControl.new(input: @input)) do %>
   <%= angular_component_tag 'opce-autocompleter',
                             inputs: {
+                              classes: @input.invalid? ? '-error' : '',
                               inputName: builder.field_name(@input.name),
+                              model: builder.object.send(@input.name),
                               bindValue: 'id',
                               resource: 'work_packages',
                               defaultData: 'true',
