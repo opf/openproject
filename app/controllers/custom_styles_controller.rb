@@ -30,9 +30,12 @@ class CustomStylesController < ApplicationController
   layout 'admin'
   menu_item :custom_style
 
-  before_action :require_admin, except: %i[logo_download export_logo_download favicon_download touch_icon_download]
-  before_action :require_ee_token, except: %i[upsale logo_download export_logo_download favicon_download touch_icon_download]
-  skip_before_action :check_if_login_required, only: %i[logo_download export_logo_download favicon_download touch_icon_download]
+  before_action :require_admin,
+                except: %i[logo_download export_logo_download export_cover_download favicon_download touch_icon_download]
+  before_action :require_ee_token,
+                except: %i[upsale logo_download export_logo_download export_cover_download favicon_download touch_icon_download]
+  skip_before_action :check_if_login_required,
+                     only: %i[logo_download export_logo_download export_cover_download favicon_download touch_icon_download]
 
   def show
     @custom_style = CustomStyle.current || CustomStyle.new
@@ -70,6 +73,10 @@ class CustomStylesController < ApplicationController
     file_download(:export_logo_path)
   end
 
+  def export_cover_download
+    file_download(:export_cover_path)
+  end
+
   def favicon_download
     file_download(:favicon_path)
   end
@@ -84,6 +91,10 @@ class CustomStylesController < ApplicationController
 
   def export_logo_delete
     file_delete(:remove_export_logo)
+  end
+
+  def export_cover_delete
+    file_delete(:remove_export_cover)
   end
 
   def favicon_delete
@@ -151,6 +162,7 @@ class CustomStylesController < ApplicationController
   def custom_style_params
     params.require(:custom_style).permit(:logo, :remove_logo,
                                          :export_logo, :remove_export_logo,
+                                         :export_cover, :remove_export_cover,
                                          :favicon, :remove_favicon,
                                          :touch_icon, :remove_touch_icon)
   end

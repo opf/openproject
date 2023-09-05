@@ -107,7 +107,8 @@ module WorkPackage::PDFExport::Cover
   end
 
   def cover_background_image
-    image_file = Rails.root.join("app/assets/images/pdf/cover.png")
+    image_file = custom_cover_image
+    image_file = Rails.root.join("app/assets/images/pdf/cover.png") if image_file.nil?
     image_obj, image_info = pdf.build_image_object(image_file)
     scale = pdf.bounds.width / image_info.width.to_f
     height = image_info.height.to_f * scale
@@ -115,12 +116,24 @@ module WorkPackage::PDFExport::Cover
     [image_obj, image_info, image_opts, height]
   end
 
+  def custom_cover_image
+    return unless CustomStyle.current.present? &&
+      CustomStyle.current.export_cover.present? && CustomStyle.current.export_cover.local_file.present?
+
+    image_file = CustomStyle.current.export_cover.local_file.path
+    content_type = OpenProject::ContentTypeDetector.new(image_file).detect
+    return unless pdf_embeddable?(content_type)
+
+    image_file
+  end
+
   def write_background_image
-    height = pdf.bounds.height / 2
+    half = pdf.bounds.height / 2
+    height = half
     pdf.canvas do
       image_obj, image_info, image_opts, height = cover_background_image
       pdf.embed_image image_obj, image_info, image_opts
     end
-    height - styles.cover_hero_padding[:top_padding]
+    height.clamp(half, pdf.bounds.height) - styles.cover_hero_padding[:top_padding]
   end
 end
