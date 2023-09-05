@@ -36,6 +36,10 @@ FactoryBot.define do
     creator factory: :user
 
     factory :one_drive_storage, class: "Storages::OneDriveStorage" do
+      sequence(:name) { |n| "Storage #{n}" }
+      creator factory: :user
+      provider_type { Storages::Storage::PROVIDER_TYPE_ONE_DRIVE }
+
       trait :with_oauth_client do
         oauth_client
       end
@@ -51,11 +55,5 @@ FactoryBot.define do
         automatically_managed { false }
       end
     end
-  end
-
-  factory :one_drive_storage, class: '::Storages::OneDriveStorage' do
-    sequence(:name) { |n| "Storage #{n}" }
-    creator factory: :user
-    provider_type { Storages::Storage::PROVIDER_TYPE_ONE_DRIVE }
   end
 end
