@@ -1,7 +1,7 @@
 <!-- Standard Ruby view, please see the controller for comments -->
 <% html_title t(:label_administration), t("project_module_storages"), @object.name, "#{t("storages.provider_types.#{@object.short_provider_type}.name")} #{t("storages.label_oauth_application_details")}" %>
 <% local_assigns[:additional_breadcrumb] = [
-  link_to(@object.name, admin_settings_storage_path(@object)),
+  link_to(@object.name, edit_admin_settings_storage_path(@object)),
   t("storages.label_oauth_breadcrumb.openproject")
 ] %>
 <%= toolbar title: "OpenProject #{t("storages.label_oauth_application_details")}" %>
@@ -84,7 +84,7 @@
   </fieldset>
 
   <% if @object.oauth_client %>
-    <%= link_to t("storages.buttons.done_continue_setup"), admin_settings_storage_path(@object), class: "-highlight -with-icon icon-checkmark button" %>
+    <%= link_to t("storages.buttons.done_continue_setup"), edit_admin_settings_storage_path(@object), class: "-highlight -with-icon icon-checkmark button" %>
   <% else %>
     <%= link_to t("storages.buttons.done_continue_setup"), new_admin_settings_storage_oauth_client_path(@object), class: "-highlight -with-icon icon-checkmark button" %>
   <% end %>
