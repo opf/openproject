@@ -26,16 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class CreateContract < BaseContract
-    validate :validate_editable
+module ApplicationComponentStreams
+  extend ActiveSupport::Concern
 
-    private
+  included do
+    def render_error_flash_message_via_turbo_stream(**kwargs)
+      update_flash_message_via_turbo_stream(**kwargs.merge(scheme: :danger, icon: :stop))
+    end
 
-    def validate_editable
-      unless model.editable?
-        errors.add :base, I18n.t(:text_meeting_not_editable_anymore)
-      end
+    def update_flash_message_via_turbo_stream(**)
+      replace_via_turbo_stream(
+        component: FlashMessageComponent.new(**)
+      )
     end
   end
 end

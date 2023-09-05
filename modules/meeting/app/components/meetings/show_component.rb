@@ -39,6 +39,12 @@ module Meetings
 
     def call
       flex_layout(data: { turbo: true }) do |flex|
+        flex.with_row do
+          # prototyical usage of Primer's flash message component wrapped in a component which can be updated via turbo stream
+          # empty initially
+          # should become part of the application layout once finalized
+          render(FlashMessageComponent.new)
+        end
         flex.with_row(mt: 2, mb: 3, pb: 2, border: :bottom) do
           heading_partial
         end
@@ -56,7 +62,7 @@ module Meetings
 
     def main_content_partial
       render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |component|
-        component.with_main() { agenda_partial }
+        component.with_main { agenda_partial }
         component.with_sidebar(row_placement: :end, col_placement: :end, width: :wide) { sidebar_partial }
       end
     end

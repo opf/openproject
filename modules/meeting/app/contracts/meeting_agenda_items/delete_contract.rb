@@ -34,7 +34,7 @@ module MeetingAgendaItems
 
     def validate_deleteable?
       unless model.editable?
-        errors.add :base, :error_readonly
+        errors.add :base, I18n.t(:text_meeting_not_editable_anymore)
       end
     end
   end

@@ -151,3 +151,5 @@ en:
   label_meeting_show_hide_participants: "Show/hide %{count} more"
   label_meeting_add_participants: "Add participants"
 
+  text_meeting_not_editable_anymore: "This meeting is not editable anymore."
+

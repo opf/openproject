@@ -124,12 +124,18 @@ module AgendaComponentStreams
     end
 
     def update_item_via_turbo_stream(state: :show, meeting_agenda_item: @meeting_agenda_item)
-      update_via_turbo_stream(
-        component: MeetingAgendaItems::ItemComponent.new(
-          state:,
-          meeting_agenda_item:
+      if @meeting_agenda_item.duration_in_minutes_previously_changed?
+        # if duration was changed, all following items are affectected with their time-slot
+        # thus update the whole list to reflect the changes on the UI immediately
+        update_list_via_turbo_stream
+      else
+        update_via_turbo_stream(
+          component: MeetingAgendaItems::ItemComponent.new(
+            state:,
+            meeting_agenda_item:
+          )
         )
-      )
+      end
     end
 
     def update_all_via_turbo_stream

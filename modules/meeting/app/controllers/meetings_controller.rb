@@ -44,6 +44,7 @@ class MeetingsController < ApplicationController
   include SortHelper
 
   include OpTurbo::ComponentStream
+  include ApplicationComponentStreams
   include AgendaComponentStreams
 
   menu_item :new_meeting, only: %i[new create]

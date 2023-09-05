@@ -26,16 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class CreateContract < BaseContract
-    validate :validate_editable
+class FlashMessageComponent < ApplicationComponent
+  include ApplicationHelper
+  include OpTurbo::Streamable
+  include OpPrimer::ComponentHelpers
 
-    private
+  def initialize(message: nil, full: false, spacious: false, dismissible: false, icon: nil, scheme: :default)
+    super
 
-    def validate_editable
-      unless model.editable?
-        errors.add :base, I18n.t(:text_meeting_not_editable_anymore)
+    @message = message
+    @full = full
+    @spacious = spacious
+    @dismissible = dismissible # TODO: not working yet -> JS dependency not provided?
+    @icon = icon
+    @scheme = scheme
+  end
+
+  def call
+    component_wrapper do
+      # even without provided message, the wrapper should be  rendered as this allows
+      # for triggering a flash message via turbo stream
+      if @message.present?
+        flash_partial
       end
     end
+  end
+
+  private
+
+  def flash_partial
+    render(Primer::Beta::Flash.new(
+             full: @full, spacious: @spacious, dismissible: @dismissible, icon: @icon, scheme: @scheme
+           )) { @message }
   end
 end

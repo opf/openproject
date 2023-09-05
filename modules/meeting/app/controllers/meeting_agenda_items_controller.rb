@@ -30,17 +30,22 @@ class MeetingAgendaItemsController < ApplicationController
   include AttachableServiceCall
   include OpTurbo::ComponentStream
   include AgendaComponentStreams
+  include ApplicationComponentStreams
 
   before_action :set_meeting
+  before_action :set_agenda_item_type, only: %i[new create]
   before_action :set_meeting_agenda_item,
                 except: %i[index new cancel_new create author_autocomplete_index]
   before_action :authorize
 
   def new
-    agenda_item_type = params[:type]&.to_sym
-
-    update_new_component_via_turbo_stream(hidden: false, type: agenda_item_type)
-    update_new_button_via_turbo_stream(disabled: true)
+    if @meeting.open?
+      update_new_component_via_turbo_stream(hidden: false, type: @agenda_item_type)
+      update_new_button_via_turbo_stream(disabled: true)
+    else
+      update_all_via_turbo_stream
+      render_error_flash_message_via_turbo_stream(message: t("text_meeting_not_editable_anymore"))
+    end
 
     respond_with_turbo_streams
   end
@@ -53,8 +58,6 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def create
-    agenda_item_type = params[:type]&.to_sym
-
     call = ::MeetingAgendaItems::CreateService
       .new(user: current_user)
       .call(meeting_agenda_item_params.merge(meeting_id: @meeting.id))
@@ -63,12 +66,14 @@ class MeetingAgendaItemsController < ApplicationController
 
     if call.success?
       # enabel continue editing
-      update_list_via_turbo_stream(form_hidden: false, form_type: agenda_item_type)
+      update_list_via_turbo_stream(form_hidden: false, form_type: @agenda_item_type)
       update_header_component_via_turbo_stream
+    elsif call.errors[:base].present?
+      render_base_error_in_flash_message_via_turbo_stream(call)
     else
       # show errors
       update_new_component_via_turbo_stream(
-        hidden: false, meeting_agenda_item: @meeting_agenda_item, type: agenda_item_type
+        hidden: false, meeting_agenda_item: @meeting_agenda_item, type: @agenda_item_type
       )
     end
 
@@ -76,7 +81,12 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def edit
-    update_item_via_turbo_stream(state: :edit)
+    if @meeting_agenda_item.editable?
+      update_item_via_turbo_stream(state: :edit)
+    else
+      update_all_via_turbo_stream
+      render_error_flash_message_via_turbo_stream(message: t("text_meeting_not_editable_anymore"))
+    end
 
     respond_with_turbo_streams
   end
@@ -93,17 +103,14 @@ class MeetingAgendaItemsController < ApplicationController
       .call(meeting_agenda_item_params)
 
     if call.success?
-      if @meeting_agenda_item.duration_in_minutes_previously_changed?
-        # if duration was changed, all following items are affectected with their time-slot
-        # thus update the whole list to reflect the changes on the UI immediately
-        update_list_via_turbo_stream
-      else
-        update_item_via_turbo_stream
-      end
+      update_item_via_turbo_stream
       update_header_component_via_turbo_stream
+    elsif call.errors[:base].present?
+      render_base_error_in_flash_message_via_turbo_stream(call)
     else
       # show errors
       update_item_via_turbo_stream(state: :edit)
+      render_base_error_in_flash_message_via_turbo_stream(call)
     end
 
     respond_with_turbo_streams
@@ -118,7 +125,7 @@ class MeetingAgendaItemsController < ApplicationController
       update_list_via_turbo_stream
       update_header_component_via_turbo_stream
     else
-      call_failure_response
+      generic_call_failure_response(call)
     end
 
     respond_with_turbo_streams
@@ -133,7 +140,7 @@ class MeetingAgendaItemsController < ApplicationController
       update_list_via_turbo_stream
       update_header_component_via_turbo_stream
     else
-      call_failure_response
+      generic_call_failure_response(call)
     end
 
     respond_with_turbo_streams
@@ -148,7 +155,7 @@ class MeetingAgendaItemsController < ApplicationController
       update_list_via_turbo_stream
       update_header_component_via_turbo_stream
     else
-      call_failure_response
+      generic_call_failure_response(call)
     end
 
     respond_with_turbo_streams
@@ -172,6 +179,10 @@ class MeetingAgendaItemsController < ApplicationController
     @project = @meeting.project # required for authorization via before_action
   end
 
+  def set_agenda_item_type
+    @agenda_item_type = params[:type]&.to_sym
+  end
+
   def set_meeting_agenda_item
     @meeting_agenda_item = MeetingAgendaItem.find(params[:id])
   end
@@ -180,10 +191,17 @@ class MeetingAgendaItemsController < ApplicationController
     params.require(:meeting_agenda_item).permit(:title, :duration_in_minutes, :description, :author_id, :work_package_id)
   end
 
-  def call_failure_response
+  def generic_call_failure_response(call)
     # A failure might imply that the meeting was already closed and the action was triggered from a stale browser window
     # updating all components resolves the stale state of that window
     update_all_via_turbo_stream
-    # TODO: show additional error message
+    # show additional base error message
+    render_base_error_in_flash_message_via_turbo_stream(call)
+  end
+
+  def render_base_error_in_flash_message_via_turbo_stream(call)
+    if call.errors[:base].present?
+      render_error_flash_message_via_turbo_stream(message: call.errors[:base].to_sentence)
+    end
   end
 end
