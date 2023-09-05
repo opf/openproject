@@ -4,8 +4,7 @@ module Budgets
 
     register 'budgets',
              author_url: 'https://www.openproject.org',
-             bundled: true,
-             name: 'Budgets' do
+             bundled: true do
       project_module :budgets do
         permission :view_budgets,
                    { budgets: %i[index show] },

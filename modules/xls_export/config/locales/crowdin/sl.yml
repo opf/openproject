@@ -1,4 +1,7 @@
 sl:
+  plugin_openproject_xls_export:
+    name: "OpenProject XLS Export"
+    description: "Export issue lists as Excel spreadsheets (.xls)."
   export_to_excel: "Izvozi XLS"
   print_with_description: "Natisni predogled z opisi"
   sentence_separator_or: "ali"

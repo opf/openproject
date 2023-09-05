@@ -51,7 +51,7 @@ class MessagesController < ApplicationController
 
     @replies = @topic
                .children
-               .includes(:author, :attachments, forum: :project)
+               .includes(:author, :attachments, :project, forum: :project)
                .order(created_at: :asc)
                .page(@offset)
                .per_page(per_page_param)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,19 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Redmine
-  module About
-    module_function
+module Storages
+  module Peripherals
+    module StorageInteraction
+      module OneDrive
+        GRAPH_API_URI = URI('https://graph.microsoft.com').freeze
 
-    def print_plugin_info
-      plugins = Redmine::Plugin.registered_plugins
-
-      if !plugins.empty?
-        column_with = plugins.map { |_internal_name, plugin| plugin.name.length }.max
-        puts "\nAbout your Redmine plugins"
-
-        plugins.each do |_internal_name, plugin|
-          puts sprintf("%-#{column_with}s   %s", plugin.name, plugin.version)
+        Queries = Dry::Container::Namespace.new('queries') do
+          namespace('one_drive') do
+            register(:files, FilesQuery)
+          end
         end
       end
     end
