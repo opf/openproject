@@ -36,7 +36,7 @@ FactoryBot.define do
     creator factory: :user
 
     factory :one_drive_storage, class: "Storages::OneDriveStorage" do
-      sequence(:name) { |n| "Storage #{n}" }
+      host { nil }
       creator factory: :user
       provider_type { Storages::Storage::PROVIDER_TYPE_ONE_DRIVE }
 
