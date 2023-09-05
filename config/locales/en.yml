@@ -2475,6 +2475,7 @@ en:
   permission_log_time: "Log time for other users"
   permission_manage_forums: "Manage forums"
   permission_manage_categories: "Manage work package categories"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Manage work package relations"
   permission_manage_members: "Manage members"
   permission_manage_news: "Manage news"
