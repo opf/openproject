@@ -604,5 +604,5 @@ OpenProject::Application.routes.draw do
 
   if OpenProject::Configuration.lookbook_enabled?
     mount Lookbook::Engine, at: "/lookbook"
-  end
+  end  
 end

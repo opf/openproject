@@ -630,4 +630,10 @@ class WorkPackage < ApplicationRecord
       errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
     end
   end
+
+  enum severity_value: {
+    low: 0,
+    medium: 1,
+    high: 2 
+  }
 end
