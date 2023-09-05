@@ -38,6 +38,7 @@ class AddShareWorkpackagesPermission < ActiveRecord::Migration[7.0]
 
   def up
     ::Migration::MigrationUtils::PermissionAdder.add(:manage_members, :share_work_packages)
+    ::Migration::MigrationUtils::PermissionAdder.add(:edit_work_packages, :share_work_packages)
   end
 
   def down
