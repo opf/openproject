@@ -528,6 +528,8 @@ en:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repository"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Commented" # an object that this comment belongs to
       custom_action:
