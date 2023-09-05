@@ -34,10 +34,13 @@ class Options
   }.freeze
 
   BANNER = <<~BANNER.freeze
-    Usage: #{$0} [options]
+    Usage: #{$0} [options] [url]
 
     Fetches rspec failures from last completed GitHub actions on current
     branch, and outputs them on standard output, one by line.
+
+    If given an url, it will fetch the failures from the given url instead of
+    the tip of the current branch.
 
     Information is printed on standard error to preserve standard output.
 
@@ -51,7 +54,11 @@ class Options
 
   class << self
     def options
-      @options ||= parse_options
+      return @options if defined?(@options)
+
+      @options = DEFAULTS.dup
+      parse_options!
+      @options
     end
 
     def method_missing(name, *)
@@ -66,8 +73,13 @@ class Options
       DEFAULTS.key?(name) || super
     end
 
-    def parse_options
-      options = DEFAULTS.dup
+    def parse_options!
+      options.merge!(parse_args)
+      options.merge!(parse_url(ARGV.first)) if ARGV.any?
+    end
+
+    def parse_args
+      options = {}
       opt_parser = OptionParser.new do |parser|
         parser.banner = BANNER
 
@@ -100,12 +112,24 @@ class Options
         end
 
         parser.on("-v", "--verbose",
-                  "Print more information, mostly useful for debugging") do |value|
+                  "Print more information, mostly useful for debugging") do |_value|
           options[:verbose] = true
         end
       end
       opt_parser.parse!
       options
+    end
+
+    def parse_url(url)
+      case url
+      when %r{^https://github.com/opf/openproject/actions/runs/(\d+)(?:/job/\d+)?$}
+        run_id = $1.to_i
+        say_verbose("Extracted run id #{run_id} from #{url}")
+        { run_id: }
+      else
+        say_verbose("Unrecognized url #{url}")
+        {}
+      end
     end
   end
 end
