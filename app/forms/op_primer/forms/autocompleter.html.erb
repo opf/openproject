@@ -3,8 +3,7 @@
                             inputs: {
                               classes: @input.invalid? ? '-error' : '',
                               inputName: builder.field_name(@input.name),
-                              model: builder.object.send(@input.name),
-                              bindValue: 'id',
+                              inputValue: builder.object.send(@input.name),
                               resource: 'work_packages',
                               defaultData: 'true',
                               searchKey: 'subjectOrId',

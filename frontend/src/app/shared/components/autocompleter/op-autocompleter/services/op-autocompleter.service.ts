@@ -31,6 +31,14 @@ export class OpAutocompleterService extends UntilDestroyedMixin {
     return filteredData;
   }
 
+  // A method for fetching the object for a provided value using the API
+  public loadValue(id:string, resource:resource):Observable<HalResource> {
+    return (this.apiV3Service[resource] as
+      ApiV3ResourceCollection<UserResource|WorkPackageResource, ApiV3UserPaths|ApiV3WorkPackagePaths>)
+      .id(id)
+      .get();
+  }
+
   // A method for building filters
   protected createFilters(filters:IAPIFilter[], matching:string, searchKey?:string) {
     const finalFilters = new ApiV3FilterBuilder();

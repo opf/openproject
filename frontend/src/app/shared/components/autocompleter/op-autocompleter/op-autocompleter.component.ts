@@ -86,6 +86,10 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   @Input() public inputName?:string;
 
+  @Input() public inputValue?:string;
+
+  @Input() public inputBindValue = 'id';
+
   @Input() public required?:boolean = false;
 
   @Input() public disabled?:string;
@@ -244,6 +248,16 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
     if (!!this.getOptionsFn || this.defaultData) {
       this.typeahead = new BehaviorSubject<string>('');
     }
+
+    if (this.inputValue && !this.model) {
+      this
+        .opAutocompleterService
+        .loadValue(this.inputValue, this.resource)
+        .subscribe((resource) => {
+          this.model = resource;
+          this.cdRef.detectChanges();
+        });
+    }
   }
 
   ngOnChanges(changes:SimpleChanges):void {
@@ -276,6 +290,11 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
         }
       }, 25);
     });
+  }
+
+  public get mappedInputValue():string|number {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    return this.model ? (this.model[this.inputBindValue] as string|number) : '';
   }
 
   public repositionDropdown() {
