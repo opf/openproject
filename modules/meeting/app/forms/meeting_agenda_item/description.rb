@@ -28,13 +28,10 @@
 
 class MeetingAgendaItem::Description < ApplicationForm
   form do |agenda_item_form|
-    agenda_item_form.text_area(
+    agenda_item_form.rich_text_area(
       name: :description,
-      placeholder: MeetingAgendaItem.human_attribute_name(:description),
       label: MeetingAgendaItem.human_attribute_name(:description),
-      visually_hide_label: true,
-      disabled: @disabled,
-      rows: 7
+      disabled: @disabled # TODO: does not work yet
     )
   end
 
