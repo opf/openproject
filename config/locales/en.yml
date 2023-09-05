@@ -2494,6 +2494,7 @@ en:
   permission_manage_types: "Select types"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "View commit author statistics"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "View watchers list"
   permission_view_work_packages: "View work packages"
   permission_view_messages: "View messages"
