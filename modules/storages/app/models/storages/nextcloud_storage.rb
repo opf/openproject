@@ -55,6 +55,14 @@ class Storages::NextcloudStorage < Storages::Storage
     end
   end
 
+  def configuration_checks
+    {
+      storage_oauth_client_configured: oauth_client.present?,
+      openproject_oauth_application_configured: oauth_application.present?,
+      host_name_configured: host.present? && name.present?
+    }
+  end
+
   def automatic_management_unspecified?
     automatically_managed.nil?
   end

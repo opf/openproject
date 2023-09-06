@@ -37,7 +37,7 @@ RSpec.describe Storages::ProjectStorages::DeleteService, type: :model, webmock: 
     let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }
     let(:project) { create(:project, members: { user => role }) }
     let(:other_project) { create(:project) }
-    let(:storage) { create(:storage) }
+    let(:storage) { create(:one_drive_storage) }
     let(:project_storage) { create(:project_storage, project:, storage:) }
     let(:work_package) { create(:work_package, project:) }
     let(:other_work_package) { create(:work_package, project: other_project) }
@@ -66,9 +66,6 @@ RSpec.describe Storages::ProjectStorages::DeleteService, type: :model, webmock: 
 
     context 'with Nextcloud storage' do
       let(:storage) { create(:nextcloud_storage) }
-      let(:delete_folder_url) do
-        "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.project_folder_path.chop}"
-      end
       let(:delete_folder_stub) do
         stub_request(:delete, delete_folder_url).to_return(status: 204, body: nil, headers: {})
       end
@@ -95,6 +92,16 @@ RSpec.describe Storages::ProjectStorages::DeleteService, type: :model, webmock: 
 
   it_behaves_like 'BaseServices delete service' do
     let(:factory) { :project_storage }
+    let(:host) { model_instance.storage.host }
+    let(:username) { model_instance.storage.username }
+    let(:path) { model_instance.project_folder_path.chop }
+    let(:delete_folder_url) do
+      "#{host}/remote.php/dav/files/#{username}/#{path}"
+    end
+
+    before do
+      stub_request(:delete, delete_folder_url).to_return(status: 204, body: nil, headers: {})
+    end
 
     it_behaves_like('an event gun', OpenProject::Events::PROJECT_STORAGE_DESTROYED)
   end

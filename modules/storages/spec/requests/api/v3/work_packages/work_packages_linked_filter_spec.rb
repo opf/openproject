@@ -35,6 +35,7 @@ RSpec.describe 'API v3 work packages resource with filters for linked storage fi
 
   let(:file_link_permissions) { %i(view_work_packages view_file_links) }
 
+  # rubocop:disable RSpec/IndexedLet
   let(:role1) { create(:role, permissions: file_link_permissions) }
   let(:role2) { create(:role, permissions: file_link_permissions) }
 
@@ -46,8 +47,8 @@ RSpec.describe 'API v3 work packages resource with filters for linked storage fi
   let(:work_package2) { create(:work_package, author: current_user, project: project1) }
   let(:work_package3) { create(:work_package, author: current_user, project: project2) }
 
-  let(:storage1) { create(:storage, creator: current_user) }
-  let(:storage2) { create(:storage, creator: current_user) }
+  let(:storage1) { create(:nextcloud_storage, creator: current_user) }
+  let(:storage2) { create(:nextcloud_storage, creator: current_user) }
 
   let(:project_storage1) { create(:project_storage, project: project1, storage: storage1) }
   let(:project_storage2) { create(:project_storage, project: project1, storage: storage2) }
@@ -65,6 +66,7 @@ RSpec.describe 'API v3 work packages resource with filters for linked storage fi
   # This link is considered invisible, as it is linking a work package to a file, where the work package's project
   # and the file's storage are not linked together.
   let(:file_link4) { create(:file_link, creator: current_user, container: work_package3, storage: storage1) }
+  # rubocop:enable RSpec/IndexedLet
 
   subject(:response) { last_response }
 

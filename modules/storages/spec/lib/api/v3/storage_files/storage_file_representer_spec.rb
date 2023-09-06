@@ -35,7 +35,7 @@ RSpec.describe API::V3::StorageFiles::StorageFileRepresenter do
   let(:user) { build_stubbed(:user) }
   let(:created_at) { DateTime.now }
   let(:last_modified_at) { DateTime.now }
-  let(:storage) { build_stubbed(:storage) }
+  let(:storage) { build_stubbed(:nextcloud_storage) }
   let(:file) do
     Storages::StorageFile.new(
       id: 42,

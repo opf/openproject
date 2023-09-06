@@ -36,7 +36,7 @@ RSpec.shared_examples_for 'file_link contract' do
   let(:role) { create(:existing_role, permissions: [:manage_file_links]) }
   let(:project) { create(:project, members: { current_user => role }) }
   let(:work_package) { create(:work_package, project:) }
-  let(:storage) { create(:storage) }
+  let(:storage) { create(:nextcloud_storage) }
   let!(:project_storage) { create(:project_storage, project:, storage:) }
   let(:file_link) do
     build(:file_link, container: work_package,

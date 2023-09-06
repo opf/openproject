@@ -50,7 +50,7 @@ RSpec.describe 'API v3 work packages resource with filters for the linkable to s
   let(:work_package5) { create(:work_package, author: current_user, project: project3) }
   let(:work_package6) { create(:work_package, author: current_user, project: project3) }
 
-  let(:storage) { create(:storage, creator: current_user) }
+  let(:storage) { create(:nextcloud_storage, creator: current_user) }
 
   let(:project_storage1) { create(:project_storage, project: project1, storage:) }
   let(:project_storage2) { create(:project_storage, project: project2, storage:) }

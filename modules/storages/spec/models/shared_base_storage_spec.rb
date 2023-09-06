@@ -28,16 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_module_spec_helper
-
-RSpec.describe Storages::Storage do
-  let(:creator) { create(:user) }
+RSpec.shared_examples_for 'base storage' do
   let(:default_attributes) do
-    { name: "NC 1",
-      provider_type: Storages::Storage::PROVIDER_TYPE_NEXTCLOUD,
+    {
+      name: 'My storage',
       host: 'https://example.com',
-      creator: }
+      creator: create(:user)
+    }
   end
 
   describe '.shorten_provider_type' do
@@ -46,6 +43,9 @@ RSpec.describe Storages::Storage do
         expect(
           described_class.shorten_provider_type(described_class::PROVIDER_TYPE_NEXTCLOUD)
         ).to eq('nextcloud')
+        expect(
+          described_class.shorten_provider_type(described_class::PROVIDER_TYPE_ONE_DRIVE)
+        ).to eq('one_drive')
       end
     end
 
@@ -53,22 +53,16 @@ RSpec.describe Storages::Storage do
       it 'raises an error', aggregate_failures: true do
         expect do
           described_class.shorten_provider_type('Storages::Nextcloud')
-        end.to raise_error(
-          'Unknown provider_type! Given: Storages::Nextcloud. ' \
-          'Expected the following signature: Storages::{Name of the provider}Storage'
-        )
+        end.to raise_error('Unknown provider_type! Given: Storages::Nextcloud. ' \
+                           'Expected the following signature: Storages::{Name of the provider}Storage')
         expect do
           described_class.shorten_provider_type('Storages:NextcloudStorage')
-        end.to raise_error(
-          'Unknown provider_type! Given: Storages:NextcloudStorage. ' \
-          'Expected the following signature: Storages::{Name of the provider}Storage'
-        )
+        end.to raise_error('Unknown provider_type! Given: Storages:NextcloudStorage. ' \
+                           'Expected the following signature: Storages::{Name of the provider}Storage')
         expect do
           described_class.shorten_provider_type('Storages::NextcloudStorag')
-        end.to raise_error(
-          'Unknown provider_type! Given: Storages::NextcloudStorag. ' \
-          'Expected the following signature: Storages::{Name of the provider}Storage'
-        )
+        end.to raise_error('Unknown provider_type! Given: Storages::NextcloudStorag. ' \
+                           'Expected the following signature: Storages::{Name of the provider}Storage')
       end
     end
   end
@@ -91,7 +85,7 @@ RSpec.describe Storages::Storage do
       end
 
       it "fails the validation if host is not unique" do
-        expect(described_class.create(default_attributes.merge({ name: 'NC 2' }))).not_to be_valid
+        expect(described_class.create(default_attributes.merge({ name: 'Another storage' }))).not_to be_valid
       end
     end
   end
@@ -99,7 +93,7 @@ RSpec.describe Storages::Storage do
   describe '#destroy' do
     let(:project) { create(:project) }
     let(:storage) { described_class.create(default_attributes) }
-    let(:project_storage) { create(:project_storage, project:, storage:, creator:) }
+    let(:project_storage) { create(:project_storage, project:, storage:, creator: create(:user)) }
     let(:work_package) { create(:work_package, project:) }
     let(:file_link) { create(:file_link, storage:, container_id: work_package.id) }
 
@@ -113,20 +107,6 @@ RSpec.describe Storages::Storage do
     it "destroys all associated ProjectStorage and FileLink records" do
       expect(Storages::ProjectStorage.count).to be 0
       expect(Storages::FileLink.count).to be 0
-    end
-  end
-
-  describe '#provider_type_nextcloud?' do
-    context 'when provider_type is nextcloud' do
-      let(:storage) { build(:storage) }
-
-      it { expect(storage).to be_a_provider_type_nextcloud }
-    end
-
-    context 'when provider_type is not nextcloud' do
-      let(:storage) { build(:storage, provider_type: 'Storages::DropboxStorage') }
-
-      it { expect(storage).not_to be_a_provider_type_nextcloud }
     end
   end
 end

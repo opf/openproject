@@ -36,7 +36,7 @@ require_module_spec_helper
 RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
   shared_let(:admin) { create(:admin) }
   shared_let(:project) { create(:project) }
-  let(:storage) { create(:storage) }
+  let(:storage) { create(:nextcloud_storage) }
   let(:project_storage) { create(:project_storage, project:, storage:) }
   let(:controller) { instance_double(ApplicationController) }
 

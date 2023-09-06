@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -25,27 +27,42 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-module Storages::Common
-  module ConfigurationChecks
-    extend ActiveSupport::Concern
 
-    included do
-      scope :configured, -> do
-        where.associated(:oauth_client, :oauth_application)
-             .where("storages.host IS NOT NULL AND storages.name IS NOT NULL")
+require 'spec_helper'
+require_relative 'shared_base_storage_spec'
+
+RSpec.describe Storages::OneDriveStorage do
+  let(:storage) { build(:one_drive_storage) }
+
+  it_behaves_like 'base storage'
+
+  describe '#provider_type?' do
+    it { expect(storage).to be_a_provider_type_one_drive }
+    it { expect(storage).not_to be_a_provider_type_nextcloud }
+  end
+
+  describe '#configured?' do
+    context 'with a complete configuration' do
+      let(:storage) { build(:one_drive_storage, oauth_client: build(:oauth_client)) }
+
+      it 'returns true' do
+        expect(storage.configured?).to be(true)
+
+        aggregate_failures 'configuration_checks' do
+          expect(storage.configuration_checks)
+            .to eq(storage_oauth_client_configured: true)
+        end
       end
     end
 
-    def configured?
-      configuration_checks.values.all?
-    end
+    context 'without oauth client' do
+      let(:storage) { build(:one_drive_storage) }
 
-    def configuration_checks
-      { storage_oauth_client_configured: oauth_client.present? }.tap do |configuration_checks|
-        if provider_type_nextcloud?
-          configuration_checks.merge!({ openproject_oauth_application_configured: oauth_application.present?,
-                                        host_name_configured: (host.present? && name.present?) })
+      it 'returns false' do
+        expect(storage.configured?).to be(false)
+
+        aggregate_failures 'configuration_checks' do
+          expect(storage.configuration_checks[:storage_oauth_client_configured]).to be(false)
         end
       end
     end

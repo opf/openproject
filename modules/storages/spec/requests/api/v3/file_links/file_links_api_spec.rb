@@ -45,8 +45,8 @@ RSpec.describe 'API v3 file links resource' do
   let(:another_work_package) { create(:work_package, author: current_user, project:) }
 
   let(:oauth_application) { create(:oauth_application) }
-  let(:storage) { create(:storage, creator: current_user, oauth_application:) }
-  let(:another_storage) { create(:storage, creator: current_user) }
+  let(:storage) { create(:nextcloud_storage, creator: current_user, oauth_application:) }
+  let(:another_storage) { create(:nextcloud_storage, creator: current_user) }
 
   let(:oauth_client) { create(:oauth_client, integration: storage) }
   let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: current_user) }

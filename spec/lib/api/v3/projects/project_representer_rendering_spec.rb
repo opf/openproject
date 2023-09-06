@@ -38,9 +38,8 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
                   :with_status,
                   parent: parent_project,
                   description: 'some description').tap do |p|
-      allow(p)
-        .to receive(:available_custom_fields)
-              .and_return([int_custom_field, version_custom_field])
+      allow(p).to receive_messages(available_custom_fields: [int_custom_field, version_custom_field],
+                                   ancestors_from_root: ancestors)
 
       allow(p)
         .to receive(int_custom_field.attribute_getter)
@@ -50,10 +49,6 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
         .to receive(:custom_value_for)
               .with(version_custom_field)
               .and_return(version_custom_value)
-
-      allow(p)
-        .to receive(:ancestors_from_root)
-              .and_return(ancestors)
     end
   end
   let(:parent_project) do
@@ -445,7 +440,7 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, 'rendering' do
     end
 
     describe 'storages' do
-      let(:storage) { build_stubbed(:storage) }
+      let(:storage) { build_stubbed(:nextcloud_storage) }
       let(:permissions) { %i[view_file_links] }
 
       before do
