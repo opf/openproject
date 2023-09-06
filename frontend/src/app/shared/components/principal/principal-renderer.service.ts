@@ -91,6 +91,7 @@ export class PrincipalRendererService {
     const colorCode = this.colors.toHsl(principal.name);
 
     const fallback = document.createElement('div');
+    fallback.classList.add('avatar');
     fallback.classList.add('op-principal--avatar');
     fallback.classList.add('op-avatar');
     fallback.classList.add(`op-avatar_${options.size}`);
@@ -123,6 +124,7 @@ export class PrincipalRendererService {
 
     const image = new Image();
     image.classList.add('op-avatar');
+    image.classList.add('avatar');
     image.classList.add(`op-avatar_${options.size}`);
     image.src = url;
     image.title = principal.name;
