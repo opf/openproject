@@ -105,7 +105,7 @@ export class SaveQueryModalComponent extends OpModalComponent {
     this.isBusy = true;
     const query = this.querySpace.query.value!;
     query.public = this.isPublic;
-    query.displayRepresentation = this.uiRouterGlobals.params.cview;
+    query.displayRepresentation = this.uiRouterGlobals.params.cview as string;
 
     this.wpListService
       .create(query, this.queryName)
