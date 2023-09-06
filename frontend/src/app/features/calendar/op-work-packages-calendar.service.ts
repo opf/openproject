@@ -177,7 +177,6 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     // 3. We are already loaded and are refetching data (for changed dates, e.g.)
     let queryProps:string|undefined;
 
-
     if (this.initializingWithQuery) {
       // This is the case on initially loading the calendar with a query_id present in the url params but no
       // query props to overwrite the query settings.
@@ -226,9 +225,9 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
 
     return Promise.all([this
       .wpListService
-      .fromQueryParams({ query_id: queryId, query_props: queryProps, }, projectIdentifier || undefined)
+      .fromQueryParams({ query_id: queryId, query_props: queryProps }, projectIdentifier || undefined)
       .toPromise(),
-    ])
+    ]);
   }
 
   public generateQueryProps(
@@ -248,11 +247,6 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
         ],
       }),
     );
-  }
-
-  public async initialView():Promise<string | undefined>{
-    const initialQuery = await firstValueFrom(this.apiV3Service.queries.find({ pageSize: 0 }, this.urlParams.query_id));
-    return initialQuery.displayRepresentation || 'resourceTimelineWorkWeek';
   }
 
   dateEditable(wp:WorkPackageResource):boolean {
