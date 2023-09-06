@@ -30,10 +30,10 @@
 
 module Storages
   module Errors
-    class OperationNotSupported < StandardError; end
-
-    class MissingContract < StandardError; end
-
-    class ResolverStandardError < StandardError; end
+    class BaseError < StandardError; end
+    class MissingContract < BaseError; end
+    class OperationNotSupported < BaseError; end
+    class ResolverStandardError < BaseError; end
+    class SubclassResponsibility < BaseError; end
   end
 end

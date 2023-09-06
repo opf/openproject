@@ -30,13 +30,13 @@
 
 require 'spec_helper'
 
-RSpec.describe OAuthClients::OneDriveConnectionManager, webmock: true do
+RSpec.describe OAuthClients::OneDriveConnectionManager, type: :model, webmock: true do
   let(:user) { create(:user) }
   let(:storage) { create(:one_drive_storage, :with_oauth_client, tenant_id: 'consumers') }
   let(:token) { create(:oauth_client_token, oauth_client: storage.oauth_client, user:) }
 
   subject(:connection_manager) do
-    described_class.new(user:, oauth_client: storage.oauth_client, tenant_id: storage.tenant_id)
+    OAuthClients::ConnectionManager.new(user:, oauth_client: nil, configuration: storage.oauth_configuration)
   end
 
   describe '#get_authorization_uri' do

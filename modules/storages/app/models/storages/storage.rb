@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -59,8 +61,8 @@ class Storages::Storage < ApplicationRecord
   has_one :oauth_application, class_name: '::Doorkeeper::Application', as: :integration, dependent: :destroy
 
   PROVIDER_TYPES = [
-    PROVIDER_TYPE_NEXTCLOUD = 'Storages::NextcloudStorage'.freeze,
-    PROVIDER_TYPE_ONE_DRIVE = 'Storages::OneDriveStorage'.freeze
+    PROVIDER_TYPE_NEXTCLOUD = 'Storages::NextcloudStorage',
+    PROVIDER_TYPE_ONE_DRIVE = 'Storages::OneDriveStorage'
   ].freeze
 
   validates_uniqueness_of :host, allow_nil: true
@@ -100,7 +102,15 @@ class Storages::Storage < ApplicationRecord
   end
 
   def configuration_checks
-    raise NotImplementedError
+    raise Errors::SubclassResponsibility
+  end
+
+  def uri
+    URI(host).normalize
+  end
+
+  def oauth_configuration
+    raise Errors::SubclassResponsibility
   end
 
   def short_provider_type

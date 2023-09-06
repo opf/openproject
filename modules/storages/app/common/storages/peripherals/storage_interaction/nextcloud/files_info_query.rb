@@ -33,7 +33,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     FILES_INFO_PATH = 'ocs/v1.php/apps/integration_openproject/filesinfo'.freeze
 
     def initialize(storage)
-      @uri = URI(storage.host).normalize
+      @uri = storage.uri
       @oauth_client = storage.oauth_client
     end
 

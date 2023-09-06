@@ -29,8 +29,8 @@
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class FilesQuery
     def initialize(storage)
-      @uri = URI(storage.host).normalize
-      @oauth_client = storage.oauth_client
+      @uri = storage.uri
+      @configuration = storage.oauth_configuration
     end
 
     def self.call(storage:, user:, folder:)
@@ -39,7 +39,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     # rubocop:disable Metrics/AbcSize
     def call(user:, folder:)
-      result = Util.token(user:, oauth_client: @oauth_client) do |token|
+      result = Util.token(user:, configuration: @configuration) do |token|
         base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files")
         @location_prefix = Util.join_uri_path(base_path, token.origin_user_id.gsub(' ', '%20'))
 

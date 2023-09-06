@@ -34,7 +34,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     URI_UPLOAD_BASE_PATH = 'index.php/apps/integration_openproject/direct-upload'.freeze
 
     def initialize(storage)
-      @uri = URI(storage.host).normalize
+      @uri = storage.uri
       @oauth_client = storage.oauth_client
     end
 

@@ -55,8 +55,8 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Util
       File.join(uri.to_s, *)
     end
 
-    def token(user:, oauth_client:, &block)
-      connection_manager = ::OAuthClients::ConnectionManager.new(user:, oauth_client:)
+    def token(user:, oauth_client: nil, configuration: nil, &block)
+      connection_manager = ::OAuthClients::ConnectionManager.new(user:, oauth_client:, configuration:)
       connection_manager.get_access_token.match(
         on_success: ->(token) do
           connection_manager.request_with_token_refresh(token) { block.call(token) }

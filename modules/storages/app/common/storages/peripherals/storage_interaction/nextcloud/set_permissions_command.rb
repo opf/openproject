@@ -31,7 +31,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     using Storages::Peripherals::ServiceResultRefinements
 
     def initialize(storage)
-      @uri = URI(storage.host).normalize
+      @uri = storage.uri
       @username = storage.username
       @password = storage.password
     end

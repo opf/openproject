@@ -39,9 +39,10 @@ module OAuthClients
 
     attr_reader :user, :oauth_client
 
-    def initialize(user:, oauth_client:)
+    def initialize(user:, oauth_client: nil, configuration: nil)
       @user = user
-      @oauth_client = oauth_client
+      @oauth_client = configuration ? configuration.oauth_client : oauth_client
+      @config = configuration
     end
 
     # Main method to initiate the OAuth2 flow called by a "client" component
@@ -57,7 +58,12 @@ module OAuthClients
 
       # Return the Nextcloud OAuth authorization URI that a user needs to open to grant access and eventually obtain
       # a token.
-      @redirect_url = get_authorization_uri(scope:, state:)
+      full_scope = if @config
+                     @config.compute_scopes(scope)
+                   else
+                     scope
+                   end
+      @redirect_url = get_authorization_uri(scope: full_scope, state:)
       ServiceResult.failure(result: @redirect_url)
     end
 
@@ -91,7 +97,8 @@ module OAuthClients
     # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud has only one global scope.
     def get_authorization_uri(scope: [], state: nil)
       client = rack_oauth_client # Configure and start the rack-oauth2 client
-      client.authorization_uri(scope:, state:)
+      joined_scopes = @config ? @config.compute_scopes(scope) : scope
+      client.authorization_uri(scope: joined_scopes, state:)
     end
 
     # Called by callback_page with a cryptographic "code" that indicates
@@ -144,17 +151,20 @@ module OAuthClients
       # curl -H "Authorization: Bearer MY_TOKEN" -X GET 'https://my.nextcloud.org/ocs/v1.php/cloud/user' \
       #      -H "OCS-APIRequest: true" -H "Accept: application/json"
       util = Storages::Peripherals::StorageInteraction::Nextcloud::Util
-      uri = URI(oauth_client.integration.host).normalize
-      response = util
-        .http(uri)
-        .get(
-          util.join_uri_path(uri, AUTHORIZATION_CHECK_PATH),
-          {
-            'Authorization' => "Bearer #{oauth_client_token.access_token}",
-            'OCS-APIRequest' => 'true',
-            'Accept' => 'application/json'
-          }
-        )
+      response = if @config
+                   @config.authorization_state_check(oauth_client_token.access_token)
+                 else
+                   uri = URI(oauth_client.integration.host).normalize
+                   util
+                     .http(uri)
+                     .get(util.join_uri_path(uri, AUTHORIZATION_CHECK_PATH),
+                          {
+                            'Authorization' => "Bearer #{oauth_client_token.access_token}",
+                            'OCS-APIRequest' => 'true',
+                            'Accept' => 'application/json'
+                          })
+                 end
+
       case response
       when Net::HTTPSuccess
         :connected
@@ -244,7 +254,7 @@ module OAuthClients
     # Return a fully configured RackOAuth2Client.
     # This client does all the heavy lifting with the OAuth2 protocol.
     def rack_oauth_client(options = {})
-      rack_oauth_client = build_basic_rack_oauth_client
+      rack_oauth_client = @config ? @config.basic_rack_oauth_client : build_basic_rack_oauth_client
 
       # Write options, for example authorization_code and refresh_token
       rack_oauth_client.refresh_token = options[:refresh_token] if options[:refresh_token]

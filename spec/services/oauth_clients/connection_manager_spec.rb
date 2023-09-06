@@ -29,22 +29,18 @@
 #++
 
 require 'spec_helper'
-require 'webmock/rspec'
 
-RSpec.describe OAuthClients::ConnectionManager, type: :model do
+RSpec.describe OAuthClients::ConnectionManager, type: :model, webmock: true do
   let(:user) { create(:user) }
+
   let(:host) { "https://example.org" }
-  let(:provider_type) { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
-  let(:storage) { create(:nextcloud_storage, provider_type:, host: "#{host}/") }
+  let(:storage) { create(:nextcloud_storage, :with_oauth_client, host: "#{host}/") }
+  let(:oauth_client) { storage.oauth_client }
+
   let(:scope) { [:all] } # OAuth2 resources to access, specific to provider
-  let(:oauth_client) do
-    create(:oauth_client,
-           client_id: "nwz34rWsolvJvchfQ1bVHXfMb1ETK89lCBgzrLhWx3ACW5nKfmdcyf5ftlCyKGbk",
-           client_secret: "A08n6CRBOOr41iqkWRynnP6BbmEnau7LeP9t9xrIbiYX46iXgmIZgqhJoDFjUMEq",
-           integration: storage)
-  end
   let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user:) }
-  let(:instance) { described_class.new(user:, oauth_client:) }
+
+  let(:instance) { described_class.new(user:, oauth_client:, configuration: storage.oauth_configuration) }
 
   # The get_authorization_uri method returns the OAuth2 authorization URI as a string. That URI is the starting point for
   # a user to grant OpenProject access to Nextcloud.

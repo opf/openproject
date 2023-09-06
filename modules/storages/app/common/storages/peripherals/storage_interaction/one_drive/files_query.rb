@@ -42,12 +42,13 @@ module Storages
 
           def initialize(storage)
             @storage = storage
+            @uri = storage.uri
           end
 
           def call(user:, folder: nil)
             result = using_user_token(user) do |token|
               # Make the Get Request to the necessary endpoints
-              response = Net::HTTP.start(GRAPH_API_URI.host, GRAPH_API_URI.port, use_ssl: true) do |http|
+              response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
                 http.get(uri_path_for(folder) + FIELDS, { 'Authorization' => "Bearer #{token.access_token}" })
               end
 

@@ -31,7 +31,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     using Storages::Peripherals::ServiceResultRefinements
 
     def initialize(storage)
-      @uri = URI(storage.host).normalize
+      @uri = storage.uri
       @base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files", CGI.escapeURIComponent(storage.username))
       @username = storage.username
       @password = storage.password

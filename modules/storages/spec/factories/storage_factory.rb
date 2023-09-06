@@ -29,16 +29,22 @@
 #++
 
 FactoryBot.define do
-  factory :storage, class: '::Storages::Storage' do
+  factory :storage, class: 'Storages::Storage' do
     sequence(:name) { |n| "Storage #{n}" }
     creator factory: :user
 
+    # rubocop:disable FactoryBot/FactoryAssociationWithStrategy
+    # For some reason the order of saving breaks STI
     trait :with_oauth_client do
-      oauth_client
+      oauth_client { build(:oauth_client) }
+    end
+    # rubocop:enable FactoryBot/FactoryAssociationWithStrategy
+
+    factory :one_drive_storage, class: "Storages::OneDriveStorage" do
+      host { nil }
     end
 
-    factory :nextcloud_storage, class: '::Storages::NextcloudStorage' do
-      provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
+    factory :nextcloud_storage, class: 'Storages::NextcloudStorage' do
       sequence(:host) { |n| "https://host#{n}.example.com" }
 
       trait :as_automatically_managed do
@@ -50,10 +56,6 @@ FactoryBot.define do
       trait :as_not_automatically_managed do
         automatically_managed { false }
       end
-    end
-
-    factory :one_drive_storage, class: '::Storages::OneDriveStorage' do
-      provider_type { Storages::Storage::PROVIDER_TYPE_ONE_DRIVE }
     end
   end
 end

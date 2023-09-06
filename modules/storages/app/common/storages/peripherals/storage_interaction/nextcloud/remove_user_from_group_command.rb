@@ -29,7 +29,7 @@
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class RemoveUserFromGroupCommand
     def initialize(storage)
-      @uri = URI(storage.host).normalize
+      @uri = storage.uri
       @username = storage.username
       @password = storage.password
       @group = storage.group
