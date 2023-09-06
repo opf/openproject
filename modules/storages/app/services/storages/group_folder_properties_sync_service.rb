@@ -212,7 +212,7 @@ class Storages::GroupFolderPropertiesSyncService
       tokens_query = tokens_query.where(users: project.users)
     end
     tokens_query.each_with_object({
-                                    users: admins_project_folder_permissions,
+                                    users: admins_project_folder_permissions.clone,
                                     groups: { "#{@group}": NO_PERMISSIONS }
                                   }) do |token, permissions|
       nextcloud_username = token.origin_user_id
