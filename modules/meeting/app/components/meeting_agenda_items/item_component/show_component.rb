@@ -185,7 +185,7 @@ module MeetingAgendaItems
 
     def description_partial
       render(Primer::Box.new(color: :subtle)) do
-        simple_format(@meeting_agenda_item.description.html_safe, {}, wrapper_tag: "div")
+        ::OpenProject::TextFormatting::Renderer.format_text(@meeting_agenda_item.description)
       end
     end
 
