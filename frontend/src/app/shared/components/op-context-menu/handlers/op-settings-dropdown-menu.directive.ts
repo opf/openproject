@@ -49,6 +49,7 @@ import { WpTableExportModalComponent } from 'core-app/shared/components/modals/e
 import { SaveQueryModalComponent } from 'core-app/shared/components/modals/save-modal/save-query.modal';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
+import { UIRouterGlobals } from '@uirouter/core';
 
 @Directive({
   selector: '[opSettingsContextMenu]',
@@ -74,6 +75,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
     readonly injector:Injector,
     readonly querySpace:IsolatedQuerySpace,
     readonly I18n:I18nService,
+    readonly uiRouterGlobals:UIRouterGlobals,
   ) {
     super(elementRef, opContextMenu);
   }
@@ -240,6 +242,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         icon: 'icon-save',
         onClick: ($event:JQuery.TriggeredEvent) => {
           const { query } = this;
+          query.displayRepresentation = this.uiRouterGlobals.params.cview as string;
           if (!isPersistedResource(query) && this.allowQueryAction($event, 'updateImmediately')) {
             this.opModalService.show(SaveQueryModalComponent, this.injector);
           } else if (query.id && this.allowQueryAction($event, 'updateImmediately')) {
