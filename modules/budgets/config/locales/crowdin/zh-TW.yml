@@ -21,7 +21,7 @@
 #++
 zh-TW:
   plugin_budgets_engine:
-    name: 'Budgets'
+    name: '預算'
   activerecord:
     attributes:
       budget:

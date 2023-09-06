@@ -571,7 +571,7 @@ GEM
     language_server-protocol (3.17.0.3)
     launchy (2.5.2)
       addressable (~> 2.8)
-    lefthook (1.4.9)
+    lefthook (1.4.10)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     listen (3.8.0)
@@ -677,7 +677,7 @@ GEM
       activerecord (>= 5.2)
       request_store (~> 1.1)
     parallel (1.23.0)
-    parallel_tests (4.2.1)
+    parallel_tests (4.2.2)
       parallel
     parser (3.2.2.3)
       ast (~> 2.4.1)

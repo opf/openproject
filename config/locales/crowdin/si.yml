@@ -1446,7 +1446,7 @@ si:
     changes_retracted: "The changes were retracted."
     caused_changes:
       dates_changed: "Dates changed"
-      system_update: "OpenProject update"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1462,7 +1462,8 @@ si:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'වින්යාස මාර්ගෝපදේශය'
     get_in_touch: "You have questions? Get in touch with us."
@@ -2389,6 +2390,7 @@ si:
   permission_save_queries: "අදහස් සුරකින්න"
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "ව්යාපෘති මොඩියුල තෝරන්න"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "වර්ග තෝරන්න"
   permission_view_changesets: "OpenProject හි නිධි සංශෝධන බලන්න"
   permission_view_commit_author_statistics: "කතෘ සංඛ්යා ලේඛන බලන්න"

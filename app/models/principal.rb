@@ -43,8 +43,9 @@ class Principal < ApplicationRecord
   has_one :preference,
           dependent: :destroy,
           class_name: 'UserPreference',
-          foreign_key: 'user_id'
-  has_many :members, foreign_key: 'user_id', dependent: :destroy
+          foreign_key: 'user_id',
+          inverse_of: :user
+  has_many :members, foreign_key: 'user_id', dependent: :destroy, inverse_of: :principal
   has_many :memberships,
            -> {
              includes(:project, :roles)
@@ -57,7 +58,7 @@ class Principal < ApplicationRecord
            class_name: 'Member',
            foreign_key: 'user_id'
   has_many :projects, through: :memberships
-  has_many :categories, foreign_key: 'assigned_to_id', dependent: :nullify
+  has_many :categories, foreign_key: 'assigned_to_id', dependent: :nullify, inverse_of: :assigned_to
 
   has_paper_trail
 

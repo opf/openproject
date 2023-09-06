@@ -21,7 +21,7 @@
 #++
 ru:
   plugin_budgets_engine:
-    name: 'Budgets'
+    name: 'Бюджеты'
   activerecord:
     attributes:
       budget:

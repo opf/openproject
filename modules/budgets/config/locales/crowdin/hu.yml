@@ -21,7 +21,7 @@
 #++
 hu:
   plugin_budgets_engine:
-    name: 'Budgets'
+    name: 'Költségvetések'
   activerecord:
     attributes:
       budget:

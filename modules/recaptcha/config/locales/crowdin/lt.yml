@@ -2,7 +2,7 @@
 lt:
   plugin_openproject_recaptcha:
     name: "OpenProject ReCaptcha"
-    description: "This module provides recaptcha checks during login."
+    description: "Šis modulis leidžia recaptcha tikrinimus prisijungimo metu."
   recaptcha:
     label_recaptcha: "reCAPTCHA"
     button_please_wait: 'Prašome palaukti...'

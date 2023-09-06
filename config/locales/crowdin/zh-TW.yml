@@ -1425,7 +1425,7 @@ zh-TW:
     changes_retracted: "更改已被撤銷"
     caused_changes:
       dates_changed: "Dates changed"
-      system_update: "OpenProject update"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1441,7 +1441,8 @@ zh-TW:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: '設定指南'
     get_in_touch: "如有任何問題，歡迎聯繫我們"
@@ -2365,6 +2366,7 @@ zh-TW:
   permission_save_queries: "保存視圖"
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "選擇專案的模組"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "選擇類型"
   permission_view_changesets: "在 OpenProject 檢視版本庫修訂"
   permission_view_commit_author_statistics: "檢視 Commit 的作者統計資訊"

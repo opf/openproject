@@ -21,7 +21,7 @@
 #++
 cs:
   plugin_budgets_engine:
-    name: 'Budgets'
+    name: 'Rozpočty'
   activerecord:
     attributes:
       budget:

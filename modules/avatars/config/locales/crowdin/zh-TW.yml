@@ -1,7 +1,7 @@
 #English strings go here
 zh-TW:
   plugin_openproject_avatars:
-    name: "Avatars"
+    name: "頭像"
     description: >-
       This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
   label_avatar: "頭像分身"

@@ -1442,7 +1442,7 @@ ca:
     changes_retracted: "S'han retractat els canvis."
     caused_changes:
       dates_changed: "Les dates han canviat"
-      system_update: "OpenProject update"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: per canvis en el predecessor %{link}
       work_package_parent_changed_times: per canvis en el pare %{link}
@@ -1458,7 +1458,8 @@ ca:
           working: "%{date} és ara laboral"
           non_working: "%{date} és ara no laboral"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Guia de configuració'
     get_in_touch: "Tens preguntes? Posa't en contacte amb nosaltres."
@@ -2380,6 +2381,7 @@ ca:
   permission_save_queries: "Desar les vistes"
   permission_select_custom_fields: "Selecciona camps personalitzats"
   permission_select_project_modules: "Selecciona els mòduls del projecte"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Seleccioneu tipus"
   permission_view_changesets: "Veure les revisions del repositori a OpenProject"
   permission_view_commit_author_statistics: "Veure les estadístiques de commits de l'autor"

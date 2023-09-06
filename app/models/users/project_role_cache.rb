@@ -33,21 +33,21 @@ class Users::ProjectRoleCache
     self.user = user
   end
 
-  def fetch(project)
-    cache[project] ||= roles(project)
+  def fetch(cacheable)
+    cache[cacheable] ||= roles(cacheable)
   end
 
   private
 
-  def roles(project)
-    # Project is nil if checking global role
-    # No roles on archived projects, unless the active state is being changed
-    return [] if project && archived?(project)
-
+  def roles(context)
     # Return all roles if user is admin
     return all_givable_roles if user.admin?
 
-    ::Authorization.roles(user, project).eager_load(:role_permissions)
+    # Project is nil if checking global role
+    # No roles on archived projects, unless the active state is being changed
+    return [] if context.is_a?(Project) && archived?(context)
+
+    ::Authorization.roles(user, context).eager_load(:role_permissions)
   end
 
   def cache
