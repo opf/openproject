@@ -82,7 +82,7 @@ class PermissionTranslationMocker
 
   def translation_registry
     @translation_registry ||= @permissions.to_h do |name, _options|
-      [name, I18n.exists?("permissions_#{name}")]
+      [name, I18n.exists?("permissions_#{name}", :en)]
     end
   end
 end
