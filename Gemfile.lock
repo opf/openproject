@@ -370,7 +370,7 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
-    css_parser (1.15.0)
+    css_parser (1.16.0)
       addressable
     cuprite (0.14.3)
       capybara (~> 3.0)
@@ -914,7 +914,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    ssrf_filter (1.1.1)
+    ssrf_filter (1.1.2)
     stackprof (0.2.25)
     store_attribute (1.1.1)
       activerecord (>= 6.0)
