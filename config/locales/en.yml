@@ -2505,6 +2505,7 @@ en:
   permission_view_work_package_watchers: "View watchers list"
   permission_view_work_packages: "View work packages"
   permission_view_messages: "View messages"
+  permission_view_news: "View news"
   permission_view_members: "View members"
   permission_view_reportings: "View reportings"
   permission_view_time_entries: "View spent time"
@@ -2513,6 +2514,12 @@ en:
   permission_view_wiki_pages: "View wiki"
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
+  permission_view_project_activity: "View project activitiy"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
 
   placeholders:
     default: "-"
