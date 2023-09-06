@@ -112,6 +112,8 @@ module Capabilities::Scopes
                                                           FROM members
                                                           WHERE members.project_id = projects.id
                                                           AND members.user_id = users.id
+                                                          AND members.entity_type IS NULL
+                                                          AND members.entity_id IS NULL
                                                           LIMIT 1))
           LEFT OUTER JOIN enabled_modules
             ON enabled_modules.project_id = projects.id

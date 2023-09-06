@@ -503,6 +503,23 @@ RSpec.describe Capabilities::Scopes::Default do
 
         include_examples 'is empty'
       end
+
+      context 'for a public project' do
+        let(:non_member_permissions) { %i[view_members] }
+        let(:members) { [work_package_member, non_member_role] }
+
+        before do
+          project.update(public: true)
+        end
+
+        include_examples 'consists of contract actions', with: 'the actions of the non member role`s permission' do
+          let(:expected) do
+            [
+              ['memberships/read', user.id, project.id]
+            ]
+          end
+        end
+      end
     end
   end
 end
