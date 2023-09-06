@@ -28,28 +28,20 @@
 
 class MeetingAgendaItem::Author < ApplicationForm
   form do |agenda_item_form|
-    agenda_item_form.select_list(
+    agenda_item_form.autocompleter(
       name: :author_id,
       label: MeetingAgendaItem.human_attribute_name(:author),
-      include_blank: false,
       visually_hide_label: true,
-      disabled: @disabled
-    ) do |user_select_list|
-      # TODO: Clarify scoping!
-      User.active
-        .order(:id)
-        .limit(50)
-        .map { |user| [user.name, user.id] }
-        .each do |name, id|
-          user_select_list.option(
-            label: name,
-            value: id
-          )
-        end
-    end
+      autocomplete_options: {
+        resource: 'users',
+        searchKey: 'any_name_attribute',
+        disabled: @disabled
+      }
+    )
   end
 
   def initialize(disabled: false)
+    super()
     @disabled = disabled
   end
 end
