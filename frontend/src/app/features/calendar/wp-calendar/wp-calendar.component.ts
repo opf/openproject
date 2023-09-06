@@ -45,7 +45,7 @@ import {
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import * as moment from 'moment';
-import { Subject } from 'rxjs';
+import { Subject, firstValueFrom } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import { States } from 'core-app/core/states/states.service';
@@ -92,6 +92,7 @@ import {
   addBackgroundEvents,
   removeBackgroundEvents,
 } from 'core-app/features/team-planner/team-planner/planner/background-events';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   templateUrl: './wp-calendar.template.html',
@@ -114,6 +115,8 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
   @Input() static = false;
 
   calendarOptions$ = new Subject<CalendarOptions>();
+
+  initialCalendarView = 'dayGridMonth';
 
   private alreadyLoaded = false;
 
@@ -142,6 +145,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     readonly halNotification:HalResourceNotificationService,
     readonly weekdayService:WeekdayService,
     readonly dayService:DayResourceService,
+    readonly apiV3Service:ApiV3Service,
   ) {
     super();
   }
@@ -163,8 +167,10 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
 
     // Clear any old subscribers
     this.querySpace.stopAllSubscriptions.next();
-
-    this.initializeCalendar();
+    firstValueFrom(this.apiV3Service.queries.find({ pageSize: 0 }, this.workPackagesCalendar.urlParams.query_id)).then((e)=>{
+      this.initialCalendarView = e.displayRepresentation || 'dayGridMonth';
+      this.initializeCalendar();
+    });
   }
 
   public async calendarEventsFunction(
@@ -198,6 +204,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     const additionalOptions:{ [key:string]:unknown } = {
       height: '100%',
       headerToolbar: this.buildHeader(),
+      initialView: this.initialCalendarView,
       eventSources: [
         {
           id: 'work_packages',
