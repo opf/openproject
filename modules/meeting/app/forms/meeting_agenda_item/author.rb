@@ -38,6 +38,7 @@ class MeetingAgendaItem::Author < ApplicationForm
       # TODO: Clarify scoping!
       User.active
         .order(:id)
+        .limit(50)
         .map { |user| [user.name, user.id] }
         .each do |name, id|
           user_select_list.option(

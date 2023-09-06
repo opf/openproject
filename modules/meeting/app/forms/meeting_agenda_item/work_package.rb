@@ -32,7 +32,11 @@ class MeetingAgendaItem::WorkPackage < ApplicationForm
       name: :work_package_id,
       label: WorkPackage.model_name.human,
       visually_hide_label: true,
-      disabled: @disabled # TODO: not working yet
+      autocomplete_options: {
+        resource: 'work_packages',
+        searchKey: 'subjectOrId',
+        disabled: @disabled
+      }
     )
   end
 

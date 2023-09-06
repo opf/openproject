@@ -1,12 +1,10 @@
 <%= render(FormControl.new(input: @input)) do %>
   <%= angular_component_tag 'opce-autocompleter',
-                            inputs: {
+                            inputs: @autocomplete_options.merge({
                               classes: @input.invalid? ? '-error' : '',
                               inputName: builder.field_name(@input.name),
                               inputValue: builder.object.send(@input.name),
-                              resource: 'work_packages',
-                              defaultData: 'true',
-                              searchKey: 'subjectOrId',
-                            }
+                              defaultData: 'true'
+                            })
   %>
 <% end %>
