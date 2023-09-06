@@ -187,19 +187,19 @@ RSpec.describe CostQuery, reporting_query_helper: true do
 
     it "filters spent_on" do
       query.filter :spent_on, operator: 'w'
-      expect(query.result.count).to eq(Entry.all.select { |e| e.spent_on.cweek == TimeEntry.all.first.spent_on.cweek }.count)
+      expect(query.result.count).to eq(Entry.all.count { |e| e.spent_on.cweek == TimeEntry.all.first.spent_on.cweek })
     end
 
     it "filters created_at" do
       query.filter :created_on, operator: 't'
       # we assume that some of our fixtures set created_at to Time.now
-      expect(query.result.count).to eq(Entry.all.select { |e| e.created_at.to_date == Time.zone.today }.count)
+      expect(query.result.count).to eq(Entry.all.count { |e| e.created_at.to_date == Time.zone.today })
     end
 
     it "filters updated_at" do
       query.filter :updated_on, value: Time.zone.today.years_ago(20), operator: '>d'
       # we assume that our were updated in the last 20 years
-      expect(query.result.count).to eq(Entry.all.select { |e| e.updated_at.to_date > Time.zone.today.years_ago(20) }.count)
+      expect(query.result.count).to eq(Entry.all.count { |e| e.updated_at.to_date > Time.zone.today.years_ago(20) })
     end
 
     it "filters user_id" do
@@ -228,7 +228,7 @@ RSpec.describe CostQuery, reporting_query_helper: true do
 
       it "filters overridden_costs" do
         query.filter :overridden_costs, operator: 'y'
-        expect(query.result.count).to eq(Entry.all.reject { |e| e.overridden_costs.nil? }.count)
+        expect(query.result.count).to eq(Entry.all.count { |e| !(e.overridden_costs.nil?) })
       end
 
       it "filters status" do

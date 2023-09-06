@@ -54,7 +54,7 @@ module Queries::Filters::Strategies
     private
 
     def too_many_values
-      values.reject(&:blank?).length > 1
+      values.count { |element| !element.blank? } > 1
     end
   end
 end
