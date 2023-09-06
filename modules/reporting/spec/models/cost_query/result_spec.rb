@@ -109,11 +109,11 @@ RSpec.describe CostQuery, reporting_query_helper: true do
     end
 
     it "computes units correctly" do
-      expect(query.result.units).to eq(Entry.all.map(&:units).sum)
+      expect(query.result.units).to eq(Entry.all.sum(&:units))
     end
 
     it "computes real_costs correctly" do
-      expect(query.result.real_costs).to eq(Entry.all.map { |e| e.overridden_costs || e.costs }.sum)
+      expect(query.result.real_costs).to eq(Entry.all.sum { |e| e.overridden_costs || e.costs })
     end
 
     it "computes count for DirectResults" do
