@@ -43,15 +43,13 @@ module WorkPackages
     private
 
     def user_allowed_to_add
-      if (model.project && !@user.allowed_to?(:add_work_packages, model.project)) ||
-         !@user.allowed_to_globally?(:add_work_packages)
+      if !@user.allowed_to?(:add_work_packages, model.project)
         errors.add(:base, :error_unauthorized)
       end
     end
 
     def user_allowed_to_manage_file_links
-      # as the WorkPackage is not persisted yet, we don't need to check for the permission on the work package itself
-      if model.file_links.present? && model.project.present? && !user.allowed_to?(:manage_file_links, model.project)
+      if model.file_links.present? && !user.allowed_to?(:manage_file_links, model.project)
         errors.add(:base, :error_unauthorized)
       end
     end

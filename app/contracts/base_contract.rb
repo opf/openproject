@@ -256,11 +256,11 @@ class BaseContract < Disposable::Twin
 
   def permitted?(permission)
     if Member.can_be_member_of?(model)
-      user.allowed_to?(permission, model)
+      user.allowed_to_in_entity?(permission, model)
     elsif model.respond_to?(:project) && model.project
-      user.allowed_to?(permission, model.project)
+      user.allowed_to_in_project?(permission, model.project)
     else
-      user.allowed_to?(permission, nil, global: true)
+      user.allowed_to_globally?(permission)
     end
   end
 end
