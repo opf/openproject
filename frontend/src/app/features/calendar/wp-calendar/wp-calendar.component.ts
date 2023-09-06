@@ -83,7 +83,6 @@ import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
 import {
   EffectCallback,
-  EffectHandler,
   registerEffectCallbacks,
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import { calendarRefreshRequest } from 'core-app/features/calendar/calendar.actions';
@@ -150,7 +149,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     super();
   }
 
-  ngOnInit():void {
+  async ngOnInit():Promise<void> {
     registerEffectCallbacks(this, this.untilDestroyed());
 
     this.wpTableFilters.hidden.push(
@@ -167,7 +166,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
 
     // Clear any old subscribers
     this.querySpace.stopAllSubscriptions.next();
-    firstValueFrom(this.apiV3Service.queries.find({ pageSize: 0 }, this.workPackagesCalendar.urlParams.query_id)).then((e)=>{
+    await firstValueFrom(this.apiV3Service.queries.find({ pageSize: 0 }, this.workPackagesCalendar.urlParams.query_id as string)).then((e) => {
       this.initialCalendarView = e.displayRepresentation || 'dayGridMonth';
       this.initializeCalendar();
     });
