@@ -72,6 +72,7 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
     let(:type_task) { create(:type_task) }
     let(:type_bug) { create(:type_bug) }
     let(:closed_status) { create(:status, is_closed: true) }
+    let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
 
     let!(:other_task) do
       create(:work_package,
@@ -286,6 +287,19 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
 
       team_planner.expect_assignee(user)
       team_planner.expect_assignee(other_user, present: false)
+    end
+
+    it 'shows the saved view' do
+      team_planner.visit!
+      team_planner.switch_view_mode('2-week')
+
+      settings_menu.open_and_save_query '2-week team planner view'
+
+      within '#main-menu' do
+        click_link 'Team planners'
+        click_link '2-week team planner view'
+      end
+      expect(page).to have_selector('[data-qa-selector="op-team-planner--view-select-dropdown"]', text: "2-week")
     end
 
     it 'filters possible assignees correctly' do
