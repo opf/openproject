@@ -40,7 +40,7 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model, webmock: true do
   let(:scope) { [:all] } # OAuth2 resources to access, specific to provider
   let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user:) }
 
-  let(:instance) { described_class.new(user:, oauth_client:, configuration: storage.oauth_configuration) }
+  let(:instance) { described_class.new(user:, configuration: storage.oauth_configuration) }
 
   # The get_authorization_uri method returns the OAuth2 authorization URI as a string. That URI is the starting point for
   # a user to grant OpenProject access to Nextcloud.
@@ -384,10 +384,7 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model, webmock: true do
           end
         end
 
-        context 'with parrallel requests for refresh',
-                :aggregate_failures,
-                use_transactional_fixtures: false,
-                webmock: true do
+        context 'with parrallel requests for refresh', :aggregate_failures do
           after do
             Storages::Storage.destroy_all
             User.destroy_all
@@ -415,12 +412,12 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model, webmock: true do
             result2 = nil
             thread1 = Thread.new do
               ApplicationRecord.connection_pool.with_connection do
-                result1 = described_class.new(user:, oauth_client:).refresh_token.result
+                result1 = described_class.new(user:, configuration: storage.oauth_configuration).refresh_token.result
               end
             end
             thread2 = Thread.new do
               ApplicationRecord.connection_pool.with_connection do
-                result2 = described_class.new(user:, oauth_client:).refresh_token.result
+                result2 = described_class.new(user:, configuration: storage.oauth_configuration).refresh_token.result
               end
             end
             thread1.join
@@ -452,12 +449,12 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model, webmock: true do
             thread1 = Thread.new do
               ApplicationRecord.connection_pool.with_connection do
                 sleep(3)
-                result1 = described_class.new(user:, oauth_client:).refresh_token.result
+                result1 = described_class.new(user:, configuration: storage.oauth_configuration).refresh_token.result
               end
             end
             thread2 = Thread.new do
               ApplicationRecord.connection_pool.with_connection do
-                result2 = described_class.new(user:, oauth_client:).refresh_token.result
+                result2 = described_class.new(user:, configuration: storage.oauth_configuration).refresh_token.result
               end
             end
             thread1.join

@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-RSpec.describe OAuthClients::OneDriveConnectionManager, type: :model, webmock: true do
+RSpec.describe OAuthClients::ConnectionManager, type: :model, webmock: true do
   let(:user) { create(:user) }
   let(:storage) { create(:one_drive_storage, :with_oauth_client, tenant_id: 'consumers') }
   let(:token) { create(:oauth_client_token, oauth_client: storage.oauth_client, user:) }
@@ -43,7 +43,7 @@ RSpec.describe OAuthClients::OneDriveConnectionManager, type: :model, webmock: t
     it 'always add the necessary scopes' do
       uri = connection_manager.get_authorization_uri(scope: nil, state: nil)
 
-      expect(uri).to include OAuthClients::OneDriveConnectionManager::DEFAULT_SCOPES.join('%20')
+      expect(uri).to include storage.oauth_configuration.compute_scopes(nil).join('%20')
     end
 
     it 'adds the state if present' do

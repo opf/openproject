@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 #++
 
@@ -17,28 +19,18 @@ module Storages
         end
 
         def authorization_state_check(access_token)
-          # response =
-          Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-            http.get('/v1.0/me', { 'Authorization' => "Bearer #{access_token}" })
+          response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
+            http.get('/v1.0/me', { 'Authorization' => "Bearer #{access_token}", 'Accept' => 'application/json' })
           end
-          #
-          #   case response
-          #   when Net::HTTPSuccess
-          #     :connected
-          #   when Net::HTTPForbidden, Net::HTTPUnauthorized
-          #     service_result = refresh_token
-          #     if service_result.success?
-          #       :connected
-          #     elsif service_result.result == 'invalid_request'
-          #       :failed_authorization
-          #     else
-          #       :error
-          #     end
-          #   else
-          #     raise StandardError, 'not sure what to do'
-          #   end
-          # rescue StandardError
-          #   :error
+
+          case response
+          when Net::HTTPSuccess
+            :success
+          when Net::HTTPForbidden, Net::HTTPUnauthorized
+            :refresh_needed
+          else
+            :error
+          end
         end
 
         def compute_scopes(scopes)

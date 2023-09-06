@@ -101,8 +101,8 @@ module Storages
           end
 
           def using_user_token(user, &block)
-            connection_manager = ::OAuthClients::OneDriveConnectionManager
-              .new(user:, oauth_client: @storage.oauth_client, tenant_id: @storage.tenant_id)
+            connection_manager = ::OAuthClients::ConnectionManager
+              .new(user:, configuration: @storage.oauth_configuration)
 
             connection_manager
               .get_access_token
