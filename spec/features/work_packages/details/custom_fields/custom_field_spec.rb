@@ -40,7 +40,7 @@ RSpec.describe 'custom field inplace editor', js: true do
 
   describe 'long text' do
     let(:custom_field) do
-      create(:text_issue_custom_field, name: 'LongText')
+      create(:issue_custom_field, :text, name: 'LongText')
     end
     let(:field) { TextEditorField.new wp_page, property_name }
     let(:initial_custom_values) { { custom_field.id => 'foo' } }
@@ -124,7 +124,7 @@ RSpec.describe 'custom field inplace editor', js: true do
 
   describe 'integer type' do
     let(:custom_field) do
-      create(:integer_issue_custom_field, args.merge(name: 'MyNumber'))
+      create(:issue_custom_field, :integer, args.merge(name: 'MyNumber'))
     end
     let(:initial_custom_values) { { custom_field.id => 123 } }
 

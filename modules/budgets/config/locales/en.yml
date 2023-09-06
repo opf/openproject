@@ -28,6 +28,9 @@
 
 ---
 en:
+  plugin_budgets_engine:
+    name: 'Budgets'
+
   activerecord:
     attributes:
       budget:

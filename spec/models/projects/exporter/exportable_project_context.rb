@@ -28,9 +28,9 @@
 
 RSpec.shared_context 'with a project with an arrangement of custom fields' do
   shared_let(:version_cf) { create(:version_project_custom_field, position: 1) }
-  shared_let(:bool_cf) { create(:bool_project_custom_field, position: 2) }
+  shared_let(:bool_cf) { create(:boolean_project_custom_field, position: 2) }
   shared_let(:user_cf) { create(:user_project_custom_field, position: 3) }
-  shared_let(:int_cf) { create(:int_project_custom_field, position: 4) }
+  shared_let(:int_cf) { create(:integer_project_custom_field, position: 4) }
   shared_let(:float_cf) { create(:float_project_custom_field, position: 5) }
   shared_let(:text_cf) { create(:text_project_custom_field, position: 6) }
   shared_let(:string_cf) { create(:string_project_custom_field, position: 7) }

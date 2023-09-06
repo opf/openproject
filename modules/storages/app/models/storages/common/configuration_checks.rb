@@ -25,22 +25,26 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+module Storages::Common
+  module ConfigurationChecks
+    extend ActiveSupport::Concern
 
-module Redmine
-  module About
-    module_function
-
-    def print_plugin_info
-      plugins = Redmine::Plugin.registered_plugins
-
-      if !plugins.empty?
-        column_with = plugins.map { |_internal_name, plugin| plugin.name.length }.max
-        puts "\nAbout your Redmine plugins"
-
-        plugins.each do |_internal_name, plugin|
-          puts sprintf("%-#{column_with}s   %s", plugin.name, plugin.version)
-        end
+    included do
+      scope :configured, -> do
+        where.associated(:oauth_client, :oauth_application)
+        .where("storages.host IS NOT NULL AND storages.name IS NOT NULL")
       end
+    end
+
+    def configured?
+      configuration_checks.values.all?
+    end
+
+    def configuration_checks
+      { host_name_configured: (host.present? && name.present?),
+        openproject_oauth_application_configured: oauth_application.present?,
+        storage_oauth_client_configured: oauth_client.present? }
     end
   end
 end

@@ -1,5 +1,9 @@
 #English strings go here
 ne:
+  plugin_openproject_avatars:
+    name: "अवतारहरू "
+    description: >-
+      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
   label_avatar: "अवतार"
   label_avatar_plural: "अवतारहरू "
   label_current_avatar: "बर्तमान अवतार "
@@ -35,6 +39,3 @@ ne:
       enable_gravatars: 'Enable user gravatars'
       gravatar_default: "Default Gravatar image"
       enable_local_avatars: 'Enable user custom avatars'
-
-
-

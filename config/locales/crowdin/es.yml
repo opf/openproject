@@ -1443,7 +1443,7 @@ es:
     changes_retracted: "Se deshicieron los cambios."
     caused_changes:
       dates_changed: "Cambio de fechas"
-      system_update: "Actualizar OpenProject"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: por cambios al %{link} predecesor
       work_package_parent_changed_times: por cambios al %{link} principal
@@ -1459,7 +1459,8 @@ es:
           working: "%{date} es ahora laboral"
           non_working: "%{date} es ahora no laboral"
       system_update:
-        file_links_journal: 'añadido Enlaces de archivos a Actividades'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Guía de configuración'
     get_in_touch: "¿Tiene alguna pregunta? Póngase en contacto con nosotros."
@@ -3150,3 +3151,9 @@ es:
     response:
       unexpected: "Se ha recibido una respuesta inesperada."
   you: su usuario
+  plugin_openproject_auth_plugins:
+    name: "OpenProject Auth Plugins"
+    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / Single-Sign On"
+    description: "Adds the OmniAuth SAML provider to OpenProject"

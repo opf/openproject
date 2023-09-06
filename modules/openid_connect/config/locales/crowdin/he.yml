@@ -1,11 +1,14 @@
 he:
+  plugin_openproject_openid_connect:
+    name: "OpenProject OpenID Connect"
+    description: "Adds OmniAuth OpenID Connect strategy providers to Openproject."
   logout_warning: >
     You have been logged out. The contents of any form you submit may be lost. Please [log in].
   activemodel:
     attributes:
       openid_connect/provider:
         name: שם
-        display_name: Display name
+        display_name: שם תצוגה
         identifier: מזהה
         secret: Secret
         scope: Scope

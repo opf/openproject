@@ -38,7 +38,7 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
            is_for_all: true)
   end
   let(:custom_field2) { create(:work_package_custom_field) }
-  let(:custom_field_user) { create(:user_issue_custom_field) }
+  let(:custom_field_user) { create(:issue_custom_field, :user) }
   let(:status) { create(:status) }
   let(:type) do
     create(:type_standard,

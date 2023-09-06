@@ -34,7 +34,7 @@ RSpec.describe WorkPackageCustomField do
       create(:list_wp_custom_field)
     end
     let!(:int_custom_field) do
-      create(:int_wp_custom_field)
+      create(:integer_wp_custom_field)
     end
     let!(:float_custom_field) do
       create(:float_wp_custom_field)
@@ -43,7 +43,7 @@ RSpec.describe WorkPackageCustomField do
     context 'with a summable field' do
       it 'contains the custom_field' do
         expect(described_class.summable)
-          .to match_array [int_custom_field, float_custom_field]
+          .to contain_exactly(int_custom_field, float_custom_field)
       end
     end
   end

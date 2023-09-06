@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -61,7 +63,7 @@ class OAuthClientsController < ApplicationController
       redirect_user_or_admin(@redirect_uri) do
         # If the current user is an admin, we send her directly to the
         # settings that she needs to edit.
-        redirect_to admin_settings_storage_path(@oauth_client.integration)
+        redirect_to edit_admin_settings_storage_path(@oauth_client.integration)
       end
     end
   end
@@ -96,7 +98,7 @@ class OAuthClientsController < ApplicationController
       redirect_user_or_admin(get_redirect_uri) do
         # If the current user is an admin, we send her directly to the
         # settings that she needs to edit/fix.
-        redirect_to admin_settings_storage_path(@oauth_client.integration)
+        redirect_to edit_admin_settings_storage_path(@oauth_client.integration)
       end
     end
   end
@@ -118,7 +120,7 @@ class OAuthClientsController < ApplicationController
 
       redirect_user_or_admin(nil) do
         # Guide the user to the settings that she needs to edit/fix.
-        redirect_to admin_settings_storage_path(@oauth_client.integration)
+        redirect_to edit_admin_settings_storage_path(@oauth_client.integration)
       end
     end
   end

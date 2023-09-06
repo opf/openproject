@@ -53,3 +53,21 @@ service openproject restart
 ```
 
 For Docker-based installations, add the ENV variable to your env file and restart the containers.
+
+
+## Health checks
+
+OpenProject uses the [okcomputer gem](https://github.com/sportngin/okcomputer) to provide built-in health checks on database, web, and background workers.
+
+We provide the following health checks: 
+
+- `https://your-hostname.example.tld/health_checks/default` - An application level check to ensure the web workers are running.
+- `https://your-hostname.example.tld/health_checks/database` - A database liveliness check.
+- `https://your-hostname.example.tld/health_checks/delayed_jobs_never_ran` - A check to ensure background jobs are being processed.
+- `https://your-hostname.example.tld/health_checks/delayed_jobs_backed_up` - A check to determine whether background workers are at capacity and might need to be scaled up to provide timely processing of mails and other background work.
+- `https://your-hostname.example.tld/health_checks/all` - All of the above checks and additional checks combined as one. Not recommended as the liveliness check of a pod/container.
+
+### Optional authentication
+
+You can optionally provide a setting `health_checks_authentication_password` (`OPENPROJECT_HEALTH__CHECKS__AUTHENTICATION__PASSWORD`) that will add a basic auth challenge to the `/health_checks` endpoint. Please be aware that this might break existing container health services in place in the docker-compose and k8s based deployments, so use with care or prefer to use a network based separation instead on your proxy level.
+

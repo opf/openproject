@@ -423,7 +423,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe 'custom fields' do
-      let(:available_custom_fields) { [build_stubbed(:int_wp_custom_field)] }
+      let(:available_custom_fields) { [build_stubbed(:integer_wp_custom_field)] }
 
       it 'uses a CustomFieldInjector' do
         allow(API::V3::Utilities::CustomFieldInjector).to receive(:create_value_representer).and_call_original

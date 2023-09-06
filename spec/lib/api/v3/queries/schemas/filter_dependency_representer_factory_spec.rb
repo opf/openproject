@@ -90,7 +90,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
 
       context 'type int' do
-        let(:custom_field) { build_stubbed(:int_wp_custom_field) }
+        let(:custom_field) { build_stubbed(:integer_wp_custom_field) }
 
         it 'is the integer dependency' do
           expect(subject).to be_a(API::V3::Queries::Schemas::IntegerFilterDependencyRepresenter)
@@ -160,7 +160,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
 
       context 'type bool' do
-        let(:custom_field) { build_stubbed(:bool_wp_custom_field) }
+        let(:custom_field) { build_stubbed(:boolean_wp_custom_field) }
 
         it 'is the boolean filter dependency' do
           expect(subject).to be_a(API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter)

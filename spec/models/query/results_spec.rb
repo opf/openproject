@@ -216,7 +216,7 @@ RSpec.describe Query::Results do
 
     context 'when grouping by int custom field' do
       let!(:custom_field) do
-        create(:int_wp_custom_field,
+        create(:integer_wp_custom_field,
                is_for_all: true,
                is_filter: true,
                projects: [project1],
@@ -260,7 +260,7 @@ RSpec.describe Query::Results do
 
     context 'when grouping by bool custom field' do
       let!(:custom_field) do
-        create(:bool_wp_custom_field,
+        create(:boolean_wp_custom_field,
                is_for_all: true,
                is_filter: true,
                projects: [project1],
@@ -353,7 +353,7 @@ RSpec.describe Query::Results do
         let(:query) { build(:query, project: project2) }
 
         it 'displays only wp for selected project and selected role' do
-          expect(query_results.work_packages).to match_array([wp_p2])
+          expect(query_results.work_packages).to contain_exactly(wp_p2)
         end
       end
 
@@ -361,7 +361,7 @@ RSpec.describe Query::Results do
         let(:query) { build(:query, project: nil) }
 
         it 'displays all wp from projects where User.current has access' do
-          expect(query_results.work_packages).to match_array([wp_p2, wp2_p2])
+          expect(query_results.work_packages).to contain_exactly(wp_p2, wp2_p2)
         end
       end
     end
@@ -400,7 +400,7 @@ RSpec.describe Query::Results do
                           .page(1)
                           .per_page(10)
 
-          expect(work_packages).to match_array([wp_p2, wp2_p2])
+          expect(work_packages).to contain_exactly(wp_p2, wp2_p2)
         end
       end
 
@@ -418,7 +418,7 @@ RSpec.describe Query::Results do
                           .page(1)
                           .per_page(10)
 
-          expect(work_packages).to match_array([wp_p2, wp2_p2])
+          expect(work_packages).to contain_exactly(wp_p2, wp2_p2)
         end
       end
     end
@@ -485,7 +485,7 @@ RSpec.describe Query::Results do
     end
 
     let(:bool_cf) do
-      create(:bool_wp_custom_field,
+      create(:boolean_wp_custom_field,
              is_filter: true,
              projects: [work_package1.project],
              types: [work_package1.type])
@@ -575,7 +575,7 @@ RSpec.describe Query::Results do
       let(:custom_value) { nil }
       let(:filter_value) { 'f' }
       let(:bool_cf) do
-        create(:bool_wp_custom_field,
+        create(:boolean_wp_custom_field,
                is_filter: true,
                types: [work_package1.type])
       end
@@ -590,7 +590,7 @@ RSpec.describe Query::Results do
       let(:custom_value) { nil }
       let(:filter_value) { 'f' }
       let(:bool_cf) do
-        create(:bool_wp_custom_field,
+        create(:boolean_wp_custom_field,
                is_filter: true,
                is_for_all: true,
                projects: [work_package1.project])

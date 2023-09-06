@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), t("project_module_storages"), @storage.name, t("storages.page_titles.managed_project_folders.title") %>
 <% local_assigns[:additional_breadcrumb] = [
-  link_to(@storage.name, admin_settings_storage_path(@storage)),
+  link_to(@storage.name, edit_admin_settings_storage_path(@storage)),
   t("storages.label_managed_project_folders_breadcrumb")
 ] %>
 <%= toolbar title: t("storages.page_titles.managed_project_folders.title"),
@@ -98,7 +98,7 @@ See COPYRIGHT and LICENSE files for more details.
       <%= styled_button_tag t("storages.buttons.save"), class: "-highlight -with-icon icon-checkmark" %>
     <% end %>
 
-    <%= link_to admin_settings_storage_path(@storage), class: 'button' do %>
+    <%= link_to edit_admin_settings_storage_path(@storage), class: 'button' do %>
       <%= spot_icon('cancel') %>
       <%= content_tag :span, t(:button_cancel) %>
     <% end %>

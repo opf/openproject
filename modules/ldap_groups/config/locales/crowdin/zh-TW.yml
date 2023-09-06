@@ -1,4 +1,7 @@
 zh-TW:
+  plugin_openproject_ldap_groups:
+    name: "OpenProject LDAP groups"
+    description: "Synchronization of LDAP group memberships."
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
@@ -20,7 +23,7 @@ zh-TW:
           must_contain_base_dn: "搜尋基礎 DN 須包含在 LDAP 連接的基礎 DN 中"
   ldap_groups:
     label_menu_item: 'LDAP 群組同步'
-    label_group_key: 'LDAP group filter key'
+    label_group_key: 'LDAP 組篩選器密鑰'
     label_synchronize: '同步'
     settings:
       name_attribute: 'LDAP群組名屬性'
@@ -48,14 +51,14 @@ zh-TW:
       destroy:
         title: '移除同步的群組 %{name}'
         confirmation: "如繼續，將移除同步的群組 %{name} 和所有透過該群組同步的全部 %{users_count} 個用戶。"
-        info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
+        info: "注意：OpenProject 群組本身以及在 LDAP 同步之外添加的成員將不會被移除。"
         verification: "輸入專案的名稱 %{name} 來確認刪除"
       help_text_html: |
-        This module allows you to set up a synchronization between LDAP and OpenProject groups.
-        It depends on LDAP groups need to use the <em>groupOfNames / memberOf</em> attribute set to be working with OpenProject.
+        此模塊允許您在 LDAP 與 OpenProject 群組之間設置同步。
+        它要求 LDAP 群組使用 <em>groupOfNames / memberOf</em> 屬性集才能與 OpenProject 一起使用。
         <br/>
-        Groups are synchronized hourly through a cron job.
-        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please see our documentation on this topic</a>.
+        群組通過 Cron 作業每小時同步。
+        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">請參閱我們關於此主題的文檔</a>。
       no_results: '找不到同步的群組。'
       no_members: '這個群組還沒有同步的成員。'
       plural: '同步的 LDAP 群組'
@@ -63,9 +66,8 @@ zh-TW:
       form:
         auth_source_text: '選擇要使用的 LDAP 連接。'
         sync_users_text: >
-          If you enable this option, found users will also be automatically created in OpenProject. Without it, only existing accounts in OpenProject will be added to groups.
+          如果啓用此選項，則還會在 OpenProject 中自動創建找到的用戶。如果不啓用，只有 OpenProject 中的現有帳戶會被添加到群組中。
         dn_text: '輸入 LDAP 中群組的完成 DN'
-        group_text: 'Select an existing OpenProject group that members of the LDAP group shall be synchronized with'
+        group_text: '選擇 LDAP 群組的成員應與其同步的現有 OpenProject 群組'
       upsale:
-        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
-
+        description: '利用同步的 LDAP 群組來管理用戶、更改其權限並促進跨群組的用戶管理。'

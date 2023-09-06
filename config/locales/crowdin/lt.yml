@@ -1485,7 +1485,7 @@ lt:
     changes_retracted: "Pakeitimai buvo atšaukti."
     caused_changes:
       dates_changed: "Datos pasikeitė"
-      system_update: "OpenProject atnaujinimas"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: dėl pirmtako pakeitimų %{link}
       work_package_parent_changed_times: dėl tėvo pakeitimų %{link}
@@ -1501,7 +1501,8 @@ lt:
           working: "%{date} dabar yra darbo"
           non_working: "%{date} dabar yra nedarbo"
       system_update:
-        file_links_journal: 'Failų nuorodos pridėtos į veiksmus'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Konfigūravimo vadovas'
     get_in_touch: "Turite klausimų? Susisiekite su mumis."
@@ -3197,3 +3198,9 @@ lt:
     response:
       unexpected: "Gautas netikėtas atsakas."
   you: jūs
+  plugin_openproject_auth_plugins:
+    name: "OpenProject Auth Priedai"
+    description: "Openproject autentifikacijos OmniAuth strategijos teikėjų integracija."
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / Vienas prisijungimas"
+    description: "Prideda OmniAuth SAML tiekėja į OpenProject"

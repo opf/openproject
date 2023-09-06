@@ -1,5 +1,8 @@
 #English strings go here
 uk:
+  plugin_openproject_storages:
+    name: "OpenProject Storages"
+    description: "Allows linking work packages to files in external storages, such as Nextcloud."
   permission_view_file_links: "Перегляд посилань на файл"
   permission_manage_file_links: "Керування посиланнями на файл"
   permission_manage_storages_in_project: "Керування файловими сховищами в проєкті"
@@ -100,6 +103,8 @@ uk:
     help_texts:
       project_folder: >
         Папка проєкту – це папка за замовчуванням для файлів, які передаються в цей проєкт. Однак користувачі можуть передавати файли в інші розташування.
+    configuration_checks:
+      incomplete: "The setup of this storage is incomplete."
     delete_warning:
       storage: >
         Справді видалити це сховище? Це сховище буде також видалено з усіх проєктів, де воно використовувалося. Крім того, буде видалено всі посилання в пакетах робіт на файли, які зберігалися в цьому сховищі.

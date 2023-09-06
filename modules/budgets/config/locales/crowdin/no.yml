@@ -20,6 +20,8 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 "no":
+  plugin_budgets_engine:
+    name: 'Budsjetter'
   activerecord:
     attributes:
       budget:

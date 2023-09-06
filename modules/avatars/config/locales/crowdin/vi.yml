@@ -1,5 +1,9 @@
 #English strings go here
 vi:
+  plugin_openproject_avatars:
+    name: "Các hình đại diện"
+    description: >-
+      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
   label_avatar: "Hình đại diện"
   label_avatar_plural: "Các hình đại diện"
   label_current_avatar: "Hình đại diện hiện tại"
@@ -34,6 +38,3 @@ vi:
       enable_gravatars: 'Bật gravatars của người dùng'
       gravatar_default: "Hình ảnh Gravatar mặc định"
       enable_local_avatars: 'Cho phép người dùng tùy chỉnh hình đại diện'
-
-
-

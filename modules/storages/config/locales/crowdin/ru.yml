@@ -1,5 +1,8 @@
 #English strings go here
 ru:
+  plugin_openproject_storages:
+    name: "OpenProject Storages"
+    description: "Allows linking work packages to files in external storages, such as Nextcloud."
   permission_view_file_links: "Просмотр ссылок на файл"
   permission_manage_file_links: "Управление ссылками файлов"
   permission_manage_storages_in_project: "Управление файловыми хранилищами в проекте"
@@ -100,6 +103,8 @@ ru:
     help_texts:
       project_folder: >
         Папка проекта является папкой по умолчанию для загрузки файлов для этого проекта. Тем не менее, пользователи по-прежнему могут загружать файлы в другие места.
+    configuration_checks:
+      incomplete: "The setup of this storage is incomplete."
     delete_warning:
       storage: >
         Вы уверены, что хотите удалить это хранилище? Это также удалит хранилище из всех проектов, где оно используется. Кроме того, будут удалены все ссылки из пакетов работ на файлы, хранящиеся в этом хранилище.

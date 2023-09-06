@@ -839,7 +839,7 @@ hu:
           is_not_a_valid_target_for_time_entries: "A  #%{id} feladatcsoport nem érvényes cél az idő bejegyzések ismételt hozzárendeléséhez."
           attributes:
             assigned_to:
-              format: "%{message}"
+              format: "%{message}\n"
             due_date:
               not_start_date: "nincs kezdő dátum, ez szükséges a fordulóponthoz."
               cannot_be_null: "nem állítható nullára, mivel a kezdés dátuma és időtartama ismert."
@@ -1443,7 +1443,7 @@ hu:
     changes_retracted: "A módosítások visszavonásra kerültek."
     caused_changes:
       dates_changed: "Dates changed"
-      system_update: "OpenProject update"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1459,7 +1459,8 @@ hu:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Konfigurációs útmutató'
     get_in_touch: "Kérdése van? Lépjen kapcsolatba velünk"
@@ -3151,3 +3152,9 @@ hu:
     response:
       unexpected: "Unexpected response received."
   you: te
+  plugin_openproject_auth_plugins:
+    name: "OpenProject Auth Plugins"
+    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / Single-Sign On"
+    description: "Adds the OmniAuth SAML provider to OpenProject"

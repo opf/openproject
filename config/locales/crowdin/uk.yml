@@ -1483,7 +1483,7 @@ uk:
     changes_retracted: "Зміни було відхилено."
     caused_changes:
       dates_changed: "Дати змінено"
-      system_update: "Оновлення OpenProject"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: внесенням змін у попередній елемент %{link}
       work_package_parent_changed_times: внесенням змін у батькіський елемент %{link}
@@ -1499,7 +1499,8 @@ uk:
           working: "%{day} – зараз робочий день"
           non_working: "%{day} – зараз неробочий день"
       system_update:
-        file_links_journal: 'додано файлові посилання на дії'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Посібник з налаштування'
     get_in_touch: "У вас виникли запитання? Зв'яжіться з нами."
@@ -3196,3 +3197,9 @@ uk:
     response:
       unexpected: "Отримано неочікувану відповідь."
   you: ви
+  plugin_openproject_auth_plugins:
+    name: "OpenProject Auth Plugins"
+    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / Single-Sign On"
+    description: "Adds the OmniAuth SAML provider to OpenProject"

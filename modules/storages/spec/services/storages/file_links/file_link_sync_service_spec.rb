@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,7 +29,6 @@
 #++
 
 require 'spec_helper'
-require 'webmock/rspec'
 
 RSpec.describe Storages::FileLinkSyncService, type: :model do
   let(:user) { create(:user) }

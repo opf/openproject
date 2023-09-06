@@ -1,5 +1,8 @@
 #English strings go here
 fr:
+  plugin_openproject_storages:
+    name: "OpenProject Storages"
+    description: "Allows linking work packages to files in external storages, such as Nextcloud."
   permission_view_file_links: "Voir les liens des fichiers"
   permission_manage_file_links: "Gérer les liens de fichiers"
   permission_manage_storages_in_project: "Gérer les stockages de fichiers dans le projet"
@@ -100,6 +103,8 @@ fr:
     help_texts:
       project_folder: >
         Le dossier de projet est le dossier par défaut pour les téléversements de fichiers pour ce projet. Les utilisateurs peuvent néanmoins encore téléverser des fichiers vers d'autres emplacements.
+    configuration_checks:
+      incomplete: "The setup of this storage is incomplete."
     delete_warning:
       storage: >
         Voulez-vous vraiment supprimer ce stockage ? Cela supprimera également le stockage de tous les projets où il est utilisé. De plus, il supprimera également tous les liens des lots de travaux vers les fichiers stockés dans ce stockage.

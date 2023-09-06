@@ -20,6 +20,9 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ca:
+  plugin_openproject_documents:
+    name: "OpenProject Documents"
+    description: "An OpenProject plugin to allow creation of documents in projects."
   activerecord:
     models:
       document: "Document"
