@@ -134,7 +134,7 @@ module OpenProject
       end
 
       def module_enterprise_feature?(name)
-        current_module = modules.select { |m| m[:name] == name }[0]
+        current_module = modules.find { |m| m[:name] == name }
 
         return false if current_module.nil? || current_module[:enterprise_feature].nil?
 
