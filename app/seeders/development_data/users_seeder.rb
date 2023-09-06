@@ -54,7 +54,7 @@ module DevelopmentData
     end
 
     def seed_users_disabled?
-      off_values = ["off", "false", "no", "0"]
+      off_values = %w[off false no 0]
 
       off_values.include? ENV.fetch('OP_DEV_USER_SEEDER_ENABLED', nil)
     end
