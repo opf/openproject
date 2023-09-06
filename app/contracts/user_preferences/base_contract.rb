@@ -109,7 +109,7 @@ module UserPreferences
     end
 
     def full_hour_reminder_time
-      unless model.daily_reminders[:times].all? { |time| time.match?(/00:00\+00:00\z/) }
+      unless model.daily_reminders[:times].all? { |time| time.end_with?('00:00+00:00') }
         errors.add :daily_reminders, :full_hour
       end
     end
