@@ -40,6 +40,13 @@ See COPYRIGHT and LICENSE files for more details.
         <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= ::Storages::Storage.model_name.human %></span>
       <% end %>
+
+    </li>
+<!--    <li class="toolbar-item">-->
+      <%#= react_component('ButtonComponent', { name: 'Hello' }, { prerender: true }) %>
+<!--    </li>-->
+    <li class="toolbar-item">
+      <%= render(::Storages::ProjectStorages::TestButton::Component.new(label: 'Button')) %>
     </li>
   <% end %>
 

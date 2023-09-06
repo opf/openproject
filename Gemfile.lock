@@ -327,6 +327,10 @@ GEM
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.6.0)
       aws-eventstream (~> 1, >= 1.0.2)
+    babel-source (5.8.35)
+    babel-transpiler (0.7.0)
+      babel-source (>= 4.0, < 6)
+      execjs (~> 2.0)
     base64 (0.1.1)
     bcrypt (3.1.19)
     bindata (2.4.15)
@@ -366,6 +370,7 @@ GEM
     compare-xml (0.66)
       nokogiri (~> 1.8)
     concurrent-ruby (1.2.2)
+    connection_pool (2.4.1)
     cookiejar (0.3.3)
     crack (0.4.5)
       rexml
@@ -441,6 +446,7 @@ GEM
     eventmachine (1.2.7)
     eventmachine_httpserver (0.2.1)
     excon (0.102.0)
+    execjs (2.8.1)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
@@ -796,6 +802,12 @@ GEM
     rbtree3 (0.7.1)
     rdoc (6.5.0)
       psych (>= 4.0.0)
+    react-rails (3.1.1)
+      babel-transpiler (>= 0.7.0)
+      connection_pool
+      execjs
+      railties (>= 3.2)
+      tilt
     recaptcha (5.15.0)
     redcarpet (3.6.0)
     regexp_parser (2.8.1)
@@ -933,6 +945,7 @@ GEM
     test-prof (1.2.2)
     text-hyphen (1.5.0)
     thor (1.2.2)
+    tilt (2.2.0)
     timecop (0.9.8)
     timeout (0.4.0)
     trailblazer-option (0.1.2)
@@ -1125,6 +1138,7 @@ DEPENDENCIES
   rails-controller-testing (~> 1.0.2)
   rails-i18n (~> 7.0.0)
   rdoc (>= 2.4.2)
+  react-rails
   request_store (~> 1.5.0)
   responders (~> 3.0)
   retriable (~> 3.1.1)
@@ -1177,4 +1191,4 @@ RUBY VERSION
    ruby 3.2.1p31
 
 BUNDLED WITH
-   2.4.7
+   2.4.6
