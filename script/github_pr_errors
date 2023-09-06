@@ -208,7 +208,7 @@ def get_jobs(workflow_run)
   workflow_run['jobs_url']
   cache_key = [
     path_to_cache_key(workflow_run['jobs_url']),
-    workflow_run['updated_at'].gsub(':', '')
+    workflow_run['updated_at'].delete(':')
   ].join('_')
   cached(cache_key) { get_json(workflow_run['jobs_url']) }
 end

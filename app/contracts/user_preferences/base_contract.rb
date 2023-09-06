@@ -81,7 +81,7 @@ module UserPreferences
         if time_zones.length == 1
           time_zones.first
         else
-          time_zones.detect { |tz| tz.tzinfo.name.include?(tz.name.gsub(' ', '_')) }
+          time_zones.detect { |tz| tz.tzinfo.name.include?(tz.name.tr(' ', '_')) }
         end
       end
     end
