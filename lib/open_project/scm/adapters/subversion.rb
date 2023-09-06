@@ -103,7 +103,7 @@ module OpenProject
             return if doc.at_xpath('/info/entry/repository/uuid')
 
             stderr.each_line do |l|
-              Rails.logger.error("SVN access error: #{l}") if l =~ /E\d+:/
+              Rails.logger.error("SVN access error: #{l}") if /E\d+:/.match?(l)
               raise Exceptions::SCMUnauthorized.new if l.include?('E215004: Authentication failed')
             end
           end

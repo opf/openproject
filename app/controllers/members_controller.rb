@@ -243,7 +243,7 @@ class MembersController < ApplicationController
 
   def each_comma_separated(array, &block)
     array.map do |e|
-      if e.to_s.match /\d(,\d)*/
+      if e.to_s.match? /\d(,\d)*/
         block.call(e)
       else
         e

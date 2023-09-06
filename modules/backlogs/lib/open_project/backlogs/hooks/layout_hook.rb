@@ -86,7 +86,7 @@ module OpenProject::Backlogs::Hooks
         end
 
         if params[:copy_tasks]
-          params[:copy_tasks] += ':' if params[:copy_tasks] !~ /:/
+          params[:copy_tasks] += ':' if !/:/.match?(params[:copy_tasks])
           action, id = *params[:copy_tasks].split(/:/)
 
           story = (id.nil? ? nil : Story.find(Integer(id)))

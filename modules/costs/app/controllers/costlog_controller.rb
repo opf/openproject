@@ -86,7 +86,7 @@ class CostlogController < ApplicationController
     @cost_entry.destroy
     flash[:notice] = t(:notice_successful_delete)
 
-    if request.referer =~ /cost_reports/
+    if /cost_reports/.match?(request.referer)
       redirect_to controller: '/cost_reports', action: :index
     else
       redirect_back fallback_location: work_package_path(@cost_entry.work_package)

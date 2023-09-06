@@ -187,7 +187,7 @@ module SortHelper
 
     # Appends DESC to the sort criterion unless it has a fixed order
     def append_desc(criterion)
-      if criterion =~ / (asc|desc)\z/i
+      if / (asc|desc)\z/i.match?(criterion)
         criterion
       else
         "#{criterion} DESC"

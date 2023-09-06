@@ -124,7 +124,7 @@ module Pages
           elsif name == 'created_at'
             select(human_operator, from: 'operator')
             set_created_at_filter(human_operator, values)
-          elsif name =~ /cf_\d+/
+          elsif /cf_\d+/.match?(name)
             select(human_operator, from: 'operator')
             set_custom_field_filter(selected_filter, human_operator, values)
           end
