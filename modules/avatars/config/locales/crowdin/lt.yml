@@ -1,9 +1,9 @@
 #English strings go here
 lt:
   plugin_openproject_avatars:
-    name: "Avatars"
+    name: "Nuotraukos"
     description: >-
-      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+      Šis priedas leidžia OpenProject naudotojams įkelti piešinį, kuris turėtų būti naudojamas kaip avataras arba naudoti Gravatar registruotus piešinius.
   label_avatar: "Nuotrauka"
   label_avatar_plural: "Nuotraukos"
   label_current_avatar: "Dabartinė nuotrauka"

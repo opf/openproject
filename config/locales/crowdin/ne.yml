@@ -1446,7 +1446,7 @@ ne:
     changes_retracted: "The changes were retracted."
     caused_changes:
       dates_changed: "Dates changed"
-      system_update: "OpenProject update"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1462,7 +1462,8 @@ ne:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Configuration guide'
     get_in_touch: "You have questions? Get in touch with us."
@@ -2389,6 +2390,7 @@ ne:
   permission_save_queries: "Save views"
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Select project modules"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Select types"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "View commit author statistics"

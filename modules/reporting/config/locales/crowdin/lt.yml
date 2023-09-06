@@ -21,8 +21,8 @@
 #++
 lt:
   plugin_openproject_reporting:
-    name: "OpenProject Reporting"
-    description: "This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin."
+    name: "OpenProject ataskaitos"
+    description: "Šis priedas leidžia kurti savo kaštų ataskaitas su OpenProject laiko ir kašto priedo sukurtu filtravimu ir grupavimu."
   button_save_as: "Įrašyti ataskaitą kaip..."
   comments: "Komentaras"
   cost_reports_title: "Laikas ir išlaidos"

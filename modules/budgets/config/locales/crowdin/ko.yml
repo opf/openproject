@@ -21,7 +21,7 @@
 #++
 ko:
   plugin_budgets_engine:
-    name: 'Budgets'
+    name: '예산'
   activerecord:
     attributes:
       budget:

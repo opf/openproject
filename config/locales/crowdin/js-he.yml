@@ -594,7 +594,7 @@ he:
         assigned: 'assignee'
         responsible: 'accountable'
         created: 'created'
-        scheduled: 'scheduled'
+        scheduled: 'מתוכנן'
         commented: 'commented'
         processed: 'processed'
         prioritized: 'prioritized'

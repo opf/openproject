@@ -21,7 +21,7 @@
 #++
 nl:
   plugin_budgets_engine:
-    name: 'Budgets'
+    name: 'Begrotingen'
   activerecord:
     attributes:
       budget:
