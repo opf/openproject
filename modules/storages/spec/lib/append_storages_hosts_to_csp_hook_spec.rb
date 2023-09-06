@@ -52,7 +52,7 @@ RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
     hook_listener.application_controller_before_action(controller:)
   end
 
-  shared_examples 'modifies CSP' do
+  shared_examples 'content security policy directives' do
     it 'adds CSP connect_src and frame_ancestors directives' do
       trigger_application_controller_before_action_hook
 
@@ -73,13 +73,13 @@ RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
     context 'when current user is an admin without being a member of any project' do
       current_user { admin }
 
-      include_examples 'modifies CSP'
+      include_examples 'content security policy directives'
     end
 
     context 'when current user is a member of the project with permission to manage file links' do
       current_user { create(:user, member_in_project: project, member_with_permissions: %i[manage_file_links]) }
 
-      include_examples 'modifies CSP'
+      include_examples 'content security policy directives'
     end
 
     context 'when current user is a member of the project without permission to manage file links' do
