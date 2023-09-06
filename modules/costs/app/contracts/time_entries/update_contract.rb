@@ -44,15 +44,15 @@ module TimeEntries
     # user == editing user and :edit_own_time_entries
     def user_allowed_to_update?
       if model.ongoing || model.ongoing_was
-        user_allowed_to_modify_ongoing?(model) ||
+        user_allowed_to_modify_ongoing?(work_package) ||
         (with_unchanged_project_id do
-           user_allowed_to_modify_ongoing?(model.project)
-         end && user_allowed_to_modify_ongoing?(model.project))
+           user_allowed_to_modify_ongoing?(project)
+         end && user_allowed_to_modify_ongoing?(project))
       else
-        user_allowed_to_update_in?(model) ||
+        user_allowed_to_update_in?(work_package) ||
         (with_unchanged_project_id do
-          user_allowed_to_update_in?(model.project)
-        end && user_allowed_to_update_in?(model.project))
+          user_allowed_to_update_in?(project)
+        end && user_allowed_to_update_in?(project))
       end
     end
 
