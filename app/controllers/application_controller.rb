@@ -377,7 +377,7 @@ class ApplicationController < ActionController::Base
                                 .order('id ASC')
     fail ActiveRecord::RecordNotFound if @work_packages.empty?
 
-    @projects = @work_packages.map(&:project).compact.uniq
+    @projects = @work_packages.filter_map(&:project).uniq
     @project = @projects.first if @projects.size == 1
   rescue ActiveRecord::RecordNotFound
     render_404

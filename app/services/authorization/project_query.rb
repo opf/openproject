@@ -140,7 +140,7 @@ class Authorization::ProjectQuery < Authorization::AbstractQuery
   end
 
   def self.action_project_modules(action)
-    permissions(action).map(&:project_module).compact.uniq
+    permissions(action).filter_map(&:project_module).uniq
   end
 
   def self.action_public?(action)

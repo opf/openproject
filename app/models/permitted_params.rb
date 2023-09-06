@@ -399,13 +399,13 @@ class PermittedParams
   def permitted_attributes(key, additions = {})
     merged_args = { params:, current_user: }.merge(additions)
 
-    self.class.permitted_attributes[key].map do |permission|
+    self.class.permitted_attributes[key].filter_map do |permission|
       if permission.respond_to?(:call)
         permission.call(merged_args)
       else
         permission
       end
-    end.compact
+    end
   end
 
   def self.permitted_attributes

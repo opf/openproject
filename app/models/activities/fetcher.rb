@@ -49,9 +49,9 @@ module Activities
       @event_types ||=
         if @project
           OpenProject::Activity.available_event_types.select do |o|
-            permissions = constantized_providers(o).map do |activity_provider|
+            permissions = constantized_providers(o).filter_map do |activity_provider|
               activity_provider.activity_provider_options[:permission]
-            end.compact
+            end
             permissions.all? { |p| @user.allowed_to?(p, @project) }
           end
         else

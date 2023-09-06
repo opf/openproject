@@ -56,7 +56,7 @@ module RepositoriesHelper
   end
 
   def render_changeset_changes
-    changes = @changeset.file_changes.limit(1000).order(Arel.sql('path')).map do |change|
+    changes = @changeset.file_changes.limit(1000).order(Arel.sql('path')).filter_map do |change|
       case change.action
       when 'A'
         # Detects moved/copied files
@@ -70,7 +70,7 @@ module RepositoriesHelper
       else
         change
       end
-    end.compact
+    end
 
     tree = {}
     changes.each do |change|

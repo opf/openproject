@@ -123,8 +123,8 @@ module SortHelper
       @criteria
         .map { |c, o| [@available_criteria[c], o] }
         .reject { |c, _| c.nil? }
-        .map { |c, o| append_direction(Array(c), o) }
-        .compact
+        .filter_map { |c, o| append_direction(Array(c), o) }
+        
     end
 
     def to_query_hash
