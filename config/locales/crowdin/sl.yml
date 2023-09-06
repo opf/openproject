@@ -1485,7 +1485,7 @@ sl:
     changes_retracted: "Spremembe so bile umaknjene."
     caused_changes:
       dates_changed: "Dates changed"
-      system_update: "OpenProject update"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1501,7 +1501,8 @@ sl:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Vodnik za konfiguracijo'
     get_in_touch: "Imate vprašanja? Stopite v stik z nami.\n"

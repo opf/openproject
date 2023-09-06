@@ -103,6 +103,8 @@ pt:
     help_texts:
       project_folder: >
         A pasta do projeto é a pasta padrão para uploads de arquivos para esse projeto. No entanto, os usuários ainda podem carregar arquivos em outros locais.
+    configuration_checks:
+      incomplete: "The setup of this storage is incomplete."
     delete_warning:
       storage: >
         Tem certeza de que deseja excluir este armazenamento? Isso também excluirá o armazenamento de todos os projetos em que for usado. Além disso, também excluirá todos os vínculos de pacotes de trabalho para arquivos armazenados nesse armazenamento.

@@ -1424,7 +1424,7 @@ ko:
     changes_retracted: "변경 사항이 취소되었습니다."
     caused_changes:
       dates_changed: "변경된 날짜"
-      system_update: "OpenProject 업데이트"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: 이전 %{link}에 대한 변경 사항 기준
       work_package_parent_changed_times: 부모 %{link}에 대한 변경 사항 기준
@@ -1440,7 +1440,8 @@ ko:
           working: "%{date}은(는) 이제 근무일입니다."
           non_working: "%{date}은(는) 이제 휴무일입니다."
       system_update:
-        file_links_journal: '활동에 파일 링크 추가됨'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: '구성 가이드'
     get_in_touch: "질문이 있으신가요? 문의해 주세요."

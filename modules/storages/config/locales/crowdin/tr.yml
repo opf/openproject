@@ -103,6 +103,8 @@ tr:
     help_texts:
       project_folder: >
         The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
+    configuration_checks:
+      incomplete: "The setup of this storage is incomplete."
     delete_warning:
       storage: >
         Bu depolama alanını silmek istediğinizden emin misiniz? Bu, depolamayı kullanıldığı tüm projelerden de siler. Ayrıca, iş paketlerinden o depoda saklanan dosyalara olan tüm bağlantıları da siler.

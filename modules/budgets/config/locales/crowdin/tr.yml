@@ -21,7 +21,7 @@
 #++
 tr:
   plugin_budgets_engine:
-    name: 'Budgets'
+    name: 'Bütçe'
   activerecord:
     attributes:
       budget:

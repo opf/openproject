@@ -103,6 +103,8 @@ pl:
     help_texts:
       project_folder: >
         Folder projektu jest domyślnym folderem do przesyłania plików tego projektu. Użytkownicy mogą jednak przesyłać pliki do innych lokalizacji.
+    configuration_checks:
+      incomplete: "The setup of this storage is incomplete."
     delete_warning:
       storage: >
         Czy na pewno chcesz usunąć ten magazyn? Spowoduje to również jego usunięcie z wszystkich projektów, w których jest używany. Ponadto usunięte zostaną wszystkie linki z pakietów roboczych do plików, które są przechowywane w tym magazynie.

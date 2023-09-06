@@ -103,6 +103,8 @@ cs:
     help_texts:
       project_folder: >
         The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
+    configuration_checks:
+      incomplete: "The setup of this storage is incomplete."
     delete_warning:
       storage: >
         Jste si jisti, že chcete smazat toto úložiště? Toto také odstraní úložiště ze všech projektů, kde je použito. Dále také smaže všechny odkazy z pracovních balíčků do souborů, které jsou uloženy v úložišti.

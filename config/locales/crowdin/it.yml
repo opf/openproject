@@ -1443,7 +1443,7 @@ it:
     changes_retracted: "Le modifiche sono state annullate."
     caused_changes:
       dates_changed: "Date cambiate"
-      system_update: "Aggiornamento OpenProject"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: da modifiche al predecessore %{link}
       work_package_parent_changed_times: da modifiche al genitore %{link}
@@ -1459,7 +1459,8 @@ it:
           working: "%{date} è ora lavorativo"
           non_working: "%{date} è ora non lavorativo"
       system_update:
-        file_links_journal: 'aggiunti link ai file alle attività'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Guida di configurazione'
     get_in_touch: "Hai dei dubbi? Mettiti in contatto con noi."
