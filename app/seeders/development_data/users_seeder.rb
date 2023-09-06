@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -62,8 +64,8 @@ module DevelopmentData
     end
 
     def not_applicable_message
-      msg = 'Not seeding development users.'
-      msg << ' seed users disabled through ENV' if seed_users_disabled?
+      msg = "Not seeding development users."
+      msg = "#{msg} seed users disabled through ENV" if seed_users_disabled?
 
       msg
     end
