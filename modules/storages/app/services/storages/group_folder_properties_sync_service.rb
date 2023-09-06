@@ -201,24 +201,15 @@ class Storages::GroupFolderPropertiesSyncService
   end
 
   def project_folder_permissions(project:)
-    tokens_query = OAuthClientToken
-                 .where(oauth_client: @storage.oauth_client)
-                 .where.not(id: @admin_tokens_query)
-                 .includes(:user)
-    # The user scope is required in all cases except one:
-    #   when the project is public and non member has at least one storage permission
-    #   then all non memebers should have access to the project folder
-    if !(project.public? && Role.non_member.permissions.intersect?(PERMISSIONS_KEYS))
-      tokens_query = tokens_query.where(users: project.users)
-    end
-    tokens_query.each_with_object({
-                                    users: admins_project_folder_permissions.clone,
-                                    groups: { "#{@group}": NO_PERMISSIONS }
-                                  }) do |token, permissions|
-      nextcloud_username = token.origin_user_id
-      permissions[:users][nextcloud_username.to_sym] = calculate_permissions(user: token.user, project:)
-      @nextcloud_usernames_used_in_openproject << nextcloud_username
-    end
+    {
+      users: user_permission_map(project:),
+      groups: { "#{@group}": NO_PERMISSIONS }
+    }
+  end
+
+  def user_permission_map(project:)
+    admins_project_folder_permissions
+      .merge(members_project_folder_permissions(project:))
   end
 
   def admins_project_folder_permissions
@@ -230,6 +221,29 @@ class Storages::GroupFolderPropertiesSyncService
           map[admin_nextcloud_username.to_sym] = ALL_PERMISSIONS
         end
       end
+  end
+
+  def members_project_folder_permissions(project:)
+    tokens_query(project:).each_with_object({}) do |token, permissions|
+      nextcloud_username = token.origin_user_id
+      permissions[nextcloud_username.to_sym] = calculate_permissions(user: token.user, project:)
+      @nextcloud_usernames_used_in_openproject << nextcloud_username
+    end
+  end
+
+  def tokens_query(project:)
+    tokens_query = OAuthClientToken
+                     .where(oauth_client: @storage.oauth_client)
+                     .where.not(id: @admin_tokens_query)
+                     .includes(:user)
+    # The user scope is required in all cases except one:
+    #   when the project is public and non member has at least one storage permission
+    #   then all non memebers should have access to the project folder
+    if !(project.public? && Role.non_member.permissions.intersect?(PERMISSIONS_KEYS))
+      tokens_query = tokens_query.where(users: project.users)
+    end
+
+    tokens_query
   end
 
   def add_active_users_to_group
