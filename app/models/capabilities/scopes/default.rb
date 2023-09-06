@@ -108,11 +108,11 @@ module Capabilities::Scopes
             ON 1 = 1
           JOIN "projects"
             ON "projects".active = true
-            AND ("projects".public = true OR EXISTS (SELECT 1
-                                                     FROM members
-                                                     WHERE members.project_id = projects.id
-                                                     AND members.user_id = users.id
-                                                     LIMIT 1))
+            AND ("projects".public = true AND NOT EXISTS (SELECT 1
+                                                          FROM members
+                                                          WHERE members.project_id = projects.id
+                                                          AND members.user_id = users.id
+                                                          LIMIT 1))
           LEFT OUTER JOIN enabled_modules
             ON enabled_modules.project_id = projects.id
             AND actions.module = enabled_modules.name
