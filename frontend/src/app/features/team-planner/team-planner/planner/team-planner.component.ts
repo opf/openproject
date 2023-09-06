@@ -398,13 +398,13 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     super();
   }
 
-  ngOnInit():void {
+  async ngOnInit():Promise<void> {
     registerEffectCallbacks(this, this.untilDestroyed());
-    firstValueFrom(this.apiV3Service.queries.find({ pageSize: 0 }, this.workPackagesCalendar.urlParams.query_id)).then((e)=>{
+    await firstValueFrom(this.apiV3Service.queries.find({ pageSize: 0 }, (this.workPackagesCalendar.urlParams.query_id as string))).then((e) => {
       this.initialCalendarView = e.displayRepresentation || 'resourceTimelineWorkWeek';
       this.initializeCalendar();
     });
-    
+
     this.projectIdentifier = this.currentProject.identifier || undefined;
 
     this.calendar.resize$
