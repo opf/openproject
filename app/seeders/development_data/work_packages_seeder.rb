@@ -34,8 +34,10 @@ module DevelopmentData
       print_status ' ↳ Creating development work packages...'
 
       print_status '   -Creating/Resetting development work packages'
-
       reset_work_packages
+
+      print_status '   -Sharing work packages'
+      share_work_packages
     end
 
     def applicable?
@@ -43,6 +45,10 @@ module DevelopmentData
     end
 
     private
+
+    def work_package_subjects
+      ['[dev] Save Gotham', '[dev] Defeat Bane', '[dev] Find Waldo', '[dev] Organize game night']
+    end
 
     def reset_work_packages
       WorkPackage.where(subject: work_package_subjects).destroy_all
@@ -59,8 +65,37 @@ module DevelopmentData
       end
     end
 
-    def work_package_subjects
-      ['[dev] Save Gotham', '[dev] Defeat Bane', '[dev] Find Waldo', '[dev] Organize game night']
+    def share_work_packages
+      work_package_membership_data.each do |membership_attributes|
+        create_membership_between(**membership_attributes)
+      end
+    end
+
+    def work_package_membership_data
+      [
+        {
+          work_package: WorkPackage.find_by(subject: '[dev] Defeat Bane'),
+          principal:,
+          role: seed_data.find_reference(:default_role_work_package_editor)
+        },
+        {
+          work_package: WorkPackage.find_by(subject: '[dev] Organize game night'),
+          principal:,
+          role: seed_data.find_reference(:default_role_work_package_commenter)
+        },
+        {
+          work_package: WorkPackage.find_by(subject: '[dev] Find Waldo'),
+          principal:,
+          role: seed_data.find_reference(:default_role_work_package_viewer)
+        }
+      ]
+    end
+
+    def create_membership_between(work_package:, principal:, role:)
+      Member.create!(project:,
+                     entity: work_package,
+                     principal:,
+                     roles: Array(role))
     end
 
     def work_package_attributes
@@ -120,6 +155,10 @@ module DevelopmentData
 
     def immediate_priority
       @immediate_priority ||= IssuePriority.find_by(name: 'Immediate')
+    end
+
+    def principal
+      @principal ||= User.find_by(login: 'work_packager')
     end
   end
 end
