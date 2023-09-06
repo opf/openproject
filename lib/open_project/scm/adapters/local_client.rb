@@ -125,7 +125,7 @@ module OpenProject
         end
 
         def supports_annotate?
-          respond_to?('annotate')
+          respond_to?(:annotate)
         end
 
         def target(path = '')
