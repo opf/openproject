@@ -166,7 +166,7 @@ module OpenProject
           revisions = Revisions.new
           fetch_revision_entries(identifier_from, identifier_to, options, path) do |logentry|
             paths = logentry.xpath('paths/path').map { |entry| build_path(entry) }
-            paths.sort! { |x, y| x[:path] <=> y[:path] }
+            paths.sort_by! { |a| a[:path] }
 
             r = extract_revision(logentry)
             r.paths = paths
