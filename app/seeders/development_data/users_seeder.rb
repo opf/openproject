@@ -60,7 +60,7 @@ module DevelopmentData
     end
 
     def user_names
-      %i(reader member project_admin admin_de)
+      %i(reader member work_packager project_admin admin_de)
     end
 
     def not_applicable_message
