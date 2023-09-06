@@ -437,3 +437,6 @@ Style/HashTransformKeys:
 
 Style/HashTransformValues:
   Enabled: true
+
+Performance/Casecmp:
+  Enabled: false
