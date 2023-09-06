@@ -33,10 +33,12 @@ RSpec.describe Capabilities::Scopes::Default do
   subject(:scope) { Capability.default.where(principal_id: user.id) }
 
   shared_let(:project) { create(:project, enabled_module_names: []) }
+  shared_let(:work_package) { create(:work_package, project:) }
   shared_let(:user) { create(:user) }
 
   let(:permissions) { %i[] }
   let(:global_permissions) { %i[] }
+  let(:work_package_permissions) { %i[] }
   let(:non_member_permissions) { %i[] }
   let(:anonymous_permissions) { %i[] }
   let(:role) do
@@ -50,6 +52,11 @@ RSpec.describe Capabilities::Scopes::Default do
            principal: user,
            roles: [global_role])
   end
+  let(:work_package_role) { create(:work_package_role, permissions: work_package_permissions) }
+  let(:work_package_member) do
+    create(:member, principal: user, project:, entity: work_package, roles: [work_package_role])
+  end
+
   let(:member) do
     create(:member,
            principal: user,
@@ -450,6 +457,26 @@ RSpec.describe Capabilities::Scopes::Default do
       end
 
       include_examples 'is empty'
+    end
+
+    context 'with a work package membership' do
+      before do
+        project.enabled_module_names = ['work_package_tracking']
+      end
+
+      let(:members) { [work_package_member] }
+
+      context 'when no permissions are associated with the role' do
+        include_examples 'is empty'
+      end
+
+      # TODO: This is temporary, we do not want the capabilities of the entity specific memberships to
+      # show up in the capabilities API for now. This will change in the future
+      context 'when a permission is granted to the role' do
+        let(:work_package_permissions) { [:view_work_packages] }
+
+        include_examples 'is empty'
+      end
     end
   end
 end

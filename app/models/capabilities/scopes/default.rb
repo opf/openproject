@@ -63,7 +63,7 @@ module Capabilities::Scopes
           LEFT OUTER JOIN "role_permissions" ON "role_permissions"."permission" = "actions"."permission"
           LEFT OUTER JOIN "roles" ON "roles".id = "role_permissions".role_id OR "actions"."public"
           LEFT OUTER JOIN "member_roles" ON "member_roles".role_id = "roles".id
-          LEFT OUTER JOIN "members" ON members.id = member_roles.member_id
+          LEFT OUTER JOIN "members" ON members.id = member_roles.member_id AND members.entity_type IS NULL AND members.entity_id IS NULL
           JOIN (#{Principal.visible.not_builtin.not_locked.to_sql}) users
             ON "users".id = members.user_id
           LEFT OUTER JOIN "projects"

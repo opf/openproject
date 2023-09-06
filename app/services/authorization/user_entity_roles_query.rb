@@ -26,34 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Create memberships like this:
-#
-#   project = create(:project)
-#   user    = create(:user)
-#   role    = create(:role, permissions: [:view_wiki_pages, :edit_wiki_pages])
-#
-#   member = create(:member, user: user, project: project, roles: [role])
-
-FactoryBot.define do
-  factory :member do
-    project
-    entity { nil }
-
-    transient do
-      user { nil }
-    end
-
-    after(:build) do |member, evaluator|
-      member.principal ||= evaluator.user || build(:user)
-    end
-
-    after(:stub) do |member, evaluator|
-      member.principal ||= evaluator.user || build_stubbed(:user)
-    end
+class Authorization::UserEntityRolesQuery < Authorization::UserRolesQuery
+  transformations.register :all, :user_restriction do |statement, user, _|
+    statement.where(users_table[:id].eq(user.id))
   end
 
-  factory :global_member, parent: :member do
-    project { nil }
-    entity { nil }
+  transformations.register users_members_join, :entity_restriction do |statement, _, entity|
+    statement = statement
+      .and(members_table[:entity_type].eq(entity.class.to_s))
+      .and(members_table[:entity_id].eq(entity.id))
+
+    statement = statement.and(members_table[:project_id].eq(entity.project_id)) if entity.respond_to?(:project_id)
+
+    statement
   end
 end
