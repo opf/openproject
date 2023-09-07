@@ -490,26 +490,26 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
     let(:project1) do
       create(:project,
              name: '[Sample] Project Name / Ehuu',
-             members: { user => ordinary_role, single_project_member => ordinary_role })
+             members: { multiple_projects_user => ordinary_role, single_project_user => ordinary_role })
     end
     let(:project2) do
       create(:project,
              name: 'Jedi Project Folder ///',
-             members: { user => ordinary_role })
+             members: { multiple_projects_user => ordinary_role })
     end
     let(:project3) do
       create(:project,
              name: 'NOT ACTIVE PROJECT',
              active: false,
-             members: { user => ordinary_role })
+             members: { multiple_projects_user => ordinary_role })
     end
     let(:public_project) do
       create(:public_project,
              name: 'PUBLIC PROJECT',
              active: true)
     end
-    let(:single_project_member) { create(:user) }
-    let(:user) { create(:user) }
+    let(:single_project_user) { create(:user) }
+    let(:multiple_projects_user) { create(:user) }
     let!(:admin) { create(:admin) }
     let(:ordinary_role) { create(:role, permissions: %w[read_files write_files]) }
     let!(:non_member_role) { create(:non_member, permissions: %w[read_files]) }
@@ -553,11 +553,11 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
     before do
       create(:oauth_client_token,
              origin_user_id: 'Obi-Wan',
-             user:,
+             user: multiple_projects_user,
              oauth_client:)
       create(:oauth_client_token,
              origin_user_id: 'Yoda',
-             user: single_project_member,
+             user: single_project_user,
              oauth_client:)
       create(:oauth_client_token,
              origin_user_id: 'Darth Vader',
