@@ -83,20 +83,18 @@ module Projects::Scopes
           SELECT "projects".*
           FROM "projects"
           #{allowed_to_enabled_module_join(permissions)}
-          LEFT OUTER JOIN "members"
+          JOIN "members"
               ON "projects"."id" = "members"."project_id"
               AND "members"."user_id" = :user_id
               AND "members"."entity_type" IS NULL
               AND "members"."entity_id" IS NULL
               AND "projects"."active" = TRUE
-          LEFT OUTER JOIN "member_roles"
+          JOIN "member_roles"
               ON "members"."id" = "member_roles"."member_id"
-          LEFT OUTER JOIN "roles"
+          JOIN "roles"
               ON "projects"."active" = TRUE
-              AND ("roles"."id" = "member_roles"."role_id" OR
-                  ("projects"."public" = TRUE AND "roles"."builtin" = #{Role::BUILTIN_NON_MEMBER} AND "roles"."id" IS NULL))
+              AND ("roles"."id" = "member_roles"."role_id")
           #{allowed_to_role_permission_join(permissions)}
-          WHERE "roles"."id" IS NOT NULL
         SQL
 
         OpenProject::SqlSanitization.sanitize(sql,
