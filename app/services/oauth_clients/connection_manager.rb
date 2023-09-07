@@ -140,7 +140,8 @@ module OAuthClients
       oauth_client_token = get_existing_token
       return :failed_authorization unless oauth_client_token
 
-      case @config.authorization_state_check(oauth_client_token.access_token)
+      state = @config.authorization_state_check(oauth_client_token.access_token)
+      case state
       when :success
         :connected
       when :refresh_needed
@@ -153,7 +154,7 @@ module OAuthClients
           :error
         end
       else
-        response
+        state
       end
     rescue StandardError
       :error

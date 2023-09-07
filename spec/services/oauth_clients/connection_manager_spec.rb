@@ -36,11 +36,12 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model, webmock: true do
   let(:host) { "https://example.org" }
   let(:storage) { create(:nextcloud_storage, :with_oauth_client, host: "#{host}/") }
   let(:oauth_client) { storage.oauth_client }
+  let(:configuration) { storage.oauth_configuration }
 
   let(:scope) { [:all] } # OAuth2 resources to access, specific to provider
   let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user:) }
 
-  let(:instance) { described_class.new(user:, configuration: storage.oauth_configuration) }
+  let(:instance) { described_class.new(user:, configuration:) }
 
   # The get_authorization_uri method returns the OAuth2 authorization URI as a string. That URI is the starting point for
   # a user to grant OpenProject access to Nextcloud.
@@ -494,8 +495,7 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model, webmock: true do
       context 'with access token valid' do
         context 'without other errors or exceptions' do
           before do
-            stub_request(:get, File.join(host, OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
-              .to_return(status: 200)
+            allow(configuration).to receive(:authorization_state_check).and_return(:success)
           end
 
           it 'returns :connected' do
@@ -505,8 +505,7 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model, webmock: true do
 
         context 'with some other error or exception' do
           before do
-            stub_request(:get, File.join(host, OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
-              .to_timeout
+            allow(configuration).to receive(:authorization_state_check).and_return(:error)
           end
 
           it 'returns :error' do
@@ -519,45 +518,34 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model, webmock: true do
         let(:new_oauth_client_token) { create(:oauth_client_token) }
         let(:refresh_service_result) { ServiceResult.success }
 
-        shared_examples 'refresh' do |code|
-          before do
-            stub_request(:get, File.join(host, OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
-              .to_return(status: code)
-            allow(instance).to receive(:refresh_token).and_return(refresh_service_result)
-          end
+        before do
+          allow(configuration).to receive(:authorization_state_check).and_return(:refresh_needed)
+          allow(instance).to receive(:refresh_token).and_return(refresh_service_result)
+        end
 
-          context 'with valid refresh token' do
-            it 'refreshes the access token and returns :connected' do
-              expect(subject).to eq :connected
-              expect(instance).to have_received(:refresh_token)
-            end
-          end
-
-          context 'with invalid refresh token' do
-            let(:refresh_service_result) { ServiceResult.failure(result: 'invalid_request') }
-
-            it 'refreshes the access token and returns :failed_authorization' do
-              expect(subject).to eq :failed_authorization
-              expect(instance).to have_received(:refresh_token)
-            end
-          end
-
-          context 'with some other error while refreshing access token' do
-            let(:refresh_service_result) { ServiceResult.failure }
-
-            it 'returns :error' do
-              expect(subject).to eq :error
-              expect(instance).to have_received(:refresh_token)
-            end
+        context 'with valid refresh token' do
+          it 'refreshes the access token and returns :connected' do
+            expect(subject).to eq :connected
+            expect(instance).to have_received(:refresh_token)
           end
         end
 
-        context 'when Uanthorized is returned' do
-          it_behaves_like 'refresh', 401
+        context 'with invalid refresh token' do
+          let(:refresh_service_result) { ServiceResult.failure(result: 'invalid_request') }
+
+          it 'refreshes the access token and returns :failed_authorization' do
+            expect(subject).to eq :failed_authorization
+            expect(instance).to have_received(:refresh_token)
+          end
         end
 
-        context 'when Forbidded is returned' do
-          it_behaves_like 'refresh', 403
+        context 'with some other error while refreshing access token' do
+          let(:refresh_service_result) { ServiceResult.failure }
+
+          it 'returns :error' do
+            expect(subject).to eq :error
+            expect(instance).to have_received(:refresh_token)
+          end
         end
       end
     end
