@@ -106,6 +106,8 @@ In order to register a new device for two-factor authentication, click the green
 
 To receive the second factor, you can use an authentication app on your mobile phone, such as Google Authenticator or Authy. You have to enter the code that is displayed in the authentication app to your login.
 
+You can remove or approve 2FA applications by confirming your password. Note that this applies only to internally authenticated users.
+
 ### Backup codes
 
 If you are unable to access your two-factor devices, you can use a backup code to regain access to your account. Use the grey button **Generate backup codes** to generate a new set of backup codes.
