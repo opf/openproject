@@ -226,8 +226,12 @@ RSpec.describe RootSeeder,
       expect(admins.pluck(:language)).to match_array(%w[en de])
     end
 
-    it 'creates 4 additional projects for development' do
-      expect(Project.count).to eq 6
+    it 'creates 5 additional projects for development' do
+      expect(Project.count).to eq 7
+    end
+
+    it 'creates 4 additional work packages for development' do
+      expect(WorkPackage.count).to eq 40
     end
 
     it 'creates 1 project with custom fields' do
