@@ -20,6 +20,8 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 lt:
+  plugin_openproject_github_integration:
+    name: "OpenProject GitHub integracija"
+    description: "Integruoja OpenProject ir GitHub geresniems procesams"
   project_module_github: "GitHub"
   permission_show_github_content: "Parodyti GitHub turinį"
-

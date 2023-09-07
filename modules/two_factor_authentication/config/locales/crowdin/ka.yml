@@ -1,5 +1,9 @@
 #English strings go here for Rails i18n
 ka:
+  plugin_openproject_two_factor_authentication:
+    name: "OpenProject Two-factor authentication"
+    description: >-
+      This OpenProject plugin authenticates your users using two-factor authentication by means of one-time password through the TOTP standard (Google Authenticator) or sent to the user's cell phone via SMS or voice call.
   activerecord:
     attributes:
       two_factor_authentication/device:
@@ -161,7 +165,7 @@ ka:
   notice_account_has_no_phone: "No cell phone number is associated with your account."
   label_expiration_hint: "%{date} or on logout"
   label_actions: 'ქმედებები'
-  label_confirmed: 'Confirmed'
+  label_confirmed: 'დადასტურებულია'
   button_continue: 'გაგრძელება'
   button_make_default: 'Mark as default'
   label_unverified_phone: "Cell phone not yet verified"

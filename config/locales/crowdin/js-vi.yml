@@ -593,7 +593,7 @@ vi:
         assigned: 'Người được giao'
         responsible: 'accountable'
         created: 'created'
-        scheduled: 'scheduled'
+        scheduled: 'theo lịch trình'
         commented: 'commented'
         processed: 'processed'
         prioritized: 'prioritized'

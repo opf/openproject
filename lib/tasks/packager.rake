@@ -63,7 +63,7 @@ namespace :packager do
     # Persist configuration
     Setting.sys_api_enabled = 1
     Setting.sys_api_key = ENV.fetch('SYS_API_KEY', nil)
-    Setting.host_name = ENV.fetch('SERVER_HOSTNAME', Setting.host_name)
+    Setting.host_name = ENV.fetch('SERVER_HOSTNAME', Setting.host_name) if Setting.host_name_writable?
 
     # SERVER_PROTOCOL is set by the packager apache2 addon
     # other SERVER_PROTOCOL_xxx variables can be manually set by user

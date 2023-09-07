@@ -63,7 +63,7 @@ RSpec.describe 'Projects custom fields',
 
   describe 'with default values' do
     let!(:default_int_custom_field) do
-      create(:int_project_custom_field, default_value: 123)
+      create(:integer_project_custom_field, default_value: 123)
     end
     let!(:default_string_custom_field) do
       create(:string_project_custom_field, default_value: 'lorem')
@@ -195,7 +195,7 @@ RSpec.describe 'Projects custom fields',
 
   describe 'with boolean CF' do
     let!(:custom_field) do
-      create(:bool_project_custom_field)
+      create(:boolean_project_custom_field)
     end
 
     it 'allows settings the project boolean CF (regression #26313)' do

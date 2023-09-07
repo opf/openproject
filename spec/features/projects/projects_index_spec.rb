@@ -950,7 +950,7 @@ RSpec.describe 'Projects index page',
   end
 
   describe 'order', with_ee: %i[custom_fields_in_projects_list] do
-    shared_let(:integer_custom_field) { create(:int_project_custom_field) }
+    shared_let(:integer_custom_field) { create(:integer_project_custom_field) }
     # order is important here as the implementation uses lft
     # first but then reorders in ruby
     shared_let(:child_project_z) do

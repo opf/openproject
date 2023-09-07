@@ -20,6 +20,9 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 lt:
+  plugin_costs:
+    name: "Laikas ir išlaidos"
+    description: "Šis modulis prideda funkcijas projekto kaštų planavimui ir sekimui."
   activerecord:
     attributes:
       cost_entry:

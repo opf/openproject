@@ -7,47 +7,47 @@ fa:
     bim:
       priorities:
         item_0:
-          name: Low
+          name: کم
         item_1:
-          name: Normal
+          name: عادی
         item_2:
-          name: High
+          name: بالا
         item_3:
-          name: Critical
+          name: حیاتی
       statuses:
         item_0:
           name: جدید
         item_1:
-          name: In progress
+          name: در حال انجام
         item_2:
-          name: Resolved
+          name: حل شده
         item_3:
-          name: Closed
+          name: بسته
       time_entry_activities:
         item_0:
           name: مدیریت
         item_1:
-          name: Specification
+          name: ویژگی
         item_2:
-          name: Other
+          name: غیره
       types:
         item_0:
           name: وظیفه
         item_1:
-          name: Milestone
+          name: نقطه عطف
         item_2:
-          name: Phase
+          name: گام
         item_3:
-          name: Issue
+          name: مسئله
         item_4:
-          name: Remark
+          name: ملاحظه
         item_5:
-          name: Request
+          name: درخواست
         item_6:
-          name: Clash
+          name: برخورد
       global_queries:
         item_0:
-          name: 'Embedded table: Children'
+          name: 'جدول داخلی: فرزند'
       type_configuration:
         item_0:
           form_configuration:
@@ -55,36 +55,36 @@ fa:
               group_name: بچه ها
       groups:
         item_0:
-          name: Architects
+          name: معماران
         item_1:
-          name: BIM Coordinators
+          name: هماهنگ کنندگان BIM
         item_2:
-          name: BIM Managers
+          name: مدیران BIM
         item_3:
-          name: BIM Modellers
+          name: شکل‌دهندگان BIM
         item_4:
-          name: Lead BIM Coordinators
+          name: هماهنگ کنندگان ارشد BIM
         item_5:
           name: MEP Engineers
         item_6:
-          name: Planners
+          name: برنامه‌ریز
         item_7:
-          name: Structural Engineers
+          name: مهندسان ساختاری
       welcome:
-        title: Welcome to OpenProject BIM edition!
+        title: به نسخه BIM OpenProject خوش آمدید!
         text: |
-          Checkout the demo projects to get started with some examples.
+          برای شروع با چند مثال، پروژه های نمونه را بررسی نمایید.
 
           * [(Demo) Construction project]({{opSetting:base_url}}/projects/demo-construction-project): Planning, BIM process, BCF management, and constructing, all at a glance.
               * [(Demo) Planning & constructing]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Classical planning and construction management.
               * [(Demo) Bim project]({{opSetting:base_url}}/projects/demo-bim-project): BIM process and coordination.
                   * [(Demo) BCF management]({{opSetting:base_url}}/projects/demo-bcf-management-project): BCF management.
 
-          Also, you can create a blank [new project]({{opSetting:base_url}}/projects/new).
+          شما همچنین می توانید یک [پروژه جدید] خالی بسازید ({{opSetting:base_url}}/projects/new).
 
-          Never stop collaborating. With open source and open mind.
+          هرگز همکاری را متوقف نکنید. با ذهن باز و کدهای منبع باز.
 
-          You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          شما می توانید متن خوش آمد گویی را تغییر دهید از [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-construction-project:
           name: "(Demo) Construction project"
@@ -158,9 +158,9 @@ fa:
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
-              description: The actual news
+              description: اخبار واقعی
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: دسته‌بندی 1 (باید در تنظیمات پروژه تغییر یاید)
           queries:
             item_0:
               name: Project plan

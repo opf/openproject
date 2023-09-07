@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -30,70 +32,73 @@ require 'spec_helper'
 
 RSpec.describe AccountController,
                skip_2fa_stage: true do
-  class UserHook < OpenProject::Hook::ViewListener
-    attr_reader :registered_user, :first_login_user
+  let(:user_hook_class) do
+    Class.new(OpenProject::Hook::ViewListener) do
+      attr_reader :registered_user, :first_login_user
 
-    def user_registered(context)
-      @registered_user = context[:user]
-    end
+      def user_registered(context)
+        @registered_user = context[:user]
+      end
 
-    def user_first_login(context)
-      @first_login_user = context[:user]
-    end
+      def user_first_login(context)
+        @first_login_user = context[:user]
+      end
 
-    def reset!
-      @registered_user = nil
-      @first_login_user = nil
+      def reset!
+        @registered_user = nil
+        @first_login_user = nil
+      end
     end
   end
 
-  let(:hook) { UserHook.instance }
+  let(:hook) { user_hook_class.instance }
   let(:user) { build_stubbed(:user) }
 
   before do
     hook.reset!
   end
 
-  context 'GET #login' do
-    let(:setup) {}
+  describe 'GET #login' do
     let(:params) { {} }
 
-    before do
-      setup
+    context 'when the user is not already logged in' do
+      before do
+        get :login, params:
+      end
 
-      get :login, params:
+      it 'renders the view' do
+        expect(response).to render_template 'login'
+        expect(response).to be_successful
+      end
     end
 
-    it 'renders the view' do
-      expect(response).to render_template 'login'
-      expect(response).to be_successful
-    end
+    context 'when the user is already logged in' do
+      before do
+        login_as user
 
-    context 'user already logged in' do
-      let(:setup) { login_as user }
+        get :login, params:
+      end
 
       it 'redirects to home' do
         expect(response)
           .to redirect_to my_page_path
       end
-    end
 
-    context 'user already logged in and back url present' do
-      let(:setup) { login_as user }
-      let(:params) { { back_url: "/projects" } }
+      context 'and a valid back url is present' do
+        let(:params) { { back_url: "/projects" } }
 
-      it 'redirects to back_url value' do
-        expect(response)
-          .to redirect_to projects_path
+        it 'redirects to back_url value' do
+          expect(response)
+            .to redirect_to projects_path
+        end
       end
-    end
 
-    context 'user already logged in and invalid back url present' do
-      let(:setup) { login_as user }
-      let(:params) { { back_url: 'http://test.foo/work_packages/show/1' } }
+      context 'and an invalid back url present' do
+        let(:params) { { back_url: 'http://test.foo/work_packages/show/1' } }
 
-      it 'redirects to home' do
-        expect(response).to redirect_to my_page_path
+        it 'redirects to home' do
+          expect(response).to redirect_to my_page_path
+        end
       end
     end
   end
@@ -124,7 +129,7 @@ RSpec.describe AccountController,
     end
   end
 
-  context 'POST #login' do
+  describe 'POST #login' do
     shared_let(:admin) { create(:admin) }
 
     describe 'wrong password' do
@@ -237,13 +242,12 @@ RSpec.describe AccountController,
       end
 
       context 'with a relative url root' do
-        before do
-          @old_relative_url_root = OpenProject::Configuration['rails_relative_url_root']
+        around do |example|
+          old_relative_url_root = OpenProject::Configuration['rails_relative_url_root']
           OpenProject::Configuration['rails_relative_url_root'] = '/openproject'
-        end
-
-        after do
-          OpenProject::Configuration['rails_relative_url_root'] = @old_relative_url_root
+          example.run
+        ensure
+          OpenProject::Configuration['rails_relative_url_root'] = old_relative_url_root
         end
 
         it 'redirects to the same subdirectory with an absolute path' do
@@ -308,14 +312,16 @@ RSpec.describe AccountController,
       end
     end
 
-    context 'GET #logout' do
+    describe 'GET #logout' do
       shared_let(:admin) { create(:admin) }
 
       it 'calls reset_session' do
-        expect(@controller).to receive(:reset_session).once
-
+        allow(controller).to receive(:reset_session)
         login_as admin
+
         get :logout
+
+        expect(controller).to have_received(:reset_session).once
         expect(response).to be_redirect
       end
 
@@ -414,7 +420,7 @@ RSpec.describe AccountController,
       end
 
       it 'does not login the user' do
-        expect(@controller.send(:current_user).anonymous?).to be_truthy
+        expect(controller.send(:current_user)).to be_anonymous
       end
     end
 
@@ -426,7 +432,7 @@ RSpec.describe AccountController,
       end
 
       it 'is not found' do
-        expect(response.status).to eq 404
+        expect(response).to have_http_status :not_found
       end
     end
 
@@ -450,7 +456,7 @@ RSpec.describe AccountController,
         allow(LdapAuthSource).to receive(:authenticate).and_return(authenticate ? user_attributes : nil)
 
         # required so that the register view can be rendered
-        allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
+        allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false) # rubocop:disable RSpec/AnyInstance
       end
 
       context 'with user limit reached' do
@@ -497,7 +503,7 @@ RSpec.describe AccountController,
     let(:admin) { create(:admin, force_password_change: true) }
 
     before do
-      allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
+      allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false) # rubocop:disable RSpec/AnyInstance
     end
 
     describe "Missing flash data for user initiated password change" do
@@ -515,7 +521,7 @@ RSpec.describe AccountController,
       end
 
       it 'renders 404' do
-        expect(response.status).to eq 404
+        expect(response).to have_http_status :not_found
       end
     end
 
@@ -555,7 +561,26 @@ RSpec.describe AccountController,
       end
 
       it 'is not found' do
-        expect(response.status).to eq 404
+        expect(response).to have_http_status :not_found
+      end
+    end
+  end
+
+  describe 'POST #lost_password' do
+    context 'when the user has been invited but not yet activated' do
+      shared_let(:admin) { create(:admin, status: :invited) }
+      shared_let(:token) { create(:recovery_token, user: admin) }
+
+      context 'with a valid token' do
+        before do
+          allow(controller).to receive(:allow_lost_password_recovery).and_return(true)
+
+          post :lost_password, params: { token: token.value }
+        end
+
+        it 'redirects to the login page' do
+          expect(response).to redirect_to '/login'
+        end
       end
     end
   end
@@ -574,7 +599,7 @@ RSpec.describe AccountController,
     end
   end
 
-  context 'GET #register' do
+  describe 'GET #register' do
     context 'with self registration on',
             with_settings: { self_registration: Setting::SelfRegistration.automatic } do
       context 'and password login enabled' do
@@ -629,7 +654,7 @@ RSpec.describe AccountController,
   end
 
   # See integration/account_test.rb for the full test
-  context 'POST #register' do
+  describe 'POST #register' do
     context 'with self registration on automatic',
             with_settings: { self_registration: Setting::SelfRegistration.automatic } do
       before do
@@ -715,7 +740,7 @@ RSpec.describe AccountController,
           it "notifies the admins about the issue" do
             perform_enqueued_jobs
 
-            mail = ActionMailer::Base.deliveries.detect { |mail| mail.to.first == admin.mail }
+            mail = ActionMailer::Base.deliveries.detect { |m| m.to.first == admin.mail }
             expect(mail).to be_present
             expect(mail.subject).to match /limit reached/
             expect(mail.body.parts.first.to_s).to match /new user \(#{params[:user][:mail]}\)/
@@ -761,7 +786,7 @@ RSpec.describe AccountController,
         end
 
         it "doesn't activate the user but sends out a token instead" do
-          expect(User.find_by_login('register')).not_to be_active
+          expect(User.find_by_login('register')).not_to be_active # rubocop:disable Rails/DynamicFindBy
           token = Token::Invitation.last
           expect(token.user.mail).to eq('register@example.com')
           expect(token).not_to be_expired
@@ -807,7 +832,7 @@ RSpec.describe AccountController,
         end
 
         it "doesn't activate the user" do
-          expect(User.find_by_login('register')).not_to be_active
+          expect(User.find_by_login('register')).not_to be_active # rubocop:disable Rails/DynamicFindBy
         end
 
         it 'calls the user_registered callback' do
@@ -868,7 +893,7 @@ RSpec.describe AccountController,
     context 'with on-the-fly registration',
             with_settings: { self_registration: Setting::SelfRegistration.disabled } do
       before do
-        allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
+        allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false) # rubocop:disable RSpec/AnyInstance
         allow(LdapAuthSource).to receive(:authenticate).and_return(login: 'foo',
                                                                    lastname: 'Smith',
                                                                    ldap_auth_source_id: 66)
@@ -893,7 +918,7 @@ RSpec.describe AccountController,
                }
           expect(response).to redirect_to home_path(first_time_user: true)
 
-          user = User.find_by_login('foo')
+          user = User.find_by_login('foo') # rubocop:disable Rails/DynamicFindBy
 
           expect(user).to be_an_instance_of(User)
           expect(user.ldap_auth_source_id).to be 66
@@ -912,7 +937,7 @@ RSpec.describe AccountController,
           end
 
           it 'is not found' do
-            expect(response.status).to eq 404
+            expect(response).to have_http_status :not_found
           end
         end
 
@@ -934,48 +959,106 @@ RSpec.describe AccountController,
     end
   end
 
-  context 'POST activate' do
-    let!(:admin) { create(:admin) }
-    let(:user) { create(:user, status:) }
-    let(:status) { -1 }
+  describe 'POST #activate' do
+    describe 'account activation' do
+      shared_examples 'account activation' do
+        let(:token) { Token::Invitation.create user: }
 
-    let(:token) { Token::Invitation.create!(user_id: user.id) }
+        let(:activation_params) do
+          {
+            token: token.value
+          }
+        end
 
-    before do
-      allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
+        context 'with an expired token' do
+          before do
+            token.update_column :expires_on, 1.day.ago
 
-      post :activate, params: { token: token.value }
-    end
+            post :activate, params: activation_params
+          end
 
-    shared_examples "activation is blocked due to user limit" do
-      it "does not activate the user" do
-        expect(user.reload).not_to be_active
+          it 'fails and shows an expiration warning' do
+            expect(subject).to redirect_to('/')
+            expect(flash[:warning]).to include 'expired'
+          end
+
+          it 'deletes the old token and generates a new one' do
+            old_token = Token::Invitation.find_by(id: token.id)
+            new_token = Token::Invitation.find_by(user_id: token.user.id)
+
+            expect(old_token).to be_nil
+            expect(new_token).to be_present
+
+            expect(new_token).not_to be_expired
+          end
+
+          it 'sends out a new activation email' do
+            new_token = Token::Invitation.find_by(user_id: token.user.id)
+
+            perform_enqueued_jobs
+
+            mail = ActionMailer::Base.deliveries.last
+            expect(mail.parts.first.body.raw_source).to include "activate?token=#{new_token.value}"
+          end
+        end
       end
 
-      it "redirects back to the login page and shows the user limit error" do
-        expect(response).to redirect_to(signin_path)
-        expect(flash[:error]).to match /user limit reached.*contact.*admin/i
+      context 'with an invited user' do
+        it_behaves_like 'account activation' do
+          let(:user) { create(:user, status: 4) }
+        end
       end
 
-      it "notifies the admins about the issue" do
-        perform_enqueued_jobs
-
-        mail = ActionMailer::Base.deliveries.detect { |mail| mail.to.first == admin.mail }
-        expect(mail).to be_present
-        expect(mail.subject).to match /limit reached/
+      context 'with a registered user' do
+        it_behaves_like 'account activation' do
+          let(:user) { create(:user, status: 2) }
+        end
       end
     end
 
-    context 'registered user' do
-      let(:status) { User.statuses[:registered] }
+    describe 'user limit' do
+      let!(:admin) { create(:admin) }
+      let(:user) { create(:user, status:) }
+      let(:status) { -1 }
 
-      it_behaves_like "activation is blocked due to user limit"
-    end
+      let(:token) { Token::Invitation.create!(user_id: user.id) }
 
-    context 'invited user' do
-      let(:status) { User.statuses[:invited] }
+      before do
+        allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
 
-      it_behaves_like "activation is blocked due to user limit"
+        post :activate, params: { token: token.value }
+      end
+
+      shared_examples "activation is blocked due to user limit" do
+        it "does not activate the user" do
+          expect(user.reload).not_to be_active
+        end
+
+        it "redirects back to the login page and shows the user limit error" do
+          expect(response).to redirect_to(signin_path)
+          expect(flash[:error]).to match /user limit reached.*contact.*admin/i
+        end
+
+        it "notifies the admins about the issue" do
+          perform_enqueued_jobs
+
+          mail = ActionMailer::Base.deliveries.detect { |m| m.to.first == admin.mail }
+          expect(mail).to be_present
+          expect(mail.subject).to match /limit reached/
+        end
+      end
+
+      context 'with an invited user' do
+        let(:status) { User.statuses[:invited] }
+
+        it_behaves_like "activation is blocked due to user limit"
+      end
+
+      context 'with a registered user' do
+        let(:status) { User.statuses[:registered] }
+
+        it_behaves_like "activation is blocked due to user limit"
+      end
     end
   end
 
@@ -1050,62 +1133,6 @@ RSpec.describe AccountController,
 
         expect(response.body).to have_text "Create a new account"
         expect(response.body).to have_text "This field is invalid: Email can't be blank."
-      end
-    end
-  end
-
-  describe 'POST #activate' do
-    shared_examples 'account activation' do
-      let(:token) { Token::Invitation.create user: }
-
-      let(:activation_params) do
-        {
-          token: token.value
-        }
-      end
-
-      context 'with an expired token' do
-        before do
-          token.update_column :expires_on, 1.day.ago
-
-          post :activate, params: activation_params
-        end
-
-        it 'fails and shows an expiration warning' do
-          expect(subject).to redirect_to('/')
-          expect(flash[:warning]).to include 'expired'
-        end
-
-        it 'deletes the old token and generates a new one' do
-          old_token = Token::Invitation.find_by(id: token.id)
-          new_token = Token::Invitation.find_by(user_id: token.user.id)
-
-          expect(old_token).to be_nil
-          expect(new_token).to be_present
-
-          expect(new_token).not_to be_expired
-        end
-
-        it 'sends out a new activation email' do
-          new_token = Token::Invitation.find_by(user_id: token.user.id)
-
-          perform_enqueued_jobs
-
-          mail = ActionMailer::Base.deliveries.last
-          expect(mail.parts.first.body.raw_source).to include "activate?token=#{new_token.value}"
-        end
-      end
-    end
-
-    context 'with an invited user' do
-      it_behaves_like 'account activation' do
-        let(:user) { create(:user, status: 4) }
-      end
-    end
-
-    context 'with an registered user' do
-      it_behaves_like 'account activation' do
-        let(:user) { create(:user, status: 2) }
       end
     end
   end

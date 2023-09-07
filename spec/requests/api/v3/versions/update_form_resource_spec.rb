@@ -139,8 +139,8 @@ RSpec.describe API::V3::Versions::UpdateFormAPI, content_type: :json do
     end
 
     context 'with all parameters' do
-      let!(:int_cf) { create(:int_version_custom_field) }
-      let!(:list_cf) { create(:list_version_custom_field) }
+      let!(:int_cf) { create(:version_custom_field, :integer) }
+      let!(:list_cf) { create(:version_custom_field, :list) }
       let(:parameters) do
         {
           name: 'New version',

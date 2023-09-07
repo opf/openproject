@@ -98,7 +98,7 @@ RSpec.describe 'My page time entries current user widget spec', js: true do
            hours: 4)
   end
   let!(:custom_field) do
-    create(:time_entry_custom_field, field_format: 'text')
+    create(:time_entry_custom_field)
   end
   let(:other_user) do
     create(:user)

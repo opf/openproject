@@ -144,6 +144,6 @@ RSpec.describe Group do
 
   it_behaves_like 'acts_as_customizable included' do
     let(:model_instance) { group }
-    let(:custom_field) { create(:string_group_custom_field) }
+    let(:custom_field) { create(:group_custom_field, :string) }
   end
 end

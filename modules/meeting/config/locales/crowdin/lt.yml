@@ -21,6 +21,10 @@
 #++
 #English strings go here for Rails i18n
 lt:
+  plugin_openproject_meeting:
+    name: "OpenProject susitikimas"
+    description: >-
+      Šis modulis prideda funkcijas, leidžiančias OpenProject projektų susitikimus. Susitikimus galima planuoti parenkant susitikimo dalyvius iš to paties projekto. Galima sukurti ir išsiųsti dalyviams susitikimo planą. Ir galų gale galima sukurti ir išsiųsti visiems dalyviams ir pakviestiesiems susitikimo protokolą.
   activerecord:
     attributes:
       meeting:

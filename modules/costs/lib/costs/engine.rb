@@ -41,8 +41,7 @@ module Costs
                default: { 'costs_currency' => 'EUR', 'costs_currency_format' => '%n %u' },
                partial: 'settings/costs',
                menu_item: :costs_setting
-             },
-             name: :project_module_costs do
+             } do
       project_module :costs do
         permission :view_time_entries, {}
         permission :view_own_time_entries, {}

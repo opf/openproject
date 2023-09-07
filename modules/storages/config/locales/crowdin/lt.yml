@@ -1,5 +1,8 @@
 #English strings go here
 lt:
+  plugin_openproject_storages:
+    name: "OpenProject saugyklos"
+    description: "Leidžia susieti darbo paketus su failais išorinėse saugyklose, tokiose kaip Nextcloud."
   permission_view_file_links: "Žiūrėti failo nuorodas"
   permission_manage_file_links: "Tvarkyti failo nuorodas"
   permission_manage_storages_in_project: "Tvarkyti failų saugyklas projekte"
@@ -57,6 +60,7 @@ lt:
       edit_automatically_managed_project_folders: "Keisti automatiškai sukonfigūruotus projekto aplankus"
       replace_openproject_oauth: "Keisti OpenProject OAuth"
       replace_provider_type_oauth: "Keisti %{provider_type} OAuth"
+      save: "Save"
       save_and_continue_setup: "Įrašyti r tęsti nustatymą"
       save_and_complete_setup: "Įrašyti ir baigti nustatymą"
       select_folder: "Parinkti aplanką"
@@ -100,6 +104,8 @@ lt:
     help_texts:
       project_folder: >
         Projekto aplankas yra numatytasis aplankas failų įkėlimui šiame projekte. Naudotojai gali įkelti failus ir į kitas vietas.
+    configuration_checks:
+      incomplete: "Šios saugyklos nustatymai nepilni"
     delete_warning:
       storage: >
         Ar tikrai norite ištrinti šią failų saugyklą? Saugykla taipogi bus ištrinta iš visų projektų, kur ji naudojama. Taipogi tai ištrins visus ryšius iš darbo paketų į failus, esančius šioje saugykloje.
@@ -128,6 +134,7 @@ lt:
     label_provider_type: "Tiekėjo tipas"
     label_project_folder: "Projekto aplankas"
     label_new_storage: "Nauja saugykla"
+    label_edit_storage: "Edit storage"
     label_existing_manual_folder: "Esamas aplankas su rankiniu būdu valdomomis teisėmis"
     label_no_specific_folder: "Jokio konkretaus aplanko"
     label_automatic_folder: "Naujas aplankas su automatiškai valdomomis teisėmis"

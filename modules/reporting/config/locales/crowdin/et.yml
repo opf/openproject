@@ -20,6 +20,9 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 et:
+  plugin_openproject_reporting:
+    name: "OpenProject Reporting"
+    description: "This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin."
   button_save_as: "Salvesta aruanne kui..."
   comments: "Kommentaar"
   cost_reports_title: "Time and costs"

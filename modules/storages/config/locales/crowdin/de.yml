@@ -1,5 +1,8 @@
 #English strings go here
 de:
+  plugin_openproject_storages:
+    name: "OpenProject Speicherplätze"
+    description: "Ermöglicht die Verknüpfung von Arbeitspaketen mit Dateien in externen Speicherorten, wie beispielsweise Nextcloud."
   permission_view_file_links: "Datei-Links anzeigen"
   permission_manage_file_links: "Datei-Links verwalten"
   permission_manage_storages_in_project: "Datei-Speicher im Projekt verwalten"
@@ -57,6 +60,7 @@ de:
       edit_automatically_managed_project_folders: "Automatisch verwaltete Projektordner bearbeiten"
       replace_openproject_oauth: "OpenProject OAuth ersetzen"
       replace_provider_type_oauth: "Ersetze %{provider_type} OAuth"
+      save: "Save"
       save_and_continue_setup: "Speichern und Setup fortsetzen"
       save_and_complete_setup: "Speichern und Setup abschließen"
       select_folder: "Ordner auswählen"
@@ -100,6 +104,8 @@ de:
     help_texts:
       project_folder: >
         Der Projektordner ist der Standardordner für Datei-Uploads für dieses Projekt. Benutzer können trotzdem Dateien an andere Orte hochladen.
+    configuration_checks:
+      incomplete: "Die Einrichtung dieses Speicherplatzes ist unvollständig."
     delete_warning:
       storage: >
         Sind Sie sicher, dass Sie diesen Speicher löschen möchten? Dies löscht den Speicher auch aus allen Projekten, in denen er verwendet wird. Außerdem werden alle Links von Arbeitspaketen zu Dateien gelöscht, die in diesem Speicher gespeichert sind.
@@ -128,6 +134,7 @@ de:
     label_provider_type: "Anbieter-Typ"
     label_project_folder: "Projektordner"
     label_new_storage: "Neuer Speicher"
+    label_edit_storage: "Edit storage"
     label_existing_manual_folder: "Vorhandener Ordner mit manuell verwalteten Berechtigungen"
     label_no_specific_folder: "Kein spezifischer Ordner"
     label_automatic_folder: "Neuer Ordner mit automatisch verwalteten Berechtigungen"

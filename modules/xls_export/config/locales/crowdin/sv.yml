@@ -1,4 +1,7 @@
 sv:
+  plugin_openproject_xls_export:
+    name: "OpenProject XLS Export"
+    description: "Export issue lists as Excel spreadsheets (.xls)."
   export_to_excel: "Exportera XLS "
   print_with_description: "Skriv ut förhandsgranskning med beskrivning"
   sentence_separator_or: "eller"

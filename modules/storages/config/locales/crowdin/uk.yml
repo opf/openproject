@@ -1,5 +1,8 @@
 #English strings go here
 uk:
+  plugin_openproject_storages:
+    name: "OpenProject Storages"
+    description: "Allows linking work packages to files in external storages, such as Nextcloud."
   permission_view_file_links: "Перегляд посилань на файл"
   permission_manage_file_links: "Керування посиланнями на файл"
   permission_manage_storages_in_project: "Керування файловими сховищами в проєкті"
@@ -57,6 +60,7 @@ uk:
       edit_automatically_managed_project_folders: "Редагувати папки проєкту з автоматичним керуванням"
       replace_openproject_oauth: "Замінити OpenProject OAuth"
       replace_provider_type_oauth: "Замінити %{provider_type} OAuth"
+      save: "Save"
       save_and_continue_setup: "Зберегти й продовжити налаштування"
       save_and_complete_setup: "Зберегти й завершити налаштування"
       select_folder: "Вибрати папку"
@@ -100,6 +104,8 @@ uk:
     help_texts:
       project_folder: >
         Папка проєкту – це папка за замовчуванням для файлів, які передаються в цей проєкт. Однак користувачі можуть передавати файли в інші розташування.
+    configuration_checks:
+      incomplete: "The setup of this storage is incomplete."
     delete_warning:
       storage: >
         Справді видалити це сховище? Це сховище буде також видалено з усіх проєктів, де воно використовувалося. Крім того, буде видалено всі посилання в пакетах робіт на файли, які зберігалися в цьому сховищі.
@@ -128,6 +134,7 @@ uk:
     label_provider_type: "Тип постачальника"
     label_project_folder: "Папка проєкту"
     label_new_storage: "Нове сховище"
+    label_edit_storage: "Edit storage"
     label_existing_manual_folder: "Наявна папка з ручним керуванням дозволами"
     label_no_specific_folder: "Немає конкретної папки"
     label_automatic_folder: "Нова папка з автоматичним керуванням дозволами"

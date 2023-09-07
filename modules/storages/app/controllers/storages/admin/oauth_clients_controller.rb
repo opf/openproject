@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -64,7 +66,7 @@ class Storages::Admin::OAuthClientsController < ApplicationController
       if @storage.automatic_management_unspecified?
         redirect_to new_admin_settings_storage_automatically_managed_project_folders_path(@storage)
       else
-        redirect_to admin_settings_storage_path(@storage)
+        redirect_to edit_admin_settings_storage_path(@storage)
       end
     else
       @errors = service_result.errors

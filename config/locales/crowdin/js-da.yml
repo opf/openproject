@@ -593,7 +593,7 @@ da:
         assigned: 'Tildeler'
         responsible: 'accountable'
         created: 'created'
-        scheduled: 'scheduled'
+        scheduled: 'skemalagt'
         commented: 'commented'
         processed: 'processed'
         prioritized: 'prioritized'

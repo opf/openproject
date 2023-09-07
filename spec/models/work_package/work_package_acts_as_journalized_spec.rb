@@ -871,7 +871,7 @@ RSpec.describe WorkPackage do
     let(:project) { create(:project) }
     let(:type) { create(:type) }
     let(:custom_field) do
-      create(:int_wp_custom_field).tap do |cf|
+      create(:integer_wp_custom_field) do |cf|
         project.work_package_custom_fields << cf
         type.custom_fields << cf
       end

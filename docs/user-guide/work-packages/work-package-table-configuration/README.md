@@ -72,7 +72,7 @@ Also, you can filter by [custom fields](../../../system-admin-guide/custom-field
 Different attributes offer different filter criteria but most selection attributes like Assignee offer these:
 
 - **is (OR)**: returns all work packages that match any one of the entered values
-- **is not**: returns all work packaged that do not match any of the entered values
+- **is not**: returns all work packages that do not match any of the entered values
 - **is not empty**: returns all work packages for which the attribute has a value
 - **is empty**: returns all work packages for which the attribute does not have a value
 

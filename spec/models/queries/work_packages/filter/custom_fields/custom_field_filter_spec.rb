@@ -30,8 +30,8 @@ require 'spec_helper'
 
 RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
   let(:project) { build_stubbed(:project) }
-  let(:bool_wp_custom_field) { build_stubbed(:bool_wp_custom_field) }
-  let(:int_wp_custom_field) { build_stubbed(:int_wp_custom_field) }
+  let(:bool_wp_custom_field) { build_stubbed(:boolean_wp_custom_field) }
+  let(:int_wp_custom_field) { build_stubbed(:integer_wp_custom_field) }
   let(:float_wp_custom_field) { build_stubbed(:float_wp_custom_field) }
   let(:text_wp_custom_field) { build_stubbed(:text_wp_custom_field) }
   let(:user_wp_custom_field) { build_stubbed(:user_wp_custom_field) }
@@ -306,8 +306,8 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
 
       it 'is list for a bool' do
         expect(instance.allowed_values)
-          .to match_array [[I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
-                           [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE]]
+          .to contain_exactly([I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
+                              [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE])
       end
     end
 
@@ -415,8 +415,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
 
         it 'returns an array with custom classes' do
           expect(instance.value_objects)
-            .to match_array([custom_field.custom_options.last,
-                             custom_field.custom_options.first])
+            .to contain_exactly(custom_field.custom_options.last, custom_field.custom_options.first)
         end
 
         it 'ignores invalid values' do
@@ -424,7 +423,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
                              custom_field.custom_options.last.id]
 
           expect(instance.value_objects)
-            .to match_array([custom_field.custom_options.last])
+            .to contain_exactly(custom_field.custom_options.last)
         end
       end
     end
@@ -478,7 +477,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
 
         it 'returns an array with users' do
           expect(instance.value_objects)
-            .to match_array([user1, user2])
+            .to contain_exactly(user1, user2)
         end
       end
     end
@@ -508,7 +507,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
 
         it 'returns an array with users' do
           expect(instance.value_objects)
-            .to match_array([version1, version2])
+            .to contain_exactly(version1, version2)
         end
       end
     end

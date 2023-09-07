@@ -1,5 +1,8 @@
 #English strings go here
 ka:
+  plugin_openproject_storages:
+    name: "OpenProject Storages"
+    description: "Allows linking work packages to files in external storages, such as Nextcloud."
   permission_view_file_links: "View file links"
   permission_manage_file_links: "Manage file links"
   permission_manage_storages_in_project: "Manage file storages in project"
@@ -24,7 +27,7 @@ ka:
         creator: "შემქმნელი"
         provider_type: "Provider type"
       storages/file_link:
-        origin_id: "Origin Id"
+        origin_id: "საწყისის id"
     errors:
       messages:
         not_linked_to_project: "is not linked to project."
@@ -57,10 +60,11 @@ ka:
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Replace OpenProject OAuth"
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
+      save: "Save"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
       select_folder: "Select folder"
-      configure: "Configure"
+      configure: "მორგება"
     page_titles:
       managed_project_folders:
         title: "Automatically managed project folders"
@@ -100,6 +104,8 @@ ka:
     help_texts:
       project_folder: >
         The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
+    configuration_checks:
+      incomplete: "The setup of this storage is incomplete."
     delete_warning:
       storage: >
         Are you sure you want to delete this storage? This will also delete the storage from all projects where it is used. Further, it will also delete all links from work packages to files that are stored in that storage.
@@ -112,7 +118,7 @@ ka:
     label_active: "აქტიური"
     label_inactive: "არააქტიური"
     label_creator: "შემქმნელი"
-    label_file_link: "File link"
+    label_file_link: "ფაილის ბმული"
     label_file_links: "File links"
     label_name: "სახელი"
     label_host: "ჰოსტის URL"
@@ -128,6 +134,7 @@ ka:
     label_provider_type: "Provider type"
     label_project_folder: "Project folder"
     label_new_storage: "New storage"
+    label_edit_storage: "Edit storage"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_no_specific_folder: "No specific folder"
     label_automatic_folder: "New folder with automatically managed permissions"
@@ -137,7 +144,7 @@ ka:
     label_status: "სტატუსი"
     label_files: "ფაილები"
     member_connection_status:
-      connected: "Connected"
+      connected: "დაკავშირებულია"
       connected_no_permissions: "User role has no storages permissions"
       not_connected: "Not connected. The user should login to the storage via the %{files_label} tab of a work package to connect."
     no_results: "No storages set up yet."

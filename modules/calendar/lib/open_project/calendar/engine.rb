@@ -25,8 +25,7 @@ module OpenProject::Calendar
     register 'openproject-calendar',
              author_url: 'https://www.openproject.org',
              bundled: true,
-             settings: {},
-             name: 'OpenProject Calendar' do
+             settings: {} do
       project_module :calendar_view, dependencies: :work_package_tracking do
         permission :view_calendar,
                    { 'calendar/calendars': %i[index show] },
@@ -37,6 +36,7 @@ module OpenProject::Calendar
                    dependencies: %i[view_calendar add_work_packages edit_work_packages save_queries manage_public_queries],
                    contract_actions: { calendar: %i[create update destroy] }
         permission :share_calendars,
+                   {},
                    dependencies: %i[view_calendar],
                    contract_actions: { calendar: %i[read] }
       end
