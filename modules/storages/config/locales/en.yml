@@ -76,6 +76,8 @@ en:
       select_folder: "Select folder"
       configure: "Configure"
     page_titles:
+      file_storages:
+        subtitle: "Add an external file storage in order to upload, link and manage files in work packages."
       managed_project_folders:
         title: "Automatically managed project folders"
         subtitle: >
