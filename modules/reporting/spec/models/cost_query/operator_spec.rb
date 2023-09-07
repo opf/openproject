@@ -106,9 +106,9 @@ RSpec.describe CostQuery, reporting_query_helper: true do
     end
 
     it "does !~ (not contains)" do
-      expect(cost_query('projects', 'name', '!~', 'o').size).to eq(Project.all.count { |p| !(p.name.include?('o')) })
-      expect(cost_query('projects', 'name', '!~', 'test').size).to eq(Project.all.count { |p| !(p.name.include?('test')) })
-      expect(cost_query('projects', 'name', '!~', 'child').size).to eq(Project.all.count { |p| !(p.name.include?('child')) })
+      expect(cost_query('projects', 'name', '!~', 'o').size).to eq(Project.all.count { |p| p.name.exclude?('o') })
+      expect(cost_query('projects', 'name', '!~', 'test').size).to eq(Project.all.count { |p| p.name.exclude?('test') })
+      expect(cost_query('projects', 'name', '!~', 'child').size).to eq(Project.all.count { |p| p.name.exclude?('child') })
     end
 
     it "does c (closed work_package)" do
