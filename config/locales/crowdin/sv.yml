@@ -461,6 +461,8 @@ sv:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Versionsarkiv"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Kommenterade" #an object that this comment belongs to
       custom_action:
@@ -2192,8 +2194,8 @@ sv:
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} arbetspaket som är tilldelade till dig förfaller de närmaste %{days} dagarna:"
   mail_body_group_reminder: "%{count} arbetspaket som är tilldelade till gruppen \"%{group}\" ska vara klara inom de närmaste %{days} dagarna:"
-  mail_body_wiki_content_added: "Wiki-sidan '%{id}' har lagts till av %{author}."
-  mail_body_wiki_content_updated: "'%{id}' wiki-sidan har uppdaterats av %{author}."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value}} kontoaktiveringsbegäran"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2373,6 +2375,7 @@ sv:
   permission_log_time: "Log time for other users"
   permission_manage_forums: "Hantera forum"
   permission_manage_categories: "Hantera kategorier för arbetspaket"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Hantera relationer för arbetspaket"
   permission_manage_members: "Hantera medlemmar"
   permission_manage_news: "Hantera nyheter"
@@ -2387,15 +2390,19 @@ sv:
   permission_protect_wiki_pages: "Skydda wiki-sidor"
   permission_rename_wiki_pages: "Byt namn på wiki-sidor"
   permission_save_queries: "Spara vyer"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Välj projektmoduler"
   permission_share_work_packages: "Share work packages"
   permission_manage_types: "Välj typer"
+  permission_view_project: "View projects"
   permission_view_changesets: "Visa databasrevisioner i OpenProject"
   permission_view_commit_author_statistics: "Visa statistik över incheckningar per författare"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Visa lista med bevakare"
   permission_view_work_packages: "Visa arbetspaket"
   permission_view_messages: "Visa meddelanden"
+  permission_view_news: "View news"
   permission_view_members: "Visa medlemmar"
   permission_view_reportings: "Visa rapporter"
   permission_view_time_entries: "Visa förbrukad tid"
@@ -2404,6 +2411,9 @@ sv:
   permission_view_wiki_pages: "Visa wiki"
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Arbetspaket kan tilldelas användare och grupper som har denna roll i respektive projektet"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:

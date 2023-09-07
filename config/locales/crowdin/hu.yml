@@ -459,6 +459,8 @@ hu:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Csomagtároló"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Hozzászólás" #an object that this comment belongs to
       custom_action:
@@ -2190,8 +2192,8 @@ hu:
   mail_body_register_ending: "Maradj kapcsolatban! Üdvözlettel,"
   mail_body_reminder: "Ön rendelt  %{count} munkacsomag(ok) a következő  %{days}  napokon esedékesek:"
   mail_body_group_reminder: "A \"%{group}\" csoporthoz rendelt %{count} feladat határidős az elkövetkező %{days} napban:"
-  mail_body_wiki_content_added: "A '%{id}' wiki oldal hozzáadva %{author} által."
-  mail_body_wiki_content_updated: "A '%{id}' wiki oldal frissítve %{author} által."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} fiók aktiválásának kérése"
   mail_subject_backup_ready: "A biztonsági mentés elkészült"
   mail_subject_backup_token_reset: "Biztonsági mentés token visszaállítás"
@@ -2370,6 +2372,7 @@ hu:
   permission_log_time: "Log time for other users"
   permission_manage_forums: "Fórum kezelése"
   permission_manage_categories: "feladatcsoport kategóriák kezelése"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "feladatcsoport kapcsolatok kezelése"
   permission_manage_members: "Tagok kezelése"
   permission_manage_news: "Hírek kezelése"
@@ -2384,15 +2387,19 @@ hu:
   permission_protect_wiki_pages: "Védett wiki oldalak"
   permission_rename_wiki_pages: "Wiki oldalak átnevezése"
   permission_save_queries: "Nézet mentése"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Egyedi mezők kiválasztása"
   permission_select_project_modules: "Projekt modulok kiválasztása"
   permission_share_work_packages: "Share work packages"
   permission_manage_types: "Jelölje ki a típust"
+  permission_view_project: "View projects"
   permission_view_changesets: "Tároló verziók megtekintése az OpenProject-ben"
   permission_view_commit_author_statistics: "Szerző,statisztika megtekintése"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "A megfigyelők listájának megtekintése"
   permission_view_work_packages: "Munkacsomagok megtekintése"
   permission_view_messages: "Üzenetek megtekintése"
+  permission_view_news: "View news"
   permission_view_members: "Tagok megtekintése"
   permission_view_reportings: "Jelentések megtekintése"
   permission_view_time_entries: "Az eltöltött idő megtekintése"
@@ -2401,6 +2408,9 @@ hu:
   permission_view_wiki_pages: "Wiki megtekintése"
   permission_work_package_assigned: "Legyen megbízott/felelős"
   permission_work_package_assigned_explanation: "Munkacsomagok hozzárendelhetők a szerephez tartozó felhasználókhoz és csoportokhoz az adott projektben"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:

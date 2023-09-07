@@ -461,6 +461,8 @@ lt:
         tls_certificate_string: "LDAP serverio SSL sertifikatas"
       changeset:
         repository: "Repozitorija"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Komentavo" #an object that this comment belongs to
       custom_action:
@@ -1485,7 +1487,7 @@ lt:
     changes_retracted: "Pakeitimai buvo atšaukti."
     caused_changes:
       dates_changed: "Datos pasikeitė"
-      system_update: "OpenProject system update:"
+      system_update: "OpenProject sistemos atnaujinimas"
     cause_descriptions:
       work_package_predecessor_changed_times: dėl pirmtako pakeitimų %{link}
       work_package_parent_changed_times: dėl tėvo pakeitimų %{link}
@@ -1502,7 +1504,7 @@ lt:
           non_working: "%{date} dabar yra nedarbo"
       system_update:
         file_links_journal: >
-          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
+          Nuo dabar, su failų nuorodomis (failais, saugomais išorinse saugyklose) susiję veiksmai bus rodomi Veiksmų kortelėje. Žemiau pateikiamas jau egzistavusių nuorodų veiksmų sąrašas:
   links:
     configuration_guide: 'Konfigūravimo vadovas'
     get_in_touch: "Turite klausimų? Susisiekite su mumis."
@@ -2234,8 +2236,8 @@ lt:
   mail_body_register_ending: "Likite prisijungę! Su geriausiais linkėjimais,"
   mail_body_reminder: "%{count} darbų paketai, kurie yra jums priskirti, baigiasi per artimiausias %{days} dienų (-ą, -as):"
   mail_body_group_reminder: "%{count} darbo paketas(ai), kurie priskirti grupei „%{group}“ turi būti baigti per kitas %{days} dienas:"
-  mail_body_wiki_content_added: "%{author} pridėjo '%{id}' wiki puslapį."
-  mail_body_wiki_content_updated: "%{author} atnaujino '%{id}' wiki puslapį."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} paskyros aktyvavimo prašymas"
   mail_subject_backup_ready: "Jūsų atsarginė kopija paruošta"
   mail_subject_backup_token_reset: "Rezervinės kopijos žetonas atstatytas"
@@ -2415,6 +2417,7 @@ lt:
   permission_log_time: "Registruoti kitų naudotojų laiką"
   permission_manage_forums: "Valdyti forumus"
   permission_manage_categories: "Valdyti darbų paketo kategorijas"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Valdyti darbų paketo ryšius"
   permission_manage_members: "Valdyti narius"
   permission_manage_news: "Valdyti naujienas"
@@ -2429,15 +2432,19 @@ lt:
   permission_protect_wiki_pages: "Apsaugoti wiki puslapius"
   permission_rename_wiki_pages: "Pervadinti wiki puslapius"
   permission_save_queries: "Įrašyti vaizdus"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Parinkite savo laukus"
   permission_select_project_modules: "Parinkti projekto modulius"
-  permission_share_work_packages: "Share work packages"
+  permission_share_work_packages: "Bendrinti darbo paketus"
   permission_manage_types: "Pasirinkti tipus"
+  permission_view_project: "View projects"
   permission_view_changesets: "Rodyti repozitorijos pakeitimus OpenProject"
   permission_view_commit_author_statistics: "Peržiūrėti autorių pakeitimų pateikimo statistiką"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Peržiūrėti stebėtojų sąrašą"
   permission_view_work_packages: "Rodyti darbų paketus"
   permission_view_messages: "Peržiūrėti žinutes"
+  permission_view_news: "View news"
   permission_view_members: "Rodyti narius"
   permission_view_reportings: "Peržiūrėti ataskaitas"
   permission_view_time_entries: "Peržiūrėti dirbtą laiką"
@@ -2446,6 +2453,9 @@ lt:
   permission_view_wiki_pages: "Peržiūrėti wiki"
   permission_work_package_assigned: "Tapti paskirtuoju/atsakinguoju"
   permission_work_package_assigned_explanation: "Darbų paketai gali būti priskirti naudotojams ir grupėms pagal vaidmenį atitinkamame projekte"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:

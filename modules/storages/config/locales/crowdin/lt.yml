@@ -1,8 +1,8 @@
 #English strings go here
 lt:
   plugin_openproject_storages:
-    name: "OpenProject Storages"
-    description: "Allows linking work packages to files in external storages, such as Nextcloud."
+    name: "OpenProject saugyklos"
+    description: "Leidžia susieti darbo paketus su failais išorinėse saugyklose, tokiose kaip Nextcloud."
   permission_view_file_links: "Žiūrėti failo nuorodas"
   permission_manage_file_links: "Tvarkyti failo nuorodas"
   permission_manage_storages_in_project: "Tvarkyti failų saugyklas projekte"
@@ -53,7 +53,7 @@ lt:
     errors:
       too_many_elements_created_at_once: "Per daug elementu vienu metu. Tikėtasi daugiausia %{max}, gauta %{actual}."
   storages:
-    default_name: "My storage"
+    default_name: "Mano saugykla"
     unknown_storage: "Nežinoma saugykla"
     buttons:
       done_continue_setup: "Atlikta. Tęsti nustatymą"
@@ -61,6 +61,7 @@ lt:
       edit_automatically_managed_project_folders: "Keisti automatiškai sukonfigūruotus projekto aplankus"
       replace_openproject_oauth: "Keisti OpenProject OAuth"
       replace_provider_type_oauth: "Keisti %{provider_type} OAuth"
+      save: "Save"
       save_and_continue_setup: "Įrašyti r tęsti nustatymą"
       save_and_complete_setup: "Įrašyti ir baigti nustatymą"
       select_folder: "Parinkti aplanką"
@@ -104,10 +105,10 @@ lt:
       one_drive:
         integration: "OneDrive/Sharepoint"
         oauth_client_id: >
-          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+          Kopijuoti kliento id iš Azure portalo. Tai reikalinga nukreipimo URI generavimui.
         oauth_client_secret: >
-          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
-        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
+          Kopijuokite kliento paslaptį iš Azure portalo. Naujai sukurtai aplikacijai paslaptį visų pirma reikia sukurti rankomis. Žiniatinklio aplikacijos autorizacijai paslaptis yra privaloma.
+        missing_client_id_for_redirect_uri: "Trūksta kliento ID, kad būtų teikiamas nukreipimo URI."
     help_texts:
       project_folder: >
         Projekto aplankas yra numatytasis aplankas failų įkėlimui šiame projekte. Naudotojai gali įkelti failus ir į kitas vietas.
@@ -142,6 +143,7 @@ lt:
     label_provider_type: "Tiekėjo tipas"
     label_project_folder: "Projekto aplankas"
     label_new_storage: "Nauja saugykla"
+    label_edit_storage: "Edit storage"
     label_existing_manual_folder: "Esamas aplankas su rankiniu būdu valdomomis teisėmis"
     label_no_specific_folder: "Jokio konkretaus aplanko"
     label_automatic_folder: "Naujas aplankas su automatiškai valdomomis teisėmis"
@@ -163,7 +165,7 @@ lt:
         name_placeholder: "pvz. Nextcloud"
       one_drive:
         name: "OneDrive/Sharepoint"
-        name_placeholder: "e.g. OneDrive"
+        name_placeholder: "pvz. OneDrive"
     confirm_replace_oauth_application: "Ar jūs įsitikinę? Visi naudotojai turės iš naujo autorizuotis su OpenProject."
     confirm_replace_oauth_client: "Ar jūs įsitikinę? Visi naudotojai turės iš naujo autorizuotis su saugykla."
     oauth_client_details_missing: "Norėdami baigti nustatymą, prašome pridėti OAuth kliento prisijungimo duomenis iš jūsų saugyklos."

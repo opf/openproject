@@ -461,6 +461,8 @@ sl:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitorij"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Komentar" #an object that this comment belongs to
       custom_action:
@@ -2234,8 +2236,8 @@ sl:
   mail_body_register_ending: "Ostanite povezani! Lep pozdrav,"
   mail_body_reminder: "%{count} delovni paketi, ki so vam dodeljeni bodo zapadli v naslednjih dneh: %{days}"
   mail_body_group_reminder: "%{count} delovni paketi, ki so dodeljeni skupini \"%{group}\" bodo zapadli v naslednjih %{days} dneh:"
-  mail_body_wiki_content_added: "%{author} je dodal '%{id}' stran wiki."
-  mail_body_wiki_content_updated: "%{author} je posodobil '%{id}' stran wiki."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} zahtevek za aktivacijo računa"
   mail_subject_backup_ready: "Vaša varnostna kopija je pripravljena"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2417,6 +2419,7 @@ sl:
   permission_log_time: "Log time for other users"
   permission_manage_forums: "Uredi forume"
   permission_manage_categories: "Upravljajte kategorije delovnih paketov"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Upravljajte razmerja med delovnim paketom"
   permission_manage_members: "Urejanje članov"
   permission_manage_news: "Uredi novice"
@@ -2431,15 +2434,19 @@ sl:
   permission_protect_wiki_pages: "Zaščiti wiki strani"
   permission_rename_wiki_pages: "Preimenujte wiki strani"
   permission_save_queries: "Shrani poglede …"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Izberi module projekta"
   permission_share_work_packages: "Share work packages"
   permission_manage_types: "Izberi vrste"
+  permission_view_project: "View projects"
   permission_view_changesets: "Oglejte si revizije repozitorija v OpenProject"
   permission_view_commit_author_statistics: "Oglejte si statistiko avtorjev"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Oglej si listo spremeljevalcev"
   permission_view_work_packages: "Oglejte si delovne pakete"
   permission_view_messages: "Poglej sporočila"
+  permission_view_news: "View news"
   permission_view_members: "Poglej člane"
   permission_view_reportings: "Ogled poročil"
   permission_view_time_entries: "Porabljen čas"
@@ -2448,6 +2455,9 @@ sl:
   permission_view_wiki_pages: "Poglej wiki"
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Delovni paketi se lahko dodelijo uporabnikom in skupinam, ki imajo to vlogo v posameznem projektu"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
