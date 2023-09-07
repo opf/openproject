@@ -11,7 +11,18 @@ release_date: 2023-09-07
 Release date: 2023-09-07
 
 We released [OpenProject 13.0.2](https://community.openproject.com/versions/1868).
-The release contains several bug fixes and we recommend updating to the newest version.
+
+This release contains several bug fixes. One of them we consider of high importance. We recommend updating to the newest version.
+
+That important bug affected only OpenProject instances that use the
+"Project folder" feature of the Nextcloud integration. That feature was
+introduced just recently in version 13.0. We recommend an immediate update for all OpenProject instances that already make use of the "Project folder" feature.
+
+The bug potentially gave OpenProject users access to project folders where
+they should not. To receive this erroneous access, users need to rightfully have access to at least one other project folder. The permissions for that project folder are mistakenly copied over
+to other project folders.
+
+This only affects those users that have granted OpenProject access to their Nextcloud user via OAuth. Other users that do not have access rights to any project folder and have not granted access to Nextcloud via OAuth are not affected.
 
 <!--more-->
 #### Bug fixes and changes
