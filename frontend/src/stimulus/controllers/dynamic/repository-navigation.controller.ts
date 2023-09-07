@@ -67,12 +67,20 @@ export default class RepositoryNavigationController extends Controller {
   }
 
   sendForm() {
-    this.branchTarget.disabled = true;
-    this.tagTarget.disabled = true;
+    if (this.hasBranchTarget) {
+      this.branchTarget.disabled = true;
+    }
+    if (this.hasTagTaget) {
+      this.tagTarget.disabled = true;
+    }
     this.formTarget.submit();
 
-    this.branchTarget.disabled = false;
-    this.tagTarget.disabled = false;
+    if (this.hasBranchTarget) {
+      this.branchTarget.disabled = false;
+    }
+    if (this.hasTagTaget) {
+      this.tagTarget.disabled = false;
+    }
   }
 
   /**
