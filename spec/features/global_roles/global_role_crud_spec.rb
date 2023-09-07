@@ -47,8 +47,8 @@ RSpec.describe 'Global role: Global role CRUD',
     visit new_role_path
     # Then I should not see block with "#global_permissions"
     expect(page).not_to have_selector('.form--fieldset-legend', text: 'GLOBAL')
-    # When I check "Global Role"
-    check 'Global Role'
+    # When I check "Global role"
+    check 'Global role'
     # Then I should see block with "#global_permissions"
     expect(page).to have_selector('.form--fieldset-legend', text: 'GLOBAL')
     # And I should see "Global group"
