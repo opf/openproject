@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -38,6 +40,6 @@ require 'dry/container/stub'
 Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
-  config.before(:suite) { Storages::Peripherals::Registry.enable_stubs! }
+  config.prepend_before { Storages::Peripherals::Registry.enable_stubs! }
   config.append_after { Storages::Peripherals::Registry.unstub }
 end

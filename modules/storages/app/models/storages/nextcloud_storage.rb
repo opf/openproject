@@ -50,7 +50,7 @@ module Storages
         where("provider_fields->>'automatically_managed' = 'true'")
           .includes(:oauth_client)
           .each do |storage|
-          Storages::GroupFolderPropertiesSyncService.new(storage).call
+          GroupFolderPropertiesSyncService.new(storage).call
         end
         true
       end

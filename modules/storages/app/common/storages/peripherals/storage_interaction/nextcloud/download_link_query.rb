@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -32,7 +34,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def initialize(storage)
       @uri = storage.uri
-      @oauth_client = storage.oauth_client
+      @configuration = storage.oauth_configuration
     end
 
     def self.call(storage:, user:, file_link:)
@@ -41,7 +43,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     # rubocop:disable Metrics/AbcSize
     def call(user:, file_link:)
-      result = Util.token(user:, oauth_client: @oauth_client) do |token|
+      result = Util.token(user:, configuration: @configuration) do |token|
         service_result = begin
           response = Util.http(@uri).post(
             Util.join_uri_path(@uri.path, '/ocs/v2.php/apps/dav/api/v1/direct'),
