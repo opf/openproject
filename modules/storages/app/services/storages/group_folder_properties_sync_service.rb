@@ -202,25 +202,17 @@ class Storages::GroupFolderPropertiesSyncService
 
   def project_folder_permissions(project:)
     {
-      users: user_permission_map(project:),
+      users: admins_project_folder_permissions.merge!(members_project_folder_permissions(project:)),
       groups: { "#{@group}": NO_PERMISSIONS }
     }
   end
 
-  def user_permission_map(project:)
-    admins_project_folder_permissions
-      .merge(members_project_folder_permissions(project:))
-  end
-
   def admins_project_folder_permissions
-    @admins_project_folder_permissions ||=
-      {
-        "#{@nextcloud_system_user}": ALL_PERMISSIONS
-      }.tap do |map|
-        @admin_nextcloud_usernames.each do |admin_nextcloud_username|
-          map[admin_nextcloud_username.to_sym] = ALL_PERMISSIONS
-        end
-      end
+    @admin_nextcloud_usernames.each_with_object(
+      "#{@nextcloud_system_user}": ALL_PERMISSIONS
+    ) do |admin_nextcloud_username, hash_map|
+      hash_map[admin_nextcloud_username.to_sym] = ALL_PERMISSIONS
+    end
   end
 
   def members_project_folder_permissions(project:)
