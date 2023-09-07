@@ -172,6 +172,8 @@ OpenProject is a form-driven application, meaning that users input a lot of data
 
 **References**
 
+https://guides.rubyonrails.org/security.html#injection
+
 https://owasp.org/www-community/Types_of_Cross-Site_Scripting#stored-xss-aka-persistent-or-type-i
 
 https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html
