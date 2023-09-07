@@ -29,9 +29,10 @@
 $form--field-types: (text-field, text-area, select, check-box, radio-button, range-field, search, file, date-picker)
 $base-line-height: 1.5
 $form-label-color: var(--body-font-color)
+$content-form-input-border: 1px solid var(--content-form-input-border-color)
 
 %input-style
-  border: var(--content-form-input-border)
+  border: $content-form-input-border
   border-radius: 2px
   font-size: var(--body-font-size)
 
@@ -756,7 +757,7 @@ input[readonly].-clickable
   margin-bottom: 0.8rem
 
 .form--matrix
-  border: var(--content-form-input-border)
+  border: $content-form-input-border
   border-radius: 2px
   background: none
   margin: 0 0 2rem 0
@@ -765,7 +766,7 @@ input[readonly].-clickable
 
 .form--matrix-header-row
   font-weight: bold
-  border-bottom: var(--content-form-input-border)
+  border-bottom: $content-form-input-border
   background-color: var(--gray-light)
 
 .form--matrix-header-cell
@@ -878,7 +879,7 @@ input[readonly].-clickable
   font-size: 0.9rem
   background: #EEEEEE
   color: var(--body-font-color)
-  border: var(--content-form-input-border)
+  border: $content-form-input-border
   border-radius: 2px
   padding: 0 0.5rem
   margin-bottom: 0rem

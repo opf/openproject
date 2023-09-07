@@ -101,7 +101,8 @@
   --content-icon-link-color: #4b4b4b;
   --content-icon-color: var(--content-link-color);
   --content-form-bg-color: #F8F8F8;
-  --content-form-input-border: 1px solid #CACACA;
+  --content-form-input-border-color: #CACACA;
+  --content-form-input-hover-border-color: #888888;
   --content-form-input-hover-border: 1px solid #888888;
   --content-form-error-color: #9E2A1C;
   --content-form-separator-color: #DDDDDD;
@@ -145,4 +146,5 @@
   --warn:#C92A2A;
   --grid-background-color: #F3F6F8;
   --avatar-border-color: transparent;
+  --input-border-default-color: #CCC;
 }
