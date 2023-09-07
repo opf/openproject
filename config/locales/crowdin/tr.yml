@@ -461,6 +461,8 @@ tr:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Depo"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Yorumlananlar" #an object that this comment belongs to
       custom_action:
@@ -2191,8 +2193,8 @@ tr:
   mail_body_register_ending: "Bağlı kalın! Saygılarımla,"
   mail_body_reminder: "Size tahsis edilen(ler) %{count} iş paketinin bir sonraki %{days} gün içinde ödemesi gerekiyor:"
   mail_body_group_reminder: "\"%{group}\" grubuna atanan %{count} çalışma paketi / paketleri sonraki %{days}  gününden kaynaklanmaktadır:"
-  mail_body_wiki_content_added: "' %{id} ' wiki sayfası %{author} tarafından eklendi."
-  mail_body_wiki_content_updated: "'%{id}' wiki sayfası, %{author} tarafından güncellendi."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} hesap etkinleştirme isteği"
   mail_subject_backup_ready: "Yedeklemeniz hazır"
   mail_subject_backup_token_reset: "Yedek anahtarı sıfırlandı"
@@ -2369,6 +2371,7 @@ tr:
   permission_log_time: "Diğer kullanıcıların zamanını günlüğe kaydet"
   permission_manage_forums: "Forumları yönetmek"
   permission_manage_categories: "İş paket kategorilerini yönet"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "İş paketi ilişkilerini yönet"
   permission_manage_members: "Üyeleri yönetmek"
   permission_manage_news: "Haberleri yönet"
@@ -2388,6 +2391,7 @@ tr:
   permission_manage_types: "İş paketi türlerini seçmek"
   permission_view_changesets: "OpenProject'de depo revizyonlarını görüntüle"
   permission_view_commit_author_statistics: "Yazar istatistiklerini inceleyin"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Takipçi listesini göster"
   permission_view_work_packages: "İş paketlerini görüntüle"
   permission_view_messages: "İletileri görüntüle"

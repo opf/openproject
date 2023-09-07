@@ -466,6 +466,8 @@ ar:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "مستودع البيانات"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "علّق" #an object that this comment belongs to
       custom_action:
@@ -2276,8 +2278,8 @@ ar:
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} عمل الحزمة (الحزم) التي تم تعيينها لك الواجبة في الأيام المقبلة %{days}:"
   mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
-  mail_body_wiki_content_added: "تم إضافة صفحة wiki '%{id}' من %{author}."
-  mail_body_wiki_content_updated: "تم تحديث صفحة wiki '%{id}' من %{author}."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "طلب تنشيط حساب %{value}"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2460,6 +2462,7 @@ ar:
   permission_log_time: "Log time for other users"
   permission_manage_forums: "إدارة منتديات"
   permission_manage_categories: "إدارة فئات مجموعة العمل"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "إدارة علاقات حزم العمل"
   permission_manage_members: "إدارة الأعضاء"
   permission_manage_news: "إدارة الأخبار"
@@ -2479,6 +2482,7 @@ ar:
   permission_manage_types: "حدد أنواع"
   permission_view_changesets: "عرض مستودع التنقيحات في أوبينبروجيكت"
   permission_view_commit_author_statistics: "عرض إحصائيات المؤلِّف المنفّذة"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "عرض قائمة المراقبين"
   permission_view_work_packages: "عرض كتب العمل"
   permission_view_messages: "عرض الرسائل"

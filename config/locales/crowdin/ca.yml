@@ -458,6 +458,8 @@ ca:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repositori"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Comentat" #an object that this comment belongs to
       custom_action:
@@ -2187,8 +2189,8 @@ ca:
   mail_body_register_ending: "Segueix en contacte! Atentament,"
   mail_body_reminder: "%{count} paquet(s) de treball que tens assignats arribaran a la seva data final en els %{days} dies vinents:"
   mail_body_group_reminder: "%{count} paquet(s) de treball que estan assignats al grup \"%{group}\" arribaran a la seva data final en els pròxims %{days} dies:"
-  mail_body_wiki_content_added: "En %{author} ha afegit la pàgina wiki «%{id}»."
-  mail_body_wiki_content_updated: "L'autor %{author} ha actualitzat la pàgina wiki «%{id}»."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "Sol·licitud d'activació del compte de %{value}"
   mail_subject_backup_ready: "La teva còpia de seguretat està a punt"
   mail_subject_backup_token_reset: "Còpia de seguretat reiniciada"
@@ -2364,6 +2366,7 @@ ca:
   permission_log_time: "Registra temps per altres usuaris"
   permission_manage_forums: "Gestionar els fòrums"
   permission_manage_categories: "Gestionar les categories del paquet de treball"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Gestionar les relacions del paquet de treball"
   permission_manage_members: "Gestionar els membres"
   permission_manage_news: "Gestionar noticies"
@@ -2383,6 +2386,7 @@ ca:
   permission_manage_types: "Seleccioneu tipus"
   permission_view_changesets: "Veure les revisions del repositori a OpenProject"
   permission_view_commit_author_statistics: "Veure les estadístiques de commits de l'autor"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Veure la llista d'observadors"
   permission_view_work_packages: "Veure els paquets de treball"
   permission_view_messages: "Visualitzar els missatges"

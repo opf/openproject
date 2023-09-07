@@ -464,6 +464,8 @@ he:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repository"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "תגובות" #an object that this comment belongs to
       custom_action:
@@ -2237,8 +2239,8 @@ he:
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} work package(s) that are assigned to you are due in the next %{days} days:"
   mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
-  mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} account activation request"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2419,6 +2421,7 @@ he:
   permission_log_time: "Log time for other users"
   permission_manage_forums: "ניהול פורומים"
   permission_manage_categories: "Manage work package categories"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Manage work package relations"
   permission_manage_members: "Manage members"
   permission_manage_news: "ניהול חדשות"
@@ -2438,6 +2441,7 @@ he:
   permission_manage_types: "Select types"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "View commit author statistics"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "View watchers list"
   permission_view_work_packages: "View work packages"
   permission_view_messages: "View messages"

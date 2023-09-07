@@ -462,6 +462,8 @@ fi:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Tietovarasto"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Kommentoitu" #an object that this comment belongs to
       custom_action:
@@ -2193,8 +2195,8 @@ fi:
   mail_body_register_ending: "Ystävällisin terveisin,"
   mail_body_reminder: "%{count} sinulle nimettyä tapahtuma(a) erääntyy %{days} päivä sisään:"
   mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
-  mail_body_wiki_content_added: "'%{id}' wiki-sivu on lisätty %{author}."
-  mail_body_wiki_content_updated: "'%{id}' wiki-sivu on päivitetty %{author}."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} käyttäjätiedot"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2373,6 +2375,7 @@ fi:
   permission_log_time: "Log time for other users"
   permission_manage_forums: "Hallinnoi keskustelupalstaa"
   permission_manage_categories: "Hallinnoi tapahtumien luokkia"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Hallinnoi tehtävien riippuvuuksia"
   permission_manage_members: "Hallinnoi jäseniä"
   permission_manage_news: "Hallinnoi uutisia"
@@ -2392,6 +2395,7 @@ fi:
   permission_manage_types: "Valitse tyypit"
   permission_view_changesets: "Näytä muutosryhmät"
   permission_view_commit_author_statistics: "Tarkastele tilastoja tekijöistä"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Tarkastele seuraajien luetteloa"
   permission_view_work_packages: "View work packages"
   permission_view_messages: "Näytä viestejä"

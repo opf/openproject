@@ -459,6 +459,8 @@ uk:
         tls_certificate_string: "Сертифікат SSL сервера LDAP"
       changeset:
         repository: "Репозиторій"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Коментар" #an object that this comment belongs to
       custom_action:
@@ -2231,8 +2233,8 @@ uk:
   mail_body_register_ending: "Будьте на зв’язку! З повагою,"
   mail_body_reminder: "%{count} призначених на Вас робочих пакетів на наступні %{days} днів:"
   mail_body_group_reminder: "Пакети робіт (%{count}), призначені групі «%{group}», потрібно завершити протягом наступних %{days} дн.:"
-  mail_body_wiki_content_added: "%{author} додав(ла) wiki-сторінку %{id}."
-  mail_body_wiki_content_updated: "%{author} оновив(ла) wiki-сторінку %{id}."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "Запит на активацію облікового запису %{value}"
   mail_subject_backup_ready: "Ваша резервна копія готова"
   mail_subject_backup_token_reset: "Скидання маркера резервного копіювання"
@@ -2411,6 +2413,7 @@ uk:
   permission_log_time: "Реєструвати час для інших користувачів"
   permission_manage_forums: "Управління форумами"
   permission_manage_categories: "Управління категоріями пакет робота"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Управління зв'язками робочого пакету"
   permission_manage_members: "Управління учасниками"
   permission_manage_news: "Управління новинами"
@@ -2430,6 +2433,7 @@ uk:
   permission_manage_types: "Виберіть типи"
   permission_view_changesets: "Перегляд змін репозиторію (сховища) в OpenProject"
   permission_view_commit_author_statistics: "Перегляд статистики комітів автора"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Перегляд списку спостерігачів"
   permission_view_work_packages: "Переглянути робочі пакети"
   permission_view_messages: "Перегляд повідомлень"

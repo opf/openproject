@@ -459,6 +459,8 @@ nl:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repository"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Becommentarieerd" #an object that this comment belongs to
       custom_action:
@@ -2190,8 +2192,8 @@ nl:
   mail_body_register_ending: "Blijf op de hoogte! Met vriendelijke groet,"
   mail_body_reminder: "%{count} werkpakket(ten) die aan u zijn toegewezen bereiken in de volgende %{days} dagen hun uiterste datum:"
   mail_body_group_reminder: "%{count} werkpakket(ten) die zijn toegewezen aan groep \"%{group}\" zullen in de komende %{days} dagen klaar zijn:"
-  mail_body_wiki_content_added: "De '%{id}' wikipagina is toegevoegd door %{author}."
-  mail_body_wiki_content_updated: "De '%{id}' wikipagina is bijgewerkt door %{author}."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} account aanvraag dient geactiveerd te worden"
   mail_subject_backup_ready: "Je back-up is klaar"
   mail_subject_backup_token_reset: "Back-up token restten"
@@ -2369,6 +2371,7 @@ nl:
   permission_log_time: "Log tijd voor andere gebruikers"
   permission_manage_forums: "Forum beheren"
   permission_manage_categories: "Werkpakket Categorieën beheren"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Werkpakket relaties beheren"
   permission_manage_members: "Beheer gebruikers"
   permission_manage_news: "Beheren van nieuws"
@@ -2388,6 +2391,7 @@ nl:
   permission_manage_types: "Selecteer typen"
   permission_view_changesets: "Bekijk opslagplaats wijzigingen in OpenProject"
   permission_view_commit_author_statistics: "Bekijk de commit auteur statistieken"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Lijst van de watchers weergave"
   permission_view_work_packages: "Bekijk werkpakketten"
   permission_view_messages: "Berichten weergeven"

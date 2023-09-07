@@ -459,6 +459,8 @@ hu:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Csomagtároló"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Hozzászólás" #an object that this comment belongs to
       custom_action:
@@ -2190,8 +2192,8 @@ hu:
   mail_body_register_ending: "Maradj kapcsolatban! Üdvözlettel,"
   mail_body_reminder: "Ön rendelt  %{count} munkacsomag(ok) a következő  %{days}  napokon esedékesek:"
   mail_body_group_reminder: "A \"%{group}\" csoporthoz rendelt %{count} feladat határidős az elkövetkező %{days} napban:"
-  mail_body_wiki_content_added: "A '%{id}' wiki oldal hozzáadva %{author} által."
-  mail_body_wiki_content_updated: "A '%{id}' wiki oldal frissítve %{author} által."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} fiók aktiválásának kérése"
   mail_subject_backup_ready: "A biztonsági mentés elkészült"
   mail_subject_backup_token_reset: "Biztonsági mentés token visszaállítás"
@@ -2369,6 +2371,7 @@ hu:
   permission_log_time: "Log time for other users"
   permission_manage_forums: "Fórum kezelése"
   permission_manage_categories: "feladatcsoport kategóriák kezelése"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "feladatcsoport kapcsolatok kezelése"
   permission_manage_members: "Tagok kezelése"
   permission_manage_news: "Hírek kezelése"
@@ -2388,6 +2391,7 @@ hu:
   permission_manage_types: "Jelölje ki a típust"
   permission_view_changesets: "Tároló verziók megtekintése az OpenProject-ben"
   permission_view_commit_author_statistics: "Szerző,statisztika megtekintése"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "A megfigyelők listájának megtekintése"
   permission_view_work_packages: "Munkacsomagok megtekintése"
   permission_view_messages: "Üzenetek megtekintése"

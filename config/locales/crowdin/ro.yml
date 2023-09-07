@@ -463,6 +463,8 @@ ro:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repo"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Cu comentarii" #an object that this comment belongs to
       custom_action:
@@ -2215,8 +2217,8 @@ ro:
   mail_body_register_ending: "Rămâneți conectați! Vă salutăm cu drag,"
   mail_body_reminder: "%{count} pachete de lucru care vă sunt atribuite au scadență în următoarele %{days} zile:"
   mail_body_group_reminder: "%{count} pachetul (pachetele) de lucru care sunt atribuite grupului \"%{group}\" trebuie depuse în următoarele %{days} zile:"
-  mail_body_wiki_content_added: "Pagina de wiki '%{id}' a fost adăugată de %{author}."
-  mail_body_wiki_content_updated: "Pagina wiki '%{id}' a fost actualizată de %{author}."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "cererea de activare a contului %{value}"
   mail_subject_backup_ready: "Backup-ul tău este gata"
   mail_subject_backup_token_reset: "Resetarea token-ului de backup"
@@ -2395,6 +2397,7 @@ ro:
   permission_log_time: "Timp de înregistrare pentru alți utilizatori"
   permission_manage_forums: "Gestionare forumuri"
   permission_manage_categories: "Gestionare categorii de pachete de lucru"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Gestionare relații pachete de lucru"
   permission_manage_members: "Gestionare participanți"
   permission_manage_news: "Gestionare știri"
@@ -2414,6 +2417,7 @@ ro:
   permission_manage_types: "Selectare tipuri"
   permission_view_changesets: "Vizualizare revizii repo în OpenProject"
   permission_view_commit_author_statistics: "Vizualizare statistici autor înregistrări"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Vizualizare listă observatori"
   permission_view_work_packages: "Vizualizare pachete de lucru"
   permission_view_messages: "Vizualizare mesaje"

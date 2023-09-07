@@ -457,6 +457,8 @@ ja:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "リポジトリ"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "コメントしました。" #an object that this comment belongs to
       custom_action:
@@ -2167,8 +2169,8 @@ ja:
   mail_body_register_ending: "連絡をお待ちしています！よろしくお願いいたします。"
   mail_body_reminder: "担当している %{count}件 のワークパッケージが %{days} 日内に期限を迎えます："
   mail_body_group_reminder: "グループ \"%{group}\" に割り当てられた %{count} 件のワークパッケージが %{days} 日内に期限を迎えます"
-  mail_body_wiki_content_added: "%{author}によってWikiページ'%{id}'が追加されました。"
-  mail_body_wiki_content_updated: "%{author}によってWikiページ'%{id}'が更新されました。"
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} アカウントの承認要求"
   mail_subject_backup_ready: "バックアップの準備ができました"
   mail_subject_backup_token_reset: "バックアップトークンのリセット"
@@ -2346,6 +2348,7 @@ ja:
   permission_log_time: "他のユーザーの作業時間"
   permission_manage_forums: "フォーラムの管理"
   permission_manage_categories: "仕事項目のカテゴリの管理"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "ワークパッケージの関係の管理"
   permission_manage_members: "メンバーの管理"
   permission_manage_news: "ニュースの管理"
@@ -2365,6 +2368,7 @@ ja:
   permission_manage_types: "ワークパッケージのタイプを選択"
   permission_view_changesets: "OpenProject にリポジトリのリビジョンを表示"
   permission_view_commit_author_statistics: "コミット作成者の統計情報の閲覧"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "ウォッチャー一覧の閲覧"
   permission_view_work_packages: "ワークパッケージの表示"
   permission_view_messages: "メッセージの閲覧"

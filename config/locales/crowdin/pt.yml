@@ -461,6 +461,8 @@ pt:
         tls_certificate_string: "Certificado SSL do servidor LDAP"
       changeset:
         repository: "Repositório"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Comentado" #an object that this comment belongs to
       custom_action:
@@ -2191,8 +2193,8 @@ pt:
   mail_body_register_ending: "Fique ligado! Atenciosamente,"
   mail_body_reminder: "%{count} pacote(s) de trabalho foram atribuídos a você para os próximos %{days} dias:"
   mail_body_group_reminder: "%{count} pacote(s) de trabalho que estão atribuídos ao grupo \"%{group}\" expiram nos próximos %{days} dias:"
-  mail_body_wiki_content_added: "A página wiki '%{id}' foi adicionada por %{author}."
-  mail_body_wiki_content_updated: "A página wiki '%{id}' foi atualizada por %{author}."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "solicitação de ativação de conta %{value}"
   mail_subject_backup_ready: "Seu backup está pronto"
   mail_subject_backup_token_reset: "Redefinir token de backup"
@@ -2370,6 +2372,7 @@ pt:
   permission_log_time: "Registrar hora para outros usuários"
   permission_manage_forums: "Gerenciar fóruns"
   permission_manage_categories: "Gerenciar categorias de pacote de trabalho"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Gerenciar relações de pacote de trabalho"
   permission_manage_members: "Gerenciar membros"
   permission_manage_news: "Administrar notícias"
@@ -2389,6 +2392,7 @@ pt:
   permission_manage_types: "Selecionar tipos"
   permission_view_changesets: "Revisões do repositório vistas no OpenProject"
   permission_view_commit_author_statistics: "Ver estatísticas de commits do autor"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Visualizar lista de observadores"
   permission_view_work_packages: "Ver pacotes de trabalho"
   permission_view_messages: "Visualizar mensagens"

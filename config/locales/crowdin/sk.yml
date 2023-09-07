@@ -464,6 +464,8 @@ sk:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitár"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Komentované" #an object that this comment belongs to
       custom_action:
@@ -2237,8 +2239,8 @@ sk:
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} pracovné balíčky (balíček), ktoré sú priradené vám a finišujú v najbližších %{days} dňoch:"
   mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
-  mail_body_wiki_content_added: "Používateľ %{author} pridal wikistránku '%{id}'."
-  mail_body_wiki_content_updated: "Používateľ %{author} aktualizoval wikistránku '%{id}'."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "Požiadavka na aktiváciu účtu %{value}"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2418,6 +2420,7 @@ sk:
   permission_log_time: "Log time for other users"
   permission_manage_forums: "Spravovať diskusie"
   permission_manage_categories: "Spravovať kategórie pracovného balíčku"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Spravovať vzťahy pracovných balíčkov"
   permission_manage_members: "Spravovať členov"
   permission_manage_news: "Spravovať novinky"
@@ -2437,6 +2440,7 @@ sk:
   permission_manage_types: "Vyberte typy"
   permission_view_changesets: "Zobraziť revízie úložiska v programe OpenProject"
   permission_view_commit_author_statistics: "Zobraziť štatistiky o odovzdávkach do repozitára za autora"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Zobrazenie zoznamu pozorovateľov"
   permission_view_work_packages: "Zobraziť pracovné balíčky"
   permission_view_messages: "Zobrazenie správ"

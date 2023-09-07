@@ -454,6 +454,8 @@ id:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repositori"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Komentar" #an object that this comment belongs to
       custom_action:
@@ -2164,8 +2166,8 @@ id:
   mail_body_register_ending: "Tetap terhubung! Salam Hormat,"
   mail_body_reminder: "%{count} Paket-Penugasan yang dilimpahkan kepada Anda akan berakhir dalam %{days} hari :"
   mail_body_group_reminder: "%{count} paket pekerjaan yang ditugaskan ke grup \"%{group}\" akan jatuh tempo dalam %{days} hari ke depan:"
-  mail_body_wiki_content_added: "Halaman Wiki '%{id}' telah ditambahkan oleh %{author}."
-  mail_body_wiki_content_updated: "Halaman Wiki '%{id}' telah diupdate oleh %{author}."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "Permintaan aktivasi akun %{value}"
   mail_subject_backup_ready: "Cadangan Anda sudah siap"
   mail_subject_backup_token_reset: "Atur ulang token cadangan"
@@ -2341,6 +2343,7 @@ id:
   permission_log_time: "Log time for other users"
   permission_manage_forums: "Kelola Forum"
   permission_manage_categories: "Kelola kategori Paket-Penugasan"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Kelola relasi Paket-Penugasan"
   permission_manage_members: "Kelola member"
   permission_manage_news: "Kelola Berita"
@@ -2360,6 +2363,7 @@ id:
   permission_manage_types: "Pilih Tipe"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "Lihat commit statistik penulis"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Lihat daftar pemantau"
   permission_view_work_packages: "View work packages"
   permission_view_messages: "Lihat pesan"
