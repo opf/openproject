@@ -5,6 +5,7 @@ require:
   - ./lib_static/rubocop/cop/open_project/use_service_result_factory_methods.rb
   - rubocop-capybara
   - rubocop-factory_bot
+  - rubocop-performance
 
 <% if File.exist?('.rubocop-local.yml') %>
 inherit_from:
@@ -436,3 +437,6 @@ Style/HashTransformKeys:
 
 Style/HashTransformValues:
   Enabled: true
+
+Performance/Casecmp:
+  Enabled: false

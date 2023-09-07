@@ -37,9 +37,9 @@ namespace :openproject do
       def parse_capture(capture, &block)
         capture
           .split("\n")
-          .map do |line|
+          .filter_map do |line|
           block.call(line)
-        end.compact
+        end
       end
 
       desc 'Update gems to the extend the Gemfile allows in individual commits'

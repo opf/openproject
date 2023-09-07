@@ -165,7 +165,7 @@ class Principal < ApplicationRecord
     # by the #compact call.
     def type_condition(table = arel_table)
       sti_column = table[inheritance_column]
-      sti_names = ([self] + descendants).map(&:sti_name).compact
+      sti_names = ([self] + descendants).filter_map(&:sti_name)
 
       predicate_builder.build(sti_column, sti_names)
     end

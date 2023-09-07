@@ -308,6 +308,7 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
+  gem 'rubocop-performance', require: false
 
   # Brakeman scanner
   gem 'brakeman', '~> 6.0.0'
