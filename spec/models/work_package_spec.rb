@@ -51,6 +51,27 @@ RSpec.describe WorkPackage do
     end
   end
 
+  describe 'associations' do
+    subject { work_package }
+
+    it { is_expected.to belong_to(:project) }
+    it { is_expected.to belong_to(:type) }
+    it { is_expected.to belong_to(:status) }
+    it { is_expected.to belong_to(:author) }
+    it { is_expected.to belong_to(:assigned_to).class_name('Principal').optional }
+    it { is_expected.to belong_to(:responsible).class_name('Principal').optional }
+    it { is_expected.to belong_to(:version).optional }
+    it { is_expected.to belong_to(:priority).class_name('IssuePriority') }
+    it { is_expected.to belong_to(:category).optional }
+    it { is_expected.to have_many(:time_entries).dependent(:delete_all) }
+    it { is_expected.to have_many(:file_links).dependent(:delete_all).class_name("Storages::FileLink") }
+    it { is_expected.to have_many(:storages).through(:project) }
+    it { is_expected.to have_and_belong_to_many(:changesets) }
+    it { is_expected.to have_and_belong_to_many(:github_pull_requests) }
+    it { is_expected.to have_many(:members).dependent(:destroy) }
+    it { is_expected.to have_many(:member_principals).through(:members).class_name('Principal').source(:principal) }
+  end
+
   describe '.new' do
     context 'type' do
       let(:type2) { create(:type) }
@@ -253,7 +274,7 @@ RSpec.describe WorkPackage do
 
     it 'returns all open versions of the project' do
       expect(work_package.assignable_versions)
-        .to match_array [version_current, version_open]
+        .to contain_exactly(version_current, version_open)
     end
   end
 
@@ -613,7 +634,7 @@ RSpec.describe WorkPackage do
     context 'when having the move_work_packages permission' do
       it 'returns the project' do
         expect(described_class.allowed_target_projects_on_move(user))
-          .to match_array [project]
+          .to contain_exactly(project)
       end
     end
 
@@ -637,7 +658,7 @@ RSpec.describe WorkPackage do
     context 'when having the add_work_packages permission' do
       it 'returns the project' do
         expect(described_class.allowed_target_projects_on_create(user))
-          .to match_array [project]
+          .to contain_exactly(project)
       end
     end
 
@@ -679,7 +700,7 @@ RSpec.describe WorkPackage do
     describe 'null' do
       subject { described_class.changed_since(nil) }
 
-      it { expect(subject).to match_array([work_package]) }
+      it { expect(subject).to contain_exactly(work_package) }
     end
 
     describe 'now' do
@@ -691,7 +712,7 @@ RSpec.describe WorkPackage do
     describe 'work package update' do
       subject { described_class.changed_since(work_package.reload.updated_at) }
 
-      it { expect(subject).to match_array([work_package]) }
+      it { expect(subject).to contain_exactly(work_package) }
     end
   end
 

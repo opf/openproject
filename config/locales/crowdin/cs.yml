@@ -464,6 +464,8 @@ cs:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitář"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Komentované" #an object that this comment belongs to
       custom_action:
@@ -1488,7 +1490,7 @@ cs:
     changes_retracted: "Změny byly staženy."
     caused_changes:
       dates_changed: "Data změněna"
-      system_update: "OpenProject update"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1504,7 +1506,8 @@ cs:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Konfigurační manuál'
     get_in_touch: "Máte otázky? Spojte se s námi."
@@ -2236,8 +2239,8 @@ cs:
   mail_body_register_ending: "Zůstaňte ve spojení! S pozdravem,"
   mail_body_reminder: "%{count} pracovních balíčků, které máte přiřazeny, mají termín během následujících %{days} dnů:"
   mail_body_group_reminder: "%{count} pracovních balíčků, které jsou přiřazeny ke skupině \"%{group}\", má termín splatnosti během následujících %{days} dnů:"
-  mail_body_wiki_content_added: "Wiki stránka '%{id}' byla přidána uživatelem %{author}."
-  mail_body_wiki_content_updated: "Wiki stránka '%{id}' byla aktualizována uživatelem %{author}."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "Žádost o aktivaci účtu %{value}"
   mail_subject_backup_ready: "Vaše záloha je připravena"
   mail_subject_backup_token_reset: "Resetovat token zálohy"
@@ -2418,6 +2421,7 @@ cs:
   permission_log_time: "Čas záznamu pro ostatní uživatele"
   permission_manage_forums: "Správa fór"
   permission_manage_categories: "Spravovat kategorie pracovního balíčku"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Spravovat vztahy pracovních balíčků"
   permission_manage_members: "Správa členů"
   permission_manage_news: "Spravovat novinky"
@@ -2432,14 +2436,19 @@ cs:
   permission_protect_wiki_pages: "Ochrana stránky wiki"
   permission_rename_wiki_pages: "Přejmenovat stránky wiki"
   permission_save_queries: "Uložit pohled"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Vybrat vlastní pole"
   permission_select_project_modules: "Vyberte moduly projektu"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Vyberte typy"
+  permission_view_project: "View projects"
   permission_view_changesets: "Zobrazit revize repozitáře v OpenProject"
   permission_view_commit_author_statistics: "Zobrazit statistiky autora commitu"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Zobrazit seznam sledujících"
   permission_view_work_packages: "Zobrazit pracovní balíčky"
   permission_view_messages: "Zobrazit zprávy"
+  permission_view_news: "View news"
   permission_view_members: "Zobrazit členy"
   permission_view_reportings: "Zobrazit přehledy"
   permission_view_time_entries: "Zobrazit strávený čas"
@@ -2448,6 +2457,9 @@ cs:
   permission_view_wiki_pages: "Zobrazit wiki"
   permission_work_package_assigned: "Staňte se řešitelem/odpovědným"
   permission_work_package_assigned_explanation: "Pracovní balíčky mohou být přiřazeny uživatelům a skupinám, které tuto roli vlastní v příslušném projektu"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:

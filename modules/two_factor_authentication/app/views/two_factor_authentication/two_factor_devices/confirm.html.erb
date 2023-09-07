@@ -1,6 +1,6 @@
-<% html_title(t(:label_my_account), t('two_factor_authentication.devices.confirm')) -%>
+<% html_title(t(:label_my_account), t('two_factor_authentication.devices.confirm_device')) -%>
 <% breadcrumb_paths link_to(t('two_factor_authentication.label_two_factor_authentication'), index_path),
-                    t('two_factor_authentication.devices.confirm') -%>
+                    t('two_factor_authentication.devices.confirm_device') -%>
 
 <%= styled_form_tag(confirm_path, method: :post, id: 'login-form', class: 'form -bordered', autocomplete: "off") do %>
   <h2><%= title %></h2>

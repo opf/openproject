@@ -32,9 +32,9 @@ require 'spec_helper'
 require_module_spec_helper
 
 RSpec.describe 'Project menu', js: true, with_cuprite: true do
-  let(:storage) { create(:storage, name: "Storage 1") }
-  let(:another_storage) { create(:storage, name: "Storage 2") }
-  let(:unlinked_storage) { create(:storage, name: "Storage 3") }
+  let(:storage) { create(:nextcloud_storage, name: "Storage 1") }
+  let(:another_storage) { create(:nextcloud_storage, name: "Storage 2") }
+  let(:unlinked_storage) { create(:nextcloud_storage, name: "Storage 3") }
   let(:project) { create(:project, enabled_module_names: %i[storages]) }
   let(:project_storage_without_folder) { create(:project_storage, project:, storage:) }
   let(:project_storage_with_manual_folder) do

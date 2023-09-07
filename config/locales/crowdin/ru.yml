@@ -463,6 +463,8 @@ ru:
         tls_certificate_string: "SSL-сертификат сервера LDAP"
       changeset:
         repository: "Репозиторий"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Прокомментировано" #an object that this comment belongs to
       custom_action:
@@ -1487,7 +1489,7 @@ ru:
     changes_retracted: "Изменения отменены."
     caused_changes:
       dates_changed: "Даты изменены"
-      system_update: "Обновление OpenProject"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: внесением изменений в предшественника %{link}
       work_package_parent_changed_times: внесением изменений в родительский %{link}
@@ -1503,7 +1505,8 @@ ru:
           working: "%{date} сейчас рабочий"
           non_working: "%{day} теперь нерабочий"
       system_update:
-        file_links_journal: 'добавлены ссылки на файлы для действий'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Руководство по конфигурации'
     get_in_touch: "У вас есть вопросы? Свяжитесь с нами."
@@ -2235,8 +2238,8 @@ ru:
   mail_body_register_ending: "Оставайтесь на связи! С уважением,"
   mail_body_reminder: "%{count} пакета(ов) работ, закрепленных за Вами, должны быть представлены в следующие  %{days}:"
   mail_body_group_reminder: "Срок выполнения пакетов работ (%{count}), назначенных группе \"%{group}\", истекает в следующие %{days} дн.:"
-  mail_body_wiki_content_added: "%{author} добавил wiki-страницу '«%{id}»'."
-  mail_body_wiki_content_updated: "%{author} обновил wiki-страницу '%{id}'."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "Запрос на активацию учетной записи %{value}"
   mail_subject_backup_ready: "Ваша резервная копия готова"
   mail_subject_backup_token_reset: "Сброс маркера резервного копирования"
@@ -2417,6 +2420,7 @@ ru:
   permission_log_time: "Журнал времени для других пользователей"
   permission_manage_forums: "Управление форумами"
   permission_manage_categories: "Управление категориями пакета работ"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Управление связями пакета работ"
   permission_manage_members: "Управление участниками"
   permission_manage_news: "Управление новостями"
@@ -2431,14 +2435,19 @@ ru:
   permission_protect_wiki_pages: "Защитить wiki-страницы"
   permission_rename_wiki_pages: "Переименование wiki-страниц"
   permission_save_queries: "Сохранить представления"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Выберите настраиваемые поля"
   permission_select_project_modules: "Выбор модулей проекта"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Выберите типы"
+  permission_view_project: "View projects"
   permission_view_changesets: "Просмотр изменений репозитория в OpenProject"
   permission_view_commit_author_statistics: "Посмотреть статистику автора, внесшего свою часть работы"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Посмотреть список наблюдателей"
   permission_view_work_packages: "Просмотр пакетов работ"
   permission_view_messages: "Просмотр сообщений"
+  permission_view_news: "View news"
   permission_view_members: "Просмотреть участников"
   permission_view_reportings: "Просмотр отчетов"
   permission_view_time_entries: "Просмотр потраченного времени"
@@ -2447,6 +2456,9 @@ ru:
   permission_view_wiki_pages: "Просмотр wiki"
   permission_work_package_assigned: "Назначиться/стать отвественным"
   permission_work_package_assigned_explanation: "Пакеты работ могут быть привязаны к пользователям и группам в зависимости от этой роли в рамках соответствующего проекта"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:

@@ -62,7 +62,7 @@ module Pages
     private
 
     def osx?
-      RbConfig::CONFIG['host_os'] =~ /darwin/
+      RbConfig::CONFIG['host_os'].include?('darwin')
     end
   end
 end

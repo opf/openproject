@@ -43,7 +43,7 @@ RSpec.shared_examples_for 'ProjectStorages contract' do
            members: { current_user => role },
            enabled_module_names: %i[storages])
   end
-  let(:storage) { create(:storage, name: "Storage 1") }
+  let(:storage) { create(:nextcloud_storage, name: "Storage 1") }
   let(:storage_creator) { current_user }
 
   # This is not 100% precise, as the required permission is not :admin

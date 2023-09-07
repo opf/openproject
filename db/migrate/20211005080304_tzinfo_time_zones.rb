@@ -30,14 +30,13 @@ class TzinfoTimeZones < ActiveRecord::Migration[6.1]
   def up
     zone_mappings = ActiveSupport::TimeZone
                     .all
-                    .map do |tz|
+                    .flat_map do |tz|
                       [
                         [tz.name, tz.tzinfo.canonical_zone.name],
                         # Some entries seem to already be in that format so we leave them unchanged
                         [tz.tzinfo.canonical_zone.name, tz.tzinfo.canonical_zone.name]
                       ]
                     end
-                    .flatten(1)
 
     migrate_user_time_zone(zone_mappings)
     migrate_default_time_zone(zone_mappings)

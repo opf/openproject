@@ -230,7 +230,7 @@ module API
                       ::API::Utilities::PropertyNameConverter.to_ar_name(name, context: WorkPackage.new) if name
                     end
 
-                    represented.column_names = columns.map(&:to_sym).compact if fragment
+                    represented.column_names = columns.filter_map(&:to_sym) if fragment
                   },
                   link: ->(*) {
                     represented.columns.map do |column|
@@ -254,7 +254,7 @@ module API
                       ::API::Utilities::PropertyNameConverter.to_ar_name(name, context: WorkPackage.new) if name
                     end
 
-                    represented.highlighted_attributes = columns.map(&:to_sym).compact if fragment
+                    represented.highlighted_attributes = columns.filter_map(&:to_sym) if fragment
                   },
                   link: ->(*) {
                     represented.highlighted_columns.map do |column|

@@ -35,7 +35,7 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
   let(:user) { create(:user) }
   let(:host) { "https://example.org" }
   let(:provider_type) { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
-  let(:storage) { create(:storage, provider_type:, host: "#{host}/") }
+  let(:storage) { create(:nextcloud_storage, provider_type:, host: "#{host}/") }
   let(:scope) { [:all] } # OAuth2 resources to access, specific to provider
   let(:oauth_client) do
     create(:oauth_client,

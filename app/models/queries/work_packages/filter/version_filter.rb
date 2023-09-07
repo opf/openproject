@@ -53,8 +53,8 @@ class Queries::WorkPackages::Filter::VersionFilter <
     available_versions = versions.index_by(&:id)
 
     values
-      .map { |version_id| available_versions[version_id.to_i] }
-      .compact
+      .filter_map { |version_id| available_versions[version_id.to_i] }
+      
   end
 
   private

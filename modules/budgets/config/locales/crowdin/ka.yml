@@ -21,7 +21,7 @@
 #++
 ka:
   plugin_budgets_engine:
-    name: 'Budgets'
+    name: 'ბიუჯეტები'
   activerecord:
     attributes:
       budget:

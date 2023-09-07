@@ -55,8 +55,8 @@ class Queries::WorkPackages::Filter::RoleFilter < Queries::WorkPackages::Filter:
     available_roles = roles.index_by(&:id)
 
     values
-      .map { |role_id| available_roles[role_id.to_i] }
-      .compact
+      .filter_map { |role_id| available_roles[role_id.to_i] }
+      
   end
 
   def where

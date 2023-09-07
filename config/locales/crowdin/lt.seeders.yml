@@ -43,25 +43,25 @@ lt:
           name: Kita
       work_package_roles:
         item_0:
-          name: Work Package Editor
+          name: Darbo paketų redaktorius
         item_1:
-          name: Work Package Commenter
+          name: Darbo paketų komentatorius
         item_2:
-          name: Work Package Viewer
+          name: Darbo paketų peržiūrėtojas
       project_roles:
         item_0:
-          name: Non member
+          name: Ne narys
         item_1:
-          name: Anonymous
+          name: Anonimas
         item_2:
-          name: Member
+          name: Narys
         item_3:
-          name: Reader
+          name: Skaitytojas
         item_4:
-          name: Project admin
+          name: Projekto administratorius
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: Darbuotojas ir projekto vadovas
     standard:
       priorities:
         item_0:

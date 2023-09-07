@@ -206,7 +206,7 @@ RSpec.describe(
 
   describe 'configuration checks' do
     let(:configured_storage) { storage }
-    let!(:unconfigured_storage) { create(:storage) }
+    let!(:unconfigured_storage) { create(:nextcloud_storage) }
 
     it 'excludes storages that are not configured correctly' do
       visit project_settings_project_storages_path(project)

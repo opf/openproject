@@ -21,7 +21,7 @@
 #++
 hr:
   plugin_budgets_engine:
-    name: 'Budgets'
+    name: 'Proračuni'
   activerecord:
     attributes:
       budget:

@@ -21,7 +21,7 @@
 #++
 ar:
   plugin_budgets_engine:
-    name: 'Budgets'
+    name: 'الميزانيات'
   activerecord:
     attributes:
       budget:

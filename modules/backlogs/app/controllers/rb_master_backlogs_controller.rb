@@ -33,7 +33,7 @@ class RbMasterBacklogsController < RbApplicationController
     @owner_backlogs = Backlog.owner_backlogs(@project)
     @sprint_backlogs = Backlog.sprint_backlogs(@project)
 
-    @last_update = (@sprint_backlogs + @owner_backlogs).map(&:updated_at).compact.max
+    @last_update = (@sprint_backlogs + @owner_backlogs).filter_map(&:updated_at).max
   end
 
   private

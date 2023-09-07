@@ -21,7 +21,7 @@
 #++
 ca:
   plugin_budgets_engine:
-    name: 'Budgets'
+    name: 'Pressupostos'
   activerecord:
     attributes:
       budget:

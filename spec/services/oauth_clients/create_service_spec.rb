@@ -34,7 +34,7 @@ RSpec.describe OAuthClients::CreateService, type: :model do
     let(:factory) { :oauth_client }
 
     context 'if another oauth client for the given integration exists' do
-      let(:storage) { create(:storage) }
+      let(:storage) { create(:nextcloud_storage) }
       let!(:existing_client) { create(:oauth_client, integration: storage) }
       let!(:model_instance) { build_stubbed(:oauth_client, integration: storage) }
       let(:call_attributes) { { name: 'Death Star', integration: storage } }

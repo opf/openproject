@@ -7,7 +7,7 @@
       label_unnamed_list: 'Navnløs liste'
       label_board_type: 'Tavle type'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+        teaser_text: 'Ønsker du å automatisere dine arbeidsflyter med Tavler? Avanserte tavler er et Enterprise add-on. Vennligst oppgrader til et betalt abonnement.'
         upgrade: 'Oppgrader nå'
       lists:
         delete: 'Slett liste'
@@ -62,7 +62,7 @@
           status: Status
           version: Versjon
           subproject: Underprosjekt
-          subtasks: Parent-child
+          subtasks: Foreldre-barn
           basic: Enkel
         select_attribute: "Action attribute"
       add_list_modal:

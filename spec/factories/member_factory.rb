@@ -37,6 +37,7 @@
 FactoryBot.define do
   factory :member do
     project
+    entity { nil }
 
     transient do
       user { nil }
@@ -53,5 +54,6 @@ FactoryBot.define do
 
   factory :global_member, parent: :member do
     project { nil }
+    entity { nil }
   end
 end

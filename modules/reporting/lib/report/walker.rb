@@ -105,7 +105,7 @@ class Report::Walker
   end
 
   def sort_keys
-    @sort_keys ||= query.chain.map { |c| c.group_fields.map(&:to_s) if c.group_by? }.compact.flatten
+    @sort_keys ||= query.chain.filter_map { |c| c.group_fields.map(&:to_s) if c.group_by? }.flatten
   end
 
   def sort(result)

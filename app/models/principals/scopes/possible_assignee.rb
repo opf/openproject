@@ -49,7 +49,7 @@ module Principals::Scopes
               .assignable
               .of(project)
               .group('user_id')
-              .having(["COUNT(DISTINCT(project_id, user_id)) = ?", Array(project).count])
+              .having(["COUNT(DISTINCT(project_id, user_id)) = ?", Array(project).size])
               .select('user_id')
         )
       end

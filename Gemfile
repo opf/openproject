@@ -34,7 +34,7 @@ gem 'ox'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.5.0'
-gem 'activerecord-session_store', '~> 2.0.0'
+gem 'activerecord-session_store', '~> 2.1.0'
 gem 'rails', '~> 7.0', '>= 7.0.3.1'
 gem 'responders', '~> 3.0'
 
@@ -246,7 +246,7 @@ group :test do
   gem 'capybara', '~> 3.39.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'cuprite', '~> 0.14.3'
-  gem 'selenium-webdriver', '~> 4.11.0'
+  gem 'selenium-webdriver', '~> 4.12.0'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
@@ -310,6 +310,7 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
+  gem 'rubocop-performance', require: false
 
   # Brakeman scanner
   gem 'brakeman', '~> 6.0.0'

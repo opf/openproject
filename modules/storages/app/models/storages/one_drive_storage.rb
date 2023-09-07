@@ -32,5 +32,9 @@ module Storages
   class OneDriveStorage < Storage
     store_attribute :provider_fields, :tenant_id, :string, default: 'consumers'
     store_attribute :provider_fields, :drive_id, :string
+
+    def configuration_checks
+      { storage_oauth_client_configured: oauth_client.present? }
+    end
   end
 end

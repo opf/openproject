@@ -528,6 +528,8 @@ en:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repository"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Commented" # an object that this comment belongs to
       custom_action:
@@ -1510,7 +1512,7 @@ en:
 
     caused_changes:
       dates_changed: "Dates changed"
-      system_update: "OpenProject update"
+      system_update: "OpenProject system update:"
 
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1527,7 +1529,9 @@ en:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the
+          Activity tab. The following represent activity concerning links that already existed:
 
 
   links:
@@ -2280,8 +2284,8 @@ en:
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} work package(s) that are assigned to you are due in the next %{days} days:"
   mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
-  mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} account activation request"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2474,6 +2478,7 @@ en:
   permission_log_time: "Log time for other users"
   permission_manage_forums: "Manage forums"
   permission_manage_categories: "Manage work package categories"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Manage work package relations"
   permission_manage_members: "Manage members"
   permission_manage_news: "Manage news"
@@ -2488,14 +2493,19 @@ en:
   permission_protect_wiki_pages: "Protect wiki pages"
   permission_rename_wiki_pages: "Rename wiki pages"
   permission_save_queries: "Save views"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Select project modules"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Select types"
+  permission_view_project: "View projects"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "View commit author statistics"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "View watchers list"
   permission_view_work_packages: "View work packages"
   permission_view_messages: "View messages"
+  permission_view_news: "View news"
   permission_view_members: "View members"
   permission_view_reportings: "View reportings"
   permission_view_time_entries: "View spent time"
@@ -2504,6 +2514,9 @@ en:
   permission_view_wiki_pages: "View wiki"
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
 
   placeholders:
     default: "-"

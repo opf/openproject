@@ -35,7 +35,7 @@ require 'services/base_services/behaves_like_update_service'
 
 RSpec.describe Storages::Storages::UpdateService, type: :model do
   it_behaves_like 'BaseServices update service' do
-    let(:factory) { :storage }
+    let(:factory) { :nextcloud_storage }
     let!(:user) { create(:admin) }
 
     let(:instance) do
