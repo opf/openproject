@@ -46,6 +46,8 @@ module DevelopmentData
             print_status "  #{msg}"
           end
         end
+
+        seed_data.store_reference(login, user)
       end
     end
 

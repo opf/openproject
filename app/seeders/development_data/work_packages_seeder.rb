@@ -54,111 +54,108 @@ module DevelopmentData
       WorkPackage.where(subject: work_package_subjects).destroy_all
 
       work_package_attributes.map do |attributes|
+        identifier = attributes.delete(:reference)
+
         work_package = WorkPackage.new attributes
 
-        if attributes[:subject] == '[dev] Defeat Bane'
-          work_package.parent = WorkPackage.find_by(subject: '[dev] Save Gotham')
+        if identifier == :defeat_bane
+          work_package.parent = seed_data.find_reference(:save_gotham)
         end
 
         work_package.save!
+        seed_data.store_reference(identifier, work_package)
+
         work_package
       end
     end
 
+    # rubocop:disable Metrics/AbcSize
+    def work_package_attributes
+      [
+        {
+          project:,
+          author:,
+          subject: '[dev] Save Gotham',
+          reference: :save_gotham,
+          description: "Gotham is in trouble. It's your job to save it!",
+          status: seed_data.find_reference(:default_status_new),
+          type: seed_data.find_reference(:default_type_epic),
+          priority: seed_data.find_reference(:default_priority_immediate)
+        },
+        {
+          project:,
+          author:,
+          subject: '[dev] Defeat Bane',
+          reference: :defeat_bane,
+          description: 'Must be stopped before Gotham is doomed.',
+          status: seed_data.find_reference(:default_status_new),
+          type: seed_data.find_reference(:default_type_task),
+          priority: seed_data.find_reference(:default_priority_immediate)
+        },
+        {
+          project:,
+          author:,
+          subject: '[dev] Find Waldo',
+          reference: :find_waldo,
+          status: seed_data.find_reference(:default_status_new),
+          type: seed_data.find_reference(:default_type_task),
+          description: 'This one is tricky!',
+          priority: IssuePriority.default
+        },
+        {
+          project:,
+          author:,
+          subject: '[dev] Organize game night',
+          reference: :organize_game_night,
+          description: 'Find a time that suits everyone.',
+          status: seed_data.find_reference(:default_status_in_progress),
+          type: seed_data.find_reference(:default_type_task),
+          priority: IssuePriority.default
+        }
+      ]
+    end
+    # rubocop:enable Metrics/AbcSize
+
+    def project
+      @project ||= seed_data.find_reference(:dev_work_package_sharing)
+    end
+
+    def author
+      @author ||= admin_user
+    end
+
     def share_work_packages
-      work_package_membership_data.each do |membership_attributes|
-        create_membership_between(**membership_attributes)
+      work_package_sharing_attributes.each do |sharing_attributes|
+        share(**sharing_attributes)
       end
     end
 
-    def work_package_membership_data
+    def work_package_sharing_attributes
       [
         {
-          work_package: WorkPackage.find_by(subject: '[dev] Defeat Bane'),
-          principal:,
+          work_package: seed_data.find_reference(:defeat_bane),
           role: seed_data.find_reference(:default_role_work_package_editor)
         },
         {
-          work_package: WorkPackage.find_by(subject: '[dev] Organize game night'),
-          principal:,
+          work_package: seed_data.find_reference(:organize_game_night),
           role: seed_data.find_reference(:default_role_work_package_commenter)
         },
         {
-          work_package: WorkPackage.find_by(subject: '[dev] Find Waldo'),
-          principal:,
+          work_package: seed_data.find_reference(:find_waldo),
           role: seed_data.find_reference(:default_role_work_package_viewer)
         }
       ]
     end
 
-    def create_membership_between(work_package:, principal:, role:)
+    def share(work_package:, role:)
       Member.create!(project:,
-                     entity: work_package,
                      principal:,
+                     entity: work_package,
                      roles: Array(role))
     end
 
-    def work_package_attributes
-      work_package_data.map { _1.reverse_merge(base_work_package_data) }
-    end
-
-    def work_package_data
-      [
-        { subject: '[dev] Save Gotham',
-          description: "Gotham is in trouble. It's your job to save it!",
-          type: epic_type,
-          priority: immediate_priority },
-        { subject: '[dev] Defeat Bane',
-          description: 'Must be stopped before Gotham is doomed.',
-          priority: immediate_priority },
-        { subject: '[dev] Find Waldo',
-          description: 'This one is tricky!' },
-        { subject: '[dev] Organize game night',
-          description: 'Find a time that suits everyone.',
-          status: in_progress_status }
-      ]
-    end
-
-    def base_work_package_data
-      {
-        project:,
-        author: admin_user,
-        status: default_status,
-        type: default_type,
-        priority: default_priority
-      }
-    end
-
-    def project
-      @project ||= Project.find_by(identifier: 'dev-work-package-sharing')
-    end
-
-    def default_status
-      @default_status ||= Status.default
-    end
-
-    def in_progress_status
-      @in_progress_status ||= Status.find_by(name: 'In progress')
-    end
-
-    def default_type
-      @default_type ||= Type.find_by(name: 'Task')
-    end
-
-    def epic_type
-      @epic_type ||= Type.find_by(name: 'Epic')
-    end
-
-    def default_priority
-      @default_priority ||= IssuePriority.default
-    end
-
-    def immediate_priority
-      @immediate_priority ||= IssuePriority.find_by(name: 'Immediate')
-    end
-
     def principal
-      @principal ||= User.find_by(login: 'work_packager')
+      @principal ||= seed_data.find_reference(:work_packager)
     end
   end
 end

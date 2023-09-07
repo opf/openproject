@@ -64,6 +64,8 @@ module DevelopmentData
         end
 
         project.save!
+        seed_data.store_reference(id.underscore.to_sym, project)
+
         project
       end
     end
