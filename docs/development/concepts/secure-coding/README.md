@@ -45,13 +45,24 @@ Implement strong authentication mechanisms for any sensitive credentials to be u
 **Guidelines**
 
 - Ensure uniqueness and case-insensitivity of user logins.
-- Use crytographic hashes for password or credentials storage (OpenProject uses BCrypt for internal user passwords and SHA256 for OAuth access tokens)
+- Use crytographic hashes for password or credentials storage
 - Allow administrators to enforce strong password policies  with a combination of characters, numbers, and special symbols. Implement password expiration and account lockout mechanisms.
 - Implement mechanisms to protect against brute force attacks, such as account lockouts, rate limiting, or increasing delays after multiple failed login attempts.
 - Use strong password controls and validations
 - Provide secure mechanisms for account recovery, such as sending a reset link to the user's registered email address. Avoid leaking the existence of user accounts by always returning the same response.
 - Provide means of auditing, maintaining detailed logs of authentication events, including successful and failed login attempts. Log sufficient information for auditing and incident response.
 - Use the provided features by Rails to prevent cross-site request forgery (CSRF) attacks by utilizing anti-CSRF tokens for all state-changing requests and ensuring that authentication requests are immune to CSRF.
+
+
+
+**Usage at OpenProject**
+
+OpenProject uses industry standard authentication mechanisms that follow the best practices and are the de-facto norm for many organizations:
+
+- External authentication providers using OpenID connect protocols or SAML 2.0 protocol
+- External authentication through LDAP user binds, optional LDAP user and group membership synchronization (Enterprise-Edition add-on)
+- OAuth 2.0 application authentication and authorization with OpenProject acting as the authorization server. Access tokens are hashed using SHA256 in the database.
+- Internal user credential authentication against passwords stored in BCrypt with a high default yet configurable cost factor depending on the organizational requirements.
 
 
 
