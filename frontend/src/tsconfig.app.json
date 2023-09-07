@@ -3,7 +3,8 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "baseUrl": "./",
-    "types": []
+    "types": ["node", "react", "styled-components", "jest"],
+    "jsx" : "react-jsx"
   },
   "files": [
     "main.ts",
@@ -15,6 +16,7 @@
   "include": [
     "src/**/*.ts",
     "stimulus/**/*.ts",
+    "stimulus/**/*.tsx",
     "**/*.d.ts",
   ],
   "exclude": [
