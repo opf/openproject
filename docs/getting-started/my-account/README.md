@@ -35,7 +35,7 @@ Choose **My account**.
 ## Edit your user information
 To change your email address or your name, navigate to **Profile** on the left side menu of **My account** page.
 
-Here you can update the information and **save** your changes.
+Here you can update the information and **save** your changes. If you're changing the email address of your account, you will be requested to confirm your account password before you can continue. (Note: This applies only to internal accounts where OpenProject can verify the password).
 
 ![openproject_my_account_profile](openproject_my_account_profile.png)
 
