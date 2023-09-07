@@ -30,6 +30,7 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
 $base-line-height: 1.5
 $form-label-color: var(--body-font-color)
 $content-form-input-border: 1px solid var(--content-form-input-border-color)
+$content-form-input-hover-border : 1px solid var(--content-form-input-hover-border-color)
 
 %input-style
   border: $content-form-input-border
@@ -37,7 +38,7 @@ $content-form-input-border: 1px solid var(--content-form-input-border-color)
   font-size: var(--body-font-size)
 
   &:hover, &:focus
-    border: var(--content-form-input-hover-border)
+    border: $content-form-input-hover-border
 
   vertical-align: middle
   margin-bottom: 0rem
@@ -607,7 +608,7 @@ select
   font-size: var(--body-font-size)
 
   &:hover, &:focus, &:active
-    border-color: #999
+    border-color: var(--input-border-default-hover-color)
 
 .-hide-placeholder-on-focus
   &:focus::placeholder
@@ -626,7 +627,7 @@ select
 
     // But as an indicator, do show one on hover
     &:hover
-      border-color: #999
+      border-color: var(--input-border-default-hover-color)
 
 select
   &[disabled=disabled],
