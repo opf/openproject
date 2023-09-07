@@ -345,7 +345,10 @@ class WorkPackage < ApplicationRecord
   # check if user is allowed to edit WorkPackage Journals.
   # see Acts::Journalized::Permissions#journal_editable_by
   def journal_editable_by?(journal, user)
-    return true if user.allowed_to?(:edit_work_package_notes, self)
+    # edit_work_package_notes is a project level permission
+    return true if user.allowed_to?(:edit_work_package_notes, project)
+
+    # edit_own_work_package_notes is a project or work_package level permission
     return true if journal.user_id == user.id && user.allowed_to?(:edit_own_work_package_notes, self)
 
     false

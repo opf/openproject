@@ -32,7 +32,9 @@ require_relative '../../../support/bcf_topic_with_stubbed_comment'
 RSpec.describe API::V3::Activities::ActivityRepresenter do
   include API::Bim::Utilities::PathHelper
 
-  include_context 'user with stubbed permissions'
+  include_context 'user with stubbed permissions',
+                  project_permissions: %i[view_linked_issues edit_work_package_notes]
+
   include_context 'bcf_topic with stubbed comment'
   let(:other_user) { build_stubbed(:user) }
   let(:project) do
@@ -56,7 +58,6 @@ RSpec.describe API::V3::Activities::ActivityRepresenter do
     end
   end
   let(:changes) { { subject: ["first subject", "second subject"] } }
-  let(:permissions) { %i(edit_work_package_notes view_linked_issues) }
   let(:representer) { described_class.new(journal, current_user: user) }
 
   before do
@@ -115,7 +116,8 @@ RSpec.describe API::V3::Activities::ActivityRepresenter do
         end
 
         context 'if permission is lacking' do
-          let(:permissions) { %i[] }
+          include_context 'user with stubbed permissions',
+                          project_permissions: %i[]
 
           it_behaves_like 'has no link' do
             let(:link) { 'bcfViewpoints' }

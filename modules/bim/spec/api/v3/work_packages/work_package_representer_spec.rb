@@ -33,13 +33,15 @@ require_relative '../../../support/bcf_topic_with_stubbed_comment'
 RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
   include API::V3::Utilities::PathHelper
   include API::Bim::Utilities::PathHelper
-  include_context 'user with stubbed permissions'
+  include_context 'user with stubbed permissions',
+                  project_permissions: %i[view_linked_issues manage_bcf],
+                  work_package_permissions: %i[view_work_packages]
+
   include_context 'bcf_topic with stubbed comment'
 
   let(:project) do
     work_package.project
   end
-  let(:permissions) { %i[view_linked_issues view_work_packages manage_bcf] }
   let(:work_package) do
     build_stubbed(:work_package, bcf_issue: bcf_topic)
   end
@@ -120,7 +122,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'if permission is lacking' do
-          let(:permissions) { %i[view_work_packages] }
+          include_context 'user with stubbed permissions',
+                          work_package_permissions: %i[view_work_packages]
 
           it_behaves_like 'has no link' do
             let(:link) { 'bcfViewpoints' }
@@ -153,7 +156,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
       context 'if no bcf issue iss assigned but the user lacks permission' do
         let(:bcf_topic) { nil }
-        let(:permissions) { %i[view_linked_issues view_work_packages] }
+
+        include_context 'user with stubbed permissions',
+                        project_permissions: %i[view_linked_issues],
+                        work_package_permissions: %i[view_work_packages]
 
         it_behaves_like 'has no link'
       end

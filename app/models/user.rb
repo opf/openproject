@@ -504,6 +504,10 @@ class User < Principal
     allowed_to?(action, project)
   end
 
+  def allowed_to_in_any_project?(_action)
+    allowed_to
+  end
+
   def allowed_to_globally?(action)
     allowed_to?(action, nil, global: true)
   end

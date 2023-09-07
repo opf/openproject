@@ -32,19 +32,12 @@ RSpec.describe WorkPackages::CreateContract do
   let(:work_package) { build(:work_package, author: other_user, project:) }
   let(:other_user) { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }
-  let(:permissions) do
-    %i[
-      view_work_packages
-      add_work_packages
-    ]
-  end
   let(:changed_values) { [] }
-
-  include_context 'user with stubbed permissions'
 
   subject(:contract) { described_class.new(work_package, user) }
 
-  include_context 'user with stubbed permissions'
+  include_context 'user with stubbed permissions',
+                  work_package_permissions: %i[view_work_packages add_work_packages]
 
   before do
     allow(work_package).to receive(:changed).and_return(changed_values)
