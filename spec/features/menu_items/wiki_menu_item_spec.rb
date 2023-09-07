@@ -34,10 +34,9 @@ require 'features/work_packages/work_packages_page'
 RSpec.describe 'Wiki menu items' do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %w[view_wiki_pages
-                                       manage_wiki_menu
-                                       delete_wiki_pages])
+           member_with_permissions: { project => %i[view_wiki_pages
+                                                    manage_wiki_menu
+                                                    delete_wiki_pages] })
   end
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:wiki) { project.wiki }
@@ -85,7 +84,7 @@ RSpec.describe 'Wiki menu items' do
     end
   end
 
-  it 'allows managing the menu item of a wiki page', js: true, with_cuprite: true do
+  it 'allows managing the menu item of a wiki page', :js, :with_cuprite do
     other_wiki_page
     another_wiki_page
 

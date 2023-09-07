@@ -26,27 +26,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <% if CostType.exists? %>
   <%# Build a template object for the frontend to add new rows %>
   <% template_object = @budget.material_budget_items.build(cost_type: CostType.default) %>
-
   <costs-budget-subform item-count="<%= @budget.material_budget_items.length %>"
                       update-url="<%= url_for(action: :update_material_budget_item, project_id: @project.id) %>">
     <fieldset id="material_budget_items_fieldset" class="form--fieldset -collapsible">
       <legend class="form--fieldset-legend"><%= Budget.human_attribute_name(:material_budget) %></legend>
-        <div class="generic-table--container">
-          <div class="generic-table--results-container">
-            <table class="generic-table" id="material_budget_items">
-              <colgroup>
+      <div class="generic-table--container">
+        <div class="generic-table--results-container">
+          <table class="generic-table" id="material_budget_items">
+            <colgroup>
+              <col opHighlightCol>
+              <col opHighlightCol>
+              <col opHighlightCol>
+              <% if User.current.allowed_in_project?(:view_cost_rates, @project)%>
                 <col opHighlightCol>
-                <col opHighlightCol>
-                <col opHighlightCol>
-                <% if User.current.allowed_to?(:view_cost_rates, @project)%>
-                  <col opHighlightCol>
-                <%end%>
-                <col>
-              </colgroup>
+              <%end%>
+              <col>
+            </colgroup>
             <thead>
               <tr>
                 <th class="cost_units">
@@ -85,7 +83,7 @@ See COPYRIGHT and LICENSE files for more details.
                     </div>
                   </div>
                 </th>
-                <% if User.current.allowed_to?(:view_cost_rates, @project)%>
+                <% if User.current.allowed_in_project?(:view_cost_rates, @project)%>
                   <th class="currency" id="material_budget_items_price">
                     <div class="generic-table--sort-header-outer">
                       <div class="generic-table--sort-header">
@@ -106,7 +104,6 @@ See COPYRIGHT and LICENSE files for more details.
               <%- end -%>
             </tbody>
           </table>
-
         </div>
       </div>
       <div class="wp-inline-create-button">

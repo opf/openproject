@@ -527,8 +527,7 @@ RSpec.describe User do
     let(:project) { create(:project) }
     let!(:user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: roles)
+             member_with_roles: { project => roles })
     end
     let(:roles) { [create(:role), create(:role)] }
 

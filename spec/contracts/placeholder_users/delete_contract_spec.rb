@@ -41,7 +41,7 @@ RSpec.describe PlaceholderUsers::DeleteContract do
   it_behaves_like 'contract is valid for active admins and invalid for regular users'
 
   context 'when user with global permission to manage_placeholders' do
-    let(:current_user) { create(:user, global_permission: %i[manage_placeholder_user]) }
+    let(:current_user) { create(:user, global_permissions: %i[manage_placeholder_user]) }
 
     before do
       shared_project

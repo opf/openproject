@@ -80,9 +80,7 @@ RSpec.describe WorkPackage, 'spent_time' do
           permissions: [:view_time_entries])
   end
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   before do

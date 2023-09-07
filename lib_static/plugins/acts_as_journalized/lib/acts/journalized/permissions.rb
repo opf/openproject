@@ -55,8 +55,24 @@ module Acts::Journalized
       editable = if respond_to? :editable_by?
                    editable_by?(user)
                  else
+                   # TODO: Also check if we are a work package and then check this? Will have to revisit
                    p = @project || (project if respond_to? :project)
-                   user.allowed_to? journable_edit_permission, p, global: p.present?
+
+                   # None of the permissions that are checked here are global permissions, so they would all be checked
+                   # against any project in the existing logic. Do we really want that here? Why should a journal entry
+                   # be editbale if the user has the permission within any project?
+                   #
+                   # Permissions were checked with:
+                   #    Zeitwerk::Loader.eager_load_all
+                   #    ObjectSpace.each_object(Class).select { |c| c.included_modules.include? Acts::Journalized::Permissions }.map { |cls| cls.new.send(:journable_edit_permission) }
+                   #
+                   # I think it makes sense to return false here if no project is present and not check on any project?
+
+                   if p
+                     user.allowed_in_project(journable_edit_permission, p)
+                   else
+                     user.allowed_in_any_project?(journable_edit_permission)
+                   end
                  end
 
       editable && journal.user_id == user.id

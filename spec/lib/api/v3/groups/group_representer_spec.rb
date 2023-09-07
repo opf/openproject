@@ -49,7 +49,7 @@ RSpec.describe API::V3::Groups::GroupRepresenter, 'rendering' do
 
   before do
     allow(current_user)
-      .to receive(:allowed_to_globally?) do |permission|
+      .to receive(:allowed_in_any_project?) do |permission|
       permissions.include?(permission)
     end
   end
@@ -90,7 +90,7 @@ RSpec.describe API::V3::Groups::GroupRepresenter, 'rendering' do
           representer.to_json
 
           allow(current_user)
-            .to receive(:allowed_to_globally?)
+            .to receive(:allowed_in_any_project?)
                   .and_return false
         end
 

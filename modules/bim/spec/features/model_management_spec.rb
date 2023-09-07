@@ -30,16 +30,13 @@ require 'spec_helper'
 
 require_relative '../support/pages/ifc_models/index'
 
-RSpec.describe 'model management',
-               js: true, with_config: { edition: 'bim' } do
+RSpec.describe 'model management', :js, with_config: { edition: 'bim' } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:index_page) { Pages::IfcModels::Index.new(project) }
   let(:role) { create(:role, permissions: %i[view_ifc_models manage_bcf manage_ifc_models view_work_packages]) }
 
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   let!(:model) do
@@ -88,9 +85,7 @@ RSpec.describe 'model management',
   context 'with only viewing permissions' do
     let(:view_role) { create(:role, permissions: %i[view_ifc_models view_work_packages]) }
     let(:view_user) do
-      create(:user,
-             member_in_project: project,
-             member_through_role: view_role)
+      create(:user, member_with_roles: { project => role })
     end
 
     before do
@@ -121,9 +116,7 @@ RSpec.describe 'model management',
   context 'without any permissions' do
     let(:no_permissions_role) { create(:role, permissions: %i[]) }
     let(:user_without_permissions) do
-      create(:user,
-             member_in_project: project,
-             member_through_role: no_permissions_role)
+      create(:user, member_with_roles: { project => role })
     end
 
     before do

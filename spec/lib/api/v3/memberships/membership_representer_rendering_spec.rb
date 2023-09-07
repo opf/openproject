@@ -65,9 +65,8 @@ RSpec.describe API::V3::Memberships::MembershipRepresenter, 'rendering' do
   subject { representer.to_json }
 
   before do
-    allow(current_user)
-      .to receive(:allowed_to?) do |permission, context_project|
-      project == context_project && permissions.include?(permission)
+    mock_permissions_for(current_user) do |mock|
+      mock.in_project *permissions, project:
     end
   end
 

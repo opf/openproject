@@ -35,8 +35,7 @@ RSpec.describe 'Work package query summary item', js: true do
   let(:work_package) { create(:work_package, project:) }
   let(:wp_page) { Pages::WorkPackagesTable.new project }
   let(:current_user) do
-    create(:user, member_in_project: project,
-                  member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   before do

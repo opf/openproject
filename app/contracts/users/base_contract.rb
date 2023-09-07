@@ -32,7 +32,7 @@ module Users
 
     attribute :login,
               writable: ->(*) {
-                (user.allowed_to_globally?(:manage_user) || user.allowed_to_globally?(:create_user)) &&
+                (user.allowed_globally?(:manage_user) || user.allowed_globally?(:create_user)) &&
                 model.id != user.id
               }
     attribute :firstname
@@ -43,10 +43,10 @@ module Users
     attribute :language
 
     attribute :ldap_auth_source_id,
-              writable: ->(*) { user.allowed_to_globally?(:manage_user) || user.allowed_to_globally?(:create_user) }
+              writable: ->(*) { user.allowed_globally?(:manage_user) || user.allowed_globally?(:create_user) }
 
     attribute :status,
-              writable: ->(*) { user.allowed_to_globally?(:manage_user) || user.allowed_to_globally?(:create_user) }
+              writable: ->(*) { user.allowed_globally?(:manage_user) || user.allowed_globally?(:create_user) }
 
     attribute :identity_url,
               writable: ->(*) { user.admin? }

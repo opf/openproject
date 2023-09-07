@@ -28,9 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Custom actions',
-               js: true,
-               with_cuprite: true,
+RSpec.describe 'Custom actions', :js, :with_cuprite,
                with_ee: %i[custom_actions] do
   shared_let(:admin) { create(:admin) }
 
@@ -57,8 +55,7 @@ RSpec.describe 'Custom actions',
     create(:user,
            firstname: 'Other member',
            lastname: 'User',
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:project) { create(:project, name: 'This project') }
   let(:other_project) { create(:project, name: 'Other project') }

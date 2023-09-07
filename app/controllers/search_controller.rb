@@ -147,11 +147,13 @@ class SearchController < ApplicationController
   def search_types
     types = Redmine::Search.available_search_types.dup
 
+    # TODO: Figure out if we explicitly need to check here for the specific entities as well
+
     if projects_to_search.is_a? Project
       # don't search projects
       types.delete('projects')
       # only show what the user is allowed to view
-      types = types.select { |o| User.current.allowed_to?("view_#{o}".to_sym, projects_to_search) }
+      types = types.select { |o| User.current.allowed_in_project?("view_#{o}".to_sym, projects_to_search) }
     end
 
     types

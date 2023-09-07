@@ -46,7 +46,7 @@ class Authorization::UserAllowedService
   #   * returns ture if user is allowed to do the specified action on the project the entity belongs to
   # * nil with +global+ set to +true+ : check if user has at least one role allowed for this action,
   #   or falls back to Non Member / Anonymous permissions depending if the user is logged
-  def call(action, context, global: false)
+  def call(action, context, global: false, in_any_project: false)
     if supported_context?(context, global:)
       allowed_to?(action, context, global:)
     else
@@ -94,6 +94,8 @@ class Authorization::UserAllowedService
   end
 
   def allowed_to_in_project?(action, project)
+    return false if project.nil?
+
     if project_authorization_cache.cached?(action)
       return project_authorization_cache.allowed?(action, project)
     end
@@ -171,6 +173,6 @@ class Authorization::UserAllowedService
   end
 
   def supported_entity?(entity)
-    Member::ALLOWED_ENTITIES.include?(entity.class.to_s)
+    Member.can_be_member_of?(entity)
   end
 end

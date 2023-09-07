@@ -34,10 +34,10 @@ RSpec.describe 'API v3 wiki_pages resource' do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:other_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:wiki) { create(:wiki, project:) }
   let(:wiki_page) { create(:wiki_page, wiki:) }

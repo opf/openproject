@@ -39,8 +39,7 @@ RSpec.describe 'API v3 Category resource' do
   let(:anonymous_user) { create(:user) }
   let(:privileged_user) do
     create(:user,
-           member_in_project: private_project,
-           member_through_role: role)
+           member_with_roles: { private_project => role })
   end
 
   let!(:categories) { create_list(:category, 3, project: private_project) }

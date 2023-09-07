@@ -123,10 +123,6 @@ module API
           end
         end
 
-        def current_user_allowed_to(permission, context:)
-          current_user.allowed_to?(permission, context)
-        end
-
         def hours=(value)
           represented.hours = datetime_formatter.parse_duration_to_hours(value,
                                                                          'hours',

@@ -29,11 +29,10 @@
 require 'spec_helper'
 require_relative '../support/pages/work_package_github_tab'
 
-RSpec.describe 'Open the GitHub tab', js: true do
+RSpec.describe 'Open the GitHub tab', :js do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:role) do
     create(:role,

@@ -27,14 +27,12 @@
 #++
 
 require 'spec_helper'
-require_relative './support/board_index_page'
-require_relative './support/board_page'
+require_relative 'support/board_index_page'
+require_relative 'support/board_page'
 
-RSpec.describe 'Work Package boards spec', js: true, with_ee: %i[board_view] do
+RSpec.describe 'Work Package boards spec', :js, with_ee: %i[board_view] do
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   # The identifier is important to test https://community.openproject.com/wp/29754
   let(:project) { create(:project, identifier: 'boards', enabled_module_names: %i[work_package_tracking board_view]) }

@@ -38,8 +38,7 @@ RSpec.describe WorkPackage, 'custom_actions' do
   let(:other_status) { create(:status) }
   let(:user) do
     create(:user,
-           member_in_project: work_package.project,
-           member_through_role: role)
+           member_with_roles: { work_package.project => role })
   end
   let(:role) do
     create(:role)

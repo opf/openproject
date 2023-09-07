@@ -30,9 +30,7 @@ require 'spec_helper'
 
 RSpec.describe Projects::CopyService, 'integration', type: :model do
   let(:current_user) do
-    create(:user,
-           member_in_project: source,
-           member_through_role: role)
+    create(:user, member_with_roles: { source => role })
   end
   let(:project_copy) { subject.result }
   let(:board_copies) { Boards::Grid.where(project: project_copy) }
@@ -55,9 +53,7 @@ RSpec.describe Projects::CopyService, 'integration', type: :model do
 
   describe 'for a subproject board' do
     let(:current_user) do
-      create(:user,
-             member_in_projects: [source, child_project],
-             member_through_role: role)
+      create(:user, member_with_roles: { source => role, child_project => role })
     end
     let(:expected_error) do
       "Widget contained in Grid Board 'Subproject board': Only subproject filter has invalid values."

@@ -52,7 +52,7 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserRepresenter, 'rendering
 
   before do
     allow(current_user)
-      .to receive(:allowed_to_globally?) do |requested_permission|
+      .to receive(:allowed_globally?) do |requested_permission|
       global_permissions.include?(requested_permission)
     end
   end

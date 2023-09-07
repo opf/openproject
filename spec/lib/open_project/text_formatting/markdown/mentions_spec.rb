@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './expected_markdown'
+require_relative 'expected_markdown'
 
 RSpec.describe OpenProject::TextFormatting,
                'mentions' do
@@ -46,8 +46,7 @@ RSpec.describe OpenProject::TextFormatting,
 
     shared_let(:project_member) do
       create(:user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     before do
@@ -63,8 +62,7 @@ RSpec.describe OpenProject::TextFormatting,
 
       let(:linked_project_member) do
         create(:user,
-               member_in_project: project,
-               member_through_role: role)
+               member_with_roles: { project => role })
       end
 
       context 'User link via mention' do
@@ -194,8 +192,7 @@ RSpec.describe OpenProject::TextFormatting,
           context "with an email address as login name" do
             let(:linked_project_member) do
               create(:user,
-                     member_in_project: project,
-                     member_through_role: role,
+                     member_with_roles: { project => role },
                      login: "foo@bar.com")
             end
 
@@ -270,16 +267,14 @@ RSpec.describe OpenProject::TextFormatting,
           let(:role) { create(:role, permissions: %i(view_work_packages)) }
           let(:current_user) do
             create(:user,
-                   member_in_project: project,
-                   member_through_role: role)
+                   member_with_roles: { project => role })
           end
           let(:user) do
             create(:user,
                    login: 'foo@bar.com',
                    firstname: 'Foo',
                    lastname: 'Barrit',
-                   member_in_project: project,
-                   member_through_role: role)
+                   member_with_roles: { project => role })
           end
 
           before do
@@ -335,12 +330,7 @@ RSpec.describe OpenProject::TextFormatting,
       end
 
       let(:linked_project_member_group) do
-        create(:group).tap do |group|
-          create(:member,
-                 principal: group,
-                 project:,
-                 roles: [role])
-        end
+        create(:group, member_with_roles: { project => role })
       end
 
       context 'via hash syntax' do

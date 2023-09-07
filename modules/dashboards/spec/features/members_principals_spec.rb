@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-RSpec.describe 'Dashboard page members', js: true do
+RSpec.describe 'Dashboard page members', :js do
   shared_let(:type) { create(:type) }
   shared_let(:project) { create(:project, types: [type], description: 'My **custom** description') }
 
@@ -44,22 +44,19 @@ RSpec.describe 'Dashboard page members', js: true do
     create(:user,
            firstname: 'Foo',
            lastname: 'Bar',
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
 
   shared_let(:group) do
     create(:group,
            name: 'DEV Team',
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
 
   shared_let(:placeholder) do
     create(:placeholder_user,
            name: 'DEVELOPER PLACEHOLDER',
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
 
   let(:dashboard_page) do

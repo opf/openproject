@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-RSpec.describe 'Accountable widget on my page', js: true do
+RSpec.describe 'Accountable widget on my page', :js do
   let!(:type) { create(:type) }
   let!(:priority) { create(:default_priority) }
   let!(:project) { create(:project, types: [type]) }
@@ -65,8 +65,7 @@ RSpec.describe 'Accountable widget on my page', js: true do
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:my_page) do
     Pages::My::Page.new

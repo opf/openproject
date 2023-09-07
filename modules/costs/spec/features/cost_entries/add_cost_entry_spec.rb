@@ -28,7 +28,7 @@
 
 require_relative '../../spec_helper'
 
-RSpec.describe 'Work Package cost fields', js: true do
+RSpec.describe 'Work Package cost fields', :js do
   shared_let(:type_task) { create(:type_task) }
   shared_let(:status) { create(:status, is_default: true) }
   shared_let(:priority) { create(:priority, is_default: true) }
@@ -47,8 +47,7 @@ RSpec.describe 'Work Package cost fields', js: true do
   end
   shared_let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   shared_let(:cost_type1) do
     type = create(:cost_type, name: 'A', unit: 'A single', unit_plural: 'A plural')
@@ -168,8 +167,7 @@ RSpec.describe 'Work Package cost fields', js: true do
   context 'with an additional placeholder user in the project' do
     let!(:placeholder_user) do
       create(:placeholder_user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     it 'does not allow to select them (Regression #36353)' do

@@ -39,8 +39,8 @@ RSpec.describe Queries::Members::MemberQuery, 'Integration' do
     let(:project) { create(:project) }
     let(:user) { create(:user) }
     let(:role) { create(:role, permissions: %i[view_members manage_members]) }
-    let!(:group1) { create(:group, name: 'A', member_in_project: project, member_through_role: role, members: [user]) }
-    let!(:group2) { create(:group, name: 'B', member_in_project: project, member_through_role: role, members: [user]) }
+    let!(:group1) { create(:group, name: 'A', member_with_roles: { project => role }, members: [user]) }
+    let!(:group2) { create(:group, name: 'B', member_with_roles: { project => role }, members: [user]) }
 
     it 'only returns one user when filtering for one group (Regression #45331)' do
       instance.where 'project_id', '=', [project.id.to_s]

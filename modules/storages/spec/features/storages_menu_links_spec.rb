@@ -41,7 +41,7 @@ RSpec.describe 'Project menu', :js, :with_cuprite do
     create(:project_storage, project:, storage: another_storage, project_folder_mode: 'manual', project_folder_id: '42')
   end
   let(:permissions) { %i[view_file_links] }
-  let(:user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
+  let(:user) { create(:user, member_with_permissions: { project => permissions }) }
 
   before do
     project_storage_without_folder

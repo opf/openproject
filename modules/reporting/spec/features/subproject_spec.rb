@@ -7,8 +7,7 @@ RSpec.describe 'Cost report in subproject', js: true do
   let!(:role) { create(:role, permissions: %i(view_cost_entries view_own_cost_entries)) }
   let!(:user) do
     create(:user,
-           member_in_project: subproject,
-           member_through_role: role)
+           member_with_roles: { subproject => role })
   end
 
   before do

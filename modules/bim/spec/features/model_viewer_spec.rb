@@ -28,17 +28,14 @@
 
 require_relative '../spec_helper'
 
-RSpec.describe 'model viewer',
-               js: true, with_config: { edition: 'bim' } do
+RSpec.describe 'model viewer', :js, with_config: { edition: 'bim' } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   # TODO: Add empty viewpoint and stub method to load viewpoints once defined
   let(:work_package) { create(:work_package, project:) }
   let(:role) { create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages]) }
 
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   let!(:model) do
@@ -103,9 +100,7 @@ RSpec.describe 'model viewer',
   context 'with only viewing permissions' do
     let(:view_role) { create(:role, permissions: %i[view_ifc_models view_work_packages view_linked_issues]) }
     let(:view_user) do
-      create(:user,
-             member_in_project: project,
-             member_through_role: view_role)
+      create(:user, member_with_roles: { project => view_role })
     end
 
     before do
@@ -125,9 +120,7 @@ RSpec.describe 'model viewer',
   context 'without any permissions' do
     let(:no_permissions_role) { create(:role, permissions: %i[]) }
     let(:user_without_permissions) do
-      create(:user,
-             member_in_project: project,
-             member_through_role: no_permissions_role)
+      create(:user, member_with_roles: { project => no_permissions_role })
     end
 
     before do

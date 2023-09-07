@@ -248,7 +248,7 @@ RSpec.describe PlaceholderUsersController do
   end
 
   context 'as a user with global permission' do
-    current_user { create(:user, global_permission: %i[manage_placeholder_user]) }
+    current_user { create(:user, global_permissions: %i[manage_placeholder_user]) }
     it_behaves_like 'authorized flows'
   end
 

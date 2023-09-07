@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% local_assigns[:additional_breadcrumb] = @user.name %>
 <% html_title t(:label_administration), t(:label_user_plural) -%>
 <%= breadcrumb_toolbar "#{avatar @user} #{h(@user.name)}".html_safe do %>
-  <% if User.current.allowed_to_globally?(:manage_user) %>
+  <% if User.current.allowed_globally?(:manage_user) %>
     <li class="toolbar-item">
       <%= link_to edit_user_path(@user), class: 'button', accesskey: accesskey(:edit) do %>
         <%= op_icon('button--icon icon-edit') %>
@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     </li>
   <% end %>
-  <% if User.current.allowed_to_globally?(:create_user) %>
+  <% if User.current.allowed_globally?(:create_user) %>
     <li class="toolbar-item hidden-for-tablet">
       <%= form_for(@user, html: { class: 'toolbar-item' },
                  url: { action: :resend_invitation },

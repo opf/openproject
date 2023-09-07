@@ -1,5 +1,4 @@
 <%= render 'homescreen/blocks/header', title: t(:label_project_plural) %>
-
 <% if @newest_projects.empty? %>
   <p class="widget-box--additional-info">
     <%= t('homescreen.additional.no_visible_projects') %>
@@ -8,16 +7,15 @@
   <p class="widget-box--additional-info"><%= t('homescreen.additional.projects') %></p>
   <ul class="widget-box--arrow-links">
     <% @newest_projects.each do |project| %>
-    <li>
-      <%= link_to project, project_path(project), title: short_project_description(project) %>
-      <small>(<%= format_date(project.created_at) %>)</small>
-    </li>
+      <li>
+        <%= link_to project, project_path(project), title: short_project_description(project) %>
+        <small>(<%= format_date(project.created_at) %>)</small>
+      </li>
     <% end %>
   </ul>
 <% end %>
-
 <div class="widget-box--blocks--buttons">
-  <% if User.current.allowed_to_globally?(:add_project) %>
+  <% if User.current.allowed_globally?(:add_project) %>
     <%= link_to new_project_path,
           { class: 'button -alt-highlight',
             aria: {label: t(:label_project_new)},
@@ -26,7 +24,6 @@
       <span class="button--text"><%= Project.model_name.human %></span>
     <% end %>
   <% end %>
-
   <%# If any project exists %>
   <% unless @newest_projects.empty? %>
     <%= link_to t(:label_project_view_all), projects_path,

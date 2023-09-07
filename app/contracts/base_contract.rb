@@ -243,20 +243,30 @@ class BaseContract < Disposable::Twin
   def reduce_by_writable_permissions(attributes)
     attribute_permissions = collect_ancestor_attributes(:attribute_permissions)
 
-    attributes.reject do |attribute|
+    attributes.select do |attribute|
       canonical_attribute = attribute.delete_suffix('_id')
 
       permissions = attribute_permissions[canonical_attribute] ||
                     attribute_permissions["#{canonical_attribute}_id"] ||
                     attribute_permissions[:default_permission]
 
-      next unless permissions
+      permissions.blank? || permissions.any? { |permission| permitted?(permission) }
+    end
+  end
 
-      # This will break once a model that does not respond to project is used.
-      # This is intended to be worked on then with the additional knowledge.
-      next if permissions.any? { |p| user.allowed_to?(p, model.project, global: model.project.nil?) }
+  def permitted?(permission)
+    permissions = Authorization.permissions_for(permission)
 
-      true
+    permissions.all? do |permission|
+      if permission.global?
+        user&.allowed_globally?(permission)
+      elsif permission.work_package? && model.is_a?(WorkPackage)
+        user&.allowed_in_work_package?(permission, model)
+      elsif permission.project? && model.respond_to?(:project)
+        user&.allowed_in_project?(permission, model.project)
+      elsif permission.project? && model.is_a?(Project)
+        user&.allowed_in_project?(permission, model)
+      end
     end
   end
 end

@@ -27,14 +27,12 @@
 #++
 
 require 'spec_helper'
-require_relative './../support//board_index_page'
-require_relative './../support/board_page'
+require_relative '../support/board_index_page'
+require_relative '../support/board_page'
 
-RSpec.describe 'Subproject action board', js: true, with_ee: %i[board_view] do
+RSpec.describe 'Subproject action board', :js, with_ee: %i[board_view] do
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:type) { create(:type_standard) }
   let(:project) do
@@ -73,9 +71,7 @@ RSpec.describe 'Subproject action board', js: true, with_ee: %i[board_view] do
     end
 
     let(:user) do
-      create(:user,
-             member_in_projects: [project, subproject1, subproject2],
-             member_through_role: role)
+      create(:user, member_with_roles: { project => role, subproject1 => role, subproject2 => role })
     end
 
     it 'does not allow to move work packages' do
@@ -96,15 +92,11 @@ RSpec.describe 'Subproject action board', js: true, with_ee: %i[board_view] do
 
   context 'with permissions in all subprojects' do
     let(:user) do
-      create(:user,
-             member_in_projects: [project, subproject1, subproject2],
-             member_through_role: role)
+      create(:user, member_with_roles: { project => role, subproject1 => role, subproject2 => role })
     end
 
     let(:only_parent_user) do
-      create(:user,
-             member_in_project: project,
-             member_through_role: role)
+      create(:user, member_with_roles: { project => role })
     end
 
     it 'allows management of subproject work packages' do
@@ -180,8 +172,7 @@ RSpec.describe 'Subproject action board', js: true, with_ee: %i[board_view] do
     let(:user) do
       create(:user,
              # The membership in subproject2 gets removed later on
-             member_in_projects: [project, subproject1, subproject2],
-             member_through_role: role)
+             member_with_roles: { project => role, subproject1 => role, subproject2 => role })
     end
 
     let!(:board) do
@@ -219,9 +210,7 @@ RSpec.describe 'Subproject action board', js: true, with_ee: %i[board_view] do
 
   context 'with an archived subproject' do
     let(:user) do
-      create(:user,
-             member_in_projects: [project, subproject1, subproject2],
-             member_through_role: role)
+      create(:user, member_with_roles: { project => role, subproject1 => role, subproject2 => role })
     end
 
     let!(:board) do

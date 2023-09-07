@@ -26,48 +26,47 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <persistent-toggle data-identifier="repository.checkout_instructions"></persistent-toggle>
 <%= toolbar title: t('repositories.named_repository',
                      vendor_name: @repository.class.vendor_name) do %>
   <% if @instructions && @instructions.available? %>
-  <li class="toolbar-item toolbar-input-group hidden-for-mobile">
-    <div class="toolbar-input-group--affix -prepend">
-      <span><%= @instructions.checkout_command %></span>
-    </div>
-    <input id="repository-checkout-url"
+    <li class="toolbar-item toolbar-input-group hidden-for-mobile">
+      <div class="toolbar-input-group--affix -prepend">
+        <span><%= @instructions.checkout_command %></span>
+      </div>
+      <input id="repository-checkout-url"
            type="text" class="-clickable" size="40"
            value="<%= @instructions.checkout_url(true) %>"
            readonly>
-    <% csp_onclick('this.focus(); this.select();', '#repository-checkout-url') %>
-    <copy-to-clipboard click-target=".repository-checkout-copy-button"
+      <% csp_onclick('this.focus(); this.select();', '#repository-checkout-url') %>
+      <copy-to-clipboard click-target=".repository-checkout-copy-button"
                        clipboard-target="#repository-checkout-url">
-    </copy-to-clipboard>
-    <button class="repository-checkout-copy-button toolbar-input--affix toolbar-input-group--affix -append"
+      </copy-to-clipboard>
+      <button class="repository-checkout-copy-button toolbar-input--affix toolbar-input-group--affix -append"
             title="<%= t(:button_copy_to_clipboard) %>">
-      <%= op_icon('icon-copy') %>
-      <span class="hidden-for-sighted"><%= t(:button_copy_to_clipboard) %></span>
-    </button>
-  </li>
-  <li class="toolbar-item -icon-only">
-    <a id="repository--checkout-instructions-toggle"
+        <%= op_icon('icon-copy') %>
+        <span class="hidden-for-sighted"><%= t(:button_copy_to_clipboard) %></span>
+      </button>
+    </li>
+    <li class="toolbar-item -icon-only">
+      <a id="repository--checkout-instructions-toggle"
        class="persistent-toggle--click-handler button"
        title="<%= t('repositories.checkout.show_instructions') %>">
-      <%= op_icon('button--icon icon-info1') %>
-    </a>
-  </li>
+        <%= op_icon('button--icon icon-info1') %>
+      </a>
+    </li>
   <% end %>
-  <% if !empty && User.current.allowed_to?(:browse_repository, @project) %>
-  <li class="toolbar-item -icon-only">
-    <%= link_to stats_project_repository_path(@project),
+  <% if !empty && User.current.allowed_in_project?(:browse_repository, @project) %>
+    <li class="toolbar-item -icon-only">
+      <%= link_to stats_project_repository_path(@project),
         class: 'button', title: t(:label_statistics) do %>
-      <%= op_icon('button--icon icon-chart1') %>
-    <% end %>
-  </li>
+        <%= op_icon('button--icon icon-chart1') %>
+      <% end %>
+    </li>
   <% end %>
   <%= call_hook(:repositories_navigation_toolbar,
                 { repository: @repository, project: @project, repository_empty: empty }) %>
-  <% if User.current.allowed_to?(:manage_repository, @project) %>
+  <% if User.current.allowed_in_project?(:manage_repository, @project) %>
     <li class="toolbar-item -icon-only">
       <%= link_to project_settings_repository_path(@project),
           class: 'button', title: t(:label_setting_plural) do %>
@@ -76,11 +75,7 @@ See COPYRIGHT and LICENSE files for more details.
     </li>
   <% end %>
 <% end %>
-
-
 <% if @instructions %>
   <%= render partial: 'checkout_instructions',
              locals: { repository: @repository, instructions: @instructions } %>
 <% end %>
-
-

@@ -65,7 +65,7 @@ RSpec.describe 'Admin menu items',
   end
 
   context 'when logged in with a non-admin user with specific admin permissions' do
-    shared_let(:user) { create(:user, global_permission: %i[manage_user create_backup]) }
+    shared_let(:user) { create(:user, global_permissions: %i[manage_user create_backup]) }
 
     it 'must display only the actions allowed by global permissions' do
       expect(page).to have_test_selector('menu-block', text: I18n.t('label_user_plural'))

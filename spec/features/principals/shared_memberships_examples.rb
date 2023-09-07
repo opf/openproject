@@ -30,7 +30,7 @@ RSpec.shared_examples 'principal membership management flows' do
     principal_page.expect_project(project.name)
     principal_page.edit_roles!(member, %w())
 
-    expect(page).to have_selector('.op-toast.-error', text: 'Roles need to be assigned.')
+    expect(page).to have_css('.op-toast.-error', text: 'Roles need to be assigned.')
 
     # Remove the user from the project
     principal_page.remove_from_project!(project.name)
@@ -46,7 +46,7 @@ end
 
 RSpec.shared_examples 'global user principal membership management flows' do |permission|
   context 'as global user' do
-    shared_let(:global_user) { create(:user, global_permission: permission) }
+    shared_let(:global_user) { create(:user, global_permissions: [permission]) }
     shared_let(:project_members) { { global_user => manager } }
     current_user { global_user }
 
@@ -73,8 +73,8 @@ RSpec.shared_examples 'global user principal membership management flows' do |pe
         principal_page.visit!
         principal_page.open_projects_tab!
 
-        expect(page).not_to have_selector('#membership_project_id option', text: project.name, visible: :all)
-        expect(page).not_to have_selector('#membership_project_id option', text: project2.name, visible: :all)
+        expect(page).not_to have_css('#membership_project_id option', text: project.name, visible: :all)
+        expect(page).not_to have_css('#membership_project_id option', text: project2.name, visible: :all)
       end
 
       it 'does not show the membership' do
@@ -87,7 +87,7 @@ RSpec.shared_examples 'global user principal membership management flows' do |pe
         principal_page.visit!
         principal_page.open_projects_tab!
 
-        expect(page).not_to have_selector('tr.member')
+        expect(page).not_to have_css('tr.member')
         expect(page).to have_text 'There is currently nothing to display.'
         expect(page).not_to have_text project2.name
         expect(page).not_to have_text project2.name
@@ -98,16 +98,15 @@ RSpec.shared_examples 'global user principal membership management flows' do |pe
   context 'as user with global and project permissions, but not manage_members' do
     current_user do
       create(:user,
-             global_permission: permission,
-             member_in_project: project,
-             member_with_permissions: %i[view_work_packages])
+             global_permissions: [permission],
+             member_with_permissions: { project => %i[view_work_packages] })
     end
 
     it 'does not allow to select that project' do
       principal_page.visit!
       principal_page.open_projects_tab!
 
-      expect(page).not_to have_selector('tr.member')
+      expect(page).not_to have_css('tr.member')
       expect(page).to have_text 'There is currently nothing to display.'
       expect(page).not_to have_text project.name
       expect(page).not_to have_text project2.name

@@ -43,7 +43,7 @@ RSpec.describe WorkPackagesController do
     end
 
     before do
-      allow(User.current).to receive(:allowed_to?).and_return(true)
+      mock_permissions_for(current_user, &:all_permissions_allowed!)
       allow(controller).to receive(:retrieve_query).and_return(query)
     end
 

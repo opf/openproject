@@ -92,7 +92,7 @@ RSpec.describe ProjectsController do
 
       it "shows all active projects" do
         expect(assigns[:projects])
-          .to match_array [project_a, project_b, project_c]
+          .to contain_exactly(project_a, project_b, project_c)
       end
     end
 
@@ -103,18 +103,18 @@ RSpec.describe ProjectsController do
 
       it "shows only (active) public projects" do
         expect(assigns[:projects])
-          .to match_array [project_c]
+          .to contain_exactly(project_c)
       end
     end
 
     context 'as user' do
-      let(:user) { create(:user, member_in_project: project_b) }
+      let(:user) { create(:user, member_with_permissions: { project_b => %i[view_work_packages edit_work_packages] }) }
 
       it_behaves_like 'successful index'
 
       it "shows (active) public projects and those in which the user is member of" do
         expect(assigns[:projects])
-          .to match_array [project_b, project_c]
+          .to contain_exactly(project_b, project_c)
       end
     end
   end

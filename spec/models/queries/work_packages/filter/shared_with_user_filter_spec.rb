@@ -200,12 +200,9 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithUserFilter do
 
         context "and I have the necessary permissions" do
           before do
-            allow(user)
-              .to receive(:allowed_to?)
-                    .with(:view_shared_work_packages,
-                          project,
-                          global: true)
-                    .and_return(true)
+            mock_permissions_for(user) do |mock|
+              mock.in_project :view_shared_work_packages, project:
+            end
           end
 
           it do
@@ -215,12 +212,7 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithUserFilter do
 
         context "and I don't have the necessary permissions" do
           before do
-            allow(user)
-              .to receive(:allowed_to?)
-                    .with(:view_shared_work_packages,
-                          project,
-                          global: true)
-                    .and_return(false)
+            mock_permissions_for(user, &:forbid_everything!)
           end
 
           it { expect(instance).not_to be_available }

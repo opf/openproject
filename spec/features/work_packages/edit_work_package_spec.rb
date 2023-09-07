@@ -12,8 +12,7 @@ RSpec.describe 'edit work package',
     create(:user,
            firstname: 'Dev',
            lastname: 'Guy',
-           member_in_project: project,
-           member_through_role: dev_role)
+           member_with_roles: { project => dev_role })
   end
   let(:manager_role) do
     create(:role,
@@ -25,13 +24,11 @@ RSpec.describe 'edit work package',
     create(:admin,
            firstname: 'Manager',
            lastname: 'Guy',
-           member_in_project: project,
-           member_through_role: manager_role)
+           member_with_roles: { project => manager_role })
   end
   let(:placeholder_user) do
     create(:placeholder_user,
-           member_in_project: project,
-           member_through_role: manager_role)
+           member_with_roles: { project => manager_role })
   end
 
   let(:cf_all) do

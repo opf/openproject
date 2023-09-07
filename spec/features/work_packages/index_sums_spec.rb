@@ -28,17 +28,16 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package index sums', js: true do
+RSpec.describe 'Work package index sums', :js do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_own_hourly_rate
-                                       view_work_packages
-                                       edit_work_packages
-                                       view_time_entries
-                                       view_cost_entries
-                                       view_cost_rates
-                                       log_costs])
+           member_with_permissions: { project => %i[view_own_hourly_rate
+                                                    view_work_packages
+                                                    edit_work_packages
+                                                    view_time_entries
+                                                    view_cost_entries
+                                                    view_cost_rates
+                                                    log_costs] })
   end
   let(:project) do
     create(:project, name: 'project1', identifier: 'project1')

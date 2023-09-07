@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Empty backlogs project',
-               js: true do
+RSpec.describe 'Empty backlogs project', :js do
   let(:project) { create(:project, types: [story, task], enabled_module_names: %w(backlogs)) }
   let(:story) { create(:type_feature) }
   let(:task) { create(:type_task) }
@@ -62,7 +61,7 @@ RSpec.describe 'Empty backlogs project',
 
   context 'as regular member' do
     let(:role) { create(:role, permissions: %i(view_master_backlog)) }
-    let(:current_user) { create(:user, member_in_project: project, member_through_role: role) }
+    let(:current_user) { create(:user, member_with_roles: { project => role }) }
 
     it 'only shows a no results box' do
       expect(page).to have_selector '.generic-table--no-results-container', text: I18n.t(:backlogs_empty_title)

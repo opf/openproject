@@ -41,8 +41,7 @@ RSpec.describe 'API v3 Query ICal Url' do
     let(:permissions) { %i[view_work_packages share_calendars] }
     let(:user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
     let(:query) { create(:query, project:, user:) }
     let(:path) { api_v3_paths.query_ical_url(query.id) }
@@ -98,8 +97,7 @@ RSpec.describe 'API v3 Query ICal Url' do
       let(:role_of_other_user) { create(:role, permissions: [:view_work_packages]) }
       let(:other_user) do
         create(:user,
-               member_in_project: project,
-               member_through_role: role_of_other_user)
+               member_with_roles: { project => role_of_other_user })
       end
       let(:query) { create(:query, project:, user: other_user, public: true) }
       let(:path) { api_v3_paths.query_ical_url(query.id) }

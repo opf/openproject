@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <%
   rates = @rates unless rates
   project = @project unless project
@@ -38,66 +37,65 @@ See COPYRIGHT and LICENSE files for more details.
                  end
 %>
 <div class="user-rate-history-list">
-<div class="contextual">
-  <% if project && User.current.allowed_to?({:controller => '/hourly_rates', :action => 'edit'}, project) %>
-    <%= link_to t(:button_update), {:controller => '/hourly_rates', :action => 'edit', :project_id => project, :id => @user}, :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
-  <% end %>
-</div>
-<h3><%=h project.name %><%= (" - " + number_to_currency(current_rate.rate)) if current_rate %></h3>
-<% if rates.empty? %>
-  <%= no_results_box %>
-<% else %>
-  <div class="generic-table--container">
-    <div class="generic-table--results-container">
-      <table class="generic-table rates">
-        <colgroup>
-          <col opHighlightCol>
-          <col opHighlightCol>
-          <col opHighlightCol>
-        </colgroup>
-        <thead>
-          <tr>
-            <th>
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                  <span>
-                    <%= Rate.human_attribute_name(:valid_from) %>
-                  </span>
-                </div>
-              </div>
-            </th>
-            <th class="currency">
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                  <span>
-                    <%= Rate.model_name.human %>
-                  </span>
-                </div>
-              </div>
-            </th>
-            <th>
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                  <span>
-                    <%= User.human_attribute_name(:current_rate) %>
-                  </span>
-                </div>
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody id="rates_body">
-        <%- rates.each do |rate| -%>
-          <tr>
-            <td style="padding-right: 1em;"><%= rate.valid_from %></td>
-            <td class="currency"><%= number_to_currency(rate.rate) %></td>
-            <td><%= rate == current_rate ? icon_wrapper('icon-context icon-checkmark',I18n.t(:general_text_Yes)) : "" %></td>
-          </tr>
-        <%- end -%>
-        </tbody>
-      </table>
-
-    </div>
+  <div class="contextual">
+    <% if project && User.current.allowed_in_project?({:controller => '/hourly_rates', :action => 'edit'}, project) %>
+      <%= link_to t(:button_update), {:controller => '/hourly_rates', :action => 'edit', :project_id => project, :id => @user}, :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
+    <% end %>
   </div>
-<% end %>
+  <h3><%=h project.name %><%= (" - " + number_to_currency(current_rate.rate)) if current_rate %></h3>
+  <% if rates.empty? %>
+    <%= no_results_box %>
+  <% else %>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table class="generic-table rates">
+          <colgroup>
+            <col opHighlightCol>
+            <col opHighlightCol>
+            <col opHighlightCol>
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= Rate.human_attribute_name(:valid_from) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th class="currency">
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= Rate.model_name.human %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= User.human_attribute_name(:current_rate) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="rates_body">
+            <%- rates.each do |rate| -%>
+              <tr>
+                <td style="padding-right: 1em;"><%= rate.valid_from %></td>
+                <td class="currency"><%= number_to_currency(rate.rate) %></td>
+                <td><%= rate == current_rate ? icon_wrapper('icon-context icon-checkmark',I18n.t(:general_text_Yes)) : "" %></td>
+              </tr>
+            <%- end -%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
 </div>

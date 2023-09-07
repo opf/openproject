@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_contract_examples'
+require_relative 'shared_contract_examples'
 
 RSpec.describe TimeEntries::UpdateContract do
   it_behaves_like 'time entry contract' do
@@ -44,6 +44,12 @@ RSpec.describe TimeEntries::UpdateContract do
     subject(:contract) { described_class.new(time_entry, current_user) }
 
     let(:permissions) { %i(edit_time_entries) }
+
+    before do
+      mock_permissions_for(current_user) do |mock|
+        mock.in_project *permissions, project: time_entry_project
+      end
+    end
 
     context 'if user is not allowed to edit time entries' do
       let(:permissions) { [] }
@@ -72,16 +78,15 @@ RSpec.describe TimeEntries::UpdateContract do
           end
 
           time_entry_work_package.project = p
-
-          allow(current_user)
-            .to receive(:allowed_to?) do |permission, permission_project|
-            (new_project_permissions.include?(permission) && p == permission_project) ||
-              (permissions.include?(permission) && time_entry_project == permission_project)
-          end
         end
       end
 
       before do
+        mock_permissions_for(current_user) do |mock|
+          mock.in_project *new_project_permissions, project: new_project
+          mock.in_project *permissions, project: time_entry_project
+        end
+
         time_entry.project = new_project
       end
 

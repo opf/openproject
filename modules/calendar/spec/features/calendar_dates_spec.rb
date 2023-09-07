@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_context'
+require_relative 'shared_context'
 
 RSpec.describe 'Calendar non working days', :js, :with_cuprite do
   include_context 'with calendar full access'
@@ -35,10 +35,7 @@ RSpec.describe 'Calendar non working days', :js, :with_cuprite do
   let!(:other_user) do
     create(:user,
            firstname: 'Bernd',
-           member_in_project: project,
-           member_with_permissions: %w[
-             view_work_packages view_calendar
-           ])
+           member_with_permissions: { project => %i[view_work_packages view_calendar] })
   end
 
   before do

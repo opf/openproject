@@ -189,7 +189,7 @@ class Project < ApplicationRecord
   end
 
   def copy_allowed?
-    User.current.allowed_to?(:copy_projects, self)
+    User.current.allowed_in_project?(:copy_projects, self)
   end
 
   def self.selectable_projects

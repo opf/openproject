@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-require_relative './shared_responses'
+require_relative 'shared_responses'
 
 RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
   include Rack::Test::Methods
@@ -37,40 +37,35 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
 
   let(:view_only_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_linked_issues view_work_packages work_package_assigned])
+           member_with_permissions: { project => %i[view_linked_issues view_work_packages work_package_assigned] })
   end
   let(:only_member_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: [])
+           member_with_permissions: { project => [] })
   end
   let(:edit_member_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[manage_bcf
-                                       add_work_packages
-                                       view_linked_issues
-                                       view_work_packages
-                                       edit_work_packages])
+           member_with_permissions: { project => %i[manage_bcf
+                                                    add_work_packages
+                                                    view_linked_issues
+                                                    view_work_packages
+                                                    edit_work_packages] })
   end
   let(:edit_and_delete_member_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[delete_bcf
-                                       delete_work_packages
-                                       manage_bcf
-                                       add_work_packages
-                                       view_linked_issues
-                                       view_work_packages])
+           member_with_permissions: { project => %i[delete_bcf
+                                                    delete_work_packages
+                                                    manage_bcf
+                                                    add_work_packages
+                                                    view_linked_issues
+                                                    view_work_packages] })
   end
   let(:edit_work_package_member_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[add_work_packages
-                                       view_linked_issues
-                                       edit_work_packages
-                                       view_work_packages])
+           member_with_permissions: { project => %i[add_work_packages
+                                                    view_linked_issues
+                                                    edit_work_packages
+                                                    view_work_packages] })
   end
   let(:non_member_user) do
     create(:user)
@@ -311,8 +306,8 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
     end
 
     it 'deletes the Bcf Issue as well as the belonging Work Package' do
-      expect(WorkPackage.where(id: work_package.id)).to match_array []
-      expect(Bim::Bcf::Issue.where(id: bcf_issue.id)).to match_array []
+      expect(WorkPackage.where(id: work_package.id)).to be_empty
+      expect(Bim::Bcf::Issue.where(id: bcf_issue.id)).to be_empty
     end
 
     context 'lacking permission to delete bcf' do
@@ -321,8 +316,8 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
       it_behaves_like 'bcf api not allowed response'
 
       it 'deletes neither the Work Package nor the Bcf Issue' do
-        expect(WorkPackage.where(id: work_package.id)).to match_array [work_package]
-        expect(Bim::Bcf::Issue.where(id: bcf_issue.id)).to match_array [bcf_issue]
+        expect(WorkPackage.where(id: work_package.id)).to contain_exactly(work_package)
+        expect(Bim::Bcf::Issue.where(id: bcf_issue.id)).to contain_exactly(bcf_issue)
       end
     end
   end

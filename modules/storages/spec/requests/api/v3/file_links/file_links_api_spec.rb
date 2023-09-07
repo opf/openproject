@@ -34,15 +34,15 @@ require_module_spec_helper
 RSpec.describe 'API v3 file links resource' do
   include API::V3::Utilities::PathHelper
 
-  def add_permissions(user, *permissions)
+  def add_permissions(user, *)
     role = Role.joins(members: :principal).where('users.id': user).first
-    role.add_permission!(*permissions)
+    role.add_permission!(*)
     user.reload # clear user's project_role_cache
   end
 
-  def remove_permissions(user, *permissions)
+  def remove_permissions(user, *)
     role = Role.joins(members: :principal).where('users.id': user).first
-    role.remove_permission!(*permissions)
+    role.remove_permission!(*)
     user.reload # clear user's project_role_cache
   end
 
@@ -60,10 +60,25 @@ RSpec.describe 'API v3 file links resource' do
   shared_association_default(:status) { create(:status) }
 
   let(:permissions) { %i(view_work_packages view_file_links) }
+  let!(:another_project_storage) { nil } # create(:project_storage, project:, storage: another_storage)
+  let(:file_link) do
+    create(:file_link, creator: current_user, container: work_package, storage:)
+  end
+  let(:file_link_of_other_work_package) do
+    create(:file_link, creator: current_user, container: another_work_package, storage:)
+  end
+  # If a storage mapping between a project and a storage is removed, the file link still persist. This can occur on
+  # moving a work package to another project, too, if target project does not yet have the storage mapping.
+  let(:file_link_of_another_storage) do
+    create(:file_link, creator: current_user, container: work_package, storage: another_storage)
+  end
+  let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
+  let(:sync_service) { instance_double(Storages::FileLinkSyncService) }
+
   shared_let(:project) { create(:project) }
 
   shared_let(:current_user) do
-    create(:user, member_in_project: project, member_with_permissions: %i(view_work_packages view_file_links))
+    create(:user, member_with_permissions: { project => permissions })
   end
 
   shared_let(:work_package) { create(:work_package, author: current_user, project:) }
@@ -77,22 +92,6 @@ RSpec.describe 'API v3 file links resource' do
   shared_let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: current_user) }
 
   shared_let(:project_storage) { create(:project_storage, project:, storage:) }
-  let!(:another_project_storage) { nil } # create(:project_storage, project:, storage: another_storage)
-
-  let(:file_link) do
-    create(:file_link, creator: current_user, container: work_package, storage:)
-  end
-  let(:file_link_of_other_work_package) do
-    create(:file_link, creator: current_user, container: another_work_package, storage:)
-  end
-  # If a storage mapping between a project and a storage is removed, the file link still persist. This can occur on
-  # moving a work package to another project, too, if target project does not yet have the storage mapping.
-  let(:file_link_of_another_storage) do
-    create(:file_link, creator: current_user, container: work_package, storage: another_storage)
-  end
-
-  let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
-  let(:sync_service) { instance_double(Storages::FileLinkSyncService) }
 
   subject(:response) { last_response }
 
@@ -337,9 +336,9 @@ RSpec.describe 'API v3 file links resource' do
       end
 
       it(
-        'creates corresponding FileLink records and '\
+        'creates corresponding FileLink records and ' \
         'provides a link to the collection of created file links',
-         :aggregate_failures
+        :aggregate_failures
       ) do
         expect(Storages::FileLink.count).to eq 2
         Storages::FileLink.find_each.with_index do |file_link, i|
@@ -402,7 +401,7 @@ RSpec.describe 'API v3 file links resource' do
       end
 
       it(
-        'does not create any new FileLink records for the already existing one and'\
+        'does not create any new FileLink records for the already existing one and' \
         'does not update the existing FileLink metadata from the POSTed one'
       ) do
         expect(Storages::FileLink.count).to eq 2
@@ -427,8 +426,8 @@ RSpec.describe 'API v3 file links resource' do
       end
 
       it(
-        'creates only one FileLink for all duplicates and '\
-        'uses metadata from the first item and '\
+        'creates only one FileLink for all duplicates and ' \
+        'uses metadata from the first item and ' \
         'replies with as many embedded elements as in the request, all identical'
       ) do
         expect(Storages::FileLink.count).to eq 1

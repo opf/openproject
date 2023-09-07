@@ -90,7 +90,7 @@ module Projects
 
     def validate_user_allowed_to_manage
       with_unchanged_id do
-        errors.add :base, :error_unauthorized unless user.allowed_to?(manage_permission, model)
+        errors.add :base, :error_unauthorized unless user.allowed_in_project?(manage_permission, model)
       end
     end
 

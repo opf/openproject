@@ -30,23 +30,18 @@ require 'spec_helper'
 
 RSpec.describe WorkPackages::CreateContract do
   let(:work_package) { build(:work_package, author: other_user, project:) }
+  let(:user) { build_stubbed(:user) }
   let(:other_user) { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }
-  let(:permissions) do
-    %i[
-      view_work_packages
-      add_work_packages
-    ]
-  end
   let(:changed_values) { [] }
-
-  include_context 'user with stubbed permissions'
 
   subject(:contract) { described_class.new(work_package, user) }
 
-  include_context 'user with stubbed permissions'
-
   before do
+    mock_permissions_for(user) do |mock|
+      mock.in_project :view_work_packages, :add_work_packages, project:
+    end
+
     allow(work_package).to receive(:changed).and_return(changed_values)
   end
 

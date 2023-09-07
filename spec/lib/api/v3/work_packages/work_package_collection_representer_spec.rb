@@ -77,6 +77,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   current_user { user }
 
   before do
+    # TODO: Figure this one out ...
     allow(user)
       .to receive(:allowed_to?) do |permission|
       permissions.nil? || permissions.include?(permission)
@@ -611,8 +612,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       create(:user,
              firstname: 'user',
              lastname: '1',
-             member_in_project: project,
-             member_with_permissions: %i[view_work_packages])
+             member_with_permissions: { project => %i[view_work_packages] })
     end
 
     shared_examples_for 'includes the properties of the current work package' do

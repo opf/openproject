@@ -67,7 +67,7 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
   end
 
   context 'when user with manage_placeholder_user permission' do
-    let(:user) { create(:user, global_permission: %[manage_placeholder_user]) }
+    let(:user) { create(:user, global_permissions: %[manage_placeholder_user]) }
 
     it_behaves_like 'deletion allowed'
   end

@@ -28,12 +28,11 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
 
-RSpec.describe 'Copying a budget', js: true do
+RSpec.describe 'Copying a budget', :js do
   let(:project) { create(:project, enabled_module_names: %i[budgets costs]) }
   let(:current_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i(view_budgets edit_budgets view_hourly_rates view_cost_rates))
+           member_with_permissions: { project => %i(view_budgets edit_budgets view_hourly_rates view_cost_rates) })
   end
   let(:original_author) { create(:user) }
   let(:budget_subject) { "A budget subject" }

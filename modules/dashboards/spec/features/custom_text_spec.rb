@@ -47,7 +47,7 @@ RSpec.describe 'Project description widget on dashboard', js: true do
   end
 
   let(:user) do
-    create(:user, member_in_project: project, member_with_permissions: permissions)
+    create(:user, member_with_permissions: { project => permissions })
   end
   let(:dashboard_page) do
     Pages::Dashboard.new(project)

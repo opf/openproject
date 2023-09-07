@@ -44,15 +44,13 @@ RSpec.describe 'baseline query saving',
   shared_let(:berlin_user) do
     create(:user,
            preferences: { time_zone: 'Europe/Berlin' },
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages save_queries manage_public_queries])
+           member_with_permissions: { project => %i[view_work_packages save_queries manage_public_queries] })
   end
 
   shared_let(:tokyo_user) do
     create(:user,
            preferences: { time_zone: 'Asia/Tokyo' },
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages save_queries manage_public_queries])
+           member_with_permissions: { project => %i[view_work_packages save_queries manage_public_queries] })
   end
 
   it 'shows a warning when an incompatible filter is used' do

@@ -144,8 +144,8 @@ module Redmine
           # Can this acts_as_attachable instance accept attachments from the given user
           # @param user [User]
           def attachments_addable?(user = User.current)
-            user.allowed_to_globally?(attachable_options[:add_on_new_permission]) ||
-              user.allowed_to_globally?(attachable_options[:add_on_persisted_permission])
+            user.allowed_in_any_project?(attachable_options[:add_on_new_permission]) ||
+              user.allowed_in_any_project?(attachable_options[:add_on_persisted_permission])
           end
 
           ##
@@ -199,9 +199,9 @@ module Redmine
           def allowed_to_on_attachment?(user, permissions)
             Array(permissions).any? do |permission|
               if respond_to?(:project)
-                user.allowed_to?(permission, project)
+                user.allowed_in_project?(permission, project)
               else
-                user.allowed_to_globally?(permission)
+                user.allowed_in_any_project?(permission)
               end
             end
           end

@@ -39,9 +39,7 @@ RSpec.describe 'Resolved status' do
            permissions: %i[select_done_statuses])
   end
   let!(:current_user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:settings_page) { Pages::Projects::Settings.new(project) }
 

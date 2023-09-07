@@ -33,8 +33,7 @@ RSpec.describe 'Meetings copy', :js, :with_cuprite do
   shared_let(:permissions) { %i[view_meetings create_meetings] }
   shared_let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions).tap do |u|
+           member_with_permissions: { project => permissions }).tap do |u|
       u.pref[:time_zone] = 'UTC'
 
       u.save!
@@ -42,8 +41,7 @@ RSpec.describe 'Meetings copy', :js, :with_cuprite do
   end
   shared_let(:other_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
 
   shared_let(:start_time) { Time.current.tomorrow.at_noon }

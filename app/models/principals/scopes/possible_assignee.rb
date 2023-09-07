@@ -43,6 +43,8 @@ module Principals::Scopes
       # If more than one project is given, the principals need to be assignable in all of the projects (intersection).
       # @project [Project, [Project]] The project for which eligible candidates are to be searched
       # @return [ActiveRecord::Relation] A scope of eligible candidates
+
+      # TODO: Rework so we can also pass in the work package here
       def possible_assignee(project)
         where(
           id: Member

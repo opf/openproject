@@ -232,7 +232,7 @@ RSpec.describe API::V3::Users::UserRepresenter do
       describe 'memberships' do
         before do
           allow(current_user)
-            .to receive(:allowed_to_globally?) do |action|
+            .to receive(:allowed_globally?) do |action|
             permissions.include?(action)
           end
         end

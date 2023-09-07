@@ -34,20 +34,33 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
     def @controller.current_menu_item
       :index
     end
+
+    # No permission for all unspecified URLs
+    allow(Authorization).to receive(:permissions_for).and_return([])
+
+    # Return a fake permission for the URLs that are allowed
+    allowed_urls.each do |url|
+      allow(Authorization).to receive(:permissions_for).with(url).and_return([fake_permission])
+    end
+
+    # When the permission is requested itself, return it
+    allow(Authorization).to receive(:permissions_for).with(fake_permission).and_return([fake_permission])
+    allow(Authorization).to receive(:permissions_for).with(:fake_permission).and_return([fake_permission])
+
+    mock_permissions_for(current_user) do |mock|
+      allowed_projects.each do |project|
+        mock.in_project :fake_permission, project:
+      end
+    end
   end
 
+  let!(:fake_permission) do
+    OpenProject::AccessControl::Permission.new(:fake_permission, { test: :index }, permissible_on: :project)
+  end
   let(:allowed_urls) { [] }
   let(:allowed_projects) { [] }
 
-  current_user do
-    build_stubbed(:user).tap do |u|
-      allow(u)
-        .to receive(:allowed_to?) do |queried_url, queried_project|
-          allowed_urls.include?(queried_url) &&
-            allowed_projects.include?(queried_project)
-        end
-    end
-  end
+  current_user { build_stubbed(:user) }
 
   describe '#render_single_menu_node' do
     let(:item) { Redmine::MenuManager::MenuItem.new(:testing, '/test', caption: 'This is a test') }

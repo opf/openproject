@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% html_title t(:label_forum_plural) %>
 <%= toolbar title: t(:label_forum_plural) do %>
-  <% if User.current.allowed_to?(:manage_forums, @project) %>
+  <% if User.current.allowed_in_project?(:manage_forums, @project) %>
     <li class="toolbar-item">
       <%= link_to(new_project_forum_path(@project),
                   { aria: { label: t(:label_forum_new) },
@@ -40,7 +40,6 @@ See COPYRIGHT and LICENSE files for more details.
     </li>
   <% end  %>
 <% end %>
-
 <% if @forums.empty? %>
   <%= no_results_box(action_url: new_project_forum_path(@project)) %>
 <% else %>
@@ -52,7 +51,7 @@ See COPYRIGHT and LICENSE files for more details.
           <col opHighlightCol>
           <col opHighlightCol>
           <col opHighlightCol>
-          <% if User.current.allowed_to?(:manage_forums, @project) %>
+          <% if User.current.allowed_in_project?(:manage_forums, @project) %>
             <col opHighlightCol>
             <col>
           <% end %>
@@ -95,17 +94,19 @@ See COPYRIGHT and LICENSE files for more details.
                 </div>
               </div>
             </th>
-            <% if User.current.allowed_to?(:manage_forums, @project) %>
+            <% if User.current.allowed_in_project?(:manage_forums, @project) %>
               <th>
                 <div class="generic-table--sort-header-outer">
                   <div class="generic-table--sort-header">
-                        <span>
-                          <%=t(:button_sort)%>
-                        </span>
+                    <span>
+                      <%=t(:button_sort)%>
+                    </span>
                   </div>
                 </div>
               </th>
-              <th><div class="generic-table--empty-header"></div></th>
+              <th>
+                <div class="generic-table--empty-header"></div>
+              </th>
             <% end  %>
           </tr>
         </thead>
@@ -125,7 +126,7 @@ See COPYRIGHT and LICENSE files for more details.
                   <%= link_to_message forum.last_message, no_root: true %>
                 <% end %>
               </td>
-              <% if User.current.allowed_to?(:manage_forums, @project) %>
+              <% if User.current.allowed_in_project?(:manage_forums, @project) %>
                 <td class="small-icons">
                   <% if authorize_for 'forums', 'edit' %>
                     <%= reorder_links 'forum', controller: '/forums',
@@ -151,14 +152,12 @@ See COPYRIGHT and LICENSE files for more details.
           <% end %>
         </tbody>
       </table>
-
     </div>
   </div>
 <% end %>
 <%= other_formats_links do |f| %>
   <%= f.link_to 'Atom', url: { controller: '/activities', action: 'index', id: @project, show_messages: 1, key: User.current.rss_key } %>
 <% end %>
-
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, { controller: '/activities', action: 'index', id: @project, format: 'atom', show_messages: 1, key: User.current.rss_key }) %>
 <% end %>

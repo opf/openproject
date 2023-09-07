@@ -24,15 +24,13 @@ RSpec.describe 'Bulk update work packages through Rails view', js: true, with_cu
     create(:user,
            firstname: 'Dev',
            lastname: 'Guy',
-           member_in_project: project,
-           member_through_role: dev_role)
+           member_with_roles: { project => dev_role })
   end
   shared_let(:mover) do
     create(:admin,
            firstname: 'Manager',
            lastname: 'Guy',
-           member_in_project: project,
-           member_through_role: mover_role)
+           member_with_roles: { project => mover_role })
   end
 
   shared_let(:work_package) do

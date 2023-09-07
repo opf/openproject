@@ -49,13 +49,13 @@ RSpec.describe WorkPackagesController, type: :controller do
     describe 'w/ the export permission
               w/o a project' do
       let(:project) { nil }
+      let(:other_project) { build_stubbed(:project) }
 
       before do
-        expect(User.current).to receive(:allowed_to?)
-                                  .with(:export_work_packages,
-                                        project,
-                                        global: true)
-                                  .and_return(true)
+        # add the permission to another project so that allowed_in_any_project? returns true
+        mock_permissions_for(User.current) do |mock|
+          mock.in_project :export_work_packages, project: other_project
+        end
       end
 
       instance_eval(&)
@@ -66,11 +66,9 @@ RSpec.describe WorkPackagesController, type: :controller do
       before do
         params[:project_id] = project.id
 
-        expect(User.current).to receive(:allowed_to?)
-                                  .with(:export_work_packages,
-                                        project,
-                                        global: false)
-                                  .and_return(true)
+        mock_permissions_for(User.current) do |mock|
+          mock.in_project :export_work_packages, project:
+        end
       end
 
       instance_eval(&)
@@ -80,11 +78,7 @@ RSpec.describe WorkPackagesController, type: :controller do
       let(:project) { nil }
 
       before do
-        expect(User.current).to receive(:allowed_to?)
-                                  .with(:export_work_packages,
-                                        project,
-                                        global: true)
-                                  .and_return(false)
+        mock_permissions_for(User.current, &:forbid_everything!)
 
         call_action
       end
@@ -101,13 +95,9 @@ RSpec.describe WorkPackagesController, type: :controller do
     let(:results) { double('results').as_null_object }
 
     before do
-      allow(User.current).to receive(:allowed_to?).and_return(false)
-      expect(User.current).to receive(:allowed_to?)
-                                .with({ controller: 'work_packages',
-                                        action: 'index' },
-                                      project,
-                                      global: project.nil?)
-                                .and_return(true)
+      mock_permissions_for(User.current) do |mock|
+        mock.in_project :export_work_packages, project:
+      end
     end
 
     describe 'with valid query' do

@@ -35,14 +35,11 @@ RSpec.describe 'Upload attachment to documents', :js,
                } do
   let!(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_documents
-                                       manage_documents])
+           member_with_permissions: { project => %i[view_documents manage_documents] })
   end
   let!(:other_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_documents],
+           member_with_permissions: { project => %i[view_documents] },
            notification_settings: [build(:notification_setting, all: true)])
   end
   let!(:category) do

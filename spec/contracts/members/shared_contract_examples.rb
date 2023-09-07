@@ -29,14 +29,14 @@
 require 'spec_helper'
 
 RSpec.shared_examples_for 'member contract' do
-  let(:current_user) do
-    build_stubbed(:user, admin: current_user_admin) do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, permission_project|
-        permissions.include?(permission) && member_project == permission_project
-      end
+  let(:current_user) { build_stubbed(:user, admin: current_user_admin) }
+
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.in_project *permissions, project: member_project
     end
   end
+
   let(:member_project) do
     build_stubbed(:project)
   end

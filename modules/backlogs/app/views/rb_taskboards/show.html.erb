@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <% html_title @sprint.name %>
 <%= toolbar title: @sprint.name do %>
   <li class="toolbar-item toolbar-input-group" id="col_width">
@@ -41,9 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
     </li>
   <% end %>
 <% end %>
-
 <% breadcrumb_paths(link_to(t(:label_backlogs), backlogs_project_backlogs_path(@project)), link_to(@sprint.name, backlogs_project_backlogs_path(@sprint))) %>
-
 <div id='rb'>
   <div id="taskboard">
     <table id="board_header" cellspacing="0">
@@ -54,15 +51,16 @@ See COPYRIGHT and LICENSE files for more details.
         <% end %>
       </tr>
     </table>
-
     <table id="impediments" class="board" cellspacing="0">
       <tr>
-        <td><div class="label_sprint_impediments"><%= t(:label_sprint_impediments) %></div></td>
-        <% if User.current.allowed_to?(:add_work_packages, @project) %>
+        <td>
+          <div class="label_sprint_impediments"><%= t(:label_sprint_impediments) %></div>
+        </td>
+        <% if User.current.allowed_in_project?(:add_work_packages, @project) %>
           <td class ="add_new clickable">+</td>
         <% else %>
           <td class ="add_new"></td>
-          <% end %>
+        <% end %>
         <% @statuses.each do |status| %>
           <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="impcell_<%= status.id %>">
             <%= render :partial => "rb_impediments/impediment",
@@ -71,11 +69,9 @@ See COPYRIGHT and LICENSE files for more details.
         <% end %>
       </tr>
     </table>
-
     <table id="tasks" class="board" cellspacing="0">
       <% @sprint.stories(@project).each do |story| %>
         <% tasks_by_status_id = story.tasks.group_by(&:status_id) %>
-
         <tr class="<%= story_html_id_or_empty(story) %>">
           <td>
             <div class="story <%= mark_if_closed(story) %>" id="<%= story_html_id_or_empty(story) %>">
@@ -102,7 +98,7 @@ See COPYRIGHT and LICENSE files for more details.
               </div>
             </div>
           </td>
-          <% if User.current.allowed_to?(:add_work_packages, @project) %>
+          <% if User.current.allowed_in_project?(:add_work_packages, @project) %>
             <td class ="add_new clickable">+</td>
           <% else %>
             <td class ="add_new"></td>
@@ -117,7 +113,6 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     </table>
   </div>
-
   <div id="helpers">
     <select class="assigned_to_id template" id="assigned_to_id_options">
       <option value=""> </option>
@@ -133,7 +128,6 @@ See COPYRIGHT and LICENSE files for more details.
     <div id="impediment_template">
       <%= render :partial => "rb_impediments/impediment", :object => Impediment.new, :locals => {:project => @project} %>
     </div>
-
     <div id="work_package_editor"> </div>
     <div class="meta" id="last_updated"><%= date_string_with_milliseconds( (@last_updated.blank? ? Time.now : @last_updated.updated_at) )  %></div>
     <div id="charts"> </div>

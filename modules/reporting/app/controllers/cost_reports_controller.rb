@@ -366,25 +366,26 @@ class CostReportsController < ApplicationController
     # should not do anything with it. It fact, this should never happen.
     return false if report.project.present? && report.project != @project
 
-    # If report does not belong to a project, it is ok to look for the
-    # permission in any project. Otherwise, the user should have the permission
-    # in this project.
-    global = report.project.nil?
+    permissions = case action
+                  when :create
+                    %i[save_cost_reports save_private_cost_reports]
+                  when :save, :destroy, :rename
+                    if report.is_public?
+                      %i[save_cost_reports]
+                    else
+                      %i[save_cost_reports save_private_cost_reports]
+                    end
+                  when :save_as_public
+                    %i[save_cost_reports]
+                  end
 
-    permissions =
-      case action
-      when :create
-        %i[save_cost_reports save_private_cost_reports]
-      when :save, :destroy, :rename
-        if report.is_public?
-          %i[save_cost_reports]
-        else
-          %i[save_cost_reports save_private_cost_reports]
-        end
-      when :save_as_public
-        %i[save_cost_reports]
+    Array(permissions).any? do |permission|
+      if report.project
+        user.allowed_in_project?(permission, report.project)
+      else
+        user.allowed_in_any_project?(permission)
       end
-    Array(permissions).any? { |permission| user.allowed_to?(permission, @project, global:) }
+    end
   end
 
   private

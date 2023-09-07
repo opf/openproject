@@ -244,14 +244,28 @@ class ApplicationController < ActionController::Base
     do_authorize(action, global: true)
   end
 
+  def ignoring_permission_context
+    yield
+  rescue Authorization::IllegalPermissionContextError
+    false
+  end
+
   # Deny access if user is not allowed to do the specified action.
   #
   # Action can be:
   # * a parameter-like Hash (eg. { controller: '/projects', action: 'edit' })
   # * a permission Symbol (eg. :edit_project)
-  def do_authorize(action, global: false)
-    context = @project || @projects
-    is_authorized = User.current.allowed_to?(action, context, global:)
+  def do_authorize(action, global: false) # rubocop:disable Metrics/PerceivedComplexity, Metrics/AbcSize
+    # TODO: This needs more refactoring. We should delegate ths to the place where authorized is called
+    is_authorized = if global
+                      ignoring_permission_context { User.current.allowed_globally?(action) } ||
+                      ignoring_permission_context { User.current.allowed_in_any_project?(action) }
+                    elsif @project
+                      ignoring_permission_context { User.current.allowed_in_project?(action, @project) } ||
+                      ignoring_permission_context { User.current.allowed_in_any_work_package?(action, in_project: @project) }
+                    elsif @work_package
+                      ignoring_permission_context { User.current.allowed_in_work_package(action, @work_package) }
+                    end
 
     unless is_authorized
       if @project&.archived?
@@ -287,10 +301,16 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
-  def find_optional_project_and_raise_error
+  def find_optional_project_and_raise_error # rubocop:disable Naming/AbcSize
     @project = Project.find(params[:project_id]) if params[:project_id].present?
-    allowed = User.current.allowed_to?({ controller: params[:controller], action: params[:action] },
-                                       @project, global: @project.nil?)
+
+    allowed = if @project
+                User.current.allowed_in_project?({ controller: params[:controller], action: params[:action] }, @project)
+              else
+
+                User.current.allowed_in_any_project?({ controller: params[:controller], action: params[:action] })
+              end
+
     allowed ? true : deny_access
   end
 

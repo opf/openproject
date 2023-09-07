@@ -136,7 +136,6 @@ module Redmine::MenuManager::MenuHelper
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
   def render_menu_node_with_children(node, project = nil)
     content_tag :li, menu_node_options(node) do
       items = [
@@ -148,8 +147,6 @@ module Redmine::MenuManager::MenuHelper
       safe_join(items, "\n")
     end
   end
-
-  # rubocop:enable Metrics/AbcSize
 
   def render_wrapped_menu_parent_node(node, project)
     html_id = node.html_options[:id] || node.name
@@ -301,7 +298,7 @@ module Redmine::MenuManager::MenuHelper
             ':child_menus must be an array of MenuItems'
     end
 
-    if User.current.allowed_to?(menu_item.url(project), project)
+    if User.current.allowed_in_project?(menu_item.url(project), project)
       link_to(menu_item.caption,
               menu_item.url(project),
               menu_item.html_options)
@@ -421,7 +418,23 @@ module Redmine::MenuManager::MenuHelper
     url = node.url(project)
     return true unless url
 
-    user&.allowed_to?(url, project)
+    permissions = Authorization.permissions_for(url)
+
+    permissions.any? do |permission|
+      user_allowed?(permission, user, project)
+    end
+  end
+
+  def user_allowed?(permission, user, project)
+    if permission.global?
+      user&.allowed_globally?(permission)
+    elsif permission.work_package?
+      user&.allowed_in_any_work_package?(permission, in_project: project)
+    elsif permission.project? && project
+      user&.allowed_in_project?(permission, project)
+    elsif permission.project?
+      user&.allowed_in_any_project?(permission)
+    end
   end
 
   def visible_node?(menu, node)

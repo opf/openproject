@@ -38,8 +38,7 @@ RSpec.describe 'API v3 capabilities resource', content_type: :json do
   shared_let(:project) { create(:project) }
   shared_current_user do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[manage_members])
+           member_with_permissions: { project => %i[manage_members] })
   end
 
   let(:role) do
