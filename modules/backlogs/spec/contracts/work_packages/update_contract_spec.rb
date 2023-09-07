@@ -106,7 +106,7 @@ RSpec.describe WorkPackages::UpdateContract do
         let(:changed_values) { ['remaining_hours'] }
 
         it('is invalid') do
-          expect(contract.errors.symbols_for(:remaining_hours)).to match_array([:error_readonly])
+          expect(contract.errors.symbols_for(:remaining_hours)).to contain_exactly(:error_readonly)
         end
       end
     end

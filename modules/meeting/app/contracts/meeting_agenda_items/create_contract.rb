@@ -46,7 +46,7 @@ module MeetingAgendaItems
       # the error is added by the models presence validation
       return unless visible?
 
-      unless user.allowed_to?(:edit_meetings, model.project)
+      unless user.allowed_in_project?(:edit_meetings, model.project)
         errors.add :base, :error_unauthorized
       end
     end

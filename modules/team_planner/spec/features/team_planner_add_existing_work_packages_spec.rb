@@ -39,7 +39,7 @@ RSpec.describe 'Team planner add existing work packages', :js do
   let!(:other_user) do
     create(:user,
            firstname: 'Bernd',
-           member_with_permissions: { project => %w[view_work_packages view_team_planner] })
+           member_with_permissions: { project => %i[view_work_packages view_team_planner] })
   end
 
   let!(:first_wp) do
@@ -201,7 +201,7 @@ RSpec.describe 'Team planner add existing work packages', :js do
       end
 
       let(:permissions) do
-        %w[
+        %i[
           view_work_packages edit_work_packages add_work_packages
           view_team_planner manage_team_planner
           save_queries manage_public_queries

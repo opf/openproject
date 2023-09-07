@@ -27,11 +27,10 @@
 #++
 
 require 'spec_helper'
-require_relative './../support/board_index_page'
-require_relative './../support/board_page'
+require_relative '../support/board_index_page'
+require_relative '../support/board_page'
 
-RSpec.describe 'Assignee action board',
-               js: true,
+RSpec.describe 'Assignee action board', :js,
                with_ee: %i[board_view] do
   let(:bobself_user) do
     create(:user,
@@ -65,12 +64,7 @@ RSpec.describe 'Assignee action board',
   end
 
   let!(:group) do
-    create(:group, name: 'Grouped').tap do |group|
-      create(:member,
-             principal: group,
-             project:,
-             roles: [role])
-    end
+    create(:group, name: 'Grouped', member_with_roles: { project => group })
   end
 
   let!(:work_package) do

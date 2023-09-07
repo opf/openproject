@@ -28,8 +28,8 @@
 
 require_relative '../../spec_helper'
 
-RSpec.describe 'BIM Revit Add-in navigation spec',
-               driver: :chrome_revit_add_in, js: true, with_config: { edition: 'bim' } do
+RSpec.describe 'BIM Revit Add-in navigation spec', :js,
+               driver: :chrome_revit_add_in, with_config: { edition: 'bim' } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let!(:work_package) { create(:work_package, project:) }
   let(:role) do
@@ -39,8 +39,7 @@ RSpec.describe 'BIM Revit Add-in navigation spec',
   let(:model_page) { Pages::IfcModels::ShowDefault.new(project) }
 
   let(:user) do
-    create(:user,
-           member_with_roles: { project => role })
+    create(:user, member_with_roles: { project => role })
   end
 
   context "when logged in on model page" do

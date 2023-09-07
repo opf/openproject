@@ -29,8 +29,7 @@
 require 'spec_helper'
 require_relative '../support/pages/backlogs'
 
-RSpec.describe 'Backlogs in backlog view',
-               js: true,
+RSpec.describe 'Backlogs in backlog view', :js,
                with_cuprite: false do
   let!(:project) do
     create(:project,
@@ -62,8 +61,7 @@ RSpec.describe 'Backlogs in backlog view',
                            assign_versions))
   end
   let!(:current_user) do
-    create(:user,
-           member_with_roles: { project => role })
+    create(:user, member_with_roles: { project => role })
   end
   let!(:sprint) do
     create(:version,

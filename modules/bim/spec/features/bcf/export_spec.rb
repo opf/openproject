@@ -28,8 +28,7 @@
 require 'spec_helper'
 require_relative '../../support/pages/ifc_models/show_default'
 
-RSpec.describe 'bcf export',
-               js: true,
+RSpec.describe 'bcf export', :js,
                with_config: { edition: 'bim' } do
   let(:status) { create(:status, name: 'New', is_default: true) }
   let(:closed_status) { create(:closed_status, name: 'Closed') }
@@ -51,8 +50,7 @@ RSpec.describe 'bcf export',
   end
 
   let(:current_user) do
-    create(:user,
-           member_with_permissions: { project => permissions })
+    create(:user, member_with_permissions: { project => permissions })
   end
 
   let!(:model) do

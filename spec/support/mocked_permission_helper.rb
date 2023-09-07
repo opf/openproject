@@ -93,7 +93,6 @@ module MockedPermissionHelper
     # Instead of mocking directly on the user, we mock on the UserPermissibleService
     # Advantage is that we can handle the `allowed_in_entity?` calls correctly without needing to write
     # a mock for each of them
-
     permissible_service = user.send(:user_permissible_service) # access the private instance
 
     # Permission is allowed globally, when it has been given globally

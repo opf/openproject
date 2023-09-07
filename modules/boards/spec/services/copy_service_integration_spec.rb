@@ -30,8 +30,7 @@ require 'spec_helper'
 
 RSpec.describe Projects::CopyService, 'integration', type: :model do
   let(:current_user) do
-    create(:user,
-           member_with_roles: { source => role })
+    create(:user, member_with_roles: { source => role })
   end
   let(:project_copy) { subject.result }
   let(:board_copies) { Boards::Grid.where(project: project_copy) }

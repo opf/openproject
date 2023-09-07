@@ -39,6 +39,7 @@ RSpec.describe "PATCH /api/v3/grids/:id/form for Board Grids", content_type: :js
   shared_let(:allowed_user) do
     create(:user, member_with_permissions: { project => [:manage_board_views] })
   end
+
   shared_let(:prohibited_user) do
     create(:user, member_with_permissions: { project => [:show_board_views] })
   end

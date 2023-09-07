@@ -31,10 +31,10 @@ require 'spec_helper'
 RSpec.describe API::V3::Budgets::BudgetRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:project) { build(:project, id: 999) }
+  let(:project) { build_stubbed(:project) }
   let(:user) do
     create(:user,
-           member_with_permissions: { project => %i[view_work_packages edit_work_packages] },
+           member_with_permissions: { project => [:view_work_packages] },
            created_at: 1.day.ago,
            updated_at: Time.zone.now)
   end

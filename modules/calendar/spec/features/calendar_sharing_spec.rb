@@ -37,12 +37,7 @@ RSpec.describe 'Calendar sharing via ical', :js do
   let(:user_with_sharing_permission) do
     create(:user,
            firstname: 'Bernd',
-           member_with_permissions: { project => %w[
-             view_work_packages
-             save_queries
-             view_calendar
-             share_calendars
-           ] })
+           member_with_permissions: { project => %i[view_work_packages save_queries view_calendar share_calendars] })
   end
   let(:saved_query) do
     create(:query_with_view_work_packages_calendar,
@@ -57,16 +52,11 @@ RSpec.describe 'Calendar sharing via ical', :js do
     # sharing via ical needs to be explicitly allowed
     create(:user,
            firstname: 'Bernd',
-           member_with_permissions: { project => %w[
-             view_work_packages
-             save_queries
-             view_calendar
-             manage_calendars
-           ] })
+           member_with_permissions: { project => %i[view_work_packages save_queries view_calendar manage_calendars] })
   end
 
   shared_let(:admin) do
-    create(:admin, member_with_permissions: { project => %i[view_work_packages edit_work_packages] })
+    create(:admin, member_with_permissions: { project => [] })
   end
 
   context 'without sufficient permissions and the ical_enabled setting enabled', with_settings: { ical_enabled: true } do
@@ -128,13 +118,8 @@ RSpec.describe 'Calendar sharing via ical', :js do
       let(:user_with_sharing_permission) do
         create(:user,
                firstname: 'Bernd',
-               member_with_permissions: { project => %w[
-                 view_work_packages
-                 save_queries
-                 view_calendar
-                 manage_calendars
-                 share_calendars
-               ] })
+               member_with_permissions: { project => %i[view_work_packages save_queries view_calendar manage_calendars
+                                                        share_calendars] })
       end
 
       it 'shows disabled sharing menu item' do

@@ -169,8 +169,9 @@ module API
                  type: 'Duration',
                  required: false,
                  show_if: ->(*) {
-                   current_user_allowed_to(:view_time_entries, context: represented.project) ||
-                     current_user_allowed_to(:view_own_time_entries, context: represented.project)
+                   current_user.allowed_in_project?(:view_time_entries, represented.project)
+                   # TODO: Figure out why this check will never work correctly
+                   # || current_user.allowed_in_work_package?(:view_own_time_entries, represented.work_package)
                  }
 
           schema :percentage_done,
@@ -299,7 +300,7 @@ module API
                                            }
                                          },
                                          show_if: ->(*) {
-                                           current_user_allowed_to(:view_budgets, context: represented.project)
+                                           current_user.allowed_in_project?(:view_budgets, represented.project)
                                          }
 
           def attribute_groups

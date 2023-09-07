@@ -1,7 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'BCF snapshot column',
-               js: true,
+RSpec.describe 'BCF snapshot column', :js,
                with_config: { edition: 'bim' } do
   let(:project) { create(:project, enabled_module_names: %w[bim work_package_tracking]) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -9,8 +8,7 @@ RSpec.describe 'BCF snapshot column',
   let!(:work_package) { create(:work_package, project:) }
   let!(:bcf_issue) { create(:bcf_issue_with_viewpoint, work_package:) }
   let(:user) do
-    create(:user,
-           member_with_permissions: { project => permissions })
+    create(:user, member_with_permissions: { project => permissions })
   end
   let!(:query) do
     query              = build(:query, user:, project:)

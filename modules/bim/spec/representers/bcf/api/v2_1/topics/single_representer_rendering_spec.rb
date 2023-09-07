@@ -36,43 +36,39 @@ RSpec.describe Bim::Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
   let(:assignee) { build_stubbed(:user) }
   let(:creator) { build_stubbed(:user) }
   let(:modifier) { build_stubbed(:user) }
+  let(:project) { create(:project) }
   let(:first_journal) { build_stubbed(:journal, version: 1, user: creator) }
   let(:last_journal) { build_stubbed(:journal, version: 2, user: modifier) }
   let(:journals) { [first_journal, last_journal] }
-  let(:type) { build_stubbed(:type) }
-  let(:status) { build_stubbed(:status) }
+  let(:type) { create(:type) }
+  let(:status) { create(:status) }
   let(:priority) { build_stubbed(:priority) }
   let(:work_package) do
-    build_stubbed(:work_package,
-                  assigned_to: assignee,
-                  due_date: Date.today,
-                  status:,
-                  priority:,
-                  type:).tap do |wp|
+    create(:work_package,
+           project:,
+           assigned_to: assignee,
+           due_date: Date.today,
+           status:,
+           priority:,
+           type:).tap do |wp|
       allow(wp)
         .to receive(:journals)
         .and_return(journals)
     end
   end
   let(:current_user) { build_stubbed(:user) }
-  let(:issue) { build_stubbed(:bcf_issue, work_package:) }
-  let(:manage_bcf_allowed) { true }
-  let(:statuses) do
-    [
-      build_stubbed(:status),
-      build_stubbed(:status)
-    ]
-  end
+  let(:issue) { create(:bcf_issue, work_package:) }
+  let(:permissions) { %i[manage_bcf] }
+  let(:statuses) { create_list(:status, 2) }
 
   let(:instance) { described_class.new(issue) }
 
   before do
     login_as(current_user)
 
-    allow(current_user)
-      .to receive(:allowed_to?)
-      .with(:manage_bcf, issue.project)
-      .and_return(manage_bcf_allowed)
+    mock_permissions_for(current_user) do |mock|
+      mock.in_project *permissions, project:
+    end
 
     contract = double('contract',
                       model: issue,
@@ -217,7 +213,7 @@ RSpec.describe Bim::Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
     end
 
     context 'if the user lacks manage_bcf permission' do
-      let(:manage_bcf_allowed) { false }
+      let(:permissions) { [] }
 
       it 'signals lack of available actions' do
         expect(subject)

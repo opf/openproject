@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative '../support//board_index_page'
+require_relative '../support/board_index_page'
 require_relative '../support/board_page'
 
 RSpec.describe 'Version action board', :js, with_ee: %i[board_view] do

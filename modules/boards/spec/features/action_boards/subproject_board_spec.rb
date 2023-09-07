@@ -27,13 +27,12 @@
 #++
 
 require 'spec_helper'
-require_relative '../support//board_index_page'
+require_relative '../support/board_index_page'
 require_relative '../support/board_page'
 
 RSpec.describe 'Subproject action board', :js, with_ee: %i[board_view] do
   let(:user) do
-    create(:user,
-           member_with_roles: { project => role })
+    create(:user, member_with_roles: { project => role })
   end
   let(:type) { create(:type_standard) }
   let(:project) do
@@ -97,8 +96,7 @@ RSpec.describe 'Subproject action board', :js, with_ee: %i[board_view] do
     end
 
     let(:only_parent_user) do
-      create(:user,
-             member_with_roles: { project => role })
+      create(:user, member_with_roles: { project => role })
     end
 
     it 'allows management of subproject work packages' do

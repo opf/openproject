@@ -33,7 +33,9 @@ RSpec.describe 'Calendar non working days', :js, :with_cuprite do
   include_context 'with calendar full access'
 
   let!(:other_user) do
-    create(:user, firstname: 'Bernd', member_with_permissions: { project => %w[view_work_packages view_calendar] })
+    create(:user,
+           firstname: 'Bernd',
+           member_with_permissions: { project => %i[view_work_packages view_calendar] })
   end
 
   before do

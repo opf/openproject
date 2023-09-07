@@ -44,8 +44,7 @@ RSpec.describe VersionsController do
   end
 
   let(:current_user) do
-    create(:user,
-           member_with_permissions: { version.project => [:manage_versions] })
+    create(:user, member_with_permissions: { version.project => [:manage_versions] })
   end
 
   before do
@@ -57,9 +56,6 @@ RSpec.describe VersionsController do
     @params = {}
     @params[:id] = version.id
     @params[:version] = { name: @newVersionName }
-  end
-
-  before do
     login_as current_user
   end
 

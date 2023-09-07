@@ -43,8 +43,7 @@ RSpec.describe 'bim/ifc_models/ifc_models/index' do
            permissions: %i[view_ifc_models manage_ifc_models])
   end
   let(:user) do
-    create(:user,
-           member_with_roles: { project => role })
+    create(:user, member_with_roles: { project => role })
   end
   let(:uploader_user) { user }
 

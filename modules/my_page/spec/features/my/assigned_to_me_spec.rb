@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-RSpec.describe 'Assigned to me embedded query on my page', js: true do
+RSpec.describe 'Assigned to me embedded query on my page', :js do
   let!(:type) { create(:type) }
   let!(:priority) { create(:default_priority) }
   let!(:project) { create(:project, types: [type]) }
@@ -69,8 +69,7 @@ RSpec.describe 'Assigned to me embedded query on my page', js: true do
   end
 
   let(:user) do
-    create(:user,
-           member_with_roles: { project => role })
+    create(:user, member_with_roles: { project => role })
   end
   let(:my_page) do
     Pages::My::Page.new

@@ -41,15 +41,13 @@ RSpec.describe 'Calendars', 'index', :with_cuprite do
     create(:project, name: 'Project 1', enabled_module_names: %w[work_package_tracking calendar_view])
   end
 
-  shared_let(:permissions) do
-    %w[
-      view_work_packages
-      edit_work_packages
-      save_queries
-      save_public_queries
-      view_calendar
-      manage_calendars
-    ]
+  shared_let(:role) do
+    create(:role,
+           permissions: %i[view_work_packages edit_work_packages save_queries save_public_queries view_calendar manage_calendars])
+  end
+
+  shared_let(:user) do
+    create(:user, member_with_roles: { project => role, other_project => role })
   end
   let(:query) do
     create(:query_with_view_work_packages_calendar,
@@ -181,7 +179,7 @@ RSpec.describe 'Calendars', 'index', :with_cuprite do
       let(:current_user) do
         create(:user,
                firstname: 'Bernd',
-               member_with_permissions: { project => %w[view_work_packages view_calendar] })
+               member_with_permissions: { project => %i[view_work_packages view_calendar] })
       end
 
       context 'and the view is non-public' do
@@ -225,7 +223,7 @@ RSpec.describe 'Calendars', 'index', :with_cuprite do
         let(:current_user) do
           create(:user,
                  firstname: 'Bernd',
-                 member_with_permissions: { project => %w[view_work_packages view_calendar] })
+                 member_with_permissions: { project => %i[view_work_packages view_calendar] })
         end
 
         it 'does not show the management buttons' do

@@ -70,7 +70,7 @@ RSpec.describe TimeEntries::Scopes::Visible do
     context 'for a user having the view_time_entries permission' do
       it 'retrieves all the time entries of projects the user has the permissions in' do
         expect(subject)
-          .to match_array([own_project_time_entry, project_time_entry])
+          .to contain_exactly(own_project_time_entry, project_time_entry)
       end
     end
 
@@ -79,7 +79,7 @@ RSpec.describe TimeEntries::Scopes::Visible do
 
       it 'retrieves all the time entries of the user in projects the user has the permissions in' do
         expect(subject)
-          .to match_array([own_project_time_entry])
+          .to contain_exactly(own_project_time_entry)
       end
     end
   end

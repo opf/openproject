@@ -30,8 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/overview'
 
-RSpec.describe 'Overview page on the fly creation if user lacks :mange_overview permission',
-               js: true do
+RSpec.describe 'Overview page on the fly creation if user lacks :mange_overview permission', :js do
   let!(:type) { create(:type) }
   let!(:project) { create(:project, types: [type]) }
   let!(:open_status) { create(:default_status) }
@@ -41,8 +40,7 @@ RSpec.describe 'Overview page on the fly creation if user lacks :mange_overview 
   end
 
   let(:user) do
-    create(:user,
-           member_with_permissions: { project => permissions })
+    create(:user, member_with_permissions: { project => permissions })
   end
   let(:overview_page) do
     Pages::Overview.new(project)

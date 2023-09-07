@@ -29,8 +29,7 @@
 require 'spec_helper'
 require_relative '../support/pages/meetings/show'
 
-
-RSpec.describe 'Meetings', js: true do
+RSpec.describe 'Meetings', :js do
   let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   let(:role) { create(:project_role, permissions:) }
   let(:user) do
@@ -53,7 +52,7 @@ RSpec.describe 'Meetings', js: true do
       expect(page).to have_selector('h2', text: 'Meeting: Awesome meeting!')
 
       expect(page).to have_test_selector('op-meeting--meeting_agenda',
-                                    text: 'There is currently nothing to display')
+                                         text: 'There is currently nothing to display')
     end
 
     context 'with a location' do
@@ -85,12 +84,12 @@ RSpec.describe 'Meetings', js: true do
       it 'shows the agenda' do
         visit meeting_path(meeting)
         expect(page).to have_test_selector('op-meeting--meeting_agenda',
-                                      text: 'foo')
+                                           text: 'foo')
 
         # May not edit
         expect(page).not_to have_selector('.button--edit-agenda')
         expect(page).not_to have_test_selector('op-meeting--meeting_agenda',
-                                          text: 'Edit')
+                                               text: 'Edit')
       end
 
       it 'can view history' do
@@ -139,7 +138,7 @@ RSpec.describe 'Meetings', js: true do
           click_link 'Minutes'
           expect(page).not_to have_test_selector('op-meeting--meeting_minutes', text: 'Edit')
           expect(page).to have_test_selector('op-meeting--meeting_minutes',
-                                        text: 'There is currently nothing to display')
+                                             text: 'There is currently nothing to display')
         end
       end
     end

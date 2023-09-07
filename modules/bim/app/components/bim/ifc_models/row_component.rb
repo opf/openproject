@@ -57,7 +57,7 @@ module Bim
           links << download_link
         end
 
-        if User.current.allowed_to?(:manage_ifc_models, model.project)
+        if User.current.allowed_in_project?(:manage_ifc_models, model.project)
           links.push(edit_link, delete_link)
         else
           links

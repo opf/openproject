@@ -40,18 +40,14 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
   end
 
   let(:view_only_user) do
-    create(:user,
-           member_with_permissions: { project => %i[view_linked_issues view_work_packages] })
+    create(:user, member_with_permissions: { project => %i[view_linked_issues view_work_packages] })
   end
 
   let(:edit_user) do
-    create(:user,
-           member_with_permissions: { project => %i[view_linked_issues view_work_packages manage_bcf] })
+    create(:user, member_with_permissions: { project => %i[view_linked_issues view_work_packages manage_bcf] })
   end
 
-  let(:user_without_permission) do
-    create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] })
-  end
+  let(:user_without_permission) { create(:user, member_with_permissions: { project => [] }) }
 
   let(:assignee) { create(:user) }
 

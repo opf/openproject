@@ -65,7 +65,7 @@ class Version < ApplicationRecord
 
   # Returns true if +user+ or current user is allowed to view the version
   def visible?(user = User.current)
-    user.allowed_to?(:view_work_packages, project)
+    user.allowed_in_any_work_package?(:view_work_packages, in_project: project)
   end
 
   def due_date

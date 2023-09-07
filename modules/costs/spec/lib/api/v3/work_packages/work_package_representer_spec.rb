@@ -131,7 +131,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'no view_time_entries permission' do
           before do
-            allow(user).to receive(:allowed_to?).and_return false
+            allow(user).to receive(:allowed_to?).and_return(false)
           end
 
           it { is_expected.not_to have_json_path('spentTime') }
@@ -178,24 +178,14 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'laborCosts' do
         before do
-          allow(user).to receive(:allowed_to?).and_return false
-        end
-
-        before do
+          allow(user).to receive(:allowed_to?).and_return(false)
           allow(work_package).to receive(:labor_costs).and_return(6000.0)
         end
 
         context 'with the :view_hourly_rates and :view_time_entries permission' do
           before do
-            allow(user)
-              .to receive(:allowed_to?)
-              .with(:view_time_entries, work_package.project)
-              .and_return true
-
-            allow(user)
-              .to receive(:allowed_to?)
-              .with(:view_hourly_rates, work_package.project)
-              .and_return true
+            allow(user).to receive(:allowed_to?).with(:view_time_entries, work_package).and_return(true)
+            allow(user).to receive(:allowed_to?).with(:view_hourly_rates, work_package).and_return(true)
           end
 
           it 'is expected to have a laborCosts attribute' do
@@ -205,15 +195,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'with the :view_own_hourly_rate and :view_own_time_entries permission' do
           before do
-            allow(user)
-              .to receive(:allowed_to?)
-              .with(:view_own_time_entries, work_package.project)
-              .and_return true
-
-            allow(user)
-              .to receive(:allowed_to?)
-              .with(:view_own_hourly_rate, work_package.project)
-              .and_return true
+            allow(user).to receive(:allowed_to?).with(:view_own_time_entries, work_package).and_return(true)
+            allow(user).to receive(:allowed_to?).with(:view_own_hourly_rate, work_package).and_return(true)
           end
 
           it 'is expected to have a laborCosts attribute' do
@@ -230,24 +213,14 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'materialCosts' do
         before do
-          allow(user).to receive(:allowed_to?).and_return false
-        end
-
-        before do
+          allow(user).to receive(:allowed_to?).and_return(false)
           allow(work_package).to receive(:material_costs).and_return(6000.0)
         end
 
         context 'with the :view_own_cost_entries and :view_cost_rates permission' do
           before do
-            allow(user)
-              .to receive(:allowed_to?)
-              .with(:view_own_cost_entries, work_package.project)
-              .and_return true
-
-            allow(user)
-              .to receive(:allowed_to?)
-              .with(:view_cost_rates, work_package.project)
-              .and_return true
+            allow(user).to receive(:allowed_to?).with(:view_own_cost_entries, work_package).and_return(true)
+            allow(user).to receive(:allowed_to?).with(:view_cost_rates, work_package).and_return(true)
           end
 
           it 'is expected to have a materialCosts attribute' do
@@ -257,15 +230,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'with the :view_cost_entries and :view_cost_rates permission' do
           before do
-            allow(user)
-              .to receive(:allowed_to?)
-              .with(:view_cost_entries, work_package.project)
-              .and_return true
-
-            allow(user)
-              .to receive(:allowed_to?)
-              .with(:view_cost_rates, work_package.project)
-              .and_return true
+            allow(user).to receive(:allowed_to?).with(:view_cost_entries, work_package).and_return(true)
+            allow(user).to receive(:allowed_to?).with(:view_cost_rates, work_package).and_return(true)
           end
 
           it 'is expected to have a materialCosts attribute' do
@@ -282,24 +248,14 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'overallCosts' do
         before do
-          allow(user).to receive(:allowed_to?).and_return false
-        end
-
-        before do
+          allow(user).to receive(:allowed_to?).and_return(false)
           allow(work_package).to receive(:overall_costs).and_return(6000.0)
         end
 
         context 'with the :view_hourly_rates and :view_time_entries permission' do
           before do
-            allow(user)
-              .to receive(:allowed_to?)
-              .with(:view_time_entries, work_package.project)
-              .and_return true
-
-            allow(user)
-              .to receive(:allowed_to?)
-              .with(:view_hourly_rates, work_package.project)
-              .and_return true
+            allow(user).to receive(:allowed_to?).with(:view_time_entries, work_package).and_return(true)
+            allow(user).to receive(:allowed_to?).with(:view_hourly_rates, work_package).and_return(true)
           end
 
           it 'is expected to have a overallCosts attribute' do
@@ -309,15 +265,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'with the :view_own_hourly_rate and :view_own_time_entries permission' do
           before do
-            allow(user)
-              .to receive(:allowed_to?)
-              .with(:view_own_time_entries, work_package.project)
-              .and_return true
-
-            allow(user)
-              .to receive(:allowed_to?)
-              .with(:view_own_hourly_rate, work_package.project)
-              .and_return true
+            allow(user).to receive(:allowed_to?).with(:view_own_time_entries, work_package).and_return(true)
+            allow(user).to receive(:allowed_to?).with(:view_own_hourly_rate, work_package).and_return(true)
           end
 
           it 'is expected to have a overallCosts attribute' do
@@ -327,15 +276,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'with the :view_own_cost_entries and :view_cost_rates permission' do
           before do
-            allow(user)
-              .to receive(:allowed_to?)
-              .with(:view_own_cost_entries, work_package.project)
-              .and_return true
-
-            allow(user)
-              .to receive(:allowed_to?)
-              .with(:view_cost_rates, work_package.project)
-              .and_return true
+            allow(user).to receive(:allowed_to?).with(:view_own_cost_entries, work_package).and_return(true)
+            allow(user).to receive(:allowed_to?).with(:view_cost_rates, work_package).and_return(true)
           end
 
           it 'is expected to have a overallCosts attribute' do
@@ -345,15 +287,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'with the :view_cost_entries and :view_cost_rates permission' do
           before do
-            allow(user)
-              .to receive(:allowed_to?)
-              .with(:view_cost_entries, work_package.project)
-              .and_return true
-
-            allow(user)
-              .to receive(:allowed_to?)
-              .with(:view_cost_rates, work_package.project)
-              .and_return true
+            allow(user).to receive(:allowed_to?).with(:view_cost_entries, work_package).and_return(true)
+            allow(user).to receive(:allowed_to?).with(:view_cost_rates, work_package).and_return(true)
           end
 
           it 'is expected to have a overallCosts attribute' do
@@ -382,19 +317,17 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
     describe 'timeEntries' do
       it 'exists if user has view_time_entries permission' do
-        allow(user).to receive(:allowed_to?).and_return false
-        allow(user).to receive(:allowed_to?).with(:view_time_entries,
-                                                  work_package.project)
-          .and_return true
+        allow(user).to receive(:allowed_to?).and_return(false)
+        allow(user).to receive(:allowed_to?).with(:view_time_entries, work_package)
+          .and_return(true)
 
         expect(subject).to have_json_path('_links/timeEntries/href')
       end
 
       it 'has spentTime link when user only has view_own_time_entries permission' do
-        allow(user).to receive(:allowed_to?).and_return false
-        allow(user).to receive(:allowed_to?).with(:view_own_time_entries,
-                                                  work_package.project)
-          .and_return true
+        allow(user).to receive(:allowed_to?).and_return(false)
+        allow(user).to receive(:allowed_to?).with(:view_own_time_entries, work_package)
+          .and_return(true)
 
         expect(subject).to have_json_path('_links/timeEntries/href')
       end
@@ -403,7 +336,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
   describe 'costs module disabled' do
     before do
-      allow(work_package).to receive(:costs_enabled?).and_return false
+      allow(work_package).to receive(:costs_enabled?).and_return(false)
     end
 
     describe 'work_package' do

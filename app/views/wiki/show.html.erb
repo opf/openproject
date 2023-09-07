@@ -26,30 +26,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <%= call_hook :wiki_navigation %>
 <% if @page.current_version? %>
   <% title = h(@page.title) %>
 <% else %>
   <% title = link_to(@page.title, { action: 'show', id: @page, project_id: @page.project }) %>
 <% end %>
-
 <%# Set meta tags %>
 <% title "#{t(:project_module_wiki)} | #{title}" %>
 <% @formatted_text = format_text @page, :text, attachments: @page.attachments  %>
 <% description strip_tags(@formatted_text) %>
-
 <%= toolbar title: title, html: {class: '-with-dropdown'} do %>
   <% if @editable %>
-    <% if @page && User.current.allowed_to?(:edit_wiki_pages, @project) %>
+    <% if @page && User.current.allowed_in_project?(:edit_wiki_pages, @project) %>
       <li class="toolbar-item">
-          <%= link_to({controller: '/wiki', action: 'new_child', project_id: @project.identifier, id: @page},
+        <%= link_to({controller: '/wiki', action: 'new_child', project_id: @project.identifier, id: @page},
               { class: 'button -alt-highlight',
                 aria: {label: t('wiki.index.no_results_content_text')},
                 title: t('wiki.index.no_results_content_text')}) do %>
-            <%= op_icon('button--icon icon-add') %>
-            <span class="button--text"><%= t(:create_new_page) %></span>
-          <% end %>
+          <%= op_icon('button--icon icon-add') %>
+          <span class="button--text"><%= t(:create_new_page) %></span>
+        <% end %>
       </li>
     <% end %>
     <% if @page.current_version? %>
@@ -106,7 +103,7 @@ See COPYRIGHT and LICENSE files for more details.
                     }
         %>
       </li>
-      <% if User.current.allowed_to?(:export_wiki_pages, @project) %>
+      <% if User.current.allowed_in_project?(:export_wiki_pages, @project) %>
         <section data-augmented-model-wrapper
                  data-modal-class-name="wiki-export---modal">
           <li>
@@ -122,9 +119,7 @@ See COPYRIGHT and LICENSE files for more details.
     </ul>
   </li>
 <% end %>
-
 <% breadcrumb_paths(*(@page.ancestors.reverse.collect { |parent| link_to h(parent.breadcrumb_title), {id: parent, project_id: parent.project}} + [h(@page.breadcrumb_title)])) %>
-
 <% if params[:version] %>
   <hr />
   <div class="wiki-version--details">
@@ -137,10 +132,7 @@ See COPYRIGHT and LICENSE files for more details.
     <hr />
   </div>
 <% end %>
-
 <%= render(partial: "wiki/text", locals: { page: @page }) %>
-
 <% resource = ::API::V3::WikiPages::WikiPageRepresenter.new(@page, current_user: current_user, embed_links: true) %>
 <%= list_attachments(resource) %>
-
 <% html_title h(@page.title) %>

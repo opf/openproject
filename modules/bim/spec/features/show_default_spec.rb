@@ -28,16 +28,14 @@
 
 require_relative '../spec_helper'
 
-RSpec.describe 'show default model',
-               js: true, with_config: { edition: 'bim' } do
+RSpec.describe 'show default model', :js, with_config: { edition: 'bim' } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:index_page) { Pages::IfcModels::Index.new(project) }
   let(:show_default_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:role) { create(:project_role, permissions: %i[view_ifc_models view_work_packages manage_ifc_models]) }
 
   let(:user) do
-    create(:user,
-           member_with_roles: { project => role })
+    create(:user, member_with_roles: { project => role })
   end
 
   let(:model) do

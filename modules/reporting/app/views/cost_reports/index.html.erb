@@ -26,15 +26,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <% if @custom_errors.present? %>
   <% @custom_errors.each do |err| %>
     <div class="flash error"><%= err %></div>
   <% end %>
 <% end %>
-
 <% html_title (@query.persisted? ? "#{t(:label_cost_report)}: #{@query.name}" : t(:label_new_report)) %>
-
 <div class="toolbar-container">
   <div class="toolbar">
     <div class="title-container">
@@ -43,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
       </h2>
     </div>
     <ul class="toolbar-items">
-      <% if User.current.allowed_to? :export_work_packages, @project, global: @project.nil? %>
+      <% if User.current.allowed_in_any_work_package?(:export_work_packages, in_project: @project) %>
         <li class="toolbar-item">
           <%= link_to(t(:export_to_excel),
                       { controller: "cost_reports" ,
@@ -57,9 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
     </ul>
   </div>
 </div>
-
 <%= render_widget Widget::Settings, @query, :cost_types => @cost_types, :selected_type_id => @unit_id %>
-
 <div id="result-table">
   <%= render_widget Widget::Table, @query %>
 </div>

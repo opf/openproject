@@ -1,7 +1,6 @@
 require_relative '../../spec_helper'
 
-RSpec.describe 'Create BCF',
-               js: true,
+RSpec.describe 'Create BCF', :js,
                with_config: { edition: 'bim' } do
   let(:project) do
     create(:project,
@@ -15,8 +14,7 @@ RSpec.describe 'Create BCF',
   let!(:priority) { create(:priority, is_default: true) }
 
   let(:user) do
-    create(:user,
-           member_with_permissions: { project => permissions })
+    create(:user, member_with_permissions: { project => permissions })
   end
 
   let!(:model) do

@@ -35,7 +35,7 @@ RSpec.describe 'Calendar drag&dop and resizing', :js do
   let!(:other_user) do
     create(:user,
            firstname: 'Bernd',
-           member_with_permissions: { project => %w[view_work_packages view_calendar] })
+           member_with_permissions: { project => %i[view_work_packages view_calendar] })
   end
 
   let!(:work_package) do

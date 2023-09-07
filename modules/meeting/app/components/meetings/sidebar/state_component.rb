@@ -41,7 +41,7 @@ module Meetings
     private
 
     def edit_enabled?
-      User.current.allowed_to?(:close_meeting_agendas, @meeting.project)
+      User.current.allowed_in_project?(:close_meeting_agendas, @meeting.project)
     end
   end
 end

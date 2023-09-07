@@ -169,7 +169,10 @@ RSpec.describe 'API v3 project storages resource', :webmock, content_type: :json
 
     context 'as user with permissions' do
       let(:current_user) do
-        create(:user, member_with_permissions: { project1 => view_permissions, project3 => view_permissions })
+        create(:user, member_with_permissions: {
+                 project1 => view_permissions,
+                 project3 => view_permissions
+               })
       end
 
       it_behaves_like 'API V3 collection response', 4, 4, 'ProjectStorage', 'Collection' do
@@ -186,7 +189,11 @@ RSpec.describe 'API v3 project storages resource', :webmock, content_type: :json
 
     context 'as user without permissions' do
       let(:current_user) do
-        create(:user, member_with_permissions: { project1 => [], project2 => [], project3 => [] })
+        create(:user, member_with_permissions: {
+                 project1 => [],
+                 project2 => [],
+                 project3 => []
+               })
       end
 
       it_behaves_like 'API V3 collection response', 0, 0, 'ProjectStorage', 'Collection' do

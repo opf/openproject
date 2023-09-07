@@ -89,9 +89,11 @@ module API
                  type: 'Boolean',
                  required: false,
                  writable: -> do
-                   current_user.allowed_to?(:manage_public_queries,
-                                            represented.project,
-                                            global: represented.project.nil?)
+                   if represented.project
+                     current_user.allowed_in_project?(:manage_public_queries, represented.project)
+                   else
+                     current_user.allowed_in_any_project?(:manage_public_queries)
+                   end
                  end,
                  has_default: true
 

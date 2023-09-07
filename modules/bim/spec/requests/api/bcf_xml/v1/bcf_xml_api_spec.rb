@@ -38,7 +38,7 @@ RSpec.describe 'BCF XML API v1 bcf_xml resource' do
   let!(:project) { create(:project, enabled_module_names: %w[bim work_package_tracking], types: [type]) }
 
   let(:current_user) do
-    create(:user, member_with_roles: { project => role, firstname: "BIMjamin" })
+    create(:user, member_with_roles: { project => role }, firstname: "BIMjamin")
   end
   let(:work_package) { create(:work_package, status:, priority:, project:) }
   let(:bcf_issue) { create(:bcf_issue_with_comment, work_package:) }
@@ -47,7 +47,7 @@ RSpec.describe 'BCF XML API v1 bcf_xml resource' do
   let(:filename) { 'MaximumInformation.bcf' }
   let(:bcf_xml_file) do
     Rack::Test::UploadedFile.new(
-      File.join(Rails.root, "modules/bim/spec/fixtures/files/#{filename}"),
+      Rails.root.join("modules/bim/spec/fixtures/files/#{filename}").to_s,
       'application/octet-stream'
     )
   end

@@ -69,12 +69,10 @@ RSpec.describe 'Work Package Boards Overview',
     create(:admin)
   end
   shared_let(:user_with_full_permissions) do
-    create(:user,
-           member_with_roles: { project => management_role })
+    create(:user, member_with_roles: { project => management_role })
   end
   shared_let(:user_with_limited_permissions) do
-    create(:user,
-           member_with_roles: { project => view_only_role })
+    create(:user, member_with_roles: { project => view_only_role })
   end
   shared_let(:user_without_permissions) do
     create(:user, member_with_permissions: { project => [] })

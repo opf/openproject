@@ -244,8 +244,7 @@ class UsersController < ApplicationController
   end
 
   def can_manage_or_create_users?
-    current_user.allowed_to_globally?(:manage_user) ||
-    current_user.allowed_to_globally?(:create_user)
+    current_user.allowed_globally?(:manage_user) || current_user.allowed_globally?(:create_user)
   end
 
   def events

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-RSpec.describe 'Upload attachment to budget', js: true do
+RSpec.describe 'Upload attachment to budget', :js do
   let(:user) do
     create(:user, member_with_permissions: { project => %i[view_budgets edit_budgets] })
   end

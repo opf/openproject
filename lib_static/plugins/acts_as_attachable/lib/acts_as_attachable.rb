@@ -146,7 +146,7 @@ module Redmine
           def attachments_addable?(user = User.current)
             (Array(attachable_options[:add_on_new_permission]) |
               Array(attachable_options[:add_on_persisted_permission])).any? do |permission|
-              user.allowed_to_globally?(permission)
+              user.allowed_in_any_project?(permission) # TODO: Maybe use allowed_in_any_work_package? here as we have the new WP permission
             end
           end
 
@@ -201,9 +201,9 @@ module Redmine
           def allowed_to_on_attachment?(user, permissions)
             Array(permissions).any? do |permission|
               if respond_to?(:project)
-                user.allowed_to?(permission, project)
+                user.allowed_in_project?(permission, project)
               else
-                user.allowed_to_globally?(permission)
+                user.allowed_in_any_project?(permission)
               end
             end
           end

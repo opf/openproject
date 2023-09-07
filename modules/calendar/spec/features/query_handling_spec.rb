@@ -41,13 +41,8 @@ RSpec.describe 'Calendar query handling', :js do
 
   shared_let(:user) do
     create(:user,
-           member_with_permissions: { project => %w[
-             view_work_packages
-             edit_work_packages
-             save_queries
-             save_public_queries
-             view_calendar
-           ] })
+           member_with_permissions: { project => %i[view_work_packages edit_work_packages save_queries save_public_queries
+                                                    view_calendar] })
   end
 
   shared_let(:task) do

@@ -127,7 +127,7 @@ module UsersHelper
   end
 
   def allowed_management_user_profile_path(user)
-    if User.current.allowed_to_globally?(:manage_user)
+    if User.current.allowed_globally?(:manage_user)
       edit_user_path(user)
     else
       user_path(user)

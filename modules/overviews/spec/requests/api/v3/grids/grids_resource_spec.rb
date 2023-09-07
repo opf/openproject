@@ -34,8 +34,7 @@ RSpec.describe 'API v3 Grids resource', content_type: :json do
   include API::V3::Utilities::PathHelper
 
   current_user do
-    create(:user,
-           member_with_permissions: { project => permissions })
+    create(:user, member_with_permissions: { project => permissions })
   end
   let(:permissions) { %i[] }
   let(:project) { create(:project) }

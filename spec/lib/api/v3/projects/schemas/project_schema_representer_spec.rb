@@ -33,8 +33,11 @@ RSpec.describe API::V3::Projects::Schemas::ProjectSchemaRepresenter do
 
   let(:current_user) do
     build_stubbed(:user).tap do |user|
-      allow(user)
-        .to receive(:allowed_to_globally?) do |permission|
+      allow(user).to receive(:allowed_globally?) do |permission|
+        global_permissions.include?(permission)
+      end
+
+      allow(user).to receive(:allowed_in_any_project?) do |permission|
         global_permissions.include?(permission)
       end
     end

@@ -76,8 +76,17 @@ class WorkPackage < ApplicationRecord
     order(updated_at: :desc)
   }
 
-  scope :visible, ->(*args) {
-    where(project_id: Project.allowed_to(args.first || User.current, :view_work_packages))
+  scope :visible, ->(user = User.current) {
+    visible_by_project_membership = WorkPackage.where(project_id: Authorization.projects(:view_work_packages, user))
+    visible_by_work_package_membership = Authorization.work_packages(:view_work_packages, user)
+
+    from(<<~SQL.squish)
+      (
+        (#{visible_by_project_membership.to_sql})
+        UNION
+        (#{visible_by_work_package_membership.to_sql})
+      ) AS "work_packages"
+    SQL
   }
 
   scope :in_status, ->(*args) do
@@ -125,8 +134,8 @@ class WorkPackage < ApplicationRecord
     where(author_id: author.id)
   }
 
-  scopes :covering_dates_and_days_of_week,
-         :allowed_to,
+  scopes :allowed_to,
+         :covering_dates_and_days_of_week,
          :for_scheduling,
          :include_derived_dates,
          :include_spent_time,
@@ -215,8 +224,8 @@ class WorkPackage < ApplicationRecord
   end
 
   # Returns true if usr or current user is allowed to view the work_package
-  def visible?(usr = nil)
-    (usr || User.current).allowed_to?(:view_work_packages, project)
+  def visible?(usr = User.current)
+    usr.allowed_in_work_package?(:view_work_packages, self)
   end
 
   # RELATIONS
@@ -348,8 +357,13 @@ class WorkPackage < ApplicationRecord
   # check if user is allowed to edit WorkPackage Journals.
   # see Acts::Journalized::Permissions#journal_editable_by
   def journal_editable_by?(journal, user)
-    user.allowed_to?(:edit_work_package_notes, project, global: project.present?) ||
-      (user.allowed_to?(:edit_own_work_package_notes, project, global: project.present?) && journal.user_id == user.id)
+    # edit_work_package_notes is a project level permission
+    return true if user.allowed_in_project?(:edit_work_package_notes, project)
+
+    # edit_own_work_package_notes is a project or work_package level permission
+    return true if journal.user_id == user.id && user.allowed_in_work_package?(:edit_own_work_package_notes, self)
+
+    false
   end
 
   # Returns a scope for the projects

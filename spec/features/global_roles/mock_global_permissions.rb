@@ -42,11 +42,10 @@ def mock_global_permissions(permissions)
   end
 end
 
-def mock_permissions(name, options = {})
+def build_mocked_permission(name, options = {})
   OpenProject::AccessControl::Permission.new(
     name,
     { does_not: :matter },
-    permissible_on: :project,
     project_module: 'Foo',
     public: false,
     **options

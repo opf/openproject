@@ -57,11 +57,19 @@ module Queries
     end
 
     def user_allowed_to_edit_work_packages?
-      user.allowed_to?(:edit_work_packages, model.project, global: model.project.nil?)
+      if model.project?
+        user.allowed_in_project?(:edit_work_packages, model.project)
+      else
+        user.user_allowed_in_any_project?(:edit_work_packages)
+      end
     end
 
     def user_allowed_to_save_queries?
-      user.allowed_to?(:save_queries, model.project, global: model.project.nil?)
+      if model.project
+        user.allowed_in_project?(:save_queries, model.project)
+      else
+        user.user_allowed_in_any_project?(:save_queries)
+      end
     end
   end
 end

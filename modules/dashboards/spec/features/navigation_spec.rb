@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Navigate to dashboard', js: true do
+RSpec.describe 'Navigate to dashboard', :js do
   let(:project) { create(:project) }
   let(:permissions) { [:view_dashboards] }
   let(:user) do

@@ -27,11 +27,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <% html_title(t(:label_project_plural)) -%>
-
 <div data-controller="project"
      data-application-target="dynamic">
   <%= toolbar title: t(:label_project_plural), html: { class: '-with-dropdown' } do %>
-    <% if User.current.allowed_to_globally?(:add_project) %>
+    <% if User.current.allowed_globally?(:add_project) %>
       <li class="toolbar-item">
         <%= link_to new_project_path,
                     { class: 'button -alt-highlight',
@@ -94,15 +93,12 @@ See COPYRIGHT and LICENSE files for more details.
       </ul>
     </li>
   <% end %>
-
   <%= render partial: 'projects/filters/form', locals: { query: @query } %>
-
   <%= render Projects::TableComponent.new(
     rows: @projects,
     current_user: current_user,
     orders: @orders,
     params: params) %>
-
   <% if User.current.admin? %>
     <p class="information-section">
       <%= op_icon('icon-info1') %>

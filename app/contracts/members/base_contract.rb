@@ -71,24 +71,22 @@ module Members
         ((model.project && role.instance_of?(ProjectRole)) || (!model.project && role.instance_of?(GlobalRole)))
     end
 
-    def user_allowed_to_manage?
-      # rubocop:disable Performance/RedundantEqualityComparisonBlock
+    def user_allowed_to_manage? # rubocop:disable Metrics/AbcSize
       if model.project.present? && model.roles.empty?
         user.allowed_in_any_project?(:manage_members)
-      elsif model.project.present? && model.roles.all? { |r| r.is_a?(ProjectRole) }
+      elsif model.project.present? && model.roles.all?(ProjectRole)
         user.allowed_in_project?(:manage_members, model.project)
-      elsif model.project.nil? && model.roles.any? { |r| r.is_a?(GlobalRole) }
+      elsif model.project.nil? && model.roles.any?(GlobalRole)
         user.admin?
       else
         # This state is invalid to be saved so other validations will prevent this from being valid
         # but we cannot tell whether the user is allowed to manage members for this.
         true
       end
-      # rubocop:enable Performance/RedundantEqualityComparisonBlock
     end
 
     def project_manageable_or_blank?
-      !model.project || user.allowed_to?(:manage_members, model.project)
+      !model.project || user.allowed_in_project?(:manage_members, model.project)
     end
 
     def project_set_or_admin?

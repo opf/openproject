@@ -27,8 +27,7 @@ RSpec.describe Bim::IfcModels::IfcModel do
     subject { create(:ifc_model_minimal_converted, project:) }
 
     current_user do
-      create(:user,
-             member_with_permissions: { project => %i[manage_ifc_models] })
+      create(:user, member_with_permissions: { project => %i[manage_ifc_models] })
     end
 
     it 'replaces the previous attachment' do

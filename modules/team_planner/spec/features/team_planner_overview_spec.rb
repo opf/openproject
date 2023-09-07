@@ -44,7 +44,7 @@ RSpec.describe 'Team planner overview',
   shared_let(:admin) { create(:admin) }
   shared_let(:user_with_full_permissions) do
     create(:user,
-           member_with_permissions: { project => %w[
+           member_with_permissions: { project => %i[
              view_work_packages edit_work_packages add_work_packages
              view_team_planner manage_team_planner
              save_queries manage_public_queries

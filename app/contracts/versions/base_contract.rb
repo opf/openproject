@@ -58,18 +58,18 @@ module Versions
 
     # Returns the sharings that +user+ can set the version to
     def assignable_sharings
-      Version::VERSION_SHARINGS.select do |s|
-        if model.sharing_was == s
+      Version::VERSION_SHARINGS.select do |sharing|
+        if model.sharing_was == sharing
           true
         else
-          case s
+          case sharing
           when 'system'
             # Only admin users can set a systemwide sharing
             user.admin?
           when 'hierarchy', 'tree'
             # Only users allowed to manage versions of the root project can
             # set sharing to hierarchy or tree
-            model.project.nil? || user.allowed_to?(:manage_versions, model.project.root)
+            model.project.nil? || user.allowed_in_project?(:manage_versions, model.project.root)
           else
             true
           end
@@ -83,7 +83,7 @@ module Versions
       if wiki
         wiki.pages
       else
-        WikiPage.where('1=0')
+        WikiPage.none
       end
     end
 
@@ -100,7 +100,7 @@ module Versions
     end
 
     def user_allowed_to_manage
-      if model.project && !user.allowed_to?(:manage_versions, model.project)
+      if model.project && !user.allowed_in_project?(:manage_versions, model.project)
         errors.add :base, :error_unauthorized
       end
     end

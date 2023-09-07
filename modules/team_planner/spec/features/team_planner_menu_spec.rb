@@ -34,14 +34,14 @@ RSpec.describe 'Team planner Menu Item', :js, :with_cuprite do
   end
   shared_let(:user_without_rights) do
     create(:user,
-           member_with_permissions: { project => %w[
+           member_with_permissions: { project => %i[
              view_work_packages edit_work_packages add_work_packages
              view_team_planner
            ] })
   end
   shared_let(:user_with_rights) do
     create(:user,
-           member_with_permissions: { project => %w[
+           member_with_permissions: { project => %i[
              view_work_packages edit_work_packages add_work_packages
              view_team_planner manage_team_planner
            ] })

@@ -31,10 +31,11 @@
 class Queries::WorkPackages::Filter::SharedWithUserFilter <
   Queries::WorkPackages::Filter::PrincipalBaseFilter
   def available?
-    super && User.current
-                 .allowed_to?(:view_shared_work_packages,
-                              project,
-                              global: true)
+    super && if project
+               User.current.allowed_in_project?(:view_shared_work_packages, project)
+             else
+               User.current.allowed_in_any_project?(:view_shared_work_packages)
+             end
   end
 
   def scope

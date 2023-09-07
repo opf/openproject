@@ -26,13 +26,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <% content_for :header_tags do %>
   <%= call_hook :placeholder_users_show_head %>
 <% end %>
 <% html_title t(:label_administration), t(:label_placeholder_user_plural) -%>
 <%= toolbar title: "#{avatar @placeholder_user} #{h(@placeholder_user.name)}".html_safe do %>
-  <% if current_user.allowed_to_globally?(:manage_placeholder_user) %>
+  <% if current_user.allowed_globally?(:manage_placeholder_user) %>
     <li class="toolbar-item">
       <%= link_to edit_placeholder_user_path(@placeholder_user), class: 'button', accesskey: accesskey(:edit) do %>
         <%= op_icon('button--icon icon-edit') %>
@@ -42,13 +41,10 @@ See COPYRIGHT and LICENSE files for more details.
     <%= render partial: 'placeholder_users/toolbar_delete' %>
   <% end %>
 <% end %>
-
 <div class="grid-block grid-block_double-column">
   <div class="grid-content">
     <%= call_hook :view_account_left_top, placeholder_user: @placeholder_user %>
-
     <%= call_hook :view_account_left_middle, placeholder_user: @placeholder_user %>
-
     <% unless @memberships.empty? %>
       <h3><%=t(:label_project_plural)%></h3>
       <ul>
@@ -63,5 +59,4 @@ See COPYRIGHT and LICENSE files for more details.
     <%= call_hook :view_account_left_bottom, placeholder_user: @placeholder_user %>
   </div>
 </div>
-
 <% html_title h(@placeholder_user.name) %>

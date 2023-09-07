@@ -29,8 +29,7 @@
 require 'spec_helper'
 require_relative '../support/pages/taskboard'
 
-RSpec.describe 'Tasks on taskboard',
-               js: true,
+RSpec.describe 'Tasks on taskboard', :js,
                with_cuprite: false do
   let!(:project) do
     create(:project,
@@ -61,8 +60,7 @@ RSpec.describe 'Tasks on taskboard',
                            work_package_assigned))
   end
   let!(:current_user) do
-    create(:user,
-           member_with_roles: { project => role })
+    create(:user, member_with_roles: { project => role })
   end
   let!(:story1) do
     create(:work_package,

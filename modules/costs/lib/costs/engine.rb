@@ -174,8 +174,8 @@ module Costs
 
       link :logCosts,
            cache_if: -> {
-             current_user_allowed_to(:log_costs, context: represented.project) ||
-               current_user_allowed_to(:log_own_costs, context: represented.project)
+             current_user.allowed_in_project?(:log_costs, represented.project) ||
+             current_user.allowed_in_project?(:log_own_costs, represented.project)
            } do
         next unless represented.costs_enabled? && represented.persisted?
 
@@ -188,8 +188,8 @@ module Costs
 
       link :showCosts,
            cache_if: -> {
-             current_user_allowed_to(:view_cost_entries, context: represented.project) ||
-               current_user_allowed_to(:view_own_cost_entries, context: represented.project)
+             current_user.allowed_in_project?(:view_cost_entries, represented.project) ||
+             current_user.allowed_in_project?(:view_own_cost_entries, represented.project)
            } do
         next unless represented.persisted? && represented.project.costs_enabled?
 

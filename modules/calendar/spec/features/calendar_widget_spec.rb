@@ -46,7 +46,7 @@ RSpec.describe 'Calendar Widget', :js, :with_cuprite do
   let(:wp_full_view) { Pages::FullWorkPackage.new(work_package, project) }
 
   current_user do
-    create(:user, member_with_permissions: { project => %w[view_work_packages view_calendar manage_overview] })
+    create(:user, member_with_permissions: { project => %i[view_work_packages view_calendar manage_overview] })
   end
 
   before do

@@ -27,13 +27,12 @@
 #++
 
 require 'spec_helper'
-require_relative './../support//board_index_page'
-require_relative './../support/board_page'
+require_relative '../support//board_index_page'
+require_relative '../support/board_page'
 
-RSpec.describe 'Status action board', js: true, with_ee: %i[board_view] do
+RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
   let(:user) do
-    create(:user,
-           member_with_roles: { project => role })
+    create(:user, member_with_roles: { project => role })
   end
   let(:type) { create(:type_standard) }
   let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }

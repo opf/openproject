@@ -56,7 +56,7 @@ module OpenProject::Boards
 
       should_render_global_menu_item = Proc.new do
         (User.current.logged? || !Setting.login_required?) &&
-        User.current.allowed_to_globally?(:show_board_views)
+        User.current.allowed_in_any_project?(:show_board_views)
       end
 
       menu :top_menu,

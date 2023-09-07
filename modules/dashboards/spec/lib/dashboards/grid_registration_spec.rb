@@ -49,19 +49,17 @@ RSpec.describe Dashboards::GridRegistration do
 
   describe 'defaults' do
     it 'returns the initialized widget' do
-      expect(described_class.defaults[:widgets].map(&:identifier))
-        .to match_array ["work_packages_table"]
+      expect(described_class.defaults[:widgets].map(&:identifier)).to contain_exactly("work_packages_table")
     end
   end
 
   describe 'writable?' do
-    let(:allowed) { true }
+    let(:permissions) { [:manage_dashboards] }
 
     before do
-      allow(user)
-        .to receive(:allowed_to?)
-        .with(:manage_dashboards, project)
-        .and_return(allowed)
+      mock_permissions_for(user) do |mock|
+        mock.in_project *permissions, project:
+      end
     end
 
     context 'if the user has the :manage_dashboards permission' do
@@ -72,7 +70,7 @@ RSpec.describe Dashboards::GridRegistration do
     end
 
     context 'if the user lacks the :manage_dashboards permission' do
-      let(:allowed) { false }
+      let(:permissions) { [] }
 
       it 'is falsey' do
         expect(described_class)

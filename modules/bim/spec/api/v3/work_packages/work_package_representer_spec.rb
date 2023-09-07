@@ -33,13 +33,11 @@ require_relative '../../../support/bcf_topic_with_stubbed_comment'
 RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
   include API::V3::Utilities::PathHelper
   include API::Bim::Utilities::PathHelper
-  include_context 'user with stubbed permissions'
-  include_context 'bcf_topic with stubbed comment'
 
+  let(:user) { build_stubbed(:user) }
   let(:project) do
     work_package.project
   end
-  let(:permissions) { %i[view_linked_issues view_work_packages manage_bcf] }
   let(:work_package) do
     build_stubbed(:work_package, bcf_issue: bcf_topic)
   end
@@ -49,9 +47,16 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
                            embed_links: true)
   end
 
+  let(:permissions) { %i[view_linked_issues view_work_packages manage_bcf] }
+
   before do
+    mock_permissions_for(user) do |mock|
+      mock.in_project *permissions, project:
+    end
     login_as user
   end
+
+  include_context 'bcf_topic with stubbed comment'
 
   subject(:generated) { representer.to_json }
 

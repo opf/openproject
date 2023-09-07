@@ -99,7 +99,7 @@ class MembersController < ApplicationController
   private
 
   def authorize_for(controller, action)
-    current_user.allowed_to?({ controller:, action: }, @project)
+    current_user.allowed_in_project?({ controller:, action: }, @project)
   end
 
   def build_members
@@ -142,7 +142,7 @@ class MembersController < ApplicationController
   end
 
   def suggest_invite_via_email?(user, query, principals)
-    user.allowed_to_globally?(:create_user) &&
+    user.allowed_globally?(:create_user) &&
       query =~ mail_regex &&
       principals.none? { |p| p.mail == query || p.login == query } &&
       query # finally return email
@@ -218,7 +218,7 @@ class MembersController < ApplicationController
     user_ids.filter_map do |id|
       if id.to_i == 0 && id.present? # we've got an email - invite that user
         # Only users with the create_user permission can add users.
-        if current_user.allowed_to_globally?(:create_user) && enterprise_allow_new_users?
+        if current_user.allowed_globally?(:create_user) && enterprise_allow_new_users?
           # The invitation can pretty much only fail due to the user already
           # having been invited. So look them up if it does.
           user = UserInvitation.invite_new_user(email: id) ||
@@ -236,10 +236,10 @@ class MembersController < ApplicationController
     !OpenProject::Enterprise.user_limit_reached? || !OpenProject::Enterprise.fail_fast?
   end
 
-  def each_comma_separated(array, &block)
+  def each_comma_separated(array)
     array.map do |e|
       if e.to_s.match? /\d(,\d)*/
-        block.call(e)
+        yield(e)
       else
         e
       end

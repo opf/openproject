@@ -29,14 +29,8 @@
 require 'spec_helper'
 
 RSpec.shared_examples_for 'time entry contract' do
-  let(:current_user) do
-    build_stubbed(:user) do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, permission_project|
-        permissions.include?(permission) && time_entry_project == permission_project
-      end
-    end
-  end
+  let(:current_user) { build_stubbed(:user) }
+
   let(:other_user) { build_stubbed(:user) }
   let(:time_entry_work_package) do
     build_stubbed(:work_package,

@@ -58,6 +58,5 @@ module Meetings
 
       [latest_agenda_update, latest_meeting_update].max
     end
-
   end
 end

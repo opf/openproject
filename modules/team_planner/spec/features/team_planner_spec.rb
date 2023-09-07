@@ -63,9 +63,8 @@ RSpec.describe 'Team planner', :js, with_ee: %i[team_planner_view] do
       create(:user,
              firstname: 'Other',
              lastname: 'User',
-             member_with_permissions: { project => %w[
-               view_work_packages edit_work_packages view_team_planner manage_team_planner
-             ] })
+             member_with_permissions: { project => %i[view_work_packages edit_work_packages view_team_planner
+                                                      manage_team_planner] })
     end
     let!(:user_outside_project) { create(:user, firstname: 'Not', lastname: 'In Project') }
     let(:type_task) { create(:type_task) }

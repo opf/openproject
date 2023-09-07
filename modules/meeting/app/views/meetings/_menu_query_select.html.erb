@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <div class="op-sidebar">
   <div class="op-sidebar--body">
     <div class="op-sidemenu">
@@ -37,11 +36,9 @@ See COPYRIGHT and LICENSE files for more details.
           </li>
         <% end %>
       </ul>
-
       <div class="op-sidemenu"
            data-controller="menus--expandable-sidemenu"
            data-application-target="dynamic">
-
         <button class="op-sidemenu--title"
                 type="button"
                 data-action="click->menus--expandable-sidemenu#toggleContainer">
@@ -51,7 +48,6 @@ See COPYRIGHT and LICENSE files for more details.
                 data-menus--expandable-sidemenu-target="indicator">
           </span>
         </button>
-
         <ul class="op-sidemenu--items"
             data-menus--expandable-sidemenu-target="container">
           <% involvement_sidebar_menu_items.each do |menu_item| %>
@@ -63,9 +59,8 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
     </div>
   </div>
-
   <div class="op-sidebar--footer">
-    <% if User.current.allowed_to?(:create_meetings, @project, global: true) %>
+    <% if @project && User.current.allowed_in_project?(:create_meetings, @project) || @project.blank? && User.current.allowed_in_any_project?(:create_meetings) %>
       <%= button_to polymorphic_path([:new, @project, :meeting]),
                     { method: :get,
                       class: 'button -alt-highlight -expand',

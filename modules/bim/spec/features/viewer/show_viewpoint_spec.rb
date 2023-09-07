@@ -28,8 +28,7 @@
 
 require_relative '../../spec_helper'
 
-RSpec.describe 'Show viewpoint in model viewer',
-               js: true, with_config: { edition: 'bim' } do
+RSpec.describe 'Show viewpoint in model viewer', :js, with_config: { edition: 'bim' } do
   let(:project) do
     create(:project,
            enabled_module_names: %i[bim work_package_tracking],
@@ -137,8 +136,7 @@ RSpec.describe 'Show viewpoint in model viewer',
       let(:permissions) { %i[view_ifc_models view_work_packages] }
 
       let(:user) do
-        create(:user,
-               member_with_permissions: { project => permissions })
+        create(:user, member_with_permissions: { project => permissions })
       end
 
       it 'does not show the viewpoint' do
