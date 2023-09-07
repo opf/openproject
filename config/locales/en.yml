@@ -2437,7 +2437,7 @@ en:
   permission_add_work_package_notes: "Add notes"
   permission_add_work_packages: "Add work packages"
   permission_add_messages: "Post messages"
-  permission_add_project: "Create project"
+  permission_add_project: "Create projects"
   permission_archive_project: "Archive project"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
