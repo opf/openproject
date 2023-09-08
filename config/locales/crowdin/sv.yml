@@ -973,11 +973,11 @@ sv:
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
-          one: "%{count} hour"
+          one: "%{count} timme"
           other: "%{count} timmar"
         hour_html:
-          one: "<i>%{count} hour</i>"
-          other: "<i>%{count} hours</i>"
+          one: "<i>%{count} timme</i>"
+          other: "<i>%{count} timmar</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
@@ -1774,7 +1774,7 @@ sv:
   label_journal: "Journal"
   label_journal_diff: "Jämför beskrivning"
   label_language: "Språk"
-  label_languages: "Languages"
+  label_languages: "Språk"
   label_jump_to_a_project: "Hoppa till projekt..."
   label_keyword_plural: 'Nyckelord'
   label_language_based: "Baserat på användarens språk"
@@ -2773,7 +2773,7 @@ sv:
   text_database_allows_tsv: "Databasen tillåter TSVector (tillval)"
   text_default_administrator_account_changed: "Standardadministratörskontot har ändrats"
   text_default_encoding: "Standard: UTF-8"
-  text_destroy: "Ta bort"
+  text_destroy: "Radera"
   text_destroy_with_associated: "Det finns ytterligare objekt kopplade med det/de arbetspaket som ska tas bort. Dessa objekt är av följande typer:"
   text_destroy_what_to_do: "Vad vill du göra?"
   text_diff_truncated: "... Denna diff trunkerades eftersom den överskrider den maximala storleken som kan visas."

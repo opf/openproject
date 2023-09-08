@@ -20,6 +20,8 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 zh-CN:
+  plugin_openproject_github_integration:
+    name: "OpenProject GitHub 集成"
+    description: "将 OpenProject 和 GitHub 进行集成，以实现更好的工作流程。"
   project_module_github: "GitHub"
   permission_show_github_content: "显示 GitHub 内容"
-

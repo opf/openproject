@@ -1,5 +1,9 @@
 #English strings go here for Rails i18n
 zh-CN:
+  plugin_openproject_two_factor_authentication:
+    name: "OpenProject 双因子认证"
+    description: >-
+      该 OpenProject 插件基于 TOTP 标准通过使用一次性密码（如 Google Authenticator）或通过短信或语音呼叫发送到用户的手机，对用户进行双因素身份验证。
   activerecord:
     attributes:
       two_factor_authentication/device:
@@ -35,7 +39,7 @@ zh-CN:
     label_devices: "2FA 设备"
     label_one_time_password: '一次性密码'
     label_2fa_enabled: '双重身份验证已激活'
-    label_2fa_disabled: '双重身份验证未激活'
+    label_2fa_disabled: ' 双因子认证未激活'
     text_otp_delivery_message_sms: "您的 %{app_title} 一次性密码为 %{token}"
     text_otp_delivery_message_voice: "您的 %{app_title} 一次性密码为 %{pause} %{token}。%{pause} I 重复：%{pause} %{token}"
     text_enter_2fa: '请从您的设备输入一次性密码。'
