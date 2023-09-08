@@ -3,7 +3,10 @@ Rails.application.config.after_initialize do
   SecureHeaders::Configuration.default do |config|
     config.cookies = {
       secure: true,
-      httponly: true
+      httponly: true,
+      samesite: {
+        none: true,
+      }
     }
 
     # Let Rails ActionDispatch::SSL middleware handle the Strict-Transport-Security header

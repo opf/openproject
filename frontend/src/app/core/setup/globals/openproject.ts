@@ -28,7 +28,6 @@
 
 import { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
 import { input, InputState } from '@openproject/reactivestates';
-import { take } from 'rxjs/operators';
 import { GlobalHelpers } from 'core-app/core/setup/globals/global-helpers';
 import { firstValueFrom } from 'rxjs';
 
@@ -68,6 +67,10 @@ export class OpenProject {
 
   public get edition():string {
     return jQuery('meta[name=openproject_initializer]').data('edition');
+  }
+
+  public get isIframe():boolean {
+    return jQuery('meta[name=openproject_initializer]').data('is-iframe');
   }
 
   public get isStandardEdition():boolean {

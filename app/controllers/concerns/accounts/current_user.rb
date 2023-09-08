@@ -140,7 +140,9 @@ module Accounts::CurrentUser
           # but ONLY for html requests to avoid double-resetting sessions
           reset_session
 
-          redirect_to main_app.signin_path(back_url: login_back_url)
+          redirect_params = { back_url: login_back_url }
+          redirect_params[:iframe] = params[:iframe] if params[:iframe]
+          redirect_to main_app.signin_path(redirect_params)
         end
 
         auth_header = OpenProject::Authentication::WWWAuthenticate.response_header(request_headers: request.headers)

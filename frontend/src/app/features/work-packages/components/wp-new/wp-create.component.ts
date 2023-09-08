@@ -183,6 +183,15 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
   }
 
   public cancelAndBackToList() {
+    if (window.OpenProject.isIframe && window.parent !== null) {
+      window.parent.postMessage(
+        {
+          openProjectEventName: "work_package_creation_cancellation",
+          openProjectEventPayload: {},
+        },
+        "*",
+      );
+    }
     this.wpCreate.cancelCreation();
     this.$state.go(this.cancelState, this.$state.params);
   }
@@ -212,6 +221,18 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
         takeWhile(() => !this.componentDestroyed),
       )
       .subscribe((wp:WorkPackageResource) => {
+        if (window.OpenProject.isIframe && window.parent !== null) {
+          window.parent.postMessage(
+            {
+              openProjectEventName: "work_package_creation_success",
+              openProjectEventPayload: {
+                workPackageId: wp.id,
+                workPackageUrl: this.pathHelper.workPackagePath(wp.id!.toString())
+              },
+            },
+            "*",
+          );
+        }
         this.onSaved({ savedResource: wp, isInitial: true });
       });
   }

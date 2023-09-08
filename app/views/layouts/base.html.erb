@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%><!DOCTYPE html>
-<% show_decoration = params["layout"].nil? %>
+<% show_decoration = params["layout"].nil? && params["iframe"].blank? %>
 <html xmlns="http://www.w3.org/1999/xhtml"
       lang="<%= I18n.locale.to_s %>"
       xml:lang="<%= I18n.locale.to_s %>"

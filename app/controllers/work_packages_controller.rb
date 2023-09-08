@@ -213,6 +213,6 @@ class WorkPackagesController < ApplicationController
   end
 
   def login_back_url_params
-    params.permit(:query_id, :state, :query_props)
+    params.permit(:query_id, :state, :query_props, :iframe)
   end
 end
