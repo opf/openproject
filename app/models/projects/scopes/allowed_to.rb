@@ -31,79 +31,71 @@ module Projects::Scopes
     extend ActiveSupport::Concern
 
     class_methods do
-      # Returns a ActiveRecord::Relation to find all projects for which
+      # Returns an ActiveRecord::Relation to find all projects for which
       # +user+ has the given +permission+
       def allowed_to(user, permission)
-        permissions = if permission.is_a?(Hash)
-                        OpenProject::AccessControl.allow_actions(permission)
-                      else
-                        [OpenProject::AccessControl.permission(permission)].compact
-                      end
+        permissions = allowed_to_permissions(permission)
 
         if user.admin?
-          Project
-            .joins(:enabled_modules)
-            .where(active: true)
-            .where(enabled_modules: { name: permissions.map(&:project_module).compact.uniq })
+          Project.where(id: allowed_to_admin_relation(permissions))
         elsif user.anonymous?
-          Project.find_by_sql(allowed_to_non_member_sql(user, permissions))
+          Project.where(id: allowed_to_non_member_relation(user, permissions))
         else
-          Project.find_by_sql("#{allowed_to_member_sql(user, permissions)} UNION #{allowed_to_non_member_sql(user, permissions)}")
+          Project.where(Project.arel_table[:id].in(allowed_to_member_relation(user, permissions).arel.union(
+                                                     allowed_to_non_member_relation(user, permissions).arel
+                                                   )))
         end
       end
 
       private
 
-      def allowed_to_non_member_sql(user, permissions)
-        sql = <<~SQL.squish
-          SELECT "projects".*
-          FROM "projects"
-          #{allowed_to_enabled_module_join(permissions)}
-          INNER JOIN "roles"
+      def allowed_to_admin_relation(permissions)
+        Project
+          .joins(allowed_to_enabled_module_join(permissions))
+          .where(active: true)
+      end
+
+      def allowed_to_non_member_relation(user, permissions)
+        Project
+          .joins(allowed_to_enabled_module_join(permissions))
+          .joins(<<~SQL.squish
+            INNER JOIN "roles"
               ON "roles"."builtin" IN (#{Role::BUILTIN_ANONYMOUS}, #{Role::BUILTIN_NON_MEMBER})
               AND "projects"."active" = TRUE
               AND "projects"."public" = TRUE
               AND NOT EXISTS (SELECT 1
                               FROM members
                               WHERE members.project_id = projects.id
-                              AND members.user_id = :user_id
+                              AND members.user_id = #{user.id}
                               AND members.entity_type IS NULL
                               AND members.entity_id IS NULL
                               LIMIT 1)
-          #{allowed_to_role_permission_join(permissions)}
-        SQL
-
-        OpenProject::SqlSanitization.sanitize(sql,
-                                              user_id: user.id,
-                                              permission: permissions.map(&:name))
+          SQL
+                )
+          .joins(allowed_to_role_permission_join(permissions))
+          .select(:id)
       end
 
-      def allowed_to_member_sql(user, permissions)
-        sql = <<~SQL.squish
-          SELECT "projects".*
-          FROM "projects"
-          #{allowed_to_enabled_module_join(permissions)}
-          JOIN "members"
+      def allowed_to_member_relation(user, permissions)
+        Project
+          .joins(allowed_to_enabled_module_join(permissions))
+          .joins(<<~SQL.squish
+            JOIN "members"
               ON "projects"."id" = "members"."project_id"
-              AND "members"."user_id" = :user_id
+              AND "members"."user_id" = #{user.id}
               AND "members"."entity_type" IS NULL
               AND "members"."entity_id" IS NULL
               AND "projects"."active" = TRUE
-          JOIN "member_roles"
-              ON "members"."id" = "member_roles"."member_id"
-          JOIN "roles"
-              ON "projects"."active" = TRUE
-              AND ("roles"."id" = "member_roles"."role_id")
-          #{allowed_to_role_permission_join(permissions)}
-        SQL
-
-        OpenProject::SqlSanitization.sanitize(sql,
-                                              user_id: user.id,
-                                              permission: permissions.map(&:name))
+          SQL
+                )
+          .joins('JOIN "member_roles" ON "members"."id" = "member_roles"."member_id"')
+          .joins('JOIN "roles" ON member_roles.role_id = roles.id')
+          .joins(allowed_to_role_permission_join(permissions))
+          .select(:id)
       end
 
       def allowed_to_enabled_module_join(permissions)
-        project_module = permissions.map(&:project_module).compact.uniq
+        project_module = permissions.filter_map(&:project_module).uniq
 
         if project_module.any?
           sql = <<~SQL.squish
@@ -122,9 +114,15 @@ module Projects::Scopes
         return if permissions.all?(&:public?)
 
         condition = permissions.map do |permission|
-          <<~SQL.squish
-            (enabled_modules.name = '#{permission.project_module}' AND "role_permissions"."permission" = '#{permission.name}')
-          SQL
+          if permission.public?
+            <<~SQL.squish
+              "role_permissions"."permission" = '#{permission.name}'
+            SQL
+          else
+            <<~SQL.squish
+              (enabled_modules.name = '#{permission.project_module}' AND "role_permissions"."permission" = '#{permission.name}')
+            SQL
+          end
         end.join(' OR ')
 
         <<~SQL.squish
@@ -132,6 +130,14 @@ module Projects::Scopes
               ON roles.id = role_permissions.role_id
               AND (#{condition})
         SQL
+      end
+
+      def allowed_to_permissions(permission)
+        if permission.is_a?(Hash)
+          OpenProject::AccessControl.allow_actions(permission)
+        else
+          [OpenProject::AccessControl.permission(permission)].compact
+        end
       end
     end
   end
