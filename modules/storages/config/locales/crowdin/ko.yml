@@ -103,7 +103,7 @@ ko:
       nextcloud:
         integration: "Nextcloud 관리/OpenProject"
       one_drive:
-        integration: "OneDrive/Sharepoint"
+        integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Copy the client id from the Azure portal. This is needed to generate the redirect URI.
         oauth_client_secret: >
@@ -164,7 +164,7 @@ ko:
         name: "Nextcloud"
         name_placeholder: "예: Nextcloud"
       one_drive:
-        name: "OneDrive/Sharepoint"
+        name: "OneDrive/SharePoint"
         name_placeholder: "e.g. OneDrive"
     confirm_replace_oauth_application: "계속하시겠습니까? 모든 사용자는 OpenProject에 대해 다시 권한을 부여해야 합니다."
     confirm_replace_oauth_client: "계속하시겠습니까? 모든 사용자는 저장소에 대해 다시 권한을 부여해야 합니다."

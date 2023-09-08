@@ -103,7 +103,7 @@ ca:
       nextcloud:
         integration: "Administració Nextcloud / OpenProject"
       one_drive:
-        integration: "OneDrive/Sharepoint"
+        integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Copy the client id from the Azure portal. This is needed to generate the redirect URI.
         oauth_client_secret: >
@@ -164,7 +164,7 @@ ca:
         name: "Nextcloud"
         name_placeholder: "ex. Nextcloud"
       one_drive:
-        name: "OneDrive/Sharepoint"
+        name: "OneDrive/SharePoint"
         name_placeholder: "e.g. OneDrive"
     confirm_replace_oauth_application: "Estàs segur? Tots els usuaris hauran d'autoritzar de nou contra OpenProject."
     confirm_replace_oauth_client: "Estàs segur? Tots els usuaris hauran d'autoritzar de nou contra l'emmagatzematge."

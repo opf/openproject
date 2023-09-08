@@ -61,7 +61,7 @@ lt:
       edit_automatically_managed_project_folders: "Keisti automatiškai sukonfigūruotus projekto aplankus"
       replace_openproject_oauth: "Keisti OpenProject OAuth"
       replace_provider_type_oauth: "Keisti %{provider_type} OAuth"
-      save: "Save"
+      save: "Įrašyti"
       save_and_continue_setup: "Įrašyti r tęsti nustatymą"
       save_and_complete_setup: "Įrašyti ir baigti nustatymą"
       select_folder: "Parinkti aplanką"
@@ -103,7 +103,7 @@ lt:
       nextcloud:
         integration: "Nextclout Administravimas / OpenProject"
       one_drive:
-        integration: "OneDrive/Sharepoint"
+        integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Kopijuoti kliento id iš Azure portalo. Tai reikalinga nukreipimo URI generavimui.
         oauth_client_secret: >
@@ -143,7 +143,7 @@ lt:
     label_provider_type: "Tiekėjo tipas"
     label_project_folder: "Projekto aplankas"
     label_new_storage: "Nauja saugykla"
-    label_edit_storage: "Edit storage"
+    label_edit_storage: "Keisti saugyklą"
     label_existing_manual_folder: "Esamas aplankas su rankiniu būdu valdomomis teisėmis"
     label_no_specific_folder: "Jokio konkretaus aplanko"
     label_automatic_folder: "Naujas aplankas su automatiškai valdomomis teisėmis"
@@ -164,7 +164,7 @@ lt:
         name: "Nextcloud"
         name_placeholder: "pvz. Nextcloud"
       one_drive:
-        name: "OneDrive/Sharepoint"
+        name: "OneDrive/SharePoint"
         name_placeholder: "pvz. OneDrive"
     confirm_replace_oauth_application: "Ar jūs įsitikinę? Visi naudotojai turės iš naujo autorizuotis su OpenProject."
     confirm_replace_oauth_client: "Ar jūs įsitikinę? Visi naudotojai turės iš naujo autorizuotis su saugykla."

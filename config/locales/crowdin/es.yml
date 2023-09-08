@@ -460,7 +460,7 @@ es:
       changeset:
         repository: "Repositorio"
       color:
-        hexcode: "Hex code"
+        hexcode: "Código Hex"
       comment:
         commented: "Comentado" #an object that this comment belongs to
       custom_action:
@@ -1445,7 +1445,7 @@ es:
     changes_retracted: "Se deshicieron los cambios."
     caused_changes:
       dates_changed: "Cambio de fechas"
-      system_update: "OpenProject system update:"
+      system_update: "Actualización del sistema OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: por cambios al %{link} predecesor
       work_package_parent_changed_times: por cambios al %{link} principal
@@ -1462,7 +1462,7 @@ es:
           non_working: "%{date} es ahora no laboral"
       system_update:
         file_links_journal: >
-          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
+          A partir de ahora, la actividad relacionada con los enlaces de archivos (archivos almacenados en almacenamiento externo) aparecerá aquí en la pestaña Actividad. La siguiente representa la actividad relativa a los enlaces que ya existían:
   links:
     configuration_guide: 'Guía de configuración'
     get_in_touch: "¿Tiene alguna pregunta? Póngase en contacto con nosotros."
@@ -2192,8 +2192,8 @@ es:
   mail_body_register_ending: "¡Mantente conectado! Saludos,"
   mail_body_reminder: "%{count} paquete(s) de trabajo que le fueron asignados vencen en los próximos %{days}:"
   mail_body_group_reminder: "%{count} paquete(s) de trabajo asignado(s) al grupo “%{group}” vencerán en los próximos %{days} días:"
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "La página wiki \"%{id}\" ha sido añadida por %{author}."
+  mail_body_wiki_page_updated: "La página wiki \"%{id}\" ha sido actualizada por %{author}."
   mail_subject_account_activation_request: "solicitud de activación de cuenta de %{value}"
   mail_subject_backup_ready: "La copia de seguridad está preparada"
   mail_subject_backup_token_reset: "Resetear token de respaldo"
@@ -2344,7 +2344,7 @@ es:
   permission_comment_news: "Comentar noticias"
   permission_commit_access: "Permiso de escritura sobre el repositorio (commit)"
   permission_copy_projects: "Copiar proyectos"
-  permission_copy_work_packages: "Copy work packages"
+  permission_copy_work_packages: "Copiar paquetes de trabajo"
   permission_create_backup: "Crear copia de seguridad"
   permission_delete_work_package_watchers: "Eliminar los observadores"
   permission_delete_work_packages: "Eliminar paquetes de trabajo"
@@ -2372,7 +2372,7 @@ es:
   permission_log_time: "Registrar tiempo para otros usuarios"
   permission_manage_forums: "Administrar foros"
   permission_manage_categories: "Administrar categorías del paquete de trabajo"
-  permission_manage_dashboards: "Manage dashboards"
+  permission_manage_dashboards: "Administrar tableros de control"
   permission_manage_work_package_relations: "Gestionar las relaciones del paquete de trabajo"
   permission_manage_members: "Gestión de Miembros"
   permission_manage_news: "Administrar noticias"
@@ -2387,19 +2387,19 @@ es:
   permission_protect_wiki_pages: "Proteger páginas wiki"
   permission_rename_wiki_pages: "Renombrar páginas wiki"
   permission_save_queries: "Guardar vistas"
-  permission_search_project: "Search project"
+  permission_search_project: "Buscar proyecto"
   permission_select_custom_fields: "Seleccionar campos personalizados"
   permission_select_project_modules: "Seleccionar módulos de proyecto"
-  permission_share_work_packages: "Share work packages"
+  permission_share_work_packages: "Compartir paquetes de trabajo"
   permission_manage_types: "Seleccionar Tipos"
-  permission_view_project: "View projects"
+  permission_view_project: "Ver proyectos"
   permission_view_changesets: "Ver las revisiones del repositorio en OpenProject"
   permission_view_commit_author_statistics: "Ver estadísticas del commit del autor"
-  permission_view_dashboards: "View dashboards"
+  permission_view_dashboards: "Ver paneles de control"
   permission_view_work_package_watchers: "Ver lista de observadores"
   permission_view_work_packages: "Ver paquetes de trabajo"
   permission_view_messages: "Ver mensajes"
-  permission_view_news: "View news"
+  permission_view_news: "Ver noticias"
   permission_view_members: "Ver miembros"
   permission_view_reportings: "Ver reportes"
   permission_view_time_entries: "Ver tiempo invertido"
@@ -2408,9 +2408,9 @@ es:
   permission_view_wiki_pages: "Ver wiki"
   permission_work_package_assigned: "Hazte asignado/responsable"
   permission_work_package_assigned_explanation: "Los paquetes de trabajo se pueden asignar a usuarios y grupos con este papel en los proyectos correspondientes"
-  permission_view_project_activity: "View project activity"
-  permission_save_bcf_queries: "Save BCF queries"
-  permission_manage_public_bcf_queries: "Manage public BCF queries"
+  permission_view_project_activity: "Ver la actividad del proyecto"
+  permission_save_bcf_queries: "Guardar consultas BCF"
+  permission_manage_public_bcf_queries: "Administrar consultas BCF públicas"
   placeholders:
     default: "-"
   project:
