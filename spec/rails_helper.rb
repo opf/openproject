@@ -36,6 +36,8 @@ require 'shoulda/matchers'
 require 'test_prof/recipes/rspec/before_all'
 require 'test_prof/recipes/rspec/let_it_be'
 require "test_prof/recipes/rspec/factory_default"
+# Encourages fixing factories as soon as possible
+require "test_prof/factory_prof/nate_heckler"
 
 # Add PaperTrail integration so that it is disabled by default
 # https://github.com/paper-trail-gem/paper_trail#7b-rspec
