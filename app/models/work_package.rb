@@ -636,5 +636,4 @@ class WorkPackage < ApplicationRecord
     medium: 1,
     high: 2 
   }
-  validates :payback_likelihood, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
 end
