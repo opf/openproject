@@ -49,7 +49,7 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model, webmock: true do
     let(:scope) { nil }
     let(:state) { nil }
 
-    subject { instance.get_authorization_uri(scope:, state:) }
+    subject { instance.get_authorization_uri(state:) }
 
     context 'with empty state and scope' do
       shared_examples_for 'returns the authorization URI relative to the host' do
@@ -87,6 +87,8 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model, webmock: true do
       let(:scope) { %i(email profile) }
 
       it 'returns the redirect URL' do
+        allow(configuration).to receive(:scope).and_return(scope)
+
         expect(subject).to be_a String
         expect(subject).to include oauth_client.integration.host
         expect(subject).not_to include "state"
@@ -110,9 +112,11 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model, webmock: true do
     end
 
     context 'with no OAuthClientToken present and state parameters' do
-      subject { instance.get_access_token(state: "some_state", scope: [:email]) }
+      subject { instance.get_access_token(state: "some_state") }
 
       it 'returns the redirect URL' do
+        allow(configuration).to receive(:scope).and_return(%w[email])
+
         expect(subject.success).to be_falsey
         expect(subject.result).to be_a String
         expect(subject.result).to include oauth_client.integration.host

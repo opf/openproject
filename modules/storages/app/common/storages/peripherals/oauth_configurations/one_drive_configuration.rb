@@ -51,8 +51,8 @@ module Storages
           end
         end
 
-        def compute_scopes(scopes)
-          Array(scopes) | DEFAULT_SCOPES
+        def scope
+          DEFAULT_SCOPES
         end
 
         def basic_rack_oauth_client

@@ -48,14 +48,14 @@ module OAuthClients
     # @param state (OAuth2 RFC) encapsulates the state of the calling page (URL + params) to return
     # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud only has one global scope.
     # @return ServiceResult with ServiceResult.result being either an OAuthClientToken or a redirection URL
-    def get_access_token(scope: [], state: nil)
+    def get_access_token(state: nil)
       # Check for an already existing token from last call
       token = get_existing_token
       return ServiceResult.success(result: token) if token.present?
 
       # Return the Nextcloud OAuth authorization URI that a user needs to open to grant access and eventually obtain
       # a token.
-      @redirect_url = get_authorization_uri(scope:, state:)
+      @redirect_url = get_authorization_uri(state:)
 
       ServiceResult.failure(result: @redirect_url)
     end
@@ -88,10 +88,9 @@ module OAuthClients
     # @param state (OAuth2 RFC) is a nonce referencing a cookie containing the calling page (URL + params) to which to
     # return to at the end of the whole flow.
     # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud has only one global scope.
-    def get_authorization_uri(scope: [], state: nil)
+    def get_authorization_uri(state: nil)
       client = rack_oauth_client # Configure and start the rack-oauth2 client
-      joined_scopes = @config.compute_scopes(scope)
-      client.authorization_uri(scope: joined_scopes, state:)
+      client.authorization_uri(scope: @config.scope, state:)
     end
 
     # Called by callback_page with a cryptographic "code" that indicates
