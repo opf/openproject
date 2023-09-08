@@ -20,6 +20,9 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 zh-CN:
+  plugin_costs:
+    name: "时间和成本"
+    description: "这个模块增加了项目规划和费用跟踪的功能。"
   activerecord:
     attributes:
       cost_entry:
@@ -88,7 +91,7 @@ zh-CN:
   label_deleted_cost_types: "已删除的成本类型"
   label_locked_cost_types: "锁定成本类型"
   label_display_cost_entries: "显示单位成本"
-  label_display_time_entries: "显示上报的小时数"
+  label_display_time_entries: "显示已上报工时"
   label_display_types: "显示类型"
   label_edit: "编辑"
   label_generic_user: "一般用户"
@@ -130,12 +133,12 @@ zh-CN:
   permission_view_own_hourly_rate: "查看自己的小时费率"
   permission_view_own_time_entries: "查看自己的耗时"
   project_module_costs: "时间和成本"
-  text_assign_time_and_cost_entries_to_project: "将已上报的小时数和成本提交到项目中"
+  text_assign_time_and_cost_entries_to_project: "将已上报的工时和成本提交到项目中"
   text_destroy_cost_entries_question: "您要删除的工作包已经上报了 %{cost_entries}。您想进行哪种操作？"
-  text_destroy_time_and_cost_entries: "删除上报的小时数和成本"
+  text_destroy_time_and_cost_entries: "删除已上报的工时和成本"
   text_destroy_time_and_cost_entries_question: "您要删除的工作包已经上报了 %{hours} 小时的工作量、%{cost_entries} 的成本。您想进行哪种操作？"
-  text_reassign_time_and_cost_entries: "将已上报的小时数和成本重新提交到工作包中："
-  text_warning_hidden_elements: "一些条目可能已排除在聚合之外。"
+  text_reassign_time_and_cost_entries: "将已上报的工时和成本重新提交到工作包中："
+  text_warning_hidden_elements: "某些条目可能已被排除在聚合之外。"
   week: "周"
   js:
     text_are_you_sure: "是否确定？"

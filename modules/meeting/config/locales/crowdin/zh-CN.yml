@@ -21,13 +21,17 @@
 #++
 #English strings go here for Rails i18n
 zh-CN:
+  plugin_openproject_meeting:
+    name: "OpenProject 会议"
+    description: >-
+      该模块为 OpenProject 添加了发起项目会议的功能。可以从同一项目中选择受邀者参加会议并进行安排。可以创建议程并发送给受邀者。会议结束后，可以选择与会者并根据议程创建会议纪要。最后，可以将会议纪要发送给所有与会者和受邀者。
   activerecord:
     attributes:
       meeting:
         location: "地点"
         duration: "时长"
         participants: "参加者"
-        participants_attended: "出席者"
+        participants_attended: "与会者"
         participants_invited: "受邀者"
         project: "项目"
         start_time: "时间"
@@ -67,7 +71,7 @@ zh-CN:
   label_involvement: "参与"
   label_upcoming_invitations: "即将发出的邀请"
   label_past_invitations: "过去的邀请"
-  label_attendee: "参与者"
+  label_attendee: "与会者"
   label_author: "创建者"
   label_notify: "发送待审阅"
   label_icalendar: "发送 iCalendar"

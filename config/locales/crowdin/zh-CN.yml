@@ -28,7 +28,7 @@ zh-CN:
     plugins:
       no_results_title_text: 目前没有插件可用。
     custom_styles:
-      color_theme: "颜色主题"
+      color_theme: "主题颜色"
       color_theme_custom: "（自定义）"
       colors:
         alternative-color: "备用"
@@ -84,7 +84,7 @@ zh-CN:
       upgrade_info: "请升级到付费方案，以激活并开始在您的团队中使用该功能。"
     journal_aggregation:
       explanation:
-        text: "如果用户的多项操作（例如，更新工作包两次）的间隔处于指定的时间区间内，则会将多项操作聚合为单项操作。它们将在应用程序中显示为单项操作。这也会将通知延迟同等时间，从而减少电子邮件的发送数量，并且还会影响 %{webhook_link} 延迟。"
+        text: "如果用户的多项操作（例如，更新工作包两次）的时间间隔小于指定的时间跨度，则这些操作将被聚合为单个操作，并在应用程序中显示为单个操作。这也会将通知延迟同等的时间，从而减少电子邮件的发送数量，并且还会影响 %{webhook_link} 延迟。"
         link: "Webhook"
   announcements:
     show_until: 显示截至日期
@@ -207,7 +207,7 @@ zh-CN:
     single: '或'
   global_search:
     overwritten_tabs:
-      wiki_pages: "维基百科"
+      wiki_pages: "维基"
       messages: "论坛"
   groups:
     index:
@@ -226,7 +226,7 @@ zh-CN:
       members: '项目成员'
       overviews: '项目概况'
       queries: '工作包: 保存的视图'
-      wiki_page_attachments: 'Wiki页面：附件'
+      wiki_page_attachments: '维基页面：附件'
       work_package_attachments: '工作包：附件'
       work_package_categories: '工作包：类别'
       work_package_file_links: '工作包：文件链接'
@@ -306,7 +306,7 @@ zh-CN:
     deletion_info:
       heading: "删除占位符用户 %{name}"
       data_consequences: >
-        出现的所有占位符用户（例如，作为被分派人、负责人或其他用户值）将被重新分配给一个名为“已删除用户”的帐户。 由于每个已删除帐户的数据都会被重新分配给此帐户，因此无法将用户创建的数据与另一个已删除帐户的数据区分。
+        出现的所有占位符用户（例如，作为受理人、负责人或其他用户值）将被重新分配给一个名为“已删除用户”的帐户。 由于每个已删除帐户的数据都会被重新分配给此帐户，因此无法将用户创建的数据与另一个已删除帐户的数据区分。
       irreversible: "此操作不可逆"
       confirmation: "输入占位符用户名 %{name} 以确认删除。"
     upsale:
@@ -362,11 +362,11 @@ zh-CN:
       work_packages_in_archived_projects: "该版本与归档项目共享，这些项目仍然有分配给此版本的工作包。虽然这些工作包被计算在内，但不会显示在链接视图中。"
       no_results_title_text: 目前没有工作包分配给此版本。
   wiki:
-    page_not_editable_index: 请求的页面（尚）不存在。您已被重定向到所有 wiki 页面的索引。
-    no_results_title_text: 目前没有 wiki 页面。
-    print_hint: 这将以不带任何导航栏的方式打印此 wiki 页面的内容。
+    page_not_editable_index: 请求的页面（尚）不存在。您已被重定向到所有维基页面的索引。
+    no_results_title_text: 目前没有维基页面。
+    print_hint: 这将以不带任何导航栏的方式打印此维基页面的内容。
     index:
-      no_results_content_text: 添加一个新的 wiki 页面
+      no_results_content_text: 添加一个新的维基页面
   work_flows:
     index:
       no_results_title_text: 目前没有工作流。
@@ -457,6 +457,8 @@ zh-CN:
         tls_certificate_string: "LDAP 服务器 SSL 证书"
       changeset:
         repository: "代码库"
+      color:
+        hexcode: "十六进制代码"
       comment:
         commented: "评论" #an object that this comment belongs to
       custom_action:
@@ -573,7 +575,7 @@ zh-CN:
       wiki_content:
         text: "文本"
       wiki_page:
-        parent_title: "父页"
+        parent_title: "上级页面"
         redirect_existing_links: "将现有的链接重定向"
       planning_element_type_color:
         hexcode: 十六进制代码
@@ -603,7 +605,7 @@ zh-CN:
         time_entries: "记录时间"
         type: "类型"
         version: "版本"
-        watcher: "关注人"
+        watcher: "关注者"
       'doorkeeper/application':
         uid: "客户端 ID"
         secret: "客户端密钥"
@@ -829,7 +831,7 @@ zh-CN:
               not_allowed_to_view: "无权查看此资源。"
               locked: "已被锁定。"
         wiki_page:
-          error_conflict: "Wiki 页面在您编辑时已被其他人更新。"
+          error_conflict: "维基页面在您编辑时已被其他人更新。"
           attributes:
             slug:
               undeducible: "无法从标题“%{title}”推导出。"
@@ -936,7 +938,7 @@ zh-CN:
       type: "类型"
       user: "用户"
       version: "版本"
-      wiki: "维基百科"
+      wiki: "维基"
       wiki_page: "维基页面"
       workflow: "工作流"
       work_package: "工作包"
@@ -973,13 +975,13 @@ zh-CN:
       project_attribute: "项目属性"
       subproject: "包括子项目"
       time_entry: "用时"
-      wiki_edit: "维基百科"
+      wiki_edit: "维基"
       work_package: "工作包"
   #common attributes of all models
   attributes:
     active: "激活"
     assigned_to: "受理人"
-    assignee: "指定人"
+    assignee: "受理人"
     attachments: "附件"
     author: "作者"
     base: "一般错误："
@@ -1065,14 +1067,14 @@ zh-CN:
   button_add: "添加"
   button_add_comment: "添加评论"
   button_add_member: 添加成员
-  button_add_watcher: "添加关注人"
+  button_add_watcher: "添加关注者"
   button_annotate: "批注"
   button_apply: "应用"
   button_archive: "存档"
   button_back: "返回"
   button_cancel: "取消"
   button_change: "更改"
-  button_change_parent_page: "更改父页"
+  button_change_parent_page: "更改上级页面"
   button_change_password: "更改密码"
   button_check_all: "全选"
   button_clear: "清除"
@@ -1089,11 +1091,11 @@ zh-CN:
   button_create_and_continue: "创建并继续"
   button_delete: "删除"
   button_decline: "拒绝"
-  button_delete_watcher: "删除关注人 %{name}"
+  button_delete_watcher: "删除关注者 %{name}"
   button_download: "下载"
   button_duplicate: "复制"
   button_edit: "编辑"
-  button_edit_associated_wikipage: "编辑关联的 Wiki 页面： %{page_title}"
+  button_edit_associated_wikipage: "编辑关联的维基页面： %{page_title}"
   button_expand_all: "全部展开"
   button_filter: "筛选器"
   button_generate: "生成"
@@ -1274,7 +1276,7 @@ zh-CN:
   description_selected_columns: "选定的列"
   description_sub_work_package: "当前的子工作包"
   description_toc_toggle: "显示/隐藏表的内容"
-  description_wiki_subpages_reassign: "选择新的父页"
+  description_wiki_subpages_reassign: "选择新的上级页面"
   #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: 从左向右
   ee:
@@ -1333,8 +1335,8 @@ zh-CN:
   error_unable_delete_status: "不能删除工作包的状态，因为它由至少一个工作包使用。"
   error_unable_delete_default_status: "无法删除默认工作包的状态。请删除当前之前选择另一个默认工作包状态。"
   error_unable_to_connect: "无法连接 (%{value})"
-  error_unable_delete_wiki: "无法删除 Wiki 页面。"
-  error_unable_update_wiki: "无法更新 Wiki 页面。"
+  error_unable_delete_wiki: "无法删除维基页面。"
+  error_unable_update_wiki: "无法更新维基页面。"
   error_workflow_copy_source: "请选择源类型或角色"
   error_workflow_copy_target: "请选择目标类型和角色"
   error_menu_item_not_created: 不能添加菜单项
@@ -1351,7 +1353,7 @@ zh-CN:
     projects: '项目已编辑'
     reply: 答复
     time_entry: '编辑时间记录'
-    wiki_page: '编辑 Wiki 页面'
+    wiki_page: '编辑维基页面'
     work_package_closed: '关闭工作包'
     work_package_edit: '编辑工作包'
     work_package_note: '添加工作包注释'
@@ -1421,9 +1423,9 @@ zh-CN:
     changes_retracted: "更改已撤回。"
     caused_changes:
       dates_changed: "日期已更改"
-      system_update: "OpenProject 更新"
+      system_update: "OpenProject 系统更新："
     cause_descriptions:
-      work_package_predecessor_changed_times: 通过对前身的更改 %{link}
+      work_package_predecessor_changed_times: 根据前置任务 %{link}的更改
       work_package_parent_changed_times: 通过对根源的更改 %{link}
       work_package_children_changed_times: 通过对产物的更改 %{link}
       work_package_related_changed_times: 通过对相关内容的更改 %{link}
@@ -1437,7 +1439,8 @@ zh-CN:
           working: "%{date}现在是工作日"
           non_working: "%{date}现在是非工作日"
       system_update:
-        file_links_journal: '已将文件链接添加到活动'
+        file_links_journal: >
+          从现在开始，与文件链接（存储在外部存储器中的文件）相关的活动将出现在“活动”选项卡中。以下是与已经存在的链接相关的活动的表示：
   links:
     configuration_guide: '配置指南'
     get_in_touch: "遇到问题了？与我们联系。"
@@ -1497,7 +1500,7 @@ zh-CN:
         assigned: "您已被分配到 %{work_package}"
         subscribed: "您订阅了 %{work_package}"
         mentioned: "您在 %{work_package} 中被提及"
-        responsible: "您已对 %{work_package} 负责"
+        responsible: "您已成为 %{work_package} 的负责人"
         watched: "您正在关注 %{work_package}"
     update_info_mail:
       body: >
@@ -1586,7 +1589,7 @@ zh-CN:
   label_calendar_show: "显示日历"
   label_category: "类别"
   label_consent_settings: "用户同意"
-  label_wiki_menu_item: Wiki 的菜单项
+  label_wiki_menu_item: 维基菜单项
   label_select_main_menu_item: 选择新的主菜单项
   label_required_disk_storage: "所需的磁盘存储"
   label_send_invitation: 发送邀请
@@ -1679,17 +1682,17 @@ zh-CN:
   label_enumerations: "枚举"
   label_enterprise: "企业"
   label_enterprise_active_users: "%{current}/%{limit} 已预订的活动用户"
-  label_enterprise_edition: "企业版。"
+  label_enterprise_edition: "企业版"
   label_enterprise_support: "企业支持"
   label_environment: "环境"
-  label_estimates_and_time: "预估成本和时间"
+  label_estimates_and_time: "估算与工时"
   label_equals: "是"
   label_everywhere: "任何位置"
   label_example: "示例"
   label_experimental: "实验"
   label_i_am_member: "我是成员"
   label_import: "导入"
-  label_export_to: "在其中也可用："
+  label_export_to: "同时支持："
   label_expanded_click_to_collapse: "展开。点击折叠"
   label_f_hour: "%{value} 小时"
   label_f_hour_plural: "%{value} 小时"
@@ -1770,8 +1773,8 @@ zh-CN:
   label_login: "登录"
   label_custom_logo: "自定义徽标"
   label_custom_export_logo: "自定义导出徽标"
-  label_custom_favicon: "习惯图标。"
-  label_custom_touch_icon: "习惯的触摸图标。"
+  label_custom_favicon: "自定义图标"
+  label_custom_touch_icon: "自定义触摸图标"
   label_logout: "注销"
   label_main_menu: "侧边菜单"
   label_manage_groups: "组管理"
@@ -2025,16 +2028,16 @@ zh-CN:
   label_watched_work_packages: "受关注的工作包"
   label_what_is_this: "这是什么?"
   label_week: "周"
-  label_wiki_content_added: "添加 Wiki 页面"
-  label_wiki_content_updated: "更新 Wiki 页面"
+  label_wiki_content_added: "添加维基页面"
+  label_wiki_content_updated: "更新维基页面"
   label_wiki_toc: "目录"
   label_wiki_toc_empty: "目录为空，因为没有标题。"
-  label_wiki_dont_show_menu_item: "在项目导航中不显示此 wiki 页面"
-  label_wiki_edit: "Wiki 编辑"
-  label_wiki_edit_plural: "Wiki 编辑"
-  label_wiki_page_attachments: "Wiki 页面附件"
-  label_wiki_page_id: "Wiki页面ID"
-  label_wiki_navigation: "Wiki 导航"
+  label_wiki_dont_show_menu_item: "在项目导航中不显示此维基页面"
+  label_wiki_edit: "维基编辑"
+  label_wiki_edit_plural: "维基编辑"
+  label_wiki_page_attachments: "维基页面附件"
+  label_wiki_page_id: "维基页面ID"
+  label_wiki_navigation: "维基导航"
   label_wiki_page: "维基页面"
   label_wiki_page_plural: "维基页面"
   label_wiki_show_index_page_link: "显示‘目录’子菜单项"
@@ -2095,7 +2098,7 @@ zh-CN:
       removed: '该宏不再存在。'
     wiki_child_pages:
       errors:
-        page_not_found: "无法找到Wiki页“%{name}”。"
+        page_not_found: "无法找到“%{name}”维基页面。"
     create_work_package_link:
       errors:
         no_project_context: '从外部项目上下文调用 create_work_package_link 宏。'
@@ -2165,16 +2168,16 @@ zh-CN:
   mail_body_register_ending: "保持联系！谨致问候，"
   mail_body_reminder: "%{count} 个分配给您的工作包将在 %{days} 天后到期："
   mail_body_group_reminder: "%{count} 个分配给组“%{group}”的工作包将在 %{days} 天后到期："
-  mail_body_wiki_content_added: "'%{id}' wiki页面已经由%{author} 添加。"
-  mail_body_wiki_content_updated: "'%{id}' wiki页面已经由%{author} 更新。"
+  mail_body_wiki_page_added: "'%{id}' 维基页面已经由%{author} 添加。"
+  mail_body_wiki_page_updated: "'%{id}' 维基页面已经由%{author} 更新。"
   mail_subject_account_activation_request: "%{value} 帐户激活请求"
   mail_subject_backup_ready: "您的备份已就绪"
   mail_subject_backup_token_reset: "备份令牌重置"
   mail_subject_incoming_email_error: "无法处理您发送给 OpenProject 的电子邮件"
   mail_subject_lost_password: "你的 %{value} 密码"
   mail_subject_register: "您的%{value}帐户激活"
-  mail_subject_wiki_content_added: "'%{id}' wiki页面已添加"
-  mail_subject_wiki_content_updated: "'%{id}' wiki页面已更新"
+  mail_subject_wiki_content_added: "'%{id}' 维基页面已添加"
+  mail_subject_wiki_content_updated: "'%{id}' 维基页面已更新"
   mail_member_added_project:
     subject: "%{project} - 您已被添加为成员"
     body:
@@ -2307,21 +2310,21 @@ zh-CN:
   permission_manage_user: "编辑用户"
   permission_manage_placeholder_user: "创建、编辑和删除占位符用户"
   permission_add_subprojects: "创建子项目"
-  permission_add_work_package_watchers: "添加关注人"
+  permission_add_work_package_watchers: "添加关注者"
   permission_assign_versions: "分配版本"
   permission_browse_repository: "只读访问存储库 (浏览和签出)"
-  permission_change_wiki_parent_page: "更改父 wiki 页面"
+  permission_change_wiki_parent_page: "更改上级维基页面"
   permission_comment_news: "评论新闻"
   permission_commit_access: "读/写访问存储库 (提交)"
   permission_copy_projects: "复制项目"
   permission_create_backup: "创建备份"
-  permission_delete_work_package_watchers: "删除关注人"
+  permission_delete_work_package_watchers: "删除关注者"
   permission_delete_work_packages: "删除工作包"
   permission_delete_messages: "删除消息"
   permission_delete_own_messages: "删除自己的消息"
   permission_delete_reportings: "删除报告"
   permission_delete_timelines: "删除时间线"
-  permission_delete_wiki_pages: "删除 wiki 页面"
+  permission_delete_wiki_pages: "删除维基页面"
   permission_delete_wiki_pages_attachments: "删除附件"
   permission_edit_work_package_notes: "编辑注释"
   permission_edit_work_packages: "编辑工作包"
@@ -2333,14 +2336,15 @@ zh-CN:
   permission_edit_reportings: "编辑报告"
   permission_edit_time_entries: "编辑其他用户的时间日志"
   permission_edit_timelines: "编辑时间线"
-  permission_edit_wiki_pages: "编辑 wiki 页面"
+  permission_edit_wiki_pages: "编辑维基页面"
   permission_export_work_packages: "导出工作包"
-  permission_export_wiki_pages: "导出 wiki 页面"
+  permission_export_wiki_pages: "导出维基页面"
   permission_list_attachments: "列出附件"
   permission_log_own_time: "记录自己的时间"
   permission_log_time: "记录其他用户的时间"
   permission_manage_forums: "管理论坛"
   permission_manage_categories: "管理工作包类别"
+  permission_manage_dashboards: "管理仪表板"
   permission_manage_work_package_relations: "管理工作包的关系"
   permission_manage_members: "管理成员"
   permission_manage_news: "管理新闻"
@@ -2349,26 +2353,27 @@ zh-CN:
   permission_manage_repository: "管理代码库"
   permission_manage_subtasks: "管理工作包层次结构"
   permission_manage_versions: "管理版本"
-  permission_manage_wiki: "管理 wiki"
-  permission_manage_wiki_menu: "管理 wiki 菜单"
+  permission_manage_wiki: "管理维基"
+  permission_manage_wiki_menu: "管理维基菜单"
   permission_move_work_packages: "移动工作包"
   permission_protect_wiki_pages: "保护维基页面"
-  permission_rename_wiki_pages: "重命名 wiki 网页"
+  permission_rename_wiki_pages: "重命名维基页面"
   permission_save_queries: "保存界面设置"
   permission_select_custom_fields: "选择自定义字段"
   permission_select_project_modules: "选择项目模块"
   permission_manage_types: "选择类型"
   permission_view_changesets: "查看OpenProject 资源库修订"
   permission_view_commit_author_statistics: "查看提交作者统计信息"
-  permission_view_work_package_watchers: "查看关注人列表"
+  permission_view_dashboards: "查看仪表板"
+  permission_view_work_package_watchers: "查看关注者列表"
   permission_view_work_packages: "查看工作包"
   permission_view_messages: "查看消息"
   permission_view_members: "查看成员"
   permission_view_reportings: "查看报告"
   permission_view_time_entries: "查看消耗时间"
   permission_view_timelines: "查看时间线"
-  permission_view_wiki_edits: "查看 wiki 历史记录"
-  permission_view_wiki_pages: "查看 wiki"
+  permission_view_wiki_edits: "查看维基历史记录"
+  permission_view_wiki_pages: "查看维基"
   permission_work_package_assigned: "成为受理人/责任人"
   permission_work_package_assigned_explanation: "工作包可以分配给在各自项目中拥有此角色的用户和组"
   placeholders:
@@ -2376,7 +2381,7 @@ zh-CN:
   project:
     destroy:
       confirmation: "如果您继续，项目 %{identifier} 和所有相关的数据将被永久销毁。"
-      info: "删除该项目是一个不可逆转的操作。"
+      info: "删除项目是一个不可逆转的操作。"
       project_verification: "输入项目的名称 %{name}，以确认删除。"
       subprojects_confirmation: "其 子项目(s): %{value} 也将被删除。"
       title: "删除项目 %{name}"
@@ -2398,7 +2403,7 @@ zh-CN:
   project_module_work_package_tracking: "工作包"
   project_module_news: "新闻"
   project_module_repository: "代码库"
-  project_module_wiki: "维基百科"
+  project_module_wiki: "维基"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2522,7 +2527,7 @@ zh-CN:
     deactivated: '已取消激活'
   search_input_placeholder: "搜索"
   setting_apiv3_cors_enabled: "启用 CORS"
-  setting_apiv3_cors_origins: "API V3 跨源资源共享 (CORS) 允许的源"
+  setting_apiv3_cors_origins: "API V3 跨域资源共享 (CORS) 允许的域"
   setting_apiv3_cors_origins_text_html: >
     如果启用了 CORS ，这些是允许访问 OpenProject API 的源。<br/>请查看<a href="%{origin_link}" target="_blank">有关“源”标题的文档</a>，了解如何指定预期值。
   setting_apiv3_max_page_size: "最大 API 页面大小"
@@ -2574,7 +2579,7 @@ zh-CN:
   setting_diff_max_lines_displayed: "最大差异显示行数"
   setting_display_subprojects_work_packages: "默认在主项目上显示子项目工作包"
   setting_emails_footer: "电子邮件页脚"
-  setting_emails_header: "电子邮件标头"
+  setting_emails_header: "电子邮件页眉"
   setting_email_login: "使用电子邮件作为登录名"
   setting_enabled_scm: "启用 SCM"
   setting_enabled_projects_columns: "在项目列表中可见"
@@ -2592,7 +2597,7 @@ zh-CN:
   setting_work_package_properties: "工作包属性"
   setting_work_package_startdate_is_adddate: "使用当前日期作为新工作包的开始日期"
   setting_work_packages_projects_export_limit: "工作包/项目导出限制"
-  setting_journal_aggregation_time_minutes: "内部聚合的用户操作"
+  setting_journal_aggregation_time_minutes: "聚合该时间内的用户操作"
   setting_log_requesting_user: "记录所有请求的用户帐户，名称和邮件地址"
   setting_login_required: "需要身份验证"
   setting_mail_from: "发出的电子邮件地址"
@@ -2682,7 +2687,7 @@ zh-CN:
       deletion: "删除"
     working_days:
       section_work_week: "工作周"
-      section_holidays_and_closures: "节假日和关闭"
+      section_holidays_and_closures: "节假日与停业"
   text_formatting:
     markdown: 'Markdown'
     plain: '纯文本'
@@ -2709,7 +2714,7 @@ zh-CN:
   text_caracters_maximum: "最多 %{count} 字符。"
   text_caracters_minimum: "必须至少为 %{count} 个字符长。"
   text_comma_separated: "允许有多个值 （逗号分隔）。"
-  text_comment_wiki_page: "Wiki 页面（%{page}）的评论"
+  text_comment_wiki_page: "维基页面（%{page}）的评论"
   text_custom_field_possible_values_info: "每个值一行"
   text_custom_field_hint_activate_per_project: >
     使用自定义字段时：请记住，还需要按项目激活自定义字段。
@@ -2747,8 +2752,8 @@ zh-CN:
   text_work_package_category_destroy_question: "一些工作包 (%{count}) 被分配到这个类别。你想做什么？"
   text_work_package_category_reassign_to: "重新分配工作包到此类别"
   text_work_package_updated: "工作包 %{id} 已经被 %{author} 更新。"
-  text_work_package_watcher_added: "%{watcher_changer} 已将您添加为工作包 %{id} 的一个关注人。"
-  text_work_package_watcher_removed: "%{watcher_changer} 已将您从工作包 %{id} 的关注人中移除。"
+  text_work_package_watcher_added: "%{watcher_changer} 已将您添加为工作包 %{id} 的一个关注者。"
+  text_work_package_watcher_removed: "%{watcher_changer} 已将您从工作包 %{id} 的关注者中移除。"
   text_work_packages_destroy_confirmation: "确实要删除所选的工作包吗?"
   text_work_packages_ref_in_commit_messages: "引用和修复工作包中提交消息"
   text_journal_added: "%{label} %{value} 已添加"
@@ -2798,11 +2803,11 @@ zh-CN:
   text_user_wrote: "%{value} 写道："
   text_warn_on_leaving_unsaved: "此工作包包含未保存的文本，如果您离开此页面未保存的文本将会丢失。"
   text_what_did_you_change_click_to_add_comment: "你做出了什么更改？点击添加注释"
-  text_wiki_destroy_confirmation: "确实要删除此 wiki 和它的所有内容吗?"
+  text_wiki_destroy_confirmation: "确实要删除此维基和它的所有内容吗?"
   text_wiki_page_destroy_children: "删除子页面和所有他们的派生页面"
   text_wiki_page_destroy_question: "此页有 %{descendants} 子页面和派生页面。你想做什么？"
   text_wiki_page_nullify_children: "保持子网页作为根页面"
-  text_wiki_page_reassign_children: "重新分配到此父页的子网页"
+  text_wiki_page_reassign_children: "将下级页面重新分配给该上级页面"
   text_workflow_edit: "选择编辑工作流的角色和类型"
   text_zoom_in: "放大"
   text_zoom_out: "缩小"
@@ -2897,11 +2902,11 @@ zh-CN:
         您的应用程序正在运行，并且主机名设置为 <code>%{set_hostname}</code>，但请求是 <code>%{actual_hostname}</code>。这将导致错误！转到<a href="%{setting_path}">系统设置</a>并更改“主机名”设置以纠正。
   menu_item: "菜单项"
   menu_item_setting: "可见性"
-  wiki_menu_item_for: "wiki页面” %{title} “的菜单项"
+  wiki_menu_item_for: "维基页面” %{title} “的菜单项"
   wiki_menu_item_setting: "可见性"
   wiki_menu_item_new_main_item_explanation: >
-    您正在删除唯一的主wiki菜单项。您现在需要选择一个wiki页面生成新的主项目。若要删除wiki，wiki模块可以由管理员停用。
-  wiki_menu_item_delete_not_permitted: 不能删除唯一 wiki 页面的 wiki 菜单项。
+    您正在删除唯一的主维基菜单项。您现在需要选择一个维基页面生成新的主项目。若要删除维基，维基模块可以由管理员停用。
+  wiki_menu_item_delete_not_permitted: 不能删除唯一维基页面的维基菜单项。
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2911,9 +2916,9 @@ zh-CN:
       title: "删除工作包"
   working_days:
     info: >
-      调度工作包时跳过未选择的天数(不包括在白天计数中)。 这些可以在工作包一级覆盖。
+      当安排工作包时，未选择的日期将被跳过（不计入天数）。这些日期可以在工作包级别进行覆盖。
     instance_wide_info: >
-      添加到下面列表的日期被视为无效，调度工作包时跳过。
+      添加到以下列表的日期被视为非工作日，在安排工作包时将被跳过。
     change_button: "更改工作日"
     warning: >
       更改将一周中的哪几天视为工作日或非工作日会影响此实例的所有项目中所有工作包的开始和结束日期。<br/>请注意，只有在您点击“应用更改”按钮后，更改才会应用。
@@ -2970,7 +2975,7 @@ zh-CN:
       validation:
         done_ratio: "当完成比例牵扯“状态”时，或被禁用时，不能在父工作包中对其进行设置。"
         due_date: "不能在父工作包中设置完成日期。"
-        estimated_hours: "不能在父工作包中设置预估的小时数。"
+        estimated_hours: "无法为父级工作包设置预估工数。"
         invalid_user_assigned_to_work_package: "所选的用户不允许为此工作包的 '%{property}'。"
         start_date: "不能在父工作包中设置开始日期。"
       eprops:
@@ -3119,3 +3124,9 @@ zh-CN:
     response:
       unexpected: "收到意外响应。"
   you: 您
+  plugin_openproject_auth_plugins:
+    name: "OpenProject 认证插件"
+    description: "在 OpenProject 中集成 OmniAuth 策略提供程序以进行身份验证。"
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / SSO单点登录"
+    description: "将 OmniAuth SAML 身份提供程序添加到 OpenProject"

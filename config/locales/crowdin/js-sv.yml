@@ -69,7 +69,7 @@ sv:
     button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Anpassade fält"
-    button_delete: "Ta bort"
+    button_delete: "Radera"
     button_delete_watcher: "Ta bort bevakare"
     button_details_view: "Detaljvy"
     button_duplicate: "Duplicera"
@@ -202,7 +202,7 @@ sv:
           form:
             general_consent: >
               Jag godkänner <a target="_blank" href="%{link_terms}">användarvillkoren</a> och <a target="_blank" href="%{link_privacy}">integritetspolicyn</a>.
-            invalid_email: "Invalid email address"
+            invalid_email: "Ogiltig e-postadress"
             label_company: "Company"
             label_first_name: "Förnamn"
             label_last_name: "Efternamn"
@@ -316,11 +316,11 @@ sv:
         in: "Zoom in"
         out: "Zoom out"
         auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
+        days: "Dagar"
+        weeks: "Veckor"
+        months: "Månader"
         quarters: "Quarters"
-        years: "Years"
+        years: "År"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "nej"
@@ -1082,7 +1082,7 @@ sv:
         visibility_settings: "Synlighet inställningar"
         share_calendar: "Subscribe to calendar"
         page_settings: "Byt namn på vyn"
-        delete: "Ta bort"
+        delete: "Radera"
       filter: "Filter"
       unselected_title: "Arbetspaket"
       search_query_label: "Sök sparade vyer"
@@ -1093,7 +1093,7 @@ sv:
       button_save: "Spara"
       button_submit: "Skicka"
       button_cancel: "Avbryt"
-      button_delete: "Ta bort"
+      button_delete: "Radera"
       form_submit:
         title: 'Bekräfta för att fortsätta'
         text: 'Är du säker på att du vill utföra den här åtgärden?'
@@ -1203,7 +1203,7 @@ sv:
           description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
       principal:
         label:
-          name_or_email: 'Name or email address'
+          name_or_email: 'Namn eller e-postadress'
           name: 'Namn'
         already_member_message: 'Already a member of %{project}'
         no_results_user: 'No users were found'

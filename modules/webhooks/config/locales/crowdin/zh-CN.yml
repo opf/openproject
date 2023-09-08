@@ -1,4 +1,7 @@
 zh-CN:
+  plugin_openproject_webhooks:
+    name: "OpenProject Webhooks"
+    description: "提供插件 API 以支持OpenProject Webhooks，以实现更好的第三方集成。"
   activerecord:
     attributes:
       webhooks/webhook:
