@@ -32,6 +32,8 @@ require 'spec_helper'
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQuery, webmock: true do
+  include JsonResponseHelper
+
   let(:storage) do
     create(:one_drive_storage,
            :with_oauth_client,
@@ -97,18 +99,18 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
                                            status: 'ok',
                                            status_code: '200',
                                            id: '01BYE5RZ5MYLM2SMX75ZBIPQZIHT6OAYPB',
-                                           name: "Business Data",
+                                           name: 'Business Data',
                                            size: 39566226,
-                                           mime_type: "application/x-op-directory",
-                                           created_at: Time.parse("2017-08-07T16:16:30Z"),
-                                           last_modified_at: Time.parse("2017-08-07T16:16:30Z"),
-                                           owner_name: "Megan Bowen",
-                                           owner_id: "48d31887-5fad-4d73-a9f5-3c356e68a038",
-                                           last_modified_by_id: "48d31887-5fad-4d73-a9f5-3c356e68a038",
-                                           last_modified_by_name: "Megan Bowen",
+                                           mime_type: 'application/x-op-directory',
+                                           created_at: Time.parse('2017-08-07T16:16:30Z'),
+                                           last_modified_at: Time.parse('2017-08-07T16:16:30Z'),
+                                           owner_name: 'Megan Bowen',
+                                           owner_id: '48d31887-5fad-4d73-a9f5-3c356e68a038',
+                                           last_modified_by_id: '48d31887-5fad-4d73-a9f5-3c356e68a038',
+                                           last_modified_by_name: 'Megan Bowen',
                                            permissions: nil,
                                            trashed: false,
-                                           location: "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:"
+                                           location: '/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:'
                                          })
     # rubocop:enable Layout/LineLength
   end
@@ -121,18 +123,18 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
                                            status: 'ok',
                                            status_code: '200',
                                            id: '01BYE5RZZ6FUE5272C5JCY3L7CLZ7XOUYM',
-                                           name: "All Japan Revenues By City.xlsx",
+                                           name: 'All Japan Revenues By City.xlsx',
                                            size: 20051,
-                                           mime_type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                                           created_at: Time.parse("2017-08-07T16:07:10Z"),
-                                           last_modified_at: Time.parse("2017-08-07T16:07:10Z"),
-                                           owner_name: "Megan Bowen",
-                                           owner_id: "48d31887-5fad-4d73-a9f5-3c356e68a038",
-                                           last_modified_by_id: "48d31887-5fad-4d73-a9f5-3c356e68a038",
-                                           last_modified_by_name: "Megan Bowen",
+                                           mime_type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                           created_at: Time.parse('2017-08-07T16:07:10Z'),
+                                           last_modified_at: Time.parse('2017-08-07T16:07:10Z'),
+                                           owner_name: 'Megan Bowen',
+                                           owner_id: '48d31887-5fad-4d73-a9f5-3c356e68a038',
+                                           last_modified_by_id: '48d31887-5fad-4d73-a9f5-3c356e68a038',
+                                           last_modified_by_name: 'Megan Bowen',
                                            permissions: nil,
                                            trashed: false,
-                                           location: "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:"
+                                           location: '/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:'
                                          })
     # rubocop:enable Layout/LineLength
   end
@@ -186,15 +188,5 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
       expect(storage_files.result).to eq(:not_authorized)
       expect(storage_files.errors.to_s).to eq(Storages::StorageError.new(code: :not_authorized).to_s)
     end
-  end
-
-  private
-
-  def read_json(name)
-    File.readlines(payload_path.join("#{name}.json")).join
-  end
-
-  def payload_path
-    Pathname.new(Rails.root).join('modules/storages/spec/support/payloads/')
   end
 end

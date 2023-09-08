@@ -32,6 +32,8 @@ require 'spec_helper'
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, webmock: true do
+  include JsonResponseHelper
+
   let(:storage) { create(:one_drive_storage, :with_oauth_client) }
   let(:user) { create(:user) }
   let(:json) { read_json('root_drive') }
@@ -122,15 +124,5 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
       expect(storage_files.result).to eq(:not_authorized)
       expect(storage_files.errors.to_s).to eq(Storages::StorageError.new(code: :not_authorized).to_s)
     end
-  end
-
-  private
-
-  def read_json(name)
-    File.readlines(payload_path.join("#{name}.json")).join
-  end
-
-  def payload_path
-    Pathname.new(Rails.root).join('modules/storages/spec/support/payloads/')
   end
 end
