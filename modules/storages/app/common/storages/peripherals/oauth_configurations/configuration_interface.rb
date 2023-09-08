@@ -31,45 +31,24 @@
 module Storages
   module Peripherals
     module OAuthConfigurations
-      class NextcloudConfiguration < ConfigurationInterface
-        attr_reader :oauth_client
+      class ConfigurationInterface
+        def authorization_state_check(_) = raise ::Storages::Errors::SubclassResponsibility
 
-        def initialize(storage)
-          @uri = storage.uri
-          @oauth_client = storage.oauth_client.freeze
-        end
+        def compute_scopes(_) = raise ::Storages::Errors::SubclassResponsibility
 
-        def authorization_state_check(token)
-          util = StorageInteraction::Nextcloud::Util
+        def basic_rack_oauth_client = raise ::Storages::Errors::SubclassResponsibility
 
-          authorization_check_wrapper do
-            Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-              http.get(
-                util.join_uri_path(@uri, '/ocs/v1.php/cloud/user'),
-                {
-                  'Authorization' => "Bearer #{token}",
-                  'OCS-APIRequest' => 'true',
-                  'Accept' => 'application/json'
-                }
-              )
-            end
+        private
+
+        def authorization_check_wrapper
+          case yield
+          when Net::HTTPSuccess
+            :success
+          when Net::HTTPForbidden, Net::HTTPUnauthorized
+            :refresh_needed
+          else
+            :error
           end
-        end
-
-        def compute_scopes(scopes)
-          scopes
-        end
-
-        def basic_rack_oauth_client
-          Rack::OAuth2::Client.new(
-            identifier: @oauth_client.client_id,
-            secret: @oauth_client.client_secret,
-            scheme: @uri.scheme,
-            host: @uri.host,
-            port: @uri.port,
-            authorization_endpoint: File.join(@uri.path, "/index.php/apps/oauth2/authorize"),
-            token_endpoint: File.join(@uri.path, "/index.php/apps/oauth2/api/v1/token")
-          )
         end
       end
     end

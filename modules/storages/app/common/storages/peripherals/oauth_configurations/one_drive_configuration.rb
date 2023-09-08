@@ -31,7 +31,7 @@
 module Storages
   module Peripherals
     module OAuthConfigurations
-      class OneDriveConfiguration
+      class OneDriveConfiguration < ConfigurationInterface
         DEFAULT_SCOPES = %w[offline_access files.readwrite.all user.read sites.readwrite.all].freeze
 
         attr_reader :oauth_client
@@ -44,17 +44,10 @@ module Storages
         end
 
         def authorization_state_check(access_token)
-          response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-            http.get('/v1.0/me', { 'Authorization' => "Bearer #{access_token}", 'Accept' => 'application/json' })
-          end
-
-          case response
-          when Net::HTTPSuccess
-            :success
-          when Net::HTTPForbidden, Net::HTTPUnauthorized
-            :refresh_needed
-          else
-            :error
+          authorization_check_wrapper do
+            Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
+              http.get('/v1.0/me', { 'Authorization' => "Bearer #{access_token}", 'Accept' => 'application/json' })
+            end
           end
         end
 
