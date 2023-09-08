@@ -1,13 +1,26 @@
 # rubocop:disable Lint/PercentStringArray
 Rails.application.config.after_initialize do
   SecureHeaders::Configuration.default do |config|
-    config.cookies = {
+    cookies_config = {
       secure: true,
-      httponly: true,
-      samesite: {
-        none: true,
-      }
+      httponly: true
     }
+
+    # SameSite cannot be set to None in test environment, because
+    # in test environment the app is not under HTTPS. Therefore,
+    # Set-Cookie header with session id will be discarded by the browser
+    # and feature specs will fail.
+    # But having it set for other envs means that other envs have to be
+    # used under HTTPS.
+    # So, probably it should be configured by a specific setting or
+    # dynamically (for instance when there are some active nextcloud storages
+    # enabled)
+    unless Rails.env.test?
+      cookies_config[:samesite] = {
+        none: true
+      }
+    end
+    config.cookies = cookies_config
 
     # Let Rails ActionDispatch::SSL middleware handle the Strict-Transport-Security header
     config.hsts = SecureHeaders::OPT_OUT
