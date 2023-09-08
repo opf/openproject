@@ -630,4 +630,11 @@ class WorkPackage < ApplicationRecord
       errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
     end
   end
+
+  enum severity_value: {
+    low: 0,
+    medium: 1,
+    high: 2 
+  }
+  validates :payback_likelihood, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
 end
