@@ -462,7 +462,7 @@ lt:
       changeset:
         repository: "Repozitorija"
       color:
-        hexcode: "Hex code"
+        hexcode: "Šešioliktainis kodas"
       comment:
         commented: "Komentavo" #an object that this comment belongs to
       custom_action:
@@ -2236,8 +2236,8 @@ lt:
   mail_body_register_ending: "Likite prisijungę! Su geriausiais linkėjimais,"
   mail_body_reminder: "%{count} darbų paketai, kurie yra jums priskirti, baigiasi per artimiausias %{days} dienų (-ą, -as):"
   mail_body_group_reminder: "%{count} darbo paketas(ai), kurie priskirti grupei „%{group}“ turi būti baigti per kitas %{days} dienas:"
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "%{author} pridėjo '%{id}' wiki puslapį."
+  mail_body_wiki_page_updated: "%{author} atnaujino '%{id}' wiki puslapį."
   mail_subject_account_activation_request: "%{value} paskyros aktyvavimo prašymas"
   mail_subject_backup_ready: "Jūsų atsarginė kopija paruošta"
   mail_subject_backup_token_reset: "Rezervinės kopijos žetonas atstatytas"
@@ -2416,7 +2416,7 @@ lt:
   permission_log_time: "Registruoti kitų naudotojų laiką"
   permission_manage_forums: "Valdyti forumus"
   permission_manage_categories: "Valdyti darbų paketo kategorijas"
-  permission_manage_dashboards: "Manage dashboards"
+  permission_manage_dashboards: "Valdyti švieslentes"
   permission_manage_work_package_relations: "Valdyti darbų paketo ryšius"
   permission_manage_members: "Valdyti narius"
   permission_manage_news: "Valdyti naujienas"
@@ -2436,7 +2436,7 @@ lt:
   permission_manage_types: "Pasirinkti tipus"
   permission_view_changesets: "Rodyti repozitorijos pakeitimus OpenProject"
   permission_view_commit_author_statistics: "Peržiūrėti autorių pakeitimų pateikimo statistiką"
-  permission_view_dashboards: "View dashboards"
+  permission_view_dashboards: "Peržiūrėti švieslentes"
   permission_view_work_package_watchers: "Peržiūrėti stebėtojų sąrašą"
   permission_view_work_packages: "Rodyti darbų paketus"
   permission_view_messages: "Peržiūrėti žinutes"

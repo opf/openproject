@@ -225,7 +225,7 @@ vi:
           status_label: "Status:"
           status_confirmed: "xác nhận"
           status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise edition 14 days for free"
+          test_ee: "Sử dụng miễn phí phiên bản Enterprise trong 14 ngày"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Become a hero!"
