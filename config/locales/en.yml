@@ -2191,7 +2191,7 @@ en:
     zero: "no projects"
   label_yesterday: "yesterday"
   label_role_type: "Type"
-  label_member_role: "Project Role"
+  label_member_role: "Project role"
   label_global_role: "Global role"
   label_not_changeable: "(not changeable)"
   label_global: "Global"
