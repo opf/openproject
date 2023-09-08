@@ -1,0 +1,46 @@
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users('48d31887-5fad-4d73-a9f5-3c356e68a038')/drives('b%21-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd')/items/$entity",
+  "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=dd092d3e-427f-45ea-8daf-e25e7f77530c&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5NDA5MjIxNyIsImV4cCI6IjE2OTQwOTU4MTciLCJlbmRwb2ludHVybCI6IjlacHYvK25wK3ExWnFXdnlMM2RZNGVVaHdtMlllaHJvRTlBSmFjOC84R2c9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjRmalZ5bnFqTUU2QXNZaUhrUjhJc1E9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5LjE2MCJ9.P2hyTGx96JOTh3_8HyKyNkUOvUh88nZmRGmDbxDMQaE&ApiVersion=2.0",
+  "createdDateTime": "2017-08-07T16:07:10Z",
+  "eTag": "\"{DD092D3E-427F-45EA-8DAF-E25E7F77530C},3\"",
+  "id": "01BYE5RZZ6FUE5272C5JCY3L7CLZ7XOUYM",
+  "lastModifiedDateTime": "2017-08-07T16:07:10Z",
+  "name": "All Japan Revenues By City.xlsx",
+  "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7BDD092D3E-427F-45EA-8DAF-E25E7F77530C%7D&file=All%20Japan%20Revenues%20By%20City.xlsx&action=default&mobileredirect=true",
+  "cTag": "\"c:{DD092D3E-427F-45EA-8DAF-E25E7F77530C},1\"",
+  "size": 20051,
+  "createdBy": {
+    "user": {
+      "email": "MeganB@M365x214355.onmicrosoft.com",
+      "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+      "displayName": "Megan Bowen"
+    }
+  },
+  "lastModifiedBy": {
+    "user": {
+      "email": "MeganB@M365x214355.onmicrosoft.com",
+      "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+      "displayName": "Megan Bowen"
+    }
+  },
+  "parentReference": {
+    "driveType": "business",
+    "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+    "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
+    "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:",
+    "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+  },
+  "file": {
+    "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "hashes": {
+      "quickXorHash": "I1snetixdavVoAQ0QMvy/W1dyhs="
+    }
+  },
+  "fileSystemInfo": {
+    "createdDateTime": "2017-08-07T16:07:10Z",
+    "lastModifiedDateTime": "2017-08-07T16:07:10Z"
+  },
+  "shared": {
+    "scope": "users"
+  }
+}
