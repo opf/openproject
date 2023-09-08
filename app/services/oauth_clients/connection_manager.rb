@@ -55,8 +55,7 @@ module OAuthClients
 
       # Return the Nextcloud OAuth authorization URI that a user needs to open to grant access and eventually obtain
       # a token.
-      full_scope = @config.compute_scopes(scope)
-      @redirect_url = get_authorization_uri(scope: full_scope, state:)
+      @redirect_url = get_authorization_uri(scope:, state:)
 
       ServiceResult.failure(result: @redirect_url)
     end
@@ -91,7 +90,7 @@ module OAuthClients
     # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud has only one global scope.
     def get_authorization_uri(scope: [], state: nil)
       client = rack_oauth_client # Configure and start the rack-oauth2 client
-      joined_scopes = @config ? @config.compute_scopes(scope) : scope
+      joined_scopes = @config.compute_scopes(scope)
       client.authorization_uri(scope: joined_scopes, state:)
     end
 
