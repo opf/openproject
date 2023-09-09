@@ -130,7 +130,7 @@ sv:
         item_6:
           name: Bugg
       welcome:
-        title: Welcome to OpenProject!
+        title: Välkommen till OpenProject!
         text: |
           Select one of the demo projects to get started with some demo data we have prepared for you.
 

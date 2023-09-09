@@ -26,7 +26,7 @@ sv:
       loading: "Loading…"
       updating: "Updating…"
     attachments:
-      delete: "Delete attachment"
+      delete: "Radera bilaga"
       delete_confirmation: |
         Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
@@ -352,7 +352,7 @@ sv:
       description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
       warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
       token_name_label: "Where will you be using this?"
-      token_name_placeholder: "Type a name, e.g. \"Phone\""
+      token_name_placeholder: "Ange ett namn, t. ex. \"Telefon\""
       token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
       copy_url_label: "Copy URL"
       ical_generation_error_text: "An error occured while generating the calendar URL."
@@ -655,7 +655,7 @@ sv:
               P3D: 3 days before
               P7D: a week before
             overdue:
-              P1D: every day
+              P1D: varje dag
               P3D: every 3 days
               P7D: every week
         reasons:
@@ -831,7 +831,7 @@ sv:
       parent_placeholder: "Välj ny förälder eller tryck på escape för att avbryta."
     autocompleter:
       placeholder: "Skriv för att söka"
-      notFoundText: "No items found"
+      notFoundText: "Inga objekt hittades"
       project:
         placeholder: "Select project"
     repositories:
@@ -1151,7 +1151,7 @@ sv:
       day:
         one: "En dag"
         other: "%{count} dagar"
-        zero: "0 days"
+        zero: "0 dagar"
     zen_mode:
       button_activate: 'Aktivera zen-läge'
       button_deactivate: 'Inaktivera avskalat läge'
@@ -1176,7 +1176,7 @@ sv:
       title:
         invite: 'Bjud in användare'
         invite_to_project: 'Invite %{type} to %{project}'
-        User: 'user'
+        User: 'användare'
         Group: 'group'
         PlaceholderUser: 'placeholder user'
         invite_principal_to_project: 'Invite %{principal} to %{project}'
@@ -1186,7 +1186,7 @@ sv:
         lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Nästa'
-        no_results: 'No projects were found'
+        no_results: 'Inga projekt hittades'
         no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Please select the type to be invited'
@@ -1206,19 +1206,19 @@ sv:
           name_or_email: 'Namn eller e-postadress'
           name: 'Namn'
         already_member_message: 'Already a member of %{project}'
-        no_results_user: 'No users were found'
+        no_results_user: 'Inga användare hittades'
         invite_user: 'Invite:'
         no_results_placeholder: 'No placeholders were found'
         create_new_placeholder: 'Create new placeholder:'
-        no_results_group: 'No groups were found'
+        no_results_group: 'Inga grupper hittades'
         next_button: 'Nästa'
         required:
-          user: 'Please select a user'
+          user: 'Vänligen välj en användare'
           placeholder: 'Please select a placeholder'
           group: 'Please select a group'
       role:
         label: 'Role in %{project}'
-        no_roles_found: 'No roles were found'
+        no_roles_found: 'Inga roller hittades'
         description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Please select a role'
         next_button: 'Nästa'

@@ -162,7 +162,7 @@ sv:
       label: "Provider type"
       nextcloud:
         name: "Nextcloud"
-        name_placeholder: "e.g. Nextcloud"
+        name_placeholder: "t. ex. Nextcloud"
       one_drive:
         name: "OneDrive/SharePoint"
         name_placeholder: "t. ex. OneDrive"

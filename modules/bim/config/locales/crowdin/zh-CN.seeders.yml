@@ -207,7 +207,7 @@ zh-CN:
             item_0:
               subject: 项目启动：建设项目
               description: |-
-                项目启动会议会初始化您公司项目的启动。参与此项目的每个人都应该受邀参加此启动会议以获得第一份简报。
+                项目启动会标志着您公司项目的开始。所有参与该项目的人员都应该被邀请参加项目启动会，以进行首次简报。
 
                 下一步是通过查看[甘特图]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D)来了解时间表并调整任命。
             item_1:

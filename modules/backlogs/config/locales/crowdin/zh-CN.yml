@@ -96,7 +96,7 @@ zh-CN:
   backlogs_task_type: "任务类型"
   backlogs_velocity_missing: "此项目不能计算速度"
   backlogs_velocity_varies: "速度在不同冲刺 (sprint) 中差异很大"
-  backlogs_wiki_template: "冲刺 (Sprint) 的 维基页面模板"
+  backlogs_wiki_template: "冲刺 (Sprint) 的维基页面模板"
   backlogs_empty_title: "未定义要用于待办清单的版本"
   backlogs_empty_action_text: "要开始使用待办清单，请创建一个新版本并将其分配到待办清单列。"
   button_edit_wiki: "编辑维基页面"

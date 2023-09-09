@@ -19,7 +19,7 @@ sv:
       cannot_drag_to_non_working_day: 'This work package cannot start/finish on a non-working day.'
       quick_add:
         empty_state: 'Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.'
-        search_placeholder: 'Search...'
+        search_placeholder: 'Sök...'
       modify:
         errors:
           permission_denied: 'You do not have the necessary permissions to modify this.'
