@@ -97,7 +97,7 @@ zh-CN:
     button_uncheck_all: "全部不选"
     button_update: "更新"
     button_export-pdf: "下载 PDF"
-    button_export-atom: "下载Atom"
+    button_export-atom: "下载 Atom"
     button_create: "创建"
     card:
       add_new: '添加新卡'
@@ -260,7 +260,7 @@ zh-CN:
           empty_state_description: '没有为今年定义特定的非工作日。请点击下方的“+ 非工作日”添加一个日期。'
           new_date: '(新)'
         add_non_working_day: "非工作日"
-        already_added_error: "对该日期的非工作日已存在。每个日期只能创建一个非工作日。"
+        already_added_error: "该日期已存在非工作日。每个唯一日期只能创建一个非工作日。"
         change_button: "保存并重新安排"
         change_title: "更改工作日"
         removed_title: "您将从非工作日列表中删除以下日期："
@@ -401,7 +401,7 @@ zh-CN:
     label_committed_at: "在 %{date} %{committed_revision_link}"
     label_committed_link: "上传的修订 %{revision_identifier}"
     label_contains: "包含"
-    label_created_on: "创建"
+    label_created_on: "创建于"
     label_edit_comment: "编辑此注释"
     label_edit_status: "编辑工作包的状态"
     label_email: "电子邮件"
@@ -431,7 +431,7 @@ zh-CN:
     label_invalid: "无效"
     label_import: "导入"
     label_latest_activity: "最新活动"
-    label_last_updated_on: "最后更新日期"
+    label_last_updated_on: "最后更新于"
     label_learn_more_link: "了解更多信息"
     label_less_or_equal: "<="
     label_less_than_ago: "小于数日前"
@@ -485,7 +485,7 @@ zh-CN:
     label_sort_higher: "向上移动"
     label_sort_lower: "向下移动"
     label_sorting: "排序"
-    label_spent_time: "已耗时间"
+    label_spent_time: "已耗工时"
     label_star_query: "收藏夹"
     label_press_enter_to_save: "按回车键可以保存。"
     label_public_query: "公开"
@@ -495,7 +495,7 @@ zh-CN:
     label_subject: "主题"
     label_this_week: "这一周"
     label_today: "今天"
-    label_time_entry_plural: "已耗时间"
+    label_time_entry_plural: "已耗工时"
     label_up: "向上"
     label_user_plural: "用户"
     label_activity_show_only_comments: "仅显示批注的活动"
@@ -560,7 +560,7 @@ zh-CN:
         wiki: '在 <b>维基</b> 中，您可以记录并与您的团队共享知识。'
         backlogs:
           overview: "在<b>待办清单</b>视图中管理您的工作。"
-          sprints: "右侧为产品待办清单和缺陷待办清单，左侧为各自的冲刺 (Sprint)。在这里，您可以创建<b>长篇故事、用户故事和错误</b>，通过拖放来确定优先级，以及将它们添加到冲刺 (sprint) 中。"
+          sprints: "右侧为产品待办清单和缺陷待办清单，左侧为各自的冲刺 (Sprint)。在这里，您可以创建<b>史诗、用户故事和缺陷</b>，通过拖放来确定优先级，以及将它们添加到冲刺 (Sprint) 中。"
           task_board_arrow: '要查看您的<b>任务面板</b>，请打开冲刺 (sprint) 下拉菜单…'
           task_board_select: '…并选择<b>任务面板</b>条目。'
           task_board: "任务面板可以将<b>此冲刺 (sprint) 的进度</b>可视化。点击用户故事旁边的加号 (+) 图标可添加新任务或障碍。<br>状态可以通过拖放更新。"
@@ -739,7 +739,7 @@ zh-CN:
           wiki_page_added: '添加维基页面'
           wiki_page_updated: '更新维基页面'
           membership_added: '添加成员'
-          membership_updated: '更新成员'
+          membership_updated: '成员已更新'
         title: '电子邮件提醒'
         pause:
           label: '临时暂停每日电子邮件提醒'
@@ -783,7 +783,7 @@ zh-CN:
       label_discard: 放弃选择
       typeahead_placeholder: 查找可能的关注者
     relation_labels:
-      parent: "父"
+      parent: "父级"
       children: "子任务"
       relates: "关于"
       duplicates: "重复项"
@@ -798,7 +798,7 @@ zh-CN:
       required: "请求"
       relation_type: "关系类型"
     relations_hierarchy:
-      parent_headline: "父"
+      parent_headline: "父级"
       hierarchy_headline: "层次结构"
       children_headline: "子任务"
     relation_buttons:
@@ -810,11 +810,11 @@ zh-CN:
       group_by_wp_type: "按工作包类型分组"
       group_by_relation_type: "按关系类型分组"
       add_parent: "添加现有的上一级"
-      add_new_child: "创建子结点"
+      add_new_child: "创建新的子任务"
       create_new: "新建"
       add_existing: "添加现有"
-      add_existing_child: "增加现有的子节点"
-      remove_child: "删除子结点"
+      add_existing_child: "增加现有的子任务"
+      remove_child: "删除子任务"
       add_new_relation: "创建新的关系"
       add_existing_relation: "添加现有关系"
       update_description: "设置或更新此关系的描述"
@@ -951,13 +951,13 @@ zh-CN:
       properties:
         assignee: "受理人"
         author: "作者"
-        createdAt: "创建时间"
+        createdAt: "创建于"
         description: "描述"
         date: "日期"
         dueDate: "完成日期"
         duration: "时长"
         estimatedTime: "估计时间"
-        spentTime: "已耗时间"
+        spentTime: "已耗工时"
         category: "类别"
         percentageDone: "完成百分比"
         priority: "优先级"

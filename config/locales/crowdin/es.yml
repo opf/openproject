@@ -2688,7 +2688,7 @@ es:
         Seleccione la fecha de enero contenida en la primera semana del año. Este valor, junto con el primer día de la semana, determina el número total de semanas de un año. Para más información, consulte nuestra <a href="%{link}" target="_blank">documentación</a> sobre este tema.
     experimental:
       save_confirmation: '¡Precaución! ¡Riesgo de pérdida de datos! Active las funciones experimentales solo si no le importa romper su instalación de OpenProject y perder todos sus datos.'
-      warning_toast: Las banderas de características son ajustes que activan características que aún están en desarrollo. Solo se utilizarán con fines de prueba. Nunca deberán activarse en instalaciones de OpenProject que contengan datos importantes. Es muy probable que estas características corrompan sus datos. Utilícelas bajo su propia responsabilidad.
+      warning_toast: Las banderas de funciones son ajustes que activan características que aún están en desarrollo. Solo se utilizarán con fines de prueba. Nunca deberán activarse en instalaciones de OpenProject que contengan datos importantes. Es muy probable que estas características corrompan sus datos. Utilícelas bajo su propia responsabilidad.
       feature_flags: Banderas de características
     general: "General"
     highlighting:
@@ -3156,8 +3156,8 @@ es:
       unexpected: "Se ha recibido una respuesta inesperada."
   you: su usuario
   plugin_openproject_auth_plugins:
-    name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    name: "Plugins Auth de OpenProject"
+    description: "Integración de los proveedores de estrategia de OmniAuth para la autentificación en Openproject."
   plugin_openproject_auth_saml:
-    name: "OmniAuth SAML / Single-Sign On"
-    description: "Adds the OmniAuth SAML provider to OpenProject"
+    name: "OmniAuth SAML / Inicio de sesión único"
+    description: "Añade el proveedor OmniAuth SAML a OpenProject"

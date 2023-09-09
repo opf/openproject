@@ -156,7 +156,7 @@ zh-CN:
     tls_options:
       verify_peer: "验证SSL证书"
       verify_peer_description_html: >
-        启用对受信任链证书的严格SSL验证。<br/> <strong>警告：</strong>取消选中此选项会禁用LDAP服务器证书的SSL验证。这将使您的连接暴露于中间人攻击。
+        启用对受信任链证书的严格 SSL 验证。<br/> <strong>警告：</strong>取消选中此选项会禁用 LDAP 服务器证书的 SSL 验证。这将使您的连接暴露于中间人攻击。
       tls_certificate_description: "如果LDAP服务器证书不在此系统的信任源中，您可以在此手动添加它。输入PEM X509证书字符串。"
   forums:
     show:
@@ -548,9 +548,9 @@ zh-CN:
       type:
         description: "默认描述文本"
         attribute_groups: ''
-        is_in_roadmap: "默认在版本蓝图中显示"
+        is_in_roadmap: "默认在路线图中显示"
         is_default: "默认激活新项目"
-        is_milestone: "是里程碑"
+        is_milestone: "里程碑"
         color: "颜色"
       user:
         admin: "管理员"
@@ -575,7 +575,7 @@ zh-CN:
       wiki_content:
         text: "文本"
       wiki_page:
-        parent_title: "上级页面"
+        parent_title: "父级页面"
         redirect_existing_links: "将现有的链接重定向"
       planning_element_type_color:
         hexcode: 十六进制代码
@@ -592,15 +592,15 @@ zh-CN:
           title: '工作日'
           false: '仅工作日'
           true: '包括非工作日'
-        parent: "父"
-        parent_issue: "父"
-        parent_work_package: "父"
+        parent: "父级"
+        parent_issue: "父级"
+        parent_work_package: "父级"
         priority: "优先级"
         progress: "进度 (%)"
         readonly: "只读"
         schedule_manually: "手动计划"
-        spent_hours: "已耗时间"
-        spent_time: "已耗时间"
+        spent_hours: "已耗工时"
+        spent_time: "已耗工时"
         subproject: "子项目"
         time_entries: "记录时间"
         type: "类型"
@@ -887,7 +887,7 @@ zh-CN:
             password:
               weak: "必须包含以下类字符 (至少 %{min_count} %{all_count}): %{rules}。"
               lowercase: "小写字母 （如 'a')"
-              uppercase: "大写字母 (如 ' A')"
+              uppercase: "大写字母 (如 'A')"
               numeric: "数值 （例如 ' 1')"
               special: "特殊字符 (例如 ' %')"
               reused:
@@ -951,10 +951,10 @@ zh-CN:
     field_erroneous_label: "这个字段是无效的：%{full_errors}\n请输入一个有效的值。"
   activity:
     item:
-      created_by_on: "由 %{user} 在 %{datetime} 创建"
-      created_by_on_time_entry: "由 %{user} 在 %{datetime} 记录了时间"
-      created_on: "在 %{datetime} 创建"
-      created_on_time_entry: "在 %{datetime} 记录了时间"
+      created_by_on: "由 %{user} 创建于 %{datetime} "
+      created_by_on_time_entry: "时间由 %{user} 记录于 %{datetime} "
+      created_on: "创建于 %{datetime} "
+      created_on_time_entry: "时间记录于 %{datetime} "
       updated_by_on: "由 %{user} 在 %{datetime} 更新"
       updated_by_on_time_entry: "%{user} 在 %{datetime} 更新了记录的时间"
       updated_on: "在 %{datetime} 更新"
@@ -991,7 +991,7 @@ zh-CN:
     comments: "评论"
     content: "内容"
     color: "颜色"
-    created_at: "创建"
+    created_at: "创建于"
     custom_options: "可能的值"
     custom_values: "自定义字段"
     date: "日期"
@@ -1074,7 +1074,7 @@ zh-CN:
   button_back: "返回"
   button_cancel: "取消"
   button_change: "更改"
-  button_change_parent_page: "更改上级页面"
+  button_change_parent_page: "更改父级页面"
   button_change_password: "更改密码"
   button_check_all: "全选"
   button_clear: "清除"
@@ -1276,7 +1276,7 @@ zh-CN:
   description_selected_columns: "选定的列"
   description_sub_work_package: "当前的子工作包"
   description_toc_toggle: "显示/隐藏表的内容"
-  description_wiki_subpages_reassign: "选择新的上级页面"
+  description_wiki_subpages_reassign: "选择新的父级页面"
   #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: 从左向右
   ee:
@@ -1418,7 +1418,7 @@ zh-CN:
       forums: "社区论坛"
       newsletter: "安全警报/通信"
   image_conversion:
-    imagemagick: 'Imagemagick'
+    imagemagick: 'Imagemagick软件'
   journals:
     changes_retracted: "更改已撤回。"
     caused_changes:
@@ -1778,7 +1778,7 @@ zh-CN:
   label_logout: "注销"
   label_main_menu: "侧边菜单"
   label_manage_groups: "组管理"
-  label_managed_repositories_vendor: "托管的 %{vendor} 资料库"
+  label_managed_repositories_vendor: "托管的 %{vendor} 存储库"
   label_max_size: "最大"
   label_me: "我"
   label_member_new: "新成员"
@@ -1830,7 +1830,7 @@ zh-CN:
   label_next_week: "下周"
   label_no_change_option: "（不变）"
   label_no_data: "没有要显示的数据"
-  label_no_parent_page: "无上级页面"
+  label_no_parent_page: "无父级页面"
   label_nothing_display: "不显示"
   label_nobody: "没人"
   label_not_found: '未找到'
@@ -1855,10 +1855,10 @@ zh-CN:
   label_page_title: "页面标题"
   label_part_of: "一部分"
   label_password_lost: "忘记密码了吗？"
-  label_password_rule_lowercase: "小写"
-  label_password_rule_numeric: "数字字符"
+  label_password_rule_lowercase: "小写字母"
+  label_password_rule_numeric: "数字"
   label_password_rule_special: "特殊字符"
-  label_password_rule_uppercase: "大写"
+  label_password_rule_uppercase: "大写字母"
   label_path_encoding: "路径编码"
   label_per_page: "每页"
   label_people: "人员"
@@ -1956,7 +1956,7 @@ zh-CN:
   label_sort_highest: "移至顶部"
   label_sort_lower: "向下移动"
   label_sort_lowest: "移至底部"
-  label_spent_time: "已耗时间"
+  label_spent_time: "已耗工时"
   label_start_to_end: "开始结束"
   label_start_to_start: "开始开始"
   label_statistics: "统计数据"
@@ -1980,7 +1980,7 @@ zh-CN:
   label_this_month: "这个月"
   label_this_week: "这一周"
   label_this_year: "这一年"
-  label_time_entry_plural: "已耗时间"
+  label_time_entry_plural: "已耗工时"
   label_title: "标题"
   label_projects_menu: "项目"
   label_today: "今天"
@@ -2222,7 +2222,7 @@ zh-CN:
   notice_account_password_expired: "您的密码将在 %{days} 天后过期。请设置新的密码。"
   notice_account_password_updated: "成功更新密码。"
   notice_account_pending: "您的帐户已创建，正在等待管理员的批准。"
-  notice_account_register_done: "成功创建帐户。要激活您的帐户，请单击通过电子邮件发送到您的链接。"
+  notice_account_register_done: "帐户已成功创建。要激活您的帐户，请单击通过电子邮件发送到您的链接。"
   notice_account_unknown_email: "未知用户。"
   notice_account_update_failed: "帐户设置无法保存。请看查看您的帐户页面。"
   notice_account_updated: "帐户已成功更新。"
@@ -2312,7 +2312,7 @@ zh-CN:
   permission_add_subprojects: "创建子项目"
   permission_add_work_package_watchers: "添加关注者"
   permission_assign_versions: "分配版本"
-  permission_browse_repository: "只读访问存储库 (浏览和签出)"
+  permission_browse_repository: "只读访问存储库 (浏览和检出)"
   permission_change_wiki_parent_page: "更改上级维基页面"
   permission_comment_news: "评论新闻"
   permission_commit_access: "读/写访问存储库 (提交)"
@@ -2362,7 +2362,7 @@ zh-CN:
   permission_select_custom_fields: "选择自定义字段"
   permission_select_project_modules: "选择项目模块"
   permission_manage_types: "选择类型"
-  permission_view_changesets: "查看OpenProject 资源库修订"
+  permission_view_changesets: "查看 OpenProject 存储库修订"
   permission_view_commit_author_statistics: "查看提交作者统计信息"
   permission_view_dashboards: "查看仪表板"
   permission_view_work_package_watchers: "查看关注者列表"
@@ -2419,32 +2419,32 @@ zh-CN:
   repositories:
     at_identifier: '在 %{identifier}'
     atom_revision_feed: '原子修订种子'
-    autofetch_information: "选中此项，如果你想要访问存储库模块页面时自动更新资料库。这包括从存储库和刷新所需的磁盘存储提交的检索。"
+    autofetch_information: "如果希望在访问存储库模块页时自动更新存储库，请勾选此选项。这包括从存储库检索提交并刷新所需的磁盘存储。"
     checkout:
       access:
         readwrite: '读取 + 写入'
         read: '只读'
-        none: '没有签出的访问，您仅可通过此应用程序查看存储库。'
+        none: '无检出访问权限，您只能通过此应用程序查看存储库。'
       access_permission: '您对此存储库的权限'
-      url: "签出 URL"
-      base_url_text: "基准 URL用于生成签出 Url (例如: https://myserver.example.org/repos/) 。\n注: 基准 URL 仅用于管理存储库中的签出 Url 重写。其他存储库不会被更改。"
+      url: "检出 URL"
+      base_url_text: "根 URL 用于生成检出 URL (例如: https://myserver.example.org/repos/) 。\n备注: 根 URL 仅用于管理存储库中的检出 URL 重写。其他存储库不会被更改。"
       default_instructions:
         git: |-
-          在此存储库中包含的数据通过Git可以下载到你的计算机。如果您需要更多签出流程和可用客户端的信息，请参阅 Git 的文档。
+          该存储库中包含的数据可以通过 Git 下载到您的计算机。如果您需要更多检出流程和可用客户端的信息，请参阅 Git 的文档。
         subversion: |-
-          在此存储库中包含的数据通过Subversion可以下载到你的计算机。如果您需要更多签出流程和可用客户端的信息，请参阅 Subversion的文档。
-      enable_instructions_text: "显示签出说明在下面所有存储库相关的页面上。"
-      instructions: "签出指令"
-      show_instructions: "显示签出指令"
-      text_instructions: "URL 旁边显示此文本是为了指导如何签出存储库 。"
-      not_available: "签出指令未定义此资源库。请与你的管理员联系，在系统设置中启用他们。"
+          该存储库中包含的数据可以通过 Subversion 下载到您的计算机。如果您需要更多检出流程和可用客户端的信息，请参阅 Subversion 的文档。
+      enable_instructions_text: "在所有与存储库相关的页面上显示下面定义的检出说明。"
+      instructions: "检出指令"
+      show_instructions: "显示检出指令"
+      text_instructions: "此文本将与检出 URL 一起显示，以提供有关如何检出存储库的指导。"
+      not_available: "检出指令未定义此存储库。请与你的管理员联系，在系统设置中启用他们。"
     create_managed_delay: "请注意: 版本库已在管控中，它以异步方式在磁盘上创建并不久将处于可用状态。"
     create_successful: "版本库已被注册。"
     delete_sucessful: "版本库已被删除。"
     destroy:
       confirmation: "如果你继续将永久删除管理的存储库。"
       info: "删除存储库是一个不可逆转的操作。"
-      info_not_managed: "注意: 这不会删除这个资料库的内容，它不由 OpenProject 管理。"
+      info_not_managed: "注意: 这不会删除该存储库的内容，它不由 OpenProject 管理。"
       managed_path_note: "以下目录将被删除: %{path}"
       repository_verification: "输入项目的标识符 %{identifier}，以确认其存储库中的删除。"
       subtitle: "你真的想要删除的项目 %{project_name} %{repository_type} 吗?"
@@ -2483,12 +2483,12 @@ zh-CN:
       path: "Git 版本库路径"
       path_encoding: "路径编码"
     go_to_revision: "切换到版本"
-    managed_remote: "此供应商的托管的资料库是远程处理。"
+    managed_remote: "该供应商的托管存储库是远程处理的。"
     managed_remote_note: "此存储库路径与 URL 信息在创建之前不可用。"
     managed_url: "托管的 URL"
     settings:
       automatic_managed_repos_disabled: "禁用自动创建"
-      automatic_managed_repos: "自动创建的托管资料库"
+      automatic_managed_repos: "自动创建的托管存储库"
       automatic_managed_repos_text: "在这里通过设置供应商，新创建的项目将自动接收此供应商管理的存储库。"
     scm_vendor: "源代码、文件版本控制系统"
     scm_type: "版本库类型"
@@ -2552,7 +2552,7 @@ zh-CN:
   setting_app_subtitle: "应用副标题"
   setting_app_title: "应用程序标题"
   setting_attachment_max_size: "最大的附件大小"
-  setting_autofetch_changesets: "自动提取资源库更改"
+  setting_autofetch_changesets: "自动提取存储库更改"
   setting_autologin: "自动登录"
   setting_available_languages: "可用语言"
   setting_bcc_recipients: "密件抄送 (bcc) 收件人"
@@ -2608,7 +2608,7 @@ zh-CN:
   setting_new_project_user_role_id: "给创建项目的非管理员用户的角色"
   setting_password_active_rules: "基本字符类型"
   setting_password_count_former_banned: "禁止重复使用最近使用密码的数量"
-  setting_password_days_valid: "数天之后，用以强制更改密码"
+  setting_password_days_valid: "强制更改密码的天数"
   setting_password_min_length: "最小长度"
   setting_password_min_adhered_rules: "所需类的最小数目"
   setting_per_page_options: "每页对象选项"
@@ -2622,9 +2622,9 @@ zh-CN:
   setting_repositories_encodings: "代码库的编码"
   setting_repository_authentication_caching_enabled: "启用版本控制软件的身份验证请求缓存"
   setting_repository_storage_cache_minutes: "存储库磁盘大小的高速缓存"
-  setting_repository_checkout_display: "显示签出说明"
-  setting_repository_checkout_base_url: "签出基线 URL"
-  setting_repository_checkout_text: "签出说明文本"
+  setting_repository_checkout_display: "显示检出说明"
+  setting_repository_checkout_base_url: "检出根 URL"
+  setting_repository_checkout_text: "检出说明文本"
   setting_repository_log_display_limit: "在文件日志中显示的修订版本最大数目"
   setting_repository_truncate_at: "存储库浏览器中显示的最多的文件个数"
   setting_rest_api_enabled: "启用REST web service"
@@ -2807,7 +2807,7 @@ zh-CN:
   text_wiki_page_destroy_children: "删除子页面和所有他们的派生页面"
   text_wiki_page_destroy_question: "此页有 %{descendants} 子页面和派生页面。你想做什么？"
   text_wiki_page_nullify_children: "保持子网页作为根页面"
-  text_wiki_page_reassign_children: "将下级页面重新分配给该上级页面"
+  text_wiki_page_reassign_children: "将子级页面重新分配给该父级页面"
   text_workflow_edit: "选择编辑工作流的角色和类型"
   text_zoom_in: "放大"
   text_zoom_out: "缩小"
@@ -2850,9 +2850,9 @@ zh-CN:
     active: "激活"
     activate: "激活"
     activate_and_reset_failed_logins: "激活和重置失败的帐户"
-    authentication_provider: "身份验证提供程序"
+    authentication_provider: "身份认证提供程序"
     authentication_settings_disabled_due_to_external_authentication: >
-      此用户验证通过外部身份验证提供程序，所以在 OpenProject 中没有密码将被改变。
+      该用户通过外部身份验证提供程序进行身份验证，因此在 OpenProject 中没有密码可供更改。
     authorization_rejected: "你不允许登录。"
     assign_random_password: "分配随机密码 (通过电子邮件发送给用户)"
     blocked: "暂时锁定"
@@ -2975,7 +2975,7 @@ zh-CN:
       validation:
         done_ratio: "当完成比例牵扯“状态”时，或被禁用时，不能在父工作包中对其进行设置。"
         due_date: "不能在父工作包中设置完成日期。"
-        estimated_hours: "无法为父级工作包设置预估工数。"
+        estimated_hours: "无法为父级工作包设置预算工时。"
         invalid_user_assigned_to_work_package: "所选的用户不允许为此工作包的 '%{property}'。"
         start_date: "不能在父工作包中设置开始日期。"
       eprops:
@@ -3059,7 +3059,7 @@ zh-CN:
       api_v3: "API v3 完全访问权限"
       api_v3_text: "应用程序将获得 OpenProject API v3 的完全读写访问权限来代表您执行操作。"
     grants:
-      created_date: "批准日期"
+      created_date: "批准于"
       scopes: "权限"
       successful_application_revocation: "已成功撤销应用程序 %{application_name}。"
       none_given: "没有 OAuth 应用程序已获得访问您的用户帐户的权限。"

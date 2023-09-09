@@ -153,7 +153,7 @@ sv:
       label: "Provider type"
       nextcloud:
         name: "Nextcloud"
-        name_placeholder: "e.g. Nextcloud"
+        name_placeholder: "t. ex. Nextcloud"
         default_name: "My Nextcloud"
     confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
     confirm_replace_oauth_client: "Are you sure? All users will have to authorize again against the storage."
