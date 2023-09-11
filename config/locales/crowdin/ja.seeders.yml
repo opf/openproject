@@ -41,19 +41,27 @@ ja:
           name: 仕様
         item_2:
           name: その他
-      roles:
+      work_package_roles:
         item_0:
-          name: 非メンバー
+          name: Work Package Editor
         item_1:
-          name: 匿名ユーザ
+          name: Work Package Commenter
         item_2:
-          name: メンバー
+          name: Work Package Viewer
+      project_roles:
+        item_0:
+          name: Non member
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Member
         item_3:
-          name: リーダー
+          name: Reader
         item_4:
-          name: プロジェクト管理者
-        item_5:
-          name: スタッフとプロジェクトマネージャー
+          name: Project admin
+      global_roles:
+        item_0:
+          name: Staff and projects manager
     standard:
       priorities:
         item_0:

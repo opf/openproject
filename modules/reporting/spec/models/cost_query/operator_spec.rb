@@ -100,15 +100,15 @@ RSpec.describe CostQuery, reporting_query_helper: true do
     end
 
     it "does ~ (contains)" do
-      expect(cost_query('projects', 'name', '~', 'o').size).to eq(Project.all.select { |p| p.name =~ /o/ }.count)
-      expect(cost_query('projects', 'name', '~', 'test').size).to eq(Project.all.select { |p| p.name =~ /test/ }.count)
-      expect(cost_query('projects', 'name', '~', 'child').size).to eq(Project.all.select { |p| p.name =~ /child/ }.count)
+      expect(cost_query('projects', 'name', '~', 'o').size).to eq(Project.all.count { |p| p.name.include?('o') })
+      expect(cost_query('projects', 'name', '~', 'test').size).to eq(Project.all.count { |p| p.name.include?('test') })
+      expect(cost_query('projects', 'name', '~', 'child').size).to eq(Project.all.count { |p| p.name.include?('child') })
     end
 
     it "does !~ (not contains)" do
-      expect(cost_query('projects', 'name', '!~', 'o').size).to eq(Project.all.reject { |p| p.name =~ /o/ }.count)
-      expect(cost_query('projects', 'name', '!~', 'test').size).to eq(Project.all.reject { |p| p.name =~ /test/ }.count)
-      expect(cost_query('projects', 'name', '!~', 'child').size).to eq(Project.all.reject { |p| p.name =~ /child/ }.count)
+      expect(cost_query('projects', 'name', '!~', 'o').size).to eq(Project.all.count { |p| p.name.exclude?('o') })
+      expect(cost_query('projects', 'name', '!~', 'test').size).to eq(Project.all.count { |p| p.name.exclude?('test') })
+      expect(cost_query('projects', 'name', '!~', 'child').size).to eq(Project.all.count { |p| p.name.exclude?('child') })
     end
 
     it "does c (closed work_package)" do
@@ -251,21 +251,21 @@ RSpec.describe CostQuery, reporting_query_helper: true do
 
     it "does =n" do
       # we have a time_entry with costs==4.2 and a cost_entry with costs==2.3 in our fixtures
-      expect(query_on_entries('costs', '=n', 4.2).size).to eq(Entry.all.select { |e| e.costs == 4.2 }.count)
-      expect(query_on_entries('costs', '=n', 2.3).size).to eq(Entry.all.select { |e| e.costs == 2.3 }.count)
+      expect(query_on_entries('costs', '=n', 4.2).size).to eq(Entry.all.count { |e| e.costs == 4.2 })
+      expect(query_on_entries('costs', '=n', 2.3).size).to eq(Entry.all.count { |e| e.costs == 2.3 })
     end
 
     it "does 0" do
-      expect(query_on_entries('costs', '0').size).to eq(Entry.all.select { |e| e.costs == 0 }.count)
+      expect(query_on_entries('costs', '0').size).to eq(Entry.all.count { |e| e.costs == 0 })
     end
 
     # y/n seem are for filtering overridden costs
     it "does y" do
-      expect(query_on_entries('overridden_costs', 'y').size).to eq(Entry.all.reject { |e| e.overridden_costs.nil? }.count)
+      expect(query_on_entries('overridden_costs', 'y').size).to eq(Entry.all.count { |e| !(e.overridden_costs.nil?) })
     end
 
     it "does n" do
-      expect(query_on_entries('overridden_costs', 'n').size).to eq(Entry.all.select { |e| e.overridden_costs == nil }.count)
+      expect(query_on_entries('overridden_costs', 'n').size).to eq(Entry.all.count { |e| e.overridden_costs == nil })
     end
 
     it "does =d" do

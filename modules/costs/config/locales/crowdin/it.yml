@@ -20,6 +20,9 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 it:
+  plugin_costs:
+    name: "Tempi e costi"
+    description: "This module adds features for planning and tracking costs of projects."
   activerecord:
     attributes:
       cost_entry:

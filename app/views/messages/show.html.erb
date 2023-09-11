@@ -121,8 +121,10 @@ See COPYRIGHT and LICENSE files for more details.
         <div class="wiki op-uc-container">
           <%= format_text message, :content, attachments: message.attachments %>
         </div>
-        <% resource = message_attachment_representer(message) %>
-        <%= list_attachments(resource) %>
+        <% if message.attachments.any? %>
+          <% resource = message_attachment_representer(message) %>
+          <%= list_attachments(resource) %>
+        <% end %>
       </div>
     <% end %>
     <%= pagination_links_full @replies, per_page_links: false %>

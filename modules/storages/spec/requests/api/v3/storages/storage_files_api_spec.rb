@@ -43,7 +43,7 @@ RSpec.describe 'API v3 storage files', content_type: :json, webmock: true do
   end
 
   let(:oauth_application) { create(:oauth_application) }
-  let(:storage) { create(:storage, creator: current_user, oauth_application:) }
+  let(:storage) { create(:nextcloud_storage, creator: current_user, oauth_application:) }
   let(:project_storage) { create(:project_storage, project:, storage:) }
 
   let(:authorize_url) { 'https://example.com/authorize' }

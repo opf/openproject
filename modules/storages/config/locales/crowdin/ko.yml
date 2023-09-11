@@ -1,5 +1,8 @@
 #English strings go here
 ko:
+  plugin_openproject_storages:
+    name: "OpenProject Storages"
+    description: "Allows linking work packages to files in external storages, such as Nextcloud."
   permission_view_file_links: "파일 링크 보기"
   permission_manage_file_links: "파일 링크 관리"
   permission_manage_storages_in_project: "프로젝트의 파일 저장소 관리"
@@ -50,6 +53,7 @@ ko:
     errors:
       too_many_elements_created_at_once: "한 번에 너무 많은 요소가 생성되었습니다. 최대 개수는 %{max}개이지만 %{actual}개가 있습니다."
   storages:
+    default_name: "My storage"
     unknown_storage: "알 수 없는 저장소"
     buttons:
       done_continue_setup: "완료. 설정을 계속하세요."
@@ -57,6 +61,7 @@ ko:
       edit_automatically_managed_project_folders: "자동으로 관리되는 프로젝트 폴더 편집"
       replace_openproject_oauth: "OpenProject OAuth 바꾸기"
       replace_provider_type_oauth: "%{provider_type} OAuth 바꾸기"
+      save: "Save"
       save_and_continue_setup: "저장하고 설정 계속하기"
       save_and_complete_setup: "저장하고 설정 완료"
       select_folder: "폴더 선택"
@@ -97,6 +102,13 @@ ko:
       copy_from: "다음에서 이 값 복사:"
       nextcloud:
         integration: "Nextcloud 관리/OpenProject"
+      one_drive:
+        integration: "OneDrive/SharePoint"
+        oauth_client_id: >
+          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+        oauth_client_secret: >
+          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
+        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
     help_texts:
       project_folder: >
         프로젝트 폴더는 이 프로젝트에 대한 파일 업로드의 기본 폴더입니다. 사용자는 다른 위치에 파일을 계속 업로드할 수 있습니다.
@@ -125,11 +137,13 @@ ko:
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
+      one_drive: "OneDrive OAuth"
     label_oauth_application_details: "OAuth 애플리케이션 세부 정보"
     label_oauth_client_details: "OAuth 클라이언트 세부 정보"
     label_provider_type: "공급자 유형"
     label_project_folder: "프로젝트 폴더"
     label_new_storage: "새로운 저장소"
+    label_edit_storage: "Edit storage"
     label_existing_manual_folder: "수동으로 관리되는 권한이 있는 기존 폴더"
     label_no_specific_folder: "특정 폴더 없음"
     label_automatic_folder: "자동으로 관리되는 권한이 있는 새 폴더"
@@ -149,7 +163,9 @@ ko:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "예: Nextcloud"
-        default_name: "내 Nextcloud"
+      one_drive:
+        name: "OneDrive/SharePoint"
+        name_placeholder: "e.g. OneDrive"
     confirm_replace_oauth_application: "계속하시겠습니까? 모든 사용자는 OpenProject에 대해 다시 권한을 부여해야 합니다."
     confirm_replace_oauth_client: "계속하시겠습니까? 모든 사용자는 저장소에 대해 다시 권한을 부여해야 합니다."
     oauth_client_details_missing: "설정을 완료하려면 저장소에서 OAuth 클라이언트 자격 증명을 추가하세요."

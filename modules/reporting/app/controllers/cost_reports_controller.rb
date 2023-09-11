@@ -200,7 +200,7 @@ class CostReportsController < ApplicationController
 
     f_cls = get_filter_class(name)
     filter = f_cls.new.tap do |f|
-      f.values = JSON.parse(params[:values].gsub("'", '"')) if params[:values].present? && params[:values]
+      f.values = JSON.parse(params[:values].tr("'", '"')) if params[:values].present? && params[:values]
     end
     render_widget Widget::Filters::Option, filter, to: canvas = ''
 

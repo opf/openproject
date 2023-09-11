@@ -41,19 +41,27 @@ hu:
           name: Specifikáció
         item_2:
           name: Egyéb
-      roles:
+      work_package_roles:
         item_0:
-          name: Nem tag
+          name: Work Package Editor
+        item_1:
+          name: Work Package Commenter
+        item_2:
+          name: Work Package Viewer
+      project_roles:
+        item_0:
+          name: Non member
         item_1:
           name: Anonymous
         item_2:
-          name: Tag
+          name: Member
         item_3:
-          name: Olvasó
+          name: Reader
         item_4:
-          name: Projekt admin
-        item_5:
-          name: A vezetőség és a projekt menedzser
+          name: Project admin
+      global_roles:
+        item_0:
+          name: Staff and projects manager
     standard:
       priorities:
         item_0:

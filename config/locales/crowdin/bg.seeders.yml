@@ -41,18 +41,26 @@ bg:
           name: Спецификации
         item_2:
           name: Други
-      roles:
+      work_package_roles:
         item_0:
-          name: Не е член
+          name: Work Package Editor
         item_1:
-          name: Анонимен
+          name: Work Package Commenter
         item_2:
-          name: Член
+          name: Work Package Viewer
+      project_roles:
+        item_0:
+          name: Non member
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Member
         item_3:
-          name: Четящ
+          name: Reader
         item_4:
-          name: Администратор на проект
-        item_5:
+          name: Project admin
+      global_roles:
+        item_0:
           name: Staff and projects manager
     standard:
       priorities:

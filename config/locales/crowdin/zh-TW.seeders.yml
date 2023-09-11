@@ -41,19 +41,27 @@ zh-TW:
           name: 規格
         item_2:
           name: 其他
-      roles:
+      work_package_roles:
         item_0:
-          name: 非成員
+          name: Work Package Editor
         item_1:
-          name: 匿名者
+          name: Work Package Commenter
         item_2:
-          name: 成員
+          name: Work Package Viewer
+      project_roles:
+        item_0:
+          name: Non member
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Member
         item_3:
-          name: 讀者
+          name: Reader
         item_4:
-          name: 專案管理員
-        item_5:
-          name: 職員和專案管理員
+          name: Project admin
+      global_roles:
+        item_0:
+          name: Staff and projects manager
     standard:
       priorities:
         item_0:

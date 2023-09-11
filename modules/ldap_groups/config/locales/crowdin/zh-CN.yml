@@ -1,4 +1,7 @@
 zh-CN:
+  plugin_openproject_ldap_groups:
+    name: "OpenProject LDAP 组"
+    description: "LDAP组成员同步."
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
@@ -68,4 +71,3 @@ zh-CN:
         group_text: '选择 LDAP 组的成员应与其同步的现有 OpenProject 组'
       upsale:
         description: '利用同步的 LDAP 组来管理用户、更改其权限并促进跨组的用户管理。'
-

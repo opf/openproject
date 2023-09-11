@@ -27,19 +27,26 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_contract_examples'
+require_relative 'shared_contract_examples'
 
 RSpec.describe Roles::CreateContract do
   it_behaves_like 'roles contract' do
+    let(:work_package_role) do
+      build(:work_package_role) do |r|
+        r.name = role_name
+        r.permissions = role_permissions
+      end
+    end
+
     let(:role) do
-      Role.new.tap do |r|
+      build(:role) do |r|
         r.name = role_name
         r.permissions = role_permissions
       end
     end
 
     let(:global_role) do
-      GlobalRole.new.tap do |r|
+      build(:global_role) do |r|
         r.name = role_name
         r.permissions = role_permissions
       end

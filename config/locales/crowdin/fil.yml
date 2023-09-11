@@ -462,6 +462,8 @@ fil:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repositoryo"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Ang komento" #an object that this comment belongs to
       custom_action:
@@ -1446,7 +1448,7 @@ fil:
     changes_retracted: "The changes were retracted."
     caused_changes:
       dates_changed: "Dates changed"
-      system_update: "OpenProject update"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1462,7 +1464,8 @@ fil:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Gabay ng kumpigurasyon'
     get_in_touch: "You have questions? Get in touch with us."
@@ -2192,8 +2195,8 @@ fil:
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} work package na nakatakaga sa iyo ay dapat isumite sa mga sumusunod na %{days} araw:"
   mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
-  mail_body_wiki_content_added: "Ang '%{id}' wiking pahina ay naidagdag sa %{author}."
-  mail_body_wiki_content_updated: "Ang '%{id}' wiking pahina ay na i-update sa %{author}."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} kahilingan ng akwant aktibasyon"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2345,6 +2348,7 @@ fil:
   permission_comment_news: "Mga komento ng balita"
   permission_commit_access: "Magbasa/magsulat acess sa repositoryo (commit)"
   permission_copy_projects: "Kopyahin ang mga proyekto"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Burahin ang mga manunuod"
   permission_delete_work_packages: "Burahin ang mga work package"
@@ -2372,6 +2376,7 @@ fil:
   permission_log_time: "Log time for other users"
   permission_manage_forums: "Pamahalain ang mga forum"
   permission_manage_categories: "Pamahalain ang mga kategorya ng work package"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Nauugnay na pamahalin ang work package"
   permission_manage_members: "Pamahalain ang mga miyembro"
   permission_manage_news: "Pamahalain ang mga balita"
@@ -2386,14 +2391,19 @@ fil:
   permission_protect_wiki_pages: "Protektahan ang mga wiki package"
   permission_rename_wiki_pages: "Baguhin ang pangalan ng mga wiki na pahina"
   permission_save_queries: "Save views"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Piliin ang mga proyektong modyul"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Pumili ng mga uri"
+  permission_view_project: "View projects"
   permission_view_changesets: "Tingnan ang mga repository revision ng OpenProject"
   permission_view_commit_author_statistics: "Tanawin ang commit"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Tanawin ang mga manunuod ng listahan"
   permission_view_work_packages: "Tingnan ang mga work packages"
   permission_view_messages: "Tingnan ang mga mensahe"
+  permission_view_news: "View news"
   permission_view_members: "Tingnan ang mga miyembro"
   permission_view_reportings: "Tanawin ang mga ulat"
   permission_view_time_entries: "Tanawin ang ginugol na oras"
@@ -2402,6 +2412,9 @@ fil:
   permission_view_wiki_pages: "Tanawin ang wiki"
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Ang mga work package ay maaring nakatalaga sa mga gumagamit at grupo sa possesyon ng tungkulin na ito sa nakatalagang proyekto"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
@@ -3153,3 +3166,9 @@ fil:
     response:
       unexpected: "Unexpected response received."
   you: you
+  plugin_openproject_auth_plugins:
+    name: "OpenProject Auth Plugins"
+    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / Single-Sign On"
+    description: "Adds the OmniAuth SAML provider to OpenProject"

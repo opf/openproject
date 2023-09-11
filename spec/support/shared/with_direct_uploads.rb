@@ -63,7 +63,7 @@ class WithDirectUploads
   def around(example)
     example.metadata[:javascript_driver] = example.metadata[:driver] = :chrome_billy
 
-    csp_config = SecureHeaders::Configuration.instance_variable_get("@default_config").csp
+    csp_config = SecureHeaders::Configuration.instance_variable_get(:@default_config).csp
 
     connect_src = csp_config.connect_src.dup
     form_action = csp_config.form_action.dup
@@ -117,7 +117,7 @@ class WithDirectUploads
       .and_return(Proc.new do |_params, _headers, body, _url, _method|
         key = body.scan(/key"\s*([^\s]+)\s/m).flatten.first
         redirect_url = body.scan(/success_action_redirect"\s*(http[^\s]+)\s/m).flatten.first
-        ok = body =~ /X-Amz-Signature/ # check that the expected post to AWS was made with the form fields
+        ok = body.include?('X-Amz-Signature') # check that the expected post to AWS was made with the form fields
 
         {
           code: ok ? 302 : 403,
@@ -135,7 +135,7 @@ class WithDirectUploads
       .stub("https://" + OpenProject::Configuration.remote_storage_upload_host + ":443/", method: 'post')
       .and_return(Proc.new do |_params, _headers, body, _url, _method|
         {
-          code: body =~ /X-Amz-Signature/ ? 201 : 403, # check that the expected post to AWS was made with the form fields
+          code: body.include?('X-Amz-Signature') ? 201 : 403, # check that the expected post to AWS was made with the form fields
           headers: {
             'Access-Control-Allow-Methods' => 'POST',
             'Access-Control-Allow-Origin' => '*'

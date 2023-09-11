@@ -99,7 +99,7 @@ Next, install a PostgreSQL database.
 Create the OpenProject database user and accompanied database.
 
 ```shell
-sudo su postgres
+sudo su - postgres
 [postgres@ubuntu]# createuser -d -P openproject
 ```
 You will be prompted for a password, for the remainder of these instructions, we assume its `openproject-dev-password`.

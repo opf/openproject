@@ -39,6 +39,10 @@ class Role < ApplicationRecord
     where("#{compare} builtin = #{NON_BUILTIN}")
   }
 
+  # Work Package Roles are intentionally visually hidden from users temporarily
+  scope :visible, -> { where.not(type: 'WorkPackageRole') }
+  scope :ordered_by_builtin_and_position, -> { order(Arel.sql('builtin, position')) }
+
   before_destroy(prepend: true) do
     unless deletable?
       errors.add(:base, "can't be destroyed")

@@ -458,6 +458,8 @@ el:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Αποθετήριο"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Σχολιασμένο" #an object that this comment belongs to
       custom_action:
@@ -1442,7 +1444,7 @@ el:
     changes_retracted: "Οι αλλαγές αποσύρθηκαν."
     caused_changes:
       dates_changed: "Dates changed"
-      system_update: "OpenProject update"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1458,7 +1460,8 @@ el:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Οδηγός διαμόρφωσης'
     get_in_touch: "Έχετε απορίες; Επικοινωνήστε μαζί μας."
@@ -2188,8 +2191,8 @@ el:
   mail_body_register_ending: "Μείνετε συνδεδεμένοι! Με εκτίμηση,"
   mail_body_reminder: "%{count} πακέτο(τα) εργασίας που έχουν ανατεθεί σε εσάς έχουν προθεσμία στις επόμενες %{days} ημέρες:"
   mail_body_group_reminder: "%{count} πακέτα εργασίας που έχουν ανατεθεί στην ομάδα \"%{group}\" έχουν προθεσμία στις επόμενες %{days} ημέρες:"
-  mail_body_wiki_content_added: "Η σελίδα wiki '%{id}' προστέθηκε από τον %{author}."
-  mail_body_wiki_content_updated: "Η σελίδα wiki '%{id}' ενημερώθηκε από τον %{author}."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "Αίτηση ενεργοποίησης του λογαριασμού %{value}"
   mail_subject_backup_ready: "Το αντίγραφο ασφαλείας σας είναι έτοιμο"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2340,6 +2343,7 @@ el:
   permission_comment_news: "Σχολιασμός νέων"
   permission_commit_access: "Πρόσβαση ανάγνωσης/εγγραφής στο αποθετήριο (δέσμευση)"
   permission_copy_projects: "Αντιγραφή έργων"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Διαγραφή παρατηρητών"
   permission_delete_work_packages: "Διαγραφή πακέτων εργασίας"
@@ -2367,6 +2371,7 @@ el:
   permission_log_time: "Log time for other users"
   permission_manage_forums: "Διαχείριση των φόρουμ"
   permission_manage_categories: "Διαχείριση των κατηγοριών πακέτων εργασίας"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Διαχείριση των συσχετίσεων πακέτων εργασίας"
   permission_manage_members: "Διαχείριση Μελών"
   permission_manage_news: "Διαχείριση νέων"
@@ -2381,14 +2386,19 @@ el:
   permission_protect_wiki_pages: "Προστατέψτε τις σελίδες wiki"
   permission_rename_wiki_pages: "Μετονομασία σελίδων wiki"
   permission_save_queries: "Αποθήκευση προβολών"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Επιλογή ενοτήτων έργου"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Επιλέξτε τύπους"
+  permission_view_project: "View projects"
   permission_view_changesets: "Προβολή αποθετηρίου των αναθεωρήσεων στο OpenProject"
   permission_view_commit_author_statistics: "Εμφάνιση στατιστικών συγγραφέων δέσμευσης"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Προβολή λίστας παρατηρητών"
   permission_view_work_packages: "Εμφάνιση πακέτων εργασίας"
   permission_view_messages: "Προβολή μηνυμάτων"
+  permission_view_news: "View news"
   permission_view_members: "Εμφάνιση μελών"
   permission_view_reportings: "Εμφάνιση αναφορών"
   permission_view_time_entries: "Προβολή χρόνου που δαπανήθηκε"
@@ -2397,6 +2407,9 @@ el:
   permission_view_wiki_pages: "Προβολή wiki"
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Τα πακέτα εργασίας μπορούν να ανατεθούν σε χρήστες και ομάδες που έχουν αυτό το ρόλο στο αντίστοιχο έργο"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
@@ -3149,3 +3162,9 @@ el:
     response:
       unexpected: "Unexpected response received."
   you: εσείς
+  plugin_openproject_auth_plugins:
+    name: "OpenProject Auth Plugins"
+    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / Single-Sign On"
+    description: "Adds the OmniAuth SAML provider to OpenProject"

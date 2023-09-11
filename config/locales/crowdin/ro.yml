@@ -463,6 +463,8 @@ ro:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repo"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Cu comentarii" #an object that this comment belongs to
       custom_action:
@@ -1467,7 +1469,7 @@ ro:
     changes_retracted: "Modificările au fost retrase."
     caused_changes:
       dates_changed: "Dates changed"
-      system_update: "OpenProject update"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1483,7 +1485,8 @@ ro:
           working: "%{date} este acum în funcțiune"
           non_working: "%{date} este acum nefuncțională"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Ghid de configurare'
     get_in_touch: "Aveți întrebări? Luați legătura cu noi."
@@ -2214,8 +2217,8 @@ ro:
   mail_body_register_ending: "Rămâneți conectați! Vă salutăm cu drag,"
   mail_body_reminder: "%{count} pachete de lucru care vă sunt atribuite au scadență în următoarele %{days} zile:"
   mail_body_group_reminder: "%{count} pachetul (pachetele) de lucru care sunt atribuite grupului \"%{group}\" trebuie depuse în următoarele %{days} zile:"
-  mail_body_wiki_content_added: "Pagina de wiki '%{id}' a fost adăugată de %{author}."
-  mail_body_wiki_content_updated: "Pagina wiki '%{id}' a fost actualizată de %{author}."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "cererea de activare a contului %{value}"
   mail_subject_backup_ready: "Backup-ul tău este gata"
   mail_subject_backup_token_reset: "Resetarea token-ului de backup"
@@ -2367,6 +2370,7 @@ ro:
   permission_comment_news: "Comentare noutăți"
   permission_commit_access: "Acces de citire/scriere la repo (încărcare)"
   permission_copy_projects: "Copiere proiecte"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Creează copie de siguranță"
   permission_delete_work_package_watchers: "Eliminare observatori"
   permission_delete_work_packages: "Ștergere pachete de lucru"
@@ -2394,6 +2398,7 @@ ro:
   permission_log_time: "Timp de înregistrare pentru alți utilizatori"
   permission_manage_forums: "Gestionare forumuri"
   permission_manage_categories: "Gestionare categorii de pachete de lucru"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Gestionare relații pachete de lucru"
   permission_manage_members: "Gestionare participanți"
   permission_manage_news: "Gestionare știri"
@@ -2408,14 +2413,19 @@ ro:
   permission_protect_wiki_pages: "Protejare pagini wiki"
   permission_rename_wiki_pages: "Redenumire pagini wiki"
   permission_save_queries: "Salvați vizualizările"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Selectați câmpurile personalizate"
   permission_select_project_modules: "Selectare module proiect"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Selectare tipuri"
+  permission_view_project: "View projects"
   permission_view_changesets: "Vizualizare revizii repo în OpenProject"
   permission_view_commit_author_statistics: "Vizualizare statistici autor înregistrări"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Vizualizare listă observatori"
   permission_view_work_packages: "Vizualizare pachete de lucru"
   permission_view_messages: "Vizualizare mesaje"
+  permission_view_news: "View news"
   permission_view_members: "Vezi membrii"
   permission_view_reportings: "Vizualizare raportări"
   permission_view_time_entries: "Vizualizare timp consumat"
@@ -2424,6 +2434,9 @@ ro:
   permission_view_wiki_pages: "Vizualizare wiki"
   permission_work_package_assigned: "Deveniți cesionar/responsabil"
   permission_work_package_assigned_explanation: "Pachetele de lucru pot fi atribuite utilizatorilor și grupurilor care dețin acest rol în proiectul respectiv"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
@@ -3179,3 +3192,9 @@ ro:
     response:
       unexpected: "S-a primit un răspuns neașteptat."
   you: tu
+  plugin_openproject_auth_plugins:
+    name: "OpenProject Auth Plugins"
+    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / Single-Sign On"
+    description: "Adds the OmniAuth SAML provider to OpenProject"

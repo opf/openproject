@@ -1,5 +1,9 @@
 #English strings go here
 ro:
+  plugin_openproject_avatars:
+    name: "Avataruri"
+    description: >-
+      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
   label_avatar: "Avatar"
   label_avatar_plural: "Avataruri"
   label_current_avatar: "Avatar curent"
@@ -35,6 +39,3 @@ ro:
       enable_gravatars: 'Activați gravatarul utilizatorului'
       gravatar_default: "Imagine Gravatar implicită"
       enable_local_avatars: 'Activați avatarele personalizate ale utilizatorului'
-
-
-

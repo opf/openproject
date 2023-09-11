@@ -41,7 +41,14 @@ es:
           name: Especificación
         item_2:
           name: Otros
-      roles:
+      work_package_roles:
+        item_0:
+          name: Editor de paquetes de trabajo
+        item_1:
+          name: Comentador de Paquete de Trabajo
+        item_2:
+          name: Visor de Paquete de Trabajo
+      project_roles:
         item_0:
           name: No miembro
         item_1:
@@ -52,7 +59,8 @@ es:
           name: Lector
         item_4:
           name: Administrador de proyecto
-        item_5:
+      global_roles:
+        item_0:
           name: Administrador de proyectos y personal
     standard:
       priorities:

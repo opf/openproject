@@ -1,4 +1,7 @@
 it:
+  plugin_openproject_ldap_groups:
+    name: "OpenProject LDAP groups"
+    description: "Synchronization of LDAP group memberships."
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
@@ -68,4 +71,3 @@ it:
         group_text: 'Seleziona un gruppo OpenProject esistente con cui i membri del gruppo LDAP saranno sincronizzati'
       upsale:
         description: 'Sfrutta i gruppi LDAP sincronizzati per gestire gli utenti, modificare le loro autorizzazioni e semplificare la gestione degli utenti tra i gruppi.'
-

@@ -20,6 +20,8 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 uk:
+  plugin_budgets_engine:
+    name: 'Бюджети'
   activerecord:
     attributes:
       budget:

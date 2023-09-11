@@ -41,19 +41,27 @@ uk:
           name: Специфікація
         item_2:
           name: Інше
-      roles:
+      work_package_roles:
         item_0:
-          name: Не учасник
+          name: Work Package Editor
         item_1:
-          name: Анонімний режим
+          name: Work Package Commenter
         item_2:
-          name: Учасник
+          name: Work Package Viewer
+      project_roles:
+        item_0:
+          name: Non member
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Member
         item_3:
-          name: Читач
+          name: Reader
         item_4:
-          name: Адміністратор проекту
-        item_5:
-          name: Персонал і менеджер проєктів
+          name: Project admin
+      global_roles:
+        item_0:
+          name: Staff and projects manager
     standard:
       priorities:
         item_0:

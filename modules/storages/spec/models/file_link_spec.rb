@@ -35,7 +35,7 @@ RSpec.describe Storages::FileLink do
   let(:creator) { create(:user) }
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
-  let(:storage) { create(:storage) }
+  let(:storage) { create(:nextcloud_storage) }
   let(:attributes) do
     {
       storage:,

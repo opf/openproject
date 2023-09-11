@@ -56,7 +56,7 @@ module JournalFormatter
         if klass && value
           record = associated_object(klass, value.to_i, cache:)
           if record
-            if record.respond_to? 'name'
+            if record.respond_to? :name
               record.name
             else
               record.subject

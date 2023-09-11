@@ -34,7 +34,7 @@ module WatchersHelper
     options = options.with_indifferent_access
     raise ArgumentError, 'Missing :replace option in options hash' if options['replace'].blank?
 
-    return '' unless user&.logged? && object.respond_to?('watched_by?')
+    return '' unless user&.logged? && object.respond_to?(:watched_by?)
 
     watched = object.watched_by?(user)
 

@@ -69,13 +69,13 @@ RSpec.describe API::V3::Queries::QueryRepresenter do
   end
 
   def non_empty_to_query(hash)
-    hash.map do |key, value|
+    hash.filter_map do |key, value|
       if value.is_a?(Array) && value.empty?
         "#{key}=%5B%5D"
       else
         value.to_query(key)
       end
-    end.compact.sort! * '&'
+    end.sort! * '&'
   end
 
   subject { representer.to_json }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -32,7 +34,7 @@ require "uri/http"
 module OAuthClients
   class ConnectionManager
     # Nextcloud API endpoint to check if Bearer token is valid
-    AUTHORIZATION_CHECK_PATH = '/ocs/v1.php/cloud/user'.freeze
+    AUTHORIZATION_CHECK_PATH = '/ocs/v1.php/cloud/user'
     TOKEN_IS_FRESH_DURATION = 10.seconds.freeze
 
     attr_reader :user, :oauth_client

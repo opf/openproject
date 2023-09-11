@@ -90,7 +90,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
             xml['d'].getcontenttype
             xml['d'].getlastmodified
             xml['oc'].permissions
-            xml['oc'].send('owner-display-name')
+            xml['oc'].send(:"owner-display-name")
           end
         end
       end.to_xml

@@ -20,6 +20,8 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 zh-CN:
+  plugin_budgets_engine:
+    name: '预算'
   activerecord:
     attributes:
       budget:

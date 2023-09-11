@@ -173,6 +173,8 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
 
         new_page.set_project project
 
+        wait_for_network_idle # Wait for participant section to be fetched
+
         show_page = new_page.click_create
 
         show_page.expect_toast(message: 'Successful creation')

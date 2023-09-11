@@ -37,7 +37,7 @@ You cannot disable notifications for when you are mentioned since the goal of me
 
 ## Date alerts (Enterprise add-on)
 
-Starting with 12.4, Open Project offers notification for date alerts.
+Starting with 12.4, OpenProject offers notification for date alerts.
 
 > **Note**: Date alerts are an Enterprise add-on and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easy and helps support OpenProject.
 

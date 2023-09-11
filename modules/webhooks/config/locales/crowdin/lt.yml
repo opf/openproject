@@ -1,4 +1,7 @@
 lt:
+  plugin_openproject_webhooks:
+    name: "OpenProject žiniatinklio sąsajos"
+    description: "Teikia priedo API palaikymą OpenProject žiniatinklio sąsajoms, geresniai trečių šalių integracijai."
   activerecord:
     attributes:
       webhooks/webhook:

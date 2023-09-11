@@ -62,8 +62,8 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
     available_subprojects = visible_subprojects.index_by(&:id)
 
     values
-      .map { |subproject_id| available_subprojects[subproject_id.to_i] }
-      .compact
+      .filter_map { |subproject_id| available_subprojects[subproject_id.to_i] }
+      
   end
 
   def where

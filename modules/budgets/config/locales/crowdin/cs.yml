@@ -20,6 +20,8 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 cs:
+  plugin_budgets_engine:
+    name: 'Rozpočty'
   activerecord:
     attributes:
       budget:

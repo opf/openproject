@@ -57,8 +57,8 @@ module Queries::WorkPackages::Filter
       available_budgets = budgets.index_by(&:id)
 
       values
-        .map { |budget_id| available_budgets[budget_id.to_i] }
-        .compact
+        .filter_map { |budget_id| available_budgets[budget_id.to_i] }
+        
     end
 
     def human_name

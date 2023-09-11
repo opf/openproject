@@ -85,19 +85,27 @@ module OpenProject
       end
 
       def public_permissions
-        @public_permissions ||= @mapped_permissions.select(&:public?)
+        @public_permissions ||= permissions.select(&:public?)
       end
 
       def members_only_permissions
-        @members_only_permissions ||= @mapped_permissions.select(&:require_member?)
+        @members_only_permissions ||= permissions.select(&:require_member?)
       end
 
       def loggedin_only_permissions
-        @loggedin_only_permissions ||= @mapped_permissions.select(&:require_loggedin?)
+        @loggedin_only_permissions ||= permissions.select(&:require_loggedin?)
+      end
+
+      def work_package_permissions
+        @work_package_permissions ||= permissions.select(&:work_package?)
+      end
+
+      def project_permissions
+        @project_permissions ||= permissions.select(&:project?)
       end
 
       def global_permissions
-        @global_permissions ||= @mapped_permissions.select(&:global?)
+        @global_permissions ||= permissions.select(&:global?)
       end
 
       def available_project_modules
@@ -113,7 +121,7 @@ module OpenProject
 
       def project_modules
         @project_modules ||=
-          @mapped_permissions
+          permissions
             .reject(&:global?)
             .map(&:project_module)
             .including(@project_modules_without_permissions)
@@ -122,11 +130,11 @@ module OpenProject
       end
 
       def modules_permissions(modules)
-        @mapped_permissions.select { |p| p.project_module.nil? || modules.include?(p.project_module.to_s) }
+        permissions.select { |p| p.project_module.nil? || modules.include?(p.project_module.to_s) }
       end
 
       def module_enterprise_feature?(name)
-        current_module = modules.select { |m| m[:name] == name }[0]
+        current_module = modules.find { |m| m[:name] == name }
 
         return false if current_module.nil? || current_module[:enterprise_feature].nil?
 
@@ -154,13 +162,13 @@ module OpenProject
       end
 
       def remove_modules_permissions(module_name)
-        permissions = @mapped_permissions
+        original_permissions = permissions
 
-        module_permissions = permissions.select { |p| p.project_module.to_s == module_name.to_s }
+        module_permissions = original_permissions.select { |p| p.project_module.to_s == module_name.to_s }
 
         clear_caches
 
-        @mapped_permissions = permissions - module_permissions
+        @mapped_permissions = original_permissions - module_permissions
       end
 
       def clear_caches
@@ -169,6 +177,8 @@ module OpenProject
         @members_only_permissions = nil
         @project_modules = nil
         @public_permissions = nil
+        @work_package_permissions = nil
+        @project_permissions = nil
         @global_permissions = nil
         @public_permissions = nil
         @permissions = nil

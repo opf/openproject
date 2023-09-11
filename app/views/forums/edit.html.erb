@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= toolbar title: Forum.name.humanize %>
+<%= toolbar title: Forum.model_name.human %>
 
 <%= labelled_tabular_form_for [@project, @forum] do |f| %>
   <%= render partial: 'form', locals: { f: f } %>

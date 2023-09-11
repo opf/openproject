@@ -62,7 +62,7 @@ id:
           status: Status
           version: Versi
           subproject: Sub-Project
-          subtasks: Parent-child
+          subtasks: Orangtua-anak
           basic: Dasar
         select_attribute: "Aksi atribut"
       add_list_modal:

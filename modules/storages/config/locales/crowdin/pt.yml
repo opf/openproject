@@ -1,5 +1,8 @@
 #English strings go here
 pt:
+  plugin_openproject_storages:
+    name: "OpenProject Storages"
+    description: "Allows linking work packages to files in external storages, such as Nextcloud."
   permission_view_file_links: "Exibir vínculos de arquivos"
   permission_manage_file_links: "Gerenciar vínculos de arquivos"
   permission_manage_storages_in_project: "Gerenciar armazenamentos de arquivos no projeto"
@@ -50,6 +53,7 @@ pt:
     errors:
       too_many_elements_created_at_once: "Muitos elementos criados ao mesmo tempo. Esperado %{max} no máximo, obteve %{actual}."
   storages:
+    default_name: "My storage"
     unknown_storage: "Armazenamento desconhecido"
     buttons:
       done_continue_setup: "Concluído. Continuar configuração"
@@ -57,6 +61,7 @@ pt:
       edit_automatically_managed_project_folders: "Editar pastas do projeto gerenciadas automaticamente"
       replace_openproject_oauth: "Substituir OAuth OpenProject"
       replace_provider_type_oauth: "Substituir OAuth %{provider_type}"
+      save: "Save"
       save_and_continue_setup: "Salvar e continuar configuração"
       save_and_complete_setup: "Salvar e concluir configuração"
       select_folder: "Selecionar pastas"
@@ -97,6 +102,13 @@ pt:
       copy_from: "Copiar este valor de"
       nextcloud:
         integration: "Administração de Nextcloud / OpenProject"
+      one_drive:
+        integration: "OneDrive/SharePoint"
+        oauth_client_id: >
+          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+        oauth_client_secret: >
+          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
+        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
     help_texts:
       project_folder: >
         A pasta do projeto é a pasta padrão para uploads de arquivos para esse projeto. No entanto, os usuários ainda podem carregar arquivos em outros locais.
@@ -125,11 +137,13 @@ pt:
     label_oauth_breadcrumb:
       openproject: "OAuth OpenProject"
       nextcloud: "OAuth Nextcloud"
+      one_drive: "OneDrive OAuth"
     label_oauth_application_details: "Detalhes do aplicativo OAuth"
     label_oauth_client_details: "Detalhes do cliente OAuth"
     label_provider_type: "Tipo de provedor"
     label_project_folder: "Pasta do projeto"
     label_new_storage: "Novo armazenamento"
+    label_edit_storage: "Edit storage"
     label_existing_manual_folder: "Pasta existente com permissões gerenciadas manualmente"
     label_no_specific_folder: "Nenhuma pasta específica"
     label_automatic_folder: "Nova pasta com permissões gerenciadas automaticamente"
@@ -149,7 +163,9 @@ pt:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "Ex.: Nextcloud"
-        default_name: "Meu Nextcloud"
+      one_drive:
+        name: "OneDrive/SharePoint"
+        name_placeholder: "e.g. OneDrive"
     confirm_replace_oauth_application: "Tem certeza? Todos os usuários terão que autorizar novamente com o OpenProject."
     confirm_replace_oauth_client: "Tem certeza? Todos os usuários terão que autorizar novamente no armazenamento."
     oauth_client_details_missing: "Para concluir a configuração, adicione as credenciais do cliente OAuth do seu armazenamento."

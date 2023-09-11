@@ -33,7 +33,7 @@ require 'spec_helper'
 RSpec.describe OpenProject::JournalFormatter::FileLink do
   let(:work_package) { build(:work_package) }
   let(:journal) { instance_double(Journal, journable: work_package) }
-  let(:file_link) { create(:file_link, container: work_package, storage: build(:storage)) }
+  let(:file_link) { create(:file_link, container: work_package, storage: build(:nextcloud_storage)) }
   let(:key) { "file_links_#{file_link.id}" }
 
   let(:changes) { { "link_name" => file_link.origin_name, "storage_name" => file_link.storage.name } }

@@ -21,6 +21,10 @@
 #++
 #English strings go here for Rails i18n
 es:
+  plugin_openproject_meeting:
+    name: "Reuniones de OpenProject"
+    description: >-
+      Este módulo añade funciones para soportar reuniones de proyecto a OpenProject. Se pueden programar reuniones seleccionando invitados del mismo proyecto para participar en la reunión. Una agenda puede ser creada y enviada a los invitados. Después de la reunión, los asistentes pueden ser seleccionados y las actas pueden ser creadas en base a la agenda. Por último, las actas pueden ser enviadas a todos los asistentes y invitados.
   activerecord:
     attributes:
       meeting:

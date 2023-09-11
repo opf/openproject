@@ -462,6 +462,8 @@ si:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "ගබඩාව"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "අදහස් දැක්වීය" #an object that this comment belongs to
       custom_action:
@@ -1446,7 +1448,7 @@ si:
     changes_retracted: "The changes were retracted."
     caused_changes:
       dates_changed: "Dates changed"
-      system_update: "OpenProject update"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1462,7 +1464,8 @@ si:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'වින්යාස මාර්ගෝපදේශය'
     get_in_touch: "You have questions? Get in touch with us."
@@ -2192,8 +2195,8 @@ si:
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "ඔබට පවරා ඇති%{count} වැඩ පැකේජය (න්) ඉදිරි දින %{days} තුළ නියමිත වේ:"
   mail_body_group_reminder: "“%{group}\" කාණ්ඩයට පවරා ඇති%{count} වැඩ පැකේජය (න්) ඉදිරි දින %{days} තුළ සිදු වේ:"
-  mail_body_wiki_content_added: "'%{id}' විකි පිටුව %{author}විසින් එකතු කර ඇත."
-  mail_body_wiki_content_updated: "'%{id}' විකි පිටුව %{author}විසින් යාවත්කාලීන කර ඇත."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} ගිණුම සක්රිය කිරීමේ ඉල්ලීම"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2345,6 +2348,7 @@ si:
   permission_comment_news: "අදහස් ප්රවෘත්ති"
   permission_commit_access: "කියවීමට/ගබඩාවට ප්රවේශ වීම (කැප කිරීම)"
   permission_copy_projects: "ව්යාපෘති පිටපත් කරන්න"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "මුරකරුවන් මකන්න"
   permission_delete_work_packages: "වැඩ පැකේජ මකන්න"
@@ -2372,6 +2376,7 @@ si:
   permission_log_time: "Log time for other users"
   permission_manage_forums: "සංසද කළමනාකරණය කරන්න"
   permission_manage_categories: "වැඩ පැකේජ කාණ්ඩ කළමනාකරණය කරන්න"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "වැඩ පැකේජ සබඳතා කළමනාකරණය කරන්න"
   permission_manage_members: "සාමාජිකයින් කළමනාකරණය කරන්න"
   permission_manage_news: "පුවත් කළමනාකරණය"
@@ -2386,14 +2391,19 @@ si:
   permission_protect_wiki_pages: "විකි පිටු ආරක්ෂා කරන්න"
   permission_rename_wiki_pages: "විකි පිටු නැවත නම් කරන්න"
   permission_save_queries: "අදහස් සුරකින්න"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "ව්යාපෘති මොඩියුල තෝරන්න"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "වර්ග තෝරන්න"
+  permission_view_project: "View projects"
   permission_view_changesets: "OpenProject හි නිධි සංශෝධන බලන්න"
   permission_view_commit_author_statistics: "කතෘ සංඛ්යා ලේඛන බලන්න"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "මුරකරුවන් ලැයිස්තුව බලන්න"
   permission_view_work_packages: "වැඩ පැකේජ බලන්න"
   permission_view_messages: "පණිවිඩ බලන්න"
+  permission_view_news: "View news"
   permission_view_members: "සාමාජිකයන් බලන්න"
   permission_view_reportings: "වාර්තා බලන්න"
   permission_view_time_entries: "ගත කළ කාලය බලන්න"
@@ -2402,6 +2412,9 @@ si:
   permission_view_wiki_pages: "විකි දැක්ම"
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "අදාළ ව්යාපෘතියේ මෙම කාර්යභාරය සතුව ඇති පරිශීලකයින්ට සහ කණ්ඩායම්වලට වැඩ පැකේජ පැවරිය හැකිය"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
@@ -3155,3 +3168,9 @@ si:
     response:
       unexpected: "Unexpected response received."
   you: you
+  plugin_openproject_auth_plugins:
+    name: "OpenProject Auth Plugins"
+    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / Single-Sign On"
+    description: "Adds the OmniAuth SAML provider to OpenProject"

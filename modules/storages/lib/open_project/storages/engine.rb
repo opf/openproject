@@ -106,28 +106,31 @@ module OpenProject::Storages
     register 'openproject-storages',
              author_url: 'https://www.openproject.org',
              bundled: true,
-             settings: {},
-             name: 'OpenProject Storages' do
+             settings: {} do
       # Defines permission constraints used in the module (controller, etc.)
       # Permissions documentation: https://www.openproject.org/docs/development/concepts/permissions/#definition-of-permissions
       project_module :storages,
                      dependencies: :work_package_tracking do
         permission :view_file_links,
                    {},
+                   permissible_on: :project,
                    dependencies: %i[view_work_packages],
                    contract_actions: { file_links: %i[view] }
         permission :manage_file_links,
                    {},
+                   permissible_on: :project,
                    dependencies: %i[view_file_links],
                    contract_actions: { file_links: %i[manage] }
         permission :manage_storages_in_project,
-                   { 'storages/admin/project_storages': %i[index members new edit update create destroy destroy_info
-                                                           set_permissions],
+                   { 'storages/admin/project_storages': %i[index members new
+                                                           edit update create
+                                                           destroy destroy_info set_permissions],
                      'storages/project_settings/project_storage_members': %i[index] },
+                   permissible_on: :project,
                    dependencies: %i[]
 
         OpenProject::Storages::Engine.permissions.each do |p|
-          permission(p, {}, dependencies: %i[])
+          permission(p, {}, permissible_on: :project, dependencies: %i[])
         end
       end
 

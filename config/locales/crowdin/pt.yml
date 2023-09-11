@@ -461,6 +461,8 @@ pt:
         tls_certificate_string: "Certificado SSL do servidor LDAP"
       changeset:
         repository: "Repositório"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Comentado" #an object that this comment belongs to
       custom_action:
@@ -1445,7 +1447,7 @@ pt:
     changes_retracted: "As mudanças foram retraídas."
     caused_changes:
       dates_changed: "Data modificada"
-      system_update: "Atualização do OpenProject"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: por alterações ao antecessor %{link}
       work_package_parent_changed_times: por alterações ao primário %{link}
@@ -1461,7 +1463,8 @@ pt:
           working: "%{date} agora está funcionando"
           non_working: "%{date} não está funcionando agora"
       system_update:
-        file_links_journal: 'adicionar links de Arquivo para o Atividades'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Guia de configuração'
     get_in_touch: "Com dúvidas? Entre em contato conosco."
@@ -2190,8 +2193,8 @@ pt:
   mail_body_register_ending: "Fique ligado! Atenciosamente,"
   mail_body_reminder: "%{count} pacote(s) de trabalho foram atribuídos a você para os próximos %{days} dias:"
   mail_body_group_reminder: "%{count} pacote(s) de trabalho que estão atribuídos ao grupo \"%{group}\" expiram nos próximos %{days} dias:"
-  mail_body_wiki_content_added: "A página wiki '%{id}' foi adicionada por %{author}."
-  mail_body_wiki_content_updated: "A página wiki '%{id}' foi atualizada por %{author}."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "solicitação de ativação de conta %{value}"
   mail_subject_backup_ready: "Seu backup está pronto"
   mail_subject_backup_token_reset: "Redefinir token de backup"
@@ -2342,6 +2345,7 @@ pt:
   permission_comment_news: "Comentar notícias"
   permission_commit_access: "Acesso de leitura/gravação para o repositório (commit)"
   permission_copy_projects: "Copiar projetos"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Criar backup"
   permission_delete_work_package_watchers: "Excluir observadores"
   permission_delete_work_packages: "Excluir pacotes de trabalho"
@@ -2369,6 +2373,7 @@ pt:
   permission_log_time: "Registrar hora para outros usuários"
   permission_manage_forums: "Gerenciar fóruns"
   permission_manage_categories: "Gerenciar categorias de pacote de trabalho"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Gerenciar relações de pacote de trabalho"
   permission_manage_members: "Gerenciar membros"
   permission_manage_news: "Administrar notícias"
@@ -2383,14 +2388,19 @@ pt:
   permission_protect_wiki_pages: "Proteger páginas wiki"
   permission_rename_wiki_pages: "Renomear páginas wiki"
   permission_save_queries: "Salvar visões"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Selecionar campos personalizados"
   permission_select_project_modules: "Selecionar módulos do projeto"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Selecionar tipos"
+  permission_view_project: "View projects"
   permission_view_changesets: "Revisões do repositório vistas no OpenProject"
   permission_view_commit_author_statistics: "Ver estatísticas de commits do autor"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Visualizar lista de observadores"
   permission_view_work_packages: "Ver pacotes de trabalho"
   permission_view_messages: "Visualizar mensagens"
+  permission_view_news: "View news"
   permission_view_members: "Visualizar membros"
   permission_view_reportings: "Ver relatórios"
   permission_view_time_entries: "Ver tempo gasto"
@@ -2399,6 +2409,9 @@ pt:
   permission_view_wiki_pages: "Ver wiki"
   permission_work_package_assigned: "Torne-se responsável"
   permission_work_package_assigned_explanation: "Pacotes de trabalho podem ser atribuídos a usuários e grupos em posse deste papel no respectivo projeto"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
@@ -3151,3 +3164,9 @@ pt:
     response:
       unexpected: "Resposta inesperada recebida."
   you: você
+  plugin_openproject_auth_plugins:
+    name: "OpenProject Auth Plugins"
+    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / Single-Sign On"
+    description: "Adds the OmniAuth SAML provider to OpenProject"
