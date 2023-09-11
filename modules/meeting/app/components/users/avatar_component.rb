@@ -42,6 +42,10 @@ module Users
       @text_system_attributes = text_system_attributes
     end
 
+    def render?
+      @user.present?
+    end
+
     # build_principal_avatar_tag(@user, hide_name: true) cannot be used
     # once the list or item gets updated by hotwire, the avatar is not rendered anymore
     def call
