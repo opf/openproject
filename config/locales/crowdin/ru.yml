@@ -464,7 +464,7 @@ ru:
       changeset:
         repository: "Репозиторий"
       color:
-        hexcode: "Hex code"
+        hexcode: "Hex-код"
       comment:
         commented: "Прокомментировано" #an object that this comment belongs to
       custom_action:
@@ -1361,7 +1361,7 @@ ru:
   error_can_not_delete_entry: "Не удается удалить содержимое"
   error_can_not_delete_custom_field: "Не удается удалить настраиваемое поле"
   error_can_not_delete_in_use_archived_undisclosed: 'Есть также пакеты работ в архивных проектах. Вам нужно попросить администратора выполнить удаление, чтобы увидеть, какие проекты затронуты.'
-  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
+  error_can_not_delete_in_use_archived_work_packages: 'Также существуют пакеты работ в архивных проектах. Вам нужно сначала активировать следующие проекты, прежде чем вы сможете изменить атрибут соответствующих пакетов работ: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 'Этот тип содержит пакеты работ и не может быть удален. Вы можете увидеть все затрагиваемые пакеты работ в <a target="_blank" href="%{url}">этом представлении</a>.'
   error_can_not_delete_standard_type: "Стандартные типы не могут быть удалены."
@@ -1489,7 +1489,7 @@ ru:
     changes_retracted: "Изменения отменены."
     caused_changes:
       dates_changed: "Даты изменены"
-      system_update: "OpenProject system update:"
+      system_update: "Обновление системы OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: внесением изменений в предшественника %{link}
       work_package_parent_changed_times: внесением изменений в родительский %{link}
@@ -1506,7 +1506,7 @@ ru:
           non_working: "%{day} теперь нерабочий"
       system_update:
         file_links_journal: >
-          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
+          Теперь на вкладке Активность появится активность, связанная со ссылками файлов (файлы, хранящиеся во внешних хранилищах). Ниже описывается деятельность по уже существующим ссылкам:
   links:
     configuration_guide: 'Руководство по конфигурации'
     get_in_touch: "У вас есть вопросы? Свяжитесь с нами."
@@ -2238,8 +2238,8 @@ ru:
   mail_body_register_ending: "Оставайтесь на связи! С уважением,"
   mail_body_reminder: "%{count} пакета(ов) работ, закрепленных за Вами, должны быть представлены в следующие  %{days}:"
   mail_body_group_reminder: "Срок выполнения пакетов работ (%{count}), назначенных группе \"%{group}\", истекает в следующие %{days} дн.:"
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "'%{id}' wiki страница была добавлена %{author}."
+  mail_body_wiki_page_updated: "'%{id}' wiki страница была обновлена %{author}."
   mail_subject_account_activation_request: "Запрос на активацию учетной записи %{value}"
   mail_subject_backup_ready: "Ваша резервная копия готова"
   mail_subject_backup_token_reset: "Сброс маркера резервного копирования"
@@ -2392,7 +2392,7 @@ ru:
   permission_comment_news: "Комментировать новость"
   permission_commit_access: "Возможность чтения/записи в репозиторий (commit)"
   permission_copy_projects: "Копировать проект"
-  permission_copy_work_packages: "Copy work packages"
+  permission_copy_work_packages: "Копировать пакеты работ"
   permission_create_backup: "Создать резервную копию"
   permission_delete_work_package_watchers: "Удалить наблюдателей"
   permission_delete_work_packages: "Удалить пакеты работ"
@@ -2420,7 +2420,7 @@ ru:
   permission_log_time: "Журнал времени для других пользователей"
   permission_manage_forums: "Управление форумами"
   permission_manage_categories: "Управление категориями пакета работ"
-  permission_manage_dashboards: "Manage dashboards"
+  permission_manage_dashboards: "Управление панелями инструментов"
   permission_manage_work_package_relations: "Управление связями пакета работ"
   permission_manage_members: "Управление участниками"
   permission_manage_news: "Управление новостями"
@@ -2435,19 +2435,19 @@ ru:
   permission_protect_wiki_pages: "Защитить wiki-страницы"
   permission_rename_wiki_pages: "Переименование wiki-страниц"
   permission_save_queries: "Сохранить представления"
-  permission_search_project: "Search project"
+  permission_search_project: "Поиск проекта"
   permission_select_custom_fields: "Выберите настраиваемые поля"
   permission_select_project_modules: "Выбор модулей проекта"
-  permission_share_work_packages: "Share work packages"
+  permission_share_work_packages: "Поделиться пакетами работ"
   permission_manage_types: "Выберите типы"
-  permission_view_project: "View projects"
+  permission_view_project: "Просмотр проектов"
   permission_view_changesets: "Просмотр изменений репозитория в OpenProject"
   permission_view_commit_author_statistics: "Посмотреть статистику автора, внесшего свою часть работы"
-  permission_view_dashboards: "View dashboards"
+  permission_view_dashboards: "Просмотр панелей инструментов"
   permission_view_work_package_watchers: "Посмотреть список наблюдателей"
   permission_view_work_packages: "Просмотр пакетов работ"
   permission_view_messages: "Просмотр сообщений"
-  permission_view_news: "View news"
+  permission_view_news: "Просмотр новостей"
   permission_view_members: "Просмотреть участников"
   permission_view_reportings: "Просмотр отчетов"
   permission_view_time_entries: "Просмотр потраченного времени"
@@ -2456,9 +2456,9 @@ ru:
   permission_view_wiki_pages: "Просмотр wiki"
   permission_work_package_assigned: "Назначиться/стать отвественным"
   permission_work_package_assigned_explanation: "Пакеты работ могут быть привязаны к пользователям и группам в зависимости от этой роли в рамках соответствующего проекта"
-  permission_view_project_activity: "View project activity"
-  permission_save_bcf_queries: "Save BCF queries"
-  permission_manage_public_bcf_queries: "Manage public BCF queries"
+  permission_view_project_activity: "Просмотр деятельности по проекту"
+  permission_save_bcf_queries: "Сохранить запросы BCF"
+  permission_manage_public_bcf_queries: "Управление публичными BCF запросами"
   placeholders:
     default: "-"
   project:

@@ -164,7 +164,7 @@ zh-CN:
             item_2:
               name: 任务
             item_3:
-              name: 团队计划器
+              name: 工作组规划器
           boards:
             kanban:
               name: 看板面板

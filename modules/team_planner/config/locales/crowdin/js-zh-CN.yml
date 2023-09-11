@@ -4,9 +4,9 @@ zh-CN:
     team_planner:
       add_existing: '添加现有'
       add_existing_title: '添加现有工作包'
-      create_label: '团队计划'
-      create_title: '创建新的团队计划'
-      unsaved_title: '未命名的团队计划'
+      create_label: '工作组规划器'
+      create_title: '创建新的工作组规划器'
+      unsaved_title: '未命名的工作组规划器'
       no_data: '添加受理人以设置您的工作组规划器。'
       add_assignee: '添加受理人'
       remove_assignee: '移除受理人'

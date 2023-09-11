@@ -1681,7 +1681,7 @@ zh-CN:
   label_enumeration_value: "枚举值"
   label_enumerations: "枚举"
   label_enterprise: "企业"
-  label_enterprise_active_users: "%{current}/%{limit} 已预订的活动用户"
+  label_enterprise_active_users: "%{current}/%{limit} 已预订的活跃用户"
   label_enterprise_edition: "企业版"
   label_enterprise_support: "企业支持"
   label_environment: "环境"
@@ -2544,7 +2544,7 @@ zh-CN:
   setting_apiv3_docs: "文档"
   setting_apiv3_docs_enabled: "启用文档页面"
   setting_apiv3_docs_enabled_instructions_html: >
-    如果启用了文档页面，您可以在 <a href="%{link}" target="_blank">%{link}</a> 下获得 APIv3 文档的交互式视图。
+    如果启用了文档页面，您可以在此 <a href="%{link}" target="_blank">%{link}</a> 获得 API v3 文档的交互式视图。
   setting_attachment_whitelist: "附件上传白名单"
   setting_email_delivery_method: "电子邮件发送方法"
   setting_sendmail_location: "Sendmail 的执行位置"
