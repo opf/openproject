@@ -43,6 +43,13 @@ module Users::PermissionChecks
     end
   end
 
+  def reload(*args)
+    @user_allowed_service = nil
+    @project_role_cache = nil
+
+    super
+  end
+
   # Return user's roles for project
   def roles_for_project(project)
     project_role_cache.fetch(project)

@@ -171,8 +171,6 @@ class User < Principal
 
   def reload(*args)
     @name = nil
-    @user_allowed_service = nil
-    @project_role_cache = nil
 
     super
   end
