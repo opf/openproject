@@ -105,7 +105,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
     list = if respond_to?(:column_objects)
              attributes_list_by_columns
            else
-             attributes_list_by_wp
+             attributes_list_by_wp(work_package)
            end
     list
       .map { |entry| entry.merge({ value: get_column_value_cell(work_package, entry[:name]) }) }
@@ -124,21 +124,11 @@ module WorkPackage::PDFExport::WorkPackageDetail
     end
   end
 
-  def attributes_list_by_wp
-    col_names = %i[
-      id
-      updated_at
-      type
-      created_at
-      status
-      due_date
-      duration
-      priority
-      assigned_to
-      responsible
-    ]
-    col_names.map do |col_name|
-      { label: WorkPackage.human_attribute_name(col_name), name: col_name }
+  def attributes_list_by_wp(work_package)
+    ::Query.available_columns(work_package.project)
+      .reject { |column| %i[subject project].include?(column.name) }
+      .map do |column|
+      { label: column.caption || '', name: column.name }
     end
   end
 
