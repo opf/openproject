@@ -56,20 +56,28 @@ module Projects::Scopes
       end
 
       def allowed_to_non_member_relation(user, permissions)
+        builtin = if user.logged?
+                    Role::BUILTIN_NON_MEMBER
+                  else
+                    Role::BUILTIN_ANONYMOUS
+                  end
+
+        member_permission = if user.logged?
+                              <<~SQL.squish
+                                AND NOT EXISTS (SELECT 1
+                                                FROM members
+                                                WHERE #{allowed_to_members_condition(user)})
+                              SQL
+                            end
+
         Project
           .joins(allowed_to_enabled_module_join(permissions))
           .joins(<<~SQL.squish
             INNER JOIN "roles"
-              ON "roles"."builtin" IN (#{Role::BUILTIN_ANONYMOUS}, #{Role::BUILTIN_NON_MEMBER})
+              ON "roles"."builtin" = #{builtin}
               AND "projects"."active" = TRUE
               AND "projects"."public" = TRUE
-              AND NOT EXISTS (SELECT 1
-                              FROM members
-                              WHERE members.project_id = projects.id
-                              AND members.user_id = #{user.id}
-                              AND members.entity_type IS NULL
-                              AND members.entity_id IS NULL
-                              LIMIT 1)
+              #{member_permission}
           SQL
                 )
           .joins(allowed_to_role_permission_join(permissions))
@@ -81,11 +89,8 @@ module Projects::Scopes
           .joins(allowed_to_enabled_module_join(permissions))
           .joins(<<~SQL.squish
             JOIN "members"
-              ON "projects"."id" = "members"."project_id"
-              AND "members"."user_id" = #{user.id}
-              AND "members"."entity_type" IS NULL
-              AND "members"."entity_id" IS NULL
-              AND "projects"."active" = TRUE
+              ON "projects"."active" = TRUE
+              AND #{allowed_to_members_condition(user)}
           SQL
                 )
           .joins('JOIN "member_roles" ON "members"."id" = "member_roles"."member_id"')
@@ -127,8 +132,8 @@ module Projects::Scopes
 
         <<~SQL.squish
           JOIN "role_permissions"
-              ON roles.id = role_permissions.role_id
-              AND (#{condition})
+            ON roles.id = role_permissions.role_id
+            AND (#{condition})
         SQL
       end
 
@@ -138,6 +143,15 @@ module Projects::Scopes
         else
           [OpenProject::AccessControl.permission(permission)].compact
         end
+      end
+
+      def allowed_to_members_condition(user)
+        <<~SQL.squish
+          members.project_id = projects.id
+          AND members.user_id = #{user.id}
+          AND members.entity_type IS NULL
+          AND members.entity_id IS NULL
+        SQL
       end
     end
   end
