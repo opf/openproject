@@ -231,6 +231,16 @@ Inconsiderate use of error handling, logging, and monitoring mechanisms of a web
 - Scrub and filter user data being logged or output in error messages to prevent data leakage.
 - Only log necessary information. Avoid logging sensitive data such as passwords, payment information, or Personally Identifiable Information (PII).
 - Log data in a standard format to make parsing, auditing, and monitoring of that information easy.
+- Ensure that actions are aborted in case of errors
+
+
+
+**Usage at OpenProject**
+
+- Exception handlers catch all StandardErrors whenever your controller inherits from ApplicationController
+- Exception responses are disconnected from the actual errors and provide user-friendly messages without error details
+- Database transaction wrapping for any actions is wrapped in the [BaseContracted services](https://github.com/opf/openproject/blob/dev/app/services/base_services/base_contracted.rb#L54). Transactions are automatically rolled back in [Rails when exceptions occur](https://api.rubyonrails.org/v5.0.1/classes/ActiveRecord/Transactions/ClassMethods.html).
+- OpenProject uses a LogRage formatter for flexible, yet easily parseable formats
 
 
 
