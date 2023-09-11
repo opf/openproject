@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -72,7 +74,7 @@ module API::V3::Storages
 
     def initialize(model, current_user:, embed_links: nil)
       @connection_manager =
-        ::OAuthClients::ConnectionManager.new(user: current_user, oauth_client: model.oauth_client)
+        ::OAuthClients::ConnectionManager.new(user: current_user, configuration: model.oauth_configuration)
 
       super
     end

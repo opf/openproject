@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -30,12 +32,12 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
   class UploadLinkQuery
     using Storages::Peripherals::ServiceResultRefinements
 
-    URI_TOKEN_REQUEST = 'index.php/apps/integration_openproject/direct-upload-token'.freeze
-    URI_UPLOAD_BASE_PATH = 'index.php/apps/integration_openproject/direct-upload'.freeze
+    URI_TOKEN_REQUEST = 'index.php/apps/integration_openproject/direct-upload-token'
+    URI_UPLOAD_BASE_PATH = 'index.php/apps/integration_openproject/direct-upload'
 
     def initialize(storage)
-      @uri = URI(storage.host).normalize
-      @oauth_client = storage.oauth_client
+      @uri = storage.uri
+      @configuration = storage.oauth_configuration
     end
 
     def self.call(storage:, user:, data:)
@@ -43,7 +45,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def call(user:, data:)
-      Util.token(user:, oauth_client: @oauth_client) do |token|
+      Util.token(user:, configuration: @configuration) do |token|
         if data.nil? || data['parent'].nil?
           Util.error(:error, 'Data is invalid', data)
         else

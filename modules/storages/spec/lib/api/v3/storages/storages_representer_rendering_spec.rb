@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,6 +29,7 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
 
 RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
   let(:oauth_application) { build_stubbed(:oauth_application) }
@@ -42,9 +45,7 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
     allow(OAuthClients::ConnectionManager)
       .to receive(:new).and_return(connection_manager)
     allow(connection_manager)
-      .to receive(:authorization_state).and_return(:connected)
-    allow(connection_manager)
-      .to receive(:get_authorization_uri).and_return('https://example.com/authorize')
+      .to receive_messages(authorization_state: :connected, get_authorization_uri: 'https://example.com/authorize')
   end
 
   describe '_links' do
@@ -262,7 +263,7 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
 
       context 'with a non-Nextcloud storage' do
         let(:storage) do
-          build(:storage, provider_type: 'unknown', oauth_application:, oauth_client: oauth_client_credentials)
+          build(:one_drive_storage, oauth_application:, oauth_client: oauth_client_credentials)
         end
 
         it 'does not include the property hasApplicationPassword' do

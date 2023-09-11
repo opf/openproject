@@ -28,26 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_module_spec_helper
+module Storages
+  module Peripherals
+    module OAuthConfigurations
+      class ConfigurationInterface
+        def authorization_state_check(_) = raise ::Storages::Errors::SubclassResponsibility
 
-RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::Util do
-  describe '.basic_auth_header' do
-    subject { described_class.basic_auth_header(username, password) }
+        def scope = raise ::Storages::Errors::SubclassResponsibility
 
-    context 'when password is more than 60 symbols' do
-      let(:username) { 'Dart Scuadron' }
-      let(:password) { "#{'StarWars' * 10}Forever!" }
+        def basic_rack_oauth_client = raise ::Storages::Errors::SubclassResponsibility
 
-      it 'has no newline characters in encoded string' do
-        expect(subject['Authorization']).not_to match(/\n/)
-        expect(subject).to eq(
-          {
-            "Authorization" => "Basic RGFydCBTY3VhZHJvbjpTdGFyV2Fyc1N0YXJXYXJzU3Rhcl" \
-                               "dhcnNTdGFyV2Fyc1N0YXJXYXJzU3RhcldhcnNTdGFyV2Fyc1N0YX" \
-                               "JXYXJzU3RhcldhcnNTdGFyV2Fyc0ZvcmV2ZXIh"
-          }
-        )
+        private
+
+        def authorization_check_wrapper
+          case yield
+          when Net::HTTPSuccess
+            :success
+          when Net::HTTPForbidden, Net::HTTPUnauthorized
+            :refresh_needed
+          else
+            :error
+          end
+        end
       end
     end
   end
