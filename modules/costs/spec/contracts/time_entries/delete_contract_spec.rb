@@ -31,9 +31,8 @@ require 'spec_helper'
 RSpec.describe TimeEntries::DeleteContract do
   let(:current_user) do
     build_stubbed(:user) do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, permission_project|
-        permissions.include?(permission) && time_entry_project == permission_project
+      allow(user).to receive(:allowed_to?) do |permission, permission_work_package|
+        permissions.include?(permission) && time_entry_work_package == permission_work_package
       end
     end
   end

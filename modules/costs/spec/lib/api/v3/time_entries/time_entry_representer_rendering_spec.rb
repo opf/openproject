@@ -58,13 +58,11 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
   subject { representer.to_json }
 
   before do
-    allow(current_user)
-      .to receive(:allowed_to?) do |permission, context_project|
-      project == context_project && permissions.include?(permission)
+    allow(user).to receive(:allowed_to?) do |permission, permission_work_package|
+      permissions.include?(permission) && time_entry_work_package == permission_work_package
     end
-    allow(time_entry)
-      .to receive(:available_custom_fields)
-      .and_return([])
+
+    allow(time_entry).to receive(:available_custom_fields).and_return([])
   end
 
   include_context 'eager loaded work package representer'

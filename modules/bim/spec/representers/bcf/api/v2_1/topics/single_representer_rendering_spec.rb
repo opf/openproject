@@ -69,10 +69,7 @@ RSpec.describe Bim::Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
   before do
     login_as(current_user)
 
-    allow(current_user)
-      .to receive(:allowed_to?)
-      .with(:manage_bcf, issue.project)
-      .and_return(manage_bcf_allowed)
+    allow(current_user).to receive(:allowed_to?).with(:manage_bcf, issue.project).and_return(manage_bcf_allowed)
 
     contract = double('contract',
                       model: issue,

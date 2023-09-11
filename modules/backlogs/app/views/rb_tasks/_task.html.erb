@@ -26,8 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
-<% prevent_edit = User.current.allowed_to?(:edit_work_packages, defined?(project) ? project : task.project) ? '' : 'prevent_edit'%>
+<% prevent_edit = User.current.allowed_to?(:edit_work_packages, task) ? '' : 'prevent_edit'%>
 <div class="model work_package task <%= color_contrast_class(task) %> <%= prevent_edit %> <%= mark_if_closed(task) %>" id="work_package_<%= task.id %>" <%= build_inline_style(task) %>>
   <div class="id">
     <div class="t"><%= work_package_link_or_empty(task) %></div>

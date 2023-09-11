@@ -61,10 +61,9 @@ RSpec.describe WorkPackages::UpdateContract do
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
 
   before do
-    allow(user)
-      .to receive(:allowed_to?) do |permission, context|
-        permissions.include?(permission) && context == work_package_project
-      end
+    allow(user).to receive(:allowed_to?) do |permission, context|
+      permissions.include?(permission) && [work_package, work_package_project].include?(context)
+    end
   end
 
   subject(:contract) { described_class.new(work_package, user) }
@@ -164,14 +163,12 @@ RSpec.describe WorkPackages::UpdateContract do
     let(:target_permissions) { [:move_work_packages] }
 
     before do
-      allow(user)
-        .to receive(:allowed_to?) do |permission, context|
-        (permissions.include?(permission) && context == work_package_project) ||
-          (target_permissions.include?(permission) && context == target_project)
+      allow(user).to receive(:allowed_to?) do |permission, context|
+        (permissions.include?(permission) && context == work_package && context.project == work_package_project) ||
+        (target_permissions.include?(permission) && context == work_package && context.project == target_project)
       end
 
-      allow(work_package)
-        .to receive(:project) do
+      allow(work_package).to receive(:project) do
         if work_package.project_id == target_project.id
           target_project
         else
@@ -192,7 +189,7 @@ RSpec.describe WorkPackages::UpdateContract do
       let(:target_permissions) { [] }
 
       it 'is invalid' do
-        expect(contract.errors.symbols_for(:project_id)).to match_array([:error_readonly])
+        expect(contract.errors.symbols_for(:project_id)).to contain_exactly(:error_readonly)
       end
     end
   end
@@ -258,7 +255,7 @@ RSpec.describe WorkPackages::UpdateContract do
 
       it 'is invalid' do
         expect(contract.errors.symbols_for(:ignore_non_working_days))
-          .to match_array([:error_readonly])
+          .to contain_exactly(:error_readonly)
       end
     end
 

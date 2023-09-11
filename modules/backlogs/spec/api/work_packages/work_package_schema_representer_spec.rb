@@ -35,10 +35,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:current_user) do
     build_stubbed(:user, member_in_project: work_package.project).tap do |user|
       allow(user).to receive(:allowed_to?).and_return(false)
-      allow(user)
-        .to receive(:allowed_to?)
-        .with(:edit_work_packages, work_package.project, global: false)
-        .and_return(true)
+      allow(user).to receive(:allowed_to?).with(:edit_work_packages, work_package).and_return(true)
     end
   end
 

@@ -250,7 +250,7 @@ class ApplicationController < ActionController::Base
   # * a parameter-like Hash (eg. { controller: '/projects', action: 'edit' })
   # * a permission Symbol (eg. :edit_project)
   def do_authorize(action, global: false)
-    context = @project || @projects
+    context = @work_package || @project || @projects
     is_authorized = User.current.allowed_to?(action, context, global:)
 
     unless is_authorized
@@ -289,6 +289,9 @@ class ApplicationController < ActionController::Base
 
   def find_optional_project_and_raise_error
     @project = Project.find(params[:project_id]) if params[:project_id].present?
+
+    # TODO: Maybe also check if user is allowed on the entity itself. Will figure out or remove
+
     allowed = User.current.allowed_to?({ controller: params[:controller], action: params[:action] },
                                        @project, global: @project.nil?)
     allowed ? true : deny_access

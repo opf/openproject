@@ -101,13 +101,8 @@ RSpec.describe API::V3::WorkPackages::CreateFormRepresenter do
 
     describe 'commit' do
       before do
-        allow(current_user)
-          .to receive(:allowed_to?)
-                .and_return(false)
-        allow(current_user)
-          .to receive(:allowed_to?)
-                .with(:edit_work_packages, project)
-                .and_return(true)
+        allow(current_user).to receive(:allowed_to?).and_return(false)
+        allow(current_user).to receive(:allowed_to?).with(:edit_work_packages, work_package).and_return(true)
       end
 
       context 'for a valid work package' do
@@ -134,10 +129,7 @@ RSpec.describe API::V3::WorkPackages::CreateFormRepresenter do
 
       context 'for a user with insufficient permissions' do
         before do
-          allow(current_user)
-            .to receive(:allowed_to?)
-                  .with(:edit_work_packages, project)
-                  .and_return(false)
+          allow(current_user).to receive(:allowed_to?).with(:edit_work_packages, work_package).and_return(false)
         end
 
         it 'has no link' do
@@ -148,17 +140,12 @@ RSpec.describe API::V3::WorkPackages::CreateFormRepresenter do
 
     describe 'customFields' do
       before do
-        allow(current_user)
-          .to receive(:allowed_to?)
-                .and_return(false)
+        allow(current_user).to receive(:allowed_to?).and_return(false)
       end
 
       context 'with the permission to select custom fields' do
         before do
-          allow(current_user)
-            .to receive(:allowed_to?)
-                  .with(:select_custom_fields, work_package.project)
-                  .and_return(true)
+          allow(current_user).to receive(:allowed_to?).with(:select_custom_fields, work_package).and_return(true)
         end
 
         it 'has a link to set the custom fields for that project' do
@@ -198,9 +185,7 @@ RSpec.describe API::V3::WorkPackages::CreateFormRepresenter do
         end
 
         before do
-          allow(current_user).to receive(:allowed_to?)
-            .with(:edit_project, work_package.project)
-            .and_return(false)
+          allow(current_user).to receive(:allowed_to?).with(:edit_project, work_package.project).and_return(false)
         end
 
         it 'has a link to configure the form' do

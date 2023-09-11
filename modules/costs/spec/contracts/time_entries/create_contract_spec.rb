@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_contract_examples'
+require_relative 'shared_contract_examples'
 
 RSpec.describe TimeEntries::CreateContract do
   it_behaves_like 'time entry contract' do
@@ -96,9 +96,8 @@ RSpec.describe TimeEntries::CreateContract do
     context 'if time_entry user is not contract user' do
       let(:other_user) do
         build_stubbed(:user) do |user|
-          allow(user)
-            .to receive(:allowed_to?) do |permission, permission_project|
-            permissions.include?(permission) && time_entry_project == permission_project
+          allow(user).to receive(:allowed_to?) do |permission, permission_work_package|
+            permissions.include?(permission) && time_entry_work_package == permission_work_package
           end
         end
       end
@@ -113,9 +112,8 @@ RSpec.describe TimeEntries::CreateContract do
     context 'if time_entry user was not set by system' do
       let(:other_user) do
         build_stubbed(:user) do |user|
-          allow(user)
-            .to receive(:allowed_to?) do |permission, permission_project|
-            permissions.include?(permission) && time_entry_project == permission_project
+          allow(user).to receive(:allowed_to?) do |permission, permission_work_package|
+            permissions.include?(permission) && time_entry_work_package == permission_work_package
           end
         end
       end

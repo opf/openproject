@@ -58,11 +58,11 @@ module Versions
 
     # Returns the sharings that +user+ can set the version to
     def assignable_sharings
-      Version::VERSION_SHARINGS.select do |s|
-        if model.sharing_was == s
+      Version::VERSION_SHARINGS.select do |sharing|
+        if model.sharing_was == sharing
           true
         else
-          case s
+          case sharing
           when 'system'
             # Only admin users can set a systemwide sharing
             user.admin?
@@ -83,7 +83,7 @@ module Versions
       if wiki
         wiki.pages
       else
-        WikiPage.where('1=0')
+        WikiPage.none
       end
     end
 

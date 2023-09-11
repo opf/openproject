@@ -33,8 +33,7 @@ RSpec.shared_examples_for 'issues contract' do
     build_stubbed(:user)
   end
   let!(:allowed_to) do
-    allow(current_user)
-      .to receive(:allowed_to?) do |permission, permission_project|
+    allow(current_user).to receive(:allowed_to?) do |permission, permission_project|
       permissions.include?(permission) && project == permission_project
     end
   end

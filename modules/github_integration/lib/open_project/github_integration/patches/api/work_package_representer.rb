@@ -7,7 +7,7 @@ module OpenProject::GithubIntegration
         def extension
           ->(*) do
             link :github,
-                 cache_if: -> { current_user.allowed_to?(:show_github_content, represented.project) } do
+                 cache_if: -> { current_user.allowed_to?(:show_github_content, represented) } do
               {
                 href: "#{work_package_path(id: represented.id)}/tabs/github",
                 title: "github"

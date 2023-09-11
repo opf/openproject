@@ -55,6 +55,7 @@ module Acts::Journalized
       editable = if respond_to? :editable_by?
                    editable_by?(user)
                  else
+                   # TODO: Also check if we are a work package and then check this? Will have to revisit
                    p = @project || (project if respond_to? :project)
                    user.allowed_to? journable_edit_permission, p, global: p.present?
                  end

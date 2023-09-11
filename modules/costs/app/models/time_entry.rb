@@ -86,7 +86,7 @@ class TimeEntry < ApplicationRecord
 
   # Returns true if the time entry can be edited by usr, otherwise false
   def editable_by?(usr)
-    (usr == user && usr.allowed_to?(:edit_own_time_entries, project)) || usr.allowed_to?(:edit_time_entries, project)
+    (usr == user && usr.allowed_to?(:edit_own_time_entries, work_package)) || usr.allowed_to?(:edit_time_entries, work_package)
   end
 
   def current_rate
@@ -94,13 +94,13 @@ class TimeEntry < ApplicationRecord
   end
 
   def visible_by?(usr)
-    usr.allowed_to?(:view_time_entries, project) ||
-      (user_id == usr.id && usr.allowed_to?(:view_own_time_entries, project))
+    usr.allowed_to?(:view_time_entries, work_package) ||
+      (user_id == usr.id && usr.allowed_to?(:view_own_time_entries, work_package))
   end
 
   def costs_visible_by?(usr)
-    usr.allowed_to?(:view_hourly_rates, project) ||
-      (user_id == usr.id && usr.allowed_to?(:view_own_hourly_rate, project))
+    usr.allowed_to?(:view_hourly_rates, work_package) ||
+      (user_id == usr.id && usr.allowed_to?(:view_own_hourly_rate, work_package))
   end
 
   private

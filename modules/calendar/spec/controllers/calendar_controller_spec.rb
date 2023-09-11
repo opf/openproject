@@ -40,11 +40,8 @@ RSpec.describe Calendar::CalendarsController do
   let(:permissions) { [:view_calendar] }
   let(:user) do
     build_stubbed(:user).tap do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, p|
-        permission[:controller] == 'calendar/calendars' &&
-          permission[:action] == 'index' &&
-          (p.nil? || p == project)
+      allow(user).to receive(:allowed_to?) do |permission, p|
+        permission[:controller] == 'calendar/calendars' && permission[:action] == 'index' && (p.nil? || p == project)
       end
       allow(user).to receive(:allowed_to_globally?).and_return(false)
     end

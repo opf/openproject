@@ -39,7 +39,7 @@ class WorkPackageBoxesController < WorkPackagesController
       r.other_work_package(@work_package) && r.other_work_package(@work_package).visible?
     end
     @allowed_statuses = WorkPackages::UpdateContract.new(work_package, User.current).assignable_statuses
-    @edit_allowed = User.current.allowed_to?(:edit_work_packages, @project)
+    @edit_allowed = User.current.allowed_to?(:edit_work_packages, @work_package)
     @priorities = IssuePriority.all
     @time_entry = TimeEntry.new
 

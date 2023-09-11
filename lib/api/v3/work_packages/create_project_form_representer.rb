@@ -52,9 +52,7 @@ module API
         end
 
         link :commit do
-          if current_user
-             .allowed_to?(:edit_work_packages, represented.project) &&
-             @errors.empty?
+          if current_user.allowed_to?(:edit_work_packages, represented) && @errors.empty?
             {
               href: api_v3_paths.work_packages_by_project(represented.project_id),
               method: :post

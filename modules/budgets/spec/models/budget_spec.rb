@@ -57,12 +57,9 @@ RSpec.describe Budget do
       budget.material_budget_items.reload.first
     end
 
-    context 'allowed to edit budgets' do
+    context 'when allowed to edit budgets' do
       before do
-        allow(User.current)
-          .to receive(:allowed_to?)
-          .with(:edit_budgets, project)
-          .and_return(true)
+        allow(User.current).to receive(:allowed_to?).with(:edit_budgets, project).and_return(true)
       end
 
       context 'with a non integer value' do

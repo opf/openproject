@@ -29,9 +29,9 @@
 module TimeEntries
   class DeleteContract < ::DeleteContract
     delete_permission -> {
-      edit_all = user.allowed_to?(:edit_time_entries, model.project)
-      edit_own = user.allowed_to?(:edit_own_time_entries, model.project)
-      edit_ongoing = model.ongoing && user.allowed_to?(:log_own_time, model.project)
+      edit_all = user.allowed_to?(:edit_time_entries, work_package)
+      edit_own = user.allowed_to?(:edit_own_time_entries, work_package)
+      edit_ongoing = model.ongoing && user.allowed_to?(:log_own_time, work_package)
 
       if model.user == user
         edit_own || edit_all || edit_ongoing

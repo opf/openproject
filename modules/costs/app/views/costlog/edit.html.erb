@@ -26,18 +26,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <% html_title t(:label_log_costs) %>
 <h2><%= t(:label_log_costs) %></h2>
-
 <% url = @cost_entry.new_record? ?
   { action: 'create', project_id: @project.id } :
   { action: 'update', id: @cost_entry } %>
-
 <% method = @cost_entry.new_record? ?
   :post :
   :put %>
-
 <remote-field-updater data-url="<%= url_for(controller: :budgets, action: :update_material_budget_item, project_id: @cost_entry.project) %>"
                       data-mode="json">
 </remote-field-updater>
@@ -45,14 +41,12 @@ See COPYRIGHT and LICENSE files for more details.
   <%= error_messages_for 'cost_entry' %>
   <%= back_url_hidden_field_tag %>
   <%= f.hidden_field :element_id, value: 'cost_entry', class: 'remote-field--input', data: { :'remote-field-key' => 'element_id' } %>
-
   <div class="form--field -required">
     <%= f.text_field :work_package_id,
                      size: 6,
                      required: true,
                      autofocus: true,
                      container_class: '-xslim' %>
-
     <% if @cost_entry.work_package %>
       <div class="form--field-instructions">
         <%= h("#{@cost_entry.work_package.to_s}") %>
@@ -65,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
                       data: { :'remote-field-key' => 'fixed_date' } %>
     <label for="cost_entry_spent_on" class="hidden-for-sighted"><%= t(:label_date) %> <%= t(:text_hint_date_format) %></label>
   </div>
-  <% if User.current.allowed_to? :log_costs, @project %>
+  <% if User.current.allowed_to? :log_costs, @cost_entry.work_package %>
     <div class="form--field">
       <%# Without knowing why `prompt` is in this case responsible for no blank line in the selection options %>
       <%= f.select :user_id,
@@ -88,17 +82,17 @@ See COPYRIGHT and LICENSE files for more details.
                    class: 'remote-field--input',
                    data: { :'remote-field-key' => 'cost_type_id' }
                  } %></p>
-  </div>
-  <div class="form--field -required">
-    <% if @cost_entry.cost_type.nil? %>
-      <%= f.text_field :units,
+</div>
+<div class="form--field -required">
+  <% if @cost_entry.cost_type.nil? %>
+    <%= f.text_field :units,
                        value: unitless_currency_number(@cost_entry.units),
                        size: 6,
                        required: true,
                        container_class: '-slim' %>
-    <% else %>
-      <% suffix = @cost_entry.units == 1 ? @cost_entry.cost_type.unit : @cost_entry.cost_type.unit_plural %>
-      <%= f.text_field :units,
+  <% else %>
+    <% suffix = @cost_entry.units == 1 ? @cost_entry.cost_type.unit : @cost_entry.cost_type.unit_plural %>
+    <%= f.text_field :units,
                        size: 6,
                        value: unitless_currency_number(@cost_entry.units),
                        required: true,
@@ -107,31 +101,29 @@ See COPYRIGHT and LICENSE files for more details.
                        class: 'remote-field--input',
                        data: { :'remote-field-key' => 'units' },
                        container_class: '-slim' %>
-    <% end %>
-  </div>
-
-  <div class="form--field">
-    <label for="cost_entry_costs_edit" class="form--label"><%= CostEntry.human_attribute_name(:costs) %></label>
-    <% if User.current.allowed_to?(:view_cost_rates, @cost_entry.project) %>
+  <% end %>
+</div>
+<div class="form--field">
+  <label for="cost_entry_costs_edit" class="form--label"><%= CostEntry.human_attribute_name(:costs) %></label>
+  <% if User.current.allowed_to?(:view_cost_rates, @cost_entry.work_package) %>
     <span class="form--field-container">
       <a href="#"
          id="cost_entry_costs"
          class="costs--edit-planned-costs-btn icon-context icon-edit"
          role="button"
          title="<%= t(:help_click_to_edit) %>">
-            <%= number_to_currency(@cost_entry.real_costs) %>
-        </a>
+        <%= number_to_currency(@cost_entry.real_costs) %>
+      </a>
       <%= render partial: '/budgets/items/budget_override_cost_form',
                  locals: {
                    field_name: "cost_entry[overridden_costs]",
                    cost_value: unitless_currency_number(@cost_entry.real_costs),
                  }
       %>
-
-      </span>
-    <% else %>
+    </span>
+  <% else %>
     <span class="form--field-container">
-          <%= f.text_field :overridden_costs,
+      <%= f.text_field :overridden_costs,
                            value: @cost_entry.overridden_costs ? unitless_currency_number(@cost_entry.overridden_costs).strip : '',
                            placeholder: t(:label_example_placeholder, decimal: unitless_currency_number(1000.50)),
                            no_label: true,
@@ -139,16 +131,14 @@ See COPYRIGHT and LICENSE files for more details.
                            id: 'cost_entry_cost_value',
                            container_class: '-middle',
                            size: 7 %>
-        </span>
-      <div class="form--field-instructions">
-        <p><%= t(:help_override_rate) %></p>
-      </div>
-    <% end %>
-  </div>
-
-  <div class="form--field">
-    <%= f.text_field :comments, size: 100, container_class: '-wide' %>
-  </div>
-
-  <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
+    </span>
+    <div class="form--field-instructions">
+      <p><%= t(:help_override_rate) %></p>
+    </div>
+  <% end %>
+</div>
+<div class="form--field">
+  <%= f.text_field :comments, size: 100, container_class: '-wide' %>
+</div>
+<%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
 <% end %>

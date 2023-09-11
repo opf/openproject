@@ -31,9 +31,7 @@ require 'spec_helper'
 RSpec.describe Projects::Settings::ModulesController, 'menu' do
   let(:current_user) do
     build_stubbed(:user).tap do |u|
-      allow(u)
-        .to receive(:allowed_to?)
-        .and_return(true)
+      allow(u).to receive(:allowed_to?).and_return(true)
     end
   end
   let(:project) do
