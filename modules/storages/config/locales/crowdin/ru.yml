@@ -60,7 +60,7 @@ ru:
       edit_automatically_managed_project_folders: "Редактировать автоматически управляемые папки проекта"
       replace_openproject_oauth: "Заменить OAuth OpenProject"
       replace_provider_type_oauth: "Заменить %{provider_type} OAuth"
-      save: "Save"
+      save: "Сохранить"
       save_and_continue_setup: "Сохранить и продолжить установку"
       save_and_complete_setup: "Сохранить и завершить установку"
       select_folder: "Выберите папку"
@@ -105,7 +105,7 @@ ru:
       project_folder: >
         Папка проекта является папкой по умолчанию для загрузки файлов для этого проекта. Тем не менее, пользователи по-прежнему могут загружать файлы в другие места.
     configuration_checks:
-      incomplete: "The setup of this storage is incomplete."
+      incomplete: "Установка этого хранилища не завершена."
     delete_warning:
       storage: >
         Вы уверены, что хотите удалить это хранилище? Это также удалит хранилище из всех проектов, где оно используется. Кроме того, будут удалены все ссылки из пакетов работ на файлы, хранящиеся в этом хранилище.
@@ -134,7 +134,7 @@ ru:
     label_provider_type: "Тип поставщика"
     label_project_folder: "Папка проекта"
     label_new_storage: "Новое хранилище"
-    label_edit_storage: "Edit storage"
+    label_edit_storage: "Редактировать хранилище"
     label_existing_manual_folder: "Существующая папка с разрешениями, управляемыми вручную"
     label_no_specific_folder: "Нет конкретной папки"
     label_automatic_folder: "Новая папка с автоматически управляемыми правами"

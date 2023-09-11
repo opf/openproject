@@ -22,7 +22,7 @@
 zh-CN:
   plugin_costs:
     name: "时间和成本"
-    description: "这个模块增加了项目规划和费用跟踪的功能。"
+    description: "该模块增加了项目规划和费用跟踪的功能。"
   activerecord:
     attributes:
       cost_entry:
@@ -57,7 +57,7 @@ zh-CN:
     comment: "注释"
     cost_type: "成本类型"
     costs: "成本"
-    current_rate: "当前利率"
+    current_rate: "当前费率"
     hours: "小时"
     units: "单位"
     valid_from: "有效起始日期"

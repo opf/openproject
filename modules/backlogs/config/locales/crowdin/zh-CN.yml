@@ -69,7 +69,7 @@ zh-CN:
     rebuild: "重建"
     rebuild_positions: "重建顺序"
     remaining_hours: "剩余工时"
-    remaining_hours_ideal: "（理想）剩余工时"
+    remaining_hours_ideal: "剩余工时（理想）"
     show_burndown_chart: "燃尽图"
     story: "故事"
     story_points: "故事点"

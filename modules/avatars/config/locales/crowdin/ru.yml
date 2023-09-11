@@ -3,7 +3,7 @@ ru:
   plugin_openproject_avatars:
     name: "Пизда дубам"
     description: >-
-      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+      Этот плагин позволяет пользователям OpenProject загрузить изображение, которое будет использоваться в качестве аватара или использовать зарегистрированные изображения с Gravatar.
   label_avatar: "Аватар"
   label_avatar_plural: "Аватары"
   label_current_avatar: "Текущий аватар"
