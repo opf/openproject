@@ -36,5 +36,13 @@ module Storages
     def configuration_checks
       { storage_oauth_client_configured: oauth_client.present? }
     end
+
+    def oauth_configuration
+      Peripherals::OAuthConfigurations::OneDriveConfiguration.new(self)
+    end
+
+    def uri
+      URI('https://graph.microsoft.com').normalize
+    end
   end
 end

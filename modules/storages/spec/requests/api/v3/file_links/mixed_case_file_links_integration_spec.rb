@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -123,7 +125,6 @@ RSpec.describe 'API v3 file links resource' do
   subject { last_response }
 
   before do
-    storage_good
     project_storage_good
 
     oauth_client_good

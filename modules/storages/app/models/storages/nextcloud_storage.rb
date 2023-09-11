@@ -28,52 +28,58 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::NextcloudStorage < Storages::Storage
-  PROVIDER_FIELDS_DEFAULTS = {
-    automatically_managed: true,
-    username: 'OpenProject'
-  }.freeze
+module Storages
+  class NextcloudStorage < Storage
+    PROVIDER_FIELDS_DEFAULTS = {
+      automatically_managed: true,
+      username: 'OpenProject'
+    }.freeze
 
-  store_attribute :provider_fields, :automatically_managed, :boolean
-  store_attribute :provider_fields, :username, :string
-  store_attribute :provider_fields, :password, :string
-  store_attribute :provider_fields, :group, :string
-  store_attribute :provider_fields, :group_folder, :string
+    store_attribute :provider_fields, :automatically_managed, :boolean
+    store_attribute :provider_fields, :username, :string
+    store_attribute :provider_fields, :password, :string
+    store_attribute :provider_fields, :group, :string
+    store_attribute :provider_fields, :group_folder, :string
 
-  def self.sync_all_group_folders
-    # Returns false if lock cannot be acquired, block is not executed then.
-    OpenProject::Mutex.with_advisory_lock(self,
-                                          'sync_all_group_folders',
-                                          timeout_seconds: 0,
-                                          transaction: false) do
-      where("provider_fields->>'automatically_managed' = 'true'")
-        .includes(:oauth_client)
-        .each do |storage|
-        Storages::GroupFolderPropertiesSyncService.new(storage).call
+    def self.sync_all_group_folders
+      # Returns false if lock cannot be acquired, block is not executed then.
+      OpenProject::Mutex.with_advisory_lock(self,
+                                            'sync_all_group_folders',
+                                            timeout_seconds: 0,
+                                            transaction: false) do
+        where("provider_fields->>'automatically_managed' = 'true'")
+          .includes(:oauth_client)
+          .each do |storage|
+          GroupFolderPropertiesSyncService.new(storage).call
+        end
+        true
       end
-      true
     end
-  end
 
-  def configuration_checks
-    {
-      storage_oauth_client_configured: oauth_client.present?,
-      openproject_oauth_application_configured: oauth_application.present?,
-      host_name_configured: host.present? && name.present?
-    }
-  end
-
-  def automatic_management_unspecified?
-    automatically_managed.nil?
-  end
-
-  %i[username group group_folder].each do |attribute_method|
-    define_method(attribute_method) do
-      super().presence || PROVIDER_FIELDS_DEFAULTS[:username]
+    def oauth_configuration
+      Peripherals::OAuthConfigurations::NextcloudConfiguration.new(self)
     end
-  end
 
-  def provider_fields_defaults
-    PROVIDER_FIELDS_DEFAULTS
+    def automatic_management_unspecified?
+      automatically_managed.nil?
+    end
+
+    def configuration_checks
+      {
+        storage_oauth_client_configured: oauth_client.present?,
+        openproject_oauth_application_configured: oauth_application.present?,
+        host_name_configured: host.present? && name.present?
+      }
+    end
+
+    %i[username group group_folder].each do |attribute_method|
+      define_method(attribute_method) do
+        super().presence || PROVIDER_FIELDS_DEFAULTS[:username]
+      end
+    end
+
+    def provider_fields_defaults
+      PROVIDER_FIELDS_DEFAULTS
+    end
   end
 end

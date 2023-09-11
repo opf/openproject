@@ -34,14 +34,12 @@ require "uri/http"
 module OAuthClients
   class ConnectionManager
     # Nextcloud API endpoint to check if Bearer token is valid
-    AUTHORIZATION_CHECK_PATH = '/ocs/v1.php/cloud/user'
     TOKEN_IS_FRESH_DURATION = 10.seconds.freeze
 
-    attr_reader :user, :oauth_client
-
-    def initialize(user:, oauth_client:)
+    def initialize(user:, configuration:)
       @user = user
-      @oauth_client = oauth_client
+      @oauth_client = configuration.oauth_client
+      @config = configuration
     end
 
     # Main method to initiate the OAuth2 flow called by a "client" component
@@ -50,14 +48,15 @@ module OAuthClients
     # @param state (OAuth2 RFC) encapsulates the state of the calling page (URL + params) to return
     # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud only has one global scope.
     # @return ServiceResult with ServiceResult.result being either an OAuthClientToken or a redirection URL
-    def get_access_token(scope: [], state: nil)
+    def get_access_token(state: nil)
       # Check for an already existing token from last call
       token = get_existing_token
       return ServiceResult.success(result: token) if token.present?
 
       # Return the Nextcloud OAuth authorization URI that a user needs to open to grant access and eventually obtain
       # a token.
-      @redirect_url = get_authorization_uri(scope:, state:)
+      @redirect_url = get_authorization_uri(state:)
+
       ServiceResult.failure(result: @redirect_url)
     end
 
@@ -89,9 +88,9 @@ module OAuthClients
     # @param state (OAuth2 RFC) is a nonce referencing a cookie containing the calling page (URL + params) to which to
     # return to at the end of the whole flow.
     # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud has only one global scope.
-    def get_authorization_uri(scope: [], state: nil)
+    def get_authorization_uri(state: nil)
       client = rack_oauth_client # Configure and start the rack-oauth2 client
-      client.authorization_uri(scope:, state:)
+      client.authorization_uri(scope: @config.scope, state:)
     end
 
     # Called by callback_page with a cryptographic "code" that indicates
@@ -139,39 +138,21 @@ module OAuthClients
       oauth_client_token = get_existing_token
       return :failed_authorization unless oauth_client_token
 
-      # Check for user information. This is the cheapest Nextcloud call that requires
-      # valid authentication, so we use it for testing the validity of the Bearer token.
-      # curl -H "Authorization: Bearer MY_TOKEN" -X GET 'https://my.nextcloud.org/ocs/v1.php/cloud/user' \
-      #      -H "OCS-APIRequest: true" -H "Accept: application/json"
-      util = Storages::Peripherals::StorageInteraction::Nextcloud::Util
-      uri = URI(oauth_client.integration.host).normalize
-      response = util
-        .http(uri)
-        .get(
-          util.join_uri_path(uri, AUTHORIZATION_CHECK_PATH),
-          {
-            'Authorization' => "Bearer #{oauth_client_token.access_token}",
-            'OCS-APIRequest' => 'true',
-            'Accept' => 'application/json'
-          }
-        )
-      case response
-      when Net::HTTPSuccess
+      state = @config.authorization_state_check(oauth_client_token.access_token)
+      case state
+      when :success
         :connected
-      when Net::HTTPForbidden, Net::HTTPUnauthorized
-        service_result = refresh_token # `refresh_token` already has exception handling
+      when :refresh_needed
+        service_result = refresh_token
         if service_result.success?
           :connected
         elsif service_result.result == 'invalid_request'
-          # This can happen if the Authorization Server invalidated all tokens.
-          # Then the user would ideally be asked to reauthorize.
           :failed_authorization
         else
-          # It could also be that some other error happened, i.e. firewall badly configured.
-          # Then the user needs to know that something is technically off. The user could try
-          # to reload the page or contact an admin.
           :error
         end
+      else
+        state
       end
     rescue StandardError
       :error
@@ -216,10 +197,7 @@ module OAuthClients
       ServiceResult.success(result: rack_access_token)
     rescue Rack::OAuth2::Client::Error => e
       service_result_with_error(i18n_rack_oauth2_error_message(e), e.message)
-    rescue Faraday::TimeoutError,
-           Faraday::ConnectionFailed,
-           Faraday::ParsingError,
-           Faraday::SSLError => e
+    rescue Faraday::TimeoutError, Faraday::ConnectionFailed, Faraday::ParsingError, Faraday::SSLError => e
       service_result_with_error(
         "#{I18n.t('oauth_client.errors.oauth_returned_http_error')}: #{e.class}: #{e.message.to_html}",
         e.message
@@ -244,31 +222,13 @@ module OAuthClients
     # Return a fully configured RackOAuth2Client.
     # This client does all the heavy lifting with the OAuth2 protocol.
     def rack_oauth_client(options = {})
-      rack_oauth_client = build_basic_rack_oauth_client
+      rack_oauth_client = @config.basic_rack_oauth_client
 
       # Write options, for example authorization_code and refresh_token
       rack_oauth_client.refresh_token = options[:refresh_token] if options[:refresh_token]
       rack_oauth_client.authorization_code = options[:authorization_code] if options[:authorization_code]
 
       rack_oauth_client
-    end
-
-    def build_basic_rack_oauth_client
-      oauth_client_uri = URI.parse(@oauth_client.integration.host)
-      oauth_client_scheme = oauth_client_uri.scheme
-      oauth_client_host = oauth_client_uri.host
-      oauth_client_port = oauth_client_uri.port
-      oauth_client_path = oauth_client_uri.path
-
-      Rack::OAuth2::Client.new(
-        identifier: @oauth_client.client_id,
-        secret: @oauth_client.client_secret,
-        scheme: oauth_client_scheme,
-        host: oauth_client_host,
-        port: oauth_client_port,
-        authorization_endpoint: File.join(oauth_client_path, "/index.php/apps/oauth2/authorize"),
-        token_endpoint: File.join(oauth_client_path, "/index.php/apps/oauth2/api/v1/token")
-      )
     end
 
     # Update an OpenProject token based on updated values from a
