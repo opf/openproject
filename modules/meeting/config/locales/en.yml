@@ -39,6 +39,7 @@ en:
   activerecord:
     attributes:
       meeting:
+        type: "Meeting type"
         location: "Location"
         duration: "Duration"
         participants: "Participants"
@@ -103,6 +104,11 @@ en:
 
 
   meeting:
+    types:
+      classic: 'Free-text meeting'
+      classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
+      structured: 'Structured meeting'
+      structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
     copied: "Copied from Meeting #%{id}"
 
   notice_successful_notification: "Notification sent successfully"
