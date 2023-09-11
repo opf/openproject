@@ -41,6 +41,7 @@ class User < Principal
 
   include ::Associations::Groupable
   include ::Users::Avatars
+  include ::Users::PermissionChecks
   extend DeprecatedAlias
 
   has_many :watches, class_name: 'Watcher',
@@ -464,12 +465,6 @@ class User < Principal
     !logged?
   end
 
-  # Return user's roles for project
-  def roles_for_project(project)
-    project_role_cache.fetch(project)
-  end
-  alias :roles :roles_for_project
-
   # Cheap version of Project.visible.count
   def number_of_known_projects
     if admin?
@@ -478,41 +473,6 @@ class User < Principal
       Project.public_projects.count + memberships.size
     end
   end
-
-  # Return true if the user is a member of project
-  def member_of?(project)
-    roles_for_project(project).any?(&:member?)
-  end
-
-  def self.allowed(action, project)
-    Authorization.users(action, project)
-  end
-
-  def self.allowed_members(action, project)
-    Authorization.users(action, project).where.not(members: { id: nil })
-  end
-
-  def allowed_to?(action, context, global: false)
-    user_allowed_service.call(action, context, global:)
-  end
-
-  def allowed_to_in_entity?(action, entity)
-    allowed_to?(action, entity)
-  end
-
-  def allowed_to_in_project?(action, project)
-    allowed_to?(action, project)
-  end
-
-  def allowed_to_in_any_project?(_action)
-    allowed_to
-  end
-
-  def allowed_to_globally?(action)
-    allowed_to?(action, nil, global: true)
-  end
-
-  delegate :preload_projects_allowed_to, to: :user_allowed_service
 
   def reported_work_package_count
     WorkPackage.on_active_project.with_author(self).visible.count
@@ -623,14 +583,6 @@ class User < Principal
     regexp = "^#{recipient}([#{separators}][^@]+)*@#{domain}$"
 
     [skip_suffix_check, regexp]
-  end
-
-  def user_allowed_service
-    @user_allowed_service ||= ::Authorization::UserAllowedService.new(self, role_cache: project_role_cache)
-  end
-
-  def project_role_cache
-    @project_role_cache ||= ::Users::ProjectRoleCache.new(self)
   end
 
   def former_passwords_include?(password)
