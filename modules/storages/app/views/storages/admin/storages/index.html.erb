@@ -12,7 +12,15 @@
     <% end %>
 
     <% header.with_actions do %>
-      <%= render(Primer::Beta::Button.new(scheme: :primary, size: :medium)) do |button| %>
+      <%= render(
+            Primer::Beta::Button.new(
+              scheme: :primary,
+              size: :medium, tag: :a,
+              href: new_admin_settings_storage_path,
+              aria: { label: t("storages.label_storage") },
+              title: t("storages.label_storage")
+            )
+          ) do |button| %>
         <% button.with_leading_visual_icon(icon: :plus) %>
         <%= t("storages.label_storage") %>
       <% end %>
