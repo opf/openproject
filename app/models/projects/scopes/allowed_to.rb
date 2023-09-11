@@ -37,21 +37,20 @@ module Projects::Scopes
         permissions = allowed_to_permissions(permission)
 
         if user.admin?
-          Project.where(id: allowed_to_admin_relation(permissions))
+          where(id: allowed_to_admin_relation(permissions))
         elsif user.anonymous?
-          Project.where(id: allowed_to_non_member_relation(user, permissions))
+          where(id: allowed_to_non_member_relation(user, permissions))
         else
-          Project.where(Project.arel_table[:id].in(allowed_to_member_relation(user, permissions).arel.union(
-                                                     allowed_to_non_member_relation(user, permissions).arel
-                                                   )))
+          where(arel_table[:id].in(allowed_to_member_relation(user, permissions).arel.union(
+                                     allowed_to_non_member_relation(user, permissions).arel
+                                   )))
         end
       end
 
       private
 
       def allowed_to_admin_relation(permissions)
-        Project
-          .joins(allowed_to_enabled_module_join(permissions))
+        joins(allowed_to_enabled_module_join(permissions))
           .where(active: true)
       end
 
@@ -70,8 +69,7 @@ module Projects::Scopes
                               SQL
                             end
 
-        Project
-          .joins(allowed_to_enabled_module_join(permissions))
+        joins(allowed_to_enabled_module_join(permissions))
           .joins(<<~SQL.squish
             INNER JOIN "roles"
               ON "roles"."builtin" = #{builtin}
@@ -85,18 +83,17 @@ module Projects::Scopes
       end
 
       def allowed_to_member_relation(user, permissions)
-        Project
-          .joins(allowed_to_enabled_module_join(permissions))
+        Member
           .joins(<<~SQL.squish
-            JOIN "members"
+            JOIN "projects"
               ON "projects"."active" = TRUE
               AND #{allowed_to_members_condition(user)}
           SQL
                 )
-          .joins('JOIN "member_roles" ON "members"."id" = "member_roles"."member_id"')
-          .joins('JOIN "roles" ON member_roles.role_id = roles.id')
+          .joins(allowed_to_enabled_module_join(permissions))
+          .joins(:roles, :member_roles)
           .joins(allowed_to_role_permission_join(permissions))
-          .select(:id)
+          .select('projects.id')
       end
 
       def allowed_to_enabled_module_join(permissions)
