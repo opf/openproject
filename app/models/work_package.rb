@@ -74,8 +74,17 @@ class WorkPackage < ApplicationRecord
     order(updated_at: :desc)
   }
 
-  scope :visible, ->(*args) {
-    where(project_id: Project.allowed_to(args.first || User.current, :view_work_packages))
+  scope :visible, ->(user = User.current) {
+    visible_by_project_membership = WorkPackage.where(project_id: Authorization.projects(:view_work_packages, user))
+    visible_by_work_package_membership = Authorization.work_packages(:view_work_packages, user)
+
+    from(<<~SQL.squish)
+      (
+        (#{visible_by_project_membership.to_sql})
+        UNION
+        (#{visible_by_work_package_membership.to_sql})
+      ) AS "work_packages"
+    SQL
   }
 
   scope :in_status, ->(*args) do
@@ -495,6 +504,12 @@ class WorkPackage < ApplicationRecord
     :"#work_package_custom_fields_#{work_package.project_id}_#{work_package.type_id}"
   end
   private_class_method :available_custom_field_key
+
+  # Returns a ActiveRecord::Relation to find all projects for which
+  # +user+ has the given +permission+
+  def self.allowed_to(user, permission)
+    Authorization.work_packages(permission, user)
+  end
 
   def custom_field_cache_key
     [project_id, type_id]
