@@ -81,7 +81,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   end
 
   def get_column_value(column_name)
-    formatter = ::Exports::Register.formatter_for(WorkPackage, column_name, :pdf)
+    formatter = Exports::Register.formatter_for(WorkPackage, column_name, :pdf)
     formatter.format(work_package)
   end
 
@@ -96,7 +96,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
 
   describe 'with a request for a PDF' do
     it 'contains correct data' do
-      details = ::Query.available_columns(work_package.project)
+      details = Query.available_columns(work_package.project)
                        .reject { |column| %i[subject project].include?(column.name) }
                        .flat_map do |column|
         value = get_column_value(column.name)
