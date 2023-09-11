@@ -63,6 +63,7 @@ RSpec.describe Project, 'allowed to' do
   let(:action) { :view_work_packages }
   let(:public_action) { :view_news }
   let(:public_non_module_action) { :view_project }
+  let(:non_module_action) { :edit_project }
   let(:member) do
     build(:member,
           user:,
@@ -163,7 +164,7 @@ RSpec.describe Project, 'allowed to' do
 
     context 'with the user being member
              with the permission being public and not module bound
-             with no module bing active' do
+             with no module being active' do
       before do
         member.save!
         project.enabled_modules = []
@@ -171,6 +172,36 @@ RSpec.describe Project, 'allowed to' do
 
       it 'includes the project' do
         expect(described_class.allowed_to(user, public_non_module_action)).to contain_exactly(project)
+      end
+    end
+
+    context 'with the user being member
+             with the permission being module bound
+             with the role having the permission
+             with no module active' do
+      let(:permissions) { [non_module_action] }
+
+      before do
+        member.save!
+      end
+
+      it 'includes the project' do
+        expect(described_class.allowed_to(user, non_module_action)).to contain_exactly(project)
+      end
+    end
+
+    context 'with the user being member
+             with the permission being module bound
+             without the role having the permission
+             with no module active' do
+      let(:permissions) { [] }
+
+      before do
+        member.save!
+      end
+
+      it 'is empty' do
+        expect(described_class.allowed_to(user, non_module_action)).to be_empty
       end
     end
   end

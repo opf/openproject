@@ -51,7 +51,7 @@ module Projects::Scopes
 
       def allowed_to_admin_relation(permissions)
         joins(allowed_to_enabled_module_join(permissions))
-          .where(active: true)
+          .where(arel_table[:active].eq(true))
       end
 
       def allowed_to_non_member_relation(user, permissions)
@@ -93,7 +93,7 @@ module Projects::Scopes
         condition = permissions.inject(Arel::Nodes::False.new) do |or_condition, permission|
           permission_condition = role_permissions_table[:permission].eq(permission.name)
 
-          unless permission.public?
+          if permission.project_module.present?
             permission_condition = permission_condition.and(enabled_modules_table[:name].eq(permission.project_module))
           end
 
