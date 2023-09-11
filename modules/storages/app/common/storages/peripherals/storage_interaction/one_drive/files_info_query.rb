@@ -41,6 +41,7 @@ module Storages
 
           def initialize(storage)
             @storage = storage
+            @uri = storage.uri
           end
 
           def call(user:, file_ids:)
@@ -56,7 +57,7 @@ module Storages
               return ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error))
             end
 
-            response_data = Net::HTTP.start(GRAPH_API_URI.host, GRAPH_API_URI.port, use_ssl: true) do |http|
+            response_data = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
               file_ids.map do |file_id|
                 {
                   file_id:,
@@ -124,15 +125,15 @@ module Storages
             json.dig(:file, :mimeType) || (json.key?(:folder) ? 'application/x-op-directory' : nil)
           end
 
-          def using_user_token(user, &block)
-            connection_manager = ::OAuthClients::OneDriveConnectionManager
-                                   .new(user:, oauth_client: @storage.oauth_client, tenant_id: @storage.tenant_id)
+          def using_user_token(user, &)
+            connection_manager = ::OAuthClients::ConnectionManager
+                                   .new(user:, configuration: @storage.oauth_configuration)
 
             connection_manager
               .get_access_token
               .match(
                 on_success: ->(token) do
-                  connection_manager.request_with_token_refresh(token) { block.call(token) }
+                  connection_manager.request_with_token_refresh(token) { yield token }
                 end,
                 on_failure: ->(_) do
                   ServiceResult.failure(
