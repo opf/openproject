@@ -12,8 +12,9 @@
     <% end %>
 
     <% header.with_actions do %>
-      <%= render(Primer::Beta::Button.new(scheme: :primary, size: :medium)) do |_component| %>
-        <%= t("storages.label_new_storage") %>
+      <%= render(Primer::Beta::Button.new(scheme: :primary, size: :medium)) do |button| %>
+        <% button.with_leading_visual_icon(icon: :plus) %>
+        <%= t("storages.label_storage") %>
       <% end %>
     <% end %>
   <% end %>
