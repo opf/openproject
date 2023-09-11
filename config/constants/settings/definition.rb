@@ -420,7 +420,7 @@ module Settings
       # Allow connections for trial creation and booking
       enterprise_trial_creation_host: {
         description: 'Host for EE trial service',
-        default: 'https://augur.openproject.com',
+        default: 'https://start.openproject.com',
         writable: false
       },
       enterprise_chargebee_site: {
