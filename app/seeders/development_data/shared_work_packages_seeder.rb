@@ -29,7 +29,7 @@
 # ++
 
 module DevelopmentData
-  class WorkPackagesSeeder < Seeder
+  class SharedWorkPackagesSeeder < Seeder
     def seed_data!
       print_status ' ↳ Creating development work packages...'
 
