@@ -27,5 +27,5 @@
 #++
 
 class StructuredMeeting < Meeting
-  has_many :agenda_items, dependent: :destroy, class_name: 'MeetingAgendaItem'
+  has_many :agenda_items, dependent: :destroy, foreign_key: 'meeting_id', class_name: 'MeetingAgendaItem'
 end
