@@ -130,7 +130,7 @@ module Meetings
     end
 
     def closed_state_label_partial
-      render(Primer::Beta::State.new(title: "state", scheme: :closed)) do
+      render(Primer::Beta::State.new(title: "state", scheme: :default)) do
         flex_layout do |flex|
           flex.with_column(mr: 1) do
             render(Primer::Beta::Octicon.new(icon: "issue-closed"))
