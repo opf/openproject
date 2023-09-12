@@ -130,11 +130,11 @@ module Meetings
       meeting_attribute_row(:stopwatch) do
         if duration.hours > 0
           render(Primer::Beta::Text.new) do
-            "#{duration.hours}h #{duration.minutes}min"
+            "#{duration.hours} h #{duration.minutes} min"
           end
         else
           render(Primer::Beta::Text.new) do
-            "#{duration.minutes}min"
+            "#{duration.minutes} min"
           end
         end
       end

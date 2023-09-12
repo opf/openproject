@@ -38,7 +38,8 @@ class Meeting::Duration < ApplicationForm
       label: Meeting.human_attribute_name(:duration),
       visually_hide_label: false,
       required: true,
-      leading_visual: { icon: :stopwatch }
+      leading_visual: { icon: :stopwatch },
+      caption: I18n.t("text_in_hours")
     )
   end
 end
