@@ -36,7 +36,7 @@ class Meeting::StartTime < ApplicationForm
       label: Meeting.human_attribute_name(:start_time),
       leading_visual: { icon: :clock },
       required: true,
-      caption: Time.zone.to_s
+      caption: Time.zone.to_s[/\((.*?)\)/m, 1]
     )
   end
 

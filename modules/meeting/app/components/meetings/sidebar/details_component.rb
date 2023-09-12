@@ -117,7 +117,7 @@ module Meetings
           end
           flex.with_column(ml: 2) do
             render(Primer::Beta::Text.new(color: :subtle, font_size: :small)) do
-              User.current.time_zone.to_s[/\((.*?)\)/m, 1]
+              Time.zone.to_s[/\((.*?)\)/m, 1]
             end
           end
         end
