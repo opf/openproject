@@ -291,7 +291,7 @@ When a filter is defined, synchronization happens directly during seeding for en
 
 
 
-## Setting session options
+### Setting session options
 
 **Delete old sessions for the same user when logging in**
 
@@ -313,21 +313,30 @@ To disable, set the configuration option:
 OPENPROJECT_DROP__OLD__SESSIONS__ON__LOGOUT="false"
 ```
 
-### disable password login
+### Attachments storage
 
-If you enable this option you have to configure at least one omniauth authentication
-provider to take care of authentication instead of the password login.
+You can modify the folder where attachments are stored locally. Use the `attachments_storage_path` configuration variable for that. But ensure that you move the existing paths. To find out the current path on a packaged installation, use `openproject config:get OPENPROJECT_ATTACHMENTS__STORAGE__PATH`.
 
-All username/password forms will be removed and only a list of omniauth providers
-presented to the users.
+To update the path, use `openproject config:set OPENPROJECT_ATTACHMENTS__STORAGE__PATH="/path/to/new/folder"`. Ensure that this is writable by the `openproject` user. Afterwards issue a restart by `sudo openproject configure`
 
-*default: false*
+#### attachment storage type
+
+Attachments can be stored using e.g. Amazon S3, In order to set these values through ENV variables, add to the file :
+
+*default: file*
 
 ```yaml
-OPENPROJECT_DISABLE__PASSWORD__LOGIN="true"
+OPENPROJECT_ATTACHMENTS__STORAGE="fog"
+OPENPROJECT_FOG_CREDENTIALS_AWS__ACCESS__KEY__ID="AKIAJ23HC4KNPWHPG3UA"
+OPENPROJECT_FOG_CREDENTIALS_AWS__SECRET__ACCESS__KEY="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"
+OPENPROJECT_FOG_CREDENTIALS_PROVIDER="AWS"
+OPENPROJECT_FOG_CREDENTIALS_REGION="eu-west-1"
+OPENPROJECT_FOG_DIRECTORY="uploads"
 ```
 
-### auth source sso
+
+
+### Auth source sso
 
 Can be used to automatically login a user defined through a custom header sent by a load balancer or reverse proxy in front of OpenProject, for instance in a Kerberos Single Sign-On (SSO) setup via apache.
 The header with the given name has to be passed to OpenProject containing the logged in user and the defined global secret as in `$login:$secret`.
@@ -350,6 +359,75 @@ auth_source_sso:
   # Uncomment to make the header optional.
   # optional: true
 ```
+
+
+
+### Backups
+
+#### backup enabled
+
+If enabled, admins (or users with the necessary permission) can download backups of the OpenProject installation
+via OpenProject's web interface or via the API.
+
+*default: true*
+
+```yaml
+OPENPROJECT_BACKUP__ENABLED="false"
+```
+
+#### backup attachment size max sum mb
+
+Per default the maximum overall size of all attachments must not exceed 1GB for them to be included in the backup. If they are larger only the database dump will be included.
+
+*default=1024*
+
+```yaml
+OPENPROJECT_BACKUP__ATTACHMENT__SIZE__MAX__SUM__MB="8192"
+```
+
+#### additional configurations for backup
+
+```yaml
+OPENPROJECT_BACKUP__DAILY__LIMIT="3"
+OPENPROJECT_BACKUP__INCLUDE__ATTACHMENTS="true"
+OPENPROJECT_BACKUP__INITIAL__WAITING__PERIOD="86400"
+```
+
+
+
+### BCrypt configuration
+
+OpenProject uses BCrypt to derive and store user passwords securely. BCrypt uses a so-called Cost Factor to derive the computational effort required to derive a password from input.
+
+For more information, see the [Cost Factor guide of the bcrypt-ruby gem](https://github.com/bcrypt-ruby/bcrypt-ruby#cost-factors). The higher the value, the more effort required for deriving BCrypt hashes.
+
+*default: 12*
+
+```bash
+OPENPROJECT_OVERRIDE__BCRYPT__COST__FACTOR="16"
+```
+
+
+
+### Database configuration and SSL
+
+Please see [this separate guide](./database/) on how to set a custom database connection string and optionally, require SSL/TTLS verification. 
+
+### disable password login
+
+If you enable this option you have to configure at least one omniauth authentication
+provider to take care of authentication instead of the password login.
+
+All username/password forms will be removed and only a list of omniauth providers
+presented to the users.
+
+*default: false*
+
+```yaml
+OPENPROJECT_DISABLE__PASSWORD__LOGIN="true"
+```
+
+
 
 ### omniauth direct login provider
 
@@ -397,29 +475,7 @@ For supported values, please see [en.gravatar.com/site/implement/images/](https:
 OPENPROJECT_GRAVATAR__FALLBACK__IMAGE="identicon"
 ```
 
-
-### Attachments storage
-
-You can modify the folder where attachments are stored locally. Use the `attachments_storage_path` configuration variable for that. But ensure that you move the existing paths. To find out the current path on a packaged installation, use `openproject config:get OPENPROJECT_ATTACHMENTS__STORAGE__PATH`.
-
-To update the path, use `openproject config:set OPENPROJECT_ATTACHMENTS__STORAGE__PATH="/path/to/new/folder"`. Ensure that this is writable by the `openproject` user. Afterwards issue a restart by `sudo openproject configure`
-
-#### attachment storage type
-
-Attachments can be stored using e.g. Amazon S3, In order to set these values through ENV variables, add to the file :
-
-*default: file*
-
-```yaml
-OPENPROJECT_ATTACHMENTS__STORAGE="fog"
-OPENPROJECT_FOG_CREDENTIALS_AWS__ACCESS__KEY__ID="AKIAJ23HC4KNPWHPG3UA"
-OPENPROJECT_FOG_CREDENTIALS_AWS__SECRET__ACCESS__KEY="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"
-OPENPROJECT_FOG_CREDENTIALS_PROVIDER="AWS"
-OPENPROJECT_FOG_CREDENTIALS_REGION="eu-west-1"
-OPENPROJECT_FOG_DIRECTORY="uploads"
-```
-
-#### backend migration
+backend migration
 
 You can migrate attachments between the available backends. One example would be that you change the configuration from the file storage to the fog storage. If you want to put all the present file-based attachments into the cloud, you will have to use the following rake task:
 
@@ -628,37 +684,6 @@ This example in the old `configuration.yml` looked like this:
 ```yaml
 enterprise:
   fail_fast: true
-```
-
-### backup configuration
-
-#### backup enabled
-
-If enabled, admins (or users with the necessary permission) can download backups of the OpenProject installation
-via OpenProject's web interface or via the API.
-
-*default: true*
-
-```yaml
-OPENPROJECT_BACKUP__ENABLED="false"
-```
-
-#### backup attachment size max sum mb
-
-Per default the maximum overall size of all attachments must not exceed 1GB for them to be included in the backup. If they are larger only the database dump will be included.
-
-*default=1024*
-
-```yaml
-OPENPROJECT_BACKUP__ATTACHMENT__SIZE__MAX__SUM__MB="8192"
-```
-
-#### additional configurations for backup
-
-```yaml
-OPENPROJECT_BACKUP__DAILY__LIMIT="3"
-OPENPROJECT_BACKUP__INCLUDE__ATTACHMENTS="true"
-OPENPROJECT_BACKUP__INITIAL__WAITING__PERIOD="86400"
 ```
 
 ### show community links
