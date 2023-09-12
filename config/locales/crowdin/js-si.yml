@@ -416,7 +416,7 @@ si:
     label_filename: "ගොනුව"
     label_filesize: "ප්‍රමාණය"
     label_general: "පොදු"
-    label_global_roles: "Global Roles"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'කණ්ඩායම'
     label_group_by: "කණ්ඩායම විසින්"

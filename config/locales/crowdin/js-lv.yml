@@ -416,7 +416,7 @@ lv:
     label_filename: "Fails"
     label_filesize: "Izmērs"
     label_general: "General"
-    label_global_roles: "Global Roles"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'Group'
     label_group_by: "Grupēt pēc"

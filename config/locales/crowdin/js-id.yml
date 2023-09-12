@@ -416,7 +416,7 @@ id:
     label_filename: "File"
     label_filesize: "Size"
     label_general: "Umum"
-    label_global_roles: "Peran global"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'Grup'
     label_group_by: "Grup oleh"

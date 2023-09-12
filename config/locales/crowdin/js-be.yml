@@ -416,7 +416,7 @@ be:
     label_filename: "File"
     label_filesize: "Памер"
     label_general: "Асноўныя"
-    label_global_roles: "Global Roles"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'Group'
     label_group_by: "Group by"

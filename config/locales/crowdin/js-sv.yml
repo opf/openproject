@@ -415,7 +415,7 @@ sv:
     label_filename: "Fil"
     label_filesize: "Filstorlek"
     label_general: "Allmänt"
-    label_global_roles: "Globala roller"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'Grupp'
     label_group_by: "Gruppera efter"

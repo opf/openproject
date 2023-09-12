@@ -416,7 +416,7 @@ ckb-IR:
     label_filename: "File"
     label_filesize: "Size"
     label_general: "General"
-    label_global_roles: "Global Roles"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'Group'
     label_group_by: "Group by"

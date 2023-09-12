@@ -416,7 +416,7 @@ th:
     label_filename: "ไฟล์"
     label_filesize: "ขนาด"
     label_general: "ทั่วไป"
-    label_global_roles: "Global Roles"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'กลุ่ม'
     label_group_by: "Group by"

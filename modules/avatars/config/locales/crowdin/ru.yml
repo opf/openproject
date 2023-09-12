@@ -1,7 +1,7 @@
 #English strings go here
 ru:
   plugin_openproject_avatars:
-    name: "Пизда дубам"
+    name: "Аватары"
     description: >-
       Этот плагин позволяет пользователям OpenProject загрузить изображение, которое будет использоваться в качестве аватара или использовать зарегистрированные изображения с Gravatar.
   label_avatar: "Аватар"
