@@ -33,6 +33,7 @@ class MeetingAgendaItem::WorkPackage < ApplicationForm
       label: WorkPackage.model_name.human,
       visually_hide_label: true,
       autocomplete_options: {
+        id: "op-agenda-items-wp-autocomplete",
         data: {
           'qa-selector': 'op-agenda-items-wp-autocomplete'
         },
