@@ -126,7 +126,10 @@ class OAuthClientsController < ApplicationController
   end
 
   def set_connection_manager
-    @connection_manager = OAuthClients::ConnectionManager.new(user: User.current, oauth_client: @oauth_client)
+    @connection_manager = OAuthClients::ConnectionManager.new(
+      user: User.current,
+      configuration: @oauth_client.integration.oauth_configuration
+    )
   end
 
   def find_oauth_client

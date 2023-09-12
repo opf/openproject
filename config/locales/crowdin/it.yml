@@ -459,6 +459,8 @@ it:
         tls_certificate_string: "Certificato SSL del server LDAP"
       changeset:
         repository: "Archivio"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Commentato" #an object that this comment belongs to
       custom_action:
@@ -2190,8 +2192,8 @@ it:
   mail_body_register_ending: "Resta in contatto! Cordiali saluti,"
   mail_body_reminder: "%{count} macro-attività a te assegnata/e scadono nei prossimi %{days} giorni:"
   mail_body_group_reminder: "%{count} macro-attività assegnata/e al gruppo \"%{group}\" scadono nei prossimi %{days} giorni:"
-  mail_body_wiki_content_added: "La pagina wiki '%{id}' è stata aggiunta da %{author}."
-  mail_body_wiki_content_updated: "La pagina wiki '%{id}' è stata aggiornata da %{author}."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} richiesta di attivazione account"
   mail_subject_backup_ready: "Il tuo backup è pronto"
   mail_subject_backup_token_reset: "Resetta il token di backup"
@@ -2371,6 +2373,7 @@ it:
   permission_log_time: "Registrare il tempo per gli altri utenti"
   permission_manage_forums: "Gestire forum"
   permission_manage_categories: "Gestire le categorie delle macro-attività"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Gestisci le correlazioni tra macro-attività"
   permission_manage_members: "Gestire i membri dei team"
   permission_manage_news: "Gestire le notizie"
@@ -2385,15 +2388,19 @@ it:
   permission_protect_wiki_pages: "Proteggere l'accesso a pagine wiki"
   permission_rename_wiki_pages: "Rinominare pagine wiki"
   permission_save_queries: "Salva viste"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Seleziona campi personalizzati"
   permission_select_project_modules: "Seleziona moduli del progetto"
   permission_share_work_packages: "Share work packages"
   permission_manage_types: "Seleziona i tipi"
+  permission_view_project: "View projects"
   permission_view_changesets: "Visualizza l'archivio revisioni in OpenProject"
   permission_view_commit_author_statistics: "Visualizza le statistiche dell'autore delle modifiche confermate"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Vedi la lista degli osservatori"
   permission_view_work_packages: "Visualizza le macro-attività"
   permission_view_messages: "Visualizza i messaggi"
+  permission_view_news: "View news"
   permission_view_members: "Mostra membri"
   permission_view_reportings: "Visualizzare prospetti"
   permission_view_time_entries: "Visualizza il tempo impiegato"
@@ -2402,6 +2409,9 @@ it:
   permission_view_wiki_pages: "Visualizza la wiki"
   permission_work_package_assigned: "Diventa assegnatario/responsabile"
   permission_work_package_assigned_explanation: "È possibile assegnare macro-attività ad utenti e gruppi che hanno questo ruolo nel rispettivo progetto"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:

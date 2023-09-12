@@ -52,9 +52,9 @@ sv:
         item_0:
           name: Non member
         item_1:
-          name: Anonymous
+          name: Anonym
         item_2:
-          name: Member
+          name: Medlem
         item_3:
           name: Reader
         item_4:
@@ -130,7 +130,7 @@ sv:
         item_6:
           name: Bugg
       welcome:
-        title: Welcome to OpenProject!
+        title: Välkommen till OpenProject!
         text: |
           Select one of the demo projects to get started with some demo data we have prepared for you.
 

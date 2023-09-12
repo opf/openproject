@@ -137,7 +137,7 @@ RSpec.describe Story do
           story2.version_id = version2.id
           story2.project = other_project
           # reset memoized versions to reflect changes above
-          story2.instance_variable_set('@assignable_versions', nil)
+          story2.instance_variable_set(:@assignable_versions, nil)
           story2.save!
         end
 

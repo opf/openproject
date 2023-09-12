@@ -220,7 +220,7 @@ class MembersController < ApplicationController
   end
 
   def invite_new_users(user_ids)
-    user_ids.map do |id|
+    user_ids.filter_map do |id|
       if id.to_i == 0 && id.present? # we've got an email - invite that user
         # Only users with the create_user permission can add users.
         if current_user.allowed_to_globally?(:create_user) && enterprise_allow_new_users?
@@ -234,7 +234,7 @@ class MembersController < ApplicationController
       else
         id
       end
-    end.compact
+    end
   end
 
   def enterprise_allow_new_users?
@@ -243,7 +243,7 @@ class MembersController < ApplicationController
 
   def each_comma_separated(array, &block)
     array.map do |e|
-      if e.to_s.match /\d(,\d)*/
+      if e.to_s.match? /\d(,\d)*/
         block.call(e)
       else
         e

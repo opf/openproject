@@ -76,12 +76,12 @@ module Costs
 
     def material_costs
       cost_entries_with_rate = cost_entries.select { |c| c.costs_visible_by?(@user) }
-      cost_entries_with_rate.blank? ? nil : cost_entries_with_rate.map(&:real_costs).sum
+      cost_entries_with_rate.blank? ? nil : cost_entries_with_rate.sum(&:real_costs)
     end
 
     def labor_costs
       time_entries_with_rate = time_entries.select { |c| c.costs_visible_by?(@user) }
-      time_entries_with_rate.blank? ? nil : time_entries_with_rate.map(&:real_costs).sum
+      time_entries_with_rate.blank? ? nil : time_entries_with_rate.sum(&:real_costs)
     end
 
     def user_allowed_to?(*privileges)

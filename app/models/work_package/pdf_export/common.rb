@@ -299,7 +299,7 @@ module WorkPackage::PDFExport::Common
 
   def build_pdf_filename(base)
     suffix = "_#{title_datetime}.pdf"
-    "#{truncate(base, length: 255 - suffix.chars.length)}#{suffix}".gsub(' ', '-')
+    "#{truncate(base, length: 255 - suffix.length)}#{suffix}".tr(' ', '-')
   end
 
   def title_datetime

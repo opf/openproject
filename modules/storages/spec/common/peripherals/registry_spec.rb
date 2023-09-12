@@ -29,6 +29,7 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::Registry, webmock: true do
   using Storages::Peripherals::ServiceResultRefinements

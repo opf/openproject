@@ -55,8 +55,8 @@ class Queries::WorkPackages::Filter::GroupFilter < Queries::WorkPackages::Filter
     available_groups = all_groups.index_by(&:id)
 
     values
-      .map { |group_id| available_groups[group_id.to_i] }
-      .compact
+      .filter_map { |group_id| available_groups[group_id.to_i] }
+      
   end
 
   def where

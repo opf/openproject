@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -25,29 +27,15 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-module Storages::Common
-  module ConfigurationChecks
-    extend ActiveSupport::Concern
 
-    included do
-      scope :configured, -> do
-        where.associated(:oauth_client, :oauth_application)
-             .where("storages.host IS NOT NULL AND storages.name IS NOT NULL")
-      end
-    end
+module JsonResponseHelper
+  def read_json(name)
+    File.readlines(payload_path.join("#{name}.json")).join
+  end
 
-    def configured?
-      configuration_checks.values.all?
-    end
+  private
 
-    def configuration_checks
-      { storage_oauth_client_configured: oauth_client.present? }.tap do |configuration_checks|
-        if provider_type_nextcloud?
-          configuration_checks.merge!({ openproject_oauth_application_configured: oauth_application.present?,
-                                        host_name_configured: (host.present? && name.present?) })
-        end
-      end
-    end
+  def payload_path
+    Pathname.new(Rails.root).join('modules/storages/spec/support/payloads/')
   end
 end

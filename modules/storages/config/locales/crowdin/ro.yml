@@ -61,6 +61,7 @@ ro:
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Înlocuiește OpenProject OAuth"
       replace_provider_type_oauth: "Înlocuiește %{provider_type} OAuth"
+      save: "Save"
       save_and_continue_setup: "Salvează și continuă configurarea"
       save_and_complete_setup: "Salvează și finalizează configurarea"
       select_folder: "Select folder"
@@ -102,7 +103,7 @@ ro:
       nextcloud:
         integration: "Administrare Nextcloud / OpenProject"
       one_drive:
-        integration: "OneDrive/Sharepoint"
+        integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Copy the client id from the Azure portal. This is needed to generate the redirect URI.
         oauth_client_secret: >
@@ -142,6 +143,7 @@ ro:
     label_provider_type: "Tip flux"
     label_project_folder: "Project folder"
     label_new_storage: "Stocare nouă"
+    label_edit_storage: "Edit storage"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_no_specific_folder: "No specific folder"
     label_automatic_folder: "New folder with automatically managed permissions"
@@ -162,7 +164,7 @@ ro:
         name: "Nextcloud"
         name_placeholder: "e.g. Nextcloud"
       one_drive:
-        name: "OneDrive/Sharepoint"
+        name: "OneDrive/SharePoint"
         name_placeholder: "e.g. OneDrive"
     confirm_replace_oauth_application: "Ești sigur? Toți utilizatorii vor trebui să autorizeze din nou împotriva OpenProject."
     confirm_replace_oauth_client: "Ești sigur? Toți utilizatorii vor trebui să autorizeze din nou împotriva stocării."

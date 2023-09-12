@@ -1,8 +1,8 @@
 #English strings go here
 de:
   plugin_openproject_storages:
-    name: "OpenProject Storages"
-    description: "Allows linking work packages to files in external storages, such as Nextcloud."
+    name: "OpenProject Speicherplätze"
+    description: "Ermöglicht die Verknüpfung von Arbeitspaketen mit Dateien in externen Speicherorten, wie beispielsweise Nextcloud."
   permission_view_file_links: "Datei-Links anzeigen"
   permission_manage_file_links: "Datei-Links verwalten"
   permission_manage_storages_in_project: "Datei-Speicher im Projekt verwalten"
@@ -53,7 +53,7 @@ de:
     errors:
       too_many_elements_created_at_once: "Zu viele Elemente gleichzeitig erstellt. Maximal %{max} erwartet, %{actual} bekommen."
   storages:
-    default_name: "My storage"
+    default_name: "Mein Speicherplatz"
     unknown_storage: "Unbekannter Speicher"
     buttons:
       done_continue_setup: "Fertig. Setup fortsetzen"
@@ -61,6 +61,7 @@ de:
       edit_automatically_managed_project_folders: "Automatisch verwaltete Projektordner bearbeiten"
       replace_openproject_oauth: "OpenProject OAuth ersetzen"
       replace_provider_type_oauth: "Ersetze %{provider_type} OAuth"
+      save: "Save"
       save_and_continue_setup: "Speichern und Setup fortsetzen"
       save_and_complete_setup: "Speichern und Setup abschließen"
       select_folder: "Ordner auswählen"
@@ -102,7 +103,7 @@ de:
       nextcloud:
         integration: "Nextcloud Administration / OpenProject"
       one_drive:
-        integration: "OneDrive/Sharepoint"
+        integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Copy the client id from the Azure portal. This is needed to generate the redirect URI.
         oauth_client_secret: >
@@ -112,7 +113,7 @@ de:
       project_folder: >
         Der Projektordner ist der Standardordner für Datei-Uploads für dieses Projekt. Benutzer können trotzdem Dateien an andere Orte hochladen.
     configuration_checks:
-      incomplete: "The setup of this storage is incomplete."
+      incomplete: "Die Einrichtung dieses Speicherplatzes ist unvollständig."
     delete_warning:
       storage: >
         Sind Sie sicher, dass Sie diesen Speicher löschen möchten? Dies löscht den Speicher auch aus allen Projekten, in denen er verwendet wird. Außerdem werden alle Links von Arbeitspaketen zu Dateien gelöscht, die in diesem Speicher gespeichert sind.
@@ -142,6 +143,7 @@ de:
     label_provider_type: "Anbieter-Typ"
     label_project_folder: "Projektordner"
     label_new_storage: "Neuer Speicher"
+    label_edit_storage: "Edit storage"
     label_existing_manual_folder: "Vorhandener Ordner mit manuell verwalteten Berechtigungen"
     label_no_specific_folder: "Kein spezifischer Ordner"
     label_automatic_folder: "Neuer Ordner mit automatisch verwalteten Berechtigungen"
@@ -162,8 +164,8 @@ de:
         name: "Nextcloud"
         name_placeholder: "z.B. Nextcloud"
       one_drive:
-        name: "OneDrive/Sharepoint"
-        name_placeholder: "e.g. OneDrive"
+        name: "OneDrive/SharePoint"
+        name_placeholder: "z.B. OneDrive"
     confirm_replace_oauth_application: "Sind Sie sicher? Alle Benutzer müssen sich erneut gegen OpenProject autorisieren."
     confirm_replace_oauth_client: "Sind Sie sicher? Alle Benutzer müssen sich erneut gegen den Daten-Speicher autorisieren."
     oauth_client_details_missing: "Um das Setup abzuschließen, fügen Sie bitte die OAuth Client-Anmeldedaten aus Ihrem Speicher hinzu."
