@@ -34,28 +34,27 @@ require_relative '../../support/pages/structured_meeting/show'
 RSpec.describe 'Structured meetings CRUD', :js, with_cuprite: true do
   include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
+  shared_let(:permissions) { %i[view_meetings create_meetings create_meeting_agendas view_work_packages] }
   shared_let(:project) { create(:project, enabled_module_names: %w[meetings work_package_tracking]) }
-  let(:time_zone) { 'utc' }
-  let(:user) do
+  shared_let(:user) do
     create(:user,
            lastname: 'First',
            member_in_project: project,
            member_with_permissions: permissions).tap do |u|
-      u.pref[:time_zone] = time_zone
+      u.pref[:time_zone] = 'utc'
 
       u.save!
     end
   end
-  let!(:other_user) do
+  shared_let(:other_user) do
     create(:user,
            lastname: 'Second',
            member_in_project: project,
            member_with_permissions: permissions)
   end
-  let!(:work_package) do
+  shared_let(:work_package) do
     create(:work_package, project:, subject: 'Important task')
   end
-  let(:permissions) { %i[view_meetings create_meetings create_meeting_agendas view_work_packages] }
   let(:current_user) { user }
   let(:new_page) { Pages::Meetings::New.new(project) }
   let(:show_page) { Pages::StructuredMeeting::Show.new(StructuredMeeting.order(id: :asc).last) }
@@ -132,5 +131,27 @@ RSpec.describe 'Structured meetings CRUD', :js, with_cuprite: true do
 
     wp_item = MeetingAgendaItem.find_by!(work_package_id: work_package.id)
     expect(wp_item).to be_present
+  end
+
+  context 'with a work package reference to another' do
+    let!(:meeting) { create(:structured_meeting, project:, author: current_user) }
+    let!(:other_project) { create(:project) }
+    let!(:other_wp) { create(:work_package, project: other_project, author: current_user, subject: 'Private task') }
+    let!(:role) { create(:role, permissions:) }
+    let!(:membership) { create(:member, principal: user, project: other_project, roles: [role]) }
+    let!(:agenda_item) { create(:meeting_agenda_item, meeting:, work_package: other_wp) }
+    let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
+
+    it 'shows correctly for author, but returns an unresolved reference for the second user' do
+      show_page.visit!
+      show_page.expect_agenda_link agenda_item
+      expect(page).to have_text 'Private task'
+
+      login_as other_user
+
+      show_page.visit!
+      show_page.expect_undisclosed_agenda_link agenda_item
+      expect(page).not_to have_text 'Private task'
+    end
   end
 end

@@ -51,6 +51,14 @@ class MeetingAgendaItem < ApplicationRecord
     meeting.calculate_agenda_item_time_slots
   end
 
+  def linked_work_package?
+    work_package.present?
+  end
+
+  def visible_work_package?
+    linked_work_package? && work_package.visible?(User.current)
+  end
+
   def editable?
     !meeting.closed?
   end
