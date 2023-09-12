@@ -80,7 +80,6 @@
   --main-menu-border-color: #EAEAEA;
   --main-menu-border-width: 0px;
   --main-menu-item-height: 40px;
-  --main-menu-item-hover-color: var(--color-canvas-default-transparent);
   --main-menu-bg-color: #333739;
   --main-menu-bg-selected-background: #175A8E;
   --main-menu-bg-hover-background: #124E7C;
@@ -90,7 +89,7 @@
   --main-menu-selected-font-color: var(--main-menu-font-color);
   --main-menu-font-size: 14px;
   --main-menu-fieldset-header-color: #B0B2B3;
-  --main-menu-hover-box-shadow-color: transparent;
+  --main-menu-hover-box-shadow-color: var(--color-canvas-default-transparent);
   --toolbar-title-color: #5F5F5F;
   --toolbar-item--bg-color: #F8F8F8;
   --toolbar-item--bg-color-pressed: var(--gray-lighter);
@@ -147,4 +146,5 @@
   --grid-background-color: #F3F6F8;
   --avatar-border-color: transparent;
   --input-border-default-color: #CCC;
+  --list-item-hover-color: var(--color-canvas-default-transparent);
 }
