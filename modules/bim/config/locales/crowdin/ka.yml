@@ -1,5 +1,8 @@
 #English strings go here for Rails i18n
 ka:
+  plugin_openproject_bim:
+    name: "OpenProject BIM and BCF functionality"
+    description: "This OpenProject plugin introduces BIM and BCF functionality."
   bim:
     label_bim: 'BIM'
   bcf:
@@ -74,7 +77,7 @@ ka:
       bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
   activerecord:
     models:
-      bim/ifc_models/ifc_model: "IFC model"
+      bim/ifc_models/ifc_model: "IFC მოდელი"
     attributes:
       bim/ifc_models/ifc_model:
         ifc_attachment: "IFC ფაილი"
@@ -117,7 +120,7 @@ ka:
       label: 'Processing?'
       pending: 'დარჩენილია'
       processing: 'Processing'
-      completed: 'Completed'
+      completed: 'დასრულებულია'
       error: 'შეცდომა'
     processing_notice:
       processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'

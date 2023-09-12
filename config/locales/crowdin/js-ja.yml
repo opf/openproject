@@ -417,7 +417,7 @@ ja:
     label_filename: "ファイル"
     label_filesize: "サイズ"
     label_general: "概要"
-    label_global_roles: "グローバルロール"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'グループ'
     label_group_by: "グループ化"

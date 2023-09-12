@@ -249,7 +249,7 @@ hu:
           confidence: >
             A tesztelt és támogatott vállalati szintű projektmenedzsment szoftver bizalmát nyújtjuk - nyílt forráskóddal és nyitott szemmel.
           link_quote: "Árajánlat kérése"
-          more_info: "More information"
+          more_info: "További információ"
           text: >
             The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Korlátlan"
@@ -416,7 +416,7 @@ hu:
     label_filename: "File"
     label_filesize: "Méret"
     label_general: "Általános"
-    label_global_roles: "Globális szerepek"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'Csoport'
     label_group_by: "Csoportosítás a következők szerint"

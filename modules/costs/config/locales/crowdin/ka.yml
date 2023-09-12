@@ -20,6 +20,9 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ka:
+  plugin_costs:
+    name: "Time and costs"
+    description: "This module adds features for planning and tracking costs of projects."
   activerecord:
     attributes:
       cost_entry:
@@ -65,7 +68,7 @@ ka:
   caption_booked_on_project: "Booked on project"
   caption_default: "ნაგულისხმევი"
   caption_default_rate_history_for: "Default rate history for %{user}"
-  caption_locked_on: "Locked on"
+  caption_locked_on: "იბლოკება"
   caption_materials: "საზომი ერთეულები"
   caption_rate_history: "Rate history"
   caption_rate_history_for: "Rate history for %{user}"
@@ -108,7 +111,7 @@ ka:
   label_rate: "სიხშირე"
   label_rate_plural: "ტარიფები"
   label_status_finished: "დასრულებულია"
-  label_units: "Cost units"
+  label_units: "ერთეულის ფასი"
   label_user: "მომხმარებელი"
   label_until: "დასასრულის დრო"
   label_valid_from: "Ძალაშია"

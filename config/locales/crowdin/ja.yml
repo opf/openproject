@@ -457,6 +457,8 @@ ja:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "リポジトリ"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "コメントしました。" #an object that this comment belongs to
       custom_action:
@@ -1421,7 +1423,7 @@ ja:
     changes_retracted: "変更は取り下げられました。"
     caused_changes:
       dates_changed: "Dates changed"
-      system_update: "OpenProject update"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1437,7 +1439,8 @@ ja:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: '設定ガイド'
     get_in_touch: "ご質問がありますか？ご連絡ください。"
@@ -2078,8 +2081,8 @@ ja:
     zero: "プロジェクトがありません"
   label_yesterday: "昨日"
   label_role_type: "種別"
-  label_member_role: "プロジェクトの役割"
-  label_global_role: "グローバルロール"
+  label_member_role: "Project role"
+  label_global_role: "Global role"
   label_not_changeable: "（変更不可）"
   label_global: "全般"
   label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
@@ -2166,8 +2169,8 @@ ja:
   mail_body_register_ending: "連絡をお待ちしています！よろしくお願いいたします。"
   mail_body_reminder: "担当している %{count}件 のワークパッケージが %{days} 日内に期限を迎えます："
   mail_body_group_reminder: "グループ \"%{group}\" に割り当てられた %{count} 件のワークパッケージが %{days} 日内に期限を迎えます"
-  mail_body_wiki_content_added: "%{author}によってWikiページ'%{id}'が追加されました。"
-  mail_body_wiki_content_updated: "%{author}によってWikiページ'%{id}'が更新されました。"
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} アカウントの承認要求"
   mail_subject_backup_ready: "バックアップの準備ができました"
   mail_subject_backup_token_reset: "バックアップトークンのリセット"
@@ -2305,7 +2308,7 @@ ja:
   permission_add_work_package_notes: "注記の追加"
   permission_add_work_packages: "ワークパッケージの追加"
   permission_add_messages: "メッセージの投稿"
-  permission_add_project: "プロジェクトの作成"
+  permission_add_project: "Create projects"
   permission_archive_project: "プロジェクトをアーカイブ"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
@@ -2318,7 +2321,7 @@ ja:
   permission_comment_news: "ニュースへのコメント"
   permission_commit_access: "リポジトリに読み取り/書き込みアクセス (コミット)"
   permission_copy_projects: "プロジェクトのコピー"
-  permission_create_backup: "Create backup"
+  permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "ウォッチャーの削除"
   permission_delete_work_packages: "ワークパッケージの削除"
   permission_delete_messages: "メッセージの削除"
@@ -2345,6 +2348,7 @@ ja:
   permission_log_time: "他のユーザーの作業時間"
   permission_manage_forums: "フォーラムの管理"
   permission_manage_categories: "仕事項目のカテゴリの管理"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "ワークパッケージの関係の管理"
   permission_manage_members: "メンバーの管理"
   permission_manage_news: "ニュースの管理"
@@ -2364,6 +2368,7 @@ ja:
   permission_manage_types: "ワークパッケージのタイプを選択"
   permission_view_changesets: "OpenProject にリポジトリのリビジョンを表示"
   permission_view_commit_author_statistics: "コミット作成者の統計情報の閲覧"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "ウォッチャー一覧の閲覧"
   permission_view_work_packages: "ワークパッケージの表示"
   permission_view_messages: "メッセージの閲覧"
@@ -3125,3 +3130,9 @@ ja:
     response:
       unexpected: "Unexpected response received."
   you: あなた
+  plugin_openproject_auth_plugins:
+    name: "OpenProject Auth Plugins"
+    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / Single-Sign On"
+    description: "Adds the OmniAuth SAML provider to OpenProject"

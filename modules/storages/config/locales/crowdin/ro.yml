@@ -1,5 +1,8 @@
 #English strings go here
 ro:
+  plugin_openproject_storages:
+    name: "OpenProject Storages"
+    description: "Allows linking work packages to files in external storages, such as Nextcloud."
   permission_view_file_links: "Vizualizați link-urile fișierului"
   permission_manage_file_links: "Gestionează link-urile fișierelor"
   permission_manage_storages_in_project: "Gestionați stocarea fișierelor în proiect"
@@ -57,6 +60,7 @@ ro:
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Înlocuiește OpenProject OAuth"
       replace_provider_type_oauth: "Înlocuiește %{provider_type} OAuth"
+      save: "Save"
       save_and_continue_setup: "Salvează și continuă configurarea"
       save_and_complete_setup: "Salvează și finalizează configurarea"
       select_folder: "Select folder"
@@ -100,6 +104,8 @@ ro:
     help_texts:
       project_folder: >
         The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
+    configuration_checks:
+      incomplete: "The setup of this storage is incomplete."
     delete_warning:
       storage: >
         Sunteţi sigur că doriţi să ştergeţi acest stocare? Acest lucru va şterge şi stocarea din toate proiectele în care este folosit. În plus, va șterge toate link-urile din pachetele de lucru către fișierele care sunt stocate în stocare.
@@ -128,6 +134,7 @@ ro:
     label_provider_type: "Tip flux"
     label_project_folder: "Project folder"
     label_new_storage: "Stocare nouă"
+    label_edit_storage: "Edit storage"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_no_specific_folder: "No specific folder"
     label_automatic_folder: "New folder with automatically managed permissions"

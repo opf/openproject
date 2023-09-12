@@ -1,5 +1,8 @@
 #English strings go here
 nl:
+  plugin_openproject_boards:
+    name: "OpenProject Boards"
+    description: "Provides board views."
   permission_show_board_views: "Bekijk borden"
   permission_manage_board_views: "Beheer boards"
   project_module_board_view: "Borden"

@@ -164,6 +164,7 @@ Redmine::MenuManager.map :global_menu do |menu|
   # Work packages
   menu.push :work_packages,
             { controller: '/work_packages', action: 'index' },
+            caption: :label_work_package_plural,
             icon: 'view-timeline',
             after: :activity
 

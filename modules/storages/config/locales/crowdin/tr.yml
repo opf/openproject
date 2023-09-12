@@ -1,5 +1,8 @@
 #English strings go here
 tr:
+  plugin_openproject_storages:
+    name: "OpenProject Storages"
+    description: "Allows linking work packages to files in external storages, such as Nextcloud."
   permission_view_file_links: "Dosya bağlantılarını görüntüle"
   permission_manage_file_links: "Dosya bağlantılarını yönet"
   permission_manage_storages_in_project: "Projedeki dosya depolarını yönetin"
@@ -57,6 +60,7 @@ tr:
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "OpenProject OAuth'u değiştirin"
       replace_provider_type_oauth: "%{provider_type} OAuth'u değiştirin"
+      save: "Save"
       save_and_continue_setup: "Kaydet ve kuruluma devam et"
       save_and_complete_setup: "Kaydet ve kurulumu tamamla"
       select_folder: "Select folder"
@@ -100,6 +104,8 @@ tr:
     help_texts:
       project_folder: >
         The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
+    configuration_checks:
+      incomplete: "The setup of this storage is incomplete."
     delete_warning:
       storage: >
         Bu depolama alanını silmek istediğinizden emin misiniz? Bu, depolamayı kullanıldığı tüm projelerden de siler. Ayrıca, iş paketlerinden o depoda saklanan dosyalara olan tüm bağlantıları da siler.
@@ -128,6 +134,7 @@ tr:
     label_provider_type: "Sağlayıcı türü"
     label_project_folder: "Project folder"
     label_new_storage: "Yeni depolama"
+    label_edit_storage: "Edit storage"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_no_specific_folder: "No specific folder"
     label_automatic_folder: "New folder with automatically managed permissions"

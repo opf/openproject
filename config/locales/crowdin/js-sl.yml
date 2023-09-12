@@ -415,7 +415,7 @@ sl:
     label_filename: "Datoteka"
     label_filesize: "Velikost"
     label_general: "Splošno"
-    label_global_roles: "Globalne vloge"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'Skupina'
     label_group_by: "Razvrsti po"

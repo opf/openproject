@@ -225,19 +225,19 @@ zh-TW:
           status_label: "狀態："
           status_confirmed: "已確認"
           status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
+          test_ee: "免費體驗企業版 14 天"
+          quick_overview: "用 OpenProject 企業版，快速瞭解項目管理和團隊協作的概況。"
         upsale:
           become_hero: "成為英雄!"
           enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
-            description: "What are the benefits of the Enterprise on-premises edition?"
+            description: "本地部署的 Enterprise edition 具有哪些優勢？"
             high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
+            high_security_text: "單點登錄（SAML，OpenID Connect，CAS），LDAP 群組。\n"
             installation: "Installation support"
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Enterprise add-ons"
+            premium_features: "企業版附加插件"
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "專業支援"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
@@ -250,9 +250,9 @@ zh-TW:
           link_quote: "獲取報價"
           more_info: "更多資訊"
           text: >
-            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            OpenProject企業版是在社區版的基礎上構建的。它包括企業版插件和專業支持，主要面向使用OpenProject管理業務關鍵項目的具有10個以上用戶的組織。
           unlimited: "無限"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+          you_contribute: "開發者也需要支付他們的賬單。 通過升級到企業版，您將支持這個開放源碼社區的努力，並有助於其發展、維護和不斷改進。"
       working_days:
         calendar:
           empty_state_header: "Non-working days"
@@ -415,7 +415,7 @@ zh-TW:
     label_filename: "檔案"
     label_filesize: "檔案大小"
     label_general: "一般"
-    label_global_roles: "全域角色"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: '群組'
     label_group_by: "分組依據"
@@ -551,7 +551,7 @@ zh-TW:
         next: '下一個'
         got_it: '了解'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: '幫助 (?) 菜單中提供了<b>其他幫助資源</b>。您可以在這裡找到用戶指南、實用的使用方法視頻等內容。<br>使用 OpenProject 盡情享受您的工作吧！'
         members: '邀請新 <b>會員</b> 加入您的專案。'
         project_selection: '請選擇一個具有有用演示資料的專案開始。 <br> <b>演示專案</b> 最適合傳統專案管理, 而 <b>scrum 專案</b> 是更好的敏捷專案管理。'
         quick_add_button: '於頁首點按 (+) 鍵 <b>來建立新的專案</b> 或 <b>來邀請隊員</b>.'
@@ -672,18 +672,18 @@ zh-TW:
         global:
           immediately:
             title: '參與中'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
+            description: '你參與的工作包中所有活動的通知（執行人、責任人或監督人）。'
           delayed:
             title: '非參與中'
-            description: 'Additional notifications for activities in all projects.'
+            description: '所有項目活動的額外通知。'
           date_alerts:
             title: '日期提醒'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
+            description: '當你涉及的打開的工作包（例如作為受讓人、負責人或觀察者）的重要日期臨近時，自動發出通知。'
             teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
           overdue: When overdue
         project_specific:
           title: '特定專案通知設定'
-          description: 'These project-specific settings override default settings above.'
+          description: '特別專案通知設定將覆蓋上列標準設定。'
           add: '於此專案新增設定'
           already_selected: '已選取此專案'
           remove: '移除專案設定'
@@ -755,7 +755,7 @@ zh-TW:
         confirm_reset: >
           警告: 確實要重置表單配置嗎？這將重置屬性到其預設組, 並禁用所有自訂欄位。
         upgrade_to_ee: "升級至地端企業版"
-        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        upgrade_to_ee_text: "哇！如果您需要使用此功能，說明您非常專業！您是否願意成為企業版客戶來支持 OpenSource 開發人員？"
         more_information: "更多資訊"
         nevermind: "無視"
       edit:
@@ -1052,7 +1052,7 @@ zh-TW:
         upsale:
           attribute_highlighting: '需要某些工作包才能從大眾中脫穎而出？'
           relation_columns: '需要檢視工作項目清單的關係嗎'
-          check_out_link: 'Check out the Enterprise edition.'
+          check_out_link: '請查閱企業版'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
@@ -1195,9 +1195,9 @@ zh-TW:
           description: 'Permissions based on the assigned role in the selected project'
         placeholder:
           title: 'Placeholder user'
-          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
+          title_no_ee: '佔位符用戶（Enterprise edition 附加功能）'
           description: 'Has no access to the project and no emails are sent out.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
+          description_no_ee: '由於沒有訪問項目的權限，所以不會發送電子郵件。<br>請查看<a href="%{eeHref}" target="_blank">企業版</a>。'
       principal:
         label:
           name_or_email: 'Name or email address'

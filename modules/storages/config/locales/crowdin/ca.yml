@@ -1,5 +1,8 @@
 #English strings go here
 ca:
+  plugin_openproject_storages:
+    name: "OpenProject Storages"
+    description: "Allows linking work packages to files in external storages, such as Nextcloud."
   permission_view_file_links: "Veure els enllaços del fitxer"
   permission_manage_file_links: "Administra els enllaços del fitxer"
   permission_manage_storages_in_project: "Administra els emmagatzematges de fitxers en el projecte"
@@ -57,6 +60,7 @@ ca:
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Substitueix l'OAuth d'OpenProject"
       replace_provider_type_oauth: "Substitueix l'OAuth de %{provider_type}"
+      save: "Save"
       save_and_continue_setup: "Desar i continua la configuració"
       save_and_complete_setup: "Desar i completa la configuració"
       select_folder: "Seleccionar carpeta"
@@ -100,6 +104,8 @@ ca:
     help_texts:
       project_folder: >
         La carpeta de projecte és la carpeta per defecte on es carregaran els fitxers d'aquest projecte. Tot i això, els usuaris podran carregar fitxers en altres carpetes.
+    configuration_checks:
+      incomplete: "The setup of this storage is incomplete."
     delete_warning:
       storage: >
         Estàs segur que vols eliminar aquest emmagatzematge? Aquesta acció també eliminarà l'emmagatzematge de tots els projectes on s'utilitza. També eliminarà tots els enllaços de fitxers dels paquets de treball que s'emmagatzemen en aquest emmagatzematge.
@@ -128,6 +134,7 @@ ca:
     label_provider_type: "Tipus de proveïdor"
     label_project_folder: "Carpeta del projecte"
     label_new_storage: "Nou emmagatzematge"
+    label_edit_storage: "Edit storage"
     label_existing_manual_folder: "Carpeta existent amb permisos gestionats automàticament"
     label_no_specific_folder: "Cap carpeta específica"
     label_automatic_folder: "Nova carpeta amb administració de permisos automàtica"

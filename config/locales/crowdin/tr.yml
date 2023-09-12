@@ -461,6 +461,8 @@ tr:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Depo"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Yorumlananlar" #an object that this comment belongs to
       custom_action:
@@ -1445,7 +1447,7 @@ tr:
     changes_retracted: "Değişiklikler geri çekildi."
     caused_changes:
       dates_changed: "Dates changed"
-      system_update: "OpenProject update"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1461,7 +1463,8 @@ tr:
           working: "%{date} is now working"
           non_working: "%{date} artık çalışılmayan tarih"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Yapılandırma rehberi'
     get_in_touch: "Senin soruların var? Bizimle temasa geçin."
@@ -2102,8 +2105,8 @@ tr:
     zero: "proje yok"
   label_yesterday: "dün"
   label_role_type: "Tür"
-  label_member_role: "Proje rolü"
-  label_global_role: "Küresel rolü"
+  label_member_role: "Project role"
+  label_global_role: "Global role"
   label_not_changeable: "(değiştirilemez)"
   label_global: "Küresel"
   label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
@@ -2190,8 +2193,8 @@ tr:
   mail_body_register_ending: "Bağlı kalın! Saygılarımla,"
   mail_body_reminder: "Size tahsis edilen(ler) %{count} iş paketinin bir sonraki %{days} gün içinde ödemesi gerekiyor:"
   mail_body_group_reminder: "\"%{group}\" grubuna atanan %{count} çalışma paketi / paketleri sonraki %{days}  gününden kaynaklanmaktadır:"
-  mail_body_wiki_content_added: "' %{id} ' wiki sayfası %{author} tarafından eklendi."
-  mail_body_wiki_content_updated: "'%{id}' wiki sayfası, %{author} tarafından güncellendi."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} hesap etkinleştirme isteği"
   mail_subject_backup_ready: "Yedeklemeniz hazır"
   mail_subject_backup_token_reset: "Yedek anahtarı sıfırlandı"
@@ -2328,7 +2331,7 @@ tr:
   permission_add_work_package_notes: "Not eklemek"
   permission_add_work_packages: "İş paketi eklemek"
   permission_add_messages: "İleti göndermek"
-  permission_add_project: "Proje oluşturmak"
+  permission_add_project: "Create projects"
   permission_archive_project: "Projeyi arşivle"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
@@ -2341,7 +2344,7 @@ tr:
   permission_comment_news: "Haberlere yorum yazmak"
   permission_commit_access: "Depoya okuma / yazma erişimi (tamamlama)"
   permission_copy_projects: "Proje kopyalamak"
-  permission_create_backup: "Yedek oluştur"
+  permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Takipçi sil"
   permission_delete_work_packages: "İş paketi silmek"
   permission_delete_messages: "İleti silmek"
@@ -2368,6 +2371,7 @@ tr:
   permission_log_time: "Diğer kullanıcıların zamanını günlüğe kaydet"
   permission_manage_forums: "Forumları yönetmek"
   permission_manage_categories: "İş paket kategorilerini yönet"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "İş paketi ilişkilerini yönet"
   permission_manage_members: "Üyeleri yönetmek"
   permission_manage_news: "Haberleri yönet"
@@ -2387,6 +2391,7 @@ tr:
   permission_manage_types: "İş paketi türlerini seçmek"
   permission_view_changesets: "OpenProject'de depo revizyonlarını görüntüle"
   permission_view_commit_author_statistics: "Yazar istatistiklerini inceleyin"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Takipçi listesini göster"
   permission_view_work_packages: "İş paketlerini görüntüle"
   permission_view_messages: "İletileri görüntüle"
@@ -3150,3 +3155,9 @@ tr:
     response:
       unexpected: "Beklenilmeyen bir yanıt alındı."
   you: sen
+  plugin_openproject_auth_plugins:
+    name: "OpenProject Auth Plugins"
+    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / Single-Sign On"
+    description: "Adds the OmniAuth SAML provider to OpenProject"

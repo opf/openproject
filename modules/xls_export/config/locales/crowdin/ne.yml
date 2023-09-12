@@ -1,4 +1,7 @@
 ne:
+  plugin_openproject_xls_export:
+    name: "OpenProject XLS Export"
+    description: "Export issue lists as Excel spreadsheets (.xls)."
   export_to_excel: "XLS निर्यात गर्नुहोस्"
   print_with_description: "Print preview with description"
   sentence_separator_or: "or"

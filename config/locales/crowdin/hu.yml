@@ -459,6 +459,8 @@ hu:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Csomagtároló"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Hozzászólás" #an object that this comment belongs to
       custom_action:
@@ -839,7 +841,7 @@ hu:
           is_not_a_valid_target_for_time_entries: "A  #%{id} feladatcsoport nem érvényes cél az idő bejegyzések ismételt hozzárendeléséhez."
           attributes:
             assigned_to:
-              format: "%{message}"
+              format: "%{message}\n"
             due_date:
               not_start_date: "nincs kezdő dátum, ez szükséges a fordulóponthoz."
               cannot_be_null: "nem állítható nullára, mivel a kezdés dátuma és időtartama ismert."
@@ -1443,7 +1445,7 @@ hu:
     changes_retracted: "A módosítások visszavonásra kerültek."
     caused_changes:
       dates_changed: "Dates changed"
-      system_update: "OpenProject update"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1459,7 +1461,8 @@ hu:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Konfigurációs útmutató'
     get_in_touch: "Kérdése van? Lépjen kapcsolatba velünk"
@@ -2100,8 +2103,8 @@ hu:
     zero: "nincsenek projektek"
   label_yesterday: "tegnap"
   label_role_type: "Típus"
-  label_member_role: "Projekt szerep"
-  label_global_role: "Globális szerep"
+  label_member_role: "Project role"
+  label_global_role: "Global role"
   label_not_changeable: "(nem módosítható)"
   label_global: "Globális"
   label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
@@ -2189,8 +2192,8 @@ hu:
   mail_body_register_ending: "Maradj kapcsolatban! Üdvözlettel,"
   mail_body_reminder: "Ön rendelt  %{count} munkacsomag(ok) a következő  %{days}  napokon esedékesek:"
   mail_body_group_reminder: "A \"%{group}\" csoporthoz rendelt %{count} feladat határidős az elkövetkező %{days} napban:"
-  mail_body_wiki_content_added: "A '%{id}' wiki oldal hozzáadva %{author} által."
-  mail_body_wiki_content_updated: "A '%{id}' wiki oldal frissítve %{author} által."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} fiók aktiválásának kérése"
   mail_subject_backup_ready: "A biztonsági mentés elkészült"
   mail_subject_backup_token_reset: "Biztonsági mentés token visszaállítás"
@@ -2328,7 +2331,7 @@ hu:
   permission_add_work_package_notes: "Megjegyzések hozzáadása"
   permission_add_work_packages: "feladatcsoport hozzáadása"
   permission_add_messages: "Elküldött üzenetek"
-  permission_add_project: "Projekt létrehozása"
+  permission_add_project: "Create projects"
   permission_archive_project: "Projekt archiválása"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
@@ -2341,7 +2344,7 @@ hu:
   permission_comment_news: "Megjegyzések írása a hírekehez"
   permission_commit_access: "Olvasási és írási jog a tárolóhoz (commit)"
   permission_copy_projects: "Projekt másolása"
-  permission_create_backup: "Biztonsági mentés létrehozása"
+  permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Megfigyelők törlése"
   permission_delete_work_packages: "Törölje a feladatcsoportokat"
   permission_delete_messages: "Üzenetek törlése"
@@ -2368,6 +2371,7 @@ hu:
   permission_log_time: "Log time for other users"
   permission_manage_forums: "Fórum kezelése"
   permission_manage_categories: "feladatcsoport kategóriák kezelése"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "feladatcsoport kapcsolatok kezelése"
   permission_manage_members: "Tagok kezelése"
   permission_manage_news: "Hírek kezelése"
@@ -2387,6 +2391,7 @@ hu:
   permission_manage_types: "Jelölje ki a típust"
   permission_view_changesets: "Tároló verziók megtekintése az OpenProject-ben"
   permission_view_commit_author_statistics: "Szerző,statisztika megtekintése"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "A megfigyelők listájának megtekintése"
   permission_view_work_packages: "Munkacsomagok megtekintése"
   permission_view_messages: "Üzenetek megtekintése"
@@ -3151,3 +3156,9 @@ hu:
     response:
       unexpected: "Unexpected response received."
   you: te
+  plugin_openproject_auth_plugins:
+    name: "OpenProject Auth Plugins"
+    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / Single-Sign On"
+    description: "Adds the OmniAuth SAML provider to OpenProject"

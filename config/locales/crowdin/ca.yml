@@ -458,6 +458,8 @@ ca:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repositori"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Comentat" #an object that this comment belongs to
       custom_action:
@@ -1442,7 +1444,7 @@ ca:
     changes_retracted: "S'han retractat els canvis."
     caused_changes:
       dates_changed: "Les dates han canviat"
-      system_update: "OpenProject update"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: per canvis en el predecessor %{link}
       work_package_parent_changed_times: per canvis en el pare %{link}
@@ -1458,7 +1460,8 @@ ca:
           working: "%{date} és ara laboral"
           non_working: "%{date} és ara no laboral"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Guia de configuració'
     get_in_touch: "Tens preguntes? Posa't en contacte amb nosaltres."
@@ -2099,8 +2102,8 @@ ca:
     zero: "sense projectes"
   label_yesterday: "ahir"
   label_role_type: "Classe"
-  label_member_role: "Rol de projecte"
-  label_global_role: "Rol global"
+  label_member_role: "Project role"
+  label_global_role: "Global role"
   label_not_changeable: "(no variable)"
   label_global: "Global"
   label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
@@ -2186,8 +2189,8 @@ ca:
   mail_body_register_ending: "Segueix en contacte! Atentament,"
   mail_body_reminder: "%{count} paquet(s) de treball que tens assignats arribaran a la seva data final en els %{days} dies vinents:"
   mail_body_group_reminder: "%{count} paquet(s) de treball que estan assignats al grup \"%{group}\" arribaran a la seva data final en els pròxims %{days} dies:"
-  mail_body_wiki_content_added: "En %{author} ha afegit la pàgina wiki «%{id}»."
-  mail_body_wiki_content_updated: "L'autor %{author} ha actualitzat la pàgina wiki «%{id}»."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "Sol·licitud d'activació del compte de %{value}"
   mail_subject_backup_ready: "La teva còpia de seguretat està a punt"
   mail_subject_backup_token_reset: "Còpia de seguretat reiniciada"
@@ -2323,7 +2326,7 @@ ca:
   permission_add_work_package_notes: "Afegir notes"
   permission_add_work_packages: "Afegir paquets de treball"
   permission_add_messages: "Publicar missatges"
-  permission_add_project: "Crear un projecte"
+  permission_add_project: "Create projects"
   permission_archive_project: "Arxiva el projecte"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
@@ -2336,7 +2339,7 @@ ca:
   permission_comment_news: "Comentar noticies"
   permission_commit_access: "Accés de lectura/escriptura al repositori (commit)"
   permission_copy_projects: "Copiar projectes"
-  permission_create_backup: "Crea una còpia de seguretat"
+  permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Suprimir observadors"
   permission_delete_work_packages: "Eliminar paquets de treball"
   permission_delete_messages: "Esborrar missatges"
@@ -2363,6 +2366,7 @@ ca:
   permission_log_time: "Registra temps per altres usuaris"
   permission_manage_forums: "Gestionar els fòrums"
   permission_manage_categories: "Gestionar les categories del paquet de treball"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Gestionar les relacions del paquet de treball"
   permission_manage_members: "Gestionar els membres"
   permission_manage_news: "Gestionar noticies"
@@ -2382,6 +2386,7 @@ ca:
   permission_manage_types: "Seleccioneu tipus"
   permission_view_changesets: "Veure les revisions del repositori a OpenProject"
   permission_view_commit_author_statistics: "Veure les estadístiques de commits de l'autor"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Veure la llista d'observadors"
   permission_view_work_packages: "Veure els paquets de treball"
   permission_view_messages: "Visualitzar els missatges"
@@ -3144,3 +3149,9 @@ ca:
     response:
       unexpected: "Resposta inesperada rebuda."
   you: tu
+  plugin_openproject_auth_plugins:
+    name: "OpenProject Auth Plugins"
+    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / Single-Sign On"
+    description: "Adds the OmniAuth SAML provider to OpenProject"

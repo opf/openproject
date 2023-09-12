@@ -15,27 +15,27 @@ The following bugs have been fixed with OpenProject 5.0.1:
 
   - An error in the documents plugin caused an error on the enumeration
     page
-    ([#22093](https://community.openproject.org/work_packages/22093/activity)).
+    ([#22093](https://community.openproject.org/work_packages/22093)).
   - A bug has been fixed which prevented custom fields for time tracking
     to be displayed
-    ([#22116](https://community.openproject.org/work_packages/22116/activity)).
+    ([#22116](https://community.openproject.org/work_packages/22116)).
   - An error which prevented managed remotes used for SVN to be
     accessible on localhost has been fixed
-    ([#22095](https://community.openproject.org/work_packages/22095/activity)).
+    ([#22095](https://community.openproject.org/work_packages/22095)).
   - The watch icon did not update the list of watchers when the user was
     on the watchers tab
-    ([#21946](https://community.openproject.org/work_packages/21946/activity)).
+    ([#21946](https://community.openproject.org/work_packages/21946)).
   - A redirect to work packages in private projects did not work when
     the user had to login first
-    ([#21868](https://community.openproject.org/work_packages/21868/activity)).
+    ([#21868](https://community.openproject.org/work_packages/21868)).
   - The work package create button was not disabled while creating a
     work package – leading to possible conflicts
-    ([#22070](https://community.openproject.org/work_packages/22070/activity)).
+    ([#22070](https://community.openproject.org/work_packages/22070)).
   - Several styling fixes have been applied
-    ([#22028](https://community.openproject.org/work_packages/22028/activity),
-    [#22062](https://community.openproject.org/work_packages/22062/activity)).
+    ([#22028](https://community.openproject.org/work_packages/22028),
+    [#22062](https://community.openproject.org/work_packages/22062)).
   - A wrong English translation has been adjusted
-    ([#22092](https://community.openproject.org/work_packages/22092/activity)).
+    ([#22092](https://community.openproject.org/work_packages/22092)).
 
 In addition, new translations have been added to OpenProject and the
 plugins.

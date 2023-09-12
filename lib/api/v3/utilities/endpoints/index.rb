@@ -162,7 +162,9 @@ module API
             if constraint.is_a?(Class)
               result_scope
             else
-              result_scope.where id: constraint.select(:id)
+              result_scope
+                .includes(constraint.includes_values)
+                .where id: constraint.select(:id)
             end
           end
         end

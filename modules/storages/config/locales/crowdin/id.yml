@@ -1,5 +1,8 @@
 #English strings go here
 id:
+  plugin_openproject_storages:
+    name: "OpenProject Storages"
+    description: "Allows linking work packages to files in external storages, such as Nextcloud."
   permission_view_file_links: "Lihat tautan berkas"
   permission_manage_file_links: "Kelola tautan berkas"
   permission_manage_storages_in_project: "Kelola penyimpanan berkas di proyek"
@@ -57,6 +60,7 @@ id:
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Replace OpenProject OAuth"
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
+      save: "Save"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
       select_folder: "Select folder"
@@ -100,6 +104,8 @@ id:
     help_texts:
       project_folder: >
         The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
+    configuration_checks:
+      incomplete: "The setup of this storage is incomplete."
     delete_warning:
       storage: >
         Apakah anda yakin untuk menghapus penyimpanan ini? Hal ini akan juga menghapus penyimpanan dari semua proyek yang anda gunakan sekarang. Lebih lanjut, ini akan menghapus semua tautan dari paket kerja ke berkas yang tersimpan pada penyimpanan tersebut.
@@ -128,6 +134,7 @@ id:
     label_provider_type: "Tipe penyedia"
     label_project_folder: "Project folder"
     label_new_storage: "New storage"
+    label_edit_storage: "Edit storage"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_no_specific_folder: "No specific folder"
     label_automatic_folder: "New folder with automatically managed permissions"

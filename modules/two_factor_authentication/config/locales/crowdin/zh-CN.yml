@@ -1,5 +1,9 @@
 #English strings go here for Rails i18n
 zh-CN:
+  plugin_openproject_two_factor_authentication:
+    name: "OpenProject 双因子认证"
+    description: >-
+      该 OpenProject 插件基于 TOTP 标准通过使用一次性密码（如 Google Authenticator）或通过短信或语音呼叫发送到用户的手机，对用户进行双因子认证。
   activerecord:
     attributes:
       two_factor_authentication/device:
@@ -23,7 +27,7 @@ zh-CN:
     error_2fa_disabled: "2FA 传送已禁用。"
     error_no_device: "尽管此实例需要，但没有为该用户找到注册的 2FA 设备。"
     error_no_matching_strategy: "没有匹配的 2FA 策略可供此用户使用。请联系您的管理员。"
-    error_is_enforced_not_active: '配置错误：已强制执行双重身份验证，但不存在活动策略。'
+    error_is_enforced_not_active: '配置错误：已强制执行双因子认证，但不存在活动策略。'
     error_invalid_backup_code: '2FA 备份代码无效'
     channel_unavailable: "传送通道 %{channel} 不可用。"
     no_valid_phone_number: "不存在有效的电话号码。"
@@ -34,36 +38,36 @@ zh-CN:
     label_device: "2FA 设备"
     label_devices: "2FA 设备"
     label_one_time_password: '一次性密码'
-    label_2fa_enabled: '双重身份验证已激活'
-    label_2fa_disabled: '双重身份验证未激活'
+    label_2fa_enabled: '双因子认证已激活'
+    label_2fa_disabled: ' 双因子认证未激活'
     text_otp_delivery_message_sms: "您的 %{app_title} 一次性密码为 %{token}"
     text_otp_delivery_message_voice: "您的 %{app_title} 一次性密码为 %{pause} %{token}。%{pause} I 重复：%{pause} %{token}"
     text_enter_2fa: '请从您的设备输入一次性密码。'
     text_2fa_enabled: '每次登录时，系统将要求您从默认的 2FA 设备输入 OTP 令牌。'
-    text_2fa_disabled: '要启用双重身份验证，请使用上面的按钮注册新的 2FA 设备。如果您已拥有设备，则需要将其设置为默认设备。'
+    text_2fa_disabled: '要启用双因子认证，请使用上面的按钮注册新的 2FA 设备。如果您已拥有设备，则需要将其设置为默认设备。'
     login:
       enter_backup_code_title: 输入备份代码
       enter_backup_code_text: 请从您的代码列表中输入有效的备份代码，以防您无法再访问已注册的 2FA 设备。
       other_device: '使用其他设备或备份代码'
     settings:
-      title: '两步认证设置'
+      title: '双因子认证设置'
       current_configuration: '当前配置'
-      label_active_strategies: '激活两步认证策略'
-      label_enforced: '强制两步认证'
-      label_remember: '记住两步认证登录信息'
+      label_active_strategies: '激活双因子认证策略'
+      label_enforced: '强制双因子认证'
+      label_remember: '记住双因子认证登录信息'
       text_configuration: |
         注释：这些值表示当前应用级配置。您无法禁用由配置强制的设置或更改当前的有效策略，因为它们需要重启服务器。
       text_configuration_guide: 如需了解更多信息，请参阅配置指南。
-      text_enforced: '启用此设置将强制所有用户在他们下一次登录时注册双重身份验证设备。只能在未由配置强制时禁用。'
+      text_enforced: '在下次登录时，启用此设置以强制所有用户注册 2FA 设备。只有在配置未强制执行时才能禁用该设置。'
       text_remember: |
-        将此设为大于零可以让用户将其双重身份验证记住给定天数。
-        在此期间，系统将不再请求他们重新输入。只能在未由配置强制时设置。
-      error_invalid_settings: '您选择的双重身份验证策略无效'
-      failed_to_save_settings: '无法更新双重身份验证设置：%{message}'
+        将其设置为大于零的值，以允许用户在指定的天数内记住他们的 2FA 认证。
+        在此期间，他们将不会被要求重新输入。只有在配置未强制执行时才能进行设置。
+      error_invalid_settings: '您选择的双因子认证策略无效'
+      failed_to_save_settings: '无法更新双因子认证设置：%{message}'
     admin:
       self_edit_path: '要添加或修改您自己的 2FA 设备，请转到 %{self_edit_link}'
-      self_edit_link_name: '您帐户页面上的双重身份验证'
-      self_edit_forbidden: '您可能无法在此路径上编辑自己的 2FA 设备。请转到我的帐户 >> 双重身份验证。'
+      self_edit_link_name: '您帐户页面上的双因子认证'
+      self_edit_forbidden: '您可能无法在此路径上编辑自己的 2FA 设备。请转到我的帐户 >> 双因子认证。'
       no_devices_for_user: '没有为此用户注册过 2FA 设备。'
       all_devices_deleted: '此用户的所有 2FA 设备已被删除'
       delete_all_are_you_sure: '确实要删除此用户的所有 2FA 设备吗？'
@@ -72,8 +76,8 @@ zh-CN:
       text_2fa_enabled: '每次登录时，系统将要求此用户从默认的 2FA 设备输入 OTP 令牌。'
       text_2fa_disabled: "用户未通过“我的帐户页面”设置过 2FA 设备"
     upsale:
-      title: '双重身份验证'
-      description: '通过向所有项目成员提供（或强制执行）双重身份验证来增强 OpenProject 实例的安全性。'
+      title: '双因子认证'
+      description: '通过向所有项目成员提供（或强制执行）双因子认证来增强 OpenProject 实例的安全性。'
     backup_codes:
       none_found: 此帐户不存在备份代码。
       singular: 备份代码
@@ -116,7 +120,7 @@ zh-CN:
         time_based: '基于时间'
         account: '帐户名/颁发者'
         setup: |
-          要使用 Google Authenticator 设置双重身份验证，请从 Apple App Store 或 Google Play 商店下载应用程序。
+          要使用 Google Authenticator 设置双因子认证，请从 Apple App Store 或 Google Play 商店下载应用程序。
           打开应用程序后，您可以扫描下面的二维码来注册设备。
         question_cannot_scan: |
           无法使用您的应用程序扫描二维码？
@@ -141,17 +145,17 @@ zh-CN:
       sns: 'Amazon SNS'
       resdt: 'SMS Rest API'
     mobile_transmit_notification: "一个一次性密码已发送到您的手机。"
-    label_two_factor_authentication: '双重身份验证'
+    label_two_factor_authentication: '双因子认证'
     forced_registration:
-      required_to_add_device: '活动安全策略要求您启用双重身份验证。请使用以下表单注册设备。'
+      required_to_add_device: '活动安全策略要求您启用双因子认证。请使用以下表单注册设备。'
     remember:
       active_session_notice: >
-        您的帐户具有一个有效期截至%{expires_on}的记住 Cookie。借助此 Cookie，在此之前无需使用双重身份即可登录帐户。
+        您的帐户具有一个有效期截至%{expires_on}的记住 Cookie。借助此 Cookie，在此之前无需使用双因子认证即可登录帐户。
       other_active_session_notice: 您的帐户在另一个会话上存在一个有效的记住 Cookie。
       label: '记住'
-      clear_cookie: '单击此处移除所有记住的双重身份验证会话。'
-      cookie_removed: '所有记住的双重身份验证会话已移除。'
-      dont_ask_again: "创建 Cookie，在此客户端上记住双重身份验证 %{days} 天。"
+      clear_cookie: '单击此处移除所有记住的双因子认证会话。'
+      cookie_removed: '所有记住的双因子认证会话已移除。'
+      dont_ask_again: "创建 Cookie，在此客户端上记住双因子认证 %{days} 天。"
   field_phone: "手机"
   field_otp: "一次性密码"
   notice_account_otp_invalid: "一次性密码无效。"

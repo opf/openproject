@@ -1,5 +1,9 @@
 #English strings go here
 ru:
+  plugin_openproject_avatars:
+    name: "Аватары"
+    description: >-
+      Этот плагин позволяет пользователям OpenProject загрузить изображение, которое будет использоваться в качестве аватара или использовать зарегистрированные изображения с Gravatar.
   label_avatar: "Аватар"
   label_avatar_plural: "Аватары"
   label_current_avatar: "Текущий аватар"
@@ -35,6 +39,3 @@ ru:
       enable_gravatars: 'Использовать Gravatar'
       gravatar_default: "Gravatar по умолчанию"
       enable_local_avatars: 'Включить пользовательские аватары'
-
-
-

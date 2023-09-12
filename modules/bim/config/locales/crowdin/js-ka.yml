@@ -7,7 +7,7 @@ ka:
       import_bcf_xml_file: 'Import BCF XML file (BCF version 2.1)'
       export: 'გატანა'
       export_bcf_xml_file: 'Export BCF XML file (BCF version 2.1)'
-      viewpoint: 'Viewpoint'
+      viewpoint: 'ხედის წერტილი'
       add_viewpoint: 'Add viewpoint'
       show_viewpoint: 'Show viewpoint'
       delete_viewpoint: 'Delete viewpoint'

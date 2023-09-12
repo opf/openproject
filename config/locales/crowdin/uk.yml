@@ -459,6 +459,8 @@ uk:
         tls_certificate_string: "Сертифікат SSL сервера LDAP"
       changeset:
         repository: "Репозиторій"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Коментар" #an object that this comment belongs to
       custom_action:
@@ -1483,7 +1485,7 @@ uk:
     changes_retracted: "Зміни було відхилено."
     caused_changes:
       dates_changed: "Дати змінено"
-      system_update: "Оновлення OpenProject"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: внесенням змін у попередній елемент %{link}
       work_package_parent_changed_times: внесенням змін у батькіський елемент %{link}
@@ -1499,7 +1501,8 @@ uk:
           working: "%{day} – зараз робочий день"
           non_working: "%{day} – зараз неробочий день"
       system_update:
-        file_links_journal: 'додано файлові посилання на дії'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Посібник з налаштування'
     get_in_touch: "У вас виникли запитання? Зв'яжіться з нами."
@@ -2140,8 +2143,8 @@ uk:
     zero: "немає проєктів"
   label_yesterday: "вчора"
   label_role_type: "Тип"
-  label_member_role: "Роль проекту"
-  label_global_role: "Глобальна роль"
+  label_member_role: "Project role"
+  label_global_role: "Global role"
   label_not_changeable: "(не змінюється)"
   label_global: "Глобальний"
   label_seeded_from_env_warning: Цей запис створено за допомогою параметра /змінної середовища. Його не можна змінити в інтерфейсі користувача.
@@ -2230,8 +2233,8 @@ uk:
   mail_body_register_ending: "Будьте на зв’язку! З повагою,"
   mail_body_reminder: "%{count} призначених на Вас робочих пакетів на наступні %{days} днів:"
   mail_body_group_reminder: "Пакети робіт (%{count}), призначені групі «%{group}», потрібно завершити протягом наступних %{days} дн.:"
-  mail_body_wiki_content_added: "%{author} додав(ла) wiki-сторінку %{id}."
-  mail_body_wiki_content_updated: "%{author} оновив(ла) wiki-сторінку %{id}."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "Запит на активацію облікового запису %{value}"
   mail_subject_backup_ready: "Ваша резервна копія готова"
   mail_subject_backup_token_reset: "Скидання маркера резервного копіювання"
@@ -2370,7 +2373,7 @@ uk:
   permission_add_work_package_notes: "Додати нотатки"
   permission_add_work_packages: "Додати робочі пакети"
   permission_add_messages: "Відправка повідомлень"
-  permission_add_project: "Створити проект"
+  permission_add_project: "Create projects"
   permission_archive_project: "Архівувати проєкт"
   permission_create_user: "Створення користувачів"
   permission_manage_user: "Редагування користувачів"
@@ -2383,7 +2386,7 @@ uk:
   permission_comment_news: "Коментування новин"
   permission_commit_access: "Доступ для читання/запису до сховища (фіксація)"
   permission_copy_projects: "Копіювати проекти"
-  permission_create_backup: "Створення резервних копій"
+  permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Видалення спостерігачів"
   permission_delete_work_packages: "Видалити робочі пакети"
   permission_delete_messages: "Видалити повідомлення"
@@ -2410,6 +2413,7 @@ uk:
   permission_log_time: "Реєструвати час для інших користувачів"
   permission_manage_forums: "Управління форумами"
   permission_manage_categories: "Управління категоріями пакет робота"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Управління зв'язками робочого пакету"
   permission_manage_members: "Управління учасниками"
   permission_manage_news: "Управління новинами"
@@ -2429,6 +2433,7 @@ uk:
   permission_manage_types: "Виберіть типи"
   permission_view_changesets: "Перегляд змін репозиторію (сховища) в OpenProject"
   permission_view_commit_author_statistics: "Перегляд статистики комітів автора"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Перегляд списку спостерігачів"
   permission_view_work_packages: "Переглянути робочі пакети"
   permission_view_messages: "Перегляд повідомлень"
@@ -3196,3 +3201,9 @@ uk:
     response:
       unexpected: "Отримано неочікувану відповідь."
   you: ви
+  plugin_openproject_auth_plugins:
+    name: "OpenProject Auth Plugins"
+    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / Single-Sign On"
+    description: "Adds the OmniAuth SAML provider to OpenProject"

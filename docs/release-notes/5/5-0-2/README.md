@@ -14,16 +14,16 @@ for the OpenProject core and plugins.
 The following bugs have been fixed with OpenProject 5.0.2:
 
   - The link to create new forum boards was incorrect. It has been fixed
-    ([#22142](https://community.openproject.org/work_packages/22142/activity)).
+    ([#22142](https://community.openproject.org/work_packages/22142)).
   - Creating new documents (using the documents plugin) was not possible
     due to an error. The bug has been fixed
-    ([#22140](https://community.openproject.org/work_packages/22140/activity)).
+    ([#22140](https://community.openproject.org/work_packages/22140)).
   - An error was resolved which prevented work packages from being
     displayed when appending a slash at the end
-    ([#21997](https://community.openproject.org/work_packages/21997/activity)).
+    ([#21997](https://community.openproject.org/work_packages/21997)).
   - Several design fixes have been include
-    ([#22088](https://community.openproject.org/work_packages/22088/activity),
-    [#21876](https://community.openproject.org/work_packages/21876/activity)).
+    ([#22088](https://community.openproject.org/work_packages/22088),
+    [#21876](https://community.openproject.org/work_packages/21876)).
 
 Additionally, the order of default roles has been changed
 ([#22044](https://community.openproject.org/work_packages/22044)).

@@ -20,6 +20,9 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 lt:
+  plugin_openproject_reporting:
+    name: "OpenProject ataskaitos"
+    description: "Šis priedas leidžia kurti savo kaštų ataskaitas su OpenProject laiko ir kašto priedo sukurtu filtravimu ir grupavimu."
   button_save_as: "Įrašyti ataskaitą kaip..."
   comments: "Komentaras"
   cost_reports_title: "Laikas ir išlaidos"

@@ -1,5 +1,8 @@
 #English strings go here
 pl:
+  plugin_openproject_storages:
+    name: "OpenProject Storages"
+    description: "Allows linking work packages to files in external storages, such as Nextcloud."
   permission_view_file_links: "Wyświetl linki do plików"
   permission_manage_file_links: "Zarządzaj linkami do plików"
   permission_manage_storages_in_project: "Zarządzaj magazynami plików w projekcie"
@@ -57,6 +60,7 @@ pl:
       edit_automatically_managed_project_folders: "Edytuj automatycznie zarządzane foldery projektu"
       replace_openproject_oauth: "Zastąp OpenProject OAuth"
       replace_provider_type_oauth: "Zastąp %{provider_type} OAuth"
+      save: "Save"
       save_and_continue_setup: "Zapisz i kontynuuj konfigurację"
       save_and_complete_setup: "Zapisz i zakończ konfigurację"
       select_folder: "Wybierz folder"
@@ -100,6 +104,8 @@ pl:
     help_texts:
       project_folder: >
         Folder projektu jest domyślnym folderem do przesyłania plików tego projektu. Użytkownicy mogą jednak przesyłać pliki do innych lokalizacji.
+    configuration_checks:
+      incomplete: "The setup of this storage is incomplete."
     delete_warning:
       storage: >
         Czy na pewno chcesz usunąć ten magazyn? Spowoduje to również jego usunięcie z wszystkich projektów, w których jest używany. Ponadto usunięte zostaną wszystkie linki z pakietów roboczych do plików, które są przechowywane w tym magazynie.
@@ -128,6 +134,7 @@ pl:
     label_provider_type: "Typ dostawcy"
     label_project_folder: "Folder projektu"
     label_new_storage: "Nowy magazyn"
+    label_edit_storage: "Edit storage"
     label_existing_manual_folder: "Istniejący folder z ręcznie zarządzanymi uprawnieniami"
     label_no_specific_folder: "Brak konkretnego folderu"
     label_automatic_folder: "Nowy folder z automatycznie zarządzanymi uprawnieniami"

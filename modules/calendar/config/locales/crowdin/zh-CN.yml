@@ -1,5 +1,8 @@
 #English strings go here
 zh-CN:
+  plugin_openproject_calendar:
+    name: "OpenProject 日历"
+    description: "提供日历视图。"
   label_calendar: "日历"
   label_calendar_plural: "日历"
   label_new_calendar: "新建日历"

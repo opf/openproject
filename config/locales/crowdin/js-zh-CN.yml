@@ -53,7 +53,7 @@ zh-CN:
     close_popup_title: "关闭弹出窗口"
     close_filter_title: "关闭过滤器"
     close_form_title: "关闭表单"
-    button_add_watcher: "添加关注人"
+    button_add_watcher: "添加关注者"
     button_add: "添加"
     button_back: "返回"
     button_back_to_list_view: "返回列表视图"
@@ -70,7 +70,7 @@ zh-CN:
     button_copy_to_other_project: "复制到其他项目"
     button_custom-fields: "自定义字段"
     button_delete: "删除"
-    button_delete_watcher: "删除关注人"
+    button_delete_watcher: "删除关注者"
     button_details_view: "详细信息视图"
     button_duplicate: "复制"
     button_edit: "编辑"
@@ -97,7 +97,7 @@ zh-CN:
     button_uncheck_all: "全部不选"
     button_update: "更新"
     button_export-pdf: "下载 PDF"
-    button_export-atom: "下载Atom"
+    button_export-atom: "下载 Atom"
     button_create: "创建"
     card:
       add_new: '添加新卡'
@@ -164,13 +164,13 @@ zh-CN:
         toc: '目录'
         toolbar_help: '单击可以选择微件并显示工具栏。双击可以编辑微件'
         wiki_page_include:
-          button: '包括另一个Wiki页的内容'
-          text: '[Placeholder] 包含的 wiki 页面'
+          button: '包括另一个维基页面的内容'
+          text: '[Placeholder] 包含的维基页面'
           page: '维基页面'
           not_set: '（页面未设置）'
           hint: |
-            通过指定其标题或Slug来包含其他Wiki页面的内容。
-            您可以通过使用冒号分隔另一个项目的Wiki页面，如下例所示。
+            通过指定其标题或简短链接来包含其他维基页面的内容。
+            您可以通过使用冒号分隔另一个项目的维基页面，如下例所示。
         work_package_button:
           button: '插入创建工作包按钮'
           type: '工作包类型'
@@ -260,7 +260,7 @@ zh-CN:
           empty_state_description: '没有为今年定义特定的非工作日。请点击下方的“+ 非工作日”添加一个日期。'
           new_date: '(新)'
         add_non_working_day: "非工作日"
-        already_added_error: "对该日期的非工作日已存在。每个日期只能创建一个非工作日。"
+        already_added_error: "该日期已存在非工作日。每个唯一日期只能创建一个非工作日。"
         change_button: "保存并重新安排"
         change_title: "更改工作日"
         removed_title: "您将从非工作日列表中删除以下日期："
@@ -401,7 +401,7 @@ zh-CN:
     label_committed_at: "在 %{date} %{committed_revision_link}"
     label_committed_link: "上传的修订 %{revision_identifier}"
     label_contains: "包含"
-    label_created_on: "创建"
+    label_created_on: "创建于"
     label_edit_comment: "编辑此注释"
     label_edit_status: "编辑工作包的状态"
     label_email: "电子邮件"
@@ -415,7 +415,7 @@ zh-CN:
     label_filename: "文件"
     label_filesize: "大小"
     label_general: "通用"
-    label_global_roles: "全局角色"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: '组'
     label_group_by: "分组按照"
@@ -431,7 +431,7 @@ zh-CN:
     label_invalid: "无效"
     label_import: "导入"
     label_latest_activity: "最新活动"
-    label_last_updated_on: "最后更新日期"
+    label_last_updated_on: "最后更新于"
     label_learn_more_link: "了解更多信息"
     label_less_or_equal: "<="
     label_less_than_ago: "小于数日前"
@@ -473,10 +473,10 @@ zh-CN:
     label_remove_columns: "移除选择的列"
     label_remove_row: "移除行"
     label_report: "报告"
-    label_repository_plural: "代码库"
+    label_repository_plural: "存储库"
     label_save_as: "另存为"
     label_select_project: "选择项目"
-    label_select_watcher: "选择一位关注人..."
+    label_select_watcher: "选择一个关注者..."
     label_selected_filter_list: "已选筛选器"
     label_show_attributes: "显示所有属性"
     label_show_in_menu: "在菜单中显示视图"
@@ -485,7 +485,7 @@ zh-CN:
     label_sort_higher: "向上移动"
     label_sort_lower: "向下移动"
     label_sorting: "排序"
-    label_spent_time: "已耗时间"
+    label_spent_time: "已耗工时"
     label_star_query: "收藏夹"
     label_press_enter_to_save: "按回车键可以保存。"
     label_public_query: "公开"
@@ -495,7 +495,7 @@ zh-CN:
     label_subject: "主题"
     label_this_week: "这一周"
     label_today: "今天"
-    label_time_entry_plural: "已耗时间"
+    label_time_entry_plural: "已耗工时"
     label_up: "向上"
     label_user_plural: "用户"
     label_activity_show_only_comments: "仅显示批注的活动"
@@ -511,8 +511,8 @@ zh-CN:
     label_work_package_plural: "工作包"
     label_watch: "关注"
     label_watch_work_package: "关注工作包"
-    label_watcher_added_successfully: "已成功添加关注人！"
-    label_watcher_deleted_successfully: "已成功删除关注人！"
+    label_watcher_added_successfully: "已成功添加关注者！"
+    label_watcher_deleted_successfully: "已成功删除关注者！"
     label_work_package_details_you_are_here: "您位于%{type}%{subject}的“%{tab}”选项卡上。"
     label_unwatch: "取消关注"
     label_unwatch_work_package: "取消工作包关注"
@@ -529,7 +529,7 @@ zh-CN:
     label_add_attachments: "添加文件"
     label_formattable_attachment_hint: "将文件拖拽到此区域或从剪贴板粘贴以附加文件"
     label_remove_file: "删除 %{fileName}"
-    label_remove_watcher: "删除关注人 %{name}"
+    label_remove_watcher: "删除关注者 %{name}"
     label_remove_all_files: 删除所有文件
     label_add_description: "为%{file} 添加说明"
     label_upload_notification: "正在上传文件…"
@@ -557,10 +557,10 @@ zh-CN:
         quick_add_button: '点击标题导航中的加号 (+) 图标可<b>创建新项目</b>或<b>邀请同事</b>。'
         sidebar_arrow: "使用左上角的返回箭头可返回到项目的<b>主菜单</b>。"
         welcome: '通过三分钟的导览了解<b>最重要的功能</b> 。<br>我们建议您完成所有步骤。您可以随时重新浏览介绍。'
-        wiki: '在 <b>Wiki</b> 中，您可以记录并与您的团队共享知识。'
+        wiki: '在 <b>维基</b> 中，您可以记录并与您的团队共享知识。'
         backlogs:
           overview: "在<b>待办清单</b>视图中管理您的工作。"
-          sprints: "右侧为产品待办清单和错误待办清单，左侧为各自的冲刺 (sprint)。在这里，您可以创建<b>长篇故事、用户故事和错误</b>，通过拖放来确定优先级，以及将它们添加到冲刺 (sprint) 中。"
+          sprints: "右侧为产品待办清单和缺陷待办清单，左侧为各自的冲刺 (Sprint)。在这里，您可以创建<b>史诗、用户故事和缺陷</b>，通过拖放来确定优先级，以及将它们添加到冲刺 (Sprint) 中。"
           task_board_arrow: '要查看您的<b>任务面板</b>，请打开冲刺 (sprint) 下拉菜单…'
           task_board_select: '…并选择<b>任务面板</b>条目。'
           task_board: "任务面板可以将<b>此冲刺 (sprint) 的进度</b>可视化。点击用户故事旁边的加号 (+) 图标可添加新任务或障碍。<br>状态可以通过拖放更新。"
@@ -579,18 +579,18 @@ zh-CN:
           timeline_button: '您可以激活<b>甘特图</b>视图来为项目创建时间轴。'
           timeline: '您可以在此<b>编辑您的项目计划</b>、创建新的工作包（例如任务、里程碑、阶段等）以及<b>添加依赖项</b>。所有团队成员都可以随时查看和更新最新计划。'
         team_planner:
-          overview: '团队规划工具使您可以直观地为团队成员分配任务，并全面了解哪些成员正在处理哪些工作。'
-          calendar: '每周或每两周规划面板可以显示分配给您的团队成员的所有工作包。'
-          add_assignee: '首先，请将受理人添加到团队规划工具。'
-          add_existing: '搜索现有工作包并将其拖动到团队规划工具，以立即将其分配给团队成员并定义开始日期和结束日期。'
+          overview: '工作组规划器使您可以直观地为团队成员分配任务，并全面了解哪些成员正在处理哪些工作。'
+          calendar: '单周或双周规划面板可以显示分配给您的团队成员的所有工作包。'
+          add_assignee: '首先，请将受理人添加到工作组规划器。'
+          add_existing: '搜索现有工作包并将其拖动到工作组规划器，以立即将其分配给团队成员并定义开始日期和结束日期。'
           card: '水平拖动工作包以前移或后移其时间，拖动边缘以更改开始日期和结束日期，甚至可以将其垂直拖动到不同的行以分配给其他成员。'
     notifications:
       title: "通知"
       no_unread: "没有未读通知"
       reasons:
         mentioned: '被提及'
-        watched: '关注人'
-        assigned: '指定人'
+        watched: '关注者'
+        assigned: '受理人'
         responsible: '负责人'
         created: '已创建'
         scheduled: '已安排'
@@ -639,7 +639,7 @@ zh-CN:
         by_reason: '原因'
         inbox: '收件箱'
         mentioned: '被提及'
-        watched: '关注人'
+        watched: '关注者'
         date_alert: '日期提醒'
       settings:
         change_notification_settings: '您可以修改您的<a target="_blank" href="%{url}">通知设置</a>，以确保您不会错过重要的更新。'
@@ -661,9 +661,9 @@ zh-CN:
           mentioned:
             title: '被提及'
             description: '每当有人在任何位置提及我时都接收通知'
-          assignee: '指定人'
+          assignee: '受理人'
           responsible: '负责人'
-          watched: '关注人'
+          watched: '关注者'
           work_package_commented: '所有新评论'
           work_package_created: '新工作包'
           work_package_processed: '所有状态更改'
@@ -672,13 +672,13 @@ zh-CN:
         global:
           immediately:
             title: '参与'
-            description: '你参与的工作包中所有活动的通知（执行人、责任人或监督人）。'
+            description: '对于你参与的所有工作包（受理人、负责人或关注者），可以设置通知以接收所有活动的提醒。'
           delayed:
             title: '不参与'
             description: '在所有项目中通知您所有活动。'
           date_alerts:
             title: '日期提醒'
-            description: '当你涉及的打开的工作包（例如作为受让人、负责人或观察者）的重要日期临近时，自动发出通知。'
+            description: '当你参与的开放工作包（作为受理人、负责人或关注者）的重要日期临近时，自动发送通知。'
             teaser_text: '借助日期提醒，您将收到即将到来的开始或结束日期的通知，以免错过或忘记重要截止日期。'
           overdue: 逾期时
         project_specific:
@@ -724,22 +724,22 @@ zh-CN:
           time_label: '时间 %{counter}：'
           title: '向我发送针对未读通知的每日电子邮件提醒'
         workdays:
-          title: '接收这几天的邮件提醒'
+          title: '在如下日期接收电子邮件提醒'
         immediate:
-          title: '向我发送邮件提醒'
-          mentioned: '当有人@提及我时立即'
+          title: '向我发送电子邮件提醒'
+          mentioned: '当有人@提及我时立即提醒'
         alerts:
-          title: '针对其他条目（非工作包）的电子邮件警报'
+          title: '其他项目（非工作包）的电子邮件提醒'
           explanation: >
-            今日通知仅限于工作包。您可以选择继续接收针对这些事件的电子邮件警报，直到它们包含在通知中：
+            今日提醒仅限于工作包。您可以选择继续接收这些事件的电子邮件提醒，直到它们被包含在通知中。
           news_added: '添加新闻'
-          news_commented: '新闻条目评论'
-          document_added: '已添加文档'
+          news_commented: '评论新闻'
+          document_added: '添加文档'
           forum_messages: '新的论坛消息'
-          wiki_page_added: '添加 Wiki 页面'
-          wiki_page_updated: '更新 Wiki 页面'
-          membership_added: '已添加成员'
-          membership_updated: '已更新成员'
+          wiki_page_added: '添加维基页面'
+          wiki_page_updated: '更新维基页面'
+          membership_added: '添加成员'
+          membership_updated: '成员已更新'
         title: '电子邮件提醒'
         pause:
           label: '临时暂停每日电子邮件提醒'
@@ -774,16 +774,16 @@ zh-CN:
       tracking_time: '跟踪时间'
       button_stop: '停止当前计时器'
     two_factor_authentication:
-      label_two_factor_authentication: '双重身份验证'
+      label_two_factor_authentication: '双因子认证'
     watchers:
-      label_loading: 正在加载关注人...
-      label_error_loading: 加载关注人时出错
-      label_search_watchers: 搜索关注人
-      label_add: 添加关注人
+      label_loading: 正在加载关注者...
+      label_error_loading: 加载关注者时出错
+      label_search_watchers: 搜索关注者
+      label_add: 添加关注者
       label_discard: 放弃选择
-      typeahead_placeholder: 查找可能的关注人
+      typeahead_placeholder: 查找可能的关注者
     relation_labels:
-      parent: "父"
+      parent: "父级"
       children: "子任务"
       relates: "关于"
       duplicates: "重复项"
@@ -798,7 +798,7 @@ zh-CN:
       required: "请求"
       relation_type: "关系类型"
     relations_hierarchy:
-      parent_headline: "父"
+      parent_headline: "父级"
       hierarchy_headline: "层次结构"
       children_headline: "子任务"
     relation_buttons:
@@ -810,11 +810,11 @@ zh-CN:
       group_by_wp_type: "按工作包类型分组"
       group_by_relation_type: "按关系类型分组"
       add_parent: "添加现有的上一级"
-      add_new_child: "创建子结点"
+      add_new_child: "创建新的子任务"
       create_new: "新建"
       add_existing: "添加现有"
-      add_existing_child: "增加现有的子节点"
-      remove_child: "删除子结点"
+      add_existing_child: "增加现有的子任务"
+      remove_child: "删除子任务"
       add_new_relation: "创建新的关系"
       add_existing_relation: "添加现有关系"
       update_description: "设置或更新此关系的描述"
@@ -869,7 +869,7 @@ zh-CN:
       quote: "引用"
       unquote: "取消引用"
       preformatted_text: "预格式化文本"
-      wiki_link: "链接到一个 Wiki 页面"
+      wiki_link: "链接到一个维基页面"
       image: "图片"
     work_packages:
       bulk_actions:
@@ -949,15 +949,15 @@ zh-CN:
         estimatesAndTime: "估计与时间"
         other: "其他"
       properties:
-        assignee: "指定人"
+        assignee: "受理人"
         author: "作者"
-        createdAt: "创建时间"
+        createdAt: "创建于"
         description: "描述"
         date: "日期"
         dueDate: "完成日期"
         duration: "时长"
-        estimatedTime: "估计时间"
-        spentTime: "已耗时间"
+        estimatedTime: "估算工时"
+        spentTime: "已耗工时"
         category: "类别"
         percentageDone: "完成百分比"
         priority: "优先级"
@@ -1059,7 +1059,7 @@ zh-CN:
         overview: 概述
         activity: 活动
         relations: 关系
-        watchers: 关注人
+        watchers: 关注者
         files: 文件
       time_relative:
         days: "天"

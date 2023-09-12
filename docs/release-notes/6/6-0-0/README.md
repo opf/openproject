@@ -13,7 +13,7 @@ package page.
 
 ## Inline create for work packages
 
-OpenProject 6.0 adds the ability to rapidly create a list of work packages (e.g. tasks) via the work package table ([#13702](https://community.openproject.com/work_packages/13702/activity)).
+OpenProject 6.0 adds the ability to rapidly create a list of work packages (e.g. tasks) via the work package table ([#13702](https://community.openproject.com/wp/13702)).
 
 As a result, you can now easily and swiftly create task table.
 
@@ -22,7 +22,7 @@ As a result, you can now easily and swiftly create task table.
 ## Inline edit in work package table
 
 With OpenProject 6.0 it is possible to use inline editing to swiftly update work packages (such as tasks, features, milestones) directly from
-the work package table ([#18404](https://community.openproject.com/work_packages/18404/activity)).
+the work package table ([#18404](https://community.openproject.com/wp/18404)).
 
 It is no longer necessary to open a separate split screen view. Note,
 that all links (except for ID) have been removed from the work package

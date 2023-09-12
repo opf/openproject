@@ -461,6 +461,8 @@ th:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "ที่เก็บข้อมูล"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "แสดงความเห็น" #an object that this comment belongs to
       custom_action:
@@ -1425,7 +1427,7 @@ th:
     changes_retracted: "The changes were retracted."
     caused_changes:
       dates_changed: "Dates changed"
-      system_update: "OpenProject update"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1441,7 +1443,8 @@ th:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Configuration guide'
     get_in_touch: "You have questions? Get in touch with us."
@@ -2082,8 +2085,8 @@ th:
     zero: "no projects"
   label_yesterday: "เมื่อวานนี้"
   label_role_type: "ประเภท"
-  label_member_role: "Project Role"
-  label_global_role: "Global Role"
+  label_member_role: "Project role"
+  label_global_role: "Global role"
   label_not_changeable: "(not changeable)"
   label_global: "Global"
   label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
@@ -2170,8 +2173,8 @@ th:
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "มี %{count} ลำดับภารกิจที่การมอบหมายมาให้คุณรับผิดชอบ กำลังจะครบกำหนดในอีก %{days} วัน:"
   mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
-  mail_body_wiki_content_added: "มีการเพิ่มหน้าวิกิ '%{id}' โดย %{author}"
-  mail_body_wiki_content_updated: "มีการปรับปรุงหน้าวิกิ '%{id}' โดย %{author}"
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "มี %{value} คำขอเปิดใช้บัญชี"
   mail_subject_backup_ready: "ข้อมูลสำรองของคุณพร้อมแล้ว"
   mail_subject_backup_token_reset: "รีเซ็ตโทเค็นสำรอง"
@@ -2309,7 +2312,7 @@ th:
   permission_add_work_package_notes: "เพิ่มหมายเหตุ"
   permission_add_work_packages: "เพิ่มลำดับภารกิจ"
   permission_add_messages: "โพสต์ข้อความ"
-  permission_add_project: "สร้างโครงการ"
+  permission_add_project: "Create projects"
   permission_archive_project: "Archive project"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
@@ -2322,7 +2325,7 @@ th:
   permission_comment_news: "แสดงความคิดเห็นเกี่ยวกับข่าว"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "คัดลอกโครงการ"
-  permission_create_backup: "Create backup"
+  permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "ลบผู้เฝ้าดู"
   permission_delete_work_packages: "ลบชุดภารกิจ"
   permission_delete_messages: "ลบข้อความ"
@@ -2349,6 +2352,7 @@ th:
   permission_log_time: "Log time for other users"
   permission_manage_forums: "จัดการกระทู้"
   permission_manage_categories: "จัดการประเภทของชุดภารกิจ"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "จัดการความสัมพันธ์ของชุดภารกิจ"
   permission_manage_members: "จัดการสมาชิก"
   permission_manage_news: "จัดการข่าวสาร"
@@ -2368,6 +2372,7 @@ th:
   permission_manage_types: "เลือกชนิด"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "ดูการส่งมอบสถิติผู้เขียน"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "ดูรายชื่อผู้เฝ้าดู"
   permission_view_work_packages: "View work packages"
   permission_view_messages: "ดูข้อความ"
@@ -3130,3 +3135,9 @@ th:
     response:
       unexpected: "Unexpected response received."
   you: คุณ
+  plugin_openproject_auth_plugins:
+    name: "OpenProject Auth Plugins"
+    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / Single-Sign On"
+    description: "Adds the OmniAuth SAML provider to OpenProject"

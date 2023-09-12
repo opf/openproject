@@ -20,6 +20,8 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 hr:
+  plugin_budgets_engine:
+    name: 'Proračuni'
   activerecord:
     attributes:
       budget:

@@ -20,14 +20,17 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 cs:
+  plugin_openproject_backlogs:
+    name: "OpenProject Backlogs"
+    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
   activerecord:
     attributes:
       work_package:
         position: "Pozice"
         remaining_hours: "Zbývající hodiny"
         remaining_time: "Zbývající hodiny"
-        derived_remaining_hours: "Derived remaining hours"
-        derived_remaining_time: "Derived remaining hours"
+        derived_remaining_hours: "Odvozené zbývající hodiny"
+        derived_remaining_time: "Odvozené zbývající hodiny"
         story_points: "Body příběhu"
         backlogs_work_package_type: "Typ nevyřízené položky"
     errors:

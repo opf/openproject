@@ -15,7 +15,7 @@ project member table and improved work package relations.
 
 OpenProject 6.1 improves the project member table and adds filters to
 the project member
-list ([#22859](https://community.openproject.com/work_packages/22859/activity)).
+list ([#22859](https://community.openproject.com/wp/22859)).
 
 This provides an easy way to quickly find, remove or edit the
 permissions of project members in large projects.
@@ -27,7 +27,7 @@ permissions of project members in large projects.
 The work package relations tab has been improved: It has a clearer
 structure, allows to add existing children to a work package and adds
 new relation types
-([#23709](https://community.openproject.com/work_packages/23709/activity)).
+([#23709](https://community.openproject.com/wp/23709)).
 
 Hierarchical relationships are immediately clear through a
 tree-structure.
@@ -38,7 +38,7 @@ tree-structure.
 
 The work package table is now loaded more quickly and changes can be made
 faster
-([#23780](https://community.openproject.com/work_packages/23780/activity)).
+([#23780](https://community.openproject.com/wp/23780)).
 
 ## Add meetings to calendar
 

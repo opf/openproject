@@ -18,7 +18,7 @@ zh-CN:
         item_0:
           name: 新增
         item_1:
-          name: 正在处理
+          name: 处理中
         item_2:
           name: 已解决
         item_3:
@@ -27,7 +27,7 @@ zh-CN:
         item_0:
           name: 管理
         item_1:
-          name: 技术规范
+          name: 规范
         item_2:
           name: 其他
       types:
@@ -69,23 +69,33 @@ zh-CN:
         item_6:
           name: 策划人
         item_7:
-          name: 架构工程师
+          name: 结构工程师
       welcome:
-        title: 欢迎使用开源BIM版本！
+        title: 欢迎使用 OpenProject BIM版本！
         text: |
-          检查项目试样，开始获取示例。
-          *【（试样）架构项目】({{opSetting:base_url}}/projects/demo-construction-project): 看一眼规划，BIM进程，BCF管理，建构。
+          请通过查看演示项目来获取一些开始示例。
+
+          * [（演示）建筑项目]({{opSetting:base_url}}/projects/demo-construction-project)： 规划、BIM流程、BCF管理和施工一目了然。
+          * [（演示）规划与施工]({{opSetting:base_url}}/projects/demo-planning-constructing-project)： 经典的规划和施工管理。
+          * [（演示）BIM项目]({{opSetting:base_url}}/projects/demo-bim-project)： BIM流程和协调。
+          * [（演示）BCF管理]({{opSetting:base_url}}/projects/demo-bcf-management-project)： BCF管理。
+
+          此外，您可以创建一个空白的 [新项目]({{opSetting:base_url}}/projects/new) 。
+
+          永不停止协作。拥抱开源和开放的思想。
+
+          您可以在 [此处]({{opSetting:base_url}}/admin/settings/general) 更改此欢迎文本。
       projects:
         demo-construction-project:
-          name: "(Democo) 建筑项目"
+          name: "(演示) 建筑项目"
           status_explanation: 所有任务和子项目都在日程表上了。参与者知道他们的任务。系统已经完全建立。
-          description: 这是这个样本构建项目目标的简短摘要。
+          description: 这是该（演示）建筑项目的简短目标摘要。
           news:
             item_0:
               title: 欢迎来到您的演示项目
               summary: |
-                我们很高兴您加入了。
-                在这个模块中，您可以向您的团队成员传送项目新闻。
+                我们很高兴您的加入。
+                在这个模块中，您可以向团队成员传送项目新闻。
               description: 实际新闻
           categories:
             item_0: 第1类(在项目设置中更改)
@@ -97,7 +107,7 @@ zh-CN:
             item_2:
               name: 任务
             item_3:
-              name: 团队计划器
+              name: 工作组规划器
           boards:
             bcf:
               name: 简单拖放工作流
@@ -115,7 +125,7 @@ zh-CN:
                     但在开始之前，您应该知道这个示范项目分为两个不同的项目：
 
                     1.  [施工项目]({{opSetting:base_url}}/projects/demo-planning-constructing-project)：在这里，您可以找到施工项目的经典角色、一些工作流和工作包。
-                    2.  [创建 BIM 模型]({{opSetting:base_url}}/projects/demo-bim-project)：此项目还提供角色、工作流和工作包，尤其是在 BIM 上下文中。
+                    2.  [创建 BIM 模型]({{opSetting:base_url}}/projects/demo-bim-project)：此项目还提供 BIM 背景下的角色、工作流和工作包。
 
                     _请尝试执行以下步骤_：
 
@@ -125,7 +135,7 @@ zh-CN:
                     4.  _创建并更新甘特图_：→ 在项目导航中转到[甘特图]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D)。
                     5.  _激活更多模块_：→ 转到[项目设置 → 模块]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules)。
                     6.  _查看平铺视图，了解您的 BCF 问题_：→ 转到[工作包]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    7.  _正在敏捷工作？查看我们全新的面板_：→ 转到[面板]({{opSetting:base_url}}/projects/demo-construction-project/boards)
+                    7.  _正在敏捷工作？查看我们的全新面板_：→ 转到[面板]({{opSetting:base_url}}/projects/demo-construction-project/boards)
 
                     在这里，您可以找到我们的[用户指南](https://www.openproject.org/docs/user-guide/)。
                     如果您有任何问题或需要支持，请告诉我们。联系方式：[support\[at\]openproject.com](mailto:support@openproject.com)。
@@ -141,13 +151,13 @@ zh-CN:
         demo-planning-constructing-project:
           name: "(演示) 规划和建设"
           status_explanation: 所有任务都已按期完成。参与者知道他们的任务。系统已经完全建立。
-          description: 这是这个样本计划和构建项目目标的简短总结。
+          description: 这是该演示规划和建筑项目的简短目标总结。
           news:
             item_0:
               title: 欢迎来到您的演示项目
               summary: |
-                我们很高兴您加入了。
-                在这个模块中，您可以向您的团队成员传送项目新闻。
+                我们很高兴您的加入。
+                在这个模块中，您可以向团队成员传送项目新闻。
               description: 实际新闻
           categories:
             item_0: 第1类(在项目设置中更改)
@@ -159,7 +169,7 @@ zh-CN:
             item_2:
               name: 任务
             item_3:
-              name: 团队计划器
+              name: 工作组规划器
           project-overview:
             widgets:
               item_0:
@@ -195,9 +205,9 @@ zh-CN:
                   name: 里程碑
           work_packages:
             item_0:
-              subject: 剔除构建项目的项目
+              subject: 项目启动：建设项目
               description: |-
-                项目启动会议会初始化您公司项目的启动。参与此项目的每个人都应该受邀参加此启动会议以获得第一份简报。
+                项目启动会标志着您公司项目的开始。所有参与该项目的人员都应该被邀请参加项目启动会，以进行首次简报。
 
                 下一步是通过查看[甘特图]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D)来了解时间表并调整任命。
             item_1:
@@ -213,7 +223,7 @@ zh-CN:
 
                     *根据客户需求定义任务
 
-                    *应确定时间框架和成本估算
+                    *应确定时间框架和成本预估
 
 
 
@@ -225,7 +235,7 @@ zh-CN:
 
                     *每个需求应代表一项任务及其相应的工作包
 
-                    *推导成本估算和时间框架
+                    *推导成本预估和时间框架
                 item_1:
                   subject: 总结结果
                   description: |-
@@ -251,7 +261,7 @@ zh-CN:
 
                     *此概述告知所有参与者所做的决定
 
-                    *。。。
+                    *...
                 item_2:
                   subject: 基本评估结束
                   description: 此类型在层次结构上是“冲突”和“请求”类型的父项，因此表示一般注释。
@@ -373,7 +383,7 @@ zh-CN:
                     *   完成屋顶施工
                     *   …
                 item_4:
-                  subject: 安装构建服务系统
+                  subject: 安装建筑服务系统
                   description: |-
                     ## 目标
 
@@ -401,7 +411,7 @@ zh-CN:
                     *   完成立面
                     *   …
                 item_6:
-                  subject: 住房变暖方
+                  subject: 新居乔迁派对
                   description: |-
                     ## 目标
 
@@ -413,15 +423,15 @@ zh-CN:
                     *   邀请您的朋友
                     *   带上饮料、零食和您的笑脸
         demo-bim-project:
-          name: "(样本) BIM项目"
+          name: "(演示) BIM项目"
           status_explanation: 所有任务和子项目都在日程表上了。参与者知道他们的任务。系统已经完全搭建。
-          description: 这是这个样本BIM项目目标的简短摘要。
+          description: 这是该（演示）BIM项目目标的简短摘要。
           news:
             item_0:
               title: 欢迎来到您的演示项目
               summary: |
-                我们很高兴您加入了。
-                在这个模块中，您可以向您的团队成员传送项目新闻。
+                我们很高兴您的加入。
+                您可以在这个模块中向团队成员传送项目新闻。
               description: 实际新闻
           categories:
             item_0: 第1类(在项目设置中更改)
@@ -433,7 +443,7 @@ zh-CN:
             item_2:
               name: 任务
             item_3:
-              name: 团队计划器
+              name: 工作组规划器
           project-overview:
             widgets:
               item_0:
@@ -472,7 +482,7 @@ zh-CN:
                   name: 里程碑
           work_packages:
             item_0:
-              subject: 剔除正在创建的BIM模型
+              subject: 项目启动：创建BIM模型
               description: |-
                 项目启动会议会初始化您公司项目的启动。整个项目团队都应该受邀参加此启动会议以获得第一份简报。
 
@@ -486,29 +496,17 @@ zh-CN:
                   description: |-
                     ##目标
 
-
-
-                    *确定客户的信息策略（例如，使用简单的语言问题）
-
-                    *如果提供，分析BIM模型的客户信息要求
-
-                    *根据客户需求定义信息交付策略
-
-
+                    * 通过使用简明的语言提出问题，确定客户的信息策略。
+                    * 如果提供了信息，分析客户对BIM模型的信息需求。
+                    * 根据客户的需求定义信息交付策略。
 
                     ##说明
 
-
-
-                    *分析客户使用BIM方法的需求和目标
-
-                    *此任务的结果应该是：
-
-                    *项目要求
-
-                    *交付阶段的策略
-
-                    *。。。
+                    * 分析客户对使用BIM方法的需求和目标
+                    * 该任务的结果应包括：
+                    * 项目需求
+                    * 交付阶段的策略
+                    * ...
                 item_1:
                   subject: 创建 BIM 执行计划
                   description: |-
@@ -718,7 +716,7 @@ zh-CN:
             item_6:
               name: 任务
             item_7:
-              name: 团队计划器
+              name: 工作组规划器
           boards:
             bcf:
               name: BCF 问题

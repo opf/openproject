@@ -461,6 +461,8 @@ lt:
         tls_certificate_string: "LDAP serverio SSL sertifikatas"
       changeset:
         repository: "Repozitorija"
+      color:
+        hexcode: "Šešioliktainis kodas"
       comment:
         commented: "Komentavo" #an object that this comment belongs to
       custom_action:
@@ -1485,7 +1487,7 @@ lt:
     changes_retracted: "Pakeitimai buvo atšaukti."
     caused_changes:
       dates_changed: "Datos pasikeitė"
-      system_update: "OpenProject atnaujinimas"
+      system_update: "OpenProject sistemos atnaujinimas"
     cause_descriptions:
       work_package_predecessor_changed_times: dėl pirmtako pakeitimų %{link}
       work_package_parent_changed_times: dėl tėvo pakeitimų %{link}
@@ -1501,7 +1503,8 @@ lt:
           working: "%{date} dabar yra darbo"
           non_working: "%{date} dabar yra nedarbo"
       system_update:
-        file_links_journal: 'Failų nuorodos pridėtos į veiksmus'
+        file_links_journal: >
+          Nuo dabar, su failų nuorodomis (failais, saugomais išorinse saugyklose) susiję veiksmai bus rodomi Veiksmų kortelėje. Žemiau pateikiamas jau egzistavusių nuorodų veiksmų sąrašas:
   links:
     configuration_guide: 'Konfigūravimo vadovas'
     get_in_touch: "Turite klausimų? Susisiekite su mumis."
@@ -2142,8 +2145,8 @@ lt:
     zero: "nėra projektų"
   label_yesterday: "vakar"
   label_role_type: "Tipas"
-  label_member_role: "Projekto vaidmuo"
-  label_global_role: "Globalus vaidmuo"
+  label_member_role: "Project role"
+  label_global_role: "Global role"
   label_not_changeable: "(negalima pakeisti)"
   label_global: "Globali"
   label_seeded_from_env_warning: Šis įrašas buvo nustatytas per nustatymą / aplinkos kintamąjį. Jo negalima keisti per UI.
@@ -2233,8 +2236,8 @@ lt:
   mail_body_register_ending: "Likite prisijungę! Su geriausiais linkėjimais,"
   mail_body_reminder: "%{count} darbų paketai, kurie yra jums priskirti, baigiasi per artimiausias %{days} dienų (-ą, -as):"
   mail_body_group_reminder: "%{count} darbo paketas(ai), kurie priskirti grupei „%{group}“ turi būti baigti per kitas %{days} dienas:"
-  mail_body_wiki_content_added: "%{author} pridėjo '%{id}' wiki puslapį."
-  mail_body_wiki_content_updated: "%{author} atnaujino '%{id}' wiki puslapį."
+  mail_body_wiki_page_added: "%{author} pridėjo '%{id}' wiki puslapį."
+  mail_body_wiki_page_updated: "%{author} atnaujino '%{id}' wiki puslapį."
   mail_subject_account_activation_request: "%{value} paskyros aktyvavimo prašymas"
   mail_subject_backup_ready: "Jūsų atsarginė kopija paruošta"
   mail_subject_backup_token_reset: "Rezervinės kopijos žetonas atstatytas"
@@ -2373,7 +2376,7 @@ lt:
   permission_add_work_package_notes: "Pridėti pastabų"
   permission_add_work_packages: "Pridėti darbų paketų"
   permission_add_messages: "Skelbti pranešimus"
-  permission_add_project: "Sukurti projektą"
+  permission_add_project: "Create projects"
   permission_archive_project: "Archyvuoti projektą"
   permission_create_user: "Kurti naudotojus"
   permission_manage_user: "Keisti naudotojus"
@@ -2386,7 +2389,7 @@ lt:
   permission_comment_news: "Komentuoti naujienas"
   permission_commit_access: "Skaitymo/rašymo prieiga į repozitoriją"
   permission_copy_projects: "Kopijuoti projekus"
-  permission_create_backup: "Kurti atsarginę kopiją"
+  permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Pašalinti stebėtojus"
   permission_delete_work_packages: "Pašalinti darbų paketus"
   permission_delete_messages: "Pašalinti pranešimus"
@@ -2413,6 +2416,7 @@ lt:
   permission_log_time: "Registruoti kitų naudotojų laiką"
   permission_manage_forums: "Valdyti forumus"
   permission_manage_categories: "Valdyti darbų paketo kategorijas"
+  permission_manage_dashboards: "Valdyti švieslentes"
   permission_manage_work_package_relations: "Valdyti darbų paketo ryšius"
   permission_manage_members: "Valdyti narius"
   permission_manage_news: "Valdyti naujienas"
@@ -2432,6 +2436,7 @@ lt:
   permission_manage_types: "Pasirinkti tipus"
   permission_view_changesets: "Rodyti repozitorijos pakeitimus OpenProject"
   permission_view_commit_author_statistics: "Peržiūrėti autorių pakeitimų pateikimo statistiką"
+  permission_view_dashboards: "Peržiūrėti švieslentes"
   permission_view_work_package_watchers: "Peržiūrėti stebėtojų sąrašą"
   permission_view_work_packages: "Rodyti darbų paketus"
   permission_view_messages: "Peržiūrėti žinutes"
@@ -3197,3 +3202,9 @@ lt:
     response:
       unexpected: "Gautas netikėtas atsakas."
   you: jūs
+  plugin_openproject_auth_plugins:
+    name: "OpenProject Auth Priedai"
+    description: "Openproject autentifikacijos OmniAuth strategijos teikėjų integracija."
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / Vienas prisijungimas"
+    description: "Prideda OmniAuth SAML tiekėja į OpenProject"

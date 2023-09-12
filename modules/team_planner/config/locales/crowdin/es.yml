@@ -1,5 +1,8 @@
 #English strings go here
 es:
+  plugin_openproject_team_planner:
+    name: "Planner de equipo de OpenProject"
+    description: "Proporciona vistas de planificador de equipos."
   permission_view_team_planner: "Ver planificador del equipo"
   permission_manage_team_planner: "Gestionar planificador del equipo"
   project_module_team_planner_view: "Planificadores de equipos"
