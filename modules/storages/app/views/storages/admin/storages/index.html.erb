@@ -27,6 +27,8 @@
     <% end %>
   <% end %>
 
+  <%= render(::Storages::Admin::OpPrimerListComponent.new(storages: @storages)) %>
+
 <% else %>
   <%= toolbar title: t("project_module_storages") do %>
     <li class="toolbar-item">
@@ -54,6 +56,6 @@
       </p>
     </div>
   </div>
-<% end %>
 
-<%= render(::Storages::Admin::TableComponent.new(rows: @storages)) %>
+  <%= render(::Storages::Admin::TableComponent.new(rows: @storages)) %>
+<% end %>
