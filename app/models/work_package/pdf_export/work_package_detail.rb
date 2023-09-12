@@ -108,7 +108,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
              attributes_list_by_wp(work_package)
            end
     list
-      .map { |entry| entry.merge({ value: get_column_value_cell(work_package, entry[:name]) }) }
+      .map { |entry| entry.merge({ value: entry[:value] || get_column_value_cell(work_package, entry[:name]) }) }
       .select { |attribute_data| can_show_attribute?(attribute_data) }
   end
 
@@ -125,11 +125,27 @@ module WorkPackage::PDFExport::WorkPackageDetail
   end
 
   def attributes_list_by_wp(work_package)
-    ::Query.available_columns(work_package.project)
-      .reject { |column| %i[subject project].include?(column.name) }
-      .map do |column|
+    list = ::Query.available_columns(work_package.project)
+                  .reject { |column| %i[subject project].include?(column.name) }
+                  .map do |column|
       { label: column.caption || '', name: column.name }
     end
+    spent_units = costs_attribute_spent_units(work_package)
+    list << spent_units unless spent_units.nil?
+    list
+  end
+
+  def costs_attribute_spent_units(work_package)
+    cost_helper = ::Costs::AttributesHelper.new(work_package, User.current)
+    values = cost_helper.summarized_cost_entries.map do |kvp|
+      cost_type = kvp[0]
+      volume = kvp[1]
+      type_unit = volume == 1.0 ? cost_type.unit : cost_type.unit_plural
+      "#{volume} #{type_unit}"
+    end
+    return nil if values.empty?
+
+    { label: I18n.t('activerecord.attributes.work_package.spent_units'), name: :spent_units, value: values.join(', ') }
   end
 
   def build_columns_table_cells(attribute_data)
