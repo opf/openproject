@@ -31,7 +31,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::Registry, webmock: true do
+RSpec.describe Storages::Peripherals::Registry, :webmock do
   using Storages::Peripherals::ServiceResultRefinements
 
   let(:user) { create(:user) }

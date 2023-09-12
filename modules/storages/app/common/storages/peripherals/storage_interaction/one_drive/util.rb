@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,36 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals
-  module StorageErrorHelper
-    def raise_error(error)
-      Rails.logger.error(error)
+module Storages::Peripherals::StorageInteraction::OneDrive::Util
+  using Storages::Peripherals::ServiceResultRefinements
 
-      case error.code
-      when :not_found
-        raise API::Errors::OutboundRequestNotFound.new
-      when :bad_request
-        raise API::Errors::BadRequest.new(error.log_message)
-      when :forbidden
-        raise API::Errors::OutboundRequestForbidden.new
-      else
-        raise API::Errors::InternalError.new
-      end
+  class << self
+    def mime_type(json)
+      json.dig(:file, :mimeType) || (json.key?(:folder) ? 'application/x-op-directory' : nil)
     end
 
-    def error_to_code(error)
-      case error.code
-      when :bad_request
-        400
-      when :not_authorized
-        401
-      when :forbidden
-        403
-      when :not_found
-        404
-      else
-        500
-      end
+    def using_user_token(storage, user, &)
+      connection_manager = ::OAuthClients::ConnectionManager
+                             .new(user:, configuration: storage.oauth_configuration)
+
+      connection_manager
+        .get_access_token
+        .match(
+          on_success: ->(token) do
+            connection_manager.request_with_token_refresh(token) { yield token }
+          end,
+          on_failure: ->(_) do
+            ServiceResult.failure(
+              result: :not_authorized,
+              errors: ::Storages::StorageError.new(
+                code: :not_authorized,
+                log_message: 'Query could not be created! No access token found!'
+              )
+            )
+          end
+        )
     end
   end
 end

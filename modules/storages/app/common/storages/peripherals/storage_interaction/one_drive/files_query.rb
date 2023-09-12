@@ -33,9 +33,10 @@ module Storages
     module StorageInteraction
       module OneDrive
         class FilesQuery
-          FIELDS = "?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder"
+          FIELDS = "?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference"
 
           using ServiceResultRefinements
+
           def self.call(storage:, user:, folder:)
             new(storage).call(user:, folder:)
           end
@@ -46,7 +47,7 @@ module Storages
           end
 
           def call(user:, folder: nil)
-            result = using_user_token(user) do |token|
+            result = Util.using_user_token(@storage, user) do |token|
               # Make the Get Request to the necessary endpoints
               response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
                 http.get(uri_path_for(folder) + FIELDS, { 'Authorization' => "Bearer #{token.access_token}" })
@@ -74,7 +75,7 @@ module Storages
           end
 
           def uri_path_for(folder)
-            return "/v1.0/me/drive/root/children" unless folder
+            return "/v1.0/drives/#{@storage.drive_id}/root/children" unless folder
 
             "/v1.0/drives/#{@storage.drive_id}/items/#{folder}/children"
           end
@@ -85,38 +86,15 @@ module Storages
                 id: json[:id],
                 name: json[:name],
                 size: json[:size],
-                mime_type: mime_type(json),
+                mime_type: Util.mime_type(json),
                 created_at: DateTime.parse(json.dig(:fileSystemInfo, :createdDateTime)),
                 last_modified_at: DateTime.parse(json.dig(:fileSystemInfo, :lastModifiedDateTime)),
                 created_by_name: json.dig(:createdBy, :user, :displayName),
                 last_modified_by_name: json.dig(:lastModifiedBy, :user, :displayName),
-                location: json[:webUrl],
+                location: json.dig(:parentReference, :path),
                 permissions: nil
               )
             end
-          end
-
-          def mime_type(json)
-            json.dig(:file, :mimeType) || (json.key?(:folder) ? 'application/x-op-directory' : nil)
-          end
-
-          def using_user_token(user, &block)
-            connection_manager = ::OAuthClients::ConnectionManager
-              .new(user:, configuration: @storage.oauth_configuration)
-
-            connection_manager
-              .get_access_token
-              .match(
-                on_success: ->(token) do
-                  connection_manager.request_with_token_refresh(token) { block.call(token) }
-                end,
-                on_failure: ->(_) do
-                  ServiceResult.failure(
-                    result: :not_authorized,
-                    message: 'Query could not be created! No access token found!'
-                  )
-                end
-              )
           end
         end
       end

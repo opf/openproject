@@ -31,10 +31,14 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, webmock: true do
+RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, :webmock do
   include JsonResponseHelper
 
-  let(:storage) { create(:one_drive_storage, :with_oauth_client) }
+  let(:storage) do
+    create(:one_drive_storage,
+           :with_oauth_client,
+           drive_id: 'b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd')
+  end
   let(:user) { create(:user) }
   let(:json) { read_json('root_drive') }
   let(:token) { create(:oauth_client_token, user:, oauth_client: storage.oauth_client) }
@@ -47,7 +51,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
   end
 
   it 'returns an array of StorageFile' do
-    stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder")
+    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference")
       .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
       .to_return(status: 200, body: json, headers: {})
 
@@ -56,22 +60,20 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
     expect(storage_files).to all(be_a(Storages::StorageFile))
     one_file = storage_files[10]
 
-    expect(one_file.to_h).to eq(
-      { id: '01BYE5RZZ6FUE5272C5JCY3L7CLZ7XOUYM',
-        name: "All Japan Revenues By City.xlsx",
-        size: 20051,
-        mime_type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        created_at: Time.parse("2017-08-07T16:07:10Z"),
-        last_modified_at: Time.parse("2017-08-07T16:07:10Z"),
-        created_by_name: "Megan Bowen",
-        last_modified_by_name: "Megan Bowen",
-        location: "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7BDD092D3E-427F-45EA-8DAF-E25E7F77530C%7D&file=All%20Japan%20Revenues%20By%20City.xlsx&action=default&mobileredirect=true",
-        permissions: nil }
-    )
+    expect(one_file.to_h).to eq({ id: '01BYE5RZZ6FUE5272C5JCY3L7CLZ7XOUYM',
+                                  name: "All Japan Revenues By City.xlsx",
+                                  size: 20051,
+                                  mime_type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                  created_at: Time.parse("2017-08-07T16:07:10Z"),
+                                  last_modified_at: Time.parse("2017-08-07T16:07:10Z"),
+                                  created_by_name: "Megan Bowen",
+                                  last_modified_by_name: "Megan Bowen",
+                                  location: "/drive/root:",
+                                  permissions: nil })
   end
 
   it 'when the argument folder is nil, gets information from that users root folder' do
-    stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder")
+    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference")
       .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
       .to_return(status: 200, body: json, headers: {})
 
@@ -81,15 +83,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
   end
 
   context 'when accessing a specific folder' do
-    let(:storage) do
-      create(:one_drive_storage,
-             :with_oauth_client,
-             drive_id: 'b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd')
-    end
     let(:json) { read_json('specific_folder') }
 
     it 'uses the specific drive url' do
-      uri = "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder"
+      uri = "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference"
       stub_request(:get, uri)
         .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
         .to_return(status: 200, body: json, headers: {})
@@ -102,7 +99,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
 
   describe 'error handling' do
     it 'returns a notfound error if the API call returns a 404' do
-      stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder")
+      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference")
         .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
         .to_return(status: 404, body: '', headers: {})
 
@@ -114,7 +111,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
     end
 
     it 'retries authentication when it returns a 401' do
-      stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder")
+      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference")
         .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
         .to_return(status: 401, body: '', headers: {})
 

@@ -31,7 +31,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe 'API v3 storage files', content_type: :json, webmock: true do
+RSpec.describe 'API v3 storage files', :webmock, content_type: :json do
   include API::V3::Utilities::PathHelper
   include StorageServerHelpers
 
@@ -170,70 +170,48 @@ RSpec.describe 'API v3 storage files', content_type: :json, webmock: true do
 
     context 'with successful response' do
       let(:response) do
-        [
-          Storages::StorageFileInfo.new(
-            status: 'OK',
-            status_code: 200,
-            id: file_id,
-            name: "Documents",
-            last_modified_at: DateTime.now,
-            created_at: DateTime.now,
-            mime_type: 'application/x-op-directory',
-            size: 1108864,
-            owner_name: 'Darth Vader',
-            owner_id: 'darthvader',
-            trashed: false,
-            last_modified_by_name: 'Darth Sidious',
-            last_modified_by_id: 'palpatine',
-            permissions: 'RGDNVCK',
-            location: '/Documents'
-          )
-        ]
+        Storages::StorageFileInfo.new(
+          status: 'OK',
+          status_code: 200,
+          id: file_id,
+          name: "Documents",
+          last_modified_at: DateTime.now,
+          created_at: DateTime.now,
+          mime_type: 'application/x-op-directory',
+          size: 1108864,
+          owner_name: 'Darth Vader',
+          owner_id: 'darthvader',
+          trashed: false,
+          last_modified_by_name: 'Darth Sidious',
+          last_modified_by_id: 'palpatine',
+          permissions: 'RGDNVCK',
+          location: '/Documents'
+        )
       end
 
       before do
         files_info_query = ->(_) { ServiceResult.success(result: response) }
-        Storages::Peripherals::Registry.stub('queries.nextcloud.files_info', files_info_query)
+        Storages::Peripherals::Registry.stub('queries.nextcloud.file_info', files_info_query)
       end
 
       subject { last_response.body }
 
       it 'responds with appropriate JSON' do
         expect(subject).to be_json_eql('StorageFile'.to_json).at_path('_type')
-        expect(subject).to be_json_eql(response[0].id.to_json).at_path('id')
-        expect(subject).to be_json_eql(response[0].name.to_json).at_path('name')
-        expect(subject).to be_json_eql(response[0].size.to_json).at_path('size')
-        expect(subject).to be_json_eql(response[0].mime_type.to_json).at_path('mimeType')
-        expect(subject).to be_json_eql(response[0].owner_name.to_json).at_path('createdByName')
-        expect(subject).to be_json_eql(response[0].last_modified_by_name.to_json).at_path('lastModifiedByName')
-        expect(subject).to be_json_eql(response[0].location.to_json).at_path('location')
-        expect(subject).to be_json_eql(response[0].permissions.to_json).at_path('permissions')
-      end
-
-      context 'and storage file access is forbidden' do
-        let(:response) do
-          [
-            Storages::StorageFileInfo.new(
-              id: file_id,
-              status: 'Forbidden',
-              status_code: 403
-            )
-          ]
-        end
-
-        it 'fails with outbound request failure' do
-          expect(last_response.status).to be(500)
-
-          body = JSON.parse(last_response.body)
-          expect(body['message']).to eq(I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code: 403))
-          expect(body['errorIdentifier']).to eq('urn:openproject-org:api:v3:errors:OutboundRequest:Forbidden')
-        end
+        expect(subject).to be_json_eql(response.id.to_json).at_path('id')
+        expect(subject).to be_json_eql(response.name.to_json).at_path('name')
+        expect(subject).to be_json_eql(response.size.to_json).at_path('size')
+        expect(subject).to be_json_eql(response.mime_type.to_json).at_path('mimeType')
+        expect(subject).to be_json_eql(response.owner_name.to_json).at_path('createdByName')
+        expect(subject).to be_json_eql(response.last_modified_by_name.to_json).at_path('lastModifiedByName')
+        expect(subject).to be_json_eql(response.location.to_json).at_path('location')
+        expect(subject).to be_json_eql(response.permissions.to_json).at_path('permissions')
       end
     end
 
     context 'with query failed' do
       before do
-        clazz = Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQuery
+        clazz = Storages::Peripherals::StorageInteraction::Nextcloud::FileInfoQuery
         instance = instance_double(clazz)
         allow(clazz).to receive(:new).and_return(instance)
         allow(instance).to receive(:call).and_return(

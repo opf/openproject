@@ -33,6 +33,8 @@ module Storages
     module StorageInteraction
       module OneDrive
         class FilesInfoQuery
+          include StorageErrorHelper
+
           using ServiceResultRefinements
 
           def self.call(storage:, user:, file_ids: [])
@@ -45,103 +47,33 @@ module Storages
           end
 
           def call(user:, file_ids:)
-            using_user_token(user) do |token|
-              make_file_requests(file_ids, token).map(&storage_file_infos)
+            if file_ids.nil?
+              return ServiceResult.failure(
+                result: :error,
+                errors: ::Storages::StorageError.new(code: :error, log_message: 'File IDs can not be nil')
+              )
             end
+
+            result = file_ids.map do |file_id|
+              wrap_storage_file_error(file_id, FileInfoQuery.call(storage: @storage, user:, file_id:))
+            end
+
+            ServiceResult.success(result:)
           end
 
           private
 
-          def make_file_requests(file_ids, token)
-            if file_ids.nil?
-              return ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error))
-            end
-
-            response_data = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-              file_ids.map do |file_id|
-                {
-                  file_id:,
-                  response: http.get(uri_path_for(file_id), { 'Authorization' => "Bearer #{token.access_token}" })
-                }
-              end
-            end
-
-            handle_responses(response_data)
-          end
-
-          def handle_responses(response_data)
-            if response_data.all? { |data| data[:response].is_a?(Net::HTTPSuccess) || data[:response].is_a?(Net::HTTPNotFound) }
-              ServiceResult.success(result: response_data)
-            elsif response_data.any? { |data| data[:response].is_a?(Net::HTTPUnauthorized) }
-              ServiceResult.failure(result: :not_authorized, errors: ::Storages::StorageError.new(code: :not_authorized))
+          def wrap_storage_file_error(file_id, query_result)
+            if query_result.success?
+              query_result.result
             else
-              ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error))
-            end
-          end
-
-          def uri_path_for(file_id)
-            "/v1.0/drives/#{@storage.drive_id}/items/#{file_id}"
-          end
-
-          # rubocop:disable Metrics/AbcSize
-          def storage_file_infos
-            ->(response_data) do
-              response_data.map do |data|
-                response = data[:response]
-                json = MultiJson.load(response.body, symbolize_keys: true)
-
-                if response.is_a?(Net::HTTPSuccess)
-                  StorageFileInfo.new(
-                    status: 'ok',
-                    status_code: response.code,
-                    id: json[:id],
-                    name: json[:name],
-                    last_modified_at: DateTime.parse(json.dig(:fileSystemInfo, :lastModifiedDateTime)),
-                    created_at: DateTime.parse(json.dig(:fileSystemInfo, :createdDateTime)),
-                    mime_type: mime_type(json),
-                    size: json[:size],
-                    owner_name: json.dig(:createdBy, :user, :displayName),
-                    owner_id: json.dig(:createdBy, :user, :id),
-                    trashed: false,
-                    last_modified_by_name: json.dig(:lastModifiedBy, :user, :displayName),
-                    last_modified_by_id: json.dig(:lastModifiedBy, :user, :id),
-                    permissions: nil,
-                    location: json.dig(:parentReference, :path)
-                  )
-                else
-                  StorageFileInfo.new(
-                    status: json.dig(:error, :code),
-                    status_code: response.code,
-                    id: data[:file_id]
-                  )
-                end
-              end
-            end
-          end
-
-          # rubocop:enable Metrics/AbcSize
-
-          def mime_type(json)
-            json.dig(:file, :mimeType) || (json.key?(:folder) ? 'application/x-op-directory' : nil)
-          end
-
-          def using_user_token(user, &)
-            connection_manager = ::OAuthClients::ConnectionManager
-                                   .new(user:, configuration: @storage.oauth_configuration)
-
-            connection_manager
-              .get_access_token
-              .match(
-                on_success: ->(token) do
-                  connection_manager.request_with_token_refresh(token) { yield token }
-                end,
-                on_failure: ->(_) do
-                  ServiceResult.failure(
-                    result: :not_authorized,
-                    message: 'Query could not be created! No access token found!'
-                  )
-                end
+              storage_error = query_result.errors
+              StorageFileInfo.new(
+                id: file_id,
+                status: storage_error.data.dig(:error, :code),
+                status_code: error_to_code(storage_error)
               )
+            end
           end
         end
       end
