@@ -55,7 +55,7 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
       inspector: true,
       headless: headless_mode?
     }
-    options = options.merge(window_size: [1920, 1080]) if headless_mode?
+    options = options.merge(window_size: [1920, 1080])
 
     if ENV['CHROME_URL'].present?
       options = options.merge(url: ENV['CHROME_URL'])

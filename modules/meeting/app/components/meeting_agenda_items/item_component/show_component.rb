@@ -218,7 +218,7 @@ module MeetingAgendaItems
     end
 
     def qa_selector(key)
-      { data: { 'qa-seleector': key } }
+      { data: { 'qa-selector': key } }
     end
 
     def actions_partial

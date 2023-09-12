@@ -82,7 +82,7 @@ module Pages::StructuredMeeting
 
     def select_action(item, action)
       page.within("#meeting-agenda-items-item-component-#{item.id}") do
-        page.find('[data-qa-seleector="op-meeting-agenda-actions"]').click
+        page.find('[data-qa-selector="op-meeting-agenda-actions"]').click
       end
 
       page.within('.Overlay') do
