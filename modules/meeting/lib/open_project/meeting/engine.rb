@@ -49,7 +49,7 @@ module OpenProject::Meeting
                    require: :member,
                    contract_actions: { meetings: %i[create] }
         permission :edit_meetings,
-                   { meetings: %i[edit update] },
+                   { meetings: %i[edit update update_title update_details update_participants] },
                    permissible_on: :project,
                    require: :member
         permission :delete_meetings,
@@ -68,7 +68,10 @@ module OpenProject::Meeting
                    permissible_on: :project,
                    require: :member
         permission :close_meeting_agendas,
-                   { meeting_agendas: %i[close open] },
+                   {
+                     meetings: %i[change_state],
+                     meeting_agendas: %i[close open]
+                   },
                    permissible_on: :project,
                    require: :member
         permission :send_meeting_agendas_notification,
