@@ -138,6 +138,11 @@ en:
   text_review_meeting_minutes: "%{author} has put the %{link} up for review."
   text_notificiation_invited: "This mail contains an ics entry for the meeting below:"
 
+  text_meeting_empty_heading: "Your meeting is empty"
+  text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration, notes and a person responsible."
+  text_meeting_empty_description_2: "You can also add references to existing work packages. When you do, related notes will automatically be visible in the work package's \"Meetings\" tab."
+  label_meeting_empty_action: "Add agenda item"
+
   label_meeting_actions: "Meeting actions"
   label_meeting_edit_title: "Edit meeting title"
   label_meeting_delete: "Delete meeting"

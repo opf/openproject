@@ -43,8 +43,12 @@ module MeetingAgendaItems
     def call
       component_wrapper(data: wrapper_data_attributes) do
         render(Primer::Beta::BorderBox.new) do |border_box|
-          @meeting.agenda_items.each do |meeting_agenda_item|
-            row_partial(border_box, meeting_agenda_item)
+          if @meeting.agenda_items.empty? && @form_hidden
+            empty_state_partial(border_box)
+          else
+            @meeting.agenda_items.each do |meeting_agenda_item|
+              row_partial(border_box, meeting_agenda_item)
+            end
           end
           border_box.with_row(p: 0, border_top: 0) do
             new_form_partial
@@ -61,6 +65,32 @@ module MeetingAgendaItems
         'application-target': 'dynamic',
         'target-tag': 'ul'
       }
+    end
+
+    def empty_state_partial(border_box)
+      border_box.with_body(
+        scheme: :default
+      ) do
+        blank_slate_partial
+      end
+    end
+
+    def blank_slate_partial
+      render(Primer::Beta::Blankslate.new) do |component|
+        component.with_visual_icon(icon: :book)
+        component.with_heading(tag: :h2).with_content(t("text_meeting_empty_heading"))
+        component.with_description do
+          flex_layout do |flex|
+            flex.with_row(mb: 2) do
+              render(Primer::Beta::Text.new(color: :subtle)) { t("text_meeting_empty_description_1") }
+            end
+            flex.with_row do
+              render(Primer::Beta::Text.new(color: :subtle)) { t("text_meeting_empty_description_2") }
+            end
+          end
+        end
+        # component.with_primary_action(href: "#").with_content(t("label_meeting_empty_action"))
+      end
     end
 
     def row_partial(border_box, meeting_agenda_item)
