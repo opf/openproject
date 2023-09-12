@@ -933,7 +933,7 @@ GEM
     sys-filesystem (1.4.3)
       ffi (~> 1.1)
     table_print (1.5.7)
-    test-prof (1.2.2)
+    test-prof (1.2.3)
     text-hyphen (1.5.0)
     thor (1.2.2)
     timecop (0.9.8)
