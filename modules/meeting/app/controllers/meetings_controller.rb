@@ -62,8 +62,8 @@ class MeetingsController < ApplicationController
   def show
     if @meeting.is_a?(StructuredMeeting)
       render(Meetings::ShowComponent.new(meeting: @meeting))
-    else
-      params[:tab] ||= 'minutes' if @meeting.agenda.present? && @meeting.agenda.locked?
+    elsif @meeting.agenda.present? && @meeting.agenda.locked?
+      params[:tab] ||= 'minutes'
     end
   end
 
@@ -155,7 +155,7 @@ class MeetingsController < ApplicationController
   end
 
   def update_title
-    @meeting.update(title: meeting_params[:title])
+    @meeting.update(title: structured_meeting_params[:title])
 
     if @meeting.errors.any?
       update_header_component_via_turbo_stream(state: :edit)
@@ -167,7 +167,7 @@ class MeetingsController < ApplicationController
   end
 
   def update_details
-    @meeting.update(meeting_params)
+    @meeting.update(structured_meeting_params)
 
     if @meeting.errors.any?
       update_sidebar_details_form_component_via_turbo_stream
@@ -184,7 +184,7 @@ class MeetingsController < ApplicationController
   end
 
   def change_state
-    case meeting_state_params[:state]
+    case structured_meeting_params[:state]
     when "open"
       @meeting.open!
     when "closed"
@@ -281,6 +281,12 @@ class MeetingsController < ApplicationController
     end
   end
 
+  def structured_meeting_params
+    if params[:structured_meeting].present?
+      params.require(:structured_meeting).permit(:title, :location, :start_time_hour, :duration, :start_date, :state)
+    end
+  end
+
   def meeting_type(given_type)
     case given_type
     when 'structured'
@@ -288,9 +294,5 @@ class MeetingsController < ApplicationController
     else
       'Meeting'
     end
-  end
-
-  def meeting_state_params
-    params.require(:meeting).permit(:state)
   end
 end
