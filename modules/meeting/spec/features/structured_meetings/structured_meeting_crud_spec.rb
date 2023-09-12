@@ -32,7 +32,9 @@ require_relative '../../support/pages/meetings/new'
 require_relative '../../support/pages/structured_meeting/show'
 
 RSpec.describe 'Structured meetings CRUD', :js, with_cuprite: true do
-  shared_let(:project) { create(:project, enabled_module_names: %w[meetings]) }
+  include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+
+  shared_let(:project) { create(:project, enabled_module_names: %w[meetings work_package_tracking]) }
   let(:time_zone) { 'utc' }
   let(:user) do
     create(:user,
@@ -50,7 +52,10 @@ RSpec.describe 'Structured meetings CRUD', :js, with_cuprite: true do
            member_in_project: project,
            member_with_permissions: permissions)
   end
-  let(:permissions) { %i[view_meetings create_meetings create_meeting_agendas] }
+  let!(:work_package) do
+    create(:work_package, project:, subject: 'Important task')
+  end
+  let(:permissions) { %i[view_meetings create_meetings create_meeting_agendas view_work_packages] }
   let(:current_user) { user }
   let(:new_page) { Pages::Meetings::New.new(project) }
   let(:show_page) { Pages::StructuredMeeting::Show.new(StructuredMeeting.order(id: :asc).last) }
@@ -73,6 +78,7 @@ RSpec.describe 'Structured meetings CRUD', :js, with_cuprite: true do
     new_page.click_create
     show_page.expect_toast(message: 'Successful creation')
 
+    # Can add and edit a single item
     show_page.add_agenda_item do
       fill_in 'Title', with: 'My agenda item'
       fill_in 'Duration in minutes', with: '25'
@@ -87,5 +93,44 @@ RSpec.describe 'Structured meetings CRUD', :js, with_cuprite: true do
     end
 
     show_page.expect_no_agenda_item title: 'My agenda item'
+
+    # Can add multiple items
+    show_page.add_agenda_item(cancel_followup_item: false) do
+      fill_in 'Title', with: 'First'
+      click_button 'Save'
+
+      fill_in 'Title', with: 'Second'
+      click_button 'Save'
+    end
+
+    show_page.expect_agenda_item title: 'Updated title'
+    show_page.expect_agenda_item title: 'First'
+    show_page.expect_agenda_item title: 'Second'
+
+    # Can reorder
+    show_page.assert_agenda_order! 'Updated title', 'First', 'Second'
+
+    second = MeetingAgendaItem.find_by!(title: 'Second')
+    show_page.select_action(second, I18n.t(:label_sort_higher))
+    show_page.assert_agenda_order! 'Updated title', 'Second', 'First'
+
+    first = MeetingAgendaItem.find_by!(title: 'First')
+    show_page.select_action(first, I18n.t(:label_sort_highest))
+    show_page.assert_agenda_order! 'First', 'Updated title', 'Second'
+
+    # Can remove
+    show_page.remove_agenda_item first
+    show_page.assert_agenda_order! 'Updated title', 'Second'
+
+    # Can link work packages
+    show_page.add_agenda_item(type: WorkPackage) do
+      select_autocomplete(find('[data-qa-selector="op-agenda-items-wp-autocomplete"'),
+                          query: 'task',
+                          results_selector: 'body')
+      click_button 'Save'
+    end
+
+    wp_item = MeetingAgendaItem.find_by!(work_package_id: work_package.id)
+    expect(wp_item).to be_present
   end
 end

@@ -34,13 +34,33 @@ module Pages::StructuredMeeting
       expect(page).to have_no_selector('[id^="meeting-agenda-items-item-component"]')
     end
 
-    def add_agenda_item(&block)
+    def add_agenda_item(type: MeetingAgendaItem, cancel_followup_item: true, &block)
       page.within('#content') do
         click_button I18n.t(:button_add)
       end
-      click_link 'Agenda item'
+
+      click_link type.model_name.human
 
       page.within('#meeting-agenda-items-form-component', &block)
+
+      if cancel_followup_item
+        page.find('#meeting-agenda-items-new-component a', text: I18n.t(:button_cancel)).click
+      end
+    end
+
+    def assert_agenda_order!(*titles)
+      retry_block do
+        found = page.all('[data-qa-selector="op-meeting-agenda-title"]').map(&:text)
+        raise "Expected order of agenda items #{titles.inspect}, but found #{found.inspect}" if titles != found
+      end
+    end
+
+    def remove_agenda_item(item)
+      accept_confirm(I18n.t('text_are_you_sure')) do
+        select_action item, I18n.t(:button_delete)
+      end
+
+      expect_no_agenda_item(title: item.title)
     end
 
     def expect_agenda_item(title:)
@@ -51,15 +71,18 @@ module Pages::StructuredMeeting
       expect(page).not_to have_selector('[data-qa-selector="op-meeting-agenda-title"]', text: title)
     end
 
-    def edit_agenda_item(item, &block)
+    def select_action(item, action)
       page.within("#meeting-agenda-items-item-component-#{item.id}") do
         page.find('[data-qa-seleector="op-meeting-agenda-actions"]').click
       end
 
       page.within('.Overlay') do
-        click_on 'Edit'
+        click_on action
       end
+    end
 
+    def edit_agenda_item(item, &block)
+      select_action item, 'Edit'
       page.within("#meeting-agenda-items-item-component-#{item.id} #meeting-agenda-items-form-component", &block)
     end
   end
