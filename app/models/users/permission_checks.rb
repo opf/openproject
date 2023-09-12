@@ -34,8 +34,8 @@ module Users::PermissionChecks
   end
 
   class IllegalPermissionCheck < StandardError
-    def initialize(permission, context)
-      super("Tried to check permission #{permission.name} in #{context} context. Permissible contexts for this permission are: #{permission.permissible_on.join(', ')}.")
+    def initialize(permission, permissions, context)
+      super("Tried to check permission #{permission} in #{context} context. Permissible contexts for this permission are: #{permissions.flat_map(&:permissible_on).uniq.join(', ')}.")
     end
   end
 
@@ -79,27 +79,19 @@ module Users::PermissionChecks
 
   # All the new methos to check for permissions. This will completely replace the old interface:
   def allowed_globally?(permission)
-    perm = OpenProject::AccessControl.permission(permission)
-    raise UnknownPermissionError.new(permission) unless perm
-    raise IllegalPermissionCheck.new(perm, :global) unless perm.global?
-
-    user_allowed_service.call(permission, nil, global: false)
+    perms = normalized_permissions(permission, :global)
+    user_allowed_service.call(perms, nil, global: true)
   end
 
   def allowed_in_project?(permission, project)
-    perm = OpenProject::AccessControl.permission(permission)
-    raise UnknownPermissionError.new(permission) unless perm
-    raise IllegalPermissionCheck.new(perm, :project) unless perm.project?
-
-    user_allowed_service.call(permission, project, global: false)
+    perms = normalized_permissions(permission, :project)
+    user_allowed_service.call(perms, project, global: false)
   end
 
   def allowed_in_any_project?(permission)
-    perm = OpenProject::AccessControl.permission(permission)
-    raise UnknownPermissionError.new(permission) unless perm
-    raise IllegalPermissionCheck.new(perm, :project) unless perm.project?
+    perms = normalized_permissions(permission, :project)
 
-    user_allowed_service.call(permission, nil, global: true)
+    user_allowed_service.call(perms, nil, global: true)
   end
 
   # Return user's roles for project
@@ -120,11 +112,6 @@ module Users::PermissionChecks
     user_allowed_service.call(action, context, global:)
   end
 
-  def allowed_to_in_entity?(action, entity)
-    OpenProject::Deprecation.replaced(:allowed_to_in_entity?, :allowed_in_entity?, caller)
-    allowed_to?(action, entity)
-  end
-
   def allowed_to_in_project?(action, project)
     OpenProject::Deprecation.replaced(:allowed_to_in_project?, :allowed_in_project?, caller)
     allowed_to?(action, project)
@@ -139,22 +126,18 @@ module Users::PermissionChecks
 
   def allowed_in_entity?(permission, entity)
     context = entity.model_name.element.to_sym
-    perm = OpenProject::AccessControl.permission(permission)
-    raise UnknownPermissionError.new(permission) unless perm
-    raise IllegalPermissionCheck.new(perm, context) unless perm.permissible_on?(context)
+    perms = normalized_permissions(permission, context)
 
     # TODO: Implement
-    puts "Checking if allowed to #{permission} on #{entity}"
+    puts "Checking if allowed to #{perms.map(&:name)} on #{entity}"
   end
 
   def allowed_in_any_entity?(permission, entity_class, in_project: nil)
     context = entity_class.model_name.element.to_sym
-    perm = OpenProject::AccessControl.permission(permission)
-    raise UnknownPermissionError.new(permission) unless perm
-    raise IllegalPermissionCheck.new(perm, context) unless perm.permissible_on?(context)
+    perms = normalized_permissions(permission, context)
 
     # TODO: Implement
-    puts "Checking if allowed to #{permission} on any entity of type #{entity_class}#{" within project #{in_project}" if in_project}"
+    puts "Checking if allowed to #{perms.map(&:name)} on any entity of type #{entity_class}#{" within project #{in_project}" if in_project}"
   end
 
   def user_allowed_service
@@ -163,5 +146,20 @@ module Users::PermissionChecks
 
   def project_role_cache
     @project_role_cache ||= ::Users::ProjectRoleCache.new(self)
+  end
+
+  def normalized_permissions(permission, context)
+    perms = if permission.is_a?(Hash)
+              OpenProject::AccessControl.allow_actions(permission)
+            else
+              [OpenProject::AccessControl.permission(permission)].compact
+            end
+
+    raise UnknownPermissionError.new(permission) if perms.blank?
+
+    context_perms = perms.select { |p| p.permissible_on?(context) }
+    raise IllegalPermissionCheck.new(permission, perms, context) if context_perms.blank?
+
+    context_perms
   end
 end
