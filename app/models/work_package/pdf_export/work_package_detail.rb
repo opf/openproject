@@ -140,7 +140,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
     values = cost_helper.summarized_cost_entries.map do |kvp|
       cost_type = kvp[0]
       volume = kvp[1]
-      type_unit = volume == 1.0 ? cost_type.unit : cost_type.unit_plural
+      type_unit = volume.to_d == 1.0.to_d ? cost_type.unit : cost_type.unit_plural
       "#{volume} #{type_unit}"
     end
     return nil if values.empty?
