@@ -28,42 +28,44 @@
  * ++
  */
 
-import * as Turbo from "@hotwired/turbo"
+import * as Turbo from '@hotwired/turbo';
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
   static values = {
     cancelUrl: String,
-  }
-  declare cancelUrlValue: string
+  };
 
-  static targets = [ "titleInput", "descriptionInput", "descriptionAddButton"]
-  declare readonly titleInputTarget: HTMLInputElement
-  declare readonly descriptionInputTarget: HTMLInputElement
-  declare readonly descriptionAddButtonTarget: HTMLInputElement
+  declare cancelUrlValue:string;
 
-  connect(): void {
+  static targets = ['titleInput', 'descriptionInput', 'descriptionAddButton'];
+  declare readonly titleInputTarget:HTMLInputElement;
+  declare readonly descriptionInputTarget:HTMLInputElement;
+  declare readonly descriptionAddButtonTarget:HTMLInputElement;
+
+  connect():void {
     this.focusInput();
   }
 
-  focusInput(): void {
+  focusInput():void {
     const input = this.element.querySelector('input[name="meeting_agenda_item[title]"]');
-    if(input) {
+    if (input) {
       (input as HTMLInputElement).focus();
     }
   }
 
   async cancel() {
-    const confirmed = confirm("Are you sure?");
+    // eslint-disable-next-line no-alert
+    const confirmed = window.confirm('Are you sure?');
     if (!confirmed) {
       return;
     }
     const response = await fetch(this.cancelUrlValue, {
-      method: "GET",
+      method: 'GET',
       headers: {
         'X-CSRF-Token': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).content,
-        'Accept': 'text/vnd.turbo-stream.html',
-      }
+        Accept: 'text/vnd.turbo-stream.html',
+      },
     });
 
     if (response.ok) {
@@ -73,14 +75,13 @@ export default class extends Controller {
   }
 
   async addDescription() {
-    this.descriptionInputTarget.classList.remove("d-none");
-    this.descriptionAddButtonTarget.classList.add("d-none");
+    this.descriptionInputTarget.classList.remove('d-none');
+    this.descriptionAddButtonTarget.classList.add('d-none');
     const textarea = this.element.querySelector('textarea[name="meeting_agenda_item[description]"]');
     setTimeout(() => {
-      if(textarea) {
+      if (textarea) {
         (textarea as HTMLInputElement).focus();
       }
     }, 100);
   }
 }
-

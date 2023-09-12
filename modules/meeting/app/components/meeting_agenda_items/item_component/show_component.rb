@@ -89,8 +89,10 @@ module MeetingAgendaItems
           end
         end
         flex.with_column(flex: 1, mt: 2, pl: drag_and_drop_enabled? ? 0 : 3) do
-          if @meeting_agenda_item.work_package.present?
+          if @meeting_agenda_item.visible_work_package?
             work_package_title_partial
+          elsif @meeting_agenda_item.linked_work_package?
+            work_package_undisclosed_partial
           else
             title_partial
           end
@@ -141,11 +143,26 @@ module MeetingAgendaItems
       end
     end
 
+    def work_package_undisclosed_partial
+      flex_layout(align_items: :center) do |flex|
+        flex.with_column(mr: 2) do
+          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
+            I18n.t(:label_agenda_item_undisclosed_wp, id: @meeting_agenda_item.work_package_id)
+          end
+        end
+        flex.with_column do
+          duration_partial
+        end
+      end
+    end
+
     def work_package_link_partial
       render(Primer::Beta::Link.new(href: work_package_path(@meeting_agenda_item.work_package), underline: false,
                                     font_size: :normal, font_weight: :bold, target: "_blank")) do
         render(Primer::Beta::Truncate.new) do |component|
-          component.with_item(max_width: 300, expandable: true) { @meeting_agenda_item.work_package.subject }
+          component.with_item(max_width: 300, expandable: true) do
+            @meeting_agenda_item.work_package.subject
+          end
         end
       end
     end
@@ -171,7 +188,7 @@ module MeetingAgendaItems
     def title_partial
       flex_layout(align_items: :center) do |flex|
         flex.with_column(mr: 2) do
-          render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do
+          render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold, data: { 'qa-selector': 'op-meeting-agenda-title'})) do
             render(Primer::Beta::Truncate.new) do |component|
               component.with_item(max_width: 300, expandable: true) { @meeting_agenda_item.title }
             end
@@ -200,9 +217,13 @@ module MeetingAgendaItems
       end
     end
 
+    def qa_selector(key)
+      { data: { 'qa-seleector': key } }
+    end
+
     def actions_partial
       render(Primer::Alpha::ActionMenu.new) do |menu|
-        menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("label_agenda_item_actions"), scheme: :invisible)
+        menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("label_agenda_item_actions"), scheme: :invisible, **qa_selector('op-meeting-agenda-actions'))
         edit_action_item(menu)
         move_actions(menu)
         delete_action_item(menu)

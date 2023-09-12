@@ -20,6 +20,9 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 zh-CN:
+  plugin_openproject_reporting:
+    name: "OpenProject 报告"
+    description: "该插件允许使用 OpenProject 时间和成本 插件创建自定义成本报告，并具有过滤和分组功能。"
   button_save_as: "报告另存为..."
   comments: "注释"
   cost_reports_title: "时间和成本"

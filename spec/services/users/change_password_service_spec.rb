@@ -28,7 +28,11 @@
 require 'spec_helper'
 
 RSpec.describe Users::ChangePasswordService do
-  let(:user) { create(:user, password: old_password, password_confirmation: old_password) }
+  let(:user) do
+    create(:invited_user,
+           password: old_password,
+           password_confirmation: old_password)
+  end
   let(:old_password) { 'AdminAdmin42' }
   let(:new_password) { 'SoreThroat33' }
   let(:session) { ActionController::TestSession.new }
@@ -38,18 +42,53 @@ RSpec.describe Users::ChangePasswordService do
     instance.call new_password:, new_password_confirmation: new_password
   end
 
-  it "changes the user's password" do
+  it 'is successful' do
     expect(result).to be_success
+  end
+
+  it "changes the user's password" do
+    result
     expect(user.check_password?(old_password)).to be false
     expect(user.check_password?(new_password)).to be true
   end
 
-  context "with existing password recovery tokens" do
+  describe 'activating the user' do
+    context 'when the user is "invited"' do
+      it 'activates the user' do
+        result
+        expect(user).to be_active
+      end
+    end
+
+    context 'when the user is not "invited"' do
+      let(:user) do
+        create(:locked_user,
+               password: old_password,
+               password_confirmation: old_password)
+      end
+
+      it 'does not activate the user' do
+        result
+        expect(user).not_to be_active
+      end
+    end
+  end
+
+  context 'with existing invitation tokens' do
+    let!(:invitation_token) { create(:invitation_token, user:) }
+
+    it 'invalidates the existing token' do
+      expect(result).to be_success
+      expect(Token::Invitation.where(user:)).to be_empty
+    end
+  end
+
+  context 'with existing password recovery tokens' do
     let!(:recovery_token) { create(:recovery_token, user:) }
 
     it 'invalidates the existing tokens' do
       expect(result).to be_success
-      expect(Token::Recovery.where(user:).count).to eq 0
+      expect(Token::Recovery.where(user:)).to be_empty
     end
   end
 end

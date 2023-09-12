@@ -1,0 +1,51 @@
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users('48d31887-5fad-4d73-a9f5-3c356e68a038')/drives('b%21-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd')/items/$entity",
+  "@microsoft.graph.downloadUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=63d21c9f-fbbb-4fb0-a735-b7866ad6a169&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbTM2NXgyMTQzNTUtbXkuc2hhcmVwb2ludC5jb21AZGNkMjE5ZGQtYmM2OC00YjliLWJmMGItNGEzM2E3OTZiZTM1IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTY5NDA5MjIzNCIsImV4cCI6IjE2OTQwOTU4MzQiLCJlbmRwb2ludHVybCI6Ik1BT3pvbGh5VURRMzhnSEEyajhQS1NoU2dzY015WlZBWlN3d1VsRDBOYkk9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjkiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IjJCR1dDemVJZkVta05RRVVKaFVubmc9PSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaRGd5TXpFeVpqa3RZakl6WWkwMFkySmpMVGsxWkRVdE0yVXdaRGswWlRZNFl6RmwiLCJhcHBfZGlzcGxheW5hbWUiOiJhcGlzYW5kYm94cHJveHkiLCJnaXZlbl9uYW1lIjoiTWVnYW4iLCJmYW1pbHlfbmFtZSI6IkJvd2VuIiwiYXBwaWQiOiIwNWIxMGEyZC02MmRiLTQyMGMtODYyNi01NWYzYTVlNzg2NWIiLCJ0aWQiOiJkY2QyMTlkZC1iYzY4LTRiOWItYmYwYi00YTMzYTc5NmJlMzUiLCJ1cG4iOiJtZWdhbmJAbTM2NXgyMTQzNTUub25taWNyb3NvZnQuY29tIiwicHVpZCI6IjEwMDNCRkZEQTM4MTMxQUYiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzYmZmZGEzODEzMWFmQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGdyb3VwLnJlYWQgYWxsc2l0ZXMucmVhZCBhbGxwcm9maWxlcy5yZWFkIGFsbHByb2ZpbGVzLnJlYWQgdGVybXN0b3JlLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTY5LjE2MCJ9.E8yDmydDqhGRNq-c0sLJ7UYrKMx7g3TwF15wV4djDiI&ApiVersion=2.0",
+  "createdDateTime": "2017-08-07T16:08:22Z",
+  "eTag": "\"{63D21C9F-FBBB-4FB0-A735-B7866AD6A169},4\"",
+  "id": "01BYE5RZ47DTJGHO73WBH2ONNXQZVNNILJ",
+  "lastModifiedDateTime": "2017-08-07T16:08:22Z",
+  "name": "BrokenPipe.jpg",
+  "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/BrokenPipe.jpg",
+  "cTag": "\"c:{63D21C9F-FBBB-4FB0-A735-B7866AD6A169},1\"",
+  "size": 5336,
+  "createdBy": {
+    "user": {
+      "email": "MeganB@M365x214355.onmicrosoft.com",
+      "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+      "displayName": "Megan Bowen"
+    }
+  },
+  "lastModifiedBy": {
+    "user": {
+      "email": "MeganB@M365x214355.onmicrosoft.com",
+      "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+      "displayName": "Megan Bowen"
+    }
+  },
+  "parentReference": {
+    "driveType": "business",
+    "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+    "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
+    "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:",
+    "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+  },
+  "file": {
+    "mimeType": "image/jpeg",
+    "hashes": {
+      "quickXorHash": "OGd+sgG4B/f1x6pn54GCsFTczzI="
+    }
+  },
+  "fileSystemInfo": {
+    "createdDateTime": "2017-08-07T16:08:22Z",
+    "lastModifiedDateTime": "2017-08-07T16:08:22Z"
+  },
+  "image": {
+    "height": 183,
+    "width": 260
+  },
+  "photo": {},
+  "shared": {
+    "scope": "users"
+  }
+}

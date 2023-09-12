@@ -44,8 +44,8 @@ class ::Query::SortCriteria < SortHelper::SortCriteria
       .map { |attribute, order| [find_column(attribute), @available_criteria[attribute], order] }
       .reject { |column, criterion, _| column.nil? || criterion.nil? }
       .map { |column, criterion, order| [column, execute_criterion(criterion), order] }
-      .map { |column, criterion, order| append_order(column, Array(criterion), order) }
-      .compact
+      .filter_map { |column, criterion, order| append_order(column, Array(criterion), order) }
+      
   end
 
   private

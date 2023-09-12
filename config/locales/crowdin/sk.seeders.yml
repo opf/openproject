@@ -41,18 +41,26 @@ sk:
           name: Špecifikácia
         item_2:
           name: Ostatné
-      roles:
+      work_package_roles:
         item_0:
-          name: Nie člen
+          name: Work Package Editor
         item_1:
-          name: Anonymný
+          name: Work Package Commenter
         item_2:
-          name: Člen
+          name: Work Package Viewer
+      project_roles:
+        item_0:
+          name: Non member
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Member
         item_3:
-          name: Čitateľ
+          name: Reader
         item_4:
-          name: Projekt admin
-        item_5:
+          name: Project admin
+      global_roles:
+        item_0:
           name: Staff and projects manager
     standard:
       priorities:

@@ -1,5 +1,8 @@
 #English strings go here
 tr:
+  plugin_openproject_storages:
+    name: "OpenProject Storages"
+    description: "Allows linking work packages to files in external storages, such as Nextcloud."
   permission_view_file_links: "Dosya bağlantılarını görüntüle"
   permission_manage_file_links: "Dosya bağlantılarını yönet"
   permission_manage_storages_in_project: "Projedeki dosya depolarını yönetin"
@@ -50,6 +53,7 @@ tr:
     errors:
       too_many_elements_created_at_once: "Aynı anda çok fazla öğe oluşturuldu. En fazla %{max} bekleniyordu, %{actual} alındı."
   storages:
+    default_name: "My storage"
     unknown_storage: "Unknown storage"
     buttons:
       done_continue_setup: "Tamamlandı. Kuruluma devam et"
@@ -57,6 +61,7 @@ tr:
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "OpenProject OAuth'u değiştirin"
       replace_provider_type_oauth: "%{provider_type} OAuth'u değiştirin"
+      save: "Save"
       save_and_continue_setup: "Kaydet ve kuruluma devam et"
       save_and_complete_setup: "Kaydet ve kurulumu tamamla"
       select_folder: "Select folder"
@@ -97,6 +102,13 @@ tr:
       copy_from: "Bu değeri şuradan kopyala"
       nextcloud:
         integration: "Nextcloud Yönetimi / OpenProject"
+      one_drive:
+        integration: "OneDrive/SharePoint"
+        oauth_client_id: >
+          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+        oauth_client_secret: >
+          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
+        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
     help_texts:
       project_folder: >
         The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
@@ -125,11 +137,13 @@ tr:
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
+      one_drive: "OneDrive OAuth"
     label_oauth_application_details: "OAuth uygulaması ayrıntıları"
     label_oauth_client_details: "OAuth istemci ayrıntıları"
     label_provider_type: "Sağlayıcı türü"
     label_project_folder: "Project folder"
     label_new_storage: "Yeni depolama"
+    label_edit_storage: "Edit storage"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_no_specific_folder: "No specific folder"
     label_automatic_folder: "New folder with automatically managed permissions"
@@ -149,7 +163,9 @@ tr:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "ör. Nextcloud"
-        default_name: "Benim Nextcloud'um"
+      one_drive:
+        name: "OneDrive/SharePoint"
+        name_placeholder: "e.g. OneDrive"
     confirm_replace_oauth_application: "Emin misiniz? Tüm kullanıcıların OpenProject'e karşı yeniden yetkilendirmesi gerekecektir."
     confirm_replace_oauth_client: "Emin misiniz? Tüm kullanıcılar, depolamaya karşı yeniden yetkilendirme yapmak zorunda kalacak."
     oauth_client_details_missing: "Kurulumu tamamlamak için lütfen depolama alanınızdan OAuth istemci kimlik bilgilerini ekleyin."

@@ -67,30 +67,31 @@ module OpenProject::Backlogs
       end
 
       project_module :backlogs, dependencies: :work_package_tracking do
-        # SYNTAX: permission :name_of_permission, { :controller_name => [:action1, :action2] }
-
         # Master backlog permissions
         permission :view_master_backlog,
-                   rb_master_backlogs: :index,
-                   rb_sprints: %i[index show],
-                   rb_wikis: :show,
-                   rb_stories: %i[index show],
-                   rb_queries: :show,
-                   rb_burndown_charts: :show
+                   { rb_master_backlogs: :index,
+                     rb_sprints: %i[index show],
+                     rb_wikis: :show,
+                     rb_stories: %i[index show],
+                     rb_queries: :show,
+                     rb_burndown_charts: :show },
+                   permissible_on: :project
 
         permission :view_taskboards,
-                   rb_taskboards: :show,
-                   rb_sprints: :show,
-                   rb_stories: :show,
-                   rb_tasks: %i[index show],
-                   rb_impediments: %i[index show],
-                   rb_wikis: :show,
-                   rb_burndown_charts: :show
+                   { rb_taskboards: :show,
+                     rb_sprints: :show,
+                     rb_stories: :show,
+                     rb_tasks: %i[index show],
+                     rb_impediments: %i[index show],
+                     rb_wikis: :show,
+                     rb_burndown_charts: :show },
+                   permissible_on: :project
 
         permission :select_done_statuses,
                    {
                      'projects/settings/backlogs': %i[show update rebuild_positions]
                    },
+                   permissible_on: :project,
                    require: :member
 
         # Sprint permissions
@@ -100,6 +101,7 @@ module OpenProject::Backlogs
                      rb_sprints: %i[edit update],
                      rb_wikis: %i[edit update]
                    },
+                   permissible_on: :project,
                    require: :member
       end
 

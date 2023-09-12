@@ -41,18 +41,26 @@ ru:
           name: Спецификация
         item_2:
           name: Другие
-      roles:
+      work_package_roles:
         item_0:
-          name: Не участник
+          name: Редактор пакета работ
         item_1:
-          name: Анонимно
+          name: Комментатор пакета работ
+        item_2:
+          name: Просмотрщик пакета работ
+      project_roles:
+        item_0:
+          name: Неучастник
+        item_1:
+          name: Аноним
         item_2:
           name: Участник
         item_3:
           name: Читатель
         item_4:
           name: Администратор проекта
-        item_5:
+      global_roles:
+        item_0:
           name: Персонал и менеджер проектов
     standard:
       priorities:

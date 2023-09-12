@@ -71,8 +71,7 @@ module OpenProject::Backlogs
       available_backlog_types = allowed_values.index_by(&:last)
 
       values
-        .map { |backlog_type_id| available_backlog_types[backlog_type_id] }
-        .compact
+        .filter_map { |backlog_type_id| available_backlog_types[backlog_type_id] }
         .map { |value| BacklogsType.new(*value) }
     end
 

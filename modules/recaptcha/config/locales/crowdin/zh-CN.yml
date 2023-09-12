@@ -1,5 +1,8 @@
 #English strings go here for Rails i18n
 zh-CN:
+  plugin_openproject_recaptcha:
+    name: "OpenProject ReCaptcha"
+    description: "该模块在登录过程中提供reCAPTCHA确认。"
   recaptcha:
     label_recaptcha: "reCAPTCHA"
     button_please_wait: '请稍候…'

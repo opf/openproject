@@ -29,27 +29,56 @@
 require 'spec_helper'
 
 RSpec.describe OpenProject::AccessControl do
-  def setup_global_permissions
+  def setup_permissions
     OpenProject::AccessControl.map do |map|
-      map.permission :proj0, { dont: :care }, require: :member, contract_actions: { foo: :create }
-      map.permission :global0, { dont: :care }, global: true
-      map.permission :proj1, { dont: :care }
+      map.permission :no_module_project_permission_with_contract_actions,
+                     { dont: :care },
+                     permissible_on: :project,
+                     require: :member,
+                     contract_actions: { foo: :create }
+      map.permission :no_module_global_permission,
+                     { dont: :care },
+                     permissible_on: :global
+      map.permission :no_module_project_permission,
+                     { dont: :care },
+                     permissible_on: :project
+      map.permission :no_module_work_package_permission,
+                     { dont: :care },
+                     permissible_on: :work_package
+      map.permission :no_module_mixed_permissible_on_permission,
+                     { dont: :care },
+                     permissible_on: %i[project work_package]
 
       map.project_module :global_module do |mod|
-        mod.permission :global1, { dont: :care }, global: true
+        mod.permission :global_module_global_permission,
+                       { dont: :care },
+                       permissible_on: :global
       end
 
       map.project_module :project_module do |mod|
-        mod.permission :proj2, { dont: :care }, contract_actions: { bar: %i[create read] }, public: true
+        mod.permission :project_module_project_permission_with_contract_actions,
+                       { dont: :care },
+                       permissible_on: :project,
+                       contract_actions: { bar: %i[create read] },
+                       public: true
       end
 
       map.project_module :mixed_module do |mod|
-        mod.permission :proj3, { dont: :care }, grant_to_admin: true
-        mod.permission :global2, { dont: :care }, global: true, contract_actions: { baz: %i[destroy] }
+        mod.permission :mixed_module_project_permission_granted_to_admin,
+                       { dont: :care },
+                       permissible_on: :project,
+                       grant_to_admin: true
+        mod.permission :mixed_module_global_permission_with_contract_actions,
+                       { dont: :care },
+                       permissible_on: :global,
+                       contract_actions: { baz: %i[destroy] }
       end
 
       map.project_module :dependent_module, dependencies: :project_module do |mod|
-        mod.permission :proj4, { dont: :care }, grant_to_admin: false
+        mod.permission :dependent_module_project_permission_not_granted_to_admin,
+                       { dont: :care },
+                       permissible_on: :project,
+                       grant_to_admin: false
       end
     end
   end
@@ -57,55 +86,74 @@ RSpec.describe OpenProject::AccessControl do
   describe '.remove_modules_permissions' do
     let!(:all_former_permissions) { described_class.permissions }
     let!(:former_repository_permissions) do
-      module_permissions = described_class.modules_permissions(['repository'])
-
-      module_permissions.select do |permission|
-        permission.project_module == :repository
-      end
+      described_class.modules_permissions(%w[repository])
+                     .select { |permission| permission.project_module == :repository }
     end
 
     subject { described_class }
 
-    before do
-      described_class.remove_modules_permissions(:repository)
-    end
-
-    after do
-      raise 'Test outdated' unless described_class.instance_variable_defined?(:@mapped_permissions)
-
+    def reset_former_permissions_and_clear_caches
       described_class.instance_variable_set(:@mapped_permissions, all_former_permissions)
       described_class.clear_caches
     end
 
+    around do |example|
+      described_class.remove_modules_permissions(:repository)
+
+      example.run
+    ensure
+      raise 'Test outdated. @mapped_permissions is not defined after example run' unless
+        described_class.instance_variable_defined?(:@mapped_permissions)
+
+      reset_former_permissions_and_clear_caches
+    end
+
+    it 'removes from permissions' do
+      expect(subject.permissions)
+        .not_to include(former_repository_permissions)
+    end
+
     it 'removes from global permissions' do
-      expect(subject.permissions).not_to include(former_repository_permissions)
+      expect(subject.global_permissions)
+        .not_to include(former_repository_permissions)
     end
 
     it 'removes from public permissions' do
-      expect(subject.public_permissions).not_to include(former_repository_permissions)
+      expect(subject.public_permissions)
+        .not_to include(former_repository_permissions)
     end
 
-    it 'removes from members only permissions' do
-      expect(subject.members_only_permissions).not_to include(former_repository_permissions)
+    it 'removes from members-only permissions' do
+      expect(subject.members_only_permissions)
+        .not_to include(former_repository_permissions)
     end
 
-    it 'removes from loggedin only permissions' do
-      expect(subject.loggedin_only_permissions).not_to include(former_repository_permissions)
+    it 'removes from loggedin-only permissions' do
+      expect(subject.loggedin_only_permissions)
+        .not_to include(former_repository_permissions)
     end
 
     it 'disables repository module' do
-      expect(subject.available_project_modules).not_to include(:repository)
+      expect(subject.available_project_modules)
+        .not_to include(:repository)
     end
   end
 
-  describe '#permissions' do
-    it 'is an array of permissions' do
-      expect(described_class.permissions)
+  describe '.permissions' do
+    subject(:permissions) { described_class.permissions }
+
+    it 'returns an array permissions' do
+      expect(permissions)
         .to all(be_instance_of(OpenProject::AccessControl::Permission))
     end
+
+    it 'returns only enabled permissions' do
+      expect(permissions)
+        .to all(be_enabled)
+    end
   end
 
-  describe '#permission' do
+  describe '.permission' do
     context 'for a project module permission' do
       subject { described_class.permission(:view_work_packages) }
 
@@ -114,7 +162,7 @@ RSpec.describe OpenProject::AccessControl do
           .to be_a(OpenProject::AccessControl::Permission)
       end
 
-      it 'is the permission with the queried for name' do
+      it 'is the permission with the queried-for name' do
         expect(subject.name)
           .to eq(:view_work_packages)
       end
@@ -133,12 +181,12 @@ RSpec.describe OpenProject::AccessControl do
           .to be_a(OpenProject::AccessControl::Permission)
       end
 
-      it 'is the permission with the queried for name' do
+      it 'is the permission with the queried-for name' do
         expect(subject.name)
           .to eq(:edit_project)
       end
 
-      it 'belongs to a project module' do
+      it 'does not belong to a project module' do
         expect(subject.project_module)
           .to be_nil
       end
@@ -148,24 +196,30 @@ RSpec.describe OpenProject::AccessControl do
           .to include('projects/settings/general/show')
       end
     end
-  end
 
-  describe '#dependencies' do
-    context 'for a permission with a prerequisite' do
-      subject { described_class.permission(:edit_work_packages) }
+    describe '#dependencies' do
+      context 'for a permission with a pre-requisite' do
+        subject(:dependencies) do
+          described_class.permission(:edit_work_packages)
+                         .dependencies
+        end
 
-      it 'denotes the prerequisites' do
-        expect(subject.dependencies)
-          .to match_array([:view_work_packages])
+        it 'denotes the pre-requisites' do
+          expect(dependencies)
+            .to contain_exactly(:view_work_packages)
+        end
       end
-    end
 
-    context 'for a permission without a prerequisite' do
-      subject { described_class.permission(:view_work_packages) }
+      context 'for a permission without a pre-requisite' do
+        subject(:dependencies) do
+          described_class.permission(:view_work_packages)
+                         .dependencies
+        end
 
-      it 'denotes the prerequisites' do
-        expect(subject.dependencies)
-          .to be_empty
+        it 'denotes no pre-requisites' do
+          expect(dependencies)
+            .to be_empty
+        end
       end
     end
   end
@@ -174,43 +228,110 @@ RSpec.describe OpenProject::AccessControl do
     include_context 'with blank access control state'
 
     before do
-      setup_global_permissions
+      setup_permissions
     end
 
-    it 'can store dependencies' do
-      expect(described_class.modules.detect { |m| m[:name] == :dependent_module }[:dependencies])
-        .to match_array(%i[project_module])
+    subject(:dependencies) do
+      described_class.modules
+                     .find { _1[:name] == :dependent_module }[:dependencies]
+    end
+
+    it 'can store specified dependencies' do
+      expect(dependencies)
+        .to contain_exactly(:project_module)
     end
   end
 
-  describe '#global_permissions' do
+  describe '.work_package_permissions' do
     include_context 'with blank access control state'
 
     before do
-      setup_global_permissions
+      setup_permissions
     end
 
-    it { expect(described_class.global_permissions.size).to eq(3) }
-    it { expect(described_class.global_permissions.collect(&:name)).to include(:global0) }
-    it { expect(described_class.global_permissions.collect(&:name)).to include(:global1) }
-    it { expect(described_class.global_permissions.collect(&:name)).to include(:global2) }
+    subject(:work_package_permissions) do
+      described_class.work_package_permissions
+    end
+
+    describe 'size' do
+      it { expect(work_package_permissions.size).to eq(2) }
+    end
+
+    it do
+      expect(work_package_permissions.map(&:name))
+        .to contain_exactly(:no_module_work_package_permission,
+                            :no_module_mixed_permissible_on_permission)
+    end
+  end
+
+  describe '.project_permissions' do
+    include_context 'with blank access control state'
+
+    before do
+      setup_permissions
+    end
+
+    subject(:project_permissions) do
+      described_class.project_permissions
+    end
+
+    describe 'size' do
+      it { expect(project_permissions.size).to eq(6) }
+    end
+
+    it do
+      expect(project_permissions.map(&:name))
+        .to contain_exactly(:no_module_project_permission_with_contract_actions,
+                            :no_module_project_permission,
+                            :project_module_project_permission_with_contract_actions,
+                            :mixed_module_project_permission_granted_to_admin,
+                            :dependent_module_project_permission_not_granted_to_admin,
+                            :no_module_mixed_permissible_on_permission)
+    end
+  end
+
+  describe '.global_permissions' do
+    include_context 'with blank access control state'
+
+    before do
+      setup_permissions
+    end
+
+    subject(:global_permissions) do
+      described_class.global_permissions
+    end
+
+    describe 'size' do
+      it { expect(global_permissions.size).to eq(3) }
+    end
+
+    it do
+      expect(global_permissions.map(&:name))
+        .to contain_exactly(:no_module_global_permission,
+                            :global_module_global_permission,
+                            :mixed_module_global_permission_with_contract_actions)
+    end
   end
 
   describe '.available_project_modules' do
     include_context 'with blank access control state'
 
     before do
-      setup_global_permissions
+      setup_permissions
     end
 
-    it { expect(described_class.available_project_modules).not_to include(:global_module) }
-    it { expect(described_class.available_project_modules).to include(:mixed_module) }
+    subject(:available_project_modules) do
+      described_class.available_project_modules
+    end
+
+    it { expect(available_project_modules).to include(:project_module, :mixed_module, :dependent_module) }
+    it { expect(available_project_modules).not_to include(:global_module) }
 
     context 'when a module specifies :if' do
       before do
         described_class.map do |map|
           map.project_module :dynamic_module, if: if_proc do |mod|
-            mod.permission :perm_d1, { dont: :care }
+            mod.permission :perm_d1, { dont: :care }, permissible_on: :project
           end
         end
       end
@@ -219,8 +340,7 @@ RSpec.describe OpenProject::AccessControl do
         let(:if_proc) { ->(*) { true } }
 
         it 'is considered available' do
-          described_class.available_project_modules
-          expect(described_class.available_project_modules).to include(:dynamic_module)
+          expect(available_project_modules).to include(:dynamic_module)
         end
       end
 
@@ -228,7 +348,7 @@ RSpec.describe OpenProject::AccessControl do
         let(:if_proc) { ->(*) { false } }
 
         it 'is not considered available anymore' do
-          expect(described_class.available_project_modules).not_to include(:dynamic_module)
+          expect(available_project_modules).not_to include(:dynamic_module)
         end
       end
 
@@ -236,7 +356,7 @@ RSpec.describe OpenProject::AccessControl do
         let(:if_proc) { ->(*) { if_state[:available] } }
         let(:if_state) { { available: true } }
 
-        it 'reevaluates module availability each time' do
+        it 'reevaluates module availability each time', :aggregate_failures do
           if_state[:available] = true
           expect(described_class.available_project_modules).to include(:dynamic_module)
 
@@ -247,30 +367,34 @@ RSpec.describe OpenProject::AccessControl do
     end
   end
 
-  describe '#contract_actions_map' do
+  describe '.contract_actions_map' do
     include_context 'with blank access control state'
 
     before do
-      setup_global_permissions
+      setup_permissions
     end
 
-    it 'contains all contract actions grouped by the permission' do
-      expect(subject.contract_actions_map)
-        .to eql(global2: {
+    subject(:contract_actions_map) do
+      described_class.contract_actions_map
+    end
+
+    it 'contains all contract actions grouped by the permission name' do
+      expect(contract_actions_map)
+        .to eql(mixed_module_global_permission_with_contract_actions: {
                   actions: { baz: [:destroy] },
                   global: true,
                   module_name: :mixed_module,
                   grant_to_admin: true,
                   public: false
                 },
-                proj0: {
+                no_module_project_permission_with_contract_actions: {
                   actions: { foo: :create },
                   global: false,
                   module_name: nil,
                   grant_to_admin: true,
                   public: false
                 },
-                proj2: {
+                project_module_project_permission_with_contract_actions: {
                   actions: { bar: %i[create read] },
                   global: false,
                   module_name: :project_module,
@@ -284,27 +408,27 @@ RSpec.describe OpenProject::AccessControl do
     include_context 'with blank access control state'
 
     before do
-      setup_global_permissions
+      setup_permissions
     end
 
-    context 'for a granted permission (default)' do
+    context 'without specifying whether the permission is granted to admins' do
       it 'is granted' do
         expect(described_class)
-          .to be_grant_to_admin(:proj0)
-      end
-    end
-
-    context 'for a non granted permission' do
-      it 'is granted' do
-        expect(described_class)
-          .not_to be_grant_to_admin(:proj4)
+          .to be_grant_to_admin(:no_module_project_permission_with_contract_actions)
       end
     end
 
     context 'for an explicitly granted permission' do
       it 'is granted' do
         expect(described_class)
-          .to be_grant_to_admin(:proj3)
+          .to be_grant_to_admin(:mixed_module_project_permission_granted_to_admin)
+      end
+    end
+
+    context 'for an explicitly non-granted permission' do
+      it 'is not granted' do
+        expect(described_class)
+          .not_to be_grant_to_admin(:dependent_module_project_permission_not_granted_to_admin)
       end
     end
 

@@ -64,32 +64,43 @@ class Storages::Admin::StoragesController < ApplicationController
     # Set default parameters using a "service".
     # See also: storages/services/storages/storages/set_attributes_services.rb
     # That service inherits from ::BaseServices::SetAttributes
-    @object = ::Storages::Storages::SetAttributesService
-                .new(user: current_user,
-                     model: Storages::NextcloudStorage.new,
-                     contract_class: EmptyContract)
-                .call
-                .result
+    @storage = ::Storages::Storages::SetAttributesService
+                 .new(user: current_user,
+                      model: Storages::NextcloudStorage.new,
+                      contract_class: EmptyContract)
+                 .call
+                 .result
   end
 
-  # Actually create a Storage object.
-  # Overwrite the creator_id with the current_user. Is this this pattern always used?
-  # Use service pattern to create a new Storage
-  # See also: storages/services/storages/storages/create_service.rb
-  # Called by: Global app/config/routes.rb to serve Web page
+  # rubocop:disable Metrics/AbcSize
   def create
     service_result = Storages::Storages::CreateService.new(user: current_user).call(permitted_storage_params)
-    @object = service_result.result
+
+    @storage = service_result.result
     @oauth_application = oauth_application(service_result)
 
-    if service_result.success? && @oauth_application
-      flash[:notice] = I18n.t(:notice_successful_create)
-      render :show_oauth_application
-    else
+    service_result.on_failure do
       @errors = service_result.errors
       render :new
     end
+
+    service_result.on_success do
+      case @storage.provider_type
+      when ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
+        flash[:notice] = I18n.t(:notice_successful_create)
+        redirect_to new_admin_settings_storage_oauth_client_path(@storage)
+      when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+        if @oauth_application.present?
+          flash.now[:notice] = I18n.t(:notice_successful_create)
+          render :show_oauth_application
+        end
+      else
+        raise "Unknown provider type: #{storage_params['provider_type']}"
+      end
+    end
   end
+
+  # rubocop:enable Metrics/AbcSize
 
   # Edit page is very similar to new page, except that we don't need to set
   # default attribute values because the object already exists
@@ -101,13 +112,12 @@ class Storages::Admin::StoragesController < ApplicationController
   # Called by: Global app/config/routes.rb to serve Web page
   def update
     service_result = ::Storages::Storages::UpdateService
-                       .new(user: current_user,
-                            model: @object)
+                       .new(user: current_user, model: @storage)
                        .call(permitted_storage_params)
 
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to edit_admin_settings_storage_path(@object)
+      redirect_to edit_admin_settings_storage_path(@storage)
     else
       @errors = service_result.errors
       render :edit
@@ -116,7 +126,7 @@ class Storages::Admin::StoragesController < ApplicationController
 
   def destroy
     Storages::Storages::DeleteService
-      .new(user: User.current, model: @object)
+      .new(user: User.current, model: @storage)
       .call
       .match(
         # rubocop:disable Rails/ActionControllerFlashBeforeRender
@@ -129,8 +139,8 @@ class Storages::Admin::StoragesController < ApplicationController
   end
 
   def replace_oauth_application
-    @object.oauth_application.destroy
-    service_result = ::Storages::OAuthApplications::CreateService.new(storage: @object, user: current_user).call
+    @storage.oauth_application.destroy
+    service_result = ::Storages::OAuthApplications::CreateService.new(storage: @storage, user: current_user).call
 
     if service_result.success?
       flash[:notice] = I18n.t('storages.notice_oauth_application_replaced')

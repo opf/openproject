@@ -24,7 +24,7 @@ set -o pipefail
 ARCHITECTURE=$(get_architecture)
 
 apt-get update -qq
-apt-get install -y git wget curl gnupg2 apt-transport-https unzip build-essential libpq-dev
+apt-get install -y git subversion wget curl gnupg2 apt-transport-https unzip build-essential libpq-dev
 
 # install node + npm
 curl -s https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCHITECTURE}.tar.gz | tar xzf - -C /usr/local --strip-components=1

@@ -82,8 +82,7 @@ class Workflow < ApplicationRecord
     Workflow
       .includes(:new_status)
       .where(role_id: user.roles_for_project(project).map(&:id))
-      .map(&:new_status)
-      .compact
+      .filter_map(&:new_status)
       .uniq
       .sort
   end

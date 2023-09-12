@@ -462,6 +462,8 @@ fi:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Tietovarasto"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Kommentoitu" #an object that this comment belongs to
       custom_action:
@@ -1446,7 +1448,7 @@ fi:
     changes_retracted: "The changes were retracted."
     caused_changes:
       dates_changed: "Dates changed"
-      system_update: "OpenProject update"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1462,7 +1464,8 @@ fi:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Configuration guide'
     get_in_touch: "You have questions? Get in touch with us."
@@ -2192,8 +2195,8 @@ fi:
   mail_body_register_ending: "Ystävällisin terveisin,"
   mail_body_reminder: "%{count} sinulle nimettyä tapahtuma(a) erääntyy %{days} päivä sisään:"
   mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
-  mail_body_wiki_content_added: "'%{id}' wiki-sivu on lisätty %{author}."
-  mail_body_wiki_content_updated: "'%{id}' wiki-sivu on päivitetty %{author}."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} käyttäjätiedot"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2345,6 +2348,7 @@ fi:
   permission_comment_news: "Kommentoi uutisia"
   permission_commit_access: "Tee pääsyoikeus"
   permission_copy_projects: "Kopioi projekteja"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Poista seuraajia"
   permission_delete_work_packages: "Poista tehtäviä"
@@ -2372,6 +2376,7 @@ fi:
   permission_log_time: "Log time for other users"
   permission_manage_forums: "Hallinnoi keskustelupalstaa"
   permission_manage_categories: "Hallinnoi tapahtumien luokkia"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Hallinnoi tehtävien riippuvuuksia"
   permission_manage_members: "Hallinnoi jäseniä"
   permission_manage_news: "Hallinnoi uutisia"
@@ -2386,14 +2391,19 @@ fi:
   permission_protect_wiki_pages: "Suojaa wiki sivut"
   permission_rename_wiki_pages: "Uudelleennimeä wiki sivuja"
   permission_save_queries: "Save views"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Valitse projektin modulit"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Valitse tyypit"
+  permission_view_project: "View projects"
   permission_view_changesets: "Näytä muutosryhmät"
   permission_view_commit_author_statistics: "Tarkastele tilastoja tekijöistä"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Tarkastele seuraajien luetteloa"
   permission_view_work_packages: "View work packages"
   permission_view_messages: "Näytä viestejä"
+  permission_view_news: "View news"
   permission_view_members: "Näytä jäsenet"
   permission_view_reportings: "Tarkastele raportointeja"
   permission_view_time_entries: "Näytä käytetty aika"
@@ -2402,6 +2412,9 @@ fi:
   permission_view_wiki_pages: "Näytä wiki"
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Toimia paketti voidaan määrittää käyttäjät ja ryhmät hallussaan tämä rooli kunkin projekti"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
@@ -3155,3 +3168,9 @@ fi:
     response:
       unexpected: "Unexpected response received."
   you: you
+  plugin_openproject_auth_plugins:
+    name: "OpenProject Auth Plugins"
+    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / Single-Sign On"
+    description: "Adds the OmniAuth SAML provider to OpenProject"

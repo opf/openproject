@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -30,11 +32,11 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
   class FilesInfoQuery
     using Storages::Peripherals::ServiceResultRefinements
 
-    FILES_INFO_PATH = 'ocs/v1.php/apps/integration_openproject/filesinfo'.freeze
+    FILES_INFO_PATH = 'ocs/v1.php/apps/integration_openproject/filesinfo'
 
     def initialize(storage)
-      @uri = URI(storage.host).normalize
-      @oauth_client = storage.oauth_client
+      @uri = storage.uri
+      @configuration = storage.oauth_configuration
     end
 
     def self.call(storage:, user:, file_ids: [])
@@ -50,7 +52,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         return ServiceResult.success(result: [])
       end
 
-      Util.token(user:, oauth_client: @oauth_client) do |token|
+      Util.token(user:, configuration: @configuration) do |token|
         files_info(file_ids, token).map(&parse_json) >> handle_failure >> create_storage_file_infos
       end
     end

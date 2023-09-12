@@ -1,5 +1,8 @@
 #English strings go here
 zh-CN:
+  plugin_openproject_boards:
+    name: "OpenProject 看板"
+    description: "提供看板视图。"
   permission_show_board_views: "视图面板"
   permission_manage_board_views: "管理面板"
   project_module_board_view: "面板"
@@ -12,7 +15,7 @@ zh-CN:
       free: 基本
       action: "操作面板 (%{attribute})"
     board_type_attributes:
-      assignee: 指定人
+      assignee: 受理人
       status: 状态
       version: 版本
       subproject: 子项目
@@ -24,7 +27,7 @@ zh-CN:
       status: >
         基本看板样式的面板，包含“待办”、“正在进行”、“已完成”等状态的列。
       assignee: >
-        具有根据所分配用户自动生成的列的面板。适合分发工作包。
+        基于分配给用户的自动列看板，是分派工作包非常理想的工具。
       version: >
         具有根据版本属性自动生成的列的面板。适合规划产品开发。
       subproject: >

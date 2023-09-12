@@ -34,7 +34,7 @@ require_module_spec_helper
 RSpec.describe Storages::ProjectStorage do
   let(:creator) { create(:user) }
   let(:project) { create(:project, enabled_module_names: %i[storages work_packages]) }
-  let(:storage) { create(:storage) }
+  let(:storage) { create(:nextcloud_storage) }
   let(:attributes) do
     {
       storage:,

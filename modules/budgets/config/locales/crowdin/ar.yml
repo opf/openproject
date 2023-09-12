@@ -20,6 +20,8 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ar:
+  plugin_budgets_engine:
+    name: 'الميزانيات'
   activerecord:
     attributes:
       budget:

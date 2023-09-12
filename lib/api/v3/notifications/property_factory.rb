@@ -64,8 +64,8 @@ module API::V3::Notifications
     # Returns the outward facing notification group attributes
     def groups_for(values)
       group_values = values.except(*DATE_ALERT_REASONS)
-      date_alert_values = values.slice(*DATE_ALERT_REASONS).values.reduce(:+)
-      group_values["dateAlert"] = date_alert_values if date_alert_values
+      date_alert_values = values.slice(*DATE_ALERT_REASONS).values.sum
+      group_values["dateAlert"] = date_alert_values if date_alert_values > 0
       group_values
     end
 

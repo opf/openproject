@@ -60,9 +60,11 @@ class MeetingsController < ApplicationController
   end
 
   def show
-    # params[:tab] ||= 'minutes' if @meeting.agenda.present? && @meeting.agenda.locked?
-
-    render(Meetings::ShowComponent.new(meeting: @meeting))
+    if @meeting.is_a?(StructuredMeeting)
+      render(Meetings::ShowComponent.new(meeting: @meeting))
+    else
+      params[:tab] ||= 'minutes' if @meeting.agenda.present? && @meeting.agenda.locked?
+    end
   end
 
   def create
@@ -264,6 +266,7 @@ class MeetingsController < ApplicationController
     # instance variable.
     @converted_params = meeting_params.to_h
 
+    @converted_params[:type] = meeting_type(@converted_params[:type])
     @converted_params[:duration] = @converted_params[:duration].to_hours if @converted_params[:duration].present?
     # Force defaults on participants
     @converted_params[:participants_attributes] ||= {}
@@ -272,9 +275,18 @@ class MeetingsController < ApplicationController
 
   def meeting_params
     if params[:meeting].present?
-      params.require(:meeting).permit(:title, :location, :start_time,
+      params.require(:meeting).permit(:title, :location, :start_time, :type,
                                       :duration, :start_date, :start_time_hour,
                                       participants_attributes: %i[email name invited attended user user_id meeting id])
+    end
+  end
+
+  def meeting_type(given_type)
+    case given_type
+    when 'structured'
+      'StructuredMeeting'
+    else
+      'Meeting'
     end
   end
 

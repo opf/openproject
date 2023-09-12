@@ -1,5 +1,8 @@
 #English strings go here
 es:
+  plugin_openproject_storages:
+    name: "Almacenamientos de OpenProject"
+    description: "Permite enlazar paquetes de trabajo a archivos en almacenamientos externos, como Nextcloud."
   permission_view_file_links: "Ver enlaces de archivos"
   permission_manage_file_links: "Administrar enlaces de archivos"
   permission_manage_storages_in_project: "Administrar almacenes de archivos en el proyecto"
@@ -50,6 +53,7 @@ es:
     errors:
       too_many_elements_created_at_once: "Se intentaron crear demasiados elementos a la vez. Se esperaban como máximo %{max}, pero se recibieron %{actual}."
   storages:
+    default_name: "Mi almacenamiento"
     unknown_storage: "Almacenamiento desconocido"
     buttons:
       done_continue_setup: "Hecho. Continuar configuración"
@@ -57,6 +61,7 @@ es:
       edit_automatically_managed_project_folders: "Editar carpetas de proyecto administradas automáticamente"
       replace_openproject_oauth: "Reemplazar OpenProject OAuth"
       replace_provider_type_oauth: "Reemplazar %{provider_type} OAuth"
+      save: "Guardar"
       save_and_continue_setup: "Guardar y continuar configuración"
       save_and_complete_setup: "Guardar y completar configuración"
       select_folder: "Seleccionar carpeta"
@@ -97,11 +102,18 @@ es:
       copy_from: "Copiar este valor de"
       nextcloud:
         integration: "Administración de Nextcloud / OpenProject"
+      one_drive:
+        integration: "OneDrive/Sharepoint"
+        oauth_client_id: >
+          Copie el ID de cliente desde el portal Azure. Esto es necesario para generar la URI de redirección.
+        oauth_client_secret: >
+          Copie la clave secreta del cliente desde el portal Azure. Para una nueva aplicación la clave secreta primero necesita ser creada manualmente. Para la autorización de aplicaciones web una clave secreta es obligatoria.
+        missing_client_id_for_redirect_uri: "Falta el ID de cliente para proporcionar la URI de redirección."
     help_texts:
       project_folder: >
         La carpeta del proyecto es la carpeta predeterminada para la carga de archivos de este proyecto. No obstante, los usuarios pueden subir archivos a otras ubicaciones.
     configuration_checks:
-      incomplete: "The setup of this storage is incomplete."
+      incomplete: "La configuración de este almacenamiento está incompleta."
     delete_warning:
       storage: >
         ¿Seguro que quiere eliminar este almacén? También se eliminará de todos los proyectos donde se use. Además, se quitarán todos los enlaces de los paquetes de trabajo a los archivos guardados en ese almacén.
@@ -125,11 +137,13 @@ es:
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
+      one_drive: "OAuth de OneDrive"
     label_oauth_application_details: "Detalles de aplicación OAuth"
     label_oauth_client_details: "Detalles del cliente OAuth"
     label_provider_type: "Tipo de proveedor"
     label_project_folder: "Carpeta del proyecto"
     label_new_storage: "Nuevo almacén"
+    label_edit_storage: "Editar almacenamiento"
     label_existing_manual_folder: "Carpeta existente con permisos gestionados manualmente"
     label_no_specific_folder: "Ninguna carpeta específica"
     label_automatic_folder: "Nueva carpeta con permisos gestionados automáticamente"
@@ -149,7 +163,9 @@ es:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "e.g. Nextcloud"
-        default_name: "Mi Nextcloud"
+      one_drive:
+        name: "OneDrive/Sharepoint"
+        name_placeholder: "ej. OneDrive"
     confirm_replace_oauth_application: "¿Estás seguro? Todos los usuarios tendrán que autorizar de nuevo contra OpenProject."
     confirm_replace_oauth_client: "¿Estás seguro? Todos los usuarios tendrán que autorizar de nuevo en el almacenamiento."
     oauth_client_details_missing: "Para completar la configuración, por favor agregue las credenciales del cliente OAuth desde su almacenamiento."

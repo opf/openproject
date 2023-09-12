@@ -38,9 +38,9 @@ RSpec.describe 'API v3 project storages resource', content_type: :json, webmock:
   let(:project1) { create(:project) }
   let(:project2) { create(:project) }
   let(:project3) { create(:project) }
-  let(:storage1) { create(:storage) }
-  let(:storage2) { create(:storage) }
-  let(:storage3) { create(:storage) }
+  let(:storage1) { create(:nextcloud_storage) }
+  let(:storage2) { create(:nextcloud_storage) }
+  let(:storage3) { create(:nextcloud_storage) }
   let!(:project_storage11) { create(:project_storage, project: project1, storage: storage1) }
   let!(:project_storage12) { create(:project_storage, project: project1, storage: storage2) }
   let!(:project_storage13) { create(:project_storage, project: project1, storage: storage3) }
@@ -127,7 +127,7 @@ RSpec.describe 'API v3 project storages resource', content_type: :json, webmock:
         end
 
         context 'with storage id of storage with no linked projects' do
-          let(:storage) { create(:storage) }
+          let(:storage) { create(:nextcloud_storage) }
           let(:storage_id) { storage.id }
 
           it_behaves_like 'API V3 collection response', 0, 0, 'ProjectStorage', 'Collection' do

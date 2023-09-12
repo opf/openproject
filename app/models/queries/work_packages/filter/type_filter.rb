@@ -52,8 +52,8 @@ class Queries::WorkPackages::Filter::TypeFilter <
     available_types = types.index_by(&:id)
 
     values
-      .map { |type_id| available_types[type_id.to_i] }
-      .compact
+      .filter_map { |type_id| available_types[type_id.to_i] }
+      
   end
 
   private

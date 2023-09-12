@@ -261,6 +261,19 @@ RSpec.describe Groups::CreateInheritedRolesService, 'integration' do
     end
   end
 
+  context 'with a role that was granted to a specific entity' do
+    let(:project_ids) { nil }
+    let(:group_projects) { [] }
+    let(:work_package) { create(:work_package, project: project1) }
+    let!(:group_membership) { create(:member, principal: group, project: project1, entity: work_package, roles: [role1]) }
+
+    it 'inherits the roles of the group to the users also bound to the entity' do
+      expect do
+        expect(service_call).to be_success
+      end.to change(Member.where(project_id: work_package.project_id, entity: work_package), :count).by(user_ids.count)
+    end
+  end
+
   context 'when not an admin' do
     let(:current_user) { User.anonymous }
 

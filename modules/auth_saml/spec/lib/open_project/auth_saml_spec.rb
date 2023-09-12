@@ -15,7 +15,7 @@ RSpec.describe OpenProject::AuthSaml do
       # the `configuration` method is cached to avoid
       # loading the SAML file more than once
       # thus remove any cached value here
-      OpenProject::AuthSaml.remove_instance_variable('@saml_settings')
+      OpenProject::AuthSaml.remove_instance_variable(:@saml_settings)
       OpenProject::AuthSaml.configuration
     end
 

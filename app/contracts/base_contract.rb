@@ -101,7 +101,7 @@ class BaseContract < Disposable::Twin
     private
 
     def add_writable(attribute, writable)
-      attribute_name = attribute.to_s.gsub /_id\z/, ''
+      attribute_name = attribute.to_s.delete_suffix('_id')
 
       unless writable == false
         writable_attributes << attribute_name
@@ -201,7 +201,7 @@ class BaseContract < Disposable::Twin
     # but those attributes would also be duplicated so that performance suffers significantly.
     attributes = klass.send(attribute_to_collect).dup
 
-    while klass.superclass != ModelContract
+    while klass.superclass != ::BaseContract
       # Collect all the attribute_to_collect from ancestors
       klass = klass.superclass
 
@@ -244,7 +244,7 @@ class BaseContract < Disposable::Twin
     attribute_permissions = collect_ancestor_attributes(:attribute_permissions)
 
     attributes.reject do |attribute|
-      canonical_attribute = attribute.gsub(/_id\z/, '')
+      canonical_attribute = attribute.delete_suffix('_id')
 
       permissions = attribute_permissions[canonical_attribute] ||
                     attribute_permissions["#{canonical_attribute}_id"] ||

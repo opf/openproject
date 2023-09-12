@@ -41,18 +41,26 @@ af:
           name: Spesifikasie
         item_2:
           name: Ander
-      roles:
+      work_package_roles:
         item_0:
-          name: Nie-lid
+          name: Work Package Editor
         item_1:
-          name: Anoniem
+          name: Work Package Commenter
         item_2:
-          name: Lid
+          name: Work Package Viewer
+      project_roles:
+        item_0:
+          name: Non member
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Member
         item_3:
-          name: Leser
+          name: Reader
         item_4:
-          name: Projek admin
-        item_5:
+          name: Project admin
+      global_roles:
+        item_0:
           name: Staff and projects manager
     standard:
       priorities:

@@ -28,7 +28,7 @@
 #
 
 class MeetingAgendaItem < ApplicationRecord
-  belongs_to :meeting
+  belongs_to :meeting, foreign_key: 'meeting_id', class_name: 'StructuredMeeting'
   belongs_to :work_package, class_name: '::WorkPackage'
   has_one :project, through: :meeting
   belongs_to :author, class_name: 'User'
@@ -49,6 +49,14 @@ class MeetingAgendaItem < ApplicationRecord
 
   def trigger_meeting_agenda_item_time_slots_calculation
     meeting.calculate_agenda_item_time_slots
+  end
+
+  def linked_work_package?
+    work_package.present?
+  end
+
+  def visible_work_package?
+    linked_work_package? && work_package.visible?(User.current)
   end
 
   def editable?

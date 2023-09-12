@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -36,6 +38,6 @@ class OAuthClientToken < ApplicationRecord
 
   validates :user, uniqueness: { scope: :oauth_client }
 
-  validates :access_token, length: { minimum: 1, maximum: 255 }
-  validates :refresh_token, length: { minimum: 1, maximum: 255 }
+  validates :access_token, presence: true
+  validates :refresh_token, presence: true
 end

@@ -28,45 +28,49 @@
  * ++
  */
 
-import * as Turbo from "@hotwired/turbo"
+import * as Turbo from '@hotwired/turbo';
 import { Controller } from '@hotwired/stimulus';
-import { Drake } from "dragula";
+import { Drake } from 'dragula';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
 
 export default class extends Controller {
-  drake: Drake | undefined;
+  drake:Drake|undefined;
 
   connect() {
-    this.drake = dragula([this.containerTarget as HTMLElement],
-      {moves: (el, source, handle, sibling) => !!handle?.classList.contains('handle')})
+    this.drake = dragula(
+      [this.containerTarget],
+      { moves: (_el, _source, handle, _sibling) => !!handle?.classList.contains('handle') },
+    )
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       .on('drop', this.drop.bind(this));
   }
 
-  get containerTarget(): HTMLElement {
-    const targetTag = this.data.get("target-tag");
-    return this.element.querySelector(targetTag||"ul") as HTMLElement;
+  get containerTarget():HTMLElement {
+    const targetTag = this.data.get('target-tag');
+    return this.element.querySelector(targetTag || 'ul') as HTMLElement;
   }
 
-  async drop(el: Element, target: Element | null, source: Element | null, sibling: Element | null) {
-    let id = el.getAttribute('data-id');
-    let url = el.getAttribute('data-drop-url');
-    let data = new FormData();
+  async drop(el:Element, _target:Element|null, _source:Element|null, _sibling:Element|null) {
+    const id = el.getAttribute('data-id');
+    const url = el.getAttribute('data-drop-url');
+    const data = new FormData();
     const newIndex = Array.from(this.containerTarget.children).indexOf(el);
-  
+
     if (id && url) {
-      data.append("position", (newIndex + 1).toString());
-  
+      data.append('position', (newIndex + 1).toString());
+
       const response = await fetch(url, {
-        method: "PUT",
+        method: 'PUT',
         body: data,
         headers: {
           'X-CSRF-Token': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).content,
-          'Accept': 'text/vnd.turbo-stream.html',
+          Accept: 'text/vnd.turbo-stream.html',
         },
         credentials: 'same-origin',
       });
-  
+
       if (!response.ok) {
-        console.log("Failed to sort item");
+        debugLog('Failed to sort item');
       } else {
         const text = await response.text();
         Turbo.renderStreamMessage(text);
@@ -84,4 +88,3 @@ export default class extends Controller {
     }
   }
 }
-

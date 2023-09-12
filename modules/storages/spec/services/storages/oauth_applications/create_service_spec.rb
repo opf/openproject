@@ -35,7 +35,7 @@ require 'services/base_services/behaves_like_create_service'
 
 RSpec.describe Storages::OAuthApplications::CreateService, type: :model do
   let(:user) { create(:admin) }
-  let(:storage) { create(:storage, creator: user) }
+  let(:storage) { create(:nextcloud_storage, creator: user) }
   let(:instance) { described_class.new(user:, storage:) }
 
   describe '#call' do

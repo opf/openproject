@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,14 +29,23 @@
 #++
 
 FactoryBot.define do
-  factory :storage, class: '::Storages::Storage' do
-    provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
+  factory :storage, class: 'Storages::Storage' do
     sequence(:name) { |n| "Storage #{n}" }
-    sequence(:host) { |n| "https://host#{n}.example.com" }
     creator factory: :user
 
-    factory :nextcloud_storage, class: '::Storages::NextcloudStorage' do
-      provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
+    # rubocop:disable FactoryBot/FactoryAssociationWithStrategy
+    # For some reason the order of saving breaks STI
+    trait :with_oauth_client do
+      oauth_client { build(:oauth_client) }
+    end
+    # rubocop:enable FactoryBot/FactoryAssociationWithStrategy
+
+    factory :one_drive_storage, class: "Storages::OneDriveStorage" do
+      host { nil }
+    end
+
+    factory :nextcloud_storage, class: 'Storages::NextcloudStorage' do
+      sequence(:host) { |n| "https://host#{n}.example.com" }
 
       trait :as_automatically_managed do
         automatically_managed { true }

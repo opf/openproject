@@ -215,7 +215,7 @@ RSpec.describe Query::Results,
     describe "when filtering for file links" do
       # https://github.com/opf/openproject/pull/11678#issuecomment-1326171087
 
-      let(:storage1) { create(:storage, creator: user1) }
+      let(:storage1) { create(:nextcloud_storage, creator: user1) }
       let(:query) do
         login_as(user1)
         build(:query, user: user1, project: nil).tap do |query|
@@ -240,7 +240,7 @@ RSpec.describe Query::Results,
       end
 
       describe "when having second reference to the same external file" do
-        let(:storage2) { create(:storage, creator: user1) }
+        let(:storage2) { create(:nextcloud_storage, creator: user1) }
         let(:project_storage2) { create(:project_storage, project: project_without_member, storage: storage2) }
         let(:file_link2) do
           create(:file_link, creator: user1, container: work_package, storage: storage2, origin_id: file_link1.origin_id)

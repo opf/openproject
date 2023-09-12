@@ -41,3 +41,9 @@ modules_permissions:
   - role: :default_role_reader
     add:
     - :view_file_links
+  - role: :default_role_work_package_editor
+    add:
+      - :view_file_links
+  - role: :default_role_work_package_commenter
+    add:
+      - :view_file_links

@@ -50,7 +50,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
     expect(page).to have_title('New storage')
     expect(page.find('.title-container')).to have_text('New storage')
     expect(page).to have_select('storages_storage[provider_type]', selected: 'Nextcloud')
-    expect(page).to have_field('storages_storage[name]', with: 'My Nextcloud')
+    expect(page).to have_field('storages_storage[name]', with: 'My storage')
 
     # Test the happy path for a valid storage server (host).
     # Mock a valid response (=200) for example.com, so the host validation should succeed
@@ -61,7 +61,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
     page.find_by_id('storages_storage_name').set("")
     page.find_by_id('storages_storage_name').set("NC 1")
     page.find_by_id('storages_storage_host').set("https://example.com")
-    page.find('button[type=submit]', text: "Save and continue setup").click
+    page.click_button('Save and continue setup')
     ######### Step 1: End Create a storage #########
 
     ######### Step 2: Begin Show OAuth application #########
@@ -81,21 +81,21 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
 
     # Set the client_id but leave client_secret empty
     page.find_by_id('oauth_client_client_id').set("0123456789")
-    page.find('button[type=submit]').click
+    page.click_button('Save')
     # Check that we're still on the same page
     expect(page).to have_title("OAuth client details")
 
     # Set client_id to be empty but set the client_secret
     page.find_by_id('oauth_client_client_id').set("")
     page.find_by_id('oauth_client_client_secret').set("1234567890")
-    page.find('button[type=submit]', text: 'Save').click
+    page.click_button('Save')
     # Check that we're still on the same page
     expect(page).to have_title("OAuth client details")
 
     # Both client_id and client_secret valid
     page.find_by_id('oauth_client_client_id').set("0123456789")
     page.find_by_id('oauth_client_client_secret').set("1234567890")
-    page.find('button[type=submit]', text: 'Save').click
+    page.click_button('Save')
     ######### Step 3: End Add OAuthClient #########
 
     ######### Step 4: Begin Automatically managed project folders #########
@@ -156,7 +156,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
 
     page.find_by_id('oauth_client_client_id').set("2345678901")
     page.find_by_id('oauth_client_client_secret').set("3456789012")
-    page.find('button[type=submit]', text: 'Replace').click
+    page.click_button('Replace')
 
     # Check for client_id
     expect(page).to have_text("2345678901")
@@ -166,7 +166,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
     mock_server_capabilities_response("https://other.example.com", response_code: '400')
     page.find_by_id('storages_storage_name').set("Other NC")
     page.find_by_id('storages_storage_host').set("https://other.example.com")
-    page.find('button[type=submit]', text: "Save").click
+    page.click_button('Save')
 
     expect(page).to have_title("Edit: Other NC")
     expect(page.find('.title-container')).to have_text('Edit: Other NC')
@@ -178,7 +178,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
     mock_server_capabilities_response("https://old.example.com", response_nextcloud_major_version: 18)
     page.find_by_id('storages_storage_name').set("Old NC")
     page.find_by_id('storages_storage_host').set("https://old.example.com")
-    page.find('button[type=submit]', text: "Save").click
+    page.click_button('Save')
 
     expect(page).to have_title("Edit: Old NC")
     expect(page).to have_selector('.op-toast')
@@ -189,7 +189,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
     # Restore the mocked working server example.com
     page.find_by_id('storages_storage_host').set("https://example.com")
     page.find_by_id('storages_storage_name').set("Other NC")
-    page.find('button[type=submit]', text: "Save").click
+    page.click_button('Save')
 
     ######### Begin Edit Automatically managed project folders #########
     #
@@ -245,12 +245,12 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
 
   describe 'configuration checks' do
     let!(:configured_storage) do
-      storage = create(:storage)
+      storage = create(:nextcloud_storage)
       create(:oauth_application, integration: storage)
       create(:oauth_client, integration: storage)
       storage
     end
-    let!(:unconfigured_storage) { create(:storage) }
+    let!(:unconfigured_storage) { create(:nextcloud_storage) }
 
     it 'reports storages that are not configured correctly' do
       visit admin_settings_storages_path

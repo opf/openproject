@@ -20,6 +20,8 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 "no":
+  plugin_openproject_github_integration:
+    name: "OpenProject GitHub Integration"
+    description: "Integrates OpenProject and GitHub for a better workflow"
   project_module_github: "GitHub"
   permission_show_github_content: "Show GitHub content"
-

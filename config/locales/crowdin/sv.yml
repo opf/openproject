@@ -168,14 +168,14 @@ sv:
     index:
       no_results_title_text: För närvarande finns det inga färger.
       no_results_content_text: Skapa en ny färg
-      label_new_color: "New color"
+      label_new_color: "Ny färg"
     new:
-      label_new_color: "New Color"
+      label_new_color: "Ny färg"
     edit:
-      label_edit_color: "Edit Color"
+      label_edit_color: "Redigera färg"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Ny färg"
+      label_edit_color: "Redigera färg"
     label_no_color: "Ingen färg"
     label_properties: "Properties"
     label_really_delete_color: >
@@ -449,7 +449,7 @@ sv:
         attribute_name: 'Attributet'
         help_text: 'Hjälptext'
       ldap_auth_source:
-        account: "Account"
+        account: "Konto"
         attr_firstname: "Firstname attribute"
         attr_lastname: "Lastname attribute"
         attr_login: "Username attribute"
@@ -461,6 +461,8 @@ sv:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Versionsarkiv"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Kommenterade" #an object that this comment belongs to
       custom_action:
@@ -633,7 +635,7 @@ sv:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "åtkomst nekas."
         error_readonly: "försökte skrivas men är inte skrivbart."
-        email: "is not a valid email address."
+        email: "är inte en giltig e-postadress."
         empty: "kan inte vara tomt."
         even: "måste vara jämn."
         exclusion: "är reserverat."
@@ -940,7 +942,7 @@ sv:
       query: "Anpassad fråga"
       role:
         one: "Roll"
-        other: "Roll"
+        other: "Roller"
       type: "Typ"
       user: "Användare"
       version: "Version"
@@ -971,11 +973,11 @@ sv:
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
-          one: "%{count} hour"
+          one: "%{count} timme"
           other: "%{count} timmar"
         hour_html:
-          one: "<i>%{count} hour</i>"
-          other: "<i>%{count} hours</i>"
+          one: "<i>%{count} timme</i>"
+          other: "<i>%{count} timmar</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
@@ -1258,7 +1260,7 @@ sv:
         one: "En dag"
         other: "%{count} dagar"
       x_minutes:
-        one: "v minut"
+        one: "1 minut"
         other: "%{count} minuter"
       x_months:
         one: "En månad"
@@ -1445,7 +1447,7 @@ sv:
     changes_retracted: "Förändringarna drogs tillbaka."
     caused_changes:
       dates_changed: "Dates changed"
-      system_update: "OpenProject update"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1461,7 +1463,8 @@ sv:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Konfigurationsguide'
     get_in_touch: "Har du frågor? Ta kontakt med oss."
@@ -1642,7 +1645,7 @@ sv:
   label_confirmation: "Bekräftelse"
   label_contains: "innehåller"
   label_content: "Innehåll"
-  label_color_plural: "Colors"
+  label_color_plural: "Färger"
   label_copied: "kopierad"
   label_copy_same_as_target: "Samma som mål"
   label_copy_source: "Källa"
@@ -1711,7 +1714,7 @@ sv:
   label_everywhere: "överallt"
   label_example: "Exempel"
   label_experimental: "Experimentell"
-  label_i_am_member: "I am member"
+  label_i_am_member: "Jag är medlem"
   label_import: "Importera"
   label_export_to: "Finns även som:"
   label_expanded_click_to_collapse: "Expanderat. Klicka för att dölja"
@@ -1771,7 +1774,7 @@ sv:
   label_journal: "Journal"
   label_journal_diff: "Jämför beskrivning"
   label_language: "Språk"
-  label_languages: "Languages"
+  label_languages: "Språk"
   label_jump_to_a_project: "Hoppa till projekt..."
   label_keyword_plural: 'Nyckelord'
   label_language_based: "Baserat på användarens språk"
@@ -1830,7 +1833,7 @@ sv:
   label_more_than_ago: "mer än dagar sedan"
   label_move_work_package: "Flytta arbetspaket"
   label_my_account: "Mitt konto"
-  label_my_activity: "My activity"
+  label_my_activity: "Min aktivitet"
   label_my_account_data: "Min kontoinformation"
   label_my_projects: "Mina projekt"
   label_my_queries: "Min anpassade frågor"
@@ -2034,7 +2037,7 @@ sv:
   label_user_plural: "Användare"
   label_user_search: "Sök efter användare"
   label_user_settings: "Användarinställningar"
-  label_users_settings: "Users settings"
+  label_users_settings: "Användarinställningar"
   label_version_new: "Ny version"
   label_version_plural: "Versioner"
   label_version_sharing_descendants: "Med delprojekt"
@@ -2141,7 +2144,7 @@ sv:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hello %{user}'
+    salutation: 'Hej %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Logga in för att se alla notifikationer. '
@@ -2173,7 +2176,7 @@ sv:
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
   mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
-  mail_body_incoming_email_error_logs: "Logs"
+  mail_body_incoming_email_error_logs: "Loggar"
   mail_body_lost_password: "För att ändra ditt lösenord, klicka på följande länk:"
   mail_password_change_not_possible:
     title: "Password change not possible"
@@ -2191,8 +2194,8 @@ sv:
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} arbetspaket som är tilldelade till dig förfaller de närmaste %{days} dagarna:"
   mail_body_group_reminder: "%{count} arbetspaket som är tilldelade till gruppen \"%{group}\" ska vara klara inom de närmaste %{days} dagarna:"
-  mail_body_wiki_content_added: "Wiki-sidan '%{id}' har lagts till av %{author}."
-  mail_body_wiki_content_updated: "'%{id}' wiki-sidan har uppdaterats av %{author}."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value}} kontoaktiveringsbegäran"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2207,9 +2210,9 @@ sv:
       added_by:
         without_message: "%{user} added you as a member to the project '%{project}'."
         with_message: "%{user} added you as a member to the project '%{project}' writing:"
-      roles: "You have the following roles:"
+      roles: "Du har följande roller:"
   mail_member_updated_project:
-    subject: "%{project} - Your roles have been updated"
+    subject: "%{project} - Dina roller har uppdaterats"
     body:
       updated_by:
         without_message: "%{user} updated the roles you have in the project '%{project}'."
@@ -2333,8 +2336,8 @@ sv:
   permission_add_messages: "Publicera meddelanden"
   permission_add_project: "Skapa projekt"
   permission_archive_project: "Arkivera projekt"
-  permission_create_user: "Create users"
-  permission_manage_user: "Edit users"
+  permission_create_user: "Skapa användare"
+  permission_manage_user: "Redigera användare"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Skapa delprojekt"
   permission_add_work_package_watchers: "Lägg till bevakare"
@@ -2344,6 +2347,7 @@ sv:
   permission_comment_news: "Kommentera nyhet"
   permission_commit_access: "Läs- och skrivbehörighet till databasen (incheckning)"
   permission_copy_projects: "Kopiera projekt"
+  permission_copy_work_packages: "Copy work packages"
   permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Ta bort bevakare"
   permission_delete_work_packages: "Ta bort arbetspaket"
@@ -2371,6 +2375,7 @@ sv:
   permission_log_time: "Log time for other users"
   permission_manage_forums: "Hantera forum"
   permission_manage_categories: "Hantera kategorier för arbetspaket"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Hantera relationer för arbetspaket"
   permission_manage_members: "Hantera medlemmar"
   permission_manage_news: "Hantera nyheter"
@@ -2385,14 +2390,19 @@ sv:
   permission_protect_wiki_pages: "Skydda wiki-sidor"
   permission_rename_wiki_pages: "Byt namn på wiki-sidor"
   permission_save_queries: "Spara vyer"
-  permission_select_custom_fields: "Select custom fields"
+  permission_search_project: "Search project"
+  permission_select_custom_fields: "Välj anpassade fält"
   permission_select_project_modules: "Välj projektmoduler"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Välj typer"
+  permission_view_project: "View projects"
   permission_view_changesets: "Visa databasrevisioner i OpenProject"
   permission_view_commit_author_statistics: "Visa statistik över incheckningar per författare"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Visa lista med bevakare"
   permission_view_work_packages: "Visa arbetspaket"
   permission_view_messages: "Visa meddelanden"
+  permission_view_news: "View news"
   permission_view_members: "Visa medlemmar"
   permission_view_reportings: "Visa rapporter"
   permission_view_time_entries: "Visa förbrukad tid"
@@ -2401,6 +2411,9 @@ sv:
   permission_view_wiki_pages: "Visa wiki"
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Arbetspaket kan tilldelas användare och grupper som har denna roll i respektive projektet"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:
@@ -2760,7 +2773,7 @@ sv:
   text_database_allows_tsv: "Databasen tillåter TSVector (tillval)"
   text_default_administrator_account_changed: "Standardadministratörskontot har ändrats"
   text_default_encoding: "Standard: UTF-8"
-  text_destroy: "Ta bort"
+  text_destroy: "Radera"
   text_destroy_with_associated: "Det finns ytterligare objekt kopplade med det/de arbetspaket som ska tas bort. Dessa objekt är av följande typer:"
   text_destroy_what_to_do: "Vad vill du göra?"
   text_diff_truncated: "... Denna diff trunkerades eftersom den överskrider den maximala storleken som kan visas."
@@ -3151,3 +3164,9 @@ sv:
     response:
       unexpected: "Unexpected response received."
   you: you
+  plugin_openproject_auth_plugins:
+    name: "OpenProject Auth Plugins"
+    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / Single-Sign On"
+    description: "Adds the OmniAuth SAML provider to OpenProject"

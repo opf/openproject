@@ -93,7 +93,7 @@ class RolesController < ApplicationController
   end
 
   def report
-    @roles = Role.order(Arel.sql('builtin, position'))
+    @roles = roles_scope
     @permissions = OpenProject::AccessControl.permissions.reject(&:public?)
   end
 
@@ -151,7 +151,7 @@ class RolesController < ApplicationController
   end
 
   def roles_scope
-    Role.order(Arel.sql('builtin, position'))
+    Role.visible.ordered_by_builtin_and_position
   end
 
   def default_breadcrumb
