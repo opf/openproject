@@ -386,7 +386,7 @@ GEM
     debug (1.8.0)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
-    deckar01-task_list (2.3.2)
+    deckar01-task_list (2.3.3)
       html-pipeline
     declarative (0.0.20)
     delayed_cron_job (0.9.0)
