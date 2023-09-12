@@ -8,7 +8,23 @@ sidebar_navigation:
 
 ## Package-based installation
 
-Simply run `sudo openproject reconfigure`, and when the database wizard is displayed, select the **Use an existing PostgreSQL database** option and fill in the required details ([cf the initial configuration section](../../installation/packaged/#step-2-postgresql-database-configuration))
+Simply run `sudo openproject reconfigure`, and when the database wizard is displayed, select the **Use an existing PostgreSQL database** option and fill in the required details ([cf the initial configuration section](../../installation/packaged/#step-2-postgresql-database-configuration)).
+
+
+
+### Setting a custom database URL
+
+In some cases, you need flexibility in how you define the URL (e.g., specifying more options specific to PostgreSQL or using SSL certificates). In that case, you can pass the database URL as an environment variable instead:
+
+```bash
+openproject config:set DATABASE_URL=postgres://user:pass@host:port/dbname
+```
+
+
+
+Then, you need to run `openproject reconfigure` and select "Skip" for the database wizard. Otherwise the wizard will override your DATABASE_URL environment variable again.
+
+
 
 ## Docker-based installation
 
@@ -29,3 +45,19 @@ docker-compose up -d
 ```
 
 In both cases the seeder will be run when you (re)launch OpenProject to make sure that the database gets the migrations and demo data as well.
+
+
+
+## Using SSL/TLS with a PostgreSQL database
+
+By default, the packaged installation installs a local database and does not use SSL encryption. If you provide a custom PostgreSQL database that supports SSL/TLS connections for servers and/or clients, you can pass the options as part of the DATABASE_URL. See the above guides on how to set this environment variable for Docker or packaged installations.
+
+The most import option is the `sslmode` parameter. Set this to the appropriate mode as defined in the [PostgreSQL documentation](https://www.postgresql.org/docs/13/libpq-connect.html#LIBPQ-PARAMKEYWORDS). For example, to require a SSL connection with full verification of the server certificate, use these parameters:
+
+```bash
+DATABASE_URL=postgres://user:pass@host:port/dbname?sslmode=require-full&sslcert=/path/to/postgresql.cert
+```
+
+
+
+PostgreSQL supports a wide variety of options in its connection string. This is not specific to OpenProject or Rails. See the following guide for more information: https://www.postgresql.org/docs/13/libpq-connect.html#LIBPQ-PARAMKEYWORDS

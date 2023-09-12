@@ -5,7 +5,7 @@ sv:
     description: "Provides calendar views."
   label_calendar: "Kalender"
   label_calendar_plural: "Kalendrar"
-  label_new_calendar: "New calendar"
+  label_new_calendar: "Ny kalender"
   permission_view_calendar: "Visa kalender"
   permission_manage_calendars: "Hantera kalendrar"
   permission_share_calendars: "Subscribe to iCalendars"

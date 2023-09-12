@@ -60,7 +60,7 @@ sv:
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Replace OpenProject OAuth"
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
-      save: "Save"
+      save: "Spara"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
       select_folder: "Select folder"
@@ -153,7 +153,7 @@ sv:
       label: "Provider type"
       nextcloud:
         name: "Nextcloud"
-        name_placeholder: "e.g. Nextcloud"
+        name_placeholder: "t. ex. Nextcloud"
         default_name: "My Nextcloud"
     confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
     confirm_replace_oauth_client: "Are you sure? All users will have to authorize again against the storage."

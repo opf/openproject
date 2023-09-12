@@ -415,7 +415,7 @@ ro:
     label_filename: "Fișier"
     label_filesize: "Dimensiune"
     label_general: "General"
-    label_global_roles: "Roluri globale"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'Grup'
     label_group_by: "Grupare după"

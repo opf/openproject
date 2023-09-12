@@ -416,7 +416,7 @@ ca:
     label_filename: "Fitxer"
     label_filesize: "Mida"
     label_general: "General"
-    label_global_roles: "Rols globals"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'Grup'
     label_group_by: "Agrupa per"

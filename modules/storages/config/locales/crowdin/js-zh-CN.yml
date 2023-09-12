@@ -38,7 +38,7 @@ zh-CN:
         project_folder_no_access: >
           您没有访问项目文件夹的权限。请联系您的管理员访问或上传文件到另一个位置。
         managed_project_folder_not_available: >
-          尚未找到自动管理的项目文件夹。请稍等片刻，重新加载页面以获取最新数据，然后重试。
+          尚未找到自动托管的项目文件夹。请稍等片刻，重新加载页面以获取最新数据，然后重试。
         managed_project_folder_no_access: >
           您目前还无法访问托管项目文件夹。请稍等片刻，然后重试。
         upload_keep_both: "保留两者"

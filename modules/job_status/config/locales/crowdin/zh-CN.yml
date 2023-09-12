@@ -1,0 +1,4 @@
+zh-CN:
+  plugin_openproject_job_status:
+    name: "OpenProject 作业状态"
+    description: "后台作业的列表和状态。"

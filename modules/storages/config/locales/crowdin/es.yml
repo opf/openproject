@@ -1,8 +1,8 @@
 #English strings go here
 es:
   plugin_openproject_storages:
-    name: "OpenProject Storages"
-    description: "Allows linking work packages to files in external storages, such as Nextcloud."
+    name: "Almacenamientos de OpenProject"
+    description: "Permite enlazar paquetes de trabajo a archivos en almacenamientos externos, como Nextcloud."
   permission_view_file_links: "Ver enlaces de archivos"
   permission_manage_file_links: "Administrar enlaces de archivos"
   permission_manage_storages_in_project: "Administrar almacenes de archivos en el proyecto"
@@ -60,7 +60,7 @@ es:
       edit_automatically_managed_project_folders: "Editar carpetas de proyecto administradas automáticamente"
       replace_openproject_oauth: "Reemplazar OpenProject OAuth"
       replace_provider_type_oauth: "Reemplazar %{provider_type} OAuth"
-      save: "Save"
+      save: "Guardar"
       save_and_continue_setup: "Guardar y continuar configuración"
       save_and_complete_setup: "Guardar y completar configuración"
       select_folder: "Seleccionar carpeta"
@@ -134,7 +134,7 @@ es:
     label_provider_type: "Tipo de proveedor"
     label_project_folder: "Carpeta del proyecto"
     label_new_storage: "Nuevo almacén"
-    label_edit_storage: "Edit storage"
+    label_edit_storage: "Editar almacenamiento"
     label_existing_manual_folder: "Carpeta existente con permisos gestionados manualmente"
     label_no_specific_folder: "Ninguna carpeta específica"
     label_automatic_folder: "Nueva carpeta con permisos gestionados automáticamente"

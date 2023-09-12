@@ -35,7 +35,7 @@ Choose **My account**.
 ## Edit your user information
 To change your email address or your name, navigate to **Profile** on the left side menu of **My account** page.
 
-Here you can update the information and **save** your changes.
+Here you can update the information and **save** your changes. If you're changing the email address of your account, you will be requested to confirm your account password before you can continue. (Note: This applies only to internal accounts where OpenProject can verify the password).
 
 ![openproject_my_account_profile](openproject_my_account_profile.png)
 
@@ -105,6 +105,8 @@ In order to activate the two-factor authentication for your OpenProject installa
 In order to register a new device for two-factor authentication, click the green button to add a **new 2FA device**.
 
 To receive the second factor, you can use an authentication app on your mobile phone, such as Google Authenticator or Authy. You have to enter the code that is displayed in the authentication app to your login.
+
+You can remove or approve 2FA applications by confirming your password. Note that this applies only to internally authenticated users.
 
 ### Backup codes
 
