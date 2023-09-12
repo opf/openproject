@@ -12,7 +12,7 @@ keywords: product development, requirement process, RICE score
 
 ## 1. Overview & objectives
 
-OpenProject aims to connect distributed teams and organizations and make project management intuitive and fun. The open source software supports classical project management and team collaboration as well as agile project management methodologies. OpenProject is continuously developed and maintained by an active international community to provide a powerful feature set and yet intuitive user interface. The overall purpose is to create customer benefit. To achieve this, OpenProject follows a requirements and product development process that empathizes identifying and building the functionality which most aligns with OpenProject’s product vision and delivers customer value.
+OpenProject aims to connect distributed teams and organizations and make project management intuitive and fun. The application is continuously developed and maintained by an active international community to provide a powerful feature set and yet intuitive user interface. The overall purpose is to create customer benefit. To achieve this, OpenProject follows a requirements and product development process that empathizes identifying and building the functionality which most aligns with OpenProject’s product vision and delivers customer value.
 
 This guide is an evolving description of the steps taken from collecting requirements all the way to implementation and release. The goal is to provide a single source of truth and provide a guideline for team members, community contributors and interested customers. As such this document will continuously be updated.
 
@@ -22,19 +22,30 @@ The product development process involves various roles during the different phas
 
 [tbd]
 
-## 3. Requirements collection and specification phase
+## 3. Phases
+
+The development process is split into three phases, with the first being "Requirements collection and specification", followed by "Building" to be completed by the "Release". While the split helps to explain the process, it is misleading at the same time as it suggests the process to be more segregated than it is actually lived. Whenever new knowledge is acquired, e.g. limitations in the technology or an additional feature aspect, that knowledge can be incorporated into the development without having to halt and restart the full process.
+
+At the same time, features are bundled into versions to be released. However, this does not limit the building of a feature to only take place in a single version, though. Since the application supports feature flags, features can be developed over multiple versions while remaining hidden until they are deemed complete, at which point the feature flag is removed and by that the feature officially released.
+
+Since multiple teams are working on different features of different sizes, the process for each can be in a different phase.
+
+In total, the process allows more flexibility than the pattern of phases and versions suggests at first. And it has to be since it is a never-ending repetition of the phases to continuously drive a product forward which can never be considered finished.
+
+The following sections describe the steps taken during each phase in detail for a single feature. The phases are broken down into sub-phases to better describe the steps taken.
+
+### 3.1 Requirements collection and specification phase
 
 The phase for requirements collection and specification aims to get the best possible understanding of new requirements and enables to prioritize the development in an objective manner.
 
-For new ideas and requirements which are not clearly understood yet and require specification, Product Managers (PM), User Experience Experts / designers (UX) should work together to validate the idea before moving to the build phase.
+For new ideas and requirements which are not clearly understood yet and require specification, Product Managers (PM), User Experience Experts / designers (UX), and the requesting party (e.g. customer or community member) work together to validate the idea before moving on to the build phase.
 
-Product Managers and UX should work together at least one version (~ 2 months) ahead, so that the development team in the build track has always well-defined and validated requirements ready to start. Especially requirements with a level of confidence lower 80% (see [RICE Score](#34-rice-score)) should be clearly validated.
+Product Managers and UX prepare the work together at least one version (~ 2 months) ahead, so that the development team in the build phase has always well-defined and validated requirements ready to start. Especially requirements with a level of confidence lower 80% (see [RICE Score](#34-rice-score)) should be clearly validated.
 
 The specification phase may not be necessary for bug fixes, minor design changes, minor improvements of smaller code maintenance topics.
 
 
-
-### 3.1 Evaluation phase 1: Requirement collection
+### 3.1.1 Evaluation phase 1: Requirement collection
 
 | Who is involved?                                             | Steps               | Output                                                       |
 | ------------------------------------------------------------ | ----- | :----------------------------------------------------------- |
@@ -52,7 +63,7 @@ For a guideline on how to report feature requests, refer to the [Feature request
 
 
 
-### 3.2 Evaluation phase 2: Requirement evaluation / Problem validation
+### 3.1.2 Evaluation phase 2: Requirement evaluation / Problem validation
 
 | Who is involved?  | Steps                                         | Output                               |
 | ----------------- | --------------------------------------------- | :----------------------------------- |
@@ -79,7 +90,7 @@ For internal or customer requirements requirements may directly be created, eval
 
 
 
-### 3.3 Evaluation phase 3: Requirement specification
+### 3.1.3 Evaluation phase 3: Requirement specification
 
 
 
@@ -106,8 +117,122 @@ Based on the validated and prioritized features in the product backlog (status: 
 The features in a product version need to be specified at least one iteration prior to development start.
 
 
+## 3.2 Building phase
 
-### 3.4 RICE Score
+During the building phase we develop, improve and test the validated solutions.
+
+
+
+### 3.2.1 Building phase 1: Development
+
+| Who is involved? | Steps                         | Output                                                  |
+| ---------------- | ----------------------------- | :------------------------------------------------------ |
+| - Developer      | 1. Develop features           | Developed features on test environment (feature freeze) |
+| - DevOps         | 2. Deploy on test environment |                                                         |
+
+Prior to working on a new product version, the development team analyzes the features from a technical viewpoint and breaks them down into technical work packages:
+
+1. Developer breaks feature / Epics into technical work packages.
+2. Developer adds technical specifications (on GitHub).
+3. Developer starts developing features (status: “In development”).
+4. Developer hands over feature for review (status: “In review”).
+5. Developer merges feature (status: “merged”).
+6. Developer highlights features that require change in documentation (custom field “Requires doc change”).
+7. DevOps deploys features on a test environment.
+
+Only in rare exceptions and under consultation of developers can additional features be added to a version (feature freeze).
+
+
+
+### 3.2.2 Building phase 2: Quality Assurance
+
+| Who is involved?  | Steps                                  | Output                        |
+| ----------------- | -------------------------------------- | :---------------------------- |
+| - Tester          | 1. Test features                       | Tested stable product version |
+| - Product Manager | 2. Report bugs                         |                               |
+| - Developer       | 3. Deploy on community.openproject.com |                               |
+| - DevOps          |                                        |                               |
+
+Building phase 1 (Development) and phase 2 (Quality Assurance) run partly in parallel / may loop since tested features may need to be adjusted.
+
+1. Tester tests features and bugs for functionality (based on acceptance criteria) 
+   1. Tester adjusts status when no errors in features (status: “tested”).
+   2. Tester changes status when bug has been resolved (status: “closed”).
+   3. Tester adjusts status when errors occur (status: “test failed”) and notifies developer (move back to phase 1 - Development)
+2. PM tests features to see if requirements are met, discusses necessary changes with developer (acceptance test) (status: “closed”).
+3. Tester performs regression test for most important functionality
+4. DevOps deploys release on community environment for further testing.
+5. Product Manager updates documentation based on feature changes.
+
+
+
+When all features, bugs have been tested successfully, regression testing was performed successfully and no critical errors are reported on community.openproject.com OpenProject environment, new product version is prepared for release.
+
+
+
+## 3.3 Release phase
+
+During the release phase, the new OpenProject version is rolled out, release notes are published and lessons learned are documented.
+
+### 3.3.1 Stabilization
+
+Continous bugfixing as well as end of release bugfixing.
+
+
+### 3.3.1 Release phase 1: Rollout
+
+| Who is involved?  | Steps                                                             | Output                        |
+|-------------------|-------------------------------------------------------------------|:------------------------------|
+| - DevOps          | 1. Create news / release notes                                    | Rolled out / released version |
+| - Marketing       | 2. Release for Enterprise cloud / Enterprise on-premise customers |                               |
+| - Product Manager |                                                                   |                               |
+
+Once tested and stabilized, a new OpenProject version is rolled out in stages:
+
+1. DevOps creates release branch for new version.
+2. Marketing / PM creates news and release notes.
+3. DevOps deploys new release on Enterprise cloud edition trials.
+4. DevOps deploys new release on Enterprise cloud production.
+5. DevOps releases new OpenProject version for on-premise installations (Packager, Docker, notify UCS).
+6. DevOps / Marketing update documentation for new release (technical, marketing information).
+
+
+
+Phase 1 “Rollout” and phase 2 “Go to market” partially overlap / follow in short succession.
+
+
+### 3.3.2 Release phase 2: Go to market
+
+| Who is involved?  | Steps                            | Output                       |
+| ----------------- | -------------------------------- | :--------------------------- |
+| - Marketing       | 1. Publish news / release notes  | Announced / marketed release |
+| - Product Manager | 2. Post newsletter, social media |                              |
+
+In parallel or shortly after the rollout, marketing release notes and announcements are published.
+
+1. Marketing publishes news.
+2. PM publishes release notes.
+3. Marketing reaches out to news organizations for external posts.
+4. Marketing posts on social media.
+5. Marketing releases newsletter.
+
+
+
+### 3.3.3 Release phase 3: Evaluation / Lessons learned
+
+After launch, the PM should pay close attention to product usage and customer feedback to guide further improvements, until the defined success metrics are met or the product has been sufficiently improved.
+
+The metrics defined in the Opportunity Canvas are referenced to evaluate this.
+
+The entire team documents possible improvements for the next release.
+
+## 4. Artefacts
+
+### Version
+
+### Wireframes and mockups
+
+### 4.1 RICE Score
 
 The RICE scoring model is an evaluation method used to evaluate and compare requirements with each other and decide which products or features to prioritize on the roadmap - in an as objective manner as possible.
 
@@ -117,7 +242,7 @@ Using the RICE scoring model has three main benefits:
 2. Enable product managers to make better decisions.
 3. Help defend priorities to other stakeholders such as executives or customers.
 
-The RICE scoring model was developed by [Intercom](https://www.intercom.com/) to improve its own decision making process. 
+The RICE scoring model was developed by [Intercom](https://www.intercom.com/) to improve its own decision making process.
 A helpful guideline with further information on the RICE framework is provided by [ProductPlan](https://www.productplan.com/glossary/rice-scoring-model/).
 
 The RICE scoring model aims to objectively evaluate requirements (new products, features, add-ons, …) based on four different criteria to determine the RICE Score:
@@ -126,6 +251,9 @@ The RICE scoring model aims to objectively evaluate requirements (new products, 
 
 > RICE Score = **R**each x **I**mpact x **C**onfidence / **E**ffort
 
+
+The RICE framework is used especially in the early phases of evaluating requirements and provides an easy and fast way to prioritize feature requests.
+For complex requirements with a low level of confidence (80% or lower) and / or high effort (more than 1 week), an opportunity canvas should be used in addition to the RICE score.
 
 
 **Reach**
@@ -141,7 +269,7 @@ Data sources to estimate this may include queries and user data of an associated
 
 **Impact**
 
-The second numerator is Impact which refers to the benefits for users and customers Impact can refer to quantitative measures, such as conversion improvements, increased revenue, decreased risk or decreased cost or to qualitative measures, such as increasing customer delight.
+The second numerator is Impact which refers to the benefits for users and customers. Impact can refer to quantitative measures, such as conversion improvements, increased revenue, decreased risk or decreased cost or to qualitative measures, such as increasing customer delight.
 This makes it possible to compare revenue generating opportunities to non-revenue generating opportunities.
 
 Impact ranges from “Minimal” (0.25) to “Massive” (3.0).
@@ -172,14 +300,7 @@ The effort score ranges from 0.03 (XS = less than a day of effort) to 20 (XXXL =
 
 
 
-Based on the RICE score calculated from the four aforementioned factors, features can be evaluated to each other in an objective way.
-
-The RICE framework is used especially in the early phases of evaluating requirements and provides an easy and fast way to prioritize feature requests. 
-For complex requirements with a low level of confidence (80% or lower) and / or high effort (more than 1 week), an opportunity canvas should be used in addition to the RICE score.
-
-
-
-### 3.5 Opportunity Canvas
+### 4.2 Opportunity Canvas
 
 One of the main artifacts used in the evaluation phase is the Opportunity Canvas. The Opportunity Canvas - [slightly adapted from GitLab](https://about.gitlab.com/handbook/product-development-flow) - provides a quick overview of a requirement and includes four main sections as well as two supplemental sections:
 
@@ -189,7 +310,7 @@ One of the main artifacts used in the evaluation phase is the Opportunity Canvas
 
 
 
-**1. Problem** 
+**1. Problem**
 
 States the problem that the feature request is addressing. This includes the **Customer** information (the affected persona or persona segment that experiences the problem most acutely), a **Problem** description and a description of the customer **Pain**.
 
@@ -242,110 +363,3 @@ An Opportunity Canvas may not always be required - especially when a problem is 
 - [Opportunity Canvas Template](https://docs.google.com/document/d/1sgNrEx_PRCwewI9-46mN0qnyzz2AWq_SwFc6gLOcrbI/edit)
 
 
-
-## 4. Building phase
-
-During the building phase we develop, improve and test the validated solutions.
-
-
-
-### 4.1 Building phase 1: Development
-
-| Who is involved? | Steps                         | Output                                                  |
-| ---------------- | ----------------------------- | :------------------------------------------------------ |
-| - Developer      | 1. Develop features           | Developed features on test environment (feature freeze) |
-| - DevOps         | 2. Deploy on test environment |                                                         |
-
-Prior to working on a new product version, the development team analyzes the features from a technical viewpoint and breaks them down into technical work packages:
-
-1. Developer breaks feature / Epics into technical work packages.
-2. Developer adds technical specifications (on GitHub).
-3. Developer starts developing features (status: “In development”).
-4. Developer hands over feature for review (status: “In review”).
-5. Developer merges feature (status: “merged”).
-6. Developer highlights features that require change in documentation (custom field “Requires doc change”).
-7. DevOps deploys features on a test environment.
-
-Only in rare exceptions and under consultation of developers can additional features be added to a version (feature freeze).
-
-
-
-### 4.2 Building phase 2: Quality Assurance
-
-| Who is involved?  | Steps                                  | Output                        |
-| ----------------- | -------------------------------------- | :---------------------------- |
-| - Tester          | 1. Test features                       | Tested stable product version |
-| - Product Manager | 2. Report bugs                         |                               |
-| - Developer       | 3. Deploy on community.openproject.com |                               |
-| - DevOps          |                                        |                               |
-
-Building phase 1 (Development) and phase 2 (Quality Assurance) run partly in parallel / may loop since tested features may need to be adjusted.
-
-1. Tester tests features and bugs for functionality (based on acceptance criteria) 
-   1. Tester adjusts status when no errors in features (status: “tested”).
-   2. Tester changes status when bug has been resolved (status: “closed”).
-   3. Tester adjusts status when errors occur (status: “test failed”) and notifies developer (move back to phase 1 - Development)
-2. PM tests features to see if requirements are met, discusses necessary changes with developer (acceptance test) (status: “closed”).
-3. Tester performs regression test for most important functionality
-4. DevOps deploys release on community environment for further testing.
-5. Product Manager updates documentation based on feature changes.
-
-
-
-When all features, bugs have been tested successfully, regression testing was performed successfully and no critical errors are reported on community.openproject.com OpenProject environment, new product version is prepared for release.
-
-
-
-## 5. Release phase
-
-During the release phase, the new OpenProject version is rolled out, release notes are published and lessons learned are documented.
-
-
-
-### 5.1 Release phase 1: Rollout
-
-| Who is involved?  | Steps                                                             | Output                        |
-|-------------------|-------------------------------------------------------------------|:------------------------------|
-| - DevOps          | 1. Create news / release notes                                    | Rolled out / released version |
-| - Marketing       | 2. Release for Enterprise cloud / Enterprise on-premise customers |                               |
-| - Product Manager |                                                                   |                               |
-
-Once tested and stabilized, a new OpenProject version is rolled out in stages:
-
-1. DevOps creates release branch for new version.
-2. Marketing / PM creates news and release notes.
-3. DevOps deploys new release on Enterprise cloud edition trials.
-4. DevOps deploys new release on Enterprise cloud production.
-5. DevOps releases new OpenProject version for on-premise installations (Packager, Docker, notify UCS).
-6. DevOps / Marketing update documentation for new release (technical, marketing information).
-
-
-
-Phase 1 “Rollout” and phase 2 “Go to market” partially overlap / follow in short succession.
-
-
-
-### 5.2 Release phase 2: Go to market
-
-| Who is involved?  | Steps                            | Output                       |
-| ----------------- | -------------------------------- | :--------------------------- |
-| - Marketing       | 1. Publish news / release notes  | Announced / marketed release |
-| - Product Manager | 2. Post newsletter, social media |                              |
-
-In parallel or shortly after the rollout, marketing release notes and announcements are published.
-
-1. Marketing publishes news.
-2. PM publishes release notes.
-3. Marketing reaches out to news organizations for external posts.
-4. Marketing posts on social media.
-5. Marketing releases newsletter.
-
-
-
-### 5.3 Release phase 3: Evaluation / Lessons learned
-
-After launch, the PM should pay close attention to product usage and customer feedback to guide further improvements, until the defined success metrics are met or the product has been sufficiently improved.
-
-The metrics defined in the Opportunity Canvas are referenced to evaluate this.
-
-The entire team documents possible improvements for the next release.
