@@ -21,7 +21,7 @@
 #++
 zh-CN:
   plugin_costs:
-    name: "时间和成本"
+    name: "工时和成本"
     description: "该模块增加了项目规划和费用跟踪的功能。"
   activerecord:
     attributes:
@@ -32,10 +32,10 @@ zh-CN:
         spent_on: "日期"
       cost_type:
         unit: "单位名称"
-        unit_plural: "多元化单位名称"
+        unit_plural: "单位名称（复数）"
       work_package:
         costs_by_type: "支出单位"
-        labor_costs: "劳动力成本"
+        labor_costs: "人工成本"
         material_costs: "单位成本"
         overall_costs: "总成本"
         spent_costs: "已支出成本"
@@ -132,7 +132,7 @@ zh-CN:
   permission_view_own_cost_entries: "查看自己记录的成本"
   permission_view_own_hourly_rate: "查看自己的小时费率"
   permission_view_own_time_entries: "查看自己的耗时"
-  project_module_costs: "时间和成本"
+  project_module_costs: "工时和成本"
   text_assign_time_and_cost_entries_to_project: "将已上报的工时和成本提交到项目中"
   text_destroy_cost_entries_question: "您要删除的工作包已经上报了 %{cost_entries}。您想进行哪种操作？"
   text_destroy_time_and_cost_entries: "删除已上报的工时和成本"

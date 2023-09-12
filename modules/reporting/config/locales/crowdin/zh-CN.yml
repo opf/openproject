@@ -22,10 +22,10 @@
 zh-CN:
   plugin_openproject_reporting:
     name: "OpenProject 报告"
-    description: "该插件允许使用 OpenProject 时间和成本 插件创建自定义成本报告，并具有过滤和分组功能。"
+    description: "该插件允许使用 OpenProject 工时和成本插件创建自定义成本报告，并具有过滤和分组功能。"
   button_save_as: "报告另存为..."
   comments: "注释"
-  cost_reports_title: "时间和成本"
+  cost_reports_title: "工时和成本"
   label_cost_report: "成本报告"
   label_cost_report_plural: "成本报告"
   description_drill_down: "显示详情"
@@ -79,7 +79,7 @@ zh-CN:
   permission_save_cost_reports: "保存公共成本报告"
   permission_save_private_cost_reports: "保存私人成本报告"
   project_module_reporting_module: "成本报告"
-  text_costs_are_rounded_note: "显示的值经过四舍五入。所有计算均基于非四舍五入值。"
+  text_costs_are_rounded_note: "显示的数值已进行四舍五入。所有计算都基于非四舍五入的数值。"
   toggle_multiselect: "激活/取消激活多选"
   units: "单位"
   validation_failure_date: "不是有效的日期"

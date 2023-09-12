@@ -58,7 +58,7 @@ zh-CN:
     buttons:
       done_continue_setup: "已完成。继续设置"
       done_complete_setup: "完成，完成设置"
-      edit_automatically_managed_project_folders: "编辑自动管理的项目文件夹"
+      edit_automatically_managed_project_folders: "编辑自动托管的项目文件夹"
       replace_openproject_oauth: "替换 OpenProject OAuth"
       replace_provider_type_oauth: "替换 %{provider_type} OAuth"
       save: "保存"
@@ -68,7 +68,7 @@ zh-CN:
       configure: "配置"
     page_titles:
       managed_project_folders:
-        title: "自动管理的项目文件夹"
+        title: "自动托管的项目文件夹"
         subtitle: >
           让 OpenProject 自动为每个项目创建文件夹。建议这样做，因为这样可以确保每个团队成员始终拥有正确的访问权限。
       project_settings:
@@ -93,7 +93,7 @@ zh-CN:
       empty_project_folder_validation: "选择一个文件夹是必须的。"
       not_logged_into_storage: "要选择一个项目文件夹，请先登录"
       existing_manual_folder: >
-        您可以指定现有的文件夹作为此项目的根文件夹。 但权限未自动管理，管理员需要手动确保相关用户能够访问。 选定的文件夹可以被多个项目使用。
+        您可以指定现有的文件夹作为此项目的根文件夹。 但权限未自动托管，管理员需要手动确保相关用户能够访问。 选定的文件夹可以被多个项目使用。
       setting_up_additional_storages: "如需设置额外的文件存储，请访问"
       setting_up_additional_storages_non_admin: "管理员可以在“管理/文件存储”中设置额外的文件存储。"
       setting_up_storages: "如需设置文件存储，请访问"
@@ -120,7 +120,7 @@ zh-CN:
       project_storage: >
         确定要从此项目中删除 %{file_storage} 吗？要确认此操作，请在下面的字段中输入存储区名称，这将：
       project_storage_delete_result_1: "从此项目的工作包中移除该存储区的文件和文件夹的所有链接。"
-      project_storage_delete_result_2: "如果此存储区具有自动管理的项目文件夹，则此文件夹及其文件将被永远删除。"
+      project_storage_delete_result_2: "如果这个存储库具有自动托管的项目文件夹，那么该文件夹及其文件将被永久删除。"
       input_delete_confirmation: "输入文件存储区名称 %{file_storage} 以确认删除。"
       irreversible_notice: "删除文件存储区是不可逆转的操作。"
     label_active: "有效"
@@ -131,9 +131,9 @@ zh-CN:
     label_name: "名称"
     label_host: "主机 URL"
     label_managed_project_folders:
-      automatically_managed_folders: "自动管理的文件夹"
+      automatically_managed_folders: "自动托管的文件夹"
       application_password: "应用程序密码"
-    label_managed_project_folders_breadcrumb: "自动管理的项目文件夹"
+    label_managed_project_folders_breadcrumb: "自动托管的项目文件夹"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
@@ -169,5 +169,5 @@ zh-CN:
     confirm_replace_oauth_application: "确定吗？所有用户都必须再次针对 OpenProject 授权。"
     confirm_replace_oauth_client: "确定吗？所有用户都必须再次针对存储授权。"
     oauth_client_details_missing: "要完成设置，请从您的存储中添加 OAuth 客户端凭据。"
-    automatically_managed_project_folder_missing: "要完成设置，请为您的存储区配置自动管理的项目文件夹。"
+    automatically_managed_project_folder_missing: "要完成设置，请为您的存储区配置自动托管的项目文件夹。"
     notice_oauth_application_replaced: "已成功替换 OpenProject OAuth 应用程序。"

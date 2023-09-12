@@ -1,11 +1,11 @@
 zh-CN:
   plugin_openproject_ldap_groups:
     name: "OpenProject LDAP 组"
-    description: "LDAP组成员同步."
+    description: "LDAP 组成员同步。"
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
-        dn: '可分辨名称'
+        dn: 'DN'
         ldap_auth_source: 'LDAP 连接'
         sync_users: '同步用户'
       ldap_groups/synchronized_filter:
@@ -67,7 +67,7 @@ zh-CN:
         auth_source_text: '选择应使用哪个 LDAP 连接。'
         sync_users_text: >
           如果启用此选项，则还会在 OpenProject 中自动创建找到的用户。如果不启用，只有 OpenProject 中的现有帐户会被添加到组中。
-        dn_text: '输入 LDAP 中组的完整可分辨名称'
+        dn_text: '输入 LDAP 中组的完整 DN'
         group_text: '选择 LDAP 组的成员应与其同步的现有 OpenProject 组'
       upsale:
         description: '利用同步的 LDAP 组来管理用户、更改其权限并促进跨组的用户管理。'

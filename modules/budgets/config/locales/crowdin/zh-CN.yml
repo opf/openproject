@@ -34,7 +34,7 @@ zh-CN:
         status: "状态"
         subject: "主题"
         type: "成本类型"
-        labor_budget: "计划劳动力成本"
+        labor_budget: "计划人工成本"
         material_budget: "计划单位成本"
       work_package:
         budget_subject: "预算标题"
@@ -51,8 +51,8 @@ zh-CN:
   button_add_cost_type: "添加成本类型"
   button_cancel_edit_budget: "取消编辑预算"
   button_cancel_edit_costs: "取消编辑成本"
-  caption_labor: "劳动力"
-  caption_labor_costs: "实际劳动力成本"
+  caption_labor: "人工"
+  caption_labor_costs: "实际人工成本"
   caption_material_costs: "实际单位成本"
   budgets_title: "预算"
   events:
