@@ -31,9 +31,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= toolbar title: t(:label_overview) %>
 
-<div class="menu-blocks--container" data-qa-selector="menu-blocks--container">
+<div class="menu-blocks--container" data-test-selector="menu-blocks--container">
   <% @menu_nodes.each do |menu_node| -%>
-    <%= link_to menu_node.url, { class: 'menu-block', 'data-qa-selector': 'menu-block' } do %>
+    <%= link_to menu_node.url, { class: 'menu-block', 'data-test-selector': 'menu-block' } do %>
       <%= op_icon("menu-block--icon icon3 icon-#{(menu_node.icon || '')}") %>
       <span class="menu-block--title"> <%= menu_node.caption %> </span>
     <% end %>

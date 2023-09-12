@@ -62,7 +62,7 @@ module TeamPlanner
           method: :delete,
           data: {
             confirm: I18n.t(:text_are_you_sure),
-            'qa-selector': "team-planner-remove-#{query.id}"
+            'test-selector': "team-planner-remove-#{query.id}"
           },
           title: t(:button_delete)
         )

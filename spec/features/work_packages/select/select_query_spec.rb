@@ -86,7 +86,7 @@ RSpec.describe 'Query selection' do
       filters.expect_filter_by 'Assignee', 'is (OR)', ['me']
       filters.expect_filter_by 'Progress (%)', '>=', ['10'], 'percentageDone'
 
-      expect(page).to have_selector('[data-qa-selector="wp-filter-button"] .badge', text: '2')
+      expect(page).to have_selector("#{test_selector('wp-filter-button')} .badge", text: '2')
     end
   end
 

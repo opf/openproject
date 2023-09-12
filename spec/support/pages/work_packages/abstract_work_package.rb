@@ -120,7 +120,7 @@ module Pages
       attribute_expectations.each do |label_name, value|
         label = label_name.to_s
         if label == 'status'
-          expect(page).to have_selector("[data-qa-selector='op-wp-status-button'] .button", text: value)
+          expect(page).to have_selector("[data-test-selector='op-wp-status-button'] .button", text: value)
         else
           expect(page).to have_selector(".inline-edit--container.#{label.camelize(:lower)}", text: value)
         end
@@ -147,7 +147,7 @@ module Pages
     def expect_no_parent
       visit_tab!('relations')
 
-      expect(page).not_to have_selector('[data-qa-selector="op-wp-breadcrumb-parent"]')
+      expect(page).not_to have_selector('[data-test-selector="op-wp-breadcrumb-parent"]')
     end
 
     def expect_zen_mode
@@ -303,7 +303,7 @@ module Pages
     end
 
     def mark_notifications_as_read
-      find('[data-qa-selector="mark-notification-read-button"]').click
+      find('[data-test-selector="mark-notification-read-button"]').click
     end
 
     private

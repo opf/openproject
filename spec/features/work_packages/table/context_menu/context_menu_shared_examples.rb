@@ -87,7 +87,7 @@ RSpec.shared_examples_for 'provides a single WP context menu' do
       subject.submit_by_enter
 
       split_view.expect_and_dismiss_toaster message: 'Successful creation.'
-      expect(page).to have_selector('[data-qa-selector="op-wp-breadcrumb"]', text: "Parent:\n#{work_package.subject}")
+      expect(page).to have_selector('[data-test-selector="op-wp-breadcrumb"]', text: "Parent:\n#{work_package.subject}")
       wp = WorkPackage.last
       expect(wp.parent).to eq work_package
     end

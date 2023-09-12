@@ -51,19 +51,19 @@ module Pages
 
     def expect_type(name)
       page.within(card_element) do
-        expect(page).to have_selector('[data-qa-selector="op-wp-single-card--content-type"]', text: name.upcase)
+        expect(page).to have_selector('[data-test-selector="op-wp-single-card--content-type"]', text: name.upcase)
       end
     end
 
     def expect_subject(subject)
       page.within(card_element) do
-        expect(page).to have_selector('[data-qa-selector="op-wp-single-card--content-subject"]', text: subject)
+        expect(page).to have_selector('[data-test-selector="op-wp-single-card--content-subject"]', text: subject)
       end
     end
 
     def open_details_view
       card_element.hover
-      card_element.find('[data-qa-selector="op-wp-single-card--details-button"]').click
+      card_element.find('[data-test-selector="op-wp-single-card--details-button"]').click
 
       ::Pages::SplitWorkPackage.new work_package
     end

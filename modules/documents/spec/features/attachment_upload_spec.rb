@@ -69,7 +69,7 @@ RSpec.describe 'Upload attachment to documents',
       fill_in "Title", with: 'New documentation'
 
       # adding an image via the attachments-list
-      find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
+      find_test_selector("op-attachments--drop-box").drop(image_fixture.path)
 
       editor.attachments_list.expect_attached('image.png')
 

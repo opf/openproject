@@ -53,7 +53,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
     let(:item) { Redmine::MenuManager::MenuItem.new(:testing, '/test', caption: 'This is a test') }
     let(:expected) do
       <<~HTML
-        <a class="testing-menu-item op-menu--item-action" title="This is a test" data-qa-selector="op-menu--item-action" href="/test">
+        <a class="testing-menu-item op-menu--item-action" title="This is a test" data-test-selector="op-menu--item-action" href="/test">
           <span class="op-menu--item-title">
             <span class="ellipsis">This is a test</span>
           </span>
@@ -74,7 +74,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
       let(:expected) do
         <<~HTML.squish
           <li class="main-menu-item" data-name="single_node">
-            <a class="single-node-menu-item op-menu--item-action" title="Single node" data-qa-selector="op-menu--item-action" href="/test">
+            <a class="single-node-menu-item op-menu--item-action" title="Single node" data-test-selector="op-menu--item-action" href="/test">
               <span class="op-menu--item-title">
                 <span class="ellipsis">Single node</span>
               </span>
@@ -104,7 +104,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
         <<~HTML.squish
           <li data-name="parent_node" data-menus--main-target="item">
             <div class="main-item-wrapper" id="parent_node-wrapper">
-              <a class="parent-node-menu-item op-menu--item-action" title="Parent node" data-qa-selector="op-menu--item-action"
+              <a class="parent-node-menu-item op-menu--item-action" title="Parent node" data-test-selector="op-menu--item-action"
                  href="/test">
                 <span class="op-menu--item-title">
                 <span class="ellipsis">Parent node</span>
@@ -128,7 +128,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
               <li class="main-menu-item" data-name="child_one_node">
                 <a class="child-one-node-menu-item op-menu--item-action"
                    title="Child one node"
-                   data-qa-selector="op-menu--item-action" href="/test">
+                   data-test-selector="op-menu--item-action" href="/test">
                   <span class="op-menu--item-title">
                     <span class="ellipsis">Child one node</span>
                   </span>
@@ -137,7 +137,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
               <li class="main-menu-item" data-name="child_two_node">
                 <a class="child-two-node-menu-item op-menu--item-action"
                    title="Child two node"
-                   data-qa-selector="op-menu--item-action" href="/test">
+                   data-test-selector="op-menu--item-action" href="/test">
                   <span class="op-menu--item-title">
                     <span class="ellipsis">Child two node</span>
                   </span>
@@ -146,7 +146,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
               <li class="main-menu-item" data-name="child_three_node">
                 <a class="child-three-node-menu-item op-menu--item-action"
                    title="Child three node"
-                   data-qa-selector="op-menu--item-action"
+                   data-test-selector="op-menu--item-action"
                    href="/test">
                   <span class="op-menu--item-title">
                     <span class="ellipsis">Child three node</span>
@@ -155,7 +155,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
               </li>
               <li class="main-menu-item" data-name="child_three_inner_node">
                 <a class="child-three-inner-node-menu-item op-menu--item-action" title="Child three inner node"
-                   data-qa-selector="op-menu--item-action" href="/test">
+                   data-test-selector="op-menu--item-action" href="/test">
                   <span class="op-menu--item-title">
                     <span class="ellipsis">Child three inner node</span>
                   </span>
@@ -199,7 +199,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
           <li data-name="parent_node" data-menus--main-target="item">
             <div class="main-item-wrapper" id="parent_node-wrapper">
               <a class="parent-node-menu-item op-menu--item-action"
-                 title="Parent node" data-qa-selector="op-menu--item-action"
+                 title="Parent node" data-test-selector="op-menu--item-action"
                  href="/test">
                 <span class="op-menu--item-title">
                   <span class="ellipsis">Parent node</span>
@@ -276,7 +276,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
            <li data-name="parent_node" data-menus--main-target="item">
             <div class="main-item-wrapper" id="parent_node-wrapper">
               <a class="parent-node-menu-item op-menu--item-action"
-                 title="Parent node" data-qa-selector="op-menu--item-action"
+                 title="Parent node" data-test-selector="op-menu--item-action"
                  href="/test">
                 <span class="op-menu--item-title">
                   <span class="ellipsis">Parent node</span>
@@ -300,7 +300,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
                 <div class="main-item-wrapper" id="child_node-wrapper">
                   <a class="child-node-menu-item op-menu--item-action"
                      title="Child node"
-                     data-qa-selector="op-menu--item-action"
+                     data-test-selector="op-menu--item-action"
                      href="/test">
                     <span class="op-menu--item-title">
                       <span class="ellipsis">Child node</span>

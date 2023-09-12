@@ -89,9 +89,9 @@ RSpec.describe "Notification center navigation", js: true, with_cuprite: true do
 
       split_screen.expect_open
 
-      expect(page).to have_selector('[data-qa-selector="op-wp-breadcrumb-parent"]', text: second_work_package.subject)
+      expect(page).to have_test_selector('op-wp-breadcrumb-parent', text: second_work_package.subject)
 
-      page.find('[data-qa-selector="op-wp-breadcrumb-parent"]').click
+      page.find_test_selector('op-wp-breadcrumb-parent').click
 
       expect(page).to have_current_path "/work_packages/#{second_work_package.id}/activity"
 
@@ -100,7 +100,7 @@ RSpec.describe "Notification center navigation", js: true, with_cuprite: true do
 
       expect(page).to have_current_path "/notifications/details/#{work_package.id}/relations"
 
-      page.find('[data-qa-selector="op-wp-breadcrumb-parent"]').click
+      page.find_test_selector('op-wp-breadcrumb-parent').click
 
       expect(page).to have_current_path "/work_packages/#{second_work_package.id}/relations"
     end
