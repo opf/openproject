@@ -6,7 +6,7 @@ description: Learn about OpenProject's product development process and the RICE 
 keywords: product development, requirement process, RICE score
 ---
 
-# OpenProject product development handbook
+# OpenProject product development
 
 
 
@@ -24,9 +24,9 @@ The product development process involves various roles during the different phas
 
 ## 3. Phases
 
-The development process is split into three phases, with the first being "Requirements collection and specification", followed by "Building" to be completed by the "Release". While the split helps to explain the process, it is misleading at the same time as it suggests the process to be more segregated than it is actually lived. Whenever new knowledge is acquired, e.g. limitations in the technology or an additional feature aspect, that knowledge can be incorporated into the development without having to halt and restart the full process.
+The development process is split into three phases, with the first being "Requirements collection and specification", followed by "Building", to be completed by the "Release". While the split helps to explain the process, it is misleading at the same time as it suggests the process to be more segregated than it is actually lived. Whenever new knowledge is acquired, e.g. limitations in the technology or an additional feature aspect, that knowledge can be incorporated into the development without having to halt and restart the full process.
 
-At the same time, features are bundled into versions to be released. However, this does not limit the building of a feature to only take place in a single version, though. Since the application supports feature flags, features can be developed over multiple versions while remaining hidden until they are deemed complete, at which point the feature flag is removed and by that the feature officially released.
+At the same time, features are bundled into versions to be released. However, this does not limit the building of a feature to only take place in a single version. Since the application supports feature flags, features can be developed over multiple versions while remaining hidden until they are deemed complete, at which point the feature flag is removed and by that the feature officially released.
 
 Since multiple teams are working on different features of different sizes, the process for each can be in a different phase.
 
@@ -47,129 +47,162 @@ The specification phase may not be necessary for bug fixes, minor design changes
 
 ### 3.1.1 Evaluation phase 1: Requirement collection
 
-| Who is involved?                                             | Steps               | Output                                                       |
-| ------------------------------------------------------------ | ----- | :----------------------------------------------------------- |
-| - Entire team (incl. PMs, UXers, developers, etc.)    | 1. Collect requirements in Wish List | Feature request in Wish List |
-| - Customers |                                      |                              |
-| - Community |                                      |                              |
-| - Other stakeholders |                                      |                              |
+| Involved                                                                                                           | Output                                                     |
+|--------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------|
+| - Entire team (incl. PMs, UXers, developers, etc.)  <br/> - Customers <br/> - Community <br/> - Other stackholders | - Feature request in Wish List <br/> - Bugs in Bug backlog |
+
 
 The [OpenProject Wish List](https://community.openproject.com/projects/openproject/work_packages?query_id=180) is used to collect a backlog of potential validation opportunities. Requirements may come from customers, internal usage, support messages, community forums or through other communication channels.
 
 Requirements should be captured as a **Feature** or **Epic** (for larger features which we can be broken down into smaller features) and focus on describing the customer’s problem rather than jumping ahead to a solution.
 For a guideline on how to report feature requests, refer to the [Feature request guideline](../../development/submit-feature-idea/). Technical maintenance issues and refactorings can be tracked as **Code Maintenance**.
 
-**Bugs** should be reported separately and be assigned to the [Bug backlog](../../development/report-a-bug/).
+**Bugs** are [reported aside from the feature/epic track](../../development/report-a-bug/) as they are oftentimes not subject to an elaborate specification. On the other hand, sometimes bugs turn out to be caused by either the functionality implemented not meeting the users' expectations or by a not implemented feature. Upon identifying a bug to be such a case, it is treated as a feature. But most of the bugs upon collecting find their way into the [Bug backlog](https://community.openproject.org/projects/openproject/work_packages?query_id=491).
 
+### 3.1.2 Evaluation phase 2: Rough evaluation
 
+| Involved                                  | Output                               |
+|-------------------------------------------|:-------------------------------------|
+| - Product Manager <br/> <br/> - Developer | Feature with RICE score in Wish list |
 
-### 3.1.2 Evaluation phase 2: Requirement evaluation / Problem validation
+PMs regularly screen the requirements added to the Wish List and evaluate them:
 
-| Who is involved?  | Steps                                         | Output                               |
-| ----------------- | --------------------------------------------- | :----------------------------------- |
-| - Product Manager | 1. Structure requirements / remove duplicates | Evaluated feature in Product Backlog |
-| - UX Researcher   | 2. Set RICE values                            |                                      |
-|                   | 3. Create Opportunity Canvas                  |                                      |
-|                   | 4. Assign to product backlog                  |                                      |
-
-In regular intervals (e.g. once a week), PMs screen the requirements added to the Wish List and evaluate them:
-
-1. PM adjusts feature requests to a common format (see [Feature Request guideline](../../development/submit-feature-idea/)). 
+1. PM adjusts feature requests to a common format (see [Feature Request guideline](../../development/submit-feature-idea/)).
 2. PM rejects duplicated feature requests with a reference to the original feature requests.
-3. PM sets RICE values and a RICE score for feature requests.
-4. PM creates an Opportunity Canvas for requirements with a moderate to high level of uncertainty (> 80%) or for large requirements (effort > 1 week).
-5. PM assigns features to the product backlog (only features with RICE values are allowed in the [product backlog](https://community.openproject.com/projects/openproject/work_packages?query_id=2261)).
-6. For requirements which require an Opportunity Canvas: PM and UX Researcher meet to discuss appropriate research methodology to collect user feedback.
+3. PM sets RICE values and a RICE score for feature requests. They are helped by Developers as those are responsible for providing the estimation for the Effort-value.
+
+Oftentimes, the process stops for a time at this phase. This is because the RICE score is a good indicator for the value of a feature while not requiring a lot of effort to produce. The later steps however require considerably more work and as such cannot be done for all features. Only those features for which an implementation is considered likely in the near future are processed further. Reasons for considering a feature to be likely to be implemented can be the RICE score but also the financial backing of a customer.
+
+### 3.1.3 Evaluation phase 3: Requirement evaluation / Problem validation
+
+| Involved                                                  | Output                                                                      |
+|-----------------------------------------------------------|:----------------------------------------------------------------------------|
+| - Product Manager <br/> - UX Researcher <br/>             | Evaluated feature in Product Backlog (status "In specification") or version |
+
+Those features judged positively by the PM:
+
+1. PM creates an Opportunity Canvas for requirements with a moderate to high level of uncertainty (> 80%) or for large requirements (effort > 1 week).
+2. PM assigns features to the product backlog (only features with RICE values are allowed in the [product backlog](https://community.openproject.com/projects/openproject/work_packages?query_id=2261)).
+3. For requirements which require an Opportunity Canvas: PM and UX Researcher meet to discuss appropriate research methodology to collect user feedback.
    1. PM and UX Researcher schedule interviews with relevant users.
    2. PM and UX Researcher document interview results in opportunity canvas.
-7. PM changes feature status from “New” to “In Specification”.
-
-
+4. PM changes feature status from “New” to “In Specification”.
+5. PM assigns the feature either to the Product Backlog or to an upcoming version. Only rarely and in consultation with Development should PM assign a feature to the currently developed version.
 
 For internal or customer requirements requirements may directly be created, evaluated based on the [RICE framework](#34-rice-score) and assigned to the product backlog.
 
 
+### 3.1.4 Evaluation phase 4: Requirement specification
 
-### 3.1.3 Evaluation phase 3: Requirement specification
+| Involved                                                                   | Output                                                               |
+|----------------------------------------------------------------------------|:---------------------------------------------------------------------|
+| - Product Manager <br/> - UX Researcher <br/> - Developer <br/> - Designer | Specified feature (status “Specified”) in Product Backlog or version |
 
-
-
-| Who is involved?  | Steps                                    | Output                                                    |
-| ----------------- | ---------------------------------------- | :-------------------------------------------------------- |
-| - Product Manager | 1. Create mockup                         | Specified feature (status “Specified”) in Product Backlog |
-| - Developer       | 2. Validate & add effort / cost estimate |                                                           |
-| - UX Researcher   | 3. Assign to next product version        |                                                           |
-| - Designer        |                                          |                                                           |
-
-Based on the validated and prioritized features in the product backlog (status: “In specification”) the requirements with the highest RICE score are specified in more detail:
+Based on the Product Managers judgement (taking among other things the RICE score and customer backing into account) validated and prioritized features (status: “In specification”) are specified in more detail: 
 
 1. PM specifies the solution and creates mockups (e.g. PowerPoint, Google Docs, …).
 2. PM updates the Opportunity Canvas (especially “Solution” section).
 3. PM and Developer validate solution (technical feasibility / solution).
-4. PM / UX Researcher validates the solution through user interviews.
-5. PM / UX Researcher iterates through possible solutions based on user interviews and updates the Opportunity canvas.
+4. PM / UX Researcher validates the solution through user interviews. (optional)
+5. PM / UX Researcher iterates through possible solutions based on user interviews and updates the Opportunity canvas. (optional)
 6. PM / Developer adds more detailed effort and cost estimates.
-7. Designer creates visuals based on mockups (if necessary).
-8. PM validates design with users (user interviews) (optional)
-9. PM in coordination with Developer assigns feature to upcoming product version.
-10. PM hands over features to the Developer.
+7. Designer is assigned to the "Designer" field of the feature.
+8. Designer creates visuals based on mockups (if necessary).
+9. PM validates design with users (user interviews) (optional)
+10. PM in coordination with Developer assigns feature to upcoming product version.
+11. PM hands over features to the Developer.
+12. PM highlights features that require change in documentation if necessary (custom field “Requires doc change”).
 
-The features in a product version need to be specified at least one iteration prior to development start.
-
+The features in a product version need to be specified at least one iteration prior to development start. If a feature is added to the current version it needs to be specified with high priority. If it is added to the next version it can be specified with a lower priority but still higher then other features in the product backlog.
 
 ## 3.2 Building phase
 
 During the building phase we develop, improve and test the validated solutions.
 
+### 3.2.1 Building phase 1: Preparation
 
+| Involved                                                        | Output                                                                                                     |
+|-----------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------|
+| - Developer <br/> - QA <br/> - Product Manager <br/> - Designer | Technical work packages ("Implementation") ready for implementation <br/> Test cases for quality assurance |
 
-### 3.2.1 Building phase 1: Development
+The preparations the development team conducts consists of two parts:
+* Preparing for the implementation
+* Preparing for the quality assurance
 
-| Who is involved? | Steps                         | Output                                                  |
-| ---------------- | ----------------------------- | :------------------------------------------------------ |
-| - Developer      | 1. Develop features           | Developed features on test environment (feature freeze) |
-| - DevOps         | 2. Deploy on test environment |                                                         |
+For the implementation, prior to working on a new feature, the development team analyzes the feature from a technical viewpoint and breaks them down into technical work packages:
 
-Prior to working on a new product version, the development team analyzes the features from a technical viewpoint and breaks them down into technical work packages:
+1. A developer responsible for guiding the feature implementation is selected, the "Feature lead". Additional developers are assigned to help in the implementation.
+2. Developer breaks feature / Epics into technical work packages of type "Implementation". These work packages contain technical specifications and also break down the feature into chunks that can be implemented by a single developer.
+   1. Open topics (i.e. unclear specification and omissions in the specification) are clarified together with the PM/Designer.
+3. The Feature lead developer presents the feature to the whole team in a weekly team meeting. Doing so ensures a thorough understanding of the feature by the feature lead and provides the opportunity for feedback and spreads knowledge about the feature to previously uninvolved members including support, marketing and sales.
+      
+For the quality assurance, prior to testing the feature, QA analyzes the feature from a testing viewpoint:
 
-1. Developer breaks feature / Epics into technical work packages.
-2. Developer adds technical specifications (on GitHub).
-3. Developer starts developing features (status: “In development”).
-4. Developer hands over feature for review (status: “In review”).
-5. Developer merges feature (status: “merged”).
-6. Developer highlights features that require change in documentation (custom field “Requires doc change”).
-7. DevOps deploys features on a test environment.
+1. A tester responsible for the quality assurance of the feature is selected. 
+2. The tester generates test cases out of the specification
+  1. Open topics (i.e. unclear specification and omissions in the specification) are clarified together with the PM/Designer.
 
-Only in rare exceptions and under consultation of developers can additional features be added to a version (feature freeze).
+Ideally the preparation of both QA and development happen at the same time so that the specification can be adjusted as early as possible. At the same time, there isn't an explicit need for it to be synchronized.
 
+### 3.2.2 Building phase 2: Implementation
 
+| Involved           | Output                                 |
+|--------------------|:---------------------------------------|
+| - Developer        | Developed feature on test environment  |
 
-### 3.2.2 Building phase 2: Quality Assurance
+1. The feature lead developer distributes the work on the feature amongst all developers assigned.
+   1. The feature is put into the status "In development".
+2. Developer starting on a topic put their "Implementation" work package into the status "In development" and work on implementing the feature. Automated tests are added as well.
+3. Developer creates a pull request on GitHub where automated tests are run.
+4. Developer hands over "Implementation" work package upon completion to another developer for review (status: “In review”).
+5. Other Developer merges pull request and closes the "Implementation" work package.
+   1. Every merged PR is deployed automatically on the test environment and can be tested by QA.
+6. The feature lead developer updates the status of the feature to "merged" once the feature is fully implemented. This can be done even with bugs still open that QA has already identified.
+7. Developer highlights features that require change in documentation if necessary (custom field “Requires doc change”).
 
-| Who is involved?  | Steps                                  | Output                        |
-| ----------------- | -------------------------------------- | :---------------------------- |
-| - Tester          | 1. Test features                       | Tested stable product version |
-| - Product Manager | 2. Report bugs                         |                               |
-| - Developer       | 3. Deploy on community.openproject.com |                               |
-| - DevOps          |                                        |                               |
+### 3.2.3 Building phase 3: Quality Assurance
 
+| Involved                     | Output         |
+|------------------------------|:---------------|
+| - QA                         | Tested feature |
+
+1. Tester adapts test plan if acceptance criteria was altered since the original creation of the test plan.
+2. Tester tests feature (based on test plan) 
+   1. Tester adjusts status when no errors in feature (status: “tested”).
+   2. Tester adjusts status when errors occur (status: “test failed”) and notifies developer (move back to phase 2 - Implementation)
+3. PM tests features to see if requirements are met, discusses necessary changes with developer (acceptance test) (status: “closed”).
+4. Tester performs regression test for most important functionality
+
+5. Tester changes status when bug has been resolved (status: “closed”).
 Building phase 1 (Development) and phase 2 (Quality Assurance) run partly in parallel / may loop since tested features may need to be adjusted.
-
-1. Tester tests features and bugs for functionality (based on acceptance criteria) 
-   1. Tester adjusts status when no errors in features (status: “tested”).
-   2. Tester changes status when bug has been resolved (status: “closed”).
-   3. Tester adjusts status when errors occur (status: “test failed”) and notifies developer (move back to phase 1 - Development)
-2. PM tests features to see if requirements are met, discusses necessary changes with developer (acceptance test) (status: “closed”).
-3. Tester performs regression test for most important functionality
-4. DevOps deploys release on community environment for further testing.
-5. Product Manager updates documentation based on feature changes.
-
-
 
 When all features, bugs have been tested successfully, regression testing was performed successfully and no critical errors are reported on community.openproject.com OpenProject environment, new product version is prepared for release.
 
+### 3.2.3 Building phase 4: Acceptance test
 
+| Involved          | Output         |
+|-------------------|:---------------|
+| - Product manager | Tested feature |
 
+1. Tester tests feature (based on acceptance criteria)
+1. Tester adjusts status when no errors in feature (status: “tested”).
+2. Tester adjusts status when errors occur (status: “test failed”) and notifies developer (move back to phase 1 - Development)
+2. PM tests features to see if requirements are met, discusses necessary changes with developer (acceptance test) (status: “closed”).
+3. Tester performs regression test for most important functionality
+
+2. Tester changes status when bug has been resolved (status: “closed”).
+   Building phase 1 (Development) and phase 2 (Quality Assurance) run partly in parallel / may loop since tested features may need to be adjusted.
+
+When all features, bugs have been tested successfully, regression testing was performed successfully and no critical errors are reported on community.openproject.com OpenProject environment, new product version is prepared for release.
+
+### 3.2.3 Building phase 4: Documentation
+
+| Involved                           | Output             |
+|------------------------------------|:-------------------|
+| - Product manager <br/> - Designer | Documented feature |
+
+4. DevOps deploys release on community environment for further testing.
+5. Product Manager updates documentation based on feature changes.
 ## 3.3 Release phase
 
 During the release phase, the new OpenProject version is rolled out, release notes are published and lessons learned are documented.
