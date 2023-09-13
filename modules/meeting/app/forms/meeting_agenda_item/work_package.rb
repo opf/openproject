@@ -35,7 +35,7 @@ class MeetingAgendaItem::WorkPackage < ApplicationForm
       autocomplete_options: {
         id: "op-agenda-items-wp-autocomplete",
         data: {
-          'qa-selector': 'op-agenda-items-wp-autocomplete'
+          'test-selector': 'op-agenda-items-wp-autocomplete'
         },
         resource: 'work_packages',
         searchKey: 'subjectOrId',

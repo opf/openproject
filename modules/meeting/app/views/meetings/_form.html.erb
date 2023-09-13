@@ -41,7 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
       <div class="op-tile-block">
         <label class="op-tile-block--tile form--radio-button-container -wide"
                for="meeting_type_classic"
-               data-qa-selector="op-tile-block">
+               data-test-selector="op-tile-block">
           <div class="op-tile-block--content">
             <%= styled_radio_button_tag 'meeting[type]',
                                         'classic',
@@ -49,7 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
                                         no_label: true,
                                         class: 'radio-button' %>
             <div>
-              <span data-qa-selector="op-tile-block-title" class="op-tile-block--title">
+              <span data-test-selector="op-tile-block-title" class="op-tile-block--title">
                 <%= t('meeting.types.classic') %>
               </span>
               <p class="op-tile-block--description">
@@ -60,7 +60,7 @@ See COPYRIGHT and LICENSE files for more details.
         </label>
         <label class="op-tile-block--tile form--radio-button-container -wide"
                for="meeting_type_structured"
-               data-qa-selector="op-tile-block">
+               data-test-selector="op-tile-block">
           <div class="op-tile-block--content">
             <%= styled_radio_button_tag 'meeting[type]',
                                         'structured',
@@ -68,7 +68,7 @@ See COPYRIGHT and LICENSE files for more details.
                                         no_label: true,
                                         class: 'radio-button' %>
             <div>
-              <span data-qa-selector="op-tile-block-title" class="op-tile-block--title">
+              <span data-test-selector="op-tile-block-title" class="op-tile-block--title">
                 <%= t('meeting.types.structured') %>
               </span>
               <p class="op-tile-block--description">

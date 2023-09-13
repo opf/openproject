@@ -122,7 +122,7 @@ RSpec.describe 'Structured meetings CRUD', :js, with_cuprite: true do
 
     # Can link work packages
     show_page.add_agenda_item(type: WorkPackage) do
-      select_autocomplete(find_qa_selector('op-agenda-items-wp-autocomplete'),
+      select_autocomplete(find_test_selector('op-agenda-items-wp-autocomplete'),
                           query: 'task',
                           results_selector: 'body')
       click_button 'Save'
@@ -133,14 +133,14 @@ RSpec.describe 'Structured meetings CRUD', :js, with_cuprite: true do
 
     # user can see actions
     expect(page).to have_selector('#meeting-agenda-items-new-button-component')
-    expect(page).to have_qa_selector('op-meeting-agenda-actions', count: 3)
+    expect(page).to have_test_selector('op-meeting-agenda-actions', count: 3)
 
     # other_use can view, but not edit
     login_as other_user
     show_page.visit!
 
     expect(page).not_to have_selector('#meeting-agenda-items-new-button-component')
-    expect(page).not_to have_qa_selector('op-meeting-agenda-actions')
+    expect(page).not_to have_test_selector('op-meeting-agenda-actions')
   end
 
   context 'with a work package reference to another' do

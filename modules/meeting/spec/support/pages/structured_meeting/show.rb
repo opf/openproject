@@ -50,7 +50,7 @@ module Pages::StructuredMeeting
 
     def assert_agenda_order!(*titles)
       retry_block do
-        found = page.all('[data-qa-selector="op-meeting-agenda-title"]').map(&:text)
+        found = page.all(:test_id, 'op-meeting-agenda-title').map(&:text)
         raise "Expected order of agenda items #{titles.inspect}, but found #{found.inspect}" if titles != found
       end
     end
@@ -64,7 +64,7 @@ module Pages::StructuredMeeting
     end
 
     def expect_agenda_item(title:)
-      expect(page).to have_selector('[data-qa-selector="op-meeting-agenda-title"]', text: title)
+      expect(page).to have_test_selector('op-meeting-agenda-title', text: title)
     end
 
     def expect_agenda_link(item)
@@ -77,12 +77,12 @@ module Pages::StructuredMeeting
     end
 
     def expect_no_agenda_item(title:)
-      expect(page).not_to have_selector('[data-qa-selector="op-meeting-agenda-title"]', text: title)
+      expect(page).not_to have_test_selector('op-meeting-agenda-title', text: title)
     end
 
     def select_action(item, action)
       page.within("#meeting-agenda-items-item-component-#{item.id}") do
-        page.find('[data-qa-selector="op-meeting-agenda-actions"]').click
+        page.find_test_selector('op-meeting-agenda-actions').click
       end
 
       page.within('.Overlay') do
