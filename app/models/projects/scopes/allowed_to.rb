@@ -36,7 +36,7 @@ module Projects::Scopes
       def allowed_to(user, permission)
         permissions = allowed_to_permissions(permission)
 
-        if user.admin?
+        if user.admin? && permissions.all?(&:grant_to_admin?)
           where(id: allowed_to_admin_relation(permissions))
         elsif user.anonymous?
           where(id: allowed_to_non_member_relation(user, permissions))
