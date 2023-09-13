@@ -197,35 +197,42 @@ class Storages::GroupFolderPropertiesSyncService
   end
 
   def project_folder_permissions(project:)
+    {
+      users: admins_project_folder_permissions.merge!(members_project_folder_permissions(project:)),
+      groups: { "#{@group}": NO_PERMISSIONS }
+    }
+  end
+
+  def admins_project_folder_permissions
+    @admin_nextcloud_usernames.each_with_object(
+      "#{@nextcloud_system_user}": ALL_PERMISSIONS
+    ) do |admin_nextcloud_username, hash_map|
+      hash_map[admin_nextcloud_username.to_sym] = ALL_PERMISSIONS
+    end
+  end
+
+  def members_project_folder_permissions(project:)
+    tokens_query(project:).each_with_object({}) do |token, permissions|
+      nextcloud_username = token.origin_user_id
+      permissions[nextcloud_username.to_sym] = calculate_permissions(user: token.user, project:)
+      @nextcloud_usernames_used_in_openproject << nextcloud_username
+    end
+  end
+
+  def tokens_query(project:)
     tokens_query = OAuthClientToken
-                 .where(oauth_client: @storage.oauth_client)
-                 .where.not(id: @admin_tokens_query)
-                 .includes(:user)
+                     .where(oauth_client: @storage.oauth_client)
+                     .where.not(id: @admin_tokens_query)
+                     .includes(:user)
+                     .order(:id)
     # The user scope is required in all cases except one:
     #   when the project is public and non member has at least one storage permission
     #   then all non memebers should have access to the project folder
     if !(project.public? && Role.non_member.permissions.intersect?(PERMISSIONS_KEYS))
       tokens_query = tokens_query.where(users: project.users)
     end
-    tokens_query.each_with_object({
-                                    users: admins_project_folder_permissions,
-                                    groups: { "#{@group}": NO_PERMISSIONS }
-                                  }) do |token, permissions|
-      nextcloud_username = token.origin_user_id
-      permissions[:users][nextcloud_username.to_sym] = calculate_permissions(user: token.user, project:)
-      @nextcloud_usernames_used_in_openproject << nextcloud_username
-    end
-  end
 
-  def admins_project_folder_permissions
-    @admins_project_folder_permissions ||=
-      {
-        "#{@nextcloud_system_user}": ALL_PERMISSIONS
-      }.tap do |map|
-        @admin_nextcloud_usernames.each do |admin_nextcloud_username|
-          map[admin_nextcloud_username.to_sym] = ALL_PERMISSIONS
-        end
-      end
+    tokens_query
   end
 
   def add_active_users_to_group

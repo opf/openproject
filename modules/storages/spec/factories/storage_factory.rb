@@ -29,12 +29,19 @@
 #++
 
 FactoryBot.define do
-  factory :storage, class: '::Storages::Storage' do
+  factory :storage, class: 'Storages::Storage' do
     sequence(:name) { |n| "Storage #{n}" }
     creator factory: :user
 
+    # rubocop:disable FactoryBot/FactoryAssociationWithStrategy
+    # For some reason the order of saving breaks STI
     trait :with_oauth_client do
-      oauth_client
+      oauth_client { build(:oauth_client) }
+    end
+    # rubocop:enable FactoryBot/FactoryAssociationWithStrategy
+
+    factory :one_drive_storage, class: "Storages::OneDriveStorage" do
+      host { nil }
     end
   end
 

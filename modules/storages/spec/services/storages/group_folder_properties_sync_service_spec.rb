@@ -231,6 +231,12 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
                   <nc:acl-mask>31</nc:acl-mask>
                   <nc:acl-permissions>3</nc:acl-permissions>
                 </nc:acl>
+                <nc:acl>
+                  <nc:acl-mapping-type>user</nc:acl-mapping-type>
+                  <nc:acl-mapping-id>Yoda</nc:acl-mapping-id>
+                  <nc:acl-mask>31</nc:acl-mask>
+                  <nc:acl-permissions>3</nc:acl-permissions>
+                </nc:acl>
               </nc:acl-list>
             </d:prop>
           </d:set>
@@ -315,6 +321,43 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
             </d:propstat>
           </d:response>
         </d:multistatus>
+      XML
+    end
+    let(:set_permissions_request_body4) do
+      <<~XML
+        <?xml version="1.0"?>
+        <d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
+          <d:set>
+            <d:prop>
+              <nc:acl-list>
+                <nc:acl>
+                  <nc:acl-mapping-type>group</nc:acl-mapping-type>
+                  <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
+                  <nc:acl-mask>31</nc:acl-mask>
+                  <nc:acl-permissions>0</nc:acl-permissions>
+                </nc:acl>
+                <nc:acl>
+                  <nc:acl-mapping-type>user</nc:acl-mapping-type>
+                  <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
+                  <nc:acl-mask>31</nc:acl-mask>
+                  <nc:acl-permissions>31</nc:acl-permissions>
+                </nc:acl>
+                <nc:acl>
+                  <nc:acl-mapping-type>user</nc:acl-mapping-type>
+                  <nc:acl-mapping-id>Darth Vader</nc:acl-mapping-id>
+                  <nc:acl-mask>31</nc:acl-mask>
+                  <nc:acl-permissions>31</nc:acl-permissions>
+                </nc:acl>
+                <nc:acl>
+                  <nc:acl-mapping-type>user</nc:acl-mapping-type>
+                  <nc:acl-mapping-id>Obi-Wan</nc:acl-mapping-id>
+                  <nc:acl-mask>31</nc:acl-mask>
+                  <nc:acl-permissions>3</nc:acl-permissions>
+                </nc:acl>
+              </nc:acl-list>
+            </d:prop>
+          </d:set>
+        </d:propertyupdate>
       XML
     end
     let(:set_permissions_response_body4) do
@@ -413,6 +456,12 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
                   <nc:acl-mask>31</nc:acl-mask>
                   <nc:acl-permissions>1</nc:acl-permissions>
                 </nc:acl>
+                <nc:acl>
+                  <nc:acl-mapping-type>user</nc:acl-mapping-type>
+                  <nc:acl-mapping-id>Yoda</nc:acl-mapping-id>
+                  <nc:acl-mask>31</nc:acl-mask>
+                  <nc:acl-permissions>1</nc:acl-permissions>
+                </nc:acl>
               </nc:acl-list>
             </d:prop>
           </d:set>
@@ -441,11 +490,29 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
     end
     let(:request_stubs) { [] }
 
-    let(:project1) { create(:project, name: '[Sample] Project Name / Ehuu', members: { user => ordinary_role }) }
-    let(:project2) { create(:project, name: 'Jedi Project Folder ///', members: { user => ordinary_role }) }
-    let(:project3) { create(:project, name: 'NOT ACTIVE PROJECT', active: false, members: { user => ordinary_role }) }
-    let(:public_project) { create(:public_project, name: 'PUBLIC PROJECT', active: true) }
-    let(:user) { create(:user) }
+    let(:project1) do
+      create(:project,
+             name: '[Sample] Project Name / Ehuu',
+             members: { multiple_projects_user => ordinary_role, single_project_user => ordinary_role })
+    end
+    let(:project2) do
+      create(:project,
+             name: 'Jedi Project Folder ///',
+             members: { multiple_projects_user => ordinary_role })
+    end
+    let(:project3) do
+      create(:project,
+             name: 'NOT ACTIVE PROJECT',
+             active: false,
+             members: { multiple_projects_user => ordinary_role })
+    end
+    let(:public_project) do
+      create(:public_project,
+             name: 'PUBLIC PROJECT',
+             active: true)
+    end
+    let(:single_project_user) { create(:user) }
+    let(:multiple_projects_user) { create(:user) }
     let!(:admin) { create(:admin) }
     let(:ordinary_role) { create(:role, permissions: %w[read_files write_files]) }
     let!(:non_member_role) { create(:non_member, permissions: %w[read_files]) }
@@ -489,7 +556,11 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
     before do
       create(:oauth_client_token,
              origin_user_id: 'Obi-Wan',
-             user:,
+             user: multiple_projects_user,
+             oauth_client:)
+      create(:oauth_client_token,
+             origin_user_id: 'Yoda',
+             user: single_project_user,
              oauth_client:)
       create(:oauth_client_token,
              origin_user_id: 'Darth Vader',
@@ -519,7 +590,8 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
                          ).to_return(status: 207, body: propfind_response_body1, headers: {})
       request_stubs << stub_request(
         :mkcol,
-        "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})"
+        "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
+        "%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})"
       ).with(
         headers: {
           'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
@@ -537,6 +609,14 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
         }
       ).to_return(status: 207, body: propfind_response_body2, headers: {})
       request_stubs << stub_request(:post, "#{storage.host}/ocs/v1.php/cloud/users/Obi-Wan/groups")
+                         .with(
+                           body: "groupid=OpenProject",
+                           headers: {
+                             'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
+                             'Ocs-Apirequest' => 'true'
+                           }
+                         ).to_return(status: 200, body: add_user_to_group_response_body, headers: {})
+      request_stubs << stub_request(:post, "#{storage.host}/ocs/v1.php/cloud/users/Yoda/groups")
                          .with(
                            body: "groupid=OpenProject",
                            headers: {
@@ -576,23 +656,23 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
       request_stubs << stub_request(
         :proppatch,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
+        "Lost%20Jedi%20Project%20Folder%20%232"
+      ).with(
+        body: set_permissions_request_body3,
+        headers: {
+          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
+        }
+      ).to_return(status: 207, body: set_permissions_response_body3, headers: {})
+      request_stubs << stub_request(
+        :proppatch,
+        "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
         "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29"
       ).with(
-        body: set_permissions_request_body2,
+        body: set_permissions_request_body4,
         headers: {
           'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
         }
       ).to_return(status: 207, body: set_permissions_response_body4, headers: {})
-      request_stubs << stub_request(
-        :proppatch,
-        "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-        "PUBLIC%20PROJECT%20%28#{public_project.id}%29"
-      ).with(
-        body: set_permissions_request_body6,
-        headers: {
-          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
-        }
-      ).to_return(status: 207, body: set_permissions_response_body6, headers: {})
       request_stubs << stub_request(
         :proppatch,
         "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
@@ -604,6 +684,16 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
         }
       ).to_return(status: 207, body: set_permissions_response_body5, headers: {})
       request_stubs << stub_request(
+        :proppatch,
+        "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
+        "PUBLIC%20PROJECT%20%28#{public_project.id}%29"
+      ).with(
+        body: set_permissions_request_body6,
+        headers: {
+          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
+        }
+      ).to_return(status: 207, body: set_permissions_response_body6, headers: {})
+      request_stubs << stub_request(
         :delete,
         "#{storage.host}/ocs/v1.php/cloud/users/Darth%20Maul/groups?groupid=OpenProject"
       ).with(
@@ -612,16 +702,6 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
           'Ocs-Apirequest' => 'true'
         }
       ).to_return(status: 200, body: remove_user_from_group_response, headers: {})
-      request_stubs << stub_request(
-        :proppatch,
-        "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-        "Lost%20Jedi%20Project%20Folder%20%232"
-      ).with(
-        body: set_permissions_request_body3,
-        headers: {
-          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
-        }
-      ).to_return(status: 207, body: set_permissions_response_body3, headers: {})
     end
 
     it 'sets project folders properties' do

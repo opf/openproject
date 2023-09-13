@@ -48,11 +48,11 @@ zh-CN:
         action_text_status: >
           基本看板样式的面板，包含“待办”、“正在进行”、“已完成”等状态的列。
         action_text_assignee: >
-          具有根据所分配用户自动生成的列的面板。适合分发工作包。
+          基于分配给用户的自动列看板，是分派工作包非常理想的工具。
         action_text_version: >
           基于版本属性的自动列面板。用于产品开发规划。
         action_type:
-          assignee: 指派人
+          assignee: 受理人
           status: 状态
           version: 版本
           subproject: 子项目
@@ -67,7 +67,7 @@ zh-CN:
         select_attribute: "操作属性"
       add_list_modal:
         labels:
-          assignee: 选择要添加到新指派人列表的用户
+          assignee: 选择要添加到新受理人列表的用户
           status: 选择要添加到新列表的状态
           version: 选择要添加到新列表的版本
           subproject: 选择要添加到新列表的子项目

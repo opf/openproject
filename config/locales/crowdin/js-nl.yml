@@ -416,7 +416,7 @@ nl:
     label_filename: "Bestand"
     label_filesize: "Grootte"
     label_general: "Algemeen"
-    label_global_roles: "Globale functies"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'Groep'
     label_group_by: "Groeperen op"

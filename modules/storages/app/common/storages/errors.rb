@@ -30,10 +30,15 @@
 
 module Storages
   module Errors
-    class OperationNotSupported < StandardError; end
+    class BaseError < StandardError; end
+    class MissingContract < BaseError; end
+    class OperationNotSupported < BaseError; end
+    class ResolverStandardError < BaseError; end
 
-    class MissingContract < StandardError; end
-
-    class ResolverStandardError < StandardError; end
+    class SubclassResponsibility < BaseError
+      def message
+        "A subclass needs to implement its own version of this method."
+      end
+    end
   end
 end
