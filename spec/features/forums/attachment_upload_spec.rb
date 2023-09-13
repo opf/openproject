@@ -111,7 +111,6 @@ RSpec.describe 'Upload attachment to forum message', js: true do
     show_page = create_page.click_save
 
     attachments_list.expect_attached('image.png')
-
     within '.toolbar-items' do
       click_on "Edit"
     end
