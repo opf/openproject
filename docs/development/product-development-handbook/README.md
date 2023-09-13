@@ -132,15 +132,13 @@ The preparations the development team conducts consists of two parts:
 For the implementation, prior to working on a new feature, the development team analyzes the feature from a technical viewpoint and breaks them down into technical work packages:
 
 1. A developer responsible for guiding the feature implementation is selected, the "Feature lead". Additional developers are assigned to help in the implementation.
-2. Developer breaks feature / Epics into technical work packages of type "Implementation". These work packages contain technical specifications and also break down the feature into chunks that can be implemented by a single developer.
-   1. Open topics (i.e. unclear specification and omissions in the specification) are clarified together with the PM/Designer.
+2. Developer breaks feature / Epics into technical work packages of type "Implementation". These work packages contain technical specifications and also break down the feature into chunks that can be implemented by a single developer. Open topics (i.e. unclear specification and omissions in the specification) are clarified together with the PM/Designer.
 3. The Feature lead developer presents the feature to the whole team in a weekly team meeting. Doing so ensures a thorough understanding of the feature by the feature lead and provides the opportunity for feedback and spreads knowledge about the feature to previously uninvolved members including support, marketing and sales.
-      
+
 For the quality assurance, prior to testing the feature, QA analyzes the feature from a testing viewpoint:
 
 1. A tester responsible for the quality assurance of the feature is selected. 
-2. The tester generates test cases out of the specification
-  1. Open topics (i.e. unclear specification and omissions in the specification) are clarified together with the PM/Designer.
+2. The tester generates test cases out of the specification. Open topics (i.e. unclear specification and omissions in the specification) are clarified together with the PM/Designer.
 
 Ideally the preparation of both QA and development happen at the same time so that the specification can be adjusted as early as possible. At the same time, there isn't an explicit need for it to be synchronized.
 
@@ -150,15 +148,19 @@ Ideally the preparation of both QA and development happen at the same time so th
 |--------------------|:---------------------------------------|
 | - Developer        | Developed feature on test environment  |
 
-1. The feature lead developer distributes the work on the feature amongst all developers assigned.
-   1. The feature is put into the status "In development".
+1. The feature lead developer distributes the work on the feature amongst all developers assigned. The feature is put into the status "In development".
 2. Developer starting on a topic put their "Implementation" work package into the status "In development" and work on implementing the feature. Automated tests are added as well.
-3. Developer creates a pull request on GitHub where automated tests are run.
+3. Developer creates a pull request on GitHub where all automated tests are run.
 4. Developer hands over "Implementation" work package upon completion to another developer for review (status: “In review”).
-5. Other Developer merges pull request and closes the "Implementation" work package.
-   1. Every merged PR is deployed automatically on the test environment and can be tested by QA.
+5. Developer (different from the one implementing the code) merges the pull request and closes the "Implementation" work package.
 6. The feature lead developer updates the status of the feature to "merged" once the feature is fully implemented. This can be done even with bugs still open that QA has already identified.
 7. Developer highlights features that require change in documentation if necessary (custom field “Requires doc change”).
+
+In case the requirements are identified to be unclear or incomplete during the implementation, the developer together with PM/Designer clarifies the requirements. The specification and other artifacts are updated accordingly.
+
+Every merged PR is deployed automatically on the test environment and can be tested by QA at this point in time so even before a feature is completely developed.
+
+Changes to the technical documentation, e.g API documentation, are done in parallel to the implementation.
 
 ### 3.2.3 Building phase 3: Quality Assurance
 
@@ -170,86 +172,84 @@ Ideally the preparation of both QA and development happen at the same time so th
 2. Tester tests feature (based on test plan) 
    1. Tester adjusts status when no errors in feature (status: “tested”).
    2. Tester adjusts status when errors occur (status: “test failed”) and notifies developer (move back to phase 2 - Implementation)
-3. PM tests features to see if requirements are met, discusses necessary changes with developer (acceptance test) (status: “closed”).
-4. Tester performs regression test for most important functionality
 
-5. Tester changes status when bug has been resolved (status: “closed”).
-Building phase 1 (Development) and phase 2 (Quality Assurance) run partly in parallel / may loop since tested features may need to be adjusted.
+The Implementation and Quality Assurance phase can run partly in parallel for those parts of a feature already implemented and  may loop since implemented features may need to be adjusted.
 
 When all features, bugs have been tested successfully, regression testing was performed successfully and no critical errors are reported on community.openproject.com OpenProject environment, new product version is prepared for release.
 
 ### 3.2.3 Building phase 4: Acceptance test
 
-| Involved          | Output         |
-|-------------------|:---------------|
-| - Product manager | Tested feature |
+| Involved          | Output           |
+|-------------------|:-----------------|
+| - Product manager | Accepted feature |
 
-1. Tester tests feature (based on acceptance criteria)
-1. Tester adjusts status when no errors in feature (status: “tested”).
-2. Tester adjusts status when errors occur (status: “test failed”) and notifies developer (move back to phase 1 - Development)
-2. PM tests features to see if requirements are met, discusses necessary changes with developer (acceptance test) (status: “closed”).
-3. Tester performs regression test for most important functionality
+1. PM tests features to see if requirements are met, discusses necessary changes with developer (acceptance test) (status: “closed”).
 
-2. Tester changes status when bug has been resolved (status: “closed”).
-   Building phase 1 (Development) and phase 2 (Quality Assurance) run partly in parallel / may loop since tested features may need to be adjusted.
-
-When all features, bugs have been tested successfully, regression testing was performed successfully and no critical errors are reported on community.openproject.com OpenProject environment, new product version is prepared for release.
-
-### 3.2.3 Building phase 4: Documentation
+### 3.2.4 Building phase 4: Documentation
 
 | Involved                           | Output             |
 |------------------------------------|:-------------------|
 | - Product manager <br/> - Designer | Documented feature |
 
-4. DevOps deploys release on community environment for further testing.
-5. Product Manager updates documentation based on feature changes.
+1. PM/Designer writes the user documentation for the developed feature. 
+
+### 3.3.5 Building phase 5: Stabilization
+
+| Involved                                | Output                                                  |
+|-----------------------------------------|:--------------------------------------------------------|
+| - QA <br/> - Developers  <br/> - DevOps | Release candidate deployed in community.openproject.com |
+
+Developed features are bundled into a version that is released to the public via different channels (package, SaaS, docker, ...). This means that not every feature will receive its own release but rather that a feature's release will happen together with other features as well as bugfixes. This offers the opportunity to add another quality assurance step. At the end of building multiple features, the application in its entirety is tested again and bugs identified can be fixed. This includes bugs that are in the newly developed feature, regressions caused by the feature development as well as bugs originating in former versions.
+
+1. DevOps creates release branch for new version.
+2. Tester performs regression test.
+3. QA identifies important bugs to be fixed in the release.
+4. Developer fixes bugs from regression testing as well as bugs from former versions.
+5. Tester retests bugs
+  * Tester adjusts status on errors (status: “test failed").
+  * Tester adjusts status when no errors are found (status: “closed").
+6. Developer fixes bugs that were not fixed successfully.
+7. DevOps deploys release candidate on community.openproject.com.
+8. DevOps monitors for failures.
+9. QA vets incoming bug reports and checks if they need to be fixed before the release.
+
+Those steps can be repeated multiple times until the release candidate is deemed stable enough to be released.
+
+For patch level releases, where only bugs are addressed, the process for a version starts at this point.
+  
 ## 3.3 Release phase
 
 During the release phase, the new OpenProject version is rolled out, release notes are published and lessons learned are documented.
 
-### 3.3.1 Stabilization
-
-Continous bugfixing as well as end of release bugfixing.
-
+Phase 1 “Rollout” and phase 2 “Go to market” partially overlap / follow in short succession.
 
 ### 3.3.1 Release phase 1: Rollout
 
-| Who is involved?  | Steps                                                             | Output                        |
-|-------------------|-------------------------------------------------------------------|:------------------------------|
-| - DevOps          | 1. Create news / release notes                                    | Rolled out / released version |
-| - Marketing       | 2. Release for Enterprise cloud / Enterprise on-premise customers |                               |
-| - Product Manager |                                                                   |                               |
+| Involved | Output                        |
+|----------|-------------------------------|
+| - DevOps | Rolled out / released version |
 
 Once tested and stabilized, a new OpenProject version is rolled out in stages:
 
-1. DevOps creates release branch for new version.
-2. Marketing / PM creates news and release notes.
-3. DevOps deploys new release on Enterprise cloud edition trials.
-4. DevOps deploys new release on Enterprise cloud production.
-5. DevOps releases new OpenProject version for on-premise installations (Packager, Docker, notify UCS).
-6. DevOps / Marketing update documentation for new release (technical, marketing information).
-
-
-
-Phase 1 “Rollout” and phase 2 “Go to market” partially overlap / follow in short succession.
-
+1. DevOps deploys new release on Enterprise cloud edition trials.
+2. DevOps deploys new release on Enterprise cloud production.
+3. DevOps releases new OpenProject version for on-premise installations (Packager, Docker, notify UCS).
 
 ### 3.3.2 Release phase 2: Go to market
 
-| Who is involved?  | Steps                            | Output                       |
-| ----------------- | -------------------------------- | :--------------------------- |
-| - Marketing       | 1. Publish news / release notes  | Announced / marketed release |
-| - Product Manager | 2. Post newsletter, social media |                              |
+| Involved               | Output                       |
+|------------------------|------------------------------|
+| - Marketing <br/> - PM | Announced / marketed release |
 
 In parallel or shortly after the rollout, marketing release notes and announcements are published.
 
-1. Marketing publishes news.
-2. PM publishes release notes.
-3. Marketing reaches out to news organizations for external posts.
-4. Marketing posts on social media.
-5. Marketing releases newsletter.
-
-
+1. Marketing / PM creates news and release notes.
+2. Marketing updates documentation for new release.
+3. Marketing publishes news.
+4. Marketing publishes release notes.
+5. Marketing reaches out to media outlets for external posts.
+6. Marketing posts on social media.
+7. Marketing releases newsletter.
 
 ### 3.3.3 Release phase 3: Evaluation / Lessons learned
 
@@ -260,10 +260,6 @@ The metrics defined in the Opportunity Canvas are referenced to evaluate this.
 The entire team documents possible improvements for the next release.
 
 ## 4. Artefacts
-
-### Version
-
-### Wireframes and mockups
 
 ### 4.1 RICE Score
 
