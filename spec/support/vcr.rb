@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,23 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# This is the RSpec main include file that is included in basically every test case below.
-# See also: https://rspec.info/
+require 'vcr'
 
-# Loads spec_helper from OpenProject core
-# This will include any support file from OpenProject core
-require 'spec_helper'
-require 'dry/container/stub'
-
-# Record Storages Cassettes in module
 VCR.configure do |config|
-  config.cassette_library_dir = 'modules/storages/spec/support/fixtures/vcr_cassettes'
+  config.cassette_library_dir = 'spec/support/fixtures/vcr_cassettes'
+  config.hook_into :webmock
+  config.configure_rspec_metadata!
+  config.before_record do |i|
+    i.response.body.force_encoding('UTF-8')
+  end
 end
 
-# Loads files from relative support/ directory
-Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }
+VCR.turn_off!
 
 RSpec.configure do |config|
-  config.prepend_before { Storages::Peripherals::Registry.enable_stubs! }
-  config.append_after { Storages::Peripherals::Registry.unstub }
+  config.around(:example, :vcr) do |example|
+    # Only enable VCR's webmock integration for tests tagged with :vcr otherwise interferes with WebMock
+    # See: https://github.com/vcr/vcr/issues/146
+    #
+    VCR.turn_on!
+    example.run
+  ensure
+    # Switch off VCR to prevent VCR from interfering with other tests
+    VCR.turn_off!
+  end
 end
