@@ -95,8 +95,8 @@ module Storages::Admin
       icon + storage.creator.name
     end
 
-    def span_tag(item, options = {})
-      content_tag(:span, item, options)
+    def span_tag(item, _options = {})
+      render(Primer::BaseComponent.new(tag: :span)) { item }
     end
 
     def div_tag(item)
