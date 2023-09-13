@@ -39,10 +39,6 @@ FactoryBot.define do
       oauth_client { build(:oauth_client) }
     end
     # rubocop:enable FactoryBot/FactoryAssociationWithStrategy
-
-    factory :one_drive_storage, class: "Storages::OneDriveStorage" do
-      host { nil }
-    end
   end
 
   factory :nextcloud_storage,
@@ -105,6 +101,6 @@ FactoryBot.define do
   factory :one_drive_storage,
           parent: :storage,
           class: '::Storages::OneDriveStorage' do
-    provider_type { Storages::Storage::PROVIDER_TYPE_ONE_DRIVE }
+    host { nil }
   end
 end
