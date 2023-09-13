@@ -51,7 +51,7 @@ module Storages::Admin
 
     def rows
       @storages.map do |storage|
-        with_row(scheme: :default) do
+        with_row(scheme: :default, id: storage_row_css_id(storage)) do
           storage_row(storage)
         end
       end
@@ -64,6 +64,10 @@ module Storages::Admin
         div_tag(storage_creator(storage)) +
         div_tag(storage.provider_type) +
         div_tag(storage.host)
+    end
+
+    def storage_row_css_id(storage)
+      helpers.dom_id storage
     end
 
     private
