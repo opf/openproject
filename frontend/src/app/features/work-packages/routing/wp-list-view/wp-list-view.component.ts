@@ -140,7 +140,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         const selectedRow = this.elementRef.nativeElement.querySelector('.wp-table--row.-checked');
-        const selectedCard = this.elementRef.nativeElement.querySelector('[data-qa-selector="op-wp-single-card"].-checked');
+        const selectedCard = this.elementRef.nativeElement.querySelector('[data-test-selector="op-wp-single-card"].-checked');
 
         // The header of the table hides the scrolledIntoView element
         // so we scrollIntoView the previous element, if any

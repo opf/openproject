@@ -25,41 +25,22 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+RSpec::Matchers.define :have_test_selector do |expected, **args|
+  include TestSelectorFinders
 
-require 'spec_helper'
-
-RSpec.describe 'Meetings locking', js: true do
-  let(:project) { create(:project, enabled_module_names: %w[meetings]) }
-  let(:user) { create(:admin) }
-  let!(:meeting) { create(:meeting) }
-  let!(:agenda) { create(:meeting_agenda, meeting:) }
-  let(:agenda_field) do
-    TextEditorField.new(page,
-                        '',
-                        selector: test_selector('op-meeting--meeting_agenda'))
+  match do |page|
+    page.has_selector?(test_selector(expected), **args)
   end
 
-  before do
-    login_as(user)
+  match_when_negated do |page|
+    page.has_no_selector?(test_selector(expected), **args)
   end
 
-  it 'shows an error when trying to update a meeting update while editing' do
-    visit meeting_path(meeting)
+  failure_message do
+    "expected page to have test selector #{expected}"
+  end
 
-    # Edit agenda
-    within '#tab-content-agenda' do
-      find('.button--edit-agenda').click
-
-      agenda_field.set_value('Some new text')
-
-      agenda.text = 'blabla'
-      agenda.save!
-
-      click_on 'Save'
-    end
-
-    expect(page).to have_text 'Information has been updated by at least one other user in the meantime.'
-
-    agenda_field.expect_value('Some new text')
+  failure_message_when_negated do
+    "expected page not to have test selector #{expected}"
   end
 end

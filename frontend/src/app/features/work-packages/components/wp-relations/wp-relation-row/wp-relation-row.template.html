@@ -10,7 +10,7 @@
       <button
         type="button"
         class="relation-row--type"
-        data-qa-selector="op-relation--row-type"
+        data-test-selector="op-relation--row-type"
         (click)="activateRelationTypeEdit()"
         *ngIf="!userInputs.showRelationTypesForm"
       >
@@ -48,14 +48,14 @@
 
     <a
       class="relation-row--grid-id"
-      data-qa-selector="op-relation--row-id"
+      data-test-selector="op-relation--row-id"
       uiSref="work-packages.show.tabs"
       [uiParams]="{ workPackageId: relatedWorkPackage.id, tabIdentifier: 'relations' }"
     >#{{relatedWorkPackage.id}}</a>
 
     <a
       class="relation-row--grid-subject"
-      data-qa-selector="op-relation--row-subject"
+      data-test-selector="op-relation--row-subject"
       uiSref="work-packages.show.tabs"
       [uiParams]="{ workPackageId: relatedWorkPackage.id, tabIdentifier: 'relations' }"
       [textContent]="relatedWorkPackage.subject"

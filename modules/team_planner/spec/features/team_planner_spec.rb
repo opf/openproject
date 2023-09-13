@@ -155,7 +155,7 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
 
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.select_user_to_add user.name
       end
 
@@ -163,7 +163,7 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
 
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.select_user_to_add other_user.name
       end
 
@@ -249,7 +249,7 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
 
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.select_user_to_add user.name
       end
 
@@ -259,7 +259,7 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
 
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.select_user_to_add other_user.name
       end
 
@@ -280,7 +280,7 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
       # Try one more time to make sure deleting the full filter didn't kill the functionality
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.select_user_to_add user.name
       end
 
@@ -293,7 +293,7 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
 
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.search_user_to_add user_outside_project.name
       end
 
@@ -307,7 +307,7 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
 
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.search_user_to_add user.name
       end
 
@@ -337,7 +337,7 @@ RSpec.describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
 
       retry_block do
         team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
+        page.find("#{test_selector('tp-add-assignee')} input")
         team_planner.select_user_to_add user.name
       end
 

@@ -1,7 +1,7 @@
 <li
   class="spot-list--item"
   *ngFor="let project of projects; index as i; first as isFirst; last as isLast"
-  data-qa-selector="op-header-project-select--item"
+  data-test-selector="op-header-project-select--item"
   [attr.data-list-selector]="projectListItemIdentifier"
 >
   <a
@@ -18,7 +18,7 @@
   >
   <span
     class="spot-list--item-title spot-list--item-title_ellipse-text"
-    data-qa-selector="op-header-project-select--item-title"
+    data-test-selector="op-header-project-select--item-title"
     [opSearchHighlight]="searchText"
   >{{ project.name }}</span>
   </a>
@@ -31,7 +31,7 @@
   >
     <span
       class="spot-list--item-title spot-list--item-title_ellipse-text"
-      data-qa-selector="op-header-project-select--item-disabled-title"
+      data-test-selector="op-header-project-select--item-disabled-title"
     >{{ project.name }}</span>
   </span>
 

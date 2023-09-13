@@ -1,6 +1,6 @@
 <form
   class="spot-container op-datepicker-modal"
-  data-qa-selector="op-datepicker-modal"
+  data-test-selector="op-datepicker-modal"
   [attr.id]="htmlId"
   #modalContainer
   data-indicator-name="modal"
@@ -62,13 +62,13 @@
         type="button"
         (click)="doCancel()"
         class="spot-modal--cancel-button button spot-action-bar--action"
-        data-qa-selector="op-datepicker-modal--action"
+        data-test-selector="op-datepicker-modal--action"
         [textContent]="text.cancel"
       ></button>
       <button
         type="submit"
         class="button -highlight spot-action-bar--action"
-        data-qa-selector="op-datepicker-modal--action"
+        data-test-selector="op-datepicker-modal--action"
         [textContent]="text.save"
       ></button>
     </div>

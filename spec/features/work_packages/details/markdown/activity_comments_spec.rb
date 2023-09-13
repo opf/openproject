@@ -256,7 +256,7 @@ RSpec.describe 'activity comments', js: true do
       comment_field.input_element.send_keys "I'm typing an important message here ..."
 
       wp_page.switch_to_tab tab: :files
-      expect(page).to have_selector('[data-qa-selector="op-tab-content--tab-section"]')
+      expect(page).to have_test_selector('op-tab-content--tab-section')
 
       wp_page.switch_to_tab tab: :activity
 
@@ -273,7 +273,7 @@ RSpec.describe 'activity comments', js: true do
       # Has removed the draft now
 
       wp_page.switch_to_tab tab: :files
-      expect(page).to have_selector('[data-qa-selector="op-tab-content--tab-section"]')
+      expect(page).to have_test_selector('op-tab-content--tab-section')
 
       wp_page.switch_to_tab tab: :activity
       comment_field.expect_inactive!

@@ -25,41 +25,31 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+require 'capybara/rspec'
 
-require 'spec_helper'
-
-RSpec.describe 'Meetings locking', js: true do
-  let(:project) { create(:project, enabled_module_names: %w[meetings]) }
-  let(:user) { create(:admin) }
-  let!(:meeting) { create(:meeting) }
-  let!(:agenda) { create(:meeting_agenda, meeting:) }
-  let(:agenda_field) do
-    TextEditorField.new(page,
-                        '',
-                        selector: test_selector('op-meeting--meeting_agenda'))
+module TestSelectorFinders
+  def test_selector(value)
+    "[data-test-selector=\"#{value}\"]"
   end
 
-  before do
-    login_as(user)
+  def find_test_selector(value, **)
+    find(:test_id, value, **)
   end
 
-  it 'shows an error when trying to update a meeting update while editing' do
-    visit meeting_path(meeting)
+  def within_test_selector(value, **, &block)
+    within(:test_id, value, **, &block)
+  end
+end
 
-    # Edit agenda
-    within '#tab-content-agenda' do
-      find('.button--edit-agenda').click
-
-      agenda_field.set_value('Some new text')
-
-      agenda.text = 'blabla'
-      agenda.save!
-
-      click_on 'Save'
+RSpec.configure do |config|
+  Capybara.test_id = 'data-test-selector'
+  Capybara.add_selector(:test_id) do
+    xpath do |locator|
+      XPath.descendant[XPath.attr(Capybara.test_id) == locator]
     end
-
-    expect(page).to have_text 'Information has been updated by at least one other user in the meantime.'
-
-    agenda_field.expect_value('Some new text')
   end
+
+  Capybara::Session.include(TestSelectorFinders)
+  Capybara::DSL.extend(TestSelectorFinders)
+  config.include TestSelectorFinders, type: :feature
 end
