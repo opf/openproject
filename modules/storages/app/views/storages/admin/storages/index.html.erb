@@ -27,7 +27,7 @@
     <% end %>
   <% end %>
 
-  <%= render(::Storages::Admin::StorageListComponent.new(storages: @storages)) %>
+  <%= render(::Storages::Admin::StorageListComponent.new(@storages)) %>
 
 <% else %>
   <%= toolbar title: t("project_module_storages") do %>

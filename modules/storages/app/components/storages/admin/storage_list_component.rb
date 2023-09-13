@@ -29,78 +29,90 @@
 #++
 #
 module Storages::Admin
-  class StorageListComponent < Primer::Beta::BorderBox
-    attr_reader :storages
+  class StorageListComponent < ApplicationComponent
+    alias_method :storages, :model
 
-    def initialize(storages:, padding: :default, scheme: :default, **system_arguments)
-      @storages = storages
-      super(padding:, scheme:, **system_arguments)
+    def call
+      render(BorderBoxComponent.new(padding: :default, scheme: :default)) do |component|
+        header_slot(component)
+        rows_slot(component)
+      end
     end
 
-    def header
-      with_header do |header_|
-        header_.with_title(tag: :h2) do
+    def header_slot(component)
+      component.with_header do |header|
+        header.with_title(tag: :h2) do
           header_title
         end
       end
     end
 
-    def header_title
-      helpers.pluralize(storages.size, I18n.t("storages.label_storage"))
-    end
-
-    def rows
-      @storages.map do |storage|
-        with_row(scheme: :default, id: storage_row_css_id(storage)) do
+    def rows_slot(component)
+      storages.map do |storage|
+        component.with_row(scheme: :default, id: storage_row_css_id(storage)) do
           storage_row(storage)
         end
       end
     end
 
+    private
+
     def storage_row(storage)
-      div_tag(
-        storage_name(storage) + span_tag("Created on #{storage.created_at.to_fs(:long)}")
-      ) +
+      storage_name_div(storage) +
         div_tag(storage_creator(storage)) +
         div_tag(storage.provider_type) +
         div_tag(storage.host)
+    end
+
+    def storage_name_div(storage)
+      div_tag(
+        storage_name(storage) +
+          span_tag("Created on #{storage.created_at.to_fs(:long)}")
+      )
     end
 
     def storage_row_css_id(storage)
       helpers.dom_id storage
     end
 
-    private
+    def header_title
+      helpers.pluralize(storages.size, I18n.t("storages.label_storage"))
+    end
 
+    def storage_name(storage)
+      if storage.configured?
+        span_tag(storage.name)
+      else
+        render(Primer::Beta::Octicon.new(:'alert-fill', size: :small, color: :severe)) +
+          span_tag(storage.name, classes: 'pl-2')
+      end
+    end
+
+    def storage_creator(storage)
+      # TODO: Replace with `Users::AvatarComponent` once https://github.com/opf/openproject/pull/13527 is merged
+      helpers.avatar(storage.creator, size: :mini) +
+        storage.creator.name
+    end
+
+    def span_tag(item, **)
+      base_component_tag(item, tag: :span, **)
+    end
+
+    def div_tag(item, **)
+      base_component_tag(item, tag: :div, **)
+    end
+
+    def base_component_tag(item, tag:, **)
+      render(Primer::BaseComponent.new(tag:, **)) { item }
+    end
+  end
+
+  class BorderBoxComponent < Primer::Beta::BorderBox
     def before_render
       super
 
       # Remove the _base.sass margin-left from <ul> tag
       @list_arguments[:classes] = "ml-0"
-    end
-
-    def storage_name(storage)
-      storage_name_span = span_tag(storage.name)
-
-      if storage.configured?
-        storage_name_span
-      else
-        render(Primer::Beta::Octicon.new(:'alert-fill', size: :small, color: :severe)) +
-          storage_name_span
-      end
-    end
-
-    def storage_creator(storage)
-      icon = helpers.avatar storage.creator, size: :mini
-      icon + storage.creator.name
-    end
-
-    def span_tag(item, _options = {})
-      render(Primer::BaseComponent.new(tag: :span)) { item }
-    end
-
-    def div_tag(item)
-      render(Primer::BaseComponent.new(tag: :div)) { item }
     end
   end
 end
