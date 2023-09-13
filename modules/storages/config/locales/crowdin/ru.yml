@@ -53,7 +53,7 @@ ru:
     errors:
       too_many_elements_created_at_once: "Слишком много элементов, созданных сразу. Ожидалось %{max} максимум - получено %{actual}."
   storages:
-    default_name: "My storage"
+    default_name: "Моё хранилище"
     unknown_storage: "Неизвестное хранилище"
     buttons:
       done_continue_setup: "Готово. Продолжить установку"
@@ -61,6 +61,7 @@ ru:
       edit_automatically_managed_project_folders: "Редактировать автоматически управляемые папки проекта"
       replace_openproject_oauth: "Заменить OAuth OpenProject"
       replace_provider_type_oauth: "Заменить %{provider_type} OAuth"
+      save: "Сохранить"
       save_and_continue_setup: "Сохранить и продолжить установку"
       save_and_complete_setup: "Сохранить и завершить установку"
       select_folder: "Выберите папку"
@@ -102,17 +103,17 @@ ru:
       nextcloud:
         integration: "Администрирование NextCloud / OpenProject"
       one_drive:
-        integration: "OneDrive/Sharepoint"
+        integration: "OneDrive/SharePoint"
         oauth_client_id: >
-          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+          Скопируйте идентификатор клиента из портала Azure. Это необходимо для генерации редиректного URI.
         oauth_client_secret: >
-          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
-        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
+          Скопируйте секретный ключ клиента с портала Azure. Для новосозданного приложения секретный ключ должен быть создан вручную. Для авторизации веб-приложений требуется секретный ключ.
+        missing_client_id_for_redirect_uri: "Не указан идентификатор клиента для перенаправления URI."
     help_texts:
       project_folder: >
         Папка проекта является папкой по умолчанию для загрузки файлов для этого проекта. Тем не менее, пользователи по-прежнему могут загружать файлы в другие места.
     configuration_checks:
-      incomplete: "The setup of this storage is incomplete."
+      incomplete: "Установка этого хранилища не завершена."
     delete_warning:
       storage: >
         Вы уверены, что хотите удалить это хранилище? Это также удалит хранилище из всех проектов, где оно используется. Кроме того, будут удалены все ссылки из пакетов работ на файлы, хранящиеся в этом хранилище.
@@ -142,6 +143,7 @@ ru:
     label_provider_type: "Тип поставщика"
     label_project_folder: "Папка проекта"
     label_new_storage: "Новое хранилище"
+    label_edit_storage: "Редактировать хранилище"
     label_existing_manual_folder: "Существующая папка с разрешениями, управляемыми вручную"
     label_no_specific_folder: "Нет конкретной папки"
     label_automatic_folder: "Новая папка с автоматически управляемыми правами"
@@ -162,8 +164,8 @@ ru:
         name: "Nextcloud"
         name_placeholder: "например,  Nextcloud"
       one_drive:
-        name: "OneDrive/Sharepoint"
-        name_placeholder: "e.g. OneDrive"
+        name: "OneDrive/SharePoint"
+        name_placeholder: "напр. OneDrive"
     confirm_replace_oauth_application: "Вы уверены? Всем пользователям придется снова авторизоваться в OpenProject."
     confirm_replace_oauth_client: "Вы уверены? Все пользователи должны будут снова авторизоваться на хранилище."
     oauth_client_details_missing: "Чтобы завершить установку, пожалуйста, добавьте учетные данные клиента OAuth из вашего хранилища."

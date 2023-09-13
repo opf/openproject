@@ -43,25 +43,25 @@ ru:
           name: Другие
       work_package_roles:
         item_0:
-          name: Work Package Editor
+          name: Редактор пакета работ
         item_1:
-          name: Work Package Commenter
+          name: Комментатор пакета работ
         item_2:
-          name: Work Package Viewer
+          name: Просмотрщик пакета работ
       project_roles:
         item_0:
-          name: Non member
+          name: Неучастник
         item_1:
-          name: Anonymous
+          name: Аноним
         item_2:
-          name: Member
+          name: Участник
         item_3:
-          name: Reader
+          name: Читатель
         item_4:
-          name: Project admin
+          name: Администратор проекта
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: Персонал и менеджер проектов
     standard:
       priorities:
         item_0:

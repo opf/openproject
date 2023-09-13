@@ -61,6 +61,7 @@ it:
       edit_automatically_managed_project_folders: "Modifica cartelle di progetto gestite automaticamente"
       replace_openproject_oauth: "Sostituisci OpenProject OAuth"
       replace_provider_type_oauth: "Sostituisci %{provider_type} OAuth"
+      save: "Save"
       save_and_continue_setup: "Salva e continua la configurazione"
       save_and_complete_setup: "Salva e completa la configurazione"
       select_folder: "Seleziona cartella"
@@ -102,7 +103,7 @@ it:
       nextcloud:
         integration: "Nextcloud Administration / OpenProject"
       one_drive:
-        integration: "OneDrive/Sharepoint"
+        integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Copy the client id from the Azure portal. This is needed to generate the redirect URI.
         oauth_client_secret: >
@@ -142,6 +143,7 @@ it:
     label_provider_type: "Tipo di fonte"
     label_project_folder: "Cartella del progetto"
     label_new_storage: "Nuovo archivio"
+    label_edit_storage: "Edit storage"
     label_existing_manual_folder: "Cartella esistente con autorizzazioni gestite manualmente"
     label_no_specific_folder: "Nessuna cartella specifica"
     label_automatic_folder: "Nuova cartella con i permessi gestiti automaticamente"
@@ -162,7 +164,7 @@ it:
         name: "Nextcloud"
         name_placeholder: "es. Nextcloud"
       one_drive:
-        name: "OneDrive/Sharepoint"
+        name: "OneDrive/SharePoint"
         name_placeholder: "e.g. OneDrive"
     confirm_replace_oauth_application: "Procedere? Tutti gli utenti dovranno autorizzarsi nuovamente con OpenProject."
     confirm_replace_oauth_client: "Procedere? Tutti gli utenti dovranno autorizzarsi nuovamente con l'archivio."

@@ -104,9 +104,9 @@ module ErrorsHelper
 
   def unset_template_magic
     if $ERROR_INFO.is_a?(ActionView::ActionViewError)
-      @template.instance_variable_set('@project', nil)
-      @template.instance_variable_set('@status', 500)
-      @template.instance_variable_set('@message', message)
+      @template.instance_variable_set(:@project, nil)
+      @template.instance_variable_set(:@status, 500)
+      @template.instance_variable_set(:@message, message)
     else
       @project = nil
     end

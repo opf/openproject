@@ -39,22 +39,22 @@ he:
       work_package:
         budget_subject: "Budget title"
     models:
-      budget: "Budget"
-      material_budget_item: "Unit"
+      budget: "תקציב"
+      material_budget_item: "יחידות"
   activity:
     filter:
-      budget: "Budgets"
+      budget: "תקציבים"
   attributes:
-    budget: "Budget"
+    budget: "תקציב"
   button_add_budget_item: "Add planned costs"
-  button_add_budget: "Add budget"
+  button_add_budget: "הוסף תקציב"
   button_add_cost_type: "Add cost type"
   button_cancel_edit_budget: "Cancel editing budget"
   button_cancel_edit_costs: "Cancel editing costs"
   caption_labor: "Labor"
   caption_labor_costs: "Actual labor costs"
   caption_material_costs: "Actual unit costs"
-  budgets_title: "Budgets"
+  budgets_title: "תקציבים"
   events:
     budget: "Budget edited"
   help_click_to_edit: "Click here to edit."

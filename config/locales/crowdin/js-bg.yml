@@ -249,7 +249,7 @@ bg:
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Get a quote"
-          more_info: "More information"
+          more_info: "Повече информация"
           text: >
             The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
@@ -416,7 +416,7 @@ bg:
     label_filename: "Файл"
     label_filesize: "Размер"
     label_general: "Общ"
-    label_global_roles: "Глобални роли"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'Група'
     label_group_by: "Групиране по"
@@ -594,7 +594,7 @@ bg:
         assigned: 'assignee'
         responsible: 'accountable'
         created: 'created'
-        scheduled: 'scheduled'
+        scheduled: 'планирано'
         commented: 'commented'
         processed: 'processed'
         prioritized: 'prioritized'

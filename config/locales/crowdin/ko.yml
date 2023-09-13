@@ -460,6 +460,8 @@ ko:
         tls_certificate_string: "LDAP 서버 SSL 인증서"
       changeset:
         repository: "리포지토리"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "덧글을 달았습니다." #an object that this comment belongs to
       custom_action:
@@ -1424,7 +1426,7 @@ ko:
     changes_retracted: "변경 사항이 취소되었습니다."
     caused_changes:
       dates_changed: "변경된 날짜"
-      system_update: "OpenProject 업데이트"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: 이전 %{link}에 대한 변경 사항 기준
       work_package_parent_changed_times: 부모 %{link}에 대한 변경 사항 기준
@@ -1440,7 +1442,8 @@ ko:
           working: "%{date}은(는) 이제 근무일입니다."
           non_working: "%{date}은(는) 이제 휴무일입니다."
       system_update:
-        file_links_journal: '활동에 파일 링크 추가됨'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: '구성 가이드'
     get_in_touch: "질문이 있으신가요? 문의해 주세요."
@@ -2081,8 +2084,8 @@ ko:
     zero: "프로젝트 없음"
   label_yesterday: "어제"
   label_role_type: "유형"
-  label_member_role: "프로젝트 역할"
-  label_global_role: "글로벌 역할"
+  label_member_role: "Project role"
+  label_global_role: "Global role"
   label_not_changeable: "(변경할 수 없음)"
   label_global: "글로벌"
   label_seeded_from_env_warning: 이 레코드는 설정/환경 변수를 통해 생성되었습니다. UI를 통해 편집할 수 없습니다.
@@ -2169,8 +2172,8 @@ ko:
   mail_body_register_ending: "계속 지켜봐 주세요! 감사합니다."
   mail_body_reminder: "사용자에게 할당된 %{count} 작업 패키지가 다음 %{days}일 후 만료됩니다."
   mail_body_group_reminder: "\"%{group}\" 그룹에 할당된 %{count}개 작업 패키지가 향후 %{days}일 후 만료됩니다."
-  mail_body_wiki_content_added: "%{author}이(가) '%{id}' 위키 페이지를 추가했습니다."
-  mail_body_wiki_content_updated: "%{author}이(가) '%{id}' 위키 페이지를 업데이트했습니다."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} 계정 활성화 요청"
   mail_subject_backup_ready: "백업이 준비되었습니다"
   mail_subject_backup_token_reset: "백업 토큰 초기화"
@@ -2307,7 +2310,7 @@ ko:
   permission_add_work_package_notes: "메모 추가"
   permission_add_work_packages: "작업 패키지 추가"
   permission_add_messages: "메시지 게시"
-  permission_add_project: "프로젝트 만들기"
+  permission_add_project: "Create projects"
   permission_archive_project: "프로젝트 보관"
   permission_create_user: "사용자 만들기"
   permission_manage_user: "사용자 편집"
@@ -2321,7 +2324,7 @@ ko:
   permission_commit_access: "리포지토리(커밋)에 대한 읽기/쓰기 액세스"
   permission_copy_projects: "프로젝트 복사"
   permission_copy_work_packages: "Copy work packages"
-  permission_create_backup: "백업 만들기"
+  permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "주시자 삭제"
   permission_delete_work_packages: "작업 패키지 삭제"
   permission_delete_messages: "메시지 삭제"
@@ -2348,6 +2351,7 @@ ko:
   permission_log_time: "다른 사용자의 시간 기록"
   permission_manage_forums: "포럼 관리"
   permission_manage_categories: "작업 패키지 카테고리 관리"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "작업 패키지 관계 관리"
   permission_manage_members: "멤버 관리"
   permission_manage_news: "뉴스 관리"
@@ -2362,14 +2366,19 @@ ko:
   permission_protect_wiki_pages: "위키 페이지 보호"
   permission_rename_wiki_pages: "위키 페이지 이름 바꾸기"
   permission_save_queries: "보기 저장"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "사용자 지정 필드 선택"
   permission_select_project_modules: "프로젝트 모듈 선택"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "유형 선택"
+  permission_view_project: "View projects"
   permission_view_changesets: "OpenProject에서 리포지토리 수정 사항 보기"
   permission_view_commit_author_statistics: "커밋 작성자 통계 보기"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "주시자 목록 보기"
   permission_view_work_packages: "작업 패키지 보기"
   permission_view_messages: "메시지 보기"
+  permission_view_news: "View news"
   permission_view_members: "멤버 보기"
   permission_view_reportings: "보고 보기"
   permission_view_time_entries: "소요 시간 보기"
@@ -2378,6 +2387,9 @@ ko:
   permission_view_wiki_pages: "위키 보기"
   permission_work_package_assigned: "담당자/책임자 되기"
   permission_work_package_assigned_explanation: "작업 패키지는 각각의 프로젝트에서 이 역할을 가진 사용자와 그룹에 할당될 수 있습니다."
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:

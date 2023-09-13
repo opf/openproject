@@ -21,7 +21,7 @@
 #++
 nl:
   plugin_costs:
-    name: "Time and costs"
+    name: "Tijd en kosten"
     description: "This module adds features for planning and tracking costs of projects."
   activerecord:
     attributes:

@@ -34,9 +34,9 @@ class Projects::Settings::BacklogsController < Projects::SettingsController
   end
 
   def update
-    selected_statuses = (params[:statuses] || []).map do |work_package_status|
+    selected_statuses = (params[:statuses] || []).filter_map do |work_package_status|
       Status.find(work_package_status[:status_id].to_i)
-    end.compact
+    end
 
     @project.done_statuses = selected_statuses
     @project.save!

@@ -462,6 +462,8 @@ fr:
         tls_certificate_string: "Certificat SSL du serveur LDAP"
       changeset:
         repository: "Référentiel"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Commenté" #an object that this comment belongs to
       custom_action:
@@ -1446,7 +1448,7 @@ fr:
     changes_retracted: "Les modifications ont été retirées."
     caused_changes:
       dates_changed: "Dates modifiées"
-      system_update: "Mise à jour OpenProject"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: par changement vers le prédécesseur %{link}
       work_package_parent_changed_times: par changement vers le parent %{link}
@@ -1462,7 +1464,8 @@ fr:
           working: "%{date} est maintenant un jour ouvrable"
           non_working: "%{date} est maintenant un jour non ouvrable"
       system_update:
-        file_links_journal: 'a ajouté des liens de fichiers aux activités'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: 'Guide de configuration'
     get_in_touch: "Vous avez des questions ? Contactez-nous."
@@ -2103,8 +2106,8 @@ fr:
     zero: "aucun projet"
   label_yesterday: "hier"
   label_role_type: "Type"
-  label_member_role: "Rôle du projet"
-  label_global_role: "Rôle global"
+  label_member_role: "Project role"
+  label_global_role: "Global role"
   label_not_changeable: "(non modifiable)"
   label_global: "Global"
   label_seeded_from_env_warning: Cet enregistrement a été créé grâce à une variable paramètre/environnement. Il n'est pas modifiable via l'interface utilisateur.
@@ -2192,8 +2195,8 @@ fr:
   mail_body_register_ending: "Restez connecté ! Cordialement,"
   mail_body_reminder: "%{count} lot(s) de travaux qui vous sont assignés arrivent à échéance dans les %{days} prochains jours:"
   mail_body_group_reminder: "%{count} lot(s) de travaux assigné(s) au groupe \"%{group}\" arrive(nt) à échéance dans %{days} jours :"
-  mail_body_wiki_content_added: "La page wiki '%{id}' a été ajouté par %{author}."
-  mail_body_wiki_content_updated: "La page wiki '%{id}' a été mise à jour par %{author}."
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "Requête pour l'activation du compte %{value}"
   mail_subject_backup_ready: "Votre sauvegarde est prête"
   mail_subject_backup_token_reset: "Réinitialisation du jeton de sauvegarde"
@@ -2332,7 +2335,7 @@ fr:
   permission_add_work_package_notes: "Ajouter des notes"
   permission_add_work_packages: "Ajouter des lots de travaux"
   permission_add_messages: "Poster des messages"
-  permission_add_project: "Créer un projet"
+  permission_add_project: "Create projects"
   permission_archive_project: "Archiver le projet"
   permission_create_user: "Créer des utilisateurs"
   permission_manage_user: "Modifier les utilisateurs"
@@ -2346,7 +2349,7 @@ fr:
   permission_commit_access: "Accès au dépôt en lecture/écriture (« commit »)"
   permission_copy_projects: "Copier des projets"
   permission_copy_work_packages: "Copy work packages"
-  permission_create_backup: "Créer une sauvegarde"
+  permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Supprimer des observateurs"
   permission_delete_work_packages: "Supprimer des lots de travaux"
   permission_delete_messages: "Supprimer des messages"
@@ -2373,6 +2376,7 @@ fr:
   permission_log_time: "Saisir le temps pour d'autres utilisateurs"
   permission_manage_forums: "Gérer les forums"
   permission_manage_categories: "Gérer les catégories de lots de travaux"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Gérer les relations des lots de travaux"
   permission_manage_members: "Gérer les membres"
   permission_manage_news: "Gérer les actualités"
@@ -2387,14 +2391,19 @@ fr:
   permission_protect_wiki_pages: "Protéger les pages wiki"
   permission_rename_wiki_pages: "Renommer les pages wiki"
   permission_save_queries: "Enregistrer les vues"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Sélectionner les champs personnalisés"
   permission_select_project_modules: "Sélectionner modules de projet"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Sélectionner types"
+  permission_view_project: "View projects"
   permission_view_changesets: "Voir révisions du dépôt dans OpenProject"
   permission_view_commit_author_statistics: "Voir les statistiques des auteurs de «commit»"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Voir la liste des observateurs"
   permission_view_work_packages: "Voir les lots de travaux"
   permission_view_messages: "Voir les messages"
+  permission_view_news: "View news"
   permission_view_members: "Afficher les membres"
   permission_view_reportings: "Voir rapports"
   permission_view_time_entries: "Voir temps passé"
@@ -2403,6 +2412,9 @@ fr:
   permission_view_wiki_pages: "Voir le wiki"
   permission_work_package_assigned: "Devenir assigné/responsable"
   permission_work_package_assigned_explanation: "Des lots de travaux peuvent être assignés à des utilisateurs et des groupes possédant ce rôle dans le projet respectif"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:

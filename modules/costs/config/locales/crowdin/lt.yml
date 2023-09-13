@@ -21,8 +21,8 @@
 #++
 lt:
   plugin_costs:
-    name: "Time and costs"
-    description: "This module adds features for planning and tracking costs of projects."
+    name: "Laikas ir išlaidos"
+    description: "Šis modulis prideda funkcijas projekto kaštų planavimui ir sekimui."
   activerecord:
     attributes:
       cost_entry:

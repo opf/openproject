@@ -416,7 +416,7 @@ ka:
     label_filename: "ფაილი"
     label_filesize: "ზომა"
     label_general: "ზოგადი"
-    label_global_roles: "Global Roles"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'ჯგუფი'
     label_group_by: "დაჯგუფება"

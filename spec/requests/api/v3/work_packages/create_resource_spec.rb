@@ -262,7 +262,7 @@ RSpec.describe 'API v3 Work package resource',
     end
 
     context 'when file links are being claimed' do
-      let(:storage) { create(:storage) }
+      let(:storage) { create(:nextcloud_storage) }
       let(:file_link) do
         create(:file_link,
                container_id: nil,

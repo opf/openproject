@@ -28,7 +28,7 @@ zh-CN:
     plugins:
       no_results_title_text: 目前没有插件可用。
     custom_styles:
-      color_theme: "颜色主题"
+      color_theme: "主题颜色"
       color_theme_custom: "（自定义）"
       colors:
         alternative-color: "备用"
@@ -70,7 +70,7 @@ zh-CN:
         text: "您确定要删除当前使用的企业版令牌吗？"
         title: "删除令牌"
       replace_token: "替换您当前的支持令牌"
-      order: "订购本地部署版的 Enterprise edition"
+      order: "订购本地部署的 Enterprise edition"
       paste: "粘贴您企业版的支持令牌"
       required_for_feature: "此功能仅限具激活的企业版支持令牌的订阅者使用。"
       enterprise_link: "如需了解详细信息，请单击此处。"
@@ -84,7 +84,7 @@ zh-CN:
       upgrade_info: "请升级到付费方案，以激活并开始在您的团队中使用该功能。"
     journal_aggregation:
       explanation:
-        text: "如果用户的多项操作（例如，更新工作包两次）的间隔处于指定的时间区间内，则会将多项操作聚合为单项操作。它们将在应用程序中显示为单项操作。这也会将通知延迟同等时间，从而减少电子邮件的发送数量，并且还会影响 %{webhook_link} 延迟。"
+        text: "如果用户的多项操作（例如，更新工作包两次）的时间间隔小于指定的时间跨度，则这些操作将被聚合为单个操作，并在应用程序中显示为单个操作。这也会将通知延迟同等的时间，从而减少电子邮件的发送数量，并且还会影响 %{webhook_link} 延迟。"
         link: "Webhook"
   announcements:
     show_until: 显示截至日期
@@ -156,7 +156,7 @@ zh-CN:
     tls_options:
       verify_peer: "验证SSL证书"
       verify_peer_description_html: >
-        启用对受信任链证书的严格SSL验证。<br/> <strong>警告：</strong>取消选中此选项会禁用LDAP服务器证书的SSL验证。这将使您的连接暴露于中间人攻击。
+        启用对受信任链证书的严格 SSL 验证。<br/> <strong>警告：</strong>取消选中此选项会禁用 LDAP 服务器证书的 SSL 验证。这将使您的连接暴露于中间人攻击。
       tls_certificate_description: "如果LDAP服务器证书不在此系统的信任源中，您可以在此手动添加它。输入PEM X509证书字符串。"
   forums:
     show:
@@ -207,7 +207,7 @@ zh-CN:
     single: '或'
   global_search:
     overwritten_tabs:
-      wiki_pages: "维基百科"
+      wiki_pages: "维基"
       messages: "论坛"
   groups:
     index:
@@ -226,7 +226,7 @@ zh-CN:
       members: '项目成员'
       overviews: '项目概况'
       queries: '工作包: 保存的视图'
-      wiki_page_attachments: 'Wiki页面：附件'
+      wiki_page_attachments: '维基页面：附件'
       work_package_attachments: '工作包：附件'
       work_package_categories: '工作包：类别'
       work_package_file_links: '工作包：文件链接'
@@ -306,7 +306,7 @@ zh-CN:
     deletion_info:
       heading: "删除占位符用户 %{name}"
       data_consequences: >
-        出现的所有占位符用户（例如，作为被分派人、负责人或其他用户值）将被重新分配给一个名为“已删除用户”的帐户。 由于每个已删除帐户的数据都会被重新分配给此帐户，因此无法将用户创建的数据与另一个已删除帐户的数据区分。
+        出现的所有占位符用户（例如，作为受理人、负责人或其他用户值）将被重新分配给一个名为“已删除用户”的帐户。 由于每个已删除帐户的数据都会被重新分配给此帐户，因此无法将用户创建的数据与另一个已删除帐户的数据区分。
       irreversible: "此操作不可逆"
       confirmation: "输入占位符用户名 %{name} 以确认删除。"
     upsale:
@@ -362,11 +362,11 @@ zh-CN:
       work_packages_in_archived_projects: "该版本与归档项目共享，这些项目仍然有分配给此版本的工作包。虽然这些工作包被计算在内，但不会显示在链接视图中。"
       no_results_title_text: 目前没有工作包分配给此版本。
   wiki:
-    page_not_editable_index: 请求的页面（尚）不存在。您已被重定向到所有 wiki 页面的索引。
-    no_results_title_text: 目前没有 wiki 页面。
-    print_hint: 这将以不带任何导航栏的方式打印此 wiki 页面的内容。
+    page_not_editable_index: 请求的页面（尚）不存在。您已被重定向到所有维基页面的索引。
+    no_results_title_text: 目前没有维基页面。
+    print_hint: 这将以不带任何导航栏的方式打印此维基页面的内容。
     index:
-      no_results_content_text: 添加一个新的 wiki 页面
+      no_results_content_text: 添加一个新的维基页面
   work_flows:
     index:
       no_results_title_text: 目前没有工作流。
@@ -456,7 +456,9 @@ zh-CN:
         port: "端口"
         tls_certificate_string: "LDAP 服务器 SSL 证书"
       changeset:
-        repository: "代码库"
+        repository: "存储库"
+      color:
+        hexcode: "十六进制代码"
       comment:
         commented: "评论" #an object that this comment belongs to
       custom_action:
@@ -546,15 +548,15 @@ zh-CN:
       type:
         description: "默认描述文本"
         attribute_groups: ''
-        is_in_roadmap: "默认在版本蓝图中显示"
+        is_in_roadmap: "默认在路线图中显示"
         is_default: "默认激活新项目"
-        is_milestone: "是里程碑"
+        is_milestone: "里程碑"
         color: "颜色"
       user:
         admin: "管理员"
         ldap_auth_source: "LDAP 连接"
         current_password: "当前密码："
-        force_password_change: "强制在下次登录时更改密码"
+        force_password_change: "下次登录时强制更改密码"
         language: "语言"
         last_login_on: "上次登录"
         new_password: "新密码"
@@ -573,7 +575,7 @@ zh-CN:
       wiki_content:
         text: "文本"
       wiki_page:
-        parent_title: "父页"
+        parent_title: "父级页面"
         redirect_existing_links: "将现有的链接重定向"
       planning_element_type_color:
         hexcode: 十六进制代码
@@ -590,20 +592,20 @@ zh-CN:
           title: '工作日'
           false: '仅工作日'
           true: '包括非工作日'
-        parent: "父"
-        parent_issue: "父"
-        parent_work_package: "父"
+        parent: "父级"
+        parent_issue: "父级"
+        parent_work_package: "父级"
         priority: "优先级"
         progress: "进度 (%)"
         readonly: "只读"
         schedule_manually: "手动计划"
-        spent_hours: "已耗时间"
-        spent_time: "已耗时间"
+        spent_hours: "已耗工时"
+        spent_time: "已耗工时"
         subproject: "子项目"
         time_entries: "记录时间"
         type: "类型"
         version: "版本"
-        watcher: "关注人"
+        watcher: "关注者"
       'doorkeeper/application':
         uid: "客户端 ID"
         secret: "客户端密钥"
@@ -794,7 +796,7 @@ zh-CN:
               error_not_found: "找不到这个工作包"
               error_readonly: "关系要持久"
         repository:
-          not_available: "供应链管理供应商不可用"
+          not_available: "SCM提供商不可用"
           not_whitelisted: "配置所不允许的。"
           invalid_url: "不是有效的存储库 URL 或路径。"
           must_not_be_ssh: "不能是 SSH url。"
@@ -829,7 +831,7 @@ zh-CN:
               not_allowed_to_view: "无权查看此资源。"
               locked: "已被锁定。"
         wiki_page:
-          error_conflict: "Wiki 页面在您编辑时已被其他人更新。"
+          error_conflict: "维基页面在您编辑时已被其他人更新。"
           attributes:
             slug:
               undeducible: "无法从标题“%{title}”推导出。"
@@ -885,7 +887,7 @@ zh-CN:
             password:
               weak: "必须包含以下类字符 (至少 %{min_count} %{all_count}): %{rules}。"
               lowercase: "小写字母 （如 'a')"
-              uppercase: "大写字母 (如 ' A')"
+              uppercase: "大写字母 (如 'A')"
               numeric: "数值 （例如 ' 1')"
               special: "特殊字符 (例如 ' %')"
               reused:
@@ -936,7 +938,7 @@ zh-CN:
       type: "类型"
       user: "用户"
       version: "版本"
-      wiki: "维基百科"
+      wiki: "维基"
       wiki_page: "维基页面"
       workflow: "工作流"
       work_package: "工作包"
@@ -949,10 +951,10 @@ zh-CN:
     field_erroneous_label: "这个字段是无效的：%{full_errors}\n请输入一个有效的值。"
   activity:
     item:
-      created_by_on: "由 %{user} 在 %{datetime} 创建"
-      created_by_on_time_entry: "由 %{user} 在 %{datetime} 记录了时间"
-      created_on: "在 %{datetime} 创建"
-      created_on_time_entry: "在 %{datetime} 记录了时间"
+      created_by_on: "由 %{user} 创建于 %{datetime} "
+      created_by_on_time_entry: "时间由 %{user} 记录于 %{datetime} "
+      created_on: "创建于 %{datetime} "
+      created_on_time_entry: "时间记录于 %{datetime} "
       updated_by_on: "由 %{user} 在 %{datetime} 更新"
       updated_by_on_time_entry: "%{user} 在 %{datetime} 更新了记录的时间"
       updated_on: "在 %{datetime} 更新"
@@ -973,13 +975,13 @@ zh-CN:
       project_attribute: "项目属性"
       subproject: "包括子项目"
       time_entry: "用时"
-      wiki_edit: "维基百科"
+      wiki_edit: "维基"
       work_package: "工作包"
   #common attributes of all models
   attributes:
     active: "激活"
     assigned_to: "受理人"
-    assignee: "指定人"
+    assignee: "受理人"
     attachments: "附件"
     author: "作者"
     base: "一般错误："
@@ -989,19 +991,19 @@ zh-CN:
     comments: "评论"
     content: "内容"
     color: "颜色"
-    created_at: "创建"
+    created_at: "创建于"
     custom_options: "可能的值"
     custom_values: "自定义字段"
     date: "日期"
     default_columns: "默认的列"
     description: "描述"
     derived_due_date: "派生的完成日期"
-    derived_estimated_hours: "派生的估计时间"
+    derived_estimated_hours: "派生的估算工时"
     derived_start_date: "派生的开始日期"
     display_sums: "显示汇总"
     due_date: "完成日期"
-    estimated_hours: "估计的时间"
-    estimated_time: "估计的时间"
+    estimated_hours: "估算工时"
+    estimated_time: "估算工时"
     firstname: "名字"
     group: "组"
     groups: "组"
@@ -1065,14 +1067,14 @@ zh-CN:
   button_add: "添加"
   button_add_comment: "添加评论"
   button_add_member: 添加成员
-  button_add_watcher: "添加关注人"
+  button_add_watcher: "添加关注者"
   button_annotate: "批注"
   button_apply: "应用"
   button_archive: "存档"
   button_back: "返回"
   button_cancel: "取消"
   button_change: "更改"
-  button_change_parent_page: "更改父页"
+  button_change_parent_page: "更改父级页面"
   button_change_password: "更改密码"
   button_check_all: "全选"
   button_clear: "清除"
@@ -1089,11 +1091,11 @@ zh-CN:
   button_create_and_continue: "创建并继续"
   button_delete: "删除"
   button_decline: "拒绝"
-  button_delete_watcher: "删除关注人 %{name}"
+  button_delete_watcher: "删除关注者 %{name}"
   button_download: "下载"
   button_duplicate: "复制"
   button_edit: "编辑"
-  button_edit_associated_wikipage: "编辑关联的 Wiki 页面： %{page_title}"
+  button_edit_associated_wikipage: "编辑关联的维基页面： %{page_title}"
   button_expand_all: "全部展开"
   button_filter: "筛选器"
   button_generate: "生成"
@@ -1274,7 +1276,7 @@ zh-CN:
   description_selected_columns: "选定的列"
   description_sub_work_package: "当前的子工作包"
   description_toc_toggle: "显示/隐藏表的内容"
-  description_wiki_subpages_reassign: "选择新的父页"
+  description_wiki_subpages_reassign: "选择新的父级页面"
   #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: 从左向右
   ee:
@@ -1327,14 +1329,14 @@ zh-CN:
   error_omniauth_registration_timed_out: "通过外部身份验证提供程序注册超时。请再试一次。"
   error_omniauth_invalid_auth: "从身份提供程序返回的身份验证信息无效。请联系您的管理员获取更多帮助。"
   error_password_change_failed: '试图更改密码时发生错误。'
-  error_scm_command_failed: "当试图访问该代码库时出错: %{value}"
-  error_scm_not_found: "在代码库中未找到的条目或修正版本。"
+  error_scm_command_failed: "当试图访问该存储库时出错: %{value}"
+  error_scm_not_found: "在存储库中未找到的条目或修正版本。"
   error_type_could_not_be_saved: "无法保存类型"
   error_unable_delete_status: "不能删除工作包的状态，因为它由至少一个工作包使用。"
   error_unable_delete_default_status: "无法删除默认工作包的状态。请删除当前之前选择另一个默认工作包状态。"
   error_unable_to_connect: "无法连接 (%{value})"
-  error_unable_delete_wiki: "无法删除 Wiki 页面。"
-  error_unable_update_wiki: "无法更新 Wiki 页面。"
+  error_unable_delete_wiki: "无法删除维基页面。"
+  error_unable_update_wiki: "无法更新维基页面。"
   error_workflow_copy_source: "请选择源类型或角色"
   error_workflow_copy_target: "请选择目标类型和角色"
   error_menu_item_not_created: 不能添加菜单项
@@ -1351,7 +1353,7 @@ zh-CN:
     projects: '项目已编辑'
     reply: 答复
     time_entry: '编辑时间记录'
-    wiki_page: '编辑 Wiki 页面'
+    wiki_page: '编辑维基页面'
     work_package_closed: '关闭工作包'
     work_package_edit: '编辑工作包'
     work_package_note: '添加工作包注释'
@@ -1363,7 +1365,7 @@ zh-CN:
     succeeded: "导出已成功完成。"
     failed: "导出失败: %{message}"
     format:
-      atom: "原子"
+      atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
       pdf_overview_table: "PDF 表"
@@ -1397,9 +1399,9 @@ zh-CN:
   gui_validation_error_plural: "%{count} 错误"
   homescreen:
     additional:
-      projects: "此OpenProject 实例中的最新可见项目。"
+      projects: "此 OpenProject 实例中的最新可见项目。"
       no_visible_projects: "这个 OpenProject 中没有可见的项目。"
-      users: "此OpenProject 实例中的最新注册用户。"
+      users: "此 OpenProject 实例中的最新注册用户。"
     blocks:
       community: "OpenProject 社区"
       upsale:
@@ -1411,21 +1413,21 @@ zh-CN:
       user_guides: "用户指南"
       faq: "常见问题"
       glossary: "术语表"
-      shortcuts: "快捷方式"
+      shortcuts: "快捷键"
       blog: "OpenProject 博客"
       forums: "社区论坛"
       newsletter: "安全警报/通信"
   image_conversion:
-    imagemagick: 'Imagemagick'
+    imagemagick: 'Imagemagick软件'
   journals:
     changes_retracted: "更改已撤回。"
     caused_changes:
       dates_changed: "日期已更改"
-      system_update: "OpenProject 更新"
+      system_update: "OpenProject 系统更新："
     cause_descriptions:
-      work_package_predecessor_changed_times: 通过对前身的更改 %{link}
-      work_package_parent_changed_times: 通过对根源的更改 %{link}
-      work_package_children_changed_times: 通过对产物的更改 %{link}
+      work_package_predecessor_changed_times: 根据前置任务 %{link}的更改
+      work_package_parent_changed_times: 通过对父级的更改 %{link}
+      work_package_children_changed_times: 通过对子级的更改 %{link}
       work_package_related_changed_times: 通过对相关内容的更改 %{link}
       unaccessable_work_package_changed: 通过对相关工作包的更改
       working_days_changed:
@@ -1437,7 +1439,8 @@ zh-CN:
           working: "%{date}现在是工作日"
           non_working: "%{date}现在是非工作日"
       system_update:
-        file_links_journal: '已将文件链接添加到活动'
+        file_links_journal: >
+          从现在开始，与文件链接（存储在外部存储器中的文件）相关的活动将出现在“活动”选项卡中。以下是与已经存在的链接相关的活动的表示：
   links:
     configuration_guide: '配置指南'
     get_in_touch: "遇到问题了？与我们联系。"
@@ -1497,7 +1500,7 @@ zh-CN:
         assigned: "您已被分配到 %{work_package}"
         subscribed: "您订阅了 %{work_package}"
         mentioned: "您在 %{work_package} 中被提及"
-        responsible: "您已对 %{work_package} 负责"
+        responsible: "您已成为 %{work_package} 的负责人"
         watched: "您正在关注 %{work_package}"
     update_info_mail:
       body: >
@@ -1586,9 +1589,9 @@ zh-CN:
   label_calendar_show: "显示日历"
   label_category: "类别"
   label_consent_settings: "用户同意"
-  label_wiki_menu_item: Wiki 的菜单项
+  label_wiki_menu_item: 维基菜单项
   label_select_main_menu_item: 选择新的主菜单项
-  label_required_disk_storage: "所需的磁盘存储"
+  label_required_disk_storage: "所需的磁盘空间"
   label_send_invitation: 发送邀请
   label_change_plural: "更改"
   label_change_properties: "更改属性"
@@ -1651,7 +1654,7 @@ zh-CN:
   label_missing_or_hidden_custom_option: "（缺少值或缺少访问权限）"
   label_descending: "降序"
   label_details: "详细信息"
-  label_development_roadmap: "发展蓝图"
+  label_development_roadmap: "发展路线图"
   label_diff: "比较"
   label_diff_inline: "内联"
   label_diff_side_by_side: "并排"
@@ -1678,18 +1681,18 @@ zh-CN:
   label_enumeration_value: "枚举值"
   label_enumerations: "枚举"
   label_enterprise: "企业"
-  label_enterprise_active_users: "%{current}/%{limit} 已预订的活动用户"
-  label_enterprise_edition: "企业版。"
+  label_enterprise_active_users: "%{current}/%{limit} 已预订的活跃用户"
+  label_enterprise_edition: "企业版"
   label_enterprise_support: "企业支持"
   label_environment: "环境"
-  label_estimates_and_time: "预估成本和时间"
+  label_estimates_and_time: "估算与工时"
   label_equals: "是"
   label_everywhere: "任何位置"
   label_example: "示例"
   label_experimental: "实验"
   label_i_am_member: "我是成员"
   label_import: "导入"
-  label_export_to: "在其中也可用："
+  label_export_to: "同时支持："
   label_expanded_click_to_collapse: "展开。点击折叠"
   label_f_hour: "%{value} 小时"
   label_f_hour_plural: "%{value} 小时"
@@ -1702,7 +1705,7 @@ zh-CN:
   label_filter_add: "添加筛选器"
   label_filter_plural: "筛选器"
   label_filters_toggle: "显示/隐藏筛选器"
-  label_float: "浮动"
+  label_float: "浮点数"
   label_folder: "文件夹"
   label_follows: "跟踪"
   label_force_user_language_to_default: "设置拥有非允许语言的用户的默认语言"
@@ -1770,12 +1773,12 @@ zh-CN:
   label_login: "登录"
   label_custom_logo: "自定义徽标"
   label_custom_export_logo: "自定义导出徽标"
-  label_custom_favicon: "习惯图标。"
-  label_custom_touch_icon: "习惯的触摸图标。"
+  label_custom_favicon: "自定义图标"
+  label_custom_touch_icon: "自定义触摸图标"
   label_logout: "注销"
   label_main_menu: "侧边菜单"
   label_manage_groups: "组管理"
-  label_managed_repositories_vendor: "托管的 %{vendor} 资料库"
+  label_managed_repositories_vendor: "托管的 %{vendor} 存储库"
   label_max_size: "最大"
   label_me: "我"
   label_member_new: "新成员"
@@ -1793,7 +1796,7 @@ zh-CN:
   label_message_new: "新消息"
   label_message_plural: "消息"
   label_message_posted: "添加消息"
-  label_min_max_length: "最小-最大长度"
+  label_min_max_length: "最小 - 最大长度"
   label_minute_plural: "分钟"
   label_missing_api_access_key: "失效的 API 访问键"
   label_missing_feeds_access_key: "缺少一个 RSS 访问键"
@@ -1827,7 +1830,7 @@ zh-CN:
   label_next_week: "下周"
   label_no_change_option: "（不变）"
   label_no_data: "没有要显示的数据"
-  label_no_parent_page: "无上级页面"
+  label_no_parent_page: "无父级页面"
   label_nothing_display: "不显示"
   label_nobody: "没人"
   label_not_found: '未找到'
@@ -1851,11 +1854,11 @@ zh-CN:
   label_overview: "概述"
   label_page_title: "页面标题"
   label_part_of: "一部分"
-  label_password_lost: "忘记密码了吗？"
-  label_password_rule_lowercase: "小写"
-  label_password_rule_numeric: "数字字符"
+  label_password_lost: "忘记密码？"
+  label_password_rule_lowercase: "小写字母"
+  label_password_rule_numeric: "数字"
   label_password_rule_special: "特殊字符"
-  label_password_rule_uppercase: "大写"
+  label_password_rule_uppercase: "大写字母"
   label_path_encoding: "路径编码"
   label_per_page: "每页"
   label_people: "人员"
@@ -1920,9 +1923,9 @@ zh-CN:
   label_reported_work_packages: "报告的工作包"
   label_reporting: "报告"
   label_reporting_plural: "报告"
-  label_repository: "代码库"
+  label_repository: "存储库"
   label_repository_root: "存储库根"
-  label_repository_plural: "代码库"
+  label_repository_plural: "存储库"
   label_required: '必填'
   label_requires: '要求'
   label_result_plural: "结果"
@@ -1930,10 +1933,10 @@ zh-CN:
   label_revision: "修订"
   label_revision_id: "修订版本 %{value}"
   label_revision_plural: "修订"
-  label_roadmap: "版本蓝图"
-  label_roadmap_edit: "编辑版本蓝图 %{name}"
+  label_roadmap: "路线图"
+  label_roadmap_edit: "编辑路线图 %{name}"
   label_roadmap_due_in: "%{value} 到期"
-  label_roadmap_no_work_packages: "没有此版本的工作包"
+  label_roadmap_no_work_packages: "该版本没有工作包。"
   label_roadmap_overdue: "%{value} 超时"
   label_role_and_permissions: "角色和权限"
   label_role_new: "新的角色"
@@ -1953,7 +1956,7 @@ zh-CN:
   label_sort_highest: "移至顶部"
   label_sort_lower: "向下移动"
   label_sort_lowest: "移至底部"
-  label_spent_time: "已耗时间"
+  label_spent_time: "已耗工时"
   label_start_to_end: "开始结束"
   label_start_to_start: "开始开始"
   label_statistics: "统计数据"
@@ -1977,7 +1980,7 @@ zh-CN:
   label_this_month: "这个月"
   label_this_week: "这一周"
   label_this_year: "这一年"
-  label_time_entry_plural: "已耗时间"
+  label_time_entry_plural: "已耗工时"
   label_title: "标题"
   label_projects_menu: "项目"
   label_today: "今天"
@@ -2025,16 +2028,16 @@ zh-CN:
   label_watched_work_packages: "受关注的工作包"
   label_what_is_this: "这是什么?"
   label_week: "周"
-  label_wiki_content_added: "添加 Wiki 页面"
-  label_wiki_content_updated: "更新 Wiki 页面"
+  label_wiki_content_added: "添加维基页面"
+  label_wiki_content_updated: "更新维基页面"
   label_wiki_toc: "目录"
   label_wiki_toc_empty: "目录为空，因为没有标题。"
-  label_wiki_dont_show_menu_item: "在项目导航中不显示此 wiki 页面"
-  label_wiki_edit: "Wiki 编辑"
-  label_wiki_edit_plural: "Wiki 编辑"
-  label_wiki_page_attachments: "Wiki 页面附件"
-  label_wiki_page_id: "Wiki页面ID"
-  label_wiki_navigation: "Wiki 导航"
+  label_wiki_dont_show_menu_item: "在项目导航中不显示此维基页面"
+  label_wiki_edit: "维基编辑"
+  label_wiki_edit_plural: "维基编辑"
+  label_wiki_page_attachments: "维基页面附件"
+  label_wiki_page_id: "维基页面ID"
+  label_wiki_navigation: "维基导航"
   label_wiki_page: "维基页面"
   label_wiki_page_plural: "维基页面"
   label_wiki_show_index_page_link: "显示‘目录’子菜单项"
@@ -2095,7 +2098,7 @@ zh-CN:
       removed: '该宏不再存在。'
     wiki_child_pages:
       errors:
-        page_not_found: "无法找到Wiki页“%{name}”。"
+        page_not_found: "无法找到“%{name}”维基页面。"
     create_work_package_link:
       errors:
         no_project_context: '从外部项目上下文调用 create_work_package_link 宏。'
@@ -2165,16 +2168,16 @@ zh-CN:
   mail_body_register_ending: "保持联系！谨致问候，"
   mail_body_reminder: "%{count} 个分配给您的工作包将在 %{days} 天后到期："
   mail_body_group_reminder: "%{count} 个分配给组“%{group}”的工作包将在 %{days} 天后到期："
-  mail_body_wiki_content_added: "'%{id}' wiki页面已经由%{author} 添加。"
-  mail_body_wiki_content_updated: "'%{id}' wiki页面已经由%{author} 更新。"
+  mail_body_wiki_page_added: "'%{id}' 维基页面已经由%{author} 添加。"
+  mail_body_wiki_page_updated: "'%{id}' 维基页面已经由%{author} 更新。"
   mail_subject_account_activation_request: "%{value} 帐户激活请求"
   mail_subject_backup_ready: "您的备份已就绪"
   mail_subject_backup_token_reset: "备份令牌重置"
   mail_subject_incoming_email_error: "无法处理您发送给 OpenProject 的电子邮件"
   mail_subject_lost_password: "你的 %{value} 密码"
   mail_subject_register: "您的%{value}帐户激活"
-  mail_subject_wiki_content_added: "'%{id}' wiki页面已添加"
-  mail_subject_wiki_content_updated: "'%{id}' wiki页面已更新"
+  mail_subject_wiki_content_added: "'%{id}' 维基页面已添加"
+  mail_subject_wiki_content_updated: "'%{id}' 维基页面已更新"
   mail_member_added_project:
     subject: "%{project} - 您已被添加为成员"
     body:
@@ -2219,7 +2222,7 @@ zh-CN:
   notice_account_password_expired: "您的密码将在 %{days} 天后过期。请设置新的密码。"
   notice_account_password_updated: "成功更新密码。"
   notice_account_pending: "您的帐户已创建，正在等待管理员的批准。"
-  notice_account_register_done: "成功创建帐户。要激活您的帐户，请单击通过电子邮件发送到您的链接。"
+  notice_account_register_done: "帐户已成功创建。要激活您的帐户，请单击通过电子邮件发送到您的链接。"
   notice_account_unknown_email: "未知用户。"
   notice_account_update_failed: "帐户设置无法保存。请看查看您的帐户页面。"
   notice_account_updated: "帐户已成功更新。"
@@ -2307,21 +2310,22 @@ zh-CN:
   permission_manage_user: "编辑用户"
   permission_manage_placeholder_user: "创建、编辑和删除占位符用户"
   permission_add_subprojects: "创建子项目"
-  permission_add_work_package_watchers: "添加关注人"
+  permission_add_work_package_watchers: "添加关注者"
   permission_assign_versions: "分配版本"
-  permission_browse_repository: "只读访问存储库 (浏览和签出)"
-  permission_change_wiki_parent_page: "更改父 wiki 页面"
+  permission_browse_repository: "只读访问存储库 (浏览和检出)"
+  permission_change_wiki_parent_page: "更改上级维基页面"
   permission_comment_news: "评论新闻"
   permission_commit_access: "读/写访问存储库 (提交)"
   permission_copy_projects: "复制项目"
+  permission_copy_work_packages: "复制工作包"
   permission_create_backup: "创建备份"
-  permission_delete_work_package_watchers: "删除关注人"
+  permission_delete_work_package_watchers: "删除关注者"
   permission_delete_work_packages: "删除工作包"
   permission_delete_messages: "删除消息"
   permission_delete_own_messages: "删除自己的消息"
   permission_delete_reportings: "删除报告"
   permission_delete_timelines: "删除时间线"
-  permission_delete_wiki_pages: "删除 wiki 页面"
+  permission_delete_wiki_pages: "删除维基页面"
   permission_delete_wiki_pages_attachments: "删除附件"
   permission_edit_work_package_notes: "编辑注释"
   permission_edit_work_packages: "编辑工作包"
@@ -2333,50 +2337,59 @@ zh-CN:
   permission_edit_reportings: "编辑报告"
   permission_edit_time_entries: "编辑其他用户的时间日志"
   permission_edit_timelines: "编辑时间线"
-  permission_edit_wiki_pages: "编辑 wiki 页面"
+  permission_edit_wiki_pages: "编辑维基页面"
   permission_export_work_packages: "导出工作包"
-  permission_export_wiki_pages: "导出 wiki 页面"
+  permission_export_wiki_pages: "导出维基页面"
   permission_list_attachments: "列出附件"
   permission_log_own_time: "记录自己的时间"
   permission_log_time: "记录其他用户的时间"
   permission_manage_forums: "管理论坛"
   permission_manage_categories: "管理工作包类别"
+  permission_manage_dashboards: "管理仪表板"
   permission_manage_work_package_relations: "管理工作包的关系"
   permission_manage_members: "管理成员"
   permission_manage_news: "管理新闻"
   permission_manage_project_activities: "管理项目活动"
   permission_manage_public_queries: "管理公共查询"
-  permission_manage_repository: "管理代码库"
+  permission_manage_repository: "托管存储库"
   permission_manage_subtasks: "管理工作包层次结构"
   permission_manage_versions: "管理版本"
-  permission_manage_wiki: "管理 wiki"
-  permission_manage_wiki_menu: "管理 wiki 菜单"
+  permission_manage_wiki: "管理维基"
+  permission_manage_wiki_menu: "管理维基菜单"
   permission_move_work_packages: "移动工作包"
   permission_protect_wiki_pages: "保护维基页面"
-  permission_rename_wiki_pages: "重命名 wiki 网页"
+  permission_rename_wiki_pages: "重命名维基页面"
   permission_save_queries: "保存界面设置"
+  permission_search_project: "搜索项目"
   permission_select_custom_fields: "选择自定义字段"
   permission_select_project_modules: "选择项目模块"
+  permission_share_work_packages: "共享工作包"
   permission_manage_types: "选择类型"
-  permission_view_changesets: "查看OpenProject 资源库修订"
+  permission_view_project: "查看项目"
+  permission_view_changesets: "查看 OpenProject 存储库修订"
   permission_view_commit_author_statistics: "查看提交作者统计信息"
-  permission_view_work_package_watchers: "查看关注人列表"
+  permission_view_dashboards: "查看仪表板"
+  permission_view_work_package_watchers: "查看关注者列表"
   permission_view_work_packages: "查看工作包"
   permission_view_messages: "查看消息"
+  permission_view_news: "查看新闻"
   permission_view_members: "查看成员"
   permission_view_reportings: "查看报告"
   permission_view_time_entries: "查看消耗时间"
   permission_view_timelines: "查看时间线"
-  permission_view_wiki_edits: "查看 wiki 历史记录"
-  permission_view_wiki_pages: "查看 wiki"
+  permission_view_wiki_edits: "查看维基历史记录"
+  permission_view_wiki_pages: "查看维基"
   permission_work_package_assigned: "成为受理人/责任人"
   permission_work_package_assigned_explanation: "工作包可以分配给在各自项目中拥有此角色的用户和组"
+  permission_view_project_activity: "查看项目活动"
+  permission_save_bcf_queries: "保存 BCF 查询"
+  permission_manage_public_bcf_queries: "管理公开的 BCF 查询"
   placeholders:
     default: "-"
   project:
     destroy:
       confirmation: "如果您继续，项目 %{identifier} 和所有相关的数据将被永久销毁。"
-      info: "删除该项目是一个不可逆转的操作。"
+      info: "删除项目是一个不可逆转的操作。"
       project_verification: "输入项目的名称 %{name}，以确认删除。"
       subprojects_confirmation: "其 子项目(s): %{value} 也将被删除。"
       title: "删除项目 %{name}"
@@ -2397,8 +2410,8 @@ zh-CN:
   project_module_forums: "论坛"
   project_module_work_package_tracking: "工作包"
   project_module_news: "新闻"
-  project_module_repository: "代码库"
-  project_module_wiki: "维基百科"
+  project_module_repository: "存储库"
+  project_module_wiki: "维基"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2413,84 +2426,84 @@ zh-CN:
     name_or_identifier: "名称或标识符"
   repositories:
     at_identifier: '在 %{identifier}'
-    atom_revision_feed: '原子修订种子'
-    autofetch_information: "选中此项，如果你想要访问存储库模块页面时自动更新资料库。这包括从存储库和刷新所需的磁盘存储提交的检索。"
+    atom_revision_feed: 'Atom 修订 feed'
+    autofetch_information: "如果希望在访问存储库模块页时自动更新存储库，请勾选此选项。这包括从存储库检索提交并刷新所需的磁盘空间。"
     checkout:
       access:
         readwrite: '读取 + 写入'
         read: '只读'
-        none: '没有签出的访问，您仅可通过此应用程序查看存储库。'
+        none: '无检出访问权限，您只能通过此应用程序查看存储库。'
       access_permission: '您对此存储库的权限'
-      url: "签出 URL"
-      base_url_text: "基准 URL用于生成签出 Url (例如: https://myserver.example.org/repos/) 。\n注: 基准 URL 仅用于管理存储库中的签出 Url 重写。其他存储库不会被更改。"
+      url: "检出 URL"
+      base_url_text: "根 URL 用于生成检出 URL (例如: https://myserver.example.org/repos/) 。\n备注: 根 URL 仅用于管理存储库中的检出 URL 重写。其他存储库不会被更改。"
       default_instructions:
         git: |-
-          在此存储库中包含的数据通过Git可以下载到你的计算机。如果您需要更多签出流程和可用客户端的信息，请参阅 Git 的文档。
+          该存储库中包含的数据可以通过 Git 下载到您的计算机。如果您需要更多检出流程和可用客户端的信息，请参阅 Git 的文档。
         subversion: |-
-          在此存储库中包含的数据通过Subversion可以下载到你的计算机。如果您需要更多签出流程和可用客户端的信息，请参阅 Subversion的文档。
-      enable_instructions_text: "显示签出说明在下面所有存储库相关的页面上。"
-      instructions: "签出指令"
-      show_instructions: "显示签出指令"
-      text_instructions: "URL 旁边显示此文本是为了指导如何签出存储库 。"
-      not_available: "签出指令未定义此资源库。请与你的管理员联系，在系统设置中启用他们。"
-    create_managed_delay: "请注意: 版本库已在管控中，它以异步方式在磁盘上创建并不久将处于可用状态。"
-    create_successful: "版本库已被注册。"
-    delete_sucessful: "版本库已被删除。"
+          该存储库中包含的数据可以通过 Subversion 下载到您的计算机。如果您需要更多检出流程和可用客户端的信息，请参阅 Subversion 的文档。
+      enable_instructions_text: "在所有与存储库相关的页面上显示下面定义的检出说明。"
+      instructions: "检出指令"
+      show_instructions: "显示检出指令"
+      text_instructions: "此文本将与检出 URL 一起显示，以提供有关如何检出存储库的指导。"
+      not_available: "检出指令未定义此存储库。请与你的管理员联系，在系统设置中启用他们。"
+    create_managed_delay: "请注意: 存储库已在托管中，它以异步方式在磁盘上创建并将在不久后处于可用状态。"
+    create_successful: "存储库已被注册。"
+    delete_sucessful: "存储库已被删除。"
     destroy:
-      confirmation: "如果你继续将永久删除管理的存储库。"
+      confirmation: "如果你继续将永久删除托管的存储库。"
       info: "删除存储库是一个不可逆转的操作。"
-      info_not_managed: "注意: 这不会删除这个资料库的内容，它不由 OpenProject 管理。"
+      info_not_managed: "注意: 这不会删除该存储库的内容，它不由 OpenProject 托管。"
       managed_path_note: "以下目录将被删除: %{path}"
       repository_verification: "输入项目的标识符 %{identifier}，以确认其存储库中的删除。"
-      subtitle: "你真的想要删除的项目 %{project_name} %{repository_type} 吗?"
+      subtitle: "你确定要删除项目 %{project_name} 的 %{repository_type} 吗?"
       subtitle_not_managed: "你真的想要从项目 %{project_name} 删除链接的 %{repository_type} %{url}?"
       title: "删除 %{repository_type}"
       title_not_managed: "删除链接的 %{repository_type} 吗?"
     errors:
-      build_failed: "在所选的配置下无法创建版本库。%{reason}"
-      managed_delete: "不能删除管理的存储库。"
+      build_failed: "在所选的配置下无法创建存储库。%{reason}"
+      managed_delete: "无法删除托管的存储库。"
       managed_delete_local: "无法删除 '%{path}' 在文件系统上的本地存储库: %{error_message}"
-      empty_repository: "版本库已存在，不过该库是空的。它还不包括任何版本。"
+      empty_repository: "存储库已存在，不过该库是空的。它还不包括任何版本。"
       exists_on_filesystem: "存储库目录已存在文件系统中。"
       filesystem_access_failed: "访问文件系统中的存储库时出错: %{message}"
-      not_manageable: "此版本库提供商不能被 OpenProject 管理。"
+      not_manageable: "该存储库提供商无法被 OpenProject 托管。"
       path_permission_failed: "在创建目录： %{path} 时发生错误。请确定 OpenProject 对该目录有可写权限。"
-      unauthorized: "您无权访问版本库或凭据无效。"
-      unavailable: "该版本库不可用。"
-      exception_title: "不能访问 %{message} 版本库"
-      disabled_or_unknown_type: "所选的类型 %{type} 是禁用状态或不再为SCM供应商 %{vendor} 可用。"
-      disabled_or_unknown_vendor: "SCM供应商 %{vendor} 是被禁用状态或不再可用。"
+      unauthorized: "您无权访问存储库或凭据无效。"
+      unavailable: "该存储库不可用。"
+      exception_title: "不能访问 %{message} 存储库"
+      disabled_or_unknown_type: "所选的类型 %{type} 是禁用状态或不再为SCM提供商 %{vendor} 可用。"
+      disabled_or_unknown_vendor: "SCM提供商 %{vendor} 是被禁用状态或不再可用。"
       remote_call_failed: "调用托管的远程失败消息\"%{message}\"(代码: %{code})"
-      remote_invalid_response: "从管理远程收到无效的响应。"
+      remote_invalid_response: "从托管远程收到无效的响应。"
       remote_save_failed: "不能从远程数据库中检索的参数保存存储库。"
     git:
       instructions:
-        managed_url: "这是管理 (本地) 的 Git 版本库的 URL。"
+        managed_url: "这是托管 (本地) 的 Git 存储库的 URL。"
         path: >-
           指定本地 Git 存储库的路径 (例如, %{example_path})。您也可以使用以http(s):// 或file://开始的数值复制到本地副本的远程存储库。
         path_encoding: "重写 Git 路径编码 (默认: UTF-8)"
-      local_title: "链接现有的本地 Git 版本库"
+      local_title: "链接现有的本地 Git 存储库"
       local_url: "本地URL"
-      local_introduction: "如果您已有本地 Git 版本库，可以将其链接到 OpenProject 来访问。"
-      managed_introduction: "让 OpenProject 创建并自动集成一个本地 Git 版本库。"
-      managed_title: "Git 版本库集成入 OpenProject"
+      local_introduction: "如果您已有本地 Git 存储库，可以将其链接到 OpenProject 来访问。"
+      managed_introduction: "让 OpenProject 创建并自动集成一个本地 Git 存储库。"
+      managed_title: "Git 存储库集成到 OpenProject"
       managed_url: "托管的 URL"
-      path: "Git 版本库路径"
+      path: "Git 存储库路径"
       path_encoding: "路径编码"
     go_to_revision: "切换到版本"
-    managed_remote: "此供应商的托管的资料库是远程处理。"
+    managed_remote: "该提供商的托管存储库是远程处理的。"
     managed_remote_note: "此存储库路径与 URL 信息在创建之前不可用。"
     managed_url: "托管的 URL"
     settings:
       automatic_managed_repos_disabled: "禁用自动创建"
-      automatic_managed_repos: "自动创建的托管资料库"
-      automatic_managed_repos_text: "在这里通过设置供应商，新创建的项目将自动接收此供应商管理的存储库。"
+      automatic_managed_repos: "自动创建的托管存储库"
+      automatic_managed_repos_text: "在这里通过设置提供商，新创建的项目将自动接收此提供商托管的存储库。"
     scm_vendor: "源代码、文件版本控制系统"
-    scm_type: "版本库类型"
+    scm_type: "存储库类型"
     scm_types:
-      local: "链接现有的本地版本库"
-      existing: "链接现有的版本库"
-      managed: "在 OpenProject 中创建新的版本库"
+      local: "链接现有的本地存储库"
+      existing: "链接现有的存储库"
+      managed: "在 OpenProject 中创建新的存储库"
     storage:
       not_available: "磁盘存储开销不可用于此存储库。"
       update_timeout: "保持 N 分钟为一个存储库的最后所需的磁盘空间信息。作为计算存储库所需的磁盘空间可能开销很高，增加此值可减少对性能的影响。"
@@ -2500,17 +2513,17 @@ zh-CN:
       setup_documentation_details_link_text: "文件存储设置"
       show_warning_details: "要使用此文件存储，请记得在每个所需项目的项目设置中激活模块和特定存储。"
     subversion:
-      existing_title: "现有的 Subversion 版本库"
-      existing_introduction: "如果您已有本地 Git 版本库，可以将其链接到 OpenProject 来访问。"
+      existing_title: "现有的 Subversion 存储库"
+      existing_introduction: "如果您已有本地 Git 存储库，可以将其链接到 OpenProject 来访问。"
       existing_url: "现在的URL"
       instructions:
-        managed_url: "这是管理的 (本地) Subversion 版本库的 URL。"
-        url: "输入版本库 URL。这可能既指向本地版本库 (以 %{local_proto} 开头) ，或者是一个远程版本库。下面的 URL 方案是被支持的:"
-      managed_title: "Subversion 版本库集成到 OpenProject"
+        managed_url: "这是托管的 (本地) Subversion 存储库的 URL。"
+        url: "输入存储库 URL。这可能既指向本地存储库 (以 %{local_proto} 开头) ，或者是一个远程存储库。下面的 URL 方案是被支持的:"
+      managed_title: "Subversion 存储库集成到 OpenProject"
       managed_introduction: "让 OpenProject 创建和自动集成一个Subversion本地存储库。"
       managed_url: "托管的 URL"
-      password: "版本库密码"
-      username: "版本库用户名"
+      password: "存储库密码"
+      username: "存储库用户名"
     truncated: "很抱歉，我们不得不将此目录截断为 %{limit} 个文件。列表中已省略 %{truncated} 个条目。"
     named_repository: "%{vendor_name} 存储库"
     update_settings_successful: "设置已成功保存。"
@@ -2522,7 +2535,7 @@ zh-CN:
     deactivated: '已取消激活'
   search_input_placeholder: "搜索"
   setting_apiv3_cors_enabled: "启用 CORS"
-  setting_apiv3_cors_origins: "API V3 跨源资源共享 (CORS) 允许的源"
+  setting_apiv3_cors_origins: "API v3 跨域资源共享 (CORS) 允许的域"
   setting_apiv3_cors_origins_text_html: >
     如果启用了 CORS ，这些是允许访问 OpenProject API 的源。<br/>请查看<a href="%{origin_link}" target="_blank">有关“源”标题的文档</a>，了解如何指定预期值。
   setting_apiv3_max_page_size: "最大 API 页面大小"
@@ -2531,7 +2544,7 @@ zh-CN:
   setting_apiv3_docs: "文档"
   setting_apiv3_docs_enabled: "启用文档页面"
   setting_apiv3_docs_enabled_instructions_html: >
-    如果启用了文档页面，您可以在 <a href="%{link}" target="_blank">%{link}</a> 下获得 APIv3 文档的交互式视图。
+    如果启用了文档页面，您可以在此 <a href="%{link}" target="_blank">%{link}</a> 获得 API v3 文档的交互式视图。
   setting_attachment_whitelist: "附件上传白名单"
   setting_email_delivery_method: "电子邮件发送方法"
   setting_sendmail_location: "Sendmail 的执行位置"
@@ -2543,11 +2556,11 @@ zh-CN:
   setting_smtp_user_name: "SMTP 用户名"
   setting_smtp_password: "SMTP 密码"
   setting_smtp_domain: "SMTP HELO 域"
-  setting_activity_days_default: "显示在项目活动上的天"
+  setting_activity_days_default: "项目活动显示的天数"
   setting_app_subtitle: "应用副标题"
   setting_app_title: "应用程序标题"
   setting_attachment_max_size: "最大的附件大小"
-  setting_autofetch_changesets: "自动提取资源库更改"
+  setting_autofetch_changesets: "自动提取存储库更改"
   setting_autologin: "自动登录"
   setting_available_languages: "可用语言"
   setting_bcc_recipients: "密件抄送 (bcc) 收件人"
@@ -2574,14 +2587,14 @@ zh-CN:
   setting_diff_max_lines_displayed: "最大差异显示行数"
   setting_display_subprojects_work_packages: "默认在主项目上显示子项目工作包"
   setting_emails_footer: "电子邮件页脚"
-  setting_emails_header: "电子邮件标头"
+  setting_emails_header: "电子邮件页眉"
   setting_email_login: "使用电子邮件作为登录名"
   setting_enabled_scm: "启用 SCM"
   setting_enabled_projects_columns: "在项目列表中可见"
   setting_feeds_enabled: "启用Feeds"
   setting_ical_enabled: "启用 iCalendar 订阅"
-  setting_feeds_limit: "Feed内容限制"
-  setting_file_max_size_displayed: "内联显示的文本文件的最大文件大小"
+  setting_feeds_limit: "Feed 内容限制"
+  setting_file_max_size_displayed: "内联显示的文本文件的最大大小"
   setting_host_name: "主机名"
   setting_invitation_expiration_days: "激活电子邮件将在此时间后过期"
   setting_work_package_done_ratio: "计算工作包完成比率"
@@ -2592,7 +2605,7 @@ zh-CN:
   setting_work_package_properties: "工作包属性"
   setting_work_package_startdate_is_adddate: "使用当前日期作为新工作包的开始日期"
   setting_work_packages_projects_export_limit: "工作包/项目导出限制"
-  setting_journal_aggregation_time_minutes: "内部聚合的用户操作"
+  setting_journal_aggregation_time_minutes: "聚合该时间内的用户操作"
   setting_log_requesting_user: "记录所有请求的用户帐户，名称和邮件地址"
   setting_login_required: "需要身份验证"
   setting_mail_from: "发出的电子邮件地址"
@@ -2603,33 +2616,33 @@ zh-CN:
   setting_new_project_user_role_id: "给创建项目的非管理员用户的角色"
   setting_password_active_rules: "基本字符类型"
   setting_password_count_former_banned: "禁止重复使用最近使用密码的数量"
-  setting_password_days_valid: "数天之后，用以强制更改密码"
+  setting_password_days_valid: "强制更改密码的天数"
   setting_password_min_length: "最小长度"
   setting_password_min_adhered_rules: "所需类的最小数目"
   setting_per_page_options: "每页对象选项"
-  setting_plain_text_mail: "纯文本邮件 (没有 HTML)"
+  setting_plain_text_mail: "纯文本邮件 (不含 HTML)"
   setting_protocol: "协议"
   setting_project_gantt_query: "项目组合甘特视图"
   setting_project_gantt_query_text: "您可以从项目概览页面修改用于显示甘特图的查询。"
   setting_security_badge_displayed: "显示安全徽章"
   setting_registration_footer: "注册页脚"
-  setting_repositories_automatic_managed_vendor: "自动存储库供应商类型"
-  setting_repositories_encodings: "代码库的编码"
+  setting_repositories_automatic_managed_vendor: "自动存储库提供商类型"
+  setting_repositories_encodings: "存储库编码"
   setting_repository_authentication_caching_enabled: "启用版本控制软件的身份验证请求缓存"
   setting_repository_storage_cache_minutes: "存储库磁盘大小的高速缓存"
-  setting_repository_checkout_display: "显示签出说明"
-  setting_repository_checkout_base_url: "签出基线 URL"
-  setting_repository_checkout_text: "签出说明文本"
+  setting_repository_checkout_display: "显示检出说明"
+  setting_repository_checkout_base_url: "检出根 URL"
+  setting_repository_checkout_text: "检出说明文本"
   setting_repository_log_display_limit: "在文件日志中显示的修订版本最大数目"
   setting_repository_truncate_at: "存储库浏览器中显示的最多的文件个数"
-  setting_rest_api_enabled: "启用REST web service"
+  setting_rest_api_enabled: "启用 REST Web 服务"
   setting_self_registration: "自助注册"
   setting_session_ttl: "在处于非活动状态后会话过期时间"
   setting_session_ttl_hint: "值低于5的类似禁用"
   setting_session_ttl_enabled: "会话过期"
   setting_start_of_week: "一周起始日"
   setting_sys_api_enabled: "启用版本库管理 web 服务"
-  setting_sys_api_description: "版本库管理 web 服务提供了一体化的，以及用户授权来访问版本库。"
+  setting_sys_api_description: "存储库管理网页服务提供了集成的，用户授权的存储库访问。"
   setting_time_format: "时间"
   setting_accessibility_mode_for_anonymous: "为匿名用户启用辅助功能模式"
   setting_user_format: "用户名格式"
@@ -2637,7 +2650,7 @@ zh-CN:
   setting_users_deletable_by_admins: "可由管理员删除用户帐户"
   setting_users_deletable_by_self: "允许用户删除其帐户"
   setting_welcome_text: "欢迎块文本"
-  setting_welcome_title: "欢迎区块标题"
+  setting_welcome_title: "欢迎块标题"
   setting_welcome_on_homescreen: "在主屏幕上显示欢迎信息"
   setting_work_package_list_default_highlighting_mode: "默认突出显示模式"
   setting_work_package_list_default_highlighted_attributes: "默认内联突出显示属性"
@@ -2682,7 +2695,7 @@ zh-CN:
       deletion: "删除"
     working_days:
       section_work_week: "工作周"
-      section_holidays_and_closures: "节假日和关闭"
+      section_holidays_and_closures: "节假日与停业"
   text_formatting:
     markdown: 'Markdown'
     plain: '纯文本'
@@ -2709,7 +2722,7 @@ zh-CN:
   text_caracters_maximum: "最多 %{count} 字符。"
   text_caracters_minimum: "必须至少为 %{count} 个字符长。"
   text_comma_separated: "允许有多个值 （逗号分隔）。"
-  text_comment_wiki_page: "Wiki 页面（%{page}）的评论"
+  text_comment_wiki_page: "维基页面（%{page}）的评论"
   text_custom_field_possible_values_info: "每个值一行"
   text_custom_field_hint_activate_per_project: >
     使用自定义字段时：请记住，还需要按项目激活自定义字段。
@@ -2720,7 +2733,7 @@ zh-CN:
   text_project_custom_field_html: >
     企业版将为项目的自定义字段添加以下其他附加组件：<br> <ul> <li><b>在项目列表中添加项目自定义字段，以创建项目组合视图</b></li> </ul>
   text_custom_logo_instructions: >
-    建议在透明背景上使用白色商标。请确保您的图片尺寸为460px ×60px，不管对传统显示屏和液晶显示屏都是最好的。
+    建议使用透明背景的白色Logo。为了在普通及Retina显示屏上获得最佳效果，请确保图像尺寸为460像素 × 60像素。
   text_custom_export_logo_instructions: >
     这是在 PDF 导出文件中显示的徽标。它需要为 PNG 或 JPEG 图像文件。建议使用带有透明或白色背景的黑色或彩色徽标。
   text_custom_favicon_instructions: >
@@ -2738,7 +2751,7 @@ zh-CN:
   text_enumeration_category_reassign_to: "重新分配以此值："
   text_enumeration_destroy_question: "%{count} 个对象被分配到该值。"
   text_file_repository_writable: "附件目录可写"
-  text_git_repo_example: "一个纯粹和本地的代码库(e.g. /gitrepo, c:\\gitrepo)"
+  text_git_repo_example: "一个裸的和本地的存储库例如： /gitrepo, c:\\gitrepo)"
   text_hint_date_format: "输入格式为 YYYY-MM-DD 的日期。其他格式可能会被更改为不需要的日期。"
   text_hint_disable_with_0: "注意: 0被禁用"
   text_hours_between: "%{min} 到 %{max} 小时。"
@@ -2747,8 +2760,8 @@ zh-CN:
   text_work_package_category_destroy_question: "一些工作包 (%{count}) 被分配到这个类别。你想做什么？"
   text_work_package_category_reassign_to: "重新分配工作包到此类别"
   text_work_package_updated: "工作包 %{id} 已经被 %{author} 更新。"
-  text_work_package_watcher_added: "%{watcher_changer} 已将您添加为工作包 %{id} 的一个关注人。"
-  text_work_package_watcher_removed: "%{watcher_changer} 已将您从工作包 %{id} 的关注人中移除。"
+  text_work_package_watcher_added: "%{watcher_changer} 已将您添加为工作包 %{id} 的一个关注者。"
+  text_work_package_watcher_removed: "%{watcher_changer} 已将您从工作包 %{id} 的关注者中移除。"
   text_work_packages_destroy_confirmation: "确实要删除所选的工作包吗?"
   text_work_packages_ref_in_commit_messages: "引用和修复工作包中提交消息"
   text_journal_added: "%{label} %{value} 已添加"
@@ -2785,7 +2798,7 @@ zh-CN:
   text_reassign: "重新分配工作包:"
   text_regexp_info: "例如 ^ [A-Z0-9]+$"
   text_regexp_multiline: '以多行模式应用正则表达式，如 ^---\s+'
-  text_repository_usernames_mapping: "选择或更新每个在代码库日志中发现的用户名所映射到的 OpenProject 用户。\n使用相同 OpenProject 和代码库用户名或电子邮件的用户已被自动映射。"
+  text_repository_usernames_mapping: "选择或更新每个在存储库日志中发现的用户名所映射到的 OpenProject 用户。\n使用相同 OpenProject 和存储库用户名或电子邮件的用户已被自动映射。"
   text_status_changed_by_changeset: "被实施在更改集 %{value} 中。"
   text_table_difference_description: "此表单展现了单个%{entries}。您可以先选择多选框，再点击表单下方的按钮来比较两项之间的差异。"
   text_time_logged_by_changeset: "已应用在更改集 %{value} 中。"
@@ -2798,11 +2811,11 @@ zh-CN:
   text_user_wrote: "%{value} 写道："
   text_warn_on_leaving_unsaved: "此工作包包含未保存的文本，如果您离开此页面未保存的文本将会丢失。"
   text_what_did_you_change_click_to_add_comment: "你做出了什么更改？点击添加注释"
-  text_wiki_destroy_confirmation: "确实要删除此 wiki 和它的所有内容吗?"
+  text_wiki_destroy_confirmation: "确实要删除此维基和它的所有内容吗?"
   text_wiki_page_destroy_children: "删除子页面和所有他们的派生页面"
   text_wiki_page_destroy_question: "此页有 %{descendants} 子页面和派生页面。你想做什么？"
   text_wiki_page_nullify_children: "保持子网页作为根页面"
-  text_wiki_page_reassign_children: "重新分配到此父页的子网页"
+  text_wiki_page_reassign_children: "将子级页面重新分配给该父级页面"
   text_workflow_edit: "选择编辑工作流的角色和类型"
   text_zoom_in: "放大"
   text_zoom_out: "缩小"
@@ -2845,9 +2858,9 @@ zh-CN:
     active: "激活"
     activate: "激活"
     activate_and_reset_failed_logins: "激活和重置失败的帐户"
-    authentication_provider: "身份验证提供程序"
+    authentication_provider: "身份认证提供程序"
     authentication_settings_disabled_due_to_external_authentication: >
-      此用户验证通过外部身份验证提供程序，所以在 OpenProject 中没有密码将被改变。
+      该用户通过外部身份验证提供程序进行身份验证，因此在 OpenProject 中没有密码可供更改。
     authorization_rejected: "你不允许登录。"
     assign_random_password: "分配随机密码 (通过电子邮件发送给用户)"
     blocked: "暂时锁定"
@@ -2883,7 +2896,7 @@ zh-CN:
   warning_user_limit_reached: >
     达到用户限制。 您无法再激活任何用户。 请<a href="%{upgrade_url}">升级您的计划</a>或阻止会员以允许其他用户。
   warning_user_limit_reached_instructions: >
-    您已达到用户限制（%{current}/%{max} 活跃用户）。请联系 sales@openproject.com 升级您的企业版计划以添加额外用户。
+    您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise edition计划并添加其他用户。
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -2897,23 +2910,23 @@ zh-CN:
         您的应用程序正在运行，并且主机名设置为 <code>%{set_hostname}</code>，但请求是 <code>%{actual_hostname}</code>。这将导致错误！转到<a href="%{setting_path}">系统设置</a>并更改“主机名”设置以纠正。
   menu_item: "菜单项"
   menu_item_setting: "可见性"
-  wiki_menu_item_for: "wiki页面” %{title} “的菜单项"
+  wiki_menu_item_for: "维基页面” %{title} “的菜单项"
   wiki_menu_item_setting: "可见性"
   wiki_menu_item_new_main_item_explanation: >
-    您正在删除唯一的主wiki菜单项。您现在需要选择一个wiki页面生成新的主项目。若要删除wiki，wiki模块可以由管理员停用。
-  wiki_menu_item_delete_not_permitted: 不能删除唯一 wiki 页面的 wiki 菜单项。
+    您正在删除唯一的主维基菜单项。您现在需要选择一个维基页面生成新的主项目。若要删除维基，维基模块可以由管理员停用。
+  wiki_menu_item_delete_not_permitted: 不能删除唯一维基页面的维基菜单项。
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
-      _自动更新由于改变子工作包 %{child} 内的值_
+      _自动更新源于改变子工作包 %{child} 内的值_
     destroy:
       info: "删除工作包是不可逆的操作。"
       title: "删除工作包"
   working_days:
     info: >
-      调度工作包时跳过未选择的天数(不包括在白天计数中)。 这些可以在工作包一级覆盖。
+      当安排工作包时，未选择的日期将被跳过（不计入天数）。这些日期可以在工作包级别进行覆盖。
     instance_wide_info: >
-      添加到下面列表的日期被视为无效，调度工作包时跳过。
+      添加到以下列表的日期被视为非工作日，在安排工作包时将被跳过。
     change_button: "更改工作日"
     warning: >
       更改将一周中的哪几天视为工作日或非工作日会影响此实例的所有项目中所有工作包的开始和结束日期。<br/>请注意，只有在您点击“应用更改”按钮后，更改才会应用。
@@ -2970,7 +2983,7 @@ zh-CN:
       validation:
         done_ratio: "当完成比例牵扯“状态”时，或被禁用时，不能在父工作包中对其进行设置。"
         due_date: "不能在父工作包中设置完成日期。"
-        estimated_hours: "不能在父工作包中设置预估的小时数。"
+        estimated_hours: "无法为父级工作包设置预算工时。"
         invalid_user_assigned_to_work_package: "所选的用户不允许为此工作包的 '%{property}'。"
         start_date: "不能在父工作包中设置开始日期。"
       eprops:
@@ -3054,7 +3067,7 @@ zh-CN:
       api_v3: "API v3 完全访问权限"
       api_v3_text: "应用程序将获得 OpenProject API v3 的完全读写访问权限来代表您执行操作。"
     grants:
-      created_date: "批准日期"
+      created_date: "批准于"
       scopes: "权限"
       successful_application_revocation: "已成功撤销应用程序 %{application_name}。"
       none_given: "没有 OAuth 应用程序已获得访问您的用户帐户的权限。"
@@ -3119,3 +3132,9 @@ zh-CN:
     response:
       unexpected: "收到意外响应。"
   you: 您
+  plugin_openproject_auth_plugins:
+    name: "OpenProject 认证插件"
+    description: "在 OpenProject 中集成 OmniAuth 策略提供程序以进行身份验证。"
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / SSO单点登录"
+    description: "将 OmniAuth SAML 身份提供程序添加到 OpenProject"

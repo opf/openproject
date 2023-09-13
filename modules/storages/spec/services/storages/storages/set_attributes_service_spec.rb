@@ -104,7 +104,7 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
   end
 
   context 'with existing record' do
-    let(:model_instance) { build_stubbed(:storage, name: 'My Storage', creator: build_stubbed(:user)) }
+    let(:model_instance) { build_stubbed(:nextcloud_storage, name: 'My Storage', creator: build_stubbed(:user)) }
 
     it 'keeps its name' do
       expect(subject.result.name).to eq 'My Storage'

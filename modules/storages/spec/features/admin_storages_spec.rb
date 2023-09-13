@@ -245,12 +245,12 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
 
   describe 'configuration checks' do
     let!(:configured_storage) do
-      storage = create(:storage)
+      storage = create(:nextcloud_storage)
       create(:oauth_application, integration: storage)
       create(:oauth_client, integration: storage)
       storage
     end
-    let!(:unconfigured_storage) { create(:storage) }
+    let!(:unconfigured_storage) { create(:nextcloud_storage) }
 
     it 'reports storages that are not configured correctly' do
       visit admin_settings_storages_path

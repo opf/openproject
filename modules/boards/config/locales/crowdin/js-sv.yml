@@ -62,7 +62,7 @@ sv:
           status: Status
           version: Version
           subproject: Delprojekt
-          subtasks: Parent-child
+          subtasks: Förälder-barn
           basic: Enkel
         select_attribute: "Åtgärdsattribut"
       add_list_modal:

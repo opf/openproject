@@ -21,7 +21,7 @@
 #++
 fa:
   plugin_budgets_engine:
-    name: 'Budgets'
+    name: 'بودجه ها'
   activerecord:
     attributes:
       budget:

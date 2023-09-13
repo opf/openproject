@@ -461,6 +461,8 @@ zh-TW:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repository"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "已評論" #an object that this comment belongs to
       custom_action:
@@ -1425,7 +1427,7 @@ zh-TW:
     changes_retracted: "更改已被撤銷"
     caused_changes:
       dates_changed: "Dates changed"
-      system_update: "OpenProject update"
+      system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1441,7 +1443,8 @@ zh-TW:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       system_update:
-        file_links_journal: 'added File links to Activities'
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
   links:
     configuration_guide: '設定指南'
     get_in_touch: "如有任何問題，歡迎聯繫我們"
@@ -2082,8 +2085,8 @@ zh-TW:
     zero: "沒有專案"
   label_yesterday: "昨天"
   label_role_type: "類型"
-  label_member_role: "專案角色"
-  label_global_role: "全域角色"
+  label_member_role: "Project role"
+  label_global_role: "Global role"
   label_not_changeable: "(不可更改)"
   label_global: "全域設定"
   label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
@@ -2170,8 +2173,8 @@ zh-TW:
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} 個指派給您的工作項目將在 %{days} 天後到期"
   mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
-  mail_body_wiki_content_added: "Wiki 頁面 '%{id}' 已經被 %{author} 增加"
-  mail_body_wiki_content_updated: "Wiki 頁面 '%{id}' 已經被 %{author} 更新"
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "帳號 %{value} 啟用請求"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2308,7 +2311,7 @@ zh-TW:
   permission_add_work_package_notes: "增加註釋"
   permission_add_work_packages: "新增工作項目"
   permission_add_messages: "張貼訊息"
-  permission_add_project: "建立專案"
+  permission_add_project: "Create projects"
   permission_archive_project: "專案歸檔"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
@@ -2322,7 +2325,7 @@ zh-TW:
   permission_commit_access: "讀/寫 權限版本庫 (Commit)"
   permission_copy_projects: "複製專案"
   permission_copy_work_packages: "Copy work packages"
-  permission_create_backup: "Create backup"
+  permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "刪除監看者"
   permission_delete_work_packages: "刪除工作項目"
   permission_delete_messages: "刪除訊息"
@@ -2349,6 +2352,7 @@ zh-TW:
   permission_log_time: "紀錄他人耗時"
   permission_manage_forums: "管理論壇"
   permission_manage_categories: "管理工作項目類別"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "管理工作項目關聯"
   permission_manage_members: "管理成員"
   permission_manage_news: "管理消息"
@@ -2363,14 +2367,19 @@ zh-TW:
   permission_protect_wiki_pages: "專案維基頁面"
   permission_rename_wiki_pages: "重新命名維基頁面"
   permission_save_queries: "保存視圖"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "選擇專案的模組"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "選擇類型"
+  permission_view_project: "View projects"
   permission_view_changesets: "在 OpenProject 檢視版本庫修訂"
   permission_view_commit_author_statistics: "檢視 Commit 的作者統計資訊"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "檢視監看者清單"
   permission_view_work_packages: "檢視工作項目"
   permission_view_messages: "檢視訊息"
+  permission_view_news: "View news"
   permission_view_members: "檢視成員"
   permission_view_reportings: "檢視報表"
   permission_view_time_entries: "檢視耗時"
@@ -2379,6 +2388,9 @@ zh-TW:
   permission_view_wiki_pages: "檢視維基"
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "可以將工作包分配給在相應專案中擁有此角色的使用者和群組"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
   placeholders:
     default: "-"
   project:

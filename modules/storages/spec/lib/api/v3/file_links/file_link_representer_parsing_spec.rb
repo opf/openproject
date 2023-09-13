@@ -35,7 +35,7 @@ RSpec.describe API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
   include API::V3::Utilities::PathHelper
 
   let(:file_link) { build_stubbed(:file_link) }
-  let(:storage) { build_stubbed(:storage) }
+  let(:storage) { build_stubbed(:nextcloud_storage) }
 
   let(:current_user) { build_stubbed(:user) }
 

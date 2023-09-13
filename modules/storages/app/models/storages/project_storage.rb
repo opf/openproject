@@ -52,7 +52,7 @@ class Storages::ProjectStorage < ApplicationRecord
   scope :automatic, -> { where(project_folder_mode: 'automatic') }
 
   def project_folder_path
-    "#{storage.group_folder}/#{project.name.gsub('/', '|')} (#{project.id})/"
+    "#{storage.group_folder}/#{project.name.tr('/', '|')} (#{project.id})/"
   end
 
   def project_folder_path_escaped

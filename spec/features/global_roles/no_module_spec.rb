@@ -36,15 +36,15 @@ RSpec.describe 'Global role: No module',
   let(:project) { create(:project) }
   let!(:role) { create(:role) }
 
+  # Scenario:
+  # Given there is the global permission "glob_test" of the module "global"
+  include_context 'with mocked global permissions', [['global_perm1', { project_module: :global }]]
+
   before do
     login_as admin
   end
 
   it 'Global Rights Modules do not exist as Project -> Settings -> Modules' do
-    # Scenario:
-    # Given there is the global permission "glob_test" of the module "global"
-    mock_global_permissions [['global_perm1', { project_module: :global }]]
-
     # And there is 1 project with the following:
     # | name       | test |
     # | identifier | test |

@@ -78,7 +78,7 @@ module OpenProject
         if Rails.env.production?
           self['enterprise_trial_creation_host']
         else
-          'https://augur.openproject-edge.com'
+          'https://start.openproject-edge.com'
         end
       end
 
@@ -201,7 +201,7 @@ module OpenProject
       # Either the value already is an array or a string with values separated by spaces.
       # In the latter case the string will be split and the values returned as an array.
       def array(value)
-        if value.is_a?(String) && value =~ / /
+        if value.is_a?(String) && value.include?(' ')
           value.split
         else
           Array(value)

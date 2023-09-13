@@ -61,7 +61,7 @@ RSpec.describe Principals::ReplaceReferencesService, '#call', type: :model do
 
   context 'with Storage' do
     it_behaves_like 'replaces the creator' do
-      let(:model) { create(:storage, creator: principal) }
+      let(:model) { create(:nextcloud_storage, creator: principal) }
     end
   end
 

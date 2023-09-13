@@ -61,6 +61,7 @@ cs:
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Nahradit OpenProject OAuth"
       replace_provider_type_oauth: "Nahradit %{provider_type} OAuth"
+      save: "Save"
       save_and_continue_setup: "Uložit a pokračovat v nastavení"
       save_and_complete_setup: "Uložit a dokončit nastavení"
       select_folder: "Vyberte složku"
@@ -102,7 +103,7 @@ cs:
       nextcloud:
         integration: "Nextcloud Administrace / OpenProject"
       one_drive:
-        integration: "OneDrive/Sharepoint"
+        integration: "OneDrive/SharePoint"
         oauth_client_id: >
           Copy the client id from the Azure portal. This is needed to generate the redirect URI.
         oauth_client_secret: >
@@ -142,6 +143,7 @@ cs:
     label_provider_type: "Typ poskytovatele"
     label_project_folder: "Složka projektu"
     label_new_storage: "Nové úložiště"
+    label_edit_storage: "Edit storage"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_no_specific_folder: "Žádná specifická složka"
     label_automatic_folder: "New folder with automatically managed permissions"
@@ -162,7 +164,7 @@ cs:
         name: "Nextcloud"
         name_placeholder: "e.g. Nextcloud"
       one_drive:
-        name: "OneDrive/Sharepoint"
+        name: "OneDrive/SharePoint"
         name_placeholder: "e.g. OneDrive"
     confirm_replace_oauth_application: "Jste si jisti? Všichni uživatelé se budou muset znovu autorizovat proti OpenProject."
     confirm_replace_oauth_client: "Jste si jisti? Všichni uživatelé budou muset znovu autorizovat proti úložišti."

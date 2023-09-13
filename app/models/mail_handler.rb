@@ -272,8 +272,8 @@ class MailHandler < ActionMailer::Base
     email
       .attachments
       .reject { |attachment| ignored_filename?(attachment.filename) }
-      .map { |attachment| create_attachment(attachment, container) }
-      .compact
+      .filter_map { |attachment| create_attachment(attachment, container) }
+      
   end
 
   def create_attachment(attachment, container)

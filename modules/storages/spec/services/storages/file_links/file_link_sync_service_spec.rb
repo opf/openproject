@@ -37,8 +37,8 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
   let(:project) { create(:project, members: { user => role }) }
   let(:work_package) { create(:work_package, project:) }
 
-  let(:storage_one) { create(:storage, host: "https://host-1.example.org") }
-  let(:storage_two) { create(:storage, host: "https://host-2.example.org") }
+  let(:storage_one) { create(:nextcloud_storage, host: "https://host-1.example.org") }
+  let(:storage_two) { create(:nextcloud_storage, host: "https://host-2.example.org") }
 
   let(:file_link_one) { create(:file_link, storage: storage_one, container: work_package) }
   let(:file_link_two) { create(:file_link, storage: storage_two, container: work_package) }

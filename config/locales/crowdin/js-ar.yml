@@ -416,7 +416,7 @@ ar:
     label_filename: "ملف"
     label_filesize: "حجم"
     label_general: "عام"
-    label_global_roles: "الأدوار العالمية"
+    label_global_roles: "Global roles"
     label_greater_or_equal: "=<"
     label_group: 'مجموعة'
     label_group_by: "تصنيف حسب"

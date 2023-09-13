@@ -54,6 +54,8 @@ module Storages
     Registry.import StorageInteraction::Nextcloud::Queries
     Registry.import StorageInteraction::Nextcloud::Commands
 
+    Registry.import StorageInteraction::OneDrive::Queries
+
     Registry.import Contracts
   end
 end

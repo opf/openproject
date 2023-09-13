@@ -62,7 +62,7 @@ he:
     work_package_is_closed: "Work package is done, when"
     label_is_done_status: "Status %{status_name} means done"
     no_burndown_data: "No burndown data available. It is necessary to have the sprint start- and end dates set."
-    points: "Points"
+    points: "נקודות"
     positions_could_not_be_rebuilt: "Positions could not be rebuilt."
     positions_rebuilt_successfully: "Positions rebuilt successfully."
     properties: "Properties"

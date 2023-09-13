@@ -25,29 +25,19 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-module Storages::Common
-  module ConfigurationChecks
-    extend ActiveSupport::Concern
 
-    included do
-      scope :configured, -> do
-        where.associated(:oauth_client, :oauth_application)
-             .where("storages.host IS NOT NULL AND storages.name IS NOT NULL")
-      end
-    end
+class Authorization::UserEntityRolesQuery < Authorization::UserRolesQuery
+  transformations.register :all, :user_restriction do |statement, user, _|
+    statement.where(users_table[:id].eq(user.id))
+  end
 
-    def configured?
-      configuration_checks.values.all?
-    end
+  transformations.register users_members_join, :entity_restriction do |statement, _, entity|
+    statement = statement
+      .and(members_table[:entity_type].eq(entity.class.to_s))
+      .and(members_table[:entity_id].eq(entity.id))
 
-    def configuration_checks
-      { storage_oauth_client_configured: oauth_client.present? }.tap do |configuration_checks|
-        if provider_type_nextcloud?
-          configuration_checks.merge!({ openproject_oauth_application_configured: oauth_application.present?,
-                                        host_name_configured: (host.present? && name.present?) })
-        end
-      end
-    end
+    statement = statement.and(members_table[:project_id].eq(entity.project_id)) if entity.respond_to?(:project_id)
+
+    statement
   end
 end

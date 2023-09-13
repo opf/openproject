@@ -391,9 +391,7 @@ class RepositoriesController < ApplicationController
 
   def graph_commits_per_author(repository)
     commits_by_author = Changeset.where(['repository_id = ?', repository.id]).group(:committer).size
-    commits_by_author.to_a.sort! do |x, y|
-      x.last <=> y.last
-    end
+    commits_by_author.to_a.sort_by!(&:last)
 
     changes_by_author = Change.includes(:changeset)
                         .where(["#{Changeset.table_name}.repository_id = ?", repository.id])
