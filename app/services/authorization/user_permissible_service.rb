@@ -74,7 +74,7 @@ module Authorization
     end
 
     def admin_and_all_granted_to_admin?(perms)
-      user.admin? && perms.all?(&:granted_to_admin?)
+      user.admin? && perms.all?(&:grant_to_admin?)
     end
   end
 end

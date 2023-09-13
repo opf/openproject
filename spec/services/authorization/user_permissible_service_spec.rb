@@ -15,6 +15,16 @@ RSpec.describe Authorization::UserPermissibleService do
         expect { subject.allowed_globally?(permission) }.to raise_error(Authorization::UnknownPermissionError)
       end
     end
+
+    context 'when asking for a permission that is defined' do
+      let(:permission) { :create_user }
+
+      context 'and the user is an admin' do
+        let(:user) { create(:admin) }
+
+        it { is_expected.to be_allowed_globally(permission) }
+      end
+    end
   end
 
   describe '#allowed_in_project?' do
