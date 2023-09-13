@@ -2561,11 +2561,11 @@ en:
   query_fields:
     active_or_archived: "Active or archived"
     assigned_to_role: "Assignee's role"
-    member_of_group: "Assignee's group"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "Assignee's group"
     name_or_identifier: "Name or identifier"
+    only_subproject_id: "Only subproject"
+    subproject_id: "Including subproject"
 
   repositories:
     at_identifier: 'at %{identifier}'
