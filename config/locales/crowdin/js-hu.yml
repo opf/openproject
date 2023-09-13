@@ -416,7 +416,7 @@ hu:
     label_filename: "File"
     label_filesize: "Méret"
     label_general: "Általános"
-    label_global_roles: "Globális szerepek"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'Csoport'
     label_group_by: "Csoportosítás a következők szerint"

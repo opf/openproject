@@ -998,7 +998,7 @@ zh-CN:
     default_columns: "默认的列"
     description: "描述"
     derived_due_date: "派生的完成日期"
-    derived_estimated_hours: "派生的估计时间"
+    derived_estimated_hours: "派生的估算工时"
     derived_start_date: "派生的开始日期"
     display_sums: "显示汇总"
     due_date: "完成日期"
@@ -1399,9 +1399,9 @@ zh-CN:
   gui_validation_error_plural: "%{count} 错误"
   homescreen:
     additional:
-      projects: "此OpenProject 实例中的最新可见项目。"
+      projects: "此 OpenProject 实例中的最新可见项目。"
       no_visible_projects: "这个 OpenProject 中没有可见的项目。"
-      users: "此OpenProject 实例中的最新注册用户。"
+      users: "此 OpenProject 实例中的最新注册用户。"
     blocks:
       community: "OpenProject 社区"
       upsale:
@@ -2627,7 +2627,7 @@ zh-CN:
   setting_security_badge_displayed: "显示安全徽章"
   setting_registration_footer: "注册页脚"
   setting_repositories_automatic_managed_vendor: "自动存储库提供商类型"
-  setting_repositories_encodings: "存储库的编码"
+  setting_repositories_encodings: "存储库编码"
   setting_repository_authentication_caching_enabled: "启用版本控制软件的身份验证请求缓存"
   setting_repository_storage_cache_minutes: "存储库磁盘大小的高速缓存"
   setting_repository_checkout_display: "显示检出说明"
@@ -2918,7 +2918,7 @@ zh-CN:
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
-      _自动更新由于改变子工作包 %{child} 内的值_
+      _自动更新源于改变子工作包 %{child} 内的值_
     destroy:
       info: "删除工作包是不可逆的操作。"
       title: "删除工作包"

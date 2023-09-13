@@ -416,7 +416,7 @@ fa:
     label_filename: "فایل"
     label_filesize: "اندازه‌"
     label_general: "General"
-    label_global_roles: "نقش های عمومی"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'Group'
     label_group_by: "Group by"

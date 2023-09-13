@@ -415,7 +415,7 @@ el:
     label_filename: "Aρχείο"
     label_filesize: "Μέγεθος"
     label_general: "Γενικά"
-    label_global_roles: "Καθολικοί Ρόλοι"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'Ομάδα'
     label_group_by: "Ομαδοποίηση κατά"

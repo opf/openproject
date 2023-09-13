@@ -416,7 +416,7 @@ et:
     label_filename: "Manus"
     label_filesize: "Suurus"
     label_general: "Üldine"
-    label_global_roles: "Üldised rollid"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'Grupp'
     label_group_by: "Grupeeri"

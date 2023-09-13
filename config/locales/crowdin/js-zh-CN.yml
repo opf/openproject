@@ -345,7 +345,7 @@ zh-CN:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                此版本包含多项新功能和改进：<br> <ul class="%{list_styling_class}"> <li>基线比较，以轻松跟踪更改。</li> <li>PDF 导出，以报告工作计划。</li> <li>通过 URL (iCalendar) 订阅项目日历。</li> <li>具有文档模板的项目文件夹，以集成 Nextcloud。</li> <li>所有种子数据的本地化种子。</li> <li>全局模块在新的索引页中列出。</li> </ul>
+                此版本包含多项新功能和改进：<br> <ul class="%{list_styling_class}"> <li>基线比较，以轻松跟踪更改。</li> <li>PDF 导出，以报告工作计划。</li> <li>通过 URL (iCalendar) 订阅项目日历。</li> <li>具有文档模板的项目文件夹，以集成 Nextcloud。</li> <li>所有种子数据均已本地化。</li> <li>在新的索引页中列出全局模块。</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
