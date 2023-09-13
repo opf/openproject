@@ -54,7 +54,7 @@ RSpec.describe 'Global role: Global role assignment',
 
     it 'allows global roles management' do
       visit edit_user_path user
-      click_link 'Global Roles'
+      click_link 'Global roles'
 
       page.within('#table_principal_roles') do
         expect(page).to have_text 'global_role1'

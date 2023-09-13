@@ -416,7 +416,7 @@ fi:
     label_filename: "Tiedosto"
     label_filesize: "Koko"
     label_general: "Yleinen"
-    label_global_roles: "Yleiset roolit"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'Ryhmä'
     label_group_by: "Ryhmittely"

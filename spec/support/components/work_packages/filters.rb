@@ -226,7 +226,7 @@ module Components
         retry_block do
           # wait for filter to be present
           filter_element = page.find("#filter_#{id}")
-          if filter_element.has_selector?("[data-qa-selector='op-basic-range-date-picker']", wait: false)
+          if filter_element.has_selector?("[data-test-selector='op-basic-range-date-picker']", wait: false)
             insert_date_range(filter_element, value)
           elsif operator == 'between'
             insert_two_single_dates(id, value)
@@ -264,7 +264,7 @@ module Components
       end
 
       def insert_date_range(filter_element, value)
-        date_input = filter_element.find("[data-qa-selector='op-basic-range-date-picker']")
+        date_input = filter_element.find("[data-test-selector='op-basic-range-date-picker']")
         ensure_value_is_input_correctly date_input, value: Array(value).join(' - ')
       end
 
@@ -296,7 +296,7 @@ module Components
             value.each do |v|
               expect(page).to have_selector("#values-#{id} .ng-value-label", text: v)
             end
-          elsif page.has_selector?("#filter_#{id} [data-qa-selector='op-basic-range-date-picker']", wait: false)
+          elsif page.has_selector?("#filter_#{id} [data-test-selector='op-basic-range-date-picker']", wait: false)
             expected_value =
               if value[1]
                 "#{value[0]} - #{value[1]}"
@@ -305,7 +305,7 @@ module Components
               else
                 "-"
               end
-            input = page.find("#filter_#{id} [data-qa-selector='op-basic-range-date-picker']")
+            input = page.find("#filter_#{id} [data-test-selector='op-basic-range-date-picker']")
             expect(input.value).to eql(expected_value)
           else
             page.all('input').each_with_index do |input, index|

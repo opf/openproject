@@ -415,7 +415,7 @@ da:
     label_filename: "Fil"
     label_filesize: "Størrelse"
     label_general: "Generelle"
-    label_global_roles: "Global Roles"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'Gruppe'
     label_group_by: "Gruppér efter"

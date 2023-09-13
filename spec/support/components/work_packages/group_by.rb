@@ -56,15 +56,15 @@ module Components
       end
 
       def expect_number_of_groups(count)
-        expect(page).to have_selector('[data-qa-selector="op-group--value"] .count', count:)
+        expect(page).to have_selector('[data-test-selector="op-group--value"] .count', count:)
       end
 
       def expect_grouped_by_value(value_name, count)
-        expect(page).to have_selector('[data-qa-selector="op-group--value"]', text: "#{value_name} (#{count})")
+        expect(page).to have_selector('[data-test-selector="op-group--value"]', text: "#{value_name} (#{count})")
       end
 
       def expect_no_groups
-        expect(page).not_to have_selector('[data-qa-selector="op-group--value"]')
+        expect(page).not_to have_selector('[data-test-selector="op-group--value"]')
       end
 
       def expect_not_grouped_by(name)

@@ -73,9 +73,10 @@ RSpec.describe 'Showing of file links in work package', js: true do
 
   context 'if work package has associated file links' do
     it "must show associated file links" do
-      expect(page).to have_selector('[data-qa-selector="op-tab-content--tab-section"]', count: 2)
-      expect(page.find('[data-qa-selector="file-list"]'))
-        .to have_selector('[data-qa-selector="file-list--item"]', text: file_link.origin_name, count: 1)
+      expect(page).to have_test_selector('op-tab-content--tab-section', count: 2)
+      within_test_selector('file-list') do
+        expect(page).to have_test_selector('file-list--item', text: file_link.origin_name, count: 1)
+      end
     end
   end
 
@@ -83,7 +84,7 @@ RSpec.describe 'Showing of file links in work package', js: true do
     let(:permissions) { %i(view_work_packages edit_work_packages) }
 
     it 'must not show a file links section' do
-      expect(page).to have_selector('[data-qa-selector="op-tab-content--tab-section"]', count: 1)
+      expect(page).to have_test_selector('op-tab-content--tab-section', count: 1)
     end
   end
 
@@ -91,7 +92,7 @@ RSpec.describe 'Showing of file links in work package', js: true do
     let(:project_storage) { {} }
 
     it 'must not show a file links section' do
-      expect(page).to have_selector('[data-qa-selector="op-tab-content--tab-section"]', count: 1)
+      expect(page).to have_test_selector('op-tab-content--tab-section', count: 1)
     end
   end
 
@@ -102,7 +103,7 @@ RSpec.describe 'Showing of file links in work package', js: true do
     end
 
     it 'must show storage information box with login button' do
-      expect(page.find('[data-qa-selector="op-storage--information"]')).to have_button(count: 1)
+      expect(page.find_test_selector('op-storage--information')).to have_button(count: 1)
     end
   end
 
@@ -112,7 +113,7 @@ RSpec.describe 'Showing of file links in work package', js: true do
     end
 
     it 'must show storage information box' do
-      expect(page).to have_selector('[data-qa-selector="op-storage--information"]', count: 1)
+      expect(page).to have_test_selector('op-storage--information', count: 1)
     end
   end
 end

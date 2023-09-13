@@ -82,7 +82,7 @@ RSpec.describe 'baseline query saving',
       text: 'Baseline mode is on but some of your active filters are not included in the comparison.'
     )
     page.within('#filter_watcher') do
-      expect(page).to have_selector('[data-qa-selector="query-filter-baseline-incompatible"]')
+      expect(page).to have_test_selector('query-filter-baseline-incompatible')
     end
   end
 

@@ -30,7 +30,7 @@ export function boardTourSteps(edition:'basic'|'enterprise', project:ProjectName
       },
     },
     {
-      'next [data-qa-selector="op-board-list"]': I18n.t(`js.onboarding.steps.boards.lists_${listExplanation}`),
+      'next [data-test-selector="op-board-list"]': I18n.t(`js.onboarding.steps.boards.lists_${listExplanation}`),
       showSkip: false,
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },
       containerClass: '-dark -hidden-arrow',
@@ -41,7 +41,7 @@ export function boardTourSteps(edition:'basic'|'enterprise', project:ProjectName
       }),
     },
     {
-      'next [data-qa-selector="op-board-list--card-dropdown-add-button"]': I18n.t('js.onboarding.steps.boards.add'),
+      'next [data-test-selector="op-board-list--card-dropdown-add-button"]': I18n.t('js.onboarding.steps.boards.add'),
       showSkip: false,
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },
       condition: () => document.getElementsByClassName('op-board-list--add-button').length !== 0,

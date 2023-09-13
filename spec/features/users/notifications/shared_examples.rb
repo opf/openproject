@@ -109,7 +109,7 @@ RSpec.shared_examples 'notification settings workflow' do
 
       # Trying to add the same project again will not be possible (Regression #38072)
       click_button 'Add setting for project'
-      container = page.find('[data-qa-selector="notification-setting-inline-create"] ng-select')
+      container = page.find('[data-test-selector="notification-setting-inline-create"] ng-select')
       settings_page.search_autocomplete container, query: project.name, results_selector: 'body'
       expect(page).to have_text 'This project is already selected'
       expect(page).to have_selector('.ng-option-disabled', text: project.name)

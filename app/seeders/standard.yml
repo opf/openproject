@@ -37,7 +37,8 @@ priorities:
   - t_name: High
     color_name: yellow-7
     position: 3
-  - t_name: Immediate
+  - reference: :default_priority_immediate
+    t_name: Immediate
     color_name: grape-5
     position: 4
 

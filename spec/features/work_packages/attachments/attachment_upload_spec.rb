@@ -249,12 +249,12 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
   describe 'attachment dropzone' do
     it 'can drag something to the files tab and have it open' do
       wp_page.expect_tab 'Activity'
-      attachments.drag_and_drop_file '[data-qa-selector="op-attachments--drop-box"]',
+      attachments.drag_and_drop_file test_selector('op-attachments--drop-box'),
                                      image_fixture.path,
                                      :center,
                                      page.find('[data-qa-tab-id="files"]')
 
-      expect(page).to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', wait: 10)
+      expect(page).to have_test_selector('op-files-tab--file-list-item-title', text: 'image.png', wait: 10)
       editor.wait_until_upload_progress_toaster_cleared
       wp_page.expect_tab 'Files'
     end
@@ -272,21 +272,21 @@ RSpec.describe 'Upload attachment to work package', js: true, with_cuprite: true
 
     it 'can upload an image via attaching and drag & drop' do
       wp_page.switch_to_tab(tab: 'files')
-      container = page.find('[data-qa-selector="op-attachments--drop-box"]')
+      container = page.find_test_selector('op-attachments--drop-box')
 
       ##
       # Attach file manually
-      expect(page).not_to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]')
+      expect(page).not_to have_test_selector('op-files-tab--file-list-item-title')
       attachments.attach_file_on_input(image_fixture.path)
       editor.wait_until_upload_progress_toaster_cleared
-      expect(page).to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', wait: 5)
+      expect(page).to have_test_selector('op-files-tab--file-list-item-title', text: 'image.png', wait: 5)
 
       ##
       # and via drag & drop
       attachments.drag_and_drop_file(container, image_fixture.path)
       editor.wait_until_upload_progress_toaster_cleared
       expect(page)
-        .to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', count: 2, wait: 5)
+        .to have_test_selector('op-files-tab--file-list-item-title', text: 'image.png', count: 2, wait: 5)
     end
   end
 end

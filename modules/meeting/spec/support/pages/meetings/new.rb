@@ -58,11 +58,11 @@ module Pages::Meetings
     end
 
     def expect_project_dropdown
-      find "[data-qa-selector='project_id']"
+      find "[data-test-selector='project_id']"
     end
 
     def set_project(project)
-      select_autocomplete find("[data-qa-selector='project_id']"),
+      select_autocomplete find("[data-test-selector='project_id']"),
                           query: project.name,
                           results_selector: 'body'
     end

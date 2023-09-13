@@ -37,7 +37,7 @@
         [placeholder]="text.search_placeholder"
         [(ngModel)]="searchableProjectListService.searchText"
         [ngModelOptions]="{standalone: true}"
-        data-qa-selector="op-header-project-select--search"
+        data-test-selector="op-header-project-select--search"
         data-modal-focus-catcher-container="true"
         (keydown)="searchableProjectListService.onKeydown($event, projects)"
         (inputFocus)="textFieldFocused = true"
@@ -58,7 +58,7 @@
           [searchText]="searchableProjectListService.searchText"
           [root]="true"
           data-list-root="true"
-          data-qa-selector="op-header-project-select--list"
+          data-test-selector="op-header-project-select--list"
         ></ul>
 
         <ng-template #noResultsTemplate>

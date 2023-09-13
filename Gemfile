@@ -251,6 +251,8 @@ group :test do
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
 
+  # Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests.
+  gem 'vcr'
   # Mock backend requests (for ruby tests)
   gem 'webmock', '~> 3.12', require: false
 

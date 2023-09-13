@@ -26,38 +26,38 @@ RSpec.describe 'Activity tab notifications', js: true, selenium: true do
              journal: work_package.journals.last)
     end
     it 'shows a notification bubble with the right number' do
-      expect(page).to have_selector('[data-qa-selector="tab-counter-Activity"]', text: '1')
+      expect(page).to have_test_selector('tab-counter-Activity', text: '1')
     end
 
     it 'shows a notification icon next to activities that have an unread notification' do
-      expect(page).to have_selector('[data-qa-selector="user-activity-bubble"]', count: 1)
-      expect(page).to have_selector('[data-qa-activity-number="4"] [data-qa-selector="user-activity-bubble"]')
+      expect(page).to have_test_selector('user-activity-bubble', count: 1)
+      expect(page).to have_selector("[data-qa-activity-number='4'] #{test_selector('user-activity-bubble')}")
     end
 
     it 'shows a button to mark the notifications as read' do
-      expect(page).to have_selector('[data-qa-selector="mark-notification-read-button"]')
+      expect(page).to have_test_selector('mark-notification-read-button')
 
       # A click marks the notification as read ...
-      page.find('[data-qa-selector="mark-notification-read-button"]').click
+      page.find_test_selector('mark-notification-read-button').click
 
       # ... and updates the view accordingly
-      expect(page).not_to have_selector('[data-qa-selector="mark-notification-read-button"]')
-      expect(page).not_to have_selector('[data-qa-selector="tab-counter-Activity"]')
-      expect(page).not_to have_selector('[data-qa-selector="user-activity-bubble"]')
+      expect(page).not_to have_test_selector('mark-notification-read-button')
+      expect(page).not_to have_test_selector('tab-counter-Activity')
+      expect(page).not_to have_test_selector('user-activity-bubble')
     end
   end
 
   shared_examples_for 'when there are no notifications for the work package' do
     it 'shows no notification bubble' do
-      expect(page).not_to have_selector('[data-qa-selector="tab-counter-Activity"]')
+      expect(page).not_to have_test_selector('tab-counter-Activity')
     end
 
     it 'does not show any notification icons next to activities' do
-      expect(page).not_to have_selector('[data-qa-selector="user-activity-bubble"]')
+      expect(page).not_to have_test_selector('user-activity-bubble')
     end
 
     it 'shows no button to mark the notifications as read' do
-      expect(page).not_to have_selector('[data-qa-selector="mark-notification-read-button"]')
+      expect(page).not_to have_test_selector('mark-notification-read-button')
     end
   end
 

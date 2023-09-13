@@ -115,7 +115,7 @@ RSpec.describe 'Team planner query handling', js: true, with_ee: %i[team_planner
   it 'shows only team planner queries' do
     # Go to team planner where no query is shown, only the create option
     query_menu.expect_no_menu_entry
-    expect(page).to have_selector('[data-qa-selector="team-planner--create-button"]')
+    expect(page).to have_test_selector('team-planner--create-button')
 
     # Change filter
     filters.open

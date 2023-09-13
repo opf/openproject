@@ -456,7 +456,7 @@ zh-CN:
         port: "端口"
         tls_certificate_string: "LDAP 服务器 SSL 证书"
       changeset:
-        repository: "代码库"
+        repository: "存储库"
       color:
         hexcode: "十六进制代码"
       comment:
@@ -556,7 +556,7 @@ zh-CN:
         admin: "管理员"
         ldap_auth_source: "LDAP 连接"
         current_password: "当前密码："
-        force_password_change: "强制在下次登录时更改密码"
+        force_password_change: "下次登录时强制更改密码"
         language: "语言"
         last_login_on: "上次登录"
         new_password: "新密码"
@@ -796,7 +796,7 @@ zh-CN:
               error_not_found: "找不到这个工作包"
               error_readonly: "关系要持久"
         repository:
-          not_available: "供应链管理供应商不可用"
+          not_available: "SCM提供商不可用"
           not_whitelisted: "配置所不允许的。"
           invalid_url: "不是有效的存储库 URL 或路径。"
           must_not_be_ssh: "不能是 SSH url。"
@@ -998,12 +998,12 @@ zh-CN:
     default_columns: "默认的列"
     description: "描述"
     derived_due_date: "派生的完成日期"
-    derived_estimated_hours: "派生的估计时间"
+    derived_estimated_hours: "派生的估算工时"
     derived_start_date: "派生的开始日期"
     display_sums: "显示汇总"
     due_date: "完成日期"
-    estimated_hours: "估计的时间"
-    estimated_time: "估计的时间"
+    estimated_hours: "估算工时"
+    estimated_time: "估算工时"
     firstname: "名字"
     group: "组"
     groups: "组"
@@ -1329,8 +1329,8 @@ zh-CN:
   error_omniauth_registration_timed_out: "通过外部身份验证提供程序注册超时。请再试一次。"
   error_omniauth_invalid_auth: "从身份提供程序返回的身份验证信息无效。请联系您的管理员获取更多帮助。"
   error_password_change_failed: '试图更改密码时发生错误。'
-  error_scm_command_failed: "当试图访问该代码库时出错: %{value}"
-  error_scm_not_found: "在代码库中未找到的条目或修正版本。"
+  error_scm_command_failed: "当试图访问该存储库时出错: %{value}"
+  error_scm_not_found: "在存储库中未找到的条目或修正版本。"
   error_type_could_not_be_saved: "无法保存类型"
   error_unable_delete_status: "不能删除工作包的状态，因为它由至少一个工作包使用。"
   error_unable_delete_default_status: "无法删除默认工作包的状态。请删除当前之前选择另一个默认工作包状态。"
@@ -1365,7 +1365,7 @@ zh-CN:
     succeeded: "导出已成功完成。"
     failed: "导出失败: %{message}"
     format:
-      atom: "原子"
+      atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
       pdf_overview_table: "PDF 表"
@@ -1399,9 +1399,9 @@ zh-CN:
   gui_validation_error_plural: "%{count} 错误"
   homescreen:
     additional:
-      projects: "此OpenProject 实例中的最新可见项目。"
+      projects: "此 OpenProject 实例中的最新可见项目。"
       no_visible_projects: "这个 OpenProject 中没有可见的项目。"
-      users: "此OpenProject 实例中的最新注册用户。"
+      users: "此 OpenProject 实例中的最新注册用户。"
     blocks:
       community: "OpenProject 社区"
       upsale:
@@ -1413,7 +1413,7 @@ zh-CN:
       user_guides: "用户指南"
       faq: "常见问题"
       glossary: "术语表"
-      shortcuts: "快捷方式"
+      shortcuts: "快捷键"
       blog: "OpenProject 博客"
       forums: "社区论坛"
       newsletter: "安全警报/通信"
@@ -1426,8 +1426,8 @@ zh-CN:
       system_update: "OpenProject 系统更新："
     cause_descriptions:
       work_package_predecessor_changed_times: 根据前置任务 %{link}的更改
-      work_package_parent_changed_times: 通过对根源的更改 %{link}
-      work_package_children_changed_times: 通过对产物的更改 %{link}
+      work_package_parent_changed_times: 通过对父级的更改 %{link}
+      work_package_children_changed_times: 通过对子级的更改 %{link}
       work_package_related_changed_times: 通过对相关内容的更改 %{link}
       unaccessable_work_package_changed: 通过对相关工作包的更改
       working_days_changed:
@@ -1591,7 +1591,7 @@ zh-CN:
   label_consent_settings: "用户同意"
   label_wiki_menu_item: 维基菜单项
   label_select_main_menu_item: 选择新的主菜单项
-  label_required_disk_storage: "所需的磁盘存储"
+  label_required_disk_storage: "所需的磁盘空间"
   label_send_invitation: 发送邀请
   label_change_plural: "更改"
   label_change_properties: "更改属性"
@@ -1654,7 +1654,7 @@ zh-CN:
   label_missing_or_hidden_custom_option: "（缺少值或缺少访问权限）"
   label_descending: "降序"
   label_details: "详细信息"
-  label_development_roadmap: "发展蓝图"
+  label_development_roadmap: "发展路线图"
   label_diff: "比较"
   label_diff_inline: "内联"
   label_diff_side_by_side: "并排"
@@ -1705,7 +1705,7 @@ zh-CN:
   label_filter_add: "添加筛选器"
   label_filter_plural: "筛选器"
   label_filters_toggle: "显示/隐藏筛选器"
-  label_float: "浮动"
+  label_float: "浮点数"
   label_folder: "文件夹"
   label_follows: "跟踪"
   label_force_user_language_to_default: "设置拥有非允许语言的用户的默认语言"
@@ -1796,7 +1796,7 @@ zh-CN:
   label_message_new: "新消息"
   label_message_plural: "消息"
   label_message_posted: "添加消息"
-  label_min_max_length: "最小-最大长度"
+  label_min_max_length: "最小 - 最大长度"
   label_minute_plural: "分钟"
   label_missing_api_access_key: "失效的 API 访问键"
   label_missing_feeds_access_key: "缺少一个 RSS 访问键"
@@ -1854,7 +1854,7 @@ zh-CN:
   label_overview: "概述"
   label_page_title: "页面标题"
   label_part_of: "一部分"
-  label_password_lost: "忘记密码了吗？"
+  label_password_lost: "忘记密码？"
   label_password_rule_lowercase: "小写字母"
   label_password_rule_numeric: "数字"
   label_password_rule_special: "特殊字符"
@@ -1923,9 +1923,9 @@ zh-CN:
   label_reported_work_packages: "报告的工作包"
   label_reporting: "报告"
   label_reporting_plural: "报告"
-  label_repository: "代码库"
+  label_repository: "存储库"
   label_repository_root: "存储库根"
-  label_repository_plural: "代码库"
+  label_repository_plural: "存储库"
   label_required: '必填'
   label_requires: '要求'
   label_result_plural: "结果"
@@ -1933,10 +1933,10 @@ zh-CN:
   label_revision: "修订"
   label_revision_id: "修订版本 %{value}"
   label_revision_plural: "修订"
-  label_roadmap: "版本蓝图"
-  label_roadmap_edit: "编辑版本蓝图 %{name}"
+  label_roadmap: "路线图"
+  label_roadmap_edit: "编辑路线图 %{name}"
   label_roadmap_due_in: "%{value} 到期"
-  label_roadmap_no_work_packages: "没有此版本的工作包"
+  label_roadmap_no_work_packages: "该版本没有工作包。"
   label_roadmap_overdue: "%{value} 超时"
   label_role_and_permissions: "角色和权限"
   label_role_new: "新的角色"
@@ -2351,7 +2351,7 @@ zh-CN:
   permission_manage_news: "管理新闻"
   permission_manage_project_activities: "管理项目活动"
   permission_manage_public_queries: "管理公共查询"
-  permission_manage_repository: "管理代码库"
+  permission_manage_repository: "托管存储库"
   permission_manage_subtasks: "管理工作包层次结构"
   permission_manage_versions: "管理版本"
   permission_manage_wiki: "管理维基"
@@ -2410,7 +2410,7 @@ zh-CN:
   project_module_forums: "论坛"
   project_module_work_package_tracking: "工作包"
   project_module_news: "新闻"
-  project_module_repository: "代码库"
+  project_module_repository: "存储库"
   project_module_wiki: "维基"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -2426,8 +2426,8 @@ zh-CN:
     name_or_identifier: "名称或标识符"
   repositories:
     at_identifier: '在 %{identifier}'
-    atom_revision_feed: '原子修订种子'
-    autofetch_information: "如果希望在访问存储库模块页时自动更新存储库，请勾选此选项。这包括从存储库检索提交并刷新所需的磁盘存储。"
+    atom_revision_feed: 'Atom 修订 feed'
+    autofetch_information: "如果希望在访问存储库模块页时自动更新存储库，请勾选此选项。这包括从存储库检索提交并刷新所需的磁盘空间。"
     checkout:
       access:
         readwrite: '读取 + 写入'
@@ -2446,64 +2446,64 @@ zh-CN:
       show_instructions: "显示检出指令"
       text_instructions: "此文本将与检出 URL 一起显示，以提供有关如何检出存储库的指导。"
       not_available: "检出指令未定义此存储库。请与你的管理员联系，在系统设置中启用他们。"
-    create_managed_delay: "请注意: 版本库已在管控中，它以异步方式在磁盘上创建并不久将处于可用状态。"
-    create_successful: "版本库已被注册。"
-    delete_sucessful: "版本库已被删除。"
+    create_managed_delay: "请注意: 存储库已在托管中，它以异步方式在磁盘上创建并将在不久后处于可用状态。"
+    create_successful: "存储库已被注册。"
+    delete_sucessful: "存储库已被删除。"
     destroy:
-      confirmation: "如果你继续将永久删除管理的存储库。"
+      confirmation: "如果你继续将永久删除托管的存储库。"
       info: "删除存储库是一个不可逆转的操作。"
-      info_not_managed: "注意: 这不会删除该存储库的内容，它不由 OpenProject 管理。"
+      info_not_managed: "注意: 这不会删除该存储库的内容，它不由 OpenProject 托管。"
       managed_path_note: "以下目录将被删除: %{path}"
       repository_verification: "输入项目的标识符 %{identifier}，以确认其存储库中的删除。"
-      subtitle: "你真的想要删除的项目 %{project_name} %{repository_type} 吗?"
+      subtitle: "你确定要删除项目 %{project_name} 的 %{repository_type} 吗?"
       subtitle_not_managed: "你真的想要从项目 %{project_name} 删除链接的 %{repository_type} %{url}?"
       title: "删除 %{repository_type}"
       title_not_managed: "删除链接的 %{repository_type} 吗?"
     errors:
-      build_failed: "在所选的配置下无法创建版本库。%{reason}"
-      managed_delete: "不能删除管理的存储库。"
+      build_failed: "在所选的配置下无法创建存储库。%{reason}"
+      managed_delete: "无法删除托管的存储库。"
       managed_delete_local: "无法删除 '%{path}' 在文件系统上的本地存储库: %{error_message}"
-      empty_repository: "版本库已存在，不过该库是空的。它还不包括任何版本。"
+      empty_repository: "存储库已存在，不过该库是空的。它还不包括任何版本。"
       exists_on_filesystem: "存储库目录已存在文件系统中。"
       filesystem_access_failed: "访问文件系统中的存储库时出错: %{message}"
-      not_manageable: "此版本库提供商不能被 OpenProject 管理。"
+      not_manageable: "该存储库提供商无法被 OpenProject 托管。"
       path_permission_failed: "在创建目录： %{path} 时发生错误。请确定 OpenProject 对该目录有可写权限。"
-      unauthorized: "您无权访问版本库或凭据无效。"
-      unavailable: "该版本库不可用。"
-      exception_title: "不能访问 %{message} 版本库"
-      disabled_or_unknown_type: "所选的类型 %{type} 是禁用状态或不再为SCM供应商 %{vendor} 可用。"
-      disabled_or_unknown_vendor: "SCM供应商 %{vendor} 是被禁用状态或不再可用。"
+      unauthorized: "您无权访问存储库或凭据无效。"
+      unavailable: "该存储库不可用。"
+      exception_title: "不能访问 %{message} 存储库"
+      disabled_or_unknown_type: "所选的类型 %{type} 是禁用状态或不再为SCM提供商 %{vendor} 可用。"
+      disabled_or_unknown_vendor: "SCM提供商 %{vendor} 是被禁用状态或不再可用。"
       remote_call_failed: "调用托管的远程失败消息\"%{message}\"(代码: %{code})"
-      remote_invalid_response: "从管理远程收到无效的响应。"
+      remote_invalid_response: "从托管远程收到无效的响应。"
       remote_save_failed: "不能从远程数据库中检索的参数保存存储库。"
     git:
       instructions:
-        managed_url: "这是管理 (本地) 的 Git 版本库的 URL。"
+        managed_url: "这是托管 (本地) 的 Git 存储库的 URL。"
         path: >-
           指定本地 Git 存储库的路径 (例如, %{example_path})。您也可以使用以http(s):// 或file://开始的数值复制到本地副本的远程存储库。
         path_encoding: "重写 Git 路径编码 (默认: UTF-8)"
-      local_title: "链接现有的本地 Git 版本库"
+      local_title: "链接现有的本地 Git 存储库"
       local_url: "本地URL"
-      local_introduction: "如果您已有本地 Git 版本库，可以将其链接到 OpenProject 来访问。"
-      managed_introduction: "让 OpenProject 创建并自动集成一个本地 Git 版本库。"
-      managed_title: "Git 版本库集成入 OpenProject"
+      local_introduction: "如果您已有本地 Git 存储库，可以将其链接到 OpenProject 来访问。"
+      managed_introduction: "让 OpenProject 创建并自动集成一个本地 Git 存储库。"
+      managed_title: "Git 存储库集成到 OpenProject"
       managed_url: "托管的 URL"
-      path: "Git 版本库路径"
+      path: "Git 存储库路径"
       path_encoding: "路径编码"
     go_to_revision: "切换到版本"
-    managed_remote: "该供应商的托管存储库是远程处理的。"
+    managed_remote: "该提供商的托管存储库是远程处理的。"
     managed_remote_note: "此存储库路径与 URL 信息在创建之前不可用。"
     managed_url: "托管的 URL"
     settings:
       automatic_managed_repos_disabled: "禁用自动创建"
       automatic_managed_repos: "自动创建的托管存储库"
-      automatic_managed_repos_text: "在这里通过设置供应商，新创建的项目将自动接收此供应商管理的存储库。"
+      automatic_managed_repos_text: "在这里通过设置提供商，新创建的项目将自动接收此提供商托管的存储库。"
     scm_vendor: "源代码、文件版本控制系统"
-    scm_type: "版本库类型"
+    scm_type: "存储库类型"
     scm_types:
-      local: "链接现有的本地版本库"
-      existing: "链接现有的版本库"
-      managed: "在 OpenProject 中创建新的版本库"
+      local: "链接现有的本地存储库"
+      existing: "链接现有的存储库"
+      managed: "在 OpenProject 中创建新的存储库"
     storage:
       not_available: "磁盘存储开销不可用于此存储库。"
       update_timeout: "保持 N 分钟为一个存储库的最后所需的磁盘空间信息。作为计算存储库所需的磁盘空间可能开销很高，增加此值可减少对性能的影响。"
@@ -2513,17 +2513,17 @@ zh-CN:
       setup_documentation_details_link_text: "文件存储设置"
       show_warning_details: "要使用此文件存储，请记得在每个所需项目的项目设置中激活模块和特定存储。"
     subversion:
-      existing_title: "现有的 Subversion 版本库"
-      existing_introduction: "如果您已有本地 Git 版本库，可以将其链接到 OpenProject 来访问。"
+      existing_title: "现有的 Subversion 存储库"
+      existing_introduction: "如果您已有本地 Git 存储库，可以将其链接到 OpenProject 来访问。"
       existing_url: "现在的URL"
       instructions:
-        managed_url: "这是管理的 (本地) Subversion 版本库的 URL。"
-        url: "输入版本库 URL。这可能既指向本地版本库 (以 %{local_proto} 开头) ，或者是一个远程版本库。下面的 URL 方案是被支持的:"
-      managed_title: "Subversion 版本库集成到 OpenProject"
+        managed_url: "这是托管的 (本地) Subversion 存储库的 URL。"
+        url: "输入存储库 URL。这可能既指向本地存储库 (以 %{local_proto} 开头) ，或者是一个远程存储库。下面的 URL 方案是被支持的:"
+      managed_title: "Subversion 存储库集成到 OpenProject"
       managed_introduction: "让 OpenProject 创建和自动集成一个Subversion本地存储库。"
       managed_url: "托管的 URL"
-      password: "版本库密码"
-      username: "版本库用户名"
+      password: "存储库密码"
+      username: "存储库用户名"
     truncated: "很抱歉，我们不得不将此目录截断为 %{limit} 个文件。列表中已省略 %{truncated} 个条目。"
     named_repository: "%{vendor_name} 存储库"
     update_settings_successful: "设置已成功保存。"
@@ -2535,7 +2535,7 @@ zh-CN:
     deactivated: '已取消激活'
   search_input_placeholder: "搜索"
   setting_apiv3_cors_enabled: "启用 CORS"
-  setting_apiv3_cors_origins: "API V3 跨域资源共享 (CORS) 允许的域"
+  setting_apiv3_cors_origins: "API v3 跨域资源共享 (CORS) 允许的域"
   setting_apiv3_cors_origins_text_html: >
     如果启用了 CORS ，这些是允许访问 OpenProject API 的源。<br/>请查看<a href="%{origin_link}" target="_blank">有关“源”标题的文档</a>，了解如何指定预期值。
   setting_apiv3_max_page_size: "最大 API 页面大小"
@@ -2556,7 +2556,7 @@ zh-CN:
   setting_smtp_user_name: "SMTP 用户名"
   setting_smtp_password: "SMTP 密码"
   setting_smtp_domain: "SMTP HELO 域"
-  setting_activity_days_default: "显示在项目活动上的天"
+  setting_activity_days_default: "项目活动显示的天数"
   setting_app_subtitle: "应用副标题"
   setting_app_title: "应用程序标题"
   setting_attachment_max_size: "最大的附件大小"
@@ -2593,8 +2593,8 @@ zh-CN:
   setting_enabled_projects_columns: "在项目列表中可见"
   setting_feeds_enabled: "启用Feeds"
   setting_ical_enabled: "启用 iCalendar 订阅"
-  setting_feeds_limit: "Feed内容限制"
-  setting_file_max_size_displayed: "内联显示的文本文件的最大文件大小"
+  setting_feeds_limit: "Feed 内容限制"
+  setting_file_max_size_displayed: "内联显示的文本文件的最大大小"
   setting_host_name: "主机名"
   setting_invitation_expiration_days: "激活电子邮件将在此时间后过期"
   setting_work_package_done_ratio: "计算工作包完成比率"
@@ -2620,14 +2620,14 @@ zh-CN:
   setting_password_min_length: "最小长度"
   setting_password_min_adhered_rules: "所需类的最小数目"
   setting_per_page_options: "每页对象选项"
-  setting_plain_text_mail: "纯文本邮件 (没有 HTML)"
+  setting_plain_text_mail: "纯文本邮件 (不含 HTML)"
   setting_protocol: "协议"
   setting_project_gantt_query: "项目组合甘特视图"
   setting_project_gantt_query_text: "您可以从项目概览页面修改用于显示甘特图的查询。"
   setting_security_badge_displayed: "显示安全徽章"
   setting_registration_footer: "注册页脚"
-  setting_repositories_automatic_managed_vendor: "自动存储库供应商类型"
-  setting_repositories_encodings: "代码库的编码"
+  setting_repositories_automatic_managed_vendor: "自动存储库提供商类型"
+  setting_repositories_encodings: "存储库编码"
   setting_repository_authentication_caching_enabled: "启用版本控制软件的身份验证请求缓存"
   setting_repository_storage_cache_minutes: "存储库磁盘大小的高速缓存"
   setting_repository_checkout_display: "显示检出说明"
@@ -2635,14 +2635,14 @@ zh-CN:
   setting_repository_checkout_text: "检出说明文本"
   setting_repository_log_display_limit: "在文件日志中显示的修订版本最大数目"
   setting_repository_truncate_at: "存储库浏览器中显示的最多的文件个数"
-  setting_rest_api_enabled: "启用REST web service"
+  setting_rest_api_enabled: "启用 REST Web 服务"
   setting_self_registration: "自助注册"
   setting_session_ttl: "在处于非活动状态后会话过期时间"
   setting_session_ttl_hint: "值低于5的类似禁用"
   setting_session_ttl_enabled: "会话过期"
   setting_start_of_week: "一周起始日"
   setting_sys_api_enabled: "启用版本库管理 web 服务"
-  setting_sys_api_description: "版本库管理 web 服务提供了一体化的，以及用户授权来访问版本库。"
+  setting_sys_api_description: "存储库管理网页服务提供了集成的，用户授权的存储库访问。"
   setting_time_format: "时间"
   setting_accessibility_mode_for_anonymous: "为匿名用户启用辅助功能模式"
   setting_user_format: "用户名格式"
@@ -2650,7 +2650,7 @@ zh-CN:
   setting_users_deletable_by_admins: "可由管理员删除用户帐户"
   setting_users_deletable_by_self: "允许用户删除其帐户"
   setting_welcome_text: "欢迎块文本"
-  setting_welcome_title: "欢迎区块标题"
+  setting_welcome_title: "欢迎块标题"
   setting_welcome_on_homescreen: "在主屏幕上显示欢迎信息"
   setting_work_package_list_default_highlighting_mode: "默认突出显示模式"
   setting_work_package_list_default_highlighted_attributes: "默认内联突出显示属性"
@@ -2733,7 +2733,7 @@ zh-CN:
   text_project_custom_field_html: >
     企业版将为项目的自定义字段添加以下其他附加组件：<br> <ul> <li><b>在项目列表中添加项目自定义字段，以创建项目组合视图</b></li> </ul>
   text_custom_logo_instructions: >
-    建议在透明背景上使用白色商标。请确保您的图片尺寸为460px ×60px，不管对传统显示屏和液晶显示屏都是最好的。
+    建议使用透明背景的白色Logo。为了在普通及Retina显示屏上获得最佳效果，请确保图像尺寸为460像素 × 60像素。
   text_custom_export_logo_instructions: >
     这是在 PDF 导出文件中显示的徽标。它需要为 PNG 或 JPEG 图像文件。建议使用带有透明或白色背景的黑色或彩色徽标。
   text_custom_favicon_instructions: >
@@ -2751,7 +2751,7 @@ zh-CN:
   text_enumeration_category_reassign_to: "重新分配以此值："
   text_enumeration_destroy_question: "%{count} 个对象被分配到该值。"
   text_file_repository_writable: "附件目录可写"
-  text_git_repo_example: "一个纯粹和本地的代码库(e.g. /gitrepo, c:\\gitrepo)"
+  text_git_repo_example: "一个裸的和本地的存储库例如： /gitrepo, c:\\gitrepo)"
   text_hint_date_format: "输入格式为 YYYY-MM-DD 的日期。其他格式可能会被更改为不需要的日期。"
   text_hint_disable_with_0: "注意: 0被禁用"
   text_hours_between: "%{min} 到 %{max} 小时。"
@@ -2798,7 +2798,7 @@ zh-CN:
   text_reassign: "重新分配工作包:"
   text_regexp_info: "例如 ^ [A-Z0-9]+$"
   text_regexp_multiline: '以多行模式应用正则表达式，如 ^---\s+'
-  text_repository_usernames_mapping: "选择或更新每个在代码库日志中发现的用户名所映射到的 OpenProject 用户。\n使用相同 OpenProject 和代码库用户名或电子邮件的用户已被自动映射。"
+  text_repository_usernames_mapping: "选择或更新每个在存储库日志中发现的用户名所映射到的 OpenProject 用户。\n使用相同 OpenProject 和存储库用户名或电子邮件的用户已被自动映射。"
   text_status_changed_by_changeset: "被实施在更改集 %{value} 中。"
   text_table_difference_description: "此表单展现了单个%{entries}。您可以先选择多选框，再点击表单下方的按钮来比较两项之间的差异。"
   text_time_logged_by_changeset: "已应用在更改集 %{value} 中。"
@@ -2918,7 +2918,7 @@ zh-CN:
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
-      _自动更新由于改变子工作包 %{child} 内的值_
+      _自动更新源于改变子工作包 %{child} 内的值_
     destroy:
       info: "删除工作包是不可逆的操作。"
       title: "删除工作包"

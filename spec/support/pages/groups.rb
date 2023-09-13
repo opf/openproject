@@ -108,7 +108,7 @@ module Pages
     end
 
     def search_for_project(query)
-      autocomplete = page.find('[data-qa-selector="membership_project_id"]')
+      autocomplete = page.find('[data-test-selector="membership_project_id"]')
       search_autocomplete autocomplete,
                           query:,
                           results_selector: 'body'
@@ -123,7 +123,7 @@ module Pages
     end
 
     def select_project!(project_name)
-      select_autocomplete page.find('[data-qa-selector="membership_project_id"]'),
+      select_autocomplete page.find('[data-test-selector="membership_project_id"]'),
                           query: project_name,
                           select_text: project_name,
                           results_selector: 'body'
