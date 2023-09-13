@@ -7,17 +7,54 @@ keywords: manage roles, manage permissions
 ---
 # Roles and permissions
 
+## Types of roles
+
+A user can have one or more roles which grant permissions on different levels: 
+
+| Role type     | Scope of the role                                            | Permission examples                                          | Customization options                                        |
+| ------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Administrator | Application-level: Full control of all aspects of the application | Assign administration privileges to other users<br />Create and restore backups in the web interface<br />Configure oAuth app<br />Configure custom fields<br />Archive projects/restore projects<br />Configure global roles<br />Configure project roles | Can not be changed.                                          |
+| Global roles  | Application-level: Permissions scoped to specific administrative tasks (not restricted to specific projects) | Manage users<br /><br />Create projects                      | Administrators can create new global roles and assign global permissions to those roles |
+| Project roles | Project-level: Permissions scoped to individual projects. A user can have different roles for individual projects. | Create work packages (in a project)<br />Delete wiki pages (in a specific project) | Create different project roles with individual permission sets. |
+| Non-member    | Project-level: Permissions scoped to individual projects for users which are logged in | View work packages for users that are logged in              | Assign different permissions                                 |
+| Anonymous     | Project-level: Permissions scoped to individual projects for users which are <u>not</u> logged in | View work packages for users that are not logged in          | Assign different permissions                                 |
+
+
+## Customization of roles and permissions
+
+Administrators can customize the roles and permissions under the **Administration** -> **Users and permissions** -> **Roles and permissions**.
+
+## Administrator
+
+Administrators have full access to all settings and all projects in an OpenProject environment. 
+
+## Anonymous 
+
+OpenProject allows to share project information with users anonymous users which are not logged in. This is helpful to communicate projects goals and activities with a public community. The permissions of the role anonymous 
+
+## Global roles
+
+Global roles allow Administrators to delegate administrative tasks to individual users:
+
+* Create project
+* Create users
+* Create, edit, and delete placeholder users
+* Create backup
+* Edit users
+
+## Project roles
+
+
+
+
+
+ 
+
+> **Note**: This only applies if you disabled the need for authentication for your instance and if the project is set as **public**.
+
 A **role** is a set of **permissions** that can be assigned to any project member. Multiple roles can be assigned to the same project member.
 
 When creating a role, the **Global role** checkbox can be checked, making it a **Global role** that can be assigned to a [user details](../users/#manage-user-settings) or a [group details](../groups/#add-global-roles-to-a-group) and applied across all projects.
-
-
-| Topic                                           | Content                                                           |
-| ----------------------------------------------- |-------------------------------------------------------------------|
-| [Permissions](#permissions)                     | What are permissions and how can I access the permissions report? |
-| [Create a new role](#create-a-new-role)         | How to create a new (global) role.                                |
-| [Edit and remove roles](#edit-and-remove-roles) | How to change and delete existing roles.                          |
-| [Global roles](#global-roles)                   | Which global roles are there and what are their significances?    |
 
 ## Permissions
 
@@ -31,7 +68,7 @@ On the bottom of the roles list page there is a link to the **Permissions report
 
 A **Check/uncheck all** checkbox is shown on each role or permission to allow bulk change. **Be careful, this cannot be undone**. If you make a mistake, do not save the report.
 
-### Project Modules
+### Project modules
 
 Note: If a [project module](../../../user-guide/projects/project-settings/modules/) is not enabled for a specific project it is not shown in that project's menu whether the user has permission for that module or not.
 
