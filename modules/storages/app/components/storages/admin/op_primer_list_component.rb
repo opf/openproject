@@ -38,7 +38,7 @@ module Storages::Admin
     end
 
     def header
-      render(Primer::Beta::BorderBox::Header.new) do |header_|
+      with_header do |header_|
         header_.with_title(tag: :h2) do
           header_title
         end
