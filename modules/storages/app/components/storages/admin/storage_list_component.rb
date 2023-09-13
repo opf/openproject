@@ -51,21 +51,52 @@ module Storages::Admin
 
     def rows
       @storages.map do |storage|
-        with_row(scheme: :default) { storage_name(storage) }
+        with_row(scheme: :default) do
+          storage_row(storage)
+        end
       end
+    end
+
+    def storage_row(storage)
+      div_tag(
+        storage_name(storage) + span_tag("Created on #{storage.created_at.to_fs(:long)}")
+      ) +
+        div_tag(storage_creator(storage)) +
+        div_tag(storage.provider_type) +
+        div_tag(storage.host)
     end
 
     private
 
+    def before_render
+      super
+
+      # Remove the _base.sass margin-left from <ul> tag
+      @list_arguments[:classes] = "ml-0"
+    end
+
     def storage_name(storage)
+      storage_name_span = span_tag(storage.name)
+
       if storage.configured?
-        storage.name
+        storage_name_span
       else
         render(Primer::Beta::Octicon.new(:'alert-fill', size: :small, color: :severe)) +
-          content_tag(:span,
-                      storage.name,
-                      class: 'pl-2')
+          storage_name_span
       end
+    end
+
+    def storage_creator(storage)
+      icon = helpers.avatar storage.creator, size: :mini
+      icon + storage.creator.name
+    end
+
+    def span_tag(item, options = {})
+      content_tag(:span, item, options)
+    end
+
+    def div_tag(item)
+      render(Primer::BaseComponent.new(tag: :div)) { item }
     end
   end
 end
