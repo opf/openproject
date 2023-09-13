@@ -42,7 +42,7 @@ class Queries::WorkPackages::Filter::SharedUserFilter <
   end
 
   def human_name
-    I18n.t('query_fields.shared_with_user')
+    I18n.t('query_fields.shared_user')
   end
 
   def type

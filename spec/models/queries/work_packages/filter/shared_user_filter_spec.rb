@@ -187,7 +187,7 @@ RSpec.describe Queries::WorkPackages::Filter::SharedUserFilter do
   it_behaves_like 'basic query filter' do
     let(:type) { :shared_user_list_optional }
     let(:class_key) { :shared_user }
-    let(:human_name) { I18n.t('query_fields.shared_with_user') }
+    let(:human_name) { I18n.t('query_fields.shared_user') }
 
     describe '#available?' do
       context "when I'm logged in" do
