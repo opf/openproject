@@ -33,7 +33,7 @@ class MeetingAgendaItem::Author < ApplicationForm
       label: MeetingAgendaItem.human_attribute_name(:author),
       visually_hide_label: true,
       autocomplete_options: {
-        resource: 'users',
+        resource: 'principals',
         filters: [{ name: 'member', operator: '=', values: [@project.id.to_s] }],
         searchKey: 'any_name_attribute',
         disabled: @disabled

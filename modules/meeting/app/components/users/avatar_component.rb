@@ -50,7 +50,7 @@ module Users
     # once the list or item gets updated by hotwire, the avatar is not rendered anymore
     def call
       flex_layout(align_items: :center) do |flex|
-        if @user.local_avatar_attachment.present?
+        if defined?(@user.local_avatar_attachment) && @user.local_avatar_attachment.present?
           flex.with_column(mr: 2) do
             avatar_partial
           end

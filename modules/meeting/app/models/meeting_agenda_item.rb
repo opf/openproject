@@ -31,7 +31,7 @@ class MeetingAgendaItem < ApplicationRecord
   belongs_to :meeting, foreign_key: 'meeting_id', class_name: 'StructuredMeeting'
   belongs_to :work_package, class_name: '::WorkPackage'
   has_one :project, through: :meeting
-  belongs_to :author, class_name: 'User'
+  belongs_to :author, class_name: 'Principal'
 
   acts_as_list scope: :meeting
   default_scope { order(:position) }
