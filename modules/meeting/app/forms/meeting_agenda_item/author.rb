@@ -34,14 +34,16 @@ class MeetingAgendaItem::Author < ApplicationForm
       visually_hide_label: true,
       autocomplete_options: {
         resource: 'users',
+        filters: [{ name: 'member', operator: '=', values: [@project.id.to_s] }],
         searchKey: 'any_name_attribute',
         disabled: @disabled
       }
     )
   end
 
-  def initialize(disabled: false)
+  def initialize(project:, disabled: false)
     super()
+    @project = project
     @disabled = disabled
   end
 end
