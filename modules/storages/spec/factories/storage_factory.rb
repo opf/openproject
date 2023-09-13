@@ -62,7 +62,7 @@ FactoryBot.define do
     end
   end
 
-  factory :nextcloud_storage_with_real_integration,
+  factory :nextcloud_storage_with_local_connection,
           parent: :nextcloud_storage,
           traits: [:as_not_automatically_managed] do
     transient do

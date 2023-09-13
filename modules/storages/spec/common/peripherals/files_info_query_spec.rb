@@ -38,7 +38,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQu
   let(:user) { create(:user) }
 
   let(:storage) do
-    create(:nextcloud_storage_with_real_integration, :as_not_automatically_managed, oauth_client_token_user: user)
+    create(:nextcloud_storage_with_local_connection, :as_not_automatically_managed, oauth_client_token_user: user)
   end
 
   subject { described_class.new(storage) }
