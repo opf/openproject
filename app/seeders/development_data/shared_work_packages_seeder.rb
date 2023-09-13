@@ -41,6 +41,8 @@ module DevelopmentData
     end
 
     def applicable?
+      return false if project.nil?
+
       WorkPackage.where(subject: work_package_subjects).empty?
     end
 
@@ -117,7 +119,7 @@ module DevelopmentData
     # rubocop:enable Metrics/AbcSize
 
     def project
-      @project ||= seed_data.find_reference(:dev_work_package_sharing)
+      @project ||= seed_data.find_reference(:dev_work_package_sharing, default: nil)
     end
 
     def author
