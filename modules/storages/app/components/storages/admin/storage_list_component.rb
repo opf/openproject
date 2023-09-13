@@ -29,7 +29,7 @@
 #++
 #
 module Storages::Admin
-  class OpPrimerListComponent < Primer::Beta::BorderBox
+  class StorageListComponent < Primer::Beta::BorderBox
     attr_reader :storages
 
     def initialize(storages:, padding: :default, scheme: :default, **system_arguments)
@@ -49,15 +49,23 @@ module Storages::Admin
       helpers.pluralize(storages.size, I18n.t("storages.label_storage"))
     end
 
-    def render_collection
-      render(::Storages::Admin::OpPrimerListItemComponent.with_collection(@storages))
+    def rows
+      @storages.map do |storage|
+        with_row(scheme: :default) { storage_name(storage) }
+      end
     end
 
     private
 
-    def before_render
-      # FIXME: Add aria-lable for list arguments
-      # See: https://github.com/primer/view_components/blob/main/app/components/primer/beta/border_box.rb#L94
+    def storage_name(storage)
+      if storage.configured?
+        storage.name
+      else
+        render(Primer::Beta::Octicon.new(:'alert-fill', size: :small, color: :severe)) +
+          content_tag(:span,
+                      storage.name,
+                      class: 'pl-2')
+      end
     end
   end
 end
