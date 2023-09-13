@@ -415,7 +415,7 @@ ru:
     label_filename: "Файл"
     label_filesize: "Размер"
     label_general: "Общее"
-    label_global_roles: "Глобальные роли"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'Группа'
     label_group_by: "Группировать по"

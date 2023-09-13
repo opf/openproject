@@ -31,18 +31,17 @@ require 'spec_helper'
 RSpec.describe 'Global role: Global Create project',
                js: true,
                with_cuprite: true do
-  let(:user) { create(:admin) }
-  let(:project) { create(:project) }
+  shared_let(:admin) { create(:admin) }
+  shared_let(:user) { create(:user) }
+  shared_let(:project) { create(:project) }
 
-  before do
-    login_as user
-  end
-
-  describe 'Create Project is not a member permission' do
+  describe 'Create project is not a member permission' do
     # Given there is a role "Member"
     let!(:role) { create(:role, name: 'Member') }
 
     # And I am already admin
+    current_user { admin }
+
     # When I go to the edit page of the role "Member"
     # Then I should not see "Create project"
     it 'does not show the global permission' do
@@ -52,10 +51,13 @@ RSpec.describe 'Global role: Global Create project',
     end
   end
 
-  describe 'Create Project is a global permission' do
+  describe 'Create project is a global permission' do
     # Given there is a global role "Global"
     let!(:role) { create(:global_role, name: 'Global') }
+
     # And I am already admin
+    current_user { admin }
+
     # When I go to the edit page of the role "Global"
     # Then I should see "Create project"
 
@@ -66,11 +68,10 @@ RSpec.describe 'Global role: Global Create project',
     end
   end
 
-  describe 'Create Project displayed to user' do
+  describe 'Create project displayed to user' do
     let!(:global_role) { create(:global_role, name: 'Global', permissions: %i[add_project]) }
     let!(:member_role) { create(:role, name: 'Member', permissions: %i[view_project]) }
 
-    let(:user) { create(:user) }
     let!(:global_member) do
       create(:global_member,
              principal: user,
@@ -78,6 +79,8 @@ RSpec.describe 'Global role: Global Create project',
     end
 
     let(:name_field) { FormFields::InputFormField.new :name }
+
+    current_user { user }
 
     it 'does show the global permission' do
       visit projects_path
@@ -94,13 +97,14 @@ RSpec.describe 'Global role: Global Create project',
     end
   end
 
-  describe 'Create Project not displayed to user without global role' do
+  describe 'Create project not displayed to user without global role' do
     # Given there is 1 User with:
     # | Login | bob |
     # | Firstname | Bob |
     # | Lastname | Bobbit |
     #   When I am already logged in as "bob"
-    let(:user) { create(:user) }
+
+    current_user { user }
 
     it 'does show the global permission' do
       # And I go to the overall projects page

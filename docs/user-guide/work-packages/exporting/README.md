@@ -82,13 +82,29 @@ OpenProject can export the table for Microsoft Excel with the following options:
 
 ![OpenProject_work_package_export_excel_relations](openproject_pdf_table_export_relations.png)
 
+### Limitations
+
+The OpenProject XLS export currently does not respect all options in the work package view being exported form:
+
+- The order of work packages in a manually sorted query is not respected. This is known limitation (Ticket https://community.openproject.org/projects/openproject/work_packages/34971/activity)
+- The hierarchy of work packages as displayed in the work package view. The exported XLS is always in "flat" mode.
+
 ## CSV export
 
 OpenProject can export the table into a comma-separated CSV. This file will be UTF-8 encoded.
 
 > **Note**: To open CSV exported files into Microsoft Excel, ensure you set the encoding to UTF-8. Excel will not auto-detect the encoding or ask you to specify it, but simply open with a wrong encoding under Microsoft Windows.
 
+
 ![OpenProject_work_package_export_csv](openproject_export_csv.png)
+
+### Limitations
+
+The OpenProject CSV export currently does not respect all options in the work package view being exported form:
+
+- The order of work packages in a manually sorted query is not respected. This is known limitation (Ticket https://community.openproject.org/projects/openproject/work_packages/34971/activity)
+- The hierarchy of work packages as displayed in the work package view. The exported CSV is always in "flat" mode.
+
 
 ## Atom (XML) export
 

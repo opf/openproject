@@ -416,7 +416,7 @@ hi:
     label_filename: "फ़ाइल"
     label_filesize: "आकार"
     label_general: "सामान्य"
-    label_global_roles: "Global Roles"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: 'समूह'
     label_group_by: "द्वारा समूहीकृत"

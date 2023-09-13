@@ -150,7 +150,7 @@ zh-CN:
                   name: 里程碑
         demo-planning-constructing-project:
           name: "(演示) 规划和建设"
-          status_explanation: 所有任务都已按期完成。参与者知道他们的任务。系统已经完全建立。
+          status_explanation: 所有任务都按计划进行。相关人员均知晓各自任务。系统已完全建立。
           description: 这是该演示规划和建筑项目的简短目标总结。
           news:
             item_0:
@@ -689,7 +689,7 @@ zh-CN:
               description: 希望您喜欢您的建筑 :)
         demo-bcf-management-project:
           name: "（演示）BCF 管理"
-          status_explanation: 所有任务都已按期完成。参与者知道他们的任务。系统已经完全建立。
+          status_explanation: 所有任务都按计划进行。相关人员均知晓各自任务。系统已完全建立。
           description: 这是这个演示 BCF 管理项目目标的简短摘要。
           ifc_models:
             item_0:

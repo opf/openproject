@@ -78,7 +78,7 @@ module OpenProject
         if Rails.env.production?
           self['enterprise_trial_creation_host']
         else
-          'https://augur.openproject-edge.com'
+          'https://start.openproject-edge.com'
         end
       end
 
