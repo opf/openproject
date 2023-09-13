@@ -362,6 +362,9 @@ OpenProject::Application.routes.draw do
     get 'design/upsale' => 'custom_styles#upsale', as: 'custom_style_upsale'
     post 'design/colors' => 'custom_styles#update_colors', as: 'update_design_colors'
     post 'design/themes' => 'custom_styles#update_themes', as: 'update_design_themes'
+    post 'design/export_cover_text_color' => 'custom_styles#update_export_cover_text_color',
+         as: 'update_custom_style_export_cover_text_color'
+
     resource :custom_style, only: %i[update show create], path: 'design'
 
     resources :attribute_help_texts, only: %i(index new create edit update destroy) do

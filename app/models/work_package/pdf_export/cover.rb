@@ -60,41 +60,69 @@ module WorkPackage::PDFExport::Cover
     )
   end
 
+  def cover_text_color
+    @cover_text_color ||= validate_cover_text_color
+  end
+
+  def validate_cover_text_color
+    return nil if CustomStyle.current.blank?
+
+    color = CustomStyle.current.export_cover_text_color
+    return nil if color.blank?
+
+    # pdf hex colors are defined without leading hash
+    color = color.sub('#', '')
+    # prawn does not support short notation like #000
+    color = color + color if color.size == 3
+    color
+  end
+
   def write_hero_title(top, width)
-    text_style = styles.cover_hero_title
-    formatted_text_box_measured(
-      [text_style.merge({ text: project.name, size: nil, leading: nil })],
-      size: text_style[:size], leading: text_style[:leading],
-      at: [0, top], width:, height: styles.cover_hero_title_max_height, overflow: :shrink_to_fit
+    write_hero_text(
+      top:, width:,
+      text: project.name,
+      text_style: styles.cover_hero_title,
+      height: styles.cover_hero_title_max_height
     ) + styles.cover_hero_title_spacing
   end
 
   def write_hero_heading(top, width)
-    max_title_height = available_title_height(top)
-    text_style = styles.cover_hero_heading
-    formatted_text_box_measured(
-      [text_style.merge({ text: heading, size: nil, leading: nil })],
-      size: text_style[:size], leading: text_style[:leading],
-      at: [0, top], width:, height: max_title_height, overflow: :shrink_to_fit
+    write_hero_text(
+      top:, width:,
+      text: heading,
+      text_style: styles.cover_hero_heading,
+      height: available_title_height(top)
     ) + styles.cover_hero_heading_spacing
   end
 
   def write_hero_subheading(top, width)
-    text_style = styles.cover_hero_subheading
-    pdf.formatted_text_box(
-      [text_style.merge({ text: User.current.name, size: nil, leading: nil })],
+    write_hero_text(
+      top:, width:,
+      text: User.current.name,
+      text_style: styles.cover_hero_subheading,
+      height: styles.cover_hero_subheading_max_height
+    )
+  end
+
+  def write_hero_text(top:, width:, text:, text_style:, height:)
+    formatted_text = text_style.merge({ text:, size: nil, leading: nil })
+    formatted_text[:color] = cover_text_color if cover_text_color.present?
+    formatted_text_box_measured(
+      [formatted_text],
       size: text_style[:size], leading: text_style[:leading],
-      at: [0, top], width:, height: styles.cover_hero_subheading_max_height, overflow: :shrink_to_fit
+      at: [0, top], width:, height:, overflow: :shrink_to_fit
     )
   end
 
   def write_cover_footer
+    text_style = styles.cover_footer
+    text_style[:color] = cover_text_color if cover_text_color.present?
     draw_text_multiline_left(
       text: footer_date,
       max_left: pdf.bounds.width / 2,
       max_lines: 1,
       top: pdf.bounds.bottom - styles.cover_footer_offset,
-      text_style: styles.cover_footer
+      text_style:
     )
   end
 

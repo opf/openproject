@@ -465,6 +465,58 @@ RSpec.describe CustomStylesController do
       end
     end
 
+    describe "#update_export_cover_text_color", with_ee: %i[define_custom_style] do
+      let(:params) do
+        { export_cover_text_color: "#990000" }
+      end
+
+      context 'if CustomStyle exists' do
+        let(:custom_style) { CustomStyle.new }
+
+        before do
+          allow(CustomStyle).to receive(:current).and_return(custom_style)
+          allow(custom_style).to receive(:export_cover_text_color).and_call_original
+        end
+
+        context 'with valid parameter' do
+          before do
+            post :update_export_cover_text_color, params:
+          end
+
+          it "saves the color" do
+            expect(custom_style.export_cover_text_color).to eq("#990000")
+            expect(response).to redirect_to action: :show
+          end
+        end
+
+        context 'with invalid parameter' do
+          let(:params) do
+            { export_cover_text_color: "red" } # we only accept hexcodes
+          end
+
+          before do
+            post :update_export_cover_text_color, params:
+          end
+
+          it "ignores the parameter" do
+            expect(custom_style.export_cover_text_color).to be_nil
+            expect(response).to redirect_to action: :show
+          end
+        end
+      end
+
+      context 'if CustomStyle does not exist' do
+        before do
+          allow(CustomStyle).to receive(:current).and_return(nil)
+          post :update_export_cover_text_color, params:
+        end
+
+        it 'renders 404' do
+          expect(response).to have_http_status :not_found
+        end
+      end
+    end
+
     describe "#update_colors", with_ee: %i[define_custom_style] do
       let(:params) do
         {

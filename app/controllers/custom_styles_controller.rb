@@ -65,6 +65,22 @@ class CustomStylesController < ApplicationController
     end
   end
 
+  def update_export_cover_text_color
+    color = params[:export_cover_text_color]
+
+    @custom_style = CustomStyle.current
+    if @custom_style.nil?
+      return render_404
+    end
+
+    color_hexcode_regex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
+    if !color.nil? && color.match(color_hexcode_regex)
+      @custom_style.export_cover_text_color = color
+      @custom_style.save
+    end
+    redirect_to custom_style_path
+  end
+
   def logo_download
     file_download(:logo_path)
   end
@@ -163,6 +179,7 @@ class CustomStylesController < ApplicationController
     params.require(:custom_style).permit(:logo, :remove_logo,
                                          :export_logo, :remove_export_logo,
                                          :export_cover, :remove_export_cover,
+                                         :export_cover_text_color,
                                          :favicon, :remove_favicon,
                                          :touch_icon, :remove_touch_icon)
   end
