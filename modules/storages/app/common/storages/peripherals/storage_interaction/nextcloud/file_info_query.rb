@@ -83,7 +83,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def handle_failure
       ->(response_object) do
-        case response_object.ocs.meta.statuscode
+        case response_object.ocs.data.statuscode
         when 200
           ServiceResult.success(result: response_object)
         when 403
