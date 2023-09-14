@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Filter by date', js: true do
+RSpec.describe 'Filter by date with "is empty"', js: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
 
@@ -62,19 +62,20 @@ RSpec.describe 'Filter by date', js: true do
     wp_table.visit!
   end
 
-  it '"is empty"' do
+  it 'for regular fields works as intended' do
     wp_table.expect_work_package_listed work_package_without_dates, work_package_with_start_date
 
     filters.expect_filter_count 1
     filters.open
     filters.remove_filter('status')
 
-    filters.add_filter_by('Start date', 'is empty', nil) # why is this not working
-
-    # SeleniumHubWaiter.wait
-    # binding.pry
+    filters.add_filter_by('Start date', 'is empty', nil, 'startDate')
 
     wp_table.expect_work_package_listed work_package_without_dates
     wp_table.ensure_work_package_not_listed! work_package_with_start_date
+  end
+
+  it 'for custom fields works as intended' do
+    # TO DO
   end
 end
