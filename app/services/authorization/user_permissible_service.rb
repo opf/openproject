@@ -23,29 +23,39 @@ module Authorization
       perms = normalized_permissions(permission, :global)
       return true if admin_and_all_granted_to_admin?(perms)
 
-      AllowedGloballyQuery.new(user, perms).exist?
+      AllowedGloballyQuery.new(user, perms).exists?
     end
 
     def allowed_in_project?(permission, project)
       perms = normalized_permissions(permission, :project)
+      return false if project.nil?
+      return false unless authorizable_user?
+      return false unless project.active? || project.being_archived?
       return true if admin_and_all_granted_to_admin?(perms)
 
-      AllowedInProjectQuery.new(user, project, perms).exist?
+      AllowedInProjectQuery.new(user, project, perms).exists?
     end
 
     def allowed_in_any_project?(permission)
       perms = normalized_permissions(permission, :project)
       return true if admin_and_all_granted_to_admin?(perms)
 
-      AllowedInAnyProjectQuery.new(user, perms).exist?
+      AllowedInAnyProjectQuery.new(user, perms).exists?
     end
 
     def allowed_in_entity?(permission, entity)
       context = entity.model_name.element.to_sym
       perms = normalized_permissions(permission, context)
+      return false if entity.nil?
+      return false unless authorizable_user?
+
+      if entity.respond_to?(:project)
+        return false if entity.project.nil?
+        return false unless entity.project.active? || entity.project.being_archived?
+      end
       return true if admin_and_all_granted_to_admin?(perms)
 
-      AllowedInEntityQuery.new(user, entity, perms).exist?
+      AllowedInEntityQuery.new(user, entity, perms).exists?
     end
 
     def allowed_in_any_entity?(permission, entity_class, in_project: nil)
@@ -53,7 +63,7 @@ module Authorization
       perms = normalized_permissions(permission, context)
       return true if admin_and_all_granted_to_admin?(perms)
 
-      AllowedInAnyEntityQuery.new(user, entity_class, perms, in_project:).exist?
+      AllowedInAnyEntityQuery.new(user, entity_class, perms, in_project:).exists?
     end
 
     private
@@ -75,6 +85,10 @@ module Authorization
 
     def admin_and_all_granted_to_admin?(perms)
       user.admin? && perms.all?(&:grant_to_admin?)
+    end
+
+    def authorizable_user?
+      !user.locked? || user.is_a?(SystemUser)
     end
   end
 end

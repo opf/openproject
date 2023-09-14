@@ -19,6 +19,19 @@ RSpec.describe Authorization::UserPermissibleService do
     context 'when asking for a permission that is defined' do
       let(:permission) { :create_user }
 
+      context 'and the user is a regular user' do
+        context 'without a role granting the permission' do
+          it { is_expected.not_to be_allowed_globally(permission) }
+        end
+
+        context 'with a role granting the permission' do
+          let(:global_role) { create(:global_role, permissions: [permission]) }
+          let!(:member) { create(:global_member, user:, roles: [global_role]) }
+
+          it { is_expected.to be_allowed_globally(permission) }
+        end
+      end
+
       context 'and the user is an admin' do
         let(:user) { create(:admin) }
 
