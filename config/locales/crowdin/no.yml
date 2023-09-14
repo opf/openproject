@@ -721,9 +721,9 @@
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          overlaps: 'overlapp.'
+          outside: 'er utenfor rutenett.'
+          end_before_start: 'sluttverdien må være større enn startverdien.'
         ical_token_query_assignment:
           attributes:
             name:
