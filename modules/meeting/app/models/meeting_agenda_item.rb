@@ -40,7 +40,7 @@ class MeetingAgendaItem < ApplicationRecord
   validates :work_package_id, presence: true, if: Proc.new { |item| item.title.blank? }
 
   validates :duration_in_minutes,
-            numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 86400 },
+            numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1440 },
             allow_nil: true
 
   after_create :trigger_meeting_agenda_item_time_slots_calculation

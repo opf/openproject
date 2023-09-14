@@ -56,7 +56,24 @@ RSpec.describe MeetingAgendaItem do
 
       it 'is valid' do
         expect(subject).not_to be_valid
-        expect(subject.errors[:duration_in_minutes]).to include "must be less than or equal to 86400."
+        expect(subject.errors[:duration_in_minutes]).to include "must be less than or equal to 1440."
+      end
+    end
+
+    context 'with max duration' do
+      let(:duration_in_minutes) { 1440 }
+
+      it 'is valid' do
+        expect(subject).to be_valid
+      end
+    end
+
+    context 'with overmax duration' do
+      let(:duration_in_minutes) { 1441 }
+
+      it 'is valid' do
+        expect(subject).not_to be_valid
+        expect(subject.errors[:duration_in_minutes]).to include "must be less than or equal to 1440."
       end
     end
   end

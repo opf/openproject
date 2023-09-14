@@ -34,7 +34,7 @@ class MeetingAgendaItem::Duration < ApplicationForm
       label: MeetingAgendaItem.human_attribute_name(:duration_in_minutes),
       leading_visual: { icon: :stopwatch },
       visually_hide_label: true,
-      max: 86400,
+      max: 1440,
       type: :number,
       disabled: @disabled
     )
