@@ -88,7 +88,7 @@ module Meetings
 
     def actions_partial
       render(Primer::Alpha::ActionMenu.new) do |menu|
-        menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("label_meeting_actions"))
+        menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("label_meeting_actions"), test_selector: 'op-meetings-header-action-trigger')
         edit_action_item(menu) if edit_enabled?
         delete_action_item(menu) if delete_enabled?
       end
@@ -109,7 +109,7 @@ module Meetings
                      scheme: :danger,
                      href: meeting_path(@meeting),
                      form_arguments: {
-                       method: :delete, data: { confirm: t("text_are_you_sure") }
+                       method: :delete, data: { confirm: t("text_are_you_sure"), turbo: 'false' }
                      }) do |item|
         item.with_leading_visual_icon(icon: :trash)
       end

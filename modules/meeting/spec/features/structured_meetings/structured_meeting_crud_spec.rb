@@ -41,7 +41,7 @@ RSpec.describe 'Structured meetings CRUD',
     create(:user,
            lastname: 'First',
            member_in_project: project,
-           member_with_permissions: %i[view_meetings create_meetings create_meeting_agendas view_work_packages]).tap do |u|
+           member_with_permissions: %i[view_meetings create_meetings create_meeting_agendas delete_meetings view_work_packages]).tap do |u|
       u.pref[:time_zone] = 'utc'
 
       u.save!
@@ -175,6 +175,16 @@ RSpec.describe 'Structured meetings CRUD',
       # Close dropdown
       ng_select_input(find_test_selector('op-agenda-items-user-autocomplete')).send_keys :escape
     end
+  end
+
+  it 'can delete a meeting and get back to the index page' do
+    click_button('op-meetings-header-action-trigger')
+
+    accept_confirm(I18n.t('text_are_you_sure')) do
+      click_button 'Delete meeting'
+    end
+
+    expect(page).to have_current_path project_meetings_path(project)
   end
 
   context 'with a group and a placeholder user in the project' do
