@@ -68,6 +68,7 @@ export class PrincipalRendererService {
     name:NameOptions = { hide: false, link: true },
     avatar:AvatarOptions = { hide: false, size: 'default' },
   ):void {
+    container.dataset.testSelector = 'op-principal';
     container.classList.add('op-principal');
     const type = typeFromHref(hrefFromPrincipal(principal)) as PrincipalType;
 

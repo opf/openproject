@@ -76,7 +76,7 @@ module Pages::StructuredMeeting
     end
 
     def expect_agenda_author(name)
-      expect(page).to have_test_selector('op-meeting-agenda-author', text: name)
+      expect(page).to have_test_selector('op-principal', text: name)
     end
 
     def expect_undisclosed_agenda_link(item)

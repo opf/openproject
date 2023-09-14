@@ -99,7 +99,7 @@ module AvatarHelper
       id: user.id
     }
 
-    angular_component_tag 'op-principal',
+    angular_component_tag 'opce-principal',
                           class: tag_options[:class],
                           inputs: {
                             principal:,

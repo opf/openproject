@@ -108,11 +108,7 @@ module MeetingAgendaItems
           end
         end
         flex.with_column(mr: 2) do
-          render(Users::AvatarComponent.new(user: @meeting_agenda_item.author,
-                                            text_system_attributes: {
-                                              test_selector: 'op-meeting-agenda-author',
-                                              muted: true,
-                                            }))
+          render(Users::AvatarComponent.new(user: @meeting_agenda_item.author, size: 'mini'))
         end
         flex.with_column do
           actions_partial if edit_enabled?
