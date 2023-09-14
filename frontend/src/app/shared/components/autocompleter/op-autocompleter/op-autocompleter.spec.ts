@@ -70,7 +70,7 @@ describe('autocompleter', () => {
 
     fixture = TestBed.createComponent(OpAutocompleterComponent);
 
-    fixture.componentInstance.resource = 'work_packages' as resource;
+    fixture.componentInstance.resource = 'work_packages' as TOpAutocompleterResource;
     fixture.componentInstance.filters = [];
     fixture.componentInstance.searchKey = 'subjectOrId';
     fixture.componentInstance.appendTo = 'body';

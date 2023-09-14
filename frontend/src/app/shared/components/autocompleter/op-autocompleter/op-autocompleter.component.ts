@@ -68,7 +68,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   @Input() public filters?:IAPIFilter[] = [];
 
-  @Input() public resource:resource;
+  @Input() public resource:TOpAutocompleterResource;
 
   @Input() public model?:any;
 

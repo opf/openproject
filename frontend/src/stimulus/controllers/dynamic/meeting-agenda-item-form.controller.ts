@@ -49,16 +49,10 @@ export default class extends Controller {
 
   focusInput():void {
     const titleInput = this.element.querySelector('input[name="meeting_agenda_item[title]"]');
-    const wpInput = this.element.querySelector('#op-agenda-items-wp-autocomplete'); // TODO: not working yet -> which element needs to be focused?
 
-    //TODO: using timeout as a quick fix as the author autocomple input takes the focus otherwise
     setTimeout(() => {
-      // only one of the two elements will be rendered
       if (titleInput) {
         (titleInput as HTMLInputElement).focus();
-      }
-      if (wpInput) {
-        (wpInput as HTMLInputElement).focus();
       }
     }, 100);
   }
