@@ -54,6 +54,8 @@ class MeetingAgendaItem::Author < ApplicationForm
   end
 
   def author_name
+    return '' unless @meeting_agenda_item.author_id
+
     Principal.find_by(id: @meeting_agenda_item.author_id).name
   end
 end
