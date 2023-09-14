@@ -68,7 +68,7 @@ module Storages
             when Net::HTTPNotFound
               ServiceResult.failure(result: :not_found, errors: ::Storages::StorageError.new(code: :not_found))
             when Net::HTTPUnauthorized
-              ServiceResult.failure(result: :not_authorized, errors: ::Storages::StorageError.new(code: :not_authorized))
+              ServiceResult.failure(result: :unauthorized, errors: ::Storages::StorageError.new(code: :unauthorized))
             else
               ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error))
             end

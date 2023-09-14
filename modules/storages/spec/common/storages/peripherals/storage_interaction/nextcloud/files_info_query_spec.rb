@@ -96,7 +96,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQu
         it 'must return an error when called' do
           subject.call(user:, file_ids:).match(
             on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" },
-            on_failure: ->(error) { expect(error.code).to eq(:not_authorized) }
+            on_failure: ->(error) { expect(error.code).to eq(:unauthorized) }
           )
         end
       end

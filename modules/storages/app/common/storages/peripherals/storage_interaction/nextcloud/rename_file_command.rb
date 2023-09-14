@@ -55,7 +55,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       when Net::HTTPNotFound
         Util.error(:not_found)
       when Net::HTTPUnauthorized
-        Util.error(:not_authorized)
+        Util.error(:unauthorized)
       else
         Util.error(:error)
       end

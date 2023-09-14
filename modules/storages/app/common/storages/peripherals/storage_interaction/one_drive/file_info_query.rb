@@ -73,8 +73,8 @@ module Storages
               ServiceResult.failure(result: :forbidden,
                                     errors: ::Storages::StorageError.new(code: :forbidden, data: json))
             when Net::HTTPUnauthorized
-              ServiceResult.failure(result: :not_authorized,
-                                    errors: ::Storages::StorageError.new(code: :not_authorized, data: json))
+              ServiceResult.failure(result: :unauthorized,
+                                    errors: ::Storages::StorageError.new(code: :unauthorized, data: json))
             else
               ServiceResult.failure(result: :error,
                                     errors: ::Storages::StorageError.new(code: :error, data: json))

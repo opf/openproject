@@ -42,20 +42,5 @@ module Storages::Peripherals
         raise API::Errors::InternalError.new
       end
     end
-
-    def error_to_code(error)
-      case error.code
-      when :bad_request
-        400
-      when :not_authorized
-        401
-      when :forbidden
-        403
-      when :not_found
-        404
-      else
-        500
-      end
-    end
   end
 end

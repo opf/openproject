@@ -57,13 +57,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Util
       File.join(uri.to_s, *)
     end
 
-    def token(user:, configuration:, &block)
+    def token(user:, configuration:, &)
       connection_manager = ::OAuthClients::ConnectionManager.new(user:, configuration:)
       connection_manager.get_access_token.match(
         on_success: ->(token) do
-          connection_manager.request_with_token_refresh(token) { block.call(token) }
+          connection_manager.request_with_token_refresh(token) { yield token }
         end,
-        on_failure: ->(_) { error(:not_authorized, 'Query could not be created! No access token found!') }
+        on_failure: ->(_) { error(:unauthorized, 'Query could not be created! No access token found!') }
       )
     end
 

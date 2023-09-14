@@ -61,18 +61,18 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           when Net::HTTPNotFound
             Util.error(:not_found, 'Outbound request destination not found!', response)
           when Net::HTTPUnauthorized
-            Util.error(:not_authorized, 'Outbound request not authorized!', response)
+            Util.error(:unauthorized, 'Outbound request not authorized!', response)
           else
             Util.error(:error, 'Outbound request failed!')
           end
         end
 
-        service_result.bind do |response|
+        service_result.bind do |resp|
           # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
-          if response.body.blank?
-            Util.error(:not_authorized, 'Outbound request not authorized!')
+          if resp.body.blank?
+            Util.error(:unauthorized, 'Outbound request not authorized!')
           else
-            ServiceResult.success(result: response.body)
+            ServiceResult.success(result: resp.body)
           end
         end
       end

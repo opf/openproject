@@ -118,8 +118,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
       storage_files = described_class.call(storage:, user:, folder: nil)
 
       expect(storage_files).to be_failure
-      expect(storage_files.result).to eq(:not_authorized)
-      expect(storage_files.errors.to_s).to eq(Storages::StorageError.new(code: :not_authorized).to_s)
+      expect(storage_files.result).to eq(:unauthorized)
+      expect(storage_files.errors.to_s).to eq(Storages::StorageError.new(code: :unauthorized).to_s)
     end
   end
 end

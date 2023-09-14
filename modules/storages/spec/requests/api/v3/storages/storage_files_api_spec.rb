@@ -139,7 +139,7 @@ RSpec.describe 'API v3 storage files', :webmock, content_type: :json do
       end
 
       context 'with authorization failure' do
-        let(:error) { :not_authorized }
+        let(:error) { :unauthorized }
 
         it { expect(last_response.status).to be(500) }
       end
@@ -291,7 +291,7 @@ RSpec.describe 'API v3 storage files', :webmock, content_type: :json do
       end
 
       describe 'due to authorization failure' do
-        let(:error) { :not_authorized }
+        let(:error) { :unauthorized }
 
         it { expect(last_response.status).to be(500) }
       end

@@ -71,7 +71,7 @@ module Storages
               StorageFileInfo.new(
                 id: file_id,
                 status: storage_error.data.dig(:error, :code),
-                status_code: error_to_code(storage_error)
+                status_code: Rack::Utils::SYMBOL_TO_STATUS_CODE[storage_error.code]
               )
             end
           end

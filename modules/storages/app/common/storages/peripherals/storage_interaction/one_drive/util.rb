@@ -48,9 +48,9 @@ module Storages::Peripherals::StorageInteraction::OneDrive::Util
           end,
           on_failure: ->(_) do
             ServiceResult.failure(
-              result: :not_authorized,
+              result: :unauthorized,
               errors: ::Storages::StorageError.new(
-                code: :not_authorized,
+                code: :unauthorized,
                 log_message: 'Query could not be created! No access token found!'
               )
             )

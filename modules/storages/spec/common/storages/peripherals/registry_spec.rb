@@ -120,10 +120,10 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
           allow(instance).to receive(:get_access_token).and_return(ServiceResult.failure)
         end
 
-        it 'must return ":not_authorized" ServiceResult' do
+        it 'must return ":unauthorized" ServiceResult' do
           result = registry.resolve('queries.nextcloud.download_link').call(storage:, user:, file_link:)
           expect(result).to be_failure
-          expect(result.errors.code).to be(:not_authorized)
+          expect(result.errors.code).to be(:unauthorized)
         end
       end
 
@@ -132,10 +132,10 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
           stub_request(:post, "#{url}/ocs/v2.php/apps/dav/api/v1/direct").to_return(status: 200, body: '')
         end
 
-        it 'must return :not_authorized ServiceResult' do
+        it 'must return :unauthorized ServiceResult' do
           result = registry.resolve('queries.nextcloud.download_link').call(user:, file_link:, storage:)
           expect(result).to be_failure
-          expect(result.errors.code).to be(:not_authorized)
+          expect(result.errors.code).to be(:unauthorized)
         end
       end
 
@@ -154,7 +154,7 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
       end
 
       include_examples 'outbound is failing', 404, :not_found
-      include_examples 'outbound is failing', 401, :not_authorized
+      include_examples 'outbound is failing', 401, :unauthorized
       include_examples 'outbound is failing', 500, :error
     end
 
@@ -266,10 +266,10 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
             allow(instance).to receive(:get_access_token).and_return(ServiceResult.failure)
           end
 
-          it 'must return ":not_authorized" ServiceResult' do
+          it 'must return ":unauthorized" ServiceResult' do
             result = registry.resolve('queries.nextcloud.files').call(folder: parent, user:, storage:)
             expect(result).to be_failure
-            expect(result.errors.code).to be(:not_authorized)
+            expect(result.errors.code).to be(:unauthorized)
           end
         end
       end
@@ -289,7 +289,7 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
       end
 
       include_examples 'outbound is failing', 404, :not_found
-      include_examples 'outbound is failing', 401, :not_authorized
+      include_examples 'outbound is failing', 401, :unauthorized
       include_examples 'outbound is failing', 500, :error
     end
 
@@ -339,10 +339,10 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
           allow(instance).to receive(:get_access_token).and_return(ServiceResult.failure)
         end
 
-        it 'must return ":not_authorized" ServiceResult' do
+        it 'must return ":unauthorized" ServiceResult' do
           result = registry.resolve('queries.nextcloud.upload_link').call(storage:, user:, data: query_payload)
           expect(result).to be_failure
-          expect(result.errors.code).to be(:not_authorized)
+          expect(result.errors.code).to be(:unauthorized)
         end
       end
 
@@ -361,7 +361,7 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
       end
 
       include_examples 'outbound is failing', 400, :error
-      include_examples 'outbound is failing', 401, :not_authorized
+      include_examples 'outbound is failing', 401, :unauthorized
       include_examples 'outbound is failing', 404, :not_found
       include_examples 'outbound is failing', 500, :error
     end
