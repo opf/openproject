@@ -201,7 +201,7 @@ When all features, bugs have been tested successfully, regression testing was pe
 
 Developed features are bundled into a version that is released to the public via different channels (package, SaaS, docker, ...). This means that not every feature will receive its own release but rather that a feature's release will happen together with other features as well as bugfixes. This offers the opportunity to add another quality assurance step. At the end of building multiple features, the application in its entirety is tested again and bugs identified can be fixed. This includes bugs that are in the newly developed feature, regressions caused by the feature development as well as bugs originating in former versions.
 
-1. DevOps creates release branch for new version.
+1. DevOps creates release branch for new version (`release/X.Y`).
 2. Tester performs regression test.
 3. QA identifies important bugs to be fixed in the release.
 4. Developer fixes bugs from regression testing as well as bugs from former versions.
@@ -213,7 +213,7 @@ Developed features are bundled into a version that is released to the public via
 8. DevOps monitors for failures.
 9. QA vets incoming bug reports and checks if they need to be fixed before the release.
 
-Those steps can be repeated multiple times until the release candidate is deemed stable enough to be released.
+Those steps can be repeated multiple times (restarting at step 2) until the release candidate is deemed stable enough to be released.
 
 For patch level releases, where only bugs are addressed, the process for a version starts at this point.
   
@@ -261,7 +261,11 @@ The entire team documents possible improvements for the next release.
 
 ## 4. Artefacts
 
-### 4.1 RICE Score
+### 4.1 Version/Release
+
+A version is the name given to a collection of features and/or bugfixes. A release is the publicly available version of the OpenProject software. More information is provided on the [release page](./releases/).
+
+### 4.2 RICE Score
 
 The RICE scoring model is an evaluation method used to evaluate and compare requirements with each other and decide which products or features to prioritize on the roadmap - in an as objective manner as possible.
 
@@ -329,7 +333,7 @@ The effort score ranges from 0.03 (XS = less than a day of effort) to 20 (XXXL =
 
 
 
-### 4.2 Opportunity Canvas
+### 4.3 Opportunity Canvas
 
 One of the main artifacts used in the evaluation phase is the Opportunity Canvas. The Opportunity Canvas - [slightly adapted from GitLab](https://about.gitlab.com/handbook/product-development-flow) - provides a quick overview of a requirement and includes four main sections as well as two supplemental sections:
 
