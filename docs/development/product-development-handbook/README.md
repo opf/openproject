@@ -18,37 +18,67 @@ This guide is an evolving description of the steps taken from collecting require
 
 ## 2. Process overview
 
-The product development process involves various roles during the different phases. The following picture gives an overview of the responsible parties during the different phases as well as the respective output for each phase.
+The product development process involves various roles during the different phases:
+* Product Manager (PM)
+* Designer
+* QA/Tester
+* Developer
+* DevOps
+* Customer
+* Marketing
+* Community
+* UX researcher
+
+All of those roles interact to guide a feature from the initial idea to it being released. The following picture gives an overview of the steps taken on that course.
 
 ```mermaid
 %%{init: {'theme':'neutral'}}%%
 
 flowchart TD
   subgraph requirements[Requirements and specification]
-    qCollection[Collection] -->
-    qEvaluation[Pre-evaluation] -->
-    qValidation[Validation] -->
-    qSpecification[Specification]
+    qCollection(Collection)
+    qEvaluation(Pre-evaluation)
+    qValidation(Validation)
+    qSpecification(Specification)
+
+    qCollection --> |Feature in wish list| qEvaluation
+    qEvaluation --> |Feature with RICE score| qValidation
+    qValidation --> |Validated feature in product backlog| qSpecification
   end
+
+  qSpecification --> |Specified feature| bPreparation
 
   subgraph building[Building]
-    bPreparation[Preparation] -->
-    bImplementation[Implementation] -->
-    bQA[Quality assurance] -->
-    bAcceptance[Acceptance testing] -->
-    bDocumentation[Documentation] -->
-    bStabilization[Stabilization]
+    bPreparation(Preparation)
+    bImplementation(Implementation)
+    bQA(Quality assurance)
+    bAcceptance(Acceptance testing)
+    bDocumentation(Documentation)
+    bStabilization(Stabilization)
+
+    bPreparation --> |Implementable feature| bImplementation
+    bImplementation --> |Implemented feature| bQA
+    bQA --> |Tested feature| bAcceptance
+    bAcceptance --> |Accepted feature| bDocumentation
+    bDocumentation --> |Documented feature| bStabilization
+    bStabilization --> bStabilization
   end
+
+  qCollection --> |Bug in bug backlog| bStabilization
+
+  bStabilization --> |Stable and bundled feature| bRollout
 
   subgraph release[Releasing]
-    bRelease[Release] -->
-    bMarket[Go to market] -->
-    bLearning[Lessons learned]
-  end
+    bRollout(Rollout)
+    bMarket(Go to market)
+    bLearning(Lessons learned)
 
-  requirements --> building
-  building --> release
+    bRollout --> |Feature released in version| bMarket
+    bMarket --> |Feature communicated| bLearning
+  end
 ```
+
+The following sections describe each of those steps in more detail and also take note of the roles involved and their responsibilities in each step and.
 
 ## 3. Phases
 
@@ -75,9 +105,9 @@ The specification phase may not be necessary for bug fixes, minor design changes
 
 ### 3.1.1 Evaluation phase 1: Collection
 
-| Involved                                                                                                           | Output                                                     |
-|--------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------|
-| - Entire team (incl. PMs, UXers, developers, etc.)  <br/> - Customers <br/> - Community <br/> - Other stackholders | - Feature request in Wish List <br/> - Bugs in Bug backlog |
+| Involved                                                                                                                   | Output                                                     |
+|----------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------|
+| - Entire team (incl. PMs, UX researcher, developers, etc.)  <br/> - Customers <br/> - Community <br/> - Other stackholders | - Feature request in Wish List <br/> - Bugs in Bug backlog |
 
 
 The [OpenProject Wish List](https://community.openproject.com/projects/openproject/work_packages?query_id=180) is used to collect a backlog of potential validation opportunities. Requirements may come from customers, internal usage, support messages, community forums or through other communication channels.
@@ -85,7 +115,7 @@ The [OpenProject Wish List](https://community.openproject.com/projects/openproje
 Requirements should be captured as a **Feature** or **Epic** (for larger features which we can be broken down into smaller features) and focus on describing the customer’s problem rather than jumping ahead to a solution.
 For a guideline on how to report feature requests, refer to the [Feature request guideline](../../development/submit-feature-idea/). Technical maintenance issues and refactorings can be tracked as **Code Maintenance**.
 
-**Bugs** are [reported aside from the feature/epic track](../../development/report-a-bug/) as they are oftentimes not subject to an elaborate specification. On the other hand, sometimes bugs turn out to be caused by either the functionality implemented not meeting the users' expectations or by a not implemented feature. Upon identifying a bug to be such a case, it is treated as a feature. But most of the bugs upon collecting find their way into the [Bug backlog](https://community.openproject.org/projects/openproject/work_packages?query_id=491).
+**Bugs** are [reported aside from the feature/epic track](../../development/report-a-bug/) as they are oftentimes not subject to an elaborate specification. On the other hand, sometimes bugs turn out to be caused by either the functionality implemented not meeting the users' expectations or by a not implemented feature. Upon identifying a bug to be such a case, it is treated as a feature. But most of the bugs upon collecting find their way into the [Bug backlog](https://community.openproject.org/projects/openproject/work_packages?query_id=491). Those are then picked up in the [Building phase 5: Stabilization](#325-building-phase-5-stabilization).
 
 ### 3.1.2 Evaluation phase 2: Pre-evaluation
 
