@@ -110,8 +110,8 @@ module MeetingAgendaItems
         flex.with_column(mr: 2) do
           render(Users::AvatarComponent.new(user: @meeting_agenda_item.author,
                                             text_system_attributes: {
+                                              test_selector: 'op-meeting-agenda-author',
                                               muted: true,
-                                              test_selector: 'op-meeting-agenda-author'
                                             }))
         end
         flex.with_column do

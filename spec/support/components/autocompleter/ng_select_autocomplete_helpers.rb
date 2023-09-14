@@ -83,7 +83,7 @@ module Components::Autocompleter
 
     ##
     # Get the ng_select input element
-    def ng_select_input(from_element)
+    def ng_select_input(from_element = page)
       from_element.find('.ng-input input')
     end
 

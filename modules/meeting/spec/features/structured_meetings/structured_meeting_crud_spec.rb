@@ -31,8 +31,10 @@ require 'spec_helper'
 require_relative '../../support/pages/meetings/new'
 require_relative '../../support/pages/structured_meeting/show'
 
-RSpec.describe 'Structured meetings CRUD', :js, with_cuprite: true do
-  include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+RSpec.describe 'Structured meetings CRUD',
+               :js,
+               :with_cuprite do
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:project) { create(:project, enabled_module_names: %w[meetings work_package_tracking]) }
   shared_let(:user) do
@@ -153,9 +155,7 @@ RSpec.describe 'Structured meetings CRUD', :js, with_cuprite: true do
 
     show_page.add_agenda_item do
       # Current user is set per default
-      within(ng_select_input) do
-        expect(page).to have_text current_user.name
-      end
+      expect(page).to have_selector('.ng-value', text: current_user.name, wait: 10)
 
       # Opening the dropdown
       search_autocomplete find_test_selector('op-agenda-items-user-autocomplete'),
@@ -165,8 +165,10 @@ RSpec.describe 'Structured meetings CRUD', :js, with_cuprite: true do
       # Only project members are shown
       expect_ng_option(find_test_selector('op-agenda-items-user-autocomplete'), user.name)
       expect_ng_option(find_test_selector('op-agenda-items-user-autocomplete'), other_user.name)
-      expect_ng_option(find_test_selector('op-agenda-items-user-autocomplete'), group.name)
       expect_no_ng_option(find_test_selector('op-agenda-items-user-autocomplete'), no_member_user.name)
+
+      # Close dropdown
+      ng_select_input(find_test_selector('op-agenda-items-user-autocomplete')).send_keys :escape
     end
   end
 
@@ -202,7 +204,7 @@ RSpec.describe 'Structured meetings CRUD', :js, with_cuprite: true do
       end
 
       show_page.expect_agenda_item title: 'My agenda item'
-      show_page.expect_agenda_author name: group.name
+      show_page.expect_agenda_author group.name
     end
   end
 

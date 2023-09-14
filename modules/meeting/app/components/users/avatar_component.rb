@@ -74,12 +74,10 @@ module Users
     private
 
     def user_link_partial
-      render(Primer::Beta::Link.new(**{
-        href: user_path(@user),
-        underline: false,
-        scheme: :primary,
-        target: "_blank"
-      }.merge(@text_system_attributes))) do
+      render(Primer::Beta::Link.new(href: user_path(@user),
+                                    underline: false,
+                                    scheme: :primary,
+                                    target: "_blank")) do
         user_name_partial
       end
     end
@@ -105,13 +103,13 @@ module Users
 
     def avatar_fallback_partial
       render(Primer::Beta::Octicon.new(
-               **{
-                 color: :subtle,
-                 size: :small,
-                 icon: "feed-person",
-                 'aria-label': "Responsible"
-               }.merge(@avatar_system_attribues)
-             ))
+        **{
+          color: :subtle,
+          size: :small,
+          icon: "feed-person",
+          'aria-label': "Responsible"
+        }.merge(@avatar_system_attribues)
+      ))
     end
   end
 end

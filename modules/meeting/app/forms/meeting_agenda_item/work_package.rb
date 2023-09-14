@@ -39,6 +39,7 @@ class MeetingAgendaItem::WorkPackage < ApplicationForm
         },
         resource: 'work_packages',
         searchKey: 'subjectOrId',
+        focusDirectly: true,
         disabled: @disabled
       }
     )
