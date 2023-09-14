@@ -2406,6 +2406,7 @@ fr:
   permission_view_news: "View news"
   permission_view_members: "Afficher les membres"
   permission_view_reportings: "Voir rapports"
+  permission_view_shared_work_packages: "View shared work packages"
   permission_view_time_entries: "Voir temps passé"
   permission_view_timelines: "Voir les lignes du temps"
   permission_view_wiki_edits: "Voir l'historique du wiki"
