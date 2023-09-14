@@ -33,11 +33,11 @@ module Components
     include RSpec::Matchers
 
     def selector
-      "[data-qa-selector='add-existing-pane']"
+      "[data-test-selector='add-existing-pane']"
     end
 
     def open
-      page.find('[data-qa-selector="op-team-planner--add-existing-toggle"]').click
+      page.find('[data-test-selector="op-team-planner--add-existing-toggle"]').click
       expect_open
     end
 
@@ -50,26 +50,26 @@ module Components
     end
 
     def expect_empty
-      expect(page).to have_selector("[data-qa-selector='op-add-existing-pane--empty-state']")
+      expect(page).to have_selector("[data-test-selector='op-add-existing-pane--empty-state']")
     end
 
     def search(term)
-      page.find("[data-qa-selector='op-add-existing-pane--search-input'] input").set(term)
+      page.find("[data-test-selector='op-add-existing-pane--search-input'] input").set(term)
     end
 
     def expect_result(work_package, visible: true)
       if visible
         expect(page)
-          .to have_selector("[data-qa-selector='op-add-existing-pane--wp-#{work_package.id}']", wait: 10)
+          .to have_selector("[data-test-selector='op-add-existing-pane--wp-#{work_package.id}']", wait: 10)
       else
         expect(page)
-          .not_to have_selector("[data-qa-selector='op-add-existing-pane--wp-#{work_package.id}']")
+          .not_to have_selector("[data-test-selector='op-add-existing-pane--wp-#{work_package.id}']")
       end
     end
 
     def drag_wp_by_pixel(work_package, by_x, by_y)
       source = page
-                 .find("[data-qa-selector='op-add-existing-pane--wp-#{work_package.id}']")
+                 .find("[data-test-selector='op-add-existing-pane--wp-#{work_package.id}']")
 
       drag_by_pixel(element: source, by_x:, by_y:)
     end

@@ -139,14 +139,14 @@ zh-CN:
 
           您也可以创建一个空白的[新项目]({{opSetting:base_url}}/projects/new)。
 
-          永不停止合作，本着开源和开放的心态。
+          永不停止协作，秉承开源和开放的心态。
 
           您可以在[这里]({{opSetting:base_url}}/admin/settings/general)更改此欢迎文本。
       projects:
         demo-project:
           name: 演示项目
           status_explanation: 所有任务都按计划进行。相关人员均知晓各自任务。系统已完全建立。
-          description: 这是一个演示Scrum项目目标的简短摘要。
+          description: 这是对此演示项目目标的简短摘要。
           news:
             item_0:
               title: 欢迎来到您的演示项目
@@ -249,7 +249,7 @@ zh-CN:
         scrum-project:
           name: Scrum 项目
           status_explanation: 所有任务都按计划进行。相关人员均知晓各自任务。系统已完全建立。
-          description: 这是一个演示Scrum项目目标的简短摘要。
+          description: 这是对此演示Scrum项目目标的简短摘要。
           news:
             item_0:
               title: 欢迎来到您的 Scrum 演示项目

@@ -67,7 +67,7 @@ RSpec.describe 'project menu' do
         end
 
         it 'leads to cost reports' do
-          find('#main-menu [data-qa-selector="op-menu--item-action"]', text: 'Time and costs').click
+          find("#main-menu #{test_selector('op-menu--item-action')}", text: 'Time and costs').click
 
           expect(page).to have_current_path("/projects/ponyo/cost_reports")
         end
@@ -95,7 +95,7 @@ RSpec.describe 'project menu' do
         it 'leads to cost reports' do
           # doing what no human can - click on invisible items.
           # This way, we avoid having to use selenium and by that increase stability.
-          find('#main-menu [data-qa-selector="op-menu--item-action"]', text: 'Time and costs').click
+          find("#main-menu #{test_selector('op-menu--item-action')}", text: 'Time and costs').click
 
           # to make sure we're not seeing the project cost reports:
           expect(page).not_to have_text('Ponyo')

@@ -1,6 +1,6 @@
 <div
   class="op-wp-single-card"
-  data-qa-selector="op-wp-single-card"
+  data-test-selector="op-wp-single-card"
   [attr.data-qa-draggable]="draggable || undefined"
   [attr.data-qa-selected]="selected || undefined"
   [ngClass]="cardClasses()"
@@ -16,11 +16,11 @@
 
   <div class="op-wp-single-card--card-actions">
     <div class="op-wp-single-card--inline-buttons hidden-for-mobile"
-         data-qa-selector="op-wp-single-card--inline-buttons">
+         data-test-selector="op-wp-single-card--inline-buttons">
       <button
         type="button"
         class="spot-link op-wp-single-card--details-button op-wp-single-card--card-action"
-        data-qa-selector="op-wp-single-card--details-button"
+        data-test-selector="op-wp-single-card--details-button"
         *ngIf="!isNewResource(workPackage) && showInfoButton"
         [title]="text.detailsView"
         (click)="emitStateLinkClicked($event, workPackage, true)">
@@ -29,7 +29,7 @@
 
       <button
         class="spot-link op-wp-single-card--inline-cancel-button op-wp-single-card--card-action"
-        data-qa-selector="op-wp-single-card--inline-cancel-button"
+        data-test-selector="op-wp-single-card--inline-cancel-button"
         *ngIf="isNewResource(workPackage) || showRemoveButton"
         [class.-show]="isNewResource(workPackage)"
         [title]="text.removeCard"
@@ -92,13 +92,13 @@
         *ngIf="!showAsInlineCard && highlightingMode !== 'type'"
         [textContent]="wpTypeAttribute(workPackage)"
         class="op-wp-single-card--content-type"
-        data-qa-selector="op-wp-single-card--content-type"
+        data-test-selector="op-wp-single-card--content-type"
         [ngClass]="typeHighlightingClass(workPackage)"
       ></span>
 
       <span
         class="op-wp-single-card--content-subject"
-        data-qa-selector="op-wp-single-card--content-subject"
+        data-test-selector="op-wp-single-card--content-subject"
         [textContent]="wpSubject(workPackage)"
       ></span>
 
@@ -136,7 +136,7 @@
       [link]="false"
       size="mini"
       class="op-wp-single-card--content-assignee"
-      data-qa-selector="op-wp-single-card--content-assignee"
+      data-test-selector="op-wp-single-card--content-assignee"
     ></op-principal>
     <span
       *ngIf="!showAsInlineCard"

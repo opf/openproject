@@ -1,4 +1,4 @@
 ru:
   plugin_openproject_job_status:
-    name: "OpenProject Job status"
-    description: "Listing and status of background jobs."
+    name: "Состояние задания OpenProject"
+    description: "Список и статус фоновых заданий."

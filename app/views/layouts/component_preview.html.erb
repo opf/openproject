@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
 </head>
 <%
   styles = []
-  min_height = params[:lookbook][:display][:min_height]
+  min_height = params.dig('lookbook', 'display', 'min_height')
   styles << "min-height: #{min_height}" if min_height.present?
 %>
 

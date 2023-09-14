@@ -222,7 +222,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
     expect(page).to have_content("Password can't be blank.")
 
     # Switch off automatically managed project folders
-    page.find('[data-qa-selector="spot-switch-handle"]').click
+    page.find_test_selector('spot-switch-handle').click
     page.click_button('Save')
     expect(page).to have_text("Inactive")
     ######### End Edit Automatically managed project folders #########

@@ -4,7 +4,7 @@
   <section
     class="op-tab-content--tab-section"
     [ngClass]="{ 'op-tab-content--tab-section_no-header': (showAttachmentHeader$ | async) === false }"
-    data-qa-selector="op-tab-content--tab-section"
+    data-test-selector="op-tab-content--tab-section"
   >
     <div
       *ngIf="showAttachmentHeader$ | async"
@@ -19,7 +19,7 @@
 
   <section
     *ngFor="let storage of projectStorages | async"
-    data-qa-selector="op-tab-content--tab-section"
+    data-test-selector="op-tab-content--tab-section"
     class="op-tab-content--tab-section"
   >
     <op-storage

@@ -79,7 +79,7 @@ RSpec.describe 'Team planner Menu Item', :js, :with_cuprite do
             click_link 'Team planners'
           end
 
-          expect(page).not_to have_selector('[data-qa-selector="team-planner--create-button"]')
+          expect(page).not_to have_test_selector('team-planner--create-button')
         end
       end
 
@@ -91,7 +91,7 @@ RSpec.describe 'Team planner Menu Item', :js, :with_cuprite do
             click_link 'Team planners'
           end
 
-          expect(page).not_to have_selector('[data-qa-selector="team-planner--create-button"]')
+          expect(page).not_to have_test_selector('team-planner--create-button')
         end
       end
     end
@@ -107,7 +107,7 @@ RSpec.describe 'Team planner Menu Item', :js, :with_cuprite do
             click_link 'Team planners'
           end
 
-          expect(page).not_to have_selector('[data-qa-selector="team-planner--create-button"]')
+          expect(page).not_to have_test_selector('team-planner--create-button')
         end
       end
 
@@ -119,7 +119,7 @@ RSpec.describe 'Team planner Menu Item', :js, :with_cuprite do
             click_link 'Team planners'
           end
 
-          expect(page).to have_selector('[data-qa-selector="team-planner--create-button"]')
+          expect(page).to have_test_selector('team-planner--create-button')
         end
       end
     end

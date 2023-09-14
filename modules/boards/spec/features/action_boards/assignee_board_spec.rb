@@ -150,8 +150,9 @@ RSpec.describe 'Assignee action board',
       board_page.expect_card 'Bob Self', 'Some Task', present: false
 
       # Expect to have changed the avatar
-      expect(page).to have_selector('[data-qa-selector="op-wp-single-card--content-assignee"] .op-avatar_mini', text: 'FB',
-                                                                                                                wait: 10)
+      within_test_selector('op-wp-single-card--content-assignee') do
+        expect(page).to have_selector('.op-avatar_mini', text: 'FB', wait: 10)
+      end
 
       work_package.reload
       expect(work_package.assigned_to).to eq(foobar_user)
@@ -163,8 +164,9 @@ RSpec.describe 'Assignee action board',
       board_page.expect_card 'Bob Self', 'Some Task', present: false
 
       # Expect to have changed the avatar
-      expect(page).to have_selector('[data-qa-selector="op-wp-single-card--content-assignee"] .op-avatar_mini', text: 'GG',
-                                                                                                                wait: 10)
+      within_test_selector('op-wp-single-card--content-assignee') do
+        expect(page).to have_selector('.op-avatar_mini', text: 'GG', wait: 10)
+      end
 
       work_package.reload
       expect(work_package.assigned_to).to eq(group)

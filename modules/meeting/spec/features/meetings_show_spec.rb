@@ -53,7 +53,7 @@ RSpec.describe 'Meetings', js: true do
       find('td.title a', text: 'Awesome meeting!', wait: 10).click
       expect(page).to have_selector('h2', text: 'Meeting: Awesome meeting!')
 
-      expect(page).to have_selector('[data-qa-selector="op-meeting--meeting_agenda"]',
+      expect(page).to have_test_selector('op-meeting--meeting_agenda',
                                     text: 'There is currently nothing to display')
     end
 
@@ -85,12 +85,12 @@ RSpec.describe 'Meetings', js: true do
 
       it 'shows the agenda' do
         visit meeting_path(meeting)
-        expect(page).to have_selector('[data-qa-selector="op-meeting--meeting_agenda"]',
+        expect(page).to have_test_selector('op-meeting--meeting_agenda',
                                       text: 'foo')
 
         # May not edit
         expect(page).not_to have_selector('.button--edit-agenda')
-        expect(page).not_to have_selector('[data-qa-selector="op-meeting--meeting_agenda"]',
+        expect(page).not_to have_test_selector('op-meeting--meeting_agenda',
                                           text: 'Edit')
       end
 
@@ -102,7 +102,7 @@ RSpec.describe 'Meetings', js: true do
         click_on 'History'
 
         find_by_id('version-1').click
-        expect(page).to have_selector('[data-qa-selector="op-meeting--meeting_agenda"]', text: 'foo')
+        expect(page).to have_test_selector('op-meeting--meeting_agenda', text: 'foo')
       end
 
       context 'and edit permissions' do
@@ -110,7 +110,7 @@ RSpec.describe 'Meetings', js: true do
         let(:field) do
           TextEditorField.new(page,
                               '',
-                              selector: '[data-qa-selector="op-meeting--meeting_agenda"]')
+                              selector: test_selector('op-meeting--meeting_agenda'))
         end
 
         it 'can edit the agenda' do
@@ -138,8 +138,8 @@ RSpec.describe 'Meetings', js: true do
         it 'can not edit the minutes' do
           visit meeting_path(meeting)
           click_link 'Minutes'
-          expect(page).not_to have_selector('[data-qa-selector="op-meeting--meeting_minutes"]', text: 'Edit')
-          expect(page).to have_selector('[data-qa-selector="op-meeting--meeting_minutes"]',
+          expect(page).not_to have_test_selector('op-meeting--meeting_minutes', text: 'Edit')
+          expect(page).to have_test_selector('op-meeting--meeting_minutes',
                                         text: 'There is currently nothing to display')
         end
       end
@@ -160,7 +160,7 @@ RSpec.describe 'Meetings', js: true do
         let(:field) do
           TextEditorField.new(page,
                               '',
-                              selector: '[data-qa-selector="op-meeting--meeting_minutes"]')
+                              selector: test_selector('op-meeting--meeting_minutes'))
         end
 
         it 'can edit the minutes' do

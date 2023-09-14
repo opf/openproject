@@ -85,10 +85,10 @@ RSpec.describe 'Managing file links in work package', js: true, webmock: true do
 
   describe 'create with the file picker and delete', with_flag: { storage_file_picking_select_all: true } do
     it 'must enable the user to manage existing files on the storage' do
-      expect(wp_page.all('[data-qa-selector="file-list--item"]').size).to eq 1
-      expect(wp_page).to have_selector('[data-qa-selector="file-list--item"]', text: file_link.name)
+      expect(wp_page.all(test_selector("file-list--item")).size).to eq 1
+      expect(wp_page).to have_test_selector('file-list--item', text: file_link.name)
 
-      wp_page.find('[data-qa-selector="op-storage--link-existing-file-button"]').click
+      page.find_test_selector('op-storage--link-existing-file-button').click
 
       file_picker.expect_open
       file_picker.confirm_button_state(selection_count: 0)
@@ -109,20 +109,20 @@ RSpec.describe 'Managing file links in work package', js: true, webmock: true do
 
       file_picker.confirm
 
-      expect(wp_page).to have_selector('[data-qa-selector="file-list--item"]', text: 'Manual.pdf')
-      expect(wp_page).to have_selector('[data-qa-selector="file-list--item"]', text: 'logo.png')
-      expect(wp_page).to have_selector('[data-qa-selector="file-list--item"]', text: file_link.name)
-      expect(wp_page.all('[data-qa-selector="file-list--item"]').size).to eq 3
+      expect(wp_page).to have_test_selector('file-list--item', text: 'Manual.pdf')
+      expect(wp_page).to have_test_selector('file-list--item', text: 'logo.png')
+      expect(wp_page).to have_test_selector('file-list--item', text: file_link.name)
+      expect(wp_page.all(test_selector("file-list--item")).size).to eq 3
 
-      wp_page.find('[data-qa-selector="file-list--item"]', text: 'logo.png').hover
-      wp_page.within('[data-qa-selector="file-list--item"]', text: 'logo.png') do
-        wp_page.find('[data-qa-selector="file-list--item-remove-floating-action"]').click
+      page.find_test_selector('file-list--item', text: 'logo.png').hover
+      within_test_selector('file-list--item', text: 'logo.png') do
+        page.find_test_selector('file-list--item-remove-floating-action').click
       end
 
       confirmation_dialog.confirm
 
-      expect(wp_page).not_to have_selector('[data-qa-selector="file-list--item"]', text: 'logo.png')
-      expect(wp_page.all('[data-qa-selector="file-list--item"]').size).to eq 2
+      expect(wp_page).not_to have_test_selector('file-list--item', text: 'logo.png')
+      expect(wp_page.all(test_selector("file-list--item")).size).to eq 2
     end
   end
 end

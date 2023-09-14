@@ -46,7 +46,7 @@ module Components
       end
 
       def expect_legend_tooltip(text)
-        expect(page).to have_selector('[data-qa-selector="baseline-legend-time-offset"]', visible: :all) { |node|
+        expect(page).to have_selector('[data-test-selector="baseline-legend-time-offset"]', visible: :all) { |node|
           node['title'] == text
         }
       end
