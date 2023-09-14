@@ -26,21 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingAgendaItem::Duration < ApplicationForm
-  form do |agenda_item_form|
-    agenda_item_form.text_field(
-      name: :duration_in_minutes,
-      placeholder: MeetingAgendaItem.human_attribute_name(:duration_in_minutes),
-      label: MeetingAgendaItem.human_attribute_name(:duration_in_minutes),
-      leading_visual: { icon: :stopwatch },
-      visually_hide_label: true,
-      max: 86400,
-      type: :number,
-      disabled: @disabled
-    )
-  end
+require_relative "../spec_helper"
 
-  def initialize(disabled: false)
-    @disabled = disabled
+RSpec.describe MeetingAgendaItem do
+  subject { described_class.new(attributes) }
+
+  describe '#duration' do
+    let(:attributes) { { title: 'foo', duration_in_minutes: } }
+
+    context 'with a valid duration' do
+      let(:duration_in_minutes) { 60 }
+
+      it 'is valid' do
+        expect(subject).to be_valid
+      end
+    end
+
+    context 'with a negative duration' do
+      let(:duration_in_minutes) { -1 }
+
+      it 'is invalid' do
+        expect(subject).not_to be_valid
+        expect(subject.errors[:duration_in_minutes]).to include "must be greater than or equal to 0."
+      end
+    end
+
+    context 'with a duration that is too large' do
+      let(:duration_in_minutes) { 10000000000 }
+
+      it 'is valid' do
+        expect(subject).not_to be_valid
+        expect(subject.errors[:duration_in_minutes]).to include "must be less than or equal to 86400."
+      end
+    end
   end
 end
