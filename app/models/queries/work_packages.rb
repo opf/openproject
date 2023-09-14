@@ -45,6 +45,7 @@ module Queries::WorkPackages
     filter Filter::ProjectFilter
     filter Filter::ResponsibleFilter
     filter Filter::RoleFilter
+    filter Filter::SharedUserFilter
     filter Filter::StartDateFilter
     filter Filter::StatusFilter
     filter Filter::SubjectFilter
