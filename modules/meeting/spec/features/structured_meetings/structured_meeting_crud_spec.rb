@@ -103,7 +103,12 @@ RSpec.describe 'Structured meetings CRUD',
     show_page.add_agenda_item(cancel_followup_item: false) do
       fill_in 'Title', with: 'First'
       click_button 'Save'
+    end
 
+    show_page.expect_agenda_item title: 'Updated title'
+    show_page.expect_agenda_item title: 'First'
+
+    show_page.in_agenda_form do
       fill_in 'Title', with: 'Second'
       click_button 'Save'
     end

@@ -41,11 +41,15 @@ module Pages::StructuredMeeting
 
       click_link type.model_name.human
 
-      page.within('#meeting-agenda-items-form-component', &block)
+      in_agenda_form(&block)
 
       if cancel_followup_item
         page.find('#meeting-agenda-items-new-component a', text: I18n.t(:button_cancel)).click
       end
+    end
+
+    def in_agenda_form(&block)
+      page.within('#meeting-agenda-items-form-component', &block)
     end
 
     def assert_agenda_order!(*titles)
