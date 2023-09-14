@@ -571,7 +571,7 @@ zh-CN:
         warn_on_leaving_unsaved: "离开未保存更改的工作包时提示我"
       version:
         effective_date: "完成日期"
-        sharing: "分享"
+        sharing: "共享"
       wiki_content:
         text: "文本"
       wiki_page:
@@ -1009,7 +1009,7 @@ zh-CN:
     groups: "组"
     id: "ID"
     is_default: "默认值"
-    is_for_all: "为所有项目"
+    is_for_all: "应用到所有项目"
     public: "公开"
     #kept for backwards compatibility
     issue: "工作包"
@@ -1906,8 +1906,8 @@ zh-CN:
   label_register_with_developer: "注册成为开发人员"
   label_registered_on: "注册于"
   label_registration_activation_by_email: "通过电子邮件激活帐户"
-  label_registration_automatic_activation: "自动帐户激活"
-  label_registration_manual_activation: "手动帐户激活"
+  label_registration_automatic_activation: "自动激活帐户"
+  label_registration_manual_activation: "手动激活帐户"
   label_related_work_packages: "相关的工作包"
   label_relates: "关于"
   label_relates_to: "关于"
@@ -1963,9 +1963,9 @@ zh-CN:
   label_status: "状态"
   label_stay_logged_in: "保持登录状态"
   label_storage_free_space: "剩余磁盘空间"
-  label_storage_used_space: "已使用磁盘空间"
+  label_storage_used_space: "已用磁盘空间"
   label_storage_group: "存储文件系统 %{identifier}"
-  label_storage_for: "包含存储用于"
+  label_storage_for: "存储内容包含"
   label_string: "文本"
   label_subproject: "子项目"
   label_subproject_new: "新的子项目"
@@ -2498,7 +2498,7 @@ zh-CN:
       managed: "在 OpenProject 中创建新的存储库"
     storage:
       not_available: "磁盘存储开销不可用于此存储库。"
-      update_timeout: "保持 N 分钟为一个存储库的最后所需的磁盘空间信息。作为计算存储库所需的磁盘空间可能开销很高，增加此值可减少对性能的影响。"
+      update_timeout: "在 N 分钟内保留存储库最后所需的磁盘空间信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。"
       oauth_application_details: "关闭此窗口后，将无法再次访问客户端密钥值。请将这些值复制到 Nextcloud OpenProject 集成设置中："
       oauth_application_details_link_text: "转到设置页面"
       setup_documentation_details: "如果您在配置新文件存储方面需要帮助，请查看文档："
@@ -2556,8 +2556,8 @@ zh-CN:
   setting_autologin: "自动登录"
   setting_available_languages: "可用语言"
   setting_bcc_recipients: "密件抄送 (bcc) 收件人"
-  setting_brute_force_block_after_failed_logins: "登录失败的尝试次数多于该数字将用户阻止"
-  setting_brute_force_block_minutes: "用户被阻止的时长"
+  setting_brute_force_block_after_failed_logins: "在尝试登录的失败次数达到一定数量后锁定账户"
+  setting_brute_force_block_minutes: "账户锁定时长"
   setting_cache_formatted_text: "缓存带格式的文本"
   setting_use_wysiwyg_description: "选择为默认情况下为所有用户启用CKEditor5 所见即所得编辑器。 CKEditor对GFM Markdown的功能有限。"
   setting_column_options: "自定义工作包列表的外观"
@@ -2610,7 +2610,7 @@ zh-CN:
   setting_password_count_former_banned: "禁止重复使用最近使用密码的数量"
   setting_password_days_valid: "强制更改密码的天数"
   setting_password_min_length: "最小长度"
-  setting_password_min_adhered_rules: "所需类的最小数目"
+  setting_password_min_adhered_rules: "所需的最少类型数量"
   setting_per_page_options: "每页对象选项"
   setting_plain_text_mail: "纯文本邮件 (不含 HTML)"
   setting_protocol: "协议"
@@ -2621,7 +2621,7 @@ zh-CN:
   setting_repositories_automatic_managed_vendor: "自动存储库提供商类型"
   setting_repositories_encodings: "存储库编码"
   setting_repository_authentication_caching_enabled: "启用版本控制软件的身份验证请求缓存"
-  setting_repository_storage_cache_minutes: "存储库磁盘大小的高速缓存"
+  setting_repository_storage_cache_minutes: "存储库磁盘大小缓存"
   setting_repository_checkout_display: "显示检出说明"
   setting_repository_checkout_base_url: "检出根 URL"
   setting_repository_checkout_text: "检出说明文本"
@@ -2630,7 +2630,7 @@ zh-CN:
   setting_rest_api_enabled: "启用 REST Web 服务"
   setting_self_registration: "自助注册"
   setting_session_ttl: "在处于非活动状态后会话过期时间"
-  setting_session_ttl_hint: "值低于5的类似禁用"
+  setting_session_ttl_hint: "当设置的值低于5时，其作用类似于禁用。"
   setting_session_ttl_enabled: "会话过期"
   setting_start_of_week: "一周起始日"
   setting_sys_api_enabled: "启用存储库管理网页服务"
@@ -2651,7 +2651,7 @@ zh-CN:
     attachments:
       whitelist_text_html: >
         为上传的文件定义有效文件扩展名和/或 MIME 类型列表。<br/>输入文件扩展名（例如 <code>%{ext_example}</code>）或 MIME 类型（例如 <code>%{mime_example}</code>）。<br/>留空以允许上传任何文件类型。允许输入多个值（每个值一行）。
-    brute_force_prevention: "自动化的用户阻止"
+    brute_force_prevention: "自动帐号锁定"
     date_format:
       first_date_of_week_and_year_set: >
         如果设置了选项“%{day_of_week_setting_name}”或“%{first_week_setting_name}”，则另一个选项也必须设置，以避免前端出现不一致。
