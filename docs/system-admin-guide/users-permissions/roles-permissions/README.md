@@ -24,15 +24,11 @@ A user can have one or more roles which grant permissions on different levels:
 
 Administrators can customize the roles and permissions under the **Administration** -> **Users and permissions** -> **Roles and permissions**.
 
-## Administrator
+### Administrator
 
 Administrators have full access to all settings and all projects in an OpenProject environment. 
 
-## Anonymous 
-
-OpenProject allows to share project information with users anonymous users which are not logged in. This is helpful to communicate projects goals and activities with a public community. The permissions of the role anonymous 
-
-## Global roles
+### Global roles
 
 Global roles allow Administrators to delegate administrative tasks to individual users:
 
@@ -42,13 +38,23 @@ Global roles allow Administrators to delegate administrative tasks to individual
 * Create backup
 * Edit users
 
-## Project roles
+To create a global role check the **Global Role** box when [creating a new role](#create-a-new-role).
+
+### Non-member
+
+
+
+### Anonymous 
+
+OpenProject allows to share project information with users anonymous users which are not logged in. This is helpful to communicate projects goals and activities with a public community. The permissions of the role anonymous 
+
+
+
+### Permissions report
 
 
 
 
-
- 
 
 > **Note**: This only applies if you disabled the need for authentication for your instance and if the project is set as **public**.
 
