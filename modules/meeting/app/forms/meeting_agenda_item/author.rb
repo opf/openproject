@@ -35,15 +35,21 @@ class MeetingAgendaItem::Author < ApplicationForm
       autocomplete_options: {
         resource: 'principals',
         filters: [{ name: 'member', operator: '=', values: [@project.id.to_s] }],
+        model: { name: author_name },
         searchKey: 'any_name_attribute',
         disabled: @disabled
       }
     )
   end
 
-  def initialize(project:, disabled: false)
+  def initialize(meeting_agenda_item:, project:, disabled: false)
     super()
+    @meeting_agenda_item = meeting_agenda_item
     @project = project
     @disabled = disabled
+  end
+
+  def author_name
+    Principal.find_by(id: @meeting_agenda_item.author_id).name
   end
 end

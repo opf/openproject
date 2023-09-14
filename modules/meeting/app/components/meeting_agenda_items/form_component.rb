@@ -98,7 +98,10 @@ module MeetingAgendaItems
             render(MeetingAgendaItem::Duration.new(form))
           end
           flex.with_column(ml: 2) do
-            render(MeetingAgendaItem::Author.new(form, project: @meeting.project, disabled: false))
+            render(MeetingAgendaItem::Author.new(form,
+                                                 meeting_agenda_item: @meeting_agenda_item,
+                                                 project: @meeting.project,
+                                                 disabled: false))
           end
         end
       end
