@@ -48,7 +48,7 @@ module MeetingAgendaItems
         primer_form_with(
           model: @meeting_agenda_item,
           method: @method,
-          url: @submit_path
+          url: @submit_path,
         ) do |f|
           form_content_partial(f)
         end

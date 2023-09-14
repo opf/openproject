@@ -48,7 +48,7 @@ module MeetingAgendaItems
                  meeting: @meeting_agenda_item.meeting,
                  meeting_agenda_item: @meeting_agenda_item,
                  method: :put,
-                 submit_path: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
+                 submit_path: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item, format: :turbo_stream),
                  cancel_path: cancel_edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
                  type: @type
                ))
