@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,37 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
-  class DeleteEntityCommand
-    UTIL = ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
+module Storages::Peripherals::StorageInteraction::OneDrive::Util
+  using Storages::Peripherals::ServiceResultRefinements
 
-    def initialize(storage)
-      @uri = storage.uri
-      @base_path = UTIL.join_uri_path(@uri.path, "remote.php/dav/files", CGI.escapeURIComponent(storage.username))
-      @username = storage.username
-      @password = storage.password
+  class << self
+    def mime_type(json)
+      json.dig(:file, :mimeType) || (json.key?(:folder) ? 'application/x-op-directory' : nil)
     end
 
-    def self.call(storage:, location:)
-      new(storage).call(location:)
-    end
+    def using_user_token(storage, user, &)
+      connection_manager = ::OAuthClients::ConnectionManager
+                             .new(user:, configuration: storage.oauth_configuration)
 
-    def call(location:)
-      response = UTIL.http(@uri).delete(
-        UTIL.join_uri_path(@base_path, UTIL.escape_path(location)),
-        UTIL.basic_auth_header(@username, @password)
-      )
-
-      case response
-      when Net::HTTPSuccess
-        ServiceResult.success
-      when Net::HTTPNotFound
-        UTIL.error(:not_found)
-      when Net::HTTPUnauthorized
-        UTIL.error(:unauthorized)
-      else
-        UTIL.error(:error)
-      end
+      connection_manager
+        .get_access_token
+        .match(
+          on_success: ->(token) do
+            connection_manager.request_with_token_refresh(token) { yield token }
+          end,
+          on_failure: ->(_) do
+            ServiceResult.failure(
+              result: :unauthorized,
+              errors: ::Storages::StorageError.new(
+                code: :unauthorized,
+                log_message: 'Query could not be created! No access token found!'
+              )
+            )
+          end
+        )
     end
   end
 end

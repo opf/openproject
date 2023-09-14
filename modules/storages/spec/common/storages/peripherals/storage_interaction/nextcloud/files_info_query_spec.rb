@@ -31,8 +31,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQuery,
-               :vcr, webmock: true do
+RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQuery, :vcr, :webmock do
   using Storages::Peripherals::ServiceResultRefinements
 
   let(:user) { create(:user) }
@@ -97,7 +96,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQu
         it 'must return an error when called' do
           subject.call(user:, file_ids:).match(
             on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" },
-            on_failure: ->(error) { expect(error.code).to eq(:not_authorized) }
+            on_failure: ->(error) { expect(error.code).to eq(:unauthorized) }
           )
         end
       end

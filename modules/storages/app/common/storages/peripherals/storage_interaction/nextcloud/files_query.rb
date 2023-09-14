@@ -58,7 +58,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         when Net::HTTPNotFound
           Util.error(:not_found)
         when Net::HTTPUnauthorized
-          Util.error(:not_authorized)
+          Util.error(:unauthorized)
         else
           Util.error(:error)
         end
@@ -90,7 +90,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
             xml['d'].getcontenttype
             xml['d'].getlastmodified
             xml['oc'].permissions
-            xml['oc'].send(:"owner-display-name")
+            xml['oc'].send(:'owner-display-name')
           end
         end
       end.to_xml

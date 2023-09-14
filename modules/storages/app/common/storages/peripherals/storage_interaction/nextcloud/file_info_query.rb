@@ -29,47 +29,38 @@
 #++
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
-  class FilesInfoQuery
+  class FileInfoQuery
     using Storages::Peripherals::ServiceResultRefinements
 
-    FILES_INFO_PATH = 'ocs/v1.php/apps/integration_openproject/filesinfo'
+    FILE_INFO_PATH = 'ocs/v1.php/apps/integration_openproject/fileinfo'
 
     def initialize(storage)
       @uri = storage.uri
       @configuration = storage.oauth_configuration
     end
 
-    def self.call(storage:, user:, file_ids: [])
-      new(storage).call(user:, file_ids:)
+    def self.call(storage:, user:, file_id:)
+      new(storage).call(user:, file_id:)
     end
 
-    def call(user:, file_ids: [])
-      if file_ids.nil?
-        return Util.error(:error, 'File IDs can not be nil', file_ids)
-      end
-
-      if file_ids.empty?
-        return ServiceResult.success(result: [])
-      end
-
+    def call(user:, file_id:)
       Util.token(user:, configuration: @configuration) do |token|
-        files_info(file_ids, token).map(&parse_json) >> handle_failure >> create_storage_file_infos
+        file_info(file_id, token).map(&parse_json) >> handle_failure >> create_storage_file_info
       end
     end
 
     private
 
-    def files_info(file_ids, token)
-      response = Util.http(@uri).post(
-        Util.join_uri_path(@uri.path, FILES_INFO_PATH),
-        { fileIds: file_ids }.to_json,
+    def file_info(file_id, token)
+      response = Util.http(@uri).get(
+        Util.join_uri_path(@uri.path, FILE_INFO_PATH, file_id),
         {
           'Authorization' => "Bearer #{token.access_token}",
           'Accept' => 'application/json',
-          'Content-Type' => 'application/json',
           'OCS-APIRequest' => 'true'
         }
       )
+
       case response
       when Net::HTTPSuccess
         ServiceResult.success(result: response.body)
@@ -92,8 +83,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def handle_failure
       ->(response_object) do
-        if response_object.ocs.meta.status == 'ok'
+        case response_object.ocs.data.statuscode
+        when 200
           ServiceResult.success(result: response_object)
+        when 403
+          Util.error(:forbidden, 'Access to storage file forbidden!', response_object)
+        when 404
+          Util.error(:not_found, 'Storage file not found!', response_object)
         else
           Util.error(:error, 'Outbound request failed!', response_object)
         end
@@ -101,36 +97,27 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     # rubocop:disable Metrics/AbcSize
-    def create_storage_file_infos
+    def create_storage_file_info
       ->(response_object) do
+        data = response_object.ocs.data
         ServiceResult.success(
-          result: response_object.ocs.data.each_pair.map do |key, value|
-            if value.statuscode == 200
-              ::Storages::StorageFileInfo.new(
-                status: value.status,
-                status_code: value.statuscode,
-                id: value.id,
-                name: value.name,
-                last_modified_at: Time.zone.at(value.mtime),
-                created_at: Time.zone.at(value.ctime),
-                mime_type: value.mimetype,
-                size: value.size,
-                owner_name: value.owner_name,
-                owner_id: value.owner_id,
-                trashed: value.trashed,
-                last_modified_by_name: value.modifier_name,
-                last_modified_by_id: value.modifier_id,
-                permissions: value.dav_permissions,
-                location: location(value.path)
-              )
-            else
-              ::Storages::StorageFileInfo.new(
-                status: value.status,
-                status_code: value.statuscode,
-                id: key.to_s.to_i
-              )
-            end
-          end
+          result: ::Storages::StorageFileInfo.new(
+            status: data.status,
+            status_code: data.statuscode,
+            id: data.id,
+            name: data.name,
+            last_modified_at: Time.zone.at(data.mtime),
+            created_at: Time.zone.at(data.ctime),
+            mime_type: data.mimetype,
+            size: data.size,
+            owner_name: data.owner_name,
+            owner_id: data.owner_id,
+            trashed: data.trashed,
+            last_modified_by_name: data.modifier_name,
+            last_modified_by_id: data.modifier_id,
+            permissions: data.dav_permissions,
+            location: location(data.path)
+          )
         )
       end
     end
