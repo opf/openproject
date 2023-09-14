@@ -51,18 +51,20 @@ RSpec.describe 'Structured meetings CRUD', :js, with_cuprite: true do
            member_in_project: project,
            member_with_permissions: %i[view_meetings view_work_packages])
   end
+  shared_let(:no_member_user) do
+    create(:user,
+           lastname: 'Third')
+  end
   shared_let(:work_package) do
     create(:work_package, project:, subject: 'Important task')
   end
+
   let(:current_user) { user }
   let(:new_page) { Pages::Meetings::New.new(project) }
   let(:show_page) { Pages::StructuredMeeting::Show.new(StructuredMeeting.order(id: :asc).last) }
 
   before do
     login_as current_user
-  end
-
-  it 'can create a structured meeting and add agenda items' do
     new_page.visit!
     expect(page).to have_current_path(new_page.path)
     new_page.set_title 'Some title'
@@ -74,6 +76,9 @@ RSpec.describe 'Structured meetings CRUD', :js, with_cuprite: true do
     new_page.invite(other_user)
 
     new_page.click_create
+  end
+
+  it 'can create a structured meeting and add agenda items' do
     show_page.expect_toast(message: 'Successful creation')
 
     # Can add and edit a single item
@@ -141,6 +146,64 @@ RSpec.describe 'Structured meetings CRUD', :js, with_cuprite: true do
 
     expect(page).not_to have_selector('#meeting-agenda-items-new-button-component')
     expect(page).not_to have_test_selector('op-meeting-agenda-actions')
+  end
+
+  it 'allows only project members as author of an agenda item' do
+    show_page.expect_toast(message: 'Successful creation')
+
+    show_page.add_agenda_item do
+      # Current user is set per default
+      within(ng_select_input) do
+        expect(page).to have_text current_user.name
+      end
+
+      # Opening the dropdown
+      search_autocomplete find_test_selector('op-agenda-items-user-autocomplete'),
+                          query: '',
+                          results_selector: 'body'
+
+      # Only project members are shown
+      expect_ng_option(find_test_selector('op-agenda-items-user-autocomplete'), user.name)
+      expect_ng_option(find_test_selector('op-agenda-items-user-autocomplete'), other_user.name)
+      expect_ng_option(find_test_selector('op-agenda-items-user-autocomplete'), group.name)
+      expect_no_ng_option(find_test_selector('op-agenda-items-user-autocomplete'), no_member_user.name)
+    end
+  end
+
+  context 'with a group and a placeholder user in the project' do
+    let!(:group) do
+      create(:group,
+             lastname: 'A super cool Group',
+             members: [user, other_user],
+             member_in_project: project,
+             member_with_permissions: %i[view_meetings view_work_packages])
+    end
+    let!(:placeholder) do
+      create(:placeholder_user,
+             name: 'PLACEHOLDER',
+             member_in_project: project,
+             member_with_permissions: %i[view_meetings view_work_packages])
+    end
+    let!(:meeting) { create(:structured_meeting, project:, author: current_user) }
+    let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
+
+    it 'allows principals to be set as author of an agenda item' do
+      show_page.visit!
+
+      show_page.add_agenda_item do
+        fill_in 'Title', with: 'My agenda item'
+
+        # Principals (like a group) can be selected and saved
+        select_autocomplete find_test_selector('op-agenda-items-user-autocomplete'),
+                            query: group.name,
+                            results_selector: 'body'
+
+        click_button 'Save'
+      end
+
+      show_page.expect_agenda_item title: 'My agenda item'
+      show_page.expect_agenda_author name: group.name
+    end
   end
 
   context 'with a work package reference to another' do

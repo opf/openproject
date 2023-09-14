@@ -37,7 +37,10 @@ class MeetingAgendaItem::Author < ApplicationForm
         filters: [{ name: 'member', operator: '=', values: [@project.id.to_s] }],
         model: { name: author_name },
         searchKey: 'any_name_attribute',
-        disabled: @disabled
+        disabled: @disabled,
+        data: {
+          'test-selector': 'op-agenda-items-user-autocomplete'
+        }
       }
     )
   end

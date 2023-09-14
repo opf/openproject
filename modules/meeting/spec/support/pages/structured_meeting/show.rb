@@ -71,6 +71,10 @@ module Pages::StructuredMeeting
       expect(page).to have_selector("#meeting-agenda-items-item-component-#{item.id}", text: item.work_package.subject)
     end
 
+    def expect_agenda_author(name)
+      expect(page).to have_test_selector('op-meeting-agenda-title', text: name)
+    end
+
     def expect_undisclosed_agenda_link(item)
       expect(page).to have_selector("#meeting-agenda-items-item-component-#{item.id}",
                                     text: I18n.t(:label_agenda_item_undisclosed_wp, id: item.work_package_id))

@@ -40,6 +40,18 @@ module Components::Autocompleter
       end
     end
 
+    def expect_ng_option(element, option)
+      within(ng_find_dropdown(element)) do
+        expect(page).to have_selector('.ng-option', text: option)
+      end
+    end
+
+    def expect_no_ng_option(element, option)
+      within(ng_find_dropdown(element)) do
+        expect(page).not_to have_selector('.ng-option', text: option)
+      end
+    end
+
     ##
     # Insert the query, typing
     def ng_enter_query(element, query, wait_for_fetched_options: true)
