@@ -20,7 +20,35 @@ This guide is an evolving description of the steps taken from collecting require
 
 The product development process involves various roles during the different phases. The following picture gives an overview of the responsible parties during the different phases as well as the respective output for each phase.
 
-[tbd]
+```mermaid
+%%{init: {'theme':'neutral'}}%%
+
+flowchart TD
+  subgraph requirements[Requirements and specification]
+    qCollection[Collection] -->
+    qEvaluation[Pre-evaluation] -->
+    qValidation[Validation] -->
+    qSpecification[Specification]
+  end
+
+  subgraph building[Building]
+    bPreparation[Preparation] -->
+    bImplementation[Implementation] -->
+    bQA[Quality assurance] -->
+    bAcceptance[Acceptance testing] -->
+    bDocumentation[Documentation] -->
+    bStabilization[Stabilization]
+  end
+
+  subgraph release[Releasing]
+    bRelease[Release] -->
+    bMarket[Go to market] -->
+    bLearning[Lessons learned]
+  end
+
+  requirements --> building
+  building --> release
+```
 
 ## 3. Phases
 
@@ -45,7 +73,7 @@ Product Managers and UX prepare the work together at least one version (~ 2 mont
 The specification phase may not be necessary for bug fixes, minor design changes, minor improvements of smaller code maintenance topics.
 
 
-### 3.1.1 Evaluation phase 1: Requirement collection
+### 3.1.1 Evaluation phase 1: Collection
 
 | Involved                                                                                                           | Output                                                     |
 |--------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------|
@@ -59,11 +87,11 @@ For a guideline on how to report feature requests, refer to the [Feature request
 
 **Bugs** are [reported aside from the feature/epic track](../../development/report-a-bug/) as they are oftentimes not subject to an elaborate specification. On the other hand, sometimes bugs turn out to be caused by either the functionality implemented not meeting the users' expectations or by a not implemented feature. Upon identifying a bug to be such a case, it is treated as a feature. But most of the bugs upon collecting find their way into the [Bug backlog](https://community.openproject.org/projects/openproject/work_packages?query_id=491).
 
-### 3.1.2 Evaluation phase 2: Rough evaluation
+### 3.1.2 Evaluation phase 2: Pre-evaluation
 
-| Involved                                  | Output                               |
-|-------------------------------------------|:-------------------------------------|
-| - Product Manager <br/> <br/> - Developer | Feature with RICE score in Wish list |
+| Involved                            | Output                               |
+|-------------------------------------|:-------------------------------------|
+| - Product Manager <br/> - Developer | Feature with RICE score in Wish list |
 
 PMs regularly screen the requirements added to the Wish List and evaluate them:
 
@@ -73,7 +101,7 @@ PMs regularly screen the requirements added to the Wish List and evaluate them:
 
 Oftentimes, the process stops for a time at this phase. This is because the RICE score is a good indicator for the value of a feature while not requiring a lot of effort to produce. The later steps however require considerably more work and as such cannot be done for all features. Only those features for which an implementation is considered likely in the near future are processed further. Reasons for considering a feature to be likely to be implemented can be the RICE score but also the financial backing of a customer.
 
-### 3.1.3 Evaluation phase 3: Requirement evaluation / Problem validation
+### 3.1.3 Evaluation phase 3: Validation
 
 | Involved                                                  | Output                                                                      |
 |-----------------------------------------------------------|:----------------------------------------------------------------------------|
