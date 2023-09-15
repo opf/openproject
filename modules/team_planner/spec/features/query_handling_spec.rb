@@ -82,7 +82,6 @@ RSpec.describe 'Team planner query handling', :js, with_ee: %i[team_planner_view
   current_user { user }
 
   before do
-    login_as user
     team_planner.visit!
 
     team_planner.add_assignee user
