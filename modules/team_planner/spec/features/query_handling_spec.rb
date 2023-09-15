@@ -139,5 +139,6 @@ RSpec.describe 'Team planner query handling', :js, with_ee: %i[team_planner_view
   it_behaves_like 'module specific query view management' do
     let(:module_page) { team_planner }
     let(:default_name) { 'Unnamed team planner' }
+    let(:initial_filter_count) { 1 }
   end
 end
