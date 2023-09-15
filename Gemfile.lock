@@ -962,7 +962,7 @@ GEM
       activemodel (>= 3.0.0)
       public_suffix
     vcr (6.2.0)
-    view_component (3.5.0)
+    view_component (3.6.0)
       activesupport (>= 5.2.0, < 8.0)
       concurrent-ruby (~> 1.0)
       method_source (~> 1.0)
