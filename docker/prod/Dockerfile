@@ -60,7 +60,9 @@ RUN --mount=type=cache,target=/app/frontend/.angular/cache,uid=1000,gid=1000 \
   SECRET_KEY_BASE=1 RAILS_ENV=production DATABASE_URL=nulldb://db \
   bin/rails openproject:plugins:register_frontend assets:precompile && \
   # only keep most current angular cache since webpack is unable to cleanup after itself
-	find frontend/.angular/cache -type d -exec sh -c 'ls -dt "$1"/*/ | tail -n +2 | xargs rm -r' sh {} \;
+  ls -1 --directory --sort=time frontend/.angular/cache/*/angular-webpack/* \
+    | tail --lines=+2 \
+    | xargs --no-run-if-empty rm -r
 
 # -------------------------------------
 # base (private)

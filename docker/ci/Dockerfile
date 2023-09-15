@@ -70,7 +70,9 @@ ENV BUNDLE_WITHOUT="development:production:docker"
 
 RUN --mount=type=cache,target=/app/frontend/.angular/cache,uid=1000,gid=1000 DATABASE_URL=nulldb://db bin/rails openproject:plugins:register_frontend assets:precompile && \
 	# only keep most current angular cache since webpack is unable to cleanup after itself
-	find frontend/.angular/cache -type d -exec sh -c 'ls -dt "$1"/*/ | tail -n +2 | xargs rm -r' sh {} \;
+  ls -1 --directory --sort=time frontend/.angular/cache/*/angular-webpack/* \
+    | tail --lines=+2 \
+    | xargs --no-run-if-empty rm -r
 RUN cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
 RUN cp docker/ci/database.yml config/
 
