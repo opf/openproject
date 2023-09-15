@@ -2,43 +2,51 @@
 
 This page summarizes all relevant information about releases.
 
-## Distribution
+## Current release
 
-OpenProject is distributed by [various means](../../installation-and-operations/installation/). Manual installation based on the code in GitHub is possible but not supported.
+The [release notes](../../release-notes/) provide a list of all the releases including the current stable one.
 
-## Release notes
+Administrators can identify their currently deployed version of OpenProject in the [Administration information page of their installation](../../system-admin-guide/information).
 
-You can find the release notes for major stable releases [here](../../release-notes/).
+## Upcoming releases
 
-## Versioning and tags
+See the [Roadmap](https://community.openproject.com/projects/openproject/roadmap) for the overview of the upcoming stable releases.
 
-### General considerations
+## Versioning
 
-* See the [Roadmap](https://community.openproject.com/projects/openproject/roadmap) for the overview of the current stable release version and upcoming stable releases
-* Releases are defined by a version (number) which exists as tags on predefined development trees (see the branches on [github](https://github.com/opf/openproject/releases)).
-
-### Semantic versioning
-
-* OpenProject follows the idea of [Semantic Versioning](https://semver.org/).
-* Therefore the version is a composition of three digits in the format of e.g. 0.1.1 and can be summarised as followed:
+OpenProject follows [Semantic Versioning](https://semver.org/).
+Therefore, the version is a composition of three digits in the format of e.g. 0.1.1 and can be summarised as followed:
   * MAJOR version when you make incompatible API changes,
   * MINOR version when you add functionality in a backwards-compatible manner, and
   * PATCH version when you make backwards-compatible bug fixes.
 
-Since the Stable Release 3.0.8 this idea only applies by considering the OpenProject core and all plugins maintained by the OpenProject Foundation as one piece of software.
+Please note that OpenProject considers the following to be non breaking changes which do not lead to a new major version:
+* Database schema changes
+* Updates on depended upon libraries packaged with the distributions of OpenProject (e.g. Ruby, Rails, etc.)
 
-### Branches and tags on Github
+Changes to those can thus happen also in minor or patch releases.
 
-The stable/X branch with the highest number is the currently supported stable release. Its commits are tagged (e.g. v12.5.8) to pinpoint individual releases.
+On the other hand, changes to the following are considered breaking changes and thus lead to a new major version.
+* Changes to the minimum version of supported operating systems.
+* Changes to the minimum version of the supported database system (PostgreSQL).
 
-During the development of upcoming releases, the `release/X.Y` branches are used. Those branches are created of the main development branch `dev` when preparing for a release. A release branch includes all patch level releases.
-
-## Change history
-
-* All changes made to the OpenProject software are documented via work packages. The [Roadmap view](https://community.openproject.com/projects/openproject/roadmap) gives a corresponding overview.
-* A release is also summarized in the [release notes](../../release-notes/)
+This list is not conclusive but rather serves to highlight the difference to the previous list of non breaking changes.
 
 ## Support of releases
 
-* For the community edition only the current stable release is maintained. The [Enterprise on-premises](https://www.openproject.org/enterprise-edition) provides extended maintenance.
-* We recommended to update to a new stable release as soon as possible to have a supported version installed.
+For the community edition, only the current stable release is maintained. The [Enterprise on-premises](https://www.openproject.org/enterprise-edition) provides extended maintenance.
+
+We recommended to update to a new stable release as soon as possible to have a supported version installed. To that end, OpenProject will show an information banner to administrators in case a new stable release is available.
+
+
+## Change history
+
+All changes made to the OpenProject software are documented via work packages bundled by the version. The [Roadmap view](https://community.openproject.com/projects/openproject/roadmap) gives a corresponding overview. A release is also summarized in the [release notes](../../release-notes/).
+
+## Distribution
+
+OpenProject is distributed in [various formats](../../installation-and-operations/installation/). Manual installation based on the code in GitHub is possible but not supported.
+
+## Versions in the codebase
+
+The version is represented as [tags](../git-workflow#tags) and [branches](../git-workflow#branching-model) in the repository. The version is also manifested in the [version.rb](https://github.com/opf/openproject/blob/dev/lib/open_project/version.rb).
