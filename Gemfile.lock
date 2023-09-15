@@ -885,7 +885,7 @@ GEM
     rubytree (2.0.2)
       json (~> 2.0, > 2.3.1)
     rubyzip (2.3.2)
-    sanitize (6.0.2)
+    sanitize (6.1.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     secure_headers (6.5.0)
@@ -1147,7 +1147,7 @@ DEPENDENCIES
   ruby-prof
   ruby-progressbar (~> 1.13.0)
   rubytree (~> 2.0.0)
-  sanitize (~> 6.0.2)
+  sanitize (~> 6.1.0)
   secure_headers (~> 6.5.0)
   selenium-webdriver (~> 4.12.0)
   semantic (~> 1.6.1)
