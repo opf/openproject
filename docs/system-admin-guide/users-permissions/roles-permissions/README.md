@@ -57,23 +57,23 @@ A **project role** is a set of **permissions** that can be assigned to any proje
 
 **Non member** is the default role of users of your OpenProject instance who have not been added to a project. This only applies if the project has been set as **[public](../user-guide/projects/#set-a-project-to-public)** in the project settings.
 
+The Non-member role can not be deleted. 
+
 ### Anonymous 
 
 OpenProject allows to share project information with users anonymous users which are not logged in. This is helpful to communicate projects goals and activities with a public community.
 
 > **Note**: This only applies if you disabled the need for authentication for your instance and if the project is set as **public**.
 
+The Anonymous role can not be deleted. 
+
 ## Customize roles and permissions 
 
 Administrators can customize the roles and the permissions of the different roles in **Administration** -> **Users and permissions** -> **Roles and permissions**.
 
-The permissions report is a good starting point to get and overview of the current configuration. 
-
 ### Permissions report
 
-On the bottom of the roles list page there is a link to the **Permissions report**. This shows a grid of existing roles (columns) against permissions (rows); the intersections are ticked if the role has the permission.
-
-A **Check/uncheck all** checkbox is shown on each role or permission to allow bulk change. **Be careful, this cannot be undone**. If you make a mistake, do not save the report.
+The permissions report is a good starting point to get and overview of the current configuration. 
 
 ### Create a new role
 
@@ -84,12 +84,12 @@ To create a new role, navigate to the administration and select **Users and perm
 You will see the list of all the roles that have been created so far.
 
 
-**Anonymous** is the default role of users who are not logged in. This only applies if you disabled the need for authentication for your instance and if the project is set as **public**.
-Those two roles can't be deleted.
+
+
 
 ![create roles](system-guide-roles.png)
 
-After clicking the green **+ Role** button, a form will be shown to define the role and its permissions.
+After	 clicking the green **+ Role** button, a form will be shown to define the role and its permissions.
 
 Complete the following as required:
 
