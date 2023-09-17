@@ -99,7 +99,6 @@ export class SchemaProxy implements ProxyHandler<SchemaResource> {
    */
   public isAttributeEditable(property:string):boolean {
     const propertySchema = this.ofProperty(property);
-
     return !!propertySchema && propertySchema.writable;
   }
 

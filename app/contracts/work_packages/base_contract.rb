@@ -103,6 +103,21 @@ module WorkPackages
 
     attribute :budget
 
+    attribute :td_severity_value,
+              writable: true
+
+    attribute :td_estimated_time,
+              writable: true
+
+    attribute :td_payback_likelihood,
+              writable: true
+
+    attribute :td_labour_rate,
+              writable: true
+
+    attribute :td_principal,
+              writable: false
+
     validates :due_date,
               date: { after_or_equal_to: :start_date,
                       message: :greater_than_or_equal_to_start_date,
