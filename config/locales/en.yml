@@ -2082,6 +2082,7 @@ en:
   label_system_storage: "Storage information"
   label_table_of_contents: "Table of contents"
   label_tag: "Tag"
+  label_technical_debt: "Technical Debt"
   label_text: "Long text"
   label_this_month: "this month"
   label_this_week: "this week"

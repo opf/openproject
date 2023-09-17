@@ -631,9 +631,9 @@ class WorkPackage < ApplicationRecord
     end
   end
 
-  enum severity_value: {
+  enum td_severity_value: {
     low: 0,
     medium: 1,
-    high: 2 
+    high: 2
   }
 end

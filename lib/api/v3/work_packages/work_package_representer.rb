@@ -428,6 +428,21 @@ module API
                  render_nil: true,
                  if: ->(*) { Setting.work_package_done_ratio != 'disabled' }
 
+        property :td_severity_value,
+                  render_nil: true
+
+        property :td_labour_rate,
+                  render_nil: true
+
+        property :td_estimated_time,
+                  render_nil: true
+
+        property :td_payback_likelihood,
+                  render_nil: true
+
+        property :td_principal,
+                  render_nil: true
+
         date_time_property :created_at
 
         date_time_property :updated_at

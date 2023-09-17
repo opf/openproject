@@ -131,7 +131,7 @@ module Type::Attributes
 
     def skipped_attribute?(key, definition)
       # We always want to include the priority even if its required
-      return false if key == 'priority'
+      return false if key == 'priority' or key.starts_with?('td_')
 
       EXCLUDED.include?(key) || definition[:required]
     end

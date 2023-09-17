@@ -46,7 +46,11 @@ module Type::AttributeGroups
         responsible: :people,
         estimated_time: :estimates_and_time,
         spent_time: :estimates_and_time,
-        priority: :details
+        priority: :details,
+        td_payback_likelihood: :technical_debt,
+        td_severity_value: :technical_debt,
+        td_labour_rate: :technical_debt,
+        td_estimated_time: :technical_debt
       }
     end
 
@@ -56,6 +60,7 @@ module Type::AttributeGroups
         people: :label_people,
         estimates_and_time: :label_estimates_and_time,
         details: :label_details,
+        technical_debt: :label_technical_debt,
         other: :label_other,
         children: :'activerecord.attributes.work_package.children'
       }

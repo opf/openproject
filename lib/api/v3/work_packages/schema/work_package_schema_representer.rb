@@ -196,6 +196,21 @@ module API
                  location: :link,
                  writable: false
 
+          schema :td_severity_value,
+                 type: 'String'
+
+          schema :td_labour_rate,
+                 type: 'Float'
+
+          schema :td_estimated_time,
+                 type: 'Float'
+
+          schema :td_payback_likelihood,
+                 type: 'Float'
+
+          schema :td_principal,
+                 type: 'Float'
+
           schema_with_allowed_link :project,
                                    type: 'Project',
                                    required: true,

@@ -221,6 +221,12 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
     // eslint-disable-next-line no-underscore-dangle
     this.groupedFields = this.rebuildGroupedFields(change, this.schema(resource)._attributeGroups) as GroupDescriptor[];
+    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+    console.log(resource);
+    console.log("########################################");
+    console.log(this.schema(resource));
+    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+    console.log(this.schema(resource)._attributeGroups);
     this.cdRef.detectChanges();
   }
 
