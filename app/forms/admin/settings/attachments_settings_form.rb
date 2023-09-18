@@ -28,17 +28,83 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+class SettingsDslFormDecorator
+  attr_reader :form
+
+  def initialize(form)
+    @form = form
+  end
+
+  def method_missing(method, ...)
+    form.send(method, ...)
+  end
+
+  def respond_to_missing?(method, include_private = false)
+    form.respond_to?(method, include_private)
+  end
+
+  def text_field(name:, **options)
+    options.reverse_merge!(
+      label: setting_label(name),
+      value: setting_value(name),
+      disabled: setting_disabled?(name)
+    )
+    form.text_field(name:, **options)
+  end
+
+  def text_area(name:, **options)
+    options.reverse_merge!(
+      label: setting_label(name),
+      value: setting_value(name),
+      disabled: setting_disabled?(name)
+    )
+    form.text_area(name:, **options)
+  end
+
+  def check_box(name:, **options)
+    options.reverse_merge!(
+      label: setting_label(name),
+      checked: setting_value(name),
+      disabled: setting_disabled?(name)
+    )
+    form.check_box(name:, **options)
+  end
+
+  def heading(content:, tag: :h2, **)
+    add_input(Primer::Beta::Heading.new(tag:, **)) { content }
+  end
+
+  def submit
+    form.submit(name: 'submit',
+                label: I18n.t('button_save'),
+                scheme: :primary)
+  end
+
+  protected
+
+  def setting_label(name)
+    I18n.t("setting_#{name}")
+  end
+
+  def setting_value(name)
+    Setting[name]
+  end
+
+  def setting_disabled?(name)
+    !Setting.send(:"#{name}_writable?")
+  end
+end
+
 class Admin::Settings::AttachmentsSettingsForm < ApplicationForm
   form do |attachments_form|
+    attachments_form = form_for_settings(attachments_form)
+
     attachments_form.text_field(
-      label: I18n.t('setting_attachment_max_size'),
       name: :attachment_max_size,
-      value: Setting.attachment_max_size,
       caption: 'Size in kilobytes.'
     )
 
     attachments_form.text_area(
-      label: I18n.t('setting_attachment_whitelist'),
       name: :attachment_whitelist,
       value: Setting.attachment_whitelist.join("\n"),
       caption: I18n.t('settings.attachments.whitelist_text_html',
@@ -47,10 +113,10 @@ class Admin::Settings::AttachmentsSettingsForm < ApplicationForm
       rows: 5
     )
 
-    attachments_form.submit(
-      name: 'submit',
-      label: I18n.t(:button_save),
-      scheme: :primary
-    )
+    attachments_form.submit
+  end
+
+  def form_for_settings(form)
+    SettingsDslFormDecorator.new(form)
   end
 end
