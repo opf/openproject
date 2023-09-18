@@ -56,10 +56,6 @@ module MeetingAgendaItems
       @meeting.open? && User.current.allowed_to?(:create_meeting_agendas, @meeting.project)
     end
 
-    def show_time_slot?
-      false
-    end
-
     def edit_enabled?
       @meeting.open? && User.current.allowed_to?(:create_meeting_agendas, @meeting.project)
     end
@@ -102,11 +98,6 @@ module MeetingAgendaItems
 
     def right_column_partial
       flex_layout(align_items: :center, mt: edit_enabled? ? 1 : 2) do |flex|
-        if show_time_slot?
-          flex.with_column(pr: 2) do
-            time_slot_partial
-          end
-        end
         flex.with_column(mr: 2) do
           render(Users::AvatarComponent.new(user: @meeting_agenda_item.author, size: 'mini'))
         end
