@@ -101,7 +101,7 @@ RSpec.describe 'Work package copy', js: true, selenium: true do
     to_copy_work_package_page.expect_current_path
     to_copy_work_package_page.expect_fully_loaded
 
-    to_copy_work_package_page.update_attributes Description: 'Copied WP Description'
+    to_copy_work_package_page.update_attributes Notes: 'Copied WP Description'
     to_copy_work_package_page.save!
 
     expect(page).to have_selector('.op-toast--content',
@@ -116,7 +116,7 @@ RSpec.describe 'Work package copy', js: true, selenium: true do
 
     work_package_page.ensure_page_loaded
     work_package_page.expect_attributes Subject: original_work_package.subject,
-                                        Description: 'Copied WP Description',
+                                        Notes: 'Copied WP Description',
                                         Version: original_work_package.version,
                                         Priority: original_work_package.priority,
                                         Assignee: original_work_package.assigned_to.name,
@@ -142,7 +142,7 @@ RSpec.describe 'Work package copy', js: true, selenium: true do
       find('.menu-item', text: 'Copy', exact_text: true).click
 
       to_copy_work_package_page = Pages::FullWorkPackageCreate.new(original_work_package:)
-      to_copy_work_package_page.update_attributes Description: 'Copied WP Description'
+      to_copy_work_package_page.update_attributes Notes: 'Copied WP Description'
       to_copy_work_package_page.save!
 
       to_copy_work_package_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_create')
@@ -156,7 +156,7 @@ RSpec.describe 'Work package copy', js: true, selenium: true do
     to_copy_work_package_page.expect_current_path
     to_copy_work_package_page.expect_fully_loaded
 
-    to_copy_work_package_page.update_attributes Description: 'Copied WP Description'
+    to_copy_work_package_page.update_attributes Notes: 'Copied WP Description'
 
     to_copy_work_package_page.save!
     find('.op-toast--content', text: I18n.t('js.notice_successful_create'), wait: 20)
@@ -169,7 +169,7 @@ RSpec.describe 'Work package copy', js: true, selenium: true do
 
     work_package_page.ensure_page_loaded
     work_package_page.expect_attributes Subject: original_work_package.subject,
-                                        Description: 'Copied WP Description',
+                                        Notes: 'Copied WP Description',
                                         Version: original_work_package.version,
                                         Priority: original_work_package.priority,
                                         Assignee: original_work_package.assigned_to,

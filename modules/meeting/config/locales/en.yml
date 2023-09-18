@@ -42,6 +42,7 @@ en:
         type: "Meeting type"
         location: "Location"
         duration: "Duration"
+        notes: "Notes"
         participants: "Participants"
         participants_attended: "Attendees"
         participants_invited: "Invitees"
@@ -172,4 +173,3 @@ en:
   label_meeting_add_participants: "Add participants"
 
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
-

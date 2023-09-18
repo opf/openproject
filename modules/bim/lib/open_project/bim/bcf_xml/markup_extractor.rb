@@ -34,7 +34,7 @@ module OpenProject::Bim::BcfXml
     end
 
     def description
-      extract :Description
+      extract :Notes
     end
 
     def author

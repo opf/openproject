@@ -74,7 +74,7 @@ module MeetingAgendaItems
           form_fields_partial(form)
         end
         flex.with_row(mt: 2) do
-          form_description_partial(form)
+          form_notes_partial(form)
         end
         flex.with_row do
           form_actions_partial(form)
@@ -144,15 +144,15 @@ module MeetingAgendaItems
     #   end
     # end
 
-    def form_description_partial(form)
-      render(Primer::Box.new(data: { 'meeting-agenda-item-form-target': "descriptionInput" },
-                             display: display_description_input_value)) do
-        render(MeetingAgendaItem::Description.new(form))
+    def form_notes_partial(form)
+      render(Primer::Box.new(data: { 'meeting-agenda-item-form-target': "notesInput" },
+                             display: display_notes_input_value)) do
+        render(MeetingAgendaItem::Notes.new(form))
       end
     end
 
-    def display_description_input_value
-      @meeting_agenda_item.description.blank? ? :none : nil
+    def display_notes_input_value
+      @meeting_agenda_item.notes.blank? ? :none : nil
     end
 
     def form_actions_partial(form)
@@ -169,19 +169,19 @@ module MeetingAgendaItems
     def additional_elements_partial
       render(Primer::Beta::Button.new(
                scheme: :secondary,
-               display: display_description_add_button_value,
+               display: display_notes_add_button_value,
                data: {
-                 'meeting-agenda-item-form-target': "descriptionAddButton",
-                 action: 'click->meeting-agenda-item-form#addDescription keydown.enter->meeting-agenda-item-form#addDescription'
+                 'meeting-agenda-item-form-target': "notesAddButton",
+                 action: 'click->meeting-agenda-item-form#addNotes keydown.enter->meeting-agenda-item-form#addNotes'
                }
              )) do |component|
         component.with_leading_visual_icon(icon: :plus)
-        MeetingAgendaItem.human_attribute_name(:description)
+        MeetingAgendaItem.human_attribute_name(:notes)
       end
     end
 
-    def display_description_add_button_value
-      @meeting_agenda_item.description.blank? ? nil : :none
+    def display_notes_add_button_value
+      @meeting_agenda_item.notes.blank? ? nil : :none
     end
 
     def save_or_cancel_partial(form)

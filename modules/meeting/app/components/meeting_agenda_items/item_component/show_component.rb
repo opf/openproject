@@ -72,7 +72,7 @@ module MeetingAgendaItems
     end
 
     def second_row_partial
-      if @meeting_agenda_item.description.present?
+      if @meeting_agenda_item.notes.present?
         description_partial
       end
     end
@@ -193,7 +193,7 @@ module MeetingAgendaItems
 
     def description_partial
       render(Primer::Box.new(color: :subtle)) do
-        ::OpenProject::TextFormatting::Renderer.format_text(@meeting_agenda_item.description)
+        ::OpenProject::TextFormatting::Renderer.format_text(@meeting_agenda_item.notes)
       end
     end
 

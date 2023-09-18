@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingAgendaItem::Description < ApplicationForm
+class MeetingAgendaItem::Notes < ApplicationForm
   form do |agenda_item_form|
     agenda_item_form.rich_text_area(
-      name: :description,
-      label: MeetingAgendaItem.human_attribute_name(:description),
-      disabled: @disabled # TODO: does not work yet
+      name: :notes,
+      label: MeetingAgendaItem.human_attribute_name(:notes),
+      disabled: @disabled
     )
   end
 

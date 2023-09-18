@@ -31,10 +31,10 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-  static targets = ['titleInput', 'descriptionInput', 'descriptionAddButton'];
+  static targets = ['titleInput', 'notesInput', 'notesAddButton'];
   declare readonly titleInputTarget:HTMLInputElement;
-  declare readonly descriptionInputTarget:HTMLInputElement;
-  declare readonly descriptionAddButtonTarget:HTMLInputElement;
+  declare readonly notesInputTarget:HTMLInputElement;
+  declare readonly notesAddButtonTarget:HTMLInputElement;
 
   connect():void {
     this.focusInput();
@@ -51,10 +51,10 @@ export default class extends Controller {
     }, 100);
   }
 
-  async addDescription() {
-    this.descriptionInputTarget.classList.remove('d-none');
-    this.descriptionAddButtonTarget.classList.add('d-none');
-    const textarea = this.element.querySelector('textarea[name="meeting_agenda_item[description]"]');
+  addNotes() {
+    this.notesInputTarget.classList.remove('d-none');
+    this.notesAddButtonTarget.classList.add('d-none');
+    const textarea = this.element.querySelector('textarea[name="meeting_agenda_item[notes]"]');
     setTimeout(() => {
       if (textarea) {
         (textarea as HTMLInputElement).focus();
