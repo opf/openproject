@@ -30,7 +30,7 @@ module MeetingAgendaItems
   class SetAttributesService < ::BaseServices::SetAttributes
     def set_default_attributes(_params)
       model.change_by_system do
-        model.author = user if model.author.nil?
+        model.author = user
       end
     end
   end

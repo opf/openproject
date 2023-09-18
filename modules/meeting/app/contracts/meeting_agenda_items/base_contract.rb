@@ -33,7 +33,6 @@ module MeetingAgendaItems
     end
 
     attribute :meeting
-    attribute :author
     attribute :work_package
 
     attribute :position
