@@ -99,7 +99,10 @@ module MeetingAgendaItems
     def right_column_partial
       flex_layout(align_items: :center, mt: edit_enabled? ? 1 : 2) do |flex|
         flex.with_column(mr: 2) do
-          render(Users::AvatarComponent.new(user: @meeting_agenda_item.author, size: 'mini'))
+          title = I18n.t(:label_added_time_by,
+                          author: @meeting_agenda_item.author.name,
+                          age: helpers.distance_of_time_in_words(Time.zone.now, @meeting_agenda_item.created_at))
+          render(Users::AvatarComponent.new(user: @meeting_agenda_item.author, size: 'mini', title:))
         end
         flex.with_column do
           actions_partial if edit_enabled?

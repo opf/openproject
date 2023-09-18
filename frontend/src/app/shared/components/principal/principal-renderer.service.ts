@@ -67,6 +67,7 @@ export class PrincipalRendererService {
     principal:PrincipalLike|IPrincipal,
     name:NameOptions = { hide: false, link: true },
     avatar:AvatarOptions = { hide: false, size: 'default' },
+    title:string|null = null,
   ):void {
     container.dataset.testSelector = 'op-principal';
     container.classList.add('op-principal');
@@ -78,7 +79,7 @@ export class PrincipalRendererService {
     }
 
     if (!name.hide) {
-      const el = this.renderName(principal, type, name.link);
+      const el = this.renderName(principal, type, name.link, title || principal.name);
       container.appendChild(el);
     }
   }
@@ -140,13 +141,19 @@ export class PrincipalRendererService {
     return id ? this.apiV3Service.users.id(id).avatar.toString() : null;
   }
 
-  private renderName(principal:PrincipalLike|IPrincipal, type:PrincipalType, asLink = true) {
+  private renderName(
+    principal:PrincipalLike|IPrincipal,
+    type:PrincipalType,
+    asLink = true,
+    title:string,
+  ) {
     if (asLink) {
       const link = document.createElement('a');
       link.textContent = principal.name;
       link.href = this.principalURL(principal, type);
       link.target = '_blank';
       link.classList.add('op-principal--name');
+      link.title = title;
 
       return link;
     }
@@ -154,6 +161,7 @@ export class PrincipalRendererService {
     const span = document.createElement('span');
     span.textContent = principal.name;
     span.classList.add('op-principal--name');
+    span.title = title;
     return span;
   }
 
