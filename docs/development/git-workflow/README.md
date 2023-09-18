@@ -109,3 +109,7 @@ Bugfixes for one of the actively supported versions of OpenProject should be iss
 
  A fix for the current version (called "Hotfix" and the branch ideally being named `fix/XYZ`) should target `release/*` and a fix for the former version (called "Backport" and the branch ideally being named `backport/XYZ`) should target `backport/*`. We will try to merge hotfixes into dev branch but if that is no trivial task, we might ask you to create another PR for that.
 
+
+### Tagging
+
+The stable/X branch with the highest number is the currently supported stable release. Its commits are tagged (e.g. v12.5.8) to pinpoint individual releases.
