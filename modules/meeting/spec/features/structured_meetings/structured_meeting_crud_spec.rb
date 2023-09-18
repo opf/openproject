@@ -31,9 +31,12 @@ require 'spec_helper'
 require_relative '../../support/pages/meetings/new'
 require_relative '../../support/pages/structured_meeting/show'
 
+# Cuprite has a bug where it sends keydown events without #key property
+# This breaks stimulus handling of the escape action
+# https://github.com/rubycdp/cuprite/issues/240
 RSpec.describe 'Structured meetings CRUD',
                :js,
-               :with_cuprite do
+               with_cuprite: false do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:project) { create(:project, enabled_module_names: %w[meetings work_package_tracking]) }
@@ -87,10 +90,11 @@ RSpec.describe 'Structured meetings CRUD',
     show_page.add_agenda_item do
       fill_in 'Title', with: 'My agenda item'
       fill_in 'Duration in minutes', with: '25'
-      click_button 'Save'
     end
 
     show_page.expect_agenda_item title: 'My agenda item'
+    show_page.cancel_add_form
+
     item = MeetingAgendaItem.find_by(title: 'My agenda item')
     show_page.edit_agenda_item(item) do
       fill_in 'Title', with: 'Updated title'
@@ -100,9 +104,8 @@ RSpec.describe 'Structured meetings CRUD',
     show_page.expect_no_agenda_item title: 'My agenda item'
 
     # Can add multiple items
-    show_page.add_agenda_item(cancel_followup_item: false) do
+    show_page.add_agenda_item do
       fill_in 'Title', with: 'First'
-      click_button 'Save'
     end
 
     show_page.expect_agenda_item title: 'Updated title'
@@ -128,6 +131,12 @@ RSpec.describe 'Structured meetings CRUD',
     show_page.select_action(first, I18n.t(:label_sort_highest))
     show_page.assert_agenda_order! 'First', 'Updated title', 'Second'
 
+    # Can edit and cancel with escape
+    show_page.edit_agenda_item(first) do
+      find_field('Title').send_keys :escape
+    end
+    show_page.expect_item_edit_form(first, visible: false)
+
     # Can remove
     show_page.remove_agenda_item first
     show_page.assert_agenda_order! 'Updated title', 'Second'
@@ -137,9 +146,9 @@ RSpec.describe 'Structured meetings CRUD',
       select_autocomplete(find_test_selector('op-agenda-items-wp-autocomplete'),
                           query: 'task',
                           results_selector: 'body')
-      click_button 'Save'
     end
 
+    show_page.expect_agenda_link work_package
     wp_item = MeetingAgendaItem.find_by!(work_package_id: work_package.id)
     expect(wp_item).to be_present
 

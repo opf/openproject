@@ -43,9 +43,11 @@ module Pages::StructuredMeeting
 
       in_agenda_form(&block)
 
-      if cancel_followup_item
-        page.find('#meeting-agenda-items-new-component a', text: I18n.t(:button_cancel)).click
-      end
+      click_button 'Save'
+    end
+
+    def cancel_add_form
+      page.find('#meeting-agenda-items-new-component a', text: I18n.t(:button_cancel)).click
     end
 
     def in_agenda_form(&block)
@@ -72,7 +74,11 @@ module Pages::StructuredMeeting
     end
 
     def expect_agenda_link(item)
-      expect(page).to have_selector("#meeting-agenda-items-item-component-#{item.id}", text: item.work_package.subject)
+      if item.is_a?(WorkPackage)
+        expect(page).to have_selector("[id^='meeting-agenda-items-item-component-']", text: item.subject)
+      else
+        expect(page).to have_selector("#meeting-agenda-items-item-component-#{item.id}", text: item.work_package.subject)
+      end
     end
 
     def expect_agenda_author(name)
@@ -101,6 +107,11 @@ module Pages::StructuredMeeting
     def edit_agenda_item(item, &block)
       select_action item, 'Edit'
       page.within("#meeting-agenda-items-item-component-#{item.id} #meeting-agenda-items-form-component", &block)
+    end
+
+    def expect_item_edit_form(item, visible: true)
+      expect(page)
+        .to have_conditional_selector(visible, "#meeting-agenda-items-item-component-#{item.id} #meeting-agenda-items-form-component")
     end
   end
 end
