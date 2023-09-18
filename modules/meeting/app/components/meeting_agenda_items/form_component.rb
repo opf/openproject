@@ -65,6 +65,7 @@ module MeetingAgendaItems
       {
         controller: 'meeting-agenda-item-form',
         'application-target': 'dynamic',
+        'meeting-agenda-item-form-cancel-url-value': @cancel_path
       }
     end
 

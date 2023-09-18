@@ -28,9 +28,16 @@
  * ++
  */
 
+import * as Turbo from '@hotwired/turbo';
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
+  static values = {
+    cancelUrl: String,
+  };
+
+  declare cancelUrlValue:string;
+
   static targets = ['titleInput', 'notesInput', 'notesAddButton'];
   declare readonly titleInputTarget:HTMLInputElement;
   declare readonly notesInputTarget:HTMLInputElement;
@@ -49,6 +56,21 @@ export default class extends Controller {
         (titleInput as HTMLInputElement).focus();
       }
     }, 100);
+  }
+
+  async cancel() {
+    const response = await fetch(this.cancelUrlValue, {
+      method: 'GET',
+      headers: {
+        'X-CSRF-Token': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).content,
+        Accept: 'text/vnd.turbo-stream.html',
+      },
+    });
+
+    if (response.ok) {
+      const text = await response.text();
+      Turbo.renderStreamMessage(text);
+    }
   }
 
   addNotes() {
