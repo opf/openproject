@@ -28,16 +28,9 @@
  * ++
  */
 
-import * as Turbo from '@hotwired/turbo';
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-  static values = {
-    cancelUrl: String,
-  };
-
-  declare cancelUrlValue:string;
-
   static targets = ['titleInput', 'descriptionInput', 'descriptionAddButton'];
   declare readonly titleInputTarget:HTMLInputElement;
   declare readonly descriptionInputTarget:HTMLInputElement;
@@ -55,26 +48,6 @@ export default class extends Controller {
         (titleInput as HTMLInputElement).focus();
       }
     }, 100);
-  }
-
-  async cancel() {
-    // eslint-disable-next-line no-alert
-    const confirmed = window.confirm('Are you sure?');
-    if (!confirmed) {
-      return;
-    }
-    const response = await fetch(this.cancelUrlValue, {
-      method: 'GET',
-      headers: {
-        'X-CSRF-Token': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).content,
-        Accept: 'text/vnd.turbo-stream.html',
-      },
-    });
-
-    if (response.ok) {
-      const text = await response.text();
-      Turbo.renderStreamMessage(text);
-    }
   }
 
   async addDescription() {
