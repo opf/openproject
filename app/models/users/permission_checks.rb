@@ -66,11 +66,11 @@ module Users::PermissionChecks
   end
 
   # All the new methos to check for permissions. This will completely replace the old interface:
-  delegate :allowed_globally?, to: :user_permissible_service
-
-  delegate :allowed_in_project?, to: :user_permissible_service
-
-  delegate :allowed_in_any_project?, to: :user_permissible_service
+  delegate :allowed_globally?,
+           :allowed_in_project?,
+           :allowed_in_any_project?,
+           :allowed_in_any_entity?,
+           to: :user_permissible_service
 
   # Return user's roles for project
   def roles_for_project(project)
@@ -101,14 +101,6 @@ module Users::PermissionChecks
   end
 
   private
-
-  def allowed_in_entity?(permission, entity)
-    user_permissible_service.allowed_in_entity?(permission, entity)
-  end
-
-  def allowed_in_any_entity?(permission, entity_class, in_project: nil)
-    user_permissible_service.allowed_in_any_entity?(permission, entity_class, in_project:)
-  end
 
   def user_allowed_service
     @user_allowed_service ||= ::Authorization::UserAllowedService.new(self, role_cache: project_role_cache)

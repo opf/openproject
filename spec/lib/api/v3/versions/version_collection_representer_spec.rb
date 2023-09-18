@@ -44,11 +44,11 @@ RSpec.describe API::V3::Versions::VersionCollectionRepresenter do
     context '_links' do
       before do
         allow(user)
-          .to receive(:allowed_to_globally?)
+          .to receive(:allowed_in_any_project?)
           .and_return(false)
 
         allow(user)
-          .to receive(:allowed_to_globally?)
+          .to receive(:allowed_in_any_project?)
           .with(:manage_versions)
           .and_return(allowed_to)
       end

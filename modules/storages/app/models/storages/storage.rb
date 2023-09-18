@@ -72,7 +72,7 @@ module Storages
     # Creates a scope of all storages, which belong to a project the user is a member
     # and has the permission ':view_file_links'
     scope :visible, ->(user = User.current) do
-      if user.allowed_to_globally?(:manage_storages_in_project)
+      if user.allowed_in_any_project?(:manage_storages_in_project)
         all
       else
         where(

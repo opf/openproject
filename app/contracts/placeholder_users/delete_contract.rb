@@ -37,7 +37,7 @@ module PlaceholderUsers
     #
     # @param actor [User] User who wants to delete the given placeholder user.
     def self.deletion_allowed?(placeholder_user, actor)
-      actor.allowed_to_globally?(:manage_placeholder_user) &&
+      actor.allowed_globally?(:manage_placeholder_user) &&
         affected_projects_managed_by_actor?(placeholder_user, actor)
     end
 

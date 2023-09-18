@@ -39,7 +39,7 @@ RSpec.describe API::V3::RootRepresenter do
 
   before do
     allow(user)
-      .to receive(:allowed_to_globally?) do |action|
+      .to receive(:allowed_in_any_project?) do |action|
         permissions.include?(action)
       end
   end

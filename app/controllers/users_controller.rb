@@ -152,7 +152,7 @@ class UsersController < ApplicationController
   def change_status_info
     @status_change = params[:change_action].to_sym
 
-    return render_400 unless %i(activate lock unlock).include? @status_change
+    render_400 unless %i(activate lock unlock).include? @status_change
   end
 
   def change_status
@@ -240,8 +240,7 @@ class UsersController < ApplicationController
   end
 
   def can_manage_or_create_users?
-    current_user.allowed_to_globally?(:manage_user) ||
-    current_user.allowed_to_globally?(:create_user)
+    current_user.allowed_globally?(:manage_user) || current_user.allowed_globally?(:create_user)
   end
 
   def events

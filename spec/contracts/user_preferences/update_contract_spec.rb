@@ -67,7 +67,7 @@ RSpec.describe UserPreferences::UpdateContract do
       let(:preference_user) { build_stubbed(:user) }
 
       before do
-        allow(current_user).to receive(:allowed_to_globally?).with(:manage_user).and_return true
+        allow(current_user).to receive(:allowed_globally?).with(:manage_user).and_return true
       end
 
       it_behaves_like 'contract is valid'
@@ -290,7 +290,7 @@ RSpec.describe UserPreferences::UpdateContract do
     it 'includes only the namesake zone if multiple AS::Timezone map to the same TZInfo' do
       # In this case 'Edinburgh' and 'Bern' are not included
       expect(time_zones.select { |tz| %w[Europe/London Europe/Zurich].include? tz.tzinfo.canonical_zone.name })
-        .to match_array([ActiveSupport::TimeZone['London'], ActiveSupport::TimeZone['Zurich']])
+        .to contain_exactly(ActiveSupport::TimeZone['London'], ActiveSupport::TimeZone['Zurich'])
     end
   end
 

@@ -32,7 +32,10 @@ module Groups::Scopes
 
     class_methods do
       def visible(current_user = User.current)
-        if current_user.allowed_to_globally?(:manage_members)
+        # TODO: Let's recheck this logic. Previously the project permission manage_memers was checked globally
+        # which is equivalent to allowed_in_any_project?(:manage_members), but si this really what we want to check
+        # here?
+        if current_user.allowed_in_any_project?(:manage_members)
           Group.all
         else
           Group

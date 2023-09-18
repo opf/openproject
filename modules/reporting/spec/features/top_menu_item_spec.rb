@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Top menu items', js: true do
+RSpec.describe 'Top menu items', :js do
   let(:user) { create(:user) }
   let(:open_menu) { true }
 
@@ -65,7 +65,7 @@ RSpec.describe 'Top menu items', js: true do
     create(:non_member)
 
     if ex.metadata.key?(:allowed_to)
-      allow(user).to receive(:allowed_to_globally?).and_return(ex.metadata[:allowed_to])
+      allow(user).to receive(:allowed_in_any_project?).and_return(ex.metadata[:allowed_to])
     end
 
     visit root_path
@@ -96,7 +96,7 @@ RSpec.describe 'Top menu items', js: true do
       end
     end
 
-    context 'as a user with permissions', allowed_to: true do
+    context 'as a user with permissions', :allowed_to do
       it 'displays all options' do
         has_menu_items?(reporting_item)
       end

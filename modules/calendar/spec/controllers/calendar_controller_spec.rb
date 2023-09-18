@@ -43,7 +43,7 @@ RSpec.describe Calendar::CalendarsController do
       allow(user).to receive(:allowed_to?) do |permission, p|
         permission[:controller] == 'calendar/calendars' && permission[:action] == 'index' && (p.nil? || p == project)
       end
-      allow(user).to receive(:allowed_to_globally?).and_return(false)
+      allow(user).to receive(:allowed_in_any_project?).and_return(false)
     end
   end
 

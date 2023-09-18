@@ -38,7 +38,7 @@ module Users
     # - the user has the global manage_user permission
     # - the user is an admin
     def user_allowed_to_update
-      unless user == model || user.allowed_to_globally?(:manage_user)
+      unless user == model || user.allowed_globally?(:manage_user)
         errors.add :base, :error_unauthorized
       end
     end
