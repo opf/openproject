@@ -1,11 +1,11 @@
 module Authorization
   class AllowedInEntityQuery
-    attr_reader :user, :permissions, :entity
+    attr_reader :user, :permissions, :entities
 
-    def initialize(user, permissions, entity)
+    def initialize(user, permissions, entity_or_entities)
       @user = user
       @permissions = Array(permissions)
-      @entity = entity
+      @entities = Array(entity_or_entities)
     end
 
     def query
@@ -14,7 +14,7 @@ module Authorization
         .where(role_permissions: { permission: permission_names })
         .joins(member_roles: :member)
         # TODO: Check modules, built in roles, etc
-        .where(members: { principal: user, project_id: entity.project_id, entity: })
+        .where(members: { principal: user, entity: entities })
     end
 
     delegate :exists?, to: :query
