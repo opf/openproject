@@ -180,7 +180,7 @@ RSpec.describe 'Structured meetings CRUD',
     let!(:other_wp) { create(:work_package, project: other_project, author: current_user, subject: 'Private task') }
     let!(:role) { create(:role, permissions: %w[view_work_packages]) }
     let!(:membership) { create(:member, principal: user, project: other_project, roles: [role]) }
-    let!(:agenda_item) { create(:meeting_agenda_item, meeting:, work_package: other_wp) }
+    let!(:agenda_item) { create(:meeting_agenda_item, meeting:, author: current_user, work_package: other_wp) }
     let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
 
     it 'shows correctly for author, but returns an unresolved reference for the second user' do

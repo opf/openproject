@@ -30,6 +30,7 @@ FactoryBot.define do
   factory :meeting_agenda_item do |m|
     meeting
     work_package { nil }
+    author factory: :user
     duration_in_minutes { 10 }
     m.sequence(:title) { |n| "Agenda item #{n}" }
   end

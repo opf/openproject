@@ -38,6 +38,7 @@ class MeetingAgendaItem < ApplicationRecord
 
   validates :title, presence: true, if: Proc.new { |item| item.work_package_id.blank? }
   validates :work_package_id, presence: true, if: Proc.new { |item| item.title.blank? }
+  validates :author_id, presence: true
 
   validates :duration_in_minutes,
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1440 },
