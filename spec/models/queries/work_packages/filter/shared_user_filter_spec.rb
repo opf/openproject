@@ -199,7 +199,9 @@ RSpec.describe Queries::WorkPackages::Filter::SharedUserFilter do
           before do
             allow(user)
               .to receive(:allowed_to?)
-                    .with(:view_shared_work_packages, nil, global: true)
+                    .with(:view_shared_work_packages,
+                          project,
+                          global: true)
                     .and_return(true)
           end
 
@@ -212,7 +214,9 @@ RSpec.describe Queries::WorkPackages::Filter::SharedUserFilter do
           before do
             allow(user)
               .to receive(:allowed_to?)
-                    .with(:view_shared_work_packages, nil, global: true)
+                    .with(:view_shared_work_packages,
+                          project,
+                          global: true)
                     .and_return(false)
           end
 

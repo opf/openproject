@@ -31,7 +31,7 @@ class Queries::WorkPackages::Filter::SharedUserFilter <
   def available?
     super && User.current
                  .allowed_to?(:view_shared_work_packages,
-                              nil,
+                              project,
                               global: true)
   end
 
@@ -67,7 +67,7 @@ class Queries::WorkPackages::Filter::SharedUserFilter <
   end
 
   def shared_work_package_ids
-    base_query = Member.where(entity_type: 'WorkPackage')
+    base_query = visible_shared_work_package_memberships
 
     unless %w[* !*].include?(operator)
       base_query = base_query.where(user_id: values_replaced)
@@ -76,5 +76,10 @@ class Queries::WorkPackages::Filter::SharedUserFilter <
     base_query.select('entity_id')
               .distinct
               .pluck(:entity_id)
+  end
+
+  def visible_shared_work_package_memberships
+    Member.where(entity_type: 'WorkPackage',
+                 project: Project.allowed_to(User.current, :view_shared_work_packages))
   end
 end
