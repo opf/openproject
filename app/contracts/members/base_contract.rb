@@ -72,13 +72,16 @@ module Members
     end
 
     def user_allowed_to_manage?
-      user.allowed_to?(:manage_members,
-                       model.project,
-                       global: model.project.nil?)
+      if model.project
+        user.allowed_in_project?(:manage_members, model.project)
+      else
+        # TODO: Check if this is really needed
+        user.allowed_in_any_project?(:manage_members)
+      end
     end
 
     def project_manageable_or_blank?
-      !model.project || user.allowed_to?(:manage_members, model.project)
+      !model.project || user.allowed_in_project?(:manage_members, model.project)
     end
 
     def project_set_or_admin?
