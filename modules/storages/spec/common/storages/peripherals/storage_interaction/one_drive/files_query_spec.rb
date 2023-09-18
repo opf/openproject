@@ -51,14 +51,17 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
   end
 
   it 'returns an array of StorageFile' do
-    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference")
+    stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children#{described_class::FIELDS}")
       .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
       .to_return(status: 200, body: json, headers: {})
 
     storage_files = described_class.call(storage:, user:, folder: nil).result
 
-    expect(storage_files).to all(be_a(Storages::StorageFile))
-    one_file = storage_files[10]
+    expect(storage_files).to be_a(Storages::StorageFiles)
+    expect(storage_files.ancestors).to be_empty
+    expect(storage_files.parent.name).to eq("Root")
+
+    one_file = storage_files.files[10]
 
     expect(one_file.to_h).to eq({ id: '01BYE5RZZ6FUE5272C5JCY3L7CLZ7XOUYM',
                                   name: "All Japan Revenues By City.xlsx",
@@ -68,38 +71,64 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
                                   last_modified_at: Time.parse("2017-08-07T16:07:10Z"),
                                   created_by_name: "Megan Bowen",
                                   last_modified_by_name: "Megan Bowen",
-                                  location: "/drive/root:",
+                                  location: "/",
                                   permissions: nil })
   end
 
   it 'when the argument folder is nil, gets information from that users root folder' do
-    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference")
+    stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children#{described_class::FIELDS}")
       .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
       .to_return(status: 200, body: json, headers: {})
 
     storage_files = described_class.call(storage:, user:, folder: nil).result
 
-    expect(storage_files.size).to eq(38)
+    expect(storage_files.files.size).to eq(38)
+    expect(storage_files.parent.name).to eq("Root")
+    expect(storage_files.ancestors).to be_empty
   end
 
   context 'when accessing a specific folder' do
     let(:json) { read_json('specific_folder') }
 
     it 'uses the specific drive url' do
-      uri = "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference"
+      uri = "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY/children#{described_class::FIELDS}"
       stub_request(:get, uri)
         .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
         .to_return(status: 200, body: json, headers: {})
 
       storage_files = described_class.call(storage:, user:, folder: '01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY').result
 
-      expect(storage_files.size).to eq(22)
+      expect(storage_files.files.size).to eq(22)
+      expect(storage_files.parent.name).to eq('Class Documents')
+
+      expect(storage_files.ancestors.size).to eq(1)
+    end
+  end
+
+  context 'when accessing a folder two levels deep in the hierarchy' do
+    let(:payload) { read_json('two_levels_deep_folder') }
+    let(:storage) do
+      create(:one_drive_storage,
+             :with_oauth_client,
+             drive_id: 'b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd')
+    end
+
+    it 'has one ancestors and one parent' do
+      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN/children#{described_class::FIELDS}")
+        .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
+        .to_return(status: 200, body: payload, headers: {})
+
+      storage_files = described_class.call(storage:, user:, folder: "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN").result
+
+      expect(storage_files.ancestors.size).to eq(2)
+      expect(storage_files.ancestors.map(&:location)).to contain_exactly("/", "/Contoso Clothing")
+      expect(storage_files.parent.name).to eq('Clothing Articles')
     end
   end
 
   describe 'error handling' do
     it 'returns a notfound error if the API call returns a 404' do
-      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference")
+      stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children#{described_class::FIELDS}")
         .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
         .to_return(status: 404, body: '', headers: {})
 
@@ -111,7 +140,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
     end
 
     it 'retries authentication when it returns a 401' do
-      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference")
+      stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children#{described_class::FIELDS}")
         .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
         .to_return(status: 401, body: '', headers: {})
 
