@@ -29,7 +29,7 @@
 class MeetingAgendaItemsController < ApplicationController
   include AttachableServiceCall
   include OpTurbo::ComponentStream
-  include AgendaComponentStreams
+  include Meetings::AgendaComponentStreams
   include ApplicationComponentStreams
 
   before_action :set_meeting

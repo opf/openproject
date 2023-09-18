@@ -45,7 +45,7 @@ class MeetingsController < ApplicationController
 
   include OpTurbo::ComponentStream
   include ApplicationComponentStreams
-  include AgendaComponentStreams
+  include Meetings::AgendaComponentStreams
 
   menu_item :new_meeting, only: %i[new create]
 
