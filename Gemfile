@@ -210,6 +210,11 @@ gem 'view_component'
 # Lookbook
 gem 'lookbook', '~> 2.0.5'
 
+# Require factory_bot for usage with openproject plugins testing
+gem 'factory_bot', '~> 6.2.0', require: false
+# require factory_bot_rails for convenience in core development
+gem 'factory_bot_rails', '~> 6.2.0', require: false
+
 gem 'turbo-rails', "~> 1.1"
 
 group :test do
@@ -288,10 +293,6 @@ end
 
 group :development, :test do
   gem 'dotenv-rails'
-  # Require factory_bot for usage with openproject plugins testing
-  gem 'factory_bot', '~> 6.2.0'
-  # require factory_bot_rails for convenience in core development
-  gem 'factory_bot_rails', '~> 6.2.0'
 
   # Tracing and profiling gems
   gem 'flamegraph', require: false

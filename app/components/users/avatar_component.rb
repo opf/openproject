@@ -32,15 +32,13 @@ module Users
     include AvatarHelper
     include OpPrimer::ComponentHelpers
 
-    def initialize(user:, show_name: true, link: true, size: 'default', avatar_system_attribues: {}, text_system_attributes: {})
+    def initialize(user:, show_name: true, link: true, size: 'default')
       super
 
       @user = user
       @show_name = show_name
       @link = link
       @size = size
-      @avatar_system_attribues = avatar_system_attribues
-      @text_system_attributes = text_system_attributes
     end
 
     def render?
@@ -48,7 +46,12 @@ module Users
     end
 
     def call
-      helpers.avatar(@user, size: @size, hide_name: !@show_name)
+      helpers.avatar(
+        @user,
+        size: @size,
+        link: @link,
+        hide_name: !@show_name
+      )
     end
   end
 end

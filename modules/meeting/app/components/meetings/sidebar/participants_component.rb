@@ -163,9 +163,7 @@ module Meetings
       flex_layout(align_items: :center) do |flex|
         flex.with_column do
           render(Users::AvatarComponent.new(user: participant.user,
-                                            text_system_attributes: {
-                                              font_size: :normal, muted: false
-                                            }))
+                                            size: :medium))
         end
         participant_state_partial(participant, flex)
       end

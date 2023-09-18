@@ -103,6 +103,7 @@ module AvatarHelper
                           class: tag_options[:class],
                           inputs: {
                             principal:,
+                            link: tag_options[:link],
                             size: tag_options[:size],
                             hideName: tag_options[:hide_name]
                           }

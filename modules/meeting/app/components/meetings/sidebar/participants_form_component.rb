@@ -123,9 +123,6 @@ module Meetings
         flex.with_column(flex: 1) do
           render(Users::AvatarComponent.new(
                    user: participant.user,
-                   text_system_attributes: {
-                     font_size: :normal, muted: false
-                   }
                  ))
         end
         flex.with_column(style: "width: 90px;", text_align: :center) do
@@ -176,9 +173,6 @@ module Meetings
         flex.with_column(flex: 1) do
           render(Users::AvatarComponent.new(
                    user:,
-                   text_system_attributes: {
-                     font_size: :normal, muted: false
-                   }
                  ))
         end
         flex.with_column(style: "width: 90px;", text_align: :center) do

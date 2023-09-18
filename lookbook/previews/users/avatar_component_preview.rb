@@ -1,12 +1,21 @@
 # frozen_string_literal: true
 
 # @logical_path OpenProject
-class ToolbarComponentPreview < Lookbook::Preview
-  # A toolbar that can and should be used for actions on the current view.
-  # Initially designed for the Work package list, this can be reused throughout the application.
-  def default; end
+module Users
+  class AvatarComponentPreview < Lookbook::Preview
 
-  def with_form_elements; end
+    # Renders a user avatar using the OpenProject opce-principal web component
+    # @param size select { choices: [default, medium, mini] }
+    # @param link toggle
+    # @param show_name toggle
+    def default(size: :default, link: true, show_name: true)
+      user = FactoryBot.build_stubbed(:user)
+      render(Users::AvatarComponent.new(user:, size:, link:, show_name:))
+    end
 
-  def with_labelled_form_elements; end
+    def sizes
+      user = FactoryBot.build_stubbed(:user)
+      render_with_template(locals: { user: })
+    end
+  end
 end
