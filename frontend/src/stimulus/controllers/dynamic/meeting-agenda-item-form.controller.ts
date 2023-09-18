@@ -44,6 +44,7 @@ export default class extends Controller {
     const titleInput = this.element.querySelector('input[name="meeting_agenda_item[title]"]');
 
     setTimeout(() => {
+      this.element.scrollIntoView();
       if (titleInput) {
         (titleInput as HTMLInputElement).focus();
       }
