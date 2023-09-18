@@ -22,7 +22,7 @@
 ru:
   plugin_costs:
     name: "Время и затраты"
-    description: "This module adds features for planning and tracking costs of projects."
+    description: "Этот модуль добавляет возможности для планирования и отслеживания затрат на проекты."
   activerecord:
     attributes:
       cost_entry:

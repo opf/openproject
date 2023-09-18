@@ -35,11 +35,13 @@ module API::V3::StorageFiles
 
     resources :files do
       get do
-        Storages::Peripherals::Registry.resolve("queries.#{@storage.short_provider_type}.files")
+        Storages::Peripherals::Registry
+          .resolve("queries.#{@storage.short_provider_type}.files")
           .call(
             storage: @storage,
             user: current_user, folder: params[:parent]
-          ).match(
+          )
+          .match(
             on_success: ->(files) { API::V3::StorageFiles::StorageFilesRepresenter.new(files, @storage, current_user:) },
             on_failure: ->(error) { raise_error(error) }
           )
@@ -47,24 +49,16 @@ module API::V3::StorageFiles
 
       route_param :file_id, type: String, desc: 'Storage file id' do
         get do
-          service_result = Storages::Peripherals::Registry.resolve("queries.#{@storage.short_provider_type}.files_info")
-            .call(
-              storage: @storage,
-              user: current_user, file_ids: [params[:file_id]]
-            ).map(&:first)
-
-          if service_result.success? && service_result.result.status_code == 403
-            storage_error = Storages::StorageError.new(code: :forbidden, log_message: 'no access to file', data: nil)
-            service_result = ServiceResult.failure(result: :forbidden, errors: storage_error)
-          end
-
-          service_result.map { |file_info| to_storage_file(file_info) }
-                        .match(
-                          on_success: ->(storage_file) {
-                            API::V3::StorageFiles::StorageFileRepresenter.new(storage_file, @storage, current_user:)
-                          },
-                          on_failure: ->(error) { raise_error(error) }
-                        )
+          Storages::Peripherals::Registry
+            .resolve("queries.#{@storage.short_provider_type}.file_info")
+            .call(storage: @storage, user: current_user, file_id: params[:file_id])
+            .map { |file_info| to_storage_file(file_info) }
+            .match(
+              on_success: ->(storage_file) {
+                API::V3::StorageFiles::StorageFileRepresenter.new(storage_file, @storage, current_user:)
+              },
+              on_failure: ->(error) { raise_error(error) }
+            )
         end
       end
 
@@ -80,11 +74,10 @@ module API::V3::StorageFiles
         end
 
         validate.call(request_body) >> ->(data) do
-          Storages::Peripherals::Registry.resolve("queries.#{@storage.short_provider_type}.upload_link")
-            .call(
-              storage: @storage,
-              user: current_user, data:
-            ).match(
+          Storages::Peripherals::Registry
+            .resolve("queries.#{@storage.short_provider_type}.upload_link")
+            .call(storage: @storage, user: current_user, data:)
+            .match(
               on_success: ->(link) { API::V3::StorageFiles::StorageUploadLinkRepresenter.new(link, current_user:) },
               on_failure: ->(error) { raise_error(error) }
             )

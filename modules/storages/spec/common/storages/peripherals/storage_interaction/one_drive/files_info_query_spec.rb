@@ -31,7 +31,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQuery, webmock: true do
+RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQuery, :webmock do
   include JsonResponseHelper
 
   let(:storage) do
@@ -47,21 +47,11 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
       01BYE5RZZ6FUE5272C5JCY3L7CLZ7XOUYM
       01BYE5RZ47DTJGHO73WBH2ONNXQZVNNILJ
       not_existent
+      forbidden
     )
   end
-  let(:not_found_json) do
-    {
-      error: {
-        code: 'itemNotFound',
-        message: 'The resource could not be found.',
-        innerError: {
-          date: '2023-09-08T08:20:55',
-          'request-id': '286b0215-7f33-46dc-b1fe-67720fe1616a',
-          'client-request-id': '286b0215-7f33-46dc-b1fe-67720fe1616a'
-        }
-      }
-    }.to_json
-  end
+  let(:not_found_json) { not_found_response }
+  let(:forbidden_json) { forbidden_response }
 
   before do
     stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_ids[0]}")
@@ -76,6 +66,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
     stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_ids[3]}")
       .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
       .to_return(status: 404, body: not_found_json, headers: {})
+    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_ids[4]}")
+      .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
+      .to_return(status: 403, body: forbidden_json, headers: {})
   end
 
   it 'responds to .call' do
@@ -97,7 +90,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
     # rubocop:disable Layout/LineLength
     expect(storage_file_info.to_h).to eq({
                                            status: 'ok',
-                                           status_code: '200',
+                                           status_code: 200,
                                            id: '01BYE5RZ5MYLM2SMX75ZBIPQZIHT6OAYPB',
                                            name: 'Business Data',
                                            size: 39566226,
@@ -121,7 +114,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
     # rubocop:disable Layout/LineLength
     expect(storage_file_info.to_h).to eq({
                                            status: 'ok',
-                                           status_code: '200',
+                                           status_code: 200,
                                            id: '01BYE5RZZ6FUE5272C5JCY3L7CLZ7XOUYM',
                                            name: 'All Japan Revenues By City.xlsx',
                                            size: 20051,
@@ -139,13 +132,35 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
     # rubocop:enable Layout/LineLength
   end
 
-  it 'returns an error storage file info object' do
+  it 'returns an error storage file info object for not found' do
     storage_file_info = described_class.call(storage:, user:, file_ids: file_ids.slice(3, 1)).result[0]
 
     expect(storage_file_info.to_h).to eq({
                                            status: 'itemNotFound',
-                                           status_code: '404',
+                                           status_code: 404,
                                            id: 'not_existent',
+                                           name: nil,
+                                           size: nil,
+                                           mime_type: nil,
+                                           created_at: nil,
+                                           last_modified_at: nil,
+                                           owner_name: nil,
+                                           owner_id: nil,
+                                           last_modified_by_id: nil,
+                                           last_modified_by_name: nil,
+                                           permissions: nil,
+                                           trashed: nil,
+                                           location: nil
+                                         })
+  end
+
+  it 'returns an error storage file info object for forbidden' do
+    storage_file_info = described_class.call(storage:, user:, file_ids: file_ids.slice(4, 1)).result[0]
+
+    expect(storage_file_info.to_h).to eq({
+                                           status: 'accessDenied',
+                                           status_code: 403,
+                                           id: 'forbidden',
                                            name: nil,
                                            size: nil,
                                            mime_type: nil,
@@ -174,19 +189,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
 
       expect(storage_files).to be_failure
       expect(storage_files.result).to eq(:error)
-      expect(storage_files.errors.to_s).to eq(Storages::StorageError.new(code: :error).to_s)
-    end
-
-    it 'returns a :not_authorized error if any API call returns a 401' do
-      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_ids[0]}")
-        .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
-        .to_return(status: 401, body: '', headers: {})
-
-      storage_files = described_class.call(storage:, user:, file_ids: file_ids.slice(0, 1))
-
-      expect(storage_files).to be_failure
-      expect(storage_files.result).to eq(:not_authorized)
-      expect(storage_files.errors.to_s).to eq(Storages::StorageError.new(code: :not_authorized).to_s)
+      expect(storage_files.errors.to_s).to eq('error | File IDs can not be nil')
     end
   end
 end

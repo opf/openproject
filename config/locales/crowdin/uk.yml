@@ -2444,6 +2444,7 @@ uk:
   permission_view_news: "View news"
   permission_view_members: "Перегляд учасників"
   permission_view_reportings: "Перегляд звітів"
+  permission_view_shared_work_packages: "View shared work packages"
   permission_view_time_entries: "Перегляд трудовитрат"
   permission_view_timelines: "Переглянути часові рамки"
   permission_view_wiki_edits: "Перегляд історії wiki"

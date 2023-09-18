@@ -91,7 +91,7 @@ gem 'escape_utils', '~> 1.3'
 # Syntax highlighting used in html-pipeline with rouge
 gem 'rouge', '~> 4.1.0'
 # HTML sanitization used for html-pipeline
-gem 'sanitize', '~> 6.0.2'
+gem 'sanitize', '~> 6.1.0'
 # HTML autolinking for mails and urls (replaces autolink)
 gem 'rinku', '~> 2.0.4', require: %w[rinku rails_rinku]
 # Version parsing with semver
@@ -359,6 +359,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-primer_view_components", '~>0.9.1'
+gem "openproject-primer_view_components", '~>0.10.0'
 gem "openproject-octicons", '~>19.7.0'
 gem "openproject-octicons_helper", '~>19.7.0'

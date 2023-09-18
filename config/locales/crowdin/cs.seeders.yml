@@ -43,22 +43,22 @@ cs:
           name: Ostatní
       work_package_roles:
         item_0:
-          name: Work Package Editor
+          name: Editor pracovních balíčků
         item_1:
-          name: Work Package Commenter
+          name: Komentář pracovního balíčku
         item_2:
-          name: Work Package Viewer
+          name: Prohlížeč pracovních balíčků
       project_roles:
         item_0:
-          name: Non member
+          name: Není člen
         item_1:
-          name: Anonymous
+          name: Anonymní
         item_2:
-          name: Member
+          name: Člen
         item_3:
           name: Reader
         item_4:
-          name: Project admin
+          name: Správce projektu
       global_roles:
         item_0:
           name: Staff and projects manager

@@ -39,6 +39,20 @@ def headless_mode?
   !headful_mode?
 end
 
+module WindowResolutionManagement
+  DIMENSION_SEPARATOR = 'x'
+
+  class << self
+    # @param [String] resolution, "1920x1080"
+    # @return [Array<Int,Int>] width and height representation of the resolution, [1920, 1080]
+    def extract_dimensions(resolution)
+      resolution.downcase
+                .split(DIMENSION_SEPARATOR)
+                .map(&:to_i)
+    end
+  end
+end
+
 # Customize browser download path until https://github.com/rubycdp/cuprite/pull/217 is released.
 module SetCupriteDownloadPath
   def initialize(app, options = {})
@@ -53,9 +67,14 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
     options = {
       process_timeout: 10,
       inspector: true,
-      headless: headless_mode?
+      headless: headless_mode?,
+      window_size: [1920, 1080]
     }
-    options = options.merge(window_size: [1920, 1080])
+
+    if headful_mode? && ENV['CAPYBARA_WINDOW_RESOLUTION']
+      window_size = WindowResolutionManagement.extract_dimensions(ENV['CAPYBARA_WINDOW_RESOLUTION'])
+      options = options.merge(window_size:)
+    end
 
     if ENV['CHROME_URL'].present?
       options = options.merge(url: ENV['CHROME_URL'])

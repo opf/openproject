@@ -153,6 +153,7 @@ RSpec.describe 'Calendar query handling', js: true do
     it_behaves_like 'module specific query view management' do
       let(:module_page) { calendar_page }
       let(:default_name) { 'Unnamed calendar' }
+      let(:initial_filter_count) { 1 }
     end
   end
 end
