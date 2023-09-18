@@ -30,18 +30,10 @@ module OpTurbo
   module ComponentStream
     extend ActiveSupport::Concern
 
-    included do
-      before_action :initialize_streams
-    end
-
-    def initialize_streams
-      @turbo_streams = []
-    end
-
     def respond_to_with_turbo_streams(&format_block)
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: @turbo_streams
+          render turbo_stream: turbo_streams
         end
 
         format_block.call(format) if block_given?
@@ -62,18 +54,22 @@ module OpTurbo
     end
 
     def modify_via_turbo_stream(component:, action:)
-      @turbo_streams << component.render_as_turbo_stream(
+      turbo_streams << component.render_as_turbo_stream(
         view_context:,
         action:
       )
     end
 
     def append_via_turbo_stream(component:, target_component:)
-      @turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:, action: :append)
+      turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:, action: :append)
     end
 
     def prepend_via_turbo_stream(component:, target_component:)
-      @turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:, action: :prepend)
+      turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:, action: :prepend)
+    end
+
+    def turbo_streams
+      @turbo_streams ||= []
     end
   end
 end
