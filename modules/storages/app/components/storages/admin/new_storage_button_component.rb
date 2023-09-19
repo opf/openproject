@@ -34,21 +34,17 @@ module Storages::Admin
             size: :medium,
             tag: :a
 
-    def call
-      render(Primer::Beta::Button.new(**button_options)) do |button|
-        button.with_leading_visual_icon(icon: :plus)
-        label
-      end
-    end
-
     private
 
     def button_options
-      { scheme:,
-        size:, tag:,
+      {
+        scheme:,
+        size:,
+        tag:,
+        role: :button,
         href: new_admin_settings_storage_path,
-        aria: { label: },
-        title: label }
+        aria: { label: I18n.t("storages.label_add_new_storage") }
+      }
     end
 
     def label

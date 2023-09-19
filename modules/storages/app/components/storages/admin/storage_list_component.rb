@@ -32,60 +32,23 @@ module Storages::Admin
   class StorageListComponent < ApplicationComponent
     alias_method :storages, :model
 
-    def call
-      render(BorderBoxComponent.new(padding: :default, scheme: :default)) do |component|
-        header_slot(component)
-        rows_slot(component)
-      end
-    end
-
-    def header_slot(component)
-      component.with_header do |header|
-        header.with_title(tag: :h2) do
-          header_title
-        end
-      end
-    end
-
-    def rows_slot(component)
-      storages.map do |storage|
-        component.with_row(scheme: :default, id: storage_row_css_id(storage)) do
-          storage_row(storage)
-        end
-      end
-    end
-
     private
-
-    def storage_row(storage)
-      storage_name_div(storage) +
-        div_tag(storage_creator(storage)) +
-        div_tag(storage.provider_type) +
-        div_tag(storage.host)
-    end
-
-    def storage_name_div(storage)
-      div_tag(
-        storage_name(storage) +
-          span_tag("Created on #{storage.created_at.to_fs(:long)}")
-      )
-    end
 
     def storage_row_css_id(storage)
       helpers.dom_id storage
     end
 
-    def header_title
-      helpers.pluralize(storages.size, I18n.t("storages.label_storage"))
-    end
-
-    def storage_name(storage)
+    def formatted_storage_name(storage)
       if storage.configured?
         span_tag(storage.name)
       else
         render(Primer::Beta::Octicon.new(:'alert-fill', size: :small, color: :severe)) +
           span_tag(storage.name, classes: 'pl-2')
       end
+    end
+
+    def formatted_datetime(storage)
+      span_tag(" #{I18n.t('activity.item.created_on', datetime: helpers.format_time(storage.created_at.to_fs(:long)))}")
     end
 
     def storage_creator(storage)
@@ -104,15 +67,6 @@ module Storages::Admin
 
     def base_component_tag(item, tag:, **)
       render(Primer::BaseComponent.new(tag:, **)) { item }
-    end
-  end
-
-  class BorderBoxComponent < Primer::Beta::BorderBox
-    def before_render
-      super
-
-      # Remove the _base.sass margin-left from <ul> tag
-      @list_arguments[:classes] = "ml-0"
     end
   end
 end

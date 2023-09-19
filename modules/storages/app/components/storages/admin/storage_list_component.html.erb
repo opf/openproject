@@ -1,0 +1,20 @@
+<%=
+  render(Primer::Beta::BorderBox.new) do |component|
+    component.with_header do |header|
+      header.with_title(tag: :h3) do
+        I18n.t('storages.count', count: storages.size)
+      end
+    end
+    storages.map do |storage|
+      component.with_row(scheme: :default, id: storage_row_css_id(storage)) do
+        div_tag(
+          formatted_storage_name(storage) +
+            formatted_datetime(storage)
+        ) +
+          div_tag(storage_creator(storage)) +
+          div_tag(storage.provider_type) +
+          div_tag(storage.host)
+      end
+    end
+  end
+%>
