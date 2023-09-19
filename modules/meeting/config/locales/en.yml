@@ -174,3 +174,6 @@ en:
   label_meeting_add_participants: "Add participants"
 
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
+
+  label_add_work_package_to_meeting_dialog_title: "Add work package to meeting"
+  label_add_work_package_to_meeting_dialog_button: "Add to meeting"

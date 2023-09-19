@@ -31,6 +31,19 @@ OpenProject::Application.routes.draw do
     resources :meetings, only: %i[index new create]
   end
 
+  resources :work_packages, only: %i[] do
+    resources :meetings, only: %i[] do
+      collection do
+        resources :tab, only: %i[index], controller: 'work_package_meetings_tab', as: 'meetings_tab'
+      end
+    end
+    resources :meeting_agenda_items, only: %i[] do
+      collection do
+        post :create, controller: 'work_package_meetings_tab', action: :add_work_package_to_meeting
+      end
+    end
+  end
+
   resources :meetings do
     member do
       get :cancel_edit
