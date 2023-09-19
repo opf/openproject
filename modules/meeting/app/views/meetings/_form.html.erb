@@ -35,6 +35,52 @@ See COPYRIGHT and LICENSE files for more details.
     <%= f.text_field :title, :required => true, :size => 60, container_class: '-wide' %>
   </div>
 
+  <div class="form--field -required -align-start">
+    <label class="form--label" for="meeting_type"><%= Meeting.human_attribute_name(:type) %></label>
+    <div class="form--field-container">
+      <div class="op-tile-block">
+        <label class="op-tile-block--tile form--radio-button-container -wide"
+               for="meeting_type_classic"
+               data-test-selector="op-tile-block">
+          <div class="op-tile-block--content">
+            <%= styled_radio_button_tag 'meeting[type]',
+                                        'classic',
+                                        true,
+                                        no_label: true,
+                                        class: 'radio-button' %>
+            <div>
+              <span data-test-selector="op-tile-block-title" class="op-tile-block--title">
+                <%= t('meeting.types.classic') %>
+              </span>
+              <p class="op-tile-block--description">
+                <%= t('meeting.types.classic_text') %>
+              </p>
+            </div>
+          </div>
+        </label>
+        <label class="op-tile-block--tile form--radio-button-container -wide"
+               for="meeting_type_structured"
+               data-test-selector="op-tile-block">
+          <div class="op-tile-block--content">
+            <%= styled_radio_button_tag 'meeting[type]',
+                                        'structured',
+                                        false,
+                                        no_label: true,
+                                        class: 'radio-button' %>
+            <div>
+              <span data-test-selector="op-tile-block-title" class="op-tile-block--title">
+                <%= t('meeting.types.structured') %>
+              </span>
+              <p class="op-tile-block--description">
+                <%= t('meeting.types.structured_text') %>
+              </p>
+            </div>
+          </div>
+        </label>
+      </div>
+    </div>
+  </div>
+
   <% if global_meeting_create_context? %>
     <div class="form--field -required">
       <label class="form--label" for="project_id"><%= Meeting.human_attribute_name(:project) %>:</label>
