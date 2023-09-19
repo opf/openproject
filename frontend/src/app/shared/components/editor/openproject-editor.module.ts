@@ -43,6 +43,7 @@ import { EditorMacrosService } from 'core-app/shared/components/modals/editor/ed
 import { WikiIncludePageMacroModalComponent } from 'core-app/shared/components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal';
 import { ChildPagesMacroModalComponent } from 'core-app/shared/components/modals/editor/macro-child-pages-modal/child-pages-macro.modal';
 import { CodeBlockMacroModalComponent } from 'core-app/shared/components/modals/editor/macro-code-block-modal/code-block-macro.modal';
+import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-elements.helper';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -81,4 +82,7 @@ export function initializeServices(injector:Injector) {
   ],
 })
 export class OpenprojectEditorModule {
+  constructor(injector:Injector) {
+    registerCustomElement('opce-ckeditor-augmented-textarea', CkeditorAugmentedTextareaComponent, { injector });
+  }
 }

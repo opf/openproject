@@ -26,22 +26,22 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+// Re-apply the primer styles with higher specificity
+// as the OpenProject form styles override them.
 
-html, body
-  height: 100%
+.Box
+  ul
+    margin-left: 0
+segmented-control
+  ul
+    margin-left: 0
+.FormControl
+  label
+    margin-bottom: 0
+  input
+    border-radius: 6px
 
-// Set box-sizing globally to handle padding and border widths
-html
-  box-sizing: border-box
-
-*, *:before, *:after
-  box-sizing: inherit
-
-body
-  // avoid applying font-family from primer
-  font-family: var(--body-font-family) !important
-  font-size: var(--body-font-size)
-
-ul,
-ol
-  margin-left: 2rem
+action-menu
+  anchored-position
+    ul
+      margin-left: 0

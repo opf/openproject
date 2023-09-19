@@ -26,22 +26,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-
-html, body
-  height: 100%
-
-// Set box-sizing globally to handle padding and border widths
-html
-  box-sizing: border-box
-
-*, *:before, *:after
-  box-sizing: inherit
-
-body
-  // avoid applying font-family from primer
-  font-family: var(--body-font-family) !important
-  font-size: var(--body-font-size)
-
-ul,
-ol
-  margin-left: 2rem
+.ng-select
+  &.ng-select--primerized
+    .ng-select-container
+      border-radius: 6px
+      height: 28px !important
+      min-height: 28px !important
