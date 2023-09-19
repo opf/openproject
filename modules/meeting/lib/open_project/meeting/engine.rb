@@ -49,7 +49,10 @@ module OpenProject::Meeting
                    require: :member,
                    contract_actions: { meetings: %i[create] }
         permission :edit_meetings,
-                   { meetings: %i[edit cancel_edit update update_title update_details update_participants] },
+                   {
+                     meetings: %i[edit cancel_edit update update_title update_details update_participants],
+                     meeting_agenda_items: %i[new cancel_new create edit cancel_edit update destroy drop move]
+                   },
                    permissible_on: :project,
                    require: :member
         permission :delete_meetings,
@@ -63,7 +66,6 @@ module OpenProject::Meeting
         permission :create_meeting_agendas,
                    {
                      meeting_agendas: %i[update preview],
-                     meeting_agenda_items: %i[new cancel_new create edit cancel_edit update destroy drop move]
                    },
                    permissible_on: :project,
                    require: :member
@@ -110,7 +112,7 @@ module OpenProject::Meeting
 
       should_render_global_menu_item = Proc.new do
         (User.current.logged? || !Setting.login_required?) &&
-        User.current.allowed_to_globally?(:view_meetings)
+          User.current.allowed_to_globally?(:view_meetings)
       end
 
       menu :top_menu,

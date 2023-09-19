@@ -44,7 +44,7 @@ RSpec.describe 'Structured meetings CRUD',
     create(:user,
            lastname: 'First',
            member_in_project: project,
-           member_with_permissions: %i[view_meetings create_meetings create_meeting_agendas delete_meetings view_work_packages]).tap do |u|
+           member_with_permissions: %i[view_meetings create_meetings edit_meetings delete_meetings view_work_packages]).tap do |u|
       u.pref[:time_zone] = 'utc'
 
       u.save!

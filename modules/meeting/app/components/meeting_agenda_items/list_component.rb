@@ -89,7 +89,6 @@ module MeetingAgendaItems
             end
           end
         end
-        # component.with_primary_action(href: "#").with_content(t("label_meeting_empty_action"))
       end
     end
 

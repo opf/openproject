@@ -53,11 +53,11 @@ module MeetingAgendaItems
     private
 
     def drag_and_drop_enabled?
-      @meeting.open? && User.current.allowed_to?(:create_meeting_agendas, @meeting.project)
+      @meeting.open? && User.current.allowed_to?(:edit_meetings, @meeting.project)
     end
 
     def edit_enabled?
-      @meeting.open? && User.current.allowed_to?(:create_meeting_agendas, @meeting.project)
+      @meeting.open? && User.current.allowed_to?(:edit_meetings, @meeting.project)
     end
 
     def first_row_partial
