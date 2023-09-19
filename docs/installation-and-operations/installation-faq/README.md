@@ -52,7 +52,13 @@ Your Mac will have to be reachable from the Internet if you want to collaborate 
 
 ### Does the OpenProject docker container run on ARM technology like Apple M1 or Raspberry PI? 
 
-At the moment, OpenProject is supported only on x86-x64 technology (Intel). The Development of OpenProject started 2010, when ARM was out of scope for being supported. With strong ARM processors this might change in the future, but at the moment the only possible solution is to build OpenProject from source on your ARM hardware. OpenProject does not support ARM at the moment.
+Starting with OpenProject 12.5.6 we publish our containers for three architectures.
+
+1. AMD64 (x86)
+2. ARM64
+3. PPC64
+
+However, the OpenProject **BIM Edition** is only supported on AMD64.
 
 ### Can I install OpenProject offline?
 

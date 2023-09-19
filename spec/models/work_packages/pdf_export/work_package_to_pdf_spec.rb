@@ -80,6 +80,11 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
     end
   end
 
+  def get_column_value(column_name)
+    formatter = Exports::Register.formatter_for(WorkPackage, column_name, :pdf)
+    formatter.format(work_package)
+  end
+
   subject(:pdf) do
     content = export_pdf.content
     # File.binwrite('WorkPackageToPdf-test-preview.pdf', content)
@@ -91,14 +96,16 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
 
   describe 'with a request for a PDF' do
     it 'contains correct data' do
+      details = Query.available_columns(work_package.project)
+                       .reject { |column| %i[subject project].include?(column.name) }
+                       .flat_map do |column|
+        value = get_column_value(column.name)
+        value.blank? ? [] : [column.caption.upcase, value]
+      end
+
       expect(pdf[:strings]).to eq([
                                     "#{type.name} ##{work_package.id} - #{work_package.subject}",
-                                    column_title(:id), work_package.id.to_s,
-                                    column_title(:updated_at), export_time_formatted,
-                                    column_title(:type), type.name,
-                                    column_title(:created_at), export_time_formatted,
-                                    column_title(:status), work_package.status.name,
-                                    column_title(:priority), work_package.priority.name,
+                                    *details,
                                     label_title(:description),
                                     'Lorem', ' ', 'ipsum', ' ', 'dolor', ' ', 'sit', ' ',
                                     'amet', ', consetetur sadipscing elitr.', ' ', '@OpenProject Admin',
