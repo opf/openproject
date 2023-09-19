@@ -44,7 +44,7 @@ module Pages::Messages
       find('.ck-content').base.send_keys text
     end
 
-    def click_save
+    def click_save(expect_success: true)
       click_button 'Create'
     end
 
