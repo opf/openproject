@@ -31,8 +31,29 @@ require_relative "../spec_helper"
 RSpec.describe MeetingAgendaItem do
   subject { described_class.new(attributes) }
 
+  describe '#author' do
+    let(:attributes) { { title: 'foo', author: } }
+
+    context 'when author is missing' do
+      let(:author) { nil }
+
+      it 'validates' do
+        expect(subject).not_to be_valid
+        expect(subject.errors[:author]).to include "must exist"
+      end
+    end
+
+    context 'when author is present' do
+      let(:author) { build_stubbed(:user) }
+
+      it 'validates' do
+        expect(subject).to be_valid
+      end
+    end
+  end
+
   describe '#duration' do
-    let(:attributes) { { title: 'foo', duration_in_minutes: } }
+    let(:attributes) { { title: 'foo', author: build_stubbed(:user), duration_in_minutes: } }
 
     context 'with a valid duration' do
       let(:duration_in_minutes) { 60 }
