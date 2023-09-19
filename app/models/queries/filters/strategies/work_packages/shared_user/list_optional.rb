@@ -29,12 +29,14 @@
 module Queries::Filters::Strategies
   module WorkPackages
     module SharedUser
-      class ListOptional < ::Queries::Filters::Strategies::ListOptional
+      class ListOptional < ::Queries::Filters::Strategies::List
+        self.supported_operators = %w[= &= *]
+
         def operator_map
           super.dup.tap do |super_value|
-            super_value['='] = ::Queries::Operators::Equals
+            super_value['='] = ::Queries::Operators::EqualsOr
+            super_value['&='] = ::Queries::Operators::WorkPackages::SharedUser::EqualsAll
             super_value['*'] = ::Queries::Operators::WorkPackages::SharedUser::Any
-            super_value['!*'] = ::Queries::Operators::WorkPackages::SharedUser::None
           end
         end
       end

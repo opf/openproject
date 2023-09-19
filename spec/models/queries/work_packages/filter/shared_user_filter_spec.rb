@@ -31,20 +31,40 @@ require 'spec_helper'
 RSpec.describe Queries::WorkPackages::Filter::SharedUserFilter do
   create_shared_association_defaults_for_work_package_factory
 
-  describe 'where filter results' do
-    shared_let(:shared_with_user) { create(:user) }
-
-    shared_let(:non_shared_work_package) { create(:work_package) }
-
-    shared_let(:shared_work_package) { create(:work_package) }
+  describe '#scope' do
     shared_let(:work_package_role) { create(:work_package_role, permissions: %i[blurgh]) }
-    shared_let(:work_package_membership) do
-      create(:member,
-             user: shared_with_user,
-             project: project_with_types,
-             entity: shared_work_package,
-             roles: [work_package_role])
+
+    shared_let(:shared_with_user) { create(:user) }
+    shared_let(:other_shared_with_user) { create(:user) }
+    shared_let(:non_shared_with_user) { create(:user) }
+
+    shared_let(:shared_work_package) do
+      create(:work_package) do |wp|
+        create(:member,
+               user: shared_with_user,
+               project: project_with_types,
+               entity: wp,
+               roles: [work_package_role])
+      end
     end
+    shared_let(:other_shared_work_package) do
+      create(:work_package) do |wp|
+        create(:member,
+               user: other_shared_with_user,
+               project: project_with_types,
+               entity: wp,
+               roles: [work_package_role])
+      end
+    end
+
+    def grant_viewing_permissions
+      role = create(:role, permissions: %i[view_shared_work_packages])
+      user.memberships << create(:member,
+                                 project: project_with_types,
+                                 roles: [role])
+    end
+
+    before_all { grant_viewing_permissions }
 
     let(:instance) do
       described_class.create!.tap do |filter|
@@ -53,17 +73,24 @@ RSpec.describe Queries::WorkPackages::Filter::SharedUserFilter do
       end
     end
 
-    subject { WorkPackage.where(instance.where) }
+    subject { instance.scope }
+
+    current_user { user }
 
     context 'with a "=" operator' do
       let(:operator) { '=' }
 
-      context 'for a user value' do
-        before do
-          login_as(user)
-        end
+      context 'for a list of users when none were shared a work package' do
+        let(:values) { [non_shared_with_user.id.to_s, user.id.to_s] }
 
-        let(:values) { [shared_with_user.id.to_s] }
+        it 'does not return any work package' do
+          expect(subject)
+            .to be_empty
+        end
+      end
+
+      context 'for a list of users where at least one was shared a work package' do
+        let(:values) { [shared_with_user.id.to_s, non_shared_with_user.id.to_s] }
 
         it 'returns the shared work package' do
           expect(subject)
@@ -71,9 +98,14 @@ RSpec.describe Queries::WorkPackages::Filter::SharedUserFilter do
         end
       end
 
-      context 'for a list of users where at least one was shared a work package' do
+      context 'for a list of users where all were shared the same work package' do
         before do
-          login_as(user)
+          user.memberships << create(:member,
+                                     user:,
+                                     entity: shared_work_package,
+                                     project: project_with_types,
+                                     roles: [work_package_role])
+          user.save!
         end
 
         let(:values) { [shared_with_user.id.to_s, user.id.to_s] }
@@ -84,102 +116,73 @@ RSpec.describe Queries::WorkPackages::Filter::SharedUserFilter do
         end
       end
 
-      context 'for the "me" value' do
-        let(:values) { %w[me] }
-
-        context "when I'm the shared with user" do
-          before do
-            login_as(shared_with_user)
-          end
-
-          it 'returns the shared work package' do
-            expect(subject)
-              .to contain_exactly(shared_work_package)
+      context 'for a list of users where each was shared a different work package' do
+        shared_let(:other_shared_work_package) do
+          create(:work_package) do |wp|
+            create(:member,
+                   user:,
+                   entity: wp,
+                   project: project_with_types,
+                   roles: [work_package_role])
           end
         end
 
-        context "when I'm not the shared with user" do
-          before do
-            login_as(user)
-          end
+        let(:values) { [shared_with_user.id.to_s, user.id.to_s] }
 
-          it 'does not return the any work packages' do
-            expect(subject)
-              .to be_empty
-          end
+        it 'returns each shared work package' do
+          expect(subject)
+            .to contain_exactly(shared_work_package, other_shared_work_package)
         end
       end
     end
 
-    context 'with a "!" operator' do
-      let(:operator) { '!' }
+    context 'with a "&=" operator' do
+      let(:operator) { '&=' }
 
-      context 'for a user value' do
-        before do
-          login_as(user)
-        end
+      context 'for a list of users where none were shared the work package' do
+        let(:values) { [non_shared_with_user.id.to_s, user.id.to_s] }
 
-        let(:values) { [shared_with_user.id.to_s] }
-
-        it 'returns the non-shared work package' do
+        it 'does not return any work package' do
           expect(subject)
-            .to contain_exactly(non_shared_work_package)
+            .to be_empty
         end
       end
 
-      context 'for the "me" value' do
-        let(:values) { %w[me] }
+      context 'for a list of users where some were shared the work package' do
+        let(:values) { [shared_with_user.id.to_s, non_shared_with_user.id.to_s] }
 
-        context "when I'm the shared with user" do
-          before do
-            login_as(shared_with_user)
-          end
+        it 'does not return any work package' do
+          expect(subject)
+            .to be_empty
+        end
+      end
 
-          it 'returns the non-shared work package' do
-            expect(subject)
-              .to contain_exactly(non_shared_work_package)
-          end
+      context 'for a list of users where all were shared the work package' do
+        before do
+          other_shared_with_user.memberships << create(:member,
+                                                       user: other_shared_with_user,
+                                                       entity: shared_work_package,
+                                                       project: project_with_types,
+                                                       roles: [work_package_role])
+          other_shared_with_user.save!
         end
 
-        context "when I'm not the shared with user" do
-          before do
-            login_as(user)
-          end
+        let(:values) { [shared_with_user.id.to_s, other_shared_with_user.id.to_s] }
 
-          it 'returns all work packages' do
-            expect(subject)
-              .to contain_exactly(shared_work_package,
-                                  non_shared_work_package)
-          end
+        it 'returns the commonly shared work package' do
+          expect(subject)
+            .to contain_exactly(shared_work_package)
         end
       end
     end
 
     context 'with a "*" operator' do
-      before do
-        login_as(user)
-      end
-
       let(:operator) { '*' }
       let(:values) { [] }
 
       it 'returns the shared work package' do
         expect(subject)
-          .to contain_exactly(shared_work_package)
-      end
-    end
-
-    context 'with a "!*" operator' do
-      before do
-        login_as(user)
-      end
-
-      let(:operator) { '!*' }
-      let(:values) { [] }
-
-      it 'returns the non-shared work package' do
-        expect(subject)
-          .to contain_exactly(non_shared_work_package)
+          .to contain_exactly(shared_work_package, other_shared_work_package)
       end
     end
   end

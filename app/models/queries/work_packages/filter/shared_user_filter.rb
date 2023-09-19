@@ -35,10 +35,21 @@ class Queries::WorkPackages::Filter::SharedUserFilter <
                               global: true)
   end
 
+  def scope
+    query = visible_shared_work_packages
+
+    if operator == '='
+      query = query.where(shared_with_any_of_condition)
+    elsif operator == '&='
+      query = query.where(shared_with_all_of_condition)
+    end
+
+    query.distinct
+  end
+
+  # Conditions handled in +scope+ method
   def where
-    operator_for_filtering.sql_for_field(shared_work_package_ids,
-                                         WorkPackage.table_name,
-                                         :id)
+    '1=1'
   end
 
   def human_name
@@ -51,35 +62,33 @@ class Queries::WorkPackages::Filter::SharedUserFilter <
 
   private
 
-  def operator_for_filtering
-    case operator
-    when '*' # Shared with any user
-      # Override the operator since we want to filter specifically
-      # for shared work packages and not any work package
-      ::Queries::Operators::Equals
-    when '!*' # Shared with no one
-      # Override the operator since we want to filter specifically
-      # for those work packages that haven't been shared
-      ::Queries::Operators::NotEquals
-    else
-      operator_strategy
-    end
+  def visible_shared_work_packages
+    WorkPackage.joins("JOIN members ON members.entity_id = work_packages.id")
+               .where(members: { entity_type: 'WorkPackage',
+                                 project: visible_projects })
   end
 
-  def shared_work_package_ids
-    base_query = visible_shared_work_package_memberships
-
-    unless %w[* !*].include?(operator)
-      base_query = base_query.where(user_id: values_replaced)
-    end
-
-    base_query.select('entity_id')
-              .distinct
-              .pluck(:entity_id)
+  def visible_projects
+    Project.allowed_to(User.current, :view_shared_work_packages)
   end
 
-  def visible_shared_work_package_memberships
-    Member.where(entity_type: 'WorkPackage',
-                 project: Project.allowed_to(User.current, :view_shared_work_packages))
+  def shared_with_any_of_condition
+    { members: { user_id: values_replaced } }
+  end
+
+  def shared_with_all_of_condition
+    work_packages_table = WorkPackage.table_name
+    members_table = Member.table_name
+
+    where_clauses = values_replaced.map do |user_id|
+      <<~SQL.squish
+        EXISTS (SELECT 1
+                FROM #{members_table}
+                WHERE #{members_table}.entity_id = #{work_packages_table}.id
+                AND #{members_table}.user_id = #{ActiveRecord::Base.connection.quote_string(user_id)})
+      SQL
+    end
+
+    where_clauses.join(' AND ')
   end
 end
