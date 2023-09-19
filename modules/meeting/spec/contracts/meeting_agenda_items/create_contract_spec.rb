@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,20 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class BaseContract < ::ModelContract
-    include EditableItem
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
+require_relative './shared_contract_examples'
 
-    def self.model
-      MeetingAgendaItem
-    end
-
-    attribute :meeting
-    attribute :work_package
-
-    attribute :position
-    attribute :title
-    attribute :duration_in_minutes
-    attribute :notes
-  end
+RSpec.describe MeetingAgendaItems::CreateContract do
+  include_context 'ModelContract shared context'
+  include_examples 'meeting is not readable'
 end

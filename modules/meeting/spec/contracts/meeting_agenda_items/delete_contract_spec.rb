@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,20 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class BaseContract < ::ModelContract
-    include EditableItem
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
+require_relative 'shared_contract_examples'
 
-    def self.model
-      MeetingAgendaItem
+RSpec.describe MeetingAgendaItems::DeleteContract do
+  include_context 'ModelContract shared context'
+
+  let(:project) { create(:project) }
+  let(:meeting) { create(:structured_meeting, project:) }
+  let(:item) { create(:meeting_agenda_item, meeting:) }
+  let(:contract) { described_class.new(item, user) }
+
+  context 'with permission' do
+    let(:user) do
+      create(:user, member_in_project: project, member_with_permissions: [:edit_meetings])
     end
 
-    attribute :meeting
-    attribute :work_package
+    it_behaves_like 'contract is valid'
+    include_examples 'meeting is not readable'
+  end
 
-    attribute :position
-    attribute :title
-    attribute :duration_in_minutes
-    attribute :notes
+  context 'without permission' do
+    let(:user) { build_stubbed(:user) }
+
+    it_behaves_like 'contract is invalid', base: :error_unauthorized
   end
 end

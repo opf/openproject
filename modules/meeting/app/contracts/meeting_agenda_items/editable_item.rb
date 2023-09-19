@@ -27,19 +27,20 @@
 #++
 
 module MeetingAgendaItems
-  class BaseContract < ::ModelContract
-    include EditableItem
+  module EditableItem
+    extend ActiveSupport::Concern
 
-    def self.model
-      MeetingAgendaItem
+    included do
+      validate :validate_editable
     end
 
-    attribute :meeting
-    attribute :work_package
+    protected
 
-    attribute :position
-    attribute :title
-    attribute :duration_in_minutes
-    attribute :notes
+
+    def validate_editable
+      unless model.editable?
+        errors.add :base, I18n.t(:text_meeting_not_editable_anymore)
+      end
+    end
   end
 end

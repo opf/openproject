@@ -27,7 +27,9 @@
 #++
 
 module MeetingAgendaItems
-  class DeleteContract < BaseContract
+  class DeleteContract < ::DeleteContract
+    include EditableItem
+
     delete_permission :edit_meetings
   end
 end
