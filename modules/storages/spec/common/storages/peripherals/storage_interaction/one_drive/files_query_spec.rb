@@ -50,8 +50,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
     expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user], %i[keyreq folder])
   end
 
-  it 'returns an array of StorageFile' do
-    stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children#{described_class::FIELDS}")
+  it 'returns a StorageFiles object' do
+    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root/children#{described_class::FIELDS}")
       .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
       .to_return(status: 200, body: json, headers: {})
 
@@ -76,7 +76,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
   end
 
   it 'when the argument folder is nil, gets information from that users root folder' do
-    stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children#{described_class::FIELDS}")
+    stub_request(
+      :get,
+      "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root/children#{described_class::FIELDS}"
+    )
       .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
       .to_return(status: 200, body: json, headers: {})
 
@@ -128,7 +131,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
 
   describe 'error handling' do
     it 'returns a notfound error if the API call returns a 404' do
-      stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children#{described_class::FIELDS}")
+      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root/children#{described_class::FIELDS}")
         .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
         .to_return(status: 404, body: '', headers: {})
 
@@ -140,7 +143,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
     end
 
     it 'retries authentication when it returns a 401' do
-      stub_request(:get, "https://graph.microsoft.com/v1.0/me/drive/root/children#{described_class::FIELDS}")
+      stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root/children#{described_class::FIELDS}")
         .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
         .to_return(status: 401, body: '', headers: {})
 

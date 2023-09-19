@@ -33,7 +33,7 @@ module Storages
     module StorageInteraction
       module OneDrive
         class FilesQuery
-          FIELDS = "?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder"
+          FIELDS = "?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference"
 
           using ServiceResultRefinements
 
