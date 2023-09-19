@@ -23,6 +23,7 @@ The product development process involves various roles during the different phas
 * Designer
 * QA/Tester
 * Developer
+* Security & Privacy engineers
 * DevOps
 * Customer
 * Marketing
