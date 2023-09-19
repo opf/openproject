@@ -24,6 +24,13 @@ The OpenProject **BIM Edition** is only supported on AMD64, however.
 
 ***
 
+**Limitations**
+
+Note that the docker container setup does not allow for integration of repositories within OpenProject. You can reference external repositories, but cannot set them up through OpenProject itself.
+For that feature to work, you need to use the packaged installation method.
+
+**Overview**
+
 OpenProject's docker setup can be launched in two ways:
 
 1. Multiple containers (recommended), each with a single process inside, using a Compose file. Allows to easily choose which services you want to run, and simplifies scaling and monitoring aspects.
