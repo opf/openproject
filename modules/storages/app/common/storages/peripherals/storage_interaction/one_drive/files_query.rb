@@ -81,30 +81,32 @@ module Storages
           end
 
           def storage_files(json_files)
-            files = json_files.map do |json|
-              StorageFile.new(
-                id: json[:id],
-                name: json[:name],
-                size: json[:size],
-                mime_type: Util.mime_type(json),
-                created_at: Time.zone.parse(json.dig(:fileSystemInfo, :createdDateTime)),
-                last_modified_at: Time.zone.parse(json.dig(:fileSystemInfo, :lastModifiedDateTime)),
-                created_by_name: json.dig(:createdBy, :user, :displayName),
-                last_modified_by_name: json.dig(:lastModifiedBy, :user, :displayName),
-                location: extract_location(json[:parentReference]),
-                permissions: nil
-              )
-            end
+            files = json_files.map { |json| storage_file(json) }
 
             parent_reference = json_files.first[:parentReference]
 
             StorageFiles.new(files, parent(parent_reference), forge_ancestors(parent_reference))
           end
 
-          def extract_location(parent_reference)
+          def storage_file(json_file)
+            StorageFile.new(
+              id: json_file[:id],
+              name: json_file[:name],
+              size: json_file[:size],
+              mime_type: Util.mime_type(json_file),
+              created_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :createdDateTime)),
+              last_modified_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :lastModifiedDateTime)),
+              created_by_name: json_file.dig(:createdBy, :user, :displayName),
+              last_modified_by_name: json_file.dig(:lastModifiedBy, :user, :displayName),
+              location: extract_location(json_file[:parentReference], json_file[:name]),
+              permissions: nil
+            )
+          end
+
+          def extract_location(parent_reference, file_name = '')
             location = parent_reference[:path].gsub(/.*root:/, '')
 
-            location.empty? ? '/' : location
+            location.empty? ? "/#{file_name}" : "#{location}/#{file_name}"
           end
 
           def parent(parent_reference)

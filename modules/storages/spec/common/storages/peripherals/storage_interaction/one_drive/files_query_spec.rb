@@ -71,7 +71,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
                                   last_modified_at: Time.parse("2017-08-07T16:07:10Z"),
                                   created_by_name: "Megan Bowen",
                                   last_modified_by_name: "Megan Bowen",
-                                  location: "/",
+                                  location: "/All Japan Revenues By City.xlsx",
                                   permissions: nil })
   end
 
