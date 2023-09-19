@@ -88,11 +88,11 @@ class WikiController < ApplicationController
     # Set the related page ID to make it the parent of new links
     flash[:_related_wiki_page_id] = @page.id
 
-    version = params[:version] if User.current.allowed_to?(:view_wiki_edits, @project)
+    version = params[:version] if User.current.allowed_in_project?(:view_wiki_edits, @project)
 
     @page = ::WikiPages::AtVersion.new(@page, version)
 
-    if params[:format] == 'markdown' && User.current.allowed_to?(:export_wiki_pages, @project)
+    if params[:format] == 'markdown' && User.current.allowed_in_project?(:export_wiki_pages, @project)
       send_data(@page.text, type: 'text/plain', filename: "#{@page.title}.md")
       return
     end
@@ -128,7 +128,7 @@ class WikiController < ApplicationController
       page.parent_id = flash[:_related_wiki_page_id]
     end
 
-    version = params[:version] if User.current.allowed_to?(:view_wiki_edits, @project)
+    version = params[:version] if User.current.allowed_in_project?(:view_wiki_edits, @project)
 
     @page = ::WikiPages::AtVersion.new(page, version)
   end
@@ -319,7 +319,7 @@ class WikiController < ApplicationController
 
   # Export wiki to a single html file
   def export
-    if User.current.allowed_to?(:export_wiki_pages, @project)
+    if User.current.allowed_in_project?(:export_wiki_pages, @project)
       @pages = @wiki.pages.order(Arel.sql('title'))
       export = render_to_string action: 'export_multiple', layout: false
       send_data(export, type: 'text/html', filename: 'wiki.html')
@@ -383,7 +383,7 @@ class WikiController < ApplicationController
   def handle_new_wiki_page
     return unless @page.new_record?
 
-    if User.current.allowed_to?(:edit_wiki_pages, @project) && editable?
+    if User.current.allowed_in_project?(:edit_wiki_pages, @project) && editable?
       edit
       render action: :new
     elsif params[:id] == 'wiki'

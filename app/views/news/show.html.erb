@@ -26,9 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <%= toolbar title: "#{avatar(@news.author)}  #{h @news.title}".html_safe do %>
-  <% if User.current.allowed_to?(:manage_news, @project) %>
+  <% if User.current.allowed_in_project?(:manage_news, @project) %>
     <li class="toolbar-item">
       <%= link_to(edit_news_path(@news),
         accesskey: accesskey(:edit),
@@ -42,7 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
   <li class="toolbar-item">
     <%= watcher_link(@news, User.current) %>
   </li>
-  <% if User.current.allowed_to?(:manage_news, @project) %>
+  <% if User.current.allowed_in_project?(:manage_news, @project) %>
     <li class="toolbar-item">
       <%= link_to(news_path(@news),
         data: { confirm: t(:text_are_you_sure) },
@@ -54,7 +53,6 @@ See COPYRIGHT and LICENSE files for more details.
     </li>
   <% end %>
 <% end %>
-
 <% if authorize_for('news', 'edit') %>
   <div id="edit-news" style="display:none;">
     <%= labelled_tabular_form_for @news, html: { id: 'news-form' } do |f| %>
@@ -69,7 +67,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%= format_text(@news.summary, object: @news) %>
   </div>
 <% end %>
-  <p class="author additional-information"><%= authoring @news.created_at, @news.author %></p>
+<p class="author additional-information"><%= authoring @news.created_at, @news.author %></p>
 <div class="op-uc-container">
   <%= format_text(@news.description, object: @news) %>
 </div>
@@ -78,33 +76,33 @@ See COPYRIGHT and LICENSE files for more details.
   <h3 class="icon-context icon-quote"><%= t(:label_comment_plural) %></h3>
   <% @comments.each do |comment| %>
     <% next if comment.new_record? %>
-      <div class="comment">
-        <div class="contextual">
-          <%= link_to_if_authorized icon_wrapper('icon-context icon-delete', t(:button_delete)),
+    <div class="comment">
+      <div class="contextual">
+        <%= link_to_if_authorized icon_wrapper('icon-context icon-delete', t(:button_delete)),
                                 {controller: '/news/comments', action: 'destroy', id: comment},
                                 data: { confirm: t(:text_are_you_sure) },
                                 method: :delete,
                                 class: 'no-decoration-on-hover',
                                 title: t(:button_delete),
                                 alt: t(:button_delete) %>
-        </div>
-        <h4 class="author additional-information"><%= avatar(comment.author) %><%= authoring comment.created_at, comment.author %></h4>
-        <%= format_text(comment.comments, object: comment) %>
       </div>
-    <% end %>
-  </div>
-  <% if authorize_for 'news/comments', 'create' %>
-    <%= form_for([@news, Comment.new], html: { id: "add_comment_form" }) do %>
-      <div>
-        <%= label_tag 'comment_comments', Journal.human_attribute_name(:notes), class: 'hidden-for-sighted' %>
-        <%= text_area 'comment',
+      <h4 class="author additional-information"><%= avatar(comment.author) %><%= authoring comment.created_at, comment.author %></h4>
+      <%= format_text(comment.comments, object: comment) %>
+    </div>
+  <% end %>
+</div>
+<% if authorize_for 'news/comments', 'create' %>
+  <%= form_for([@news, Comment.new], html: { id: "add_comment_form" }) do %>
+    <div>
+      <%= label_tag 'comment_comments', Journal.human_attribute_name(:notes), class: 'hidden-for-sighted' %>
+      <%= text_area 'comment',
                       'comments',
                       class: 'wiki-edit' %>
-        <%= wikitoolbar_for 'comment_comments', preview_context: preview_context(@news) %>
-      </div>
-      <p>
-        <%= submit_tag t(:button_add_comment), class: 'button -highlight' %>
-      </p>
-    <% end %>
+      <%= wikitoolbar_for 'comment_comments', preview_context: preview_context(@news) %>
+    </div>
+    <p>
+      <%= submit_tag t(:button_add_comment), class: 'button -highlight' %>
+    </p>
   <% end %>
-  <% html_title h(@news.title) -%>
+<% end %>
+<% html_title h(@news.title) -%>

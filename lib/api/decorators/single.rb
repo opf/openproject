@@ -69,7 +69,16 @@ module API
       class_attribute :checked_permissions
 
       def current_user_allowed_to(permission, context: represented.respond_to?(:project) ? represented.project : nil)
-        current_user.allowed_to?(permission, context)
+        # TODO: Old implemententation was:
+        #   current_user.allowed_to?(permission, context)
+        # as this is not passing global: true, it will never do a global permission check if the project is not given
+        # so in the new implementation we either check on the project or return false ... Let's see how this works.
+
+        if context
+          current_user.allowed_in_project?(permission, context)
+        else
+          false
+        end
       end
 
       # Override in subclasses to specify the JSON indicated "_type" of this representer

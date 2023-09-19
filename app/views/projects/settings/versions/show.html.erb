@@ -26,9 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <%= toolbar title: t(:label_version_plural) do %>
-  <% if current_user.allowed_to?(:manage_versions, @project) %>
+  <% if current_user.allowed_in_project?(:manage_versions, @project) %>
     <li class="toolbar-item">
       <%= link_to_if_authorized({ controller: '/versions', action: 'new', project_id: @project },
                                 { class: 'button -alt-highlight',
@@ -40,10 +39,8 @@ See COPYRIGHT and LICENSE files for more details.
     </li>
   <% end %>
 <% end %>
-
 <% if @versions.any? %>
   <%= render Versions::TableComponent.new(rows: @versions, project: @project) %>
-
   <% if @project.versions.any? %>
     <div class="generic-table--action-buttons">
       <%= link_to t(:label_close_versions),

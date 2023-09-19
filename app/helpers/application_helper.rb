@@ -42,6 +42,7 @@ module ApplicationHelper
   include OpenProject::PageHierarchyHelper
 
   # Return true if user is authorized for controller/action, otherwise false
+  # TODO: Refactor to use our new split up methods and figure out how this is used
   def authorize_for(controller, action, project: @project, entity: nil)
     User.current.allowed_to?({ controller:, action: }, entity || project)
   end

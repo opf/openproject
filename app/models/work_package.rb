@@ -221,8 +221,8 @@ class WorkPackage < ApplicationRecord
   end
 
   # Returns true if usr or current user is allowed to view the work_package
-  def visible?(usr = nil)
-    (usr || User.current).allowed_to?(:view_work_packages, self)
+  def visible?(usr = User.current)
+    usr.allowed_in_work_package?(:view_work_packages, self)
   end
 
   # RELATIONS
@@ -355,10 +355,10 @@ class WorkPackage < ApplicationRecord
   # see Acts::Journalized::Permissions#journal_editable_by
   def journal_editable_by?(journal, user)
     # edit_work_package_notes is a project level permission
-    return true if user.allowed_to?(:edit_work_package_notes, project)
+    return true if user.allowed_in_project?(:edit_work_package_notes, project)
 
     # edit_own_work_package_notes is a project or work_package level permission
-    return true if journal.user_id == user.id && user.allowed_to?(:edit_own_work_package_notes, self)
+    return true if journal.user_id == user.id && user.allowed_in_work_package?(:edit_own_work_package_notes, self)
 
     false
   end

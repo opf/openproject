@@ -250,6 +250,7 @@ class ApplicationController < ActionController::Base
   # * a parameter-like Hash (eg. { controller: '/projects', action: 'edit' })
   # * a permission Symbol (eg. :edit_project)
   def do_authorize(action, global: false)
+    # TODO: This needs to be refactored to pass in what context we need to look something up in
     context = @work_package || @project || @projects
     is_authorized = User.current.allowed_to?(action, context, global:)
 
@@ -291,7 +292,7 @@ class ApplicationController < ActionController::Base
     @project = Project.find(params[:project_id]) if params[:project_id].present?
 
     # TODO: Maybe also check if user is allowed on the entity itself. Will figure out or remove
-
+    # TODO: Also see how we can refactor this to use our specific methods
     allowed = User.current.allowed_to?({ controller: params[:controller], action: params[:action] },
                                        @project, global: @project.nil?)
     allowed ? true : deny_access

@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <%= toolbar title: @version.name do %>
   <% if authorize_for(:versions, :edit) %>
     <li class="toolbar-item">
@@ -60,13 +59,11 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
   <%= call_hook(:view_versions_show_contextual, { version: @version, project: @project }) %>
 <% end %>
-
 <div class="widget-boxes -grid">
   <div class="widget-box -thin">
     <%= render partial: 'versions/overview', locals: { version: @version } %>
   </div>
-
-  <% if @version.estimated_hours > 0 || User.current.allowed_to?(:view_time_entries, @project) %>
+  <% if @version.estimated_hours > 0 || User.current.allowed_in_project?(:view_time_entries, @project) %>
     <div class="widget-box -thin">
       <fieldset class="form--fieldset">
         <legend class="form--fieldset-legend"><%= t(:label_estimates_and_time) %></legend>
@@ -75,7 +72,7 @@ See COPYRIGHT and LICENSE files for more details.
             <td width="130px" align="right"><%= Version.human_attribute_name(:estimated_hours) %></td>
             <td width="240px" class="total-hours" align="right"><%= html_hours(l_hours(@version.estimated_hours)) %></td>
           </tr>
-          <% if User.current.allowed_to?(:view_time_entries, @project) %>
+          <% if User.current.allowed_in_project?(:view_time_entries, @project) %>
             <tr>
               <td width="130px" align="right"><%= t(:label_spent_time) %></td>
               <td width="240px" class="total-hours" align="right"><%= html_hours(l_hours(@version.spent_hours)) %></td>
@@ -85,13 +82,11 @@ See COPYRIGHT and LICENSE files for more details.
       </fieldset>
     </div>
   <% end %>
-
   <% if @version.wiki_page %>
     <div class="widget-box -thin -wider">
       <%= render(partial: "wiki/text", locals: { page: @version.wiki_page }) if @version.wiki_page %>
     </div>
   <% end %>
-
   <% if @issues.present? %>
     <div class="widget-box -thin -wider">
       <% if @issues.present? %>
@@ -106,7 +101,6 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     </div>
   <% end %>
-
   <% if @version.work_packages.count > 0 %>
     <div class="widget-box -thin -wider">
       <wp-overview-graph
@@ -116,5 +110,4 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 </div>
 <%= call_hook :view_versions_show_bottom, version: @version %>
-
 <% html_title h(@version.name) %>

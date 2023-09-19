@@ -56,7 +56,7 @@ class WorkPackagePolicy < BasePolicy
 
   def edit_allowed?(work_package)
     @edit_cache ||= Hash.new do |hash, wp|
-      hash[wp] = wp.persisted? && user.allowed_to?(:edit_work_packages, wp)
+      hash[wp] = wp.persisted? && user.allowed_in_work_package?(:edit_work_packages, wp)
     end
 
     @edit_cache[work_package]
@@ -64,7 +64,7 @@ class WorkPackagePolicy < BasePolicy
 
   def move_allowed?(work_package)
     @move_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:move_work_packages, project)
+      hash[project] = user.allowed_in_project?(:move_work_packages, project)
     end
 
     @move_cache[work_package.project]
@@ -76,7 +76,7 @@ class WorkPackagePolicy < BasePolicy
 
   def delete_allowed?(work_package)
     @delete_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:delete_work_packages, project)
+      hash[project] = user.allowed_in_project?(:delete_work_packages, project)
     end
 
     @delete_cache[work_package.project]
@@ -84,7 +84,7 @@ class WorkPackagePolicy < BasePolicy
 
   def add_allowed?(work_package)
     @add_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:add_work_packages, project)
+      hash[project] = user.allowed_in_project?(:add_work_packages, project)
     end
 
     @add_cache[work_package.project]
@@ -102,7 +102,7 @@ class WorkPackagePolicy < BasePolicy
 
   def manage_subtasks_allowed?(work_package)
     @manage_subtasks_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:manage_subtasks, project)
+      hash[project] = user.allowed_in_project?(:manage_subtasks, project)
     end
 
     @manage_subtasks_cache[work_package.project]
@@ -110,17 +110,17 @@ class WorkPackagePolicy < BasePolicy
 
   def comment_allowed?(work_package)
     @comment_cache ||= Hash.new do |hash, wp|
-      hash[wp] = user.allowed_to?(:add_work_package_notes, wp) || edit_allowed?(wp)
+      hash[wp] = user.allowed_in_work_package?(:add_work_package_notes, wp) || edit_allowed?(wp)
     end
 
     @comment_cache[work_package]
   end
 
   def assign_version_allowed?(work_package)
-    @assign_version_cache ||= Hash.new do |hash, wp|
-      hash[wp] = user.allowed_to?(:assign_versions, wp)
+    @assign_version_cache ||= Hash.new do |hash, project|
+      hash[wp] = user.allowed_in_project?(:assign_versions, project)
     end
 
-    @assign_version_cache[work_package]
+    @assign_version_cache[work_package.project]
   end
 end

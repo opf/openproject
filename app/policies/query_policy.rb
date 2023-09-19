@@ -91,7 +91,7 @@ class QueryPolicy < BasePolicy
 
   def view_work_packages_allowed?(query)
     @view_work_packages_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:view_work_packages, project, global: project.nil?)
+      hash[project] = permitted_on_specific_project_or_any_project?(:view_work_packages, project)
     end
 
     @view_work_packages_cache[query.project]
@@ -99,7 +99,7 @@ class QueryPolicy < BasePolicy
 
   def edit_work_packages_allowed?(query)
     @edit_work_packages_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:edit_work_packages, project, global: project.nil?)
+      hash[project] = permitted_on_specific_project_or_any_project?(:edit_work_packages, project)
     end
 
     @edit_work_packages_cache[query.project]
@@ -107,7 +107,7 @@ class QueryPolicy < BasePolicy
 
   def save_queries_allowed?(query)
     @save_queries_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:save_queries, project, global: project.nil?)
+      hash[project] = permitted_on_specific_project_or_any_project?(:save_queries, project)
     end
 
     @save_queries_cache[query.project]
@@ -115,7 +115,7 @@ class QueryPolicy < BasePolicy
 
   def manage_public_queries_allowed?(query)
     @manage_public_queries_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:manage_public_queries, project, global: project.nil?)
+      hash[project] = permitted_on_specific_project_or_any_project?(:manage_public_queries, project)
     end
 
     @manage_public_queries_cache[query.project]
@@ -123,9 +123,17 @@ class QueryPolicy < BasePolicy
 
   def share_via_ical_allowed?(query)
     @share_via_ical_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:share_calendars, project, global: project.nil?)
+      hash[project] = permitted_on_specific_project_or_any_project?(:share_calendars, project)
     end
 
     @share_via_ical_cache[query.project]
+  end
+
+  def permitted_on_specific_project_or_any_project?(permission, project)
+    if project
+      user.allowed_in_project?(permission, project)
+    else
+      user.allowed_in_any_project?(permission)
+    end
   end
 end

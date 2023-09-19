@@ -26,9 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <%= toolbar title: t(:label_information_plural) do %>
-  <% if User.current.allowed_to?(:add_subprojects, @project) %>
+  <% if User.current.allowed_in_project?(:add_subprojects, @project) %>
     <li class="toolbar-item">
       <%= link_to new_project_path(parent_id: @project.id),
                   { class: 'button -alt-highlight',
@@ -53,7 +52,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     </li>
   <% end %>
-  <% if User.current.allowed_to?(:archive_project, @project) %>
+  <% if User.current.allowed_in_project?(:archive_project, @project) %>
     <li class="toolbar-item hidden-for-tablet">
       <%= link_to(project_archive_path(@project, status: '', name: @project.name),
                   data: { confirm: t('project.archive.are_you_sure', name: @project.name) },

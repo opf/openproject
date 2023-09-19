@@ -131,7 +131,7 @@ class WorkPackagesController < ApplicationController
     # TODO: This needs to execute the query and then check the export_work_package permission on *all* work packages
     #       returned by the query
     if (supported_list_formats + %w[atom]).include?(params[:format]) &&
-       !User.current.allowed_to?(:export_work_packages, @project, global: @project.nil?)
+       !User.current.allowed_in_project?(:export_work_packages, @project)
 
       deny_access
       false

@@ -26,9 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <% html_title t(:label_bulk_edit_selected_work_packages) %>
-
 <h2><%= t(:label_bulk_edit_selected_work_packages) %></h2>
 <ul>
   <% @work_packages.each do |wp| %>
@@ -38,7 +36,6 @@ See COPYRIGHT and LICENSE files for more details.
     </li>
   <% end %>
 </ul>
-
 <%= styled_form_tag(url_for(controller: '/work_packages/bulk', action: :update),
              method: :put, class: '-wide-labels') do %>
   <% @work_packages.each do |wp| %>
@@ -139,7 +136,7 @@ See COPYRIGHT and LICENSE files for more details.
               <%= styled_text_field_tag 'work_package[subject]', '', size: 10 %>
             </div>
           </div>
-          <% if @project && User.current.allowed_to?(:manage_subtasks, @project) %>
+          <% if @project && User.current.allowed_in_project?(:manage_subtasks, @project) %>
             <div class="form--field">
               <%= styled_label_tag :work_package_parent_id, WorkPackage.human_attribute_name(:parent) %>
               <div class="form--field-container">

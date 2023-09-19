@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <%= toolbar title: "#{t(:label_revision)} #{format_revision(@changeset)}" do %>
   <li class="toolbar-item">
     <% if @changeset.previous.nil? %>
@@ -60,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   </ul>
 <% end %>
-<% if User.current.allowed_to?(:browse_repository, @project) %>
+<% if User.current.allowed_in_project?(:browse_repository, @project) %>
   <h3><%= t(:label_attachment_plural) %></h3>
   <ul id="changes-legend">
     <li class="change change-A icon icon-add" title=<%= t(:label_added) %>><%= t(:label_added) %></li>
