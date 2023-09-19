@@ -113,14 +113,14 @@ RSpec.describe 'Work package filtering',
 
       aggregate_failures "Members of a Project I'm not a member of are invisible" do
         filters.expect_missing_filter_value_by('Shared user',
-                                               'is',
+                                               'is (OR)',
                                                [invisible_user.name],
                                                'sharedUser')
       end
 
       aggregate_failures 'operator filtering' do
         filters.add_filter_by('Shared user',
-                              'is',
+                              'is (OR)',
                               [user_with_shared_work_package.name],
                               'sharedUser')
 
