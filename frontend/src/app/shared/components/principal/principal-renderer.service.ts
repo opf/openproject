@@ -69,7 +69,9 @@ export class PrincipalRendererService {
     avatar:AvatarOptions = { hide: false, size: 'default' },
     title:string|null = null,
   ):void {
-    container.dataset.testSelector = 'op-principal';
+    if (!container.dataset.testSelector) {
+      container.dataset.testSelector = 'op-principal';
+    }
     container.classList.add('op-principal');
     const type = typeFromHref(hrefFromPrincipal(principal)) as PrincipalType;
 
@@ -145,7 +147,7 @@ export class PrincipalRendererService {
     principal:PrincipalLike|IPrincipal,
     type:PrincipalType,
     asLink = true,
-    title:string,
+    title = '',
   ) {
     if (asLink) {
       const link = document.createElement('a');

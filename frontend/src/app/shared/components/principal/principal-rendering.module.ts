@@ -4,12 +4,6 @@ import { OpPrincipalComponent } from './principal.component';
 import { OpPrincipalListComponent } from './principal-list.component';
 import { PrincipalRendererService } from './principal-renderer.service';
 import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-elements.helper';
-import {
-  OpBasicSingleDatePickerComponent
-} from 'core-app/shared/components/datepicker/basic-single-date-picker/basic-single-date-picker.component';
-import {
-  OpBasicRangeDatePickerComponent
-} from 'core-app/shared/components/datepicker/basic-range-date-picker/basic-range-date-picker.component';
 
 @NgModule({
   imports: [
