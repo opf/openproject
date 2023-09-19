@@ -144,9 +144,9 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
         filter(() => !this.inFlight),
         this.untilDestroyed(),
       )
-      .subscribe((evt) => {
+      .subscribe((evt:SubmitEvent) => {
         evt.preventDefault();
-        this.saveForm();
+        this.saveForm(evt);
       });
   }
 
@@ -154,15 +154,22 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     window.OpenProject.pageWasEdited = true;
   }
 
-  public saveForm():void {
+  public saveForm(evt?:SubmitEvent):void {
     this.syncToTextarea();
     this.inFlight = true;
     window.OpenProject.pageIsSubmitted = true;
-    if (this.turboMode) {
-      navigator.submitForm(this.formElement);
-    } else {
-      this.formElement.submit();
-    }
+
+    setTimeout(() => {
+      if (evt?.submitter) {
+        (evt.submitter as HTMLInputElement).disabled = false;
+      }
+
+      if (this.turboMode) {
+        navigator.submitForm(this.formElement, evt?.submitter || undefined);
+      } else {
+        this.formElement.requestSubmit(evt?.submitter);
+      }
+    });
   }
 
   public setup(editor:ICKEditorInstance) {

@@ -29,11 +29,10 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-RSpec.describe 'Upload attachment to documents',
-         js: true,
-         with_settings: {
-           journal_aggregation_time_minutes: 0
-         } do
+RSpec.describe 'Upload attachment to documents', :js,
+               with_settings: {
+                 journal_aggregation_time_minutes: 0
+               } do
   let!(:user) do
     create(:user,
            member_in_project: project,
@@ -80,12 +79,12 @@ RSpec.describe 'Upload attachment to documents',
 
       perform_enqueued_jobs do
         click_on 'Create'
-      end
 
-      # Expect it to be present on the index page
-      expect(page).to have_selector('.document-category-elements--header', text: 'New documentation')
-      expect(page).to have_selector('#content img', count: 1)
-      expect(page).to have_content('Image uploaded on creation')
+        # Expect it to be present on the index page
+        expect(page).to have_selector('.document-category-elements--header', text: 'New documentation')
+        expect(page).to have_selector('#content img', count: 1)
+        expect(page).to have_content('Image uploaded on creation')
+      end
 
       document = Document.last
       expect(document.title).to eq 'New documentation'
@@ -120,29 +119,29 @@ RSpec.describe 'Upload attachment to documents',
 
       perform_enqueued_jobs do
         click_on 'Save'
-      end
 
-      # Expect both images to be present on the show page
-      expect(page).to have_selector('#content img', count: 2)
-      expect(page).to have_content('Image uploaded on creation')
-      expect(page).to have_content('Image uploaded the second time')
-      attachments_list.expect_attached('image.png', count: 4)
+        # Expect both images to be present on the show page
+        expect(page).to have_selector('#content img', count: 2)
+        expect(page).to have_content('Image uploaded on creation')
+        expect(page).to have_content('Image uploaded the second time')
+        attachments_list.expect_attached('image.png', count: 4)
+      end
 
       # Expect a mail to be sent to the user having subscribed to all notifications
       expect(ActionMailer::Base.deliveries.size)
         .to eq 1
 
       expect(ActionMailer::Base.deliveries.last.to)
-        .to match_array [other_user.mail]
+        .to contain_exactly(other_user.mail)
 
       expect(ActionMailer::Base.deliveries.last.subject)
         .to include 'New documentation'
     end
   end
 
-  context 'with direct uploads (Regression #34285)', with_direct_uploads: true do
+  context 'with direct uploads (Regression #34285)', :with_direct_uploads do
     before do
-      allow_any_instance_of(Attachment).to receive(:diskfile).and_return image_fixture
+      allow_any_instance_of(Attachment).to receive(:diskfile).and_return image_fixture # rubocop:disable RSpec/AnyInstance
     end
 
     it_behaves_like 'can upload an image'

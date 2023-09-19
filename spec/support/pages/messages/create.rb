@@ -46,8 +46,6 @@ module Pages::Messages
 
     def click_save
       click_button 'Create'
-
-      Pages::Messages::Show.new(Message.last)
     end
 
     def created_message
