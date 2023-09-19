@@ -28,14 +28,5 @@
 
 module MeetingAgendaItems
   class UpdateContract < BaseContract
-    validate :validate_editable
-
-    private
-
-    def validate_editable
-      unless model.editable?
-        errors.add :base, I18n.t(:text_meeting_not_editable_anymore)
-      end
-    end
   end
 end

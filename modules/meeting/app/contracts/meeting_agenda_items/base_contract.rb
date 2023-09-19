@@ -39,5 +39,15 @@ module MeetingAgendaItems
     attribute :title
     attribute :duration_in_minutes
     attribute :notes
+
+    validate :validate_editable
+
+    protected
+
+    def validate_editable
+      unless model.editable?
+        errors.add :base, I18n.t(:text_meeting_not_editable_anymore)
+      end
+    end
   end
 end
