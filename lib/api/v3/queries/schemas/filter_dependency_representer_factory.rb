@@ -57,7 +57,7 @@ module API
             AuthorFilter: 'UserFilter',
             ResponsibleFilter: 'AllPrincipalsFilter',
             AssignedToFilter: 'AllPrincipalsFilter',
-            SharedUserFilter: 'AllPrincipalsFilter',
+            SharedWithUserFilter: 'AllPrincipalsFilter',
             WatcherFilter: 'UserFilter'
           }
 

@@ -31,7 +31,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Work package filtering',
-               'by shared user',
+               'by shared with user',
                :js,
                :with_cuprite do
   shared_let(:visible_project) do
@@ -103,7 +103,7 @@ RSpec.describe 'Work package filtering',
   let(:wp_table) { Pages::WorkPackagesTable.new(visible_project) }
   let(:filters) { Components::WorkPackages::Filters.new }
 
-  context 'when I have sufficient permissions for the "Shared user" filter' do
+  context 'when I have sufficient permissions for the "Shared with user" filter' do
     current_user { user_with_sufficient_permissions }
 
     it 'filters work packages by their shared status' do
@@ -112,17 +112,17 @@ RSpec.describe 'Work package filtering',
       filters.open
 
       aggregate_failures "Members of a Project I'm not a member of are invisible" do
-        filters.expect_missing_filter_value_by('Shared user',
+        filters.expect_missing_filter_value_by('Shared with user',
                                                'is (OR)',
                                                [invisible_user.name],
-                                               'sharedUser')
+                                               'sharedWithUser')
       end
 
       aggregate_failures 'operator filtering' do
-        filters.add_filter_by('Shared user',
+        filters.add_filter_by('Shared with user',
                               'is (OR)',
                               [user_with_shared_work_package.name],
-                              'sharedUser')
+                              'sharedWithUser')
 
         wp_table.ensure_work_package_not_listed!(non_shared_work_package)
         wp_table.expect_work_package_listed(shared_work_package)
@@ -140,14 +140,14 @@ RSpec.describe 'Work package filtering',
     end
   end
 
-  context 'when I lack the sufficient permissions for the "Shared user" filter' do
+  context 'when I lack the sufficient permissions for the "Shared with user" filter' do
     current_user { user_with_insufficient_permissions }
 
-    it 'does not show the "Shared user" filter' do
+    it 'does not show the "Shared with user" filter' do
       wp_table.visit!
       wp_table.expect_work_package_listed(shared_work_package, non_shared_work_package)
       filters.open
-      filters.expect_missing_filter('Shared user')
+      filters.expect_missing_filter('Shared with user')
     end
   end
 end

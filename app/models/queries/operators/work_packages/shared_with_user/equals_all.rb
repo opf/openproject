@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2010-2023 the OpenProject GmbH
@@ -26,19 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Queries::Filters::Strategies
+module Queries::Operators
   module WorkPackages
-    module SharedUser
-      class ListOptional < ::Queries::Filters::Strategies::List
-        self.supported_operators = %w[= &= *]
-
-        def operator_map
-          super.dup.tap do |super_value|
-            super_value['='] = ::Queries::Operators::EqualsOr
-            super_value['&='] = ::Queries::Operators::WorkPackages::SharedUser::EqualsAll
-            super_value['*'] = ::Queries::Operators::WorkPackages::SharedUser::Any
-          end
-        end
+    module SharedWithUser
+      class EqualsAll < ::Queries::Operators::Base
+        label 'operator_equals_all'
+        set_symbol '&='
       end
     end
   end

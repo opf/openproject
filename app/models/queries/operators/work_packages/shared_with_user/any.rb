@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2010-2023 the OpenProject GmbH
@@ -30,11 +28,9 @@
 
 module Queries::Operators
   module WorkPackages
-    module SharedUser
-      class EqualsAll < ::Queries::Operators::Base
-        label 'operator_equals_all'
-        set_symbol '&='
-
+    module SharedWithUser
+      class Any < ::Queries::Operators::All
+        label 'operator_shared_with_user_any'
       end
     end
   end

@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Queries::WorkPackages::Filter::SharedUserFilter <
+class Queries::WorkPackages::Filter::SharedWithUserFilter <
   Queries::WorkPackages::Filter::PrincipalBaseFilter
   def available?
     super && User.current
@@ -46,7 +46,7 @@ class Queries::WorkPackages::Filter::SharedUserFilter <
       query = query.where(shared_with_all_of_condition)
     end
 
-    query.distinct
+    WorkPackage.where(id: query.select('work_packages.id').distinct)
   end
 
   # Conditions handled in +scope+ method
@@ -55,11 +55,11 @@ class Queries::WorkPackages::Filter::SharedUserFilter <
   end
 
   def human_name
-    I18n.t('query_fields.shared_user')
+    I18n.t('query_fields.shared_with_user')
   end
 
   def type
-    :shared_user_list_optional
+    :shared_with_user_list_optional
   end
 
   private

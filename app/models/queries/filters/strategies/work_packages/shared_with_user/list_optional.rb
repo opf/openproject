@@ -26,11 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Queries::Operators
+module Queries::Filters::Strategies
   module WorkPackages
-    module SharedUser
-      class Any < ::Queries::Operators::All
-        label 'operator_shared_user_any'
+    module SharedWithUser
+      class ListOptional < ::Queries::Filters::Strategies::List
+        self.supported_operators = %w[= &= *]
+
+        def operator_map
+          super.dup.tap do |super_value|
+            super_value['='] = ::Queries::Operators::EqualsOr
+            super_value['&='] = ::Queries::Operators::WorkPackages::SharedWithUser::EqualsAll
+            super_value['*'] = ::Queries::Operators::WorkPackages::SharedWithUser::Any
+          end
+        end
       end
     end
   end
