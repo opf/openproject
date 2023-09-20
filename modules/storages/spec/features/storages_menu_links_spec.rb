@@ -31,7 +31,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe 'Project menu', js: true, with_cuprite: true do
+RSpec.describe 'Project menu', :js, :with_cuprite do
   let(:storage) { create(:nextcloud_storage, name: "Storage 1") }
   let(:another_storage) { create(:nextcloud_storage, name: "Storage 2") }
   let(:unlinked_storage) { create(:nextcloud_storage, name: "Storage 3") }
@@ -56,7 +56,7 @@ RSpec.describe 'Project menu', js: true, with_cuprite: true do
     it 'has links to enabled storages' do
       visit(project_path(id: project.id))
 
-      expect(page).to have_link(storage.name, href: storage.host)
+      expect(page).to have_link(storage.name, href: storage.open_link)
       project_folder_id = project_storage_with_manual_folder.project_folder_id
       folder_href = "#{another_storage.host}/index.php/f/#{project_folder_id}?openfile=1"
       expect(page).to have_link(another_storage.name, href: folder_href)
@@ -69,11 +69,11 @@ RSpec.describe 'Project menu', js: true, with_cuprite: true do
       it 'has no links to enabled storage' do
         visit(project_path(id: project.id))
 
-        expect(page).not_to have_link(storage.name, href: storage.host)
+        expect(page).not_to have_link(storage.name, href: storage.open_link)
         project_folder_id = project_storage_with_manual_folder.project_folder_id
         folder_href = "#{another_storage.host}/index.php/f/#{project_folder_id}?openfile=1"
         expect(page).not_to have_link(another_storage.name, href: folder_href)
-        expect(page).not_to have_link(another_storage.name, href: another_storage.host)
+        expect(page).not_to have_link(another_storage.name, href: another_storage.open_link)
         expect(page).not_to have_link(unlinked_storage.name)
       end
     end
