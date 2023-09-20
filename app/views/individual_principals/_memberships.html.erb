@@ -144,7 +144,7 @@ See COPYRIGHT and LICENSE files for more details.
                                     url: polymorphic_path([@individual_principal, :memberships]),
                                     html: {id: "new_project_membership"}) do %>
         <fieldset class="form--fieldset">
-          <legend class="form--fieldset-legend"><%=t(:label_project_new)%></legend>
+          <legend class="form--fieldset-legend"><%=t(:label_available_projects)%></legend>
           <% principal_project_ids = @individual_principal.projects.ids  %>
           <% filter = [['active', '=', 't']] %>
           <% filter << ['id', '!', principal_project_ids.map(&:to_s)] if principal_project_ids.any? %>
