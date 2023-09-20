@@ -70,9 +70,12 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
     end
   end
   let(:options) { {} }
+  let(:exporter) do
+    described_class.new(work_package, options)
+  end
   let(:export) do
     login_as(user)
-    described_class.new(work_package, options)
+    exporter
   end
   let(:export_pdf) do
     Timecop.freeze(export_time) do
@@ -96,14 +99,15 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
 
   describe 'with a request for a PDF' do
     it 'contains correct data' do
-      details = Query.available_columns(work_package.project)
-                       .reject { |column| %i[subject project].include?(column.name) }
-                       .flat_map do |column|
-        value = get_column_value(column.name)
-        value.blank? ? [] : [column.caption.upcase, value]
+      details = exporter.send(:attributes_data_by_wp, work_package)
+                  .flat_map do |item|
+        value = get_column_value(item[:name])
+        result = [item[:label].upcase]
+        result << value if value.present?
+        result
       end
 
-      expect(pdf[:strings]).to eq([
+      expect(pdf[:strings].join(' ')).to eq([
                                     "#{type.name} ##{work_package.id} - #{work_package.subject}",
                                     *details,
                                     label_title(:description),
@@ -112,7 +116,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
                                     'Image Caption',
                                     'Foo',
                                     '1', export_time_formatted, project.name
-                                  ])
+                                  ].join(' '))
       expect(pdf[:images].length).to eq(2)
     end
   end
