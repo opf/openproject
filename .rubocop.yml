@@ -239,6 +239,7 @@ RSpec/ContextWording:
   Prefixes:
     - and
     - as
+    - even
     - for
     - having
     - if
