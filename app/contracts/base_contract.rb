@@ -255,12 +255,18 @@ class BaseContract < Disposable::Twin
   end
 
   def permitted?(permission)
-    if Member.can_be_member_of?(model)
-      user.allowed_in_entity?(permission, model)
-    elsif model.respond_to?(:project) && model.project
-      user.allowed_in_project?(permission, model.project)
-    else
-      user.allowed_globally?(permission)
+    permissions = Authorization::UserPermissibleService.permissions_for(permission)
+
+    permissions.all? do |permission|
+      if permission.global?
+        user&.allowed_globally?(permission)
+      elsif permission.work_package? && model.is_a?(WorkPackage)
+        user&.allowed_in_work_package?(permission, model)
+      elsif permission.project? && model.respond_to?(:project)
+        user&.allowed_in_project?(permission, model.project)
+      elsif permission.project? && model.is_a?(Project)
+        user&.allowed_in_project?(permission, model)
+      end
     end
   end
 end

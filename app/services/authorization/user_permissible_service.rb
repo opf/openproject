@@ -26,14 +26,19 @@ module Authorization
       AllowedGloballyQuery.new(user, perms).exists?
     end
 
-    def allowed_in_project?(permission, project)
+    def allowed_in_project?(permission, projects_to_check)
       perms = normalized_permissions(permission, :project)
-      return false if project.nil?
+      return false if projects_to_check.blank?
       return false unless authorizable_user?
-      return false unless project.active? || project.being_archived?
       return true if admin_and_all_granted_to_admin?(perms)
 
-      AllowedInProjectQuery.new(user, project, perms).exists?
+      projects = Array(projects_to_check)
+
+      projects.all? do |project|
+        next false unless project.active? || project.being_archived?
+
+        AllowedInProjectQuery.new(user, project, perms).exists?
+      end
     end
 
     def allowed_in_any_project?(permission)
@@ -43,19 +48,24 @@ module Authorization
       AllowedInAnyProjectQuery.new(user, perms).exists?
     end
 
-    def allowed_in_entity?(permission, entity)
-      context = entity.model_name.element.to_sym
-      perms = normalized_permissions(permission, context)
-      return false if entity.nil?
+    def allowed_in_entity?(permission, entities_to_check)
+      return false if entities_to_check.blank?
       return false unless authorizable_user?
 
-      if entity.respond_to?(:project)
-        return false if entity.project.nil?
-        return false unless entity.project.active? || entity.project.being_archived?
-      end
-      return true if admin_and_all_granted_to_admin?(perms)
+      entities = Array(entities_to_check)
 
-      AllowedInEntityQuery.new(user, entity, perms).exists?
+      entities.all? do |entity|
+        context = entity.model_name.element.to_sym
+        perms = normalized_permissions(permission, context)
+
+        if entity.respond_to?(:project)
+          next false if entity.project.nil?
+          next false unless entity.project.active? || entity.project.being_archived?
+        end
+        next true if admin_and_all_granted_to_admin?(perms)
+
+        AllowedInEntityQuery.new(user:, entity:, permissions: perms).exists?
+      end
     end
 
     def allowed_in_any_entity?(permission, entity_class, in_project: nil)

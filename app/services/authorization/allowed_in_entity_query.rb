@@ -2,10 +2,10 @@ module Authorization
   class AllowedInEntityQuery
     attr_reader :user, :permissions, :entities
 
-    def initialize(user, permissions, entity_or_entities)
+    def initialize(user:, permissions:, entity:)
       @user = user
       @permissions = Array(permissions)
-      @entities = Array(entity_or_entities)
+      @entities = Array(entity)
     end
 
     def query

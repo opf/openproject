@@ -69,6 +69,7 @@ module Users::PermissionChecks
   delegate :allowed_globally?,
            :allowed_in_project?,
            :allowed_in_any_project?,
+           :allowed_in_entity?,
            :allowed_in_any_entity?,
            to: :user_permissible_service
 
