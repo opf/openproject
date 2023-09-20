@@ -55,7 +55,7 @@ module Activities
 
             # TODO: Let's see if we can find a nicer refactoring here
             if o == 'work_packages'
-              permissions.all? { |p| @user.allowed_in_any_work_package(p, in_project: @project) }
+              permissions.all? { |p| @user.allowed_in_any_work_package?(p, in_project: @project) }
             else
               permissions.all? { |p| @user.allowed_in_project?(p, @project) }
             end

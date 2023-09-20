@@ -118,7 +118,7 @@ class WorkPackagePolicy < BasePolicy
 
   def assign_version_allowed?(work_package)
     @assign_version_cache ||= Hash.new do |hash, project|
-      hash[wp] = user.allowed_in_project?(:assign_versions, project)
+      hash[project] = user.allowed_in_project?(:assign_versions, project)
     end
 
     @assign_version_cache[work_package.project]
