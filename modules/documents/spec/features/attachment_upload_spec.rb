@@ -76,12 +76,12 @@ RSpec.describe 'Upload attachment to documents', :js,
 
       perform_enqueued_jobs do
         click_on 'Create'
-      end
 
-      # Expect it to be present on the index page
-      expect(page).to have_selector('.document-category-elements--header', text: 'New documentation')
-      expect(page).to have_selector('#content img', count: 1)
-      expect(page).to have_content('Image uploaded on creation')
+        # Expect it to be present on the index page
+        expect(page).to have_selector('.document-category-elements--header', text: 'New documentation')
+        expect(page).to have_selector('#content img', count: 1)
+        expect(page).to have_content('Image uploaded on creation')
+      end
 
       document = Document.last
       expect(document.title).to eq 'New documentation'
@@ -116,13 +116,13 @@ RSpec.describe 'Upload attachment to documents', :js,
 
       perform_enqueued_jobs do
         click_on 'Save'
-      end
 
-      # Expect both images to be present on the show page
-      expect(page).to have_selector('#content img', count: 2)
-      expect(page).to have_content('Image uploaded on creation')
-      expect(page).to have_content('Image uploaded the second time')
-      attachments_list.expect_attached('image.png', count: 4)
+        # Expect both images to be present on the show page
+        expect(page).to have_selector('#content img', count: 2)
+        expect(page).to have_content('Image uploaded on creation')
+        expect(page).to have_content('Image uploaded the second time')
+        attachments_list.expect_attached('image.png', count: 4)
+      end
 
       # Expect a mail to be sent to the user having subscribed to all notifications
       expect(ActionMailer::Base.deliveries.size)
@@ -138,7 +138,7 @@ RSpec.describe 'Upload attachment to documents', :js,
 
   context 'with direct uploads (Regression #34285)', :with_direct_uploads do
     before do
-      allow_any_instance_of(Attachment).to receive(:diskfile).and_return image_fixture
+      allow_any_instance_of(Attachment).to receive(:diskfile).and_return image_fixture # rubocop:disable RSpec/AnyInstance
     end
 
     it_behaves_like 'can upload an image'

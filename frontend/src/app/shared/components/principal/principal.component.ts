@@ -74,6 +74,8 @@ export class OpPrincipalComponent implements OnInit {
 
   @Input() size:AvatarSize = 'default';
 
+  @Input() title = '';
+
   public constructor(
     readonly elementRef:ElementRef,
     readonly PathHelper:PathHelperService,
@@ -100,6 +102,7 @@ export class OpPrincipalComponent implements OnInit {
           hide: this.hideAvatar,
           size: this.size,
         },
+        this.title === '' ? null : this.title,
       );
     }
   }
