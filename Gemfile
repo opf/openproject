@@ -312,6 +312,10 @@ group :development, :test do
   gem 'rubocop-rspec', require: false
   gem 'rubocop-performance', require: false
 
+  # erb linting
+  gem "erb_lint", require: false
+  gem "erblint-github", require: false
+
   # Brakeman scanner
   gem 'brakeman', '~> 6.0.0'
 end
