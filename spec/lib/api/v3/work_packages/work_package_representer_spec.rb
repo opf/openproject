@@ -951,7 +951,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'linked relations' do
         let(:project) { create(:project, public: false) }
         let(:forbidden_project) { create(:project, public: false) }
-        let(:user) { create(:user, member_in_project: project) }
+        let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
 
         before do
           login_as(user)

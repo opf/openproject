@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Project templates', js: true, with_cuprite: true do
+RSpec.describe 'Project templates', :js, :with_cuprite do
   describe 'making project a template' do
     let(:project) { create(:project) }
 
@@ -89,8 +89,7 @@ RSpec.describe 'Project templates', js: true, with_cuprite: true do
 
     current_user do
       create(:user,
-             member_in_projects: [template, other_project],
-             member_through_role: role,
+             member_with_roles: { template => role, other_project => role },
              global_permissions:)
     end
 

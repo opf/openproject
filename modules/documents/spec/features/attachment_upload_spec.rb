@@ -29,16 +29,13 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-RSpec.describe 'Upload attachment to documents',
-         js: true,
-         with_settings: {
-           journal_aggregation_time_minutes: 0
-         } do
+RSpec.describe 'Upload attachment to documents', :js,
+               with_settings: {
+                 journal_aggregation_time_minutes: 0
+               } do
   let!(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_documents
-                                       manage_documents])
+           member_with_permissions: { project => %i[view_documents manage_documents] })
   end
   let!(:other_user) do
     create(:user,
@@ -132,14 +129,14 @@ RSpec.describe 'Upload attachment to documents',
         .to eq 1
 
       expect(ActionMailer::Base.deliveries.last.to)
-        .to match_array [other_user.mail]
+        .to contain_exactly(other_user.mail)
 
       expect(ActionMailer::Base.deliveries.last.subject)
         .to include 'New documentation'
     end
   end
 
-  context 'with direct uploads (Regression #34285)', with_direct_uploads: true do
+  context 'with direct uploads (Regression #34285)', :with_direct_uploads do
     before do
       allow_any_instance_of(Attachment).to receive(:diskfile).and_return image_fixture
     end

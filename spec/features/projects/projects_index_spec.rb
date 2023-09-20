@@ -28,9 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Projects index page',
-               js: true,
-               with_cuprite: true,
+RSpec.describe 'Projects index page', :js, :with_cuprite,
                with_settings: { login_required?: false } do
   shared_let(:admin) { create(:admin) }
 
@@ -237,8 +235,7 @@ RSpec.describe 'Projects index page',
 
     context 'with the "My projects" filter' do
       shared_let(:member) do
-        create(:user,
-               member_in_project: project)
+        create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] })
       end
 
       let(:current_user) { member }
@@ -489,7 +486,7 @@ RSpec.describe 'Projects index page',
     end
 
     describe 'I am member or not' do
-      shared_let(:member) { create(:user, member_in_project: project) }
+      shared_let(:member) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
 
       it "filters for projects I'm a member on and those where I'm not" do
         Role.non_member

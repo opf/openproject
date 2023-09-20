@@ -35,7 +35,7 @@ RSpec.describe 'API v3 Render resource' do
 
   let(:project) { create(:project, public: false) }
   let(:work_package) { create(:work_package, project:) }
-  let(:user) { create(:user, member_in_project: project) }
+  let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
   let(:content_type) { 'text/plain, charset=UTF-8' }
   let(:path) { api_v3_paths.render_markup plain:, link: context }
   let(:context) { nil }

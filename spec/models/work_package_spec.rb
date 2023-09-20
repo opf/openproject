@@ -160,7 +160,7 @@ RSpec.describe WorkPackage do
   end
 
   describe '#category' do
-    let(:user_2) { create(:user, member_in_project: project) }
+    let(:user_2) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
     let(:category) do
       create(:category,
              project:,

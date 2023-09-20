@@ -36,9 +36,7 @@ RSpec.describe Groups::AddUsersService, 'integration' do
   let(:admin) { create(:admin) }
 
   let!(:group) do
-    create(:group,
-           member_in_projects: projects,
-           member_through_role: role)
+    create(:group, member_with_roles: projects.zip([role].cycle).to_h)
   end
 
   let(:user1) { create(:user) }
@@ -60,11 +58,11 @@ RSpec.describe Groups::AddUsersService, 'integration' do
       expect(service_call).to be_success
 
       expect(group.users)
-        .to match_array([user1, user2])
+        .to contain_exactly(user1, user2)
       expect(user1.memberships.where(project_id: projects).count).to eq 2
-      expect(user1.memberships.map(&:roles).flatten).to match_array [role, role]
+      expect(user1.memberships.map(&:roles).flatten).to contain_exactly(role, role)
       expect(user2.memberships.where(project_id: projects).count).to eq 2
-      expect(user2.memberships.map(&:roles).flatten).to match_array [role, role]
+      expect(user2.memberships.map(&:roles).flatten).to contain_exactly(role, role)
     end
   end
 
@@ -156,7 +154,7 @@ RSpec.describe Groups::AddUsersService, 'integration' do
         expect(service_call).to be_success
 
         expect(group.users)
-          .to match_array([user1, user2])
+          .to contain_exactly(user1, user2)
         expect(user1.memberships.where(project_id: project).map(&:roles).flatten)
           .to match_array(roles)
         expect(user2.memberships.where(project_id: project).count).to eq 1
@@ -189,13 +187,13 @@ RSpec.describe Groups::AddUsersService, 'integration' do
         expect(service_call).to be_success
 
         expect(group.users)
-          .to match_array([user1, user2])
+          .to contain_exactly(user1, user2)
         expect(user1.memberships.where(project_id: previous_project).map(&:roles).flatten)
-          .to match_array([role, other_role])
+          .to contain_exactly(role, other_role)
         expect(user1.memberships.where(project_id: projects.last).map(&:roles).flatten)
-          .to match_array([role])
+          .to contain_exactly(role)
         expect(user2.memberships.where(project_id: projects).count).to eq 2
-        expect(user2.memberships.map(&:roles).flatten).to match_array [role, role]
+        expect(user2.memberships.map(&:roles).flatten).to contain_exactly(role, role)
       end
 
       it 'updates the timestamps on the preexisting membership' do
@@ -221,11 +219,11 @@ RSpec.describe Groups::AddUsersService, 'integration' do
       it 'adds the users to the group and their membership to the global role' do
         expect(service_call).to be_success
 
-        expect(group.users).to match_array([user1, user2])
+        expect(group.users).to contain_exactly(user1, user2)
         expect(user1.memberships.where(project_id: nil).count).to eq 1
-        expect(user1.memberships.flat_map(&:roles)).to match_array [role]
+        expect(user1.memberships.flat_map(&:roles)).to contain_exactly(role)
         expect(user2.memberships.where(project_id: nil).count).to eq 1
-        expect(user2.memberships.flat_map(&:roles)).to match_array [role]
+        expect(user2.memberships.flat_map(&:roles)).to contain_exactly(role)
       end
 
       context 'when one user already has a global role that the group would add' do

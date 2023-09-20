@@ -36,14 +36,7 @@ RSpec.shared_examples 'as an auth aware field' do
 
   context 'when user is not authorized' do
     let(:user) do
-      create(
-        :user,
-        member_in_project: project,
-        member_through_role: build(
-          :role,
-          permissions: [:view_work_packages]
-        )
-      )
+      create(:user, member_with_permissions: { project => %i(view_work_packages) })
     end
 
     it 'is not editable' do

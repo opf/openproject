@@ -1,8 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe "Notification center sidemenu",
-               js: true,
-               with_cuprite: true,
+RSpec.describe "Notification center sidemenu", :js, :with_cuprite,
                with_ee: %i[date_alerts] do
   shared_let(:project) { create(:project) }
   shared_let(:project2) { create(:project) }
@@ -10,8 +8,11 @@ RSpec.describe "Notification center sidemenu",
 
   shared_let(:recipient) do
     create(:user,
-           member_in_projects: [project, project2, project3],
-           member_with_permissions: %i[view_work_packages])
+           member_with_permissions: {
+             project => %i[view_work_packages],
+             project2 => %i[view_work_packages],
+             project3 => %i[view_work_packages]
+           })
   end
   shared_let(:other_user) { create(:user) }
 

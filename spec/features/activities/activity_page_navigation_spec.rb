@@ -36,9 +36,7 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
     create(:project, parent: project, enabled_module_names: Setting.default_projects_modules + ['activity'])
   end
   shared_let(:user) do
-    create(:user,
-           member_in_projects: [project, subproject],
-           member_with_permissions: %w[view_work_packages])
+    create(:user, member_with_permissions: { project => [:view_work_packages], subproject => [:view_work_packages] })
   end
   shared_let(:project_work_package) { create(:work_package, project:, subject: 'Work package for parent project') }
   shared_let(:subproject_work_package) { create(:work_package, project: subproject, subject: 'Work package for subproject') }
@@ -232,7 +230,7 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
       end
 
       # work package activity page is rendered by Angular, so it needs js: true
-      it 'Back button navigates to the previously seen work package page', js: true do
+      it 'Back button navigates to the previously seen work package page', :js do
         activity_page = work_package_path(project_work_package)
         assert_navigating_to_diff_page_and_back_comes_back_to_the_same_page(activity_page)
       end
