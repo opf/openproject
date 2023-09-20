@@ -36,7 +36,6 @@ class MeetingAgendaItem < ApplicationRecord
   acts_as_list scope: :meeting
   default_scope { order(:position) }
 
-  validates :author_id, presence: true
   validates :meeting_id, presence: true
   validates :title, presence: true, if: Proc.new { |item| item.work_package_id.blank? }
   validates :work_package_id, presence: true, if: Proc.new { |item| item.title.blank? }
