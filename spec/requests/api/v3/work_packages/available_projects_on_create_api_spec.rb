@@ -40,8 +40,7 @@ RSpec.describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI do
 
   current_user do
     create(:user,
-           member_in_project: project,
-           member_through_role: add_role)
+           member_with_roles: { project => add_role })
   end
 
   context 'with a type filter present' do

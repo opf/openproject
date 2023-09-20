@@ -79,7 +79,7 @@ RSpec.describe 'Project templates', js: true, with_cuprite: true do
     let(:status_description) { Components::WysiwygEditor.new status_field_selector }
 
     let!(:other_user) do
-      create(:user, member_in_project: template, member_through_role: role)
+      create(:user, member_with_roles: { template => role })
     end
 
     let(:name_field) { FormFields::InputFormField.new :name }

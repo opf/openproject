@@ -20,7 +20,7 @@ RSpec.describe 'Milestones full screen v iew', js: true do
 
   context 'user has :add_work_packages permission' do
     let(:user) do
-      create(:user, member_in_project: project, member_through_role: role)
+      create(:user, member_with_roles: { project => role })
     end
     let(:role) { create(:role, permissions:) }
     let(:permissions) do
@@ -37,7 +37,7 @@ RSpec.describe 'Milestones full screen v iew', js: true do
 
   context 'user has :view_work_packages permission only' do
     let(:user) do
-      create(:user, member_in_project: project, member_through_role: role)
+      create(:user, member_with_roles: { project => role })
     end
     let(:role) { create(:role, permissions:) }
     let(:permissions) do

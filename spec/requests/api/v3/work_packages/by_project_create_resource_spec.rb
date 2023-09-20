@@ -51,7 +51,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :j
   end
 
   current_user do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   before do

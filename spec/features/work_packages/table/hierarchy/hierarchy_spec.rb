@@ -177,8 +177,7 @@ RSpec.describe 'Work Package table hierarchy', js: true do
 
     let(:user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
     let(:permissions) { %i(view_work_packages add_work_packages save_queries) }
     let(:role) { create(:role, permissions:) }

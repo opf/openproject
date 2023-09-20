@@ -73,7 +73,7 @@ RSpec.describe 'Project details widget on dashboard', js: true do
   end
 
   let(:read_only_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:editing_user) do
     create(:user,

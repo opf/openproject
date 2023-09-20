@@ -31,8 +31,7 @@ require 'spec_helper'
 RSpec.describe 'Work package copy', :js, :selenium do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: create_role)
+           member_with_roles: { project => create_role })
   end
   let(:work_flow) do
     create(:workflow,

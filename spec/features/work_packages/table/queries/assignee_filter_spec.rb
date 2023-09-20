@@ -44,8 +44,7 @@ RSpec.describe 'Work package filtering by assignee', :js do
     create(:user,
            firstname: 'Invisible',
            lastname: 'User',
-           member_in_project: invisible_project,
-           member_through_role: role)
+           member_with_roles: { invisible_project => role })
   end
   let(:placeholder_user) do
     create(:placeholder_user, member_with_roles: { project => role })

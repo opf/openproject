@@ -36,8 +36,8 @@ RSpec.describe MeetingMailer do
            member_with_roles: { project => role },
            preferences: { time_zone: 'Europe/Berlin' })
   end
-  shared_let(:watcher1) { create(:user, member_in_project: project, member_through_role: role) }
-  shared_let(:watcher2) { create(:user, member_in_project: project, member_through_role: role) }
+  shared_let(:watcher1) { create(:user, member_with_roles: { project => role }) }
+  shared_let(:watcher2) { create(:user, member_with_roles: { project => role }) }
 
   let(:meeting) do
     create(:meeting,

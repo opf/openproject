@@ -177,8 +177,7 @@ RSpec.describe 'API v3 Group resource', content_type: :json do
     let(:another_role) { create(:role) }
     let(:another_user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: another_role,
+             member_with_roles: { project => another_role },
              notification_settings: [
                build(:notification_setting,
                      membership_added: true,

@@ -35,14 +35,14 @@ RSpec.describe PlaceholderUsers::Scopes::Visible do
     shared_let(:role) { create(:role, permissions: %i[manage_members]) }
 
     shared_let(:other_project_placeholder) do
-      create(:placeholder_user, member_in_project: other_project, member_through_role: role)
+      create(:placeholder_user, member_with_roles: { other_project => role })
     end
     shared_let(:global_placeholder) { create(:placeholder_user) }
 
     subject { PlaceholderUser.visible.to_a }
 
     context 'when user has manage_members permission' do
-      current_user { create(:user, member_in_project: project, member_through_role: role) }
+      current_user { create(:user, member_with_roles: { project => role }) }
 
       it 'sees all users' do
         expect(subject).to match_array [other_project_placeholder, global_placeholder]

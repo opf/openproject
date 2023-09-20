@@ -33,8 +33,7 @@ RSpec.describe 'Query selection' do
   let(:project) { create(:project, identifier: 'test_project', public: false) }
   let(:role) { create(:role, permissions: [:view_work_packages]) }
   let(:current_user) do
-    create(:user, member_in_project: project,
-                  member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   let(:default_status) { create(:default_status) }

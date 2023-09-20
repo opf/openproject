@@ -59,7 +59,7 @@ RSpec.describe 'API v3 Project resource index', content_type: :json do
   let(:response) { last_response }
   let(:projects) { [project, other_project] }
 
-  current_user { create(:user, member_in_project: project, member_through_role: role) }
+  current_user { create(:user, member_with_roles: { project => role }) }
 
   before do
     projects

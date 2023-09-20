@@ -71,8 +71,7 @@ RSpec.describe 'Only see your own rates', :js do
   let(:other_role) { create(:role, permissions: []) }
   let(:other_user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: other_role)
+           member_with_roles: { project => other_role })
   end
   let(:other_hourly_rate) do
     create(:default_hourly_rate, user: other_user,

@@ -38,18 +38,15 @@ RSpec.describe Principals::Scopes::Visible do
     shared_let(:project) { create(:project) }
     shared_let(:project_user) do
       create(:user, firstname: 'project user',
-                    member_in_project: project,
-                    member_through_role: role)
+                    member_with_roles: { project => role })
     end
     shared_let(:project_group) do
       create(:group, firstname: 'project group',
-                     member_in_project: project,
-                     member_through_role: role)
+                     member_with_roles: { project => role })
     end
     shared_let(:project_placeholder_user) do
       create(:placeholder_user, firstname: 'project placeholder user',
-                                member_in_project: project,
-                                member_through_role: role)
+                                member_with_roles: { project => role })
     end
 
     # The 'other project' is here to ensure their members are not visible from
@@ -57,18 +54,15 @@ RSpec.describe Principals::Scopes::Visible do
     shared_let(:other_project) { create(:project) }
     shared_let(:other_project_user) do
       create(:user, firstname: 'other project user',
-                    member_in_project: other_project,
-                    member_through_role: role)
+                    member_with_roles: { other_project => role })
     end
     shared_let(:other_project_group) do
       create(:group, firstname: 'other project group',
-                     member_in_project: other_project,
-                     member_through_role: role)
+                     member_with_roles: { other_project => role })
     end
     shared_let(:other_placeholder_user) do
       create(:placeholder_user, firstname: 'other project placeholder user',
-                                member_in_project: other_project,
-                                member_through_role: role)
+                                member_with_roles: { other_project => role })
     end
 
     shared_let(:global_user) { create(:user, firstname: 'global user') }
@@ -95,8 +89,7 @@ RSpec.describe Principals::Scopes::Visible do
     context 'when user has manage_members project permission' do
       current_user do
         create(:user, firstname: 'current user',
-                      member_in_project: project,
-                      member_through_role: role)
+                      member_with_roles: { project => role })
       end
 
       include_examples 'sees all principals'

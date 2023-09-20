@@ -101,8 +101,7 @@ RSpec.describe 'Projects index page',
     context 'for project members', with_ee: %i[custom_fields_in_projects_list] do
       shared_let(:user) do
         create(:user,
-               member_in_project: development_project,
-               member_through_role: developer,
+               member_with_roles: { development_project => developer },
                login: 'nerd',
                firstname: 'Alan',
                lastname: 'Turing')
@@ -857,18 +856,15 @@ RSpec.describe 'Projects index page',
 
     shared_let(:can_copy_projects_manager) do
       create(:user,
-             member_in_project: parent_project,
-             member_through_role: can_copy_projects_role)
+             member_with_roles: { parent_project => can_copy_projects_role })
     end
     shared_let(:can_add_subprojects_manager) do
       create(:user,
-             member_in_project: parent_project,
-             member_through_role: can_add_subprojects_role)
+             member_with_roles: { parent_project => can_add_subprojects_role })
     end
     let(:simple_member) do
       create(:user,
-             member_in_project: parent_project,
-             member_through_role: developer)
+             member_with_roles: { parent_project => developer })
     end
 
     before do
@@ -1087,8 +1083,7 @@ RSpec.describe 'Projects index page',
       shared_let(:work_packages_viewer) { create(:role, name: 'Viewer', permissions: [:view_work_packages]) }
       shared_let(:simple_member) do
         create(:user,
-               member_in_project: project_with_activity_enabled,
-               member_through_role: work_packages_viewer)
+               member_with_roles: { project_with_activity_enabled => work_packages_viewer })
       end
       shared_let(:work_package) { create(:work_package, project: project_with_activity_enabled) }
 

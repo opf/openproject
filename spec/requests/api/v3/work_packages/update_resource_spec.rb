@@ -50,7 +50,7 @@ RSpec.describe 'API v3 Work package resource',
   let(:type) { create(:type) }
 
   current_user do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   describe 'PATCH /api/v3/work_packages/:id' do
@@ -86,8 +86,7 @@ RSpec.describe 'API v3 Work package resource',
         let(:role) { create(:role, permissions: [:view_work_packages]) }
         let(:current_user) do
           create(:user,
-                 member_in_project: work_package.project,
-                 member_through_role: role)
+                 member_with_roles: { work_package.project => role })
         end
         let(:params) { valid_params }
 
@@ -451,8 +450,7 @@ RSpec.describe 'API v3 Work package resource',
         let(:user) { create(:user, member_with_permissions: { project => %i[work_package_assigned] }) }
         let(:placeholder_user) do
           create(:placeholder_user,
-                 member_in_project: project,
-                 member_through_role: role)
+                 member_with_roles: { project => role })
         end
         let(:params) { valid_params.merge(user_parameter) }
         let(:work_package) do

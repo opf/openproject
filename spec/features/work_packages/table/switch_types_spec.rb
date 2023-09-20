@@ -278,8 +278,7 @@ RSpec.describe 'Switching types in work package table', js: true do
     let(:role) { create(:role, permissions:) }
     let(:user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     let(:custom_field) do

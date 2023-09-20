@@ -52,8 +52,7 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
 
   let(:current_user) do
     create(:user,
-           member_in_project: source,
-           member_through_role: role)
+           member_with_roles: { source => role })
   end
   let(:instance) { described_class.new(source:, user: current_user) }
   let(:only_args) { nil }
@@ -142,8 +141,7 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
           let(:user_custom_field) { create(:user_project_custom_field) }
           let(:user_value) do
             create(:user,
-                   member_in_project: source,
-                   member_through_role: role)
+                   member_with_roles: { source => role })
           end
 
           before do
@@ -756,7 +754,7 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
 
         context 'with watchers' do
           let(:watcher_role) { create(:role, permissions: [:view_work_packages]) }
-          let(:watcher) { create(:user, member_in_project: source, member_through_role: watcher_role) }
+          let(:watcher) { create(:user, member_with_roles: { source => watcher_role }) }
 
           let(:only_args) { %w[work_packages members] }
 
@@ -821,8 +819,7 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
         context 'when work_package is assigned to somebody' do
           let(:assigned_user) do
             create(:user,
-                   member_in_project: source,
-                   member_through_role: role)
+                   member_with_roles: { source => role })
           end
 
           before do
@@ -861,8 +858,7 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
         context 'when work_package has a responsible person' do
           let(:responsible_user) do
             create(:user,
-                   member_in_project: source,
-                   member_through_role: role)
+                   member_with_roles: { source => role })
           end
 
           before do
@@ -1008,7 +1004,7 @@ RSpec.describe(Projects::CopyService, 'integration', type: :model, webmock: true
     end
 
     context 'without anything selected' do
-      let!(:source_member) { create(:user, member_in_project: source, member_through_role: role) }
+      let!(:source_member) { create(:user, member_with_roles: { source => role }) }
       let(:only_args) { nil }
 
       # rubocop:disable RSpec/MultipleExpectations

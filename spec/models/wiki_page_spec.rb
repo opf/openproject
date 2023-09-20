@@ -279,8 +279,7 @@ RSpec.describe WikiPage do
     let(:role) { create(:role, permissions: [:view_wiki_pages]) }
     let(:user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     it 'returns all pages for which the user has the \'view_wiki_pages\' permission' do

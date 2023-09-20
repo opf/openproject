@@ -42,8 +42,7 @@ RSpec.describe Queries::Principals::PrincipalQuery, 'integration' do
     let(:role) { create(:role) }
     let(:project_user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: role) do |u|
+             member_with_roles: { project => role }) do |u|
         # Granting another membership in order to better test the "not" filter
         create(:member,
                principal: u,
@@ -54,8 +53,7 @@ RSpec.describe Queries::Principals::PrincipalQuery, 'integration' do
     let(:other_project) { create(:project, public: true) }
     let(:other_project_user) do
       create(:user,
-             member_in_project: other_project,
-             member_through_role: role)
+             member_with_roles: { other_project => role })
     end
 
     let(:users) { [current_user, project_user, other_project_user] }

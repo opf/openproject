@@ -45,8 +45,7 @@ RSpec.describe OpenProject::TextFormatting,
 
     shared_let(:project_member) do
       create(:user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
     shared_let(:work_package) do
       create(:work_package,

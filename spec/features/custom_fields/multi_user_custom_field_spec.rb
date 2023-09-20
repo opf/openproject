@@ -40,22 +40,19 @@ RSpec.describe "multi select custom values",
       create(:user,
              firstname: 'Da Real',
              lastname: 'User',
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     let!(:group) do
       create(:group,
              name: 'groupfoo',
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     let!(:placeholder) do
       create(:placeholder_user,
              name: 'PLACEHOLDER',
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     it "is shown and allowed to be updated" do
@@ -106,16 +103,14 @@ RSpec.describe "multi select custom values",
       create(:user,
              firstname: 'Billy',
              lastname: 'Nobbler',
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     let!(:user2) do
       create(:user,
              firstname: 'Cooper',
              lastname: 'Quatermaine',
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     let!(:user3) do
@@ -123,8 +118,7 @@ RSpec.describe "multi select custom values",
              firstname: 'Anton',
              lastname: 'Lupin',
              status: User.statuses[:invited],
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     context "with existing custom values" do

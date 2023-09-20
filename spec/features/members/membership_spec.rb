@@ -32,8 +32,7 @@ RSpec.describe 'Administrating memberships via the project settings', js: true d
   shared_let(:admin) { create(:admin) }
   let(:current_user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: manager)
+           member_with_roles: { project => manager })
   end
   let!(:project) { create(:project) }
 

@@ -106,8 +106,7 @@ RSpec.describe 'Project attribute help texts', js: true, with_cuprite: true do
     end
     let(:user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: view_role)
+             member_with_roles: { project => view_role })
     end
 
     it_behaves_like 'allows to view help texts'
