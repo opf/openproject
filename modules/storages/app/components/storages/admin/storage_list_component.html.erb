@@ -1,19 +1,48 @@
 <%=
   render(Primer::Beta::BorderBox.new) do |component|
-    component.with_header do |header|
-      header.with_title(tag: :h3) do
-        I18n.t('storages.count', count: storages.size)
+    component.with_header(color: :subtle) do
+      flex_layout(align_items: :center) do |header_container|
+        header_container.with_column(flex: :auto) do
+          I18n.t('storages.count', count: storages.size)
+        end
+        #header_container.with_column(text_align: :right, style: "width: 100px;") { I18n.t('storages.label_provider') }
+        #header_container.with_column(text_align: :right, style: "width: 100px;") { I18n.t('storages.label_creator') }
       end
     end
+
     storages.map do |storage|
       component.with_row(scheme: :default, id: storage_row_css_id(storage)) do
-        div_tag(
-          formatted_storage_name(storage) +
-            formatted_datetime(storage)
-        ) +
-          div_tag(storage_creator(storage)) +
-          div_tag(storage.provider_type) +
-          div_tag(storage.host)
+        flex_layout(align_items: :center) do |storage_row_container|
+          storage_row_container.with_column(flex: :auto) do
+            flex_layout do |storage_details|
+              storage_details.with_row do
+                flex_layout(font_weight: :bold) do |storage_name|
+                  unless storage.configured?
+                    storage_name.with_column do
+                      render(Primer::Beta::Octicon.new(:'alert-fill', size: :small, color: :severe, classes: 'mr-2'))
+                    end
+                  end
+
+                  storage_name.with_column do
+                    storage.name
+                  end
+                end
+              end
+              storage_details.with_row(color: :subtle) do
+                I18n.t('activity.item.created_on', datetime: helpers.format_time(storage.created_at)).capitalize
+              end
+            end
+          end
+          storage_row_container.with_column(color: :subtle, style: "width: 180px;") do
+             render(Users::AvatarComponent.new(user: storage.creator, size: :mini, link: false, show_name: true))
+          end
+          storage_row_container.with_column(text_align: :right, color: :subtle, style: "width: 100px;") do
+            render(Primer::Beta::Truncate.new) { storage.short_provider_type }
+          end
+          storage_row_container.with_column(text_align: :right, color: :subtle, style: "width: 240px;") do
+            render(Primer::Beta::Truncate.new) { storage.host }
+          end
+        end
       end
     end
   end

@@ -30,43 +30,13 @@
 #
 module Storages::Admin
   class StorageListComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
     alias_method :storages, :model
 
     private
 
     def storage_row_css_id(storage)
       helpers.dom_id storage
-    end
-
-    def formatted_storage_name(storage)
-      if storage.configured?
-        span_tag(storage.name)
-      else
-        render(Primer::Beta::Octicon.new(:'alert-fill', size: :small, color: :severe)) +
-          span_tag(storage.name, classes: 'pl-2')
-      end
-    end
-
-    def formatted_datetime(storage)
-      span_tag(" #{I18n.t('activity.item.created_on', datetime: helpers.format_time(storage.created_at.to_fs(:long)))}")
-    end
-
-    def storage_creator(storage)
-      # TODO: Replace with `Users::AvatarComponent` once https://github.com/opf/openproject/pull/13527 is merged
-      helpers.avatar(storage.creator, size: :mini) +
-        storage.creator.name
-    end
-
-    def span_tag(item, **)
-      base_component_tag(item, tag: :span, **)
-    end
-
-    def div_tag(item, **)
-      base_component_tag(item, tag: :div, **)
-    end
-
-    def base_component_tag(item, tag:, **)
-      render(Primer::BaseComponent.new(tag:, **)) { item }
     end
   end
 end
