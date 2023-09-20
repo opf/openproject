@@ -133,7 +133,7 @@ RSpec.describe CostQuery, :reporting_query_helper do
 
     describe CostQuery::Filter::AuthorId do
       let!(:non_matching_entry) { create(:cost_entry) }
-      let!(:author) { create(:user, mmember_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
+      let!(:author) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
       let!(:work_package) do
         create(:work_package,
                project:,
