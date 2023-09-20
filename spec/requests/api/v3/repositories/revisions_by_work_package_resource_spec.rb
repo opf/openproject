@@ -35,9 +35,7 @@ RSpec.describe 'API v3 Revisions by work package resource' do
   include FileHelpers
 
   let(:current_user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:project) { create(:project, public: false) }
   let(:role) { create(:role, permissions:) }

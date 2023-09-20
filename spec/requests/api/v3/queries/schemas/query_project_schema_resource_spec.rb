@@ -36,9 +36,7 @@ RSpec.describe 'API v3 Query Schema resource' do
   let(:project) { create(:project) }
   let(:permissions) { [:view_work_packages] }
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+    create(:user, member_with_permissions: { project => permissions })
   end
 
   before do

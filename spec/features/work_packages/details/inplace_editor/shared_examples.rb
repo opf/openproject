@@ -116,14 +116,12 @@ RSpec.shared_examples 'a principal autocomplete field' do
   let(:role) { create(:role, permissions: %i[view_work_packages edit_work_packages]) }
   let!(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role,
+           member_with_roles: { project => role },
            firstname: 'John')
   end
   let!(:mentioned_user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role,
+           member_with_roles: { project => role },
            firstname: 'Laura',
            lastname: 'Foobar')
   end
@@ -180,14 +178,12 @@ RSpec.shared_examples 'not a principal autocomplete field' do
   let(:role) { create(:role, permissions: %i[view_work_packages edit_work_packages]) }
   let!(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role,
+           member_with_roles: { project => role },
            firstname: 'John')
   end
   let!(:mentioned_user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role,
+           member_with_roles: { project => role },
            firstname: 'Laura',
            lastname: 'Foobar')
   end

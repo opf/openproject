@@ -37,8 +37,7 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
   let(:user) do
     create(:user,
            lastname: 'First',
-           member_in_project: project,
-           member_with_permissions: permissions).tap do |u|
+           member_with_permissions: { project => permissions }).tap do |u|
       u.pref[:time_zone] = time_zone
 
       u.save!
@@ -47,8 +46,7 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
   let(:other_user) do
     create(:user,
            lastname: 'Second',
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
   let(:permissions) { %i[view_meetings create_meetings] }
   let(:current_user) { user }

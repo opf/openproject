@@ -34,13 +34,10 @@ RSpec.describe 'API v3 roles resource' do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:role) do
-    create(:role,
-           permissions:)
+    create(:role, permissions:)
   end
   let(:permissions) { %i[view_members manage_members] }
   let(:project) { create(:project) }

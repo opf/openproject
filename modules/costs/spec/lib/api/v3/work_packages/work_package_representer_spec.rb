@@ -41,8 +41,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
   end
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
 
   let(:cost_entry_1) do

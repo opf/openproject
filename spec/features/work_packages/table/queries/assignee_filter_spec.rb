@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package filtering by assignee', js: true do
+RSpec.describe 'Work package filtering by assignee', :js do
   let(:project) { create(:project) }
   let(:invisible_project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -38,8 +38,7 @@ RSpec.describe 'Work package filtering by assignee', js: true do
     create(:user,
            firstname: 'Other',
            lastname: 'User',
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:invisible_user) do
     create(:user,
@@ -49,9 +48,7 @@ RSpec.describe 'Work package filtering by assignee', js: true do
            member_through_role: role)
   end
   let(:placeholder_user) do
-    create(:placeholder_user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:placeholder_user, member_with_roles: { project => role })
   end
 
   let!(:work_package_user_assignee) do
@@ -66,9 +63,7 @@ RSpec.describe 'Work package filtering by assignee', js: true do
   end
 
   current_user do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   it 'shows the work package matching the assigned to filter' do

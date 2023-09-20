@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-RSpec.describe 'Arbitrary WorkPackage query table widget on my page', js: true do
+RSpec.describe 'Arbitrary WorkPackage query table widget on my page', :js do
   let!(:type) { create(:type) }
   let!(:other_type) { create(:type) }
   let!(:priority) { create(:default_priority) }
@@ -55,9 +55,7 @@ RSpec.describe 'Arbitrary WorkPackage query table widget on my page', js: true d
   let(:permissions) { %i[view_work_packages add_work_packages save_queries] }
 
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+    create(:user, member_with_permissions: { project => permissions })
   end
   let(:my_page) do
     Pages::My::Page.new

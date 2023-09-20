@@ -28,13 +28,12 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Navigate to dashboard', js: true do
+RSpec.describe 'Navigate to dashboard', :js do
   let(:project) { create(:project) }
   let(:permissions) { [:view_dashboards] }
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
 
   before do

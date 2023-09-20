@@ -31,8 +31,7 @@ require 'spec_helper'
 RSpec.describe Calendar::ResolveWorkPackagesService, type: :model do
   let(:user1) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
   let(:permissions) { %i[view_work_packages] }
   let(:project) { create(:project) }

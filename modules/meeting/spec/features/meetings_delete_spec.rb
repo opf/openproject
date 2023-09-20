@@ -32,13 +32,11 @@ RSpec.describe 'Meetings deletion' do
   let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
   let(:other_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
 
   let!(:meeting) { create(:meeting, project:, title: 'Own awesome meeting!', author: user) }
@@ -50,7 +48,7 @@ RSpec.describe 'Meetings deletion' do
     login_as(user)
   end
 
-  context 'with permission to delete meetings', js: true do
+  context 'with permission to delete meetings', :js do
     let(:permissions) { %i[view_meetings delete_meetings] }
 
     it "can delete own and other's meetings" do
