@@ -1,4 +1,4 @@
-# frozen_string_literal:true
+# frozen_string_literal: true
 
 #-- copyright
 # OpenProject is an open source project management software.
@@ -31,32 +31,30 @@
 module Storages
   module Peripherals
     module StorageInteraction
-      module Nextcloud
-        Queries = Dry::Container::Namespace.new('queries') do
-          namespace('nextcloud') do
-            register(:download_link, DownloadLinkQuery)
-            register(:file_ids, FileIdsQuery)
-            register(:file_info, FileInfoQuery)
-            register(:files_info, FilesInfoQuery)
-            register(:files, FilesQuery)
-            register(:folder_files_file_ids_deep_query, FolderFilesFileIdsDeepQuery)
-            register(:propfind, Internal::PropfindQuery)
-            register(:group_users, GroupUsersQuery)
-            register(:upload_link, UploadLinkQuery)
-            register(:open_link, OpenLinkQuery)
+      module OneDrive
+        class OpenLinkQuery
+          def self.call(storage:, user:, file_id:, open_location: false)
+            new(storage).call(user:, file_id:, open_location:)
           end
-        end
 
-        Commands = Dry::Container::Namespace.new('commands') do
-          namespace('nextcloud') do
-            register(:add_user_to_group, AddUserToGroupCommand)
-            register(:copy_template_folder, CopyTemplateFolderCommand)
-            register(:create_folder, CreateFolderCommand)
-            register(:delete_entity, Internal::DeleteEntityCommand)
-            register(:delete_folder, DeleteFolderCommand)
-            register(:remove_user_from_group, RemoveUserFromGroupCommand)
-            register(:rename_file, RenameFileCommand)
-            register(:set_permissions, SetPermissionsCommand)
+          def initialize(storage)
+            @delegate = Internal::DriveItemQuery.new(storage)
+          end
+
+          # TODO: open in location
+          # rubocop:disable Lint/UnusedMethodArgument
+          def call(user:, file_id:, open_location: false)
+            @delegate.call(user:, drive_item_id: file_id, fields: %w[webUrl]).map(&web_url)
+          end
+
+          # rubocop:enable Lint/UnusedMethodArgument
+
+          private
+
+          def web_url
+            ->(json) do
+              json[:webUrl]
+            end
           end
         end
       end
