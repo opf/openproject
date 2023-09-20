@@ -21,7 +21,7 @@ export class OpAutocompleterService extends UntilDestroyedMixin {
   }
 
   // A method for fetching data with different resource type and different filter
-  public loadAvailable(matching:string, resource:resource, filters?:IAPIFilter[], searchKey?:string):Observable<HalResource[]> {
+  public loadAvailable(matching:string, resource:TOpAutocompleterResource, filters?:IAPIFilter[], searchKey?:string):Observable<HalResource[]> {
     const finalFilters:ApiV3FilterBuilder = this.createFilters(filters ?? [], matching, searchKey);
 
     const filteredData = (this.apiV3Service[resource] as
@@ -29,6 +29,14 @@ export class OpAutocompleterService extends UntilDestroyedMixin {
       .filtered(finalFilters).get()
       .pipe(map((collection) => collection.elements));
     return filteredData;
+  }
+
+  // A method for fetching the object for a provided value using the API
+  public loadValue(id:string, resource:TOpAutocompleterResource):Observable<HalResource> {
+    return (this.apiV3Service[resource] as
+      ApiV3ResourceCollection<UserResource|WorkPackageResource, ApiV3UserPaths|ApiV3WorkPackagePaths>)
+      .id(id)
+      .get();
   }
 
   // A method for building filters
@@ -48,7 +56,7 @@ export class OpAutocompleterService extends UntilDestroyedMixin {
   // If you need to fetch our default date sources like work_packages or users,
   // you should use the default method (loadAvailable), otherwise you should implement a function for
   // your desired resource
-  public loadData(matching:string, resource:resource, filters?:IAPIFilter[], searchKey?:string) {
+  public loadData(matching:string, resource:TOpAutocompleterResource, filters?:IAPIFilter[], searchKey?:string) {
     switch (resource) {
     // in this case we can add more functions for fetching usual resources
       default: {

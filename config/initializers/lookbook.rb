@@ -1,6 +1,9 @@
 OpenProject::Application.configure do
   next unless OpenProject::Configuration.lookbook_enabled?
 
+  require 'factory_bot'
+  require 'factory_bot_rails'
+
   # Re-define snapshot to avoid warnings
   YARD::Tags::Library.define_tag("Snapshot preview (unused)", :snapshot)
   config.lookbook.project_name = "OpenProject Lookbook"

@@ -50,6 +50,7 @@ import {
 import { fromEvent } from 'rxjs';
 import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { navigator } from '@hotwired/turbo';
 
 export const ckeditorAugmentedTextareaSelector = 'ckeditor-augmented-textarea';
 
@@ -66,6 +67,8 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
   @Input() public macros:boolean;
 
   @Input() public resource?:object;
+
+  @Input() public turboMode = false;
 
   @Input() public editorType:ICKEditorType = 'full';
 
@@ -138,10 +141,12 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
   private registerFormSubmitListener():void {
     fromEvent(this.formElement, 'submit')
       .pipe(
+        filter(() => !this.inFlight),
         this.untilDestroyed(),
       )
-      .subscribe(() => {
-        this.saveForm();
+      .subscribe((evt:SubmitEvent) => {
+        evt.preventDefault();
+        this.saveForm(evt);
       });
   }
 
@@ -149,10 +154,22 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     window.OpenProject.pageWasEdited = true;
   }
 
-  public saveForm():void {
+  public saveForm(evt?:SubmitEvent):void {
     this.syncToTextarea();
+    this.inFlight = true;
     window.OpenProject.pageIsSubmitted = true;
-    this.formElement.submit();
+
+    setTimeout(() => {
+      if (evt?.submitter) {
+        (evt.submitter as HTMLInputElement).disabled = false;
+      }
+
+      if (this.turboMode) {
+        navigator.submitForm(this.formElement, evt?.submitter || undefined);
+      } else {
+        this.formElement.requestSubmit(evt?.submitter);
+      }
+    });
   }
 
   public setup(editor:ICKEditorInstance) {

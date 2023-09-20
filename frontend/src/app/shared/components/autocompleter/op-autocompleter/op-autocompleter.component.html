@@ -1,4 +1,5 @@
 <div class="inline-label">
+  <input *ngIf="inputName" [ngModel]="mappedInputValue" type="hidden" [attr.name]="inputName">
   <ng-select
     #ngSelectInstance
     [(ngModel)]="model"
@@ -164,7 +165,7 @@
     </div>
   </ng-container>
 
-  <ng-container *ngSwitchCase="resource ==='user' || resource ==='assignee'">
+  <ng-container *ngSwitchCase="resource ==='users' || resource ==='assignee' || resource === 'principals'">
     <div class="op-autocompleter--option-principal-wrapper">
       <op-principal
         *ngIf="item && item.href"
