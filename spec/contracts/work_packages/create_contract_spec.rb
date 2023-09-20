@@ -48,18 +48,10 @@ RSpec.describe WorkPackages::CreateContract do
 
   it_behaves_like 'work package contract'
 
-  def add_work_packages_allowed(in_project: true, in_global: true)
-    allow(user)
-      .to receive(:allowed_to?) do |permission, permission_project, global: false|
-      (in_project && project == permission_project && permission == :add_work_packages) ||
-        (in_global && global && permission == :add_work_packages)
-    end
-  end
-
   describe 'authorization' do
     context 'user allowed in project and project specified' do
       before do
-        add_work_packages_allowed(in_project: true, in_global: true)
+        mock_project_permission(:add_work_packages, user:, project:)
 
         work_package.project = project
       end
@@ -71,8 +63,6 @@ RSpec.describe WorkPackages::CreateContract do
 
     context 'user not allowed in project and project specified' do
       before do
-        add_work_packages_allowed(in_project: false, in_global: true)
-
         work_package.project = project
       end
 
@@ -84,7 +74,7 @@ RSpec.describe WorkPackages::CreateContract do
 
     context 'user allowed in a project and no project specified' do
       before do
-        add_work_packages_allowed(in_project: true, in_global: true)
+        mock_project_permission(:add_work_packages, user:, project:)
       end
 
       it 'has no authorization error' do
@@ -105,8 +95,6 @@ RSpec.describe WorkPackages::CreateContract do
 
     context 'user not allowed in any project and project specified' do
       before do
-        add_work_packages_allowed(in_project: false, in_global: false)
-
         work_package.project = project
       end
 
@@ -119,7 +107,7 @@ RSpec.describe WorkPackages::CreateContract do
 
   describe 'author_id' do
     before do
-      add_work_packages_allowed(in_project: true, in_global: true)
+      mock_project_permission(:add_work_packages, user:, project:)
       work_package.project = project
     end
 
