@@ -59,6 +59,7 @@ en:
       messages:
         invalid_time_format: "is not a valid time. Required format: HH:MM"
     models:
+      structured_meeting: "Meeting (dynamic)"
       meeting_agenda_item: "Agenda item"
       meeting_agenda: "Agenda"
       meeting_minutes: "Minutes"
@@ -107,9 +108,9 @@ en:
 
   meeting:
     types:
-      classic: 'Free-text meeting'
+      classic: 'Classic'
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
-      structured: 'Structured meeting'
+      structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
     copied: "Copied from Meeting #%{id}"
 
