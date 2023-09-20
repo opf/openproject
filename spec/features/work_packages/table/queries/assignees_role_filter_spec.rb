@@ -30,7 +30,8 @@
 
 require 'spec_helper'
 
-RSpec.describe "Work package filtering by assignee's role", :js do
+RSpec.describe "Work package filtering",
+               "by assignee's role", :js, :with_cuprite do
   shared_let(:project) { create(:project) }
 
   shared_let(:project_role) { create(:role, permissions: %i[view_work_packages work_package_assigned save_queries]) }
@@ -88,8 +89,6 @@ RSpec.describe "Work package filtering by assignee's role", :js do
     filters.expect_filter_count("2")
 
     wp_table.expect_work_package_listed(work_package_user_assignee)
-
-    sleep 2
 
     wp_table.save_as('Subject query')
 
