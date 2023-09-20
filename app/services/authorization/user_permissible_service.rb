@@ -35,9 +35,7 @@ module Authorization
       projects = Array(projects_to_check)
 
       projects.all? do |project|
-        next false unless project.active? || project.being_archived?
-
-        AllowedInProjectQuery.new(user, project, perms).exists?
+        allowed_in_single_project?(permission, project)
       end
     end
 
@@ -55,16 +53,7 @@ module Authorization
       entities = Array(entities_to_check)
 
       entities.all? do |entity|
-        context = entity.model_name.element.to_sym
-        perms = normalized_permissions(permission, context)
-
-        if entity.respond_to?(:project)
-          next false if entity.project.nil?
-          next false unless entity.project.active? || entity.project.being_archived?
-        end
-        next true if admin_and_all_granted_to_admin?(perms)
-
-        AllowedInEntityQuery.new(user:, entity:, permissions: perms).exists?
+        allowed_in_single_entity?(permission, entity)
       end
     end
 
@@ -78,6 +67,7 @@ module Authorization
 
     def self.permissions_for(action)
       return [action] if action.is_a?(OpenProject::AccessControl::Permission)
+      return action if action.is_a?(Array) && action.all? { |a| a.is_a?(OpenProject::AccessControl::Permission) }
 
       if action.is_a?(Hash)
         if action[:controller]&.to_s&.starts_with?('/')
@@ -92,6 +82,27 @@ module Authorization
     end
 
     private
+
+    def allowed_in_single_project?(permissions, project)
+      return false unless project.active? || project.being_archived?
+
+      AllowedInProjectQuery.new(user, project, permissions).exists?
+    end
+
+    def allowed_in_single_entity?(permissions, entity)
+      context = entity.model_name.element.to_sym
+      perms = normalized_permissions(permissions, context)
+
+      return true if admin_and_all_granted_to_admin?(perms)
+
+      if entity.respond_to?(:project)
+        return false if entity.project.nil?
+        return true if allowed_in_single_project?(perms, entity.project)
+        return false unless entity.project.active? || entity.project.being_archived?
+      end
+
+      AllowedInEntityQuery.new(user:, entity:, permissions: perms).exists?
+    end
 
     def normalized_permissions(permission, context)
       perms = self.class.permissions_for(permission)
