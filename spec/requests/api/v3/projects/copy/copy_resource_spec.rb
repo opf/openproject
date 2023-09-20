@@ -53,8 +53,7 @@ RSpec.describe API::V3::Projects::Copy::CopyAPI, content_type: :json do
 
   shared_let(:current_user) do
     create(:user,
-           member_in_project: source_project,
-           member_with_permissions: %i[copy_projects view_project view_work_packages])
+           member_with_permissions: { source_project => %i[copy_projects view_project view_work_packages] })
   end
 
   let(:path) { api_v3_paths.project_copy(source_project.id) }

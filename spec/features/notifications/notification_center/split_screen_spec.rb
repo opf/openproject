@@ -13,8 +13,7 @@ RSpec.describe "Split screen in the notification center",
 
   shared_let(:recipient) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages])
+           member_with_permissions: { project => %i[view_work_packages] })
   end
   shared_let(:notification) do
     create(:notification,

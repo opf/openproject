@@ -40,8 +40,7 @@ RSpec.describe API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
   end
   let(:principal) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_members])
+           member_with_permissions: { project => %i[view_members] })
   end
   let(:project) do
     create(:project)
@@ -52,8 +51,7 @@ RSpec.describe API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
 
   current_user do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: [])
+           member_with_permissions: { project => [] })
   end
 
   subject(:json) do

@@ -48,8 +48,7 @@ RSpec.describe Query::Results, 'sorting and grouping' do
     create(:user,
            firstname: 'user',
            lastname: '1',
-           member_in_project: project1,
-           member_with_permissions: [:view_work_packages])
+           member_with_permissions: { project1 => [:view_work_packages] })
   end
   let(:user_a) { create(:user, firstname: 'AAA', lastname: 'AAA') }
   let(:user_m) { create(:user, firstname: 'mmm', lastname: 'mmm') }

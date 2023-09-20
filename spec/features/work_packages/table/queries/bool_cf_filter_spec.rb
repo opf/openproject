@@ -71,8 +71,7 @@ RSpec.describe 'Work package filtering by bool custom field', js: true do
 
   current_user do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages save_queries])
+           member_with_permissions: { project => %i[view_work_packages save_queries] })
   end
 
   it 'shows the work package matching the bool cf filter' do

@@ -15,8 +15,7 @@ RSpec.describe 'Copy work packages through Rails view', js: true do
     create(:user,
            firstname: 'Dev',
            lastname: 'Guy',
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages work_package_assigned])
+           member_with_permissions: { project => %i[view_work_packages work_package_assigned] })
   end
   shared_let(:mover) do
     create(:user,
