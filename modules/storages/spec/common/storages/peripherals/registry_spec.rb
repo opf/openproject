@@ -41,6 +41,21 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
 
   subject(:registry) { described_class }
 
+  context 'when a key is not registered' do
+    it "raises a OperationNotSupported for a non-existent command/query" do
+      expect { registry.resolve('commands.nextcloud.destroy_alderaan') }.to raise_error Storages::Errors::OperationNotSupported
+      expect { registry.resolve('queries.nextcloud.alderaan') }.to raise_error Storages::Errors::OperationNotSupported
+    end
+
+    it 'raises a MissingContract for a non-existent contract' do
+      expect { registry['contracts.warehouse'] }.to raise_error Storages::Errors::MissingContract
+    end
+
+    it 'raises a ResolverStandardError in all other cases' do
+      expect { registry.resolve('it.is.a.trap') }.to raise_error Storages::Errors::ResolverStandardError
+    end
+  end
+
   context 'when requests depend on OAuth token' do
     let(:token) do
       create(:oauth_client_token, origin_user_id:, access_token: 'xyz', oauth_client:, user:)
@@ -149,141 +164,6 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
             result = registry.resolve('queries.nextcloud.download_link').call(user:, file_link:, storage:)
             expect(result).to be_failure
             expect(result.errors.code).to eq(symbol)
-          end
-        end
-      end
-
-      include_examples 'outbound is failing', 404, :not_found
-      include_examples 'outbound is failing', 401, :unauthorized
-      include_examples 'outbound is failing', 500, :error
-    end
-
-    describe '#files_query' do
-      let(:parent) { '' }
-      let(:root_path) { '' }
-      let(:origin_user_id) { 'darth@vader with spaces' }
-      let(:xml) { create(:webdav_data, parent_path: parent, root_path:, origin_user_id:) }
-      let(:url) { "https://example.com#{root_path}" }
-      let(:request_url) do
-        Storages::Peripherals::StorageInteraction::Nextcloud::Util.join_uri_path(
-          url,
-          "/remote.php/dav/files/",
-          CGI.escapeURIComponent(origin_user_id),
-          parent
-        )
-      end
-
-      context 'when outbound is success' do
-        before do
-          stub_request(:propfind, request_url).to_return(status: 207, body: xml, headers: {})
-        end
-
-        describe 'with Nextcloud storage type selected' do
-          it 'returns a list files directories with names and permissions' do
-            result = registry.resolve('queries.nextcloud.files').call(storage:, folder: nil, user:)
-            expect(result).to be_success
-
-            query_result = result.result
-            expect(query_result.files.size).to eq(4)
-            expect(query_result.ancestors.size).to eq(0)
-            expect(query_result.parent).not_to be_nil
-            expect(query_result.files[0]).to have_attributes(id: '11',
-                                                             name: 'Folder1',
-                                                             mime_type: 'application/x-op-directory',
-                                                             permissions: include(:readable, :writeable))
-            expect(query_result.files[1]).to have_attributes(mime_type: 'application/x-op-directory',
-                                                             permissions: %i[readable])
-            expect(query_result.files[2]).to have_attributes(id: '12',
-                                                             name: 'README.md',
-                                                             mime_type: 'text/markdown',
-                                                             permissions: include(:readable, :writeable))
-            expect(query_result.files[3]).to have_attributes(mime_type: 'application/pdf',
-                                                             permissions: %i[readable])
-          end
-
-          describe 'with origin user id containing whitespaces' do
-            let(:origin_user_id) { 'my user' }
-            let(:xml) { create(:webdav_data, origin_user_id:) }
-
-            it do
-              result = registry.resolve('queries.nextcloud.files').call(folder: parent, user:, storage:)
-              expect(result.result.files[0].location).to eq('/Folder1')
-
-              assert_requested(:propfind, request_url)
-            end
-          end
-
-          describe 'with parent query parameter' do
-            let(:parent) { '/Photos/Birds' }
-
-            it do
-              result = registry.resolve('queries.nextcloud.files').call(folder: parent, user:, storage:)
-              expect(result.result.files[2].location).to eq('/Photos/Birds/README.md')
-              expect(result.result.ancestors[0].location).to eq('/')
-              expect(result.result.ancestors[1].location).to eq('/Photos')
-
-              assert_requested(:propfind, request_url)
-            end
-          end
-
-          describe 'with storage running on a sub path' do
-            let(:root_path) { '/storage' }
-
-            it do
-              result = registry.resolve('queries.nextcloud.files').call(folder: nil, user:, storage:)
-              expect(result.result.files[2].location).to eq('/README.md')
-              assert_requested(:propfind, request_url)
-            end
-          end
-
-          describe 'with storage running on a sub path and with parent parameter' do
-            let(:root_path) { '/storage' }
-            let(:parent) { '/Photos/Birds' }
-
-            it do
-              result = registry.resolve('queries.nextcloud.files').call(folder: parent, user:, storage:)
-
-              expect(result.result.files[2].location).to eq('/Photos/Birds/README.md')
-              assert_requested(:propfind, request_url)
-            end
-          end
-        end
-
-        describe 'with not supported storage type selected' do
-          before do
-            allow(storage).to receive(:provider_type).and_return('not_supported_storage_type')
-          end
-
-          it 'must raise ArgumentError' do
-            expect { registry.resolve('queries.nextcloud.files').call(storage:) }.to raise_error(ArgumentError)
-          end
-        end
-
-        describe 'with missing OAuth token' do
-          before do
-            instance = instance_double(OAuthClients::ConnectionManager)
-            allow(OAuthClients::ConnectionManager).to receive(:new).and_return(instance)
-            allow(instance).to receive(:get_access_token).and_return(ServiceResult.failure)
-          end
-
-          it 'must return ":unauthorized" ServiceResult' do
-            result = registry.resolve('queries.nextcloud.files').call(folder: parent, user:, storage:)
-            expect(result).to be_failure
-            expect(result.errors.code).to be(:unauthorized)
-          end
-        end
-      end
-
-      shared_examples_for 'outbound is failing' do |code = 500, symbol = :error|
-        describe "with outbound request returning #{code}" do
-          before do
-            stub_request(:propfind, request_url).to_return(status: code)
-          end
-
-          it "must return :#{symbol} ServiceResult" do
-            result = registry.resolve('queries.nextcloud.files').call(folder: parent, user:, storage:)
-            expect(result).to be_failure
-            expect(result.errors.code).to be(symbol)
           end
         end
       end
