@@ -61,7 +61,7 @@ FactoryBot.define do
         if object.is_a?(Project)
           role = create(:role, permissions:)
           create(:member, principal:, project: object, roles: [role])
-        elsif object.is_a?(WorkPackage)
+        elsif Member.can_be_member_of?(object)
           role = create(:work_package_role, permissions:)
           create(:member, principal:, entity: object, project: entity.project, roles: [role])
         end
@@ -81,7 +81,6 @@ FactoryBot.define do
       end
 
       if evaluator.global_roles.present?
-        puts "Global roles: #{evaluator.global_roles}"
         create(:global_member, principal:, roles: evaluator.global_roles)
       end
     end
