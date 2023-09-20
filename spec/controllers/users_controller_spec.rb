@@ -625,7 +625,6 @@ RSpec.describe UsersController do
         {
           id: some_user.id,
           user: {
-            admin: true,
             firstname: 'Changed',
             login: 'changed_login',
             force_password_change: true
@@ -649,7 +648,6 @@ RSpec.describe UsersController do
 
       it 'is assigned their new values' do
         some_user_from_db = User.find(some_user.id)
-        expect(some_user_from_db.admin).to be true
         expect(some_user_from_db.firstname).to eq('Changed')
         expect(some_user_from_db.login).to eq('changed_login')
         expect(some_user_from_db.force_password_change).to be(true)
@@ -702,6 +700,36 @@ RSpec.describe UsersController do
             .to have_rendered('edit')
           expect(assigns(:errors).first)
             .to have_attributes(attribute: :firstname, type: :blank)
+        end
+      end
+    end
+
+    context 'when updating the "admin" field' do
+      let(:params) do
+        {
+          id: some_user.id,
+          user: {
+            admin: true
+          }
+        }
+      end
+
+      context 'as an admin' do
+        current_user { admin }
+
+        it do
+          expect { put :update, params: }
+            .to change { some_user.reload.admin }
+            .from(false).to(true)
+        end
+      end
+
+      context 'as a user' do
+        current_user { user }
+
+        it do
+          expect { put :update, params: }
+            .not_to change { some_user.reload.admin }
         end
       end
     end
