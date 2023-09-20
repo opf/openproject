@@ -76,7 +76,7 @@ module Storages
           end
 
           def uri_path_for(file_id)
-            "/v1.0/drives/#{@storage.drive_id}/items/#{file_id}"
+            "/v1.0/drives/#{@storage.drive_id}/items/#{file_id}/content"
           end
         end
       end

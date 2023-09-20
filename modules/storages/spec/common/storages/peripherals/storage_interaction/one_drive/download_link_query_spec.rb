@@ -41,7 +41,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::DownloadLink
 
   before do
     allow(Storages::Peripherals::StorageInteraction::OneDrive).to receive(:token).and_yield(token)
-    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_link.origin_id}")
+    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_link.origin_id}/content")
       .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
       .and_return(status: 302, body: nil, headers: { 'Location' => 'https://somecool.link/from/microsoft' })
   end
@@ -54,7 +54,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::DownloadLink
   end
 
   it 'return an error if any other response is received' do
-    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_link.origin_id}")
+    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_link.origin_id}/content")
       .with(headers: { 'Authorization' => "Bearer #{token.access_token}" })
       .and_return(status: 200, body: "")
 
