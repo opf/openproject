@@ -51,12 +51,29 @@ module Storages
               if Net::HTTPRedirection === response
                 ServiceResult.success(result: response.header['Location'])
               else
-                ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data: response.body))
+                handle_errors(response)
               end
             end
           end
 
           private
+
+          def handle_errors(response)
+            case response
+            when Net::HTTPNotFound
+              ServiceResult.failure(result: :not_found,
+                                    errors: ::Storages::StorageError.new(code: :not_found, data: response.body))
+            when Net::HTTPForbidden
+              ServiceResult.failure(result: :forbidden,
+                                    errors: ::Storages::StorageError.new(code: :forbidden, data: response.body))
+            when Net::HTTPUnauthorized
+              ServiceResult.failure(result: :unauthorized,
+                                    errors: ::Storages::StorageError.new(code: :unauthorized, data: response.body))
+            else
+              ServiceResult.failure(result: :error,
+                                    errors: ::Storages::StorageError.new(code: :error, data: response.body))
+            end
+          end
 
           def uri_path_for(file_id)
             "/v1.0/drives/#{@storage.drive_id}/items/#{file_id}"
