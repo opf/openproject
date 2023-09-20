@@ -40,7 +40,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
            drive_id: 'b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd')
   end
   let(:user) { create(:user) }
-  let(:json) { read_json('root_drive') }
+  let(:json) { read_json('root_drive_children') }
   let(:token) { create(:oauth_client_token, user:, oauth_client: storage.oauth_client) }
 
   it 'responds to .call' do
