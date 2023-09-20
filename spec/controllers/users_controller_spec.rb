@@ -611,23 +611,23 @@ RSpec.describe UsersController do
   end
 
   describe 'PATCH #update' do
-    context 'fields' do
+    let(:some_user) do
+      create(:user,
+             firstname: 'Firstname',
+             login: 'test_login',
+             force_password_change: false)
+    end
+
+    context 'when updating fields as an admin' do
       current_user { admin }
 
-      let(:user) do
-        create(:user,
-               firstname: 'Firstname',
-               admin: true,
-               login: 'testlogin',
-               force_password_change: false)
-      end
       let(:params) do
         {
-          id: user.id,
+          id: some_user.id,
           user: {
-            admin: false,
+            admin: true,
             firstname: 'Changed',
-            login: 'changedlogin',
+            login: 'changed_login',
             force_password_change: true
           },
           pref: {
@@ -644,38 +644,38 @@ RSpec.describe UsersController do
       end
 
       it 'redirects to the edit page' do
-        expect(response).to redirect_to(edit_user_url(user))
+        expect(response).to redirect_to(edit_user_url(some_user))
       end
 
       it 'is assigned their new values' do
-        user_from_db = User.find(user.id)
-        expect(user_from_db.admin).to be_falsey
-        expect(user_from_db.firstname).to eql('Changed')
-        expect(user_from_db.login).to eql('changedlogin')
-        expect(user_from_db.force_password_change).to be(true)
-        expect(user_from_db.pref[:hide_mail]).to be_truthy
-        expect(user_from_db.pref[:comments_sorting]).to eql('desc')
+        some_user_from_db = User.find(some_user.id)
+        expect(some_user_from_db.admin).to be true
+        expect(some_user_from_db.firstname).to eq('Changed')
+        expect(some_user_from_db.login).to eq('changed_login')
+        expect(some_user_from_db.force_password_change).to be(true)
+        expect(some_user_from_db.pref[:hide_mail]).to be_truthy
+        expect(some_user_from_db.pref[:comments_sorting]).to eq('desc')
       end
 
       it 'sends no mail' do
-        expect(ActionMailer::Base.deliveries.empty?).to be_truthy
+        expect(ActionMailer::Base.deliveries).to be_empty
       end
 
       context 'when updating the password' do
         let(:params) do
           {
-            id: user.id,
+            id: some_user.id,
             user: { password: 'newpassPASS!',
                     password_confirmation: 'newpassPASS!' },
             send_information: '1'
           }
         end
 
-        it 'sends a mail' do
+        it 'sends an email to the user with the password in it' do
           mail = ActionMailer::Base.deliveries.last
 
           expect(mail.to)
-            .to contain_exactly(user.mail)
+            .to contain_exactly(some_user.mail)
 
           expect(mail.body.encoded)
             .to include('newpassPASS!')
@@ -685,7 +685,7 @@ RSpec.describe UsersController do
       context 'with invalid params' do
         let(:params) do
           {
-            id: user.id,
+            id: some_user.id,
             user: {
               firstname: ''
             }
@@ -697,52 +697,51 @@ RSpec.describe UsersController do
             .to have_http_status(:ok)
         end
 
-        it 'renders the edit template' do
+        it 'renders the edit template with errors' do
           expect(response)
             .to have_rendered('edit')
+          expect(assigns(:errors).first)
+            .to have_attributes(attribute: :firstname, type: :blank)
         end
       end
     end
 
     context 'with external authentication' do
-      let(:user) { create(:user, identity_url: 'some:identity') }
+      let(:some_user) { create(:user, identity_url: 'some:identity') }
 
       before do
         as_logged_in_user(admin) do
-          put :update, params: { id: user.id, user: { force_password_change: 'true' } }
+          put :update, params: { id: some_user.id, user: { force_password_change: 'true' } }
         end
-        user.reload
+        some_user.reload
       end
 
       it 'ignores setting force_password_change' do
-        expect(user.force_password_change).to be(false)
+        expect(some_user.force_password_change).to be(false)
       end
     end
 
-    context 'ldap auth source' do
+    context 'with ldap auth source' do
       let(:ldap_auth_source) { create(:ldap_auth_source) }
 
-      it 'switchting to internal authentication on a password change' do
-        user.ldap_auth_source = ldap_auth_source
+      it 'switching to internal authentication on a password change' do
+        some_user.ldap_auth_source = ldap_auth_source
         as_logged_in_user admin do
           put :update,
               params: {
-                id: user.id,
+                id: some_user.id,
                 user: { ldap_auth_source_id: '', password: 'newpassPASS!',
                         password_confirmation: 'newpassPASS!' }
               }
         end
 
-        expect(user.reload.ldap_auth_source).to be_nil
-        expect(user.check_password?('newpassPASS!')).to be_truthy
+        expect(some_user.reload.ldap_auth_source).to be_nil
+        expect(some_user.check_password?('newpassPASS!')).to be true
       end
     end
 
-    context 'with disabled_password_choice' do
-      before do
-        expect(OpenProject::Configuration).to receive(:disable_password_choice?).and_return(true)
-      end
-
+    context 'with disabled_password_choice',
+            with_config: { disable_password_choice: true } do
       it 'ignores password parameters and leaves the password unchanged' do
         as_logged_in_user(admin) do
           put :update,
