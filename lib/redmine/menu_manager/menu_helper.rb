@@ -418,7 +418,20 @@ module Redmine::MenuManager::MenuHelper
     url = node.url(project)
     return true unless url
 
-    user&.allowed_in_project?(url, project)
+    permissions = Authorization::UserPermissibleService.permissions_for(url)
+    allowed = true
+
+    permissions.each do |permission|
+      if permission.global?
+        allowed &&= user&.allowed_globally?(permission)
+      elsif permission.work_package?
+        allowed &&= user&.allowed_in_any_work_package?(permission, in_project: project)
+      elsif permission.project?
+        allowed &&= user&.allowed_in_project?(permission, project)
+      end
+    end
+
+    allowed
   end
 
   def visible_node?(menu, node)

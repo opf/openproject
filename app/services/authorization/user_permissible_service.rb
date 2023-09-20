@@ -7,7 +7,7 @@ module Authorization
 
   class IllegalPermissionCheck < StandardError
     def initialize(permission, permissions, context)
-      super("Tried to check permission #{permission} in #{context} context. Permissible contexts for this permission are: #{permissions.flat_map(&:permissible_on).uniq.join(', ')}.")
+      super("Tried to check permission #{permission} which maps to #{permissions.map(&:name).join(', ')} in #{context} context. Permissible contexts for this permission are: #{permissions.flat_map(&:permissible_on).uniq.join(', ')}.")
     end
   end
 
@@ -63,19 +63,34 @@ module Authorization
       perms = normalized_permissions(permission, context)
       return true if admin_and_all_granted_to_admin?(perms)
 
-      AllowedInAnyEntityQuery.new(user, entity_class, perms, in_project:).exists?
+      AllowedInAnyEntityQuery.new(user:, permissions: perms, entity_class:, in_project:).exists?
+    end
+
+    def self.permissions_for(action)
+      return [action] if action.is_a?(OpenProject::AccessControl::Permission)
+
+      if action.is_a?(Hash)
+        if action[:controller]&.to_s&.starts_with?('/')
+          action = action.dup
+          action[:controller] = action[:controller][1..]
+        end
+
+        OpenProject::AccessControl.allow_actions(action)
+      else
+        [OpenProject::AccessControl.permission(action)].compact
+      end
     end
 
     private
 
     def normalized_permissions(permission, context)
-      perms = if permission.is_a?(Hash)
-                OpenProject::AccessControl.allow_actions(permission)
-              else
-                [OpenProject::AccessControl.permission(permission)].compact
-              end
+      perms = self.class.permissions_for(permission)
 
-      raise UnknownPermissionError.new(permission) if perms.blank?
+      if perms.blank?
+        Rails.logger.warn "Tried to check permission #{permission} that is not defined as a valid permission. It will never return true"
+        # raise UnknownPermissionError.new(permission)
+        return []
+      end
 
       context_perms = perms.select { |p| p.permissible_on?(context) }
       raise IllegalPermissionCheck.new(permission, perms, context) if context_perms.blank?

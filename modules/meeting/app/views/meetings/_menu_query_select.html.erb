@@ -60,7 +60,7 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
   </div>
   <div class="op-sidebar--footer">
-    <% if @project && User.current.allowed_in_project?(:create_meetings, @project) || @project.blank && User.current.allowed_in_any_project?(:create_meetings) %>
+    <% if @project && User.current.allowed_in_project?(:create_meetings, @project) || @project.blank? && User.current.allowed_in_any_project?(:create_meetings) %>
       <%= button_to polymorphic_path([:new, @project, :meeting]),
                     { method: :get,
                       class: 'button -alt-highlight -expand',
