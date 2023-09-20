@@ -53,8 +53,7 @@ RSpec.describe 'Quick-add menu', js: true, with_cuprite: true do
 
       current_user do
         create(:user,
-               member_in_project: project,
-               member_with_permissions: %i[add_subprojects])
+               member_with_permissions: { project => %i[add_subprojects] })
       end
 
       it 'moves to a form with parent_id set' do
@@ -78,8 +77,7 @@ RSpec.describe 'Quick-add menu', js: true, with_cuprite: true do
 
     current_user do
       create(:user,
-             member_in_project: project,
-             member_with_permissions: %i[manage_members])
+             member_with_permissions: { project => %i[manage_members] })
     end
 
     it 'shows the user invite screen' do

@@ -105,8 +105,7 @@ RSpec.describe Principals::Scopes::Visible do
     context 'when user has no manage_members project permission, and is member of a project' do
       current_user do
         create(:user, firstname: 'current user',
-                      member_in_project: project,
-                      member_with_permissions: %i[view_work_packages])
+                      member_with_permissions: { project => %i[view_work_packages] })
       end
 
       it 'sees only the users, groups, and placeholder users in the same project' do

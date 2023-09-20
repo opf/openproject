@@ -50,7 +50,7 @@ RSpec.describe PlaceholderUsers::Scopes::Visible do
     end
 
     context 'when user has no manage_members permission, but it is in other project' do
-      current_user { create(:user, member_in_project: other_project, member_with_permissions: %i[view_work_packages]) }
+      current_user { create(:user, member_with_permissions: { other_project => %i[view_work_packages] }) }
 
       it 'sees the other user in the same project' do
         expect(subject).to match_array [other_project_placeholder]

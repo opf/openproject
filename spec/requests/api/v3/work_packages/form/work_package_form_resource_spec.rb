@@ -424,8 +424,7 @@ RSpec.describe 'API v3 Work package form resource' do
                 let(:path) { "_embedded/payload/_links/#{property}/href" }
                 let(:visible_user) do
                   create(:user,
-                         member_in_project: project,
-                         member_with_permissions: [:work_package_assigned])
+                         member_with_permissions: { project => [:work_package_assigned] })
                 end
                 let(:user_parameter) { { _links: { property => { href: user_link } } } }
                 let(:params) { valid_params.merge(user_parameter) }
@@ -481,8 +480,7 @@ RSpec.describe 'API v3 Work package form resource' do
                     let(:user_link) { api_v3_paths.placeholder_user placeholder_user.id }
                     let(:placeholder_user) do
                       create(:placeholder_user,
-                             member_in_project: project,
-                             member_with_permissions: %i[work_package_assigned])
+                             member_with_permissions: { project => %i[work_package_assigned] })
                     end
 
                     it_behaves_like 'valid user assignment'

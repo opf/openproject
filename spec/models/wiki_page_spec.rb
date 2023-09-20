@@ -377,8 +377,7 @@ RSpec.describe WikiPage do
     before do
       create(:user,
              firstname: 'project_watcher',
-             member_in_project: wiki.project,
-             member_with_permissions: [:view_wiki_pages],
+             member_with_permissions: { wiki.project => [:view_wiki_pages] },
              notification_settings: [
                build(:notification_setting,
                      wiki_page_added: true,
@@ -387,8 +386,7 @@ RSpec.describe WikiPage do
 
       wiki_watcher = create(:user,
                             firstname: 'wiki_watcher',
-                            member_in_project: wiki.project,
-                            member_with_permissions: [:view_wiki_pages],
+                            member_with_permissions: { wiki.project => [:view_wiki_pages] },
                             notification_settings: [
                               build(:notification_setting,
                                     wiki_page_added: true,
@@ -417,8 +415,7 @@ RSpec.describe WikiPage do
       let!(:page_watcher) do
         watcher = create(:user,
                          firstname: 'page_watcher',
-                         member_in_project: wiki.project,
-                         member_with_permissions: [:view_wiki_pages],
+                         member_with_permissions: { wiki.project => [:view_wiki_pages] },
                          notification_settings: [
                            build(:notification_setting, wiki_page_updated: true)
                          ])

@@ -1308,8 +1308,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           create(:user,
                  firstname: 'user',
                  lastname: '1',
-                 member_in_project: project,
-                 member_with_permissions: %i[view_work_packages view_file_links])
+                 member_with_permissions: { project => %i[view_work_packages view_file_links] })
         end
 
         before do

@@ -99,8 +99,7 @@ RSpec.shared_examples 'global user principal membership management flows' do |pe
     current_user do
       create(:user,
              global_permission: permission,
-             member_in_project: project,
-             member_with_permissions: %i[view_work_packages])
+             member_with_permissions: { project => %i[view_work_packages] })
     end
 
     it 'does not allow to select that project' do

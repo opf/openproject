@@ -106,8 +106,7 @@ RSpec.describe PlaceholderUsers::MembershipsController do
   context 'as user with global permission and manage_members' do
     current_user do
       create(:user,
-             member_in_project: project,
-             member_with_permissions: %i[manage_members],
+             member_with_permissions: { project => %i[manage_members] },
              global_permission: %i[manage_placeholder_user])
     end
 

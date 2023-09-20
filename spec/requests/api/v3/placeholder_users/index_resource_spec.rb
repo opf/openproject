@@ -107,7 +107,7 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
 
   context 'for a user with manage_members permission' do
     let(:project) { create(:project) }
-    let(:user) { create(:user, member_in_project: project, member_with_permissions: %i[manage_members]) }
+    let(:user) { create(:user, member_with_permissions: { project => %i[manage_members] }) }
 
     it_behaves_like 'API V3 collection response', 2, 2, 'PlaceholderUser'
   end

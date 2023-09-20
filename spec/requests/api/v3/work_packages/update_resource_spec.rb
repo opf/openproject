@@ -449,7 +449,7 @@ RSpec.describe 'API v3 Work package resource',
       end
 
       context 'assignee and responsible' do
-        let(:user) { create(:user, member_in_project: project, member_with_permissions: %i[work_package_assigned]) }
+        let(:user) { create(:user, member_with_permissions: { project => %i[work_package_assigned] }) }
         let(:placeholder_user) do
           create(:placeholder_user,
                  member_in_project: project,
