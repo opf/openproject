@@ -77,8 +77,7 @@ RSpec.describe 'API v3 Work package resource',
     describe 'notifications' do
       let(:other_user) do
         create(:user,
-               member_in_project: project,
-               member_with_permissions: permissions,
+               member_with_permissions: { project => permissions },
                notification_settings: [
                  build(:notification_setting,
                        work_package_created: true)

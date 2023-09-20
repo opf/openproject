@@ -94,8 +94,7 @@ RSpec.describe API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
   context 'with a project and group' do
     let(:principal) do
       create(:group,
-             member_in_project: project,
-             member_with_permissions: %i[view_members])
+             member_with_permissions: { project => %i[view_members] })
     end
 
     it 'renders as expected' do
@@ -127,8 +126,7 @@ RSpec.describe API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
     let(:principal) do
       create(:user,
              global_permission: %i[create_user],
-             member_in_project: project,
-             member_with_permissions: [])
+             member_with_permissions: { project => [] })
     end
     let(:context) { nil }
 

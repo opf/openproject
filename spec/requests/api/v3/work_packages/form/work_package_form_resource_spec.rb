@@ -40,7 +40,7 @@ RSpec.describe 'API v3 Work package form resource' do
   shared_let(:type) { create(:type_bug, custom_fields: [cf_all]) }
   shared_let(:project) { create(:project, public: false, types: [type]) }
   shared_let(:authorized_user) do
-    create(:user, member_in_project: project, member_with_permissions: all_allowed_permissions)
+    create(:user, member_with_permissions: { project => all_allowed_permissions })
   end
   shared_let(:work_package) do
     # Prevent executing as potentially unsaved AnyonymousUser which would
@@ -50,7 +50,7 @@ RSpec.describe 'API v3 Work package form resource' do
     end
   end
   shared_let(:authorized_assign_user) do
-    create(:user, member_in_project: project, member_with_permissions: assign_permissions)
+    create(:user, member_with_permissions: { project => assign_permissions })
   end
   shared_let(:unauthorized_user) { create(:user) }
 

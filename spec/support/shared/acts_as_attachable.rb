@@ -37,8 +37,7 @@ RSpec.shared_examples_for 'acts_as_attachable included' do
                    Array(described_class.attachable_options[:add_on_new_permission])
                  end
     create(:user,
-           member_in_project: instance_project,
-           member_with_permissions: permission)
+           member_with_permissions: { instance_project => permission })
   end
   let(:no_permission_user) do
     create(:user,

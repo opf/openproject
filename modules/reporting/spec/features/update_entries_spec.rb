@@ -32,7 +32,7 @@ require_relative 'support/components/cost_reports_base_table'
 
 RSpec.describe 'Updating entries within the cost report', js: true do
   let(:project) { create(:project) }
-  let(:user) { create(:admin, member_in_project: project, member_with_permissions: %i[work_package_assigned]) }
+  let(:user) { create(:admin, member_with_permissions: { project => %i[work_package_assigned] }) }
   let(:work_package) { create(:work_package, project:) }
 
   let!(:time_entry_user) do

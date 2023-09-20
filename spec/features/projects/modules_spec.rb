@@ -97,8 +97,7 @@ RSpec.describe 'Projects module administration' do
   context 'with a user who does not have the correct permissions (#38097)' do
     let(:user_without_permission) do
       create(:user,
-             member_in_project: project,
-             member_with_permissions: %i(edit_project))
+             member_with_permissions: { project => %i(edit_project) })
     end
 
     before do

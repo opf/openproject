@@ -38,8 +38,7 @@ RSpec.describe "POST /api/v3/grids/form", content_type: :json do
   end
   shared_let(:current_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[save_queries])
+           member_with_permissions: { project => %i[save_queries] })
   end
 
   let(:path) { api_v3_paths.create_grid_form }

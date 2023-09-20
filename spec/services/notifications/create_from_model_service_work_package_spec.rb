@@ -1050,8 +1050,7 @@ RSpec.describe Notifications::CreateFromModelService,
         end
         let(:other_recipient) do
           create(:user,
-                 member_in_project: project,
-                 member_with_permissions: permissions,
+                 member_with_permissions: { project => permissions },
                  notification_settings: [build(:notification_setting, **notification_settings_all_true)])
         end
         let(:notification_group_recipient) { build_stubbed(:notification, recipient:) }

@@ -55,8 +55,7 @@ RSpec.describe 'Team planner overview',
   shared_let(:user_with_limited_permissions) do
     create(:user,
            firstname: 'Bernd',
-           member_in_project: project,
-           member_with_permissions: %w[view_work_packages view_team_planner])
+           member_with_permissions: { project => %w[view_work_packages view_team_planner] })
   end
 
   let(:team_planner) { Pages::TeamPlanner.new(project) }

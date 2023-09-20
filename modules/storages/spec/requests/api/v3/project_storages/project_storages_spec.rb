@@ -176,7 +176,7 @@ RSpec.describe 'API v3 project storages resource', content_type: :json, webmock:
     let(:project_storage_id) { project_storage.id }
     let(:path) { api_v3_paths.project_storage(project_storage_id) }
     let(:current_user) do
-      create(:user, member_in_project: project3, member_with_permissions: view_permissions)
+      create(:user, member_with_permissions: { project3 => view_permissions })
     end
 
     subject { last_response.body }
@@ -189,7 +189,7 @@ RSpec.describe 'API v3 project storages resource', content_type: :json, webmock:
 
     context 'if user has permission to see file storages in project' do
       let(:current_user) do
-        create(:user, member_in_project: project3, member_with_permissions: [])
+        create(:user, member_with_permissions: { project3 => [] })
       end
 
       it_behaves_like 'not found'

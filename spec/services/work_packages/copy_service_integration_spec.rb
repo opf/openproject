@@ -93,8 +93,7 @@ RSpec.describe WorkPackages::CopyService, 'integration', type: :model do
       describe 'copied watchers' do
         let(:watcher_user) do
           create(:user,
-                 member_in_project: source_project,
-                 member_with_permissions: %i(view_work_packages))
+                 member_with_permissions: { source_project => %i(view_work_packages) })
         end
 
         before do

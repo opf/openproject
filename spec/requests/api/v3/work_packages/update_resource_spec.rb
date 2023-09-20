@@ -110,8 +110,7 @@ RSpec.describe 'API v3 Work package resource',
         let(:update_params) { valid_params.merge(subject: 'Updated subject') }
         let(:other_user) do
           create(:user,
-                 member_in_project: work_package.project,
-                 member_with_permissions: %i(view_work_packages),
+                 member_with_permissions: { work_package.project => %i(view_work_packages) },
                  notification_settings: [
                    build(:notification_setting,
                          work_package_created: true)

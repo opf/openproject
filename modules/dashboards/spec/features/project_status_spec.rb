@@ -49,14 +49,12 @@ RSpec.describe 'Project status widget on dashboard', js: true do
 
   let(:read_only_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: read_only_permissions)
+           member_with_permissions: { project => read_only_permissions })
   end
 
   let(:editing_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: editing_permissions)
+           member_with_permissions: { project => editing_permissions })
   end
 
   let(:dashboard_page) do
