@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -30,7 +32,8 @@ module StorageLoginHelper
   def storage_login_input(storage)
     return {} if storage&.oauth_client.blank?
 
-    connection_manager = ::OAuthClients::ConnectionManager.new(user: current_user, oauth_client: storage.oauth_client)
+    connection_manager = ::OAuthClients::ConnectionManager
+                           .new(user: current_user, configuration: storage.oauth_configuration)
 
     {
       storageType: API::V3::Storages::STORAGE_TYPE_URN_MAP[storage.provider_type],

@@ -53,6 +53,7 @@ uk:
     errors:
       too_many_elements_created_at_once: "Забагато елементів, створених за раз. Очікувалося щонайбільше %{max}; отримано %{actual}."
   storages:
+    default_name: "My storage"
     unknown_storage: "Невідоме сховище"
     buttons:
       done_continue_setup: "Готово – продовжити налаштування"
@@ -101,6 +102,13 @@ uk:
       copy_from: "Копіювати це значення з"
       nextcloud:
         integration: "Адміністрування Nextcloud / OpenProject"
+      one_drive:
+        integration: "OneDrive/SharePoint"
+        oauth_client_id: >
+          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+        oauth_client_secret: >
+          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
+        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
     help_texts:
       project_folder: >
         Папка проєкту – це папка за замовчуванням для файлів, які передаються в цей проєкт. Однак користувачі можуть передавати файли в інші розташування.
@@ -129,6 +137,7 @@ uk:
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
+      one_drive: "OneDrive OAuth"
     label_oauth_application_details: "Докладні відомості про додаток OAuth"
     label_oauth_client_details: "Докладні відомості про клієнт OAuth"
     label_provider_type: "Тип постачальника"
@@ -154,7 +163,9 @@ uk:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "наприклад, Nextcloud"
-        default_name: "Мій Nextcloud"
+      one_drive:
+        name: "OneDrive/SharePoint"
+        name_placeholder: "e.g. OneDrive"
     confirm_replace_oauth_application: "Ви впевнені? Усім користувачам знадобиться знову авторизуватися в OpenProject."
     confirm_replace_oauth_client: "Ви впевнені? Усім користувачам знадобиться знову авторизуватися в сховищі."
     oauth_client_details_missing: "Щоб завершити налаштування, додайте облікові дані клієнта OAuth зі свого сховища."

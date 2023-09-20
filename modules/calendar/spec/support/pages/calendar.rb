@@ -119,7 +119,7 @@ module Pages
     end
 
     def set_project(project)
-      select_autocomplete(find('[data-qa-selector="project_id"]'),
+      select_autocomplete(find('[data-test-selector="project_id"]'),
                           query: project,
                           results_selector: 'body',
                           wait_for_fetched_options: false)
@@ -156,11 +156,11 @@ module Pages
     end
 
     def expect_delete_button(query)
-      expect(page).to have_selector "[data-qa-selector='calendar-remove-#{query.id}']"
+      expect(page).to have_selector "[data-test-selector='calendar-remove-#{query.id}']"
     end
 
     def expect_no_delete_button(query)
-      expect(page).not_to have_selector "[data-qa-selector='calendar-remove-#{query.id}']"
+      expect(page).not_to have_selector "[data-test-selector='calendar-remove-#{query.id}']"
     end
 
     def expect_no_views_visible

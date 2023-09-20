@@ -92,7 +92,7 @@ RSpec.describe WorkPackages::ExportJob, 'Integration' do
       expect(job_status.status).to eq 'success'
 
       attachment = export.attachments.last
-      expect(attachment.filename.chars.length).to eq 255
+      expect(attachment.filename.length).to eq 255
       expect(attachment.filename).to end_with "_2023-06-30_23-59.pdf"
     end
   end

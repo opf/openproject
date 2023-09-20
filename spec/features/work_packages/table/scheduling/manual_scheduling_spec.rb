@@ -57,8 +57,8 @@ RSpec.describe 'Manual scheduling', js: true do
       start_date.within_modal do
         expect(page).to have_selector('input[name="startDate"][disabled]')
         expect(page).to have_selector('input[name="endDate"][disabled]')
-        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Cancel')
-        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Save')
+        expect(page).to have_selector("#{test_selector('op-datepicker-modal--action')}:not([disabled])", text: 'Cancel')
+        expect(page).to have_selector("#{test_selector('op-datepicker-modal--action')}:not([disabled])", text: 'Save')
       end
 
       start_date.toggle_scheduling_mode
@@ -67,8 +67,8 @@ RSpec.describe 'Manual scheduling', js: true do
       start_date.within_modal do
         expect(page).to have_selector('input[name="startDate"]:not([disabled])')
         expect(page).to have_selector('input[name="endDate"]:not([disabled])')
-        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Cancel')
-        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Save')
+        expect(page).to have_selector("#{test_selector('op-datepicker-modal--action')}:not([disabled])", text: 'Cancel')
+        expect(page).to have_selector("#{test_selector('op-datepicker-modal--action')}:not([disabled])", text: 'Save')
       end
 
       start_date.cancel_by_click
@@ -91,8 +91,8 @@ RSpec.describe 'Manual scheduling', js: true do
       start_date.within_modal do
         expect(page).to have_selector('input[name=startDate][disabled]')
         expect(page).to have_selector('input[name=endDate][disabled]')
-        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Cancel')
-        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Save')
+        expect(page).to have_selector("#{test_selector('op-datepicker-modal--action')}:not([disabled])", text: 'Cancel')
+        expect(page).to have_selector("#{test_selector('op-datepicker-modal--action')}:not([disabled])", text: 'Save')
       end
 
       start_date.toggle_scheduling_mode

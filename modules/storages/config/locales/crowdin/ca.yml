@@ -53,6 +53,7 @@ ca:
     errors:
       too_many_elements_created_at_once: "Masses elements creats alhora. S'esperen %{max} com a màxim, i s'han obtingut %{actual}."
   storages:
+    default_name: "My storage"
     unknown_storage: "Unknown storage"
     buttons:
       done_continue_setup: "Fet. Continua la instal·lació"
@@ -101,6 +102,13 @@ ca:
       copy_from: "Copia aquest valor de"
       nextcloud:
         integration: "Administració Nextcloud / OpenProject"
+      one_drive:
+        integration: "OneDrive/SharePoint"
+        oauth_client_id: >
+          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+        oauth_client_secret: >
+          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
+        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
     help_texts:
       project_folder: >
         La carpeta de projecte és la carpeta per defecte on es carregaran els fitxers d'aquest projecte. Tot i això, els usuaris podran carregar fitxers en altres carpetes.
@@ -129,6 +137,7 @@ ca:
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
+      one_drive: "OneDrive OAuth"
     label_oauth_application_details: "Detalls de l'aplicació OAuth"
     label_oauth_client_details: "Detalls del client OAuth"
     label_provider_type: "Tipus de proveïdor"
@@ -154,7 +163,9 @@ ca:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "ex. Nextcloud"
-        default_name: "El meu Nextcloud"
+      one_drive:
+        name: "OneDrive/SharePoint"
+        name_placeholder: "e.g. OneDrive"
     confirm_replace_oauth_application: "Estàs segur? Tots els usuaris hauran d'autoritzar de nou contra OpenProject."
     confirm_replace_oauth_client: "Estàs segur? Tots els usuaris hauran d'autoritzar de nou contra l'emmagatzematge."
     oauth_client_details_missing: "Per tal de completar la configuració, si us plau afegeix les credencials de client OAuth del teu emmagatzematge."

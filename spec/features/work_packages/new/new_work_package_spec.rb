@@ -498,7 +498,7 @@ RSpec.describe 'new work package', js: true, with_cuprite: true do
 
       split_create_page.expect_attributes(combinedDate: "no start date - #{parent.due_date.strftime('%m/%d/%Y')}")
 
-      expect(split_create_page).to have_selector('[data-qa-selector="op-wp-breadcrumb"]', text: "Parent:\n#{parent.subject}")
+      expect(split_create_page).to have_test_selector('op-wp-breadcrumb', text: "Parent:\n#{parent.subject}")
     end
 
     it 'can navigate to the fullscreen page (Regression #49565)' do
@@ -533,7 +533,7 @@ RSpec.describe 'new work package', js: true, with_cuprite: true do
 
       wp_page.expect_attributes(combinedDate: "#{parent.start_date.strftime('%m/%d/%Y')} - #{parent.due_date.strftime('%m/%d/%Y')}")
 
-      expect(wp_page).to have_selector('[data-qa-selector="op-wp-breadcrumb"]', text: "Parent:\n#{parent.subject}")
+      expect(wp_page).to have_test_selector('op-wp-breadcrumb', text: "Parent:\n#{parent.subject}")
     end
   end
 end

@@ -294,7 +294,7 @@ RSpec.describe 'Meetings new', :js, with_cuprite: false do
       let(:field) do
         TextEditorField.new(page,
                             '',
-                            selector: '[data-qa-selector="op-meeting--meeting_agenda"]')
+                            selector: test_selector('op-meeting--meeting_agenda'))
       end
 
       it 'allows creating meeting in a project without members' do

@@ -67,7 +67,7 @@ RSpec.describe 'Work Package boards spec', js: true, with_ee: %i[board_view] do
     wp = WorkPackage.last
     expect(wp.subject).to eq 'Task 1'
     # Double click leads to the full view
-    click_target = board_page.find('[data-qa-selector="op-wp-single-card--content-type"]')
+    click_target = page.find_test_selector('op-wp-single-card--content-type')
     page.driver.browser.action.double_click(click_target.native).perform
 
     expect(page).to have_current_path project_work_package_path(project, wp.id, 'activity')
@@ -103,7 +103,7 @@ RSpec.describe 'Work Package boards spec', js: true, with_ee: %i[board_view] do
     item = page.find('#menu-sidebar li[data-name="boards"]', wait: 10)
     item.find('.toggler').click
 
-    subitem = page.find('[data-qa-selector="op-sidemenu--item-action--Myboard"]', wait: 10)
+    subitem = page.find_test_selector('op-sidemenu--item-action--Myboard', wait: 10)
     # Ends with boards due to lazy route
     expect(subitem[:href]).to end_with project_work_package_boards_path(project)
 

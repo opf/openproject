@@ -41,7 +41,14 @@ cs:
           name: Specifikace
         item_2:
           name: Ostatní
-      roles:
+      work_package_roles:
+        item_0:
+          name: Editor pracovních balíčků
+        item_1:
+          name: Komentář pracovního balíčku
+        item_2:
+          name: Prohlížeč pracovních balíčků
+      project_roles:
         item_0:
           name: Není člen
         item_1:
@@ -49,11 +56,12 @@ cs:
         item_2:
           name: Člen
         item_3:
-          name: Čtenář
+          name: Reader
         item_4:
-          name: Projekt admin
-        item_5:
-          name: Manažer zaměstnanců a projektů
+          name: Správce projektu
+      global_roles:
+        item_0:
+          name: Staff and projects manager
     standard:
       priorities:
         item_0:

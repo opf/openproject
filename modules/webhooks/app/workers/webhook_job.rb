@@ -32,7 +32,7 @@ class WebhookJob < ApplicationJob
   # Retry webhook jobs three times with exponential backoff
   # in case of timeouts
   retry_on Timeout::Error,
-           RestClient::RequestTimeout,
+           Faraday::TimeoutError,
            wait: :exponentially_longer,
            attempts: 3
 

@@ -31,9 +31,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     using Storages::Peripherals::ServiceResultRefinements
 
     def initialize(storage)
-      @uri = URI(storage.host).normalize
+      @uri = storage.uri
       @username = storage.username
       @password = storage.password
+    end
+
+    def self.call(storage:, folder_path:)
+      new(storage).call(folder_path:)
     end
 
     # rubocop:disable Metrics/AbcSize
@@ -54,7 +58,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           Util.error(:not_allowed)
         end
       when Net::HTTPUnauthorized
-        Util.error(:not_authorized)
+        Util.error(:unauthorized)
       when Net::HTTPNotFound
         Util.error(:not_found)
       when Net::HTTPConflict

@@ -50,4 +50,23 @@ RSpec.describe Queries::Members::MemberQuery, 'Integration' do
       expect(subject.first.user_id).to eq user.id
     end
   end
+
+  context 'with a project and a work package membership' do
+    let(:project) { create(:project) }
+    let(:work_package) { create(:work_package, project:) }
+    let(:user) { create(:user) }
+    let(:role) { create(:role, permissions: [:manage_members]) }
+    let(:wp_role) { create(:work_package_role, permissions: [:view_work_packages]) }
+    let!(:project_membership) { create(:member, principal: user, project:, roles: [role]) }
+    let!(:wp_membership) { create(:member, principal: user, project:, entity: work_package, roles: [wp_role]) }
+
+    it 'only returns the project membership' do
+      expect(subject.count).to eq(1)
+      expect(subject.first).to have_attributes(
+        project:,
+        entity: nil,
+        user:
+      )
+    end
+  end
 end

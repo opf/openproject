@@ -33,7 +33,7 @@ RSpec.describe Storages::Admin::ConfigurationChecksComponent,
   describe '#render?' do
     context 'with all configuration checks complete' do
       it 'returns false, does not render view component' do
-        storage = build_stubbed(:storage,
+        storage = build_stubbed(:nextcloud_storage,
                                 oauth_application: build_stubbed(:oauth_application),
                                 oauth_client: build_stubbed(:oauth_client))
         component = described_class.new(storage:)
@@ -44,7 +44,7 @@ RSpec.describe Storages::Admin::ConfigurationChecksComponent,
 
     context 'with incomplete configuration checks' do
       it 'returns true, renders view component' do
-        storage = build_stubbed(:storage, host: nil, name: nil)
+        storage = build_stubbed(:nextcloud_storage, host: nil, name: nil)
         component = described_class.new(storage:)
 
         expect(render_inline(component)).to have_content('The setup of this storage is incomplete.')

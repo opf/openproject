@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -72,7 +74,7 @@ module API::V3::Storages
 
     def initialize(model, current_user:, embed_links: nil)
       @connection_manager =
-        ::OAuthClients::ConnectionManager.new(user: current_user, oauth_client: model.oauth_client)
+        ::OAuthClients::ConnectionManager.new(user: current_user, configuration: model.oauth_configuration)
 
       super
     end
@@ -176,12 +178,14 @@ module API::V3::Storages
     end
 
     associated_resource :oauth_application,
-                        skip_render: ->(*) { !current_user.admin? },
+                        skip_render: ->(*) { !represent_oauth_application? },
                         getter: ->(*) {
+                          next unless represent_oauth_application?
+
                           ::API::V3::OAuth::OAuthApplicationsRepresenter.create(represented.oauth_application, current_user:)
                         },
                         link: ->(*) {
-                          next unless current_user.admin?
+                          next unless represent_oauth_application?
 
                           {
                             href: api_v3_paths.oauth_application(represented.oauth_application.id),
@@ -206,6 +210,10 @@ module API::V3::Storages
     end
 
     private
+
+    def represent_oauth_application?
+      current_user.admin? && represented.provider_type_nextcloud?
+    end
 
     def storage_projects(storage)
       storage.projects.merge(Project.allowed_to(current_user, :manage_file_links))

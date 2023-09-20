@@ -259,7 +259,7 @@ RSpec.describe 'Team planner add existing work packages', js: true do
     end
 
     it 'does not show the button to add existing work packages' do
-      expect(page).not_to have_selector('[data-qa-selector="op-team-planner--add-existing-toggle"]')
+      expect(page).not_to have_test_selector('op-team-planner--add-existing-toggle')
       add_existing_pane.expect_closed
     end
   end

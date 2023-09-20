@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -26,14 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../spec_helper'
+require 'spec_helper'
+require_module_spec_helper
 
 # These specs mainly check that error messages from a sub-service
 # (about unsafe hosts with HTTP protocol) are passed to the main form.
 RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
   shared_let(:admin) { create(:admin) }
   shared_let(:project) { create(:project) }
-  let(:storage) { create(:storage) }
+  let(:storage) { create(:nextcloud_storage) }
   let(:project_storage) { create(:project_storage, project:, storage:) }
   let(:controller) { instance_double(ApplicationController) }
 
@@ -49,12 +52,12 @@ RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
     hook_listener.application_controller_before_action(controller:)
   end
 
-  shared_examples 'appends storage host to CSP' do
-    it 'adds CSP directive to allow connection to storage host' do
+  shared_examples 'content security policy directives' do
+    it 'adds CSP connect_src and frame_ancestors directives' do
       trigger_application_controller_before_action_hook
 
-      expect(controller).to have_received(:append_content_security_policy_directives)
-                              .with({ connect_src: [storage.host] })
+      expect(controller).to have_received(:append_content_security_policy_directives).with(frame_ancestors: [storage.host]).ordered
+      expect(controller).to have_received(:append_content_security_policy_directives).with(connect_src: [storage.host]).ordered
     end
   end
 
@@ -70,19 +73,24 @@ RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
     context 'when current user is an admin without being a member of any project' do
       current_user { admin }
 
-      include_examples 'appends storage host to CSP'
+      include_examples 'content security policy directives'
     end
 
     context 'when current user is a member of the project with permission to manage file links' do
       current_user { create(:user, member_in_project: project, member_with_permissions: %i[manage_file_links]) }
 
-      include_examples 'appends storage host to CSP'
+      include_examples 'content security policy directives'
     end
 
     context 'when current user is a member of the project without permission to manage file links' do
       current_user { create(:user, member_in_project: project, member_with_permissions: []) }
 
-      include_examples 'does not change CSP'
+      it 'adds CSP frame_ancestors directive only' do
+        trigger_application_controller_before_action_hook
+
+        expect(controller).to have_received(:append_content_security_policy_directives).with(frame_ancestors: [storage.host]).once
+        expect(controller).not_to have_received(:append_content_security_policy_directives).with(connect_src: [storage.host])
+      end
     end
 
     context 'when the project is archived' do
@@ -92,7 +100,12 @@ RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
         project.update(active: false)
       end
 
-      include_examples 'does not change CSP'
+      it 'adds CSP frame_ancestors directive only' do
+        trigger_application_controller_before_action_hook
+
+        expect(controller).to have_received(:append_content_security_policy_directives).with(frame_ancestors: [storage.host])
+        expect(controller).not_to have_received(:append_content_security_policy_directives).with(connect_src: [storage.host])
+      end
     end
   end
 

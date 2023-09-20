@@ -33,8 +33,8 @@ ruby '~> 3.2.1'
 gem 'ox'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
-gem 'activerecord-import', '~> 1.4.0'
-gem 'activerecord-session_store', '~> 2.0.0'
+gem 'activerecord-import', '~> 1.5.0'
+gem 'activerecord-session_store', '~> 2.1.0'
 gem 'rails', '~> 7.0', '>= 7.0.3.1'
 gem 'responders', '~> 3.0'
 
@@ -91,7 +91,7 @@ gem 'escape_utils', '~> 1.3'
 # Syntax highlighting used in html-pipeline with rouge
 gem 'rouge', '~> 4.1.0'
 # HTML sanitization used for html-pipeline
-gem 'sanitize', '~> 6.0.2'
+gem 'sanitize', '~> 6.1.0'
 # HTML autolinking for mails and urls (replaces autolink)
 gem 'rinku', '~> 2.0.4', require: %w[rinku rails_rinku]
 # Version parsing with semver
@@ -103,7 +103,7 @@ gem 'svg-graph', '~> 2.2.0'
 
 gem 'date_validator', '~> 0.12.0'
 gem 'email_validator', '~> 2.2.3'
-gem 'json_schemer', '~> 1.0.1'
+gem 'json_schemer', '~> 2.0.0'
 gem 'ruby-duration', '~> 3.2.0'
 
 # `config/initializers/mail_starttls_patch.rb` has also been patched to
@@ -117,19 +117,19 @@ gem 'sys-filesystem', '~> 1.4.0', require: false
 gem 'bcrypt', '~> 3.1.6'
 
 gem 'multi_json', '~> 1.15.0'
-gem 'oj', '~> 3.15.0'
+gem 'oj', '~> 3.16.0'
 
 gem 'daemons'
 gem 'delayed_cron_job', '~> 0.9.0'
 gem 'delayed_job_active_record', '~> 4.1.5'
 
-gem 'rack-protection', '~> 3.0.0'
+gem 'rack-protection', '~> 3.1.0'
 
 # Rack::Attack is a rack middleware to protect your web app from bad clients.
 # It allows whitelisting, blacklisting, throttling, and tracking based
 # on arbitrary properties of the request.
 # https://github.com/kickstarter/rack-attack
-gem 'rack-attack', '~> 6.6.0'
+gem 'rack-attack', '~> 6.7.0'
 
 # CSP headers
 gem 'secure_headers', '~> 6.5.0'
@@ -143,7 +143,7 @@ gem 'okcomputer', '~> 1.18.1'
 gem 'gon', '~> 6.4.0'
 
 # Lograge to provide sane and non-verbose logging
-gem 'lograge', '~> 0.12.0'
+gem 'lograge', '~> 0.13.0'
 
 # Structured warnings to selectively disable them in production
 gem 'structured_warnings', '~> 0.4.0'
@@ -173,7 +173,7 @@ gem 'rails-i18n', '~> 7.0.0'
 gem 'sprockets', '~> 3.7.2' # lock sprockets below 4.0
 gem 'sprockets-rails', '~> 3.4.2'
 
-gem 'puma', '~> 6.1'
+gem 'puma', '~> 6.3'
 gem 'puma-plugin-statsd', '~> 2.0'
 gem 'rack-timeout', '~> 0.6.3', require: "rack/timeout/base"
 
@@ -191,13 +191,14 @@ gem 'openproject-token', '~> 3.0.1'
 
 gem 'plaintext', '~> 0.3.2'
 
-gem 'rest-client', '~> 2.0'
-
 gem 'ruby-progressbar', '~> 1.13.0', require: false
 
 gem 'mini_magick', '~> 4.12.0', require: false
 
 gem 'validate_url'
+
+# Storages support code
+gem "dry-container"
 
 # ActiveRecord extension which adds typecasting to store accessors
 gem "store_attribute", "~> 1.0"
@@ -208,6 +209,11 @@ gem "appsignal", "~> 3.0", require: false
 gem 'view_component'
 # Lookbook
 gem 'lookbook', '~> 2.0.5'
+
+# Require factory_bot for usage with openproject plugins testing
+gem 'factory_bot', '~> 6.2.0', require: false
+# require factory_bot_rails for convenience in core development
+gem 'factory_bot_rails', '~> 6.2.0', require: false
 
 gem 'turbo-rails', "~> 1.1"
 
@@ -245,16 +251,18 @@ group :test do
   gem 'capybara', '~> 3.39.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'cuprite', '~> 0.14.3'
-  gem 'selenium-webdriver', '~> 4.11.0'
+  gem 'selenium-webdriver', '~> 4.12.0'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
 
+  # Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests.
+  gem 'vcr'
   # Mock backend requests (for ruby tests)
   gem 'webmock', '~> 3.12', require: false
 
   # Mock selenium requests through proxy (for feature tests)
-  gem 'puffing-billy', '~> 3.1.0'
+  gem 'puffing-billy', '~> 4.0.0'
   gem 'table_print', '~> 1.5.6'
 
   gem 'equivalent-xml', '~> 0.6'
@@ -275,6 +283,7 @@ group :development do
 
   gem 'spring'
   gem 'spring-commands-rspec'
+  gem 'spring-commands-rubocop'
 
   gem 'colored2'
 
@@ -284,10 +293,6 @@ end
 
 group :development, :test do
   gem 'dotenv-rails'
-  # Require factory_bot for usage with openproject plugins testing
-  gem 'factory_bot', '~> 6.2.0'
-  # require factory_bot_rails for convenience in core development
-  gem 'factory_bot_rails', '~> 6.2.0'
 
   # Tracing and profiling gems
   gem 'flamegraph', require: false
@@ -306,6 +311,11 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
+  gem 'rubocop-performance', require: false
+
+  # erb linting
+  gem "erb_lint", require: false
+  gem "erblint-github", require: false
 
   # Brakeman scanner
   gem 'brakeman', '~> 6.0.0'
@@ -314,7 +324,7 @@ end
 gem 'bootsnap', '~> 1.16.0', require: false
 
 # API gems
-gem 'grape', '~> 1.7.0'
+gem 'grape', '~> 1.8.0'
 gem 'grape_logging', '~> 1.8.4'
 gem 'roar', '~> 1.2.0'
 
@@ -353,6 +363,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-primer_view_components", '~>0.7.0'
-gem "openproject-octicons", '~>19.6.7'
-gem "openproject-octicons_helper", '~>19.6.7'
+gem "openproject-primer_view_components", '~>0.10.0'
+gem "openproject-octicons", '~>19.7.0'
+gem "openproject-octicons_helper", '~>19.7.0'

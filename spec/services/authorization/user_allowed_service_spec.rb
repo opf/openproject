@@ -28,6 +28,8 @@
 
 require 'spec_helper'
 
+# TODO: Fix tests here
+
 RSpec.describe Authorization::UserAllowedService do
   let(:user) { build_stubbed(:user) }
   let(:instance) { described_class.new(user) }

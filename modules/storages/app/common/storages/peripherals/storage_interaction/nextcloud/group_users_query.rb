@@ -31,14 +31,17 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     using Storages::Peripherals::ServiceResultRefinements
 
     def initialize(storage)
-      @uri = URI(storage.host).normalize
+      @uri = storage.uri
       @username = storage.username
       @password = storage.password
-      @group = storage.group
+    end
+
+    def self.call(storage:, group: storage.group)
+      new(storage).call(group:)
     end
 
     # rubocop:disable Metrics/AbcSize
-    def call(group: @group)
+    def call(group:)
       response = Util.http(@uri).get(
         Util.join_uri_path(@uri, "ocs/v1.php/cloud/groups", CGI.escapeURIComponent(group)),
         Util.basic_auth_header(@username, @password).merge('OCS-APIRequest' => 'true')
@@ -52,7 +55,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       when Net::HTTPMethodNotAllowed
         Util.error(:not_allowed)
       when Net::HTTPUnauthorized
-        Util.error(:not_authorized)
+        Util.error(:unauthorized)
       when Net::HTTPNotFound
         Util.error(:not_found)
       when Net::HTTPConflict

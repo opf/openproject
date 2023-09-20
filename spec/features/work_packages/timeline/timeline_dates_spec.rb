@@ -132,14 +132,14 @@ RSpec.describe 'Work package timeline date formatting',
       it 'shows them as disabled' do
         expect_date_week work_package.start_date.iso8601, '01'
 
-        expect(page).to have_selector('[data-qa-selector="wp-timeline--non-working-day_27-12-2020"]')
-        expect(page).to have_selector('[data-qa-selector="wp-timeline--non-working-day_2-1-2021"]')
-        expect(page).to have_selector('[data-qa-selector="wp-timeline--non-working-day_28-12-2020"]')
+        expect(page).to have_test_selector('wp-timeline--non-working-day_27-12-2020')
+        expect(page).to have_test_selector('wp-timeline--non-working-day_2-1-2021')
+        expect(page).to have_test_selector('wp-timeline--non-working-day_28-12-2020')
 
-        expect(page).not_to have_selector('[data-qa-selector="wp-timeline--non-working-day_29-12-2020"]')
-        expect(page).not_to have_selector('[data-qa-selector="wp-timeline--non-working-day_30-12-2020"]')
-        expect(page).not_to have_selector('[data-qa-selector="wp-timeline--non-working-day_31-12-2020"]')
-        expect(page).not_to have_selector('[data-qa-selector="wp-timeline--non-working-day_1-1-2021"]')
+        expect(page).not_to have_test_selector('wp-timeline--non-working-day_29-12-2020')
+        expect(page).not_to have_test_selector('wp-timeline--non-working-day_30-12-2020')
+        expect(page).not_to have_test_selector('wp-timeline--non-working-day_31-12-2020')
+        expect(page).not_to have_test_selector('wp-timeline--non-working-day_1-1-2021')
       end
     end
   end

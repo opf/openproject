@@ -1,7 +1,7 @@
 <label
   *ngFor="let option of options"
   [ngClass]="{ 'button': true, '-disabled': disabled, 'form--field-inline-button': true, '-active': value === option.value, 'spot-toggle--button': true }"
-  data-qa-selector="spot-toggle--option"
+  data-test-selector="spot-toggle--option"
   [attr.data-qa-disabled]="disabled || undefined"
   [attr.data-qa-active-toggle]="value === option.value"
 >

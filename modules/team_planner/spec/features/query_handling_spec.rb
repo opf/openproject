@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -30,7 +32,7 @@ require 'spec_helper'
 require_relative '../support/pages/team_planner'
 require_relative '../../../../spec/features/views/shared_examples'
 
-RSpec.describe 'Team planner query handling', js: true, with_ee: %i[team_planner_view] do
+RSpec.describe 'Team planner query handling', :js, with_ee: %i[team_planner_view] do
   shared_let(:type_task) { create(:type_task) }
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:project) do
@@ -80,7 +82,6 @@ RSpec.describe 'Team planner query handling', js: true, with_ee: %i[team_planner
   current_user { user }
 
   before do
-    login_as user
     team_planner.visit!
 
     team_planner.add_assignee user
@@ -115,7 +116,7 @@ RSpec.describe 'Team planner query handling', js: true, with_ee: %i[team_planner
   it 'shows only team planner queries' do
     # Go to team planner where no query is shown, only the create option
     query_menu.expect_no_menu_entry
-    expect(page).to have_selector('[data-qa-selector="team-planner--create-button"]')
+    expect(page).to have_test_selector('team-planner--create-button')
 
     # Change filter
     filters.open
@@ -138,5 +139,6 @@ RSpec.describe 'Team planner query handling', js: true, with_ee: %i[team_planner
   it_behaves_like 'module specific query view management' do
     let(:module_page) { team_planner }
     let(:default_name) { 'Unnamed team planner' }
+    let(:initial_filter_count) { 1 }
   end
 end

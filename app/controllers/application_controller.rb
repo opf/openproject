@@ -377,7 +377,7 @@ class ApplicationController < ActionController::Base
                                 .order('id ASC')
     fail ActiveRecord::RecordNotFound if @work_packages.empty?
 
-    @projects = @work_packages.map(&:project).compact.uniq
+    @projects = @work_packages.filter_map(&:project).uniq
     @project = @projects.first if @projects.size == 1
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -441,7 +441,7 @@ class ApplicationController < ActionController::Base
 
   # Returns a string that can be used as filename value in Content-Disposition header
   def filename_for_content_disposition(name)
-    request.env['HTTP_USER_AGENT'] =~ %r{(MSIE|Trident)} ? ERB::Util.url_encode(name) : name
+    %r{(MSIE|Trident)}.match?(request.env['HTTP_USER_AGENT']) ? ERB::Util.url_encode(name) : name
   end
 
   def api_request?

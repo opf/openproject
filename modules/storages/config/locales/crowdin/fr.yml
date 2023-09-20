@@ -53,6 +53,7 @@ fr:
     errors:
       too_many_elements_created_at_once: "Trop d'éléments créés à la fois. %{max} attendu au maximum, obtenu %{actual}."
   storages:
+    default_name: "My storage"
     unknown_storage: "Espace de stockage inconnu"
     buttons:
       done_continue_setup: "Terminé. Poursuivre la configuration"
@@ -101,6 +102,13 @@ fr:
       copy_from: "Copier cette valeur depuis"
       nextcloud:
         integration: "Administration Nextcloud / OpenProject"
+      one_drive:
+        integration: "OneDrive/SharePoint"
+        oauth_client_id: >
+          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+        oauth_client_secret: >
+          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
+        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
     help_texts:
       project_folder: >
         Le dossier de projet est le dossier par défaut pour les téléversements de fichiers pour ce projet. Les utilisateurs peuvent néanmoins encore téléverser des fichiers vers d'autres emplacements.
@@ -129,6 +137,7 @@ fr:
     label_oauth_breadcrumb:
       openproject: "OAuth OpenProject"
       nextcloud: "OAuth Nextcloud"
+      one_drive: "OneDrive OAuth"
     label_oauth_application_details: "Détails de l'application OAuth"
     label_oauth_client_details: "Détails du client OAuth"
     label_provider_type: "Type de fournisseur"
@@ -154,7 +163,9 @@ fr:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "par ex. Nextcloud"
-        default_name: "Mon Nextcloud"
+      one_drive:
+        name: "OneDrive/SharePoint"
+        name_placeholder: "e.g. OneDrive"
     confirm_replace_oauth_application: "Êtes-vous sûr ? Tous les utilisateurs devront réautoriser OpenProject."
     confirm_replace_oauth_client: "Êtes-vous sûr ? Tous les utilisateurs devront réautoriser sur le stockage."
     oauth_client_details_missing: "Pour terminer la configuration, veuillez ajouter les identifiants du client OAuth depuis votre espace de stockage."

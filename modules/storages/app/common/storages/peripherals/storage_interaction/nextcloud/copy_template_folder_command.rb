@@ -31,9 +31,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     using Storages::Peripherals::ServiceResultRefinements
 
     def initialize(storage)
-      @uri = URI(storage.host).normalize
+      @uri = storage.uri
       @username = storage.username
       @password = storage.password
+    end
+
+    def self.call(storage:, source_path:, destination_path:)
+      new(storage).call(source_path:, destination_path:)
     end
 
     def call(source_path:, destination_path:)
@@ -84,7 +88,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         when Net::HTTPSuccess
           Util.error(:conflict, 'Destination folder already exists.')
         when Net::HTTPUnauthorized
-          Util.error(:not_authorized, "Not authorized (validate_destination)")
+          Util.error(:unauthorized, "unauthorized (validate_destination)")
         when Net::HTTPNotFound
           ServiceResult.success(result: urls)
         else
@@ -107,7 +111,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         when Net::HTTPCreated
           ServiceResult.success(message: 'Folder was successfully copied')
         when Net::HTTPUnauthorized
-          Util.error(:not_authorized, "Not authorized (copy_folder)")
+          Util.error(:unauthorized, "Unauthorized (copy_folder)")
         when Net::HTTPNotFound
           Util.error(:not_found, "Project folder not found (copy_folder)")
         when Net::HTTPConflict

@@ -51,7 +51,7 @@ class Widget::GroupBys < Widget::Base
       container = content_tag :div,
                               id: "group-by--#{type}",
                               class: 'group-by--container grid-block',
-                              'data-initially-selected': initially_selected.to_json.gsub('"', "'") do
+                              'data-initially-selected': initially_selected.to_json.tr('"', "'") do
         out = content_tag :span, class: 'group-by--caption grid-content shrink' do
           content_tag :span do
             I18n.t(:"label_#{type}")

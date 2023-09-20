@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,14 +29,14 @@
 #++
 
 require 'spec_helper'
-require_relative '../../../support/storage_server_helpers'
+require_module_spec_helper
 
 RSpec.shared_examples_for 'file_link contract' do
   let(:current_user) { create(:user) }
   let(:role) { create(:existing_role, permissions: [:manage_file_links]) }
   let(:project) { create(:project, members: { current_user => role }) }
   let(:work_package) { create(:work_package, project:) }
-  let(:storage) { create(:storage) }
+  let(:storage) { create(:nextcloud_storage) }
   let!(:project_storage) { create(:project_storage, project:, storage:) }
   let(:file_link) do
     build(:file_link, container: work_package,

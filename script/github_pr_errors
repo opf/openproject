@@ -9,8 +9,9 @@ require 'json'
 require 'optparse'
 require 'pathname'
 require 'pry'
-require 'rest-client'
 require 'yaml'
+require 'faraday'
+require 'faraday/follow_redirects'
 
 GITHUB_API_OPENPROJECT_PREFIX = 'https://api.github.com/repos/opf/openproject'.freeze
 GITHUB_HTML_OPENPROJECT_PREFIX = 'https://github.com/opf/openproject'.freeze
@@ -112,7 +113,7 @@ class Options
         end
 
         parser.on("-v", "--verbose",
-                  "Print more information, mostly useful for debugging") do |_value|
+                  "Print more information, mostly useful for debugging") do
           options[:verbose] = true
         end
       end
@@ -154,17 +155,24 @@ def get_http(path)
     end
 
   say_verbose("HTTP GET #{url}")
-  response = RestClient::Request.new(
-    method: :get,
-    url:,
-    user: ENV.fetch('GITHUB_USERNAME'),
-    password: ENV.fetch('GITHUB_TOKEN')
-  ).execute
 
-  say_verbose("HTTP Response #{response.code}")
+  conn = Faraday.new do |faraday|
+    faraday.response :follow_redirects # use Faraday::FollowRedirects::Middleware
+    faraday.response :raise_error # raise Faraday::Error on status code 4xx or 5xx
+  end
 
-  response.to_str
-rescue RestClient::ExceptionWithResponse => e
+  response = conn.get(
+    url,
+    nil,
+    {
+      'Authorization' => "Basic #{Base64::strict_encode64("#{ENV.fetch('GITHUB_USERNAME')}:#{ENV.fetch('GITHUB_TOKEN')}")}"
+    }
+  )
+
+  say_verbose("HTTP Response #{response.status}")
+
+  response.body
+rescue Faraday::Error => e
   warn error_details(e)
   exit(1)
 rescue StandardError => e
@@ -172,16 +180,16 @@ rescue StandardError => e
   exit 1
 end
 
-def error_details(rest_client_exception_with_response)
-  response = rest_client_exception_with_response.response
-  error = JSON.parse(response.body)
+def error_details(error)
+  response = error.response
+  response_body = JSON.parse(response[:body])
 
   parts = []
-  parts << "Failed to perform API request #{response.request.method.upcase} #{response.request.url}: " \
-           "#{rest_client_exception_with_response}"
-  parts << "  #{error['message']}"
-  parts << "  See #{error['documentation_url']}"
-  parts += rest_client_exception_with_response.backtrace.map { "    #{_1}" }
+  parts << "Failed to perform API request #{response[:request][:method].upcase} #{response[:request][:url]}: " \
+           "#{error}"
+  parts << "  #{response_body['message']}"
+  parts << "  See #{response_body['documentation_url']}"
+  parts += error.backtrace.map { "    #{_1}" }
   parts.join("\n")
 end
 
@@ -200,7 +208,7 @@ def get_jobs(workflow_run)
   workflow_run['jobs_url']
   cache_key = [
     path_to_cache_key(workflow_run['jobs_url']),
-    workflow_run['updated_at'].gsub(':', '')
+    workflow_run['updated_at'].delete(':')
   ].join('_')
   cached(cache_key) { get_json(workflow_run['jobs_url']) }
 end

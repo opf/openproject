@@ -1,0 +1,39 @@
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users('48d31887-5fad-4d73-a9f5-3c356e68a038')/drives('b%21-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd')/items/$entity",
+  "createdDateTime": "2017-08-07T16:16:30Z",
+  "eTag": "\"{A9D9C2AC-FF32-42EE-87C3-283CFCE061E1},1\"",
+  "id": "01BYE5RZ5MYLM2SMX75ZBIPQZIHT6OAYPB",
+  "lastModifiedDateTime": "2017-08-07T16:16:30Z",
+  "name": "Business Data",
+  "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents/Business%20Data",
+  "cTag": "\"c:{A9D9C2AC-FF32-42EE-87C3-283CFCE061E1},0\"",
+  "size": 39566226,
+  "createdBy": {
+    "user": {
+      "email": "MeganB@M365x214355.onmicrosoft.com",
+      "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+      "displayName": "Megan Bowen"
+    }
+  },
+  "lastModifiedBy": {
+    "user": {
+      "email": "MeganB@M365x214355.onmicrosoft.com",
+      "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+      "displayName": "Megan Bowen"
+    }
+  },
+  "parentReference": {
+    "driveType": "business",
+    "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+    "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
+    "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:",
+    "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+  },
+  "fileSystemInfo": {
+    "createdDateTime": "2017-08-07T16:16:30Z",
+    "lastModifiedDateTime": "2017-08-07T16:16:30Z"
+  },
+  "folder": {
+    "childCount": 6
+  }
+}

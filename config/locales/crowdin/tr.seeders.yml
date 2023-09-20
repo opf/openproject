@@ -41,19 +41,27 @@ tr:
           name: Özellik
         item_2:
           name: Diğer
-      roles:
+      work_package_roles:
         item_0:
-          name: Üye Değil
+          name: Work Package Editor
         item_1:
-          name: Anonim
+          name: Work Package Commenter
         item_2:
-          name: Üye
+          name: Work Package Viewer
+      project_roles:
+        item_0:
+          name: Non member
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Member
         item_3:
-          name: Okuyucu
+          name: Reader
         item_4:
-          name: Proje yöneticisi
-        item_5:
-          name: Personel ve proje yöneticisi
+          name: Project admin
+      global_roles:
+        item_0:
+          name: Staff and projects manager
     standard:
       priorities:
         item_0:

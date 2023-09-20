@@ -85,9 +85,9 @@ class Principals::DeleteJob < ApplicationJob
     CostQuery.in_batches.each_record do |query|
       serialized = query.serialized
 
-      serialized[:filters] = serialized[:filters].map do |name, options|
+      serialized[:filters] = serialized[:filters].filter_map do |name, options|
         remove_cost_query_values(name, options, principal)
-      end.compact
+      end
 
       CostQuery.where(id: query.id).update_all(serialized:)
     end

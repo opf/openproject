@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,22 +29,19 @@
 #++
 
 require 'spec_helper'
-require 'webmock/rspec'
 
-RSpec.describe OAuthClients::ConnectionManager, type: :model do
+RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
   let(:user) { create(:user) }
+
   let(:host) { "https://example.org" }
-  let(:provider_type) { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
-  let(:storage) { create(:storage, provider_type:, host: "#{host}/") }
+  let(:storage) { create(:nextcloud_storage, :with_oauth_client, host: "#{host}/") }
+  let(:oauth_client) { storage.oauth_client }
+  let(:configuration) { storage.oauth_configuration }
+
   let(:scope) { [:all] } # OAuth2 resources to access, specific to provider
-  let(:oauth_client) do
-    create(:oauth_client,
-           client_id: "nwz34rWsolvJvchfQ1bVHXfMb1ETK89lCBgzrLhWx3ACW5nKfmdcyf5ftlCyKGbk",
-           client_secret: "A08n6CRBOOr41iqkWRynnP6BbmEnau7LeP9t9xrIbiYX46iXgmIZgqhJoDFjUMEq",
-           integration: storage)
-  end
   let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user:) }
-  let(:instance) { described_class.new(user:, oauth_client:) }
+
+  let(:instance) { described_class.new(user:, configuration:) }
 
   # The get_authorization_uri method returns the OAuth2 authorization URI as a string. That URI is the starting point for
   # a user to grant OpenProject access to Nextcloud.
@@ -50,7 +49,7 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
     let(:scope) { nil }
     let(:state) { nil }
 
-    subject { instance.get_authorization_uri(scope:, state:) }
+    subject { instance.get_authorization_uri(state:) }
 
     context 'with empty state and scope' do
       shared_examples_for 'returns the authorization URI relative to the host' do
@@ -88,6 +87,8 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
       let(:scope) { %i(email profile) }
 
       it 'returns the redirect URL' do
+        allow(configuration).to receive(:scope).and_return(scope)
+
         expect(subject).to be_a String
         expect(subject).to include oauth_client.integration.host
         expect(subject).not_to include "state"
@@ -111,9 +112,11 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
     end
 
     context 'with no OAuthClientToken present and state parameters' do
-      subject { instance.get_access_token(state: "some_state", scope: [:email]) }
+      subject { instance.get_access_token(state: "some_state") }
 
       it 'returns the redirect URL' do
+        allow(configuration).to receive(:scope).and_return(%w[email])
+
         expect(subject.success).to be_falsey
         expect(subject.result).to be_a String
         expect(subject.result).to include oauth_client.integration.host
@@ -142,7 +145,7 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
   # The callback endpoint calls `code_to_token(code)` with the code
   # received and exchanges the code for a bearer+refresh token
   # using a HTTP request.
-  describe '#code_to_token', webmock: true do
+  describe '#code_to_token', :webmock do
     let(:code) { "7kRGJ...jG3KZ" }
 
     subject { instance.code_to_token(code) }
@@ -173,7 +176,9 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
     context 'with known error' do
       before do
         stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
-          .to_return(status: 400, body: { error: error_message }.to_json, headers: { "content-type" => "application/json; charset=utf-8" })
+          .to_return(status: 400,
+                     body: { error: error_message }.to_json,
+                     headers: { "content-type" => "application/json; charset=utf-8" })
       end
 
       shared_examples 'OAuth2 error response' do
@@ -201,7 +206,9 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
     context 'with known reply invalid_grant' do
       before do
         stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
-          .to_return(status: 400, body: { error: "invalid_grant" }.to_json, headers: { "content-type" => "application/json; charset=utf-8" })
+          .to_return(status: 400,
+                     body: { error: "invalid_grant" }.to_json,
+                     headers: { "content-type" => "application/json; charset=utf-8" })
       end
 
       it 'returns a specific error message' do
@@ -215,7 +222,9 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
     context 'with unknown reply' do
       before do
         stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
-          .to_return(status: 400, body: { error: "invalid_requesttt" }.to_json, headers: { "content-type" => "application/json; charset=utf-8" })
+          .to_return(status: 400,
+                     body: { error: "invalid_requesttt" }.to_json,
+                     headers: { "content-type" => "application/json; charset=utf-8" })
       end
 
       it 'returns an unspecific error message' do
@@ -331,7 +340,7 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
               .to_return(status: 200, body: response_body, headers: { "content-type" => "application/json; charset=utf-8" })
           end
 
-          it 'returns a valid ClientToken object', webmock: true do
+          it 'returns a valid ClientToken object', :webmock do
             expect(subject.success).to be_truthy
             expect(subject.result).to be_a OAuthClientToken
             expect(subject.result.access_token).to eq("xyjTDZ...RYvRH")
@@ -344,7 +353,7 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
           before do
             # Simulate a token too long
             response_body = {
-              access_token: "x" * 257, # will fail model validation
+              access_token: nil, # will fail model validation
               token_type: "Bearer",
               expires_in: 3601,
               refresh_token: "xUwFp...1FROJ",
@@ -354,24 +363,23 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
               .to_return(status: 200, body: response_body, headers: { "content-type" => "application/json; charset=utf-8" })
           end
 
-          it 'returns dependent error from model validation', webmock: true do
+          it 'returns dependent error from model validation', :webmock do
             expect(subject.success).to be_falsey
-            expect(subject.result).to be_nil
             expect(subject.errors.size).to be(1)
-            puts subject.errors
           end
         end
 
         context 'with server error from OAuth2 provider' do
           before do
             stub_request(:any, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
-              .to_return(status: 400, body: { error: "invalid_request" }.to_json, headers: { "content-type" => "application/json; charset=utf-8" })
+              .to_return(status: 400,
+                         body: { error: "invalid_request" }.to_json,
+                         headers: { "content-type" => "application/json; charset=utf-8" })
           end
 
-          it 'returns a server error', webmock: true do
+          it 'returns a server error', :webmock do
             expect(subject.success).to be_falsey
             expect(subject.errors.size).to be(1)
-            puts subject.errors
           end
         end
 
@@ -382,17 +390,14 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
               .to_timeout
           end
 
-          it 'returns a valid ClientToken object', webmock: true do
+          it 'returns a valid ClientToken object', :webmock do
             expect(subject.success).to be_falsey
             expect(subject.result).to eq("execution expired")
             expect(subject.errors.size).to be(1)
           end
         end
 
-        context 'with parrallel requests for refresh',
-                :aggregate_failures,
-                use_transactional_fixtures: false,
-                webmock: true do
+        context 'with parrallel requests for refresh', :aggregate_failures do
           after do
             Storages::Storage.destroy_all
             User.destroy_all
@@ -420,12 +425,12 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
             result2 = nil
             thread1 = Thread.new do
               ApplicationRecord.connection_pool.with_connection do
-                result1 = described_class.new(user:, oauth_client:).refresh_token.result
+                result1 = described_class.new(user:, configuration: storage.oauth_configuration).refresh_token.result
               end
             end
             thread2 = Thread.new do
               ApplicationRecord.connection_pool.with_connection do
-                result2 = described_class.new(user:, oauth_client:).refresh_token.result
+                result2 = described_class.new(user:, configuration: storage.oauth_configuration).refresh_token.result
               end
             end
             thread1.join
@@ -448,21 +453,22 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
             response_body2 = response_body1.dup
             response_body2[:access_token] = "differ...RYvRH"
             request_url = File.join(host, '/index.php/apps/oauth2/api/v1/token')
+            headers = { "content-type" => "application/json; charset=utf-8" }
             stub_request(:any, request_url)
-              .to_return(status: 200, body: response_body1.to_json, headers: { "content-type" => "application/json; charset=utf-8" }).then
-              .to_return(status: 200, body: response_body2.to_json, headers: { "content-type" => "application/json; charset=utf-8" })
+              .to_return(status: 200, body: response_body1.to_json, headers:).then
+              .to_return(status: 200, body: response_body2.to_json, headers:)
 
             result1 = nil
             result2 = nil
             thread1 = Thread.new do
               ApplicationRecord.connection_pool.with_connection do
                 sleep(3)
-                result1 = described_class.new(user:, oauth_client:).refresh_token.result
+                result1 = described_class.new(user:, configuration: storage.oauth_configuration).refresh_token.result
               end
             end
             thread2 = Thread.new do
               ApplicationRecord.connection_pool.with_connection do
-                result2 = described_class.new(user:, oauth_client:).refresh_token.result
+                result2 = described_class.new(user:, configuration: storage.oauth_configuration).refresh_token.result
               end
             end
             thread1.join
@@ -476,7 +482,7 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
       end
 
       context 'when token is fresh' do
-        it 'does not send refresh request and respond with existing token', webmock: true do
+        it 'does not send refresh request and respond with existing token', :webmock do
           expect(subject.success).to be_truthy
           expect(subject.result).to eq(oauth_client_token)
           expect { subject }.not_to change(oauth_client_token, :access_token)
@@ -494,7 +500,7 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
       end
     end
 
-    context 'with access token present', webmock: true do
+    context 'with access token present', :webmock do
       before do
         oauth_client_token
       end
@@ -502,8 +508,7 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
       context 'with access token valid' do
         context 'without other errors or exceptions' do
           before do
-            stub_request(:get, File.join(host, OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
-              .to_return(status: 200)
+            allow(configuration).to receive(:authorization_state_check).and_return(:success)
           end
 
           it 'returns :connected' do
@@ -513,8 +518,7 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
 
         context 'with some other error or exception' do
           before do
-            stub_request(:get, File.join(host, OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
-              .to_timeout
+            allow(configuration).to receive(:authorization_state_check).and_return(:error)
           end
 
           it 'returns :error' do
@@ -528,8 +532,7 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
         let(:refresh_service_result) { ServiceResult.success }
 
         before do
-          stub_request(:get, File.join(host, OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
-            .to_return(status: 401) # 401 unauthorized
+          allow(configuration).to receive(:authorization_state_check).and_return(:refresh_needed)
           allow(instance).to receive(:refresh_token).and_return(refresh_service_result)
         end
 
@@ -560,7 +563,7 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
       end
     end
 
-    context 'with both invalid access token and refresh token', webmock: true do
+    context 'with both invalid access token and refresh token', :webmock do
       it 'returns :failed_authorization' do
         expect(subject).to eq :failed_authorization
       end
@@ -599,19 +602,19 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
       end
     end
 
-    context 'with yield returning :not_authorized and the refresh returning a with a success' do
-      let(:yield_service_result) { ServiceResult.failure(result: :not_authorized) }
+    context 'with yield returning :unauthorized and the refresh returning a with a success' do
+      let(:yield_service_result) { ServiceResult.failure(result: :unauthorized) }
 
       it 'returns a ServiceResult with success, without refresh' do
         expect(subject.success).to be_falsey
-        expect(subject.result).to be :not_authorized
+        expect(subject.result).to be :unauthorized
         expect(instance).to have_received(:refresh_token)
         expect(oauth_client_token).to have_received(:reload)
       end
     end
 
-    context 'with yield returning :not_authorized and the refresh returning with a :failure' do
-      let(:yield_service_result) { ServiceResult.failure(result: :not_authorized) }
+    context 'with yield returning :unauthorized and the refresh returning with a :failure' do
+      let(:yield_service_result) { ServiceResult.failure(result: :unauthorized) }
       let(:refresh_service_result) { ServiceResult.failure }
 
       it 'returns a ServiceResult with success, without refresh' do
@@ -622,9 +625,9 @@ RSpec.describe OAuthClients::ConnectionManager, type: :model do
       end
     end
 
-    context 'with yield returning :not_authorized first time and :success the second time' do
+    context 'with yield returning :unauthorized first time and :success the second time' do
       let(:yield_double_object) { Object.new }
-      let(:yield_service_result1) { ServiceResult.failure(result: :not_authorized) }
+      let(:yield_service_result1) { ServiceResult.failure(result: :unauthorized) }
       let(:yield_service_result2) { ServiceResult.success }
       let(:refresh_service_result) { ServiceResult.success }
 

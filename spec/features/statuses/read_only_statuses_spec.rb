@@ -76,7 +76,7 @@ RSpec.describe 'Read-only statuses affect work package editing',
 
   it 'locks the work package on a read only status' do
     wp_page.switch_to_tab(tab: 'FILES')
-    expect(page).to have_selector '[data-qa-selector="op-attachments--drop-box"]'
+    expect(page).to have_test_selector 'op-attachments--drop-box'
 
     subject_field = wp_page.edit_field :subject
     subject_field.activate!
@@ -95,7 +95,7 @@ RSpec.describe 'Read-only statuses affect work package editing',
     subject_field.expect_read_only
 
     # Expect attachments not available
-    expect(page).not_to have_selector '[data-qa-selector="op-attachments--drop-box"]'
+    expect(page).not_to have_test_selector 'op-attachments--drop-box'
 
     # Expect labels to not activate field editing (Regression#45032)
     assignee_field = wp_page.edit_field :assignee

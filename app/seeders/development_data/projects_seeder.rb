@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -49,7 +51,7 @@ module DevelopmentData
     end
 
     def project_identifiers
-      %w(dev-empty dev-large dev-large-child dev-custom-fields)
+      %w(dev-empty dev-work-package-sharing dev-large dev-large-child dev-custom-fields)
     end
 
     def reset_projects
@@ -62,6 +64,8 @@ module DevelopmentData
         end
 
         project.save!
+        seed_data.store_reference(id.underscore.to_sym, project)
+
         project
       end
     end

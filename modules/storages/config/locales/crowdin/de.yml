@@ -53,6 +53,7 @@ de:
     errors:
       too_many_elements_created_at_once: "Zu viele Elemente gleichzeitig erstellt. Maximal %{max} erwartet, %{actual} bekommen."
   storages:
+    default_name: "Mein Speicherplatz"
     unknown_storage: "Unbekannter Speicher"
     buttons:
       done_continue_setup: "Fertig. Setup fortsetzen"
@@ -101,6 +102,13 @@ de:
       copy_from: "Diesen Wert kopieren von"
       nextcloud:
         integration: "Nextcloud Administration / OpenProject"
+      one_drive:
+        integration: "OneDrive/SharePoint"
+        oauth_client_id: >
+          Copy the client id from the Azure portal. This is needed to generate the redirect URI.
+        oauth_client_secret: >
+          Copy the client secret from the Azure portal. For a newly created application the secret first needs to be created manually. For authorization of web applications a secret is mandatory.
+        missing_client_id_for_redirect_uri: "Client ID missing to provide redirect URI."
     help_texts:
       project_folder: >
         Der Projektordner ist der Standardordner für Datei-Uploads für dieses Projekt. Benutzer können trotzdem Dateien an andere Orte hochladen.
@@ -129,6 +137,7 @@ de:
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
+      one_drive: "OneDrive OAuth"
     label_oauth_application_details: "OAuth Anwendungsdetails"
     label_oauth_client_details: "OAuth-Client-Details"
     label_provider_type: "Anbieter-Typ"
@@ -154,7 +163,9 @@ de:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "z.B. Nextcloud"
-        default_name: "Mein Nextcloud"
+      one_drive:
+        name: "OneDrive/SharePoint"
+        name_placeholder: "z.B. OneDrive"
     confirm_replace_oauth_application: "Sind Sie sicher? Alle Benutzer müssen sich erneut gegen OpenProject autorisieren."
     confirm_replace_oauth_client: "Sind Sie sicher? Alle Benutzer müssen sich erneut gegen den Daten-Speicher autorisieren."
     oauth_client_details_missing: "Um das Setup abzuschließen, fügen Sie bitte die OAuth Client-Anmeldedaten aus Ihrem Speicher hinzu."

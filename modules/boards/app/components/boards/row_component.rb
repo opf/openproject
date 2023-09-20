@@ -64,7 +64,7 @@ module Boards
           class: 'icon icon-delete',
           data: {
             confirm: I18n.t(:text_are_you_sure),
-            'qa-selector': "board-remove-#{model.id}"
+            'test-selector': "board-remove-#{model.id}"
           },
           title: t(:button_delete)
         )

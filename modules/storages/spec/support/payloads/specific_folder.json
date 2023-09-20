@@ -1,0 +1,819 @@
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#drives('b%21-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd')/items('01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY')/children(id,name,size,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference)",
+  "value": [
+    {
+      "@odata.etag": "\"{29FEA8B3-FD38-4817-B672-5931A5CCAB77},3\"",
+      "id": "01BYE5RZ5TVD7CSOH5C5ELM4SZGGS4ZK3X",
+      "name": "00. Starfish Aquarium.jpg",
+      "size": 6497631,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "image/jpeg",
+        "hashes": {
+          "quickXorHash": "vs10ShaTW5v45eXVSTnEcoCkE1c="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:13:10Z",
+        "lastModifiedDateTime": "2017-08-07T16:13:10Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{DAEC05BC-7C34-4BDB-AAA3-8AE97F8CD16E},3\"",
+      "id": "01BYE5RZ54AXWNUND43NF2VI4K5F7YZULO",
+      "name": "01. Organic Chemistry Header Image.jpg",
+      "size": 21883,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "image/jpeg",
+        "hashes": {
+          "quickXorHash": "msdktpMpA7iz5NcDpEM+y+n1zbE="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:13:15Z",
+        "lastModifiedDateTime": "2017-08-07T16:13:15Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{6C93F38D-C92E-4A08-B809-CBF58DC85BD1},2\"",
+      "id": "01BYE5RZ4N6OJWYLWJBBFLQCOL6WG4QW6R",
+      "name": "02. Carbon at a glance.png",
+      "size": 208830,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "image/png",
+        "hashes": {
+          "quickXorHash": "08DMBcdEuAZfqKhGQSQHBo4bCmE="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:13:21Z",
+        "lastModifiedDateTime": "2017-08-07T16:13:21Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{13F4CFAB-9AE0-457C-B864-4B349A04BC99},2\"",
+      "id": "01BYE5RZ5LZ72BHYE2PRC3QZCLGSNAJPEZ",
+      "name": "03. Valence Shell Theory.png",
+      "size": 435413,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "image/png",
+        "hashes": {
+          "quickXorHash": "SjcS6NvWzaLRWB88F0SRMUYQ4UI="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:13:27Z",
+        "lastModifiedDateTime": "2017-08-07T16:13:27Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{BA5AA6FB-C2A9-4CCF-9181-678DB7648635},2\"",
+      "id": "01BYE5RZ73UZNLVKOCZ5GJDALHRW3WJBRV",
+      "name": "04. Lewis Dot Structures.png",
+      "size": 235196,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "image/png",
+        "hashes": {
+          "quickXorHash": "LqboP8WgP2kMQRkQp+cCmeYSKCQ="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:13:34Z",
+        "lastModifiedDateTime": "2017-08-07T16:13:34Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{23ED8D10-23DB-4D77-B505-B601F5341761},2\"",
+      "id": "01BYE5RZYQRXWSHWZDO5G3KBNWAH2TIF3B",
+      "name": "05. Electron Orbital Shells.png",
+      "size": 435483,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "image/png",
+        "hashes": {
+          "quickXorHash": "tn4os4CDsisRKVm6Vh9U5VIdXB4="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:13:39Z",
+        "lastModifiedDateTime": "2017-08-07T16:13:39Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{F983579B-3DB9-4615-99E1-3CDBE5E461FB},2\"",
+      "id": "01BYE5RZ43K6B7TOJ5CVDJTYJ43PS6IYP3",
+      "name": "06. Methane.png",
+      "size": 409225,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "image/png",
+        "hashes": {
+          "quickXorHash": "Eowf9244MlcbFX8kJgalbZ6G1sY="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:10:24Z",
+        "lastModifiedDateTime": "2017-08-07T16:10:24Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{1D11838A-6192-4672-8184-8B088F2F15D0},2\"",
+      "id": "01BYE5RZ4KQMIR3ETBOJDIDBELBCHS6FOQ",
+      "name": "07. Propane.png",
+      "size": 306231,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "image/png",
+        "hashes": {
+          "quickXorHash": "w+9jiYGr5aN9Q9ru9xlPZK7oU1k="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:10:30Z",
+        "lastModifiedDateTime": "2017-08-07T16:10:30Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{F17679AC-6061-472A-A796-EB11FC90DA82},2\"",
+      "id": "01BYE5RZ5MPF3PCYLAFJD2PFXLCH6JBWUC",
+      "name": "08. Carbon Compound Table.png",
+      "size": 14597,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "image/png",
+        "hashes": {
+          "quickXorHash": "oLCUpTXd32yf6liw5j/MbR4Wvxk="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:10:36Z",
+        "lastModifiedDateTime": "2017-08-07T16:10:36Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{825DD868-AD74-4935-9817-8F496E819B97},2\"",
+      "id": "01BYE5RZ3I3BOYE5FNGVEZQF4PJFXIDG4X",
+      "name": "09. Variety of Carbon Compounds.png",
+      "size": 22672,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "image/png",
+        "hashes": {
+          "quickXorHash": "tehxVPeglRGSDI8nKDNp0K39eik="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:10:49Z",
+        "lastModifiedDateTime": "2017-08-07T16:10:49Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{7990C2BA-AB09-427A-B293-2767FB7B193A},2\"",
+      "id": "01BYE5RZ52YKIHSCNLPJBLFEZHM75XWGJ2",
+      "name": "10. Carbon Decay.png",
+      "size": 74625,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "image/png",
+        "hashes": {
+          "quickXorHash": "LnW73ofTqASJWA92x1HTkLVOFGs="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:11:17Z",
+        "lastModifiedDateTime": "2017-08-07T16:11:17Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{6B3B123C-FC6C-4319-A76A-1F31D99ACC1C},2\"",
+      "id": "01BYE5RZZ4CI5WW3H4DFB2O2Q7GHMZVTA4",
+      "name": "11. Bent Line.png",
+      "size": 3512,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "image/png",
+        "hashes": {
+          "quickXorHash": "KmXdkwTJJFS4Uvok/5udpmgzUdc="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:11:32Z",
+        "lastModifiedDateTime": "2017-08-07T16:11:32Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{94411F86-B6B8-4DA1-82D8-62ECF1E2B243},2\"",
+      "id": "01BYE5RZ4GD5AZJOFWUFGYFWDC5TY6FMSD",
+      "name": "12. Carbon Bent Line.png",
+      "size": 10368,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "image/png",
+        "hashes": {
+          "quickXorHash": "rkHvqD3shTWiQjOJ8+pnpQR/mv0="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:11:47Z",
+        "lastModifiedDateTime": "2017-08-07T16:11:47Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{AE9D0F42-1C7F-466E-ABBF-53A364918D80},2\"",
+      "id": "01BYE5RZ2CB6O247Y4NZDKXP2TUNSJDDMA",
+      "name": "13. Carbon Bent Line with Hydrogen.png",
+      "size": 15680,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "image/png",
+        "hashes": {
+          "quickXorHash": "6jr1aC+d8rQ8Lrk0YvTy6niAfZU="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:11:53Z",
+        "lastModifiedDateTime": "2017-08-07T16:11:53Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{CA1A75CC-8500-468F-A1E5-8FB18FBE5174},3\"",
+      "id": "01BYE5RZ6MOUNMUAEFR5DKDZMPWGH34ULU",
+      "name": "Carbon Bonding Presentation.pptx",
+      "size": 4537346,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+        "hashes": {
+          "quickXorHash": "KO255SpJizCWdbezZO9XCXnVDB8="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:12:03Z",
+        "lastModifiedDateTime": "2017-08-07T16:12:03Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{2964723D-9E45-470E-8FE4-85CEDA9D4018},9\"",
+      "id": "01BYE5RZZ5OJSCSRM6BZDY7ZEFZ3NJ2QAY",
+      "name": "Carbon Deposits Analysis.xlsx",
+      "size": 1137258,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "hashes": {
+          "quickXorHash": "ehfW2RDG8vH21b1TWr71vW7VK3I="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:12:10Z",
+        "lastModifiedDateTime": "2017-09-14T23:52:31Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{83832B8C-D37A-4685-BE7D-508A6BFEA005},2\"",
+      "id": "01BYE5RZ4MFOBYG6WTQVDL47KQRJV75IAF",
+      "name": "Carbon_Analysis_DB.xlsx",
+      "size": 171839,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "hashes": {
+          "quickXorHash": "dk0lSPG8jksFFZ83haivn9/rgSA="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:12:16Z",
+        "lastModifiedDateTime": "2017-08-07T16:12:16Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{01CFFE3D-8938-40A1-A002-780756B3F133},2\"",
+      "id": "01BYE5RZZ573HQCOEJUFAKAATYA5LLH4JT",
+      "name": "Figure_2._Energy-related_carbon_dioxide_emissions_by_fuel_1990-2014.csv",
+      "size": 1011,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.ms-excel",
+        "hashes": {
+          "quickXorHash": "E/2wFtgXpG6xRz6tSbN8kBOpVAI="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:12:26Z",
+        "lastModifiedDateTime": "2017-08-07T16:12:26Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{49F57DF2-EBC1-4814-B0B9-5774FCFBD00F},3\"",
+      "id": "01BYE5RZ7SPX2UTQPLCRELBOKXOT6PXUAP",
+      "name": "Intro to Chemistry.docx",
+      "size": 23618,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "5iU/hQNZ1+jpeWxh1rHBc/9wC8M="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:12:31Z",
+        "lastModifiedDateTime": "2017-08-07T16:12:31Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{4898251F-53A8-4B6A-B48D-015B15EAA79D},2\"",
+      "id": "01BYE5RZY7EWMERKCTNJF3JDIBLMK6VJ45",
+      "name": "Introduction to Carbon Bonding Supplemental.pdf",
+      "size": 89385,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/pdf",
+        "hashes": {
+          "quickXorHash": "im49DsSfyErHtQ9+9zJTYejcjWk="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:12:36Z",
+        "lastModifiedDateTime": "2017-08-07T16:12:36Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{FB0920BF-A14A-42CE-BB19-8501D66E478E},3\"",
+      "id": "01BYE5RZ57EAE7WSVBZZBLWGMFAHLG4R4O",
+      "name": "Introduction to Carbon Bonding.docx",
+      "size": 1494485,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "0+jreQHoNBpOn3/AheF7etZprko="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:12:43Z",
+        "lastModifiedDateTime": "2017-08-07T16:12:43Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{CB286026-5932-4530-BA0C-A7FA8C7313A4},3\"",
+      "id": "01BYE5RZZGMAUMWMSZGBC3UDFH7KGHGE5E",
+      "name": "Molecular Diagram.docx",
+      "size": 505504,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZYJ43UXGBP23BBIFPISHHMCDTOY",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Class Documents",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "PqgLlywWTeLXbY6LRoYwvarjc5I="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:13:00Z",
+        "lastModifiedDateTime": "2017-08-07T16:13:00Z"
+      }
+    }
+  ]
+}

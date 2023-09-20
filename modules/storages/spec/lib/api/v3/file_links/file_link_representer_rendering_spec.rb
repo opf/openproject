@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,11 +29,12 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
 
 RSpec.describe API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
   include API::V3::Utilities::PathHelper
 
-  let(:storage) { build_stubbed(:storage) }
+  let(:storage) { build_stubbed(:nextcloud_storage) }
   let(:container) { build_stubbed(:work_package) }
   let(:creator) { build_stubbed(:user, firstname: 'Rey', lastname: 'Palpatine') }
   let(:origin_permission) { :view }

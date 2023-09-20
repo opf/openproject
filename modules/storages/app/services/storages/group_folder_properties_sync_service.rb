@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -45,7 +47,6 @@ class Storages::GroupFolderPropertiesSyncService
     @nextcloud_system_user = storage.username
     @group = storage.group
     @group_folder = storage.group_folder
-    @requests = Storages::Peripherals::StorageRequests.new(storage:)
   end
 
   # rubocop:disable Metrics/AbcSize
@@ -92,9 +93,8 @@ class Storages::GroupFolderPropertiesSyncService
         groups: { @group.to_sym => PERMISSIONS_MAP[:read_files] }
       }
     }
-    @requests
-      .set_permissions_command
-      .call(**command_params)
+    Storages::Peripherals::Registry.resolve("commands.#{@storage.short_provider_type}.set_permissions")
+      .call(storage: @storage, **command_params)
       .on_failure(&failure_handler('set_permissions_command', command_params))
   end
 
@@ -122,22 +122,21 @@ class Storages::GroupFolderPropertiesSyncService
 
   def folders_properties
     @folders_properties ||=
-      @requests
-        .file_ids_query
-        .call(path: @group_folder)
+      Storages::Peripherals::Registry.resolve("queries.#{@storage.short_provider_type}.file_ids")
+        .call(storage: @storage, path: @group_folder)
         .on_failure(&failure_handler('file_ids_query', { path: @group_folder }))
         .result
   end
 
   def rename_folder(source:, target:)
-    @requests
-      .rename_file_command
-      .call(source:, target:)
+    Storages::Peripherals::Registry.resolve("commands.#{@storage.short_provider_type}.rename_file")
+      .call(storage: @storage, source:, target:)
       .on_failure(&failure_handler('rename_file_command', { source:, target: }))
   end
 
   def create_folder(path:, project_storage:)
-    @requests.create_folder_command.call(folder_path: path)
+    Storages::Peripherals::Registry.resolve("commands.#{@storage.short_provider_type}.create_folder")
+              .call(storage: @storage, folder_path: path)
              .match(
                on_success: ->(_) { ServiceResult.success(result: [project_storage, path]) },
                on_failure: failure_handler('create_folder_command', { folder_path: path })
@@ -152,9 +151,8 @@ class Storages::GroupFolderPropertiesSyncService
 
   def obtain_file_id
     ->((project_storage, path)) do
-      @requests
-        .file_ids_query
-        .call(path:)
+      Storages::Peripherals::Registry.resolve("queries.#{@storage.short_provider_type}.file_ids")
+        .call(storage: @storage, path:)
         .match(
           on_success: ->(file_ids) { ServiceResult.success(result: [project_storage, file_ids.dig(path, 'fileid')]) },
           on_failure: failure_handler('file_id_query', { path: })
@@ -183,18 +181,16 @@ class Storages::GroupFolderPropertiesSyncService
       path:,
       permissions: project_folder_permissions(project:)
     }
-    @requests
-      .set_permissions_command
-      .call(**command_params)
+    Storages::Peripherals::Registry.resolve("commands.#{@storage.short_provider_type}.set_permissions")
+      .call(storage: @storage, **command_params)
       .on_failure(&failure_handler('set_permissions_command', command_params))
   end
 
   def group_users
     @group_users ||= begin
       query_params = { group: @group }
-      @requests
-       .group_users_query
-       .call(**query_params)
+      Storages::Peripherals::Registry.resolve("queries.#{@storage.short_provider_type}.group_users")
+       .call(storage: @storage, **query_params)
        .on_failure(&failure_handler('group_users_query', query_params))
        .result
     end
@@ -228,6 +224,7 @@ class Storages::GroupFolderPropertiesSyncService
                      .where(oauth_client: @storage.oauth_client)
                      .where.not(id: @admin_tokens_query)
                      .includes(:user)
+                     .order(:id)
     # The user scope is required in all cases except one:
     #   when the project is public and non member has at least one storage permission
     #   then all non memebers should have access to the project folder
@@ -242,9 +239,8 @@ class Storages::GroupFolderPropertiesSyncService
     @nextcloud_usernames_used_in_openproject.each do |nextcloud_username|
       if group_users.exclude?(nextcloud_username)
         query_params = { user: nextcloud_username }
-        @requests
-          .add_user_to_group_command
-          .call(**query_params)
+        Storages::Peripherals::Registry.resolve("commands.#{@storage.short_provider_type}.add_user_to_group")
+          .call(storage: @storage, **query_params)
           .on_failure(&failure_handler('add_user_to_group_command', query_params))
       end
     end
@@ -257,9 +253,8 @@ class Storages::GroupFolderPropertiesSyncService
   end
 
   def remove_user_from_group(user)
-    @requests
-      .remove_user_from_group_command
-      .call(user:)
+    Storages::Peripherals::Registry.resolve("commands.#{@storage.short_provider_type}.remove_user_from_group")
+      .call(storage: @storage, user:)
       .on_failure do |service_result|
       ::OpenProject.logger.warn(
         "Nextcloud user #{user} has not been removed from Nextcloud group #{@group}: '#{service_result.errors.log_message}'"
@@ -285,9 +280,8 @@ class Storages::GroupFolderPropertiesSyncService
         groups: { "#{@group}": NO_PERMISSIONS }
       }
     }
-    @requests
-      .set_permissions_command
-      .call(**command_params)
+    Storages::Peripherals::Registry.resolve("commands.#{@storage.short_provider_type}.set_permissions")
+      .call(storage: @storage, **command_params)
       .on_failure(&failure_handler('set_permissions_command', command_params))
   end
 

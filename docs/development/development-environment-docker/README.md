@@ -241,8 +241,8 @@ and `443` and redirect those requests to the specific container. To make it happ
 define for your services to your `/etc/hosts`.
 
 ```shell
-127.0.0.1   openproject.local traefik.local step.local
-::1         openproject.local traefik.local step.local
+127.0.0.1   openproject.local traefik.local
+::1         openproject.local traefik.local
 ```
 
 #### DNS? Where are you?

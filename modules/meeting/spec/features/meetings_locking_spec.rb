@@ -36,7 +36,7 @@ RSpec.describe 'Meetings locking', js: true do
   let(:agenda_field) do
     TextEditorField.new(page,
                         '',
-                        selector: '[data-qa-selector="op-meeting--meeting_agenda"]')
+                        selector: test_selector('op-meeting--meeting_agenda'))
   end
 
   before do

@@ -29,13 +29,17 @@
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class AddUserToGroupCommand
     def initialize(storage)
-      @uri = URI(storage.host).normalize
+      @uri = storage.uri
       @username = storage.username
       @password = storage.password
       @group = storage.group
     end
 
     # rubocop:disable Metrics/AbcSize
+    def self.call(storage:, user:, group: storage.group)
+      new(storage).call(user:, group:)
+    end
+
     def call(user:, group: @group)
       response = Util.http(@uri).post(
         Util.join_uri_path(@uri, 'ocs/v1.php/cloud/users', CGI.escapeURIComponent(user), 'groups'),
@@ -67,7 +71,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       when Net::HTTPMethodNotAllowed
         Util.error(:not_allowed)
       when Net::HTTPUnauthorized
-        Util.error(:not_authorized)
+        Util.error(:unauthorized)
       when Net::HTTPNotFound
         Util.error(:not_found)
       when Net::HTTPConflict

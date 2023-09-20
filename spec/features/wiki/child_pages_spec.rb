@@ -64,7 +64,7 @@ RSpec.describe 'wiki child pages', js: true do
     click_button 'Save'
 
     # hierarchy displayed in the breadcrumb
-    expect(page).to have_selector('#breadcrumb [data-qa-selector="op-breadcrumb"]',
+    expect(page).to have_selector("#breadcrumb #{test_selector('op-breadcrumb')}",
                                   text: parent_page.title.to_s)
 
     # hierarchy displayed in the sidebar

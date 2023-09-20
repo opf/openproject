@@ -37,7 +37,7 @@ module Queries::Filters::Strategies
     end
 
     def valid_values!
-      filter.values &= allowed_values.map(&:last).map(&:to_s)
+      filter.values &= allowed_values.map { |v| v.last.to_s }
     end
 
     private
@@ -51,7 +51,7 @@ module Queries::Filters::Strategies
     end
 
     def too_many_values
-      values.reject(&:blank?).length > 1
+      values.count(&:present?) > 1
     end
   end
 end

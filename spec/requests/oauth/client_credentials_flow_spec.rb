@@ -27,9 +27,7 @@
 #++
 
 require 'spec_helper'
-require 'rest-client'
 
-# rubocop:disable Rails/HttpPositionalArguments
 RSpec.describe 'OAuth client credentials flow' do
   include Rack::Test::Methods
 
@@ -71,4 +69,3 @@ RSpec.describe 'OAuth client credentials flow' do
     end
   end
 end
-# rubocop:enable Rails/HttpPositionalArguments

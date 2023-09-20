@@ -42,8 +42,12 @@ module OpenProject::Reporting
 
       # register reporting_module including permissions
       project_module :costs do
-        permission :save_cost_reports, { cost_reports: edit_actions }
-        permission :save_private_cost_reports, { cost_reports: edit_actions }
+        permission :save_cost_reports,
+                   { cost_reports: edit_actions },
+                   permissible_on: :project
+        permission :save_private_cost_reports,
+                   { cost_reports: edit_actions },
+                   permissible_on: :project
       end
 
       Rails.application.reloader.to_prepare do

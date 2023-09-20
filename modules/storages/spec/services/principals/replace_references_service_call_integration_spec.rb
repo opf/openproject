@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,6 +29,7 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
 
 RSpec.describe Principals::ReplaceReferencesService, '#call', type: :model do
   shared_let(:principal) { create(:user) }
@@ -58,7 +61,7 @@ RSpec.describe Principals::ReplaceReferencesService, '#call', type: :model do
 
   context 'with Storage' do
     it_behaves_like 'replaces the creator' do
-      let(:model) { create(:storage, creator: principal) }
+      let(:model) { create(:nextcloud_storage, creator: principal) }
     end
   end
 

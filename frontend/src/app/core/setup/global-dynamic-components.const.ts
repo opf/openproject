@@ -50,10 +50,6 @@ import {
   persistentToggleSelector,
 } from 'core-app/shared/components/persistent-toggle/persistent-toggle.component';
 import {
-  OpPrincipalComponent,
-  principalSelector,
-} from 'core-app/shared/components/principal/principal.component';
-import {
   HideSectionLinkComponent,
   hideSectionLinkSelector,
 } from 'core-app/shared/components/hide-section/hide-section-link/hide-section-link.component';
@@ -251,7 +247,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: adminTypeFormConfigurationSelector, cls: TypeFormConfigurationComponent },
   { selector: ckeditorAugmentedTextareaSelector, cls: CkeditorAugmentedTextareaComponent, embeddable: true },
   { selector: persistentToggleSelector, cls: PersistentToggleComponent },
-  { selector: principalSelector, cls: OpPrincipalComponent },
   { selector: hideSectionLinkSelector, cls: HideSectionLinkComponent },
   { selector: showSectionDropdownSelector, cls: ShowSectionDropdownComponent },
   { selector: addSectionDropdownSelector, cls: AddSectionDropdownComponent },

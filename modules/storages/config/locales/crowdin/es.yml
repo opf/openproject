@@ -53,6 +53,7 @@ es:
     errors:
       too_many_elements_created_at_once: "Se intentaron crear demasiados elementos a la vez. Se esperaban como máximo %{max}, pero se recibieron %{actual}."
   storages:
+    default_name: "Mi almacenamiento"
     unknown_storage: "Almacenamiento desconocido"
     buttons:
       done_continue_setup: "Hecho. Continuar configuración"
@@ -101,6 +102,13 @@ es:
       copy_from: "Copiar este valor de"
       nextcloud:
         integration: "Administración de Nextcloud / OpenProject"
+      one_drive:
+        integration: "OneDrive/Sharepoint"
+        oauth_client_id: >
+          Copie el ID de cliente desde el portal Azure. Esto es necesario para generar la URI de redirección.
+        oauth_client_secret: >
+          Copie la clave secreta del cliente desde el portal Azure. Para una nueva aplicación la clave secreta primero necesita ser creada manualmente. Para la autorización de aplicaciones web una clave secreta es obligatoria.
+        missing_client_id_for_redirect_uri: "Falta el ID de cliente para proporcionar la URI de redirección."
     help_texts:
       project_folder: >
         La carpeta del proyecto es la carpeta predeterminada para la carga de archivos de este proyecto. No obstante, los usuarios pueden subir archivos a otras ubicaciones.
@@ -129,6 +137,7 @@ es:
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
+      one_drive: "OAuth de OneDrive"
     label_oauth_application_details: "Detalles de aplicación OAuth"
     label_oauth_client_details: "Detalles del cliente OAuth"
     label_provider_type: "Tipo de proveedor"
@@ -154,7 +163,9 @@ es:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "e.g. Nextcloud"
-        default_name: "Mi Nextcloud"
+      one_drive:
+        name: "OneDrive/Sharepoint"
+        name_placeholder: "ej. OneDrive"
     confirm_replace_oauth_application: "¿Estás seguro? Todos los usuarios tendrán que autorizar de nuevo contra OpenProject."
     confirm_replace_oauth_client: "¿Estás seguro? Todos los usuarios tendrán que autorizar de nuevo en el almacenamiento."
     oauth_client_details_missing: "Para completar la configuración, por favor agregue las credenciales del cliente OAuth desde su almacenamiento."

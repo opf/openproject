@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,16 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../spec_helper'
+require 'spec_helper'
+require_module_spec_helper
 
 # Setup storages in Project -> Settings -> File Storages
 # This tests assumes that a Storage has already been setup
 # in the Admin section, tested by admin_storage_spec.rb.
-RSpec.describe(
-  'Activation of storages in projects',
-  js: true,
-  webmock: true
-) do
+RSpec.describe 'Activation of storages in projects', :js, :webmock do
   let(:user) { create(:user) }
   # The first page is the Project -> Settings -> General page, so we need
   # to provide the user with the edit_project permission in the role.
@@ -64,19 +63,14 @@ RSpec.describe(
   let(:folder1_fileinfo_response) do
     {
       ocs: {
-        meta: {
-          status: 'ok'
-        },
         data: {
-          '11': {
-            status: 'OK',
-            statuscode: 200,
-            id: 11,
-            name: 'Folder1',
-            path: 'files/Folder1',
-            mtime: 1682509719,
-            ctime: 0
-          }
+          status: 'OK',
+          statuscode: 200,
+          id: 11,
+          name: 'Folder1',
+          path: 'files/Folder1',
+          mtime: 1682509719,
+          ctime: 0
         }
       }
     }
@@ -89,7 +83,7 @@ RSpec.describe(
       .to_return(status: 207, body: root_xml_response, headers: {})
     stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/Folder1")
       .to_return(status: 207, body: folder1_xml_response, headers: {})
-    stub_request(:post, "#{storage.host}/ocs/v1.php/apps/integration_openproject/filesinfo")
+    stub_request(:get, "#{storage.host}/ocs/v1.php/apps/integration_openproject/fileinfo/11")
       .to_return(status: 200, body: folder1_fileinfo_response.to_json, headers: {})
     stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user").to_return(status: 200, body: "{}")
     stub_request(
@@ -154,7 +148,8 @@ RSpec.describe(
     # Press Edit icon to change the project folder mode to inactive
     page.find('.icon.icon-edit').click
     expect(page).to have_current_path edit_project_settings_project_storage_path(project_id: project,
-                                                                                  id: Storages::ProjectStorage.last)
+                                                                                 id: Storages::ProjectStorage.last)
+
     expect(page).to have_text('Edit the file storage to this project')
     expect(page).not_to have_select('storages_project_storage_storage_id')
     expect(page).to have_text(storage.name)
@@ -173,7 +168,7 @@ RSpec.describe(
     # Click Edit icon again but cancel the edit
     page.find('.icon.icon-edit').click
     expect(page).to have_current_path edit_project_settings_project_storage_path(project_id: project,
-                                                                                  id: Storages::ProjectStorage.last)
+                                                                                 id: Storages::ProjectStorage.last)
     expect(page).to have_text('Edit the file storage to this project')
     page.click_link('Cancel')
     expect(page).to have_current_path project_settings_project_storages_path(project)
@@ -203,7 +198,7 @@ RSpec.describe(
 
   describe 'configuration checks' do
     let(:configured_storage) { storage }
-    let!(:unconfigured_storage) { create(:storage) }
+    let!(:unconfigured_storage) { create(:nextcloud_storage) }
 
     it 'excludes storages that are not configured correctly' do
       visit project_settings_project_storages_path(project)

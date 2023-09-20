@@ -24,7 +24,7 @@ def register_firefox(language, name: :"firefox_#{language}")
 
     options = Selenium::WebDriver::Firefox::Options.new(profile:)
 
-    yield(profile, options, capabilities) if block_given?
+    yield(profile, options) if block_given?
 
     unless ActiveRecord::Type::Boolean.new.cast(ENV.fetch('OPENPROJECT_TESTING_NO_HEADLESS', nil))
       options.args << "--headless"
@@ -40,12 +40,8 @@ def register_firefox(language, name: :"firefox_#{language}")
       browser: is_grid ? :remote : :firefox,
       url: ENV.fetch('SELENIUM_GRID_URL', nil),
       http_client: client,
-      capabilities: options
+      options:
     }
-
-    if is_grid
-      driver_opts[:url] = ENV.fetch('SELENIUM_GRID_URL', nil)
-    end
 
     driver = Capybara::Selenium::Driver.new app, **driver_opts
 

@@ -101,7 +101,7 @@ class BaseContract < Disposable::Twin
     private
 
     def add_writable(attribute, writable)
-      attribute_name = attribute.to_s.gsub /_id\z/, ''
+      attribute_name = attribute.to_s.delete_suffix('_id')
 
       unless writable == false
         writable_attributes << attribute_name
@@ -142,19 +142,13 @@ class BaseContract < Disposable::Twin
     writable_attributes.include?(attribute.to_s)
   end
 
-  def valid?(*_args)
-    super()
-
-    errors.empty?
-  end
-
   # Provide same interface with valid? and validate
   # as with AM::Validations
   #
   # Do not use alias_method as this will not work when
   # valid? is overridden in subclasses
-  def validate(*args)
-    valid?(*args)
+  def validate(*)
+    valid?(*)
   end
 
   # Methods required to get ActiveModel error messages working
@@ -207,7 +201,7 @@ class BaseContract < Disposable::Twin
     # but those attributes would also be duplicated so that performance suffers significantly.
     attributes = klass.send(attribute_to_collect).dup
 
-    while klass.superclass != ModelContract
+    while klass.superclass != ::BaseContract
       # Collect all the attribute_to_collect from ancestors
       klass = klass.superclass
 
@@ -250,7 +244,7 @@ class BaseContract < Disposable::Twin
     attribute_permissions = collect_ancestor_attributes(:attribute_permissions)
 
     attributes.reject do |attribute|
-      canonical_attribute = attribute.gsub(/_id\z/, '')
+      canonical_attribute = attribute.delete_suffix('_id')
 
       permissions = attribute_permissions[canonical_attribute] ||
                     attribute_permissions["#{canonical_attribute}_id"] ||

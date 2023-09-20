@@ -209,7 +209,7 @@ class BudgetsController < ApplicationController
     @budgets = Budget.where(id: params[:id] || params[:ids])
     raise ActiveRecord::RecordNotFound if @budgets.empty?
 
-    projects = @budgets.map(&:project).compact.uniq
+    projects = @budgets.filter_map(&:project).uniq
     if projects.size == 1
       @project = projects.first
     else

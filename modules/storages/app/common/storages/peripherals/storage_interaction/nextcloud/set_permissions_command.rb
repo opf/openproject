@@ -31,9 +31,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     using Storages::Peripherals::ServiceResultRefinements
 
     def initialize(storage)
-      @uri = URI(storage.host).normalize
+      @uri = storage.uri
       @username = storage.username
       @password = storage.password
+    end
+
+    def self.call(storage:, path:, permissions:)
+      new(storage).call(path:, permissions:)
     end
 
     # rubocop:disable Metrics/AbcSize
@@ -50,21 +54,21 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         ) do
           xml['d'].set do
             xml['d'].prop do
-              xml['nc'].send('acl-list') do
+              xml['nc'].send(:'acl-list') do
                 groups_permissions.each do |group, group_permissions|
                   xml['nc'].acl do
-                    xml['nc'].send('acl-mapping-type', 'group')
-                    xml['nc'].send('acl-mapping-id', group)
-                    xml['nc'].send('acl-mask', '31')
-                    xml['nc'].send('acl-permissions', group_permissions.to_s)
+                    xml['nc'].send(:'acl-mapping-type', 'group')
+                    xml['nc'].send(:'acl-mapping-id', group)
+                    xml['nc'].send(:'acl-mask', '31')
+                    xml['nc'].send(:'acl-permissions', group_permissions.to_s)
                   end
                 end
                 users_permissions.each do |user, user_permissions|
                   xml['nc'].acl do
-                    xml['nc'].send('acl-mapping-type', 'user')
-                    xml['nc'].send('acl-mapping-id', user)
-                    xml['nc'].send('acl-mask', '31')
-                    xml['nc'].send('acl-permissions', user_permissions.to_s)
+                    xml['nc'].send(:'acl-mapping-type', 'user')
+                    xml['nc'].send(:'acl-mapping-id', user)
+                    xml['nc'].send(:'acl-mask', '31')
+                    xml['nc'].send(:'acl-permissions', user_permissions.to_s)
                   end
                 end
               end
@@ -93,7 +97,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       when Net::HTTPNotFound
         Util.error(:not_found)
       when Net::HTTPUnauthorized
-        Util.error(:not_authorized)
+        Util.error(:unauthorized)
       else
         Util.error(:error)
       end

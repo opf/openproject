@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,26 +29,9 @@
 #++
 
 require 'spec_helper'
-require_relative '../../../support/storage_server_helpers'
+require_module_spec_helper
 
-RSpec.shared_examples_for 'storage contract', :storage_server_helpers, webmock: true do
-  # Only admins have the right to create/delete storages.
-  let(:current_user) { create(:admin) }
-  let(:storage_name) { 'Storage 1' }
-  let(:storage_provider_type) { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
-  let(:storage_host) { 'https://host1.example.com' }
-  let(:storage_creator) { current_user }
-
-  before do
-    if storage_host.present?
-      mock_server_capabilities_response(storage_host)
-      mock_server_config_check_response(storage_host)
-      mock_nextcloud_application_credentials_validation(storage_host)
-    end
-  end
-
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
-
+RSpec.shared_examples_for 'storage contract' do
   describe 'validations' do
     context 'when all attributes are valid' do
       include_examples 'contract is valid'
@@ -85,7 +70,41 @@ RSpec.shared_examples_for 'storage contract', :storage_server_helpers, webmock: 
         include_examples 'contract is invalid', provider_type: :inclusion
       end
     end
+  end
+end
 
+RSpec.shared_examples_for 'onedrive storage contract' do
+  let(:current_user) { create(:admin) }
+  let(:storage_name) { 'Storage 1' }
+  let(:storage_provider_type) { Storages::Storage::PROVIDER_TYPE_ONE_DRIVE }
+  let(:storage_creator) { current_user }
+
+  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+
+  it_behaves_like 'storage contract'
+end
+
+RSpec.shared_examples_for 'nextcloud storage contract', :storage_server_helpers, webmock: true do
+  # Only admins have the right to create/delete storages.
+  let(:current_user) { create(:admin) }
+  let(:storage_name) { 'Storage 1' }
+  let(:storage_provider_type) { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
+  let(:storage_host) { 'https://host1.example.com' }
+  let(:storage_creator) { current_user }
+
+  before do
+    if storage_host.present?
+      mock_server_capabilities_response(storage_host)
+      mock_server_config_check_response(storage_host)
+      mock_nextcloud_application_credentials_validation(storage_host)
+    end
+  end
+
+  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+
+  it_behaves_like 'storage contract'
+
+  describe 'validations' do
     context 'when host is invalid' do
       context 'as host is not a URL' do
         let(:storage_host) { '---invalid-url---' }

@@ -67,6 +67,11 @@ class WorkPackage < ApplicationRecord
 
   has_and_belongs_to_many :github_pull_requests # rubocop:disable Rails/HasAndBelongsToMany
 
+  has_many :members, as: :entity, dependent: :destroy
+  has_many :member_principals, through: :members, class_name: 'Principal', source: :principal
+
+  has_many :meeting_agenda_items, dependent: :destroy # Question: What about finalized minutes within an agenda item?
+
   scope :recently_updated, -> {
     order(updated_at: :desc)
   }
