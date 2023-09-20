@@ -162,11 +162,11 @@ class Storages::GroupFolderPropertiesSyncService
 
   def calculate_permissions(user:, project:)
     {
-      read_files: user.allowed_to?(:read_files, project),
-      write_files: user.allowed_to?(:write_files, project),
-      create_files: user.allowed_to?(:create_files, project),
-      share_files: user.allowed_to?(:share_files, project),
-      delete_files: user.allowed_to?(:delete_files, project)
+      read_files: user.allowed_in_project?(:read_files, project),
+      write_files: user.allowed_in_project?(:write_files, project),
+      create_files: user.allowed_in_project?(:create_files, project),
+      share_files: user.allowed_in_project?(:share_files, project),
+      delete_files: user.allowed_in_project?(:delete_files, project)
     }.reduce(0) do |permissions_sum, (permission, allowed)|
       if allowed
         permissions_sum + PERMISSIONS_MAP[permission]

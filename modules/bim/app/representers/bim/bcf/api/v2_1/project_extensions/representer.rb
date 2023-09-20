@@ -101,7 +101,7 @@ module Bim::Bcf::API::V2_1
     end
 
     def allowed?(permission)
-      represented.user.allowed_to?(permission, represented.model.project)
+      represented.user.allowed_in_project?(permission, represented.model.project)
     end
   end
 end

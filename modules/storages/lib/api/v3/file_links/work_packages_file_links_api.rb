@@ -47,7 +47,7 @@ class API::V3::FileLinks::WorkPackagesFileLinksAPI < API::OpenProjectAPI
         raise ::API::Errors::InvalidQuery.new(message)
       end
 
-      result = if current_user.allowed_to?(:view_file_links, @work_package.project)
+      result = if current_user.allowed_in_project?(:view_file_links, @work_package.project)
                  # Get a (potentially huge...) list of all FileLinks for the work package.
                  file_links = query.results.where(container_id: @work_package.id,
                                                   container_type: 'WorkPackage',

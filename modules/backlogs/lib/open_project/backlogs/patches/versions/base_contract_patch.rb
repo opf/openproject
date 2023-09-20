@@ -37,7 +37,7 @@ module OpenProject::Backlogs::Patches::Versions::BaseContractPatch
     # Make sure the version_settings (column=left|right|none) can only be stored
     # for projects the user has the :manage_versions permission in.
     changed_settings.each do |version_setting|
-      unless user.allowed_to?(:manage_versions, Project.find_by(id: version_setting.project_id))
+      unless user.allowed_in_project?(:manage_versions, Project.find_by(id: version_setting.project_id))
         errors.add :base, :error_unauthorized
       end
     end

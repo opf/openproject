@@ -38,7 +38,7 @@ module OpenProject::Backlogs::Hooks
 
       snippet = ''
 
-      if User.current.allowed_to?(:edit_wiki_pages, project)
+      if User.current.allowed_in_project?(:edit_wiki_pages, project)
         snippet += '<span id="edit_wiki_page_action">'
         snippet += link_to I18n.t(:button_edit_wiki),
                            { controller: '/rb_wikis', action: 'edit', project_id: project.id, sprint_id: version.id },
@@ -88,7 +88,7 @@ module OpenProject::Backlogs::Hooks
 
         if params[:copy_tasks]
           params[:copy_tasks] += ':' if params[:copy_tasks].exclude?(':')
-          action, id = *params[:copy_tasks].split(/:/)
+          action, id = *params[:copy_tasks].split(":")
 
           story = (id.nil? ? nil : Story.find(Integer(id)))
 

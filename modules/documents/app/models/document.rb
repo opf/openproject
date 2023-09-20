@@ -62,7 +62,7 @@ class Document < ApplicationRecord
   after_initialize :set_default_category
 
   def visible?(user = User.current)
-    !user.nil? && user.allowed_to?(:view_documents, project)
+    !user.nil? && user.allowed_in_project?(:view_documents, project)
   end
 
   def set_default_category

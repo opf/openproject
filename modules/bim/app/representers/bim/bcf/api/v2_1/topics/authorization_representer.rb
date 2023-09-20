@@ -47,7 +47,7 @@ module Bim::Bcf::API::V2_1
              }
 
     def manage_bcf_allowed?
-      represented.user.allowed_to?(:manage_bcf, represented.model.project)
+      represented.user.allowed_in_project?(:manage_bcf, represented.model.project)
     end
   end
 end
