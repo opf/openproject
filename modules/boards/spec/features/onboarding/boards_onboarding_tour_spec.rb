@@ -27,15 +27,12 @@
 #++
 
 require 'spec_helper'
-require_relative './../support/onboarding_steps'
+require_relative '../support/onboarding_steps'
 
-RSpec.describe 'boards onboarding tour',
-               js: true do
+RSpec.describe 'boards onboarding tour', :js do
   let(:next_button) { find('.enjoyhint_next_btn') }
   let(:user) do
-    create(:admin,
-           member_in_project: demo_project,
-           member_through_role: role)
+    create(:admin, member_with_roles: { demo_project => role })
   end
   let(:permissions) do
     %i[

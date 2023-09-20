@@ -30,15 +30,13 @@ require 'spec_helper'
 require_relative '../support//board_index_page'
 require_relative '../support/board_page'
 
-RSpec.describe 'Subtasks action board', js: true, with_ee: %i[board_view] do
+RSpec.describe 'Subtasks action board', :js, with_ee: %i[board_view] do
   let(:type) { create(:type_standard) }
   let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
   let(:role) { create(:role, permissions:) }
 
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   let(:board_index) { Pages::BoardIndex.new(project) }

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-require_relative './shared_responses'
+require_relative 'shared_responses'
 
 RSpec.describe 'BCF 2.1 viewpoints resource', content_type: :json do
   include Rack::Test::Methods
@@ -42,14 +42,12 @@ RSpec.describe 'BCF 2.1 viewpoints resource', content_type: :json do
 
   shared_let(:view_only_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: [:view_linked_issues])
+           member_with_permissions: { project => [:view_linked_issues] })
   end
 
   shared_let(:create_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_linked_issues manage_bcf])
+           member_with_permissions: { project => %i[view_linked_issues manage_bcf] })
   end
 
   shared_let(:non_member_user) do

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative 'shared_context'
 
-RSpec.describe 'Calendar sharing via ical', js: true do
+RSpec.describe 'Calendar sharing via ical', :js do
   include_context 'with calendar full access'
 
   shared_let(:status) { create(:default_status) }
@@ -37,13 +37,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
   let(:user_with_sharing_permission) do
     create(:user,
            firstname: 'Bernd',
-           member_in_project: project,
-           member_with_permissions: %w[
-             view_work_packages
-             save_queries
-             view_calendar
-             share_calendars
-           ])
+           member_with_permissions: { project => %i[view_work_packages save_queries view_calendar share_calendars] })
   end
   let(:saved_query) do
     create(:query_with_view_work_packages_calendar,
@@ -58,18 +52,11 @@ RSpec.describe 'Calendar sharing via ical', js: true do
     # sharing via ical needs to be explicitly allowed
     create(:user,
            firstname: 'Bernd',
-           member_in_project: project,
-           member_with_permissions: %w[
-             view_work_packages
-             save_queries
-             view_calendar
-             manage_calendars
-           ])
+           member_with_permissions: { project => %i[view_work_packages save_queries view_calendar manage_calendars] })
   end
 
   shared_let(:admin) do
-    create(:admin,
-           member_in_project: project)
+    create(:admin, member_with_permissions: { project => [] })
   end
 
   context 'without sufficient permissions and the ical_enabled setting enabled', with_settings: { ical_enabled: true } do
@@ -131,14 +118,8 @@ RSpec.describe 'Calendar sharing via ical', js: true do
       let(:user_with_sharing_permission) do
         create(:user,
                firstname: 'Bernd',
-               member_in_project: project,
-               member_with_permissions: %w[
-                 view_work_packages
-                 save_queries
-                 view_calendar
-                 manage_calendars
-                 share_calendars
-               ])
+               member_with_permissions: { project => %i[view_work_packages save_queries view_calendar manage_calendars
+                                                        share_calendars] })
       end
 
       it 'shows disabled sharing menu item' do

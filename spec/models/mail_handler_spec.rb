@@ -58,8 +58,7 @@ RSpec.describe MailHandler do
              mail: 'JSmith@somenet.foo',
              firstname: 'John',
              lastname: 'Smith',
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
     let(:submit_options) { {} }
 
@@ -75,8 +74,7 @@ RSpec.describe MailHandler do
              mail: 'JSmith@somenet.foo',
              firstname: 'John',
              lastname: 'Smith',
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
     let(:submit_options) { { allow_override: 'version' } }
 
@@ -92,14 +90,12 @@ RSpec.describe MailHandler do
              mail: 'JSmith@somenet.foo',
              firstname: 'John',
              lastname: 'Smith',
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
     let!(:group) do
       create(:group,
              lastname: 'A-Team',
-             member_in_project: project,
-             member_with_permissions: [:work_package_assigned])
+             member_with_permissions: { project => [:work_package_assigned] })
     end
     let(:submit_options) { {} }
 
@@ -113,8 +109,7 @@ RSpec.describe MailHandler do
     let!(:user) do
       create(:user,
              mail: 'JSmith@somenet.foo',
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
 
     let!(:work_package) do
@@ -137,16 +132,14 @@ RSpec.describe MailHandler do
              mail: 'JSmith@somenet.foo',
              firstname: 'John',
              lastname: 'Smith',
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
     let!(:cc_user) do
       create(:user,
              mail: 'dlopper@somenet.foo',
              firstname: 'D',
              lastname: 'Lopper',
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
     let(:submit_options) { { issue: { project: project.identifier } } }
 
@@ -160,8 +153,7 @@ RSpec.describe MailHandler do
     let!(:user) do
       create(:user,
              mail: 'j.doe@openproject.org',
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
 
     let!(:work_package) do
@@ -186,8 +178,7 @@ RSpec.describe MailHandler do
     let!(:user) do
       create(:user,
              mail: 'j.doe@openproject.org',
-             member_in_project: project,
-             member_through_role: role)
+             member_with_permissions: { project => permissions })
     end
 
     let!(:work_package) do
@@ -215,8 +206,7 @@ RSpec.describe MailHandler do
     let!(:other_user) do
       create(:user,
              mail: 'jsmith@somenet.foo',
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => [role] })
     end
     let!(:float_cf) do
       create(:float_wp_custom_field,
@@ -236,8 +226,7 @@ RSpec.describe MailHandler do
     let!(:user) do
       create(:user,
              mail: 'j.doe@openproject.org',
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
 
     let!(:message) do
@@ -260,8 +249,7 @@ RSpec.describe MailHandler do
              mail: 'JSmith@somenet.foo',
              firstname: 'John',
              lastname: 'Smith',
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
     let!(:feature_type) do
       create(:type,
@@ -292,8 +280,7 @@ RSpec.describe MailHandler do
              mail: 'JSmith@somenet.foo',
              firstname: 'John',
              lastname: 'Smith',
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
     let!(:feature_type) do
       create(:type,
@@ -324,8 +311,7 @@ RSpec.describe MailHandler do
              mail: 'JSmith@somenet.foo',
              firstname: 'John',
              lastname: 'Smith',
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
     let!(:japanese_type) do
       create(:type,
@@ -349,8 +335,7 @@ RSpec.describe MailHandler do
              mail: 'JSmith@somenet.foo',
              firstname: 'John',
              lastname: 'Smith',
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
     let(:submit_options) { {} }
 
@@ -368,8 +353,7 @@ RSpec.describe MailHandler do
              mail: 'JSmith@somenet.foo',
              firstname: 'John',
              lastname: 'Smith',
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
     let(:submit_options) { {} }
 
@@ -385,8 +369,7 @@ RSpec.describe MailHandler do
              mail: 'JSmith@somenet.foo',
              firstname: 'John',
              lastname: 'Smith',
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
     let!(:custom_field) do
       create(:string_wp_custom_field, name: 'Searchable field').tap do |cf|
@@ -408,8 +391,7 @@ RSpec.describe MailHandler do
              mail: 'JSmith@somenet.foo',
              firstname: 'John',
              lastname: 'Smith',
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
     let(:submit_options) { {} }
 
@@ -426,8 +408,7 @@ RSpec.describe MailHandler do
              firstname: 'John',
              lastname: 'Smith',
              language: 'de',
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
     let(:submit_options) { {} }
 
@@ -457,8 +438,7 @@ RSpec.describe MailHandler do
              firstname: 'John',
              lastname: 'Smith',
              language: 'de',
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
     let(:submit_options) { {} }
 
@@ -475,8 +455,7 @@ RSpec.describe MailHandler do
              firstname: 'John',
              lastname: 'Smith',
              language: 'de',
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
     let(:submit_options) { {} }
 
@@ -493,8 +472,7 @@ RSpec.describe MailHandler do
              firstname: 'John',
              lastname: 'Smith',
              language: 'de',
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
     let(:submit_options) { {} }
 
@@ -623,8 +601,7 @@ RSpec.describe MailHandler do
         it 'sends notifications to watching users' do
           # User gets all updates
           user = create(:user,
-                        member_in_project: project,
-                        member_with_permissions: %i(view_work_packages),
+                        member_with_permissions: { project => %i(view_work_packages) },
                         notification_settings: [build(:notification_setting, all: true)])
 
           expect do
@@ -963,7 +940,7 @@ RSpec.describe MailHandler do
 
         it 'assigns cc and author as watcher' do
           expect(subject.watcher_users)
-            .to match_array([user, cc_user])
+            .to contain_exactly(user, cc_user)
         end
       end
 
@@ -1237,8 +1214,7 @@ RSpec.describe MailHandler do
 
         it 'sends notifications' do
           assignee = create(:user,
-                            member_in_project: project,
-                            member_with_permissions: %i(view_work_packages),
+                            member_with_permissions: { project => %i(view_work_packages) },
                             notification_settings: [build(:notification_setting, assignee: true, responsible: true)])
 
           work_package.update_column(:assigned_to_id, assignee.id)
@@ -1389,7 +1365,7 @@ RSpec.describe MailHandler do
     context 'when sending a reply to a message mail' do
       include_context 'with a reply to a message'
 
-      it 'creates a new message in the name of the sender', aggregate_failures: true do
+      it 'creates a new message in the name of the sender', :aggregate_failures do
         expect(subject)
           .to be_a Message
 

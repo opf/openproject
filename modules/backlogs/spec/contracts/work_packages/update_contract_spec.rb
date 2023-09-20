@@ -35,7 +35,8 @@ RSpec.describe WorkPackages::UpdateContract do
            estimated_hours: 6.0,
            project:)
   end
-  let(:member) { create(:user, member_in_project: project, member_through_role: role) }
+  let(:member) { create(:user, member_wih_roles: { project => role }) }
+
   let(:project) { create(:project) }
   let(:current_user) { member }
   let(:permissions) do
@@ -106,7 +107,7 @@ RSpec.describe WorkPackages::UpdateContract do
         let(:changed_values) { ['remaining_hours'] }
 
         it('is invalid') do
-          expect(contract.errors.symbols_for(:remaining_hours)).to match_array([:error_readonly])
+          expect(contract.errors.symbols_for(:remaining_hours)).to contain_exactly(:error_readonly)
         end
       end
     end

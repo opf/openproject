@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Backlogs', js: true do
+RSpec.describe 'Backlogs', :js do
   let(:story_type) do
     create(:type_feature)
   end
@@ -52,11 +52,10 @@ RSpec.describe 'Backlogs', js: true do
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i(add_work_packages
-                                       view_master_backlog
-                                       view_work_packages
-                                       assign_versions))
+           member_with_permissions: { project => %i(add_work_packages
+                                                    view_master_backlog
+                                                    view_work_packages
+                                                    assign_versions) })
   end
   let(:project) { create(:project) }
 

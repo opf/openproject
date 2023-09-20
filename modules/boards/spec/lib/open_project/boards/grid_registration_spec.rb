@@ -5,9 +5,7 @@ RSpec.describe OpenProject::Boards::GridRegistration do
   let(:permissions) { [:show_board_views] }
   let(:board) { create(:board_grid, project:) }
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+    create(:user, member_with_permissions: { project => permissions })
   end
 
   describe 'from_scope' do
