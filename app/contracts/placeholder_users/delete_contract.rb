@@ -43,7 +43,7 @@ module PlaceholderUsers
 
     def self.affected_projects_managed_by_actor?(placeholder_user, actor)
       placeholder_user.projects.active.empty? ||
-        actor.allowed_to_in_projects?(:manage_members, placeholder_user.projects.active)
+        actor.allowed_in_project?(:manage_members, placeholder_user.projects.active)
     end
     private_class_method :affected_projects_managed_by_actor?
 
