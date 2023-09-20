@@ -30,9 +30,34 @@
 
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
-require_relative './shared_contract_examples'
 
 RSpec.describe MeetingAgendaItems::UpdateContract do
   include_context 'ModelContract shared context'
-  include_examples 'meeting is not readable'
+
+  shared_let(:project) { create(:project) }
+  shared_let(:meeting) { create(:structured_meeting, project:) }
+  shared_let(:item) { create(:meeting_agenda_item, meeting:) }
+  let(:contract) { described_class.new(item, user) }
+
+  context 'with permission' do
+    let(:user) do
+      create(:user, member_in_project: project, member_with_permissions: [:edit_meetings])
+    end
+
+    it_behaves_like 'contract is valid'
+
+    context 'when :meeting is not editable' do
+      before do
+        meeting.update_column(:state, :closed)
+      end
+
+      it_behaves_like 'contract is invalid', base: I18n.t(:text_meeting_not_editable_anymore)
+    end
+  end
+
+  context 'without permission' do
+    let(:user) { build_stubbed(:user) }
+
+    it_behaves_like 'contract is invalid', base: :error_unauthorized
+  end
 end

@@ -28,5 +28,15 @@
 
 module MeetingAgendaItems
   class CreateContract < BaseContract
+    validate :user_allowed_to_add
+
+    ##
+    # Meeting agenda items can currently be only created
+    # through the project permission :edit_meetings
+    def user_allowed_to_add
+      unless user.allowed_to?(:edit_meetings, model.project)
+        errors.add :base, :error_unauthorized
+      end
+    end
   end
 end
