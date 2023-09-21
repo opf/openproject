@@ -16,8 +16,14 @@
     <% end %>
   <% end %>
 
+  <h1>Ruby</h1>
   <%= render(::Storages::Admin::StorageListComponent.new(@storages)) %>
+  <h1>CSS + ERB</h1>
   <%= render(::Storages::Admin::StorageListCssComponent.new(@storages)) %>
+  <h1>CSS + GRID</h1>
+  <%= render(::Storages::Admin::StorageListCssGridComponent.new(@storages)) %>
+  <h1>CSS + concat</h1>
+  <%= render(::Storages::Admin::StorageListCssConcatComponent.new(@storages)) %>
 
 <% else %>
   <%= toolbar title: t("project_module_storages") do %>

@@ -27,21 +27,15 @@
 #++
 
 module OpPrimer
-  module ComponentHelpers
-    def flex_layout(**, &)
-      render(OpPrimer::FlexLayoutComponent.new(**), &)
+  class GridLayoutComponent < Primer::Component
+    def initialize(**)
+      super
+
+      @system_arguments = deny_tag_argument(**) || {}
     end
 
-    def grid_layout(**, &)
-      render(OpPrimer::GridLayoutComponent.new(**), &)
-    end
-
-    def box_collection(**, &)
-      render(OpPrimer::BoxCollectionComponent.new(**), &)
-    end
-
-    def component_collection(**, &)
-      render(OpPrimer::ComponentCollectionComponent.new(**), &)
-    end
+    renders_many :areas, lambda { |component = ::Primer::BaseComponent, **system_arguments, &block|
+      render(component.new(**system_arguments), &block)
+    }
   end
 end
