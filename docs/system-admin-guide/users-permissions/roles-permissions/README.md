@@ -56,7 +56,7 @@ Administrators can create new global roles in *Administration* > *Users and perm
 
 - **[Create projects](../../getting-started/projects/#create-a-new-project)**
 
-  > **Note:** To create a subproject for an existing project it requires also the project permission "Create subprojects" 
+  > **Note:** To create a subproject for an existing project it requires also the project permission "Create subprojects".
 
 - **[Create backups](../backup/)**
 
