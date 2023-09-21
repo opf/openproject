@@ -13,118 +13,95 @@ A user is any individual who can log into your OpenProject instance.
 
 ## Permissions
 
-Permissions control what users can see and do within OpenProject. Permission are granted to users by assigning one ore more roles to the users. 
+Permissions control what users can see and do within OpenProject. Permission are granted to users by assigning one or more roles to the users.
 
 ## Roles
 
 A role bundles a collection of permissions. It is an convenient way of granting permissions to multiple users in your organization that need the same permissions or restrictions.
 
-A user can have one or more roles which grant permissions on different levels: 
+A user can have one or more roles which grant permissions on different levels:
 
-| Role type         | Scope of the role                                            | Permission examples                                          | Customization options                                        |
-| ----------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| **Administrator** | Application-level: Full control of all aspects of the application | - Assign administration privileges to other users<br />- Create and restore backups in the web interface<br />- Create and configure an OAuth app<br />- Configure custom fields<br />- Archive projects/restore projects<br />- Configure global roles<br />- Configure project roles | Can not be changed                                           |
-| **Global role**   | Application-level: Permissions scoped to specific administrative tasks (not restricted to specific projects) | - Manage users<br />- Create projects                        | Administrators can create new global roles and assign global permissions to those roles |
-| **Project role**  | Project-level: Permissions scoped to individual projects (a user can have different roles for individual projects) | - Create work packages (in a project)<br />- Delete wiki pages (in a specific project) | Create different project roles with individual permission sets |
-| **Non-member**    | Project-level: Permissions scoped to individual projects for users which are logged in | - View work packages for users that are logged in            | Assign different permissions to the role *Non-member*        |
-| **Anonymous**     | Project-level: Permissions scoped to individual projects for users which are <u>not</u> logged in | - View work packages for users that are not logged in        | Assign different permissions to the role *Anonymous*         |
-
-### Administrator
-
-Administrators have full access to all settings and all projects in an OpenProject environment. The permissions of the Administrator role can not be changed. 
-
-### Global role
-
-Global roles allow Administrators to delegate administrative tasks to individual users:
-
-### Project role
-
-A **project role** is a set of **permissions** that can be assigned to any project member. Multiple roles can be assigned to the same project member.
-
-> **Note:** If a module is not enabled in a project it is not shown to a user despite having a permission for it.
-
-### Non-member
-
-**Non member** is the default role of users of your OpenProject instance who have not been added to a project. This only applies if the project has been set as **[public](../user-guide/projects/#set-a-project-to-public)** in the project settings.
-
-The Non-member role can not be deleted. 
-
-### Anonymous 
-
-OpenProject allows to share project information with users anonymous users which are not logged in. This is helpful to communicate projects goals and activities with a public community.
-
-> **Note**: This only applies if you disabled the need for authentication for your instance and if the project is set as **public**.
-
-The Anonymous role can not be deleted. 
+| Role type and description                                    | Scope of the role                                            | Permission examples                                          | Customization options                                        |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| **Administrator**<br />Administrators have full access to all settings and all projects in an OpenProject environment. The permissions of the Administrator role can not be changed.<br /> | Application-level: Full control of all aspects of the application | - Assign administration privileges to other users<br />- Create and restore backups in the web interface<br />- Create and configure an OAuth app<br />- Configure custom fields<br />- Archive projects/restore projects<br />- Configure global roles<br />- Configure project roles | Cannot be changed                                            |
+| **Global role**<br />Global roles allow Administrators to delegate administrative tasks to individual users. | Application-level: Permissions scoped to specific administrative tasks (not restricted to specific projects) | - Manage users<br />- Create projects                        | Administrators can create new global roles and assign global permissions to those role |
+| **Project role**<br />A project role is a set of **permissions** that can be assigned to any project member. Multiple roles can be assigned to the same project member.<br /><br />**Note:** If a module is not enabled in a project it is not shown to a user despite having a permission for it. | Project-level: Permissions scoped to individual projects (a user can have different roles for individual projects) | - Create work packages (in a project)<br />- Delete wiki pages (in a specific project) | Create different project roles with individual permission sets |
+| **Non-member**<br />Non member is the default role of users of your OpenProject instance who have not been added to a project. This only applies if the project has been set as **[public](../user-guide/projects/#set-a-project-to-public)** in the project settings.<br /><br /><br />**Note: **The *Non-member* role cannot be deleted. | Project-level: Permissions scoped to individual projects for users which are logged in | - View work packages for users that are logged in            | Assign different permissions to the role *Non-member*        |
+| **Anonymous**<br />OpenProject allows to share project information with anonymous users which are not logged in. This is helpful to communicate projects goals and activities with a public community.<br /><br /> **Note**: This only applies if you disabled the need for authentication for your instance and if the project is set as **public**.<br />The *Anonymous* role cannot be deleted. | Project-level: Permissions scoped to individual projects for users which are <u>not</u> logged in | - View work packages for users that are not logged in        | Assign different permissions to the role *Anonymous*         |
 
 ## Customize roles with individual permissions 
 
-Administrators can add new roles with custom permissions in **Administration** -> **Users and permissions** -> **Roles and permissions**.
+Administrators can add new roles with custom permissions or configure existing ones in *Administration* > *Users and permissions* > *Roles and permissions*.
 
 ### Permissions report
 
-The permissions report is a good starting point to get and overview of the current configuration.
+The permissions report is a good starting point to get an overview of the current configuration of roles and permissions. To open the permissions report, navigate to the overview table of exiting *Roles* and click on the link *Permissions report* below the table.
 
 ### Create a new project roles
 
-Administrators can create new project roles in **Administration** -> **Users and permissions -> Roles and permissions**.
+Administrators can create new project roles in *Administration* > *Users and permissions* > *Roles and permissions*. Click on the green *+Role* button to create a new role.
 
-Complete the following as required:
+Complete the following steps:
 
-1. **Role name** - must be entered and be a new name.
-3. **Copy workflow from** - select an existing role. The respective [workflows](../../manage-work-packages/work-package-workflows) will be copied to the role to be created.
-4. **Permissions** - you can grant permissions which define what the user can see and do in the project scope.
+1. **Name**: must be a new role name.
+2. **Global role**: create a new [global role](#create-a-new-global-role).
+3. **Copy workflow from**: select an existing role and copy the respective [workflow](../../manage-work-packages/work-package-workflows) to the newly created role.
+4. **Permissions**: you can grant permissions which define what the user with the respective role can see and do in the project scope. The permissions are grouped based on the modules.
+
+To create the new role, click on the grey *Create* button at the bottom of the page.
 
 ### Create a new global role
 
-Administrators can create new global roles in **Administration** -> **Users and permissions -> Roles and permissions**. In the creation form check the box **Global Role**. The form now shows the available global permissions which can be assigned to the new global role:
+Administrators can create new global roles in *Administration* > *Users and permissions* > *Roles and permissions*. In the creation form check the box **Global role**. The form now shows the available global permissions which can be assigned to the new global role:
 
-- [Create projects](../../getting-started/projects/#create-a-new-project)
+- **[Create projects](../../getting-started/projects/#create-a-new-project)**
 
-  > **Note:** To create a subproject to an existing project it requires also the project permission "Create subprojects" 
+  > **Note:** To create a subproject for an existing project it requires also the project permission "Create subprojects" 
 
-- [Create backups](../backup/)
+- **[Create backups](../backup/)**
 
-- [Create users](../users-permissions/users/#create-users)
+- **[Create users](../users-permissions/users/#create-users)**
 
-- [Edit users](../users/)
+- **[Edit users](../users/)**
 
-	> **Note:** This allows the Administrator to delegate the administration of users to other people that should not have full control of the entire OpenProject installation (Administrator).  
+	> **Note:** This allows the *Administrator* to delegate the administration of users to other people that should not have full control of the entire OpenProject installation (Administrator).  
 
-- [Create, edit, and delete placeholder users](../placeholder-users/)
+- **[Create, edit, and delete placeholder users](../placeholder-users/)**
 
   > **Note**: Users with this global permission can not automatically see and edit all placeholder user in all projects. It is restricted to the placeholder users in projects in which the user has the respective permission to see or edit project members.
 
 ### Edit and delete roles
 
+To edit an existing role, click on the role name in the roles overview table. Make your changes and save the update by clicking on the *Save* button at the bottom of the overview page.
+
 To delete an existing role click on the **delete icon** next to a role in the list. 
 
-> **Note:**  Roles that are assigned to a user can not be deleted. 
+> **Note:**  Roles that are assigned to a user cannot be deleted.
 
-## FAQ
+## FAQ for roles and permissions
 
 ### Can Administrators delegate the task to delete users?
 
-No, only Administrators can delete other users. 
+No, only Administrators can delete other users.
 
 ### Can I set a default role for a user that creates a new project?
 
-You can set a [default role](../../system-settings/project-system-settings/#settings-for-new-projects) that users with this permission will have in a project they created. 
+You can set a [default role](../../system-settings/project-system-settings/#settings-for-new-projects) that users with this permission will have in a project they created.
 
-### User do not see the action "Create project" in the main navigation even though they have the create project permission? 
+### Users do not see the action *Create project* in the main navigation even though they have the create project permission? 
 
 This is UX bug tracked in [#50123](https://community.openproject.org/wp/50123).
 
 ### What is the difference between a project permission and a global permission?
 
-Project permissions controls what a user can see and do within a project scope. Project permissions are attached to [project roles](#Project role). You can grant a user a permission in a specific project by giving the user one or more project roles in a specific project.
+Project permissions controls what a user can see and do within a project scope. Project permissions are attached to **project roles**. You can grant a user a permission in a specific project by giving the user one or more project roles in a specific project.
 
 Examples for project permissions:
 
 * Create work packages
-* Add comments to a work package   
+* Add comments to a work package
 
-Global permissions are system wide. They are attached to [global roles](#Global roles) and controls what a user can do and see independent of a specific project memberships.
+Global permissions are system wide. They are attached to **global roles** and controls what a user can do and see independent of a specific project memberships.
 
 ### Can I convert a project role to a global role?
 
