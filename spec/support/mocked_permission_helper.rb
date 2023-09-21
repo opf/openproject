@@ -104,12 +104,12 @@ module MockedPermissionHelper
     #     - the permission has been given to any project
     #     - the permission has been given to any entity
     allow(permissible_service).to receive(:allowed_in_any_entity?) do |permission, entity_class, in_project:|
-      all_permitted_entties = permission_mock.permitted_entities
+      all_permitted_entities = permission_mock.permitted_entities
 
-      next true if in_project && all_permitted_entties[in_project].include?(permission)
+      next true if in_project && all_permitted_entities[in_project].include?(permission)
 
       filtered_entities = if in_project
-                            all_permitted_entties.select do |k, _|
+                            all_permitted_entities.select do |k, _|
                               k.is_a?(entity_class) && k.respond_to?(:project) && k.project == in_project
                             end
                           else
