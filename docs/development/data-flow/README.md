@@ -45,6 +45,31 @@ In the course of using the application, background tasks are enqueued in the dat
 
 
 
+## Exemplary request flow
+
+- **User Request**: An end-user sends an HTTPS request to the load balancer or proxying server.
+
+- **Load Balancer**: The external load balancer or proxying server receives the request, terminates TLS, and forwards the HTTP request to the Puma application server.
+
+- **Puma Server**: Processes the request and invokes the appropriate Rails middlewares and controller.
+
+- **Rails Application**:
+
+  - Authenticates the user according to the mechanisms outlined in the [secure coding guidelines](../concepts/secure-coding)
+  - Validates session and input data
+  - Responsible for error handling, logging, and auditing aggregation
+
+  - Retrieves or updates resources to the PostgreSQL database via models
+  - Calls or interacts with external services for requests, such as retrieving files or attachments from object storage
+
+  - Renders the appropriate views
+
+- **Response**: Sends the HTTP response back through the Puma server and load balancer to the end-user.
+
+- **Background worker:** Operate on periodical background data, or perform actions requested by the web request of user (sending emails, exporting data, communicating with external services)
+
+
+
 ## Schema information
 
 OpenProject's database schema is considered an internal API, please do not rely on it as a stable point of references. Schema modifications by the OpenProject core might be performed in any upgrade, including patch releases. Modifications to the database schema are considered a third-party customization and might prevent us from giving proper support. If you have an active support contract with OpenProject, please note that modifications affect our warranty. For more information, please consult the [Terms of Services](https://www.openproject.org/legal/terms-of-service/#-5-warranty).
