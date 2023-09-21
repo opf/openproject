@@ -44,7 +44,11 @@ import { WorkPackageShareModalComponent } from 'core-app/features/work-packages/
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageShareButtonComponent extends UntilDestroyedMixin {
-  @Input('workPackage') public workPackage:WorkPackageResource;
+  @Input() public workPackage:WorkPackageResource;
+
+  public text = {
+    share: this.I18n.t('js.work_packages.sharing.share'),
+  };
 
   constructor(
     readonly I18n:I18nService,
