@@ -59,6 +59,6 @@ export class WorkPackageShareButtonComponent extends UntilDestroyedMixin {
   }
 
   openModal():void {
-    this.opModalService.show(WorkPackageShareModalComponent, 'global', {});
+    this.opModalService.show(WorkPackageShareModalComponent, 'global', { workPackage: this.workPackage });
   }
 }

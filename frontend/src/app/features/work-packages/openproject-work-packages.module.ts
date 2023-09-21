@@ -29,6 +29,7 @@
 import {
   Injector,
   NgModule,
+  CUSTOM_ELEMENTS_SCHEMA,
 } from '@angular/core';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
@@ -190,6 +191,7 @@ import { WorkPackageTimerButtonComponent } from 'core-app/features/work-packages
 import { OpenprojectTimeEntriesModule } from 'core-app/shared/components/time_entries/openproject-time-entries.module';
 import { RecentItemsService } from 'core-app/core/recent-items.service';
 import { WorkPackageShareButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-share-button/wp-share-button.component';
+import { WorkPackageShareModalComponent } from 'core-app/features/work-packages/components/wp-share-modal/wp-share.modal';
 
 @NgModule({
   imports: [
@@ -407,6 +409,7 @@ import { WorkPackageShareButtonComponent } from 'core-app/features/work-packages
     QuerySharingModalComponent,
     SaveQueryModalComponent,
     WpDestroyModalComponent,
+    WorkPackageShareModalComponent,
 
     // CustomActions
     WpCustomActionComponent,
@@ -465,6 +468,7 @@ import { WorkPackageShareButtonComponent } from 'core-app/features/work-packages
     WorkPackageSplitViewComponent,
     BackButtonComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class OpenprojectWorkPackagesModule {
   static bootstrapAttributeGroupsCalled = false;
