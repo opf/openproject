@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -25,27 +27,16 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+module Storages::Admin
+  class StorageListCssConcatComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    alias_method :storages, :model
 
-module OpPrimer
-  module ComponentHelpers
-    def flex_layout(**, &)
-      render(OpPrimer::FlexLayoutComponent.new(**), &)
-    end
+    private
 
-    def grid_layout(**, &)
-      render(OpPrimer::GridLayoutComponent.new(**), &)
-    end
-
-    def concat_component(component = Primer::BaseComponent, **, &)
-      concat(render(component.new(**), &))
-    end
-
-    def box_collection(**, &)
-      render(OpPrimer::BoxCollectionComponent.new(**), &)
-    end
-
-    def component_collection(**, &)
-      render(OpPrimer::ComponentCollectionComponent.new(**), &)
+    def storage_row_css_id(storage)
+      helpers.dom_id storage
     end
   end
 end

@@ -99,6 +99,7 @@ module Storages
     end
 
     def configured?
+      return false
       configuration_checks.values.all?
     end
 
