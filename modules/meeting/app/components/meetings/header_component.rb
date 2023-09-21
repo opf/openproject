@@ -53,11 +53,11 @@ module Meetings
     private
 
     def edit_enabled?
-      User.current.allowed_to?(:edit_meetings, @meeting.project)
+      User.current.allowed_in_project?(:edit_meetings, @meeting.project)
     end
 
     def delete_enabled?
-      User.current.allowed_to?(:delete_meetings, @meeting.project)
+      User.current.allowed_in_project?(:delete_meetings, @meeting.project)
     end
 
     def show_partial
@@ -88,7 +88,8 @@ module Meetings
 
     def actions_partial
       render(Primer::Alpha::ActionMenu.new) do |menu|
-        menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("label_meeting_actions"), test_selector: 'op-meetings-header-action-trigger')
+        menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("label_meeting_actions"),
+                              test_selector: 'op-meetings-header-action-trigger')
         edit_action_item(menu) if edit_enabled?
         delete_action_item(menu) if delete_enabled?
       end

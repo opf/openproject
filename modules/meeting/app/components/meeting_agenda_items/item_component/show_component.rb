@@ -53,11 +53,11 @@ module MeetingAgendaItems
     private
 
     def drag_and_drop_enabled?
-      @meeting.open? && User.current.allowed_to?(:edit_meetings, @meeting.project)
+      @meeting.open? && User.current.allowed_in_project?(:edit_meetings, @meeting.project)
     end
 
     def edit_enabled?
-      @meeting.open? && User.current.allowed_to?(:edit_meetings, @meeting.project)
+      @meeting.open? && User.current.allowed_in_project?(:edit_meetings, @meeting.project)
     end
 
     def first_row_partial
@@ -100,8 +100,8 @@ module MeetingAgendaItems
       flex_layout(align_items: :center, mt: edit_enabled? ? 1 : 2) do |flex|
         flex.with_column(mr: 2) do
           title = I18n.t(:label_added_time_by,
-                          author: @meeting_agenda_item.author.name,
-                          age: helpers.distance_of_time_in_words(Time.zone.now, @meeting_agenda_item.created_at))
+                         author: @meeting_agenda_item.author.name,
+                         age: helpers.distance_of_time_in_words(Time.zone.now, @meeting_agenda_item.created_at))
           render(Users::AvatarComponent.new(user: @meeting_agenda_item.author, size: 'mini', title:))
         end
         flex.with_column do
@@ -213,7 +213,8 @@ module MeetingAgendaItems
 
     def actions_partial
       render(Primer::Alpha::ActionMenu.new) do |menu|
-        menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("label_agenda_item_actions"), scheme: :invisible, test_selector: 'op-meeting-agenda-actions')
+        menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("label_agenda_item_actions"), scheme: :invisible,
+                              test_selector: 'op-meeting-agenda-actions')
         edit_action_item(menu)
         move_actions(menu)
         delete_action_item(menu)

@@ -46,7 +46,7 @@ module Meetings
     end
 
     def render?
-      User.current.allowed_to?(:edit_meetings, @meeting.project)
+      User.current.allowed_in_project?(:edit_meetings, @meeting.project)
     end
 
     private
@@ -122,7 +122,7 @@ module Meetings
       flex_layout(align_items: :center) do |flex|
         flex.with_column(flex: 1) do
           render(Users::AvatarComponent.new(
-                   user: participant.user,
+                   user: participant.user
                  ))
         end
         flex.with_column(style: "width: 90px;", text_align: :center) do
@@ -172,7 +172,7 @@ module Meetings
       flex_layout(align_items: :center) do |flex|
         flex.with_column(flex: 1) do
           render(Users::AvatarComponent.new(
-                   user:,
+                   user:
                  ))
         end
         flex.with_column(style: "width: 90px;", text_align: :center) do
