@@ -84,10 +84,10 @@ RSpec.describe OpenProject::AccessControl do
   end
 
   describe '.remove_modules_permissions' do
-    let!(:all_former_permissions) { described_class.permissions }
-    let!(:former_repository_permissions) do
+    shared_let(:all_former_permissions) { described_class.permissions }
+    shared_let(:former_repository_permissions) do
       described_class.modules_permissions(%w[repository])
-                     .select { |permission| permission.project_module == :repository }
+                     .filter { _1.project_module == :repository }
     end
 
     subject { described_class }
