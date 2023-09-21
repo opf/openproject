@@ -38,7 +38,7 @@ class Storages::FileLinkSyncService
   def call(file_links)
     resulting_file_links = file_links
       .group_by(&:storage_id)
-      .map { |storage_id, storage_file_links| sync_nextcloud(storage_id, storage_file_links) }
+      .map { |storage_id, storage_file_links| sync_storage_data(storage_id, storage_file_links) }
       .reduce([]) do |state, sync_result|
         sync_result.match(
           on_success: ->(sr) { state + sr },
@@ -51,7 +51,7 @@ class Storages::FileLinkSyncService
 
   private
 
-  def sync_nextcloud(storage_id, file_links)
+  def sync_storage_data(storage_id, file_links)
     storage = ::Storages::Storage.find(storage_id)
     ::Storages::Peripherals::Registry
       .resolve("queries.#{storage.short_provider_type}.files_info")

@@ -41,22 +41,23 @@ module Storages
 
             def handle_responses(response)
               json = MultiJson.load(response.body, symbolize_keys: true)
+              error_data = ::Storages::StorageErrorData.new(source: self, payload: json)
 
               case response
               when Net::HTTPSuccess
                 ServiceResult.success(result: json)
               when Net::HTTPNotFound
                 ServiceResult.failure(result: :not_found,
-                                      errors: ::Storages::StorageError.new(code: :not_found, data: json))
+                                      errors: ::Storages::StorageError.new(code: :not_found, data: error_data))
               when Net::HTTPForbidden
                 ServiceResult.failure(result: :forbidden,
-                                      errors: ::Storages::StorageError.new(code: :forbidden, data: json))
+                                      errors: ::Storages::StorageError.new(code: :forbidden, data: error_data))
               when Net::HTTPUnauthorized
                 ServiceResult.failure(result: :unauthorized,
-                                      errors: ::Storages::StorageError.new(code: :unauthorized, data: json))
+                                      errors: ::Storages::StorageError.new(code: :unauthorized, data: error_data))
               else
                 ServiceResult.failure(result: :error,
-                                      errors: ::Storages::StorageError.new(code: :error, data: json))
+                                      errors: ::Storages::StorageError.new(code: :error, data: error_data))
               end
             end
 

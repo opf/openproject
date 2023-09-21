@@ -28,35 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction::OneDrive::Util
-  using Storages::Peripherals::ServiceResultRefinements
+module Storages
+  class StorageErrorData
+    attr_reader :source, :payload
 
-  class << self
-    def mime_type(json)
-      json.dig(:file, :mimeType) || (json.key?(:folder) ? 'application/x-op-directory' : nil)
-    end
-
-    def using_user_token(storage, user, &)
-      connection_manager = ::OAuthClients::ConnectionManager
-                             .new(user:, configuration: storage.oauth_configuration)
-
-      connection_manager
-        .get_access_token
-        .match(
-          on_success: ->(token) do
-            connection_manager.request_with_token_refresh(token) { yield token }
-          end,
-          on_failure: ->(_) do
-            ServiceResult.failure(
-              result: :unauthorized,
-              errors: ::Storages::StorageError.new(
-                code: :unauthorized,
-                data: ::Storages::StorageErrorData.new(source: connection_manager),
-                log_message: 'Query could not be created! No access token found!'
-              )
-            )
-          end
-        )
+    def initialize(source:, payload: nil)
+      @source = source
+      @payload = payload
     end
   end
 end
