@@ -73,7 +73,7 @@ RSpec.describe 'Structured meetings CRUD',
     new_page.visit!
     expect(page).to have_current_path(new_page.path)
     new_page.set_title 'Some title'
-    new_page.set_type 'Structured'
+    new_page.set_type 'Dynamic'
 
     new_page.set_start_date '2013-03-28'
     new_page.set_start_time '13:30'
