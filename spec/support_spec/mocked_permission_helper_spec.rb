@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 RSpec.describe MockedPermissionHelper do
-  let(:user) { create(:user) }
-  let(:project) { create(:project) }
-  let(:other_project) { create(:project) }
-  let(:work_package_in_project) { create(:work_package, project:) }
-  let(:other_work_package_in_project) { create(:work_package, project:) }
-  let(:other_work_package) { create(:work_package) }
+  let(:user) { build(:user) }
+  let(:project) { build(:project) }
+  let(:other_project) { build(:project) }
+  let(:work_package_in_project) { build(:work_package, project:) }
+  let(:other_work_package_in_project) { build(:work_package, project:) }
+  let(:other_work_package) { build(:work_package) }
 
   context 'when trying to mock a permission that does not exist' do
     it 'raises UnknownPermissionError exception' do

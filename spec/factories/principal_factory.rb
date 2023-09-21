@@ -49,7 +49,10 @@ FactoryBot.define do
 
     callback(:after_build) do |_principal, evaluator|
       is_build_strategy = evaluator.instance_eval { @build_strategy.is_a? FactoryBot::Strategy::Build }
-      uses_member_association = evaluator.member_with_permissions || evaluator.member_with_roles || evaluator.global_roles || evaluator.global_permissions
+      uses_member_association = evaluator.member_with_permissions.present? ||
+        evaluator.member_with_roles.present? ||
+        evaluator.global_roles.present? ||
+        evaluator.global_permissions.present?
       if is_build_strategy && uses_member_association
         raise ArgumentError,
               "Use create(...) with principals and member_with_permissions, member_with_roles, global_roles, global_permissions traits."
