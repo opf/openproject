@@ -50,9 +50,14 @@ class PlaceholderUsersController < ApplicationController
   end
 
   def show
-    # show projects based on current user visibility
-    @memberships = @placeholder_user.memberships
-      .visible(current_user)
+    # show projects based on current user visibility.
+    # But don't simply concatenate the .visible scope to the memberships
+    # as .memberships has an include and an order which for whatever reason
+    # also gets applied to the Project.allowed_to parts concatenated by a UNION
+    # and an order inside a UNION is not allowed in postgres.
+    @memberships = @placeholder_user
+                     .memberships
+                     .where(id: Member.visible(current_user))
 
     respond_to do |format|
       format.html { render layout: 'no_menu' }
