@@ -68,7 +68,7 @@ Administrators can create new global roles in *Administration* > *Users and perm
 
 - **[Create, edit, and delete placeholder users](../placeholder-users/)**
 
-  > **Note**: Users with this global permission can not automatically see and edit all placeholder user in all projects. It is restricted to the placeholder users in projects in which the user has the respective permission to see or edit project members.
+  > **Note**: Users with this global permission cannot automatically see and edit all placeholder user in all projects. It is restricted to the placeholder users in projects in which the user has the respective permission to see or edit project member.
 
 ### Edit and delete roles
 
