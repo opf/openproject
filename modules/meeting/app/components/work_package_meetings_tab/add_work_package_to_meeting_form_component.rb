@@ -68,10 +68,11 @@ module WorkPackageMeetingsTab
           base_error_partial
         end
         flex.with_row do
+          # TODO: Autocomplete based on Rails rendered options needed here
           render(MeetingAgendaItem::MeetingForm.new(form))
         end
         flex.with_row(mt: 3) do
-          # TODO: RTE causes double form submission, using simple text area for now
+          # TODO: RTE toolbar not properly rendered
           render(MeetingAgendaItem::Notes.new(form))
         end
       end
