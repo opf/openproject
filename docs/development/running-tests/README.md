@@ -12,7 +12,7 @@ Testing OpenProject is distributed between different roles and members, dependin
 - **Non-functional testing**: Developer, QA/Tester, Product manager, Operations engineer
 - **Acceptance testing**: Product manager, Designer, QA/Testers, Customers/Community members
 - **Usability testing**: UX Designer, Customers, Community members
-- **Accessibility testing**: Product team, Developer, External accessiblity experts
+- **Accessibility testing**: Product team, Developer, External accessibility experts
 
 
 
@@ -24,7 +24,7 @@ The following types of functional tests are used at OpenProject.
 | ----------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Unit tests](#unit-tests)                                   | Test individual components of OpenProject using RSpec. Involves mocking or stubbing dependent components | e.g, Model specs under `spec/models`                         |
 | [Integration tests](#integration-tests)                     | Testing the integration of multiple components, but still in their isolation without testing the entire software stack | controller, requests, service integration specs, e.g., `spec/services/**/*_integration_spec.rb` |
-| [Feature / End-to-End tests](#feature-tests)                | Tests of the entire Rails application stack and all necessary dependent components (routing, controllers, database access, permissions, and responses). Performed in `RSpec` using `Capybara` feature specs.<br />External third-party service requests and responses are recorded for testing (e.g., nextcloud integration) | `spec/features`                                              |
+| [Feature / end-to-end tests](#feature-tests)                | Tests of the entire Rails application stack and all necessary dependent components (routing, controllers, database access, permissions, and responses). Performed in `RSpec` using `Capybara` feature specs.<br />External third-party service requests and responses are recorded for testing (e.g., nextcloud integration) | `spec/features`                                              |
 | [Smoke tests](#smoke-tests)                                 | Automated and manual tests to ensure the main application features and happy paths are working as expected (e.g., packaging or dockerization tests, manual smoke tests by QA) | Docker test workflow under `.github/workflows/docker.yml`    |
 | [Sanity and regression tests](#sanity-and-regression-tests) | Manual testing of affected or relevant components made after changes or bug fixes to the application. Performed by QA. | e.g., testing the critical path of creating work packages after a bug fix has been made in that data model<br />Manual execution of test plan defined by QA |
 | [Acceptance tests](#acceptance-tests)                       | Final phase of manual testing where the system is evaluated against predefined requirements to ensure it meets user and stakeholder expectations before deployment. | Manual interactions with customers and stakeholders to identify whether we're building the correct part |
@@ -33,16 +33,16 @@ The following types of functional tests are used at OpenProject.
 
 ### Unit tests
 
-Unit testing concerns testing of isolating individual components of the application, such as individual methods within a model, service, or library, in order too verify that they perform as expected under various conditions. OpenProject uses RSpec for writing unit tests / specs.
+Unit testing concerns testing of isolating individual components of the application, such as individual methods within a model, service, or library, in order to verify that they perform as expected under various conditions. OpenProject uses RSpec for writing unit tests / specs.
 
 
 
 **Key objectives and effects**
 
-1. **Isolated validation of Individual Components**: Unit tests isolate the smallest testable parts of an application, often single methods or functions, to validate that they function as intended.
-2. **Early Defect Identification**: Writing and running unit tests before (Test-driven development) or during the development phase may help identify bugs early, reducing the cost of fixing them in later stages
-3. **Code Quality**: Unit tests shape the development of a component, ensuring that it is testable by reducing coupling between components and by that, improves code quality. Unit tests, when well written, serve as a form of documentation.
-4. **Ease of Maintenance**: Unit tests in an interpreted language like Ruby make it easier and safer to refactor code, add new features, or integrate new changes with confidence, knowing that existing functionality is well-tested and which functionality breaks when moving code.
+1. **Isolated validation of individual components**: Unit tests isolate the smallest testable parts of an application, often single methods or functions, to validate that they function as intended.
+2. **Early defect identification**: Writing and running unit tests before (Test-Driven Development) or during the development phase may help identify bugs early, reducing the cost of fixing them in later stages.
+3. **Code quality**: Unit tests shape the development of a component, ensuring that it is testable by reducing coupling between components and by that, improves code quality. Unit tests, when well written, serve as a form of documentation.
+4. **Ease of maintenance**: Unit tests in an interpreted language like Ruby make it easier and safer to refactor code, add new features, or integrate new changes with confidence, knowing that existing functionality is well-tested and which functionality breaks when moving code.
 
 
 
@@ -73,17 +73,17 @@ Unit testing concerns testing of isolating individual components of the applicat
 
 Integration tests focus on the interactions between different components of OpenProject to ensure they work together to deliver a specific functionality. OpenProject uses RSpec to perform integration tests to simulate real-world user behavior. In contrast to system tests, integration tests still leave out some assumptions or characteristics of the application (e.g., not running tests in an instrumented browser instance).
 
-In Rails, the difference between integration tests and feature tests can be blurry. At OpenProject, we assume every test that involves an instrumented browser instance a *feature spec*. Integration tests can be request or controller specs, or specs in other folders explicitly marked as integration, meaning it will not use mocking to separate the involved components.
+In Rails, the difference between integration tests and feature tests can be blurry. At OpenProject, we assume every test that involves an instrumented browser instance is a *feature spec*. Integration tests can be request or controller specs, or specs in other folders explicitly marked as integration, meaning it will not use mocking to separate the involved components.
 
 
 
 **Key objectives and effects**
 
-1. **Verifying interaction of components**: The primary objective of integration testing is to verify that different components or modules of the application work together as intended. 
+1. **Verifying interaction of components**: The primary objective of integration testing is to verify that different components or modules of the application work together as intended.
 2. **Data integrity and consistency**: Test that data flows correctly between different parts of the application.
-3. **API and Service Dependencies**: For components relying on external APIs and third-party services, integration tests define the boundary between these systems that are often not available in automated test suites. Integration tests for services should include things like proper request formatting to correct handling of all possible response types (success, failure, timeouts, etc.).
+3. **API and service dependencies**: For components relying on external APIs and third-party services, integration tests define the boundary between these systems that are often not available in automated test suites. Integration tests for services should include things like proper request formatting and correct handling of all possible response types (success, failure, timeouts, etc.).
 4. **Early performance and reliability evaluation**: Integration tests _may_ give an early indication of potential performance issues. Due to the interaction of components, this data flow can identify bottlenecks or inefficiencies that might not be visible during unit testing due to the amount of data mocking present.
-5. **Test real interactions**: In Ruby on Rails, unit tests depending on the development style may have the flaw of testing _too_ narrow. With a high amount of mocking, the proper testing and definition of the component's boundary may become blurry and brittle. These problems will only be detectable within an integration tests.
+5. **Test real interactions**: In Ruby on Rails, unit tests depending on the development style may have the flaw of testing _too_ narrow. With a high amount of mocking, the proper testing and definition of the component's boundary may become blurry and brittle. These problems will only be detectable within integration tests.
 
 **Best practices**
 
@@ -97,29 +97,29 @@ In Rails, the difference between integration tests and feature tests can be blur
 
 ### Feature tests
 
-Feature tests at OpenProject drive a browser instance to act as if a user were operating the application. This includes logging in, setting session cookies, and navigating/manipulating the browser to interact as the user.
+Feature tests at OpenProject drive a browser instance to act as if a user was operating the application. This includes logging in, setting session cookies, and navigating/manipulating the browser to interact as the user.
 
 
 
 **Key objectives and effects**
 
-1. **End-to-End testing**: Validate the interaction between the entire stack of the application, including the frontend and backend, to ensure they work as expected.
+1. **End-to-end testing**: Validate the interaction between the entire stack of the application, including the frontend and backend, to ensure they work as expected.
 
 2. **User experience verification**: Simulate real-world user behavior and ensure that the application behaves as expected from a user's perspective.
 
-3. **Increased Confidence**: In Rails applications, only feature tests give you the entire picture of the application, especially when frontend code is interacting with the backend.
+3. **Increased confidence**: In Rails applications, only feature tests give you the entire picture of the application, especially when frontend code is interacting with the backend.
 
-4. **Responsiveness and Compatibility**: Verify that the application's UI behaves consistently across various browsers, languages, and screen sizes.
+4. **Responsiveness and compatibility**: Verify that the application's user interface behaves consistently across various browsers, languages, and screen sizes.
 
-   
+
 
 **Best practices**
 
-- Happy paths and main error or permission checks should always be tested with a system test. Avoid testing all edge cases or boundaries using the entire stack, as this will result in slowdown of our CI infrastructure.
+- Happy paths and main errors or permission checks should always be tested with a system test. Avoid testing all edge cases or boundaries using the entire stack, as this will result in slowdown of our CI infrastructure.
 - Use Capybara's scoping methods (`within`, `find`, etc.), meaningful selectors, and asynchronous handling to make tests more readable and robust.
 - Break down complex user interactions into reusable methods or even separate test cases to make your test suite easier to understand and maintain.
 - Keep an eye on flaky tests that fail randomly and fix them, as they can undermine trust in your test suite.
-- While frowned upon in unit tests, test the entire use-case in as few examples as possible to avoid additional overhead (starting the browser, loading factories into database etc.). When using multiple examples, use `let_it_be` / `shared_let`  and other improvments from the [test-prof gem](https://github.com/test-prof/test-prof)
+- While frowned upon in unit tests, test the entire use-case in as few examples as possible to avoid additional overhead (starting the browser, loading factories into database etc.). When using multiple examples, use `let_it_be` / `shared_let` and other improvements from the [test-prof gem](https://github.com/test-prof/test-prof)
 - Add automated regression tests for bug fixes that are non-trivial
 
 
@@ -192,11 +192,11 @@ Acceptance tests evaluate both functional and non-functional requirements.
 
 **Key objectives and effects**
 
-1. **Validation of Requirements**: Ensure that the defined feature / change meets all specified requirements, as outlined by the stakeholders and defined by the product team.
-2. **Reduced Risk**: Identify and reduce risk of releasing a product that doesn't meet user expectations or contractual obligations.
+1. **Validation of requirements**: Ensure that the defined feature / change meets all specified requirements, as outlined by the stakeholders and defined by the product team.
+2. **Reduced risk**: Identify and reduce risk of releasing a product that doesn't meet user expectations or contractual obligations.
 3. **Contractual closure**: May act as a formal sign-off before the software goes live, signifying that it has met agreed-upon criteria.
-4. **System Behavior**: Confirm that all features and functionalities behave as expected in real-world scenarios.
-5. **Data Integrity and Workflow**: Verify the end-to-end processes, and ensure data consistency and integrity throughout the system.
+4. **System behavior**: Confirm that all features and functionalities behave as expected in real-world scenarios.
+5. **Data integrity and workflow**: Verify the end-to-end processes, and ensure data consistency and integrity throughout the system.
 
 
 
@@ -212,11 +212,11 @@ Acceptance tests evaluate both functional and non-functional requirements.
 
 | Type                                                         | Description                                                  | Examples, References                                         |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Stress and Performance tests](#performance-tests)           | (Half-)automated or manual testing of the response of the application during higher load, or expected upper boundaries of customer-defined data | e.g., running and evaluating new query plans on existing, anonymized or simulated data that matches potential or known performance bottlenecks |
-| [Security tests](#security-tests)                            | Automated or manually crafted test cases for evaluating application security by assuming the role of an attacker, e.g., by providing malicious user input or trying to break the application. | statical and automated code scanning (CodeQL, Brakeman), defined test cases for verifying security related input as defined in the [secure coding guidelines](https://www.openproject.org/docs/development/concepts/secure-coding/). |
-| [Installation / Upgrade tests](#installation-and-upgrade-tests) | Automated and manual installation tests of OpenProject       | Packaged installation build tests for various distributions, Docker installation smoke tests for verifying correct startup and basic operation of the container. |
+| [Stress and performance tests](#performance-tests)           | (Half-)automated or manual testing of the response of the application during higher load, or expected upper boundaries of customer-defined data | e.g., running and evaluating new query plans on existing, anonymized or simulated data that matches potential or known performance bottlenecks |
+| [Security tests](#security-tests)                            | Automated or manually crafted test cases for evaluating application security by assuming the role of an attacker, e.g., by providing malicious user input or trying to break the application. | Statical and automated code scanning (CodeQL, Brakeman), defined test cases for verifying security related input as defined in the [secure coding guidelines](https://www.openproject.org/docs/development/concepts/secure-coding/). |
+| [Installation / upgrade tests](#installation-and-upgrade-tests) | Automated and manual installation tests of OpenProject       | Packaged installation build tests for various distributions, Docker installation smoke tests for verifying correct startup and basic operation of the container. |
 | [Usability tests](#usability-tests)                          | Evaluating the UX of the application as defined and in comparison to the requirements. Involves QA, Product, Customer. | e.g., verifying common use-cases as defined in the requirements in an early development stage (such as a PullPreview deployment), or on a pre-released version of the application. |
-| [Accessibility tests](#accessibility-tests)                  | Evaluating the accessibility of the application according to WCAG AA and similar standards | Performing automated keyboard navigation tests. <br />Manually executing screenreaders to ensure application can be used. |
+| [Accessibility tests](#accessibility-tests)                  | Evaluating the accessibility of the application according to [WCAG AA](https://www.w3.org/WAI/WCAG2AA-Conformance) and similar standards | Performing automated keyboard navigation tests. <br />Manually executing screen readers to ensure application can be used. |
 
 
 
@@ -226,15 +226,15 @@ Identify and prevent common causes of bottlenecks in the application. As OpenPro
 
 
 
- **Key objectives and effects**
+**Key objectives and effects**
 
 1. **Reliability**: Improve the reliability of the application by identifying bottlenecks and performance issues.
-2. **Stress Testing**: Identify the limits and the breaking points of the application.
-3. **User Satisfaction**: Ensure that users have a good experience for common use-cases.
+2. **Stress testing**: Identify the limits and the breaking points of the application.
+3. **User satisfaction**: Ensure that users have a good experience for common use-cases.
 
 
 
-**Best pratices**
+**Best practices**
 
 - Include performance tests, automated or manual, in the development of every feature that involves moving a lot of user data
 - Use appropriate data for the tests, this could be anonymized or prepared data provided by customers or through statically or manually provided factories.
@@ -249,19 +249,19 @@ Automated or manual security tests for OpenProject are evaluating common weaknes
 
 
 
- **Key objectives and effects**
+**Key objectives and effects**
 
 1. **Vulnerability assessment**: Identify and prevent common security vulnerabilities in the application, such as SQL injection, CSRF, and XSS vulnerabilities.
 2. **Authentication and authorization tests**: Ensure that authentication mechanisms are robust and that only authorized users can access sensitive features.
-3. **Risk Mitigation**: Early identification of security vulnerabilities helps mitigate risks associated with data breaches and unauthorized access.
-4. **Audit and Compliance**: Ensure that the application complies with internal security guidelines, as well as any industry-specific security standards.
+3. **Risk mitigation**: Early identification of security vulnerabilities helps mitigate risks associated with data breaches and unauthorized access.
+4. **Audit and compliance**: Ensure that the application complies with internal security guidelines, as well as any industry-specific security standards.
 
 
 
 **Best practices**
 
 - Use statical and dynamical code analysis for automated vulnerability testing. OpenProject uses CodeQL and Brakeman as part of the CI pipeline to give early feedback to common vulnerabilities.
-- Follow our [secure coding guidelines](../concepts/secure-coding/) when proposing changes to the application, especially when modfiying or adding features to authentication, authorization, 2FA, or sensitive data operations.
+- Follow our [secure coding guidelines](../concepts/secure-coding/) when proposing changes to the application, especially when modifying or adding features to authentication, authorization, 2FA, or sensitive data operations.
 - If possible, automate security tests for common vulnerabilities for input in your development.
 - Train on recent vulnerabilities and checklists such as [OWASP Top Ten](https://owasp.org/www-project-top-ten/) or [OWASP cheat sheets](https://cheatsheetseries.owasp.org/index.html) to stay up-to-date on security testing and extend our security test suite with new information.
 
@@ -277,11 +277,11 @@ Upgrade tests are manually performed for major code changes and data migrations 
 
 **Key objectives and effects**
 
-1. **Verify seamless nstallation**: Ensure that OpenProject can be installed as documented.
+1. **Verify seamless installation**: Ensure that OpenProject can be installed as documented.
 2. **Check version compatibility**: Test the compatibility of the upgraded application with existing configurations, databases, and other dependent software.
 3. **Validate migrations**: Confirm that during an upgrade, data migration occurs without data loss or corruption.
-4. **Technical Support**: Reduce the number of support tickets related to installation and upgrade issues.
-5. **Operational Efficiency**: Minimize downtime and service interruptions during the upgrade process.
+4. **Technical support**: Reduce the number of support tickets related to installation and upgrade issues.
+5. **Operational efficiency**: Minimize downtime and service interruptions during the upgrade process.
 
 
 
@@ -295,36 +295,36 @@ Upgrade tests are manually performed for major code changes and data migrations 
 
 ### Usability testing
 
-When new feature or changes to the application are available on our [Edge or Community environments](../environments), product team members, customers, and community users can provide usability feedback on how the change is preceived.
+When new features or changes to the application are available on our [Edge or Community environments](../environments), product team members, customers, and community users can provide usability feedback on how the change is perceived.
 
 
 
 **Key objectives and effects**
 
-1. **User-Friendliness**: Evaluate how easily end-users can navigate and perform tasks within the application, focusing on intuitiveness and accessibility.
+1. **User-friendliness**: Evaluate how easily end-users can navigate and perform tasks within the application, focusing on intuitiveness and accessibility.
 
 2. **Increased user satisfaction and adoption**: Better usability promotes a higher rate of user adoption and lowers abandonment rates.
 
-3. **Error Handling and Messages**: Assess the software's ability to prevent, catch, and handle errors in a way that is informative and non-intrusive for the user.
+3. **Error handling and messages**: Assess the software's ability to prevent, catch, and handle errors in a way that is informative and non-intrusive for the user.
 
-4. **Consistency and Standards**: Ensure that the application's UI and functionality conform to common design and usability standards, promoting user familiarity.
+4. **Consistency and standards**: Ensure that the application's UI and functionality conform to common design and usability standards, promoting user familiarity.
 
-5. **Reduced Support Costs**: Intuitive and user-friendly designs decrease the volume of helpdesk or support questions.
+5. **Reduced support costs**: Intuitive and user-friendly designs decrease the volume of help desk or support questions.
 
-   
+
 
 **Best practices**
 
 - Involve actual users in requirements and usability feedback to collect genuine user insights.
 - Perform usability feedback rounds at multiple stages of development to continuously refine the user experience and ensure we're building the correct things.
-- **Real-world Scenarios**: Test the application by simulating real-world tasks and scenarios that a typical user would encounter.
-- **Quantitative and Qualitative Metrics**: Use a mix of metrics like task completion rates, error rates, and user satisfaction surveys to comprehensively assess usability.
+- **Real-world scenarios**: Test the application by simulating real-world tasks and scenarios that a typical user would encounter.
+- **Quantitative and qualitative metrics**: Use a mix of metrics like task completion rates, error rates, and user satisfaction surveys to comprehensively assess usability.
 
 
 
 ### Accessibility tests
 
-OpenProject strives to be accessible for all users while also retaining a high usability. In web applications, these two requirements can sometimes be a seemingly contradictory requirement, especially when animations or *modern* functionality of browsers are used.
+OpenProject strives to be accessible for all users while also retaining a high usability. In web applications, these two requirements can sometimes be a seemingly contradictory requirement, especially when animations or *modern* functionalities of browsers are used.
 
 
 
@@ -333,8 +333,8 @@ OpenProject strives to be accessible for all users while also retaining a high u
 1. **Compliance with WCAG**: Standards exists to ensure and implement means of accessible interactions for all users.
 2. **Universal usability**: Application is functional and provides a good user experience for people with disabilities, including those who use assistive technologies.
 3. **Text-to-Speech and Speech-to-Text**: Compatibility with screen readers and voice-command software to assist visually impaired and mobility-challenged users.
-4. **Navigational Ease**: Application can be effectively navigated using only a keyboard, without requiring a mouse.
-5. **Contrast and Readability**: Test text contrast, size, and spacing to ensure readability for users with visual impairments.
+4. **Navigational ease**: Application can be effectively navigated using only a keyboard, without requiring a mouse.
+5. **Contrast and readability**: Test text contrast, size, and spacing to ensure readability for users with visual impairments.
 
 
 
@@ -342,7 +342,7 @@ OpenProject strives to be accessible for all users while also retaining a high u
 
 1. Make accessibility testing an integral part of the development lifecycle, starting with the requirements.
 2. Use automated accessibility testing tools and tests that can quickly identify issues against established accessibility guidelines.
-3. Follow the best practices of the WCAG checklists to ensure screen reader and other assistive technologies are well supported.
+3. Follow the best practices of the [WCAG checklists](https://www.w3.org/WAI/WCAG21/quickref/) to ensure screen readers and other assistive technologies are well supported.
 4. Consult with accessibility experts to conduct audits and provide recommendations for improvements. Alternatively, consult the development colleagues with experience in accessibility testing to evaluate requirements and implementation proposals.
 
 
@@ -410,7 +410,7 @@ An error in the *units* group means there is a failing ruby unit test. Please se
 
 **Errors in the features group**
 
-You will be able to run failing tests locally in a similar fashion for all errors reported in the  `units`  and `features` jobs. Please see the [System tests](#system-tests) section for more information.
+You will be able to run failing tests locally in a similar fashion for all errors reported in the `units` and `features` jobs. Please see the [System tests](#system-tests) section for more information.
 
 
 
