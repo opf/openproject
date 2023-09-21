@@ -7,23 +7,23 @@
     storages.map do |storage|
       component.with_row(scheme: :default, color: :subtle, id: storage_row_css_id(storage), classes: 'StorageListCss-row') do
         grid_layout do |grid|
-          grid.with_area(tag: :div, color: :default, classes: 'StorageListCss-name', style: "grid-area: Name") do
+          grid.with_area(:Name, tag: :div, color: :default, classes: 'StorageListCss-name') do
             unless storage.configured?
-              concat render(Primer::Beta::Octicon.new(:'alert-fill', size: :small, color: :severe, classes: 'mr-2'))
+              concat_component(Primer::Beta::Octicon, icon: :'alert-fill', size: :small, color: :severe, classes: 'mr-2')
             end
 
             concat storage.name
           end
 
-          grid.with_area(tag: :div, style: "grid-area: Time") do
+          grid.with_area(:Time, tag: :div) do
             I18n.t('activity.item.created_on', datetime: helpers.format_time(storage.created_at)).capitalize
           end
 
-          grid.with_area(tag: :div, style: "grid-area: Creator") do
+          grid.with_area(:Creator, tag: :div) do
             render(Users::AvatarComponent.new(user: storage.creator, size: :mini, link: false, show_name: true))
           end
-          grid.with_area(Primer::Beta::Truncate, classes: 'StorageListCss-type', style: "grid-area: Type") { storage.short_provider_type }
-          grid.with_area(Primer::Beta::Truncate, classes: 'StorageListCss-host', style: "grid-area: Host") { storage.host }
+          grid.with_area(:Type, Primer::Beta::Truncate, classes: 'StorageListCss-type') { storage.short_provider_type }
+          grid.with_area(:Host, Primer::Beta::Truncate, classes: 'StorageListCss-host') { storage.host }
         end
       end
     end
