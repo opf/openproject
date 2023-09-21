@@ -176,7 +176,7 @@ RSpec.describe Project, 'allowed to' do
     end
 
     context 'with the user being member
-             with the permission being module bound
+             without the permission being module bound
              with the role having the permission
              with no module active' do
       let(:permissions) { [non_module_action] }
@@ -191,7 +191,7 @@ RSpec.describe Project, 'allowed to' do
     end
 
     context 'with the user being member
-             with the permission being module bound
+             without the permission being module bound
              without the role having the permission
              with no module active' do
       let(:permissions) { [] }
