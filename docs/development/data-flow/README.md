@@ -17,24 +17,24 @@ flowchart TD
     C[Puma app server]
     D[Background worker]
   end
-    
+
 
   subgraph integrations[External integrations]
 	  O[Other integrations]
     N[Nextcloud]
   end
-  
+
   subgraph services[Services]
   	M[memcached]
 	  P[PostgreSQL]
 	  S[Object storage or NFS]
   end
-  
+
 
   openproject <--> services
   openproject --> integrations
   B <--> integrations
-	
+
 ```
 
 As a web application, the primary data flow is between the Client browser (or attached API clients) through an external proxying web server (this might be a load balancer or proxying server). We're assuming it is the one responsible for terminating TLS connections for the course of this document - although encrypted connections between Load balancer and Puma server are possible. In case of packaged or kubernetes installations, this proxying server might be part of the OpenProject stack (e.g., an Apache2 packaged installation server or nginx ingress).
@@ -47,13 +47,13 @@ In the course of using the application, background tasks are enqueued in the dat
 
 ## Exemplary request flow
 
-- **User Request**: An end-user sends an HTTPS request to the load balancer or proxying server.
+- **User request**: An end-user sends an HTTPS request to the load balancer or proxying server.
 
-- **Load Balancer**: The external load balancer or proxying server receives the request, terminates TLS, and forwards the HTTP request to the Puma application server.
+- **Load balancer**: The external load balancer or proxying server receives the request, terminates TLS, and forwards the HTTP request to the Puma application server.
 
-- **Puma Server**: Processes the request and invokes the appropriate Rails middlewares and controller.
+- **Puma server**: Processes the request and invokes the appropriate Rails middlewares and controller.
 
-- **Rails Application**:
+- **Rails application**:
 
   - Authenticates the user according to the mechanisms outlined in the [secure coding guidelines](../concepts/secure-coding)
   - Validates session and input data
@@ -126,4 +126,4 @@ Whenever users in OpenProject are fully deleted, the system scrubs and removes a
 
 Deleting a user account is a permanent action and cannot be reversed. All actions performed in the name of the user are being scrubbed and replaced with a singular "Deleted user" reference in order to maintain integrity of database references, such as being an author of a work package that remains. Finally, the user data itself will be deleted, removing all structural traces of PII in the system. Due to the user references changing, respective cache keys for information such as work packages or projects are invalidated automatically. Note that user-input data such as text or comments cannot be deleted or scrubbed in an automated fashion.
 
-Log files might still retain PII data of the user for the configured retention period. Memory references in memcached might still refer to (invalidated) user data until it is being reassigned. 
+Log files might still retain PII data of the user for the configured retention period. Memory references in memcached might still refer to (invalidated) user data until it is being reassigned.

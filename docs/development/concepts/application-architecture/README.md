@@ -5,4 +5,4 @@ sidebar_navigation:
 
 
 
-This guide as been integrated into the [application architecture documentation](../../application-architecture/).
+This guide has been integrated into the [application architecture documentation](../../application-architecture/).
