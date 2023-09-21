@@ -33,4 +33,19 @@ RSpec.describe MockedPermissionHelper do
       expect(user).to be_allowed_globally(:create_project)
     end
   end
+
+  context 'when mocking a project permission' do
+    prepend_before do
+      puts "Running a mock"
+      mock_permissions_for(user) do |mock|
+        mock.on_project :view_work_packages, :create_work_packages, project:
+      end
+    end
+
+    it 'allows the permission' do
+      expect(user).to be_allowed_in_project(:view_work_packages, project)
+      expect(user).not_to be_allowed_in_project(:view_work_packages, other_project)
+      expect(user).to be_allowed_in_any_project(:view_work_packages)
+    end
+  end
 end
