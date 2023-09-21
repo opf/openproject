@@ -189,6 +189,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { WorkPackageTimerButtonComponent } from 'core-app/features/work-packages/components/wp-timer-button/wp-timer-button.component';
 import { OpenprojectTimeEntriesModule } from 'core-app/shared/components/time_entries/openproject-time-entries.module';
 import { RecentItemsService } from 'core-app/core/recent-items.service';
+import { WorkPackageShareButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-share-button/wp-share-button.component';
 
 @NgModule({
   imports: [
@@ -386,6 +387,7 @@ import { RecentItemsService } from 'core-app/core/recent-items.service';
     WorkPackageBreadcrumbComponent,
     WorkPackageSplitViewToolbarComponent,
     WorkPackageWatcherButtonComponent,
+    WorkPackageShareButtonComponent,
     WorkPackageSubjectComponent,
 
     // Full view
