@@ -40,6 +40,10 @@ end
 RSpec.configure do |config|
   config.include MockedPermissionHelper
 
+  config.after do
+    self.mocked_permission_cache = {}
+  end
+
   config.before do
     puts "Mocking permissions... Something in cache? #{MockedPermissionHelper.mocked_permission_cache.present?}"
     next if MockedPermissionHelper.mocked_permission_cache.blank?

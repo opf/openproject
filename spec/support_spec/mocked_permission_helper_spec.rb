@@ -23,7 +23,6 @@ RSpec.describe MockedPermissionHelper do
 
   context 'when mocking a global permission' do
     prepend_before do
-      puts "Running a mock"
       mock_permissions_for(user) do |mock|
         mock.globally :create_project
       end
@@ -36,7 +35,6 @@ RSpec.describe MockedPermissionHelper do
 
   context 'when mocking a project permission' do
     prepend_before do
-      puts "Running a mock"
       mock_permissions_for(user) do |mock|
         mock.on_project :view_work_packages, :create_work_packages, project:
       end
