@@ -32,12 +32,11 @@ module WorkPackageMeetingsTab
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(work_package:, meeting_agenda_item: nil, base_errors: nil, include_children: false)
+    def initialize(work_package:, meeting_agenda_item: nil, base_errors: nil)
       super
 
       @work_package = work_package
       @meeting_agenda_item = meeting_agenda_item || MeetingAgendaItem.new(work_package: @work_package)
-      @include_children = include_children
       @base_errors = base_errors
     end
 

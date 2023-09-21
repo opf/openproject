@@ -67,8 +67,7 @@ module WorkPackageMeetingsTab
           button.with_leading_visual_icon(icon: :plus)
           t("label_add_work_package_to_meeting_dialog_button")
         end
-        render(WorkPackageMeetingsTab::AddWorkPackageToMeetingFormComponent.new(work_package: @work_package,
-                                                                                include_children: @include_children))
+        render(WorkPackageMeetingsTab::AddWorkPackageToMeetingFormComponent.new(work_package: @work_package))
       end
     end
   end
