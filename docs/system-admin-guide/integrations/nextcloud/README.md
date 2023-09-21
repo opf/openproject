@@ -334,6 +334,13 @@ You have setup the *Project folder* in both environments, Nextcloud and OpenProj
 3. Ensure that your user is full set up: OpenProject needs to know your Nextcloud user ID so that it can give your Nextcloud account the correct assess right to the project folder. That ID is obtained when you log into Nextcloud from within OpenProject: Go to a work package in that project, open the **Files** tab and ensure that you are logged-in into the Nextcloud storage. If you are not logged in, you should see a button to log-in. Click that button and follow the instructions on the screen.
 4. If your OpenProject account is not an admin user, you need to make sure that your user is a member of the project and that your role has at least the permission to `Read files`. To check that the permissions for your role are correctly set-up you need to have an admin account. In the section **File storages** at least the permission to `Read files` needs to be checked.
 5. If you changed anything in the three steps above, please wait up-to 30 seconds. If the background workers are working fine then you should see the project folder.
+6. If nothing of that worked, check that your network connection is fine:
+   1. Login into your OpenProject server via the command line interface. If you have multiple servers, chose the one that has the background workers running.
+   2. Test the network connection from this server to your Nextcloud server. All you need is the Nextcloud host name and the **Application password**. You received the application password at the end of the setup of the app **OpenProject integration** in Nextcloud. If you do not posses the application password anymore, you can reset it. Just make sure to not forget updating the settings of the file storage in OpenProject accordingly. The following cURL command should respond with an XML containing details for the **OpenProject** user (Please make sure to use the right application-password and Nextcloud host name):
+     ```
+     curl -u 'OpenProject:<application-password>' https://<nextcloud-host-name>/ocs/v1.php/cloud/users/OpenProject -H 'OCS-APIRequest: true' -v`
+     ```
+     
 
 ## Getting support
 
