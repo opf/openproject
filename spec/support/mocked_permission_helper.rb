@@ -113,7 +113,7 @@ module MockedPermissionHelper
                               k.is_a?(entity_class) && k.respond_to?(:project) && k.project == in_project
                             end
                           else
-                            all_permitted_entties.select { |k, _| k.is_a?(entity_class) || k.is_a?(Project) }
+                            all_permitted_entities.select { |k, _| k.is_a?(entity_class) || k.is_a?(Project) }
                           end
 
       filtered_entities
