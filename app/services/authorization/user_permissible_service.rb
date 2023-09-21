@@ -1,16 +1,4 @@
 module Authorization
-  class UnknownPermissionError < StandardError
-    def initialize(permission_name)
-      super("Tried to check permission #{permission_name} that is not defined as a valid permission. It will never return true")
-    end
-  end
-
-  class IllegalPermissionCheck < StandardError
-    def initialize(permission, permissions, context)
-      super("Tried to check permission #{permission} which maps to #{permissions.map(&:name).join(', ')} in #{context} context. Permissible contexts for this permission are: #{permissions.flat_map(&:permissible_on).uniq.join(', ')}.")
-    end
-  end
-
   class UserPermissibleService
     attr_accessor :user
 
@@ -65,19 +53,37 @@ module Authorization
       AllowedInAnyEntityQuery.new(user:, permissions: perms, entity_class:, in_project:).exists?
     end
 
-    def self.permissions_for(action)
-      return [action] if action.is_a?(OpenProject::AccessControl::Permission)
-      return action if action.is_a?(Array) && action.all? { |a| a.is_a?(OpenProject::AccessControl::Permission) }
+    class << self
+      def permissions_for(action) # rubocop:disable Metrics/PerceivedComplexity
+        return [action] if action.is_a?(OpenProject::AccessControl::Permission)
+        return action if action.is_a?(Array) && action.all?(OpenProject::AccessControl::Permission)
 
-      if action.is_a?(Hash)
-        if action[:controller]&.to_s&.starts_with?('/')
-          action = action.dup
-          action[:controller] = action[:controller][1..]
+        if action.is_a?(Hash)
+          if action[:controller]&.to_s&.starts_with?('/')
+            action = action.dup
+            action[:controller] = action[:controller][1..]
+          end
+
+          OpenProject::AccessControl.allow_actions(action)
+        else
+          [OpenProject::AccessControl.permission(action)].compact
+        end
+      end
+
+      def normalized_permissions(permission, context, raise_on_unknown: false)
+        perms = permissions_for(permission)
+
+        if perms.blank?
+          Rails.logger.warn "Used permission \"#{permission}\" that is not defined. It will never return true."
+          raise UnknownPermissionError.new(permission) if raise_on_unknown
+
+          return []
         end
 
-        OpenProject::AccessControl.allow_actions(action)
-      else
-        [OpenProject::AccessControl.permission(action)].compact
+        context_perms = perms.select { |p| p.permissible_on?(context) }
+        raise IllegalPermissionContextError.new(permission, perms, context) if context_perms.blank?
+
+        context_perms
       end
     end
 
@@ -102,21 +108,6 @@ module Authorization
       end
 
       AllowedInEntityQuery.new(user:, entity:, permissions: perms).exists?
-    end
-
-    def normalized_permissions(permission, context)
-      perms = self.class.permissions_for(permission)
-
-      if perms.blank?
-        Rails.logger.warn "Tried to check permission #{permission} that is not defined as a valid permission. It will never return true"
-        # raise UnknownPermissionError.new(permission)
-        return []
-      end
-
-      context_perms = perms.select { |p| p.permissible_on?(context) }
-      raise IllegalPermissionCheck.new(permission, perms, context) if context_perms.blank?
-
-      context_perms
     end
 
     def admin_and_all_granted_to_admin?(perms)
