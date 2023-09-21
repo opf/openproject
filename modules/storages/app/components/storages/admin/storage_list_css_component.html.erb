@@ -1,0 +1,27 @@
+<%= render(Primer::Beta::BorderBox.new(classes: 'StorageListCss')) do |component| %>
+  <%= component.with_header(color: :subtle, classes: 'StorageListCss-header') do
+      I18n.t('storages.count', count: storages.size)
+    end %>
+
+  <%= storages.map do |storage| %>
+    <%= component.with_row(scheme: :default, color: :subtle, id: storage_row_css_id(storage), classes: 'StorageListCss-row') do %>
+      <%= render(Primer::BaseComponent.new(tag: :div, color: :default, classes: 'StorageListCss-name', style: "grid-area: Name")) do %>
+          <%= unless storage.configured?
+                render(Primer::Beta::Octicon.new(:'alert-fill', size: :small, color: :severe, classes: 'mr-2'))
+            end %>
+
+          <%= storage.name %>
+      <% end %>
+
+      <%= render(Primer::BaseComponent.new(tag: :div, style: "grid-area: Time")) do %>
+        <%= I18n.t('activity.item.created_on', datetime: helpers.format_time(storage.created_at)).capitalize %>
+      <% end %>
+
+      <%= render(Primer::BaseComponent.new(tag: :div, style: "grid-area: Creator")) do %>
+        <%= render(Users::AvatarComponent.new(user: storage.creator, size: :mini, link: false, show_name: true)) %>
+      <% end %>
+      <%= render(Primer::Beta::Truncate.new(classes: 'StorageListCss-type', style: "grid-area: Type")) { storage.short_provider_type } %>
+      <%= render(Primer::Beta::Truncate.new(classes: 'StorageListCss-host', style: "grid-area: Host")) { storage.host } %>
+    <% end %>
+  <% end %>
+<% end %>

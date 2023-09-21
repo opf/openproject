@@ -1,0 +1,15 @@
+.StorageListCss-row {
+    display: grid;
+    grid-template-columns: 1fr 170px 100px 240px;
+    grid-template-areas: "Name Creator Type Host" "Time Creator Type Host";
+    grid-column-gap: 5px;
+}
+
+.StorageListCss-name {
+    font-weight: bold;
+}
+
+.StorageListCss-type,
+.StorageListCss-host {
+    justify-content: flex-end;
+}
