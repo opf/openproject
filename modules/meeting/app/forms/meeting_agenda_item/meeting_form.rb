@@ -26,26 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class CreateContract < BaseContract
-    validate :user_allowed_to_add, :validate_meeting_existence
+class MeetingAgendaItem::MeetingForm < ApplicationForm
+  include Redmine::I18n
 
-    ##
-    # Meeting agenda items can currently be only created
-    # through the project permission :edit_meetings
-    def user_allowed_to_add
-      unless user.allowed_to?(:edit_meetings, model.project)
-        errors.add :base, :error_unauthorized
+  form do |agenda_item_form|
+    agenda_item_form.select_list(
+      name: :meeting_id,
+      required: true,
+      include_blank: false,
+      label: Meeting.model_name.human,
+      caption: I18n.t("label_meeting_selection_caption")
+    ) do |meeting_select_list|
+      # TODO: Clarify scope
+      StructuredMeeting.open.where('meetings.start_time >= ?', Time.zone.now).each do |meeting|
+        meeting_select_list.option(
+          label: "#{meeting.title} #{format_date(meeting.start_time)} #{format_time(meeting.start_time, false)}",
+          value: meeting.id
+        )
       end
     end
+  end
 
-    ##
-    # A stale browser window might provide an already deleted meeting as an option when creating an agenda item from the
-    # work package tab. This would lead to an 500 server error when trying to save the agenda item.
-    def validate_meeting_existence
-      unless Meeting.exists?(id: model.meeting_id)
-        errors.add :base, I18n.t(:text_meeting_not_present_anymore)
-      end
-    end
+  def initialize(disabled: false)
+    super()
+    @disabled = disabled
   end
 end
