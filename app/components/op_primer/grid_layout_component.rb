@@ -34,7 +34,10 @@ module OpPrimer
       @system_arguments = deny_tag_argument(**) || {}
     end
 
-    renders_many :areas, lambda { |component = ::Primer::BaseComponent, **system_arguments, &block|
+    renders_many :areas, lambda { |area_name, component = ::Primer::BaseComponent, **system_arguments, &block|
+      system_arguments[:style] ||= ''
+      system_arguments[:style] = join_style_arguments(system_arguments[:style], "grid-area: #{area_name}")
+
       render(component.new(**system_arguments), &block)
     }
   end
