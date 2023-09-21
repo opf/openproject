@@ -39,7 +39,7 @@ export default class extends Controller {
   connect() {
     this.drake = dragula(
       [this.containerTarget],
-      { moves: (_el, _source, handle, _sibling) => !!handle?.classList.contains('handle') },
+      { moves: (_el, _source, handle, _sibling) => !!handle?.classList.contains('octicon-grabber') },
     )
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       .on('drop', this.drop.bind(this));
