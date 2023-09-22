@@ -30,6 +30,7 @@ module WorkPackages
   module Share
     class ModalComponent < ApplicationComponent
       include ApplicationHelper
+      include Turbo::FramesHelper
       include OpPrimer::ComponentHelpers
 
       def initialize(work_package:)

@@ -29,6 +29,7 @@
 class WorkPackages::SharesController < ApplicationController
   def index
     @work_package = WorkPackage.find(params[:id])
-    render(WorkPackages::Share::ModalComponent.new(work_package: @work_package))
+
+    render WorkPackages::Share::ModalComponent.new(work_package: @work_package), layout: nil
   end
 end

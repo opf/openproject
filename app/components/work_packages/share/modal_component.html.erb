@@ -1,46 +1,49 @@
 <%=
-  flex_layout(data: { turbo: true }) do |modal_content|
-    modal_content.with_row do
-      # Todo: Wrap in Form
+  # The identifier is a magic key also found in the wp-share modal template.
+  turbo_frame_tag "work_package_share_list" do
+    flex_layout(data: { turbo: true }) do |modal_content|
+      modal_content.with_row do
+        # Todo: Wrap in Form
 
-      flex_layout do |new_user_row|
-        new_user_row.with_column(mr: 2) do
-          # Todo: Show user autocompleter
-        end
-
-        new_user_row.with_column(mr: 2) do
-          render(WorkPackages::Share::PermissionButtonComponent.new(shown_value: I18n.t('work_package.sharing.permissions.comment')))
-        end
-
-        new_user_row.with_column do
-          render(Primer::Beta::Button.new(scheme: :primary)) { I18n.t('work_package.sharing.invite') }
-        end
-      end
-    end
-
-    if @shared_users.empty?
-      # Todo: show empty state?
-    else
-      modal_content.with_row(mt: 3) do
-        render(Primer::Beta::BorderBox.new) do |invited_user_list|
-          invited_user_list.with_header(color: :subtle) do
-            I18n.t('work_package.sharing.count', count: @shared_users.count)
+        flex_layout do |new_user_row|
+          new_user_row.with_column(mr: 2) do
+            # Todo: Show user autocompleter
           end
 
-          @shared_users.each do |user|
-            invited_user_list.with_row do
-              flex_layout(align_items: :center) do |user_row_container|
-                user_row_container.with_column(flex: :auto) do
-                  render(Users::AvatarComponent.new(user: User.find(user), size: :medium))
-                end
+          new_user_row.with_column(mr: 2) do
+            render(WorkPackages::Share::PermissionButtonComponent.new(shown_value: I18n.t('work_package.sharing.permissions.comment')))
+          end
 
-                user_row_container.with_column(color: :subtle, style: "width: 150px;") do
-                  # ToDo: real permission
-                  render(WorkPackages::Share::PermissionButtonComponent.new(shown_value: I18n.t('work_package.sharing.permissions.comment')))
-                end
+          new_user_row.with_column do
+            render(Primer::Beta::Button.new(scheme: :primary)) { I18n.t('work_package.sharing.invite') }
+          end
+        end
+      end
 
-                user_row_container.with_column(text_align: :right, style: "width: 100px;") do
-                  render(Primer::Beta::Button.new(scheme: :invisible)) { I18n.t('work_package.sharing.remove') }
+      if @shared_users.empty?
+        # Todo: show empty state?
+      else
+        modal_content.with_row(mt: 3) do
+          render(Primer::Beta::BorderBox.new) do |invited_user_list|
+            invited_user_list.with_header(color: :subtle) do
+              I18n.t('work_package.sharing.count', count: @shared_users.count)
+            end
+
+            @shared_users.each do |user|
+              invited_user_list.with_row do
+                flex_layout(align_items: :center) do |user_row_container|
+                  user_row_container.with_column(flex: :auto) do
+                    render(Users::AvatarComponent.new(user: User.find(user), size: :medium))
+                  end
+
+                  user_row_container.with_column(color: :subtle, style: "width: 150px;") do
+                    # ToDo: real permission
+                    render(WorkPackages::Share::PermissionButtonComponent.new(shown_value: I18n.t('work_package.sharing.permissions.comment')))
+                  end
+
+                  user_row_container.with_column(text_align: :right, style: "width: 100px;") do
+                    render(Primer::Beta::Button.new(scheme: :invisible)) { I18n.t('work_package.sharing.remove') }
+                  end
                 end
               end
             end
