@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,8 +30,8 @@
 
 module RuboCop::Cop::OpenProject
   class AddPreviewForViewComponent < RuboCop::Cop::Base
-    COMPONENT_PATH = '/app/components/'.freeze
-    PREVIEW_PATH = '/lookbook/previews/'.freeze
+    COMPONENT_PATH = '/app/components/'
+    PREVIEW_PATH = '/lookbook/previews/'
 
     def on_class(node)
       path = node.loc.expression.source_buffer.name
