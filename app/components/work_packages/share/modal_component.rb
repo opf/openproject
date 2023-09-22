@@ -36,7 +36,7 @@ module WorkPackages
         super
 
         @work_package = work_package
-        @shared_users = Member.of_work_package(@work_package.id).map(&:user_id)
+        @shared_users = Member.of_work_package(@work_package).pluck(:user_id)
       end
     end
   end

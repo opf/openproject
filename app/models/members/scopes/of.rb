@@ -37,8 +37,8 @@ module Members::Scopes
       end
 
       # Find all users, that are member of a specific Work Package
-      def of_work_package(work_package_id)
-        where(entity_type: 'WorkPackage', entity_id: work_package_id)
+      def of_work_package(work_package)
+        where(entity: work_package)
       end
     end
   end
