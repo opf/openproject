@@ -27,14 +27,16 @@
 # ++
 
 require 'spec_helper'
-require_relative '../../support/pages/work_packages/full_work_package'
-require_relative '../../support/components/common/modal'
+require 'support/pages/work_packages/full_work_package'
+require 'support/components/work_packages/share_modal'
 
 RSpec.describe 'Work package sharing', :js do
   let(:sharer_role) do
+    # TODO: Remove necessity to have manage_members permission
     create(:role,
            permissions: %i(view_work_packages
-                           share_work_packages))
+                           share_work_packages
+                           manage_members))
   end
   let(:view_work_package_role) { create(:view_work_package_role) }
   let(:comment_work_package_role) { create(:comment_work_package_role) }
@@ -57,16 +59,21 @@ RSpec.describe 'Work package sharing', :js do
   end
 
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
-  let(:share_modal) { Components::Common::Modal.new }
+  let(:share_modal) { Components::WorkPackages::ShareModal.new(work_package) }
 
-  let!(:view_user) { create(:user) }
-  let!(:comment_user) { create(:user) }
-  let!(:edit_user) { create(:user) }
-  let!(:non_shared_project_user) { create(:user) }
-  let!(:shared_project_user) { create(:user) }
+  let!(:view_user) { create(:user, firstname: 'View', lastname: 'User') }
+  let!(:comment_user) { create(:user, firstname: 'Comment', lastname: 'User') }
+  let!(:edit_user) { create(:user, firstname: 'Edit', lastname: 'User') }
+  let!(:non_shared_project_user) { create(:user, firstname: 'Non Shared Project', lastname: 'User') }
+  let!(:shared_project_user) { create(:user, firstname: 'Shared Project', lastname: 'User') }
+  let!(:not_shared_yet_with_user) { create(:user, firstname: 'Not shared Yet', lastname: 'User') }
 
   current_user { create(:user) }
 
+  # TODO:
+  #   - Check title
+  #   - Check roles
+  #   - Delete case
   it 'allows seeing and administrating sharing' do
     work_package_page.visit!
 
@@ -76,14 +83,21 @@ RSpec.describe 'Work package sharing', :js do
     click_button 'Share'
 
     share_modal.expect_open
-    share_modal.expect_title('Share work package')
-    # TODO: Move into specific share modal support class
-    share_modal.expect_text(view_user.name)
-    share_modal.expect_text(comment_user.name)
-    share_modal.expect_text(edit_user.name)
-    within share_modal.modal_element do
-      expect(page).not_to have_text(non_shared_project_user.name)
-    end
-    share_modal.expect_text(shared_project_user.name)
+    share_modal.expect_shared_with(view_user)
+    share_modal.expect_shared_with(comment_user)
+    share_modal.expect_shared_with(edit_user)
+    share_modal.expect_shared_with(shared_project_user)
+
+    share_modal.expect_not_shared_with(non_shared_project_user)
+    share_modal.expect_not_shared_with(not_shared_yet_with_user)
+
+    share_modal.expect_shared_count_of(4)
+
+    # Inviting a user will lead to that user being listed together with the rest of the shared with users.
+    share_modal.invite_user(not_shared_yet_with_user)
+
+    share_modal.expect_shared_with(not_shared_yet_with_user)
+
+    share_modal.expect_shared_count_of(5)
   end
 end
