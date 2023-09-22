@@ -817,3 +817,22 @@ good as a test server.
 
 Most of the above applies to running tests locally, with some docker specific setup changes that are discussed [in the
 docker development documentation](../development-environment-docker).
+
+## Generators
+
+In order to support developer productivity and testing confidence, we've extracted out common setup and boilerplate for good tests
+as RSpec generators and are encouraged to use them when adding a new spec file in OpenProject.
+
+To see the list of available RSpec generators, run:
+
+```shell
+./bin/rails generate -h
+```
+
+You'll see them under the "OpenProject" generator namespace.
+
+Along with the generators, we've bundled some helpful **USAGE** guides for each to help get up and running with them. Accessing them is as simple as:
+
+```shell
+./bin/rails generate open_project:rspec:GENERATOR_NAME -h
+```
