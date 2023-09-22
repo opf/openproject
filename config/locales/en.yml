@@ -3156,6 +3156,7 @@ en:
       invite: "Invite"
       permissions:
         comment: "Comment"
+        denied: "You don't have permissions to share work packages."
         edit: "Edit"
         view: "View"
       remove: "Remove"

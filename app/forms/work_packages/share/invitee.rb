@@ -25,30 +25,29 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+module  WorkPackages::Share
+  class Invitee < ApplicationForm
+    form do |user_invite_form|
+      user_invite_form.autocompleter(
+        name: :user_id,
+        label: 'Todo',
+        visually_hide_label: true,
+        autocomplete_options: {
+          id: "op-share-wp-user-autocomplete",
+          data: {
+            'test-selector': 'op-share-wp-user-autocomplete'
+          },
+          resource: 'principals',
+          searchKey: 'any_name_attribute',
+          focusDirectly: true,
+          disabled: @disabled
+        }
+      )
+    end
 
-module WorkPackages
-  module Share
-    class ModalComponent < ApplicationComponent
-      include ApplicationHelper
-      include Turbo::FramesHelper
-      include OpTurbo::Streamable
-      include OpPrimer::ComponentHelpers
-
-      def initialize(work_package:)
-        super
-
-        @work_package = work_package
-      end
-
-      def self.wrapper_key
-        "work_package_share_list"
-      end
-
-      private
-
-      def shared_users
-        @shared_users ||= User.having_entity_membership(@work_package)
-      end
+    def initialize(disabled: false)
+      super()
+      @disabled = disabled
     end
   end
 end

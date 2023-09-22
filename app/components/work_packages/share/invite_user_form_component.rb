@@ -28,26 +28,22 @@
 
 module WorkPackages
   module Share
-    class ModalComponent < ApplicationComponent
+    class InviteUserFormComponent < ApplicationComponent
       include ApplicationHelper
-      include Turbo::FramesHelper
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      def initialize(work_package:)
+      def initialize(member:, work_package:, method:, submit_path:)
         super
 
+        @member = member
         @work_package = work_package
+        @method = method
+        @submit_path = submit_path
       end
 
-      def self.wrapper_key
-        "work_package_share_list"
-      end
-
-      private
-
-      def shared_users
-        @shared_users ||= User.having_entity_membership(@work_package)
+      def allowed_to_share?
+        User.current.allowed_to?(:share_work_packages, @work_package.project)
       end
     end
   end

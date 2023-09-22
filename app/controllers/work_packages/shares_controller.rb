@@ -27,9 +27,29 @@
 # ++
 
 class WorkPackages::SharesController < ApplicationController
+  include OpTurbo::ComponentStream
+
+  # Todo: access control
+
   def index
     @work_package = WorkPackage.find(params[:id])
 
     render WorkPackages::Share::ModalComponent.new(work_package: @work_package), layout: nil
   end
+
+  def create
+    @work_package = WorkPackage.find(params[:id])
+    # Todo: Role selection, validation, error handling?
+    Member.create(entity: @work_package,
+                  user_id: params[:member][:user_id],
+                  roles: Role.where(builtin: Role::BUILTIN_WORK_PACKAGE_VIEWER))
+
+    replace_via_turbo_stream(
+      component: WorkPackages::Share::ModalComponent.new(work_package: @work_package)
+    )
+
+    respond_with_turbo_streams
+  end
+
+  # Todo: Delete
 end

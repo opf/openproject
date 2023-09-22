@@ -35,17 +35,18 @@ module WorkPackages
       def initialize(shown_value:)
         super
 
+        # Todo: Connect value with options
+
         @shown_value = shown_value
       end
 
       private
 
       def options
-        # Todo: Real values
         [
-          { label: I18n.t('work_package.sharing.permissions.comment'), value: '' },
-          { label: I18n.t('work_package.sharing.permissions.edit'), value: '' },
-          { label: I18n.t('work_package.sharing.permissions.view'), value: '' }
+          { label: I18n.t('work_package.sharing.permissions.comment'), value: Role::BUILTIN_WORK_PACKAGE_COMMENTER },
+          { label: I18n.t('work_package.sharing.permissions.edit'), value: Role::BUILTIN_WORK_PACKAGE_EDITOR },
+          { label: I18n.t('work_package.sharing.permissions.view'), value: Role::BUILTIN_WORK_PACKAGE_VIEWER }
         ]
       end
     end

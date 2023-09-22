@@ -1,0 +1,25 @@
+<%=
+  if allowed_to_share?
+    primer_form_with(
+      model: @member,
+      method: @method,
+      url: @submit_path
+    ) do |form|
+      flex_layout do |new_user_row|
+        new_user_row.with_column(flex: :auto, mr: 2) do
+          render(WorkPackages::Share::Invitee.new(form))
+        end
+
+        new_user_row.with_column(mr: 2) do
+          render(WorkPackages::Share::PermissionButtonComponent.new(shown_value: I18n.t('work_package.sharing.permissions.comment')))
+        end
+
+        new_user_row.with_column do
+          render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { I18n.t('work_package.sharing.invite') }
+        end
+      end
+    end
+  else
+    render(Primer::Beta::Flash.new(icon: :info)) { I18n.t('work_package.sharing.permissions.denied') }
+  end
+%>
