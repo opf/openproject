@@ -261,6 +261,7 @@ projects:
       - wiki
       - board_view
       - team_planner_view
+      - meetings
     news:
       - t_title: Welcome to your demo project
         t_summary: |
