@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -47,8 +49,16 @@ RSpec.describe API::V3::Queries::Schemas::RoleFilterDependencyRepresenter do
       describe 'values' do
         let(:path) { 'values' }
         let(:type) { '[]Role' }
-        let(:grantable_filter) { CGI.escape(JSON.dump([grantable: { operator: '=', values: ['t'] }])) }
-        let(:href) { api_v3_paths.roles + "?filters=#{grantable_filter}" }
+        let(:filters) do
+          [
+            allows_becoming_assignee: { operator: '=', values: ['t'] },
+            grantable: { operator: '=', values: ['t'] }
+          ]
+        end
+        let(:filter_params) do
+          CGI.escape(JSON.dump(filters))
+        end
+        let(:href) { api_v3_paths.roles + "?filters=#{filter_params}" }
 
         context "for operator 'Queries::Operators::Equals'" do
           let(:operator) { Queries::Operators::Equals }

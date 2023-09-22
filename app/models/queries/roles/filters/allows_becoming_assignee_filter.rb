@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,10 +28,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Roles
-  ::Queries::Register.register(RoleQuery) do
-    filter Filters::AllowsBecomingAssigneeFilter
-    filter Filters::GrantableFilter
-    filter Filters::UnitFilter
+class Queries::Roles::Filters::AllowsBecomingAssigneeFilter <
+  Queries::Roles::Filters::RoleFilter
+  def type
+    :list
+  end
+
+  def where
+    permission_ids = if values.first == OpenProject::Database::DB_VALUE_TRUE
+                       assignable_permissions
+                     else
+                       unassignable_permissions
+                     end
+
+    if operator == '='
+      ["role_permissions.id IN (?)", permission_ids]
+    else
+      ["role_permissions.id NOT IN (?)", permission_ids]
+    end
+  end
+
+  def joins
+    :role_permissions
+  end
+
+  def allowed_values
+    [[I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
+     [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE]]
+  end
+
+  private
+
+  def assignable_permissions
+    RolePermission.where(permission: 'work_package_assigned')
+                  .select('id')
+  end
+
+  def unassignable_permissions
+    RolePermission.where.not(permission: 'work_package_assigned')
+                  .select('id')
   end
 end

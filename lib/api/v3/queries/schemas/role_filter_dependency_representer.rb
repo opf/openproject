@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -33,7 +35,10 @@ module API
         class RoleFilterDependencyRepresenter <
           FilterDependencyRepresenter
           def href_callback
-            params = [grantable: { operator: '=', values: ['t'] }]
+            params = [
+              allows_becoming_assignee: { operator: '=', values: ['t'] },
+              grantable: { operator: '=', values: ['t'] }
+            ]
             escaped = CGI.escape(::JSON.dump(params))
             "#{api_v3_paths.roles}?filters=#{escaped}"
           end

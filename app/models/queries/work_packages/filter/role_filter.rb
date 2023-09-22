@@ -56,7 +56,6 @@ class Queries::WorkPackages::Filter::RoleFilter < Queries::WorkPackages::Filter:
 
     values
       .filter_map { |role_id| available_roles[role_id.to_i] }
-      
   end
 
   def where
@@ -68,7 +67,7 @@ class Queries::WorkPackages::Filter::RoleFilter < Queries::WorkPackages::Filter:
   private
 
   def roles
-    ::Role.givable.or(::GlobalRole.givable)
+    ::Role.givable.or(::GlobalRole.givable).or(::WorkPackageRole.givable)
   end
 
   def operator_for_filtering
