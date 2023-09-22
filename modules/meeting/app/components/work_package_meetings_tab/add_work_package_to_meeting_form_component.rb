@@ -48,7 +48,7 @@ module WorkPackageMeetingsTab
           url: work_package_meeting_agenda_items_path(@work_package)
         ) do |f|
           component_collection do |collection|
-            collection.with_component(Primer::Alpha::Dialog::Body.new) do
+            collection.with_component(Primer::Alpha::Dialog::Body.new(test_selector: 'op-add-work-package-to-meeting-dialog-body')) do
               form_content_partial(f)
             end
             collection.with_component(Primer::Alpha::Dialog::Footer.new) do

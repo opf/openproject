@@ -39,7 +39,8 @@ module WorkPackageMeetingsTab
     end
 
     def call
-      render(Primer::Beta::BorderBox.new(padding: :condensed)) do |border_box|
+      render(Primer::Beta::BorderBox.new(padding: :condensed,
+                                         test_selector: "op-meeting-container-#{@meeting.id}")) do |border_box|
         border_box.with_header do
           header_partial
         end

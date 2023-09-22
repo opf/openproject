@@ -53,7 +53,7 @@ module WorkPackageMeetingsTab
 
     def frame_content_partial
       component_wrapper do
-        flex_layout do |flex|
+        flex_layout(test_selector: 'op-work-package-meetings-tab-container') do |flex|
           flex.with_row do
             render(WorkPackageMeetingsTab::HeadingComponent.new(work_package: @work_package))
           end
@@ -76,13 +76,13 @@ module WorkPackageMeetingsTab
                            href: work_package_meetings_tab_index_path(@work_package,
                                                                       direction: :upcoming)) do |tab|
           tab.with_text { t("label_upcoming_meetings_short") }
-          tab.with_counter(count: @upcoming_meetings_count)
+          tab.with_counter(count: @upcoming_meetings_count, test_selector: 'op-upcoming-meetings-counter')
         end
         component.with_tab(selected: @direction == :past,
                            href: work_package_meetings_tab_index_path(@work_package,
                                                                       direction: :past)) do |tab|
           tab.with_text { t("label_past_meetings_short") }
-          tab.with_counter(count: @past_meetings_count)
+          tab.with_counter(count: @past_meetings_count, test_selector: 'op-past-meetings-counter')
         end
       end
     end

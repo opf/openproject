@@ -41,17 +41,23 @@ module WorkPackageMeetingsTab
     def call
       component_wrapper do
         flex_layout(justify_content: :space_between, align_items: :center) do |flex|
-          flex.with_column(mr: 3) do
+          flex.with_column do
             info_partial
           end
-          flex.with_column do
-            add_to_meeting_partial
+          if allowed_to_add_to_meeting?
+            flex.with_column(ml: 3) do
+              add_to_meeting_partial
+            end
           end
         end
       end
     end
 
     private
+
+    def allowed_to_add_to_meeting?
+      User.current.allowed_to?(:edit_meetings, @work_package.project)
+    end
 
     def info_partial
       render(Primer::Beta::Text.new(color: :subtle)) { t("text_add_work_package_to_meeting_description") }
@@ -63,7 +69,7 @@ module WorkPackageMeetingsTab
                id: "add-work-package-to-meeting-dialog", title: t("label_add_work_package_to_meeting_dialog_title"),
                size: :xlarge
              )) do |dialog|
-        dialog.with_show_button do |button|
+        dialog.with_show_button(test_selector: "op-add-work-package-to-meeting-dialog-trigger") do |button|
           button.with_leading_visual_icon(icon: :plus)
           t("label_add_work_package_to_meeting_dialog_button")
         end
