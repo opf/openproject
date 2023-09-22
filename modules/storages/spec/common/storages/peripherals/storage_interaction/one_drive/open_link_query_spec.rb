@@ -84,7 +84,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenLinkQuer
 
       expect(open_link_result).to be_failure
       expect(open_link_result.result).to eq(:not_found)
-      expect(open_link_result.errors.data.to_json).to eq(not_found_json)
+      expect(open_link_result.errors.data.payload.to_json).to eq(not_found_json)
     end
 
     it 'returns a forbidden error if the API call returns a 403' do
@@ -96,7 +96,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenLinkQuer
 
       expect(open_link_result).to be_failure
       expect(open_link_result.result).to eq(:forbidden)
-      expect(open_link_result.errors.data.to_json).to eq(forbidden_json)
+      expect(open_link_result.errors.data.payload.to_json).to eq(forbidden_json)
     end
   end
 end

@@ -158,7 +158,7 @@ module OAuthClients
         service_result = refresh_token
         if service_result.success?
           :connected
-        elsif service_result.result == 'invalid_request'
+        elsif service_result.errors.data.payload[:error] == 'invalid_request'
           :failed_authorization
         else
           :error
@@ -203,15 +203,17 @@ module OAuthClients
 
       ServiceResult.success(result: rack_access_token)
     rescue Rack::OAuth2::Client::Error => e
-      service_result_with_error(e.response, i18n_rack_oauth2_error_message(e))
+      service_result_with_error(:bad_request, e.response, i18n_rack_oauth2_error_message(e))
     rescue Faraday::TimeoutError, Faraday::ConnectionFailed, Faraday::ParsingError, Faraday::SSLError => e
       service_result_with_error(
-        e.response,
+        :internal_server_error,
+        e,
         "#{I18n.t('oauth_client.errors.oauth_returned_http_error')}: #{e.class}: #{e.message.to_html}"
       )
     rescue StandardError => e
       service_result_with_error(
-        e.response,
+        :error,
+        e,
         "#{I18n.t('oauth_client.errors.oauth_returned_standard_error')}: #{e.class}: #{e.message.to_html}"
       )
     end
@@ -258,10 +260,10 @@ module OAuthClients
       end
     end
 
-    def service_result_with_error(data, log_message = nil)
+    def service_result_with_error(code, data, log_message = nil)
       error_data = ::Storages::StorageErrorData.new(source: self, payload: data)
-      ServiceResult.failure(result: :bad_request,
-                            errors: ::Storages::StorageError.new(code: :bad_request, data: error_data, log_message:))
+      ServiceResult.failure(result: code,
+                            errors: ::Storages::StorageError.new(code:, data: error_data, log_message:))
     end
   end
 end

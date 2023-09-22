@@ -57,7 +57,7 @@ module Storages
             result = file_ids.map do |file_id|
               file_info_result = FileInfoQuery.call(storage: @storage, user:, file_id:)
               if file_info_result.failure? &&
-                file_info_result.errors.data.source.is_a?(::OAuthClients::ConnectionManager)
+                file_info_result.error_source.is_a?(::OAuthClients::ConnectionManager)
                 # errors in the connection manager must short circuit the query and return the error
                 return file_info_result
               end
@@ -74,11 +74,10 @@ module Storages
             if query_result.success?
               query_result.result
             else
-              storage_error = query_result.errors
               StorageFileInfo.new(
                 id: file_id,
-                status: storage_error.data.payload.dig(:error, :code),
-                status_code: Rack::Utils::SYMBOL_TO_STATUS_CODE[storage_error.code]
+                status: query_result.error_payload.dig(:error, :code),
+                status_code: Rack::Utils::SYMBOL_TO_STATUS_CODE[query_result.errors.code]
               )
             end
           end
