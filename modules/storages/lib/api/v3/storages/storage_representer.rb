@@ -51,7 +51,6 @@ module API::V3::Storages
     # LinkedResource module defines helper methods to describe attributes
     include API::Decorators::LinkedResource
     include API::Decorators::DateProperty
-    include Storages::Peripherals::StorageUrlHelper
 
     module ClassMethods
       private
@@ -149,7 +148,7 @@ module API::V3::Storages
     end
 
     link :open do
-      { href: storage_url_open(represented) }
+      { href: represented.open_link }
     end
 
     link :authorizationState do

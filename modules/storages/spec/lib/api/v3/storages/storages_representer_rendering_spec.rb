@@ -266,6 +266,12 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
           build(:one_drive_storage, oauth_application:, oauth_client: oauth_client_credentials)
         end
 
+        before do
+          Storages::Peripherals::Registry.stub('queries.one_drive.open_drive_link', ->(_) do
+            ServiceResult.success(result: 'https://my.sharepoint.com/sites/DeathStar/Documents')
+          end)
+        end
+
         it 'does not include the property hasApplicationPassword' do
           expect(generated).not_to have_json_path('hasApplicationPassword')
         end

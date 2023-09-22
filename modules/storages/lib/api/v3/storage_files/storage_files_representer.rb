@@ -47,7 +47,9 @@ module API::V3::StorageFiles
                exec_context: :decorator
 
     property :parent,
-             getter: ->(*) { API::V3::StorageFiles::StorageFileRepresenter.new(represented.parent, @storage, current_user:) },
+             getter: ->(*) do
+               API::V3::StorageFiles::StorageFileRepresenter.new(represented.parent, @storage, current_user:)
+             end,
              exec_context: :decorator
 
     collection :ancestors,

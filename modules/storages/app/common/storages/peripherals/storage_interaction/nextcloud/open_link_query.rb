@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,19 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals
-  # Helper for open links for a file link object.
-  module StorageUrlHelper
-    module_function
+module Storages
+  module Peripherals
+    module StorageInteraction
+      module Nextcloud
+        class OpenLinkQuery
+          def initialize(storage)
+            @uri = storage.uri
+          end
 
-    def storage_url_open_file(storage, file_id, open_location: false)
-      location_flag = ActiveModel::Type::Boolean.new.cast(open_location) ? 0 : 1
+          def self.call(storage:, user:, file_id:, open_location: false)
+            new(storage).call(user:, file_id:, open_location:)
+          end
 
-      "#{storage.host}/index.php/f/#{file_id}?openfile=#{location_flag}"
-    end
+          # rubocop:disable Lint/UnusedMethodArgument
+          def call(user:, file_id:, open_location: false)
+            location_flag = open_location ? 0 : 1
+            ServiceResult.success(result: File.join(@uri.to_s, "index.php/f/#{file_id}?openfile=#{location_flag}"))
+          end
 
-    def storage_url_open(storage)
-      "#{storage.host}/index.php/apps/files"
+          # rubocop:enable Lint/UnusedMethodArgument
+        end
+      end
     end
   end
 end

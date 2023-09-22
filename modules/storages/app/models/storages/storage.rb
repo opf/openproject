@@ -110,6 +110,10 @@ module Storages
       URI(host).normalize
     end
 
+    def open_link
+      raise Errors::SubclassResponsibility
+    end
+
     def oauth_configuration
       raise Errors::SubclassResponsibility
     end
