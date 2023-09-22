@@ -60,9 +60,7 @@ class WorkPackageMeetingsTabController < ApplicationController
     if call.success?
       set_agenda_items(:upcoming) # always switch back to the upcoming tab after adding the work package to a meeting
 
-      # close dialog via rerendering of heading component which includes the dialog
-      update_heading_component_via_turbo_stream
-
+      # update the whole index component as we need to update the counters in the tabbed nav as well
       update_index_component_via_turbo_stream(
         direction: :upcoming,
         agenda_items_grouped_by_meeting: @agenda_items_grouped_by_meeting,
