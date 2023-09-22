@@ -89,7 +89,8 @@ class User < Principal
          :notified_globally,
          :watcher_recipients,
          :with_time_zone,
-         :having_reminder_mail_to_send
+         :having_reminder_mail_to_send,
+         :having_entity_membership
 
   def self.create_blocked_scope(scope, blocked)
     scope.where(blocked_condition(blocked))

@@ -33,7 +33,7 @@
               invited_user_list.with_row do
                 flex_layout(align_items: :center) do |user_row_container|
                   user_row_container.with_column(flex: :auto) do
-                    render(Users::AvatarComponent.new(user: User.find(user), size: :medium))
+                    render(Users::AvatarComponent.new(user: user, size: :medium))
                   end
 
                   user_row_container.with_column(color: :subtle, style: "width: 150px;") do
