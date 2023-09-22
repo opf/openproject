@@ -2334,7 +2334,7 @@ sv:
   permission_add_work_package_notes: "Lägg till anteckningar"
   permission_add_work_packages: "Lägg till arbetspaket"
   permission_add_messages: "Publicera meddelanden"
-  permission_add_project: "Create projects"
+  permission_add_project: "Skapa projekt"
   permission_archive_project: "Arkivera projekt"
   permission_create_user: "Skapa användare"
   permission_manage_user: "Redigera användare"
