@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,7 +30,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Filter by date with "is empty"', js: true do
+RSpec.describe 'Filter by date with "is empty"', :js, :with_cuprite do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
 
@@ -62,7 +64,7 @@ RSpec.describe 'Filter by date with "is empty"', js: true do
     create(:date_wp_custom_field,
            name: 'Date CF',
            is_filter: true,
-           searchable: true).tap do |custom_field|
+           searchable: true) do |custom_field|
       project.work_package_custom_fields << custom_field
       work_package_with_custom_date.type.custom_fields << custom_field
 
