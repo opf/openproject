@@ -30,7 +30,7 @@ export class WorkPackageShareModalComponent extends OpModalComponent implements 
 
     this.workPackage = this.locals.workPackage as WorkPackageResource;
     // TODO: put into path helper
-    this.frameSrc = `/work_packages/${this.workPackage.id as string}/share`;
+    this.frameSrc = `/work_packages/${this.workPackage.id as string}/shares`;
   }
 
   ngOnInit() {

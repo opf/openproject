@@ -458,7 +458,7 @@ OpenProject::Application.routes.draw do
     get 'details/*state' => 'work_packages#index', on: :collection, as: :details
 
     # Rails managed sharing route
-    get '/share' => 'work_packages/shares#index', on: :member
+    get '/shares' => 'work_packages/shares#index', on: :member
 
     # states managed by client-side (angular) routing on work_package#show
     get '/' => 'work_packages#index', on: :collection, as: 'index'
