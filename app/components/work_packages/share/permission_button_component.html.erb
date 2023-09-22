@@ -1,0 +1,11 @@
+<%=
+  render(Primer::Alpha::ActionMenu.new) do |menu|
+    menu.with_show_button(color: :subtle) do |button|
+      button.with_trailing_action_icon(icon: :"triangle-down")
+      @shown_value
+    end
+    options.each do |option|
+      menu.with_item(label: option[:label], value: option[:value])
+    end
+  end
+%>
