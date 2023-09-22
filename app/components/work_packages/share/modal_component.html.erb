@@ -10,7 +10,7 @@
             member: Member.new(entity: @work_package),
             work_package: @work_package,
             method: :post,
-            submit_path: shares_work_package_path(@work_package)))
+            submit_path: work_package_shares_path(@work_package)))
         end
 
         if shared_users.empty?

@@ -29,16 +29,15 @@
 class WorkPackages::SharesController < ApplicationController
   include OpTurbo::ComponentStream
 
+  before_action :find_work_package
+
   # Todo: access control
 
   def index
-    @work_package = WorkPackage.find(params[:id])
-
     render WorkPackages::Share::ModalComponent.new(work_package: @work_package), layout: nil
   end
 
   def create
-    @work_package = WorkPackage.find(params[:id])
     # Todo: Role selection, validation, error handling?
     Member.create(entity: @work_package,
                   user_id: params[:member][:user_id],
@@ -52,4 +51,10 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   # Todo: Delete
+
+  private
+
+  def find_work_package
+    @work_package = WorkPackage.find(params[:work_package_id])
+  end
 end
