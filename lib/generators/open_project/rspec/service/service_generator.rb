@@ -28,42 +28,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Rspec
-  module Generators
-    class ServiceGenerator < Rails::Generators::Base
-      source_root File.expand_path("templates", __dir__)
+module OpenProject
+  module Rspec
+    module Generators
+      class ServiceGenerator < Rails::Generators::Base
+        source_root File.expand_path("templates", __dir__)
 
-      argument :service_name,
-               type: :string,
-               required: true,
-               desc: 'Constant of the service the spec is being generated for'
+        argument :service_name,
+                 type: :string,
+                 required: true,
+                 desc: 'Constant of the service the spec is being generated for'
 
-      class_option :module_name,
-                   aliases: %i[m],
-                   type: :string,
-                   optional: true,
-                   desc: 'Module to generate the service spec file for'
+        class_option :module_name,
+                     aliases: %i[m],
+                     type: :string,
+                     optional: true,
+                     desc: 'Module to generate the service spec file for'
 
-      def generate_service_spec
-        template 'service_spec.rb', file_path
-      end
+        def generate_service_spec
+          template 'service_spec.rb', file_path
+        end
 
-      private
+        private
 
-      def file_path
-        namespace = service_name.deconstantize.underscore
-        file_name = "#{service_name.demodulize.underscore}_spec.rb"
+        def file_path
+          namespace = service_name.deconstantize.underscore
+          file_name = "#{service_name.demodulize.underscore}_spec.rb"
 
-        Rails.root.join(service_specs_root_directory,
-                        namespace,
-                        file_name)
-      end
+          Rails.root.join(service_specs_root_directory,
+                          namespace,
+                          file_name)
+        end
 
-      def service_specs_root_directory
-        if options[:module_name]
-          "modules/#{options[:module_name]}/spec/services"
-        else
-          "spec/services"
+        def service_specs_root_directory
+          if options[:module_name]
+            "modules/#{options[:module_name]}/spec/services"
+          else
+            "spec/services"
+          end
         end
       end
     end

@@ -4,13 +4,13 @@ Description:
     the service spec file in the root /specs directory.
 
 Example:
-    bin/rails generate rspec:service Some::Service
+    bin/rails generate open_project:rspec:service Some::Service
 
     This will create:
         /specs/services/some/service_spec.rb
 
 Example:
-    bin/rails generate rspec:service Some::Service -m meetings
+    bin/rails generate open_project:rspec:service Some::Service -m meetings
 
     This will create:
         /modules/meetings/specs/services/some/service_spec.rb
