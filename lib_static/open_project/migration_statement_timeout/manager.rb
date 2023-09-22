@@ -30,6 +30,74 @@
 
 module MigrationStatementTimeout
   module Manager
+    class SetMinimumStatementTimeout
+      attr_reader :conn
+
+      def initialize(conn, migration)
+        @conn = conn
+        @migration = migration
+      end
+
+      delegate :say, to: :@migration
+
+      def call(min_timeout)
+        if same_timeout?(min_timeout)
+          say "ignore set statement_timeout to #{min_timeout}: " \
+              "current statement timeout is already #{current_timeout}"
+        elsif current_timeout_disabled?
+          say "ignore set statement_timeout to #{min_timeout}: " \
+              "current statement timeout is disabled (value is 0)"
+        elsif current_timeout_is_greater_than?(min_timeout)
+          say "ignore set statement_timeout to #{min_timeout}: " \
+              "current statement timeout #{current_timeout} is greater"
+        else
+          set_timeout(min_timeout)
+          say "set statement_timeout to #{min_timeout} (was #{current_timeout} before)"
+        end
+      end
+
+      def current_timeout_disabled?
+        in_ms(current_timeout).zero?
+      end
+
+      def same_timeout?(min_timeout)
+        in_ms(current_timeout) == in_ms(min_timeout)
+      end
+
+      def current_timeout_is_greater_than?(min_timeout)
+        in_ms(min_timeout).positive? && in_ms(current_timeout) > in_ms(min_timeout)
+      end
+
+      def current_timeout
+        @current_timeout ||= get_timeout
+      end
+
+      def get_timeout
+        conn.execute('SHOW statement_timeout').first['statement_timeout']
+      end
+
+      def set_timeout(timeout)
+        conn.execute("SET LOCAL statement_timeout = '#{timeout}'")
+      end
+
+      def in_ms(timeout)
+        case timeout
+        when Integer
+          timeout
+        when /\A\d+(ms)?\z/
+          timeout.to_i
+        when /\A\d+s\z/
+          timeout.to_i * 1000
+        when /\A\d+min\z/
+          timeout.to_i * 1000 * 60
+        when /\A\d+h\z/
+          timeout.to_i * 1000 * 60 * 60
+        else
+          raise "Unrecognized statement timeout duration #{timeout.inspect}"
+        end
+      end
+    end
+
     def exec_migration(conn, direction)
       min_timeout = self.class.minimum_statement_timeout
       return super unless min_timeout
@@ -40,44 +108,9 @@ module MigrationStatementTimeout
               'Try removing disable_ddl_transaction! from your migration.'
       end
 
-      set_statement_timeout_at_least_at(conn, min_timeout)
+      SetMinimumStatementTimeout.new(conn, self).call(min_timeout)
 
       super
-    end
-
-    def set_statement_timeout_at_least_at(conn, min_timeout)
-      current_timeout = get_timeout(conn)
-      if in_ms(min_timeout) > in_ms(current_timeout)
-        set_timeout(conn, min_timeout)
-        say "set statement_timeout to #{min_timeout} (was #{current_timeout} before)"
-      else
-        say "ignore set statement_timeout to #{min_timeout}: it would be lower than current value #{current_timeout}"
-      end
-    end
-
-    def set_timeout(conn, timeout)
-      conn.execute("SET LOCAL statement_timeout = '#{timeout}'")
-    end
-
-    def get_timeout(conn)
-      conn.execute('SHOW statement_timeout').first['statement_timeout']
-    end
-
-    def in_ms(timeout)
-      case timeout
-      when Integer
-        timeout
-      when /\A\d+(ms)?\z/
-        timeout.to_i
-      when /\A\d+s\z/
-        timeout.to_i * 1000
-      when /\A\d+min\z/
-        timeout.to_i * 1000 * 60
-      when /\A\d+h\z/
-        timeout.to_i * 1000 * 60 * 60
-      else
-        raise "Unrecognized statement timeout duration #{timeout.inspect}"
-      end
     end
   end
 end
