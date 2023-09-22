@@ -46,29 +46,42 @@ RSpec.describe BasicData::WorkPackageRoleSeeder do
           - reference: :role_work_package_edit
             name: Edit work package
             position: 3
+            builtin: :work_package_editor
             permissions:
             - :become_assignee
             - :log_time
           - reference: :role_work_package_comment
             name: Comment work package
+            builtin: :work_package_commenter
             position: 5
             permissions:
             - :add_comment
+          - reference: :role_work_package_view
+            name: View work package
+            builtin: :work_package_viewer
+            position: 6
+            permissions:
+            - :view_work_packages
       SEEDING_DATA_YAML
     end
 
-    it 'creates the corresponding work package roles with the given attributes' do
+    it 'creates the corresponding work package roles with the given attributes', :aggregate_failures do
       expect(WorkPackageRole.count)
-        .to eq(2)
+        .to eq(3)
       expect(WorkPackageRole.find_by(name: 'Edit work package'))
         .to have_attributes(
-          builtin: Role::NON_BUILTIN,
+          builtin: Role::BUILTIN_WORK_PACKAGE_EDITOR,
           permissions: %i[become_assignee log_time]
         )
       expect(WorkPackageRole.find_by(name: 'Comment work package'))
         .to have_attributes(
-          builtin: Role::NON_BUILTIN,
+          builtin: Role::BUILTIN_WORK_PACKAGE_COMMENTER,
           permissions: %i[add_comment]
+        )
+      expect(WorkPackageRole.find_by(name: 'View work package'))
+        .to have_attributes(
+          builtin: Role::BUILTIN_WORK_PACKAGE_VIEWER,
+          permissions: %i[view_work_packages]
         )
     end
 

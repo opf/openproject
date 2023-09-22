@@ -36,30 +36,9 @@ RSpec.describe 'Work package sharing', :js do
            permissions: %i(view_work_packages
                            share_work_packages))
   end
-  let(:view_work_package_role) do
-    create(:work_package_role,
-           permissions: %i(view_work_packages
-                           edit_work_packages
-                           work_package_assigned
-                           add_work_package_notes
-                           edit_own_work_package_notes
-                           manage_work_package_relations
-                           copy_work_packages
-                           export_work_packages))
-  end
-  let(:comment_work_package_role) do
-    create(:work_package_role,
-           permissions: %i(view_work_packages
-                           work_package_assigned
-                           add_work_package_notes
-                           edit_own_work_package_notes
-                           export_work_packages))
-  end
-  let(:edit_work_package_role) do
-    create(:work_package_role,
-           permissions: %i(view_work_packages
-                           export_work_packages))
-  end
+  let(:view_work_package_role) { create(:view_work_package_role) }
+  let(:comment_work_package_role) { create(:comment_work_package_role) }
+  let(:edit_work_package_role) { create(:edit_work_package_role) }
   let(:project) do
     create(:project,
            members: { current_user => [sharer_role],

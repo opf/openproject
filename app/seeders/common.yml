@@ -243,6 +243,7 @@ work_package_roles:
   - reference: :default_role_work_package_editor
     t_name: Work Package Editor
     position: 7
+    builtin: :work_package_editor
     permissions:
       - :view_work_packages
       - :edit_work_packages
@@ -254,6 +255,7 @@ work_package_roles:
       - :export_work_packages
   - reference: :default_role_work_package_commenter
     t_name: Work Package Commenter
+    builtin: :work_package_commenter
     position: 8
     permissions:
       - :view_work_packages
@@ -263,6 +265,7 @@ work_package_roles:
       - :export_work_packages
   - reference: :default_role_work_package_viewer
     t_name: Work Package Viewer
+    builtin: :work_package_viewer
     position: 9
     permissions:
       - :view_work_packages
