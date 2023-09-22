@@ -19,15 +19,54 @@ Permissions control what users can see and do within OpenProject. Permission are
 
 A role bundles a collection of permissions. It is an convenient way of granting permissions to multiple users in your organization that need the same permissions or restrictions.
 
-A user can have one or more roles which grant permissions on different levels:
+A user can have one or more roles which grant permissions on different levels.
 
-| Role type and description                                    | Scope of the role                                            | Permission examples                                          | Customization options                                        |
-| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| **Administrator**<br />Administrators have full access to all settings and all projects in an OpenProject environment. The permissions of the Administrator role can not be changed.<br /> | Application-level: Full control of all aspects of the application | - Assign administration privileges to other users<br />- Create and restore backups in the web interface<br />- Create and configure an OAuth app<br />- Configure custom fields<br />- Archive projects/restore projects<br />- Configure global roles<br />- Configure project roles | Cannot be changed                                            |
-| **Global role**<br />Global roles allow Administrators to delegate administrative tasks to individual users. | Application-level: Permissions scoped to specific administrative tasks (not restricted to specific projects) | - Manage users<br />- Create projects                        | Administrators can create new global roles and assign global permissions to those role |
-| **Project role**<br />A project role is a set of **permissions** that can be assigned to any project member. Multiple roles can be assigned to the same project member.<br /><br />**Note:** If a module is not enabled in a project it is not shown to a user despite having a permission for it. | Project-level: Permissions scoped to individual projects (a user can have different roles for individual projects) | - Create work packages (in a project)<br />- Delete wiki pages (in a specific project) | Create different project roles with individual permission sets |
-| **Non-member**<br />Non member is the default role of users of your OpenProject instance who have not been added to a project. This only applies if the project has been set as **[public](../user-guide/projects/#set-a-project-to-public)** in the project settings.<br /><br /><br />**Note:** The *Non-member* role cannot be deleted. | Project-level: Permissions scoped to individual projects for users which are logged in | - View work packages for users that are logged in            | Assign different permissions to the role *Non-member*        |
-| **Anonymous**<br />OpenProject allows to share project information with anonymous users which are not logged in. This is helpful to communicate projects goals and activities with a public community.<br /><br /> **Note**: This only applies if you disabled the need for authentication for your instance and if the project is set as **public**.<br />The *Anonymous* role cannot be deleted. | Project-level: Permissions scoped to individual projects for users which are <u>not</u> logged in | - View work packages for users that are not logged in        | Assign different permissions to the role *Anonymous*         |
+### Administrator
+
+**Administrators** have full access to all settings and all projects in an OpenProject environment. The permissions of the Administrator role can not be changed.
+
+
+| Scope of the role                                            | Permission examples                                          | Customization options                                        |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Application-level: Full control of all aspects of the application | - Assign administration privileges to other users<br />- Create and restore backups in the web interface<br />- Create and configure an OAuth app<br />- Configure custom fields<br />- Archive projects/restore projects<br />- Configure global roles<br />- Configure project roles | Cannot be changed | 
+
+### Global role
+
+**Global roles** allow Administrators to delegate administrative tasks to individual users. | Application-level: Permissions scoped to specific administrative tasks (not restricted to specific projects)
+
+| Scope of the role                                            | Permission examples                                          | Customization options                                        |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Application-level: Permissions scoped to specific administrative tasks (not restricted to specific projects) | - Manage users<br />- Create projects                        | Administrators can create new global roles and assign global permissions to those role |
+
+### Project role
+
+**A project role** is a set of **permissions** that can be assigned to any project member. Multiple roles can be assigned to the same project member.
+**Note:** If a module is not enabled in a project it is not shown to a user despite having a permission for it.
+
+| Scope of the role                                            | Permission examples                                          | Customization options                                        |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Project-level: Permissions scoped to individual projects (a user can have different roles for individual projects) | - Create work packages (in a project)<br />- Delete wiki pages (in a specific project) | Create different project roles with individual permission sets |
+
+### Non-member
+
+**Non member** is the default role of users of your OpenProject instance who have not been added to a project. This only applies if the project has been set as **[public](../user-guide/projects/#set-a-project-to-public)** in the project settings.
+**Note:** The *Non-member* role cannot be deleted. 
+
+
+| Scope of the role                                            | Permission examples                                          | Customization options                                        |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Project-level: Permissions scoped to individual projects for users which are logged in | - View work packages for users that are logged in            | Assign different permissions to the role *Non-member*     |
+
+
+### Anonymous
+
+OpenProject allows to share project information with **anonymous** users which are not logged in. This is helpful to communicate projects goals and activities with a public community.
+
+**Note**: This only applies if you disabled the need for authentication for your instance and if the project is set as **public**. The *Anonymous* role cannot be deleted.
+
+| Scope of the role                                            | Permission examples                                          | Customization options                                        |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Project-level: Permissions scoped to individual projects for users which are <u>not</u> logged in | - View work packages for users that are not logged in        | Assign different permissions to the role *Anonymous*         |
 
 ## Customize roles with individual permissions 
 
