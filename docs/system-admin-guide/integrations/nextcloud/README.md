@@ -243,10 +243,14 @@ On Nextcloud inside the _OpenProject Integration_ App, when setting up an OpenPr
 
 If you are facing any of the aforementioned errors while trying to set up the `Project folders` feature for the first time, or you don't care about the `OpenProject` user/group/folder data then the easiest solution is to remove any of the created `OpenProject` user/group/folder entities. Please follow the following steps:
 
-- Disable the _OpenProject Integration_ App (Note: You need to disable the _OpenProject Integration_ App because user/group `OpenProject` is protected by the app, and it won't allow you to delete the user/group named `OpenProject`. Disabling and enabling the app is safe. No app data will be deleted.)
+- Disable the _OpenProject Integration_ App
+  **Note**: You need to disable the _OpenProject Integration_ App because user/group `OpenProject` is protected by the app, and it won't allow you to delete the user/group named `OpenProject`. Disabling and enabling the app is safe. No app data will be deleted.
+
 - Remove user `OpenProject`
 - Remove group `OpenProject`
-- Inside the _Group folders_ App (*Administration settings → Administration → Group folders*), remove group folder `OpenProject` (**Caution: that will delete all files in that folder. Make sure to make a copy if you want to keep these files!**)
+- Inside the _Group folders_ App (*Administration settings → Administration → Group folders*), remove group folder `OpenProject`.
+  **Caution: this step will delete all files in that folder. Make sure to make a copy if you want to keep these files!**
+
 - Enable the _OpenProject Integration_ App
 - Set up the project folders again
 
@@ -268,10 +272,13 @@ If you do care about the `OpenProject` user/group/folder data then the condition
 
 If you face an error while trying to delete or disable user/group "OpenProject" then that's because user/group is protected by the _OpenProject Integration_ App. If you really need to delete the user or group follow these steps:
 
-1. Disable the _OpenProject Integration_ App (Note: Disabling and enabling the app is safe. No app data will be deleted.)
+1. Disable the _OpenProject Integration_ App 
+   **Note**: Disabling and enabling the app is safe. No app data will be deleted.
 2. Remove user `OpenProject`
 3. Remove group `OpenProject`
-4. Inside the _Group folders_ App (*Administration settings → Administration → Group folders*), remove group folder `OpenProject` (**Caution: that will delete all files in that folder. Make sure to make a copy if you want to keep these files!**)
+4. Inside the _Group folders_ App (*Administration settings → Administration → Group folders*), remove group folder `OpenProject`. 
+
+   **Caution: this step will delete all files in that folder. Make sure to make a copy if you want to keep these files!**
 5. Enable the _OpenProject Integration_ App
 
 ### Setting up Nextcloud in OpenProject
@@ -319,28 +326,44 @@ The integration OpenProject with Nextcloud makes use of authorized HTTP requests
 
 #### Project folders are not created or you do not have access
 
-You have setup the *Project folder* in both environments, Nextcloud and OpenProject but you cannot see any folder `OpenProject` in the root directory of **Files** app in Nextcloud.
+You have setup the *Project folder* in both environments (Nextcloud and OpenProject), but you cannot see any folder named `OpenProject` in the root directory of **Files** app in Nextcloud.
 
-1. Check that OpenProject's background worker are running. These workers create these folders and set the correct access permissions per user. For verification you have two options:
-   1. If you have root access to the OpenProject server where your worker should be running then check if there actually worker processes present:
+1. Check if OpenProject's background workers are running. These workers create these folders and set the correct access permissions per user. Vou have two options for verification:
+
+   a. If you have root access to the OpenProject server where your worker should be running, check if the worker processes are in fact present:
    `ps aux | grep job`
    The result should show lines containing `bundle exec rake jobs:work`
-   2. If you don't have root access to the OpenProject server then you can check the following URL in your browser: `https://<your-openproject-server>/health_checks/all` (please insert the domain name of your OpenProject server). If your background workers are running, you should see a line like that `delayed_jobs_never_ran: PASSED All previous jobs have completed within the past 5 minutes`
+
+   b. If you don't have root access to the OpenProject server then you can check the following URL in your browser: `https://<your-openproject-server>/health_checks/all` (please insert the domain name of your OpenProject server). If your background workers are running, you should see a line like that `delayed_jobs_never_ran: PASSED All previous jobs have completed within the past 5 minutes`
+
 2. Ensure that your project is setup correctly:
-   1. In your browser go to a project for which you want to have the **Project folders** feature to be working.
-   2. In the project's settings, check that
-      1. The **File storages** module is enabled
-      2. That the correct storage is enabled on that project and that **Project folders** setting is set to "New folder with automatically managed permissions"
-3. Ensure that your user is full set up: OpenProject needs to know your Nextcloud user ID so that it can give your Nextcloud account the correct assess right to the project folder. That ID is obtained when you log into Nextcloud from within OpenProject: Go to a work package in that project, open the **Files** tab and ensure that you are logged-in into the Nextcloud storage. If you are not logged in, you should see a button to log-in. Click that button and follow the instructions on the screen.
-4. If your OpenProject account is not an admin user, you need to make sure that your user is a member of the project and that your role has at least the permission to `Read files`. To check that the permissions for your role are correctly set-up you need to have an admin account. In the section **File storages** at least the permission to `Read files` needs to be checked.
-5. If you changed anything in the three steps above, please wait up-to 30 seconds. If the background workers are working fine then you should see the project folder.
-6. If nothing of that worked, check that your network connection is fine:
+   1. In your browser navigate to the project for which you want the **Project folders** feature to be working.
+
+   2. In the *Project settings*, make sure that: 
+
+      - the **File storages** module is enabled
+
+      - the correct storage is enabled for that project 
+      - that **Project folders** setting is set to "New folder with automatically managed permissions"
+
+3. Ensure that your user is fully set up: OpenProject needs to know your Nextcloud user ID so that it can give your Nextcloud account the correct access rights to the project folder. That ID is obtained when you log into Nextcloud from within OpenProject. 
+
+   - To check: navigate to any work package in that project , open the **Files** tab and make sure that you are logged into the Nextcloud storage. If you are not logged in, you should see a *Log in* button. Click that button and follow the instructions on the screen.
+
+4. If your OpenProject account is not an admin user, you need to make sure that your user is a member of the project and that your role has at least the permission to `Read files`. To check that the permissions for your role are correctly set-up you need to have an admin account or contact your administrator. In the section **File storages** at least the permission to `Read files` needs to be checked.
+
+5. If you changed anything in the steps above, please wait up to 30 seconds. If the background workers are working fine then you should see the project folder.
+
+6. If none of the aforementioned steps worked, check whether your network connection is fine:
    1. Login into your OpenProject server via the command line interface. If you have multiple servers, chose the one that has the background workers running.
-   2. Test the network connection from this server to your Nextcloud server. All you need is the Nextcloud host name and the **Application password**. You received the application password at the end of the setup of the app **OpenProject integration** in Nextcloud. If you do not posses the application password anymore, you can reset it. Just make sure to not forget updating the settings of the file storage in OpenProject accordingly. The following cURL command should respond with an XML containing details for the **OpenProject** user (Please make sure to use the right application-password and Nextcloud host name):
+
+   2. Test the network connection from this server to your Nextcloud server. All you need is the Nextcloud host name and the **Application password**. You received the application password at the end of the setup of the app **OpenProject integration** in Nextcloud. 
+
+      If you do not posses the application password anymore, you can reset it. Make sure not to forget updating the settings of the file storage in OpenProject accordingly. The following cURL command should respond with an XML containing details for the **OpenProject** user (**Please make sure to use the right application-password and Nextcloud host name**):
      ```
      curl -u 'OpenProject:<application-password>' https://<nextcloud-host-name>/ocs/v1.php/cloud/users/OpenProject -H 'OCS-APIRequest: true' -v`
      ```
-     
+
 
 ## Getting support
 
