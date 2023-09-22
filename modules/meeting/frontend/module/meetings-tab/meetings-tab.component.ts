@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2023 the OpenProject GmbH
 //
@@ -26,36 +26,40 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Input, OnInit, AfterViewInit, ElementRef } from '@angular/core';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { TabComponent } from "core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import {
+  AfterViewInit, ChangeDetectionStrategy,
+  Component, ElementRef, Input, OnInit,
+} from '@angular/core';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { TabComponent } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 @Component({
-  selector: 'meetings-tab',
-  templateUrl: './meetings-tab.template.html'
+  selector: 'op-meetings-tab',
+  templateUrl: './meetings-tab.template.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MeetingsTabComponent implements OnInit, TabComponent {
-  @Input() public workPackage: WorkPackageResource;
-  turboFrameSrc: string;
+export class MeetingsTabComponent implements OnInit, AfterViewInit, TabComponent {
+  @Input() public workPackage:WorkPackageResource;
+  turboFrameSrc:string;
 
   constructor(
-    private elementRef: ElementRef,
-    readonly PathHelper: PathHelperService,
-    readonly I18n: I18nService
+    private elementRef:ElementRef,
+    readonly PathHelper:PathHelperService,
+    readonly I18n:I18nService,
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit():void {
     // TODO: Should we try to restore the last selected tab via localStorage as done in following commented code?
     //
     // const storedSrc = localStorage.getItem(`turboFrameSrcMeetingsTabForWorkPackage${this.workPackage.id}`);
     // this.turboFrameSrc = storedSrc ? storedSrc : `/work_packages/${this.workPackage.id}/meetings/tab`;
 
-    this.turboFrameSrc = `/work_packages/${this.workPackage.id}/meetings/tab`;
+    this.turboFrameSrc = `${this.PathHelper.staticBase}/work_packages/${this.workPackage.id}/meetings/tab`;
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit():void {
     // TODO: Should we try to restore the last selected tab via localStorage as done in following commented code?
     //
     // const turboFrame = this.elementRef.nativeElement.querySelector('#work-package-meetings-tab-content');

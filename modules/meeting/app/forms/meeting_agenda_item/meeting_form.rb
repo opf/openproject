@@ -30,16 +30,22 @@ class MeetingAgendaItem::MeetingForm < ApplicationForm
   include Redmine::I18n
 
   form do |agenda_item_form|
-    agenda_item_form.select_list(
+    agenda_item_form.autocompleter(
       name: :meeting_id,
       required: true,
       include_blank: false,
       label: Meeting.model_name.human,
-      caption: I18n.t("label_meeting_selection_caption")
-    ) do |meeting_select_list|
-      # TODO: Clarify scope
-      StructuredMeeting.open.where('meetings.start_time >= ?', Time.zone.now).each do |meeting|
-        meeting_select_list.option(
+      caption: I18n.t("label_meeting_selection_caption"),
+      autocomplete_options: {
+        multiple: false
+      }
+    ) do |select|
+      StructuredMeeting
+        .open
+        .visible
+        .where('meetings.start_time >= ?', Time.zone.now)
+        .find_each do |meeting|
+        select.option(
           label: "#{meeting.title} #{format_date(meeting.start_time)} #{format_time(meeting.start_time, false)}",
           value: meeting.id
         )
