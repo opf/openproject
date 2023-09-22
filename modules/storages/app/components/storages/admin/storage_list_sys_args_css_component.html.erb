@@ -1,0 +1,27 @@
+<%= render(Primer::Beta::BorderBox.new(classes: 'StorageListCss')) do |component| %>
+  <%= component.with_header(color: :subtle) do
+        I18n.t('storages.count', count: storages.size)
+      end %>
+
+  <%= storages.each do |storage| %>
+    <%= component.with_row(scheme: :default, color: :subtle, id: storage_row_css_id(storage), classes: 'StorageListCss-row') do %>
+      <div style="grid-area: Name">
+        <%= unless storage.configured?
+              render(Primer::Beta::Octicon.new(:'alert-fill', size: :small, color: :severe, mr: 2))
+            end %>
+
+        <%= render(Primer::Beta::Text.new(color: :default, font_weight: :bold)) { storage.name } %>
+      </div>
+
+      <div style="grid-area: Time">
+        <%= I18n.t('activity.item.created_on', datetime: helpers.format_time(storage.created_at)).capitalize %>
+      </div>
+
+      <%= render(Primer::Beta::Truncate.new(style: "grid-area: Creator")) do %>
+        <%= render(Users::AvatarComponent.new(user: storage.creator, size: :mini, link: false, show_name: true)) %>
+      <% end %>
+      <%= render(Primer::Beta::Truncate.new(justify_content: :flex_end, style: "grid-area: Type")) { storage.short_provider_type } %>
+      <%= render(Primer::Beta::Truncate.new(justify_content: :flex_end, style: "grid-area: Host")) { storage.host } %>
+    <% end %>
+  <% end %>
+<% end %>
