@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: Project Activity
+  title: Activity
   priority: 890
 description: Find out about the Activity within a project
 keywords: activity

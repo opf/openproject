@@ -151,7 +151,7 @@ class OAuthClientsController < ApplicationController
 
   def redirect_user_or_admin(redirect_uri = nil)
     # This needs to be modified as soon as we support more integration types.
-    if User.current.admin && redirect_uri && nextcloud?
+    if User.current.admin && redirect_uri && (nextcloud? || one_drive?)
       yield
     elsif redirect_uri
       flash[:error] = [t(:'oauth_client.errors.oauth_issue_contact_admin')]
@@ -163,6 +163,10 @@ class OAuthClientsController < ApplicationController
 
   def nextcloud?
     @oauth_client&.integration&.provider_type == ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+  end
+
+  def one_drive?
+    @oauth_client&.integration&.provider_type == ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
   end
 
   def get_redirect_uri

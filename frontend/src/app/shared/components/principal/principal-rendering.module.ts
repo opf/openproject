@@ -1,8 +1,9 @@
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OpPrincipalComponent } from './principal.component';
 import { OpPrincipalListComponent } from './principal-list.component';
 import { PrincipalRendererService } from './principal-renderer.service';
+import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-elements.helper';
 
 @NgModule({
   imports: [
@@ -20,4 +21,8 @@ import { PrincipalRendererService } from './principal-renderer.service';
     OpPrincipalListComponent,
   ],
 })
-export class OpenprojectPrincipalRenderingModule { }
+export class OpenprojectPrincipalRenderingModule {
+  constructor(readonly injector:Injector) {
+    registerCustomElement('opce-principal', OpPrincipalComponent, { injector });
+  }
+}

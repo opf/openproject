@@ -162,7 +162,7 @@ RSpec.describe User, 'allowed_to?' do
           it { expect(user).not_to be_allowed_to(permission, project) }
         end
 
-        context 'and the permission being assigend to the non-member role' do
+        context 'and the permission being assigned to the non-member role' do
           before do
             non_member = Role.non_member
             non_member.add_permission! permission

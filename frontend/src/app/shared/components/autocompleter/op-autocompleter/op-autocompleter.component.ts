@@ -5,7 +5,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ContentChild,
+  ContentChild, ElementRef,
   EventEmitter,
   HostBinding,
   Input,
@@ -50,6 +50,7 @@ import { OpAutocompleterHeaderTemplateDirective } from './directives/op-autocomp
 import { OpAutocompleterLabelTemplateDirective } from './directives/op-autocompleter-label-template.directive';
 import { OpAutocompleterOptionTemplateDirective } from './directives/op-autocompleter-option-template.directive';
 import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 @Component({
   selector: 'op-autocompleter',
@@ -67,8 +68,9 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   @Input() public filters?:IAPIFilter[] = [];
 
-  @Input() public resource:resource;
+  @Input() public resource:TOpAutocompleterResource;
 
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   @Input() public model?:any;
 
   @Input() public searchKey?:string = '';
@@ -82,6 +84,12 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
   @Input() public labelRequired?:boolean = true;
 
   @Input() public name?:string;
+
+  @Input() public inputName?:string;
+
+  @Input() public inputValue?:string;
+
+  @Input() public inputBindValue = 'id';
 
   @Input() public required?:boolean = false;
 
@@ -227,17 +235,29 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
   initialDebounce = true;
 
   constructor(
+    readonly elementRef:ElementRef,
     readonly opAutocompleterService:OpAutocompleterService,
     readonly cdRef:ChangeDetectorRef,
     readonly ngZone:NgZone,
     private readonly I18n:I18nService,
   ) {
     super();
+    populateInputsFromDataset(this);
   }
 
   ngOnInit() {
     if (!!this.getOptionsFn || this.defaultData) {
       this.typeahead = new BehaviorSubject<string>('');
+    }
+
+    if (this.inputValue && !this.model) {
+      this
+        .opAutocompleterService
+        .loadValue(this.inputValue, this.resource)
+        .subscribe((resource) => {
+          this.model = resource;
+          this.cdRef.detectChanges();
+        });
     }
   }
 
@@ -271,6 +291,11 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
         }
       }, 25);
     });
+  }
+
+  public get mappedInputValue():string|number {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    return this.model ? (this.model[this.inputBindValue] as string|number) : '';
   }
 
   public repositionDropdown() {

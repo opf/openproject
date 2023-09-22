@@ -81,20 +81,64 @@ module Storages
           end
 
           def storage_files(json_files)
-            json_files.map do |json|
+            files = json_files.map { |json| storage_file(json) }
+
+            parent_reference = json_files.first[:parentReference]
+
+            StorageFiles.new(files, parent(parent_reference), forge_ancestors(parent_reference))
+          end
+
+          def storage_file(json_file)
+            StorageFile.new(
+              id: json_file[:id],
+              name: json_file[:name],
+              size: json_file[:size],
+              mime_type: Util.mime_type(json_file),
+              created_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :createdDateTime)),
+              last_modified_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :lastModifiedDateTime)),
+              created_by_name: json_file.dig(:createdBy, :user, :displayName),
+              last_modified_by_name: json_file.dig(:lastModifiedBy, :user, :displayName),
+              location: extract_location(json_file[:parentReference], json_file[:name]),
+              permissions: nil
+            )
+          end
+
+          def extract_location(parent_reference, file_name = '')
+            location = parent_reference[:path].gsub(/.*root:/, '')
+
+            location.empty? ? "/#{file_name}" : "#{location}/#{file_name}"
+          end
+
+          def parent(parent_reference)
+            _, _, name = parent_reference[:path].gsub(/.*root:/, '').rpartition '/'
+
+            if name.empty?
+              root(parent_reference[:id])
+            else
               StorageFile.new(
-                id: json[:id],
-                name: json[:name],
-                size: json[:size],
-                mime_type: Util.mime_type(json),
-                created_at: DateTime.parse(json.dig(:fileSystemInfo, :createdDateTime)),
-                last_modified_at: DateTime.parse(json.dig(:fileSystemInfo, :lastModifiedDateTime)),
-                created_by_name: json.dig(:createdBy, :user, :displayName),
-                last_modified_by_name: json.dig(:lastModifiedBy, :user, :displayName),
-                location: json.dig(:parentReference, :path),
-                permissions: nil
+                id: parent_reference[:id],
+                name:,
+                location: extract_location(parent_reference)
               )
             end
+          end
+
+          def forge_ancestors(parent_reference)
+            path_elements = parent_reference[:path].gsub(/.+root:/, '').split('/')
+
+            path_elements[0..-2].map do |component|
+              next root(Digest::SHA256.hexdigest('i_am_root')) if component.blank?
+
+              StorageFile.new(
+                id: Digest::SHA256.hexdigest(component),
+                name: component,
+                location: "/#{component}"
+              )
+            end
+          end
+
+          def root(id)
+            StorageFile.new(name: "Root", location: "/", id:)
           end
         end
       end

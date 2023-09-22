@@ -49,6 +49,10 @@ module Pages::Meetings
       end
     end
 
+    def set_type(type)
+      choose type, match: :first
+    end
+
     def set_title(text)
       fill_in 'Title', with: text
     end
@@ -70,7 +74,8 @@ module Pages::Meetings
     end
 
     def set_start_time(time)
-      fill_in 'Time', with: time
+      input = page.find('#meeting-form-start-time')
+      page.execute_script("arguments[0].value = arguments[1]", input.native, time)
     end
 
     def set_duration(duration)

@@ -178,7 +178,7 @@ RSpec.describe MeetingsController do
             expect(response).to render_template :new
             expect(response.body)
               .to have_selector '#errorExplanation li',
-                                text: "Start date #{I18n.t('activerecord.errors.messages.not_an_iso_date')}"
+                                text: "Date #{I18n.t('activerecord.errors.messages.not_an_iso_date')}"
           end
         end
 
