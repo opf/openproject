@@ -1,6 +1,6 @@
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,11 +24,20 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-class WorkPackages::SharesController < ApplicationController
-  def index
-    @work_package = WorkPackage.find(params[:id])
-    render(WorkPackages::Share::ModalComponent.new(work_package: @work_package))
+module WorkPackages
+  module Share
+    class ModalComponent < ApplicationComponent
+      include ApplicationHelper
+      include OpPrimer::ComponentHelpers
+
+      def initialize(work_package:)
+        super
+
+        @work_package = work_package
+        @shared_users = Member.of_work_package(@work_package.id).map(&:user_id)
+      end
+    end
   end
 end

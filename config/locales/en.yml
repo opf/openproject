@@ -3148,6 +3148,17 @@ en:
     destroy:
       info: "Deleting the work package is an irreversible action."
       title: "Delete the work package"
+    sharing:
+      count:
+        zero: "0 members"
+        one: "1 member"
+        other: "%{count} members"
+      invite: "Invite"
+      permissions:
+        comment: "Comment"
+        edit: "Edit"
+        view: "View"
+      remove: "Remove"
 
   working_days:
     info: >

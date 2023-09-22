@@ -1,0 +1,70 @@
+<%=
+  flex_layout(data: { turbo: true }) do |modal_content|
+    modal_content.with_row do
+      # Todo: Wrap in Form
+
+      flex_layout do |new_user_row|
+        new_user_row.with_column(mr: 2) do
+          # Todo: Show user autocompleter
+        end
+
+        new_user_row.with_column(mr: 2) do
+          # Todo: Extract into own component
+          render(Primer::Alpha::ActionMenu.new) do |component|
+            component.with_show_button(color: :subtle) do |button|
+              button.with_trailing_action_icon(icon: :"triangle-down")
+              I18n.t('work_package.sharing.permissions.comment')
+            end
+            component.with_item(label: I18n.t('work_package.sharing.permissions.comment'))
+            component.with_item(label: I18n.t('work_package.sharing.permissions.edit'))
+            component.with_item(label: I18n.t('work_package.sharing.permissions.view'))
+          end
+        end
+
+        new_user_row.with_column do
+          render(Primer::Beta::Button.new(scheme: :primary)) { I18n.t('work_package.sharing.invite') }
+        end
+      end
+    end
+
+    if @shared_users.empty?
+      # Todo: show empty state?
+    else
+      modal_content.with_row(mt: 3) do
+        render(Primer::Beta::BorderBox.new) do |invited_user_list|
+          invited_user_list.with_header(color: :subtle) do
+            # Todo: Show actual count
+            I18n.t('work_package.sharing.count', count: @shared_users.count)
+          end
+
+          @shared_users.each do |user|
+            invited_user_list.with_row do
+              flex_layout(align_items: :center) do |user_row_container|
+                user_row_container.with_column(flex: :auto) do
+                  render(Users::AvatarComponent.new(user: User.find(user), size: :medium))
+                end
+
+                user_row_container.with_column(color: :subtle, style: "width: 150px;") do
+                  render(Primer::Alpha::ActionMenu.new) do |component|
+                    component.with_show_button(color: :subtle) do |button|
+                      button.with_trailing_action_icon(icon: :"triangle-down")
+                      # ToDo: real permission
+                      I18n.t('work_package.sharing.permissions.comment')
+                    end
+                    component.with_item(label: I18n.t('work_package.sharing.permissions.comment'))
+                    component.with_item(label: I18n.t('work_package.sharing.permissions.edit'))
+                    component.with_item(label: I18n.t('work_package.sharing.permissions.view'))
+                  end
+                end
+
+                user_row_container.with_column(text_align: :right, style: "width: 100px;") do
+                  render(Primer::Beta::Button.new(scheme: :invisible)) { I18n.t('work_package.sharing.remove') }
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+%>
