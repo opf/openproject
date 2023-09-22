@@ -33,4 +33,8 @@ class WorkPackageRole < Role
   def self.givable
     none
   end
+
+  def member?
+    true
+  end
 end
