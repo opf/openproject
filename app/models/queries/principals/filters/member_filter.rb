@@ -28,9 +28,7 @@
 
 class Queries::Principals::Filters::MemberFilter < Queries::Principals::Filters::PrincipalFilter
   def allowed_values
-    Project.active.all.map do |project|
-      [project.name, project.id]
-    end
+    Project.active.pluck(:name, :id)
   end
 
   def type
