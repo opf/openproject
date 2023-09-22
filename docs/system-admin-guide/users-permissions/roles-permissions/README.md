@@ -32,7 +32,7 @@ A user can have one or more roles which grant permissions on different levels.
 
 ### Global role
 
-**Global roles** allow Administrators to delegate administrative tasks to individual users. | Application-level: Permissions scoped to specific administrative tasks (not restricted to specific projects)
+**Global roles** allow Administrators to delegate administrative tasks to individual users.
 
 | Scope of the role                                            | Permission examples                                          | Customization options                                        |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -40,7 +40,8 @@ A user can have one or more roles which grant permissions on different levels.
 
 ### Project role
 
-**A project role** is a set of **permissions** that can be assigned to any project member. Multiple roles can be assigned to the same project member.
+**A project role** is a set of **permissions** that can be assigned to any project member. Multiple roles can be assigned to the same project member.<br />
+
 **Note:** If a module is not enabled in a project it is not shown to a user despite having a permission for it.
 
 | Scope of the role                                            | Permission examples                                          | Customization options                                        |
@@ -49,7 +50,8 @@ A user can have one or more roles which grant permissions on different levels.
 
 ### Non-member
 
-**Non member** is the default role of users of your OpenProject instance who have not been added to a project. This only applies if the project has been set as **[public](../user-guide/projects/#set-a-project-to-public)** in the project settings.
+**Non member** is the default role of users of your OpenProject instance who have not been added to a project. This only applies if the project has been set as **[public](../user-guide/projects/#set-a-project-to-public)** in the project settings.<br />
+
 **Note:** The *Non-member* role cannot be deleted. 
 
 
@@ -60,7 +62,7 @@ A user can have one or more roles which grant permissions on different levels.
 
 ### Anonymous
 
-OpenProject allows to share project information with **anonymous** users which are not logged in. This is helpful to communicate projects goals and activities with a public community.
+OpenProject allows to share project information with **anonymous** users which are not logged in. This is helpful to communicate projects goals and activities with a public community.<br />
 
 **Note**: This only applies if you disabled the need for authentication for your instance and if the project is set as **public**. The *Anonymous* role cannot be deleted.
 
