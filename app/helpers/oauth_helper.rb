@@ -56,8 +56,4 @@ module OAuthHelper
     tokens = ::Doorkeeper::AccessToken.active_for(user).includes(:application)
     tokens.group_by(&:application)
   end
-
-  def oauth_client_redirect_uri(oauth_client)
-    "#{request.protocol}#{request.host_with_port}/oauth_clients/#{oauth_client.client_id}/callback"
-  end
 end

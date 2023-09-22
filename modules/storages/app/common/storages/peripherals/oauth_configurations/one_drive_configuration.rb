@@ -41,6 +41,7 @@ module Storages
           @uri = storage.uri
           @oauth_client = storage.oauth_client
           @oauth_uri = URI('https://login.microsoftonline.com/').normalize
+          super()
         end
 
         def authorization_state_check(access_token)
@@ -58,6 +59,7 @@ module Storages
         def basic_rack_oauth_client
           Rack::OAuth2::Client.new(
             identifier: @oauth_client.client_id,
+            redirect_uri: @oauth_client.redirect_uri,
             secret: @oauth_client.client_secret,
             scheme: @oauth_uri.scheme,
             host: @oauth_uri.host,
